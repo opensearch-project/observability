@@ -1,8 +1,6 @@
-## Open Distro for Elasticsearch Roadmap
+## Kibana Notebooks
 
-Welcome! This is where you can view the project roadmap for Open Distro for Elasticsearch.
-
-If you have suggested enhancements and feature requests, please feel free to open an issue.
+Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text,  graphs and decorate data in elastic with other reference data sources.
 
 ## License
 
