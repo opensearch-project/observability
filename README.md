@@ -1,17 +1,9 @@
-## My Project
+# trace_analytics
 
-TODO: Fill this README out!
+> An awesome Kibana plugin
 
-Be sure to:
+---
 
-* Change the title in this README
-* Edit your repository description on GitHub
+## Development
 
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This project is licensed under the Apache-2.0 License.
-
+See the [kibana contributing guide](https://github.com/elastic/kibana/blob/master/CONTRIBUTING.md) for instructions setting up your development environment.

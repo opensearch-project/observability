@@ -1,0 +1,10 @@
+{
+    "prefix": "traceAnalytics",
+    "paths": {
+      "traceAnalytics": "."
+    },
+    "translations": [
+      "translations/ja-JP.json"
+    ]
+  }
+  
