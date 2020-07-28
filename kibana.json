@@ -1,0 +1,8 @@
+{
+  "id": "kibanaNotebooks",
+  "version": "7.9.0",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["navigation"],
+  "optionalPlugins": []
+}
