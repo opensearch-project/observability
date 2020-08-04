@@ -1,9 +1,16 @@
-import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHorizontalRule,
+  EuiPanel,
+  EuiSpacer,
+  EuiTitle,
+} from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
+import { PanelTitle } from '../common/panel_title';
 import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
-import { ErrorRatePlt } from './error_rate_plt';
 import { ServiceMap } from './service_map';
 
 interface DashboardProps {
@@ -40,10 +47,20 @@ export function Dashboard(props: DashboardProps) {
         <EuiFlexItem />
         <EuiFlexGroup direction="column">
           <EuiFlexItem>
-            <ErrorRatePlt />
+            <EuiPanel>
+              <PanelTitle title="Error rate over time" />
+              <EuiSpacer size="m" />
+              <EuiHorizontalRule />
+              <div style={{ width: 400, height: 200 }} />
+            </EuiPanel>
           </EuiFlexItem>
           <EuiFlexItem>
-            <ErrorRatePlt />
+            <EuiPanel>
+              <PanelTitle title="Throughput over time" />
+              <EuiSpacer size="m" />
+              <EuiHorizontalRule />
+              <div style={{ width: 400, height: 200 }} />
+            </EuiPanel>
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiFlexGroup>

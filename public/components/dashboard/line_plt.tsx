@@ -3,8 +3,8 @@ import { Plt } from '../common/plt';
 
 export function LinePlt(props) {
   const layout = {
-    plot_bgcolor: 'rgba(0,0,0,0)',
-    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0, 0, 0, 0)',
+    paper_bgcolor: 'rgba(0, 0, 0, 0)',
     xaxis: {
       // range: [props.min, props.max],
       fixedrange: true,

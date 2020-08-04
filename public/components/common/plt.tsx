@@ -37,7 +37,6 @@ export function Plt(props) {
             showgrid: true,
             zeroline: false,
             // type: 'auto',
-            // gridcolor: 'rgb(60,61,64)',
             rangemode: 'normal', // (enumerated: "normal" | "tozero" | "nonnegative" )
           },
           yaxis: {
@@ -52,7 +51,6 @@ export function Plt(props) {
             showgrid: true,
             zeroline: false,
             // type: 'linear',
-            // gridcolor: 'rgb(60,61,64)',
             rangemode: 'normal', // (enumerated: "normal" | "tozero" | "nonnegative" )
           },
           ...props.layout,

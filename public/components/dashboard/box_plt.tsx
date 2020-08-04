@@ -5,6 +5,8 @@ export function BoxPlt({ props }) {
   const layout = {
     plot_bgcolor: '#fafafa',
     paper_bgcolor: '#fafafa',
+    // plot_bgcolor: 'rgba(0, 0, 0, 0)',
+    // paper_bgcolor: 'rgba(0, 0, 0, 0)',
     xaxis: {
       range: [props.min, props.max],
       fixedrange: true,
@@ -34,7 +36,7 @@ export function BoxPlt({ props }) {
       type: 'bar',
       orientation: 'h',
       width: 0.4,
-      marker: { color: 'rgba(255,255,255,0)' },
+      marker: { color: 'rgba(0, 0, 0, 0)' },
       hoverinfo: 'none',
       showlegend: false,
     },
