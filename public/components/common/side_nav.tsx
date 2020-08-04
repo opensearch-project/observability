@@ -1,8 +1,7 @@
-import React from 'react'
-import { EuiText } from '@elastic/eui'
-import { EuiSideNav } from '@elastic/eui';
+import { EuiSideNav, EuiText } from '@elastic/eui';
+import React from 'react';
 
-export function SideNav({ activeId }) {
+export function SideNav({ activeId }: { activeId: number }) {
   return (
     <EuiSideNav
       items={[
@@ -25,9 +24,11 @@ export function SideNav({ activeId }) {
               id: 3,
               href: '#services',
             },
-          ].map(item => { return { ...item, isSelected: activeId === item.id } })
-        }
+          ].map((item) => {
+            return { ...item, isSelected: activeId === item.id };
+          }),
+        },
       ]}
     />
-  )
+  );
 }

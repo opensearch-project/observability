@@ -1,7 +1,7 @@
 import React from 'react'
 import { Plt } from '../common/plt'
 
-export default function BoxPlt({ props }) {
+export function BoxPlt({ props }) {
   const layout = {
     plot_bgcolor: '#fafafa',
     paper_bgcolor: '#fafafa',

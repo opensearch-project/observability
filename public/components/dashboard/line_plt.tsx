@@ -1,8 +1,10 @@
-import React from 'react'
-import { Plt } from '../common/plt'
+import React from 'react';
+import { Plt } from '../common/plt';
 
-export default function LinePlt(props) {
+export function LinePlt(props) {
   const layout = {
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)',
     xaxis: {
       // range: [props.min, props.max],
       fixedrange: true,
@@ -20,12 +22,10 @@ export default function LinePlt(props) {
       r: 0,
       b: 0,
       t: 0,
-      pad: 0
+      pad: 0,
     },
     height: 20,
     width: 60,
-  }
-  return (
-    <Plt data={props.data} layout={layout} />
-  )
+  };
+  return <Plt data={props.data} layout={layout} />;
 }

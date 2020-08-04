@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
-import { EuiTitle } from '@elastic/eui'
-import SearchBar from '../common/search_bar'
-import { EuiSpacer } from '@elastic/eui'
-import { ServicesTable } from './services_table'
+import { EuiSpacer, EuiTitle } from '@elastic/eui';
+import React, { useEffect } from 'react';
+import { setBreadcrumbsType } from '../app';
+import { SearchBar } from '../common/search_bar';
+import { ServicesTable } from './services_table';
 
-export function Services(props) {
-  
+interface ServicesProps {
+  setBreadcrumbs: setBreadcrumbsType;
+}
+
+export function Services(props: ServicesProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -18,13 +21,15 @@ export function Services(props) {
       },
     ]);
   });
-  
+
   return (
     <>
-      <EuiTitle size='l'><h2 style={{ fontWeight: 430 }}>Services</h2></EuiTitle>
+      <EuiTitle size="l">
+        <h2 style={{ fontWeight: 430 }}>Services</h2>
+      </EuiTitle>
       <SearchBar />
-      <EuiSpacer size='m' />
+      <EuiSpacer size="m" />
       <ServicesTable />
     </>
-  )
+  );
 }

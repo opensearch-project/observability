@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import { EuiPanel } from '@elastic/eui'
-import { PanelTitle } from '../common/panel_title'
-import { EuiButtonGroup } from '@elastic/eui'
-import { EuiSpacer } from '@elastic/eui';
-import { EuiHorizontalRule } from '@elastic/eui';
-import { EuiFlexGroup } from '@elastic/eui';
-import { EuiFlexItem } from '@elastic/eui';
-import { EuiText } from '@elastic/eui';
-import { EuiFieldSearch } from '@elastic/eui';
+import {
+  EuiButtonGroup,
+  EuiFieldSearch,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHorizontalRule,
+  EuiPanel,
+  EuiSpacer,
+  EuiText,
+} from '@elastic/eui';
+import React, { useState } from 'react';
+import { PanelTitle } from '../common/panel_title';
 
 export function ServiceMap() {
   const idPrefix = 'service-map-button-id-';
@@ -31,30 +33,26 @@ export function ServiceMap() {
   return (
     <>
       <EuiPanel>
-        <PanelTitle title='Service map' />
-        <EuiSpacer size='m' />
+        <PanelTitle title="Service map" />
+        <EuiSpacer size="m" />
         <EuiButtonGroup
           options={toggleButtons}
           idSelected={toggleIdSelected}
-          onChange={id => setToggleIdSelected(id)}
-          buttonSize='s'
-          color='text'
+          onChange={(id) => setToggleIdSelected(id)}
+          buttonSize="s"
+          color="text"
         />
-        <EuiHorizontalRule margin='m' />
-        <EuiFlexGroup alignItems='center' gutterSize='s'>
+        <EuiHorizontalRule margin="m" />
+        <EuiFlexGroup alignItems="center" gutterSize="s">
           <EuiFlexItem grow={false}>
             <EuiText>Zoom in to</EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiFieldSearch
-              placeholder='Service name'
-              value={''}
-              onChange={() => { }}
-            />
+            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => {}} />
           </EuiFlexItem>
         </EuiFlexGroup>
-        <div style={{ width: 650, height: 490 }}></div>
+        <div style={{ width: 650, height: 490 }} />
       </EuiPanel>
     </>
-  )
+  );
 }

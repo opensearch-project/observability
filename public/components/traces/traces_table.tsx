@@ -1,15 +1,26 @@
-import { EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiIcon, EuiInMemoryTable, EuiLink, EuiPanel, EuiSpacer, EuiSuperSelect, EuiText } from '@elastic/eui';
-import React, { useState } from 'react';
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHorizontalRule,
+  EuiIcon,
+  EuiInMemoryTable,
+  EuiLink,
+  EuiPanel,
+  EuiSpacer,
+  EuiSuperSelect,
+  EuiText,
+} from '@elastic/eui';
+import React from 'react';
 import { PanelTitle } from '../common/panel_title';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
-    <EuiFlexGroup alignItems='center' gutterSize='s'>
+    <EuiFlexGroup alignItems="center" gutterSize="s">
       <EuiFlexItem grow={10}>
-        <PanelTitle title='Traces' totalItems={totalItems} />
+        <PanelTitle title="Traces" totalItems={totalItems} />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiText size='xs'>Benchmark</EuiText>
+        <EuiText size="xs">Benchmark</EuiText>
       </EuiFlexItem>
       <EuiFlexItem grow={3}>
         <EuiSuperSelect
@@ -25,15 +36,15 @@ const renderTitleBar = (totalItems?: number) => {
             {
               value: 'option_3',
               inputDisplay: 'This time last week',
-            }
+            },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => { }}
+          onChange={() => {}}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
-  )
-}
+  );
+};
 
 const columns = [
   {
@@ -41,16 +52,14 @@ const columns = [
     name: 'Trace ID',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       // <div>{item}</div>
       <EuiFlexGroup>
         <EuiFlexItem>
-          <EuiLink href={`#traces/${item}`} >
-            {item}
-          </EuiLink>
+          <EuiLink href={`#traces/${item}`}>{item}</EuiLink>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiIcon type='copyClipboard' />
+          <EuiIcon type="copyClipboard" />
         </EuiFlexItem>
       </EuiFlexGroup>
     ),
@@ -71,7 +80,7 @@ const columns = [
     name: 'Latency (ms)',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -82,7 +91,7 @@ const columns = [
     name: 'Percentile in trace group',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -93,7 +102,7 @@ const columns = [
     name: 'Latency vs benchmark',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -104,7 +113,7 @@ const columns = [
     name: 'Error count',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -115,7 +124,7 @@ const columns = [
     name: 'Last updated',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -126,7 +135,7 @@ const columns = [
     name: 'Actions',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -136,27 +145,24 @@ const columns = [
 
 const items = [
   {
-    'trace_id': 'custom-components-will-not-truncate',
-    'trace_group': 'plain text will truncate automatically',
-    'latency': '1',
-    'percentile_in_trace_group': '1',
-    'latency_vs_benchmark': '1',
-    'error_count': '1',
-    'last_updated': '1',
-    'actions': '1',
-  }
-]
+    trace_id: 'custom-components-will-not-truncate',
+    trace_group: 'plain text will truncate automatically',
+    latency: '1',
+    percentile_in_trace_group: '1',
+    latency_vs_benchmark: '1',
+    error_count: '1',
+    last_updated: '1',
+    actions: '1',
+  },
+];
 
 export function TracesTable() {
-  const TABLE_ID = 'traces-table-id';
-  const [sortedColumn, setSortedColumn] = useState('');
-  const [itemsPerPage, setItemsPerPage] = useState(10);
   return (
     <>
       <EuiPanel>
         {renderTitleBar(15)}
-        <EuiSpacer size='m' />
-        <EuiHorizontalRule margin='none' />
+        <EuiSpacer size="m" />
+        <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
           tableLayout="auto"
           items={items}
@@ -168,5 +174,5 @@ export function TracesTable() {
         />
       </EuiPanel>
     </>
-  )
+  );
 }

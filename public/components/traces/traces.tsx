@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
-import { EuiTitle } from '@elastic/eui'
-import SearchBar from '../common/search_bar'
-import { TracesTable } from './traces_table'
-import { EuiSpacer } from '@elastic/eui'
+import { EuiSpacer, EuiTitle } from '@elastic/eui';
+import React, { useEffect } from 'react';
+import { SearchBar } from '../common/search_bar';
+import { TracesTable } from './traces_table';
+import { setBreadcrumbsType } from '../app';
 
-export function Traces(props) {
-  
+interface TracesProps {
+  setBreadcrumbs: setBreadcrumbsType;
+}
+
+export function Traces(props: TracesProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -18,13 +21,15 @@ export function Traces(props) {
       },
     ]);
   });
-  
+
   return (
     <>
-      <EuiTitle size='l'><h2 style={{ fontWeight: 430 }}>Traces</h2></EuiTitle>
+      <EuiTitle size="l">
+        <h2 style={{ fontWeight: 430 }}>Traces</h2>
+      </EuiTitle>
       <SearchBar />
-      <EuiSpacer size='m' />
+      <EuiSpacer size="m" />
       <TracesTable />
-      </>
-  )
+    </>
+  );
 }

@@ -1,16 +1,24 @@
-import { EuiFlexGroup, EuiFlexItem, EuiText, EuiSuperSelect, EuiLink, EuiIcon, EuiPanel, EuiSpacer, EuiHorizontalRule, EuiInMemoryTable } from "@elastic/eui";
-import { PanelTitle } from "../common/panel_title";
-import React, { useState } from "react";
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHorizontalRule,
+  EuiInMemoryTable,
+  EuiLink,
+  EuiPanel,
+  EuiSpacer,
+} from '@elastic/eui';
+import React from 'react';
+import { PanelTitle } from '../common/panel_title';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
-    <EuiFlexGroup alignItems='center' gutterSize='s'>
+    <EuiFlexGroup alignItems="center" gutterSize="s">
       <EuiFlexItem grow={10}>
-        <PanelTitle title='Services' totalItems={totalItems} />
+        <PanelTitle title="Services" totalItems={totalItems} />
       </EuiFlexItem>
     </EuiFlexGroup>
-  )
-}
+  );
+};
 
 const columns = [
   {
@@ -18,18 +26,14 @@ const columns = [
     name: 'Name',
     sortable: true,
     truncateText: true,
-    render: item => (
-      <EuiLink href={`#services/${item}`} >
-        {item}
-      </EuiLink>
-    ),
+    render: (item) => <EuiLink href={`#services/${item}`}>{item}</EuiLink>,
   },
   {
     field: 'average_latency',
     name: 'Average latency (ms)',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -40,7 +44,7 @@ const columns = [
     name: 'Error rate',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -51,7 +55,7 @@ const columns = [
     name: 'Throughput',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -62,7 +66,7 @@ const columns = [
     name: 'Number of connected services',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -73,7 +77,7 @@ const columns = [
     name: 'Connected services',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -84,7 +88,7 @@ const columns = [
     name: 'Traces',
     sortable: true,
     truncateText: true,
-    render: item => (
+    render: (item) => (
       <EuiLink href="#" target="_blank">
         {item}
       </EuiLink>
@@ -94,26 +98,23 @@ const columns = [
 
 const items = [
   {
-    'name': 'sample service',
-    'average_latency': '1',
-    'error_rate': '1',
-    'throughput': '1',
-    'number_of_connected_services': '1',
-    'connected_services': '1',
-    'traces': '1',
-  }
-]
+    name: 'sample service',
+    average_latency: '1',
+    error_rate: '1',
+    throughput: '1',
+    number_of_connected_services: '1',
+    connected_services: '1',
+    traces: '1',
+  },
+];
 
 export function ServicesTable() {
-  const TABLE_ID = 'services-table-id';
-  const [sortedColumn, setSortedColumn] = useState('');
-  const [itemsPerPage, setItemsPerPage] = useState(10);
   return (
     <>
       <EuiPanel>
         {renderTitleBar(200)}
-        <EuiSpacer size='m' />
-        <EuiHorizontalRule margin='none' />
+        <EuiSpacer size="m" />
+        <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
           // tableLayout="auto"
           items={items}
@@ -125,5 +126,5 @@ export function ServicesTable() {
         />
       </EuiPanel>
     </>
-  )
+  );
 }

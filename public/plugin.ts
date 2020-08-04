@@ -1,18 +1,24 @@
 import { i18n } from '@kbn/i18n';
-import { AppMountParameters, CoreSetup, CoreStart, Plugin, DEFAULT_APP_CATEGORIES } from '../../../src/core/public';
+import {
+  AppMountParameters,
+  CoreSetup,
+  CoreStart,
+  Plugin,
+  DEFAULT_APP_CATEGORIES,
+} from '../../../src/core/public';
 import {
   TraceAnalyticsPluginSetup,
   TraceAnalyticsPluginStart,
   AppPluginStartDependencies,
 } from './types';
-import { PLUGIN_NAME } from '../common';
+import { PLUGIN_NAME, PLUGIN_ID } from '../common';
 
 export class TraceAnalyticsPlugin
   implements Plugin<TraceAnalyticsPluginSetup, TraceAnalyticsPluginStart> {
   public setup(core: CoreSetup): TraceAnalyticsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
-      id: 'traceAnalytics',
+      id: PLUGIN_ID,
       title: PLUGIN_NAME,
       category: DEFAULT_APP_CATEGORIES.kibana,
       order: 8040,
@@ -27,16 +33,7 @@ export class TraceAnalyticsPlugin
     });
 
     // Return methods that should be available to other plugins
-    return {
-      getGreeting() {
-        return i18n.translate('traceAnalytics.greetingText', {
-          defaultMessage: 'Hello from {name}!',
-          values: {
-            name: PLUGIN_NAME,
-          },
-        });
-      },
-    };
+    return {};
   }
 
   public start(core: CoreStart): TraceAnalyticsPluginStart {
