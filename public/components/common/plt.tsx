@@ -7,7 +7,7 @@ export function Plt(props) {
     <Plot
         data={props.data}
         style={{ width: "100%", height: "100%" }}
-        useResizeHandler={true}
+        useResizeHandler
         config={{ displayModeBar: false }}
         layout={{
           // plot_bgcolor: "rgb(20,22,25)",  // 30, 31, 36

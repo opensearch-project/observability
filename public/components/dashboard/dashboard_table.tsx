@@ -1,9 +1,9 @@
-import { EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiIcon, EuiInMemoryTable, EuiKeyPadMenuItem, EuiLink, EuiPanel, EuiSpacer, EuiSuperSelect, EuiText } from '@elastic/eui';
+import { EuiButtonIcon, EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiI18nNumber, EuiIcon, EuiInMemoryTable, EuiLink, EuiPanel, EuiPopover, EuiSpacer, EuiSuperSelect, EuiText, EuiToolTip, EuiTourStep } from '@elastic/eui';
 import React, { useState } from 'react';
-import { PanelTitle } from '../common/panel_title';
 import { dashboardTableData } from '../../data/dashboard_table_data';
+import { PanelTitle } from '../common/panel_title';
 import BoxPlt from './box_plt';
-import { EuiToolTip } from '@elastic/eui';
+import LinePlt from './line_plt';
 
 const renderTitleBar = () => {
   return (
@@ -13,14 +13,14 @@ const renderTitleBar = () => {
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiLink>
-        {/* <EuiText size='xs'><EuiIcon type="stop" style={{color :'#957ac9' }} /> &lt; 95 percentile</EuiText> */}
-        <EuiText size='xs'><span style={{color :'#957ac9' }}>&#x25a1;</span> &lt; 95 percentile</EuiText>
+          {/* <EuiText size='xs'><EuiIcon type="stop" style={{color :'#957ac9' }} /> &lt; 95 percentile</EuiText> */}
+          <EuiText size='xs'><span style={{ color: '#957ac9' }}>&#x25a1;</span> &lt; 95 percentile</EuiText>
         </EuiLink>
       </EuiFlexItem>
       <EuiFlexItem grow={1} />
       <EuiFlexItem grow={false}>
         <EuiLink>
-        <EuiText size='xs'><span style={{color :'#957ac9' }}>&#x25a0;</span> &gt;= 95 percentile</EuiText>
+          <EuiText size='xs'><span style={{ color: '#957ac9' }}>&#x25a0;</span> &gt;= 95 percentile</EuiText>
         </EuiLink>
       </EuiFlexItem>
       <EuiFlexItem grow={1} />
@@ -28,7 +28,7 @@ const renderTitleBar = () => {
         <EuiText size='xs'>Benchmark</EuiText>
       </EuiFlexItem>
       <EuiFlexItem grow={4}>
-       <EuiSuperSelect
+        <EuiSuperSelect
           options={[
             {
               value: 'option_one',
@@ -45,7 +45,7 @@ const renderTitleBar = () => {
           ]}
           valueOfSelected={'option_one'}
           onChange={() => { }}
-  />
+        />
       </EuiFlexItem>
     </EuiFlexGroup>
   )
@@ -95,9 +95,27 @@ const columns = [
     sortable: true,
     truncateText: true,
     // width: '20%',
-    render: item => (
-        <BoxPlt props={{min:0, max: 80, q1: 30, medium: 55, q3:68}} />
-    ),
+    render: item => {
+      return (
+        <EuiTourStep
+  content={
+    <EuiText>
+      <p>The tour step content.</p>
+    </EuiText>
+  }
+  isStepOpen={true}
+  isTourActive={true}
+  minWidth={300}
+  onFinish={() => alert('Done!')}
+  step={1}
+  stepsTotal={1}
+  title="Title of the current step"
+  subtitle="Title of the full tour"
+  anchorPosition="rightUp">
+        <BoxPlt props={{ min: 0, max: 80, left: item[0], mid: item[1], right: item[2] }} />
+</EuiTourStep>
+      )
+    },
   },
   {
     field: 'average_latency',
@@ -117,11 +135,12 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: item => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    dataType: 'number',
+    // render: item => (
+    //   <EuiLink href="#" target="_blank">
+    //     {item}
+    //   </EuiLink>
+    // ),
   },
   {
     field: 'average_latency_vs_benchmark',
@@ -145,11 +164,15 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: item => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    render: item => {
+      const benchmarkColor = item > 0 ? '#c23f25' : '#3f7e23';
+      const benchmarkArrow = item > 0 ? '\u25B4' : '\u25BE';
+      return (
+        <EuiText size='s' style={{ color: benchmarkColor }}>
+          {`${Math.abs(item)}% ${benchmarkArrow}`}
+        </EuiText>
+      )
+    },
   },
   {
     field: '24_hour_latency_trend',
@@ -169,11 +192,32 @@ const columns = [
     align: 'center',
     sortable: true,
     truncateText: true,
-    render: item => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    render: item => {
+      // const [isPopoverOpen, setisPopoverOpen] = useState(false);
+      return (
+        <EuiFlexGroup gutterSize='none'>
+          <EuiFlexItem />
+          <EuiFlexItem>
+            <LinePlt data={item} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiPopover
+              ownFocus
+              button={
+                <EuiButtonIcon
+                  // onClick={() => setisPopoverOpen(true)}
+                  iconType='magnifyWithPlus'
+                />
+              }
+              isOpen={false}
+              // closePopover={() => { setisPopoverOpen(false) }}
+              >
+              hello
+            </EuiPopover>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      )
+    },
   },
   {
     field: 'error_rate',
@@ -194,9 +238,7 @@ const columns = [
     sortable: true,
     truncateText: true,
     render: item => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
+      <EuiText size='s'>{`${item}%`}</EuiText>
     ),
   },
   {
@@ -219,25 +261,25 @@ const columns = [
     truncateText: true,
     render: item => (
       <EuiLink href="#" target="_blank">
-        {item}
+        <EuiI18nNumber value={item} />
       </EuiLink>
     ),
   },
 ];
 
-const items = [
-  {
-    'trace_group_name': '1',
-    'latency_variance': '2',
-    'average_latency': '3',
-    'average_latency_vs_benchmark': '4',
-    '24_hour_latency_trend': '5',
-    'error_rate': '6',
-    'traces': '7'
-  }
-]
+// const items = [
+//   {
+//     'trace_group_name': '1',
+//     'latency_variance': '2',
+//     'average_latency': '3',
+//     'average_latency_vs_benchmark': '4',
+//     '24_hour_latency_trend': '5',
+//     'error_rate': '6',
+//     'traces': '7'
+//   }
+// ]
 
-// const items = dashboardTableData;
+const items = dashboardTableData;
 
 export function DashboardTable() {
   const TABLE_ID = 'latency-table-id';

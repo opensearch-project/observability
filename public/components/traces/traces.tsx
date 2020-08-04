@@ -17,7 +17,7 @@ export function Traces(props) {
         href: '#traces',
       },
     ]);
-  }, []);
+  });
   
   return (
     <>

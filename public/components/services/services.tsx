@@ -17,11 +17,10 @@ export function Services(props) {
         href: '#services',
       },
     ]);
-  }, []);
+  });
   
   return (
     <>
-
       <EuiTitle size='l'><h2 style={{ fontWeight: 430 }}>Services</h2></EuiTitle>
       <SearchBar />
       <EuiSpacer size='m' />

@@ -22,7 +22,7 @@ export function Dashboard(props) {
         href: '#dashboard',
       },
     ]);
-  }, []);
+  });
 
   return (
     <>

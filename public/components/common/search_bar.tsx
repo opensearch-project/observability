@@ -23,7 +23,7 @@ export default function SearchBar(props) {
       >
         <EuiFlexItem>
           <EuiFieldSearch
-            fullWidth={true}
+            fullWidth
             placeholder='Trace ID, trace group name, user ID, service name'
             value={query}
             onChange={e => setQuery(e.target.value)}

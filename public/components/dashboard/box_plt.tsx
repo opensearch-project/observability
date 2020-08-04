@@ -2,8 +2,6 @@ import React from 'react'
 import { Plt } from '../common/plt'
 
 export default function BoxPlt({ props }) {
-  // props.min, props.max, props.q1, props.medium, props.q3
-  console.log(props)
   const layout = {
     plot_bgcolor: '#fafafa',
     paper_bgcolor: '#fafafa',
@@ -14,7 +12,7 @@ export default function BoxPlt({ props }) {
       visible: false,
     },
     yaxis: {
-      range: [-0.45, 0.45],
+      range: [-0.35, 0.35],
       fixedrange: true,
       showgrid: false,
       visible: false,
@@ -26,12 +24,12 @@ export default function BoxPlt({ props }) {
       t: 0,
       pad: 0
     },
-    height: 30,
+    height: 20,
     width: 200,
   }
   const data = [
     {
-      x: [props.q1],
+      x: [props.left],
       y: [0],
       type: 'bar',
       orientation: 'h',
@@ -41,7 +39,7 @@ export default function BoxPlt({ props }) {
       showlegend: false,
     },
     {
-      x: [props.medium - props.q1],
+      x: [props.mid - props.left],
       y: [0],
       type: 'bar',
       orientation: 'h',
@@ -55,7 +53,7 @@ export default function BoxPlt({ props }) {
       },
     },
     {
-      x: [props.q3 - props.medium],
+      x: [props.right - props.mid],
       y: [0],
       type: 'bar',
       orientation: 'h',
@@ -69,7 +67,6 @@ export default function BoxPlt({ props }) {
       },
     },
   ]
-  console.log(data)
   return (
     <Plt data={data} layout={layout} />
   )
