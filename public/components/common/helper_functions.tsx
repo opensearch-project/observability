@@ -23,7 +23,7 @@ export function renderBenchmark(value: number) {
 }
 
 export function truncateText(text: string) {
-  const truncatePoint = 27;
+  const truncatePoint = 24;
   if (text.length > truncatePoint)
     return `${text.slice(0, truncatePoint - 3)}...`;
   return text;

@@ -15,6 +15,7 @@ import {
 } from '@elastic/eui';
 import React from 'react';
 import { PanelTitle, truncateText, renderBenchmark } from '../common/helper_functions';
+import { tracesTableData } from '../../data/traces_data';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -77,11 +78,9 @@ const columns = [
     align: 'left',
     sortable: true,
     truncateText: true,
-    // render: item => (
-    //   <EuiLink href="#" target="_blank">
-    //     {item}
-    //   </EuiLink>
-    // ),
+    render: item => (
+      <EuiText size='s'>{truncateText(item)}</EuiText>
+    ),
   },
   {
     field: 'latency',
@@ -93,7 +92,7 @@ const columns = [
   {
     field: 'percentile_in_trace_group',
     name: 'Percentile in trace group',
-    align: 'left',
+    align: 'right',
     sortable: true,
     truncateText: true,
   },
@@ -133,18 +132,7 @@ const columns = [
   },
 ];
 
-const items = [
-  {
-    trace_id: 'custom-components-will-not-truncate',
-    trace_group: 'plain text will truncate automatically',
-    latency: '1',
-    percentile_in_trace_group: '1',
-    latency_vs_benchmark: '1',
-    error_count: '1',
-    last_updated: '1',
-    actions: '1',
-  },
-];
+const items = tracesTableData;
 
 export function TracesTable() {
   return (
