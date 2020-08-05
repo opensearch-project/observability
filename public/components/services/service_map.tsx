@@ -9,7 +9,29 @@ import {
   EuiText,
 } from '@elastic/eui';
 import React, { useState } from 'react';
+import Graph from "react-graph-vis";
 import { PanelTitle } from '../common/helper_functions';
+import { serviceMapData } from '../../data/service_map_data';
+
+const renderServiceMap = () => {
+  return (
+    <div>
+    <Graph
+      graph={serviceMapData.graph}
+      options={serviceMapData.options}
+      events={serviceMapData.events}
+      getNetwork={network => {
+        //  if you want access to vis.js network api you can set the state in a parent component using this property
+      }}
+      />
+    </div>
+  );
+}
+
+const renderServiceMapScale = (id) => {
+
+}
+
 
 export function ServiceMap() {
   const idPrefix = 'service-map-button-id-';
@@ -48,10 +70,10 @@ export function ServiceMap() {
             <EuiText>Zoom in to</EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => {}} />
+            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => { }} />
           </EuiFlexItem>
         </EuiFlexGroup>
-        <div style={{ width: 650, height: 490 }} />
+        {renderServiceMap()}
       </EuiPanel>
     </>
   );

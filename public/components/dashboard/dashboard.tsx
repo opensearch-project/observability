@@ -42,19 +42,20 @@ export function Dashboard(props: DashboardProps) {
       <EuiSpacer size="m" />
       <DashboardTable />
       <EuiSpacer />
-      <EuiFlexGroup alignItems="baseline" gutterSize="none">
-        <EuiFlexItem>
+      <EuiFlexGroup alignItems="baseline">
+        <EuiFlexItem grow={4}>
           <ServiceMap />
         </EuiFlexItem>
-        <EuiFlexItem />
-        <EuiFlexGroup direction="column">
-          <EuiFlexItem>
-            <ErrorRatePlt />
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <ThroughputPlt />
-          </EuiFlexItem>
-        </EuiFlexGroup>
+        <EuiFlexItem >
+          <EuiFlexGroup direction="column">
+            <EuiFlexItem>
+              <ErrorRatePlt />
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <ThroughputPlt />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexItem>
       </EuiFlexGroup>
     </>
   );
