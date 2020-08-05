@@ -12,9 +12,9 @@ import {
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
-import { PanelTitle } from '../common/panel_title';
+import { PanelTitle } from '../common/helper_functions';
 import { renderDatePicker } from '../common/search_bar';
-import { ServiceMap } from '../dashboard/service_map';
+import { ServiceMap } from './service_map';
 
 const renderTitle = (ID) => {
   return (

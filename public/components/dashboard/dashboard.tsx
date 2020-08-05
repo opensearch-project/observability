@@ -8,10 +8,12 @@ import {
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
-import { PanelTitle } from '../common/panel_title';
+import { PanelTitle } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
-import { ServiceMap } from './service_map';
+import { ServiceMap } from '../services/service_map';
+import { ThroughputPlt } from './throughput_plt';
+import { ErrorRatePlt } from './error_rate_plt';
 
 interface DashboardProps {
   setBreadcrumbs: setBreadcrumbsType;
@@ -47,20 +49,10 @@ export function Dashboard(props: DashboardProps) {
         <EuiFlexItem />
         <EuiFlexGroup direction="column">
           <EuiFlexItem>
-            <EuiPanel>
-              <PanelTitle title="Error rate over time" />
-              <EuiSpacer size="m" />
-              <EuiHorizontalRule />
-              <div style={{ width: 400, height: 200 }} />
-            </EuiPanel>
+            <ErrorRatePlt />
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiPanel>
-              <PanelTitle title="Throughput over time" />
-              <EuiSpacer size="m" />
-              <EuiHorizontalRule />
-              <div style={{ width: 400, height: 200 }} />
-            </EuiPanel>
+            <ThroughputPlt />
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiFlexGroup>

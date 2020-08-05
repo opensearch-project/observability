@@ -9,9 +9,12 @@ import {
   EuiSpacer,
   EuiSuperSelect,
   EuiText,
+  EuiCopy,
+  EuiButton,
+  EuiButtonIcon,
 } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common/panel_title';
+import { PanelTitle, truncateText, renderBenchmark } from '../common/helper_functions';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -31,15 +34,15 @@ const renderTitleBar = (totalItems?: number) => {
             },
             {
               value: 'option_2',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time yesterday',
             },
             {
               value: 'option_3',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time last month',
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
@@ -50,16 +53,20 @@ const columns = [
   {
     field: 'trace_id',
     name: 'Trace ID',
+    align: 'left',
     sortable: true,
     truncateText: true,
     render: (item) => (
-      // <div>{item}</div>
-      <EuiFlexGroup>
+      <EuiFlexGroup gutterSize='s'>
         <EuiFlexItem>
-          <EuiLink href={`#traces/${item}`}>{item}</EuiLink>
+          <EuiLink href={`#traces/${item}`}>{truncateText(item)}</EuiLink>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiIcon type="copyClipboard" />
+          <EuiCopy textToCopy={item}>
+            {copy => (
+              <EuiButtonIcon iconType='copyClipboard' onClick={copy}>Click to copy</EuiButtonIcon>
+            )}
+          </EuiCopy>
         </EuiFlexItem>
       </EuiFlexGroup>
     ),
@@ -67,6 +74,7 @@ const columns = [
   {
     field: 'trace_group',
     name: 'Trace group',
+    align: 'left',
     sortable: true,
     truncateText: true,
     // render: item => (
@@ -78,66 +86,48 @@ const columns = [
   {
     field: 'latency',
     name: 'Latency (ms)',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'percentile_in_trace_group',
     name: 'Percentile in trace group',
+    align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'latency_vs_benchmark',
     name: 'Latency vs benchmark',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    render: (item) => renderBenchmark(item),
   },
   {
     field: 'error_count',
     name: 'Error count',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'last_updated',
     name: 'Last updated',
+    align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'actions',
     name: 'Actions',
+    align: 'left',
     sortable: true,
     truncateText: true,
     render: (item) => (
       <EuiLink href="#" target="_blank">
-        {item}
+        {'View log'}<EuiIcon type="popout" />
       </EuiLink>
     ),
   },

@@ -15,8 +15,11 @@ import {
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { traceViewPayloadData } from '../../data/trace_view_payload_data';
-import { PanelTitle } from '../common/panel_title';
+// import { traceViewPayloadData } from '../../data/trace_view_data';
+import { PanelTitle } from '../common/helper_functions';
 import { setBreadcrumbsType } from '../app';
+import { SpanDetailPlt } from './span_detail_plt';
+import { ServiceBreakdownPlt } from './service_breakdown_plt';
 
 const renderTitle = (ID) => {
   return (
@@ -38,15 +41,15 @@ const renderTitle = (ID) => {
             },
             {
               value: 'option_2',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time yesterday',
             },
             {
               value: 'option_3',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time last month',
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -146,19 +149,11 @@ export function TraceView(props: TraceViewProps) {
 
           <EuiSpacer />
           <EuiFlexGroup>
-            <EuiFlexItem grow={false}>
-              <EuiPanel>
-                <PanelTitle title="Service breakdown" />
-                <EuiHorizontalRule margin="m" />
-                <div style={{ width: 400, height: 400 }} />
-              </EuiPanel>
+            <EuiFlexItem grow={3}>
+            <ServiceBreakdownPlt />
             </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiPanel>
-                <PanelTitle title="Span detail" />
-                <EuiHorizontalRule margin="m" />
-                <div style={{ width: 650, height: 400 }} />
-              </EuiPanel>
+            <EuiFlexItem grow={7}>
+              <SpanDetailPlt />
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />

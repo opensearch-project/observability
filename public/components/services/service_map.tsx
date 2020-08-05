@@ -9,7 +9,7 @@ import {
   EuiText,
 } from '@elastic/eui';
 import React, { useState } from 'react';
-import { PanelTitle } from '../common/panel_title';
+import { PanelTitle } from '../common/helper_functions';
 
 export function ServiceMap() {
   const idPrefix = 'service-map-button-id-';

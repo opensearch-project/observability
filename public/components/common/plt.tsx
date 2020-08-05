@@ -23,8 +23,6 @@ export function Plt(props) {
             t: 5,  // 10
             pad: 4
           },
-          height: props.height,
-          width: props.width,
           barmode: 'stack',
           legend: {
             orientation: 'h',

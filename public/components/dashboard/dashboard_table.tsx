@@ -16,8 +16,8 @@ import {
   EuiTableComputedColumnType,
 } from '@elastic/eui';
 import React, { useState } from 'react';
-import { dashboardTableData } from '../../data/dashboard_table_data';
-import { PanelTitle } from '../common/panel_title';
+import { dashboardTableData } from '../../data/dashboard_data';
+import { PanelTitle, renderBenchmark, truncateText } from '../common/helper_functions';
 import { BoxPlt } from './box_plt';
 import { LinePlt } from './line_plt';
 
@@ -56,11 +56,11 @@ const renderTitleBar = () => {
             },
             {
               value: 'option_2',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time yesterday',
             },
             {
               value: 'option_3',
-              inputDisplay: 'This time last week',
+              inputDisplay: 'This time last month',
             },
           ]}
           valueOfSelected={'option_one'}
@@ -118,7 +118,7 @@ const columns = [
     truncateText: true,
     render: (item) => (
       <EuiLink href="#" target="_blank">
-        {item}
+        {truncateText(item)}
       </EuiLink>
     ),
   },
@@ -180,15 +180,7 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => {
-      const benchmarkColor = item > 0 ? '#c23f25' : '#3f7e23';
-      const benchmarkArrow = item > 0 ? '\u25B4' : '\u25BE';
-      return (
-        <EuiText size="s" style={{ color: benchmarkColor }}>
-          {`${Math.abs(item)}% ${benchmarkArrow}`}
-        </EuiText>
-      );
-    },
+    render: (item) => renderBenchmark(item),
   },
   {
     field: '24_hour_latency_trend',
@@ -261,7 +253,7 @@ const columns = [
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiLink href="#" target="_blank">
+      <EuiLink href="#traces">
         <EuiI18nNumber value={item} />
       </EuiLink>
     ),

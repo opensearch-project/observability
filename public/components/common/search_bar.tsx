@@ -16,7 +16,7 @@ import {
 } from '@elastic/eui';
 import React, { useState } from 'react';
 
-const renderDatePicker = () => {
+export const renderDatePicker = () => {
   return <EuiSuperDatePicker showUpdateButton={false} onTimeChange={(e) => console.log(e)} />;
 };
 
@@ -64,7 +64,7 @@ const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
       ownFocus={true}
     >
       <EuiPopoverTitle>
-        {'Edit filter'}
+        {'Add filter'}
       </EuiPopoverTitle>
       <div style={{ width: 370 }}>
         <EuiFlexGroup gutterSize='s'>

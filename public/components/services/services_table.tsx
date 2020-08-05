@@ -8,7 +8,7 @@ import {
   EuiSpacer,
 } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common/panel_title';
+import { PanelTitle } from '../common/helper_functions';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
