@@ -222,10 +222,10 @@
   version "0.0.0"
   uid ""
 
-"@elastic/eui@26.3.1":
-  version "26.3.1"
-  resolved "https://registry.yarnpkg.com/@elastic/eui/-/eui-26.3.1.tgz#c05cac2d0b246adb2aab7df54f34ecc6ad4f48e1"
-  integrity sha512-bNCMJIqdx7TrhXtbnYN6nxR4fjfTmdpB1ptVDThpt8+1rMSL7ZvxcVL4xg9Fjf6sKLcEQyXfDhr3u4+N3Sa4FA==
+"@elastic/eui@22.3.1":
+  version "22.3.1"
+  resolved "https://registry.yarnpkg.com/@elastic/eui/-/eui-22.3.1.tgz#d824835774476f1aaca006a466324256a56c1df6"
+  integrity sha512-psGMIsNhI0LApvmR19Y0DvtmV3BvvzXkd8dVXORjBiPW4Z7N2sGgsMmqpvxlZ1rfP59PyIKpQOTReJZFLSmKQQ==
   dependencies:
     "@types/chroma-js" "^2.0.0"
     "@types/enzyme" "^3.1.13"
@@ -250,7 +250,6 @@
     react-virtualized "^9.21.2"
     resize-observer-polyfill "^1.5.0"
     tabbable "^3.0.0"
-    text-diff "^1.0.1"
     uuid "^3.1.0"
 
 "@kbn/plugin-helpers@link:../../packages/kbn-plugin-helpers":
@@ -7991,11 +7990,6 @@ text-cache@^4.2.2:
   integrity sha512-zky+UDYiX0a/aPw/YTBD+EzKMlCTu1chFuCMZeAkgoRiceySdROu1V2kJXhCbtEdBhiOviYnAdGiSYl58HW0ZQ==
   dependencies:
     vectorize-text "^3.2.1"
-
-text-diff@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/text-diff/-/text-diff-1.0.1.tgz#6c105905435e337857375c9d2f6ca63e453ff565"
-  integrity sha1-bBBZBUNeM3hXN1ydL2ymPkU/9WU=
 
 text-table@^0.2.0:
   version "0.2.0"
