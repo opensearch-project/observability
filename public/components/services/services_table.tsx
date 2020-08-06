@@ -6,9 +6,12 @@ import {
   EuiLink,
   EuiPanel,
   EuiSpacer,
+  EuiText,
+  EuiI18nNumber,
 } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common/helper_functions';
+import { PanelTitle, truncateText } from '../common/helper_functions';
+import { serviceTableData } from '../../data/services_data';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -24,89 +27,68 @@ const columns = [
   {
     field: 'name',
     name: 'Name',
+    align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => <EuiLink href={`#services/${item}`}>{item}</EuiLink>,
+    render: (item) => <EuiLink href={`#services/${item}`}>{truncateText(item)}</EuiLink>,
   },
   {
     field: 'average_latency',
     name: 'Average latency (ms)',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'error_rate',
     name: 'Error rate',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    render: (item) => <EuiText size="s">{`${item}%`}</EuiText>,
   },
   {
     field: 'throughput',
     name: 'Throughput',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
+    render: (item) => <EuiI18nNumber value={item} />
   },
   {
     field: 'number_of_connected_services',
     name: 'Number of connected services',
+    align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
-    ),
   },
   {
     field: 'connected_services',
     name: 'Connected services',
+    align: 'left',
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
-      </EuiLink>
+      <EuiText size='s'>
+        {truncateText(item)}
+      </EuiText>
     ),
   },
   {
     field: 'traces',
     name: 'Traces',
+    align: 'right',
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiLink href="#" target="_blank">
-        {item}
+      <EuiLink href="#traces">
+        <EuiI18nNumber value={item} />
       </EuiLink>
     ),
   },
 ];
 
-const items = [
-  {
-    name: 'sample service',
-    average_latency: '1',
-    error_rate: '1',
-    throughput: '1',
-    number_of_connected_services: '1',
-    connected_services: '1',
-    traces: '1',
-  },
-];
+const items = serviceTableData;
 
 export function ServicesTable() {
   return (
@@ -116,13 +98,14 @@ export function ServicesTable() {
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
-          // tableLayout="auto"
+          tableLayout="auto"
           items={items}
           columns={columns}
           pagination={{
             initialPageSize: 10,
             pageSizeOptions: [8, 10, 13],
           }}
+          sorting={true}
         />
       </EuiPanel>
     </>

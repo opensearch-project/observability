@@ -149,6 +149,7 @@ export function TracesTable() {
             initialPageSize: 10,
             pageSizeOptions: [8, 10, 13],
           }}
+          sorting={true}
         />
       </EuiPanel>
     </>
