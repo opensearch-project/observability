@@ -7,13 +7,14 @@ export function LatencyPlt(props) {
   const layout = {
     xaxis: {
       range: [0, 25],
-      showline: true,
+      // showline: true,
       showgrid: false,
       tickmode: "linear",
       dtick: 6,
       color: '#899195'
     },
     yaxis: {
+      range: [0, 100],
       title: {
         text: 'Hourly latency (ms)',
         font: {
@@ -24,6 +25,21 @@ export function LatencyPlt(props) {
       gridcolor: '#d9d9d9',
       color: '#899195'
     },
+    annotations: [
+      {
+        x: props.data[0].x[props.data[0].x.length - 1],
+        y: 0,
+        showarrow: true,
+        arrowhead: 0,
+        xref: 'x',
+        yref: 'y',
+        text: `Now: ${props.data[0].x[props.data[0].x.length - 1]}ms`,
+        ax: 0,
+        ay: -160,
+        borderpad: 10,
+        arrowwidth: 0.7,
+      }
+    ],
     margin: {
       l: 50,
       r: 30,
