@@ -13,7 +13,6 @@ import {
   EuiSuperSelect,
   EuiText,
   EuiToolTip,
-  EuiTableComputedColumnType,
 } from '@elastic/eui';
 import React, { useState } from 'react';
 import { dashboardTableData } from '../../data/dashboard_data';

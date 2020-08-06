@@ -18,7 +18,7 @@ for (let i = 0; i < 100; i++) {
       }],
       popoverData: [{
         x: Array.from({ length: 23 }, (v, i) => i + 1),
-        y: Array.from({ length: 24 }, () => Math.floor(Math.random() * 70 + 10)),
+        y: Array.from({ length: 23 }, () => Math.floor(Math.random() * 70 + 10)),
         type: 'scatter',
         mode: 'lines+markers',
         marker: {

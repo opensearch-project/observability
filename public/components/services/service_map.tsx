@@ -45,7 +45,7 @@ const renderServiceMapScale = (scaleData) => {
       showticklabels: false,
     },
     yaxis: {
-      // side: 'right',
+      side: 'right',
       fixedrange: true,
       showgrid: false,
       showline: false,
@@ -53,8 +53,8 @@ const renderServiceMapScale = (scaleData) => {
       showticklabels: true,
     },
     margin: {
-      l: 45,
-      r: 0,
+      l: 0,
+      r: 45,
       b: 10,
       t: 10,
       pad: 0
@@ -176,7 +176,7 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
-        <EuiFlexGroup gutterSize='none'>
+        <EuiFlexGroup gutterSize='none' responsive={false}>
           <EuiFlexItem>
             {renderServiceMap(serviceMapWidth)}
           </EuiFlexItem>

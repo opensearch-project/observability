@@ -15,6 +15,7 @@ export function LatencyPlt(props) {
     },
     yaxis: {
       range: [0, 100],
+      dtick: 20,
       title: {
         text: 'Hourly latency (ms)',
         font: {
@@ -33,7 +34,7 @@ export function LatencyPlt(props) {
         arrowhead: 0,
         xref: 'x',
         yref: 'y',
-        text: `Now: ${props.data[0].x[props.data[0].x.length - 1]}ms`,
+        text: `Now: ${props.data[0].y[props.data[0].y.length - 1]}ms`,
         ax: 0,
         ay: -160,
         borderpad: 10,
