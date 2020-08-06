@@ -126,7 +126,7 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiSpacer size="xl" />
           {renderOverview()}
           <EuiSpacer />
-          <ServiceMap />
+          <ServiceMap serviceMapWidth='1200px' />
         </EuiPageBody>
       </EuiPage>
     </>

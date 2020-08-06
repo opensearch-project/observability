@@ -52,8 +52,8 @@ export const serviceMapData = {
         size: 22,
       },
     },
-    height: "434px",
-    width: "620px",
+    height: '434px',
+    width: '620px',
   },
   events: {
     select: function (event) {

@@ -16,7 +16,8 @@ import { Plt } from '../common/plt';
 import _ from 'lodash';
 
 
-const renderServiceMap = () => {
+const renderServiceMap = (width: string) => {
+  serviceMapData.options.width = width;
   return (
     <div>
       <Graph
@@ -83,7 +84,7 @@ const renderServiceMapScale = (scaleData) => {
 
 const idPrefix = 'service-map-button-id-';
 
-export function ServiceMap() {
+export function ServiceMap({ serviceMapWidth = '620px' }) {
   const toggleButtons = [
     {
       id: `${idPrefix}0`,
@@ -177,7 +178,7 @@ export function ServiceMap() {
         <EuiSpacer />
         <EuiFlexGroup gutterSize='none'>
           <EuiFlexItem>
-            {renderServiceMap()}
+            {renderServiceMap(serviceMapWidth)}
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             {renderServiceMapScale(scaleData[toggleIdSelected])}
