@@ -39,7 +39,11 @@ export const serviceMapData = {
       hierarchical: false
     },
     edges: {
-      arrows: null,
+      arrows: {
+        to: {
+          enabled: false,
+        },
+      },
     },
     nodes: {
       shape: 'dot',
@@ -48,7 +52,8 @@ export const serviceMapData = {
         size: 22,
       },
     },
-    height: "490px"
+    height: "434px",
+    width: "620px",
   },
   events: {
     select: function (event) {

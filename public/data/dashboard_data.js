@@ -99,12 +99,13 @@ export const dashboardErrorRateLayout = {
   },
   yaxis: {
     title: {
-      text: 'Throughput',
+      text: 'Error rate',
       font: {
         size: 12,
       }
     },
     range: [0, 25],
+    ticksuffix: "%",
     gridcolor: '#d9d9d9',
     showgrid: true,
     // showline: true,
