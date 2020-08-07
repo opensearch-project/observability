@@ -30,7 +30,6 @@ for (let i = 0; i < 100; i++) {
           size: 2,
         },
       }],
-      index: i,
     },
     'error_rate': Math.floor(Math.random() * 21),
     'traces': Math.floor(Math.random() * 20 + 1) * 100,

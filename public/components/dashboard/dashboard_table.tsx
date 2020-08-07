@@ -1,5 +1,4 @@
 import {
-  EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -8,18 +7,16 @@ import {
   EuiInMemoryTable,
   EuiLink,
   EuiPanel,
-  EuiPopover,
   EuiSpacer,
   EuiSuperSelect,
   EuiText,
-  EuiToolTip,
+  EuiToolTip
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React from 'react';
 import { dashboardTableData } from '../../data/dashboard_data';
 import { PanelTitle, renderBenchmark, truncateText } from '../common/helper_functions';
 import { BoxPlt } from './box_plt';
-import { LinePlt } from './line_plt';
-import { LatencyPlt } from './latency_plt';
+import { LatencyTrendCell } from './latency_trend_cell';
 
 const renderTitleBar = () => {
   return (
@@ -72,7 +69,6 @@ const renderTitleBar = () => {
 };
 
 export function DashboardTable() {
-  const [openedPopoverIndex, setOpenedPopoverIndex] = useState(-1);
   const items = dashboardTableData;
   const columns = [
     {
@@ -108,7 +104,7 @@ export function DashboardTable() {
         </>
       ),
       align: 'center',
-      sortable: true,
+      sortable: false,
       truncateText: true,
       // width: '20%',
       render: (item) => {
@@ -174,33 +170,7 @@ export function DashboardTable() {
       align: 'right',
       sortable: false,
       truncateText: true,
-      render: (item) => {
-        return (
-          <EuiFlexGroup gutterSize="s">
-            <EuiFlexItem />
-            <EuiFlexItem grow={false}>
-              <LinePlt data={item.trendData} />
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiPopover
-                ownFocus
-                anchorPosition="downCenter"
-                button={
-                  <EuiButtonIcon
-                    onClick={() => setOpenedPopoverIndex(item.index)}
-                    iconType="magnifyWithPlus"
-                    size="s"
-                  />
-                }
-                isOpen={item.index === openedPopoverIndex}
-                closePopover={() => { setOpenedPopoverIndex(-1) }}
-              >
-                <LatencyPlt data={item.popoverData} closePopover={() => setOpenedPopoverIndex(-1)} />
-              </EuiPopover>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        );
-      },
+      render: (item) => <LatencyTrendCell item={item} />,
     },
     {
       field: 'error_rate',
