@@ -10,14 +10,14 @@ const renderStats = (metadata) => {
   return (
     <EuiFlexGroup gutterSize='xl'>
       <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
-        <EuiFlexItem />
+        <EuiFlexItem grow={false} />
         {metadata.map(service => (
           <EuiFlexItem>
             <EuiHealth color={service.color}>{service.name}</EuiHealth>
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
-      <EuiFlexItem />
+      <EuiFlexItem grow={false} />
       <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
         <EuiFlexItem><EuiText size='s'>%time spent</EuiText></EuiFlexItem>
         {metadata.map(service => (

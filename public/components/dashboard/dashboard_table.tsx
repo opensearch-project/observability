@@ -89,7 +89,7 @@ export function DashboardTable() {
       sortable: true,
       truncateText: true,
       render: (item) => (
-        <EuiLink href="#" target="_blank">
+        <EuiLink href="#">
           {truncateText(item)}
         </EuiLink>
       ),

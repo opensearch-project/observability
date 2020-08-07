@@ -10,13 +10,13 @@ import {
 } from '@elastic/eui';
 import React, { useState } from 'react';
 import Graph from "react-graph-vis";
-import { serviceMapData } from '../../data/service_map_data';
+import { getServiceMapData } from '../../data/service_map_data';
 import { PanelTitle } from '../common/helper_functions';
 import { Plt } from '../common/plt';
 import _ from 'lodash';
 
 
-const renderServiceMap = (width: string) => {
+const renderServiceMap = (serviceMapData, width: string) => {
   serviceMapData.options.width = width;
   return (
     <div>
@@ -82,25 +82,23 @@ const renderServiceMapScale = (scaleData) => {
   )
 }
 
-const idPrefix = 'service-map-button-id-';
-
 export function ServiceMap({ serviceMapWidth = '620px' }) {
   const toggleButtons = [
     {
-      id: `${idPrefix}0`,
+      id: 'latency',
       label: 'Latency',
     },
     {
-      id: `${idPrefix}1`,
+      id: 'error_rate',
       label: 'Error rate',
     },
     {
-      id: `${idPrefix}2`,
+      id: 'throughput',
       label: 'Throughput',
     },
   ];
 
-  const [toggleIdSelected, setToggleIdSelected] = useState<string>(`${idPrefix}0`);
+  const [idSelected, setIdSelected] = useState<string>('latency');
 
   const scaleData = {
     [toggleButtons[0].id]: {
@@ -153,6 +151,8 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
       }
     },
   }
+  
+  const serviceMapData = getServiceMapData(scaleData[idSelected].data.marker.color)
 
   return (
     <>
@@ -161,8 +161,8 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
         <EuiSpacer size="m" />
         <EuiButtonGroup
           options={toggleButtons}
-          idSelected={toggleIdSelected}
-          onChange={(id) => setToggleIdSelected(id)}
+          idSelected={idSelected}
+          onChange={(id) => setIdSelected(id)}
           buttonSize="s"
           color="text"
         />
@@ -178,10 +178,10 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
         <EuiSpacer />
         <EuiFlexGroup gutterSize='none' responsive={false}>
           <EuiFlexItem>
-            {renderServiceMap(serviceMapWidth)}
+            {renderServiceMap(serviceMapData, serviceMapWidth)}
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            {renderServiceMapScale(scaleData[toggleIdSelected])}
+            {renderServiceMapScale(scaleData[idSelected])}
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>
