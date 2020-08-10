@@ -4,17 +4,19 @@
 
 ### 1.1 Introduction
 
-Notebooks provide a browser-based [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) built upon a number of popular [open-source](https://en.wikipedia.org/wiki/Open-source_software) libraries. Kibana Notebooks will enable data-driven, interactive data analytics and collaborative documents to be created that can be used as live notes in Kibana. These notebooks can be used the following use-cases:
+Kibana Notebooks provide a browser-based [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) built upon a number of popular [open-source](https://en.wikipedia.org/wiki/Open-source_software) libraries. Kibana Notebooks enable data-driven, interactive data analytics and collaborative documents to be created and used as live notes in Kibana. They allow devops, support specialists, solution and presales specialists, customer success experts and engineers to create and share stories They facilitate combining visualizations, timelines and text, code and adding annotations. The notebook is a collection of cells- paragraphs for adding code or markdown text, and output cell that displays the output of the markdown/code. Here are a few Kibana Notebooks use-cases:
 
 1. Create post-mortem documents
 
+1. Design runbooks
+
 1. Build Live infrastructure reports
 
-1. Foster explorative collaborations with data
+1. Foster data driven explorative collaborations 
 
 ### 1.2 Motivation
 
-Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and decorate data in elasticsearch with other reference data sources.
+Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Kibana Notebooks enable contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and embellish data in Elasticsearch with other reference data sources.
 
 ## 2. Requirements
 
@@ -46,7 +48,7 @@ Dashboards offer a solution for a few selected use cases, and are a great tool i
 
 **Backend Adaptors**
 
-1. As a user, I should be able to plug an addon external backend services(like Zeppelin, SageMaker, Jupyter) to the plugin using adaptors
+1. As a user, I should be able to plug an addon external backend services(like Zeppelin, Amazon SageMaker, Jupyter) to the plugin using adaptors
 1. As a user, I should be able to use all the interpreters provided by the plugged backend service in addition to those provided by default
 1. As a user, I should be able to use the storage adaptors provided by the plugged backend service
 1. As a user, I should be able to use external data sources and environments provided by the plugged backend service
@@ -132,6 +134,39 @@ Dashboards offer a solution for a few selected use cases, and are a great tool i
   - **Plot Visualization with Language specific Viz. tools (like Matplotlib)**:
     ![Matplot Viz.](images/matplot_ss.png)
 
+## 4. User Stories
+
+**Operations on notebooks**
+
+1. Create: As a user, I should be able to create a notebook. 
+1. View: As a user, I should be able to view the notebook. 
+1. Save: As a user, I should be able to save the notebook.
+1. Checkpoint: The notebook automatically saves the notebook after every 3 minutes. If the user loads the notebook after the checkpoint is triggered, it will allow load the content till that point. 
+1. Save, Autosave: The notebook can saved. After a given time period, the autosave is triggered on the notebook. 
+1. Clone: As a user, I should be able to clone the notebook 
+1. Rename: As a user, I should be able to rename the notebook 
+1. Delete: As a user, I should be able to delete the notebook 
+
+
+**Create, Edit, Delete content in an individual notebook**
+
+1. As a user, I should be able to add paragraphs to a notebook. I should be able to add markdown or code to a paragraph. 
+1. Markdown in a paragraph allows adding text and enables the use of titles/headings, images, lists and hyperlinks. 
+1. Code can be added in the form of queries, DSL, PPL, SQL etc. 
+1. As a user, I should be able to execute the code block or the markup and the output will get reflected in the output cell. The output will display text, images, lists, visualizations/graphs etc. 
+1. As a user, I should be able to annotate the output with comments/tags, usernames, time/date etc. using markdown
+1. Time periods: As a user I should be able to set the date/time periods or date/time to the individual output cells. By default, the date/time reflected is global. This is different from the actual timestamp on when the content was edited. 
+   
+**Share, export and download notebooks**
+1. As a creator of notebooks, I should be able to share a Kibana Notebook with other users so that they can view and/or edit the notebooks as per the privileges and permissions they have. 
+1. I should also be able to share the notebook as a pdf via email. I should also be able to download the story as a pdf.
+
+**List of Notebooks**
+1. As a user, I should be able to add the notebooks to a list of notebooks. The list of notebooks shows name of the notebook, creator’s details, and last modified dates. 
+1. I should be able to view, share and download the individual notebooks in the list of notebooks. 
+1. I should be able to view the list of notebooks. 
+1. I should be able to filter notebooks based on whether I created or someone else created them and as per dates modified.
+
 ## Appendix
 
 _**What ideas do we have to address the above customer problem/opportunity?**_
@@ -142,3 +177,5 @@ _**What ideas do we have to address the above customer problem/opportunity?**_
 _**Open source components used to build the tool**_
 
 - Built on [Nteract.io components](https://components.nteract.io/), [Apache Zeppelin](http://zeppelin.apache.org/)
+
+
