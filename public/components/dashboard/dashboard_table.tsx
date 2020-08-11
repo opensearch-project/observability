@@ -109,9 +109,7 @@ export function DashboardTable() {
       // width: '20%',
       render: (item) => {
         return (
-          <div>
-            <BoxPlt props={{ min: 0, max: 80, left: item[0], mid: item[1], right: item[2] }} />
-          </div>
+            <BoxPlt plotParams={{ min: 0, max: 80, left: item[0], mid: item[1], right: item[2] }} />
         );
       },
     },

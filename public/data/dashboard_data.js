@@ -1,3 +1,5 @@
+import { EuiText } from "@elastic/eui";
+
 export const dashboardTableData = []
 for (let i = 0; i < 100; i++) {
   const trace = {
@@ -48,6 +50,8 @@ export const dashboardErrorRateData = [
     width: 0.3,
     type: 'bar',
     name: 'Unknown',
+    hovertemplate: '07/23/2020 %{x}<br>' +
+      '<b>Unknown: %{y}</b><extra></extra>',
   },
   {
     x: ['03:09', '03:10', '03:11', '03:12', '03:13'],
@@ -58,6 +62,8 @@ export const dashboardErrorRateData = [
     width: 0.3,
     type: 'bar',
     name: '2xx',
+    hovertemplate: '07/23/2020 %{x}<br>' +
+      '<b>2xx: %{y}</b><extra></extra>',
   },
   {
     x: ['03:09', '03:10', '03:11', '03:12', '03:13'],
@@ -68,6 +74,8 @@ export const dashboardErrorRateData = [
     width: 0.3,
     type: 'bar',
     name: '4xx',
+    hovertemplate: '07/23/2020 %{x}<br>' +
+      '<b>4xx: %{y}</b><extra></extra>',
   },
   {
     x: ['03:09', '03:10', '03:11', '03:12', '03:13'],
@@ -78,6 +86,8 @@ export const dashboardErrorRateData = [
     width: 0.3,
     type: 'bar',
     name: '5xx',
+    hovertemplate: '07/23/2020 %{x}<br>' +
+      '<b>5xx: %{y}</b><extra></extra>',
   }
 ]
 
@@ -99,7 +109,7 @@ export const dashboardErrorRateLayout = {
       arrowhead: 0,
       xref: 'x',
       yref: 'y',
-      text: `Now: ${18}%`,
+      text: `Now: ${dashboardErrorRateData.map(a => a.y[a.y.length - 1]).reduce((a, b) => a + b, 0)}%`,
       ax: 0,
       ay: -160,
       borderpad: 10,

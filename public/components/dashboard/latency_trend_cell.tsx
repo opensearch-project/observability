@@ -26,7 +26,7 @@ function LinePlt(props) {
       t: 0,
       pad: 0,
     },
-    height: 20,
+    height: 15,
     width: 60,
   };
   return <Plt data={props.data} layout={layout} />;

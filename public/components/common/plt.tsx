@@ -7,6 +7,7 @@ export function Plt(props) {
     <Plot
         data={props.data}
         style={{ width: "100%", height: "100%" }}
+        onHover={props.onHoverHandler}
         useResizeHandler
         config={{ displayModeBar: false }}
         layout={{
