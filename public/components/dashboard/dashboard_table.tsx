@@ -109,7 +109,8 @@ export function DashboardTable() {
       // width: '20%',
       render: (item) => {
         return (
-            <BoxPlt plotParams={{ min: 0, max: 80, left: item[0], mid: item[1], right: item[2] }} />
+          // expand ranges by 4 to accomondate scale
+          <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
         );
       },
     },
