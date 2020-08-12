@@ -16,10 +16,8 @@ import { Plt } from '../common/plt';
 import _ from 'lodash';
 
 
-const renderServiceMap = (serviceMapData, width: string) => {
-  serviceMapData.options.width = width;
+const renderServiceMap = (serviceMapData) => {
   return (
-    <div>
       <Graph
         graph={serviceMapData.graph}
         options={serviceMapData.options}
@@ -28,7 +26,6 @@ const renderServiceMap = (serviceMapData, width: string) => {
           //  if you want access to vis.js network api you can set the state in a parent component using this property
         }}
       />
-    </div>
   );
 }
 
@@ -82,7 +79,7 @@ const renderServiceMapScale = (scaleData) => {
   )
 }
 
-export function ServiceMap({ serviceMapWidth = '620px' }) {
+export function ServiceMap() {
   const toggleButtons = [
     {
       id: 'latency',
@@ -151,7 +148,7 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
       }
     },
   }
-  
+
   const serviceMapData = getServiceMapData(scaleData[idSelected].data.marker.color)
 
   return (
@@ -176,14 +173,16 @@ export function ServiceMap({ serviceMapWidth = '620px' }) {
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
+
         <EuiFlexGroup gutterSize='none' responsive={false}>
           <EuiFlexItem>
-            {renderServiceMap(serviceMapData, serviceMapWidth)}
+            {renderServiceMap(serviceMapData)}
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             {renderServiceMapScale(scaleData[idSelected])}
           </EuiFlexItem>
         </EuiFlexGroup>
+
       </EuiPanel>
     </>
   );

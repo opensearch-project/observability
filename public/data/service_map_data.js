@@ -54,7 +54,8 @@ export const getServiceMapData = (colorMap) => {
         },
       },
       height: '434px',
-      width: '620px',
+      width: '100%',
+      autoResize: true,
     },
     events: {
       select: function (event) {

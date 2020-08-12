@@ -8,7 +8,6 @@ import {
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
-import { PanelTitle } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
 import { ServiceMap } from '../services/service_map';
