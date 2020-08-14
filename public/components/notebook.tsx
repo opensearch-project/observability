@@ -346,7 +346,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             <EuiTitle>
               <h2>
                 {' '}
-                <EuiIcon type="notebookApp" size="l" style={{ marginRight: '0.5vw' }} />
+                <EuiIcon id="titleIcon" type="notebookApp" size="l" />
                 {this.props.noteName}
               </h2>
             </EuiTitle>

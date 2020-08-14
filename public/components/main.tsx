@@ -255,7 +255,7 @@ export class Main extends React.Component<MainProps, MainState> {
               importNotebook={this.importNotebook}
             />
           </EuiPageHeader>
-          <EuiPageContent style={{ maxWidth: '88vw' }}>
+          <EuiPageContent id="notebookArea">
             <Notebook
               noteId={this.state.noteOpen}
               noteName={this.state.noteName}

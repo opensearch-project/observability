@@ -35,15 +35,6 @@ export const ParaInput = (props: {
   textValueEditor: (evt: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void;
   handleKeyPress: (evt: React.KeyboardEvent<Element>, para: any, index: number) => void;
 }) => {
-  const editorStyle = {
-    fontFamily: `"Dank Mono", "Source Code Pro", Consolas, "Courier New", Courier,  monospace`,
-    backgroundColor: `#fafafa`,
-    color: `#212121`,
-    fontSize: '1em',
-    border: 'none',
-    width: '100%',
-    height: '10em',
-  };
   const { para, index, textValueEditor, handleKeyPress } = props;
 
   return (
@@ -53,9 +44,9 @@ export const ParaInput = (props: {
       <Source language={para.lang}>
         {para.isSelected ? (
           <textarea
+            className="editorArea"
             onChange={(evt) => textValueEditor(evt, index)}
             onKeyPress={(evt) => handleKeyPress(evt, para, index)}
-            style={editorStyle}
             value={para.inp}
             autoFocus
           />

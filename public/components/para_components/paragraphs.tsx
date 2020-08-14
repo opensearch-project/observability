@@ -80,23 +80,6 @@ export const Paragraphs = (props: ParagraphProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [options, setOptions] = useState([]);
   const [currPara, setCurrPara] = useState(0);
-  const paraDivStyle = {
-    backgroundColor: '#e0fbfc',
-    textAlign: 'center',
-    color: '#98c1d9',
-    fontWeight: 'bold',
-    padding: '0.5vh',
-    width: '50%',
-  };
-
-  const vizDivStyle = {
-    backgroundColor: '#68f7f0',
-    textAlign: 'center',
-    color: '#3c7572',
-    fontWeight: 'bold',
-    padding: '0.5vh',
-    width: '50%',
-  };
 
   const {
     para,
@@ -233,13 +216,13 @@ export const Paragraphs = (props: ParagraphProps) => {
 
   const addNewDiv = (
     <div>
-      <table style={{ width: '100%' }}>
+      <table className="hoveredDiv">
         <tbody>
           <tr>
-            <td onClick={() => addPara(para.id, '%md\n')} style={paraDivStyle}>
+            <td className="addParagraphButton" onClick={() => addPara(para.id, '%md\n')}>
               +Para
             </td>
-            <td onClick={() => showModal(para.id)} style={vizDivStyle}>
+            <td className="addVisualizationButton" onClick={() => showModal(para.id)}>
               +Viz
             </td>
           </tr>
@@ -281,9 +264,9 @@ export const Paragraphs = (props: ParagraphProps) => {
       )}
       {/* Div populated on hover for adding a new paragraph in notebook */}
       <div
+        className="hoverDiv"
         onMouseEnter={() => paraHover(para)}
         onMouseLeave={() => paraHover(para)}
-        style={{ height: '1vh' }}
       >
         {para.showAddPara && addNewDiv}
       </div>
