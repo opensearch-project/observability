@@ -35,18 +35,19 @@ export function ParaRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let runResponse = {};
       try {
-        runResponse = await BACKEND.updateRunFetchParagraph(context, request.body, wreckOptions);
+        const runResponse = await BACKEND.updateRunFetchParagraph(
+          context,
+          request.body,
+          wreckOptions
+        );
         return response.ok({
           body: runResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: runResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -67,18 +68,19 @@ export function ParaRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let saveResponse = {};
       try {
-        saveResponse = await BACKEND.updateFetchParagraph(context, request.body, wreckOptions);
+        const saveResponse = await BACKEND.updateFetchParagraph(
+          context,
+          request.body,
+          wreckOptions
+        );
         return response.ok({
           body: saveResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: saveResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -99,18 +101,15 @@ export function ParaRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let addResponse = {};
       try {
-        addResponse = await BACKEND.addFetchNewParagraph(context, request.body, wreckOptions);
+        const addResponse = await BACKEND.addFetchNewParagraph(context, request.body, wreckOptions);
         return response.ok({
           body: addResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: addResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -133,18 +132,15 @@ export function ParaRouter(router: IRouter) {
         noteId: request.params.ids.split('/')[0],
         paragraphId: request.params.ids.split('/')[1],
       };
-      let deleteResponse = {};
       try {
-        deleteResponse = await BACKEND.deleteFetchParagraphs(context, params, wreckOptions);
+        const deleteResponse = await BACKEND.deleteFetchParagraphs(context, params, wreckOptions);
         return response.ok({
           body: deleteResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: deleteResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -163,9 +159,8 @@ export function ParaRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let clearParaResponse = {};
       try {
-        clearParaResponse = await BACKEND.clearAllFetchParagraphs(
+        const clearParaResponse = await BACKEND.clearAllFetchParagraphs(
           context,
           request.body,
           wreckOptions
@@ -176,9 +171,7 @@ export function ParaRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: clearParaResponse,
-          },
+          body: error.message,
         });
       }
     }

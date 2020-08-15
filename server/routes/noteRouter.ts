@@ -35,11 +35,10 @@ export function NoteRouter(router: IRouter) {
           },
         });
       } catch (error) {
+        console.log('Notebook:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            data: notebooksData,
-          },
+          body: error.message,
         });
       }
     }
@@ -67,9 +66,7 @@ export function NoteRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            paragraphs: notebookinfo,
-          },
+          body: error.message,
         });
       }
     }
@@ -95,9 +92,7 @@ export function NoteRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: addResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -124,9 +119,7 @@ export function NoteRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: renameResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -153,9 +146,7 @@ export function NoteRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: cloneResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -172,18 +163,15 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let delResponse = {};
       try {
-        delResponse = await BACKEND.deleteNote(context, request.params.noteid, wreckOptions);
+        const delResponse = await BACKEND.deleteNote(context, request.params.noteid, wreckOptions);
         return response.ok({
           body: delResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: delResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -200,7 +188,6 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let exportResponse = {};
       try {
         const exportResponse = await BACKEND.exportNote(
           context,
@@ -213,9 +200,7 @@ export function NoteRouter(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: exportResponse,
-          },
+          body: error.message,
         });
       }
     }
@@ -232,18 +217,19 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let importResponse = {};
       try {
-        importResponse = await BACKEND.importNote(context, request.body.noteObj, wreckOptions);
+        const importResponse = await BACKEND.importNote(
+          context,
+          request.body.noteObj,
+          wreckOptions
+        );
         return response.ok({
           body: importResponse,
         });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: {
-            body: importResponse,
-          },
+          body: error.message,
         });
       }
     }
