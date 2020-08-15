@@ -13,11 +13,16 @@
  * permissions and limitations under the License.
  */
 
-import { NoteRouter } from './noteRouter';
-import { ParaRouter } from './paraRouter';
-import { IRouter } from '../../../../src/core/server';
+import Wreck from '@hapi/wreck';
+import { optionsType } from '../../common';
 
-export function serverRoute(router: IRouter) {
-  ParaRouter(router);
-  NoteRouter(router);
-}
+export const requestor = async function (
+  requestType: string,
+  url: string,
+  wreckOptions: optionsType
+) {
+  const promise = Wreck.request(requestType, url, wreckOptions);
+  const res = await promise;
+  const body = await Wreck.read(res, wreckOptions);
+  return body;
+};

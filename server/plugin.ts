@@ -22,7 +22,7 @@ import {
 } from '../../../src/core/server';
 
 import { KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart } from './types';
-import { defineRoutes } from './routes';
+import { serverRoute } from './routes';
 
 export class KibanaNotebooksPlugin
   implements Plugin<KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart> {
@@ -37,9 +37,8 @@ export class KibanaNotebooksPlugin
     const router = core.http.createRouter();
 
     // Register server side APIs
-    defineRoutes(router);
+    serverRoute(router);
 
-    // TODO: put logger
     return {};
   }
 
