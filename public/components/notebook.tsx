@@ -28,8 +28,8 @@ import { Paragraphs } from './para_components/paragraphs';
 import { CoreStart } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
 import { API_PREFIX } from '../../common';
-import { zeppelin_para_parser } from './helpers/para_parsers';
-import { ParaType } from './helpers/para_parsers';
+import { zeppelin_para_parser } from './helpers/zeppelin_parser';
+import { ParaType } from './helpers/zeppelin_parser';
 
 /*
  * "Notebook" component is used to display an open notebook
@@ -69,7 +69,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       const parsedPara = zeppelin_para_parser(this.state.paragraphs);
       this.setState({ parsedPara });
     } catch (error) {
-      console.log('Parsing para has some issue', error);
+      console.error('Parsing paragraph has some issue', error);
       this.setState({ parsedPara: [] });
     }
   };
@@ -151,7 +151,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           this.setState({ paragraphs: res.paragraphs });
           this.parsePara();
         })
-        .catch((err) => console.error('Delete para error', err));
+        .catch((err) => console.error('Delete paragraph issue: ', err.body.message));
     }
   };
 
@@ -162,7 +162,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs: res.paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('Delete viz error', err));
+      .catch((err) => console.error('Delete vizualization issue: ', err.body.message));
   };
 
   addPara = (index: number, newParaContent: string) => {
@@ -183,7 +183,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('Add para error', err));
+      .catch((err) => console.error('Add paragraph issue: ', err.body.message));
   };
 
   cloneParaButton = () => {
@@ -208,7 +208,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs: res.paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('update para:', err));
+      .catch((err) => console.error('clear paragraph issue: ', err.body.message));
   };
 
   updateRunPara = (para: ParaType, index: number) => {
@@ -230,7 +230,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('update para:', err));
+      .catch((err) => console.error('run paragraph issue: ', err.body.message));
   };
 
   runParaButton = () => {
@@ -261,7 +261,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('update para:', err));
+      .catch((err) => console.error('save paragraph issue: ', err.body.message));
   };
 
   saveParaButton = () => {
@@ -291,7 +291,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs });
         this.parsePara();
       })
-      .catch((err) => console.error('update para:', err));
+      .catch((err) => console.error('save visualization issue: ', err.body.message));
   };
 
   textValueEditor = (evt: React.ChangeEvent<HTMLTextAreaElement>, index: number) => {
@@ -332,7 +332,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       this.props.http
         .get(`${API_PREFIX}/note/` + this.props.noteId)
         .then((res) => this.setState(res, this.parsePara))
-        .catch((err) => console.error('Fetching single notebook error', err));
+        .catch((err) => console.error('Fetching single notebook issue: ', err.body.message));
       this.setState({ toggleInput: true });
       this.setState({ toggleOutput: true });
     }

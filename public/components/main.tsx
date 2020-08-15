@@ -31,6 +31,7 @@ import { MainButtons } from './main_buttons';
 import { Notebook } from './notebook';
 import { onDownload } from './helpers/download_json';
 import { API_PREFIX } from '../../common';
+import { error } from 'selenium-webdriver';
 
 /*
  * "Main" component is render the whole Notebooks as a single page application
@@ -90,7 +91,9 @@ export class Main extends React.Component<MainProps, MainState> {
     this.props.http
       .get(`${API_PREFIX}/`)
       .then((res) => this.setState(res))
-      .catch((err) => console.error('Error in fetching the notebooks', err));
+      .catch((err) => {
+        console.error('Issue in fetching the notebooks', err.body.message);
+      });
   };
 
   createNotebook = (newNoteName: string) => {
@@ -108,7 +111,7 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setState({ switchId: newNoteId, switchName: newNoteName });
         this.fetchNotebooks();
       })
-      .catch((err) => console.error('Error in creating a notebook', err));
+      .catch((err) => console.error('Issue in creating a notebook', err.body.message));
   };
 
   renameNotebook = (editedNoteName: string, editedNoteID: string) => {
@@ -125,7 +128,7 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setState({ switchId: editedNoteID, switchName: editedNoteName });
         this.fetchNotebooks();
       })
-      .catch((err) => console.error('Error in renaming the notebook', err));
+      .catch((err) => console.error('Issue in renaming the notebook', err.body.message));
   };
 
   cloneNotebook = (clonedNoteName: string, clonedNoteID: string) => {
@@ -144,24 +147,23 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setState({ switchId: newNoteId, switchName: clonedNoteName });
         this.fetchNotebooks();
       })
-      .catch((err) => console.error('Error in cloning the notebook', err));
+      .catch((err) => console.error('Issue in cloning the notebook', err.body.message));
   };
 
   deleteNotebook = (clonedNoteID: string) => {
     this.props.http
       .delete(`${API_PREFIX}/note/` + clonedNoteID)
       .then((res) => this.fetchNotebooks())
-      .catch((err) => console.error('Error in deleting the notebook', err));
+      .catch((err) => console.error('Issue in deleting the notebook', err.body.message));
   };
 
   exportNotebook = (exportNoteName: string, exportNoteId: string) => {
     this.props.http
       .get(`${API_PREFIX}/note/export/` + exportNoteId)
       .then((res) => {
-        console.log('export note ', res);
         onDownload(res, exportNoteName + '.json');
       })
-      .catch((err) => console.error('Error in exporting the notebook', err));
+      .catch((err) => console.error('Issue in exporting the notebook', err.body.message));
   };
 
   importNotebook = (noteObject: any) => {
@@ -176,7 +178,7 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setState({ switchId: newNoteId, switchName: noteObject.name });
         this.fetchNotebooks();
       })
-      .catch((err) => console.error('Error in importing the notebook', err));
+      .catch((err) => console.error('Issue in importing the notebook', err.body.message));
   };
 
   loadNotebook = (nbId: string, nbName: string) => {
@@ -198,7 +200,6 @@ export class Main extends React.Component<MainProps, MainState> {
     });
 
     folderTree[0].children = noteArray;
-    console.log('tree', folderTree);
     this.setState({ folderTree });
   };
 

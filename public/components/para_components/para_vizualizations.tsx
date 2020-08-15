@@ -21,7 +21,7 @@ import {
   DashboardContainerInput,
 } from '../../../../../src/plugins/dashboard/public';
 import { EuiDatePicker, EuiDatePickerRange, EuiButtonIcon, EuiButtonToggle } from '@elastic/eui';
-import { ParaType } from '../helpers/para_parsers';
+import { ParaType } from '../helpers/zeppelin_parser';
 
 /*
  * "DashboardEmbeddableByValue" component is used for rendering embeddable dashboard containers with visualizations

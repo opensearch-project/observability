@@ -15,7 +15,7 @@
 
 import React from 'react';
 import { Input, Prompt, Source } from '@nteract/presentational-components';
-import { ParaType } from '../helpers/para_parsers';
+import { ParaType } from '../helpers/zeppelin_parser';
 
 /*
  * "ParaInput" component is used by nbcell to populate paragraph inputs for an open notebook.

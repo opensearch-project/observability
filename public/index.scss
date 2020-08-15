@@ -31,15 +31,7 @@
   width: 100%;
 }
 
-#notebookArea {
-  max-width: 88vw;
-}
-
-#titleIcon {
-  margin-right: '0.5vw';
-}
-
-#addParagraphButton {
+.addParagraphButton {
   background-color: #e0fbfc;
   text-align: center;
   color: #98c1d9;
@@ -48,11 +40,19 @@
   width: 50%;
 }
 
-#addVisualizationButton {
+.addVisualizationButton {
   background-color: #68f7f0;
   text-align: center;
   color: #3c7572;
   font-weight: bold;
   padding: 0.5vh;
   width: 50%;
+}
+
+#notebookArea {
+  max-width: 88vw;
+}
+
+#titleIcon {
+  margin-right: '0.5vw';
 }

@@ -36,7 +36,7 @@ import {
 } from '../../../../../src/plugins/dashboard/public';
 import { ViewMode } from '../../../../../src/plugins/embeddable/public';
 import moment from 'moment';
-import { ParaType } from '../helpers/para_parsers';
+import { ParaType } from '../helpers/zeppelin_parser';
 import { CoreStart } from '../../../../../src/core/public';
 import { getRequest } from '../helpers/request_containers';
 
@@ -252,6 +252,7 @@ export const Paragraphs = (props: ParagraphProps) => {
           <ParaOutput para={para} />
         </Cell>
       )}
+
       {/* Render if para contains visualization */}
       {para.isVizualisation && (
         <DashboardEmbeddableByValue
@@ -262,6 +263,7 @@ export const Paragraphs = (props: ParagraphProps) => {
           saveViz={saveViz}
         />
       )}
+
       {/* Div populated on hover for adding a new paragraph in notebook */}
       <div
         className="hoverDiv"
