@@ -15,9 +15,11 @@
 
 import { NoteRouter } from './noteRouter';
 import { ParaRouter } from './paraRouter';
+import { vizRouter } from './vizRouter';
 import { IRouter } from '../../../../src/core/server';
 
 export function serverRoute(router: IRouter) {
   ParaRouter(router);
   NoteRouter(router);
+  vizRouter(router);
 }
