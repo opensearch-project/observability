@@ -15,7 +15,8 @@
 
 import React, { useState } from 'react';
 import { EuiPageHeaderSection, EuiButtonEmpty, EuiOverlayMask, EuiToolTip } from '@elastic/eui';
-import { getCloneModal, getDeleteModal, getCustomModal } from './helpers/modal_container';
+
+import { getCloneModal, getDeleteModal, getCustomModal } from './helpers/modal_containers';
 import { CustomUploadModal } from './helpers/custom_modals/custom_upload_modal';
 
 /*

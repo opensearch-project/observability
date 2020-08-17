@@ -14,9 +14,8 @@
  */
 
 import React, { useState, Fragment } from 'react';
+import moment from 'moment';
 import { Cell } from '@nteract/presentational-components';
-import { ParaOutput } from './para_output';
-import { ParaInput } from './para_input';
 import {
   EuiButtonEmpty,
   EuiForm,
@@ -29,17 +28,18 @@ import {
   EuiSelectable,
 } from '@elastic/eui';
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
-import { ParaVisualization } from './para_vizualizations';
+
 import {
   DashboardStart,
   DashboardContainerInput,
 } from '../../../../../src/plugins/dashboard/public';
 import { ViewMode } from '../../../../../src/plugins/embeddable/public';
-import moment from 'moment';
-import { ParaType } from '../helpers/zeppelin_parser';
 import { CoreStart } from '../../../../../src/core/public';
-// import { getRequest } from '../helpers/request_containers';
-import { API_PREFIX } from '../../../common';
+
+import { ParaOutput } from './para_output';
+import { ParaInput } from './para_input';
+import { ParaVisualization } from './para_vizualizations';
+import { API_PREFIX, ParaType } from '../../../common';
 
 /*
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs

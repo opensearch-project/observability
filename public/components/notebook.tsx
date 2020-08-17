@@ -21,17 +21,17 @@ import {
   EuiTitle,
   EuiIcon,
 } from '@elastic/eui';
-
-import { SELECTED_BACKEND } from '../../common';
 import { Cells } from '@nteract/presentational-components';
-import { ParaButtons } from './paragraph_components/para_buttons';
-import { Paragraphs } from './paragraph_components/paragraphs';
+
 import { CoreStart } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-import { API_PREFIX } from '../../common';
+
+import { ParaButtons } from './paragraph_components/para_buttons';
+import { Paragraphs } from './paragraph_components/paragraphs';
+import { SELECTED_BACKEND } from '../../common';
+import { API_PREFIX, ParaType } from '../../common';
 import { zeppelinParagraphParser } from './helpers/zeppelin_parser';
 import { defaultParagraphParser } from './helpers/default_parser';
-import { ParaType } from './helpers/zeppelin_parser';
 
 /*
  * "Notebook" component is used to display an open notebook

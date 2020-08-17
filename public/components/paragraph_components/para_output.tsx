@@ -17,7 +17,8 @@ import React from 'react';
 import { Outputs } from '@nteract/presentational-components';
 import { Media } from '@nteract/outputs';
 import { EuiText } from '@elastic/eui';
-import { ParaType } from '../helpers/zeppelin_parser';
+
+import { ParaType } from '../../../common';
 
 /*
  * "ParaOutput" component is used by nbcell to populate paragraph outputs for an open notebook.

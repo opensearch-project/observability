@@ -25,8 +25,10 @@ import {
   EuiTreeView,
   EuiIcon,
 } from '@elastic/eui';
+
 import { CoreStart } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
+
 import { NoteButtons } from './note_buttons';
 import { Notebook } from './notebook';
 import { onDownload } from './helpers/download_json';

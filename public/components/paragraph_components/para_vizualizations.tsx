@@ -15,14 +15,16 @@
 
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import { Input, Prompt, Source } from '@nteract/presentational-components';
+import { EuiDatePicker, EuiDatePickerRange, EuiButtonIcon, EuiButtonToggle } from '@elastic/eui';
+
 import { ViewMode } from '../../../../../src/plugins/embeddable/public';
 import {
   DashboardStart,
   DashboardContainerInput,
 } from '../../../../../src/plugins/dashboard/public';
-import { Input, Prompt, Source } from '@nteract/presentational-components';
-import { EuiDatePicker, EuiDatePickerRange, EuiButtonIcon, EuiButtonToggle } from '@elastic/eui';
-import { ParaType } from '../helpers/zeppelin_parser';
+
+import { ParaType } from '../../../common';
 
 /*
  * "ParaVisualization" component is used for rendering embeddable dashboard containers with visualizations

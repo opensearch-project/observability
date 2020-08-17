@@ -14,25 +14,7 @@
  */
 
 // Placeholder for default parser
-
-export type ParaType = {
-  uniqueId: string;
-  isRunning: boolean;
-  inQueue: boolean;
-  ishovered: boolean;
-  isSelected: boolean;
-  isInputHidden: boolean;
-  isOutputHidden: boolean;
-  showAddPara: boolean;
-  isVizualisation: boolean;
-  vizObjectInput: string;
-  id: number;
-  inp: string;
-  lang: string;
-  editLang: string;
-  typeOut: Array<string>;
-  out: string;
-};
+import { ParaType } from '../../../common';
 
 export const defaultParagraphParser = (paragraphs: any) => {
   let parsedPara: Array<ParaType> = [];
