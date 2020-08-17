@@ -8,7 +8,7 @@ import { renderBenchmark } from '../common/helper_functions';
 
 const renderStats = (metadata) => {
   return (
-    <EuiFlexGroup gutterSize='xl'>
+    <EuiFlexGroup>
       <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
         <EuiFlexItem grow={false} />
         {metadata.map(service => (

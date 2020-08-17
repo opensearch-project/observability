@@ -30,9 +30,9 @@ export function SpanDetailPlt() {
         <PanelTitle title="Span detail" />
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup justifyContent='flexEnd' >
-          <EuiFlexItem grow={false}>
-          {renderStats()}
-          </EuiFlexItem>
+          {/* <EuiFlexItem grow={false}>
+            {renderStats()}
+          </EuiFlexItem> */}
           <EuiFlexItem>
             <Plt data={spanDetailData} layout={spanDetailLayout} />
           </EuiFlexItem>

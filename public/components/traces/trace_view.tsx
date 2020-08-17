@@ -150,7 +150,7 @@ export function TraceView(props: TraceViewProps) {
           <EuiSpacer />
           <EuiFlexGroup>
             <EuiFlexItem grow={3}>
-            <ServiceBreakdownPlt />
+              <ServiceBreakdownPlt />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
               <SpanDetailPlt />

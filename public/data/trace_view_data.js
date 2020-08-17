@@ -152,5 +152,10 @@ export const spanDetailLayout = {
     autorange: true,
     ticksuffix: " ms",
     side: 'top',
+    color: '#91989c',
+    showline: true,
   },
+  yaxis: {
+    showgrid: false,
+  }
 }
