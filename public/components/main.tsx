@@ -27,14 +27,13 @@ import {
 } from '@elastic/eui';
 import { CoreStart } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-import { MainButtons } from './main_buttons';
+import { NoteButtons } from './note_buttons';
 import { Notebook } from './notebook';
 import { onDownload } from './helpers/download_json';
 import { API_PREFIX } from '../../common';
-import { error } from 'selenium-webdriver';
 
 /*
- * "Main" component is render the whole Notebooks as a single page application
+ * "Main" component renders the whole Notebooks as a single page application
  *
  * Props taken in as params are:
  * DashboardContainerByValueRenderer: Dashboard container renderer for visualization
@@ -51,17 +50,18 @@ type MainProps = {
 
 type MainState = {
   data: Array<{ path: string; id: string }>;
-  noteOpen: string;
-  noteName: string;
-  switchName: string;
-  switchId: string;
+  isNoteAvailable: boolean;
+  openNoteId: string; // Id of the notebook open
+  openNoteName: string; // name of the notebook open
+  switchName: string; // name of the notebook to be opened
+  switchId: string; // Id of the notebook to be opened
   folderTree: Array<{
     label: string;
     id: string;
     icon: JSX.Element;
     iconWhenExpanded: JSX.Element;
     isExpanded: boolean;
-    children: Array<{ label: string; id: string; icon: JSX.Element }>;
+    children: Array<{ label: string; id: string; icon: JSX.Element }>; // folder tree eui element
   }>;
 };
 
@@ -70,8 +70,9 @@ export class Main extends React.Component<MainProps, MainState> {
     super(props);
     this.state = {
       data: [],
-      noteOpen: '',
-      noteName: '',
+      isNoteAvailable: false,
+      openNoteId: '',
+      openNoteName: '',
       switchId: '',
       switchName: '',
       folderTree: [
@@ -87,6 +88,7 @@ export class Main extends React.Component<MainProps, MainState> {
     };
   }
 
+  // Fetches path and id for all stored notebooks
   fetchNotebooks = () => {
     this.props.http
       .get(`${API_PREFIX}/`)
@@ -96,6 +98,7 @@ export class Main extends React.Component<MainProps, MainState> {
       });
   };
 
+  // Creates a new notebook
   createNotebook = (newNoteName: string) => {
     let newNoteId = '';
     const newNoteObject = {
@@ -114,6 +117,7 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in creating a notebook', err.body.message));
   };
 
+  // Renames an existing notebook
   renameNotebook = (editedNoteName: string, editedNoteID: string) => {
     const renameNoteObject = {
       name: editedNoteName,
@@ -131,6 +135,7 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in renaming the notebook', err.body.message));
   };
 
+  // Clones an existing notebook
   cloneNotebook = (clonedNoteName: string, clonedNoteID: string) => {
     let newNoteId = '';
     const cloneNoteObject = {
@@ -150,6 +155,7 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in cloning the notebook', err.body.message));
   };
 
+  // Deletes an existing notebook
   deleteNotebook = (clonedNoteID: string) => {
     this.props.http
       .delete(`${API_PREFIX}/note/` + clonedNoteID)
@@ -157,6 +163,7 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in deleting the notebook', err.body.message));
   };
 
+  // Exports an existing notebook
   exportNotebook = (exportNoteName: string, exportNoteId: string) => {
     this.props.http
       .get(`${API_PREFIX}/note/export/` + exportNoteId)
@@ -166,6 +173,7 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in exporting the notebook', err.body.message));
   };
 
+  // Imports a new notebook
   importNotebook = (noteObject: any) => {
     let newNoteId = '';
     const importObject = {
@@ -181,10 +189,12 @@ export class Main extends React.Component<MainProps, MainState> {
       .catch((err) => console.error('Issue in importing the notebook', err.body.message));
   };
 
+  // Sets new notebook to open from folder tree
   loadNotebook = (nbId: string, nbName: string) => {
-    this.setState({ noteOpen: nbId, noteName: nbName });
+    this.setState({ openNoteId: nbId, openNoteName: nbName });
   };
 
+  // Reloads folder tree on the side side panel
   realodSidePanel = () => {
     let folderTree = this.state.folderTree;
     let noteArray: Array<{ label: string; id: string; icon: JSX.Element }> = [];
@@ -203,22 +213,29 @@ export class Main extends React.Component<MainProps, MainState> {
     this.setState({ folderTree });
   };
 
+  // Opens the first notebook in folder tree and loads it
+  // If any notebook is selected it switches to that notebook
+  // If no notebook is available then sets isNoteAvailable to false
   setNoteOpen = () => {
     if (this.state.data[0] === undefined) {
-      this.createNotebook('Test 1');
+      this.setState({ isNoteAvailable: false });
     } else if (this.state.switchId !== '') {
       this.loadNotebook(this.state.switchId, this.state.switchName);
       this.setState({ switchId: '', switchName: '' });
+      this.setState({ isNoteAvailable: true });
     } else {
-      let noteOpen = '';
-      let noteName = '';
-      noteOpen = this.state.data[0].id;
-      noteName = this.state.data[0].path.split('/').pop();
-      this.setState({ noteOpen });
-      this.setState({ noteName });
+      let openNoteId = '';
+      let openNoteName = '';
+      openNoteId = this.state.data[0].id;
+      openNoteName = this.state.data[0].path.split('/').pop();
+      this.setState({ openNoteId });
+      this.setState({ openNoteName });
+      this.setState({ isNoteAvailable: true });
     }
   };
 
+  // If state of list of notebooks is changed then reloads folder tree
+  // and opens a notebook
   componentDidUpdate(prevProps: MainProps, prevState: MainState) {
     if (this.state.data !== prevState.data) {
       this.realodSidePanel();
@@ -226,6 +243,7 @@ export class Main extends React.Component<MainProps, MainState> {
     }
   }
 
+  // On mount fetch all notebooks
   componentDidMount() {
     this.fetchNotebooks();
   }
@@ -245,10 +263,10 @@ export class Main extends React.Component<MainProps, MainState> {
                 <h1>Kibana Notebooks</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
-            <MainButtons
+            <NoteButtons
               createNotebook={this.createNotebook}
-              openNoteName={this.state.noteName}
-              openNoteId={this.state.noteOpen}
+              openNoteName={this.state.openNoteName}
+              openNoteId={this.state.openNoteId}
               renameNotebook={this.renameNotebook}
               cloneNotebook={this.cloneNotebook}
               deleteNotebook={this.deleteNotebook}
@@ -258,8 +276,9 @@ export class Main extends React.Component<MainProps, MainState> {
           </EuiPageHeader>
           <EuiPageContent id="notebookArea">
             <Notebook
-              noteId={this.state.noteOpen}
-              noteName={this.state.noteName}
+              isNoteAvailable={this.state.isNoteAvailable}
+              noteId={this.state.openNoteId}
+              noteName={this.state.openNoteName}
               DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
               http={this.props.http}
             />

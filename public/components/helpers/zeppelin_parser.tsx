@@ -13,8 +13,6 @@
  * permissions and limitations under the License.
  */
 
-import { StringNullableChain } from 'lodash';
-
 /* This file contains parsing functions
  * These functions have to be changed based on backend configuration
  * If backend changes the incoming paragraph structures may change, so parsing adapts to it
@@ -90,7 +88,7 @@ export type ParaType = {
   out: string;
 };
 
-export const zeppelin_para_parser = (paragraphs: any) => {
+export const zeppelinParagraphParser = (paragraphs: any) => {
   let parsedPara: Array<ParaType> = [];
   paragraphs.map((paraObject: ParaType, index: number) => {
     let tempPara = {
