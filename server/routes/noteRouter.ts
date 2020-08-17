@@ -23,7 +23,7 @@ export function NoteRouter(router: IRouter) {
   router.get(
     {
       path: `${API_PREFIX}/`,
-      validate: false,
+      validate: {},
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
       let notebooksData = [];
