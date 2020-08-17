@@ -38,7 +38,8 @@ import { ViewMode } from '../../../../../src/plugins/embeddable/public';
 import moment from 'moment';
 import { ParaType } from '../helpers/zeppelin_parser';
 import { CoreStart } from '../../../../../src/core/public';
-import { getRequest } from '../helpers/request_containers';
+// import { getRequest } from '../helpers/request_containers';
+import { API_PREFIX } from '../../../common';
 
 /*
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs
@@ -151,16 +152,12 @@ export const Paragraphs = (props: ParagraphProps) => {
 
   const showModal = async (index: number) => {
     setCurrPara(index);
-    // const url = new URL('/api/saved_objects/_find');
-    // const params = { type: 'visualizaiton' };
-    // url.search = new URLSearchParams(params).toString();
-    // http
-    //   .get('/api/saved_objects/_find', { query: 'visualization' })
-    getRequest('../api/saved_objects/_find?type=visualization')
+    http
+      .get(`${API_PREFIX}/visualizations`)
       .then((res) => {
-        const opt = res.saved_objects.map((vObj) => ({
-          label: vObj.attributes.title,
-          key: vObj.id,
+        const opt = res.savedVisualizations.map((vizObject) => ({
+          label: vizObject.label,
+          key: vizObject.key,
         }));
         setOptions(opt);
         setIsModalVisible(true);
