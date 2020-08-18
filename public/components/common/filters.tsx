@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { EuiPopover, EuiButtonIcon, EuiContextMenu, EuiButtonEmpty, EuiPopoverTitle, EuiFlexGroup, EuiFlexItem, EuiFormRow, EuiSuperSelect, EuiSpacer, EuiButton } from '@elastic/eui';
 import { EuiIcon } from '@elastic/eui';
+import { EuiComboBoxOptionOption } from '@elastic/eui';
+import { EuiComboBox } from '@elastic/eui';
+import { EuiFieldNumber } from '@elastic/eui';
 
 export function Filters() {
-  const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState<boolean>(false);
-  const [isAddFilterPopoverOpen, setIsAddFilterPopoverOpen] = useState<boolean>(false);
+  const [selectedFieldOptions, setSelectedFieldOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
+  const [selectedOperatorOptions, setSelectedOperatorOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
   const popoverPanels = [
     {
       id: 0,
@@ -27,7 +30,32 @@ export function Filters() {
       ],
     },
   ];
-  const renderFilters = (isPopoverOpen, setIsPopoverOpen, popoverPanels) => {
+  const fieldOptions = [
+    {
+      label: 'Titan',
+    },
+    {
+      label: 'Titan2',
+    },
+    {
+      label: 'Titan3',
+    },
+  ]
+  const operatorOptions = [
+    {
+      label: 'Titan',
+    },
+    {
+      label: 'Titan2',
+    },
+    {
+      label: 'Titan3',
+    },
+  ]
+
+
+  const renderFilters = () => {
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     return (
       <EuiPopover
         isOpen={isPopoverOpen}
@@ -48,7 +76,8 @@ export function Filters() {
     );
   };
 
-  const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
+  const renderAddFilter = () => {
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const button = (
       <EuiButtonEmpty
         size="xs"
@@ -59,12 +88,17 @@ export function Filters() {
         + Add filter
       </EuiButtonEmpty>
     );
+    const closePopover = () => {
+      setIsPopoverOpen(false);
+      setSelectedFieldOptions([]);
+      setSelectedOperatorOptions([]);
+    }
 
     return (
       <EuiPopover
         button={button}
         isOpen={isPopoverOpen}
-        closePopover={() => setIsPopoverOpen(false)}
+        closePopover={closePopover}
         anchorPosition="downLeft"
         withTitle
       >
@@ -73,40 +107,48 @@ export function Filters() {
           <EuiFlexGroup gutterSize="s">
             <EuiFlexItem grow={6}>
               <EuiFormRow label={'Field'}>
-                <EuiSuperSelect
-                  options={[
-                    {
-                      value: 'test',
-                      inputDisplay: 'test',
-                    },
-                  ]}
-                  valueOfSelected={'test'}
-                  onChange={() => { }}
+                <EuiComboBox
+                  placeholder='Select a field first'
+                  isClearable={false}
+                  options={fieldOptions}
+                  selectedOptions={selectedFieldOptions}
+                  onChange={(e) => setSelectedFieldOptions(e)}
+                  singleSelection={{ asPlainText: true }}
                 />
               </EuiFormRow>
             </EuiFlexItem>
             <EuiFlexItem grow={5}>
               <EuiFormRow label={'Operator'}>
-                <EuiSuperSelect
-                  options={[
-                    {
-                      value: 'test',
-                      inputDisplay: 'test',
-                    },
-                  ]}
-                  valueOfSelected={'test'}
-                  onChange={() => { }}
+                <EuiComboBox
+                  placeholder={selectedFieldOptions.length === 0 ? 'Waiting' : 'Select'}
+                  isClearable={false}
+                  isDisabled={selectedFieldOptions.length === 0}
+                  options={operatorOptions}
+                  selectedOptions={selectedOperatorOptions}
+                  onChange={(e) => setSelectedOperatorOptions(e)}
+                  singleSelection={{ asPlainText: true }}
                 />
               </EuiFormRow>
             </EuiFlexItem>
           </EuiFlexGroup>
+          {selectedOperatorOptions.length > 0 ? (
+            <>
+              <EuiSpacer size="s" />
+              <EuiFormRow label={'Value'}>
+                <EuiFieldNumber
+                  placeholder="Placeholder text"
+                  onChange={() => { }}
+                />
+              </EuiFormRow>
+            </>
+          ) : (null)}
           <EuiSpacer size="m" />
           <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty>Cancel</EuiButtonEmpty>
+              <EuiButtonEmpty onClick={closePopover}>Cancel</EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiButton fill>Save</EuiButton>
+              <EuiButton fill onClick={closePopover}>Save</EuiButton>
             </EuiFlexItem>
           </EuiFlexGroup>
         </div>
@@ -117,10 +159,10 @@ export function Filters() {
   return (
     <EuiFlexGroup gutterSize="none" alignItems="flexEnd" responsive={false}>
       <EuiFlexItem grow={false}>
-        {renderFilters(isFilterPopoverOpen, setIsFilterPopoverOpen, popoverPanels)}
+        {renderFilters()}
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        {renderAddFilter(isAddFilterPopoverOpen, setIsAddFilterPopoverOpen)}
+        {renderAddFilter()}
       </EuiFlexItem>
     </EuiFlexGroup>
   )
