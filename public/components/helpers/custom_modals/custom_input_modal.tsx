@@ -54,7 +54,7 @@ type CustomInputModalProps = {
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
   const { runModal, closeModal, labelTxt, titletxt, btn1txt, btn2txt, openNoteName } = props;
-  const [value, setValue] = useState(openNoteName || '');
+  const [value, setValue] = useState(openNoteName || ''); // sets input value
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

@@ -54,10 +54,10 @@ export const ParaVisualization = ({
   let loadedVizObject: DashboardContainerInput = JSON.parse(vizContent);
   loadedVizObject.viewMode = ViewMode.VIEW;
 
-  const [input, setInput] = useState(loadedVizObject);
-  const [startDate, setStratDate] = useState(moment(loadedVizObject.timeRange.from));
-  const [endDate, setEndDate] = useState(moment(loadedVizObject.timeRange.to));
-  const [toggleEdit, onToggleEdit] = useState(false);
+  const [input, setInput] = useState(loadedVizObject); // input to dashabord container
+  const [startDate, setStratDate] = useState(moment(loadedVizObject.timeRange.from)); // time 'from' synced with datepicker
+  const [endDate, setEndDate] = useState(moment(loadedVizObject.timeRange.to)); // time 'to' synced with datepicker
+  const [toggleEdit, onToggleEdit] = useState(false); // toggle for editing gridsize of visualization
 
   useEffect(() => {
     if (Object.keys(input.panels).length === 0 && input.panels.constructor === Object) {
@@ -65,6 +65,7 @@ export const ParaVisualization = ({
     }
   }, [input]);
 
+  // Refresh Visualization Object with new time range from Date Picker
   const refreshVizObject = () => {
     let inputTemp = { ...input };
     const newTimeRange = {
@@ -76,6 +77,7 @@ export const ParaVisualization = ({
     vizualizationEditor(JSON.stringify(inputTemp), para.id - 1);
   };
 
+  // Toggle to "view" or "edit" mode based on pin button state
   const onToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputTemp = { ...input };
     if (inputTemp.viewMode !== ViewMode.VIEW) {

@@ -21,10 +21,10 @@ import { EuiText } from '@elastic/eui';
 import { ParaType } from '../../../common';
 
 /*
- * "ParaOutput" component is used by nbcell to populate paragraph outputs for an open notebook.
+ * "ParaOutput" component is used by notebook to populate paragraph outputs for an open notebook.
  *
  * Props taken in as params are:
- * para - parsed paragraph from nbcell
+ * para - parsed paragraph from notebook
  *
  * Outputs component of nteract used as a container for notebook UI.
  * https://components.nteract.io/#outputs

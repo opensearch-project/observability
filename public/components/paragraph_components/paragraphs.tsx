@@ -45,7 +45,7 @@ import { API_PREFIX, ParaType } from '../../../common';
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs
  *
  * Props taken in as params are:
- * para - parsed paragraph from nbcell
+ * para - parsed paragraph from notebook
  * index - index of paragraph in the notebook
  * paragraphSelector - function used to select a para on click
  * paragraphHover - function used to highlight a para on hover
@@ -77,9 +77,9 @@ type ParagraphProps = {
   http: CoreStart['http'];
 };
 export const Paragraphs = (props: ParagraphProps) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [currPara, setCurrPara] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Boolean for showing visualization modal
+  const [options, setOptions] = useState([]); // options for loading saved visualizations
+  const [currentPara, setCurrentPara] = useState(0); // set current paragraph
 
   const {
     para,
@@ -99,6 +99,8 @@ export const Paragraphs = (props: ParagraphProps) => {
 
   const createNewVizObject = (objectId: string) => {
     const vizUniqueId = htmlIdGenerator()();
+
+    // a dashboard container object for new visualization
     const newVizObject: DashboardContainerInput = {
       viewMode: ViewMode.VIEW,
       panels: {
@@ -142,16 +144,18 @@ export const Paragraphs = (props: ParagraphProps) => {
     setIsModalVisible(false);
   };
 
+  // Function to add visualization to the notebook
   const onSelectViz = (newOptions) => {
     setOptions(newOptions);
     const optedViz = newOptions.filter(filterObj);
     closeModal();
     const newVizObject = createNewVizObject(optedViz[0].key);
-    addPara(currPara, '%sh #' + JSON.stringify(newVizObject));
+    addPara(currentPara, '%sh #' + JSON.stringify(newVizObject));
   };
 
+  // Shows modal with all saved visualizations for the users
   const showModal = async (index: number) => {
-    setCurrPara(index);
+    setCurrentPara(index);
     http
       .get(`${API_PREFIX}/visualizations`)
       .then((res) => {
@@ -171,6 +175,7 @@ export const Paragraphs = (props: ParagraphProps) => {
     }
   };
 
+  // Visualizations searchable form for modal
   const formSample = (
     <EuiForm>
       <Fragment>
@@ -194,6 +199,7 @@ export const Paragraphs = (props: ParagraphProps) => {
     </EuiForm>
   );
 
+  // Modal layout if a user wants add Visualizations
   const modalLayout = (
     <EuiOverlayMask>
       <EuiModal onClose={closeModal}>

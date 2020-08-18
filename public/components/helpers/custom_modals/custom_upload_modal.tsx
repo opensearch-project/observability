@@ -43,8 +43,8 @@ type CustomUploadModalProps = {
 };
 export const CustomUploadModal = (props: CustomUploadModalProps) => {
   const { runModal, closeModal } = props;
-  const [allowUpload, setAllowUpload] = useState(false);
-  const [file, setFiles] = useState(null);
+  const [allowUpload, setAllowUpload] = useState(false); // Boolean to allow upload
+  const [file, setFiles] = useState(null); // sets uploaded file
 
   const fileChange = (file: FileList) => {
     setFiles(file);

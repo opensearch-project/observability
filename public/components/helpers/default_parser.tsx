@@ -13,9 +13,9 @@
  * permissions and limitations under the License.
  */
 
-// Placeholder for default parser
 import { ParaType } from '../../../common';
 
+// Placeholder for default parser
 export const defaultParagraphParser = (paragraphs: any) => {
   let parsedPara: Array<ParaType> = [];
   paragraphs.map((paraObject: ParaType, index: number) => {
