@@ -26,5 +26,42 @@
 
 ### **Usage:**
 
-1. POC for ODFE adapter https://github.com/ps48/zeppelin/tree/dev-odfe
-2. TODO: make a git patch for usage
+1. POC for ODFE adapter is stored in branch 'zeppelin-odfe' of kibana-notebooks
+```
+git checkout zeppelin-odfe
+```
+2. Clone Apache Zeppelin and checkout to 'v0.9.0-preview2' branch in a separate folder 
+```
+cd /your/folder/
+git clone https://github.com/apache/zeppelin.git
+cd zeppelin
+git checkout v0.9.0-preview2
+```
+3. Apply patch from kibana-notebooks
+```
+git apply /path/to/zeppelin-patch.txt
+```
+4. Once, in this branch copy "odfe" storage adaptor to your zeppelin files
+```
+cp -r /path/to/kibana-notebooks/zeppelin/zeppelin-plugins/notebookrepo/odfe path/to/your/zeppelin
+```
+4. Add ODFE storage property in zeppelin config file "conf/zeppelin-site.xml" and you should comment default git storage
+```
+<property>
+  <name>zeppelin.notebook.storage</name>
+  <value>org.apache.zeppelin.notebook.repo.ODFENotebookRepo</value>
+  <description>versioned notebook persistence layer implementation</description>
+</property>
+
+<!-- 
+<property>
+  <name>zeppelin.notebook.storage</name>
+  <value>org.apache.zeppelin.notebook.repo.ODFENotebookRepo</value>
+  <description>versioned notebook persistence layer implementation</description>
+</property>
+-->
+```
+5. [Build Zeppelin](https://zeppelin.apache.org/docs/0.9.0-preview2/setup/basics/how_to_build.html) using Open-JDK 8 
+```
+ mvn clean package -DskipTests 
+```
