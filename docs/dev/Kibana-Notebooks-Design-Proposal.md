@@ -1,138 +1,273 @@
 # RFC - Kibana Notebooks
 
+## Contents
+
+1. [Overview](#1-overview)
+2. [Requirements](#2-requirements)
+3. [User Stories](#3-user-stories)
+4. [Design](#4-design)
+5. [Design Details and Implementation](#5-design-details-and-implementation)
+6. [Appendix](#6-appendix)
+7. [References](#7-references)
+
 ## 1. Overview
 
-### 1.1 Introduction
+### **1.1 Introduction**
 
-Notebooks provide a browser-based [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) built upon a number of popular [open-source](https://en.wikipedia.org/wiki/Open-source_software) libraries. Kibana Notebook will enable data-driven, interactive data analytics and collaborative documents to be created that can be used as live notes in Kibana. These notebooks can be used the following use-cases:
+Kibana Notebooks enable data-driven, interactive data analytics and collaborative documents to be created and used as live notes in Kibana. They allow devops, support specialists, solution and presales specialists, customer success experts and engineers to create and share stories. They facilitate combining visualizations, timelines and text, code and adding annotations. Here are a few Kibana Notebooks use-cases:
 
 1. Create post-mortem documents
+2. Design runbooks
+3. Build Live infrastructure reports
+4. Foster data driven explorative collaborations
 
-1. Build Live infrastructure reports
+### **1.2 Motivation**
 
-1. Foster explorative collaborations with data
+- **Existing Solution:** Kibana Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Current issues include:
+  - Dashboards are static in nature and are not user-friendly to make quick changes in iterations
+  - Dashboards lack context for visualizations
+  - Dashboards do not have multi-timeline support which are needed for post-mortem and cause analysis
+  - Dashboards are restricted to data sources within the Elasticsearch environment
 
-### 1.2 Motivation
+* **Our Solution:** Kibana Notebooks provide:
+  - Familiar notebooks user-interface for faster iterations as live notes
+  - Markdown/Code interpreters for contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text and graphs
+  - Adaptors to embellish existing data in Elasticsearch with other reference data sources.
+  - Support multiple timelines to compare and contrast visualizations
 
-Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and decorate data in elastic with other reference data sources.
+### **1.3 Glossary**
+
+1. _Notebooks:_ An interface for on-the-go code writing and execution
+2. _Paragraphs:_ Each notebook consists on multiple paragraphs with allows users to input code or embed a visualization
+3. _Input Cell:_ Each paragraph consists an input cell that contains code for execution in supported interpreters such as markdown, SQL and DSL.
+4. _Output Cell:_ Each paragraph consists an output cell that contains execution result of code or an embeded visualization with its time-range
+5. _Backend Adaptor:_ An add-on to the existing default backend that provides additional interpreters and storage options.
 
 ## 2. Requirements
 
-**A User Should be able to:**
+**Functional:**
 
-1. Use Kibana Notebooks plugin for all the interactions
-2. Use a Notebook UI to index/fetch/search elastic service and other interpreters
-3. Share Notebooks for collaborative story telling
-4. Do root cause analysis, run books and live infrastructure documentation
-5. Use notebooks for facilitating trainings and knowledge transfers
+1. **Notebooks**
+   1. As a user, I should be able to use Kibana Notebooks plugin UI for all the interactions
+   2. As a user, I should be able to View all the notebooks available
+   3. As a user, I should be able to Create, Edit, Rename, Delete and Clone Notebooks
+   4. As a user, I should be able to Import and Export Notebooks for collaborative story telling
+2. **Paragraphs**
+   1. As a user, I should be able to use Create, Edit, Save, Delete and Clone Paragraphs
+   2. As a user, I should be able to use Toggle all Inputs of paragraphs
+   3. As a user, I should be able to use Clear and Toggle all Outputs of paragraphs
+3. **Visualizations**
+   1. As a user, I should be able to embed Saved Visualizations
+   2. As a user, I should be able to Resize and Delete embedded Visualizations
+   3. As a user, I should be able to use multiple timelines for different visualizations
+   4. As a user, I should be able to Inspect Visualization Data
+4. **Default Backend**
+   1. As a user, I should be able to use Visualizations and Markdown interpreter in Notebooks
+   2. As a user, I should be able to use SQL and DSL query interpreters in Notebooks
+   3. As a user, I should be able to store Notebooks as Elasticsearch indices
+5. **Backend Adaptors**
+   1. As a user, I should be able to plug an add-on external backend services (like [Apache Zeppelin](https://zeppelin.apache.org/), [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [Jupyter](https://jupyter.org/)) to the plugin using adaptors
+   2. As a user, I should be able to use all the interpreters provided by the plugged backend service in addition to those provided by default
+   3. As a user, I should be able to use the storage adaptors provided by the plugged backend service
+   4. As a user, I should be able to use external data sources and environments provided by the plugged backend
 
-**Functional Reqs.**
+**Non-functional:**
 
-- CRUD operations on Notebook/Paragraph
-- Share notebook with S3/Github
-- Create/Use existing Visualizations
+1. **Default Backend** - As a user, I should be able to use the plugin’s default interpreters without setting up any external backend service
+2. **Backend Adaptors** - As a user, I should be free to create and use external data planes/environments and bring them to Kibana via supported adaptors
+3. **Security** - As a user, I should be able to view/clone/read/save/edit notebooks adhering to my role settings
 
-## 3. Design & Implementation
+## 3. User Stories
 
-![Kibana Notebooks Architecture](images/notebooks_arch.png)
+**Operations on notebooks**
 
-### 3.1 Design Details
+1. Create: As a user, I should be able to create a notebook.
+2. View: As a user, I should be able to view the notebook.
+3. Save: As a user, I should be able to save the notebook.
+4. Checkpoint: The notebook automatically saves the notebook after every 3 minutes. If the user loads the notebook after the checkpoint is triggered, it will allow load the content till that point.
+5. Save, Autosave: The notebook can saved. After a given time period, the autosave is triggered on the notebook.
+6. Clone: As a user, I should be able to clone the notebook
+7. Rename: As a user, I should be able to rename the notebook
+8. Delete: As a user, I should be able to delete the notebook
 
-**Key Players:**
-ZB - Zeppelin Backend
-KPB - Kibana Plugin Backend
-KPF - Kibana Plugin Frontend
-KS - Kibana Service
+**Create, Edit, Delete content in an individual notebook**
 
-1. **Zeppelin Backend:**
-   1. This is provided by [Apache Zeppelin](http://zeppelin.apache.org/). Further details on Zeppelin Backend in Section 3.2
-   2. Provides all communication from and to a notebook & provides support for 25+ interpreters
-   3. Deployed as a docker → Should start and stop with KS
-   4. The communication between KPB & ZB is using session cookies
-      1. The Authc credentials dummy user of a will be first sent to ZB by KPB to get a JSESSION Cookie
-      2. Once received the cookie, it will be used by KPB till the end of the KS lifetime i.e. Once KS is restarted we’ll retrieve a new cookie and ZB also restart with KS
-   5. The interpreter settings are updated in ZB by KPB via KS APIs for elasticsearch & JDBC(ODFE-SQL)
-   6. Also, the Storage adapter configs are updated in ZB by KPF via KS as a form for elasticsearch & JDBC
-   7. **Notes:**
-      1. Dummy user should be later replaced with config info from Access Control module
-      2. Access control should be inherited from User details from KS [Open distro Access control API](https://opendistro.github.io/for-elasticsearch-docs/docs/security-access-control/api/#access-control-for-the-api)
-      3. Elastic Interpreter settings can be inherited from KS
-      4. End points to these interpreters are needed to be specified before usage
-2. **Kibana Plugin Backend**
-   1. A Node Backend server for routing calls of ZB to KPF (and vice versa)
-   2. Router Modules:
-      1. InitConnector - Initiates with a cookie collection via dummy user and uses it for further communication
-      2. InterpreterConnector - routes interpreter config info
-      3. NotebookConnector - routes Notebook CRUD operations
-      4. ParagraphConnector - routes Paragraph CRUD operations
-      5. StorageConnector - routes storage adapter config info for S3/Github
-      6. AccessControlConnector - routes access control config info
-   3. Uses default [Hapi server](https://hapi.dev/) provided in KPB
-      1. Uses [Wreck](https://hapi.dev/module/wreck/) plugin for HTTP client utilities.
-3. **Kibana Plugin Frontend**
-   1. ~~**Approach 1 - Use[Zeppelin-web](https://github.com/apache/zeppelin/tree/master/zeppelin-web) UI components**~~ : **Not considered further as their direction was moving towards [Angular Framework](https://angular.io/)**
-      1. Check for reusable elements that can be used from Zeppelin-web Repo (mainly written in angular js)
-   2. **~~Approach 2 - Use Open source Zeppelin UI repos~~ : Not considered further as implementation was partial and development was on a halt**
-      1. https://github.com/gogumaa/zeppelin-web
-   3. **Approach 3 - Build UI in react with open source js components**
-      1. A React Service, inherits elements from [Elastic UI](https://elastic.github.io/eui/#/) elements & [Nteract.io components](https://components.nteract.io/)
-      2. Visualizations support with [Plotly](https://plotly.com/javascript/), [Vega](https://vega.github.io/vega/) & [Elastic UI Charts](https://elastic.github.io/eui/#/elastic-charts/creating-charts)
-      3. Import Visualizations from Kibana via KS APIs
-   4. Here’s a sample wireframe
-      ![Kibana Notebooks UI](images/UI.png)
+1. As a user, I should be able to add paragraphs to a notebook. I should be able to add markdown or code to a paragraph.
+2. Markdown in a paragraph allows adding text and enables the use of titles/headings, images, lists and hyperlinks.
+3. Code can be added in the form of queries, DSL, PPL, SQL etc.
+4. As a user, I should be able to execute the code block or the markup and the output will get reflected in the output cell. The output will display text, images, lists, visualizations/graphs etc.
+5. As a user, I should be able to annotate the output with comments/tags, usernames, time/date etc. using markdown
+6. Time periods: As a user I should be able to set the date/time periods or date/time to the individual output cells. By default, the date/time reflected is global. This is different from the actual timestamp on when the content was edited.
 
-### 3.2 APIs provided by Zeppelin Server
+**Share, export and download notebooks**
 
-**Apache Zeppelin** provides several REST APIs for interaction and remote activation of zeppelin functionality. All REST APIs are available starting with the following endpoint `http://[zeppelin-server]:[zeppelin-port]/api`.
+1. As a creator of notebooks, I should be able to share a Kibana Notebook with other users so that they can view and/or edit the notebooks as per the privileges and permissions they have.
+2. I should also be able to share the notebook as a pdf via email. I should also be able to download the story as a pdf.
 
-![Zeppelin Backend Architecture](images/zeppelin_arch.png)
+**List of Notebooks**
 
-1. **APIs Provided:**
-   1. [**Server:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/zeppelin_server.html) Get status, version, Log Level
-   2. [**Interpreter:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
-   3. [**Notebook:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete note and paragraph ops
-   4. [**Repository:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook_repository.html) Get/Update NB repo
-   5. [**Configuration:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/configuration.html) Get all [Zeppelin config](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/operation/configuration.html) - server port, ssl, S3 bucket, S3.user
-   6. [**Credential:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/credential.html) List credentials for all users, create/delete
-   7. [**Helium:**](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/helium.html) Contains APIs for all plugin packages (Not needed as of now)
-2. **Security:**
-   1. By default the APIs are exposed to anonymous user
-   2. Recommended way to use **access control**: **[Shiro Auth](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/security/shiro_authentication.html)**
-      1. Need to change [**Shiro.ini (Apache link)**](http://shiro.apache.org/configuration.html#ini-sections) in conf directory
-      2. Ideally should be used with [Open distro Access control API](https://opendistro.github.io/for-elasticsearch-docs/docs/security-access-control/api/#access-control-for-the-api)
-      3. Also, [Notebooks](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/security/notebook_authorization.html) can have access control based on Shiro defined users
-3. **Deployment:**
-   1. Recommended way is to use stand alone docker
-   2. Create a **custom docker** with new Shiro & Zeppelin configs, expose ports for elastic, kibana, and set interpreter config for elastic, odfesql and md.
-   3. Sample scripts available in `scripts/docker/spark-cluster-managers`
-4. **Storage:**
-   1. Apache Zeppelin has a pluggable notebook storage mechanism controlled by `zeppelin.notebook.storage` configuration option with multiple implementations.
-   2. Zeppelin has **built-in S3/github connector**. Just provide credentials in [properties or env-sh](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/storage/storage.html#notebook-storage-in-s3)
-   3. The notebooks will be automatically synced by Zeppelin
+1. As a user, I should be able to add the notebooks to a list of notebooks. The list of notebooks shows name of the notebook, creator’s details, and last modified dates.
+2. I should be able to view, share and download the individual notebooks in the list of notebooks.
+3. I should be able to view the list of notebooks.
+4. I should be able to filter notebooks based on whether I created or someone else created them and as per dates modified.
 
-### 3.3 Screenshots:
+## 4. Design
 
-- **Kibana Plugin Sample UI**:
-  ![Sample UI](images/kibana_notebooks_ss.png)
-- **Make requests to Elastic Service**:
-  ![Elastic service UI](images/elastic_ss.png)
-- **Transmit Data between Interpreters**:
+### **4.1 What (Notebooks)**
+
+- Notebooks are browser-based [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) built upon a number of popular open-source libraries
+
+### **4.2 Where (Notebooks Storage)**
+
+- Notebooks are stored as Elasticsearch indices in the default backend. If backend adaptors are used by user, the storage is switched to storage options provided by the external backend service.
+- For example: Apache Zeppelin backend service supports files, Git, Amazon S3, mongo and other storage options.
+
+### **4.3 How (Releases)**
+
+- Kibana Notebooks will be released as a Kibana plugin shipped with the Open-Distro for Elasticsearch solution.
+
+### **4.4 Architecture**
+
+**4.4.1 Version 1:** In this architecture, Backend is tightly coupled with Apache Zeppelin as a backend service to provide interpreters and storage adaptors
+
+![Notebooks Arch_v1](images/Notebooks_v1.png)
+
+- Pros:
+  - Single Backend configuration is easier for development and usage
+  - Zeppelin Backend will provide one stop shop for interpreters, runtime-environments and storage adaptors
+- Cons:
+  - Users will not be free to customize Zeppelin Backend runtime-environment/storage adaptors
+  - Need to develop a new storage adaptor for Zeppelin to store notebooks as Elasticsearch indices (POC Doc)
+  - Difficult to maintain releases, as we have to sync version currency/patches to Zeppelin code repository
+
+**4.4.2 Version 2:** In this architecture, Backends are switchable with two options of Default backend (Markdown, Visualization support) or Apache Zeppelin Backend (25+ interpreter support)
+
+![Notebooks Arch_v1](images/Notebooks_v2.png)
+
+- Pros:
+  - Default Backend configuration is easy to use for any user who wants to stay away from setting up additional environments and interpreters
+  - Apache Zeppelin Backend will provide users the customizability to add new environments and interpreters
+- Cons:
+  - Once a user selects Apache Zeppelin Backend they will not be able to use visualizations to be embedded in notebooks (provided only by default backend)
+
+**4.4.3 Version 3:** In this architecture, Default backend (Markdown, Visualization support) is provided upfront and a user may choose to bring in their own endpoints for adaptors like Apache Zeppelin, Amazon SageMaker or Jupyter
+
+![Notebooks Arch_v1](images/Notebooks_v3.png)
+
+- Pros:
+  - Default Backend configuration is easy to use for any user who wants to stay away from setting up additional environments and interpreters
+  - An Adaptor provides additional functionalities on top of Default Backend, rather than being replacement
+  - Users are free to bring in their backend service with endpoints for interpreter support, runtime-environment and storages
+- Cons:
+  - Need to develop UI as a decoupled service and need to development of multiple parsers as notebook structures change with different backend adaptors
+
+**4.4.4 Decision:** Even though “Version 1” provides good coupling and ease of development, the maintenance and releases are a big issue striking this option out. "Version 2" provides switchable backends which is easy to use but this switching happens at a cost of not supporting a core functionality of visualizations with Zeppelin backend. Finally, we selected "version 3" as it provides user flexibility to bring their own external backend services to connect to Kibana Notebooks.
+
+## 5. Design Details and Implementation
+
+### **5.1 Kibana Notebooks Plugin UI**
+
+1. **React based UI**, uses elements from [Elasticsearch UI](https://elastic.github.io/eui/#/) elements & [Nteract.io components](https://components.nteract.io/)
+2. **Elasticsearch UI Components**
+   1. Used for blending notebooks in Kibana Plugins environment
+   2. All container UI components and buttons use Elasticsearch UI components
+3. **Nteract Components**
+   1. [_Presentational-components_](https://components.nteract.io/#section-nteractpresentational-components) module of nteract is used specifically for notebook UI
+   2. _[Outputs](https://components.nteract.io/#section-nteractoutputs)_ module is used for rendering markdown if backend adaptor doesn't have a markdown interpreter
+4. **Notebook Parsers**
+   1. Each Backend has a different notebook structure, thus we need a parser to convert these notebooks to a common structure. Based on the selected backend a parser converts paragraphs in notebook to a parsed-Paragraph.
+   2. Parsed-Paragraphs are used to render components of notebooks.
+   3. FUTURE: Can shift this module to the backend, need to weigh pros and cons as behavior of APIs will change especially for Import and Export would change drastically
+5. Here’s a sample wireframe
+
+![Kibana Notebooks UI](images/UI.png)
+
+### **5.2 Kibana Notebooks Plugin Backend**
+
+1. Uses the Hapi Backend Contianer provided by Kibana
+2. Provides API routes for connecting UI components to a backend service
+3. **_Router Modules_:**
+   1. NotebookConnector - routes Notebook CRUD operations
+   2. ParagraphConnector - routes Paragraph CRUD operations
+4. **_Default Backend_:**
+   1. Provides markdown interpreter support for notebooks
+   2. Provides ability to embed saved visualizations using Dashboard Containers
+   3. FUTURE: provide interpreter support for SQL and DSL queries
+5. **Backend Adaptors**
+   1. A Backend Adaptor provides an interface to connect external notebook backends
+   2. An external notebook backend service is connected through a HTTP endpoint
+   3. Once a backend service is connected all the interpreters, environments and data sources provided by the service are automatically extended in notebooks
+   4. Uses [Hapi Wreck](https://hapi.dev/module/wreck/) to connect a backend service with a HTTP endpoint
+   5. Example Adaptor: **Zeppelin Backend Server**
+      ![Zeppelin Server](images/zeppelin_architecture.png)
+      - Open source, provided by [Apache Zeppelin](http://zeppelin.apache.org/)
+      - Provides all communication to and from a notebook & supports 25+ interpreters
+      - Connects via a HTTP endpoint to the Plugin backend
+      - [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
+      - [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
+      - Provides inter-paragraph communication capabilities
+      - Can be setup to provide Elasticsearch and ODFE-SQL interpreters
+      - Can be connected with python environment to use ML/plot libraries
+
+### **5.3 Data Model**
+
+- **Default Backend Notebook Schema:**
+
+![Default Notebooks](images/default_backend_model.png)
+
+### **5.4 WorkFlows**
+
+- **Default Backend -** _View Notebooks:_
+
+![View Notebook](images/default_view_notebook.png)
+
+- **Default Backend -** _Create/Edit/Delete Notebooks_:
+
+![View Notebook](images/default_operation_notebook.png)
+
+- **Zeppelin Adaptor -** _All Operations:_
+
+![Zeppelin Notebook](images/zeppelin_notebooks_sequence.png)
+
+### **5.5** [API Design Documentation](API_Documentation.md)
+
+### **5.6** [Build Documentation](Build_Documentation.md)
+
+## 6. Appendix
+
+### **6.1** PoC: [Embeddable API & Usage](../poc/Kibana_Embeddable_Documentation.md)
+
+### **6.2** PoC: [Zeppelin ODFE Storage](../poc/Zeppelin_ODFE_Storage.md)
+
+### **6.3** Screenshots:
+
+- **Default Backend**
+
+  - **Markdown Interpreter**
+    ![Markdown](images/Markdown_ss.png)
+  - **Embedding Saved Visualizations**
+    ![Viz](images/vizembed_ss.png)
+  - **Multi-Timeline Support**
+    ![Multi-Timeline Support](images/Multi-timeline_ss.png)
+
+- **Zeppelin Backend Adaptor**
+
+  - **Kibana Plugin Sample UI**:
+    ![Sample UI](images/kibana_notebooks_ss.png)
+  - **Make requests to Elastic Service**:
+    ![Elastic service UI](images/elastic_ss.png)
+  - **Transmit Data between Interpreters**:
 
   - Use output of an ODFE Query as save as a Zeppelin Context in a variable
     ![ODFE Query](images/odfe_ss_zepcontext.png)
   - Use the Zeppelin Context vairable and import it in python
     ![Import Context](images/python_ss.png)
 
-- **Plot Visualization with Language specific Viz. tools (like Matplotlib)**:
-  ![Matplot Viz.](images/matplot_ss.png)
+  - **Plot Visualization with Language specific Viz. tools (like Matplotlib)**:
+    ![Matplot Viz.](images/matplot_ss.png)
 
-## Appendix
+## 7. References
 
-_**What ideas do we have to address the above customer problem/opportunity?**_
+### **7.1** [More Zeppelin and Backend Adaptor](Zeppelin_backend_adaptor.md)
 
-- Introduce notebooks to users as a training tool
-- Allow users to connect and join other datasets using external interpreters
-
-_**Open source components used to build the tool**_
-
-- Built on [Apache Zeppelin](http://zeppelin.apache.org/), [Nteract.io components](https://components.nteract.io/) and [Vega](https://vega.github.io/vega/)/[Plotly Visualizations](https://plotly.com/javascript/)
+### **7.2** [Nteract.io](http://nteract.io/) React components: [components.nteract.io](https://components.nteract.io/)
