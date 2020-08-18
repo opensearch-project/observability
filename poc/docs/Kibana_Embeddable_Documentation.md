@@ -14,7 +14,7 @@
 - Embeddables are re-usable widgets that can be rendered in any environment or plugin. Developers can embed them directly in their plugin. End users can dynamically add them to any embeddable _containers_.
 - Containers are a special type of embeddable that can contain nested embeddables. Embeddables can be dynamically added to embeddable _containers_. _Currently only dashboard uses this interface._
 
-![Embeddable API](../dev/images/Embeddable_API.png)
+![Embeddable API](../../docs/dev/images/Embeddable_API.png)
 
 * [Source](https://github.com/elastic/kibana/issues/19875)
 * [Code](https://github.com/elastic/kibana/tree/master/src/plugins/embeddable)

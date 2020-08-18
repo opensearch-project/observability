@@ -4,7 +4,7 @@ Dashboards offer a solution for a few selected use cases, and are a great tool i
 
 ## Request for Comments ( RFC )
 
-Please checkout the [RFC Doc](docs/dev/Kibana-Notebooks-Design-Proposal.md) for design and feature details.
+Please checkout the [RFC document](docs/dev/Kibana-Notebooks-Design-Proposal.md) for design and feature details.
 
 ## License
 

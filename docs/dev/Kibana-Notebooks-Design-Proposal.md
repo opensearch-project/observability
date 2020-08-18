@@ -213,7 +213,7 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 - **Default Backend Notebook Schema:**
 
-![Default Notebooks](images/default_backend_model.png)
+![Default Notebooks](images/Default_Notebooks_Schema.png)
 
 ### **5.4 WorkFlows**
 
@@ -235,9 +235,9 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ## 6. Appendix
 
-### **6.1** PoC: [Embeddable API & Usage](../poc/Kibana_Embeddable_Documentation.md)
+### **6.1** PoC: [Embeddable API & Usage](../../poc/docs/Kibana_Embeddable_Documentation.md)
 
-### **6.2** PoC: [Zeppelin ODFE Storage](../poc/Zeppelin_ODFE_Storage.md)
+### **6.2** PoC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
 
 ### **6.3** Screenshots:
 

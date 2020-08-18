@@ -26,26 +26,30 @@
 
 ### **Usage:**
 
-1. POC for ODFE adapter is stored in branch 'zeppelin-odfe' of kibana-notebooks
+
+1. Clone [kibana-notebooks](https://github.com/opendistro-for-elasticsearch/kibana-notebooks) repository
+
+2. Clone [Apache Zeppelin](https://github.com/apache/zeppelin) and checkout to 'v0.9.0-preview2' branch in a separate folder
+
 ```
-git checkout zeppelin-odfe
-```
-2. Clone Apache Zeppelin and checkout to 'v0.9.0-preview2' branch in a separate folder 
-```
-cd /your/folder/
-git clone https://github.com/apache/zeppelin.git
 cd zeppelin
 git checkout v0.9.0-preview2
 ```
+
 3. Apply patch from kibana-notebooks
+
 ```
-git apply /path/to/zeppelin-patch.txt
+git apply /path/to/kibana-notebooks/poc/zeppelin-patch.txt
 ```
+
 4. Once, in this branch copy "odfe" storage adaptor to your zeppelin files
+
 ```
-cp -r /path/to/kibana-notebooks/zeppelin/zeppelin-plugins/notebookrepo/odfe path/to/your/zeppelin
+cp -r /path/to/kibana-notebooks/poc/zeppelin/zeppelin-plugins/notebookrepo/odfe path/to/your/zeppelin/zeppelin-plugins/notebookrepo/.
 ```
-4. Add ODFE storage property in zeppelin config file "conf/zeppelin-site.xml" and you should comment default git storage
+
+5. Add ODFE storage property in zeppelin config file "conf/zeppelin-site.xml" and you should comment default git storage
+
 ```
 <property>
   <name>zeppelin.notebook.storage</name>
@@ -53,7 +57,7 @@ cp -r /path/to/kibana-notebooks/zeppelin/zeppelin-plugins/notebookrepo/odfe path
   <description>versioned notebook persistence layer implementation</description>
 </property>
 
-<!-- 
+<!--
 <property>
   <name>zeppelin.notebook.storage</name>
   <value>org.apache.zeppelin.notebook.repo.ODFENotebookRepo</value>
@@ -61,7 +65,9 @@ cp -r /path/to/kibana-notebooks/zeppelin/zeppelin-plugins/notebookrepo/odfe path
 </property>
 -->
 ```
-5. [Build Zeppelin](https://zeppelin.apache.org/docs/0.9.0-preview2/setup/basics/how_to_build.html) using Open-JDK 8 
+
+6. [Build Zeppelin](https://zeppelin.apache.org/docs/0.9.0-preview2/setup/basics/how_to_build.html) using Open-JDK 8
+
 ```
- mvn clean package -DskipTests 
-```
+ mvn clean package -DskipTests
+``` 

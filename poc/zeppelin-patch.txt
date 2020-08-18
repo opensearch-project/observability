@@ -1,0 +1,3052 @@
+diff --git a/elasticsearch/pom.xml b/elasticsearch/pom.xml
+index 13bc6d469..bbdde076a 100644
+--- a/elasticsearch/pom.xml
++++ b/elasticsearch/pom.xml
+@@ -23,25 +23,26 @@
+   <parent>
+     <artifactId>zeppelin-interpreter-parent</artifactId>
+     <groupId>org.apache.zeppelin</groupId>
+-    <version>0.9.0-preview2</version>
++    <version>0.9.0-SNAPSHOT</version>
+     <relativePath>../zeppelin-interpreter-parent/pom.xml</relativePath>
+   </parent>
+ 
+   <artifactId>zeppelin-elasticsearch</artifactId>
+   <packaging>jar</packaging>
+-  <version>0.9.0-preview2</version>
++  <version>0.9.0-SNAPSHOT</version>
+   <name>Zeppelin: Elasticsearch interpreter</name>
+ 
+   <properties>
+     <interpreter.name>elasticsearch</interpreter.name>
+-    <elasticsearch.version>2.4.3</elasticsearch.version>
+-    <httpasyncclient.version>4.0.2</httpasyncclient.version>
++    <elasticsearch.version>7.8.0</elasticsearch.version>
++    <httpasyncclient.version>4.1.4</httpasyncclient.version>
+     <guava.version>18.0</guava.version>
+     <json-flattener.version>0.1.6</json-flattener.version>
+     <unirest.version>1.4.9</unirest.version>
+   </properties>
+ 
+   <dependencies>
++
+     <dependency>
+       <groupId>org.elasticsearch</groupId>
+       <artifactId>elasticsearch</artifactId>
+@@ -58,11 +59,11 @@
+       <artifactId>commons-lang3</artifactId>
+     </dependency>
+ 
+-    <dependency>
+-      <groupId>org.apache.httpcomponents</groupId>
+-      <artifactId>httpasyncclient</artifactId>
+-      <version>${httpasyncclient.version}</version>
+-    </dependency>
++<!--    <dependency>-->
++<!--      <groupId>org.apache.httpcomponents</groupId>-->
++<!--      <artifactId>httpcore</artifactId>-->
++<!--      <version>4.4.11</version>-->
++<!--    </dependency>-->
+ 
+     <dependency>
+       <groupId>com.google.guava</groupId>
+diff --git a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreter.java b/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreter.java
+index 45b37c4eb..d7987a011 100644
+--- a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreter.java
++++ b/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreter.java
+@@ -21,19 +21,6 @@ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
+ import com.google.gson.JsonObject;
+ 
+-import org.apache.commons.lang3.StringUtils;
+-import org.elasticsearch.common.xcontent.XContentBuilder;
+-import org.elasticsearch.common.xcontent.XContentFactory;
+-import org.elasticsearch.common.xcontent.XContentHelper;
+-import org.elasticsearch.search.aggregations.Aggregation;
+-import org.elasticsearch.search.aggregations.Aggregations;
+-import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
+-import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
+-import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
+-import org.elasticsearch.search.aggregations.metrics.InternalMetricsAggregation;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-
+ import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -48,7 +35,6 @@ import java.util.Set;
+ import java.util.TreeSet;
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+-
+ import com.github.wnameless.json.flattener.JsonFlattener;
+ 
+ import org.apache.zeppelin.completer.CompletionType;
+@@ -57,12 +43,25 @@ import org.apache.zeppelin.elasticsearch.action.AggWrapper;
+ import org.apache.zeppelin.elasticsearch.action.HitWrapper;
+ import org.apache.zeppelin.elasticsearch.client.ElasticsearchClient;
+ import org.apache.zeppelin.elasticsearch.client.HttpBasedClient;
+-import org.apache.zeppelin.elasticsearch.client.TransportBasedClient;
+ import org.apache.zeppelin.interpreter.Interpreter;
+ import org.apache.zeppelin.interpreter.InterpreterContext;
+ import org.apache.zeppelin.interpreter.InterpreterResult;
+ import org.apache.zeppelin.interpreter.thrift.InterpreterCompletion;
+ 
++import org.apache.commons.lang3.StringUtils;
++import org.elasticsearch.common.Strings;
++import org.elasticsearch.common.xcontent.ToXContent;
++import org.elasticsearch.common.xcontent.XContentBuilder;
++import org.elasticsearch.common.xcontent.XContentFactory;
++import org.elasticsearch.search.aggregations.Aggregation;
++import org.elasticsearch.search.aggregations.Aggregations;
++import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
++import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
++import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
++import org.elasticsearch.search.aggregations.metrics.InternalNumericMetricsAggregation;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
+ /**
+  * Elasticsearch Interpreter for Zeppelin.
+  */
+@@ -70,25 +69,25 @@ public class ElasticsearchInterpreter extends Interpreter {
+   private static Logger logger = LoggerFactory.getLogger(ElasticsearchInterpreter.class);
+ 
+   private static final String HELP = "Elasticsearch interpreter:\n"
+-      + "General format: <command> /<indices>/<types>/<id> <option> <JSON>\n"
+-      + "  - indices: list of indices separated by commas (depends on the command)\n"
+-      + "  - types: list of document types separated by commas (depends on the command)\n"
+-      + "Commands:\n"
+-      + "  - search /indices/types <query>\n"
+-      + "    . indices and types can be omitted (at least, you have to provide '/')\n"
+-      + "    . a query is either a JSON-formatted query, nor a lucene query\n"
+-      + "  - size <value>\n"
+-      + "    . defines the size of the result set (default value is in the config)\n"
+-      + "    . if used, this command must be declared before a search command\n"
+-      + "  - count /indices/types <query>\n"
+-      + "    . same comments as for the search\n"
+-      + "  - get /index/type/id\n"
+-      + "  - delete /index/type/id\n"
+-      + "  - index /index/type/id <json-formatted document>\n"
+-      + "    . the id can be omitted, elasticsearch will generate one";
++          + "General format: <command> /<indices>/<types>/<id> <option> <JSON>\n"
++          + "  - indices: list of indices separated by commas (depends on the command)\n"
++          + "  - types: list of document types separated by commas (depends on the command)\n"
++          + "Commands:\n"
++          + "  - search /indices/types <query>\n"
++          + "    . indices and types can be omitted (at least, you have to provide '/')\n"
++          + "    . a query is either a JSON-formatted query, nor a lucene query\n"
++          + "  - size <value>\n"
++          + "    . defines the size of the result set (default value is in the config)\n"
++          + "    . if used, this command must be declared before a search command\n"
++          + "  - count /indices/types <query>\n"
++          + "    . same comments as for the search\n"
++          + "  - get /index/type/id\n"
++          + "  - delete /index/type/id\n"
++          + "  - index /index/type/id <json-formatted document>\n"
++          + "    . the id can be omitted, elasticsearch will generate one";
+ 
+   protected static final List<String> COMMANDS = Arrays.asList(
+-      "count", "delete", "get", "help", "index", "search");
++          "count", "delete", "get", "help", "index", "search");
+ 
+   private static final Pattern FIELD_NAME_PATTERN = Pattern.compile("\\[\\\\\"(.+)\\\\\"\\](.*)");
+ 
+@@ -119,20 +118,14 @@ public class ElasticsearchInterpreter extends Interpreter {
+       this.resultSize = Integer.parseInt(getProperty(ELASTICSEARCH_RESULT_SIZE));
+     } catch (final NumberFormatException e) {
+       this.resultSize = 10;
+-      logger.error("Unable to parse " + ELASTICSEARCH_RESULT_SIZE + " : " +
+-          getProperty(ELASTICSEARCH_RESULT_SIZE), e);
++      logger.error("Unable to parse " + ELASTICSEARCH_RESULT_SIZE + " : "
++              + getProperty(ELASTICSEARCH_RESULT_SIZE), e);
+     }
+ 
+-    try {
+-      if (StringUtils.isEmpty(clientType) || "transport".equals(clientType)) {
+-        elsClient = new TransportBasedClient(getProperties());
+-      } else if ("http".equals(clientType)) {
+-        elsClient = new HttpBasedClient(getProperties());
+-      } else {
+-        logger.error("Unknown type of Elasticsearch client: " + clientType);
+-      }
+-    } catch (final IOException e) {
+-      logger.error("Open connection with Elasticsearch", e);
++    if (StringUtils.isEmpty(clientType) || "http".equals(clientType)) {
++      elsClient = new HttpBasedClient(getProperties());
++    } else {
++      logger.error("Unknown type of Elasticsearch client: " + clientType);
+     }
+   }
+ 
+@@ -155,7 +148,8 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+     if (elsClient == null) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-        "Problem with the Elasticsearch client, please check your configuration (host, port,...)");
++              "Problem with the Elasticsearch client, please check your configuration "
++                      + "(host, port,...)");
+     }
+ 
+     String[] items = StringUtils.split(cmd.trim(), " ", 3);
+@@ -172,7 +166,7 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+       if (lines.length < 2) {
+         return processHelp(InterpreterResult.Code.ERROR,
+-            "Size cmd must be followed by a search");
++                "Size cmd must be followed by a search");
+       }
+ 
+       final String[] sizeLine = StringUtils.split(lines[0], " ", 2);
+@@ -230,7 +224,7 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+   @Override
+   public List<InterpreterCompletion> completion(String s, int i,
+-      InterpreterContext interpreterContext) {
++                                                InterpreterContext interpreterContext) {
+     final List suggestions = new ArrayList<>();
+ 
+     for (final String cmd : COMMANDS) {
+@@ -243,8 +237,8 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+   private void addAngularObject(InterpreterContext interpreterContext, String prefix, Object obj) {
+     interpreterContext.getAngularObjectRegistry().add(
+-        prefix + "_" + interpreterContext.getParagraphId().replace("-", "_"),
+-        obj, null, null);
++            prefix + "_" + interpreterContext.getParagraphId().replace("-", "_"),
++            obj, null, null);
+   }
+ 
+   private String[] getIndexTypeId(String[] urlItems) {
+@@ -257,8 +251,8 @@ public class ElasticsearchInterpreter extends Interpreter {
+     final String id = StringUtils.join(Arrays.copyOfRange(urlItems, 2, urlItems.length), '/');
+ 
+     if (StringUtils.isEmpty(index)
+-        || StringUtils.isEmpty(type)
+-        || StringUtils.isEmpty(id)) {
++            || StringUtils.isEmpty(type)
++            || StringUtils.isEmpty(id)) {
+       return null;
+     }
+ 
+@@ -288,7 +282,7 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+     if (indexTypeId == null) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-          "Bad URL (it should be /index/type/id)");
++              "Bad URL (it should be /index/type/id)");
+     }
+ 
+     final ActionResponse response = elsClient.get(indexTypeId[0], indexTypeId[1], indexTypeId[2]);
+@@ -300,9 +294,9 @@ public class ElasticsearchInterpreter extends Interpreter {
+       addAngularObject(interpreterContext, "get", json);
+ 
+       return new InterpreterResult(
+-          InterpreterResult.Code.SUCCESS,
+-          InterpreterResult.Type.TEXT,
+-          jsonStr);
++              InterpreterResult.Code.SUCCESS,
++              InterpreterResult.Type.TEXT,
++              jsonStr);
+     }
+ 
+     return new InterpreterResult(InterpreterResult.Code.ERROR, "Document not found");
+@@ -317,10 +311,10 @@ public class ElasticsearchInterpreter extends Interpreter {
+    * @return Result of the count request, it contains the total hits
+    */
+   private InterpreterResult processCount(String[] urlItems, String data,
+-      InterpreterContext interpreterContext) {
++                                         InterpreterContext interpreterContext) {
+     if (urlItems.length > 2) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-          "Bad URL (it should be /index1,index2,.../type1,type2,...)");
++              "Bad URL (it should be /index1,index2,.../type1,type2,...)");
+     }
+ 
+     final ActionResponse response = searchData(urlItems, data, 0);
+@@ -328,9 +322,9 @@ public class ElasticsearchInterpreter extends Interpreter {
+     addAngularObject(interpreterContext, "count", response.getTotalHits());
+ 
+     return new InterpreterResult(
+-        InterpreterResult.Code.SUCCESS,
+-        InterpreterResult.Type.TEXT,
+-        "" + response.getTotalHits());
++            InterpreterResult.Code.SUCCESS,
++            InterpreterResult.Type.TEXT,
++            "" + response.getTotalHits());
+   }
+ 
+   /**
+@@ -343,17 +337,17 @@ public class ElasticsearchInterpreter extends Interpreter {
+    * @return Result of the search request, it contains a tab-formatted string of the matching hits
+    */
+   private InterpreterResult processSearch(String[] urlItems, String data, int size,
+-      InterpreterContext interpreterContext) {
++                                          InterpreterContext interpreterContext) {
+     if (urlItems.length > 2) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-          "Bad URL (it should be /index1,index2,.../type1,type2,...)");
++              "Bad URL (it should be /index1,index2,.../type1,type2,...)");
+     }
+ 
+     final ActionResponse response = searchData(urlItems, data, size);
+ 
+     addAngularObject(interpreterContext, "search",
+-        (response.getAggregations() != null && response.getAggregations().size() > 0) ?
+-            response.getAggregations() : response.getHits());
++            (response.getAggregations() != null && response.getAggregations().size() > 0)
++                    ? response.getAggregations() : response.getHits());
+ 
+     return buildResponseMessage(response);
+   }
+@@ -368,16 +362,16 @@ public class ElasticsearchInterpreter extends Interpreter {
+   private InterpreterResult processIndex(String[] urlItems, String data) {
+     if (urlItems.length < 2 || urlItems.length > 3) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-          "Bad URL (it should be /index/type or /index/type/id)");
++              "Bad URL (it should be /index/type or /index/type/id)");
+     }
+ 
+     final ActionResponse response = elsClient.index(
+-        urlItems[0], urlItems[1], urlItems.length == 2 ? null : urlItems[2], data);
++            urlItems[0], urlItems[1], urlItems.length == 2 ? null : urlItems[2], data);
+ 
+     return new InterpreterResult(
+-        InterpreterResult.Code.SUCCESS,
+-        InterpreterResult.Type.TEXT,
+-        response.getHit().getId());
++            InterpreterResult.Code.SUCCESS,
++            InterpreterResult.Type.TEXT,
++            response.getHit().getId());
+   }
+ 
+   /**
+@@ -391,17 +385,17 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+     if (indexTypeId == null) {
+       return new InterpreterResult(InterpreterResult.Code.ERROR,
+-          "Bad URL (it should be /index/type/id)");
++              "Bad URL (it should be /index/type/id)");
+     }
+ 
+     final ActionResponse response =
+-        elsClient.delete(indexTypeId[0], indexTypeId[1], indexTypeId[2]);
++            elsClient.delete(indexTypeId[0], indexTypeId[1], indexTypeId[2]);
+ 
+     if (response.isSucceeded()) {
+       return new InterpreterResult(
+-          InterpreterResult.Code.SUCCESS,
+-          InterpreterResult.Type.TEXT,
+-          response.getHit().getId());
++              InterpreterResult.Code.SUCCESS,
++              InterpreterResult.Type.TEXT,
++              response.getHit().getId());
+     }
+ 
+     return new InterpreterResult(InterpreterResult.Code.ERROR, "Document not found");
+@@ -428,20 +422,34 @@ public class ElasticsearchInterpreter extends Interpreter {
+     InterpreterResult.Type resType = InterpreterResult.Type.TEXT;
+     String resMsg = "";
+ 
+-    if (agg instanceof InternalMetricsAggregation) {
+-      resMsg = XContentHelper.toString((InternalMetricsAggregation) agg).toString();
++    if (agg instanceof InternalNumericMetricsAggregation) {
++      try {
++        XContentBuilder builder = XContentFactory.jsonBuilder();
++        InternalNumericMetricsAggregation tempAgg = (InternalNumericMetricsAggregation) agg;
++        tempAgg.toXContent(builder, ToXContent.EMPTY_PARAMS);
++        resMsg = Strings.toString(builder);
++      } catch (IOException e) {
++        logger.error("Processing bucket: " + e.getMessage(), e);
++      }
+     } else if (agg instanceof InternalSingleBucketAggregation) {
+-      resMsg = XContentHelper.toString((InternalSingleBucketAggregation) agg).toString();
++      try {
++        XContentBuilder builder = XContentFactory.jsonBuilder();
++        InternalSingleBucketAggregation tempAgg = (InternalSingleBucketAggregation) agg;
++        tempAgg.toXContent(builder, ToXContent.EMPTY_PARAMS);
++        resMsg = Strings.toString(builder);
++      } catch (IOException e) {
++        logger.error("Processing bucket: " + e.getMessage(), e);
++      }
+     } else if (agg instanceof InternalMultiBucketAggregation) {
+       final Set<String> headerKeys = new HashSet<>();
+       final List<Map<String, Object>> buckets = new LinkedList<>();
+       final InternalMultiBucketAggregation multiBucketAgg = (InternalMultiBucketAggregation) agg;
+-
+-      for (final MultiBucketsAggregation.Bucket bucket : multiBucketAgg.getBuckets()) {
++      final List<MultiBucketsAggregation.Bucket> tempBuckets = multiBucketAgg.getBuckets();
++      for (final MultiBucketsAggregation.Bucket bucket : tempBuckets) {
+         try {
+           final XContentBuilder builder = XContentFactory.jsonBuilder();
+           bucket.toXContent(builder, null);
+-          final Map<String, Object> bucketMap = JsonFlattener.flattenAsMap(builder.string());
++          final Map<String, Object> bucketMap = JsonFlattener.flattenAsMap(String.valueOf(builder));
+           headerKeys.addAll(bucketMap.keySet());
+           buckets.add(bucketMap);
+         } catch (final IOException e) {
+@@ -474,7 +482,6 @@ public class ElasticsearchInterpreter extends Interpreter {
+ 
+   private InterpreterResult buildAggResponseMessage(List<AggWrapper> aggregations) {
+     final InterpreterResult.Type resType = InterpreterResult.Type.TABLE;
+-    String resMsg = "";
+ 
+     final Set<String> headerKeys = new HashSet<>();
+     final List<Map<String, Object>> buckets = new LinkedList<>();
+@@ -501,7 +508,7 @@ public class ElasticsearchInterpreter extends Interpreter {
+       buffer.deleteCharAt(buffer.length() - 1);
+     }
+ 
+-    resMsg = buffer.toString();
++    String resMsg = buffer.toString();
+ 
+     return new InterpreterResult(InterpreterResult.Code.SUCCESS, resType, resMsg);
+   }
+@@ -527,7 +534,7 @@ public class ElasticsearchInterpreter extends Interpreter {
+         final Matcher fieldNameMatcher = FIELD_NAME_PATTERN.matcher(fieldName);
+         if (fieldNameMatcher.matches()) {
+           flattenMap.put(fieldNameMatcher.group(1) + fieldNameMatcher.group(2),
+-              flattenJsonMap.get(fieldName));
++                  flattenJsonMap.get(fieldName));
+         } else {
+           flattenMap.put(fieldName, flattenJsonMap.get(fieldName));
+         }
+@@ -571,8 +578,8 @@ public class ElasticsearchInterpreter extends Interpreter {
+     }
+ 
+     return new InterpreterResult(
+-        InterpreterResult.Code.SUCCESS,
+-        InterpreterResult.Type.TABLE,
+-        buildSearchHitsResponseMessage(response));
++            InterpreterResult.Code.SUCCESS,
++            InterpreterResult.Type.TABLE,
++            buildSearchHitsResponseMessage(response));
+   }
+ }
+diff --git a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java b/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java
+index 94528168f..e5c096edc 100644
+--- a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java
++++ b/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java
+@@ -51,7 +51,8 @@ import org.apache.zeppelin.elasticsearch.action.HitWrapper;
+  */
+ public class HttpBasedClient implements ElasticsearchClient {
+   private static final String QUERY_STRING_TEMPLATE =
+-      "{ \"query\": { \"query_string\": { \"query\": \"_Q_\", \"analyze_wildcard\": \"true\" } } }";
++          "{ \"query\": { \"query_string\": " +
++                  "{ \"query\": \"_Q_\", \"analyze_wildcard\": \"true\" } } }";
+ 
+   private final String host;
+   private final int port;
+@@ -119,7 +120,7 @@ public class HttpBasedClient implements ElasticsearchClient {
+                 // There are differences: to avoid problems with some special characters
+                 // such as / and # in id, use a "terms" query
+                 buffer.append("/_search?source=").append(URLEncoder
+-                      .encode("{\"query\":{\"terms\":{\"_id\":[\"" + id + "\"]}}}", "UTF-8"));
++                        .encode("{\"query\":{\"terms\":{\"_id\":[\"" + id + "\"]}}}", "UTF-8"));
+               }
+             } else {
+               buffer.append("/").append(id);
+@@ -155,27 +156,27 @@ public class HttpBasedClient implements ElasticsearchClient {
+         final JsonNode body = new JsonNode(result.getBody());
+         if (body.getObject().has("_index")) {
+           response = new ActionResponse()
+-              .succeeded(true)
+-              .hit(new HitWrapper(
+-                  getFieldAsString(body, "_index"),
+-                  getFieldAsString(body, "_type"),
+-                  getFieldAsString(body, "_id"),
+-                  getFieldAsString(body, "_source")));
++                  .succeeded(true)
++                  .hit(new HitWrapper(
++                          getFieldAsString(body, "_index"),
++                          getFieldAsString(body, "_type"),
++                          getFieldAsString(body, "_id"),
++                          getFieldAsString(body, "_source")));
+         } else {
+           final JSONArray hits = getFieldAsArray(body.getObject(), "hits/hits");
+           final JSONObject hit = (JSONObject) hits.iterator().next();
+           response = new ActionResponse()
+-              .succeeded(true)
+-              .hit(new HitWrapper(
+-                  hit.getString("_index"),
+-                  hit.getString("_type"),
+-                  hit.getString("_id"),
+-                  hit.opt("_source").toString()));
++                  .succeeded(true)
++                  .hit(new HitWrapper(
++                          hit.getString("_index"),
++                          hit.getString("_type"),
++                          hit.getString("_id"),
++                          hit.opt("_source").toString()));
+         }
+       } else {
+         if (result.getStatus() == 404) {
+           response = new ActionResponse()
+-              .succeeded(false);
++                  .succeeded(false);
+         } else {
+           throw new ActionException(result.getBody());
+         }
+@@ -201,12 +202,12 @@ public class HttpBasedClient implements ElasticsearchClient {
+       if (isSucceeded) {
+         final JsonNode body = new JsonNode(result.getBody());
+         response = new ActionResponse()
+-            .succeeded(true)
+-            .hit(new HitWrapper(
+-                getFieldAsString(body, "_index"),
+-                getFieldAsString(body, "_type"),
+-                getFieldAsString(body, "_id"),
+-                null));
++                .succeeded(true)
++                .hit(new HitWrapper(
++                        getFieldAsString(body, "_index"),
++                        getFieldAsString(body, "_type"),
++                        getFieldAsString(body, "_id"),
++                        null));
+       } else {
+         throw new ActionException(result.getBody());
+       }
+@@ -227,9 +228,9 @@ public class HttpBasedClient implements ElasticsearchClient {
+         request = Unirest.put(getUrl(index, type, id, false));
+       }
+       request
+-          .header("Accept", "application/json")
+-          .header("Content-Type", "application/json")
+-          .body(data).getHttpRequest();
++              .header("Accept", "application/json")
++              .header("Content-Type", "application/json")
++              .body(data).getHttpRequest();
+       if (StringUtils.isNotEmpty(username)) {
+         request.basicAuth(username, password);
+       }
+@@ -239,12 +240,12 @@ public class HttpBasedClient implements ElasticsearchClient {
+ 
+       if (isSucceeded) {
+         response = new ActionResponse()
+-            .succeeded(true)
+-            .hit(new HitWrapper(
+-                getFieldAsString(result, "_index"),
+-                getFieldAsString(result, "_type"),
+-                getFieldAsString(result, "_id"),
+-                null));
++                .succeeded(true)
++                .hit(new HitWrapper(
++                        getFieldAsString(result, "_index"),
++                        getFieldAsString(result, "_type"),
++                        getFieldAsString(result, "_id"),
++                        null));
+       } else {
+         throw new ActionException(result.getBody().toString());
+       }
+@@ -271,8 +272,8 @@ public class HttpBasedClient implements ElasticsearchClient {
+ 
+     try {
+       final HttpRequestWithBody request = Unirest
+-          .post(getUrl(indices, types) + "/_search?size=" + size)
+-          .header("Content-Type", "application/json");
++              .post(getUrl(indices, types) + "/_search?size=" + size)
++              .header("Content-Type", "application/json");
+ 
+       if (StringUtils.isNoneEmpty(query)) {
+         request.header("Accept", "application/json").body(query);
+@@ -289,8 +290,8 @@ public class HttpBasedClient implements ElasticsearchClient {
+         final long total = getFieldAsLong(result, "hits/total");
+ 
+         response = new ActionResponse()
+-            .succeeded(true)
+-            .totalHits(total);
++                .succeeded(true)
++                .totalHits(total);
+ 
+         if (containsAggs(result)) {
+           JSONObject aggregationsMap = body.getJSONObject("aggregations");
+@@ -305,11 +306,11 @@ public class HttpBasedClient implements ElasticsearchClient {
+               final Iterator<Object> buckets = aggResult.getJSONArray("buckets").iterator();
+               while (buckets.hasNext()) {
+                 response.addAggregation(
+-                    new AggWrapper(AggregationType.MULTI_BUCKETS, buckets.next().toString()));
++                        new AggWrapper(AggregationType.MULTI_BUCKETS, buckets.next().toString()));
+               }
+             } else {
+               response.addAggregation(
+-                  new AggWrapper(AggregationType.SIMPLE, aggregationsMap.toString()));
++                      new AggWrapper(AggregationType.SIMPLE, aggregationsMap.toString()));
+             }
+             break; // Keep only one aggregation
+           }
+@@ -320,12 +321,12 @@ public class HttpBasedClient implements ElasticsearchClient {
+           while (iter.hasNext()) {
+             final JSONObject hit = (JSONObject) iter.next();
+             final Object data =
+-                hit.opt("_source") != null ? hit.opt("_source") : hit.opt("fields");
++                    hit.opt("_source") != null ? hit.opt("_source") : hit.opt("fields");
+             response.addHit(new HitWrapper(
+-                hit.getString("_index"),
+-                hit.getString("_type"),
+-                hit.getString("_id"),
+-                data.toString()));
++                    hit.getString("_index"),
++                    hit.getString("_type"),
++                    hit.getString("_id"),
++                    data.toString()));
+           }
+         }
+       } else {
+@@ -340,8 +341,8 @@ public class HttpBasedClient implements ElasticsearchClient {
+ 
+   private boolean containsAggs(HttpResponse<JsonNode> result) {
+     return result.getBody() != null &&
+-        (result.getBody().getObject().has("aggregations") ||
+-            result.getBody().getObject().has("aggs"));
++            (result.getBody().getObject().has("aggregations") ||
++                    result.getBody().getObject().has("aggs"));
+   }
+ 
+   @Override
+diff --git a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/TransportBasedClient.java b/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/TransportBasedClient.java
+deleted file mode 100644
+index 2af37bd3c..000000000
+--- a/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/TransportBasedClient.java
++++ /dev/null
+@@ -1,230 +0,0 @@
+-/*
+- * Licensed to the Apache Software Foundation (ASF) under one or more
+- * contributor license agreements.  See the NOTICE file distributed with
+- * this work for additional information regarding copyright ownership.
+- * The ASF licenses this file to You under the Apache License, Version 2.0
+- * (the "License"); you may not use this file except in compliance with
+- * the License.  You may obtain a copy of the License at
+- *
+- *    http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.apache.zeppelin.elasticsearch.client;
+-
+-import com.google.gson.Gson;
+-import com.google.gson.GsonBuilder;
+-import com.google.gson.JsonSyntaxException;
+-
+-import org.apache.commons.lang3.StringUtils;
+-import org.elasticsearch.action.delete.DeleteResponse;
+-import org.elasticsearch.action.get.GetResponse;
+-import org.elasticsearch.action.index.IndexResponse;
+-import org.elasticsearch.action.search.SearchAction;
+-import org.elasticsearch.action.search.SearchRequestBuilder;
+-import org.elasticsearch.action.search.SearchResponse;
+-import org.elasticsearch.client.Client;
+-import org.elasticsearch.client.transport.TransportClient;
+-import org.elasticsearch.common.settings.Settings;
+-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+-import org.elasticsearch.common.xcontent.XContentBuilder;
+-import org.elasticsearch.common.xcontent.XContentFactory;
+-import org.elasticsearch.common.xcontent.XContentHelper;
+-import org.elasticsearch.index.query.QueryBuilders;
+-import org.elasticsearch.search.SearchHit;
+-import org.elasticsearch.search.SearchHitField;
+-import org.elasticsearch.search.aggregations.Aggregation;
+-import org.elasticsearch.search.aggregations.Aggregations;
+-import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
+-import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
+-import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
+-import org.elasticsearch.search.aggregations.metrics.InternalMetricsAggregation;
+-
+-import java.io.IOException;
+-import java.net.InetAddress;
+-import java.net.UnknownHostException;
+-import java.util.HashMap;
+-import java.util.HashSet;
+-import java.util.LinkedList;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Properties;
+-import java.util.Set;
+-
+-import org.apache.zeppelin.elasticsearch.ElasticsearchInterpreter;
+-import org.apache.zeppelin.elasticsearch.action.ActionResponse;
+-import org.apache.zeppelin.elasticsearch.action.AggWrapper;
+-import org.apache.zeppelin.elasticsearch.action.HitWrapper;
+-
+-/**
+- * Elasticsearch client using the transport protocol.
+- */
+-public class TransportBasedClient implements ElasticsearchClient {
+-  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+-  private final Client client;
+-
+-  public TransportBasedClient(Properties props) throws UnknownHostException {
+-    final String host =
+-        props.getProperty(ElasticsearchInterpreter.ELASTICSEARCH_HOST);
+-    final int port = Integer.parseInt(
+-        props.getProperty(ElasticsearchInterpreter.ELASTICSEARCH_PORT));
+-    final String clusterName =
+-        props.getProperty(ElasticsearchInterpreter.ELASTICSEARCH_CLUSTER_NAME);
+-
+-    final Settings settings = Settings.settingsBuilder()
+-        .put("cluster.name", clusterName)
+-        .put(props)
+-        .build();
+-
+-    client = TransportClient.builder().settings(settings).build()
+-        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+-  }
+-
+-  @Override
+-  public ActionResponse get(String index, String type, String id) {
+-    final GetResponse getResp = client
+-        .prepareGet(index, type, id)
+-        .get();
+-
+-    return new ActionResponse()
+-        .succeeded(getResp.isExists())
+-        .hit(new HitWrapper(
+-            getResp.getIndex(),
+-            getResp.getType(),
+-            getResp.getId(),
+-            getResp.getSourceAsString()));
+-  }
+-
+-  @Override
+-  public ActionResponse delete(String index, String type, String id) {
+-    final DeleteResponse delResp = client
+-        .prepareDelete(index, type, id)
+-        .get();
+-
+-    return new ActionResponse()
+-        .succeeded(delResp.isFound())
+-        .hit(new HitWrapper(
+-            delResp.getIndex(),
+-            delResp.getType(),
+-            delResp.getId(),
+-            null));
+-  }
+-
+-  @Override
+-  public ActionResponse index(String index, String type, String id, String data) {
+-    final IndexResponse idxResp = client
+-        .prepareIndex(index, type, id)
+-        .setSource(data)
+-        .get();
+-
+-    return new ActionResponse()
+-        .succeeded(idxResp.isCreated())
+-        .hit(new HitWrapper(
+-            idxResp.getIndex(),
+-            idxResp.getType(),
+-            idxResp.getId(),
+-            null));
+-  }
+-
+-  @Override
+-  public ActionResponse search(String[] indices, String[] types, String query, int size) {
+-    final SearchRequestBuilder reqBuilder = new SearchRequestBuilder(
+-        client, SearchAction.INSTANCE);
+-    reqBuilder.setIndices();
+-
+-    if (indices != null) {
+-      reqBuilder.setIndices(indices);
+-    }
+-    if (types != null) {
+-      reqBuilder.setTypes(types);
+-    }
+-
+-    if (!StringUtils.isEmpty(query)) {
+-      // The query can be either JSON-formatted, nor a Lucene query
+-      // So, try to parse as a JSON => if there is an error, consider the query a Lucene one
+-      try {
+-        @SuppressWarnings("rawtypes")
+-        final Map source = gson.fromJson(query, Map.class);
+-        reqBuilder.setExtraSource(source);
+-      } catch (final JsonSyntaxException e) {
+-        // This is not a JSON (or maybe not well formatted...)
+-        reqBuilder.setQuery(QueryBuilders.queryStringQuery(query).analyzeWildcard(true));
+-      }
+-    }
+-
+-    reqBuilder.setSize(size);
+-
+-    final SearchResponse searchResp = reqBuilder.get();
+-
+-    final ActionResponse actionResp = new ActionResponse()
+-        .succeeded(true)
+-        .totalHits(searchResp.getHits().getTotalHits());
+-
+-    if (searchResp.getAggregations() != null) {
+-      setAggregations(searchResp.getAggregations(), actionResp);
+-    } else {
+-      for (final SearchHit hit: searchResp.getHits()) {
+-        // Fields can be found either in _source, or in fields (it depends on the query)
+-        // => specific for elasticsearch's version < 5
+-        //
+-        String src = hit.getSourceAsString();
+-        if (src == null) {
+-          final Map<String, Object> hitFields = new HashMap<>();
+-          for (final SearchHitField hitField : hit.getFields().values()) {
+-            hitFields.put(hitField.getName(), hitField.getValues());
+-          }
+-          src = gson.toJson(hitFields);
+-        }
+-        actionResp.addHit(new HitWrapper(hit.getIndex(), hit.getType(), hit.getId(), src));
+-      }
+-    }
+-
+-    return actionResp;
+-  }
+-
+-  private void setAggregations(Aggregations aggregations, ActionResponse actionResp) {
+-    // Only the result of the first aggregation is returned
+-    //
+-    final Aggregation agg = aggregations.asList().get(0);
+-
+-    if (agg instanceof InternalMetricsAggregation) {
+-      actionResp.addAggregation(new AggWrapper(AggWrapper.AggregationType.SIMPLE,
+-          XContentHelper.toString((InternalMetricsAggregation) agg).toString()));
+-    } else if (agg instanceof InternalSingleBucketAggregation) {
+-      actionResp.addAggregation(new AggWrapper(AggWrapper.AggregationType.SIMPLE,
+-          XContentHelper.toString((InternalSingleBucketAggregation) agg).toString()));
+-    } else if (agg instanceof InternalMultiBucketAggregation) {
+-      final Set<String> headerKeys = new HashSet<>();
+-      final List<Map<String, Object>> buckets = new LinkedList<>();
+-      final InternalMultiBucketAggregation multiBucketAgg = (InternalMultiBucketAggregation) agg;
+-
+-      for (final MultiBucketsAggregation.Bucket bucket : multiBucketAgg.getBuckets()) {
+-        try {
+-          final XContentBuilder builder = XContentFactory.jsonBuilder();
+-          bucket.toXContent(builder, null);
+-          actionResp.addAggregation(
+-              new AggWrapper(AggWrapper.AggregationType.MULTI_BUCKETS, builder.string()));
+-        } catch (final IOException e) {
+-          // Ignored
+-        }
+-      }
+-    }
+-  }
+-
+-  @Override
+-  public void close() {
+-    if (client != null) {
+-      client.close();
+-    }
+-  }
+-
+-  @Override
+-  public String toString() {
+-    return "TransportBasedClient []";
+-  }
+-}
+diff --git a/elasticsearch/src/test/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreterTest.java b/elasticsearch/src/test/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreterTest.java
+index a806dc314..4cf42569a 100644
+--- a/elasticsearch/src/test/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreterTest.java
++++ b/elasticsearch/src/test/java/org/apache/zeppelin/elasticsearch/ElasticsearchInterpreterTest.java
+@@ -23,10 +23,12 @@ import static org.junit.Assert.assertNotNull;
+ 
+ import org.apache.commons.lang3.RandomUtils;
+ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
++import org.elasticsearch.action.support.WriteRequest;
+ import org.elasticsearch.client.Client;
+ import org.elasticsearch.common.settings.Settings;
++import org.elasticsearch.env.Environment;
++import org.elasticsearch.monitor.fs.FsInfo;
+ import org.elasticsearch.node.Node;
+-import org.elasticsearch.node.NodeBuilder;
+ import org.junit.AfterClass;
+ import org.junit.Assert;
+ import org.junit.BeforeClass;
+@@ -36,6 +38,7 @@ import org.junit.experimental.theories.Theory;
+ import org.junit.runner.RunWith;
+ 
+ import java.io.IOException;
++import java.nio.file.Path;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Date;
+@@ -72,7 +75,8 @@ public class ElasticsearchInterpreterTest {
+ 
+   @BeforeClass
+   public static void populate() throws IOException {
+-    final Settings settings = Settings.settingsBuilder()
++
++    final Settings settings = Settings.builder()
+             .put("cluster.name", ELS_CLUSTER_NAME)
+             .put("network.host", ELS_HOST)
+             .put("http.port", ELS_HTTP_PORT)
+@@ -80,7 +84,8 @@ public class ElasticsearchInterpreterTest {
+             .put("path.home", ELS_PATH)
+             .build();
+ 
+-    elsNode = NodeBuilder.nodeBuilder().settings(settings).node();
++    final Environment env = new Environment(settings, (Path) FsInfo.Path.EMPTY_PARAMS);
++    elsNode =  new Node(env);
+     elsClient = elsNode.client();
+ 
+     elsClient.admin().indices().prepareCreate("logs")
+@@ -93,7 +98,7 @@ public class ElasticsearchInterpreterTest {
+ 
+     for (int i = 0; i < 48; i++) {
+       elsClient.prepareIndex("logs", "http", "" + i)
+-        .setRefresh(true)
++        .setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE)
+         .setSource(jsonBuilder()
+           .startObject()
+             .field("date", new Date())
+@@ -110,7 +115,7 @@ public class ElasticsearchInterpreterTest {
+ 
+     for (int i = 1; i < 3; i++) {
+       elsClient.prepareIndex("logs", "http", "very/strange/id#" + i)
+-        .setRefresh(true)
++              .setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE)
+         .setSource(jsonBuilder()
+             .startObject()
+               .field("date", new Date())
+@@ -141,7 +146,7 @@ public class ElasticsearchInterpreterTest {
+   }
+ 
+   @AfterClass
+-  public static void clean() {
++  public static void clean() throws IOException {
+     if (transportInterpreter != null) {
+       transportInterpreter.close();
+     }
+diff --git a/pom.xml b/pom.xml
+index 7f4ec216b..cef5f418d 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -19,1824 +19,144 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+-  <modelVersion>4.0.0</modelVersion>
++    <modelVersion>4.0.0</modelVersion>
++
++    <parent>
++        <artifactId>zeppelin</artifactId>
++        <groupId>org.apache.zeppelin</groupId>
++        <version>0.9.0-preview2</version>
++        <relativePath>..</relativePath>
++    </parent>
++
++    <groupId>org.apache.zeppelin</groupId>
++    <artifactId>zengine-plugins-parent</artifactId>
++    <packaging>pom</packaging>
++    <version>0.9.0-preview2</version>
++    <name>Zeppelin: Plugins Parent</name>
++    <description>Zeppelin Plugins Parent</description>
++    <properties>
++        <!-- no need to include hadoop jar, because it's already included in zeppelin-zengine -->
++        <hadoop.deps.scope>provided</hadoop.deps.scope>
++    </properties>
++
++    <modules>
++        <module>notebookrepo/s3</module>
++        <module>notebookrepo/github</module>
++        <module>notebookrepo/azure</module>
++        <module>notebookrepo/gcs</module>
++        <module>notebookrepo/zeppelin-hub</module>
++        <module>notebookrepo/filesystem</module>
++        <module>notebookrepo/mongo</module>
++        <module>notebookrepo/oss</module>
++
++        <module>launcher/k8s-standard</module>
++        <module>launcher/cluster</module>
++        <module>launcher/docker</module>
++        <module>launcher/yarn</module>
++        <module>launcher/flink</module>
++    </modules>
+ 
+-  <groupId>org.apache.zeppelin</groupId>
+-  <artifactId>zeppelin</artifactId>
+-  <packaging>pom</packaging>
+-  <version>0.9.0-preview2</version>
+-  <name>Zeppelin</name>
+-  <description>Zeppelin project</description>
+-  <url>https://zeppelin.apache.org</url>
+-
+-  <parent>
+-    <groupId>org.apache</groupId>
+-    <artifactId>apache</artifactId>
+-    <version>17</version>
+-  </parent>
+-
+-  <licenses>
+-    <license>
+-      <name>The Apache Software License, Version 2.0</name>
+-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+-      <distribution>repo</distribution>
+-    </license>
+-  </licenses>
+-
+-  <scm>
+-    <url>https://git-wip-us.apache.org/repos/asf/zeppelin.git</url>
+-    <connection>scm:git:https://git-wip-us.apache.org/repos/asf/zeppelin.git</connection>
+-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/zeppelin.git</developerConnection>
+-  </scm>
+-
+-  <inceptionYear>2013</inceptionYear>
+-
+-  <modules>
+-    <module>zeppelin-interpreter-parent</module>
+-    <module>zeppelin-interpreter</module>
+-    <module>zeppelin-interpreter-shaded</module>
+-    <module>zeppelin-zengine</module>
+-    <module>zeppelin-display</module>
+-    <module>rlang</module>
+-    <module>zeppelin-jupyter-interpreter</module>
+-    <module>zeppelin-jupyter-interpreter-shaded</module>
+-    <module>kotlin</module>
+-    <module>groovy</module>
+-    <module>spark</module>
+-    <module>submarine</module>
+-    <module>markdown</module>
+-    <module>mongodb</module>
+-    <module>angular</module>
+-    <module>shell</module>
+-    <module>livy</module>
+-    <module>hbase</module>
+-    <module>pig</module>
+-    <module>jdbc</module>
+-    <module>file</module>
+-    <module>flink</module>
+-    <module>ignite</module>
+-    <module>influxdb</module>
+-    <module>kylin</module>
+-    <module>python</module>
+-    <module>lens</module>
+-    <module>cassandra</module>
+-    <module>elasticsearch</module>
+-    <module>bigquery</module>
+-    <module>alluxio</module>
+-    <module>scio</module>
+-    <module>neo4j</module>
+-    <module>sap</module>
+-    <module>scalding</module>
+-    <module>java</module>
+-    <module>beam</module>
+-    <module>hazelcastjet</module>
+-    <module>geode</module>
+-    <module>ksql</module>
+-    <module>sparql</module>
+-    <module>zeppelin-web</module>
+-    <module>zeppelin-server</module>
+-    <module>zeppelin-jupyter</module>
+-    <module>zeppelin-plugins</module>
+-    <module>zeppelin-distribution</module>
+-  </modules>
+-
+-  <properties>
+-    <!-- language versions -->
+-    <java.version>1.8</java.version>
+-    <scala.2.10.version>2.10.5</scala.2.10.version>
+-    <scala.version>${scala.2.10.version}</scala.version>
+-    <scala.binary.version>2.10</scala.binary.version>
+-    <scala.2.11.version>2.11.8</scala.2.11.version>
+-    <scalatest.version>3.0.7</scalatest.version>
+-    <scalacheck.version>1.12.5</scalacheck.version>
+-
+-    <!-- frontend maven plugin related versions-->
+-    <node.version>v12.3.1</node.version>
+-    <npm.version>6.9.0</npm.version>
+-    <plugin.frontend.version>1.6</plugin.frontend.version>
+-
+-    <!-- common library versions -->
+-    <slf4j.version>1.7.30</slf4j.version>
+-    <log4j.version>1.2.17</log4j.version>
+-    <libthrift.version>0.13.0</libthrift.version>
+-    <gson.version>2.2</gson.version>
+-    <gson-extras.version>0.2.1</gson-extras.version>
+-    <jetty.version>9.4.27.v20200227</jetty.version>
+-    <httpcomponents.core.version>4.4.1</httpcomponents.core.version>
+-    <httpcomponents.client.version>4.5.1</httpcomponents.client.version>
+-    <httpcomponents.asyncclient.version>4.0.2</httpcomponents.asyncclient.version>
+-    <commons.compress.version>1.20</commons.compress.version>
+-    <commons.lang3.version>3.10</commons.lang3.version>
+-    <commons.configuration.version>1.9</commons.configuration.version>
+-    <commons.exec.version>1.3</commons.exec.version>
+-    <commons.codec.version>1.14</commons.codec.version>
+-    <commons.io.version>2.6</commons.io.version>
+-    <commons.collections.version>3.2.2</commons.collections.version>
+-    <commons.logging.version>1.1.1</commons.logging.version>
+-    <commons.cli.version>1.4</commons.cli.version>
+-    <shiro.version>1.4.2</shiro.version>
+-    <joda.version>2.9.9</joda.version>
+-    <bouncycastle.version>1.60</bouncycastle.version>
+-
+-    <hadoop2.7.version>2.7.7</hadoop2.7.version>
+-    <hadoop2.6.version>2.6.5</hadoop2.6.version>
+-    <hadoop3.0.version>3.0.3</hadoop3.0.version>
+-    <hadoop3.1.version>3.1.3</hadoop3.1.version>
+-    <hadoop3.2.version>3.2.0</hadoop3.2.version>
+-    <hadoop.version>${hadoop2.7.version}</hadoop.version>
+-    
+-    <hadoop.deps.scope>provided</hadoop.deps.scope>
+-    <quartz.scheduler.version>2.3.2</quartz.scheduler.version>
+-    <jettison.version>1.4.0</jettison.version>
+-    <jsoup.version>1.13.1</jsoup.version>
+-
+-    <!-- test library versions -->
+-    <junit.version>4.12</junit.version>
+-    <mockito.version>1.10.19</mockito.version>
+-    <assertj.version>1.7.0</assertj.version>
+-    <powermock.version>1.6.4</powermock.version>
+-
+-    <!-- plugin versions -->
+-    <plugin.antrun.version>1.8</plugin.antrun.version>
+-    <plugin.assembly.version>3.2.0</plugin.assembly.version>
+-    <plugin.avro.version>1.7.7</plugin.avro.version>
+-    <plugin.buildhelper.version>1.7</plugin.buildhelper.version>
+-    <plugin.buildnumber.version>1.4</plugin.buildnumber.version>
+-    <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+-    <plugin.clean.version>3.1.0</plugin.clean.version>
+-    <plugin.cobertura.version>2.7</plugin.cobertura.version>
+-    <plugin.compiler.version>3.8.1</plugin.compiler.version>
+-    <plugin.dependency.version>3.1.2</plugin.dependency.version>
+-    <plugin.deploy.version>2.8.2</plugin.deploy.version>
+-    <plugin.download.version>1.3.0</plugin.download.version>
+-    <plugin.eclipse.version>2.8</plugin.eclipse.version>
+-    <plugin.enforcer.version>3.0.0-M3</plugin.enforcer.version>
+-    <plugin.exec.version>1.6.0</plugin.exec.version>
+-    <plugin.failsafe.version>2.17</plugin.failsafe.version>
+-    <plugin.git.commit.id.version>4.0.0</plugin.git.commit.id.version>
+-    <plugin.gpg.version>1.6</plugin.gpg.version>
+-    <plugin.install.version>3.0.0-M1</plugin.install.version>
+-    <plugin.jar.version>3.2.0</plugin.jar.version>
+-    <plugin.javadoc.version>3.2.0</plugin.javadoc.version>
+-    <plugin.jdeb.version>1.8</plugin.jdeb.version>
+-    <plugin.lifecycle.mapping.version>1.0.0</plugin.lifecycle.mapping.version>
+-    <plugin.protobuf.version>0.5.0</plugin.protobuf.version>
+-    <plugin.rat.version>0.13</plugin.rat.version>
+-    <plugin.remote.resource.version>1.7.0</plugin.remote.resource.version>
+-    <plugin.resource.version>3.1.0</plugin.resource.version>
+-    <plugin.s3.upload.version>1.4</plugin.s3.upload.version>
+-    <plugin.scala.alchim31.version>3.4.6</plugin.scala.alchim31.version>
+-    <plugin.scala.tools.version>2.15.2</plugin.scala.tools.version>
+-    <plugin.scalate.version>1.7.1</plugin.scalate.version>
+-    <plugin.scalatest.version>2.0.0</plugin.scalatest.version>
+-    <plugin.scm.version>1.11.2</plugin.scm.version>
+-    <plugin.shade.version>3.2.2</plugin.shade.version>
+-    <plugin.source.version>3.2.1</plugin.source.version>
+-    <plugin.surefire.version>2.17</plugin.surefire.version>
+-    <plugin.xml.version>1.0.2</plugin.xml.version>
+-
+-    <plugin.gitcommitid.useNativeGit>false</plugin.gitcommitid.useNativeGit>
+-
+-    <MaxMetaspace>512m</MaxMetaspace>
+-
+-    <!-- to be able to exclude some tests using command line -->
+-    <tests.to.exclude/>
+-  </properties>
+-
+-  <dependencyManagement>
+     <dependencies>
+-      <!-- Logging -->
+-      <dependency>
+-        <groupId>org.slf4j</groupId>
+-        <artifactId>slf4j-api</artifactId>
+-        <version>${slf4j.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.slf4j</groupId>
+-        <artifactId>slf4j-log4j12</artifactId>
+-        <version>${slf4j.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>log4j</groupId>
+-        <artifactId>log4j</artifactId>
+-        <version>${log4j.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.thrift</groupId>
+-        <artifactId>libthrift</artifactId>
+-        <version>${libthrift.version}</version>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>javax.annotation</groupId>
+-            <artifactId>javax.annotation-api</artifactId>
+-          </exclusion>
+-        </exclusions>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.httpcomponents</groupId>
+-        <artifactId>httpcore</artifactId>
+-        <version>${httpcomponents.core.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.httpcomponents</groupId>
+-        <artifactId>httpclient</artifactId>
+-        <version>${httpcomponents.client.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.httpcomponents</groupId>
+-        <artifactId>httpasyncclient</artifactId>
+-        <version>${httpcomponents.asyncclient.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.commons</groupId>
+-        <artifactId>commons-lang3</artifactId>
+-        <version>${commons.lang3.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.commons</groupId>
+-        <artifactId>commons-exec</artifactId>
+-        <version>${commons.exec.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>com.google.code.gson</groupId>
+-        <artifactId>gson</artifactId>
+-        <version>${gson.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.danilopianini</groupId>
+-        <artifactId>gson-extras</artifactId>
+-        <version>${gson-extras.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-configuration</groupId>
+-        <artifactId>commons-configuration</artifactId>
+-        <version>${commons.configuration.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-codec</groupId>
+-        <artifactId>commons-codec</artifactId>
+-        <version>${commons.codec.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-io</groupId>
+-        <artifactId>commons-io</artifactId>
+-        <version>${commons.io.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-collections</groupId>
+-        <artifactId>commons-collections</artifactId>
+-        <version>${commons.collections.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-logging</groupId>
+-        <artifactId>commons-logging</artifactId>
+-        <version>${commons.logging.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>commons-cli</groupId>
+-        <artifactId>commons-cli</artifactId>
+-        <version>${commons.cli.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>joda-time</groupId>
+-        <artifactId>joda-time</artifactId>
+-        <version>${joda.version}</version>
+-      </dependency>
+-
+-      <!-- Apache Shiro -->
+-      <dependency>
+-        <groupId>org.apache.shiro</groupId>
+-        <artifactId>shiro-core</artifactId>
+-        <version>${shiro.version}</version>
+-      </dependency>
+-      <dependency>
+-        <groupId>org.apache.shiro</groupId>
+-        <artifactId>shiro-web</artifactId>
+-        <version>${shiro.version}</version>
+-      </dependency>
+-      <dependency>
+-        <groupId>org.apache.shiro</groupId>
+-        <artifactId>shiro-config-core</artifactId>
+-        <version>${shiro.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.bouncycastle</groupId>
+-        <artifactId>bcpkix-jdk15on</artifactId>
+-        <version>${bouncycastle.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>com.amazonaws</groupId>
+-        <artifactId>aws-java-sdk-s3</artifactId>
+-        <version>${aws.sdk.s3.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.codehaus.jettison</groupId>
+-        <artifactId>jettison</artifactId>
+-        <version>${jettison.version}</version>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.hadoop</groupId>
+-        <artifactId>hadoop-client</artifactId>
+-        <version>${hadoop.version}</version>
+-        <scope>${hadoop.deps.scope}</scope>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-core</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-json</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-client</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-server</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>servlet-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.avro</groupId>
+-            <artifactId>avro</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.jackrabbit</groupId>
+-            <artifactId>jackrabbit-webdav</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty-all</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-httpclient</groupId>
+-            <artifactId>commons-httpclient</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jgit</groupId>
+-            <artifactId>org.eclipse.jgit</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.jcraft</groupId>
+-            <artifactId>jsch</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-compress</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xml-apis</groupId>
+-            <artifactId>xml-apis</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xerces</groupId>
+-            <artifactId>xercesImpl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.guava</groupId>
+-            <artifactId>guava</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.code.findbugs</groupId>
+-            <artifactId>jsr305</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-math3</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-annotations</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.nimbusds</groupId>
+-            <artifactId>nimbus-jose-jwt</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-xml</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-servlet</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-util</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-beanutils</groupId>
+-            <artifactId>commons-beanutils</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-configuration2</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-webapp</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.module</groupId>
+-            <artifactId>jackson-module-jaxb-annotations</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-core</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-databind</artifactId>
+-          </exclusion>
+-        </exclusions>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.hadoop</groupId>
+-        <artifactId>hadoop-yarn-api</artifactId>
+-        <version>${hadoop.version}</version>
+-        <scope>${hadoop.deps.scope}</scope>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>servlet-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.avro</groupId>
+-            <artifactId>avro</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.jackrabbit</groupId>
+-            <artifactId>jackrabbit-webdav</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-httpclient</groupId>
+-            <artifactId>commons-httpclient</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jgit</groupId>
+-            <artifactId>org.eclipse.jgit</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.jcraft</groupId>
+-            <artifactId>jsch</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-compress</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xml-apis</groupId>
+-            <artifactId>xml-apis</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xerces</groupId>
+-            <artifactId>xercesImpl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-mapper-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-core-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.guava</groupId>
+-            <artifactId>guava</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.code.findbugs</groupId>
+-            <artifactId>jsr305</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-math3</artifactId>
+-          </exclusion>
+-        </exclusions>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.hadoop</groupId>
+-        <artifactId>hadoop-hdfs</artifactId>
+-        <version>${hadoop.version}</version>
+-        <classifier>tests</classifier>
+-        <scope>test</scope>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-json</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-client</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>servlet-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.avro</groupId>
+-            <artifactId>avro</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.jackrabbit</groupId>
+-            <artifactId>jackrabbit-webdav</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-httpclient</groupId>
+-            <artifactId>commons-httpclient</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jgit</groupId>
+-            <artifactId>org.eclipse.jgit</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.jcraft</groupId>
+-            <artifactId>jsch</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-compress</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xml-apis</groupId>
+-            <artifactId>xml-apis</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xerces</groupId>
+-            <artifactId>xercesImpl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.guava</groupId>
+-            <artifactId>guava</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty-all</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-util</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-annotations</artifactId>
+-          </exclusion>
+-        </exclusions>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.hadoop</groupId>
+-        <artifactId>hadoop-common</artifactId>
+-        <version>${hadoop.version}</version>
+-        <classifier>tests</classifier>
+-        <scope>test</scope>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-core</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-json</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-client</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-server</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>servlet-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.avro</groupId>
+-            <artifactId>avro</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.jackrabbit</groupId>
+-            <artifactId>jackrabbit-webdav</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-httpclient</groupId>
+-            <artifactId>commons-httpclient</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jgit</groupId>
+-            <artifactId>org.eclipse.jgit</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.jcraft</groupId>
+-            <artifactId>jsch</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-compress</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xml-apis</groupId>
+-            <artifactId>xml-apis</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xerces</groupId>
+-            <artifactId>xercesImpl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-mapper-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-core-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.guava</groupId>
+-            <artifactId>guava</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.code.findbugs</groupId>
+-            <artifactId>jsr305</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-math3</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-beanutils</groupId>
+-            <artifactId>commons-beanutils</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-configuration2</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.zookeeper</groupId>
+-            <artifactId>zookeeper</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-servlet</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-util</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-webapp</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-server</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.nimbusds</groupId>
+-            <artifactId>nimbus-jose-jwt</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-databind</artifactId>
+-          </exclusion>
+-        </exclusions>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.apache.hadoop</groupId>
+-        <artifactId>hadoop-yarn-server-tests</artifactId>
+-        <version>${hadoop.version}</version>
+-        <classifier>tests</classifier>
+-        <scope>test</scope>
+-        <exclusions>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-core</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-client</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.sun.jersey</groupId>
+-            <artifactId>jersey-server</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>servlet-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.avro</groupId>
+-            <artifactId>avro</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.jackrabbit</groupId>
+-            <artifactId>jackrabbit-webdav</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>io.netty</groupId>
+-            <artifactId>netty</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>commons-httpclient</groupId>
+-            <artifactId>commons-httpclient</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jgit</groupId>
+-            <artifactId>org.eclipse.jgit</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.jcraft</groupId>
+-            <artifactId>jsch</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-compress</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xml-apis</groupId>
+-            <artifactId>xml-apis</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>xerces</groupId>
+-            <artifactId>xercesImpl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-core-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-jaxrs</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-xc</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.codehaus.jackson</groupId>
+-            <artifactId>jackson-mapper-asl</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.guava</groupId>
+-            <artifactId>guava</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>javax.xml.bind</groupId>
+-            <artifactId>jaxb-api</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-core</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>org.eclipse.jetty</groupId>
+-            <artifactId>jetty-util</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.zaxxer</groupId>
+-            <artifactId>HikariCP-java7</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.google.inject</groupId>
+-            <artifactId>guice</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.core</groupId>
+-            <artifactId>jackson-annotations</artifactId>
+-          </exclusion>
+-          <exclusion>
+-            <groupId>com.fasterxml.jackson.module</groupId>
+-            <artifactId>jackson-module-jaxb-annotations</artifactId>
+-          </exclusion>
+-<!--          <exclusion>-->
+-<!--            <groupId>com.google.inject.extensions</groupId>-->
+-<!--            <artifactId>guice-servlet</artifactId>-->
+-<!--          </exclusion>-->
+-        </exclusions>
+-      </dependency>
+-
+-      <!-- Test libraries -->
+-      <dependency>
+-        <groupId>junit</groupId>
+-        <artifactId>junit</artifactId>
+-        <version>${junit.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.assertj</groupId>
+-        <artifactId>assertj-core</artifactId>
+-        <version>${assertj.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.mockito</groupId>
+-        <artifactId>mockito-core</artifactId>
+-        <version>${mockito.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.mockito</groupId>
+-        <artifactId>mockito-all</artifactId>
+-        <version>${mockito.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.powermock</groupId>
+-        <artifactId>powermock-api-mockito</artifactId>
+-        <version>${powermock.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.powermock</groupId>
+-        <artifactId>powermock-core</artifactId>
+-        <version>${powermock.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.powermock</groupId>
+-        <artifactId>powermock-module-junit4</artifactId>
+-        <version>${powermock.version}</version>
+-        <scope>test</scope>
+-      </dependency>
+-
+-      <dependency>
+-        <groupId>org.powermock</groupId>
+-        <artifactId>powermock-reflect</artifactId>
+-        <version>${powermock.version}</version>
+-        <scope>test</scope>
+-      </dependency>
++        <dependency>
++            <groupId>${project.groupId}</groupId>
++            <artifactId>zeppelin-zengine</artifactId>
++            <version>${project.version}</version>
++            <scope>provided</scope>
++            <exclusions>
++                <exclusion>
++                    <groupId>com.fasterxml.jackson.core</groupId>
++                    <artifactId>jackson-core</artifactId>
++                </exclusion>
++            </exclusions>
++        </dependency>
++
++        <dependency>
++            <groupId>${project.groupId}</groupId>
++            <artifactId>zeppelin-zengine</artifactId>
++            <version>${project.version}</version>
++            <classifier>tests</classifier>
++            <scope>test</scope>
++        </dependency>
++
++        <!-- Test libraries -->
++        <dependency>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>org.mockito</groupId>
++            <artifactId>mockito-all</artifactId>
++            <scope>test</scope>
++        </dependency>
+     </dependencies>
+-  </dependencyManagement>
+-
+-  <build>
+-
+-    <plugins>
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-compiler-plugin</artifactId>
+-        <version>${plugin.compiler.version}</version>
+-        <configuration>
+-          <source>${java.version}</source>
+-          <target>${java.version}</target>
+-        </configuration>
+-      </plugin>
+-
+-<!--      <plugin>-->
+-<!--        <groupId>org.codehaus.mojo</groupId>-->
+-<!--        <artifactId>flatten-maven-plugin</artifactId>-->
+-<!--        <version>1.0.0</version>-->
+-<!--        <configuration>-->
+-<!--          <flattenMode>ossrh</flattenMode>-->
+-<!--          <updatePomFile>true</updatePomFile>-->
+-<!--        </configuration>-->
+-<!--        <executions>-->
+-<!--          <execution>-->
+-<!--            <id>flatten</id>-->
+-<!--            <phase>process-resources</phase>-->
+-<!--            <goals>-->
+-<!--              <goal>flatten</goal>-->
+-<!--            </goals>-->
+-<!--          </execution>-->
+-<!--          <execution>-->
+-<!--            <id>flatten.clean</id>-->
+-<!--            <phase>clean</phase>-->
+-<!--            <goals>-->
+-<!--              <goal>clean</goal>-->
+-<!--            </goals>-->
+-<!--          </execution>-->
+-<!--        </executions>-->
+-<!--      </plugin>-->
+-
+-      <!-- (TODO zjffdu disable it temporary to make CI pass)Test coverage plugin -->
+-
+-      <!--      <plugin>-->
+-      <!--        <groupId>org.codehaus.mojo</groupId>-->
+-      <!--        <artifactId>cobertura-maven-plugin</artifactId>-->
+-      <!--        <configuration>-->
+-      <!--          <formats>-->
+-      <!--            <format>html</format>-->
+-      <!--          </formats>-->
+-      <!--          <skip>true</skip>-->
+-      <!--        </configuration>-->
+-      <!--        <executions>-->
+-      <!--          <execution>-->
+-      <!--            <id>cobertura</id>-->
+-      <!--            <phase>install</phase>-->
+-      <!--            <goals>-->
+-      <!--              <goal>cobertura</goal>-->
+-      <!--            </goals>-->
+-      <!--          </execution>-->
+-      <!--        </executions>-->
+-      <!--      </plugin>-->
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-checkstyle-plugin</artifactId>
+-        <version>${plugin.checkstyle.version}</version>
+-        <configuration>
+-          <skip>true</skip>
+-          <failOnViolation>false</failOnViolation>
+-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+-          <sourceDirectories>${basedir}/src/main/java,${basedir}/src/main/scala</sourceDirectories>
+-          <testSourceDirectories>${basedir}/src/test/java</testSourceDirectories>
+-          <configLocation>_tools/checkstyle.xml</configLocation>
+-          <outputFile>${basedir}/target/checkstyle-output.xml</outputFile>
+-          <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+-          <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+-        </configuration>
+-        <executions>
+-          <execution>
+-            <id>checkstyle-fail-build</id>
+-            <phase>validate</phase>
+-            <goals>
+-              <goal>check</goal>
+-            </goals>
+-            <configuration>
+-              <failOnViolation>true</failOnViolation>
+-              <excludes>org/apache/zeppelin/interpreter/thrift/*,org/apache/zeppelin/scio/avro/*,org/apache/zeppelin/python/proto/*</excludes>
+-            </configuration>
+-          </execution>
+-          <execution>
+-            <id>checkstyle-gen-html-report</id>
+-            <phase>install</phase>
+-            <goals>
+-              <goal>checkstyle-aggregate</goal>
+-            </goals>
+-            <configuration>
+-              <excludes>org/apache/zeppelin/interpreter/thrift/*,org/apache/zeppelin/scio/avro/*,org/apache/zeppelin/python/proto/*</excludes>
+-            </configuration>
+-          </execution>
+-        </executions>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-jar-plugin</artifactId>
+-        <version>${plugin.jar.version}</version>
+-        <configuration>
+-          <archive>
+-            <manifest>
+-              <addClasspath>true</addClasspath>
+-              <classpathPrefix>lib/</classpathPrefix>
+-              <mainClass>theMainClass</mainClass>
+-            </manifest>
+-          </archive>
+-        </configuration>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-remote-resources-plugin</artifactId>
+-        <version>${plugin.remote.resource.version}</version>
+-        <executions>
+-          <execution>
+-            <id>process-remote-resources</id>
+-            <goals>
+-              <goal>process</goal>
+-            </goals>
+-            <configuration>
+-              <resourceBundles>
+-                <resourceBundle>org.apache:apache-jar-resource-bundle:1.0</resourceBundle>
+-              </resourceBundles>
+-            </configuration>
+-          </execution>
+-        </executions>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-scm-plugin</artifactId>
+-        <version>${plugin.scm.version}</version>
+-        <configuration>
+-          <connectionType>developerConnection</connectionType>
+-          <scmVersion>branch-0.1</scmVersion>
+-          <scmVersionType>branch</scmVersionType>
+-        </configuration>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-enforcer-plugin</artifactId>
+-        <version>${plugin.enforcer.version}</version>
+-        <executions>
+-          <execution>
+-            <id>enforce</id>
+-            <configuration>
+-              <rules>
+-                <DependencyConvergence/>
+-              </rules>
+-              <failFast>true</failFast>
+-            </configuration>
+-            <goals>
+-              <goal>enforce</goal>
+-            </goals>
+-          </execution>
+-          <!-- https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html -->
+-          <execution>
+-            <id>enforce-maven</id>
+-            <goals>
+-              <goal>enforce</goal>
+-            </goals>
+-            <configuration>
+-              <rules>
+-                <requireMavenVersion>
+-                  <version>[3.1.0,)</version>
+-                </requireMavenVersion>
+-              </rules>
+-            </configuration>
+-          </execution>
+-        </executions>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-deploy-plugin</artifactId>
+-        <version>${plugin.deploy.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>pl.project13.maven</groupId>
+-        <artifactId>git-commit-id-plugin</artifactId>
+-        <version>${plugin.git.commit.id.version}</version>
+-        <executions>
+-          <execution>
+-            <goals>
+-              <goal>revision</goal>
+-            </goals>
+-          </execution>
+-        </executions>
+-        <configuration>
+-          <skipPoms>false</skipPoms>
+-          <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+-          <useNativeGit>${plugin.gitcommitid.useNativeGit}</useNativeGit>
+-          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+-          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+-          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+-          <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+-        </configuration>
+-      </plugin>
+-
+-    <!--TODO(alex): make part of the build and reconcile conflicts
+-    <plugin>
+-      <groupId>com.ning.maven.plugins</groupId>
+-      <artifactId>maven-duplicate-finder-plugin</artifactId>
+-      <version>1.0.4</version>
+-      <executions>
+-        <execution>
+-          <id>default</id>
+-          <phase>verify</phase>
+-          <goals>
+-            <goal>check</goal>
+-          </goals>
+-       </execution>
+-      </executions>
+-      <configuration>
+-        <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
+-      </configuration>
+-    </plugin>
+-    -->
+-    </plugins>
+-
+-    <pluginManagement>
+-      <plugins>
+-          <plugin>
+-              <groupId>org.apache.maven.plugins</groupId>
+-              <artifactId>maven-shade-plugin</artifactId>
+-              <version>${plugin.shade.version}</version>
+-          </plugin>
+ 
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-install-plugin</artifactId>
+-          <version>${plugin.install.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-checkstyle-plugin</artifactId>
+-          <version>${plugin.checkstyle.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-clean-plugin</artifactId>
+-          <version>${plugin.clean.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>net.alchim31.maven</groupId>
+-          <artifactId>scala-maven-plugin</artifactId>
+-          <version>${plugin.scala.alchim31.version}</version>
+-        </plugin>
+-        
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-surefire-plugin</artifactId>
+-          <version>${plugin.surefire.version}</version>
+-          <configuration combine.children="append">
+-            <argLine>-Xmx2g -Xms1g -Dfile.encoding=UTF-8</argLine>
+-            <environmentVariables>
+-              <IS_ZEPPELIN_TEST>true</IS_ZEPPELIN_TEST>
+-            </environmentVariables>
+-            <excludes>
+-              <exclude>${tests.to.exclude}</exclude>
+-            </excludes>
+-          </configuration>
+-          <!-- <excludes> <exclude>**/itest/**</exclude> </excludes> <executions>
+-            <execution> <id>surefire-itest</id> <phase>integration-test</phase> <goals>
+-            <goal>test</goal> </goals> <configuration> <excludes> <exclude>none</exclude>
+-            </excludes> <includes> <include>**/itest/**</include> </includes> </configuration>
+-            </execution> </executions> -->
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-assembly-plugin</artifactId>
+-          <version>${plugin.assembly.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.codehaus.mojo</groupId>
+-          <artifactId>exec-maven-plugin</artifactId>
+-          <version>${plugin.exec.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.codehaus.mojo</groupId>
+-          <artifactId>cobertura-maven-plugin</artifactId>
+-          <version>${plugin.cobertura.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.codehaus.mojo</groupId>
+-          <artifactId>xml-maven-plugin</artifactId>
+-          <version>${plugin.xml.version}</version>
+-          <executions>
+-            <execution>
+-              <phase>verify</phase>
+-              <goals>
+-                <goal>validate</goal>
+-              </goals>
+-            </execution>
+-          </executions>
+-          <configuration>
+-            <validationSets>
+-              <validationSet>
+-                <dir>${project.basedir}</dir>
+-                <includes>
+-                  <include>
+-                    pom.xml
+-                  </include>
+-                </includes>
+-                <systemId>_tools/maven-4.0.0.xsd</systemId>
+-              </validationSet>
+-            </validationSets>
+-          </configuration>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>com.googlecode.maven-download-plugin</groupId>
+-          <artifactId>download-maven-plugin</artifactId>
+-          <version>${plugin.download.version}</version>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-antrun-plugin</artifactId>
+-          <version>${plugin.antrun.version}</version>
+-        </plugin>
+-
+-        <!--This plugin's configuration is used to store Eclipse m2e settings
+-          only. It has no influence on the Maven build itself. -->
+-        <plugin>
+-          <groupId>org.eclipse.m2e</groupId>
+-          <artifactId>lifecycle-mapping</artifactId>
+-          <version>${plugin.lifecycle.mapping.version}</version>
+-          <configuration>
+-            <lifecycleMappingMetadata>
+-              <pluginExecutions>
+-                <pluginExecution>
+-                  <pluginExecutionFilter>
+-                    <groupId>
+-                      org.apache.maven.plugins
+-                    </groupId>
+-                    <artifactId>
+-                      maven-dependency-plugin
+-                    </artifactId>
+-                    <versionRange>
+-                      [2.8,)
+-                    </versionRange>
+-                    <goals>
+-                      <goal>copy-dependencies</goal>
+-                    </goals>
+-                  </pluginExecutionFilter>
+-                  <action>
+-                    <ignore/>
+-                  </action>
+-                </pluginExecution>
+-                <pluginExecution>
+-                  <pluginExecutionFilter>
+-                    <groupId>
+-                      org.apache.maven.plugins
+-                    </groupId>
+-                    <artifactId>
+-                      maven-checkstyle-plugin
+-                    </artifactId>
+-                    <versionRange>
+-                      [2.13,)
+-                    </versionRange>
+-                    <goals>
+-                      <goal>checkstyle</goal>
+-                      <goal>check</goal>
+-                    </goals>
+-                  </pluginExecutionFilter>
+-                  <action>
+-                    <ignore></ignore>
+-                  </action>
+-                </pluginExecution>
+-              </pluginExecutions>
+-            </lifecycleMappingMetadata>
+-          </configuration>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-eclipse-plugin</artifactId>
+-          <version>${plugin.eclipse.version}</version>
+-        </plugin>
+-        
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-dependency-plugin</artifactId>
+-          <version>${plugin.dependency.version}</version>
+-          <executions>
+-            <execution>
+-              <id>copy-dependencies</id>
+-              <phase>process-test-resources</phase>
+-              <goals>
+-                <goal>copy-dependencies</goal>
+-              </goals>
+-              <configuration>
+-                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+-                <overWriteReleases>false</overWriteReleases>
+-                <overWriteSnapshots>false</overWriteSnapshots>
+-                <overWriteIfNewer>true</overWriteIfNewer>
+-                <includeScope>runtime</includeScope>
+-              </configuration>
+-            </execution>
+-          </executions>
+-        </plugin>
+-
+-        <plugin>
+-          <groupId>org.apache.maven.plugins</groupId>
+-          <artifactId>maven-resources-plugin</artifactId>
+-          <version>${plugin.resource.version}</version>
+-          <executions>
+-            <execution>
+-              <id>copy-resources</id>
+-              <phase>validate</phase>
+-              <goals>
+-                <goal>copy-resources</goal>
+-              </goals>
+-              <configuration>
+-                <outputDirectory>${basedir}/target/site</outputDirectory>
+-                <resources>
+-                  <resource>
+-                    <directory>${basedir}/../_tools/site</directory>
+-                    <filtering>true</filtering>
+-                    <includes>
+-                      <include>**/*</include>
+-                    </includes>
+-                  </resource>
+-                </resources>
+-              </configuration>
+-            </execution>
+-          </executions>
+-        </plugin>
+-
+-      <plugin>
+-        <groupId>org.scalatest</groupId>
+-        <artifactId>scalatest-maven-plugin</artifactId>
+-        <version>${plugin.scalatest.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>build-helper-maven-plugin</artifactId>
+-        <version>${plugin.buildhelper.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>com.github.eirslett</groupId>
+-        <artifactId>frontend-maven-plugin</artifactId>
+-        <version>${plugin.frontend.version}</version>
+-      </plugin>
+-      
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-failsafe-plugin</artifactId>
+-        <version>${plugin.failsafe.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.xolstice.maven.plugins</groupId>
+-        <artifactId>protobuf-maven-plugin</artifactId>
+-        <version>${plugin.protobuf.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>com.bazaarvoice.maven.plugins</groupId>
+-        <artifactId>s3-upload-maven-plugin</artifactId>
+-        <version>${plugin.s3.upload.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>buildnumber-maven-plugin</artifactId>
+-        <version>${plugin.buildnumber.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.vafer</groupId>
+-        <artifactId>jdeb</artifactId>
+-        <version>${plugin.jdeb.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.avro</groupId>
+-        <artifactId>avro-maven-plugin</artifactId>
+-        <version>${plugin.avro.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.scalatra.scalate</groupId>
+-        <artifactId>maven-scalate-plugin_${scala.binary.version}</artifactId>
+-        <version>${plugin.scalate.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.scala-tools</groupId>
+-        <artifactId>maven-scala-plugin</artifactId>
+-        <version>${plugin.scala.tools.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-source-plugin</artifactId>
+-        <version>${plugin.source.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-javadoc-plugin</artifactId>
+-        <version>${plugin.javadoc.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-gpg-plugin</artifactId>
+-        <version>${plugin.gpg.version}</version>
+-      </plugin>
+-
+-      <plugin>
+-        <groupId>org.apache.rat</groupId>
+-        <artifactId>apache-rat-plugin</artifactId>
+-        <version>${plugin.rat.version}</version>
+-      </plugin>
+-      
+-      </plugins>
+-    </pluginManagement>
+-  </build>
+-
+-  <profiles>
+-    <profile>
+-      <id>scala-2.10</id>
+-      <activation>
+-        <activeByDefault>true</activeByDefault>
+-      </activation>
+-      <properties>
+-        <scala.version>${scala.2.10.version}</scala.version>
+-        <scala.binary.version>2.10</scala.binary.version>
+-      </properties>
+-    </profile>
+-
+-    <profile>
+-      <id>scala-2.11</id>
+-      <properties>
+-        <scala.version>${scala.2.11.version}</scala.version>
+-        <scala.binary.version>2.11</scala.binary.version>
+-      </properties>
+-    </profile>
+-
+-    <profile>
+-      <id>web-angular</id>
+-      <modules>
+-        <module>zeppelin-web-angular</module>
+-      </modules>
+-    </profile>
+-
+-    <profile>
+-      <id>vendor-repo</id>
+-      <repositories>
+-        <repository>
+-          <id>cloudera</id>
+-          <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+-        </repository>
+-        <repository>
+-          <id>hortonworks</id>
+-          <url>https://repo.hortonworks.com/content/groups/public/</url>
+-        </repository>
+-      </repositories>
+-    </profile>
+-
+-    <profile>
+-      <id>integration</id>
+-      <modules>
+-        <module>zeppelin-integration</module>
+-        <module>zeppelin-interpreter-integration</module>
+-      </modules>
+-    </profile>
+-
+-    <profile>
+-      <id>examples</id>
+-      <modules>
+-        <module>zeppelin-examples</module>
+-      </modules>
+-    </profile>
+-
+-    <profile>
+-      <id>helium-dev</id>
+-      <modules>
+-        <module>helium-dev</module>
+-      </modules>
+-    </profile>
+-
+-    <profile>
+-      <id>include-hadoop</id>
+-      <properties>
+-        <hadoop.deps.scope>compile</hadoop.deps.scope>
+-      </properties>
+-    </profile>
+-
+-    <profile>
+-      <id>build-distr</id>
+-      <activation>
+-        <activeByDefault>false</activeByDefault>
+-      </activation>
+-      <build>
++    <build>
+         <pluginManagement>
+-          <plugins>
+-            <plugin>
+-              <groupId>org.apache.maven.plugins</groupId>
+-              <artifactId>maven-surefire-plugin</artifactId>
+-              <configuration>
+-                <skipTests>true</skipTests>
+-              </configuration>
+-            </plugin>
+-
+-            <plugin>
+-              <groupId>org.apache.maven.plugins</groupId>
+-              <artifactId>maven-assembly-plugin</artifactId>
+-              <executions>
+-                <execution>
+-                  <id>make-assembly</id>
+-                  <phase>package</phase>
+-                  <goals>
+-                    <goal>single</goal>
+-                  </goals>
+-                </execution>
+-              </executions>
+-            </plugin>
+-
+-          </plugins>
++            <plugins>
++                <plugin>
++                    <artifactId>maven-dependency-plugin</artifactId>
++                    <executions>
++                        <execution>
++                            <id>copy-plugin-dependencies</id>
++                            <phase>package</phase>
++                            <goals>
++                                <goal>copy-dependencies</goal>
++                            </goals>
++                            <configuration>
++                                <outputDirectory>${project.basedir}/../../../plugins/${plugin.name}</outputDirectory>
++                                <overWriteReleases>false</overWriteReleases>
++                                <overWriteSnapshots>false</overWriteSnapshots>
++                                <overWriteIfNewer>true</overWriteIfNewer>
++                                <includeScope>runtime</includeScope>
++                            </configuration>
++                        </execution>
++                        <execution>
++                            <id>copy-plugin-artifact</id>
++                            <phase>package</phase>
++                            <goals>
++                                <goal>copy</goal>
++                            </goals>
++                            <configuration>
++                                <outputDirectory>${project.basedir}/../../../plugins/${plugin.name}</outputDirectory>
++                                <overWriteReleases>false</overWriteReleases>
++                                <overWriteSnapshots>false</overWriteSnapshots>
++                                <overWriteIfNewer>true</overWriteIfNewer>
++                                <artifactItems>
++                                    <artifactItem>
++                                        <groupId>${project.groupId}</groupId>
++                                        <artifactId>${project.artifactId}</artifactId>
++                                        <version>${project.version}</version>
++                                        <type>${project.packaging}</type>
++                                    </artifactItem>
++                                </artifactItems>
++                            </configuration>
++                        </execution>
++                    </executions>
++                </plugin>
++                <plugin>
++                    <artifactId>maven-clean-plugin</artifactId>
++                    <executions>
++                        <execution>
++                            <id>delete-plugin-dir</id>
++                            <goals>
++                                <goal>clean</goal>
++                            </goals>
++                            <phase>clean</phase>
++                            <configuration>
++                                <filesets>
++                                    <fileset>
++                                        <directory>${project.basedir}/../../../plugins/${plugin.name}</directory>
++                                        <followSymlinks>true</followSymlinks>
++                                        <useDefaultExcludes>false</useDefaultExcludes>
++                                    </fileset>
++                                </filesets>
++                            </configuration>
++                        </execution>
++                    </executions>
++                </plugin>
++            </plugins>
+         </pluginManagement>
+-      </build>
+-    </profile>
+-
+-    <profile>
+-      <id>publish-distr</id>
+-      <build>
+-        <plugins>
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-surefire-plugin</artifactId>
+-            <configuration>
+-              <skipTests>true</skipTests>
+-            </configuration>
+-          </plugin>
+-
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-source-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <id>attach-sources</id>
+-                <goals>
+-                  <goal>jar</goal>
+-                </goals>
+-              </execution>
+-            </executions>
+-          </plugin>
+-
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-javadoc-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <id>attach-javadocs</id>
+-                <goals>
+-                  <goal>jar</goal>
+-                </goals>
+-              </execution>
+-            </executions>
+-          </plugin>
+-        </plugins>
+-      </build>
+-    </profile>
+-
+-    <profile>
+-      <id>release-sign-artifacts</id>
+-      <activation>
+-        <property>
+-          <name>performRelease</name>
+-          <value>true</value>
+-        </property>
+-      </activation>
+-      <build>
+-        <plugins>
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-gpg-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <id>sign-artifacts</id>
+-                <phase>verify</phase>
+-                <goals>
+-                  <goal>sign</goal>
+-                </goals>
+-              </execution>
+-            </executions>
+-          </plugin>
+-        </plugins>
+-      </build>
+-    </profile>
+-
+-    <profile>
+-      <id>rat</id>
+-      <activation>
+-        <property><name>!skipRat</name></property>
+-      </activation>
+-      <build>
+-        <plugins>
+-        <plugin>
+-          <groupId>org.apache.rat</groupId>
+-          <artifactId>apache-rat-plugin</artifactId>
+-          <configuration>
+-            <excludes>
+-              <exclude>**/*.keywords</exclude>
+-              <exclude>reports/**</exclude>
+-              <exclude>**/.idea/</exclude>
+-              <exclude>**/*.iml</exclude>
+-              <exclude>.git/</exclude>
+-              <exclude>.github/*</exclude>
+-              <exclude>.gitignore</exclude>
+-              <exclude>git.properties</exclude>
+-              <exclude>.repository/</exclude>
+-              <exclude>.rat-excludes/</exclude>
+-              <exclude>.Rhistory</exclude>
+-              <exclude>**/*.diff</exclude>
+-              <exclude>**/*.patch</exclude>
+-              <exclude>**/*.avsc</exclude>
+-              <exclude>**/*.avro</exclude>
+-              <exclude>**/*.log</exclude>
+-              <exclude>**/*.ipynb</exclude>
+-              <exclude>**/test/resources/**</exclude>
+-              <exclude>**/.settings/*</exclude>
+-              <exclude>**/.factorypath</exclude>
+-              <exclude>**/.classpath</exclude>
+-              <exclude>**/.project</exclude>
+-              <exclude>**/target/**</exclude>
+-              <exclude>**/derby.log</exclude>
+-              <exclude>**/metastore_db/</exclude>
+-              <exclude>**/logs/**</exclude>
+-              <exclude>**/run/**</exclude>
+-              <exclude>**/interpreter/**</exclude>
+-              <exclude>**/local-repo/**</exclude>
+-              <exclude>**/null/**</exclude>
+-              <exclude>**/notebook/**</exclude>
+-              <exclude>_tools/site/css/*</exclude>
+-              <exclude>_tools/maven-4.0.0.xsd</exclude>
+-              <exclude>**/README.md</exclude>
+-              <exclude>DEPENDENCIES</exclude>
+-              <exclude>DEPLOY.md</exclude>
+-              <exclude>STYLE.md</exclude>
+-              <exclude>Roadmap.md</exclude>
+-              <exclude>**/licenses/**</exclude>
+-              <exclude>**/zeppelin-distribution/src/bin_license/**</exclude>
+-              <exclude>conf/interpreter.json</exclude>
+-              <exclude>conf/notebook-authorization.json</exclude>
+-              <exclude>conf/credentials.json</exclude>
+-              <exclude>conf/zeppelin-env.sh</exclude>
+-              <exclude>conf/helium.json</exclude>
+-              <exclude>spark-*-bin*/**</exclude>
+-              <exclude>.spark-dist/**</exclude>
+-              <exclude>**/interpreter-setting.json</exclude>
+-              <exclude>**/constants.json</exclude>
+-              <exclude>scripts/**</exclude>
+-              <exclude>**/**/*.log</exclude>
+-              <exclude>**/**/logs/**</exclude>
+-
+-              <!-- bundled from zeppelin-web -->
+-              <exclude>**/test/karma.conf.js</exclude>
+-              <exclude>**/test/spec/**</exclude>
+-              <exclude>**/.babelrc</exclude>
+-              <exclude>**/.bowerrc</exclude>
+-              <exclude>.editorconfig</exclude>
+-              <exclude>.eslintrc</exclude>
+-              <exclude>protractor.conf.js</exclude>
+-              <exclude>**/.tmp/**</exclude>
+-              <exclude>**/target/**</exclude>
+-              <exclude>**/node/**</exclude>
+-              <exclude>**/node_modules/**</exclude>
+-              <exclude>**/bower_components/**</exclude>
+-              <exclude>**/dist/**</exclude>
+-              <exclude>**/.buildignore</exclude>
+-              <exclude>**/.npmignore</exclude>
+-              <exclude>**/.jshintrc</exclude>
+-              <exclude>**/yarn.lock</exclude>
+-              <exclude>**/bower.json</exclude>
+-              <exclude>**/src/fonts/Patua-One*</exclude>
+-              <exclude>**/src/fonts/patua-one*</exclude>
+-              <exclude>**/src/fonts/Roboto*</exclude>
+-              <exclude>**/src/fonts/roboto*</exclude>
+-              <exclude>**/src/fonts/fontawesome*</exclude>
+-              <exclude>**/src/fonts/font-awesome*</exclude>
+-              <exclude>**/src/styles/font-awesome*</exclude>
+-              <exclude>**/src/fonts/Simple-Line*</exclude>
+-              <exclude>**/src/fonts/simple-line*</exclude>
+-              <exclude>**/src/fonts/Source-Code-Pro*</exclude>
+-              <exclude>**/src/fonts/source-code-pro*</exclude>
+-              <exclude>**/src/**/**.test.js</exclude>
+-              <exclude>**/e2e/**/**.spec.js</exclude>
+-              <exclude>package-lock.json</exclude>
+-
+-              <!-- bundled from zeppelin-web-angular -->
+-              <exclude>**/*.json</exclude>
+-              <exclude>**/browserslist</exclude>
+-              <exclude>**/.prettierrc</exclude>
+-              <exclude>**/.prettierignore</exclude>
+-              <exclude>**/.editorconfig</exclude>
+-              <exclude>**/src/**/*.svg</exclude>
+-              <exclude>**/.gitkeep</exclude>
+-
+-
+-              <!-- from SQLLine 1.0.2, see ZEPPELIN-2135 -->
+-              <exclude>**/src/main/java/org/apache/zeppelin/jdbc/SqlCompleter.java</exclude>
+-
+-              <!-- bundled from bootstrap -->
+-              <exclude>docs/assets/themes/zeppelin/bootstrap/**</exclude>
+-              <exclude>docs/assets/themes/zeppelin/css/style.css</exclude>
+-              <exclude>docs/assets/themes/zeppelin/js/docs.js</exclude>
+-              <exclude>docs/assets/themes/zeppelin/js/search.js</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/_jumbotron.html</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/_navigation.html</exclude>
+-
+-              <!-- bundled from jekyll-bootstrap -->
+-              <exclude>docs/404.html</exclude>
+-              <exclude>docs/_config.yml</exclude>
+-              <exclude>docs/_includes/JB/**</exclude>
+-              <exclude>docs/_layouts/**</exclude>
+-              <exclude>docs/_plugins/**</exclude>
+-              <exclude>docs/atom.xml</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/default.html</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/page.html</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/post.html</exclude>
+-              <exclude>docs/_includes/themes/zeppelin/settings.yml</exclude>
+-              <exclude>docs/Rakefile</exclude>
+-              <exclude>docs/rss.xml</exclude>
+-              <exclude>docs/sitemap.txt</exclude>
+-              <exclude>docs/search_data.json</exclude>
+-              <exclude>**/dependency-reduced-pom.xml</exclude>
+-
+-              <!-- bundled from anchor -->
+-              <exclude>docs/assets/themes/zeppelin/js/anchor.min.js</exclude>
+-
+-              <!-- bundled from toc -->
+-              <exclude>docs/assets/themes/zeppelin/js/toc.js</exclude>
+-
+-              <!-- bundled from lunrjs -->
+-              <exclude>docs/assets/themes/zeppelin/js/lunr.min.js</exclude>
+-
+-              <!-- bundled from jekyll -->
+-              <exclude>docs/assets/themes/zeppelin/css/syntax.css</exclude>
+-
+-              <!-- docs (website) build target dir -->
+-              <exclude>docs/_site/**</exclude>
+-              <exclude>docs/Gemfile.lock</exclude>
+-
+-              <!-- package.json -->
+-              <exclude>**/package.json</exclude>
+-
+-              <!-- compiled R packages (binaries) -->
+-              <exclude>**/R/lib/**</exclude>
+-              <exclude>**/lib/rzeppelin/**</exclude>
+-
+-              <!--R-related files with alternative licenses-->
+-
+-              <exclude>**/R/rzeppelin/R/*.R</exclude>
+-              <exclude>**/src/main/scala/scala/Console.scala</exclude>
+-              <exclude>**/src/main/scala/org/apache/zeppelin/rinterpreter/rscala/Package.scala</exclude>
+-              <exclude>**/src/main/scala/org/apache/zeppelin/rinterpreter/rscala/RClient.scala</exclude>
+-
+-               <!--The following files are mechanical-->
+-              <exclude>**/R/rzeppelin/DESCRIPTION</exclude>
+-              <exclude>**/R/rzeppelin/NAMESPACE</exclude>
+-              
+-              <exclude>zeppelin-jupyter-interpreter/src/main/resources/grpc/jupyter/*.py</exclude>
+-            </excludes>
+-          </configuration>
+-
+-          <executions>
+-            <execution>
+-              <id>verify.rat</id>
+-              <phase>verify</phase>
+-              <goals>
+-                <goal>check</goal>
+-              </goals>
+-            </execution>
+-          </executions>
+-        </plugin>
+-        </plugins>
+-      </build>
+-    </profile>
+-
+-    <profile>
+-      <id>hadoop2</id>
+-      <properties>
+-        <hadoop.version>${hadoop2.7.version}</hadoop.version>
+-        <curator.version>2.13.0</curator.version>
+-      </properties>
+-    </profile>
+-
+-    <profile>
+-      <id>hadoop3</id>
+-      <properties>
+-        <hadoop.version>${hadoop3.2.version}</hadoop.version>
+-        <curator.version>2.13.0</curator.version>
+-        <kerberos-client.version>2.0.0-M15</kerberos-client.version>
+-      </properties>
+-    </profile>
+-
+-  </profiles>
+-
++    </build>
+ </project>
+diff --git a/zeppelin-plugins/pom.xml b/zeppelin-plugins/pom.xml
+index cef5f418d..d9b3e806d 100644
+--- a/zeppelin-plugins/pom.xml
++++ b/zeppelin-plugins/pom.xml
+@@ -41,6 +41,7 @@
+ 
+     <modules>
+         <module>notebookrepo/s3</module>
++        <module>notebookrepo/odfe</module>
+         <module>notebookrepo/github</module>
+         <module>notebookrepo/azure</module>
+         <module>notebookrepo/gcs</module>
+diff --git a/zeppelin-zengine/src/main/java/org/apache/zeppelin/search/LuceneSearch.java b/zeppelin-zengine/src/main/java/org/apache/zeppelin/search/LuceneSearch.java
+index 2b3a24c9b..cb634e3b4 100644
+--- a/zeppelin-zengine/src/main/java/org/apache/zeppelin/search/LuceneSearch.java
++++ b/zeppelin-zengine/src/main/java/org/apache/zeppelin/search/LuceneSearch.java
+@@ -28,7 +28,6 @@ import java.util.Date;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.concurrent.TimeUnit;
+-import java.util.stream.Stream;
+ import javax.inject.Inject;
+ 
+ import org.apache.lucene.analysis.Analyzer;
+@@ -36,7 +35,7 @@ import org.apache.lucene.analysis.TokenStream;
+ import org.apache.lucene.analysis.standard.StandardAnalyzer;
+ import org.apache.lucene.document.Document;
+ import org.apache.lucene.document.Field;
+-import org.apache.lucene.document.LongField;
++import org.apache.lucene.document.LongPoint;
+ import org.apache.lucene.document.StringField;
+ import org.apache.lucene.document.TextField;
+ import org.apache.lucene.index.DirectoryReader;
+@@ -95,7 +94,7 @@ public class LuceneSearch extends SearchService {
+         logger.info("Use {} for storing lucene search index", this.indexPath);
+       } catch (IOException e) {
+         throw new RuntimeException(
+-            "Failed to create index directory for search service. Use memory instead", e);
++                "Failed to create index directory for search service. Use memory instead", e);
+       }
+     } else {
+       this.indexDirectory = new RAMDirectory();
+@@ -116,14 +115,14 @@ public class LuceneSearch extends SearchService {
+   public List<Map<String, String>> query(String queryStr) {
+     if (null == indexDirectory) {
+       throw new IllegalStateException(
+-          "Something went wrong on instance creation time, index dir is null");
++              "Something went wrong on instance creation time, index dir is null");
+     }
+     List<Map<String, String>> result = Collections.emptyList();
+     try (IndexReader indexReader = DirectoryReader.open(indexDirectory)) {
+       IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+       Analyzer analyzer = new StandardAnalyzer();
+       MultiFieldQueryParser parser =
+-          new MultiFieldQueryParser(new String[] {SEARCH_FIELD_TEXT, SEARCH_FIELD_TITLE}, analyzer);
++              new MultiFieldQueryParser(new String[] {SEARCH_FIELD_TEXT, SEARCH_FIELD_TITLE}, analyzer);
+ 
+       Query query = parser.parse(queryStr);
+       logger.debug("Searching for: " + query.toString(SEARCH_FIELD_TEXT));
+@@ -141,7 +140,7 @@ public class LuceneSearch extends SearchService {
+   }
+ 
+   private List<Map<String, String>> doSearch(
+-      IndexSearcher searcher, Query query, Analyzer analyzer, Highlighter highlighter) {
++          IndexSearcher searcher, Query query, Analyzer analyzer, Highlighter highlighter) {
+     List<Map<String, String>> matchingParagraphs = Lists.newArrayList();
+     ScoreDoc[] hits;
+     try {
+@@ -165,8 +164,8 @@ public class LuceneSearch extends SearchService {
+ 
+           if (text != null) {
+             TokenStream tokenStream =
+-                TokenSources.getTokenStream(
+-                    searcher.getIndexReader(), id, SEARCH_FIELD_TEXT, analyzer);
++                    TokenSources.getTokenStream(
++                            searcher.getIndexReader(), id, SEARCH_FIELD_TEXT, analyzer);
+             TextFragment[] frag = highlighter.getBestTextFragments(tokenStream, text, true, 3);
+             logger.debug("    {} fragments found for query '{}'", frag.length, query);
+             for (int j = 0; j < frag.length; j++) {
+@@ -179,17 +178,17 @@ public class LuceneSearch extends SearchService {
+ 
+           if (header != null) {
+             TokenStream tokenTitle =
+-                TokenSources.getTokenStream(
+-                    searcher.getIndexReader(), id, SEARCH_FIELD_TITLE, analyzer);
++                    TokenSources.getTokenStream(
++                            searcher.getIndexReader(), id, SEARCH_FIELD_TITLE, analyzer);
+             TextFragment[] frgTitle = highlighter.getBestTextFragments(tokenTitle, header, true, 3);
+             header = (frgTitle != null && frgTitle.length > 0) ? frgTitle[0].toString() : "";
+           } else {
+             header = "";
+           }
+           matchingParagraphs.add(
+-              ImmutableMap.of(
+-                  "id", path, // <noteId>/paragraph/<paragraphId>
+-                  "name", title, "snippet", fragment, "text", text, "header", header));
++                  ImmutableMap.of(
++                          "id", path, // <noteId>/paragraph/<paragraphId>
++                          "name", title, "snippet", fragment, "text", text, "header", header));
+         } else {
+           logger.info("{}. No {} for this document", i + 1, ID_FIELD);
+         }
+@@ -293,7 +292,7 @@ public class LuceneSearch extends SearchService {
+         doc.add(new TextField(SEARCH_FIELD_TITLE, p.getTitle(), Field.Store.YES));
+       }
+       Date date = p.getDateStarted() != null ? p.getDateStarted() : p.getDateCreated();
+-      doc.add(new LongField("modified", date.getTime(), Field.Store.NO));
++      doc.add(new LongPoint("modified", date.getTime()));
+     } else {
+       doc.add(new TextField(SEARCH_FIELD_TEXT, noteName, Field.Store.YES));
+     }
+@@ -322,9 +321,9 @@ public class LuceneSearch extends SearchService {
+       }
+       long end = System.nanoTime();
+       logger.info(
+-          "Indexing {} notebooks took {}ms",
+-          docsIndexed,
+-          TimeUnit.NANOSECONDS.toMillis(end - start));
++              "Indexing {} notebooks took {}ms",
++              docsIndexed,
++              TimeUnit.NANOSECONDS.toMillis(end - start));
+     }
+   }
+ 
+@@ -377,14 +376,14 @@ public class LuceneSearch extends SearchService {
+ 
+   private void deleteDoc(String noteId, Paragraph p) {
+     String fullNoteOrJustParagraph = formatDeleteId(noteId, p);
+-    logger.debug("Deleting note {}, out of: {}", noteId, indexWriter.numDocs());
++    logger.debug("Deleting note {}, out of: {}", noteId, indexWriter.getDocStats());
+     try {
+       indexWriter.deleteDocuments(new WildcardQuery(new Term(ID_FIELD, fullNoteOrJustParagraph)));
+       indexWriter.commit();
+     } catch (IOException e) {
+       logger.error("Failed to delete {} from index by '{}'", noteId, fullNoteOrJustParagraph, e);
+     }
+-    logger.debug("Done, index contains {} docs now" + indexWriter.numDocs());
++    logger.debug("Done, index contains {} docs now" + indexWriter.getDocStats());
+   }
+ 
+   /* (non-Javadoc)
+@@ -415,28 +414,22 @@ public class LuceneSearch extends SearchService {
+ 
+   /** Indexes a single document: - code of the paragraph (if non-null) - or just a note name */
+   private void indexDoc(IndexWriter w, String noteId, String noteName, Paragraph p)
+-      throws IOException {
++          throws IOException {
+     String id = formatId(noteId, p);
+     Document doc = newDocument(id, noteName, p);
+     w.addDocument(doc);
+   }
+ 
+   @Override
+-  public void startRebuildIndex(Stream<Note> notes) {
++  public void startRebuildIndex(List<Note> notes) {
+     Thread thread = new Thread(() -> {
+       logger.info("Starting rebuild index");
+-      notes.forEach(note -> {
++      for (Note note:  notes) {
+         addIndexDoc(note);
+-        note.unLoad();
+-      });
++      }
+       logger.info("Finish rebuild index");
+     });
+     thread.setName("LuceneSearch-RebuildIndex-Thread");
+     thread.start();
+-    try {
+-      thread.join();
+-    } catch (InterruptedException e) {
+-      e.printStackTrace();
+-    }
+   }
+ }
+
