@@ -4,10 +4,19 @@ import { EuiIcon } from '@elastic/eui';
 import { EuiComboBoxOptionOption } from '@elastic/eui';
 import { EuiComboBox } from '@elastic/eui';
 import { EuiFieldNumber } from '@elastic/eui';
+import { EuiBadge } from '@elastic/eui';
+import { EuiText } from '@elastic/eui';
+
+export interface FilterType {
+  field: string;
+  operator: string;
+  value: any;
+  inverted: boolean;
+  disabled: boolean;
+}
 
 export function Filters() {
-  const [selectedFieldOptions, setSelectedFieldOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
-  const [selectedOperatorOptions, setSelectedOperatorOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
+  const [filters, setFilters] = useState<FilterType[]>([{field: 'test'},{field:'test2'}]);
   const popoverPanels = [
     {
       id: 0,
@@ -54,7 +63,7 @@ export function Filters() {
   ]
 
 
-  const renderFilters = () => {
+  const renderFilterPopover = () => {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     return (
       <EuiPopover
@@ -78,6 +87,8 @@ export function Filters() {
 
   const renderAddFilter = () => {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [selectedFieldOptions, setSelectedFieldOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
+    const [selectedOperatorOptions, setSelectedOperatorOptions] = useState<Array<EuiComboBoxOptionOption<string>>>([]);
     const button = (
       <EuiButtonEmpty
         size="xs"
@@ -88,6 +99,7 @@ export function Filters() {
         + Add filter
       </EuiButtonEmpty>
     );
+
     const closePopover = () => {
       setIsPopoverOpen(false);
       setSelectedFieldOptions([]);
@@ -156,11 +168,37 @@ export function Filters() {
     );
   };
 
+  const renderFilters = () => {
+    const renderFilter = (filter, i) => {
+      const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+      const badge = (
+        <EuiBadge onClick={() => setIsPopoverOpen(true)} onClickAriaLabel='Open filter settings' color="hollow" iconType="cross" iconSide="right">{`${filter.field}`}</EuiBadge>
+      )
+      return (
+        <EuiFlexItem grow={false} key={`filter-${i}`}>
+          <EuiPopover
+            button={badge}
+            isOpen={isPopoverOpen}
+            closePopover={() => setIsPopoverOpen(false)}>
+            <EuiText>hello</EuiText>
+          </EuiPopover>
+        </EuiFlexItem>
+      )
+    }
+
+    return (
+      <>
+        {filters.map((filter, i) => renderFilter(filter, i))}
+      </>
+    )
+  }
+
   return (
-    <EuiFlexGroup gutterSize="none" alignItems="flexEnd" responsive={false}>
+    <EuiFlexGroup gutterSize="xs" alignItems="center" responsive={false}>
       <EuiFlexItem grow={false}>
-        {renderFilters()}
+        {renderFilterPopover()}
       </EuiFlexItem>
+      {renderFilters()}
       <EuiFlexItem grow={false}>
         {renderAddFilter()}
       </EuiFlexItem>
