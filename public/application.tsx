@@ -21,7 +21,7 @@ import { KibanaNotebooksApp } from './components/app';
 
 export const renderApp = (
   { notifications, http }: CoreStart,
-  { navigation }: AppPluginStartDependencies,
+  { navigation, dashboard }: AppPluginStartDependencies,
   { appBasePath, element }: AppMountParameters
 ) => {
   ReactDOM.render(
@@ -30,6 +30,7 @@ export const renderApp = (
       notifications={notifications}
       http={http}
       navigation={navigation}
+      DashboardContainerByValueRenderer={dashboard.DashboardContainerByValueRenderer}
     />,
     element
   );

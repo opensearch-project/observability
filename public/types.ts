@@ -14,6 +14,7 @@
  */
 
 import { NavigationPublicPluginStart } from '../../../src/plugins/navigation/public';
+import { DashboardStart } from '../../../src/plugins/dashboard/public';
 
 export interface KibanaNotebooksPluginSetup {
   getGreeting: () => string;
@@ -23,4 +24,5 @@ export interface KibanaNotebooksPluginStart {}
 
 export interface AppPluginStartDependencies {
   navigation: NavigationPublicPluginStart;
+  dashboard: DashboardStart;
 }

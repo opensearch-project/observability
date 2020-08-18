@@ -13,34 +13,22 @@
  * permissions and limitations under the License.
  */
 
-import React, { useState } from 'react';
-import { i18n } from '@kbn/i18n';
-import { FormattedMessage, I18nProvider } from '@kbn/i18n/react';
+import React from 'react';
+import { I18nProvider } from '@kbn/i18n/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import {
-  EuiButton,
-  EuiHorizontalRule,
-  EuiPage,
-  EuiPageBody,
-  EuiPageContent,
-  EuiPageContentBody,
-  EuiPageContentHeader,
-  EuiPageHeader,
-  EuiTitle,
-  EuiText,
-} from '@elastic/eui';
 
 import { CoreStart } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 
-import { PLUGIN_ID, PLUGIN_NAME } from '../../common';
+import { DashboardStart } from '../../../../src/plugins/dashboard/public';
+import { Main } from './main';
 
 interface KibanaNotebooksAppDeps {
   basename: string;
   notifications: CoreStart['notifications'];
   http: CoreStart['http'];
   navigation: NavigationPublicPluginStart;
+  DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
 }
 
 export const KibanaNotebooksApp = ({
@@ -48,81 +36,16 @@ export const KibanaNotebooksApp = ({
   notifications,
   http,
   navigation,
+  DashboardContainerByValueRenderer,
 }: KibanaNotebooksAppDeps) => {
-  // Use React hooks to manage state.
-  const [timestamp, setTimestamp] = useState<string | undefined>();
-
-  const onClickHandler = () => {
-    // Use the core http service to make a response to the server API.
-    http.get('/api/kibana_notebooks/example').then((res) => {
-      setTimestamp(res.time);
-      // Use the core notifications service to display a success message.
-      notifications.toasts.addSuccess(
-        i18n.translate('kibanaNotebooks.dataUpdated', {
-          defaultMessage: 'Data updated',
-        })
-      );
-    });
-  };
-
   // Render the application DOM.
-  // Note that `navigation.ui.TopNavMenu` is a stateful component exported on the `navigation` plugin's start contract.
   return (
     <Router basename={basename}>
       <I18nProvider>
         <>
-          <navigation.ui.TopNavMenu appName={PLUGIN_ID} showSearchBar={true} />
-          <EuiPage restrictWidth="1000px">
-            <EuiPageBody>
-              <EuiPageHeader>
-                <EuiTitle size="l">
-                  <h1>
-                    <FormattedMessage
-                      id="kibanaNotebooks.helloWorldText"
-                      defaultMessage="{name}"
-                      values={{ name: PLUGIN_NAME }}
-                    />
-                  </h1>
-                </EuiTitle>
-              </EuiPageHeader>
-              <EuiPageContent>
-                <EuiPageContentHeader>
-                  <EuiTitle>
-                    <h2>
-                      <FormattedMessage
-                        id="kibanaNotebooks.congratulationsTitle"
-                        defaultMessage="Congratulations, you have successfully created a new Kibana Plugin!"
-                      />
-                    </h2>
-                  </EuiTitle>
-                </EuiPageContentHeader>
-                <EuiPageContentBody>
-                  <EuiText>
-                    <p>
-                      <FormattedMessage
-                        id="kibanaNotebooks.content"
-                        defaultMessage="Look through the generated code and check out the plugin development documentation."
-                      />
-                    </p>
-                    <EuiHorizontalRule />
-                    <p>
-                      <FormattedMessage
-                        id="kibanaNotebooks.timestampText"
-                        defaultMessage="Last timestamp: {time}"
-                        values={{ time: timestamp ? timestamp : 'Unknown' }}
-                      />
-                    </p>
-                    <EuiButton type="primary" size="s" onClick={onClickHandler}>
-                      <FormattedMessage id="kibanaNotebooks.buttonText" defaultMessage="Get data" />
-                    </EuiButton>
-                  </EuiText>
-                </EuiPageContentBody>
-              </EuiPageContent>
-            </EuiPageBody>
-          </EuiPage>
+          <Main DashboardContainerByValueRenderer={DashboardContainerByValueRenderer} http={http} />
         </>
       </I18nProvider>
     </Router>
   );
 };
-
