@@ -14,10 +14,21 @@ import {
   EuiFormRow,
   EuiSuperSelect,
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 
-export const renderDatePicker = () => {
-  return <EuiSuperDatePicker showUpdateButton={false} onTimeChange={(e) => console.log(e)} />;
+export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) => {
+  return (
+    <EuiSuperDatePicker
+      start={startTime}
+      end={endTime}
+      showUpdateButton={false}
+      onTimeChange={(e) => {
+        console.log(e);
+        setStartTime(e.start);
+        setEndTime(e.end);
+      }}
+    />
+  );
 };
 
 const renderFilters = (isPopoverOpen, setIsPopoverOpen, popoverPanels) => {
@@ -63,15 +74,11 @@ const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
       // panelPaddingSize="none"
       ownFocus={true}
     >
-      <EuiPopoverTitle>
-        {'Add filter'}
-      </EuiPopoverTitle>
+      <EuiPopoverTitle>{'Add filter'}</EuiPopoverTitle>
       <div style={{ width: 370 }}>
-        <EuiFlexGroup gutterSize='s'>
-          <EuiFlexItem grow={6} >
-            <EuiFormRow
-              label={'Field'}
-            >
+        <EuiFlexGroup gutterSize="s">
+          <EuiFlexItem grow={6}>
+            <EuiFormRow label={'Field'}>
               <EuiSuperSelect
                 options={[
                   {
@@ -80,14 +87,12 @@ const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
                   },
                 ]}
                 valueOfSelected={'test'}
-                onChange={() => { }}
+                onChange={() => {}}
               />
             </EuiFormRow>
           </EuiFlexItem>
-          <EuiFlexItem grow={5} >
-            <EuiFormRow
-              label={'Operator'}
-            >
+          <EuiFlexItem grow={5}>
+            <EuiFormRow label={'Operator'}>
               <EuiSuperSelect
                 options={[
                   {
@@ -96,13 +101,13 @@ const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
                   },
                 ]}
                 valueOfSelected={'test'}
-                onChange={() => { }}
+                onChange={() => {}}
               />
             </EuiFormRow>
           </EuiFlexItem>
         </EuiFlexGroup>
-        <EuiSpacer size='m' />
-        <EuiFlexGroup gutterSize='s' justifyContent='flexEnd'>
+        <EuiSpacer size="m" />
+        <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
           <EuiFlexItem grow={false}>
             <EuiButtonEmpty>Cancel</EuiButtonEmpty>
           </EuiFlexItem>
@@ -115,8 +120,16 @@ const renderAddFilter = (isPopoverOpen, setIsPopoverOpen) => {
   );
 };
 
-export function SearchBar(props) {
-  const [query, setQuery] = useState<string>('');
+export interface SearchBarProps {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  startTime: string;
+  setStartTime: Dispatch<SetStateAction<string>>;
+  endTime: string;
+  setEndTime: Dispatch<SetStateAction<string>>;
+}
+
+export function SearchBar(props: SearchBarProps) {
   const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState<boolean>(false);
   const [isAddFilterPopoverOpen, setIsAddFilterPopoverOpen] = useState<boolean>(false);
   const popoverPanels = [
@@ -149,12 +162,14 @@ export function SearchBar(props) {
           <EuiFieldSearch
             fullWidth
             placeholder="Trace ID, trace group name, user ID, service name"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={props.query}
+            onChange={(e) => props.setQuery(e.target.value)}
             onSearch={(e) => console.log(e)}
           />
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>{renderDatePicker()}</EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
+        </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButton fill iconType="refresh">
             Refresh

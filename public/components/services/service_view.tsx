@@ -13,18 +13,20 @@ import {
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
 import { PanelTitle } from '../common/helper_functions';
-import { renderDatePicker } from '../common/search_bar';
+import { renderDatePicker, SearchBarProps } from '../common/search_bar';
 import { ServiceMap } from './service_map';
 
-const renderTitle = (ID) => {
+const renderTitle = (serviceId, startTime, setStartTime, endTime, setEndTime) => {
   return (
     <>
       <EuiFlexItem>
         <EuiTitle size="l">
-          <h2 style={{ fontWeight: 430 }}>{ID}</h2>
+          <h2 style={{ fontWeight: 430 }}>{serviceId}</h2>
         </EuiTitle>
       </EuiFlexItem>
-      <EuiFlexItem grow={false}>{renderDatePicker()}</EuiFlexItem>
+      <EuiFlexItem grow={false}>
+        {renderDatePicker(startTime, setStartTime, endTime, setEndTime)}
+      </EuiFlexItem>
       <EuiFlexItem grow={false} />
       <EuiFlexItem grow={false}>
         <EuiButton>View in dashboard</EuiButton>
@@ -93,7 +95,7 @@ const renderOverview = () => {
   );
 };
 
-interface ServiceViewProps {
+interface ServiceViewProps extends SearchBarProps {
   setBreadcrumbs: setBreadcrumbsType;
   serviceId: string;
 }
@@ -121,7 +123,13 @@ export function ServiceView(props: ServiceViewProps) {
       <EuiPage>
         <EuiPageBody>
           <EuiFlexGroup alignItems="center" gutterSize="s">
-            {renderTitle(props.serviceId)}
+            {renderTitle(
+              props.serviceId,
+              props.startTime,
+              props.setStartTime,
+              props.endTime,
+              props.setEndTime
+            )}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
           {renderOverview()}

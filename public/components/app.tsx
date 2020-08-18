@@ -1,8 +1,8 @@
-import { EuiPage, EuiPageBody, EuiPageSideBar, EuiBreadcrumb } from '@elastic/eui';
+import { EuiPage, EuiPageBody, EuiPageSideBar } from '@elastic/eui';
 import { I18nProvider } from '@kbn/i18n/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { CoreStart } from '../../../../src/core/public';
+import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 import { SideNav } from './common/side_nav';
 import { Dashboard } from './dashboard/dashboard';
@@ -30,7 +30,6 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
   );
 };
 
-export type ChromeBreadcrumb = EuiBreadcrumb;
 export type setBreadcrumbsType = (newBreadcrumbs: ChromeBreadcrumb[]) => void;
 
 export const TraceAnalyticsApp = ({
@@ -40,8 +39,9 @@ export const TraceAnalyticsApp = ({
   chrome,
   navigation,
 }: TraceAnalyticsAppDeps) => {
-  // Render the application DOM.
-  // Note that `navigation.ui.TopNavMenu` is a stateful component exported on the `navigation` plugin's start contract.
+  const [query, setQuery] = useState<string>('');
+  const [startTime, setStartTime] = useState<string>('now-5m');
+  const [endTime, setEndTime] = useState<string>('now');
   return (
     <HashRouter basename={basename}>
       <I18nProvider>
@@ -51,14 +51,36 @@ export const TraceAnalyticsApp = ({
               exact
               path={['/dashboard', '/']}
               render={(props) =>
-                renderPageWithSidebar(<Dashboard setBreadcrumbs={chrome.setBreadcrumbs} />, 1)
+                renderPageWithSidebar(
+                  <Dashboard
+                    setBreadcrumbs={chrome.setBreadcrumbs}
+                    query={query}
+                    setQuery={setQuery}
+                    startTime={startTime}
+                    setStartTime={setStartTime}
+                    endTime={endTime}
+                    setEndTime={setEndTime}
+                  />,
+                  1
+                )
               }
             />
             <Route
               exact
               path="/traces"
               render={(props) =>
-                renderPageWithSidebar(<Traces setBreadcrumbs={chrome.setBreadcrumbs} />, 2)
+                renderPageWithSidebar(
+                  <Traces
+                    setBreadcrumbs={chrome.setBreadcrumbs}
+                    query={query}
+                    setQuery={setQuery}
+                    startTime={startTime}
+                    setStartTime={setStartTime}
+                    endTime={endTime}
+                    setEndTime={setEndTime}
+                  />,
+                  2
+                )
               }
             />
             <Route
@@ -71,7 +93,18 @@ export const TraceAnalyticsApp = ({
               exact
               path="/services"
               render={(props) =>
-                renderPageWithSidebar(<Services setBreadcrumbs={chrome.setBreadcrumbs} />, 3)
+                renderPageWithSidebar(
+                  <Services
+                    setBreadcrumbs={chrome.setBreadcrumbs}
+                    query={query}
+                    setQuery={setQuery}
+                    startTime={startTime}
+                    setStartTime={setStartTime}
+                    endTime={endTime}
+                    setEndTime={setEndTime}
+                  />,
+                  3
+                )
               }
             />
             <Route
@@ -80,6 +113,12 @@ export const TraceAnalyticsApp = ({
                 <ServiceView
                   setBreadcrumbs={chrome.setBreadcrumbs}
                   serviceId={props.match.params.id}
+                  query={query}
+                  setQuery={setQuery}
+                  startTime={startTime}
+                  setStartTime={setStartTime}
+                  endTime={endTime}
+                  setEndTime={setEndTime}
                 />
               )}
             />

@@ -1,10 +1,10 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { SearchBar } from '../common/search_bar';
-import { TracesTable } from './traces_table';
 import { setBreadcrumbsType } from '../app';
+import { SearchBar, SearchBarProps } from '../common/search_bar';
+import { TracesTable } from './traces_table';
 
-interface TracesProps {
+interface TracesProps extends SearchBarProps {
   setBreadcrumbs: setBreadcrumbsType;
 }
 
@@ -27,7 +27,14 @@ export function Traces(props: TracesProps) {
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Traces</h2>
       </EuiTitle>
-      <SearchBar />
+      <SearchBar
+        query={props.query}
+        setQuery={props.setQuery}
+        startTime={props.startTime}
+        setStartTime={props.setStartTime}
+        endTime={props.endTime}
+        setEndTime={props.setEndTime}
+      />
       <EuiSpacer size="m" />
       <TracesTable />
     </>

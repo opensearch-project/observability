@@ -1,20 +1,13 @@
-import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiHorizontalRule,
-  EuiPanel,
-  EuiSpacer,
-  EuiTitle,
-} from '@elastic/eui';
+import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { setBreadcrumbsType } from '../app';
-import { SearchBar } from '../common/search_bar';
-import { DashboardTable } from './dashboard_table';
+import { SearchBar, SearchBarProps } from '../common/search_bar';
 import { ServiceMap } from '../services/service_map';
-import { ThroughputPlt } from './throughput_plt';
+import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
+import { ThroughputPlt } from './throughput_plt';
 
-interface DashboardProps {
+interface DashboardProps extends SearchBarProps {
   setBreadcrumbs: setBreadcrumbsType;
 }
 
@@ -37,7 +30,14 @@ export function Dashboard(props: DashboardProps) {
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
       </EuiTitle>
-      <SearchBar />
+      <SearchBar
+        query={props.query}
+        setQuery={props.setQuery}
+        startTime={props.startTime}
+        setStartTime={props.setStartTime}
+        endTime={props.endTime}
+        setEndTime={props.setEndTime}
+      />
       <EuiSpacer size="m" />
       <DashboardTable />
       <EuiSpacer />
@@ -45,7 +45,7 @@ export function Dashboard(props: DashboardProps) {
         <EuiFlexItem grow={4}>
           <ServiceMap />
         </EuiFlexItem>
-        <EuiFlexItem >
+        <EuiFlexItem>
           <EuiFlexGroup direction="column">
             <EuiFlexItem>
               <ErrorRatePlt />
