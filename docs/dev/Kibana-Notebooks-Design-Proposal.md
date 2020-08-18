@@ -189,17 +189,15 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
    3. Once a backend service is connected all the interpreters, environments and data sources provided by the service are automatically extended in notebooks
    4. Uses [Hapi Wreck](https://hapi.dev/module/wreck/) to connect a backend service with a HTTP endpoint
    5. Example Adaptor: **Zeppelin Backend Server**
-
-![Zeppelin Server](images/zeppelin_architecture.png)
-
-         1. Open source, provided by [Apache Zeppelin](http://zeppelin.apache.org/)
-         2. Provides all communication to and from a notebook & supports 25+ interpreters
-         3. Connects via a HTTP endpoint to the Plugin backend
-         4. [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
-         5. [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
-         6. Provides inter-paragraph communication capabilities
-         7. Can be setup to provide Elasticsearch and ODFE-SQL interpreters
-         8. Can be connected with python environment to use ML/plot libraries
+       ![Zeppelin Server](images/zeppelin_architecture.png)
+       * Open source, provided by [Apache Zeppelin](http://zeppelin.apache.org/)
+       * Provides all communication to and from a notebook & supports 25+ interpreters
+       * Connects via a HTTP endpoint to the Plugin backend
+       * [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
+       * [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
+       * Provides inter-paragraph communication capabilities
+       * Can be setup to provide Elasticsearch and ODFE-SQL interpreters
+       * Can be connected with python environment to use ML/plot libraries
 
 ### **5.3 Data Model**
 
@@ -227,9 +225,9 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ## 6. Appendix
 
-### **6.1** [Embeddable API & Usage](API_Documentation.md)
+### **6.1** PoC: [Embeddable API & Usage](../poc/Kibana_Embeddable_Documentation.md) 
 
-### **6.2** PoC: [Zeppelin ODFE Storage](Zeppelin_ODFE_Storage.md)
+### **6.2** PoC: [Zeppelin ODFE Storage](../poc/Zeppelin_ODFE_Storage.md)
 
 ### **6.3** Screenshots:
 
