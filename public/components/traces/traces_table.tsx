@@ -14,7 +14,7 @@ import {
   EuiButtonIcon,
 } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle, truncateText, renderBenchmark } from '../common/helper_functions';
+import { PanelTitle, truncateText, renderBenchmark } from '../common';
 import { tracesTableData } from '../../data/traces_data';
 
 const renderTitleBar = (totalItems?: number) => {

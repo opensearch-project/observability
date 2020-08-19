@@ -11,9 +11,9 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { setBreadcrumbsType } from '../app';
-import { PanelTitle } from '../common/helper_functions';
-import { renderDatePicker, SearchBarProps } from '../common/search_bar';
+import { CoreDeps } from '../app';
+import { PanelTitle } from '../common';
+import { renderDatePicker, SearchBarProps } from '../common';
 import { ServiceMap } from './service_map';
 
 const renderTitle = (serviceId, startTime, setStartTime, endTime, setEndTime) => {
@@ -95,8 +95,7 @@ const renderOverview = () => {
   );
 };
 
-interface ServiceViewProps extends SearchBarProps {
-  setBreadcrumbs: setBreadcrumbsType;
+interface ServiceViewProps extends SearchBarProps, CoreDeps {
   serviceId: string;
 }
 

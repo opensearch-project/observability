@@ -14,7 +14,7 @@ import {
 } from '@elastic/eui';
 import React from 'react';
 import { dashboardTableData } from '../../data/dashboard_data';
-import { PanelTitle, renderBenchmark, truncateText } from '../common/helper_functions';
+import { PanelTitle, renderBenchmark, truncateText } from '../common';
 import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 

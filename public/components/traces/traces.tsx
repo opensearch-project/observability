@@ -1,12 +1,10 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { setBreadcrumbsType } from '../app';
-import { SearchBar, SearchBarProps } from '../common/search_bar';
+import { CoreDeps } from '../app';
+import { SearchBar, SearchBarProps } from '../common';
 import { TracesTable } from './traces_table';
 
-interface TracesProps extends SearchBarProps {
-  setBreadcrumbs: setBreadcrumbsType;
-}
+interface TracesProps extends SearchBarProps, CoreDeps {}
 
 export function Traces(props: TracesProps) {
   useEffect(() => {

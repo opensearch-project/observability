@@ -2,19 +2,18 @@ import { EuiPage, EuiPageBody, EuiPageSideBar } from '@elastic/eui';
 import { I18nProvider } from '@kbn/i18n/react';
 import React, { useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
+import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 import { SideNav } from './common/side_nav';
-import { Dashboard } from './dashboard/dashboard';
-import { Services } from './services/services';
-import { ServiceView } from './services/service_view';
-import { Traces } from './traces/traces';
-import { TraceView } from './traces/trace_view';
+import { Dashboard } from './dashboard';
+import { Services, ServiceView } from './services';
+import { Traces, TraceView } from './traces';
 
 interface TraceAnalyticsAppDeps {
   basename: string;
   notifications: CoreStart['notifications'];
   http: CoreStart['http'];
+  uiSettings: IUiSettingsClient;
   chrome: CoreStart['chrome'];
   navigation: NavigationPublicPluginStart;
 }
@@ -30,12 +29,17 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
   );
 };
 
-export type setBreadcrumbsType = (newBreadcrumbs: ChromeBreadcrumb[]) => void;
+export interface CoreDeps {
+  http: CoreStart['http'];
+  uiSettings: IUiSettingsClient;
+  setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
+}
 
 export const TraceAnalyticsApp = ({
   basename,
   notifications,
   http,
+  uiSettings,
   chrome,
   navigation,
 }: TraceAnalyticsAppDeps) => {
@@ -54,6 +58,8 @@ export const TraceAnalyticsApp = ({
                 renderPageWithSidebar(
                   <Dashboard
                     setBreadcrumbs={chrome.setBreadcrumbs}
+                    http={http}
+                    uiSettings={uiSettings}
                     query={query}
                     setQuery={setQuery}
                     startTime={startTime}
@@ -72,6 +78,8 @@ export const TraceAnalyticsApp = ({
                 renderPageWithSidebar(
                   <Traces
                     setBreadcrumbs={chrome.setBreadcrumbs}
+                    http={http}
+                    uiSettings={uiSettings}
                     query={query}
                     setQuery={setQuery}
                     startTime={startTime}
@@ -86,7 +94,12 @@ export const TraceAnalyticsApp = ({
             <Route
               path="/traces/:id"
               render={(props) => (
-                <TraceView setBreadcrumbs={chrome.setBreadcrumbs} traceId={props.match.params.id} />
+                <TraceView
+                  setBreadcrumbs={chrome.setBreadcrumbs}
+                  http={http}
+                  uiSettings={uiSettings}
+                  traceId={props.match.params.id}
+                />
               )}
             />
             <Route
@@ -96,6 +109,8 @@ export const TraceAnalyticsApp = ({
                 renderPageWithSidebar(
                   <Services
                     setBreadcrumbs={chrome.setBreadcrumbs}
+                    http={http}
+                    uiSettings={uiSettings}
                     query={query}
                     setQuery={setQuery}
                     startTime={startTime}
@@ -112,6 +127,8 @@ export const TraceAnalyticsApp = ({
               render={(props) => (
                 <ServiceView
                   setBreadcrumbs={chrome.setBreadcrumbs}
+                  http={http}
+                  uiSettings={uiSettings}
                   serviceId={props.match.params.id}
                   query={query}
                   setQuery={setQuery}

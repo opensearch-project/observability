@@ -5,7 +5,7 @@ import { AppPluginStartDependencies } from './types';
 import { TraceAnalyticsApp } from './components/app';
 
 export const renderApp = (
-  { notifications, http, chrome }: CoreStart,
+  { notifications, http, uiSettings, chrome }: CoreStart,
   { navigation }: AppPluginStartDependencies,
   { appBasePath, element }: AppMountParameters
 ) => {
@@ -14,6 +14,7 @@ export const renderApp = (
       basename={appBasePath}
       notifications={notifications}
       http={http}
+      uiSettings={uiSettings}
       chrome={chrome}
       navigation={navigation}
     />,

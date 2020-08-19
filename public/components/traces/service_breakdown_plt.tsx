@@ -1,9 +1,9 @@
 import { EuiHorizontalRule, EuiPanel, EuiFlexGrid, EuiFlexItem, EuiText, EuiFormLegend, EuiFlexGroup, EuiSpacer, EuiHealth } from '@elastic/eui';
 import React from 'react';
 import { serviceBreakdownData, serviceBreakdownLayout, serviceBreakdownMetadata } from '../../data/trace_view_data';
-import { PanelTitle } from '../common/helper_functions';
+import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
-import { renderBenchmark } from '../common/helper_functions';
+import { renderBenchmark } from '../common';
 
 
 const renderStats = (metadata) => {

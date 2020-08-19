@@ -1,6 +1,6 @@
 import { EuiHorizontalRule, EuiPanel, EuiSpacer, EuiFlexItem, EuiFlexGroup, EuiText } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common/helper_functions';
+import { PanelTitle } from '../common';
 import { dashboardThroughputData, dashboardThroughputLayout } from '../../data/dashboard_data';
 import { Plt } from '../common/plt';
 import { spanDetailLayout, spanDetailData } from '../../data/trace_view_data';

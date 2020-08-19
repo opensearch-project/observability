@@ -16,8 +16,8 @@ import {
 import React, { useEffect } from 'react';
 import { traceViewPayloadData } from '../../data/trace_view_payload_data';
 // import { traceViewPayloadData } from '../../data/trace_view_data';
-import { PanelTitle } from '../common/helper_functions';
-import { setBreadcrumbsType } from '../app';
+import { PanelTitle } from '../common';
+import { CoreDeps } from '../app';
 import { SpanDetailPlt } from './span_detail_plt';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
 
@@ -49,7 +49,7 @@ const renderTitle = (ID) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => { }}
+          onChange={() => {}}
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -114,8 +114,7 @@ const renderOverview = () => {
   );
 };
 
-interface TraceViewProps {
-  setBreadcrumbs: setBreadcrumbsType;
+interface TraceViewProps extends CoreDeps {
   traceId: string;
 }
 

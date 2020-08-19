@@ -1,15 +1,13 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { setBreadcrumbsType } from '../app';
-import { SearchBar, SearchBarProps } from '../common/search_bar';
-import { ServiceMap } from '../services/service_map';
+import { CoreDeps } from '../app';
+import { SearchBar, SearchBarProps } from '../common';
+import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
 import { ThroughputPlt } from './throughput_plt';
 
-interface DashboardProps extends SearchBarProps {
-  setBreadcrumbs: setBreadcrumbsType;
-}
+interface DashboardProps extends SearchBarProps, CoreDeps {}
 
 export function Dashboard(props: DashboardProps) {
   useEffect(() => {

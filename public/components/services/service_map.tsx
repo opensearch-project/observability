@@ -11,7 +11,7 @@ import {
 import React, { useState } from 'react';
 import Graph from "react-graph-vis";
 import { getServiceMapData } from '../../data/service_map_data';
-import { PanelTitle } from '../common/helper_functions';
+import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 import _ from 'lodash';
 

@@ -10,7 +10,7 @@ import {
   EuiI18nNumber,
 } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle, truncateText } from '../common/helper_functions';
+import { PanelTitle, truncateText } from '../common';
 import { serviceTableData } from '../../data/services_data';
 
 const renderTitleBar = (totalItems?: number) => {

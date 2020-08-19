@@ -1,12 +1,10 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { setBreadcrumbsType } from '../app';
-import { SearchBar, SearchBarProps } from '../common/search_bar';
+import { CoreDeps } from '../app';
+import { SearchBar, SearchBarProps } from '../common';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends SearchBarProps {
-  setBreadcrumbs: setBreadcrumbsType;
-}
+interface ServicesProps extends SearchBarProps, CoreDeps {}
 
 export function Services(props: ServicesProps) {
   useEffect(() => {
