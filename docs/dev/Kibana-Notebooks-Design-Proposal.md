@@ -137,7 +137,7 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
   - Zeppelin Backend will provide one stop shop for interpreters, runtime-environments and storage adaptors
 - Cons:
   - Users will not be free to customize Zeppelin Backend runtime-environment/storage adaptors
-  - Need to develop a new storage adaptor for Zeppelin to store notebooks as Elasticsearch indices (POC Doc)
+  - Need to develop a new storage adaptor for Zeppelin to store notebooks as Elasticsearch indices [POC details](../../poc/docs/Zeppelin_ODFE_Storage.md)
   - Difficult to maintain releases, as we have to sync version currency/patches to Zeppelin code repository
 
 **4.4.2 Version 2:** In this architecture, Backends are switchable with two options of Default backend (Markdown, Visualization support) or Apache Zeppelin Backend (25+ interpreter support)
@@ -217,17 +217,17 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ### **5.4 WorkFlows**
 
-- **Default Backend -** _View Notebooks:_
+- **Default Backend -** _View Notebooks:_ View notebooks operation is responsible for loading the sidemenu with folder tree. When user loads the plugin a call is made to the backend server. The default backend fetches all the notebooks from “.notebooks” Elasticsearch index and responds with notebook Ids and paths. This response load is then used to populate the folder tree with default parser on UI. 
 
-![View Notebook](images/default_view_notebook.png)
+  ![View Notebook](images/default_view_notebook.png)
 
-- **Default Backend -** _Create/Edit/Delete Notebooks_:
+- **Default Backend -** _Create/Edit/Delete Notebooks_: All the other notebook operations like create/delete/clone/import/export and editing paragraphs in notebooks use this workflow. When a use interacts with these notebook functionalities a backend request is made with payload [like paragraphInput, paragraphId] if necessary. The default backend first searches the “.notebooks” Elasticsearch index to get the current state of the notebook. Once fetched/searched, it performs  the required operation and then indexes/updates/deletes the notebook. After the successful completion of operations a response is sent back to the UI with either whole or partial notebook information (as required) and parsed by default parser taking the notebook schema into consideration.
 
-![View Notebook](images/default_operation_notebook.png)
+  ![View Notebook](images/default_operation_notebook.png)
 
-- **Zeppelin Adaptor -** _All Operations:_
+- **Zeppelin Adaptor -** _All Operations:_ When a user uses the Zeppelin backend adaptor for running notebooks, the backend switches its way of making requests. For any user operation including viewing notebooks in folder tree, a backend request is made by UI. This request may contain any payload  [like paragraphInput, paragraphId] if necessary. This payload is reformatted and added with additional options like the user’s Zeppelin HTTP endpoint and request headers. Finally this request is sent to the user’s Zeppelin Server, which does the operation and responds back. The response is sent back to the UI with either whole or partial notebook information (as required) and parsed by Zeppelin parser taking Zeppelin’s notebook schema into consideration.
 
-![Zeppelin Notebook](images/zeppelin_notebooks_sequence.png)
+  ![Zeppelin Notebook](images/zeppelin_notebooks_sequence.png)
 
 ### **5.5** [API Design Documentation](API_Documentation.md)
 
@@ -235,9 +235,9 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ## 6. Appendix
 
-### **6.1** PoC: [Embeddable API & Usage](../../poc/docs/Kibana_Embeddable_Documentation.md)
+### **6.1** POC: [Embeddable API & Usage](../../poc/docs/Kibana_Embeddable_Documentation.md)
 
-### **6.2** PoC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
+### **6.2** POC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
 
 ### **6.3** Screenshots:
 
@@ -252,16 +252,16 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 - **Zeppelin Backend Adaptor**
 
-  - **Kibana Plugin Sample UI**:
-    ![Sample UI](images/kibana_notebooks_ss.png)
+  - **Zeppelin Adaptor in Kibana Notebooks**:
+    ![Sample UI](images/Zeppelin_ss.png)
   - **Make requests to Elastic Service**:
     ![Elastic service UI](images/elastic_ss.png)
   - **Transmit Data between Interpreters**:
 
-  - Use output of an ODFE Query as save as a Zeppelin Context in a variable
-    ![ODFE Query](images/odfe_ss_zepcontext.png)
-  - Use the Zeppelin Context vairable and import it in python
-    ![Import Context](images/python_ss.png)
+    - Use output of an ODFE Query as save as a Zeppelin Context in a variable
+      ![ODFE Query](images/odfe_ss_zepcontext.png)
+    - Use the Zeppelin Context vairable and import it in python
+      ![Import Context](images/python_ss.png)
 
   - **Plot Visualization with Language specific Viz. tools (like Matplotlib)**:
     ![Matplot Viz.](images/matplot_ss.png)
