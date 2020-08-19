@@ -97,6 +97,7 @@ export function ParaRouter(router: IRouter) {
           noteId: schema.string(),
           paragraphIndex: schema.number(),
           paragraphInput: schema.string(),
+          inputType: schema.string(),
         }),
       },
     },
