@@ -16,6 +16,7 @@
 import React from 'react';
 import { Outputs } from '@nteract/presentational-components';
 import { Media } from '@nteract/outputs';
+import MarkdownRender from '@nteract/markdown';
 import { EuiText } from '@elastic/eui';
 
 import { ParaType } from '../../../common';
@@ -38,6 +39,12 @@ export const ParaOutput = (props: { para: ParaType }) => {
 
     if (typeOut !== undefined) {
       switch (typeOut) {
+        case 'MARKDOWN':
+          return (
+            <EuiText key={tIdx + '_paraoutput'}>
+              <MarkdownRender source={val} />
+            </EuiText>
+          );
         case 'HTML':
           return (
             <EuiText key={tIdx + '_paraoutput'}>

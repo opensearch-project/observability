@@ -13,136 +13,530 @@
  * permissions and limitations under the License.
  */
 
+import { v4 as uuid } from 'uuid';
 import { NotebookAdaptor } from './notebook_adaptor';
 import { RequestHandlerContext } from '../../../../src/core/server';
 import { optionsType } from '../../common';
+import { RequestParams } from '@elastic/elasticsearch';
+import {
+  DefaultNotebooks,
+  DefaultParagraph,
+  DefaultInput,
+  DefaultOutput,
+} from '../helpers/default_notebook_schema';
 
-//NOTE: Placeholder for default adaptor
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
 
+  createNewNotebook = (newNotebookName: string) => {
+    const noteId = 'note_' + uuid();
+
+    const inputObject: DefaultInput = {
+      input_type: 'MARKDOWN',
+      input_text: '# Type your input here',
+    };
+
+    const outputObjects: Array<DefaultOutput> = [
+      {
+        output_type: 'MARKDOWN',
+        result: '# Type your input here',
+        execution_time: '0s',
+      },
+    ];
+
+    const paragraphObjects: Array<DefaultParagraph> = [
+      {
+        id: 'paragraph_' + uuid(),
+        date_created: new Date().toISOString(),
+        date_modified: new Date().toISOString(),
+        input: inputObject,
+        output: outputObjects,
+      },
+    ];
+
+    const noteObject: DefaultNotebooks = {
+      id: noteId,
+      date_created: new Date().toISOString(),
+      name: newNotebookName,
+      date_modified: new Date().toISOString(),
+      plugin_version: '7.9.0',
+      backend: 'Default',
+      paragraphs: paragraphObjects,
+    };
+
+    return {
+      id: noteId,
+      object: noteObject,
+    };
+  };
+
+  indexNote = async function (context: RequestHandlerContext, noteId: string, body: any) {
+    try {
+      const options: RequestParams.Index = {
+        index: '.notebooks',
+        refresh: 'true',
+        id: noteId,
+        body: body,
+      };
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        'index',
+        options
+      );
+      return esClientResponse;
+    } catch (error) {
+      throw new Error('Index Doc Error:' + error);
+    }
+  };
+
+  updateNote = async function (context: RequestHandlerContext, noteId: string, updateDoc: string) {
+    try {
+      const options: RequestParams.Update = {
+        index: '.notebooks',
+        refresh: 'true',
+        id: noteId,
+        body: {
+          doc: updateDoc,
+        },
+      };
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        'update',
+        options
+      );
+      return esClientResponse;
+    } catch (error) {
+      throw new Error('Update Doc Error:' + error);
+    }
+  };
+
+  getNote = async function (context: RequestHandlerContext, noteId: string) {
+    try {
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        'get',
+        {
+          index: '.notebooks',
+          id: noteId,
+        }
+      );
+      return esClientResponse._source;
+    } catch (error) {
+      throw new Error('Get Doc Error:' + error);
+    }
+  };
+
   // Gets all the notebooks available
-  viewNotes: (context: RequestHandlerContext, wreckOptions: optionsType) => Promise<any[]>;
+  viewNotes = async function (context: RequestHandlerContext, _wreckOptions: optionsType) {
+    try {
+      let data = [];
+      const options: RequestParams.Search = {
+        index: '.notebooks',
+        _source: ['id', 'name'],
+        body: {
+          query: {
+            match_all: {},
+          },
+        },
+      };
+
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        'search',
+        options
+      );
+      esClientResponse.hits.hits.map((doc: { _source: { name: string; id: string } }) => {
+        data.push({
+          path: doc._source.name,
+          id: doc._source.id,
+        });
+      });
+
+      return data;
+    } catch (error) {
+      throw new Error('View Notebooks Error:' + error);
+    }
+  };
 
   /* Fetches a notebook by id
    * Param: noteId -> Id of notebook to be fetched
    */
-  fetchNote: (
+  fetchNote = async function (
     context: RequestHandlerContext,
     noteId: string,
-    wreckOptions: optionsType
-  ) => Promise<any[]>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const noteObject = await this.getNote(context, noteId);
+      return noteObject.paragraphs;
+    } catch (error) {
+      throw new Error('Fetching Notebook Error:' + error);
+    }
+  };
 
   /* Adds a notebook to storage
    * Param: name -> name of new notebook
    */
-  addNote: (
+  addNote = async function (
     context: RequestHandlerContext,
     params: { name: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const newNotebook = this.createNewNotebook(params.name);
+      const esClientResponse = await this.indexNote(context, newNotebook.id, newNotebook.object);
+      return { status: 'OK', message: esClientResponse, body: esClientResponse._id };
+    } catch (error) {
+      throw new Error('Creating New Notebook Error:' + error);
+    }
+  };
 
   /* Renames a notebook
    * Params: name -> new name for the notebook to be renamed
    *         noteId -> Id of notebook to be fetched
    */
-  renameNote: (
+  renameNote = async function (
     context: RequestHandlerContext,
     params: { name: string; noteId: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const updateNotebook = {
+        name: params.name,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+      return { status: 'OK', message: esClientResponse };
+    } catch (error) {
+      throw new Error('Renaming Notebook Error:' + error);
+    }
+  };
 
   /* Clone a notebook
    * Params: name -> new name for the cloned notebook
    *         noteId -> Id for the notebook to be cloned
    */
-  cloneNote: (
+  cloneNote = async function (
     context: RequestHandlerContext,
     params: { name: string; noteId: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const noteObject = await this.getNote(context, params.noteId);
+      const newNotebook = this.createNewNotebook(params.name);
+      const cloneNotebook = { ...newNotebook.object };
+      cloneNotebook.paragraphs = noteObject.paragraphs;
+      const esClientIndexResponse = await this.indexNote(context, newNotebook.id, cloneNotebook);
+      return { status: 'OK', message: esClientIndexResponse, body: esClientIndexResponse._id };
+    } catch (error) {
+      throw new Error('Cloning Notebook Error:' + error);
+    }
+  };
 
   /* Delete a notebook
    * Param: noteId -> Id for the notebook to be deleted
    */
-  deleteNote: (
+  deleteNote = async function (
     context: RequestHandlerContext,
     noteId: string,
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        'delete',
+        {
+          index: '.notebooks',
+          id: noteId,
+          refresh: 'true',
+        }
+      );
+      return { status: 'OK', message: esClientResponse };
+    } catch (error) {
+      throw new Error('Deleting Notebook Error:' + error);
+    }
+  };
 
   /* Export a notebook
    * Param: noteId -> Id for the notebook to be exported
    */
-  exportNote: (
+  exportNote = async function (
     context: RequestHandlerContext,
     noteId: string,
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, noteId);
+      return { status: 'OK', body: esClientGetResponse };
+    } catch (error) {
+      throw new Error('Export Notebook Error:' + error);
+    }
+  };
 
   /* Import a notebook
    * Params: noteObj -> note Object to be imported
    */
-  importNote: (
+  importNote = async function (
     context: RequestHandlerContext,
     noteObj: any,
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      let newNoteObject = { ...noteObj };
+      newNoteObject.id = 'note_' + uuid();
+      newNoteObject.date_created = new Date().toISOString();
+      newNoteObject.date_modified = new Date().toISOString();
+      const esClientIndexResponse = await this.indexNote(context, newNoteObject.id, newNoteObject);
+      return { status: 'OK', message: esClientIndexResponse, body: esClientIndexResponse._id };
+    } catch (error) {
+      throw new Error('Import Notebook Error:' + error);
+    }
+  };
+
+  updateParagraphInput = function (
+    paragraphs: Array<DefaultParagraph>,
+    paragraphId: string,
+    paragraphInput: string
+  ) {
+    try {
+      const updatedParagraphs = [];
+      paragraphs.map((paragraph: DefaultParagraph) => {
+        const updatedParagraph = { ...paragraph };
+        if (paragraph.id === paragraphId) {
+          updatedParagraph.date_modified = new Date().toISOString();
+          updatedParagraph.input.input_text = paragraphInput;
+        }
+        updatedParagraphs.push(updatedParagraph);
+      });
+      return updatedParagraphs;
+    } catch (error) {
+      throw new Error('Update Paragraph Error:' + error);
+    }
+  };
+
+  createParagraph = function (paragraphInput: string, inputType: string) {
+    try {
+      let paragraphType = 'MARKDOWN';
+      if (inputType === 'VISUALIZATION') {
+        paragraphType = 'VISUALIZATION';
+      }
+      const inputObject = {
+        input_type: paragraphType,
+        input_text: paragraphInput,
+      };
+      const outputObjects: Array<DefaultOutput> = [
+        {
+          output_type: paragraphType,
+          result: '',
+          execution_time: '0s',
+        },
+      ];
+      const newParagraph = {
+        id: 'paragraph_' + uuid(),
+        date_created: new Date().toISOString(),
+        date_modified: new Date().toISOString(),
+        input: inputObject,
+        output: outputObjects,
+      };
+
+      return newParagraph;
+    } catch (error) {
+      throw new Error('Create Paragraph Error:' + error);
+    }
+  };
+
+  // Runs a paragraph
+  // Currently only runs markdown by copying input.input_text to result
+  // UI renders Markdown
+  runParagraph = async function (paragraphs: Array<DefaultParagraph>, paragraphId: string) {
+    try {
+      const updatedParagraphs = [];
+      paragraphs.map((paragraph: DefaultParagraph) => {
+        const updatedParagraph = { ...paragraph };
+        if (paragraph.input.input_type === 'MARKDOWN' && paragraph.id === paragraphId) {
+          updatedParagraph.date_modified = new Date().toISOString();
+          updatedParagraph.output = [
+            {
+              output_type: 'MARKDOWN',
+              result: paragraph.input.input_text,
+              execution_time: '0s',
+            },
+          ];
+        }
+        updatedParagraphs.push(updatedParagraph);
+      });
+      return updatedParagraphs;
+    } catch (error) {
+      throw new Error('Running Paragraph Error:' + error);
+    }
+  };
 
   /* --> Updates a Paragraph with input content
    * --> Runs it
+   * --> Updates the notebook in index
    * --> Fetches the updated Paragraph (with new input content and output result)
    * Params: noteId -> Id of the notebook
    *         paragraphId -> Id of the paragraph to be updated
    *         paragraphInput -> paragraph input code
    */
-  updateRunFetchParagraph: (
+  updateRunFetchParagraph = async function (
     context: RequestHandlerContext,
     params: { noteId: string; paragraphId: string; paragraphInput: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, params.noteId);
+      const updatedInputParagraphs = this.updateParagraphInput(
+        esClientGetResponse.paragraphs,
+        params.paragraphId,
+        params.paragraphInput
+      );
+      const updatedOutputParagraphs = await this.runParagraph(
+        updatedInputParagraphs,
+        params.paragraphId
+      );
+
+      const updateNotebook = {
+        paragraphs: updatedOutputParagraphs,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+
+      let resultParagraph = {};
+      updatedOutputParagraphs.map((paragraph: DefaultParagraph) => {
+        if (params.paragraphId === paragraph.id) {
+          resultParagraph = paragraph;
+        }
+      });
+      return resultParagraph;
+    } catch (error) {
+      throw new Error('Update/Run Paragraph Error:' + error);
+    }
+  };
 
   /* --> Updates a Paragraph with input content
+   * --> Updates the notebook in index
    * --> Fetches the updated Paragraph (with new input content)
    * Params: noteId -> Id of the notebook
    *         paragraphId -> Id of the paragraph to be updated
    *         paragraphInput -> paragraph input code
    */
-  updateFetchParagraph: (
+  updateFetchParagraph = async function (
     context: RequestHandlerContext,
     params: { noteId: string; paragraphId: string; paragraphInput: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, params.noteId);
+      const updatedInputParagraphs = this.updateParagraphInput(
+        esClientGetResponse.paragraphs,
+        params.paragraphId,
+        params.paragraphInput
+      );
 
-  /* --> Adds a Paragraph with input content
-   * --> Fetches the Paragraph
+      const updateNotebook = {
+        paragraphs: updatedInputParagraphs,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+
+      let resultParagraph = {};
+      updatedInputParagraphs.map((paragraph: DefaultParagraph) => {
+        if (params.paragraphId === paragraph.id) {
+          resultParagraph = paragraph;
+        }
+      });
+      return resultParagraph;
+    } catch (error) {
+      throw new Error('Save Paragraph Error:' + error);
+    }
+  };
+
+  /* --> Fetches the Paragraph
+   * --> Adds a Paragraph with input content
+   * --> Updates the notebook in index
    * Params: noteId -> Id of the notebook
    *         paragraphId -> Id of the paragraph to be fetched
    */
-  addFetchNewParagraph: (
+  addFetchNewParagraph = async function (
     context: RequestHandlerContext,
-    params: { noteId: string; paragraphIndex: string; paragraphInput: string },
-    wreckOptions: optionsType
-  ) => Promise<any>;
+    params: { noteId: string; paragraphIndex: number; paragraphInput: string; inputType: string },
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, params.noteId);
+      const paragraphs = esClientGetResponse.paragraphs;
+      const newParagraph = this.createParagraph(params.paragraphInput, params.inputType);
+      console.log('newParagraph:', newParagraph);
+      paragraphs.splice(params.paragraphIndex, 0, newParagraph);
+      console.log('paragraphs:', paragraphs);
+      const updateNotebook = {
+        paragraphs: paragraphs,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+
+      return newParagraph;
+    } catch (error) {
+      throw new Error('add/Fetch Paragraph Error:' + error);
+    }
+  };
 
   /* --> Deletes a Paragraph with id
    * --> Fetches the all other Paragraphs as a list
+   * --> Updates the notebook in index
    * Params: noteId -> Id of the notebook
    *         paragraphId -> Id of the paragraph to be deleted
    */
-  deleteFetchParagraphs: (
+  deleteFetchParagraphs = async function (
     context: RequestHandlerContext,
     params: { noteId: string; paragraphId: string },
-    wreckOptions: optionsType
-  ) => Promise<{ paragraphs: any }>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, params.noteId);
+      let updatedparagraphs = [];
+      esClientGetResponse.paragraphs.map((paragraph: DefaultParagraph, index: number) => {
+        if (paragraph.id !== params.paragraphId) {
+          updatedparagraphs.push(paragraph);
+        }
+      });
+
+      const updateNotebook = {
+        paragraphs: updatedparagraphs,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+
+      return { paragraphs: updatedparagraphs };
+    } catch (error) {
+      throw new Error('Delete Paragraph Error:' + error);
+    }
+  };
 
   /* --> Clears output for all the paragraphs
    * --> Fetches the all Paragraphs as a list (with cleared outputs)
+   * --> Updates the notebook in index
    * Param: noteId -> Id of notebook to be cleared
    */
-  clearAllFetchParagraphs: (
+  clearAllFetchParagraphs = async function (
     context: RequestHandlerContext,
     params: { noteId: string },
-    wreckOptions: optionsType
-  ) => Promise<{ paragraphs: any }>;
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const esClientGetResponse = await this.getNote(context, params.noteId);
+      let updatedparagraphs = [];
+      esClientGetResponse.paragraphs.map((paragraph: DefaultParagraph, index: number) => {
+        let updatedParagraph = { ...paragraph };
+        updatedParagraph.output = [];
+        updatedparagraphs.push(updatedParagraph);
+      });
+
+      const updateNotebook = {
+        paragraphs: updatedparagraphs,
+        date_modified: new Date().toISOString(),
+      };
+      const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
+
+      return { paragraphs: updatedparagraphs };
+    } catch (error) {
+      throw new Error('Clear Paragraph Error:' + error);
+    }
+  };
 }

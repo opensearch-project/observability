@@ -121,7 +121,7 @@ export const ParaVisualization = ({
     <div>
       <Input hidden={para.isInputHidden}>
         <Prompt counter={para.id} running={para.isRunning} queued={para.inQueue} />
-        <Source>%visualization</Source>
+        <Source>visualization</Source>
       </Input>
       <div>
         <table>

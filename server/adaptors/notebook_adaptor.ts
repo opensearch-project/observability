@@ -119,7 +119,7 @@ export interface NotebookAdaptor {
    */
   addFetchNewParagraph: (
     context: RequestHandlerContext,
-    params: { noteId: string; paragraphIndex: string; paragraphInput: string },
+    params: { noteId: string; paragraphIndex: number; paragraphInput: string; inputType: string },
     wreckOptions: optionsType
   ) => Promise<any>;
 
