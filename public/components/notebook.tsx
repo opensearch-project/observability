@@ -56,6 +56,7 @@ type NotebookState = {
   parsedPara: Array<ParaType>; // paragraphs parsed to a common format
   toggleOutput: boolean; // Hide Outputs toggle
   toggleInput: boolean; // Hide Inputs toggle
+  vizPrefix: string; // prefix for visualizations in Zeppelin Adaptor
 };
 export class Notebook extends Component<NotebookProps, NotebookState> {
   constructor(props: Readonly<NotebookProps>) {
@@ -65,6 +66,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       parsedPara: [],
       toggleOutput: true,
       toggleInput: true,
+      vizPrefix: '',
     };
   }
 
@@ -74,6 +76,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       let parsedPara;
       if (SELECTED_BACKEND === 'ZEPPELIN') {
         parsedPara = zeppelinParagraphParser(this.state.paragraphs);
+        this.setState({ vizPrefix: '%sh #vizobject:' });
       } else {
         parsedPara = defaultParagraphParser(this.state.paragraphs);
       }
@@ -184,13 +187,14 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   };
 
   // Backend call to add a paragraph
-  addPara = (index: number, newParaContent: string) => {
+  addPara = (index: number, newParaContent: string, inpType: string) => {
     let paragraphs = this.state.paragraphs;
 
     const addParaObj = {
       noteId: this.props.noteId,
       paragraphIndex: index,
       paragraphInput: newParaContent,
+      inputType: inpType,
     };
 
     this.props.http
@@ -210,8 +214,12 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     const selectedParaObject = this.getSelectedParagraph();
     const clonePara = selectedParaObject.para;
     const cloneparagraphIndex = selectedParaObject.paragraphIndex;
+    let inputType = 'CODE';
+    if (clonePara.isVizualisation === true) {
+      inputType = 'VISUALIZATION';
+    }
     if (cloneparagraphIndex !== -1) {
-      this.addPara(cloneparagraphIndex, clonePara.inp);
+      this.addPara(cloneparagraphIndex, clonePara.inp, inputType);
     }
   };
 
@@ -301,7 +309,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   // Hanldes Edits in visualization and syncs with paragraph input
   vizualizationEditor = (vizContent: string, index: number) => {
     let parsedPara = this.state.parsedPara;
-    parsedPara[index].inp = '%sh #' + vizContent;
+    parsedPara[index].inp = this.state.vizPrefix + vizContent; // "%sh check"
     this.setState({ parsedPara });
   };
 

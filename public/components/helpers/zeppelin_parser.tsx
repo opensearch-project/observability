@@ -20,6 +20,8 @@
 
 import { ParaType } from '../../../common';
 
+const visualizationPrefix = '%sh #vizobject:';
+
 const langSupport = {
   '%sh': 'shell',
   '%md': 'md',
@@ -35,7 +37,6 @@ const parseCodeLanguage = (textHeader: string) => {
   if (tempLang !== undefined) {
     return tempLang;
   } else {
-    console.log('Lang not supported', textHeader);
     return '';
   }
 };
@@ -73,13 +74,13 @@ const parseText = (para: any) => {
 };
 
 // Get the visualization from a Zeppelin Paragraph input
-// All Visualizations in Zeppelin are stored as shell comment -> "%sh #{VizObject}"
+// All Visualizations in Zeppelin are stored as shell comment -> "%sh #vizobject:"
 // TODO: This is a workaround need to look for better solutions
 // Param: Zeppelin Paragraph
 const parseVisualization = (para: any) => {
   let vizContent = '';
-  if ('text' in para && para.text.substring(0, 5) === '%sh #') {
-    vizContent = para.text.substring(5);
+  if ('text' in para && para.text.substring(0, 15) === visualizationPrefix) {
+    vizContent = para.text.substring(15);
     return {
       isViz: true,
       VizObject: vizContent,
@@ -116,7 +117,7 @@ export const zeppelinParagraphParser = (paragraphs: any) => {
       id: index + 1,
       inp: inputParam,
       lang: 'text/x-' + codeLanguage,
-      editLang: codeLanguage,
+      editorLanguage: codeLanguage,
       typeOut: message.outputType,
       out: message.outputData,
     };
