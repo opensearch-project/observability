@@ -33,21 +33,17 @@ const langSupport = {
 // Get the coding language from a Zeppelin paragraph input
 // Param: textHeader-> header on a Zeppelin paragraph example "%md"
 const parseCodeLanguage = (textHeader: string) => {
-  const tempLang = langSupport[textHeader];
-  if (tempLang !== undefined) {
-    return tempLang;
-  } else {
-    return '';
-  }
+  const codeLanguage = langSupport[textHeader];
+  return codeLanguage || '';
 };
 
 // Get the type of output message from a Zeppelin paragraph
 // Param: Zeppelin Paragraph
-const parseMessage = (para: any) => {
+const parseMessage = (paraObject: any) => {
   try {
     let mtype = [];
     let mdata = [];
-    para.results.msg.map((msg: { type: string; data: string }) => {
+    paraObject.results.msg.map((msg: { type: string; data: string }) => {
       mtype.push(msg.type);
       mdata.push(msg.data);
     });
@@ -65,11 +61,11 @@ const parseMessage = (para: any) => {
 
 // Get the type of output message from a Zeppelin paragraph
 // Param: Zeppelin Paragraph
-const parseText = (para: any) => {
-  if ('text' in para) {
-    return para.text;
+const parseText = (paraObject: any) => {
+  if ('text' in paraObject) {
+    return paraObject.text;
   } else {
-    return '';
+    throw new Error('Input text parse issue');
   }
 };
 
@@ -77,10 +73,13 @@ const parseText = (para: any) => {
 // All Visualizations in Zeppelin are stored as shell comment -> "%sh #vizobject:"
 // TODO: This is a workaround need to look for better solutions
 // Param: Zeppelin Paragraph
-const parseVisualization = (para: any) => {
+const parseVisualization = (paraObject: any) => {
   let vizContent = '';
-  if ('text' in para && para.text.substring(0, 15) === visualizationPrefix) {
-    vizContent = para.text.substring(15);
+  if ('text' in paraObject && paraObject.text.substring(0, 15) === visualizationPrefix) {
+    if (paraObject.title !== 'VISUALIZATION') {
+      throw new Error('Visualization parse issue');
+    }
+    vizContent = paraObject.text.substring(15);
     return {
       isViz: true,
       VizObject: vizContent,
@@ -93,35 +92,50 @@ const parseVisualization = (para: any) => {
   }
 };
 
+// This parser is used to get paragraph id
+// Param: Zeppelin Paragraph
+const parseId = (paraObject: any) => {
+  if ('id' in paraObject) {
+    return paraObject.id;
+  } else {
+    throw new Error('Id not found in paragraph');
+  }
+};
+
 // This parser helps to convert Zeppelin paragraphs to a common ParaType format
 // This parsing makes any backend notebook compatible with notebooks plugin
-export const zeppelinParagraphParser = (paragraphs: any) => {
+export const zeppelinParagraphParser = (zeppelinBackendParagraphs: any) => {
   let parsedPara: Array<ParaType> = [];
-  paragraphs.map((paraObject: ParaType, index: number) => {
-    const vizParams = parseVisualization(paraObject);
-    const inputParam = parseText(paraObject);
-    const codeLanguage = parseCodeLanguage(inputParam.split('\n')[0].split('.')[0]);
-    const message = parseMessage(paraObject);
+  try {
+    zeppelinBackendParagraphs.map((paraObject: ParaType, index: number) => {
+      const paragraphId = parseId(paraObject);
+      const vizParams = parseVisualization(paraObject);
+      const inputParam = parseText(paraObject);
+      const codeLanguage = parseCodeLanguage(inputParam.split('\n')[0].split('.')[0]);
+      const message = parseMessage(paraObject);
 
-    let tempPara = {
-      uniqueId: paraObject.id,
-      isRunning: false,
-      inQueue: false,
-      ishovered: false,
-      isSelected: false,
-      isInputHidden: false,
-      isOutputHidden: false,
-      showAddPara: false,
-      isVizualisation: vizParams.isViz,
-      vizObjectInput: vizParams.VizObject,
-      id: index + 1,
-      inp: inputParam,
-      lang: 'text/x-' + codeLanguage,
-      editorLanguage: codeLanguage,
-      typeOut: message.outputType,
-      out: message.outputData,
-    };
-    parsedPara.push(tempPara);
-  });
-  return parsedPara;
+      let tempPara = {
+        uniqueId: paragraphId,
+        isRunning: false,
+        inQueue: false,
+        ishovered: false,
+        isSelected: false,
+        isInputHidden: false,
+        isOutputHidden: false,
+        showAddPara: false,
+        isVizualisation: vizParams.isViz,
+        vizObjectInput: vizParams.VizObject,
+        id: index + 1,
+        inp: inputParam,
+        lang: 'text/x-' + codeLanguage,
+        editorLanguage: codeLanguage,
+        typeOut: message.outputType,
+        out: message.outputData,
+      };
+      parsedPara.push(tempPara);
+    });
+    return parsedPara;
+  } catch (error) {
+    throw new Error('Parsing Paragraph Issue ' + error);
+  }
 };
