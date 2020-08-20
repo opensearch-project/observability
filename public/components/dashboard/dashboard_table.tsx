@@ -127,7 +127,7 @@ export function DashboardTable(props) {
       name: (
         <EuiToolTip content="test tooltip">
           <>
-            <div>Average&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div style={{ marginRight: 40 }}>Average</div>
             <div>latency (ms){' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
           </>
         </EuiToolTip>
@@ -135,7 +135,7 @@ export function DashboardTable(props) {
       align: 'right',
       sortable: true,
       dataType: 'number',
-      render: item => _.round(item, 2)
+      render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
     },
     {
       field: 'average_latency_vs_benchmark',
@@ -149,21 +149,21 @@ export function DashboardTable(props) {
           }
         >
           <>
-            <div>Average latency vs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div style={{marginRight: 15}}>Average latency vs</div>
             <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
           </>
         </EuiToolTip>
       ),
       align: 'right',
       sortable: true,
-      render: (item) => renderBenchmark(item),
+      render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
     },
     {
       field: '24_hour_latency_trend',
       name: (
         <EuiToolTip content="test tooltip">
           <>
-            <div>24-hour&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div style={{marginRight: 44}}>24-hour</div>
             <div>latency trend{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
           </>
         </EuiToolTip>
@@ -184,7 +184,7 @@ export function DashboardTable(props) {
       ),
       align: 'right',
       sortable: true,
-      render: (item) => item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
+      render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
     },
     {
       field: 'traces',
