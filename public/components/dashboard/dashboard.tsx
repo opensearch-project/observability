@@ -7,7 +7,6 @@ import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
 import { ThroughputPlt } from './throughput_plt';
 import { handleRequest } from '../../requests/request_handler';
-import { dashbaordQuery } from '../../requests/queries';
 
 interface DashboardProps extends SearchBarProps, CoreDeps {}
 
@@ -25,8 +24,6 @@ export function Dashboard(props: DashboardProps) {
     ]);
   });
   
-  handleRequest(props.http, dashbaordQuery);
-
   return (
     <>
       <EuiTitle size="l">
@@ -41,7 +38,7 @@ export function Dashboard(props: DashboardProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <DashboardTable />
+      <DashboardTable http={props.http} />
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>

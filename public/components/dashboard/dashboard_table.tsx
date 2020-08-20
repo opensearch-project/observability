@@ -12,11 +12,16 @@ import {
   EuiText,
   EuiToolTip
 } from '@elastic/eui';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { dashboardTableData } from '../../data/dashboard_data';
 import { PanelTitle, renderBenchmark, truncateText } from '../common';
 import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
+import { handleRequest } from '../../requests/request_handler';
+import { dashboardQuery } from '../../requests/queries';
+import _ from 'lodash';
+import { handleDashboardRequest } from '../../requests/dashboard_request_handler';
+import { EuiButton } from '@elastic/eui';
 
 const renderTitleBar = () => {
   return (
@@ -68,8 +73,13 @@ const renderTitleBar = () => {
   );
 };
 
-export function DashboardTable() {
-  const items = dashboardTableData;
+export function DashboardTable(props) {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    handleDashboardRequest(props.http, items, setItems);
+  }, []);
+
   const columns = [
     {
       field: 'trace_group_name',
@@ -83,12 +93,11 @@ export function DashboardTable() {
       ),
       align: 'left',
       sortable: true,
-      truncateText: true,
-      render: (item) => (
+      render: (item) => item ? (
         <EuiLink href="#">
           {truncateText(item)}
         </EuiLink>
-      ),
+      ) : ('-'),
     },
     {
       field: 'latency_variance',
@@ -105,13 +114,12 @@ export function DashboardTable() {
       ),
       align: 'center',
       sortable: false,
-      truncateText: true,
       // width: '20%',
       render: (item) => {
-        return (
+        return item ? (
           // expand ranges by 4 to accomondate scale
           <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
-        );
+        ) : ('-');
       },
     },
     {
@@ -126,13 +134,8 @@ export function DashboardTable() {
       ),
       align: 'right',
       sortable: true,
-      truncateText: true,
       dataType: 'number',
-      // render: item => (
-      //   <EuiLink href="#" target="_blank">
-      //     {item}
-      //   </EuiLink>
-      // ),
+      render: item => _.round(item, 2)
     },
     {
       field: 'average_latency_vs_benchmark',
@@ -153,7 +156,6 @@ export function DashboardTable() {
       ),
       align: 'right',
       sortable: true,
-      truncateText: true,
       render: (item) => renderBenchmark(item),
     },
     {
@@ -168,8 +170,7 @@ export function DashboardTable() {
       ),
       align: 'right',
       sortable: false,
-      truncateText: true,
-      render: (item) => <LatencyTrendCell item={item} />,
+      render: (item) => item ? <LatencyTrendCell item={item} /> : ('-'),
     },
     {
       field: 'error_rate',
@@ -183,8 +184,7 @@ export function DashboardTable() {
       ),
       align: 'right',
       sortable: true,
-      truncateText: true,
-      render: (item) => <EuiText size="s">{`${item}%`}</EuiText>,
+      render: (item) => item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
     },
     {
       field: 'traces',
@@ -198,7 +198,6 @@ export function DashboardTable() {
       ),
       align: 'right',
       sortable: true,
-      truncateText: true,
       render: (item) => (
         <EuiLink href="#traces">
           <EuiI18nNumber value={item} />
@@ -211,6 +210,7 @@ export function DashboardTable() {
     <>
       <EuiPanel>
         {renderTitleBar()}
+        <EuiButton onClick={() => console.log(items)}>CLick</EuiButton>
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
