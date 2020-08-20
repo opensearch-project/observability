@@ -4,7 +4,7 @@ import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends SearchBarProps, CoreDeps {}
+interface ServicesProps extends SearchBarProps, CoreDeps { }
 
 export function Services(props: ServicesProps) {
   useEffect(() => {
@@ -18,7 +18,7 @@ export function Services(props: ServicesProps) {
         href: '#services',
       },
     ]);
-  });
+  }, []);
 
   return (
     <>

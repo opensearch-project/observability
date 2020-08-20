@@ -115,7 +115,7 @@ export function ServiceView(props: ServiceViewProps) {
         href: `#services/${props.serviceId}`,
       },
     ]);
-  });
+  }, []);
 
   return (
     <>

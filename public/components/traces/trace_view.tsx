@@ -134,7 +134,7 @@ export function TraceView(props: TraceViewProps) {
         href: `#traces/${props.traceId}`,
       },
     ]);
-  });
+  }, []);
 
   return (
     <>
