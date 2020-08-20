@@ -35,16 +35,16 @@ function LinePlt(props) {
 function LatencyPlt(props) {
   const layout = {
     xaxis: {
-      range: [0, 25],
+      // range: [0, 25],
+      // dtick: 6,
       // showline: true,
       showgrid: false,
       tickmode: "linear",
-      dtick: 6,
       color: '#899195'
     },
     yaxis: {
-      range: [0, 100],
-      dtick: 20,
+      // range: [0, 100],
+      // dtick: 20,
       title: {
         text: 'Hourly latency (ms)',
         font: {
@@ -63,9 +63,9 @@ function LatencyPlt(props) {
         arrowhead: 0,
         xref: 'x',
         yref: 'y',
-        text: `Now: ${props.data[0].y[props.data[0].y.length - 1]}ms`,
+        text: `Now: ${_.round(props.data[0].y[props.data[0].y.length - 1], 2)}ms`,
         ax: 0,
-        ay: -160,
+        ay: -140,
         borderpad: 10,
         arrowwidth: 0.7,
       }

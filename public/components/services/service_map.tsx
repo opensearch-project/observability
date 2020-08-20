@@ -13,8 +13,6 @@ import Graph from "react-graph-vis";
 import { getServiceMapData } from '../../data/service_map_data';
 import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
-import _ from 'lodash';
-
 
 const renderServiceMap = (serviceMapData) => {
   return (

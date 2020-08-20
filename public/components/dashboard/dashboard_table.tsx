@@ -13,13 +13,9 @@ import {
   EuiToolTip
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
-import { dashboardTableData } from '../../data/dashboard_data';
 import { PanelTitle, renderBenchmark, truncateText } from '../common';
 import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
-import { handleRequest } from '../../requests/request_handler';
-import { dashboardQuery } from '../../requests/queries';
-import _ from 'lodash';
 import { handleDashboardRequest } from '../../requests/dashboard_request_handler';
 import { EuiButton } from '@elastic/eui';
 
