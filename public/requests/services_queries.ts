@@ -3,7 +3,7 @@ export const getServicesQuery = (serviceName = null) => {
     "size": 0,
     "query": {
       "bool": {
-        "must": [ ]
+        "must": []
       }
     },
     "aggs": {
@@ -71,10 +71,10 @@ export const getServicesQuery = (serviceName = null) => {
   }
   if (serviceName) {
     query.query.bool.must.push({
-        "term": {
-          "serviceInfo.name.keyword": serviceName
-        }
-      })
+      "term": {
+        "serviceInfo.name.keyword": serviceName
+      }
+    });
   }
   return query;
 }

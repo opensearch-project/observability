@@ -32,8 +32,8 @@ export const handleServiceViewRequest = (serviceName, http, fields, setFields) =
         'traces': bucket.doc_count,
       };
     })
-    .then(newItems => {
-      setFields(newItems)
+    .then(newFields => {
+      setFields(newFields)
     })
 }
 

@@ -13,13 +13,14 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { traceViewPayloadData } from '../../data/trace_view_payload_data';
 // import { traceViewPayloadData } from '../../data/trace_view_data';
-import { PanelTitle } from '../common';
+import { PanelTitle, renderBenchmark } from '../common';
 import { CoreDeps } from '../app';
 import { SpanDetailPlt } from './span_detail_plt';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
+import { handleTraceViewRequest } from '../../requests/traces_request_handler';
 
 const renderTitle = (ID) => {
   return (
@@ -49,7 +50,7 @@ const renderTitle = (ID) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -78,37 +79,50 @@ const renderField = (field, value) => {
   );
 };
 
-const renderOverview = () => {
-  const fields = [
-    'Trace ID',
-    'Trace group name',
-    'Last updated',
-    'User ID',
-    'Latency',
-    'Latency vs Benchmark',
-    'Percentile in trace group',
-    '',
-    'Errors',
-    'Errors vs benchmark',
-  ];
-  const values = [
-    'afe',
-    'makePayment.auto',
-    '03/20/2020 08:03',
-    'admin123',
-    '75ms',
-    '30%',
-    '99th',
-    '',
-    '4',
-    '300%',
-  ];
+const renderOverview = (fields) => {
   return (
     <EuiPanel>
       <PanelTitle title="Overview" />
       <EuiHorizontalRule margin="m" />
       <EuiFlexGrid columns={3} direction="column">
-        {fields.map((field, i) => renderField(field, values[i]))}
+        {/* {fields.map((field, i) => renderField(field, values[i]))} */}
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Trace ID</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.trace_id}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Trace group name</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.trace_group}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Last updated</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.last_updated}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>User ID</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.user_id}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Latency</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.latency}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Latency vs Benchmark</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{renderBenchmark(fields.latency_vs_benchmark) || '-'}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Percentile in trace group</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.percentile_in_trace_group}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem />
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Errors</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{fields.error_count}</EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText style={{ color: '#333333', fontWeight: 370 }}>Errors vs Benchmark</EuiText>
+          <EuiText size="s" style={{ fontWeight: 430 }}>{renderBenchmark(fields.errors_vs_benchmark) || '-'}</EuiText>
+        </EuiFlexItem>
       </EuiFlexGrid>
     </EuiPanel>
   );
@@ -119,6 +133,8 @@ interface TraceViewProps extends CoreDeps {
 }
 
 export function TraceView(props: TraceViewProps) {
+  const [fields, setFields] = useState({});
+
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -134,6 +150,7 @@ export function TraceView(props: TraceViewProps) {
         href: `#traces/${props.traceId}`,
       },
     ]);
+    handleTraceViewRequest(props.traceId, props.http, fields, setFields);
   }, []);
 
   return (
@@ -144,7 +161,7 @@ export function TraceView(props: TraceViewProps) {
             {renderTitle(props.traceId)}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
-          {renderOverview()}
+          {renderOverview(fields)}
 
           <EuiSpacer />
           <EuiFlexGroup>

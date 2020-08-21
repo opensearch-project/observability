@@ -1,8 +1,9 @@
-export const getTracesQuery = () => {
-  return {
+export const getTracesQuery = (traceId = null) => {
+  const query = {
     "size": 10000,
     "query": {
       "bool": {
+        "must": [],
         "must_not": [
           {
             "exists": {
@@ -24,6 +25,14 @@ export const getTracesQuery = () => {
       }
     }
   }
+  if (traceId) {
+    query.query.bool.must.push({
+      "term": {
+        "traceId.keyword": traceId
+      }
+    });
+  }
+  return query;
 }
 
 export const getTracesLastUpdatedQuery = (traceId) => {

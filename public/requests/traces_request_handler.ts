@@ -32,6 +32,29 @@ const loadRemainingItems = (http, items, setItems) => {
   })
 }
 
+export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
+  handleRequest(http, getTracesQuery(traceId))
+    .then(async (response) => {
+      const hit = response.hits.hits[0];
+      const lastUpdated = await handleRequest(http, getTracesLastUpdatedQuery(traceId))
+      const errorCount = await handleRequest(http, getTracesErrorCountQuery(traceId))
+      return {
+        'trace_id': hit._source.traceId,
+        'trace_group': hit._source.name.value,
+        'last_updated': moment(lastUpdated.aggregations.last_updated.value).format('MM/DD/YYYY HH:mm'),
+        'user_id': 'N/A',
+        'latency': hit.fields.latency[0],
+        'latency_vs_benchmark': 'N/A',
+        'percentile_in_trace_group': 'N/A',
+        'error_count': errorCount.aggregations.error_count.value,
+        'errors_vs_benchmark': 'N/A',
+      }
+    })
+    .then(newFields => {
+      setFields(newFields)
+    })
+}
+
     // 'percentile_in_trace_group': `${Math.floor(Math.random() * (10) + 90)}th`,
     // 'latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
     // 'last_updated': '03/20/2020 08:03',
