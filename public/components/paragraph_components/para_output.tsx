@@ -41,22 +41,22 @@ export const ParaOutput = (props: { para: ParaType }) => {
       switch (typeOut) {
         case 'MARKDOWN':
           return (
-            <EuiText key={tIdx + '_paraoutput'}>
+            <EuiText key={tIdx + '_paraOutput'}>
               <MarkdownRender source={val} />
             </EuiText>
           );
         case 'HTML':
           return (
-            <EuiText key={tIdx + '_paraoutput'}>
+            <EuiText key={tIdx + '_paraOutput'}>
               <Media.HTML data={val} />
             </EuiText>
           );
         case 'TABLE':
-          return <pre key={tIdx + '_paraoutput'}>{val}</pre>;
+          return <pre key={tIdx + '_paraOutput'}>{val}</pre>;
         case 'IMG':
-          return <img alt="" src={'data:image/gif;base64,' + val} key={tIdx + '_paraoutput'} />;
+          return <img alt="" src={'data:image/gif;base64,' + val} key={tIdx + '_paraOutput'} />;
         default:
-          return <pre key={tIdx + '_paraoutput'}>{val}</pre>;
+          return <pre key={tIdx + '_paraOutput'}>{val}</pre>;
       }
     } else {
       console.log('output not supported', typeOut);

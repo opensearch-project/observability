@@ -17,7 +17,7 @@ import { v4 as uuid } from 'uuid';
 import { NotebookAdaptor } from './notebook_adaptor';
 import { RequestHandlerContext } from '../../../../src/core/server';
 import { optionsType } from '../../common';
-import { RequestParams } from '@elastic/elasticsearch';
+import { RequestParams, errors } from '@elastic/elasticsearch';
 import {
   DefaultNotebooks,
   DefaultParagraph,
@@ -28,17 +28,18 @@ import {
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
 
+  // Creates a new notebooks with sample markdown text
   createNewNotebook = (newNotebookName: string) => {
     const noteId = 'note_' + uuid();
 
     const inputObject: DefaultInput = {
-      input_type: 'MARKDOWN',
-      input_text: '# Type your input here',
+      inputType: 'MARKDOWN',
+      inputText: '# Type your input here',
     };
 
     const outputObjects: Array<DefaultOutput> = [
       {
-        output_type: 'MARKDOWN',
+        outputType: 'MARKDOWN',
         result: '# Type your input here',
         execution_time: '0s',
       },
@@ -47,8 +48,8 @@ export class DefaultBackend implements NotebookAdaptor {
     const paragraphObjects: Array<DefaultParagraph> = [
       {
         id: 'paragraph_' + uuid(),
-        date_created: new Date().toISOString(),
-        date_modified: new Date().toISOString(),
+        dateCreated: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
         input: inputObject,
         output: outputObjects,
       },
@@ -56,10 +57,10 @@ export class DefaultBackend implements NotebookAdaptor {
 
     const noteObject: DefaultNotebooks = {
       id: noteId,
-      date_created: new Date().toISOString(),
+      dateCreated: new Date().toISOString(),
       name: newNotebookName,
-      date_modified: new Date().toISOString(),
-      plugin_version: '7.9.0',
+      dateModified: new Date().toISOString(),
+      pluginVersion: '7.9.0',
       backend: 'Default',
       paragraphs: paragraphObjects,
     };
@@ -70,6 +71,7 @@ export class DefaultBackend implements NotebookAdaptor {
     };
   };
 
+  // indexes a notebook with body provided
   indexNote = async function (context: RequestHandlerContext, noteId: string, body: any) {
     try {
       const options: RequestParams.Index = {
@@ -88,14 +90,15 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
-  updateNote = async function (context: RequestHandlerContext, noteId: string, updateDoc: string) {
+  // updates a notebook with updateBody provided as parameter
+  updateNote = async function (context: RequestHandlerContext, noteId: string, updateBody: string) {
     try {
       const options: RequestParams.Update = {
         index: '.notebooks',
         refresh: 'true',
         id: noteId,
         body: {
-          doc: updateDoc,
+          doc: updateBody,
         },
       };
       const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
@@ -108,6 +111,7 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
+  // fetched a notebook by Id
   getNote = async function (context: RequestHandlerContext, noteId: string) {
     try {
       const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
@@ -123,10 +127,11 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
-  // Gets all the notebooks available
+  // gets all the notebooks available
   viewNotes = async function (context: RequestHandlerContext, _wreckOptions: optionsType) {
+    let esClientResponse;
+    let data = [];
     try {
-      let data = [];
       const options: RequestParams.Search = {
         index: '.notebooks',
         _source: ['id', 'name'],
@@ -136,8 +141,7 @@ export class DefaultBackend implements NotebookAdaptor {
           },
         },
       };
-
-      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
         'search',
         options
       );
@@ -147,10 +151,11 @@ export class DefaultBackend implements NotebookAdaptor {
           id: doc._source.id,
         });
       });
-
       return data;
     } catch (error) {
-      throw new Error('View Notebooks Error:' + error);
+      if (error.body.error.type === 'index_not_found_exception') {
+        return data;
+      } else throw new Error('View Notebooks Error:' + error);
     }
   };
 
@@ -199,7 +204,7 @@ export class DefaultBackend implements NotebookAdaptor {
     try {
       const updateNotebook = {
         name: params.name,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
       return { status: 'OK', message: esClientResponse };
@@ -279,8 +284,8 @@ export class DefaultBackend implements NotebookAdaptor {
     try {
       let newNoteObject = { ...noteObj };
       newNoteObject.id = 'note_' + uuid();
-      newNoteObject.date_created = new Date().toISOString();
-      newNoteObject.date_modified = new Date().toISOString();
+      newNoteObject.dateCreated = new Date().toISOString();
+      newNoteObject.dateModified = new Date().toISOString();
       const esClientIndexResponse = await this.indexNote(context, newNoteObject.id, newNoteObject);
       return { status: 'OK', message: esClientIndexResponse, body: esClientIndexResponse._id };
     } catch (error) {
@@ -288,6 +293,11 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
+  /* Updates input for required paragraphs
+   * Params: paragraphs -> list of paragraphs
+   *         paragraphId -> Id of paragraph to be updated
+   *         paragraphInput -> Input to be added
+   */
   updateParagraphInput = function (
     paragraphs: Array<DefaultParagraph>,
     paragraphId: string,
@@ -298,8 +308,8 @@ export class DefaultBackend implements NotebookAdaptor {
       paragraphs.map((paragraph: DefaultParagraph) => {
         const updatedParagraph = { ...paragraph };
         if (paragraph.id === paragraphId) {
-          updatedParagraph.date_modified = new Date().toISOString();
-          updatedParagraph.input.input_text = paragraphInput;
+          updatedParagraph.dateModified = new Date().toISOString();
+          updatedParagraph.input.inputText = paragraphInput;
         }
         updatedParagraphs.push(updatedParagraph);
       });
@@ -309,6 +319,7 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
+  // Creates new paragraph with the given input and input type
   createParagraph = function (paragraphInput: string, inputType: string) {
     try {
       let paragraphType = 'MARKDOWN';
@@ -316,20 +327,20 @@ export class DefaultBackend implements NotebookAdaptor {
         paragraphType = 'VISUALIZATION';
       }
       const inputObject = {
-        input_type: paragraphType,
-        input_text: paragraphInput,
+        inputType: paragraphType,
+        inputText: paragraphInput,
       };
       const outputObjects: Array<DefaultOutput> = [
         {
-          output_type: paragraphType,
+          outputType: paragraphType,
           result: '',
           execution_time: '0s',
         },
       ];
       const newParagraph = {
         id: 'paragraph_' + uuid(),
-        date_created: new Date().toISOString(),
-        date_modified: new Date().toISOString(),
+        dateCreated: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
         input: inputObject,
         output: outputObjects,
       };
@@ -340,20 +351,21 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
-  // Runs a paragraph
-  // Currently only runs markdown by copying input.input_text to result
-  // UI renders Markdown
+  /* Runs a paragraph
+   * Currently only runs markdown by copying input.inputText to result
+   * UI renders Markdown
+   */
   runParagraph = async function (paragraphs: Array<DefaultParagraph>, paragraphId: string) {
     try {
       const updatedParagraphs = [];
       paragraphs.map((paragraph: DefaultParagraph) => {
         const updatedParagraph = { ...paragraph };
-        if (paragraph.input.input_type === 'MARKDOWN' && paragraph.id === paragraphId) {
-          updatedParagraph.date_modified = new Date().toISOString();
+        if (paragraph.input.inputType === 'MARKDOWN' && paragraph.id === paragraphId) {
+          updatedParagraph.dateModified = new Date().toISOString();
           updatedParagraph.output = [
             {
-              output_type: 'MARKDOWN',
-              result: paragraph.input.input_text,
+              outputType: 'MARKDOWN',
+              result: paragraph.input.inputText,
               execution_time: '0s',
             },
           ];
@@ -393,7 +405,7 @@ export class DefaultBackend implements NotebookAdaptor {
 
       const updateNotebook = {
         paragraphs: updatedOutputParagraphs,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
 
@@ -431,7 +443,7 @@ export class DefaultBackend implements NotebookAdaptor {
 
       const updateNotebook = {
         paragraphs: updatedInputParagraphs,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
 
@@ -462,12 +474,10 @@ export class DefaultBackend implements NotebookAdaptor {
       const esClientGetResponse = await this.getNote(context, params.noteId);
       const paragraphs = esClientGetResponse.paragraphs;
       const newParagraph = this.createParagraph(params.paragraphInput, params.inputType);
-      console.log('newParagraph:', newParagraph);
       paragraphs.splice(params.paragraphIndex, 0, newParagraph);
-      console.log('paragraphs:', paragraphs);
       const updateNotebook = {
         paragraphs: paragraphs,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
 
@@ -499,7 +509,7 @@ export class DefaultBackend implements NotebookAdaptor {
 
       const updateNotebook = {
         paragraphs: updatedparagraphs,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
 
@@ -530,7 +540,7 @@ export class DefaultBackend implements NotebookAdaptor {
 
       const updateNotebook = {
         paragraphs: updatedparagraphs,
-        date_modified: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
       };
       const esClientResponse = await this.updateNote(context, params.noteId, updateNotebook);
 

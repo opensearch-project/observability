@@ -15,14 +15,14 @@
 
 import { ParaType } from '../../../common';
 
-// Get the type of output message from a Zeppelin paragraph
-// Param: Zeppelin Paragraph
-const parseOutput = (para: any) => {
+// Get the type of output and result in a default notebook paragraph
+// Param: Default Backend Paragraph
+const parseOutput = (paraObject: any) => {
   try {
     let outputType = [];
     let result = [];
-    para.output.map((output: { output_type: string; result: string }) => {
-      outputType.push(output.output_type);
+    paraObject.output.map((output: { outputType: string; result: string }) => {
+      outputType.push(output.outputType);
       result.push(output.result);
     });
     return {
@@ -37,59 +37,74 @@ const parseOutput = (para: any) => {
   }
 };
 
-// Get the coding language from a Zeppelin paragraph input
-// Param: textHeader-> header on a Zeppelin paragraph example "%md"
+// Get the coding language by type of paragraph
+// Param: Default Backend Paragraph
 const parseInputType = (paraObject: any) => {
-  if (paraObject.input.input_type === 'MARKDOWN') {
-    return 'md';
-  } else {
-    return '';
+  try {
+    if (paraObject.input.inputType === 'MARKDOWN') {
+      return 'md';
+    } else {
+      return '';
+    }
+  } catch (error) {
+    throw new Error('Parsing Input Issue ' + error);
   }
 };
 
-const parseVisualization = (para: any) => {
-  let vizContent = '';
-  if (para.input.input_type === 'VISUALIZATION') {
-    vizContent = para.input.input_text;
-    return {
-      isViz: true,
-      VizObject: vizContent,
-    };
-  } else {
-    return {
-      isViz: false,
-      VizObject: '',
-    };
+// Get the visualization by type of paragraph
+// Param: Default Backend Paragraph
+const parseVisualization = (paraObject: any) => {
+  try {
+    let vizContent = '';
+    if (paraObject.input.inputType === 'VISUALIZATION') {
+      vizContent = paraObject.input.inputText;
+      return {
+        isViz: true,
+        VizObject: vizContent,
+      };
+    } else {
+      return {
+        isViz: false,
+        VizObject: '',
+      };
+    }
+  } catch (error) {
+    throw new Error('Parsing Input Issue ' + error);
   }
 };
 
 // Placeholder for default parser
-export const defaultParagraphParser = (paragraphs: any) => {
+// Param: Default Backend Paragraph
+export const defaultParagraphParser = (defaultBackendParagraphs: any) => {
   let parsedPara: Array<ParaType> = [];
-  paragraphs.map((paraObject: any, index: number) => {
-    const vizParams = parseVisualization(paraObject);
-    const codeLanguage = parseInputType(paraObject);
-    const message = parseOutput(paraObject);
+  try {
+    defaultBackendParagraphs.map((paraObject: any, index: number) => {
+      const codeLanguage = parseInputType(paraObject);
+      const vizParams = parseVisualization(paraObject);
+      const message = parseOutput(paraObject);
 
-    let tempPara = {
-      uniqueId: paraObject.id,
-      isRunning: false,
-      inQueue: false,
-      ishovered: false,
-      isSelected: false,
-      isInputHidden: false,
-      isOutputHidden: false,
-      showAddPara: false,
-      isVizualisation: vizParams.isViz,
-      vizObjectInput: vizParams.VizObject,
-      id: index + 1,
-      inp: paraObject.input.input_text,
-      lang: 'text/x-' + codeLanguage,
-      editorLanguage: codeLanguage,
-      typeOut: message.outputType,
-      out: message.outputData,
-    };
-    parsedPara.push(tempPara);
-  });
-  return parsedPara;
+      let tempPara = {
+        uniqueId: paraObject.id,
+        isRunning: false,
+        inQueue: false,
+        ishovered: false,
+        isSelected: false,
+        isInputHidden: false,
+        isOutputHidden: false,
+        showAddPara: false,
+        isVizualisation: vizParams.isViz,
+        vizObjectInput: vizParams.VizObject,
+        id: index + 1,
+        inp: paraObject.input.inputText || '',
+        lang: 'text/x-' + codeLanguage,
+        editorLanguage: codeLanguage,
+        typeOut: message.outputType,
+        out: message.outputData,
+      };
+      parsedPara.push(tempPara);
+    });
+    return parsedPara;
+  } catch (error) {
+    throw new Error('Parsing Paragraph Issue ' + error);
+  }
 };

@@ -18,6 +18,7 @@ import { API_PREFIX } from '../../common';
 import { RequestParams } from '@elastic/elasticsearch';
 
 export function vizRouter(router: IRouter) {
+  // Fetches available saved visualizations for current user
   router.get(
     {
       path: `${API_PREFIX}/visualizations`,

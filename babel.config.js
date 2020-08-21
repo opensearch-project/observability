@@ -13,31 +13,15 @@
  * permissions and limitations under the License.
  */
 
-// Default Backend Notebook Schema
-
-export type DefaultInput = {
-  inputType: string;
-  inputText: string;
-};
-
-export type DefaultOutput = {
-  outputType: string;
-  result: string;
-  execution_time: string;
-};
-export type DefaultParagraph = {
-  id: string;
-  dateCreated: string;
-  dateModified: string;
-  input: DefaultInput;
-  output: Array<DefaultOutput>;
-};
-export type DefaultNotebooks = {
-  name: string;
-  id: string;
-  dateCreated: string;
-  dateModified: string;
-  pluginVersion: string;
-  backend: string;
-  paragraphs: Array<DefaultParagraph>;
+module.exports = {
+  presets: [
+    require('@babel/preset-env'),
+    require('@babel/preset-react'),
+    require('@babel/preset-typescript'),
+  ],
+  plugins: [
+    require('@babel/plugin-proposal-class-properties'),
+    require('@babel/plugin-proposal-object-rest-spread'),
+    require('@babel/plugin-transform-runtime'),
+  ],
 };

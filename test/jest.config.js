@@ -13,31 +13,12 @@
  * permissions and limitations under the License.
  */
 
-// Default Backend Notebook Schema
-
-export type DefaultInput = {
-  inputType: string;
-  inputText: string;
-};
-
-export type DefaultOutput = {
-  outputType: string;
-  result: string;
-  execution_time: string;
-};
-export type DefaultParagraph = {
-  id: string;
-  dateCreated: string;
-  dateModified: string;
-  input: DefaultInput;
-  output: Array<DefaultOutput>;
-};
-export type DefaultNotebooks = {
-  name: string;
-  id: string;
-  dateCreated: string;
-  dateModified: string;
-  pluginVersion: string;
-  backend: string;
-  paragraphs: Array<DefaultParagraph>;
+module.exports = {
+  rootDir: '../',
+  roots: ['<rootDir>'],
+  testMatch: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
+  clearMocks: true,
+  modulePathIgnorePatterns: ['<rootDir>/offline-module-cache/'],
+  testPathIgnorePatterns: ['<rootDir>/build/', '<rootDir>/node_modules/', '<rootDir>/target/'],
+  transformIgnorePatterns: ['<rootDir>/node_modules'],
 };
