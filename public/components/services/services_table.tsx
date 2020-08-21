@@ -9,9 +9,10 @@ import {
   EuiText,
   EuiI18nNumber,
 } from '@elastic/eui';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PanelTitle, truncateText } from '../common';
 import { serviceTableData } from '../../data/services_data';
+import { handleServicesRequest } from '../../requests/services_request_handler';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -29,7 +30,6 @@ const columns = [
     name: 'Name',
     align: 'left',
     sortable: true,
-    truncateText: true,
     render: (item) => <EuiLink href={`#services/${item}`}>{truncateText(item)}</EuiLink>,
   },
   {
@@ -37,15 +37,14 @@ const columns = [
     name: 'Average latency (ms)',
     align: 'right',
     sortable: true,
-    truncateText: true,
+    render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
   },
   {
     field: 'error_rate',
     name: 'Error rate',
     align: 'right',
     sortable: true,
-    truncateText: true,
-    render: (item) => <EuiText size="s">{`${item}%`}</EuiText>,
+    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
   },
   {
     field: 'throughput',
@@ -61,6 +60,7 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
+    render: (item) => item === 0 || item ? item : ('-'),
   },
   {
     field: 'connected_services',
@@ -68,11 +68,11 @@ const columns = [
     align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => (
+    render: (item) => item ? (
       <EuiText size='s'>
         {truncateText(item)}
       </EuiText>
-    ),
+    ) : ('-'),
   },
   {
     field: 'traces',
@@ -88,9 +88,13 @@ const columns = [
   },
 ];
 
-const items = serviceTableData;
+export function ServicesTable(props) {
+  const [items, setItems] = useState([]);
 
-export function ServicesTable() {
+  useEffect(() => {
+    handleServicesRequest(props.http, items, setItems);
+  }, []);
+
   return (
     <>
       <EuiPanel>

@@ -10,18 +10,21 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
 import { PanelTitle } from '../common';
 import { renderDatePicker, SearchBarProps } from '../common';
 import { ServiceMap } from './service_map';
+import { handleServiceViewRequest } from '../../requests/services_request_handler';
+import { EuiI18nNumber } from '@elastic/eui';
+import { EuiLink } from '@elastic/eui';
 
-const renderTitle = (serviceId, startTime, setStartTime, endTime, setEndTime) => {
+const renderTitle = (serviceName, startTime, setStartTime, endTime, setEndTime) => {
   return (
     <>
       <EuiFlexItem>
         <EuiTitle size="l">
-          <h2 style={{ fontWeight: 430 }}>{serviceId}</h2>
+          <h2 style={{ fontWeight: 430 }}>{serviceName}</h2>
         </EuiTitle>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -38,42 +41,7 @@ const renderTitle = (serviceId, startTime, setStartTime, endTime, setEndTime) =>
   );
 };
 
-const renderField = (field, value, grow = true) => {
-  return (
-    <>
-      <EuiFlexItem grow={grow}>
-        {field && value && (
-          <>
-            <EuiText style={{ color: '#333333', fontWeight: 370 }}>{field}</EuiText>
-            <EuiText size="s" style={{ fontWeight: 430 }}>
-              {value}
-            </EuiText>
-          </>
-        )}
-      </EuiFlexItem>
-    </>
-  );
-};
-
-const renderOverview = () => {
-  const fields = [
-    'Name',
-    'Number of connected services',
-    'Connected services',
-    'Average latency (ms)',
-    'Error rate',
-    'Throughput',
-    'Traces',
-  ];
-  const values = [
-    'Payment',
-    '4',
-    'Order, BankVerify, Account, Order',
-    '68',
-    '20%',
-    '24,000',
-    '1,500',
-  ];
+const renderOverview = (fields) => {
   return (
     <EuiPanel>
       <PanelTitle title="Overview" />
@@ -81,12 +49,42 @@ const renderOverview = () => {
       <EuiFlexGroup>
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
-            {fields.slice(0, 3).map((field, i) => renderField(field, values[i], false))}
+            <EuiFlexItem grow={false}>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Name</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.name}</EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Number of connected services</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.number_of_connected_services}</EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Connected services</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.connected_services}</EuiText>
+            </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
-            {fields.slice(3).map((field, i) => renderField(field, values[i + 3]))}
+            <EuiFlexItem>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Average latency (ms)</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>{_.round(fields.average_latency, 2)}</EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Error rate</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>{_.round(fields.error_rate, 2)}%</EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Throughput</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}><EuiI18nNumber value={fields.throughput} /></EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Traces</EuiText>
+              <EuiText size="s" style={{ fontWeight: 430 }}>
+                <EuiLink href='#traces'>
+                  <EuiI18nNumber value={fields.traces} />
+                </EuiLink>
+              </EuiText>
+            </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>
@@ -96,10 +94,12 @@ const renderOverview = () => {
 };
 
 interface ServiceViewProps extends SearchBarProps, CoreDeps {
-  serviceId: string;
+  serviceName: string;
 }
 
 export function ServiceView(props: ServiceViewProps) {
+  const [fields, setFields] = useState({});
+
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -111,10 +111,11 @@ export function ServiceView(props: ServiceViewProps) {
         href: '#services',
       },
       {
-        text: props.serviceId,
-        href: `#services/${props.serviceId}`,
+        text: props.serviceName,
+        href: `#services/${props.serviceName}`,
       },
     ]);
+    handleServiceViewRequest(props.serviceName, props.http, fields, setFields);
   }, []);
 
   return (
@@ -123,7 +124,7 @@ export function ServiceView(props: ServiceViewProps) {
         <EuiPageBody>
           <EuiFlexGroup alignItems="center" gutterSize="s">
             {renderTitle(
-              props.serviceId,
+              props.serviceName,
               props.startTime,
               props.setStartTime,
               props.endTime,
@@ -131,7 +132,7 @@ export function ServiceView(props: ServiceViewProps) {
             )}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
-          {renderOverview()}
+          {renderOverview(fields)}
           <EuiSpacer />
           <ServiceMap />
         </EuiPageBody>

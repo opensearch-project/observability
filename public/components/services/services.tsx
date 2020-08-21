@@ -34,7 +34,7 @@ export function Services(props: ServicesProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <ServicesTable />
+      <ServicesTable http={props.http} />
     </>
   );
 }

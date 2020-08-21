@@ -22,7 +22,7 @@ const loadRemainingItems = (http, items, setItems) => {
     const latencyTrend = await handleRequest(http, getDashboardLatencyTrendQuery(item.trace_group_name))
     const values = {
       x: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map((bucket) => bucket.key_as_string),
-      y: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map((bucket) => bucket.average_latency.value),
+      y: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map((bucket) => bucket.average_latency?.value || 0),
     }
     return {
       ...item,
