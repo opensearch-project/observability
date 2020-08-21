@@ -1,0 +1,1 @@
+export const INDEX_NAME = 'apm-spans-2';

@@ -1,6 +1,7 @@
 import { schema } from '@kbn/config-schema';
 import { RequestParams } from '@elastic/elasticsearch';
 import { IRouter } from '../../../../src/core/server';
+import { INDEX_NAME } from '../util/constants';
 
 export function defineRoutes(router: IRouter) {
   router.post(
@@ -11,10 +12,11 @@ export function defineRoutes(router: IRouter) {
       },
     },
     async (context, request, response) => {
+      const { size, ...rest } = request.body;
       const params: RequestParams.Search = {
-        index: request.body.index,
-        size: request.body.size,
-        body: request.body.query,
+        index: INDEX_NAME,
+        size,
+        body: rest,
       };
       const resp = await context.core.elasticsearch.dataClient.callAsInternalUser('search', params);
       return response.ok({
