@@ -24,7 +24,7 @@ const renderTitle = (serviceName, startTime, setStartTime, endTime, setEndTime) 
     <>
       <EuiFlexItem>
         <EuiTitle size="l">
-          <h2 style={{ fontWeight: 430 }}>{serviceName}</h2>
+          <h2 className='overview-content'>{serviceName}</h2>
         </EuiTitle>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -50,36 +50,36 @@ const renderOverview = (fields) => {
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
             <EuiFlexItem grow={false}>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Name</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.name}</EuiText>
+              <EuiText className='overview-title'>Name</EuiText>
+              <EuiText size="s" className='overview-content'>{fields.name}</EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Number of connected services</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.number_of_connected_services}</EuiText>
+              <EuiText className='overview-title'>Number of connected services</EuiText>
+              <EuiText size="s" className='overview-content'>{fields.number_of_connected_services}</EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Connected services</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>{fields.connected_services}</EuiText>
+              <EuiText className='overview-title'>Connected services</EuiText>
+              <EuiText size="s" className='overview-content'>{fields.connected_services}</EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
-            <EuiFlexItem>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Average latency (ms)</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>{_.round(fields.average_latency, 2)}</EuiText>
+            <EuiFlexItem grow={false}>
+              <EuiText className='overview-title'>Average latency (ms)</EuiText>
+              <EuiText size="s" className='overview-content'>{_.round(fields.average_latency, 2)}</EuiText>
             </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Error rate</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>{_.round(fields.error_rate, 2)}%</EuiText>
+            <EuiFlexItem grow={false}>
+              <EuiText className='overview-title'>Error rate</EuiText>
+              <EuiText size="s" className='overview-content'>{_.round(fields.error_rate, 2)}%</EuiText>
             </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Throughput</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}><EuiI18nNumber value={fields.throughput} /></EuiText>
+            <EuiFlexItem grow={false}>
+              <EuiText className='overview-title'>Throughput</EuiText>
+              <EuiText size="s" className='overview-content'><EuiI18nNumber value={fields.throughput} /></EuiText>
             </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiText style={{ color: '#333333', fontWeight: 370 }}>Traces</EuiText>
-              <EuiText size="s" style={{ fontWeight: 430 }}>
+            <EuiFlexItem grow={false}>
+              <EuiText className='overview-title'>Traces</EuiText>
+              <EuiText size="s" className='overview-content'>
                 <EuiLink href='#traces'>
                   <EuiI18nNumber value={fields.traces} />
                 </EuiLink>

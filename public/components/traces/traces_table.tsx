@@ -60,7 +60,7 @@ const columns = [
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiFlexGroup gutterSize='s'>
+      <EuiFlexGroup gutterSize='s' alignItems='center'>
         <EuiFlexItem>
           <EuiLink href={`#traces/${item}`}>{truncateText(item)}</EuiLink>
         </EuiFlexItem>
