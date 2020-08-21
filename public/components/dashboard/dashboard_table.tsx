@@ -69,6 +69,132 @@ const renderTitleBar = () => {
   );
 };
 
+const columns = [
+  {
+    field: 'trace_group_name',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <span>
+          Trace group name{' '}
+          <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+        </span>
+      </EuiToolTip>
+    ),
+    align: 'left',
+    sortable: true,
+    render: (item) => item ? (
+      <EuiLink href="#">
+        {truncateText(item)}
+      </EuiLink>
+    ) : ('-'),
+  },
+  {
+    field: 'latency_variance',
+    name: (
+      <>
+        <EuiToolTip content="test tooltip">
+          <span>
+            Latency variance{' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </span>
+        </EuiToolTip>
+        <EuiText size='xs' style={{ color: '#8b8f94' }}>{[0, 20, 40, 60, 80].join('\u00A0'.repeat(10))}</EuiText>
+      </>
+    ),
+    align: 'center',
+    sortable: false,
+    // width: '20%',
+    render: (item) => {
+      return item ? (
+        // expand ranges by 4 to accomondate scale
+        <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
+      ) : ('-');
+    },
+  },
+  {
+    field: 'average_latency',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <>
+          <div style={{ marginRight: 40 }}>Average</div>
+          <div>latency (ms){' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+        </>
+      </EuiToolTip>
+    ),
+    align: 'right',
+    sortable: true,
+    dataType: 'number',
+    render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
+  },
+  {
+    field: 'average_latency_vs_benchmark',
+    name: (
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            How much more (in red) or less (in green) the average latency during the selected time
+            window compared against the selected benchmark.
+          </EuiText>
+        }
+      >
+        <>
+          <div style={{ marginRight: 15 }}>Average latency vs</div>
+          <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+        </>
+      </EuiToolTip>
+    ),
+    align: 'right',
+    sortable: true,
+    render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
+  },
+  {
+    field: '24_hour_latency_trend',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <>
+          <div style={{ marginRight: 44 }}>24-hour</div>
+          <div>latency trend{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+        </>
+      </EuiToolTip>
+    ),
+    align: 'right',
+    sortable: false,
+    render: (item) => item ? <LatencyTrendCell item={item} /> : ('-'),
+  },
+  {
+    field: 'error_rate',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <span>
+          Error rate{' '}
+          <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+        </span>
+      </EuiToolTip>
+    ),
+    align: 'right',
+    sortable: true,
+    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
+  },
+  {
+    field: 'traces',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <span>
+          Traces{' '}
+          <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+        </span>
+      </EuiToolTip>
+    ),
+    align: 'right',
+    sortable: true,
+    render: (item) => (
+      <EuiLink href="#traces">
+        <EuiI18nNumber value={item} />
+      </EuiLink>
+    ),
+  },
+];
+
 export function DashboardTable(props) {
   const [items, setItems] = useState([]);
 
@@ -76,137 +202,10 @@ export function DashboardTable(props) {
     handleDashboardRequest(props.http, items, setItems);
   }, []);
 
-  const columns = [
-    {
-      field: 'trace_group_name',
-      name: (
-        <EuiToolTip content="test tooltip">
-          <span>
-            Trace group name{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
-        </EuiToolTip>
-      ),
-      align: 'left',
-      sortable: true,
-      render: (item) => item ? (
-        <EuiLink href="#">
-          {truncateText(item)}
-        </EuiLink>
-      ) : ('-'),
-    },
-    {
-      field: 'latency_variance',
-      name: (
-        <>
-          <EuiToolTip content="test tooltip">
-            <span>
-              Latency variance{' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </span>
-          </EuiToolTip>
-          <EuiText size='xs' style={{ color: '#8b8f94' }}>{[0, 20, 40, 60, 80].join('\u00A0'.repeat(10))}</EuiText>
-        </>
-      ),
-      align: 'center',
-      sortable: false,
-      // width: '20%',
-      render: (item) => {
-        return item ? (
-          // expand ranges by 4 to accomondate scale
-          <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
-        ) : ('-');
-      },
-    },
-    {
-      field: 'average_latency',
-      name: (
-        <EuiToolTip content="test tooltip">
-          <>
-            <div style={{ marginRight: 40 }}>Average</div>
-            <div>latency (ms){' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      dataType: 'number',
-      render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
-    },
-    {
-      field: 'average_latency_vs_benchmark',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              How much more (in red) or less (in green) the average latency during the selected time
-              window compared against the selected benchmark.
-          </EuiText>
-          }
-        >
-          <>
-            <div style={{marginRight: 15}}>Average latency vs</div>
-            <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
-    },
-    {
-      field: '24_hour_latency_trend',
-      name: (
-        <EuiToolTip content="test tooltip">
-          <>
-            <div style={{marginRight: 44}}>24-hour</div>
-            <div>latency trend{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: false,
-      render: (item) => item ? <LatencyTrendCell item={item} /> : ('-'),
-    },
-    {
-      field: 'error_rate',
-      name: (
-        <EuiToolTip content="test tooltip">
-          <span>
-            Error rate{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
-    },
-    {
-      field: 'traces',
-      name: (
-        <EuiToolTip content="test tooltip">
-          <span>
-            Traces{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      render: (item) => (
-        <EuiLink href="#traces">
-          <EuiI18nNumber value={item} />
-        </EuiLink>
-      ),
-    },
-  ];
-
   return (
     <>
       <EuiPanel>
         {renderTitleBar()}
-        <EuiButton onClick={() => console.log(items)}>CLick</EuiButton>
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable

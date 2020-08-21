@@ -13,9 +13,11 @@ import {
   EuiButton,
   EuiButtonIcon,
 } from '@elastic/eui';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PanelTitle, truncateText, renderBenchmark } from '../common';
 import { tracesTableData } from '../../data/traces_data';
+import { handleTracesRequest } from '../../requests/traces_request_handler';
+import { EuiToolTip } from '@elastic/eui';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -91,32 +93,46 @@ const columns = [
   },
   {
     field: 'percentile_in_trace_group',
-    name: 'Percentile in trace group',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <>
+          <div style={{ marginRight: 11 }}>Percentile in</div>
+          <div>trace group{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+        </>
+      </EuiToolTip>
+    ),
     align: 'right',
     sortable: true,
-    truncateText: true,
+    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}th`}</EuiText> : ('-'),
   },
   {
     field: 'latency_vs_benchmark',
-    name: 'Latency vs benchmark',
+    name: (
+      <EuiToolTip content="test tooltip">
+        <>
+          <div style={{ marginRight: 18 }}>Latency vs</div>
+          <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+        </>
+      </EuiToolTip>
+    ),
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => renderBenchmark(item),
+    render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
   },
   {
     field: 'error_count',
     name: 'Error count',
     align: 'right',
     sortable: true,
-    truncateText: true,
+    render: (item) => item === 0 || item ? item : ('-'),
   },
   {
     field: 'last_updated',
     name: 'Last updated',
     align: 'left',
     sortable: true,
-    truncateText: true,
+    render: (item) => item === 0 || item ? item : ('-'),
   },
   {
     field: 'actions',
@@ -125,16 +141,20 @@ const columns = [
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiLink href="#" target="_blank">
+      <EuiLink href={item}>
         {'View log'}<EuiIcon type="popout" />
       </EuiLink>
     ),
   },
 ];
 
-const items = tracesTableData;
-
-export function TracesTable() {
+export function TracesTable(props) {
+  const [items, setItems] = useState([]);
+  
+  useEffect(() => {
+    handleTracesRequest(props.http, items, setItems);
+  }, []);
+  
   return (
     <>
       <EuiPanel>

@@ -1,8 +1,8 @@
-const index = 'apm-spans-1';
+import { INDEX_NAME } from '../util/constants';
 
 export const getDashboardQuery = () => {
   return {
-    "index": index,
+    "index": INDEX_NAME,
     "size": 0,
     "query": {
       "query": {
@@ -66,7 +66,7 @@ export const getDashboardQuery = () => {
 
 export const getDashboardErrorRateQuery = (traceGroupName) => {
   return {
-    "index": index,
+    "index": INDEX_NAME,
     "size": 0,
     "query": {
       "query": {
@@ -113,7 +113,7 @@ export const getDashboardErrorRateQuery = (traceGroupName) => {
 
 export const getDashboardLatencyTrendQuery = (traceGroupName) => {
   return {
-    "index": index,
+    "index": INDEX_NAME,
     "size": 0,
     "query": {
       "query": {

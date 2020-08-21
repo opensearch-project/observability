@@ -1,5 +1,5 @@
 import { handleRequest } from "./request_handler";
-import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery } from "./queries";
+import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery } from "./dashboard_queries";
 
 export const handleDashboardRequest = (http, items, setItems) => {
   handleRequest(http, getDashboardQuery())
@@ -12,11 +12,11 @@ export const handleDashboardRequest = (http, items, setItems) => {
     })))
     .then(newItems => {
       setItems(newItems)
-      loadDashboardRemainingItems(http, newItems, setItems)
+      loadRemainingItems(http, newItems, setItems)
     })
 };
 
-const loadDashboardRemainingItems = (http, items, setItems) => {
+const loadRemainingItems = (http, items, setItems) => {
   Promise.all(items.map(async (item) => {
     const errorRate = await handleRequest(http, getDashboardErrorRateQuery(item.trace_group_name))
     const latencyTrend = await handleRequest(http, getDashboardLatencyTrendQuery(item.trace_group_name))
@@ -25,6 +25,7 @@ const loadDashboardRemainingItems = (http, items, setItems) => {
       y: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map((bucket) => bucket.average_latency.value),
     }
     return {
+      ...item,
       'error_rate': errorRate.aggregations.trace_group.buckets[0].error_rate.value,
       '24_hour_latency_trend': {
         trendData: [{
@@ -51,9 +52,11 @@ const loadDashboardRemainingItems = (http, items, setItems) => {
           },
         }],
       },
-      ...item,
     }
   })).then(newItems => {
     setItems(newItems);
   })
 }
+
+    // 'latency_variance': Array.from({ length: 3 }, () => Math.floor(Math.random() * 70 + 10)).sort(),
+    // 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,

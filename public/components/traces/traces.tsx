@@ -34,7 +34,7 @@ export function Traces(props: TracesProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <TracesTable />
+      <TracesTable http={props.http}/>
     </>
   );
 }
