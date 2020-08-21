@@ -115,6 +115,7 @@ index movies/default/1 {
       - You’ll be prompted to restart the interpreter -> Click on ok
       - Once configured the screen should look like this:
         ![SQL Interpreter](images/odfe-zeppelin.png)
+        
     - Open a notebook and run below commands to check if interpreter settings are set correctly
 
 ```
