@@ -7,7 +7,7 @@
 3. [User Stories](#3-user-stories)
 4. [Design](#4-design)
 5. [Design Details and Implementation](#5-design-details-and-implementation)
-6. [Build & Usage](#6-build-&-usage)
+6. [Build & Usage](#6-build--usage)
 7. [Appendix](#7-appendix)
 8. [References](#8-references)
 
@@ -212,9 +212,9 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ### **5.3 Data Model**
 
-- **Default Backend Notebook Schema:**
+- **Default Backend Notebook Schema:** Each notebook object contains it’s name, unique id, date of creation/modification, Kibana Notebooks plugin version and an array of paragraphs. The paragraphs contain their unique id, date of creation/modification and input/output cells. An input cell contains a code or text and it’s type (markdown/visualization). Each paragraph contains an array of outputs, this is an array as execution of code can result into multiple outputs like a text with an image. Each output contains the type of output, result value and execution time.
 
-![Default Notebooks](images/Default_Notebooks_Schema.png)
+![Default Notebooks](images/Default_Notebooks_Schemav2.png)
 
 ### **5.4 WorkFlows**
 
