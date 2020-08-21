@@ -530,7 +530,7 @@ Does the following backend tasks:
         "noteId": "2FF3GW3H8", // notebook id
         "paragraphIndex": 1, // index to create a new para
         "paragraphInput": "%elasticsearch\n" // input to be provided in the new para
-        "paragraphType": "CODE" // a paragraph can be of type CODE or VISUALIZATION
+        "inputType": "CODE" // a paragraph can be of type CODE or VISUALIZATION
     }
 
     RESPONSE BODY

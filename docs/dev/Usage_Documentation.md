@@ -24,7 +24,7 @@ NOTE: Please select a paragraph before using these buttons
 - **Save Paragraph** - Saves the input of selected paragraph/visualization
 - **Clone Paragraph** - Clones the selected paragraph
 - **Delete Paragraph** - Deletes the selected paragraph
-- **Clear All Paragraph** - Clears the output of the paragraphs
+- **Clear All Paragraph** - Clears the output of all the paragraphs
 - **Hide Inputs** - Hides the input cells of all the paragraphs
 - **Hide Outputs** - Hides the output cells of all the paragraphs
 
