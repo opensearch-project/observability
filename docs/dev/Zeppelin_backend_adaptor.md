@@ -1,5 +1,10 @@
 # Zeppelin Backend Adaptor
 
+## Contents
+
+1. [**Zeppelin Backend Service**](#zeppelin-backend-service)
+2. [**Apache Zeppelin Setup**](#apache-zeppelin-setup)
+
 ## Zeppelin Backend Service
 
 **Apache Zeppelin** provides several REST APIs for interaction and remote activation of zeppelin functionality. All REST APIs are available starting with the following endpoint `http://[zeppelin-server]:[zeppelin-port]/api`.
@@ -47,30 +52,36 @@
     - `vi conf/zeppelin-site.xml` and edit the host ip
     - Then restart the service
 - **[Optional] Setup ES Interpreter:**
+
   - [Zeppelin Elasticsearch interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0-preview2/interpreter/elasticsearch.html)
   - This interpreter can be used for ODFE:
+
     - **Note: current issues with Elasticsearch Interpreter in Zeppelin**
-      - User needs to remove ssl flag from the ES config as Zeppelin doesn’t support ssl request yet: https://issues.apache.org/jira/browse/ZEPPELIN-2031 so run the ODFE service without ssl enabled
-      - Zeppelin has “no support for ssl” (only uses http) in elastic interpreter:
-        - [Code](https://github.com/apache/zeppelin/blob/0b8423c62ae52f3716d4bb63d60762fee6910788/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java#L105)
-        - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-2031)
-      - Zeppelin has “no issue in search query” in elastic interpreter:
-        - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-4843?jql=project%20%3D%20ZEPPELIN%20AND%20status%20%3D%20Open%20AND%20text%20~%20%22elasticsearch%22)
-      - Zeppelin “No support for search template“ issue in elastic interpreter:
-        - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-4184?jql=project%20%3D%20ZEPPELIN%20AND%20text%20~%20%22elastic%20search%22)
+    - User needs to remove ssl flag from the ES config as Zeppelin doesn’t support ssl request yet: https://issues.apache.org/jira/browse/ZEPPELIN-2031 so run the ODFE service without ssl enabled
+    - Zeppelin has “no support for ssl” (only uses http) in elastic interpreter:
+      - [Code](https://github.com/apache/zeppelin/blob/0b8423c62ae52f3716d4bb63d60762fee6910788/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java#L105)
+      - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-2031)
+    - Zeppelin has “no issue in search query” in elastic interpreter:
+      - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-4843?jql=project%20%3D%20ZEPPELIN%20AND%20status%20%3D%20Open%20AND%20text%20~%20%22elasticsearch%22)
+    - Zeppelin “No support for search template“ issue in elastic interpreter:
+      - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-4184?jql=project%20%3D%20ZEPPELIN%20AND%20text%20~%20%22elastic%20search%22)
     - **To Change the interpreter settings of Elastic Search Interpreter on Zeppelin:**
+      - Open Zeppelin in browser `localhost:8080`
       - Please click the top right menu beside drop down and select interpreter option
-      - Search for elasticsearch interpreter
+      - In the interpreters window, search for elasticsearch interpreter
       - Edit config parameters similar to that your local/remote service
       - You’ll be prompted to restart the interpreter -> Click on ok
     - **If using the default settings, add below mentioned changes in interpreter config:**
+
       - Change transport.type to http
       - host → localhost (if running on same machine as Zeppelin) & port → 9200
       - username: admin & password: admin
+      - Once configured the screen should look like this:
+        ![ES Interpreter](images/es-zeppelin.png)
+
     - Start a new notebook to try out the below commands
     - Run a shell command from notebook to check availability of ES:
       - `%sh curl -XGET http://localhost:9200 -u admin:admin`
-    - Once you reach here try indexing to ES DB:
 
 ```
 %elasticsearch
@@ -89,8 +100,10 @@ index movies/default/1 {
   - Download [ODFE-SQL Driver](https://opendistro.github.io/for-elasticsearch/downloads.html) Jar file
   - To Use JDBC interpreter:
     - **To add the JDBC interpreter settings for ODFE-SQL:**
+      - Open Zeppelin in browser `localhost:8080`
       - Please click the top right menu beside drop down and select interpreter option
-      - Add ODFE-SQL interpreter with type JDBC -** configure name: “odfesql” **-
+      - Click on "+ Create" Button
+      - Add ODFE-SQL interpreter with type JDBC **configure name: “odfesql”**
       - Note: The name you assign to the interpreter is used later for accessing paragraphs in notebook - “%odfesql”
       - Edit config for with ODFE-SQL Driver details (Please refer to the [Github README](https://github.com/opendistro-for-elasticsearch/sql-jdbc))
     - **If using the default settings, add below mentioned changes in interpreter config:**
@@ -100,6 +113,8 @@ index movies/default/1 {
       - Edit the password to admin
       - Add absolute path to the Jar in the last input box
       - You’ll be prompted to restart the interpreter -> Click on ok
+      - Once configured the screen should look like this:
+        ![SQL Interpreter](images/odfe-zeppelin.png)
     - Open a notebook and run below commands to check if interpreter settings are set correctly
 
 ```

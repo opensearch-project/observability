@@ -7,8 +7,9 @@
 3. [User Stories](#3-user-stories)
 4. [Design](#4-design)
 5. [Design Details and Implementation](#5-design-details-and-implementation)
-6. [Appendix](#6-appendix)
-7. [References](#7-references)
+6. [Build & Usage](#6-build-&-usage)
+7. [Appendix](#7-appendix)
+8. [References](#8-references)
 
 ## 1. Overview
 
@@ -217,29 +218,33 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
 
 ### **5.4 WorkFlows**
 
-- **Default Backend -** _View Notebooks:_ View notebooks operation is responsible for loading the sidemenu with folder tree. When user loads the plugin a call is made to the backend server. The default backend fetches all the notebooks from “.notebooks” Elasticsearch index and responds with notebook Ids and paths. This response load is then used to populate the folder tree with default parser on UI. 
+- **Default Backend -** _View Notebooks:_ View notebooks operation is responsible for loading the sidemenu with folder tree. When user loads the plugin a call is made to the backend server. The default backend fetches all the notebooks from “.notebooks” Elasticsearch index and responds with notebook Ids and paths. This response load is then used to populate the folder tree with default parser on UI.
 
   ![View Notebook](images/default_view_notebook.png)
 
-- **Default Backend -** _Create/Edit/Delete Notebooks_: All the other notebook operations like create/delete/clone/import/export and editing paragraphs in notebooks use this workflow. When a use interacts with these notebook functionalities a backend request is made with payload [like paragraphInput, paragraphId] if necessary. The default backend first searches the “.notebooks” Elasticsearch index to get the current state of the notebook. Once fetched/searched, it performs  the required operation and then indexes/updates/deletes the notebook. After the successful completion of operations a response is sent back to the UI with either whole or partial notebook information (as required) and parsed by default parser taking the notebook schema into consideration.
+- **Default Backend -** _Create/Edit/Delete Notebooks_: All the other notebook operations like create/delete/clone/import/export and editing paragraphs in notebooks use this workflow. When a use interacts with these notebook functionalities a backend request is made with payload [like paragraphInput, paragraphId] if necessary. The default backend first searches the “.notebooks” Elasticsearch index to get the current state of the notebook. Once fetched/searched, it performs the required operation and then indexes/updates/deletes the notebook. After the successful completion of operations a response is sent back to the UI with either whole or partial notebook information (as required) and parsed by default parser taking the notebook schema into consideration.
 
   ![View Notebook](images/default_operation_notebook.png)
 
-- **Zeppelin Adaptor -** _All Operations:_ When a user uses the Zeppelin backend adaptor for running notebooks, the backend switches its way of making requests. For any user operation including viewing notebooks in folder tree, a backend request is made by UI. This request may contain any payload  [like paragraphInput, paragraphId] if necessary. This payload is reformatted and added with additional options like the user’s Zeppelin HTTP endpoint and request headers. Finally this request is sent to the user’s Zeppelin Server, which does the operation and responds back. The response is sent back to the UI with either whole or partial notebook information (as required) and parsed by Zeppelin parser taking Zeppelin’s notebook schema into consideration.
+- **Zeppelin Adaptor -** _All Operations:_ When a user uses the Zeppelin backend adaptor for running notebooks, the backend switches its way of making requests. For any user operation including viewing notebooks in folder tree, a backend request is made by UI. This request may contain any payload [like paragraphInput, paragraphId] if necessary. This payload is reformatted and added with additional options like the user’s Zeppelin HTTP endpoint and request headers. Finally this request is sent to the user’s Zeppelin Server, which does the operation and responds back. The response is sent back to the UI with either whole or partial notebook information (as required) and parsed by Zeppelin parser taking Zeppelin’s notebook schema into consideration.
 
   ![Zeppelin Notebook](images/zeppelin_notebooks_sequence.png)
 
 ### **5.5** [API Design Documentation](API_Documentation.md)
 
-### **5.6** [Build Documentation](Build_Documentation.md)
+## 6. Build & Usage
 
-## 6. Appendix
+### **6.1** [Build Documentation](Build_Documentation.md)
 
-### **6.1** POC: [Embeddable API & Usage](../../poc/docs/Kibana_Embeddable_Documentation.md)
+### **6.1** [Usage Documentation](Usage_Documentation.md)
 
-### **6.2** POC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
+## 7. Appendix
 
-### **6.3** Screenshots:
+### **7.1** POC: [Embeddable API & Usage](../../poc/docs/Kibana_Embeddable_Documentation.md)
+
+### **7.2** POC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
+
+### **7.3** Screenshots:
 
 - **Default Backend**
 
@@ -266,8 +271,8 @@ Kibana Notebooks enable data-driven, interactive data analytics and collaborativ
   - **Plot Visualization with Language specific Viz. tools (like Matplotlib)**:
     ![Matplot Viz.](images/matplot_ss.png)
 
-## 7. References
+## 8. References
 
-### **7.1** [More Zeppelin and Backend Adaptor](Zeppelin_backend_adaptor.md)
+### **8.1** [More Zeppelin and Backend Adaptor](Zeppelin_backend_adaptor.md)
 
-### **7.2** [Nteract.io](http://nteract.io/) React components: [components.nteract.io](https://components.nteract.io/)
+### **8.2** [Nteract.io](http://nteract.io/) React components: [components.nteract.io](https://components.nteract.io/)

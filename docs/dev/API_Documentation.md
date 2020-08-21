@@ -1,8 +1,94 @@
 # Notebooks API Design Documentation
 
+## Contents
+
+1. [**Notebook Examples**](#notebook-examples)
+2. [**Note APIs**](#notes-apis)
+3. [**Paragraph APIs**](#paragraph-apis)
+4. [**Future Work**](#future-work)
+5. [**References**](#references)
+
 ## Kibana Notebooks REST APIs
 
-**_NOTE:_** The Notebook/Paragraph structure used in body & responses, are with Zeppelin Backend Adaptor. The structure of noteboooks and paragraph changes with change in backend, but format of request body and response body remains the same.
+**_NOTE:_** The Notebook/Paragraph structure used in body & responses, are with Zeppelin Backend Adaptor. The structure of noteboook and paragraph changes with change in backend, but format of request body and response body remains the same.
+
+## Notebook Examples
+
+- **Default Notebook**
+
+```
+{
+  id: 'note_5f4b9eed-5898-4b39-ba6c-755c0fadd84e',
+  dateCreated: '2020-08-20T18:00:59.845Z',
+  name: 'test 1',
+  dateModified: '2020-08-20T18:37:56.844Z',
+  pluginVersion: '7.9.0',
+  backend: 'Default',
+  paragraphs: [
+    {
+      output: [{ result: '# Type your input here', outputType: 'MARKDOWN', execution_time: '0s' }],
+      input: { inputText: '# Type your input here', inputType: 'MARKDOWN' },
+      dateCreated: '2020-08-20T18:00:59.845Z',
+      dateModified: '2020-08-20T18:00:59.845Z',
+      id: 'paragraph_1a710988-ec19-4caa-83cc-38eb609427d1',
+    },
+    {
+      output: [{ result: '', outputType: 'VISUALIZATION', execution_time: '0s' }],
+      input: {
+        inputText:
+          '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
+        inputType: 'VISUALIZATION',
+      },
+      dateCreated: '2020-08-20T18:37:44.809Z',
+      dateModified: '2020-08-20T18:37:56.844Z',
+      id: 'paragraph_6d3237a9-6486-4f93-aa25-0a1c838faabd',
+    },
+  ],
+};
+
+```
+
+- **Zeppelin Notebook**
+
+```
+{
+  paragraphs: [
+    {
+      text:
+        "%md\n Input",
+      dateUpdated: '2020-08-20 21:15:04.590',
+      config: {},
+      settings: { params: {}, forms: {} },
+      results: {
+        code: 'SUCCESS',
+        msg: [
+          {
+            type: 'HTML',
+            data:
+              '<div class="markdown-body">\nInput</div>',
+          },
+        ],
+      },
+      apps: [],
+      runtimeInfos: {},
+      progressUpdateIntervalMs: 500,
+      jobName: 'paragraph_1597958104590_901298942',
+      id: 'paragraph_1596519508360_932236116',
+      dateCreated: '2020-08-20 21:15:04.590',
+      status: 'READY',
+    },
+  ],
+  name: 'Embed Vizualization',
+  id: '2FJH8PW8K',
+  defaultInterpreterGroup: 'spark',
+  version: '0.9.0-preview2',
+  noteParams: {},
+  noteForms: {},
+  angularObjects: {},
+  config: { isZeppelinNotebookCronEnable: false },
+  info: {},
+};
+```
 
 ## Notes APIs
 
@@ -444,6 +530,7 @@ Does the following backend tasks:
         "noteId": "2FF3GW3H8", // notebook id
         "paragraphIndex": 1, // index to create a new para
         "paragraphInput": "%elasticsearch\n" // input to be provided in the new para
+        "paragraphType": "CODE" // a paragraph can be of type CODE or VISUALIZATION
     }
 
     RESPONSE BODY
@@ -616,3 +703,4 @@ Does the following backend tasks:
 ## References:
 
 1.  Zeppelin APIs : http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html
+2.  More About Zeppelin: https://zeppelin.apache.org/docs/0.9.0-preview2/
