@@ -196,12 +196,6 @@ const columns = [
 ];
 
 export function DashboardTable(props) {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    handleDashboardRequest(props.http, items, setItems);
-  }, []);
-
   return (
     <>
       <EuiPanel>
@@ -209,7 +203,7 @@ export function DashboardTable(props) {
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
-          items={items}
+          items={props.items}
           columns={columns}
           pagination={{
             initialPageSize: 10,

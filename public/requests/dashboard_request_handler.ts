@@ -1,5 +1,6 @@
 import { handleRequest } from "./request_handler";
-import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery } from "./dashboard_queries";
+import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery, getDashboardThroughputPltQuery } from "./dashboard_queries";
+import moment from "moment";
 
 export const handleDashboardRequest = (http, items, setItems) => {
   handleRequest(http, getDashboardQuery())
@@ -58,5 +59,24 @@ const loadRemainingItems = (http, items, setItems) => {
   })
 }
 
-    // 'latency_variance': Array.from({ length: 3 }, () => Math.floor(Math.random() * 70 + 10)).sort(),
-    // 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
+// 'latency_variance': Array.from({ length: 3 }, () => Math.floor(Math.random() * 70 + 10)).sort(),
+// 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
+
+export const handleDashboardThroughputPltRequest = (http, items, setItems) => {
+  handleRequest(http, getDashboardThroughputPltQuery())
+    .then((response) => {
+      const buckets = response.aggregations.throughput.buckets;
+      const newItems = [{
+        x: buckets.map((bucket) => moment(bucket.key).format('HH:mm')),
+        y: buckets.map((bucket) => bucket.doc_count),
+        marker: {
+          color: 'rgb(171, 211, 240)',
+        },
+        width: 0.3,
+        type: 'bar',
+        hovertemplate: '%{y}<extra></extra>',
+      }];
+      setItems(newItems);
+    })
+}
+

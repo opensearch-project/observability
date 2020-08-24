@@ -1,5 +1,5 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { ServiceMap } from '../services';
@@ -7,10 +7,14 @@ import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
 import { ThroughputPlt } from './throughput_plt';
 import { handleRequest } from '../../requests/request_handler';
+import { handleDashboardRequest, handleDashboardThroughputPltRequest } from '../../requests/dashboard_request_handler';
 
 interface DashboardProps extends SearchBarProps, CoreDeps {}
 
 export function Dashboard(props: DashboardProps) {
+  const [tableItems, setTableItems] = useState([]);
+  const [throughputPltItems, setThroughputPltItems] = useState([]);
+
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -22,6 +26,8 @@ export function Dashboard(props: DashboardProps) {
         href: '#dashboard',
       },
     ]);
+    handleDashboardRequest(props.http, tableItems, setTableItems);
+    handleDashboardThroughputPltRequest(props.http, throughputPltItems, setThroughputPltItems);
   }, []);
   
   return (
@@ -38,7 +44,7 @@ export function Dashboard(props: DashboardProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <DashboardTable http={props.http} />
+      <DashboardTable items={tableItems} />
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>
@@ -50,7 +56,7 @@ export function Dashboard(props: DashboardProps) {
               <ErrorRatePlt />
             </EuiFlexItem>
             <EuiFlexItem>
-              <ThroughputPlt />
+              <ThroughputPlt items={throughputPltItems} />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>

@@ -35,7 +35,6 @@ const loadRemainingItems = (http, items, setItems) => {
 }
 // 'percentile_in_trace_group': `${Math.floor(Math.random() * (10) + 90)}th`,
 // 'latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
-// 'last_updated': '03/20/2020 08:03',
 
 export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
   handleRequest(http, getTracesQuery(traceId))
@@ -60,23 +59,28 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
     })
 }
 
+
+const colors = ['#6DCCB1', '#79AAD9', '#EE789D', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62']
+  // .sort(() => Math.random() - 0.5);
+
 export const handleServiceBreakdownRequest = (traceId, http, serviceBreakdownData, setServiceBreakdownData) => {
   handleRequest(http, getServiceBreakdownQuery(traceId))
-    .then((response) => Promise.all(response.aggregations.service_type.buckets.map(bucket => {
+    .then((response) => Promise.all(response.aggregations.service_type.buckets.map((bucket, i) => {
       return {
         'name': bucket.key,
-        'color': 'rgb(58, 75, 151)',
+        'color': colors[i % colors.length],
         'value': bucket.total_latency.value,
         'benchmark': 0,
       }
     })))
     .then(newItems => {
-      const latency_sum = newItems.reduce((a, b) => a.value + b.value);
+      const latency_sum = newItems.map(item => item.value).reduce((a, b) => a + b, 0);
       return [{
-        values: newItems.map((e, i) => e.value / latency_sum * 100),
+        values: newItems.map((e, i) => latency_sum === 0 ? 100 : e.value / latency_sum * 100),
         labels: newItems.map((e, i) => e.name),
+        benchmarks: newItems.map((e, i) => e.benchmark),
         marker: {
-          // colors: newItems.map((e, i) => e.color),
+          colors: newItems.map((e, i) => e.color),
         },
         type: 'pie',
         textinfo: 'none',

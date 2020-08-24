@@ -178,3 +178,31 @@ export const getDashboardLatencyTrendQuery = (traceGroupName) => {
     }
   }
 }
+
+export const getDashboardThroughputPltQuery = () => {
+  return {
+    "size": 0,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "range": {
+              "endTime": {
+                "gte": "2020-07-29T21:37:00.000Z",
+                "lte": "2020-07-29T21:42:00.000Z"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "aggs": {
+      "throughput": {
+        "date_histogram": {
+          "field": "endTime",
+          "calendar_interval": "minute"
+        }
+      }
+    }
+  }
+}

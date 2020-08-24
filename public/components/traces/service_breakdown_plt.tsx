@@ -6,37 +6,37 @@ import { Plt } from '../common/plt';
 import { renderBenchmark } from '../common';
 
 
-const renderStats = (metadata) => {
-  return (
+const renderStats = (serviceBreakdownData) => {
+  return serviceBreakdownData.length > 0 ? (
     <EuiFlexGroup>
       <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
-        <EuiFlexItem grow={false} />
-        {metadata.map(service => (
+        <EuiFlexItem />
+        {serviceBreakdownData[0].marker.colors.map((color, i) => (
           <EuiFlexItem>
-            <EuiHealth color={service.color}>{service.name}</EuiHealth>
+            <EuiHealth color={color}>{serviceBreakdownData[0].labels[i]}</EuiHealth>
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
-      <EuiFlexItem grow={false} />
+      <EuiFlexItem />
       <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
         <EuiFlexItem><EuiText size='s'>%time spent</EuiText></EuiFlexItem>
-        {metadata.map(service => (
+        {serviceBreakdownData[0].values.map(value => (
           <EuiFlexItem>
-            <EuiText size='s'>{service.value}%</EuiText>
+            <EuiText size='s'>{_.round(value, 2)}%</EuiText>
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
       <EuiFlexItem />
       <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
         <EuiFlexItem><EuiText size='s'>vs benchmark</EuiText></EuiFlexItem>
-        {metadata.map(service => (
+        {serviceBreakdownData[0].benchmarks.map(benchmark => (
           <EuiFlexItem>
-            {renderBenchmark(service.benchmark)}
+            {renderBenchmark(benchmark)}
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
     </EuiFlexGroup>
-  )
+  ) : (null)
 }
 
 export function ServiceBreakdownPlt(props) {
@@ -47,11 +47,11 @@ export function ServiceBreakdownPlt(props) {
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup direction='column' alignItems='center'>
           <EuiFlexItem>
-            <Plt data={props.data} layout={serviceBreakdownLayout} />
+            {props.data?.length > 0 ? <Plt data={props.data} layout={serviceBreakdownLayout} /> : (null)}
           </EuiFlexItem>
           <EuiSpacer />
           <EuiFlexItem>
-            {renderStats(serviceBreakdownMetadata)}
+            {renderStats(props.data)}
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>
