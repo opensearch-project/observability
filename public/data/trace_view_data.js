@@ -43,6 +43,8 @@ export const serviceBreakdownData = [
   }
 ]
 
+export const serviceBreakdownData2 = serviceBreakdownData;
+
 
 export const serviceBreakdownLayout = {
   height: 200,

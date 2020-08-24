@@ -39,7 +39,7 @@ const renderStats = (metadata) => {
   )
 }
 
-export function ServiceBreakdownPlt() {
+export function ServiceBreakdownPlt(props) {
   return (
     <>
       <EuiPanel>
@@ -47,7 +47,7 @@ export function ServiceBreakdownPlt() {
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup direction='column' alignItems='center'>
           <EuiFlexItem>
-            <Plt data={serviceBreakdownData} layout={serviceBreakdownLayout} />
+            <Plt data={props.data} layout={serviceBreakdownLayout} />
           </EuiFlexItem>
           <EuiSpacer />
           <EuiFlexItem>

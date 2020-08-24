@@ -15,12 +15,11 @@ import {
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { traceViewPayloadData } from '../../data/trace_view_payload_data';
-// import { traceViewPayloadData } from '../../data/trace_view_data';
 import { PanelTitle, renderBenchmark } from '../common';
 import { CoreDeps } from '../app';
 import { SpanDetailPlt } from './span_detail_plt';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
-import { handleTraceViewRequest } from '../../requests/traces_request_handler';
+import { handleTraceViewRequest, handleServiceBreakdownRequest } from '../../requests/traces_request_handler';
 import { EuiCopy } from '@elastic/eui';
 import { EuiButtonIcon } from '@elastic/eui';
 
@@ -140,6 +139,7 @@ interface TraceViewProps extends CoreDeps {
 
 export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
+  const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -157,6 +157,7 @@ export function TraceView(props: TraceViewProps) {
       },
     ]);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
+    handleServiceBreakdownRequest(props.traceId, props.http, serviceBreakdownData, setServiceBreakdownData)
   }, []);
 
   return (
@@ -172,7 +173,7 @@ export function TraceView(props: TraceViewProps) {
           <EuiSpacer />
           <EuiFlexGroup>
             <EuiFlexItem grow={3}>
-              <ServiceBreakdownPlt />
+              <ServiceBreakdownPlt data={serviceBreakdownData} />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
               <SpanDetailPlt />
