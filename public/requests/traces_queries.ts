@@ -161,7 +161,7 @@ export const getSpanDetailQuery = (traceId, size = 200) => {
     "sort": [
       {
         "startTime": {
-          "order": "asc"
+          "order": "desc"
         }
       }
     ],

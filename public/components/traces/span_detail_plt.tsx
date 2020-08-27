@@ -1,7 +1,6 @@
 import { EuiHorizontalRule, EuiPanel, EuiSpacer, EuiFlexItem, EuiFlexGroup, EuiText } from '@elastic/eui';
 import React from 'react';
 import { PanelTitle } from '../common';
-import { dashboardThroughputData, dashboardThroughputLayout } from '../../data/dashboard_data';
 import { Plt } from '../common/plt';
 
 const renderStats = () => {
@@ -28,7 +27,7 @@ const getSpanDetailLayout = (data) => {
   const yTexts = yLabels.map(label => label.substring(0, label.length - 36))
 
   return {
-    height: 500,
+    height: 25 * data.length,
     width: 800,
     margin: {
       l: 200,
@@ -61,7 +60,7 @@ export function SpanDetailPlt(props) {
           {/* <EuiFlexItem grow={false}>
             {renderStats()}
           </EuiFlexItem> */}
-          <EuiFlexItem>
+          <EuiFlexItem style={{ overflowY: 'auto', maxHeight: 500 }}>
             <Plt data={props.data} layout={getSpanDetailLayout(props.data)} />
           </EuiFlexItem>
         </EuiFlexGroup>

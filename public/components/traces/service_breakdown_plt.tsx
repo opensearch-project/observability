@@ -53,6 +53,7 @@ export function ServiceBreakdownPlt(props) {
             {renderStats(props.data)}
           </EuiFlexItem>
         </EuiFlexGroup>
+        <EuiSpacer />
       </EuiPanel>
     </>
   );

@@ -96,8 +96,8 @@ const hitsToGanttData = async (hits) => {
   if (hits.length === 0)
     return data;
 
-  const minStartTime = hits[0].sort[0];
-  hits.reverse().forEach(hit => {
+  const minStartTime = hits[hits.length - 1].sort[0];
+  hits.forEach(hit => {
     const startTime = hit.sort[0] - minStartTime;
     const duration = hit.fields.latency[0];
     const label = hit._source.serviceInfo.name + uuid();
