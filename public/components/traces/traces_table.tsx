@@ -149,21 +149,15 @@ const columns = [
 ];
 
 export function TracesTable(props) {
-  const [items, setItems] = useState([]);
-  
-  useEffect(() => {
-    handleTracesRequest(props.http, items, setItems);
-  }, []);
-  
   return (
     <>
       <EuiPanel>
-        {renderTitleBar(15)}
+        {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
           tableLayout="auto"
-          items={items}
+          items={props.items}
           columns={columns}
           pagination={{
             initialPageSize: 10,

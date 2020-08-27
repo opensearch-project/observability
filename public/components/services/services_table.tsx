@@ -89,21 +89,15 @@ const columns = [
 ];
 
 export function ServicesTable(props) {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    handleServicesRequest(props.http, items, setItems);
-  }, []);
-
   return (
     <>
       <EuiPanel>
-        {renderTitleBar(200)}
+        {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
           tableLayout="auto"
-          items={items}
+          items={props.items}
           columns={columns}
           pagination={{
             initialPageSize: 10,

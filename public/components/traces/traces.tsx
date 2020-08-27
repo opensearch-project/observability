@@ -1,12 +1,14 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { TracesTable } from './traces_table';
+import { handleTracesRequest } from '../../requests/traces_request_handler';
 
 interface TracesProps extends SearchBarProps, CoreDeps {}
 
 export function Traces(props: TracesProps) {
+  const [tableItems, setTableItems] = useState([]);
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -18,6 +20,7 @@ export function Traces(props: TracesProps) {
         href: '#traces',
       },
     ]);
+    handleTracesRequest(props.http, tableItems, setTableItems);
   }, []);
 
   return (
@@ -34,7 +37,7 @@ export function Traces(props: TracesProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <TracesTable http={props.http}/>
+      <TracesTable items={tableItems} />
     </>
   );
 }

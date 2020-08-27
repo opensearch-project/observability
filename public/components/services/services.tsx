@@ -1,12 +1,14 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { ServicesTable } from './services_table';
+import { handleServicesRequest } from '../../requests/services_request_handler';
 
 interface ServicesProps extends SearchBarProps, CoreDeps { }
 
 export function Services(props: ServicesProps) {
+  const [tableItems, setTableItems] = useState([]);
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -18,6 +20,7 @@ export function Services(props: ServicesProps) {
         href: '#services',
       },
     ]);
+    handleServicesRequest(props.http, tableItems, setTableItems);
   }, []);
 
   return (
@@ -34,7 +37,7 @@ export function Services(props: ServicesProps) {
         setEndTime={props.setEndTime}
       />
       <EuiSpacer size="m" />
-      <ServicesTable http={props.http} />
+      <ServicesTable items={tableItems} />
     </>
   );
 }

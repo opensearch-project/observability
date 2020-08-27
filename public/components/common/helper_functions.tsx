@@ -5,9 +5,9 @@ export function PanelTitle({ title, totalItems }: { title: string; totalItems?: 
   return (
     <EuiText size="m">
       <span style={{ color: '#3f3f3f', fontWeight: 500 }}>{title}</span>
-      {totalItems && (
+      {totalItems === 0 || totalItems ? (
         <span style={{ color: '#8a9596', fontWeight: 300 }}>{` (${totalItems})`}</span>
-      )}
+      ) : (null)}
     </EuiText>
   );
 }

@@ -19,11 +19,11 @@ import { LatencyTrendCell } from './latency_trend_cell';
 import { handleDashboardRequest } from '../../requests/dashboard_request_handler';
 import { EuiButton } from '@elastic/eui';
 
-const renderTitleBar = () => {
+const renderTitleBar = (totalItems) => {
   return (
     <EuiFlexGroup alignItems="center" gutterSize="s">
       <EuiFlexItem grow={10}>
-        <PanelTitle title="Latency by trace group" totalItems={70} />
+        <PanelTitle title="Latency by trace group" totalItems={totalItems} />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiLink>
@@ -199,7 +199,7 @@ export function DashboardTable(props) {
   return (
     <>
       <EuiPanel>
-        {renderTitleBar()}
+        {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         <EuiInMemoryTable
