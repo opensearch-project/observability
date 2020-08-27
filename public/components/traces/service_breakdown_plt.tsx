@@ -1,6 +1,5 @@
 import { EuiHorizontalRule, EuiPanel, EuiFlexGrid, EuiFlexItem, EuiText, EuiFormLegend, EuiFlexGroup, EuiSpacer, EuiHealth } from '@elastic/eui';
 import React from 'react';
-import { serviceBreakdownData, serviceBreakdownLayout, serviceBreakdownMetadata } from '../../data/trace_view_data';
 import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 import { renderBenchmark } from '../common';
@@ -38,6 +37,25 @@ const renderStats = (serviceBreakdownData) => {
   ) : (null)
 }
 
+const layout = {
+  height: 200,
+  width: 200,
+  // showlegend: false,
+  legend: {
+    orientation: 'h',
+    traceorder: 'normal',
+    x: 0,
+    xanchor: 'left',
+    y: 1.5
+  },
+  margin: {
+    l: 5,
+    r: 5,
+    b: 5,
+    t: 5,  // 10
+  },
+}
+
 export function ServiceBreakdownPlt(props) {
   return (
     <>
@@ -46,7 +64,7 @@ export function ServiceBreakdownPlt(props) {
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup direction='column' alignItems='center'>
           <EuiFlexItem>
-            {props.data?.length > 0 ? <Plt data={props.data} layout={serviceBreakdownLayout} /> : (null)}
+            {props.data?.length > 0 ? <Plt data={props.data} layout={layout} /> : (null)}
           </EuiFlexItem>
           <EuiSpacer />
           <EuiFlexItem>
