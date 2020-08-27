@@ -1,5 +1,5 @@
 import { handleRequest } from "./request_handler";
-import { getTracesQuery, getTracesLastUpdatedQuery, getTracesErrorCountQuery, getServiceBreakdownQuery, getSpanDetailQuery, getPayloadQuery } from "./traces_queries";
+import { getTracesQuery, getTracesLastUpdatedQuery, getTracesErrorCountQuery, getServiceBreakdownQuery, getSpanDetailQuery, getPayloadQuery } from "./queries/traces_queries";
 import moment from 'moment';
 import { v1 as uuid } from 'uuid';
 

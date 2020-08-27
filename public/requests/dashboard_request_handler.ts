@@ -1,5 +1,5 @@
 import { handleRequest } from "./request_handler";
-import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery, getDashboardThroughputPltQuery } from "./dashboard_queries";
+import { getDashboardErrorRateQuery, getDashboardQuery, getDashboardLatencyTrendQuery, getDashboardThroughputPltQuery } from "./queries/dashboard_queries";
 import moment from "moment";
 
 export const handleDashboardRequest = (http, items, setItems) => {

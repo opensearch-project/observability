@@ -1,5 +1,5 @@
 import { handleRequest } from "./request_handler";
-import { getServicesQuery } from "./services_queries";
+import { getServicesQuery } from "./queries/services_queries";
 
 export const handleServicesRequest = (http, items, setItems) => {
   handleRequest(http, getServicesQuery())
