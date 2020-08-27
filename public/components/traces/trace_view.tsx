@@ -19,7 +19,7 @@ import { PanelTitle, renderBenchmark } from '../common';
 import { CoreDeps } from '../app';
 import { SpanDetailPlt } from './span_detail_plt';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
-import { handleTraceViewRequest, handleServiceBreakdownRequest } from '../../requests/traces_request_handler';
+import { handleTraceViewRequest, handleServiceBreakdownRequest, handleSpanDetailRequest, handlePayloadRequest } from '../../requests/traces_request_handler';
 import { EuiCopy } from '@elastic/eui';
 import { EuiButtonIcon } from '@elastic/eui';
 
@@ -140,6 +140,8 @@ interface TraceViewProps extends CoreDeps {
 export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
+  const [spanDetailData, setSpanDetailData] = useState([]);
+  const [payloadData, setPayloadData] = useState([]);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -157,7 +159,9 @@ export function TraceView(props: TraceViewProps) {
       },
     ]);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handleServiceBreakdownRequest(props.traceId, props.http, serviceBreakdownData, setServiceBreakdownData)
+    handleServiceBreakdownRequest(props.traceId, props.http, serviceBreakdownData, setServiceBreakdownData);
+    handleSpanDetailRequest(props.traceId, props.http, spanDetailData, setSpanDetailData);
+    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
   }, []);
 
   return (
@@ -176,7 +180,7 @@ export function TraceView(props: TraceViewProps) {
               <ServiceBreakdownPlt data={serviceBreakdownData} />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
-              <SpanDetailPlt />
+              <SpanDetailPlt data={spanDetailData} />
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />
@@ -194,7 +198,7 @@ export function TraceView(props: TraceViewProps) {
             </EuiFlexGroup>
             <EuiHorizontalRule margin="m" />
             <EuiCodeBlock language="json" paddingSize="s" isCopyable overflowHeight={500}>
-              {traceViewPayloadData}
+              {payloadData}
             </EuiCodeBlock>
           </EuiPanel>
         </EuiPageBody>

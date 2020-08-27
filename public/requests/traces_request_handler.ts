@@ -1,7 +1,7 @@
 import { handleRequest } from "./request_handler";
-import { getTracesQuery, getTracesLastUpdatedQuery, getTracesErrorCountQuery, getServiceBreakdownQuery } from "./traces_queries";
+import { getTracesQuery, getTracesLastUpdatedQuery, getTracesErrorCountQuery, getServiceBreakdownQuery, getSpanDetailQuery, getPayloadQuery } from "./traces_queries";
 import moment from 'moment';
-import { serviceBreakdownData2 } from "../data/trace_view_data";
+import { v1 as uuid } from 'uuid';
 
 export const handleTracesRequest = (http, items, setItems) => {
   handleRequest(http, getTracesQuery())
@@ -61,7 +61,6 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
 
 
 const colors = ['#6DCCB1', '#79AAD9', '#EE789D', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62']
-  // .sort(() => Math.random() - 0.5);
 
 export const handleServiceBreakdownRequest = (traceId, http, serviceBreakdownData, setServiceBreakdownData) => {
   handleRequest(http, getServiceBreakdownQuery(traceId))
@@ -88,8 +87,57 @@ export const handleServiceBreakdownRequest = (traceId, http, serviceBreakdownDat
       }]
     })
     .then(newItems => {
-      console.log(newItems);
-      
       setServiceBreakdownData(newItems);
     })
+}
+
+const hitsToGanttData = async (hits) => {
+  const data = [];
+  if (hits.length === 0)
+    return data;
+
+  const minStartTime = hits[0].sort[0];
+  hits.reverse().forEach(hit => {
+    const startTime = hit.sort[0] - minStartTime;
+    const duration = hit.fields.latency[0];
+    const label = hit._source.serviceInfo.name + uuid();
+    data.push(
+      {
+        x: [startTime],
+        y: [label],
+        marker: {
+          color: 'rgba(0, 0, 0, 0)',
+        },
+        width: 0.4,
+        type: 'bar',
+        orientation: 'h',
+        hoverinfo: 'none',
+        showlegend: false,
+      },
+      {
+        x: [duration],
+        y: [label],
+        marker: {
+          color: 'rgb(58, 75, 151)',
+        },
+        width: 0.4,
+        type: 'bar',
+        orientation: 'h',
+      }
+    )
+  });
+  return data;
+}
+
+export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDetailData) => {
+  handleRequest(http, getSpanDetailQuery(traceId))
+    .then((response) => hitsToGanttData(response.hits.hits))
+    .then(newItems => {
+      setSpanDetailData(newItems);
+    })
+}
+
+export const handlePayloadRequest = (traceId, http, payloadData, setPayloadData) => {
+  handleRequest(http, getPayloadQuery(traceId))
+    .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
 }

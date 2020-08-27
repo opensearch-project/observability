@@ -3,7 +3,6 @@ import React from 'react';
 import { PanelTitle } from '../common';
 import { dashboardThroughputData, dashboardThroughputLayout } from '../../data/dashboard_data';
 import { Plt } from '../common/plt';
-import { spanDetailLayout, spanDetailData } from '../../data/trace_view_data';
 
 const renderStats = () => {
   return (
@@ -23,7 +22,36 @@ const renderStats = () => {
   )
 }
 
-export function SpanDetailPlt() {
+const getSpanDetailLayout = (data) => {
+  // remove uuid when displaying y-ticks
+  const yLabels = data.map(d => d.y[0]).filter((label, i, self) => self.indexOf(label) === i);
+  const yTexts = yLabels.map(label => label.substring(0, label.length - 36))
+
+  return {
+    height: 500,
+    width: 800,
+    margin: {
+      l: 200,
+      r: 5,
+      b: 30,
+      t: 30,  // 10
+    },
+    xaxis: {
+      autorange: true,
+      ticksuffix: " ms",
+      side: 'top',
+      color: '#91989c',
+      showline: true,
+    },
+    yaxis: {
+      showgrid: false,
+      tickvals: yLabels,
+      ticktext: yTexts,
+    }
+  }
+}
+
+export function SpanDetailPlt(props) {
   return (
     <>
       <EuiPanel>
@@ -34,7 +62,7 @@ export function SpanDetailPlt() {
             {renderStats()}
           </EuiFlexItem> */}
           <EuiFlexItem>
-            <Plt data={spanDetailData} layout={spanDetailLayout} />
+            <Plt data={props.data} layout={getSpanDetailLayout(props.data)} />
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>

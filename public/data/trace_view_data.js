@@ -137,13 +137,6 @@ export const spanDetailData = [
 export const spanDetailLayout = {
   height: 500,
   width: 800,
-  legend: {
-    orientation: 'h',
-    traceorder: 'normal',
-    x: 0,
-    xanchor: 'left',
-    y: 1.1
-  },
   margin: {
     l: 200,
     r: 5,

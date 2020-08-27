@@ -5,7 +5,6 @@ import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 import { renderBenchmark } from '../common';
 
-
 const renderStats = (serviceBreakdownData) => {
   return serviceBreakdownData.length > 0 ? (
     <EuiFlexGroup>

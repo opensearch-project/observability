@@ -142,3 +142,57 @@ export const getServiceBreakdownQuery = (traceId) => {
   };
   return query;
 }
+
+export const getSpanDetailQuery = (traceId, size = 200) => {
+  const query = {
+    "from": 0,
+    "size": size,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "term": {
+              "traceId.keyword": traceId
+            }
+          }
+        ]
+      }
+    },
+    "sort": [
+      {
+        "startTime": {
+          "order": "asc"
+        }
+      }
+    ],
+    "_source": {
+      "includes": [
+        "serviceInfo.name",
+        "startTime"
+      ]
+    },
+    "script_fields": {
+      "latency": {
+        "script": "doc['endTime'].value.toInstant().toEpochMilli() - doc['startTime'].value.toInstant().toEpochMilli()"
+      }
+    }
+  };
+  return query;
+}
+
+export const getPayloadQuery = (traceId, size=200) => {
+  return {
+    "size": size,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "term": {
+              "traceId.keyword": traceId
+            }
+          }
+        ]
+      }
+    }
+  }
+}
