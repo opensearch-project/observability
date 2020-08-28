@@ -10,7 +10,7 @@ const renderStats = (serviceBreakdownData) => {
       <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
         <EuiFlexItem />
         {serviceBreakdownData[0].marker.colors.map((color, i) => (
-          <EuiFlexItem>
+          <EuiFlexItem key={`label-${i}`}>
             <EuiHealth color={color}>{serviceBreakdownData[0].labels[i]}</EuiHealth>
           </EuiFlexItem>
         ))}
@@ -18,8 +18,8 @@ const renderStats = (serviceBreakdownData) => {
       <EuiFlexItem />
       <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
         <EuiFlexItem><EuiText size='s'>%time spent</EuiText></EuiFlexItem>
-        {serviceBreakdownData[0].values.map(value => (
-          <EuiFlexItem>
+        {serviceBreakdownData[0].values.map((value, i) => (
+          <EuiFlexItem key={`value-${i}`}>
             <EuiText size='s'>{_.round(value, 2)}%</EuiText>
           </EuiFlexItem>
         ))}
@@ -27,8 +27,8 @@ const renderStats = (serviceBreakdownData) => {
       <EuiFlexItem />
       <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
         <EuiFlexItem><EuiText size='s'>vs benchmark</EuiText></EuiFlexItem>
-        {serviceBreakdownData[0].benchmarks.map(benchmark => (
-          <EuiFlexItem>
+        {serviceBreakdownData[0].benchmarks.map((benchmark, i) => (
+          <EuiFlexItem key={`benchmark-${i}`}>
             {renderBenchmark(benchmark)}
           </EuiFlexItem>
         ))}
