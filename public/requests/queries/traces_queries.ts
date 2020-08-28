@@ -154,6 +154,11 @@ export const getSpanDetailQuery = (traceId, size = 200) => {
             "term": {
               "traceId.keyword": traceId
             }
+          },
+          {
+            "exists": {
+              "field": "serviceInfo.name"
+            }
           }
         ]
       }
