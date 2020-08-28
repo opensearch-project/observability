@@ -28,7 +28,7 @@ const getSpanDetailLayout = (plotTraces) => {
   const yTexts = yLabels.map(label => label.substring(0, label.length - 36))
 
   return {
-    height: 25 * plotTraces.length,
+    height: 25 * plotTraces.length + 60,
     width: 800,
     margin: {
       l: 200,
