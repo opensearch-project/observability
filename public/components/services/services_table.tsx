@@ -28,7 +28,7 @@ const columns = [
     name: 'Name',
     align: 'left',
     sortable: true,
-    render: (item) => <EuiLink href={`#services/${item}`}>{truncateText(item)}</EuiLink>,
+    render: (item) => <EuiLink href={`#services/${encodeURIComponent(item)}`}>{truncateText(item)}</EuiLink>,
   },
   {
     field: 'average_latency',

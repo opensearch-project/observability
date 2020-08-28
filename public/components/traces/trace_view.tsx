@@ -21,6 +21,7 @@ import { ServiceBreakdownPlt } from './service_breakdown_plt';
 import { handleTraceViewRequest, handleServiceBreakdownRequest, handleSpanDetailRequest, handlePayloadRequest } from '../../requests/traces_request_handler';
 import { EuiCopy } from '@elastic/eui';
 import { EuiButtonIcon } from '@elastic/eui';
+import { EuiIcon } from '@elastic/eui';
 
 const renderTitle = (ID) => {
   return (
@@ -154,7 +155,7 @@ export function TraceView(props: TraceViewProps) {
       },
       {
         text: props.traceId,
-        href: `#traces/${props.traceId}`,
+        href: `#traces/${encodeURIComponent(props.traceId)}`,
       },
     ]);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);

@@ -60,7 +60,7 @@ const columns = [
     render: (item) => (
       <EuiFlexGroup gutterSize='s' alignItems='center'>
         <EuiFlexItem>
-          <EuiLink href={`#traces/${item}`}>{truncateText(item)}</EuiLink>
+          <EuiLink href={`#traces/${encodeURIComponent(item)}`}>{truncateText(item)}</EuiLink>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiCopy textToCopy={item}>

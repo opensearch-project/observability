@@ -112,7 +112,7 @@ export function ServiceView(props: ServiceViewProps) {
       },
       {
         text: props.serviceName,
-        href: `#services/${props.serviceName}`,
+        href: `#services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
     handleServiceViewRequest(props.serviceName, props.http, fields, setFields);
