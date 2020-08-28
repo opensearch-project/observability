@@ -14,7 +14,6 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
-import { traceViewPayloadData } from '../../data/trace_view_payload_data';
 import { PanelTitle, renderBenchmark } from '../common';
 import { CoreDeps } from '../app';
 import { SpanDetailPlt } from './span_detail_plt';
@@ -141,7 +140,7 @@ export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [spanDetailData, setSpanDetailData] = useState([]);
-  const [payloadData, setPayloadData] = useState([]);
+  const [payloadData, setPayloadData] = useState('');
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -197,9 +196,11 @@ export function TraceView(props: TraceViewProps) {
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiHorizontalRule margin="m" />
-            <EuiCodeBlock language="json" paddingSize="s" isCopyable overflowHeight={500}>
-              {payloadData}
-            </EuiCodeBlock>
+            {payloadData.length > 0 ? (
+              <EuiCodeBlock language="json" paddingSize="s" isCopyable overflowHeight={500}>
+                {payloadData}
+              </EuiCodeBlock>
+            ) : (null)}
           </EuiPanel>
         </EuiPageBody>
       </EuiPage>

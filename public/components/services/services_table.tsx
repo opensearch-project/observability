@@ -11,8 +11,6 @@ import {
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import { PanelTitle, truncateText } from '../common';
-import { serviceTableData } from '../../data/services_data';
-import { handleServicesRequest } from '../../requests/services_request_handler';
 
 const renderTitleBar = (totalItems?: number) => {
   return (

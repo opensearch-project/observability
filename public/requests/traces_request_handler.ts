@@ -59,15 +59,24 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
     })
 }
 
-
-const colors = ['#6DCCB1', '#79AAD9', '#EE789D', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62']
+const getColor = (label) => {
+  // const colors = ['#6db19a', '#6a92bc', '#c56886', '#8c73b3', '#c191ad', '#d2bf67', '#b6a98c', '#d08e52', '#a0685a', '#d86e54'];
+  const colors = ['#6DCCB1', '#79AAD9', '#EE789D', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62'];
+  let hash = 0;
+  for (let i = 0; i < label.length; i++) {
+    const character = label.charCodeAt(i);
+    hash = ((hash << 5) - hash) + character;
+    hash = hash & hash;
+  }
+  return colors[Math.abs(hash) % colors.length];
+}
 
 export const handleServiceBreakdownRequest = (traceId, http, serviceBreakdownData, setServiceBreakdownData) => {
   handleRequest(http, getServiceBreakdownQuery(traceId))
     .then((response) => Promise.all(response.aggregations.service_type.buckets.map((bucket, i) => {
       return {
         'name': bucket.key,
-        'color': colors[i % colors.length],
+        'color': getColor(bucket.key),
         'value': bucket.total_latency.value,
         'benchmark': 0,
       }
@@ -100,11 +109,12 @@ const hitsToGanttData = async (hits) => {
   hits.forEach(hit => {
     const startTime = hit.sort[0] - minStartTime;
     const duration = hit.fields.latency[0];
-    const label = hit._source.serviceInfo.name + uuid();
+    const label = hit._source.serviceInfo?.name || 'unknown';
+    const uniqueLabel = label + uuid();
     data.push(
       {
         x: [startTime],
-        y: [label],
+        y: [uniqueLabel],
         marker: {
           color: 'rgba(0, 0, 0, 0)',
         },
@@ -116,13 +126,14 @@ const hitsToGanttData = async (hits) => {
       },
       {
         x: [duration],
-        y: [label],
+        y: [uniqueLabel],
         marker: {
-          color: 'rgb(58, 75, 151)',
+          color: getColor(label),
         },
         width: 0.4,
         type: 'bar',
         orientation: 'h',
+        hovertemplate: '%{x}<extra></extra>',
       }
     )
   });

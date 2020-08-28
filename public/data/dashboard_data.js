@@ -76,6 +76,7 @@ export const dashboardErrorRateLayout = {
   ],
   showlegend: true,
   xaxis: {
+    fixedrange: true,
     showgrid: false,
     visible: true,
     color: '#899195'
@@ -88,6 +89,7 @@ export const dashboardErrorRateLayout = {
       }
     },
     range: [0, 25],
+    fixedrange: true,
     ticksuffix: "%",
     gridcolor: '#d9d9d9',
     showgrid: true,

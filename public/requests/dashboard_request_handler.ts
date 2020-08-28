@@ -79,4 +79,3 @@ export const handleDashboardThroughputPltRequest = (http, items, setItems) => {
       setItems(newItems);
     })
 }
-

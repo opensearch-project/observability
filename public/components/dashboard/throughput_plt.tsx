@@ -30,6 +30,7 @@ export function ThroughputPlt(props) {
       }
     ],
     xaxis: {
+      fixedrange: true,
       showgrid: false,
       visible: true,
       color: '#899195'
@@ -41,6 +42,7 @@ export function ThroughputPlt(props) {
           size: 12,
         }
       },
+      fixedrange: true,
       gridcolor: '#d9d9d9',
       showgrid: true,
       // showline: true,

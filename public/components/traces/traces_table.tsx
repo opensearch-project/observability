@@ -15,8 +15,6 @@ import {
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import { PanelTitle, truncateText, renderBenchmark } from '../common';
-import { tracesTableData } from '../../data/traces_data';
-import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { EuiToolTip } from '@elastic/eui';
 
 const renderTitleBar = (totalItems?: number) => {

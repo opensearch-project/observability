@@ -21,13 +21,14 @@ const renderStats = () => {
   )
 }
 
-const getSpanDetailLayout = (data) => {
+const getSpanDetailLayout = (plotTraces) => {
+  // get unique labels from traces
+  const yLabels = plotTraces.map(d => d.y[0]).filter((label, i, self) => self.indexOf(label) === i);
   // remove uuid when displaying y-ticks
-  const yLabels = data.map(d => d.y[0]).filter((label, i, self) => self.indexOf(label) === i);
   const yTexts = yLabels.map(label => label.substring(0, label.length - 36))
 
   return {
-    height: 25 * data.length,
+    height: 25 * plotTraces.length,
     width: 800,
     margin: {
       l: 200,
