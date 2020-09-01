@@ -104,12 +104,13 @@ const hitsToGanttData = async (hits) => {
   const data = [];
   if (hits.length === 0)
     return data;
-
+  
   const minStartTime = hits[hits.length - 1].sort[0];
   hits.forEach(hit => {
     const startTime = hit.sort[0] - minStartTime;
     const duration = hit.fields.latency[0];
     const label = hit._source.serviceInfo?.name || 'unknown';
+    const error = hit._source.status?.code || '';
     const uniqueLabel = label + uuid();
     data.push(
       {
@@ -127,6 +128,9 @@ const hitsToGanttData = async (hits) => {
       {
         x: [duration],
         y: [uniqueLabel],
+        text: [error],
+        textfont: { color: ['#c14125'] },
+        textposition: 'outside',
         marker: {
           color: getColor(label),
         },

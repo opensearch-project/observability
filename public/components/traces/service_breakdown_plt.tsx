@@ -4,10 +4,41 @@ import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 import { renderBenchmark } from '../common';
 
+// breaks when window width too small
+// const renderStats = (serviceBreakdownData) => {
+//   if (serviceBreakdownData.length === 0)
+//     return null;
+//   const trace = serviceBreakdownData[0];
+//   return (
+//     <EuiFlexGrid columns={3} responsive={false}>
+//       <EuiFlexItem />
+//       <EuiFlexItem>
+//         <EuiText size='s'>%time spent</EuiText>
+//       </EuiFlexItem>
+//       <EuiFlexItem>
+//         <EuiText size='s'>%time spent</EuiText>
+//       </EuiFlexItem>
+//       {serviceBreakdownData[0].labels.map((label, i) => (
+//         <>
+//           <EuiFlexItem key={`row-${i}`}>
+//             <EuiHealth color={trace.marker.colors[i]}>{label}</EuiHealth>
+//           </EuiFlexItem>
+//           <EuiFlexItem>
+//             <EuiText size='s'>{_.round(trace.values[i], 2)}%</EuiText>
+//           </EuiFlexItem>
+//           <EuiFlexItem>
+//             {renderBenchmark(trace.benchmarks[i])}
+//           </EuiFlexItem>
+//         </>
+//       ))}
+//     </EuiFlexGrid>
+//   );
+// }
+
 const renderStats = (serviceBreakdownData) => {
   return serviceBreakdownData.length > 0 ? (
-    <EuiFlexGroup>
-      <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
+    <EuiFlexGroup responsive={false}>
+      <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m' responsive={false}>
         <EuiFlexItem />
         {serviceBreakdownData[0].marker.colors.map((color, i) => (
           <EuiFlexItem key={`label-${i}`}>
@@ -16,7 +47,7 @@ const renderStats = (serviceBreakdownData) => {
         ))}
       </EuiFlexGroup>
       <EuiFlexItem />
-      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
+      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m' responsive={false}>
         <EuiFlexItem><EuiText size='s'>%time spent</EuiText></EuiFlexItem>
         {serviceBreakdownData[0].values.map((value, i) => (
           <EuiFlexItem key={`value-${i}`}>
@@ -25,7 +56,7 @@ const renderStats = (serviceBreakdownData) => {
         ))}
       </EuiFlexGroup>
       <EuiFlexItem />
-      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
+      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m' responsive={false}>
         <EuiFlexItem><EuiText size='s'>vs benchmark</EuiText></EuiFlexItem>
         {serviceBreakdownData[0].benchmarks.map((benchmark, i) => (
           <EuiFlexItem key={`benchmark-${i}`}>

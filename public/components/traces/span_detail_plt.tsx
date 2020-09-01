@@ -1,24 +1,47 @@
 import { EuiHorizontalRule, EuiPanel, EuiSpacer, EuiFlexItem, EuiFlexGroup, EuiText } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common';
+import { PanelTitle, renderBenchmark } from '../common';
 import { Plt } from '../common/plt';
 
-const renderStats = () => {
-  return (
-    <EuiFlexGroup direction='column' gutterSize='xs'>
-      <EuiFlexItem><EuiText size='s'>Time spent</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>80ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>74ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>60ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>40ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>32ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>24ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>32ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>18ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>12ms</EuiText></EuiFlexItem>
-      <EuiFlexItem><EuiText size='s'>12ms</EuiText></EuiFlexItem>
+const renderStats = (spanDetailData) => {
+  return spanDetailData.length > 0 ? (
+    <EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m'>
+            <EuiFlexItem />
+            {spanDetailData.map((span, i) => (
+              <EuiFlexItem key={`label-${i}`}>
+                <EuiText size='s'>{span.y[0].substring(0, span.y[0].length - 36)}</EuiText>
+              </EuiFlexItem>
+            ))}
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem />
+        <EuiFlexItem>
+          <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
+            <EuiFlexItem><EuiText size='s'>Time spent</EuiText></EuiFlexItem>
+            {spanDetailData.map((span, i) => (
+              <EuiFlexItem key={`latency-${i}`}>
+                <EuiText size='s'>{span.x[0]}</EuiText>
+              </EuiFlexItem>
+            ))}
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem />
+        <EuiFlexItem>
+          <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m'>
+            <EuiFlexItem><EuiText size='s'>vs benchmark</EuiText></EuiFlexItem>
+            {spanDetailData.map((span, i) => (
+              <EuiFlexItem key={`benchmark-${i}`}>
+                {renderBenchmark(0)}
+              </EuiFlexItem>
+            ))}
+          </EuiFlexGroup>
+        </EuiFlexItem>
+      </EuiFlexGroup>
     </EuiFlexGroup>
-  )
+  ) : (null)
 }
 
 const getSpanDetailLayout = (plotTraces) => {
@@ -31,7 +54,7 @@ const getSpanDetailLayout = (plotTraces) => {
     height: 25 * plotTraces.length + 60,
     width: 800,
     margin: {
-      l: 200,
+      l: 100,
       r: 5,
       b: 30,
       t: 30,  // 10
@@ -57,9 +80,9 @@ export function SpanDetailPlt(props) {
       <EuiPanel>
         <PanelTitle title="Span detail" />
         <EuiHorizontalRule margin="m" />
-        <EuiFlexGroup justifyContent='flexEnd' >
+        <EuiFlexGroup justifyContent='center' >
           {/* <EuiFlexItem grow={false}>
-            {renderStats()}
+            {renderStats(props.data)}
           </EuiFlexItem> */}
           <EuiFlexItem style={{ overflowY: 'auto', maxHeight: 500 }}>
             <Plt data={props.data} layout={getSpanDetailLayout(props.data)} />
