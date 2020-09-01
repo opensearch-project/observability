@@ -66,7 +66,7 @@ export const handleDashboardThroughputPltRequest = (http, items, setItems) => {
   handleRequest(http, getDashboardThroughputPltQuery())
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
-      const newItems = [{
+      const newItems = buckets.length > 0 ? [{
         x: buckets.map((bucket) => moment(bucket.key).format('HH:mm')),
         y: buckets.map((bucket) => bucket.doc_count),
         marker: {
@@ -75,7 +75,7 @@ export const handleDashboardThroughputPltRequest = (http, items, setItems) => {
         width: 0.3,
         type: 'bar',
         hovertemplate: '%{y}<extra></extra>',
-      }];
+      }] : [];
       setItems(newItems);
     })
 }

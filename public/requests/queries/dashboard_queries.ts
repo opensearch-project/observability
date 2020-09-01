@@ -15,7 +15,7 @@ export const getDashboardQuery = () => {
     "aggs": {
       "trace_group": {
         "terms": {
-          "field": "name.value.keyword"
+          "field": "name"
         },
         "aggs": {
           "total_latency": {
@@ -67,7 +67,7 @@ export const getDashboardErrorRateQuery = (traceGroupName) => {
         "must": [
           {
             "term": {
-              "name.value.keyword": traceGroupName
+              "name": traceGroupName
             }
           }
         ]
@@ -76,7 +76,7 @@ export const getDashboardErrorRateQuery = (traceGroupName) => {
     "aggs": {
       "trace_group": {
         "terms": {
-          "field": "name.value.keyword"
+          "field": "name"
         },
         "aggs": {
           "error_count": {
@@ -111,7 +111,7 @@ export const getDashboardLatencyTrendQuery = (traceGroupName) => {
         "must": [
           {
             "term": {
-              "name.value.keyword": traceGroupName
+              "name": traceGroupName
             }
           }
         ],
@@ -127,7 +127,7 @@ export const getDashboardLatencyTrendQuery = (traceGroupName) => {
     "aggs": {
       "trace_group": {
         "terms": {
-          "field": "name.value.keyword"
+          "field": "name"
         },
         "aggs": {
           "group_by_hour": {

@@ -5,10 +5,10 @@ import { v1 as uuid } from 'uuid';
 
 export const handleTracesRequest = (http, items, setItems) => {
   handleRequest(http, getTracesQuery())
-    .then((response) => Promise.all(response.hits.hits.map(hit => {
+    .then((response) => Promise.all(response.hits.hits.slice(0, 1000).map(hit => {
       return {
         'trace_id': hit._source.traceId,
-        'trace_group': hit._source.name.value,
+        'trace_group': hit._source.name,
         'latency': hit.fields.latency[0],
         'actions': '#',
       }
@@ -44,7 +44,7 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
       const errorCount = await handleRequest(http, getTracesErrorCountQuery(traceId))
       return {
         'trace_id': hit._source.traceId,
-        'trace_group': hit._source.name.value,
+        'trace_group': hit._source.name,
         'last_updated': moment(lastUpdated.aggregations.last_updated.value).format('MM/DD/YYYY HH:mm'),
         'user_id': 'N/A',
         'latency': hit.fields.latency[0],
@@ -104,12 +104,12 @@ const hitsToGanttData = async (hits) => {
   const data = [];
   if (hits.length === 0)
     return data;
-  
-  const minStartTime = hits[hits.length - 1].sort[0];
+  // startTime is in nanoseconds, convert to milliseconds to match latency
+  const minStartTime = hits[hits.length - 1].sort[0] / 1000000;
   hits.forEach(hit => {
-    const startTime = hit.sort[0] - minStartTime;
+    const startTime = hit.sort[0] / 1000000 - minStartTime;
     const duration = hit.fields.latency[0];
-    const label = hit._source.serviceInfo?.name || 'unknown';
+    const label = _.get(hit, ["_source", "resource.attributes.service.name"]) || 'unknown';
     const error = hit._source.status?.code || '';
     const uniqueLabel = label + uuid();
     data.push(
@@ -141,6 +141,7 @@ const hitsToGanttData = async (hits) => {
       }
     )
   });
+  console.log(data)
   return data;
 }
 

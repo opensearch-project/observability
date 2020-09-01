@@ -9,7 +9,7 @@ export const getServicesQuery = (serviceName = null) => {
     "aggs": {
       "trace_group": {
         "terms": {
-          "field": "serviceInfo.name.keyword"
+          "field": "resource.attributes.service.name"
         },
         "aggs": {
           "error_count": {
@@ -72,7 +72,7 @@ export const getServicesQuery = (serviceName = null) => {
   if (serviceName) {
     query.query.bool.must.push({
       "term": {
-        "serviceInfo.name.keyword": serviceName
+        "resource.attributes.service.name": serviceName
       }
     });
   }

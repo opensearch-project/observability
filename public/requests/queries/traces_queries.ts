@@ -16,7 +16,7 @@ export const getTracesQuery = (traceId = null) => {
     "_source": {
       "includes": [
         "traceId",
-        "name.value"
+        "name"
       ]
     },
     "script_fields": {
@@ -28,7 +28,7 @@ export const getTracesQuery = (traceId = null) => {
   if (traceId) {
     query.query.bool.must.push({
       "term": {
-        "traceId.keyword": traceId
+        "traceId": traceId
       }
     });
   }
@@ -43,7 +43,7 @@ export const getTracesLastUpdatedQuery = (traceId) => {
         "must": [
           {
             "term": {
-              "traceId.keyword": traceId
+              "traceId": traceId
             }
           }
         ]
@@ -67,14 +67,12 @@ export const getTracesErrorCountQuery = (traceId) => {
         "must": [
           {
             "term": {
-              "traceId.keyword": traceId
+              "traceId": traceId
             }
           },
           {
-            "range": {
-              "status.code": {
-                "gte": 1
-              }
+            "exists": {
+              "field": "status.code"
             }
           }
         ]
@@ -98,7 +96,7 @@ export const getServiceBreakdownQuery = (traceId) => {
         "must": [
           {
             "term": {
-              "traceId.keyword": traceId
+              "traceId": traceId
             }
           }
         ]
@@ -107,7 +105,7 @@ export const getServiceBreakdownQuery = (traceId) => {
     "aggs": {
       "service_type": {
         "terms": {
-          "field": "serviceInfo.name.keyword"
+          "field": "resource.attributes.service.name"
         },
         "aggs": {
           "total_latency": {
@@ -152,12 +150,12 @@ export const getSpanDetailQuery = (traceId, size = 200) => {
         "must": [
           {
             "term": {
-              "traceId.keyword": traceId
+              "traceId": traceId
             }
           },
           {
             "exists": {
-              "field": "serviceInfo.name"
+              "field": "resource.attributes.service.name"
             }
           }
         ]
@@ -172,7 +170,7 @@ export const getSpanDetailQuery = (traceId, size = 200) => {
     ],
     "_source": {
       "includes": [
-        "serviceInfo.name",
+        "resource.attributes.service.name",
         "startTime",
         "status.code"
       ]
@@ -194,7 +192,7 @@ export const getPayloadQuery = (traceId, size=200) => {
         "must": [
           {
             "term": {
-              "traceId.keyword": traceId
+              "traceId": traceId
             }
           }
         ]
