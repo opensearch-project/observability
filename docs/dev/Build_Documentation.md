@@ -5,20 +5,20 @@
 - Clone Kibana repo and change directory into it
 
 ```
-    git clone https://github.com/elastic/kibana.git kibana
-    cd kibana
+git clone https://github.com/elastic/kibana.git kibana
+cd kibana
 ```
 
 - Switch to branch 7.9
 
 ```
-    git checkout 7.9
+git checkout 7.9
 ```
 
 - Install the version of Node.js listed in the `.node-version` file. Use [nvm](https://github.com/creationix/nvm), [nvm-windows](https://github.com/coreybutler/nvm-windows) or [avn](https://github.com/wbyoung/avn)
 
 ```
-    nvm use
+nvm use
 ```
 
 - Edit Kibana optimizer :
@@ -26,34 +26,36 @@
 - Bootstrap Kibana and install all the dependencies with [yarn](https://yarnpkg.com/)
 
 ```
-    yarn kbn bootstrap
+yarn kbn bootstrap
 ```
 
 - Start Elasticsearch service from snapshot
 
 ```
-    yarn es snapshot -E path.data=../data --license oss
+yarn es snapshot -E path.data=../data --license oss
 ```
 
 - Clone the notebooks plugin in the plugins directory
 
 ```
-    mkdir plugins
-    cd plugins
-    git clone https://github.com/opendistro-for-elasticsearch/kibana-notebooks.git
-    cd kibana-notebooks
+mkdir plugins
+cd plugins
+git clone https://github.com/opendistro-for-elasticsearch/kibana-notebooks.git
+cd kibana-notebooks
 ```
 
 - **[Optional] If using Zeppelin Backend Adaptor:**
-  - Setup Zeppelin as mentioned in [Apache Zeppelin Setup: Zeppelin Backend Adaptor](https://quip-amazon.com/FQ2PAAYafaBq#MQO9CAQm0Zm)
-  - Edit [this line](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/blob/migrated-7.9.0/common/index.ts#L19) to `SELECTED_BACKEND = 'ZEPPELIN';`
-  - Edit [this line](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/blob/migrated-7.9.0/common/index.ts#L21) for adding Zeppelin endpoint `zeppelinURL = 'http://localhost:8080';`
+  - Setup Zeppelin as mentioned in [Apache Zeppelin Setup: Zeppelin Backend Adaptor](./Zeppelin_backend_adaptor.md#apache-zeppelin-setup)
+  - Edit [this line](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/blob/dev/common/index.ts#L19) to `SELECTED_BACKEND = 'ZEPPELIN';`
+  - Edit [this line](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/blob/dev/common/index.ts#L21) for adding Zeppelin endpoint `zeppelinURL = 'http://localhost:8080';`
 - Start Kibana
 
 ```
-    cd /path/to/kibana
-    nvm use
-    yarn start --oss
+cd /path/to/kibana
+nvm use
+yarn start --oss
 ```
+
+- More on [Usage of Plugin](./Usage_Documentation.md)
 
 - Happy Notebooking :)

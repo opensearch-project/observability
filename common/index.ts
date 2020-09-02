@@ -32,11 +32,11 @@ export interface optionsType {
   redirects?: number;
   beforeRedirect?: any;
   redirected?: any;
-  timeout?: number;
-  maxBytes?: number;
+  timeout?: number; // default: unlimited
+  maxBytes?: number; // default: unlimited
   rejectUnauthorized?: boolean;
-  secureProtocol?: string;
-  ciphers?: string;
+  secureProtocol?: string; // The SSL method to use
+  ciphers?: string; // The TLS ciphers to support
 }
 
 export type ParaType = {
