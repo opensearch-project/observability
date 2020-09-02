@@ -172,11 +172,25 @@ export class ZeppelinBackend implements NotebookAdaptor {
    */
   addParagraph = async function (
     wreckOptions: optionsType,
-    params: { paragraphIndex: string; noteId: string; paragraphInput: string }
+    params: { paragraphIndex: number; noteId: string; paragraphInput: string; inputType: string }
   ) {
+    const visualizationPrefix = '%sh #vizobject:';
+    let paragraphText = params.paragraphInput;
+
+    if (
+      params.inputType === 'VISUALIZATION' &&
+      params.paragraphInput.substring(0, 15) !== visualizationPrefix
+    ) {
+      paragraphText = visualizationPrefix + paragraphText;
+    }
+
+    if (params.paragraphInput === '') {
+      paragraphText = '%md\n';
+    }
+
     wreckOptions.payload = {
-      title: 'Paragraph inserted',
-      text: params.paragraphInput,
+      title: params.inputType,
+      text: paragraphText,
       index: params.paragraphIndex,
     };
 
@@ -314,7 +328,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
       const getInfo = await this.fetchParagraph(wreckOptions, params);
       return getInfo;
     } catch (error) {
-      throw new Error('Update Paragraph Error:' + error);
+      throw new Error('Update/Run Paragraph Error:' + error);
     }
   };
 
@@ -334,7 +348,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
       const getInfo = await this.fetchParagraph(wreckOptions, params);
       return getInfo;
     } catch (error) {
-      throw new Error('Run Para Error:' + error);
+      throw new Error('Save Paragraph Error:' + error);
     }
   };
 
@@ -345,7 +359,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    */
   addFetchNewParagraph = async function (
     _context: RequestHandlerContext,
-    params: { noteId: string; paragraphIndex: string; paragraphInput: string },
+    params: { noteId: string; paragraphIndex: number; paragraphInput: string; inputType: string },
     wreckOptions: optionsType
   ) {
     try {
@@ -354,7 +368,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
       const getinfo = await this.fetchParagraph(wreckOptions, payload);
       return getinfo;
     } catch (error) {
-      throw new Error('addFetch Para Error:' + error);
+      throw new Error('add/Fetch Paragraph Error:' + error);
     }
   };
 
@@ -373,7 +387,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
       const notebookinfo = await this.fetchNote(context, params.noteId, wreckOptions);
       return { paragraphs: notebookinfo };
     } catch (error) {
-      throw new Error('Delete Para Error:' + error);
+      throw new Error('Delete Paragraph Error:' + error);
     }
   };
 
@@ -391,7 +405,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
       const notebookinfo = await this.fetchNote(context, params.noteId, wreckOptions);
       return { paragraphs: notebookinfo };
     } catch (error) {
-      throw new Error('Clear Para Error:' + error);
+      throw new Error('Clear Paragraph Error:' + error);
     }
   };
 }
