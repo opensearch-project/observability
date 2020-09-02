@@ -70,7 +70,7 @@ type ParagraphProps = {
   textValueEditor: (evt: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void;
   handleKeyPress: (evt: React.KeyboardEvent<Element>, para: ParaType, index: number) => void;
   addParagraphHover: (para: ParaType) => void;
-  addPara: (index: number, newParaContent: string) => void;
+  addPara: (index: number, newParaContent: string, inputType: string) => void;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   deleteVizualization: (uniqueId: string) => void;
   vizualizationEditor: (vizContent: string, index: number) => void;
@@ -150,7 +150,7 @@ export const Paragraphs = (props: ParagraphProps) => {
     const optedViz = newOptions.filter(filterObj);
     closeModal();
     const newVizObject = createNewVizObject(optedViz[0].key);
-    addPara(currentPara, '%sh #' + JSON.stringify(newVizObject));
+    addPara(currentPara, JSON.stringify(newVizObject), 'VISUALIZATION');
   };
 
   // Shows modal with all saved visualizations for the users
@@ -166,7 +166,7 @@ export const Paragraphs = (props: ParagraphProps) => {
         setOptions(opt);
         setIsModalVisible(true);
       })
-      .catch((err) => console.error('Fetching visualization error', err));
+      .catch((err) => console.error('Fetching visualization issue', err.body.message));
   };
 
   const filterObj = (vObj: { checked: string }) => {
@@ -221,7 +221,7 @@ export const Paragraphs = (props: ParagraphProps) => {
       <table className="hoveredDiv">
         <tbody>
           <tr>
-            <td className="addParagraphButton" onClick={() => addPara(para.id, '%md\n')}>
+            <td className="addParagraphButton" onClick={() => addPara(para.id, '', 'CODE')}>
               +Para
             </td>
             <td className="addVisualizationButton" onClick={() => showModal(para.id)}>

@@ -19,10 +19,10 @@ import { Input, Prompt, Source } from '@nteract/presentational-components';
 import { ParaType } from '../../../common';
 
 /*
- * "ParaInput" component is used by nbcell to populate paragraph inputs for an open notebook.
+ * "ParaInput" component is used by notebook to populate paragraph inputs for an open notebook.
  *
  * Props taken in as params are:
- * para - parsed paragraph from nbcell
+ * para - parsed paragraph from notebook
  * index - index of paragraph in the notebook
  * textValueEditor - function for handling input in textarea
  * handleKeyPress - function for handling key press like "Shift-key+Enter" to run paragraph
