@@ -61,7 +61,7 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
 
 const getColor = (label) => {
   // const colors = ['#6db19a', '#6a92bc', '#c56886', '#8c73b3', '#c191ad', '#d2bf67', '#b6a98c', '#d08e52', '#a0685a', '#d86e54'];
-  const colors = ['#6DCCB1', '#79AAD9', '#EE789D', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62'];
+  const colors = ['#6DCCB1', '#79AAD9', '#A987D1', '#E4A6C7', '#F1D86F', '#D2C0A0', '#F5A35C', '#C47C6C', '#FF7E62'];
   let hash = 0;
   for (let i = 0; i < label.length; i++) {
     const character = label.charCodeAt(i);
@@ -100,8 +100,8 @@ export const handleServiceBreakdownRequest = (traceId, http, serviceBreakdownDat
     })
 }
 
-const hitsToGanttData = async (hits) => {
-  const data = [];
+const hitsToSpanDetailData = async (hits) => {
+  const data = { 'gantt': [], 'table': [] };
   if (hits.length === 0)
     return data;
   // startTime is in nanoseconds, convert to milliseconds to match latency
@@ -109,10 +109,20 @@ const hitsToGanttData = async (hits) => {
   hits.forEach(hit => {
     const startTime = hit.sort[0] / 1000000 - minStartTime;
     const duration = hit.fields.latency[0];
-    const label = _.get(hit, ["_source", "resource.attributes.service.name"]) || 'unknown';
+    const serviceName = _.get(hit, ["_source", "resource.attributes.service.name"]);
+    const name = _.get(hit, "_source.name");
     const error = hit._source.status?.code || '';
-    const uniqueLabel = label + uuid();
-    data.push(
+    const uniqueLabel = `${serviceName}:${name}` + uuid();
+    data.table.push({
+      'service_name': serviceName,
+      'span_id': hit._source.spanId,
+      'latency': duration,
+      'vs_benchmark': 0,
+      'error': error,
+      'start_time': hit._source.startTime,
+      'end_time': hit._source.endTime,
+    })
+    data.gantt.push(
       {
         x: [startTime],
         y: [uniqueLabel],
@@ -132,7 +142,7 @@ const hitsToGanttData = async (hits) => {
         textfont: { color: ['#c14125'] },
         textposition: 'outside',
         marker: {
-          color: getColor(label),
+          color: getColor(serviceName),
         },
         width: 0.4,
         type: 'bar',
@@ -141,13 +151,12 @@ const hitsToGanttData = async (hits) => {
       }
     )
   });
-  console.log(data)
   return data;
 }
 
 export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDetailData) => {
   handleRequest(http, getSpanDetailQuery(traceId))
-    .then((response) => hitsToGanttData(response.hits.hits))
+    .then((response) => hitsToSpanDetailData(response.hits.hits))
     .then(newItems => {
       setSpanDetailData(newItems);
     })

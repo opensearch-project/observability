@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { PanelTitle, renderBenchmark } from '../common';
 import { CoreDeps } from '../app';
-import { SpanDetailPlt } from './span_detail_plt';
+import { SpanDetailPanel } from './span_detail_panel';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
 import { handleTraceViewRequest, handleServiceBreakdownRequest, handleSpanDetailRequest, handlePayloadRequest } from '../../requests/traces_request_handler';
 import { EuiCopy } from '@elastic/eui';
@@ -140,7 +140,7 @@ interface TraceViewProps extends CoreDeps {
 export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
-  const [spanDetailData, setSpanDetailData] = useState([]);
+  const [spanDetailData, setSpanDetailData] = useState({ 'gantt': [], 'table': [] });
   const [payloadData, setPayloadData] = useState('');
 
   useEffect(() => {
@@ -180,7 +180,7 @@ export function TraceView(props: TraceViewProps) {
               <ServiceBreakdownPlt data={serviceBreakdownData} />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
-              <SpanDetailPlt data={spanDetailData} />
+              <SpanDetailPanel data={spanDetailData} />
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />

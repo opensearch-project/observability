@@ -171,7 +171,10 @@ export const getSpanDetailQuery = (traceId, size = 200) => {
     "_source": {
       "includes": [
         "resource.attributes.service.name",
+        "name",
         "startTime",
+        "endTime",
+        "spanId",
         "status.code"
       ]
     },

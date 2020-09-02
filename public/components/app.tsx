@@ -92,7 +92,7 @@ export const TraceAnalyticsApp = ({
               }
             />
             <Route
-              path="/traces/:id"
+              path="/traces/:id+"
               render={(props) => (
                   <TraceView
                     setBreadcrumbs={chrome.setBreadcrumbs}
@@ -124,7 +124,7 @@ export const TraceAnalyticsApp = ({
               }
             />
             <Route
-              path="/services/:id"
+              path="/services/:id+"
               render={(props) => (
                 <ServiceView
                   setBreadcrumbs={chrome.setBreadcrumbs}
