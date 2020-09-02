@@ -16,9 +16,9 @@
 export const PLUGIN_ID = 'kibanaNotebooks';
 export const PLUGIN_NAME = 'Kibana Notebooks';
 export const API_PREFIX = '/api/notebooks';
-export const SELECTED_BACKEND = 'ZEPPELIN'; // ZEPPELIN || DEFAULT
+export const SELECTED_BACKEND = 'DEFAULT'; // ZEPPELIN || DEFAULT
 
-export const zeppelinURL = 'http://3.236.86.181:8080';
+export const zeppelinURL = 'http://localhost:8080';
 
 export const wreckOptions = {
   baseUrl: zeppelinURL,
@@ -53,7 +53,7 @@ export type ParaType = {
   id: number;
   inp: string;
   lang: string;
-  editLang: string;
+  editorLanguage: string;
   typeOut: Array<string>;
   out: string;
 };
