@@ -11,7 +11,7 @@ export function ThroughputPlt(props) {
       l: 50,
       r: 5,
       b: 30,
-      t: 5,  // 10
+      t: 30,  // 10
       pad: 4
     },
     annotations: props.items.length > 0 && [

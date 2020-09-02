@@ -15,7 +15,7 @@ const getSpanDetailLayout = (plotTraces) => {
     height: 25 * plotTraces.length + 60,
     width: 800,
     margin: {
-      l: 200,
+      l: 240,
       r: 5,
       b: 30,
       t: 30,  // 10

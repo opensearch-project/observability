@@ -188,8 +188,8 @@ export const getDashboardThroughputPltQuery = () => {
           {
             "range": {
               "endTime": {
-                "gte": "2020-07-29T21:37:00.000Z",
-                "lte": "2020-07-29T21:42:00.000Z"
+                "gte": "2020-08-27T20:21:00.000Z",
+                "lte": "2020-08-27T20:26:00.000Z"
               }
             }
           }
