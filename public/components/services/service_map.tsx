@@ -6,57 +6,61 @@ import {
   EuiHorizontalRule,
   EuiPanel,
   EuiSpacer,
-  EuiText
+  EuiText,
 } from '@elastic/eui';
 import React, { useState } from 'react';
-import Graph from "react-graph-vis";
+import Graph from 'react-graph-vis';
+import _ from 'lodash';
 import { getServiceMapData } from '../../data/service_map_data';
 import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 
 const renderServiceMap = (serviceMapData) => {
   return (
-      <Graph
-        graph={serviceMapData.graph}
-        options={serviceMapData.options}
-        events={serviceMapData.events}
-        getNetwork={network => {
-          //  if you want access to vis.js network api you can set the state in a parent component using this property
-        }}
-      />
+    <Graph
+      graph={serviceMapData.graph}
+      options={serviceMapData.options}
+      events={serviceMapData.events}
+      getNetwork={(network) => {
+        //  if you want access to vis.js network api you can set the state in a parent component using this property
+      }}
+    />
   );
-}
+};
 
 const renderServiceMapScale = (scaleData) => {
-  const layout = _.merge({
-    plot_bgcolor: 'rgba(0, 0, 0, 0)',
-    paper_bgcolor: 'rgba(0, 0, 0, 0)',
-    xaxis: {
-      range: [-0.35, 0.35],
-      fixedrange: true,
-      showgrid: false,
-      showline: false,
-      zeroline: false,
-      showticklabels: false,
+  const layout = _.merge(
+    {
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        range: [-0.35, 0.35],
+        fixedrange: true,
+        showgrid: false,
+        showline: false,
+        zeroline: false,
+        showticklabels: false,
+      },
+      yaxis: {
+        side: 'right',
+        fixedrange: true,
+        showgrid: false,
+        showline: false,
+        zeroline: false,
+        showticklabels: true,
+      },
+      margin: {
+        l: 0,
+        r: 45,
+        b: 10,
+        t: 10,
+        pad: 0,
+      },
+      height: 400,
+      width: 65,
     },
-    yaxis: {
-      side: 'right',
-      fixedrange: true,
-      showgrid: false,
-      showline: false,
-      zeroline: false,
-      showticklabels: true,
-    },
-    margin: {
-      l: 0,
-      r: 45,
-      b: 10,
-      t: 10,
-      pad: 0
-    },
-    height: 400,
-    width: 65,
-  }, scaleData.layout)
+    scaleData.layout
+  ) as Partial<Plotly.Layout>;
 
   const data = [
     {
@@ -67,15 +71,15 @@ const renderServiceMapScale = (scaleData) => {
       hoverinfo: 'none',
       showlegend: false,
       ...scaleData.data,
-    }
-  ]
+    },
+  ];
 
   return (
     <div>
       <Plt data={data} layout={layout} />
     </div>
-  )
-}
+  );
+};
 
 export function ServiceMap() {
   const toggleButtons = [
@@ -100,7 +104,7 @@ export function ServiceMap() {
       data: {
         y: [20, 20, 20, 20, 20],
         marker: {
-          color: ['#dad6e3', '#c7b2f1', '#987dcb', '#6448a0', '#330a5f']
+          color: ['#dad6e3', '#c7b2f1', '#987dcb', '#6448a0', '#330a5f'],
         },
       },
       layout: {
@@ -109,31 +113,31 @@ export function ServiceMap() {
           title: {
             text: 'Latency (ms)',
           },
-        }
-      }
+        },
+      },
     },
     [toggleButtons[1].id]: {
       data: {
         y: [5, 5, 5, 5, 5],
         marker: {
-          color: ['#efe0e6', '#f19ebb', '#ec6592', '#be3c64', '#7a1e39']
+          color: ['#efe0e6', '#f19ebb', '#ec6592', '#be3c64', '#7a1e39'],
         },
       },
       layout: {
         yaxis: {
           range: [0, 25],
-          ticksuffix: "%",
+          ticksuffix: '%',
           title: {
             text: 'Error rate',
           },
-        }
-      }
+        },
+      },
     },
     [toggleButtons[2].id]: {
       data: {
         y: [100, 100, 100, 100, 100],
         marker: {
-          color: ['#d6d7d7', '#deecf7', '#abd3f0', '#5f9fd4', '#1f4e78']
+          color: ['#d6d7d7', '#deecf7', '#abd3f0', '#5f9fd4', '#1f4e78'],
         },
       },
       layout: {
@@ -142,12 +146,12 @@ export function ServiceMap() {
           title: {
             text: 'Throughput',
           },
-        }
-      }
+        },
+      },
     },
-  }
+  };
 
-  const serviceMapData = getServiceMapData(scaleData[idSelected].data.marker.color)
+  const serviceMapData = getServiceMapData(scaleData[idSelected].data.marker.color);
 
   return (
     <>
@@ -167,20 +171,15 @@ export function ServiceMap() {
             <EuiText>Zoom in to</EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => { }} />
+            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => {}} />
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
 
-        <EuiFlexGroup gutterSize='none' responsive={false}>
-          <EuiFlexItem>
-            {renderServiceMap(serviceMapData)}
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            {renderServiceMapScale(scaleData[idSelected])}
-          </EuiFlexItem>
+        <EuiFlexGroup gutterSize="none" responsive={false}>
+          <EuiFlexItem>{renderServiceMap(serviceMapData)}</EuiFlexItem>
+          <EuiFlexItem grow={false}>{renderServiceMapScale(scaleData[idSelected])}</EuiFlexItem>
         </EuiFlexGroup>
-
       </EuiPanel>
     </>
   );

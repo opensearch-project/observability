@@ -1,11 +1,11 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { ServicesTable } from './services_table';
-import { handleServicesRequest } from '../../requests/services_request_handler';
 
-interface ServicesProps extends SearchBarProps, CoreDeps { }
+interface ServicesProps extends SearchBarProps, CoreDeps {}
 
 export function Services(props: ServicesProps) {
   const [tableItems, setTableItems] = useState([]);

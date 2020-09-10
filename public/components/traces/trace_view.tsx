@@ -1,7 +1,8 @@
 import {
   EuiButton,
+  EuiButtonIcon,
   EuiCodeBlock,
-  EuiFlexGrid,
+  EuiCopy,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -14,21 +15,23 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
-import { PanelTitle, renderBenchmark } from '../common';
+import {
+  handlePayloadRequest,
+  handleServiceBreakdownRequest,
+  handleSpanDetailRequest,
+  handleTraceViewRequest,
+} from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
-import { SpanDetailPanel } from './span_detail_panel';
+import { PanelTitle, renderBenchmark } from '../common';
 import { ServiceBreakdownPlt } from './service_breakdown_plt';
-import { handleTraceViewRequest, handleServiceBreakdownRequest, handleSpanDetailRequest, handlePayloadRequest } from '../../requests/traces_request_handler';
-import { EuiCopy } from '@elastic/eui';
-import { EuiButtonIcon } from '@elastic/eui';
-import { EuiIcon } from '@elastic/eui';
+import { SpanDetailPanel } from './span_detail_panel';
 
-const renderTitle = (ID) => {
+const renderTitle = (traceId: string) => {
   return (
     <>
       <EuiFlexItem>
         <EuiTitle size="l">
-          <h2 className='overview-content'>{ID}</h2>
+          <h2 className="overview-content">{traceId}</h2>
         </EuiTitle>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -51,7 +54,7 @@ const renderTitle = (ID) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => { }}
+          onChange={() => {}}
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -70,61 +73,83 @@ const renderOverview = (fields) => {
       <EuiHorizontalRule margin="m" />
       <EuiFlexGroup>
         <EuiFlexItem>
-          <EuiFlexGroup direction='column'>
+          <EuiFlexGroup direction="column">
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Trace ID</EuiText>
-              {fields.trace_id && <EuiFlexGroup gutterSize='s' alignItems='center'>
-                <EuiFlexItem grow={false}>
-                  <EuiText size='s' className='overview-content'>{fields.trace_id}</EuiText>
-                </EuiFlexItem>
-                <EuiFlexItem grow={false}>
-                  <EuiCopy textToCopy={fields.trace_id}>
-                    {copy => (
-                      <EuiButtonIcon iconType='copyClipboard' onClick={copy}>Click to copy</EuiButtonIcon>
-                    )}
-                  </EuiCopy>
-                </EuiFlexItem>
-              </EuiFlexGroup>}
+              <EuiText className="overview-title">Trace ID</EuiText>
+              {fields.trace_id && (
+                <EuiFlexGroup gutterSize="s" alignItems="center">
+                  <EuiFlexItem grow={false}>
+                    <EuiText size="s" className="overview-content">
+                      {fields.trace_id}
+                    </EuiText>
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>
+                    <EuiCopy textToCopy={fields.trace_id}>
+                      {(copy) => (
+                        <EuiButtonIcon iconType="copyClipboard" onClick={copy}>
+                          Click to copy
+                        </EuiButtonIcon>
+                      )}
+                    </EuiCopy>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              )}
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Trace group name</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.trace_group}</EuiText>
+              <EuiText className="overview-title">Trace group name</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.trace_group}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Last updated</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.last_updated}</EuiText>
+              <EuiText className="overview-title">Last updated</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.last_updated}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>User ID</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.user_id}</EuiText>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiFlexGroup direction='column'>
-            <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Latency</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.latency}</EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Latency vs Benchmark</EuiText>
-              <EuiText size="s" className='overview-content'>{renderBenchmark(fields.latency_vs_benchmark) || '-'}</EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Percentile in trace group</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.percentile_in_trace_group}</EuiText>
+              <EuiText className="overview-title">User ID</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.user_id}
+              </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiFlexGroup direction='column'>
+          <EuiFlexGroup direction="column">
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Errors</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.error_count}</EuiText>
+              <EuiText className="overview-title">Latency</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.latency}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Errors vs Benchmark</EuiText>
-              <EuiText size="s" className='overview-content'>{renderBenchmark(fields.errors_vs_benchmark) || '-'}</EuiText>
+              <EuiText className="overview-title">Latency vs Benchmark</EuiText>
+              <EuiText size="s" className="overview-content">
+                {renderBenchmark(fields.latency_vs_benchmark) || '-'}
+              </EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiText className="overview-title">Percentile in trace group</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.percentile_in_trace_group}
+              </EuiText>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFlexGroup direction="column">
+            <EuiFlexItem grow={false}>
+              <EuiText className="overview-title">Errors</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.error_count}
+              </EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiText className="overview-title">Errors vs Benchmark</EuiText>
+              <EuiText size="s" className="overview-content">
+                {renderBenchmark(fields.errors_vs_benchmark) || '-'}
+              </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
@@ -140,7 +165,7 @@ interface TraceViewProps extends CoreDeps {
 export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
-  const [spanDetailData, setSpanDetailData] = useState({ 'gantt': [], 'table': [] });
+  const [spanDetailData, setSpanDetailData] = useState({ gantt: [], table: [] });
   const [payloadData, setPayloadData] = useState('');
 
   useEffect(() => {
@@ -159,7 +184,12 @@ export function TraceView(props: TraceViewProps) {
       },
     ]);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handleServiceBreakdownRequest(props.traceId, props.http, serviceBreakdownData, setServiceBreakdownData);
+    handleServiceBreakdownRequest(
+      props.traceId,
+      props.http,
+      serviceBreakdownData,
+      setServiceBreakdownData
+    );
     handleSpanDetailRequest(props.traceId, props.http, spanDetailData, setSpanDetailData);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
   }, []);
@@ -201,7 +231,7 @@ export function TraceView(props: TraceViewProps) {
               <EuiCodeBlock language="json" paddingSize="s" isCopyable overflowHeight={500}>
                 {payloadData}
               </EuiCodeBlock>
-            ) : (null)}
+            ) : null}
           </EuiPanel>
         </EuiPageBody>
       </EuiPage>

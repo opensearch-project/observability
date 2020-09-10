@@ -1,4 +1,6 @@
 import {
+  EuiButtonIcon,
+  EuiCopy,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -8,14 +10,13 @@ import {
   EuiPanel,
   EuiSpacer,
   EuiSuperSelect,
+  EuiTableFieldDataColumnType,
   EuiText,
-  EuiCopy,
-  EuiButton,
-  EuiButtonIcon,
+  EuiToolTip,
 } from '@elastic/eui';
-import React, { useState, useEffect } from 'react';
-import { PanelTitle, truncateText, renderBenchmark } from '../common';
-import { EuiToolTip } from '@elastic/eui';
+import _ from 'lodash';
+import React from 'react';
+import { PanelTitle, renderBenchmark } from '../common';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -43,7 +44,7 @@ const renderTitleBar = (totalItems?: number) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => { }}
+          onChange={() => {}}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
@@ -58,14 +59,18 @@ const columns = [
     sortable: true,
     truncateText: true,
     render: (item) => (
-      <EuiFlexGroup gutterSize='s' alignItems='center'>
+      <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem>
-          <EuiLink href={`#traces/${encodeURIComponent(item)}`}>{truncateText(item)}</EuiLink>
+          <EuiLink href={`#traces/${encodeURIComponent(item)}`}>
+            {_.truncate(item, { length: 24 })}
+          </EuiLink>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiCopy textToCopy={item}>
-            {copy => (
-              <EuiButtonIcon iconType='copyClipboard' onClick={copy}>Click to copy</EuiButtonIcon>
+            {(copy) => (
+              <EuiButtonIcon iconType="copyClipboard" onClick={copy}>
+                Click to copy
+              </EuiButtonIcon>
             )}
           </EuiCopy>
         </EuiFlexItem>
@@ -78,9 +83,7 @@ const columns = [
     align: 'left',
     sortable: true,
     truncateText: true,
-    render: item => (
-      <EuiText size='s'>{truncateText(item)}</EuiText>
-    ),
+    render: (item) => <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText>,
   },
   {
     field: 'latency',
@@ -95,13 +98,17 @@ const columns = [
       <EuiToolTip content="test tooltip">
         <>
           <div style={{ marginRight: 11 }}>Percentile in</div>
-          <div>trace group{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+          <div>
+            trace group{' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </div>
         </>
       </EuiToolTip>
     ),
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}th`}</EuiText> : ('-'),
+    render: (item) =>
+      item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}th`}</EuiText> : '-',
   },
   {
     field: 'latency_vs_benchmark',
@@ -109,28 +116,31 @@ const columns = [
       <EuiToolTip content="test tooltip">
         <>
           <div style={{ marginRight: 18 }}>Latency vs</div>
-          <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+          <div>
+            benchmark{' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </div>
         </>
       </EuiToolTip>
     ),
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
+    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
   },
   {
     field: 'error_count',
     name: 'Error count',
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? item : ('-'),
+    render: (item) => (item === 0 || item ? item : '-'),
   },
   {
     field: 'last_updated',
     name: 'Last updated',
     align: 'left',
     sortable: true,
-    render: (item) => item === 0 || item ? item : ('-'),
+    render: (item) => (item === 0 || item ? item : '-'),
   },
   {
     field: 'actions',
@@ -140,13 +150,14 @@ const columns = [
     truncateText: true,
     render: (item) => (
       <EuiLink href={item}>
-        {'View log'}<EuiIcon type="popout" />
+        {'View log'}
+        <EuiIcon type="popout" />
       </EuiLink>
     ),
   },
-];
+] as Array<EuiTableFieldDataColumnType<any>>;
 
-export function TracesTable(props) {
+export function TracesTable(props: { items: any[] }) {
   return (
     <>
       <EuiPanel>

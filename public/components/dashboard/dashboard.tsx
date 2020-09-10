@@ -1,13 +1,15 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import {
+  handleDashboardRequest,
+  handleDashboardThroughputPltRequest,
+} from '../../requests/dashboard_request_handler';
 import { CoreDeps } from '../app';
 import { SearchBar, SearchBarProps } from '../common';
 import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
 import { ThroughputPlt } from './throughput_plt';
-import { handleRequest } from '../../requests/request_handler';
-import { handleDashboardRequest, handleDashboardThroughputPltRequest } from '../../requests/dashboard_request_handler';
 
 interface DashboardProps extends SearchBarProps, CoreDeps {}
 
@@ -29,7 +31,7 @@ export function Dashboard(props: DashboardProps) {
     handleDashboardRequest(props.http, tableItems, setTableItems);
     handleDashboardThroughputPltRequest(props.http, throughputPltItems, setThroughputPltItems);
   }, []);
-  
+
   return (
     <>
       <EuiTitle size="l">

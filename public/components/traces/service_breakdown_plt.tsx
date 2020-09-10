@@ -1,8 +1,16 @@
-import { EuiHorizontalRule, EuiPanel, EuiFlexGrid, EuiFlexItem, EuiText, EuiFormLegend, EuiFlexGroup, EuiSpacer, EuiHealth } from '@elastic/eui';
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHealth,
+  EuiHorizontalRule,
+  EuiPanel,
+  EuiSpacer,
+  EuiText,
+} from '@elastic/eui';
+import _ from 'lodash';
 import React from 'react';
-import { PanelTitle } from '../common';
+import { PanelTitle, renderBenchmark } from '../common';
 import { Plt } from '../common/plt';
-import { renderBenchmark } from '../common';
 
 // breaks when window width too small
 // const renderStats = (serviceBreakdownData) => {
@@ -38,7 +46,7 @@ import { renderBenchmark } from '../common';
 const renderStats = (serviceBreakdownData) => {
   return serviceBreakdownData.length > 0 ? (
     <EuiFlexGroup responsive={false}>
-      <EuiFlexGroup direction='column' alignItems='flexStart' gutterSize='m' responsive={false}>
+      <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
         <EuiFlexItem />
         {serviceBreakdownData[0].marker.colors.map((color, i) => (
           <EuiFlexItem key={`label-${i}`}>
@@ -47,26 +55,28 @@ const renderStats = (serviceBreakdownData) => {
         ))}
       </EuiFlexGroup>
       <EuiFlexItem />
-      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m' responsive={false}>
-        <EuiFlexItem><EuiText size='s'>%time spent</EuiText></EuiFlexItem>
+      <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
+        <EuiFlexItem>
+          <EuiText size="s">%time spent</EuiText>
+        </EuiFlexItem>
         {serviceBreakdownData[0].values.map((value, i) => (
           <EuiFlexItem key={`value-${i}`}>
-            <EuiText size='s'>{_.round(value, 2)}%</EuiText>
+            <EuiText size="s">{_.round(value, 2)}%</EuiText>
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
       <EuiFlexItem />
-      <EuiFlexGroup direction='column' alignItems='flexEnd' gutterSize='m' responsive={false}>
-        <EuiFlexItem><EuiText size='s'>vs benchmark</EuiText></EuiFlexItem>
+      <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
+        <EuiFlexItem>
+          <EuiText size="s">vs benchmark</EuiText>
+        </EuiFlexItem>
         {serviceBreakdownData[0].benchmarks.map((benchmark, i) => (
-          <EuiFlexItem key={`benchmark-${i}`}>
-            {renderBenchmark(benchmark)}
-          </EuiFlexItem>
+          <EuiFlexItem key={`benchmark-${i}`}>{renderBenchmark(benchmark)}</EuiFlexItem>
         ))}
       </EuiFlexGroup>
     </EuiFlexGroup>
-  ) : (null)
-}
+  ) : null;
+};
 
 const layout = {
   height: 200,
@@ -77,30 +87,28 @@ const layout = {
     traceorder: 'normal',
     x: 0,
     xanchor: 'left',
-    y: 1.5
+    y: 1.5,
   },
   margin: {
     l: 5,
     r: 5,
     b: 5,
-    t: 5,  // 10
+    t: 5, // 10
   },
-}
+} as Partial<Plotly.Layout>;
 
-export function ServiceBreakdownPlt(props) {
+export function ServiceBreakdownPlt(props: { data: Plotly.Data[] }) {
   return (
     <>
       <EuiPanel>
         <PanelTitle title="Service breakdown" />
         <EuiHorizontalRule margin="m" />
-        <EuiFlexGroup direction='column' alignItems='center'>
+        <EuiFlexGroup direction="column" alignItems="center">
           <EuiFlexItem>
-            {props.data?.length > 0 ? <Plt data={props.data} layout={layout} /> : (null)}
+            {props.data?.length > 0 ? <Plt data={props.data} layout={layout} /> : null}
           </EuiFlexItem>
           <EuiSpacer />
-          <EuiFlexItem>
-            {renderStats(props.data)}
-          </EuiFlexItem>
+          <EuiFlexItem>{renderStats(props.data)}</EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
       </EuiPanel>

@@ -1,9 +1,9 @@
-import { EuiHorizontalRule, EuiPanel, EuiSpacer } from '@elastic/eui';
+import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
 import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 
-export function ThroughputPlt(props) {
+export function ThroughputPlt(props: { items: Plotly.Data[] }) {
   const layout = {
     width: 400,
     height: 200,
@@ -11,8 +11,8 @@ export function ThroughputPlt(props) {
       l: 50,
       r: 5,
       b: 30,
-      t: 30,  // 10
-      pad: 4
+      t: 30, // 10
+      pad: 4,
     },
     annotations: props.items.length > 0 && [
       {
@@ -27,20 +27,20 @@ export function ThroughputPlt(props) {
         ay: -160,
         borderpad: 10,
         arrowwidth: 0.7,
-      }
+      },
     ],
     xaxis: {
       fixedrange: true,
       showgrid: false,
       visible: true,
-      color: '#899195'
+      color: '#899195',
     },
     yaxis: {
       title: {
         text: 'Throughput',
         font: {
           size: 12,
-        }
+        },
       },
       fixedrange: true,
       gridcolor: '#d9d9d9',
@@ -48,15 +48,15 @@ export function ThroughputPlt(props) {
       // showline: true,
       // zeroline: true,
       visible: true,
-      color: '#899195'
-    }
-  };
+      color: '#899195',
+    },
+  } as Partial<Plotly.Layout>;
 
   return (
     <>
       <EuiPanel>
         <PanelTitle title="Throughput over time" />
-        <EuiHorizontalRule margin='m' />
+        <EuiHorizontalRule margin="m" />
         <Plt data={props.items} layout={layout} />
       </EuiPanel>
     </>

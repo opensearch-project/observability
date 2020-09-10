@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
-import { Plt } from '../common/plt'
-import { EuiToolTip } from '@elastic/eui'
-import { EuiText } from '@elastic/eui'
-import { EuiFlexGroup } from '@elastic/eui'
-import { EuiFlexItem } from '@elastic/eui'
+import { EuiFlexGroup, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
+import React, { useState } from 'react';
+import { Plt } from '../common/plt';
 
-export function BoxPlt({ plotParams }) {
+interface PlotParamsType {
+  min: number;
+  max: number;
+  left: number;
+  mid: number;
+  right: number;
+}
+
+export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   const [hovered, setHovered] = useState('');
 
   const layout = {
@@ -30,11 +35,11 @@ export function BoxPlt({ plotParams }) {
       r: 0,
       b: 0,
       t: 0,
-      pad: 0
+      pad: 0,
     },
     height: 15,
     width: 200,
-  }
+  };
   const data = [
     {
       x: [plotParams.left],
@@ -57,7 +62,7 @@ export function BoxPlt({ plotParams }) {
         line: {
           color: hovered === 'lower' ? '#2e73b5' : '#957ac9',
           width: hovered === 'lower' ? 3 : 1,
-        }
+        },
       },
     },
     {
@@ -71,51 +76,58 @@ export function BoxPlt({ plotParams }) {
         line: {
           color: hovered === 'upper' ? '#2e73b5' : '#957ac9',
           width: hovered === 'upper' ? 3 : 1,
-        }
+        },
       },
     },
-  ]
+  ];
 
   const renderTooltip = () => {
     return (
-      <EuiFlexGroup gutterSize='s' responsive={false}>
+      <EuiFlexGroup gutterSize="s" responsive={false}>
         <EuiFlexItem grow={false}>
-          <EuiFlexGroup direction='column' gutterSize='xs' responsive={false}>
+          <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
-              <EuiText size='xs' style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>Latency &lt;95 percentile</EuiText>
+              <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
+                Latency &lt;95 percentile
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
-              <EuiText size='xs' style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>Latency &gt;=95 percentile</EuiText>
+              <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
+                Latency &gt;=95 percentile
+              </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiFlexGroup direction='column' gutterSize='xs' responsive={false}>
+          <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
-              <EuiText size='xs' style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>{`${plotParams.left}ms - ${plotParams.mid}ms`}</EuiText>
+              <EuiText
+                size="xs"
+                style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}
+              >{`${plotParams.left}ms - ${plotParams.mid}ms`}</EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
-              <EuiText size='xs' style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>{`${plotParams.mid}ms - ${plotParams.right}ms`}</EuiText>
+              <EuiText
+                size="xs"
+                style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}
+              >{`${plotParams.mid}ms - ${plotParams.right}ms`}</EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>
-    )
-  }
+    );
+  };
 
   const onHoverHandler = (e) => {
     const mouseX = e.xvals[0];
-    if (plotParams.left <= mouseX && mouseX <= plotParams.mid)
-      setHovered('lower')
-    else if (plotParams.mid <= mouseX && mouseX <= plotParams.right)
-      setHovered('upper')
-    else
-      setHovered('')
-  }
+    if (plotParams.left <= mouseX && mouseX <= plotParams.mid) setHovered('lower');
+    else if (plotParams.mid <= mouseX && mouseX <= plotParams.right) setHovered('upper');
+    else setHovered('');
+  };
 
   return (
-    <EuiToolTip content={renderTooltip()} position='bottom' onMouseOut={() => setHovered('')}>
+    <EuiToolTip content={renderTooltip()} position="bottom" onMouseOut={() => setHovered('')}>
       <Plt data={data} layout={layout} onHoverHandler={onHoverHandler} />
     </EuiToolTip>
-  )
+  );
 }

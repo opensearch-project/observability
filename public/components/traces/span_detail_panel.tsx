@@ -1,15 +1,23 @@
-import { EuiHorizontalRule, EuiPanel, EuiSpacer, EuiFlexItem, EuiFlexGroup, EuiText } from '@elastic/eui';
+import {
+  EuiButtonGroup,
+  EuiHorizontalRule,
+  EuiInMemoryTable,
+  EuiPanel,
+  EuiTableFieldDataColumnType,
+} from '@elastic/eui';
+import moment from 'moment';
 import React, { useState } from 'react';
+import { DATE_FORMAT } from '../../../common';
 import { PanelTitle, renderBenchmark } from '../common';
 import { Plt } from '../common/plt';
-import { EuiButtonGroup } from '@elastic/eui';
-import { EuiInMemoryTable } from '@elastic/eui';
 
-const getSpanDetailLayout = (plotTraces) => {
+const getSpanDetailLayout: (plotTraces: Plotly.Data[]) => Partial<Plotly.Layout> = (plotTraces) => {
   // get unique labels from traces
-  const yLabels = plotTraces.map(d => d.y[0]).filter((label, i, self) => self.indexOf(label) === i);
+  const yLabels = plotTraces
+    .map((d) => d.y[0])
+    .filter((label, i, self) => self.indexOf(label) === i);
   // remove uuid when displaying y-ticks
-  const yTexts = yLabels.map(label => label.substring(0, label.length - 36))
+  const yTexts = yLabels.map((label) => label.substring(0, label.length - 36));
 
   return {
     height: 25 * plotTraces.length + 60,
@@ -18,11 +26,11 @@ const getSpanDetailLayout = (plotTraces) => {
       l: 240,
       r: 5,
       b: 30,
-      t: 30,  // 10
+      t: 30, // 10
     },
     xaxis: {
       autorange: true,
-      ticksuffix: " ms",
+      ticksuffix: ' ms',
       side: 'top',
       color: '#91989c',
       showline: true,
@@ -31,9 +39,9 @@ const getSpanDetailLayout = (plotTraces) => {
       showgrid: false,
       tickvals: yLabels,
       ticktext: yTexts,
-    }
-  }
-}
+    },
+  };
+};
 
 const columns = [
   {
@@ -41,23 +49,12 @@ const columns = [
     name: 'Service name',
     align: 'left',
     sortable: true,
-    // render: (item) => item ? (
-    //   <EuiLink href="#">
-    //     {truncateText(item)}
-    //   </EuiLink>
-    // ) : ('-'),
   },
   {
     field: 'span_id',
     name: 'Span ID',
     align: 'left',
-    sortable: false,
-    // render: (item) => {
-    //   return item ? (
-    //     // expand ranges by 4 to accomondate scale
-    //     <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
-    //   ) : ('-');
-    // },
+    sortable: true,
   },
   {
     field: 'latency',
@@ -65,41 +62,35 @@ const columns = [
     align: 'left',
     sortable: true,
     dataType: 'number',
-    // render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
   },
   {
     field: 'vs_benchmark',
     name: 'vs benchmark',
     align: 'left',
     sortable: true,
-    // render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
+    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
   },
   {
     field: 'error',
     name: 'Error',
     align: 'left',
-    sortable: false,
-    // render: (item) => item ? <LatencyTrendCell item={item} /> : ('-'),
+    sortable: true,
   },
   {
     field: 'start_time',
     name: 'Start time',
     align: 'left',
     sortable: true,
-    // render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
+    render: (item) => moment(item).format(DATE_FORMAT),
   },
   {
     field: 'end_time',
     name: 'End time',
     align: 'left',
     sortable: true,
-    // render: (item) => (
-    //   <EuiLink href="#traces">
-    //     <EuiI18nNumber value={item} />
-    //   </EuiLink>
-    // ),
+    render: (item) => moment(item).format(DATE_FORMAT),
   },
-];
+] as Array<EuiTableFieldDataColumnType<any>>;
 
 export function SpanDetailPanel(props) {
   const options = [
@@ -129,17 +120,17 @@ export function SpanDetailPanel(props) {
             <Plt data={props.data.gantt} layout={getSpanDetailLayout(props.data.gantt)} />
           </div>
         ) : (
-            <EuiInMemoryTable
-              items={props.data.table}
-              columns={columns}
-              pagination={{
-                initialPageSize: 8,
-                pageSizeOptions: [8, 10, 13],
-              }}
-              sorting={true}
-              tableLayout="auto"
-            />
-          )}
+          <EuiInMemoryTable
+            items={props.data.table}
+            columns={columns}
+            pagination={{
+              initialPageSize: 8,
+              pageSizeOptions: [8, 10, 13],
+            }}
+            sorting={true}
+            tableLayout="auto"
+          />
+        )}
       </EuiPanel>
     </>
   );

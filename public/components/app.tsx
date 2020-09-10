@@ -94,14 +94,13 @@ export const TraceAnalyticsApp = ({
             <Route
               path="/traces/:id+"
               render={(props) => (
-                  <TraceView
-                    setBreadcrumbs={chrome.setBreadcrumbs}
-                    http={http}
-                    uiSettings={uiSettings}
-                    traceId={decodeURIComponent(props.match.params.id)}
-                  />
-                )
-              }
+                <TraceView
+                  setBreadcrumbs={chrome.setBreadcrumbs}
+                  http={http}
+                  uiSettings={uiSettings}
+                  traceId={decodeURIComponent(props.match.params.id)}
+                />
+              )}
             />
             <Route
               exact

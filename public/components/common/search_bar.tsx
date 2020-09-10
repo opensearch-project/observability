@@ -3,7 +3,8 @@ import {
   EuiFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiSpacer, EuiSuperDatePicker
+  EuiSpacer,
+  EuiSuperDatePicker,
 } from '@elastic/eui';
 import React, { Dispatch, SetStateAction } from 'react';
 import { Filters } from './filters';

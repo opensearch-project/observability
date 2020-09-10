@@ -2,14 +2,15 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
+  EuiI18nNumber,
   EuiInMemoryTable,
   EuiLink,
   EuiPanel,
   EuiSpacer,
+  EuiTableFieldDataColumnType,
   EuiText,
-  EuiI18nNumber,
 } from '@elastic/eui';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { PanelTitle, truncateText } from '../common';
 
 const renderTitleBar = (totalItems?: number) => {
@@ -28,21 +29,26 @@ const columns = [
     name: 'Name',
     align: 'left',
     sortable: true,
-    render: (item) => <EuiLink href={`#services/${encodeURIComponent(item)}`}>{truncateText(item)}</EuiLink>,
+    render: (item) => (
+      <EuiLink href={`#services/${encodeURIComponent(item)}`}>
+        {_.truncate(item, { length: 24 })}
+      </EuiLink>
+    ),
   },
   {
     field: 'average_latency',
     name: 'Average latency (ms)',
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
+    render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
   },
   {
     field: 'error_rate',
     name: 'Error rate',
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
+    render: (item) =>
+      item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
   },
   {
     field: 'throughput',
@@ -50,7 +56,7 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => <EuiI18nNumber value={item} />
+    render: (item) => <EuiI18nNumber value={item} />,
   },
   {
     field: 'number_of_connected_services',
@@ -58,7 +64,7 @@ const columns = [
     align: 'right',
     sortable: true,
     truncateText: true,
-    render: (item) => item === 0 || item ? item : ('-'),
+    render: (item) => (item === 0 || item ? item : '-'),
   },
   {
     field: 'connected_services',
@@ -66,11 +72,7 @@ const columns = [
     align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => item ? (
-      <EuiText size='s'>
-        {truncateText(item)}
-      </EuiText>
-    ) : ('-'),
+    render: (item) => (item ? <EuiText size="s">{truncateText(item)}</EuiText> : '-'),
   },
   {
     field: 'traces',
@@ -84,9 +86,9 @@ const columns = [
       </EuiLink>
     ),
   },
-];
+] as Array<EuiTableFieldDataColumnType<any>>;
 
-export function ServicesTable(props) {
+export function ServicesTable(props: { items: any[] }) {
   return (
     <>
       <EuiPanel>
@@ -99,7 +101,7 @@ export function ServicesTable(props) {
           columns={columns}
           pagination={{
             initialPageSize: 10,
-            pageSizeOptions: [8, 10, 13],
+            pageSizeOptions: [5, 10, 15],
           }}
           sorting={true}
         />

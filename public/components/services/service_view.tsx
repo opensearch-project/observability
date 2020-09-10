@@ -3,6 +3,8 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
+  EuiI18nNumber,
+  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPanel,
@@ -11,20 +13,23 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
-import { CoreDeps } from '../app';
-import { PanelTitle } from '../common';
-import { renderDatePicker, SearchBarProps } from '../common';
-import { ServiceMap } from './service_map';
 import { handleServiceViewRequest } from '../../requests/services_request_handler';
-import { EuiI18nNumber } from '@elastic/eui';
-import { EuiLink } from '@elastic/eui';
+import { CoreDeps } from '../app';
+import { PanelTitle, renderDatePicker, SearchBarProps } from '../common';
+import { ServiceMap } from './service_map';
 
-const renderTitle = (serviceName, startTime, setStartTime, endTime, setEndTime) => {
+const renderTitle = (
+  serviceName: string,
+  startTime: SearchBarProps['startTime'],
+  setStartTime: SearchBarProps['setStartTime'],
+  endTime: SearchBarProps['endTime'],
+  setEndTime: SearchBarProps['setEndTime']
+) => {
   return (
     <>
       <EuiFlexItem>
         <EuiTitle size="l">
-          <h2 className='overview-content'>{serviceName}</h2>
+          <h2 className="overview-content">{serviceName}</h2>
         </EuiTitle>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -50,37 +55,49 @@ const renderOverview = (fields) => {
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Name</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.name}</EuiText>
+              <EuiText className="overview-title">Name</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.name}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Number of connected services</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.number_of_connected_services}</EuiText>
+              <EuiText className="overview-title">Number of connected services</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.number_of_connected_services}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Connected services</EuiText>
-              <EuiText size="s" className='overview-content'>{fields.connected_services}</EuiText>
+              <EuiText className="overview-title">Connected services</EuiText>
+              <EuiText size="s" className="overview-content">
+                {fields.connected_services}
+              </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Average latency (ms)</EuiText>
-              <EuiText size="s" className='overview-content'>{_.round(fields.average_latency, 2)}</EuiText>
+              <EuiText className="overview-title">Average latency (ms)</EuiText>
+              <EuiText size="s" className="overview-content">
+                {_.round(fields.average_latency, 2)}
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Error rate</EuiText>
-              <EuiText size="s" className='overview-content'>{_.round(fields.error_rate, 2)}%</EuiText>
+              <EuiText className="overview-title">Error rate</EuiText>
+              <EuiText size="s" className="overview-content">
+                {_.round(fields.error_rate, 2)}%
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Throughput</EuiText>
-              <EuiText size="s" className='overview-content'><EuiI18nNumber value={fields.throughput} /></EuiText>
+              <EuiText className="overview-title">Throughput</EuiText>
+              <EuiText size="s" className="overview-content">
+                <EuiI18nNumber value={fields.throughput} />
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className='overview-title'>Traces</EuiText>
-              <EuiText size="s" className='overview-content'>
-                <EuiLink href='#traces'>
+              <EuiText className="overview-title">Traces</EuiText>
+              <EuiText size="s" className="overview-content">
+                <EuiLink href="#traces">
                   <EuiI18nNumber value={fields.traces} />
                 </EuiLink>
               </EuiText>

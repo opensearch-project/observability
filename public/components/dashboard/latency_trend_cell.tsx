@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { EuiFlexGroup, EuiFlexItem, EuiPopover, EuiButtonIcon } from '@elastic/eui'
+import { EuiButtonIcon, EuiFlexGroup, EuiFlexItem, EuiPopover, EuiText } from '@elastic/eui';
+import _ from 'lodash';
+import React, { useState } from 'react';
 import { Plt } from '../common/plt';
-import { EuiText } from '@elastic/eui';
 
-function LinePlt(props) {
+function LinePlt(props: { data: Plotly.Data[] }) {
   const layout = {
     plot_bgcolor: 'rgba(0, 0, 0, 0)',
     paper_bgcolor: 'rgba(0, 0, 0, 0)',
@@ -32,15 +32,15 @@ function LinePlt(props) {
   return <Plt data={props.data} layout={layout} />;
 }
 
-function LatencyPlt(props) {
+function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
   const layout = {
     xaxis: {
       // range: [0, 25],
       // dtick: 6,
       // showline: true,
       showgrid: false,
-      tickmode: "linear",
-      color: '#899195'
+      tickmode: 'linear',
+      color: '#899195',
     },
     yaxis: {
       // range: [0, 100],
@@ -49,11 +49,11 @@ function LatencyPlt(props) {
         text: 'Hourly latency (ms)',
         font: {
           size: 12,
-        }
+        },
       },
       // showline: true,
       gridcolor: '#d9d9d9',
-      color: '#899195'
+      color: '#899195',
     },
     annotations: [
       {
@@ -63,12 +63,12 @@ function LatencyPlt(props) {
         arrowhead: 0,
         xref: 'x',
         yref: 'y',
-        text: `Now: ${_.round(props.data[0].y[props.data[0].y.length - 1], 2)}ms`,
+        text: `Now: ${_.round(props.data[0].y[props.data[0].y.length - 1] as number, 2)}ms`,
         ax: 0,
         ay: -140,
         borderpad: 10,
         arrowwidth: 0.7,
-      }
+      },
     ],
     margin: {
       l: 50,
@@ -79,20 +79,16 @@ function LatencyPlt(props) {
     },
     height: 200,
     width: 400,
-  }
+  } as Partial<Plotly.Layout>;
   return (
     <>
       <EuiFlexGroup>
         <EuiFlexItem>
-          <EuiText size='s'>24-hour latency trend</EuiText>
-          <EuiText size='s'>makePayment.auto</EuiText>
+          <EuiText size="s">24-hour latency trend</EuiText>
+          <EuiText size="s">makePayment.auto</EuiText>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButtonIcon
-            iconType='cross'
-            color='text'
-            onClick={() => props.closePopover()}
-          />
+          <EuiButtonIcon iconType="cross" color="text" onClick={() => props.closePopover()} />
         </EuiFlexItem>
       </EuiFlexGroup>
       <Plt data={props.data} layout={layout} />
@@ -100,7 +96,14 @@ function LatencyPlt(props) {
   );
 }
 
-export function LatencyTrendCell({ item }) {
+export function LatencyTrendCell({
+  item,
+}: {
+  item: {
+    popoverData: Plotly.Data[];
+    trendData: Plotly.Data[];
+  };
+}) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   return (
     <EuiFlexGroup gutterSize="s">
@@ -126,5 +129,5 @@ export function LatencyTrendCell({ item }) {
         </EuiPopover>
       </EuiFlexItem>
     </EuiFlexGroup>
-  )
+  );
 }

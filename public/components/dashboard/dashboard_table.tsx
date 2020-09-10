@@ -10,14 +10,14 @@ import {
   EuiSpacer,
   EuiSuperSelect,
   EuiText,
-  EuiToolTip
+  EuiToolTip,
 } from '@elastic/eui';
-import React, { useState, useEffect } from 'react';
-import { PanelTitle, renderBenchmark, truncateText } from '../common';
+import React from 'react';
+import _ from 'lodash';
+import { EuiTableFieldDataColumnType } from '@elastic/eui';
+import { PanelTitle, renderBenchmark } from '../common';
 import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
-import { handleDashboardRequest } from '../../requests/dashboard_request_handler';
-import { EuiButton } from '@elastic/eui';
 
 const renderTitleBar = (totalItems) => {
   return (
@@ -27,7 +27,6 @@ const renderTitleBar = (totalItems) => {
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiLink>
-          {/* <EuiText size='xs'><EuiIcon type="stop" style={{color :'#957ac9' }} /> &lt; 95 percentile</EuiText> */}
           <EuiText size="xs">
             <span style={{ color: '#957ac9' }}>&#x25a1;</span> &lt; 95 percentile
           </EuiText>
@@ -62,7 +61,7 @@ const renderTitleBar = (totalItems) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => { }}
+          onChange={() => {}}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
@@ -82,11 +81,7 @@ const columns = [
     ),
     align: 'left',
     sortable: true,
-    render: (item) => item ? (
-      <EuiLink href="#">
-        {truncateText(item)}
-      </EuiLink>
-    ) : ('-'),
+    render: (item) => (item ? <EuiLink href="#">{_.truncate(item, { length: 24 })}</EuiLink> : '-'),
   },
   {
     field: 'latency_variance',
@@ -98,7 +93,9 @@ const columns = [
             <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
           </span>
         </EuiToolTip>
-        <EuiText size='xs' style={{ color: '#8b8f94' }}>{[0, 20, 40, 60, 80].join('\u00A0'.repeat(10))}</EuiText>
+        <EuiText size="xs" color="subdued">
+          {[0, 20, 40, 60, 80].join('\u00A0'.repeat(10))}
+        </EuiText>
       </>
     ),
     align: 'center',
@@ -106,9 +103,11 @@ const columns = [
     // width: '20%',
     render: (item) => {
       return item ? (
-        // expand ranges by 4 to accomondate scale
+        // expand plot ranges by 4 to accomondate scale
         <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
-      ) : ('-');
+      ) : (
+        '-'
+      );
     },
   },
   {
@@ -117,14 +116,17 @@ const columns = [
       <EuiToolTip content="test tooltip">
         <>
           <div style={{ marginRight: 40 }}>Average</div>
-          <div>latency (ms){' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+          <div>
+            latency (ms){' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </div>
         </>
       </EuiToolTip>
     ),
     align: 'right',
     sortable: true,
     dataType: 'number',
-    render: (item) => item === 0 || item ? _.round(item, 2) : ('-'),
+    render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
   },
   {
     field: 'average_latency_vs_benchmark',
@@ -139,13 +141,16 @@ const columns = [
       >
         <>
           <div style={{ marginRight: 15 }}>Average latency vs</div>
-          <div>benchmark{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+          <div>
+            benchmark{' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </div>
         </>
       </EuiToolTip>
     ),
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? renderBenchmark(item) : ('-'),
+    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
   },
   {
     field: '24_hour_latency_trend',
@@ -153,13 +158,16 @@ const columns = [
       <EuiToolTip content="test tooltip">
         <>
           <div style={{ marginRight: 44 }}>24-hour</div>
-          <div>latency trend{' '}<EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" /></div>
+          <div>
+            latency trend{' '}
+            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+          </div>
         </>
       </EuiToolTip>
     ),
     align: 'right',
     sortable: false,
-    render: (item) => item ? <LatencyTrendCell item={item} /> : ('-'),
+    render: (item) => (item ? <LatencyTrendCell item={item} /> : '-'),
   },
   {
     field: 'error_rate',
@@ -173,7 +181,8 @@ const columns = [
     ),
     align: 'right',
     sortable: true,
-    render: (item) => item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : ('-'),
+    render: (item) =>
+      item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
   },
   {
     field: 'traces',
@@ -193,9 +202,9 @@ const columns = [
       </EuiLink>
     ),
   },
-];
+] as Array<EuiTableFieldDataColumnType<any>>;
 
-export function DashboardTable(props) {
+export function DashboardTable(props: { items: any[] }) {
   return (
     <>
       <EuiPanel>
@@ -207,7 +216,7 @@ export function DashboardTable(props) {
           columns={columns}
           pagination={{
             initialPageSize: 10,
-            pageSizeOptions: [8, 10, 13],
+            pageSizeOptions: [5, 10, 15],
           }}
           sorting={true}
           tableLayout="auto"

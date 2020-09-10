@@ -1,4 +1,4 @@
-import { EuiHorizontalRule, EuiPanel, EuiSpacer } from '@elastic/eui';
+import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
 import { PanelTitle } from '../common';
 import { Plt } from '../common/plt';
