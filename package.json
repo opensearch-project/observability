@@ -7,7 +7,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@elastic/eui": "22.3.1",
     "@types/react-plotly.js": "^2.2.4",
     "lodash": "^4.17.20",
     "plotly.js": "^1.54.1",
