@@ -1,0 +1,37 @@
+
+name: Test and Build Kibana Notebooks
+
+on: [pull_request, push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Kibana
+        uses: actions/checkout@v1
+        with:
+          repository: elastic/kibana
+          ref: v7.9.1
+          path: kibana
+      - name: Checkout Plugin
+        uses: actions/checkout@v1
+        with:
+          path: kibana/plugins/kibana-notebooks
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.22.0'
+      - name: Kibana Pluign Bootstrap
+        run: |
+          yarn kbn bootstrap
+      - name: Build Artifact
+        run: |
+          yarn build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: kibana-notebooks
+          path: ./build

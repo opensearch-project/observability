@@ -13,10 +13,15 @@
  * permissions and limitations under the License.
  */
 
-export const PLUGIN_ID = 'kibanaNotebooks';
+import { RefObject } from 'react';
+
+export const PLUGIN_ID = 'opendistro-notebooks-kibana';
 export const PLUGIN_NAME = 'Kibana Notebooks';
 export const API_PREFIX = '/api/notebooks';
 export const SELECTED_BACKEND = 'DEFAULT'; // ZEPPELIN || DEFAULT
+export const DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
+export const FETCH_SIZE = 1000;
+export const CREATE_NOTE_MESSAGE = 'Enter a name to describe the purpose of this notebook.';
 
 export const zeppelinURL = 'http://localhost:8080';
 
@@ -43,7 +48,6 @@ export type ParaType = {
   uniqueId: string;
   isRunning: boolean;
   inQueue: boolean;
-  ishovered: boolean;
   isSelected: boolean;
   isInputHidden: boolean;
   isOutputHidden: boolean;
@@ -55,5 +59,12 @@ export type ParaType = {
   lang: string;
   editorLanguage: string;
   typeOut: Array<string>;
-  out: string;
+  out: any[];
+  isInputExpanded: boolean;
+  isOutputStale: boolean;
+  paraRef: RefObject<React.ReactElement>;
+  paraDivRef: RefObject<HTMLDivElement>;
+  visStartTime?: string;
+  visEndTime?: string;
+  visSavedObjId?: string;
 };

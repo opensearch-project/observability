@@ -55,13 +55,10 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let notebookinfo = [];
       try {
-        notebookinfo = await BACKEND.fetchNote(context, request.params.noteId, wreckOptions);
+        const notebookinfo = await BACKEND.fetchNote(context, request.params.noteId, wreckOptions);
         return response.ok({
-          body: {
-            paragraphs: notebookinfo,
-          },
+          body: notebookinfo,
         });
       } catch (error) {
         return response.custom({
@@ -167,64 +164,6 @@ export function NoteRouter(router: IRouter) {
         const delResponse = await BACKEND.deleteNote(context, request.params.noteid, wreckOptions);
         return response.ok({
           body: delResponse,
-        });
-      } catch (error) {
-        return response.custom({
-          statusCode: error.statusCode || 500,
-          body: error.message,
-        });
-      }
-    }
-  );
-
-  // Export a notebook
-  router.get(
-    {
-      path: `${API_PREFIX}/note/export/{noteid}`,
-      validate: {
-        params: schema.object({
-          noteid: schema.string(),
-        }),
-      },
-    },
-    async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      try {
-        const exportResponse = await BACKEND.exportNote(
-          context,
-          request.params.noteid,
-          wreckOptions
-        );
-        return response.ok({
-          body: exportResponse.body,
-        });
-      } catch (error) {
-        return response.custom({
-          statusCode: error.statusCode || 500,
-          body: error.message,
-        });
-      }
-    }
-  );
-
-  // Import a notebook
-  router.post(
-    {
-      path: `${API_PREFIX}/note/import`,
-      validate: {
-        body: schema.object({
-          noteObj: schema.any(),
-        }),
-      },
-    },
-    async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      try {
-        const importResponse = await BACKEND.importNote(
-          context,
-          request.body.noteObj,
-          wreckOptions
-        );
-        return response.ok({
-          body: importResponse,
         });
       } catch (error) {
         return response.custom({

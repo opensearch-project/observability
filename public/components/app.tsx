@@ -27,6 +27,7 @@ interface KibanaNotebooksAppDeps {
   basename: string;
   notifications: CoreStart['notifications'];
   http: CoreStart['http'];
+  chrome: CoreStart['chrome'];
   navigation: NavigationPublicPluginStart;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
 }
@@ -35,17 +36,21 @@ export const KibanaNotebooksApp = ({
   basename,
   notifications,
   http,
+  chrome,
   navigation,
   DashboardContainerByValueRenderer,
 }: KibanaNotebooksAppDeps) => {
   // Render the application DOM.
   return (
-    <Router basename={basename}>
-      <I18nProvider>
-        <>
-          <Main DashboardContainerByValueRenderer={DashboardContainerByValueRenderer} http={http} />
-        </>
-      </I18nProvider>
-    </Router>
+    <I18nProvider>
+      <>
+        <Main
+          basename={basename}
+          DashboardContainerByValueRenderer={DashboardContainerByValueRenderer}
+          http={http}
+          setBreadcrumbs={chrome.setBreadcrumbs}
+        />
+      </>
+    </I18nProvider>
   );
 };

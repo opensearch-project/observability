@@ -50,10 +50,11 @@ type CustomInputModalProps = {
   btn1txt: string;
   btn2txt: string;
   openNoteName: string;
+  helpText: string;
 };
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
-  const { runModal, closeModal, labelTxt, titletxt, btn1txt, btn2txt, openNoteName } = props;
+  const { runModal, closeModal, labelTxt, titletxt, btn1txt, btn2txt, openNoteName, helpText } = props;
   const [value, setValue] = useState(openNoteName || ''); // sets input value
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +70,7 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
 
         <EuiModalBody>
           <EuiForm>
-            <EuiFormRow label={labelTxt}>
+            <EuiFormRow label={labelTxt} helpText={helpText}>
               <EuiFieldText name="input" value={value} onChange={(e) => onChange(e)} />
             </EuiFormRow>
           </EuiForm>

@@ -12,26 +12,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
- 
-.editorArea {
-  font-family: Dank Mono, Source Code Pro, Consolas, Courier New, Courier, monospace;
-  background-color: #fafafa;
-  color: #212121;
-  font-size: 1em;
-  border: none;
-  width: 100%;
-  height: 14em;
-}
 
-#notebookArea {
-  max-width: 88vw;
-}
+import React from 'react'
+import { EuiPanel } from '@elastic/eui';
 
-.panel-header-count {
-  color: #687078;
-  font-weight: normal;
-}
-
-.markdown-output-text {
-  font-family: "Inter UI", -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+export function PanelWrapper({ shouldWrap, children }: { shouldWrap: boolean; children: React.ReactNode }) {
+  return shouldWrap ? <EuiPanel>{children}</EuiPanel> : <>{children}</>;
 }

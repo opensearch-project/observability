@@ -13,8 +13,23 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { EuiOverlayMask, EuiConfirmModal } from '@elastic/eui';
+import React, { useState } from 'react';
+import {
+  EuiOverlayMask,
+  EuiConfirmModal,
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFieldText,
+  EuiForm,
+  EuiFormRow,
+  EuiModal,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
+  EuiText,
+  EuiSpacer
+} from '@elastic/eui';
 import { CustomInputModal } from './custom_modals/custom_input_modal';
 
 /* The file contains helper functions for modal layouts
@@ -32,7 +47,8 @@ export const getCustomModal = (
   titletxt: string,
   btn1txt: string,
   btn2txt: string,
-  openNoteName?: string
+  openNoteName?: string,
+  helpText?: string,
 ) => {
   return (
     <CustomInputModal
@@ -43,6 +59,7 @@ export const getCustomModal = (
       btn1txt={btn1txt}
       btn2txt={btn2txt}
       openNoteName={openNoteName}
+      helpText={helpText}
     />
   );
 };
@@ -73,21 +90,78 @@ export const getDeleteModal = (
   onCancel: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void,
-  onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  title: string,
+  message: string,
+  confirmMessage?: string,
 ) => {
   return (
     <EuiOverlayMask>
       <EuiConfirmModal
-        title="Delete Notebook"
+        title={title}
         onCancel={onCancel}
         onConfirm={onConfirm}
         cancelButtonText="Cancel"
-        confirmButtonText="Yes, Delete"
+        confirmButtonText={confirmMessage || "Delete"}
         buttonColor="danger"
         defaultFocusedButton="confirm"
       >
-        <p>Are you sure you want to delete this notebook?</p>
+        {message}
       </EuiConfirmModal>
+    </EuiOverlayMask>
+  );
+};
+
+export const DeleteNotebookModal = ({
+  onCancel,
+  onConfirm,
+  title,
+  message,
+}: {
+  onCancel: (
+    event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  title: string;
+  message: string;
+}) => {
+  const [value, setValue] = useState('');
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <EuiOverlayMask>
+      <EuiModal onClose={onCancel} initialFocus="[name=input]">
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>{title}</EuiModalHeaderTitle>
+        </EuiModalHeader>
+
+        <EuiModalBody>
+          <EuiText>
+            {message}
+          </EuiText>
+          <EuiText>
+            The action cannot be undone.
+          </EuiText>
+          <EuiSpacer />
+          <EuiForm>
+            <EuiFormRow label={"To confirm deletion, enter \"delete\" in the text field"}>
+              <EuiFieldText name="input" placeholder="delete" value={value} onChange={(e) => onChange(e)} />
+            </EuiFormRow>
+          </EuiForm>
+        </EuiModalBody>
+
+        <EuiModalFooter>
+          <EuiButtonEmpty onClick={onCancel}>Cancel</EuiButtonEmpty>
+          <EuiButton
+            onClick={() => onConfirm()}
+            color="danger"
+            fill
+            disabled={value !== 'delete'}>
+            Delete
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
     </EuiOverlayMask>
   );
 };

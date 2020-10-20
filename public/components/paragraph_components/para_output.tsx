@@ -19,7 +19,9 @@ import { Media } from '@nteract/outputs';
 import MarkdownRender from '@nteract/markdown';
 import { EuiText } from '@elastic/eui';
 
-import { ParaType } from '../../../common';
+import { DATE_FORMAT, ParaType } from '../../../common';
+import { DashboardContainerInput, DashboardStart } from '../../../../../src/plugins/dashboard/public';
+import moment from 'moment';
 
 /*
  * "ParaOutput" component is used by notebook to populate paragraph outputs for an open notebook.
@@ -30,8 +32,13 @@ import { ParaType } from '../../../common';
  * Outputs component of nteract used as a container for notebook UI.
  * https://components.nteract.io/#outputs
  */
-export const ParaOutput = (props: { para: ParaType }) => {
-  const outputBody = (tIdx: number, typeOut: string, val: string) => {
+export const ParaOutput = (props: {
+  para: ParaType;
+  visInput: DashboardContainerInput;
+  setVisInput: (input: DashboardContainerInput) => void;
+  DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
+}) => {
+  const outputBody = (key: string, typeOut: string, val: string) => {
     /* Returns a component to render paragraph outputs using the para.typeOut property
      * Currently supports HTML, TABLE, IMG
      * TODO: add table rendering
@@ -41,22 +48,35 @@ export const ParaOutput = (props: { para: ParaType }) => {
       switch (typeOut) {
         case 'MARKDOWN':
           return (
-            <EuiText key={tIdx + '_paraOutput'}>
+            <EuiText key={key} className='markdown-output-text'>
               <MarkdownRender source={val} />
             </EuiText>
           );
+        case 'VISUALIZATION':
+          let from = moment(visInput?.timeRange?.from).format(DATE_FORMAT);
+          let to = moment(visInput?.timeRange?.to).format(DATE_FORMAT);
+          from = from === 'Invalid date' ? visInput.timeRange.from : from;
+          to = to === 'Invalid date' ? visInput.timeRange.to : to;
+          return (
+            <>
+              <EuiText size='s' style={{ marginLeft: 9 }}>
+                {`${from} - ${to}`}
+              </EuiText>
+              <DashboardContainerByValueRenderer key={key} input={visInput} onInputUpdated={setVisInput} />
+            </>
+          );
         case 'HTML':
           return (
-            <EuiText key={tIdx + '_paraOutput'}>
+            <EuiText key={key}>
               <Media.HTML data={val} />
             </EuiText>
           );
         case 'TABLE':
-          return <pre key={tIdx + '_paraOutput'}>{val}</pre>;
+          return <pre key={key}>{val}</pre>;
         case 'IMG':
-          return <img alt="" src={'data:image/gif;base64,' + val} key={tIdx + '_paraOutput'} />;
+          return <img alt="" src={'data:image/gif;base64,' + val} key={key} />;
         default:
-          return <pre key={tIdx + '_paraOutput'}>{val}</pre>;
+          return <pre key={key}>{val}</pre>;
       }
     } else {
       console.log('output not supported', typeOut);
@@ -64,12 +84,12 @@ export const ParaOutput = (props: { para: ParaType }) => {
     }
   };
 
-  const { para } = props;
+  const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
 
   return (
     <Outputs hidden={para.isOutputHidden}>
       {para.typeOut.map((typeOut: string, tIdx: number) =>
-        outputBody(tIdx, typeOut, para.out[tIdx])
+        outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
       )}
     </Outputs>
   );

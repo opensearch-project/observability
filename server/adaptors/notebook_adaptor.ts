@@ -29,7 +29,7 @@ export interface NotebookAdaptor {
     context: RequestHandlerContext,
     noteId: string,
     wreckOptions: optionsType
-  ) => Promise<any[]>;
+  ) => Promise<any>;
 
   /* Adds a notebook to storage
    * Param: name -> name of new notebook

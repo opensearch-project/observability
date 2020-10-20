@@ -116,6 +116,47 @@ export function ParaRouter(router: IRouter) {
     }
   );
 
+  /* --> Update paragraphs in backend with paragraphs passed in
+   * --> Fetches the added Paragraph
+   */
+  router.post(
+    {
+      path: `${API_PREFIX}/set_paragraphs/`,
+      validate: {
+        body: schema.object({
+          noteId: schema.string(),
+          paragraphs: schema.arrayOf(schema.object({
+            output: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
+            input: schema.object({
+              inputText: schema.string(),
+              inputType: schema.string(),
+            }),
+            dateCreated: schema.string(),
+            dateModified: schema.string(),
+            id: schema.string(),
+          })),
+        }),
+      },
+    },
+    async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
+      try {
+        const updateNotebook = {
+          paragraphs: request.body.paragraphs,
+          dateModified: new Date().toISOString(),
+        };
+        const updateResponse = await BACKEND.updateNote(context, request.body.noteId, updateNotebook);
+        return response.ok({
+          body: updateResponse,
+        });
+      } catch (error) {
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
   /* --> Deletes a paragraph
    * --> Fetches the all other Paragraphs as a list
    */

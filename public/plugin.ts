@@ -14,21 +14,23 @@
  */
 
 import { i18n } from '@kbn/i18n';
-import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
+import { AppMountParameters, CoreSetup, CoreStart, Plugin, DEFAULT_APP_CATEGORIES } from '../../../src/core/public';
 import {
   KibanaNotebooksPluginSetup,
   KibanaNotebooksPluginStart,
   AppPluginStartDependencies,
 } from './types';
-import { PLUGIN_NAME } from '../common';
+import { PLUGIN_NAME, PLUGIN_ID } from '../common';
 
 export class KibanaNotebooksPlugin
   implements Plugin<KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart> {
   public setup(core: CoreSetup): KibanaNotebooksPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
-      id: 'kibanaNotebooks',
+      id: PLUGIN_ID,
       title: PLUGIN_NAME,
+      category: DEFAULT_APP_CATEGORIES.kibana,
+      order: 8040,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
@@ -40,16 +42,7 @@ export class KibanaNotebooksPlugin
     });
 
     // Return methods that should be available to other plugins
-    return {
-      getGreeting() {
-        return i18n.translate('kibanaNotebooks.greetingText', {
-          defaultMessage: 'Hello from {name}!',
-          values: {
-            name: PLUGIN_NAME,
-          },
-        });
-      },
-    };
+    return {};
   }
 
   public start(core: CoreStart): KibanaNotebooksPluginStart {

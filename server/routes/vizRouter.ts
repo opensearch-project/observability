@@ -14,7 +14,7 @@
  */
 
 import { IRouter, IKibanaResponse, ResponseError } from '../../../../src/core/server';
-import { API_PREFIX } from '../../common';
+import { API_PREFIX, FETCH_SIZE } from '../../common';
 import { RequestParams } from '@elastic/elasticsearch';
 
 export function vizRouter(router: IRouter) {
@@ -27,10 +27,11 @@ export function vizRouter(router: IRouter) {
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
       const params: RequestParams.Search = {
         index: '.kibana',
+        size: FETCH_SIZE,
         q: 'type:visualization',
       };
       try {
-        const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        const esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
           'search',
           params
         );

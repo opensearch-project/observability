@@ -16,7 +16,7 @@
 import { v4 as uuid } from 'uuid';
 import { NotebookAdaptor } from './notebook_adaptor';
 import { RequestHandlerContext } from '../../../../src/core/server';
-import { optionsType } from '../../common';
+import { optionsType, FETCH_SIZE } from '../../common';
 import { RequestParams, errors } from '@elastic/elasticsearch';
 import {
   DefaultNotebooks,
@@ -32,29 +32,6 @@ export class DefaultBackend implements NotebookAdaptor {
   createNewNotebook = (newNotebookName: string) => {
     const noteId = 'note_' + uuid();
 
-    const inputObject: DefaultInput = {
-      inputType: 'MARKDOWN',
-      inputText: '# Type your input here',
-    };
-
-    const outputObjects: Array<DefaultOutput> = [
-      {
-        outputType: 'MARKDOWN',
-        result: '# Type your input here',
-        execution_time: '0s',
-      },
-    ];
-
-    const paragraphObjects: Array<DefaultParagraph> = [
-      {
-        id: 'paragraph_' + uuid(),
-        dateCreated: new Date().toISOString(),
-        dateModified: new Date().toISOString(),
-        input: inputObject,
-        output: outputObjects,
-      },
-    ];
-
     const noteObject: DefaultNotebooks = {
       id: noteId,
       dateCreated: new Date().toISOString(),
@@ -62,7 +39,7 @@ export class DefaultBackend implements NotebookAdaptor {
       dateModified: new Date().toISOString(),
       pluginVersion: '7.9.0',
       backend: 'Default',
-      paragraphs: paragraphObjects,
+      paragraphs: [],
     };
 
     return {
@@ -80,7 +57,7 @@ export class DefaultBackend implements NotebookAdaptor {
         id: noteId,
         body: body,
       };
-      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
         'index',
         options
       );
@@ -101,7 +78,7 @@ export class DefaultBackend implements NotebookAdaptor {
           doc: updateBody,
         },
       };
-      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
         'update',
         options
       );
@@ -114,7 +91,7 @@ export class DefaultBackend implements NotebookAdaptor {
   // fetched a notebook by Id
   getNote = async function (context: RequestHandlerContext, noteId: string) {
     try {
-      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
         'get',
         {
           index: '.notebooks',
@@ -127,28 +104,31 @@ export class DefaultBackend implements NotebookAdaptor {
     }
   };
 
-  // gets all the notebooks available
+  // gets first `FETCH_SIZE` notebooks available
   viewNotes = async function (context: RequestHandlerContext, _wreckOptions: optionsType) {
     let esClientResponse;
     let data = [];
     try {
       const options: RequestParams.Search = {
         index: '.notebooks',
-        _source: ['id', 'name'],
+        size: FETCH_SIZE,
+        _source: ['id', 'name', 'dateCreated', 'dateModified'],
         body: {
           query: {
             match_all: {},
           },
         },
       };
-      esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
         'search',
         options
       );
-      esClientResponse.hits.hits.map((doc: { _source: { name: string; id: string } }) => {
+      esClientResponse.hits.hits.map((doc: { _source: { name: string; id: string; dateCreated: string; dateModified: string } }) => {
         data.push({
           path: doc._source.name,
           id: doc._source.id,
+          dateCreated: doc._source.dateCreated,
+          dateModified: doc._source.dateModified,
         });
       });
       return data;
@@ -169,7 +149,12 @@ export class DefaultBackend implements NotebookAdaptor {
   ) {
     try {
       const noteObject = await this.getNote(context, noteId);
-      return noteObject.paragraphs;
+      return {
+        path: noteObject.name,
+        dateCreated: noteObject.dateCreated,
+        dateModified: noteObject.dateModified,
+        paragraphs: noteObject.paragraphs,
+      }
     } catch (error) {
       throw new Error('Fetching Notebook Error:' + error);
     }
@@ -243,7 +228,7 @@ export class DefaultBackend implements NotebookAdaptor {
     _wreckOptions: optionsType
   ) {
     try {
-      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+      const esClientResponse = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
         'delete',
         {
           index: '.notebooks',
@@ -366,6 +351,15 @@ export class DefaultBackend implements NotebookAdaptor {
             {
               outputType: 'MARKDOWN',
               result: paragraph.input.inputText,
+              execution_time: '0s',
+            },
+          ];
+        } else if (paragraph.input.inputType === 'VISUALIZATION' && paragraph.id === paragraphId) {
+          updatedParagraph.dateModified = new Date().toISOString();
+          updatedParagraph.output = [
+            {
+              outputType: 'VISUALIZATION',
+              result: '',
               execution_time: '0s',
             },
           ];

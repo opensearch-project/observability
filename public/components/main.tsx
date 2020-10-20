@@ -14,25 +14,18 @@
  */
 
 import React from 'react';
-import {
-  EuiPage,
-  EuiPageBody,
-  EuiPageContent,
-  EuiPageHeader,
-  EuiPageHeaderSection,
-  EuiPageSideBar,
-  EuiTitle,
-  EuiTreeView,
-  EuiIcon,
-} from '@elastic/eui';
 
-import { CoreStart } from '../../../../src/core/public';
+import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
 
-import { NoteButtons } from './note_buttons';
 import { Notebook } from './notebook';
 import { onDownload } from './helpers/download_json';
 import { API_PREFIX } from '../../common';
+import { NoteTable } from './note_table';
+import { HashRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
+import { EuiGlobalToastList } from '@elastic/eui';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 
 /*
  * "Main" component renders the whole Notebooks as a single page application
@@ -46,53 +39,49 @@ import { API_PREFIX } from '../../common';
  */
 
 type MainProps = {
+  basename: string;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
+  setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
 };
 
 type MainState = {
-  data: Array<{ path: string; id: string }>;
-  isNoteAvailable: boolean;
-  openNoteId: string; // Id of the notebook open
-  openNoteName: string; // name of the notebook open
-  switchName: string; // name of the notebook to be opened
-  switchId: string; // Id of the notebook to be opened
-  folderTree: Array<{
-    label: string;
-    id: string;
-    icon: JSX.Element;
-    iconWhenExpanded: JSX.Element;
-    isExpanded: boolean;
-    children: Array<{ label: string; id: string; icon: JSX.Element }>; // folder tree eui element
-  }>;
+  data: Array<NotebookType>;
+  openedNotebook: NotebookType;
+  toasts: Toast[];
 };
+
+export type NotebookType = {
+  path: string;
+  id: string;
+  dateCreated: string;
+  dateModified: string;
+}
 
 export class Main extends React.Component<MainProps, MainState> {
   constructor(props: Readonly<MainProps>) {
     super(props);
     this.state = {
       data: [],
-      isNoteAvailable: false,
-      openNoteId: '',
-      openNoteName: '',
-      switchId: '',
-      switchName: '',
-      folderTree: [
-        {
-          label: 'Base Path',
-          id: 'Base_path',
-          icon: <EuiIcon type="folderClosed" />,
-          iconWhenExpanded: <EuiIcon type="folderOpen" />,
-          isExpanded: true,
-          children: [],
-        },
-      ],
+      openedNotebook: undefined,
+      toasts: [],
     };
+  }
+
+  setToast = (title: string, color = 'success', text = '') => {
+    this.setState({
+      toasts: [{
+        id: new Date().toISOString(),
+        title,
+        text,
+        color,
+      }]
+    })
   }
 
   // Fetches path and id for all stored notebooks
   fetchNotebooks = () => {
-    this.props.http
+    return this.props.http
       .get(`${API_PREFIX}/`)
       .then((res) => this.setState(res))
       .catch((err) => {
@@ -102,191 +91,126 @@ export class Main extends React.Component<MainProps, MainState> {
 
   // Creates a new notebook
   createNotebook = (newNoteName: string) => {
-    let newNoteId = '';
+    if (newNoteName.length >= 50 || newNoteName.length === 0) {
+      this.setToast('Invalid notebook name', 'danger');
+      return;
+    }
     const newNoteObject = {
       name: newNoteName,
     };
 
-    this.props.http
+    return this.props.http
       .post(`${API_PREFIX}/note`, {
         body: JSON.stringify(newNoteObject),
       })
-      .then((res) => {
-        newNoteId = res.body;
-        this.setState({ switchId: newNoteId, switchName: newNoteName });
-        this.fetchNotebooks();
+      .then(async (res) => {
+        this.setToast(`Notebook "${newNoteName}" successfully created!`);
+        window.location.assign(`${this.props.basename}#${res.body}`);
       })
-      .catch((err) => console.error('Issue in creating a notebook', err.body.message));
+      .catch((err) => this.setToast('Issue in creating a notebook ' + err.body.message, 'danger'));
   };
 
   // Renames an existing notebook
   renameNotebook = (editedNoteName: string, editedNoteID: string) => {
+    if (editedNoteName.length >= 50 || editedNoteName.length === 0) {
+      this.setToast('Invalid notebook name', 'danger');
+      return;
+    }
     const renameNoteObject = {
       name: editedNoteName,
       noteId: editedNoteID,
     };
 
-    this.props.http
+    return this.props.http
       .put(`${API_PREFIX}/note/rename`, {
         body: JSON.stringify(renameNoteObject),
       })
       .then((res) => {
-        this.setState({ switchId: editedNoteID, switchName: editedNoteName });
         this.fetchNotebooks();
+        this.setToast(`Notebook successfully renamed into "${editedNoteName}"`);
       })
-      .catch((err) => console.error('Issue in renaming the notebook', err.body.message));
+      .catch((err) => this.setToast('Issue in renaming the notebook ' + err.body.message, 'danger'));
   };
 
   // Clones an existing notebook
   cloneNotebook = (clonedNoteName: string, clonedNoteID: string) => {
-    let newNoteId = '';
     const cloneNoteObject = {
       name: clonedNoteName,
       noteId: clonedNoteID,
     };
 
-    this.props.http
+    return this.props.http
       .post(`${API_PREFIX}/note/clone`, {
         body: JSON.stringify(cloneNoteObject),
       })
       .then((res) => {
-        newNoteId = res.body;
-        this.setState({ switchId: newNoteId, switchName: clonedNoteName });
         this.fetchNotebooks();
+        this.setToast(`Notebook "${clonedNoteName}" successfully created!`);
+        return res.body;
       })
-      .catch((err) => console.error('Issue in cloning the notebook', err.body.message));
+      .catch((err) => this.setToast('Issue in cloning the notebook ' + err.body.message, 'danger'));
   };
 
   // Deletes an existing notebook
-  deleteNotebook = (clonedNoteID: string) => {
-    this.props.http
-      .delete(`${API_PREFIX}/note/` + clonedNoteID)
-      .then((res) => this.fetchNotebooks())
-      .catch((err) => console.error('Issue in deleting the notebook', err.body.message));
-  };
-
-  // Exports an existing notebook
-  exportNotebook = (exportNoteName: string, exportNoteId: string) => {
-    this.props.http
-      .get(`${API_PREFIX}/note/export/` + exportNoteId)
+  deleteNotebook = (notebookId: string, notebookName?: string, showToast = true) => {
+    return this.props.http
+      .delete(`${API_PREFIX}/note/` + notebookId)
       .then((res) => {
-        onDownload(res, exportNoteName + '.json');
-      })
-      .catch((err) => console.error('Issue in exporting the notebook', err.body.message));
-  };
-
-  // Imports a new notebook
-  importNotebook = (noteObject: any) => {
-    let newNoteId = '';
-    const importObject = {
-      noteObj: noteObject,
-    };
-    this.props.http
-      .post(`${API_PREFIX}/note/import`, { body: JSON.stringify(importObject) })
-      .then((res) => {
-        newNoteId = res.body;
-        this.setState({ switchId: newNoteId, switchName: noteObject.name });
         this.fetchNotebooks();
+        if (showToast)
+          this.setToast(`Notebook "${notebookName}" successfully deleted!`);
       })
-      .catch((err) => console.error('Issue in importing the notebook', err.body.message));
+      .catch((err) => this.setToast('Issue in deleting the notebook ' + err.body.message, 'danger'));
   };
-
-  // Sets new notebook to open from folder tree
-  loadNotebook = (nbId: string, nbName: string) => {
-    this.setState({ openNoteId: nbId, openNoteName: nbName });
-  };
-
-  // Reloads folder tree on the side side panel
-  realodSidePanel = () => {
-    let folderTree = this.state.folderTree;
-    let noteArray: Array<{ label: string; id: string; icon: JSX.Element }> = [];
-    this.state.data.map((note: { path: string; id: string }, index: number) => {
-      const noteName = note.path.split('/').pop();
-      const noteObj = {
-        label: noteName,
-        id: note.id,
-        icon: <EuiIcon type="notebookApp" aria-label={'note_' + index} />,
-        callback: () => this.loadNotebook(note.id, noteName),
-      };
-      noteArray.push(noteObj);
-    });
-
-    folderTree[0].children = noteArray;
-    this.setState({ folderTree });
-  };
-
-  // Opens the first notebook in folder tree and loads it
-  // If any notebook is selected it switches to that notebook
-  // If no notebook is available then sets isNoteAvailable to false
-  setNoteOpen = () => {
-    if (this.state.data[0] === undefined) {
-      this.setState({ isNoteAvailable: false });
-    } else if (this.state.switchId !== '') {
-      this.loadNotebook(this.state.switchId, this.state.switchName);
-      this.setState({ switchId: '', switchName: '' });
-      this.setState({ isNoteAvailable: true });
-    } else {
-      let openNoteId = '';
-      let openNoteName = '';
-      openNoteId = this.state.data[0].id;
-      openNoteName = this.state.data[0].path.split('/').pop();
-      this.setState({ openNoteId });
-      this.setState({ openNoteName });
-      this.setState({ isNoteAvailable: true });
-    }
-  };
-
-  // If state of list of notebooks is changed then reloads folder tree
-  // and opens a notebook
-  componentDidUpdate(prevProps: MainProps, prevState: MainState) {
-    if (this.state.data !== prevState.data) {
-      this.realodSidePanel();
-      this.setNoteOpen();
-    }
-  }
-
-  // On mount fetch all notebooks
-  componentDidMount() {
-    this.fetchNotebooks();
-  }
 
   render() {
     return (
-      <EuiPage>
-        <EuiPageSideBar>
-          <div>
-            <EuiTreeView items={this.state.folderTree} aria-label="Base Path Folder Tree" />
-          </div>
-        </EuiPageSideBar>
-        <EuiPageBody component="div">
-          <EuiPageHeader>
-            <EuiPageHeaderSection>
-              <EuiTitle size="l">
-                <h1>Kibana Notebooks</h1>
-              </EuiTitle>
-            </EuiPageHeaderSection>
-            <NoteButtons
-              createNotebook={this.createNotebook}
-              openNoteName={this.state.openNoteName}
-              openNoteId={this.state.openNoteId}
-              renameNotebook={this.renameNotebook}
-              cloneNotebook={this.cloneNotebook}
-              deleteNotebook={this.deleteNotebook}
-              exportNotebook={this.exportNotebook}
-              importNotebook={this.importNotebook}
+      <HashRouter basename={this.props.basename}>
+        <>
+          <EuiGlobalToastList
+            toasts={this.state.toasts}
+            dismissToast={removedToast => {
+              this.setState({
+                toasts: this.state.toasts.filter(toast => toast.id !== removedToast.id)
+              })
+            }}
+            toastLifeTimeMs={6000}
+          />
+          <Switch>
+            <Route
+              path='/:id'
+              render={(props) =>
+                <Notebook
+                  basename={this.props.basename}
+                  openedNoteId={props.match.params.id}
+                  DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
+                  http={this.props.http}
+                  setBreadcrumbs={this.props.setBreadcrumbs}
+                  renameNotebook={this.renameNotebook}
+                  cloneNotebook={this.cloneNotebook}
+                  deleteNotebook={this.deleteNotebook}
+                  setToast={this.setToast}
+                />
+              }
             />
-          </EuiPageHeader>
-          <EuiPageContent id="notebookArea">
-            <Notebook
-              isNoteAvailable={this.state.isNoteAvailable}
-              noteId={this.state.openNoteId}
-              noteName={this.state.openNoteName}
-              DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
-              http={this.props.http}
+            <Route
+              path='/'
+              render={(props) =>
+                <NoteTable
+                  fetchNotebooks={this.fetchNotebooks}
+                  notebooks={this.state.data}
+                  createNotebook={this.createNotebook}
+                  renameNotebook={this.renameNotebook}
+                  cloneNotebook={this.cloneNotebook}
+                  deleteNotebook={this.deleteNotebook}
+                  setBreadcrumbs={this.props.setBreadcrumbs}
+                  setToast={this.setToast}
+                />
+              }
             />
-          </EuiPageContent>
-        </EuiPageBody>
-      </EuiPage>
-    );
+          </Switch>
+        </>
+      </HashRouter>
+    )
   }
 }

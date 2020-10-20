@@ -1,0 +1,9 @@
+{
+  "buildSourcePatterns": [
+    "package.json",
+    "yarn.lock",
+    "tsconfig.json",
+    "{public,server,common,target}/**/*",
+    "kibana.json"
+  ]
+}

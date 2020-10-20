@@ -20,7 +20,7 @@ import { AppPluginStartDependencies } from './types';
 import { KibanaNotebooksApp } from './components/app';
 
 export const renderApp = (
-  { notifications, http }: CoreStart,
+  { notifications, http, chrome }: CoreStart,
   { navigation, dashboard }: AppPluginStartDependencies,
   { appBasePath, element }: AppMountParameters
 ) => {
@@ -29,6 +29,7 @@ export const renderApp = (
       basename={appBasePath}
       notifications={notifications}
       http={http}
+      chrome={chrome}
       navigation={navigation}
       DashboardContainerByValueRenderer={dashboard.DashboardContainerByValueRenderer}
     />,
