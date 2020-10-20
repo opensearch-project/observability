@@ -1,0 +1,66 @@
+{
+  "name": "opendistro-notebooks-kibana",
+  "version": "1.11.0.0",
+  "description": "Kibana Notebooks",
+  "main": "index.ts",
+  "kibana": {
+    "version": "7.9.1",
+    "templateVersion": "1.0.0"
+  },
+  "scripts": {
+    "preinstall": "node ../../preinstall_check",
+    "kbn": "node ../../scripts/kbn",
+    "es": "node ../../scripts/es",
+    "lint": "eslint .",
+    "start": "plugin-helpers start",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build",
+    "test:jest": "../../node_modules/.bin/jest --config ./test/jest.config.js",
+    "test": "cypress run",
+    "postinstall": "yarn run babel node_modules/@nteract/markdown/lib -d node_modules/@nteract/markdown/lib; yarn run babel node_modules/@nteract/mathjax/lib -d node_modules/@nteract/mathjax/lib; yarn run babel node_modules/@nteract/outputs/lib -d node_modules/@nteract/outputs/lib; yarn run babel node_modules/@nteract/presentational-components/lib -d node_modules/@nteract/presentational-components/lib; yarn run babel node_modules/ansi-to-react/lib -d node_modules/ansi-to-react/lib;"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@elastic/eslint-config-kibana": "link:../../packages/eslint-config-kibana",
+    "@elastic/eslint-import-resolver-kibana": "link:../../packages/kbn-eslint-import-resolver-kibana",
+    "@kbn/expect": "link:../../packages/kbn-expect",
+    "@kbn/plugin-helpers": "link:../../packages/kbn-plugin-helpers",
+    "babel-eslint": "^10.0.1",
+    "cypress": "^5.3.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-mocha": "^5.3.0",
+    "eslint-plugin-no-unsanitized": "^3.0.2",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^26.4.1"
+  },
+  "dependencies": {
+    "@hapi/wreck": "^17.0.0",
+    "@nteract/outputs": "^3.0.9",
+    "@nteract/presentational-components": "^3.4.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "chrome": "58",
+            "ie": "11"
+          }
+        }
+      ]
+    ]
+  },
+  "engines": {
+    "node": "10.22.0",
+    "yarn": "^1.21.1"
+  }
+}
