@@ -44,7 +44,7 @@ const renderTitleBar = (totalItems?: number) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
@@ -95,15 +95,10 @@ const columns = [
   {
     field: 'percentile_in_trace_group',
     name: (
-      <EuiToolTip content="test tooltip">
-        <>
-          <div style={{ marginRight: 11 }}>Percentile in</div>
-          <div>
-            trace group{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </div>
-        </>
-      </EuiToolTip>
+      <>
+        <div>Percentile in</div>
+        <div style={{ marginRight: 5 }}>trace group</div>
+      </>
     ),
     align: 'right',
     sortable: true,
@@ -113,15 +108,10 @@ const columns = [
   {
     field: 'latency_vs_benchmark',
     name: (
-      <EuiToolTip content="test tooltip">
-        <>
-          <div style={{ marginRight: 18 }}>Latency vs</div>
-          <div>
-            benchmark{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </div>
-        </>
-      </EuiToolTip>
+      <>
+        <div style={{ marginRight: 2 }}>Latency vs</div>
+        <div>benchmark{' '}</div>
+      </>
     ),
     align: 'right',
     sortable: true,

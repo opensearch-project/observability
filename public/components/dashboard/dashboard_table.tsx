@@ -61,7 +61,7 @@ const renderTitleBar = (totalItems) => {
             },
           ]}
           valueOfSelected={'option_one'}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </EuiFlexItem>
     </EuiFlexGroup>
@@ -72,7 +72,13 @@ const columns = [
   {
     field: 'trace_group_name',
     name: (
-      <EuiToolTip content="test tooltip">
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation
+          </EuiText>
+        }
+      >
         <span>
           Trace group name{' '}
           <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
@@ -87,7 +93,13 @@ const columns = [
     field: 'latency_variance',
     name: (
       <>
-        <EuiToolTip content="test tooltip">
+        <EuiToolTip
+          content={
+            <EuiText size="xs">
+              Range of latencies for traces within a trace group in the selected time range
+          </EuiText>
+          }
+        >
           <span>
             Latency variance{' '}
             <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
@@ -106,14 +118,20 @@ const columns = [
         // expand plot ranges by 4 to accomondate scale
         <BoxPlt plotParams={{ min: -2, max: 82, left: item[0], mid: item[1], right: item[2] }} />
       ) : (
-        '-'
-      );
+          '-'
+        );
     },
   },
   {
     field: 'average_latency',
     name: (
-      <EuiToolTip content="test tooltip">
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            Average latency of traces within a trace group in the selected time range
+          </EuiText>
+        }
+      >
         <>
           <div style={{ marginRight: 40 }}>Average</div>
           <div>
@@ -134,8 +152,7 @@ const columns = [
       <EuiToolTip
         content={
           <EuiText size="xs">
-            How much more (in red) or less (in green) the average latency during the selected time
-            window compared against the selected benchmark.
+            Percent difference between average latency and benchmark latency selected in dropdown above
           </EuiText>
         }
       >
@@ -155,7 +172,13 @@ const columns = [
   {
     field: '24_hour_latency_trend',
     name: (
-      <EuiToolTip content="test tooltip">
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group
+          </EuiText>
+        }
+      >
         <>
           <div style={{ marginRight: 44 }}>24-hour</div>
           <div>
@@ -172,7 +195,13 @@ const columns = [
   {
     field: 'error_rate',
     name: (
-      <EuiToolTip content="test tooltip">
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation)
+          </EuiText>
+        }
+      >
         <span>
           Error rate{' '}
           <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
@@ -187,7 +216,13 @@ const columns = [
   {
     field: 'traces',
     name: (
-      <EuiToolTip content="test tooltip">
+      <EuiToolTip
+        content={
+          <EuiText size="xs">
+            Count of the number of traces with unique trace identifiers in the selected time range
+          </EuiText>
+        }
+      >
         <span>
           Traces{' '}
           <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
