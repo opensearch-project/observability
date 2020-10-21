@@ -1,22 +1,18 @@
 import {
   EuiBadge,
-  EuiButton,
   EuiButtonEmpty,
   EuiButtonIcon,
-  EuiComboBox,
-  EuiComboBoxOptionOption,
   EuiContextMenu,
-  EuiFieldNumber,
+  EuiContextMenuPanelDescriptor,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
   EuiIcon,
   EuiPopover,
   EuiPopoverTitle,
-  EuiSpacer,
-  EuiText,
+  EuiText
 } from '@elastic/eui';
 import React, { useState } from 'react';
+import FilterEditPopover from './filter_edit_popover';
 
 export interface FilterType {
   field: string;
@@ -28,7 +24,18 @@ export interface FilterType {
 
 export function Filters() {
   const [filters, setFilters] = useState<FilterType[]>([]);
-  const popoverPanels = [
+
+  // set a filter at an index. if newFilter doesn't exist, remove filter at the index
+  const setFilter = (newFilter: FilterType, index: number) => {
+    const newFilters = [...filters];
+    if (newFilter)
+      newFilters.splice(index, 1, newFilter);
+    else
+      newFilters.splice(index, 1);
+    setFilters(newFilters);
+  };
+
+  const globalPopoverPanels = [
     {
       id: 0,
       title: 'Change all filters',
@@ -50,30 +57,57 @@ export function Filters() {
       ],
     },
   ];
-  const fieldOptions = [
+
+  const getFilterPopoverPanels = (filter: FilterType, index: number, closePopover: () => void): EuiContextMenuPanelDescriptor[] => [
     {
-      label: 'test',
+      id: 0,
+      items: [
+        {
+          name: 'Edit filter',
+          icon: <EuiIcon type="invert" size="m" />,
+          panel: 1,
+        },
+        {
+          name: `${filter.inverted ? 'Include' : 'Exclude'} results`,
+          icon: <EuiIcon type={filter.inverted ? "plusInCircle" : "minusInCircle"} size="m" />,
+          onClick: () => {
+            filter.inverted = !filter.inverted;
+            setFilter(filter, index);
+          },
+        },
+        {
+          name: filter.disabled ? 'Re-enable' : 'Temporarily disable',
+          icon: <EuiIcon type={filter.disabled ? "eye" : "eyeClosed"} size="m" />,
+          onClick: () => {
+            filter.disabled = !filter.disabled;
+            setFilter(filter, index);
+          },
+        },
+        {
+          name: 'Delete',
+          icon: <EuiIcon type="trash" size="m" />,
+          onClick: () => setFilter(null, index),
+        },
+      ],
     },
     {
-      label: 'test2',
-    },
-    {
-      label: 'test3',
-    },
-  ];
-  const operatorOptions = [
-    {
-      label: 'test',
-    },
-    {
-      label: 'test2',
-    },
-    {
-      label: 'test3',
+      id: 1,
+      width: 430,
+      title: 'Edit filter',
+      content: (
+        <div style={{ margin: 15 }}>
+          <FilterEditPopover
+            filter={filter}
+            index={filters.length}
+            setFilter={setFilter}
+            closePopover={closePopover}
+          />
+        </div>
+      ),
     },
   ];
 
-  const ChangeFilterButton = () => {
+  const GlobalFilterButton = () => {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     return (
       <EuiPopover
@@ -84,25 +118,20 @@ export function Filters() {
             onClick={() => setIsPopoverOpen(true)}
             iconType="filter"
             title="Change all filters"
+            aria-label="Change all filters"
           />
         }
         anchorPosition="rightUp"
         panelPaddingSize="none"
         withTitle
       >
-        <EuiContextMenu initialPanelId={0} panels={popoverPanels} />
+        <EuiContextMenu initialPanelId={0} panels={globalPopoverPanels} />
       </EuiPopover>
     );
   };
 
   const AddFilterButton = () => {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-    const [selectedFieldOptions, setSelectedFieldOptions] = useState<
-      Array<EuiComboBoxOptionOption<string>>
-    >([]);
-    const [selectedOperatorOptions, setSelectedOperatorOptions] = useState<
-      Array<EuiComboBoxOptionOption<string>>
-    >([]);
     const button = (
       <EuiButtonEmpty
         size="xs"
@@ -114,100 +143,48 @@ export function Filters() {
       </EuiButtonEmpty>
     );
 
-    const closePopover = () => {
-      setIsPopoverOpen(false);
-      setSelectedFieldOptions([]);
-      setSelectedOperatorOptions([]);
-    };
-
     return (
       <EuiPopover
         button={button}
         isOpen={isPopoverOpen}
-        closePopover={closePopover}
+        closePopover={() => setIsPopoverOpen(false)}
         anchorPosition="downLeft"
         withTitle
       >
         <EuiPopoverTitle>{'Add filter'}</EuiPopoverTitle>
-        <div style={{ width: 370 }}>
-          <EuiFlexGroup gutterSize="s">
-            <EuiFlexItem grow={6}>
-              <EuiFormRow label={'Field'}>
-                <EuiComboBox
-                  placeholder="Select a field first"
-                  isClearable={false}
-                  options={fieldOptions}
-                  selectedOptions={selectedFieldOptions}
-                  onChange={(e) => setSelectedFieldOptions(e)}
-                  singleSelection={{ asPlainText: true }}
-                />
-              </EuiFormRow>
-            </EuiFlexItem>
-            <EuiFlexItem grow={5}>
-              <EuiFormRow label={'Operator'}>
-                <EuiComboBox
-                  placeholder={selectedFieldOptions.length === 0 ? 'Waiting' : 'Select'}
-                  isClearable={false}
-                  isDisabled={selectedFieldOptions.length === 0}
-                  options={operatorOptions}
-                  selectedOptions={selectedOperatorOptions}
-                  onChange={(e) => setSelectedOperatorOptions(e)}
-                  singleSelection={{ asPlainText: true }}
-                />
-              </EuiFormRow>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-          {selectedOperatorOptions.length > 0 ? (
-            <>
-              <EuiSpacer size="s" />
-              <EuiFormRow label={'Value'}>
-                <EuiFieldNumber placeholder="Placeholder text" onChange={() => {}} />
-              </EuiFormRow>
-            </>
-          ) : null}
-          <EuiSpacer size="m" />
-          <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
-            <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={closePopover}>Cancel</EuiButtonEmpty>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiButton
-                fill
-                onClick={() => {
-                  // TODO: return if no selected field/operator/values
-                  closePopover();
-                  setFilters(filters.concat({ field: selectedFieldOptions[0].label }));
-                }}
-              >
-                Save
-              </EuiButton>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </div>
+        <FilterEditPopover
+          index={filters.length}
+          setFilter={setFilter}
+          closePopover={() => setIsPopoverOpen(false)}
+        />
       </EuiPopover>
     );
   };
 
   const renderFilters = () => {
-    const FilterBadge = ({ filter, index }) => {
+    const FilterBadge = ({ filter, index }: { filter: FilterType; index: number }) => {
       const [isPopoverOpen, setIsPopoverOpen] = useState(false);
       const badge = (
         <EuiBadge
+          style={{ padding: 5, paddingLeft: 10, paddingRight: 10 }}
           onClick={() => setIsPopoverOpen(true)}
           onClickAriaLabel="Open filter settings"
-          color="hollow"
+          color={filter.disabled ? "#e7e9f0" : "hollow"}
           iconType="cross"
           iconSide="right"
+          iconOnClick={() => { setFilter(null, index) }}
+          iconOnClickAriaLabel="Remove filter"
         >{`${filter.field}`}</EuiBadge>
       );
       return (
         <EuiFlexItem grow={false} key={`filter-${index}`}>
           <EuiPopover
-            button={badge}
             isOpen={isPopoverOpen}
             closePopover={() => setIsPopoverOpen(false)}
+            panelPaddingSize="none"
+            button={badge}
           >
-            <EuiText>hello</EuiText>
+            <EuiContextMenu initialPanelId={0} panels={getFilterPopoverPanels(filter, index, () => setIsPopoverOpen(false))} />
           </EuiPopover>
         </EuiFlexItem>
       );
@@ -225,7 +202,7 @@ export function Filters() {
   return (
     <EuiFlexGroup gutterSize="xs" alignItems="center" responsive={false}>
       <EuiFlexItem grow={false}>
-        <ChangeFilterButton />
+        <GlobalFilterButton />
       </EuiFlexItem>
       {renderFilters()}
       <EuiFlexItem grow={false}>
