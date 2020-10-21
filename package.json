@@ -46,6 +46,9 @@
     "@nteract/outputs": "^3.0.11",
     "@nteract/presentational-components": "^3.4.3"
   },
+  "resolutions": {
+    "prismjs": "^1.22.0"
+  },
   "babel": {
     "presets": [
       [

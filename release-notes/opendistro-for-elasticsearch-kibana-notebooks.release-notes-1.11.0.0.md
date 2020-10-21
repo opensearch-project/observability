@@ -15,6 +15,7 @@
 
 ### Enhancements
 * Update dependency package version ([#44](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/pull/44))
+* Update prismjs dependency, increase cypress delay ([#47](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/pull/47))
 
 
 ### Infrastructure
@@ -32,5 +33,3 @@
 * Update Kibana-Notebooks-Design-Proposal.md ([#21](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/pull/21))
 * Modified Design Doc [new Architecture, Requirements and Design Details] ([#20](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/pull/20))
 * adding RFC doc and linking in README  ([#16](https://github.com/opendistro-for-elasticsearch/kibana-notebooks/pull/16))
-
-
