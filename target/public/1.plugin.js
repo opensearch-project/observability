@@ -708,7 +708,13 @@ class Main extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       }).then(async res => {
         this.setToast(`Notebook "${newNoteName}" successfully created!`);
         window.location.assign(`${this.props.basename}#${res.body}`);
-      }).catch(err => this.setToast('Issue in creating a notebook ' + err.body.message, 'danger'));
+      }).catch(err => {
+        this.setToast('Please ask your administrator to enable Notebooks for you.', 'danger', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_elastic_eui__WEBPACK_IMPORTED_MODULE_6__["EuiLink"], {
+          href: _common__WEBPACK_IMPORTED_MODULE_2__["DOCUMENTATION_URL"],
+          target: "_blank"
+        }, "Documentation"));
+        console.error(err);
+      });
     });
 
     _defineProperty(this, "renameNotebook", (editedNoteName, editedNoteID) => {
@@ -983,7 +989,7 @@ function NoteTable(props) {
     color: "subdued"
   }, "Use Notebooks to interactively and collaboratively develop rich reports backed by live data. A notebook is a document made up of paragraphs that can combine markdown and visualizations with support for multi-timelines so that users can easily tell a story. Notebooks can be developed, shared and refreshed directly from Kibana to foster data driven exploration and collaboration among Elasticsearch users and their stakeholders. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_elastic_eui__WEBPACK_IMPORTED_MODULE_0__["EuiLink"], {
     external: true,
-    href: "https://opendistro.github.io/for-elasticsearch-docs/docs/notebooks/",
+    href: _common__WEBPACK_IMPORTED_MODULE_4__["DOCUMENTATION_URL"],
     target: "blank"
   }, "Learn more"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_elastic_eui__WEBPACK_IMPORTED_MODULE_0__["EuiPageContentHeaderSection"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_elastic_eui__WEBPACK_IMPORTED_MODULE_0__["EuiFlexGroup"], {
     gutterSize: "s"

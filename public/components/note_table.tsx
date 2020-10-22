@@ -41,7 +41,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState, ReactElement } from 'react';
 import { ChromeBreadcrumb } from '../../../../src/core/public';
-import { CREATE_NOTE_MESSAGE, DATE_FORMAT } from '../../common';
+import { CREATE_NOTE_MESSAGE, DATE_FORMAT, DOCUMENTATION_URL } from '../../common';
 import { getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
 import { NotebookType } from './main';
 
@@ -251,7 +251,7 @@ export function NoteTable(props: NoteTableProps) {
                 <EuiSpacer size='s' />
                 <EuiText size="s" color="subdued">
                   Use Notebooks to interactively and collaboratively develop rich reports backed by live data. A notebook is a document made up of paragraphs that can combine markdown and visualizations with support for multi-timelines so that users can easily tell a story. Notebooks can be developed, shared and refreshed directly from Kibana to foster data driven exploration and collaboration among Elasticsearch users and their stakeholders. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.{' '}
-                  <EuiLink external={true} href="https://opendistro.github.io/for-elasticsearch-docs/docs/notebooks/" target="blank">Learn more</EuiLink>
+                  <EuiLink external={true} href={DOCUMENTATION_URL} target="blank">Learn more</EuiLink>
                 </EuiText>
               </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
