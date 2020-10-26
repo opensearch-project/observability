@@ -34,34 +34,6 @@ const renderTitle = (traceId: string) => {
           <h2 className="overview-content">{traceId}</h2>
         </EuiTitle>
       </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiText size="xs">Benchmark</EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiSuperSelect
-          options={[
-            {
-              value: 'option_one',
-              inputDisplay: 'This time last week',
-            },
-            {
-              value: 'option_2',
-              inputDisplay: 'This time yesterday',
-            },
-            {
-              value: 'option_3',
-              inputDisplay: 'This time last month',
-            },
-          ]}
-          valueOfSelected={'option_one'}
-          onChange={() => {}}
-        />
-      </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiButton iconType="popout" iconSide="right">
-          View log
-        </EuiButton>
-      </EuiFlexItem>
     </>
   );
 };
@@ -101,18 +73,6 @@ const renderOverview = (fields) => {
                 {fields.trace_group}
               </EuiText>
             </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">Last updated</EuiText>
-              <EuiText size="s" className="overview-content">
-                {fields.last_updated}
-              </EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">User ID</EuiText>
-              <EuiText size="s" className="overview-content">
-                {fields.user_id}
-              </EuiText>
-            </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
@@ -121,12 +81,6 @@ const renderOverview = (fields) => {
               <EuiText className="overview-title">Latency</EuiText>
               <EuiText size="s" className="overview-content">
                 {fields.latency}
-              </EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">Latency vs Benchmark</EuiText>
-              <EuiText size="s" className="overview-content">
-                {renderBenchmark(fields.latency_vs_benchmark) || '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -146,9 +100,9 @@ const renderOverview = (fields) => {
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">Errors vs Benchmark</EuiText>
+              <EuiText className="overview-title">Last updated</EuiText>
               <EuiText size="s" className="overview-content">
-                {renderBenchmark(fields.errors_vs_benchmark) || '-'}
+                {fields.last_updated}
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -219,11 +173,6 @@ export function TraceView(props: TraceViewProps) {
             <EuiFlexGroup>
               <EuiFlexItem>
                 <PanelTitle title="Payload" />
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiButton iconType="popout" iconSide="right">
-                  View log
-                </EuiButton>
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiHorizontalRule margin="m" />

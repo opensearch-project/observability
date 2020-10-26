@@ -41,29 +41,6 @@ const renderTitleBar = (totalItems) => {
         </EuiLink>
       </EuiFlexItem>
       <EuiFlexItem grow={1} />
-      <EuiFlexItem grow={false}>
-        <EuiText size="xs">Benchmark</EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem grow={4}>
-        <EuiSuperSelect
-          options={[
-            {
-              value: 'option_one',
-              inputDisplay: 'This time last week',
-            },
-            {
-              value: 'option_2',
-              inputDisplay: 'This time yesterday',
-            },
-            {
-              value: 'option_3',
-              inputDisplay: 'This time last month',
-            },
-          ]}
-          valueOfSelected={'option_one'}
-          onChange={() => { }}
-        />
-      </EuiFlexItem>
     </EuiFlexGroup>
   );
 };
@@ -145,29 +122,6 @@ const columns = [
     sortable: true,
     dataType: 'number',
     render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
-  },
-  {
-    field: 'average_latency_vs_benchmark',
-    name: (
-      <EuiToolTip
-        content={
-          <EuiText size="xs">
-            Percent difference between average latency and benchmark latency selected in dropdown above
-          </EuiText>
-        }
-      >
-        <>
-          <div style={{ marginRight: 15 }}>Average latency vs</div>
-          <div>
-            benchmark{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </div>
-        </>
-      </EuiToolTip>
-    ),
-    align: 'right',
-    sortable: true,
-    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
   },
   {
     field: '24_hour_latency_trend',

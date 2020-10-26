@@ -64,13 +64,6 @@ const columns = [
     dataType: 'number',
   },
   {
-    field: 'vs_benchmark',
-    name: 'vs benchmark',
-    align: 'left',
-    sortable: true,
-    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
-  },
-  {
     field: 'error',
     name: 'Error',
     align: 'left',
@@ -93,44 +86,14 @@ const columns = [
 ] as Array<EuiTableFieldDataColumnType<any>>;
 
 export function SpanDetailPanel(props) {
-  const options = [
-    {
-      id: 'timeline',
-      label: 'Timeline',
-    },
-    {
-      id: 'compare_to_benchmark',
-      label: 'Compare to benchmark',
-    },
-  ];
-  const [selectedId, setSelectedId] = useState<string>('timeline');
-
   return (
     <>
       <EuiPanel>
         <PanelTitle title="Span detail" />
         <EuiHorizontalRule margin="m" />
-        <EuiButtonGroup
-          options={options}
-          idSelected={selectedId}
-          onChange={(id) => setSelectedId(id)}
-        />
-        {selectedId === 'timeline' ? (
-          <div style={{ overflowY: 'auto', maxHeight: 500 }}>
-            <Plt data={props.data.gantt} layout={getSpanDetailLayout(props.data.gantt)} />
-          </div>
-        ) : (
-          <EuiInMemoryTable
-            items={props.data.table}
-            columns={columns}
-            pagination={{
-              initialPageSize: 8,
-              pageSizeOptions: [8, 10, 13],
-            }}
-            sorting={true}
-            tableLayout="auto"
-          />
-        )}
+        <div style={{ overflowY: 'auto', maxHeight: 500 }}>
+          <Plt data={props.data.gantt} layout={getSpanDetailLayout(props.data.gantt)} />
+        </div>
       </EuiPanel>
     </>
   );

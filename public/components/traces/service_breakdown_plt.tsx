@@ -65,15 +65,6 @@ const renderStats = (serviceBreakdownData) => {
           </EuiFlexItem>
         ))}
       </EuiFlexGroup>
-      <EuiFlexItem />
-      <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
-        <EuiFlexItem>
-          <EuiText size="s">vs benchmark</EuiText>
-        </EuiFlexItem>
-        {serviceBreakdownData[0].benchmarks.map((benchmark, i) => (
-          <EuiFlexItem key={`benchmark-${i}`}>{renderBenchmark(benchmark)}</EuiFlexItem>
-        ))}
-      </EuiFlexGroup>
     </EuiFlexGroup>
   ) : null;
 };

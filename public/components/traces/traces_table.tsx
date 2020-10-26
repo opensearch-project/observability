@@ -24,29 +24,6 @@ const renderTitleBar = (totalItems?: number) => {
       <EuiFlexItem grow={10}>
         <PanelTitle title="Traces" totalItems={totalItems} />
       </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiText size="xs">Benchmark</EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem grow={3}>
-        <EuiSuperSelect
-          options={[
-            {
-              value: 'option_one',
-              inputDisplay: 'This time last week',
-            },
-            {
-              value: 'option_2',
-              inputDisplay: 'This time yesterday',
-            },
-            {
-              value: 'option_3',
-              inputDisplay: 'This time last month',
-            },
-          ]}
-          valueOfSelected={'option_one'}
-          onChange={() => { }}
-        />
-      </EuiFlexItem>
     </EuiFlexGroup>
   );
 };
@@ -106,19 +83,6 @@ const columns = [
       item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}th`}</EuiText> : '-',
   },
   {
-    field: 'latency_vs_benchmark',
-    name: (
-      <>
-        <div style={{ marginRight: 2 }}>Latency vs</div>
-        <div>benchmark{' '}</div>
-      </>
-    ),
-    align: 'right',
-    sortable: true,
-    truncateText: true,
-    render: (item) => (item === 0 || item ? renderBenchmark(item) : '-'),
-  },
-  {
     field: 'error_count',
     name: 'Error count',
     align: 'right',
@@ -131,19 +95,6 @@ const columns = [
     align: 'left',
     sortable: true,
     render: (item) => (item === 0 || item ? item : '-'),
-  },
-  {
-    field: 'actions',
-    name: 'Actions',
-    align: 'left',
-    sortable: true,
-    truncateText: true,
-    render: (item) => (
-      <EuiLink href={item}>
-        {'View log'}
-        <EuiIcon type="popout" />
-      </EuiLink>
-    ),
   },
 ] as Array<EuiTableFieldDataColumnType<any>>;
 
