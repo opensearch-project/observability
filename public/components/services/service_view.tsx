@@ -12,6 +12,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { handleServiceViewRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';

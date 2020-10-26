@@ -39,6 +39,8 @@ export function Dashboard(props: DashboardProps) {
       </EuiTitle>
       <SearchBar
         query={props.query}
+        filters={props.filters}
+        setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}
         setStartTime={props.setStartTime}

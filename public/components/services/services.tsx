@@ -30,6 +30,8 @@ export function Services(props: ServicesProps) {
       </EuiTitle>
       <SearchBar
         query={props.query}
+        filters={props.filters}
+        setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}
         setStartTime={props.setStartTime}

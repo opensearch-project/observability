@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
+import { SearchBarProps } from './common';
+import { FilterType } from './common/filters';
 import { SideNav } from './common/side_nav';
 import { Dashboard } from './dashboard';
 import { Services, ServiceView } from './services';
@@ -44,8 +46,23 @@ export const TraceAnalyticsApp = ({
   navigation,
 }: TraceAnalyticsAppDeps) => {
   const [query, setQuery] = useState<string>('');
+  const [filters, setFilters] = useState<FilterType[]>([]);
   const [startTime, setStartTime] = useState<string>('now-5m');
   const [endTime, setEndTime] = useState<string>('now');
+  const commonProps: SearchBarProps & CoreDeps = {
+    http,
+    uiSettings,
+    setBreadcrumbs: chrome.setBreadcrumbs,
+    query,
+    setQuery,
+    filters,
+    setFilters,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+  };
+
   return (
     <HashRouter basename={basename}>
       <I18nProvider>
@@ -54,42 +71,12 @@ export const TraceAnalyticsApp = ({
             <Route
               exact
               path={['/dashboard', '/']}
-              render={(props) =>
-                renderPageWithSidebar(
-                  <Dashboard
-                    setBreadcrumbs={chrome.setBreadcrumbs}
-                    http={http}
-                    uiSettings={uiSettings}
-                    query={query}
-                    setQuery={setQuery}
-                    startTime={startTime}
-                    setStartTime={setStartTime}
-                    endTime={endTime}
-                    setEndTime={setEndTime}
-                  />,
-                  1
-                )
-              }
+              render={(props) => renderPageWithSidebar(<Dashboard {...commonProps} />, 1)}
             />
             <Route
               exact
               path="/traces"
-              render={(props) =>
-                renderPageWithSidebar(
-                  <Traces
-                    setBreadcrumbs={chrome.setBreadcrumbs}
-                    http={http}
-                    uiSettings={uiSettings}
-                    query={query}
-                    setQuery={setQuery}
-                    startTime={startTime}
-                    setStartTime={setStartTime}
-                    endTime={endTime}
-                    setEndTime={setEndTime}
-                  />,
-                  2
-                )
-              }
+              render={(props) => renderPageWithSidebar(<Traces {...commonProps} />, 2)}
             />
             <Route
               path="/traces/:id+"
@@ -105,37 +92,14 @@ export const TraceAnalyticsApp = ({
             <Route
               exact
               path="/services"
-              render={(props) =>
-                renderPageWithSidebar(
-                  <Services
-                    setBreadcrumbs={chrome.setBreadcrumbs}
-                    http={http}
-                    uiSettings={uiSettings}
-                    query={query}
-                    setQuery={setQuery}
-                    startTime={startTime}
-                    setStartTime={setStartTime}
-                    endTime={endTime}
-                    setEndTime={setEndTime}
-                  />,
-                  3
-                )
-              }
+              render={(props) => renderPageWithSidebar(<Services {...commonProps} />, 3)}
             />
             <Route
               path="/services/:id+"
               render={(props) => (
                 <ServiceView
-                  setBreadcrumbs={chrome.setBreadcrumbs}
-                  http={http}
-                  uiSettings={uiSettings}
                   serviceName={decodeURIComponent(props.match.params.id)}
-                  query={query}
-                  setQuery={setQuery}
-                  startTime={startTime}
-                  setStartTime={setStartTime}
-                  endTime={endTime}
-                  setEndTime={setEndTime}
+                  {...commonProps}
                 />
               )}
             />

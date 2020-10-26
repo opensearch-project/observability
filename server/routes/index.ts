@@ -40,7 +40,7 @@ export function defineRoutes(router: IRouter) {
         body: rest,
       };
       try {
-        const resp = await context.core.elasticsearch.legacy.client.callAsInternalUser(
+        const resp = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
           'search',
           params
         );

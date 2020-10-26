@@ -9,30 +9,32 @@ import {
   EuiIcon,
   EuiPopover,
   EuiPopoverTitle,
-  EuiText
+  EuiTextColor,
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import FilterEditPopover from './filter_edit_popover';
 
 export interface FilterType {
   field: string;
-  operator?: string;
-  value?: any;
-  inverted?: boolean;
-  disabled?: boolean;
+  operator: string;
+  value: any;
+  inverted: boolean;
+  disabled: boolean;
 }
 
-export function Filters() {
-  const [filters, setFilters] = useState<FilterType[]>([]);
+export interface FiltersProps {
+  filters: FilterType[];
+  setFilters: Dispatch<SetStateAction<FilterType[]>>;
+}
 
+export function Filters(props: FiltersProps) {
   // set a filter at an index. if newFilter doesn't exist, remove filter at the index
+  // if index doesn't exist, append newFilter to the end
   const setFilter = (newFilter: FilterType, index: number) => {
-    const newFilters = [...filters];
-    if (newFilter)
-      newFilters.splice(index, 1, newFilter);
-    else
-      newFilters.splice(index, 1);
-    setFilters(newFilters);
+    const newFilters = [...props.filters];
+    if (newFilter) newFilters.splice(index, 1, newFilter);
+    else newFilters.splice(index, 1);
+    props.setFilters(newFilters);
   };
 
   const globalPopoverPanels = [
@@ -41,24 +43,53 @@ export function Filters() {
       title: 'Change all filters',
       items: [
         {
+          name: 'Enable all',
+          icon: <EuiIcon type="eye" size="m" />,
+          onClick: () => {
+            props.setFilters(props.filters.map((filter) => ({ ...filter, disabled: false })));
+          },
+        },
+        {
+          name: 'Disable all',
+          icon: <EuiIcon type="eyeClosed" size="m" />,
+          onClick: () => {
+            props.setFilters(props.filters.map((filter) => ({ ...filter, disabled: true })));
+          },
+        },
+        {
           name: 'Invert inclusion',
           icon: <EuiIcon type="invert" size="m" />,
           onClick: () => {
-            window.alert('click');
+            props.setFilters(
+              props.filters.map((filter) => ({ ...filter, inverted: !filter.inverted }))
+            );
+          },
+        },
+        {
+          name: 'Invert enabled/disabled',
+          icon: <EuiIcon type="eye" size="m" />,
+          onClick: () => {
+            props.setFilters(
+              props.filters.map((filter) => ({ ...filter, disabled: !filter.disabled }))
+            );
           },
         },
         {
           name: 'Remove all',
           icon: <EuiIcon type="trash" size="m" />,
           onClick: () => {
-            window.alert('click');
+            props.setFilters([]);
           },
         },
       ],
     },
   ];
 
-  const getFilterPopoverPanels = (filter: FilterType, index: number, closePopover: () => void): EuiContextMenuPanelDescriptor[] => [
+  const getFilterPopoverPanels = (
+    filter: FilterType,
+    index: number,
+    closePopover: () => void
+  ): EuiContextMenuPanelDescriptor[] => [
     {
       id: 0,
       items: [
@@ -69,7 +100,7 @@ export function Filters() {
         },
         {
           name: `${filter.inverted ? 'Include' : 'Exclude'} results`,
-          icon: <EuiIcon type={filter.inverted ? "plusInCircle" : "minusInCircle"} size="m" />,
+          icon: <EuiIcon type={filter.inverted ? 'plusInCircle' : 'minusInCircle'} size="m" />,
           onClick: () => {
             filter.inverted = !filter.inverted;
             setFilter(filter, index);
@@ -77,7 +108,7 @@ export function Filters() {
         },
         {
           name: filter.disabled ? 'Re-enable' : 'Temporarily disable',
-          icon: <EuiIcon type={filter.disabled ? "eye" : "eyeClosed"} size="m" />,
+          icon: <EuiIcon type={filter.disabled ? 'eye' : 'eyeClosed'} size="m" />,
           onClick: () => {
             filter.disabled = !filter.disabled;
             setFilter(filter, index);
@@ -98,7 +129,7 @@ export function Filters() {
         <div style={{ margin: 15 }}>
           <FilterEditPopover
             filter={filter}
-            index={filters.length}
+            index={index}
             setFilter={setFilter}
             closePopover={closePopover}
           />
@@ -153,7 +184,7 @@ export function Filters() {
       >
         <EuiPopoverTitle>{'Add filter'}</EuiPopoverTitle>
         <FilterEditPopover
-          index={filters.length}
+          index={props.filters.length}
           setFilter={setFilter}
           closePopover={() => setIsPopoverOpen(false)}
         />
@@ -164,17 +195,34 @@ export function Filters() {
   const renderFilters = () => {
     const FilterBadge = ({ filter, index }: { filter: FilterType; index: number }) => {
       const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+      const className =
+        'globalFilterItem' +
+        (filter.disabled ? ' globalFilterItem-isDisabled' : '') +
+        (filter.inverted ? ' globalFilterItem-isExcluded' : '');
+      const filterLabel = filter.inverted ? (
+        <>
+          <EuiTextColor color={filter.disabled ? 'default' : 'danger'}>{'NOT '}</EuiTextColor>
+          <EuiTextColor color="default">{`${filter.field}: ${filter.value}`}</EuiTextColor>
+        </>
+      ) : (
+        `${filter.field}: ${filter.value}`
+      );
+
       const badge = (
         <EuiBadge
-          style={{ padding: 5, paddingLeft: 10, paddingRight: 10 }}
+          className={className}
           onClick={() => setIsPopoverOpen(true)}
           onClickAriaLabel="Open filter settings"
-          color={filter.disabled ? "#e7e9f0" : "hollow"}
+          color={filter.disabled ? '#e7e9f0' : 'hollow'}
           iconType="cross"
           iconSide="right"
-          iconOnClick={() => { setFilter(null, index) }}
+          iconOnClick={() => {
+            setFilter(null, index);
+          }}
           iconOnClickAriaLabel="Remove filter"
-        >{`${filter.field}`}</EuiBadge>
+        >
+          {filterLabel}
+        </EuiBadge>
       );
       return (
         <EuiFlexItem grow={false} key={`filter-${index}`}>
@@ -184,7 +232,10 @@ export function Filters() {
             panelPaddingSize="none"
             button={badge}
           >
-            <EuiContextMenu initialPanelId={0} panels={getFilterPopoverPanels(filter, index, () => setIsPopoverOpen(false))} />
+            <EuiContextMenu
+              initialPanelId={0}
+              panels={getFilterPopoverPanels(filter, index, () => setIsPopoverOpen(false))}
+            />
           </EuiPopover>
         </EuiFlexItem>
       );
@@ -192,8 +243,8 @@ export function Filters() {
 
     return (
       <>
-        {filters.length > 0
-          ? filters.map((filter, i) => <FilterBadge filter={filter} index={i} key={i} />)
+        {props.filters.length > 0
+          ? props.filters.map((filter, i) => <FilterBadge filter={filter} index={i} key={i} />)
           : null}
       </>
     );

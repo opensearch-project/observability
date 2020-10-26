@@ -7,7 +7,7 @@ import {
   EuiSuperDatePicker,
 } from '@elastic/eui';
 import React, { Dispatch, SetStateAction } from 'react';
-import { Filters } from './filters';
+import { FiltersProps, Filters } from './filters';
 
 export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) => {
   return (
@@ -24,7 +24,7 @@ export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) =
   );
 };
 
-export interface SearchBarProps {
+export interface SearchBarProps extends FiltersProps {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   startTime: string;
@@ -57,7 +57,10 @@ export function SearchBar(props: SearchBarProps) {
       </EuiFlexGroup>
 
       <EuiSpacer size="s" />
-      <Filters />
+      <Filters
+        filters={props.filters}
+        setFilters={props.setFilters}
+      />
     </>
   );
 }

@@ -1,6 +1,26 @@
-import { EuiFlexGroup, EuiFlexItem, EuiFormRow, EuiComboBox, EuiSpacer, EuiFieldNumber, EuiButtonEmpty, EuiButton, EuiComboBoxOptionOption, EuiFieldText, EuiButtonIcon, EuiIcon } from '@elastic/eui';
-import React, { useState } from 'react'
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiFormRow,
+  EuiComboBox,
+  EuiSpacer,
+  EuiFieldNumber,
+  EuiButtonEmpty,
+  EuiButton,
+  EuiComboBoxOptionOption,
+  EuiFieldText,
+  EuiButtonIcon,
+  EuiIcon,
+} from '@elastic/eui';
+import { filter } from 'bluebird';
+import React, { useState } from 'react';
 import { FilterType } from './filters';
+import {
+  fieldOptions,
+  getInvertedOperator,
+  getOperatorOptions,
+  getValueComponent,
+} from './filter_helpers';
 
 export default function FilterEditPopover(props: {
   filter?: FilterType;
@@ -8,17 +28,6 @@ export default function FilterEditPopover(props: {
   setFilter: (newFilter: FilterType, index: number) => void;
   closePopover: () => void;
 }) {
-  const fieldOptions = [
-    {
-      label: 'test',
-    },
-    {
-      label: 'test2',
-    },
-    {
-      label: 'test3',
-    },
-  ];
   const operatorOptions = [
     {
       label: 'test',
@@ -32,10 +41,15 @@ export default function FilterEditPopover(props: {
   ];
   const [selectedFieldOptions, setSelectedFieldOptions] = useState<
     Array<EuiComboBoxOptionOption<string>>
-  >([]);
+  >(props.filter ? [{ label: props.filter.field }] : []);
   const [selectedOperatorOptions, setSelectedOperatorOptions] = useState<
     Array<EuiComboBoxOptionOption<string>>
-  >([]);
+  >(
+    props.filter
+      ? [{ label: getInvertedOperator(props.filter.operator, props.filter.inverted) }]
+      : []
+  );
+  const [filterValue, setFilterValue] = useState(props.filter?.value || '');
 
   return (
     <div style={{ width: 400 }}>
@@ -49,7 +63,11 @@ export default function FilterEditPopover(props: {
               isClearable={false}
               options={fieldOptions}
               selectedOptions={selectedFieldOptions}
-              onChange={(e) => setSelectedFieldOptions(e)}
+              onChange={(e) => {
+                setSelectedFieldOptions(e);
+                setSelectedOperatorOptions([]);
+                setFilterValue('');
+              }}
               singleSelection={{ asPlainText: true }}
             />
           </EuiFormRow>
@@ -60,22 +78,23 @@ export default function FilterEditPopover(props: {
               placeholder={selectedFieldOptions.length === 0 ? 'Waiting' : 'Select'}
               isClearable={false}
               isDisabled={selectedFieldOptions.length === 0}
-              options={operatorOptions}
+              options={
+                selectedFieldOptions.length === 0
+                  ? []
+                  : getOperatorOptions(selectedFieldOptions[0].label)
+              }
               selectedOptions={selectedOperatorOptions}
-              onChange={(e) => setSelectedOperatorOptions(e)}
+              onChange={(e) => {
+                setSelectedOperatorOptions(e);
+                setFilterValue('');
+              }}
               singleSelection={{ asPlainText: true }}
             />
           </EuiFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
-      {selectedOperatorOptions.length > 0 ? (
-        <>
-          <EuiSpacer size="s" />
-          <EuiFormRow label={'Value'}>
-            <EuiFieldNumber placeholder="Placeholder text" onChange={() => { }} />
-          </EuiFormRow>
-        </>
-      ) : null}
+      {selectedOperatorOptions.length > 0 &&
+        getValueComponent(selectedOperatorOptions[0].label, filterValue, setFilterValue)}
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
@@ -84,14 +103,29 @@ export default function FilterEditPopover(props: {
         <EuiFlexItem grow={false}>
           <EuiButton
             fill
+            disabled={
+              selectedFieldOptions.length === 0 ||
+              selectedOperatorOptions.length === 0 ||
+              (filterValue.length === 0 && !selectedOperatorOptions[0]?.label?.includes('exist'))
+            }
             onClick={() => {
-              // TODO: disable if no selected field/operator/values, use operator/values, add data modal mapping
               props.closePopover();
-              props.setFilter({ field: selectedFieldOptions[0].label }, props.index);
+              props.setFilter(
+                {
+                  field: selectedFieldOptions[0].label,
+                  operator: selectedOperatorOptions[0].label,
+                  value: selectedOperatorOptions[0].label.includes('exist')
+                    ? 'exists'
+                    : filterValue,
+                  inverted: selectedOperatorOptions[0].label.includes('not'),
+                  disabled: props.filter ? props.filter.disabled : false,
+                },
+                props.index
+              );
             }}
           >
             Save
-              </EuiButton>
+          </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </div>
