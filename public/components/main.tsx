@@ -20,11 +20,11 @@ import { DashboardStart } from '../../../../src/plugins/dashboard/public';
 
 import { Notebook } from './notebook';
 import { onDownload } from './helpers/download_json';
-import { API_PREFIX } from '../../common';
+import { API_PREFIX, DOCUMENTATION_URL } from '../../common';
 import { NoteTable } from './note_table';
 import { HashRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
-import { EuiGlobalToastList } from '@elastic/eui';
+import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 
 /*
@@ -107,7 +107,11 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setToast(`Notebook "${newNoteName}" successfully created!`);
         window.location.assign(`${this.props.basename}#${res.body}`);
       })
-      .catch((err) => this.setToast('Issue in creating a notebook ' + err.body.message, 'danger'));
+      .catch((err) => {
+        this.setToast('Please ask your administrator to enable Notebooks for you.', 'danger',
+          <EuiLink href={DOCUMENTATION_URL} target="_blank">Documentation</EuiLink>);
+        console.error(err);
+      });
   };
 
   // Renames an existing notebook

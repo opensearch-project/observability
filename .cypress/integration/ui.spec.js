@@ -21,14 +21,14 @@ describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
     cy.visit('app/home#/tutorial_directory/sampleData');
     cy.get('div[data-test-subj="sampleDataSetCardflights"]').contains(/(Add|View) data/).click();
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
   });
 })
 
 describe('Testing notebooks table', () => {
   beforeEach(() => {
     cy.visit('app/opendistro-notebooks-kibana#');
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
   });
 
   it('Displays error toast for invalid notebook name', () => {
@@ -115,7 +115,7 @@ describe('Testing paragraphs', () => {
   beforeEach(() => {
     cy.visit('app/opendistro-notebooks-kibana#');
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
   });
 
   it('Goes into a notebook and creates paragraphs', () => {
@@ -265,7 +265,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiContextMenuItem__text').contains('Duplicate notebook').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Duplicate').click();
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
 
     cy.get('.euiToastHeader__title').contains('success').should('exist');
 
@@ -275,10 +275,10 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
     cy.get('input.euiFieldText').type(' (rename)');
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Rename').click();
+    cy.get('.euiButton__text').last().contains('Rename').click();
     cy.wait(delay);
     cy.reload();
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
 
     cy.get('.euiTitle').contains(TEST_NOTEBOOK + ' (copy) (rename)').should('exist');
     cy.get(`a[href="${SAMPLE_URL}"]`).should('have.length.gte', 2);
@@ -306,7 +306,7 @@ describe('Testing paragraphs', () => {
     cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').click();
-    cy.wait(delay * 5);
+    cy.wait(delay * 3);
 
     cy.get('.euiButton__text').contains('Create notebook').should('exist');
   });

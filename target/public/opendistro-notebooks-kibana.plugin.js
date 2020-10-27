@@ -652,7 +652,7 @@ __kbnBundles__.define('plugin/opendistro-notebooks-kibana/public', __webpack_req
 /*!*************************!*\
   !*** ./common/index.ts ***!
   \*************************/
-/*! exports provided: PLUGIN_ID, PLUGIN_NAME, API_PREFIX, SELECTED_BACKEND, DATE_FORMAT, FETCH_SIZE, CREATE_NOTE_MESSAGE, zeppelinURL, wreckOptions */
+/*! exports provided: PLUGIN_ID, PLUGIN_NAME, API_PREFIX, SELECTED_BACKEND, DATE_FORMAT, FETCH_SIZE, CREATE_NOTE_MESSAGE, DOCUMENTATION_URL, zeppelinURL, wreckOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -664,6 +664,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE_FORMAT", function() { return DATE_FORMAT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SIZE", function() { return FETCH_SIZE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_NOTE_MESSAGE", function() { return CREATE_NOTE_MESSAGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DOCUMENTATION_URL", function() { return DOCUMENTATION_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zeppelinURL", function() { return zeppelinURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wreckOptions", function() { return wreckOptions; });
 /*
@@ -681,13 +682,14 @@ __webpack_require__.r(__webpack_exports__);
  * permissions and limitations under the License.
  */
 const PLUGIN_ID = 'opendistro-notebooks-kibana';
-const PLUGIN_NAME = 'Kibana Notebooks';
+const PLUGIN_NAME = 'Notebooks';
 const API_PREFIX = '/api/notebooks';
 const SELECTED_BACKEND = 'DEFAULT'; // ZEPPELIN || DEFAULT
 
 const DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
 const FETCH_SIZE = 1000;
 const CREATE_NOTE_MESSAGE = 'Enter a name to describe the purpose of this notebook.';
+const DOCUMENTATION_URL = 'https://opendistro.github.io/for-elasticsearch-docs/docs/kibana/notebooks/';
 const zeppelinURL = 'http://localhost:8080';
 const wreckOptions = {
   baseUrl: zeppelinURL,
