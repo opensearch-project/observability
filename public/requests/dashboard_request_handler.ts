@@ -5,10 +5,10 @@ import {
   getDashboardQuery,
   getDashboardThroughputPltQuery,
 } from './queries/dashboard_queries';
-import { handleRequest } from './request_handler';
+import { handleDslRequest } from './request_handler';
 
 export const handleDashboardRequest = (http, items, setItems) => {
-  handleRequest(http, getDashboardQuery())
+  handleDslRequest(http, getDashboardQuery())
     .then((response) =>
       Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
@@ -30,11 +30,11 @@ export const handleDashboardRequest = (http, items, setItems) => {
 const loadRemainingItems = (http, items, setItems) => {
   Promise.all(
     items.map(async (item) => {
-      const errorRate = await handleRequest(
+      const errorRate = await handleDslRequest(
         http,
         getDashboardErrorRateQuery(item.trace_group_name)
       );
-      const latencyTrend = await handleRequest(
+      const latencyTrend = await handleDslRequest(
         http,
         getDashboardLatencyTrendQuery(item.trace_group_name)
       );
@@ -91,7 +91,7 @@ const loadRemainingItems = (http, items, setItems) => {
 // 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
 
 export const handleDashboardThroughputPltRequest = (http, items, setItems) => {
-  handleRequest(http, getDashboardThroughputPltQuery())
+  handleDslRequest(http, getDashboardThroughputPltQuery())
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
       const newItems =

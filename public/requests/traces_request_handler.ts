@@ -10,13 +10,13 @@ import {
   getTracesLastUpdatedQuery,
   getTracesQuery,
 } from './queries/traces_queries';
-import { handleRequest } from './request_handler';
+import { handleDslRequest } from './request_handler';
 
 export const handleTracesRequest = (http, items, setItems) => {
-  handleRequest(http, getTracesQuery())
+  handleDslRequest(http, getTracesQuery())
     .then((response) =>
       Promise.all(
-        response.hits.hits.slice(0, 1000).map((hit) => {
+        response.hits.hits.map((hit) => {
           return {
             trace_id: hit._source.traceId,
             trace_group: hit._source.name,
@@ -36,8 +36,8 @@ export const handleTracesRequest = (http, items, setItems) => {
 const loadRemainingItems = (http, items, setItems) => {
   Promise.all(
     items.map(async (item) => {
-      const lastUpdated = await handleRequest(http, getTracesLastUpdatedQuery(item.trace_id));
-      const errorCount = await handleRequest(http, getTracesErrorCountQuery(item.trace_id));
+      const lastUpdated = await handleDslRequest(http, getTracesLastUpdatedQuery(item.trace_id));
+      const errorCount = await handleDslRequest(http, getTracesErrorCountQuery(item.trace_id));
       return {
         ...item,
         last_updated: moment(lastUpdated.aggregations.last_updated.value).format(DATE_FORMAT),
@@ -54,11 +54,11 @@ const loadRemainingItems = (http, items, setItems) => {
 // 'latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
 
 export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
-  handleRequest(http, getTracesQuery(traceId))
+  handleDslRequest(http, getTracesQuery(traceId))
     .then(async (response) => {
       const hit = response.hits.hits[0];
-      const lastUpdated = await handleRequest(http, getTracesLastUpdatedQuery(traceId));
-      const errorCount = await handleRequest(http, getTracesErrorCountQuery(traceId));
+      const lastUpdated = await handleDslRequest(http, getTracesLastUpdatedQuery(traceId));
+      const errorCount = await handleDslRequest(http, getTracesErrorCountQuery(traceId));
       return {
         trace_id: hit._source.traceId,
         trace_group: hit._source.name,
@@ -108,7 +108,7 @@ export const handleServiceBreakdownRequest = (
   serviceBreakdownData,
   setServiceBreakdownData
 ) => {
-  handleRequest(http, getServiceBreakdownQuery(traceId))
+  handleDslRequest(http, getServiceBreakdownQuery(traceId))
     .then((response) =>
       Promise.all(
         response.aggregations.service_type.buckets.map((bucket, i) => {
@@ -199,7 +199,7 @@ const hitsToSpanDetailData = async (hits) => {
 };
 
 export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDetailData) => {
-  handleRequest(http, getSpanDetailQuery(traceId))
+  handleDslRequest(http, getSpanDetailQuery(traceId))
     .then((response) => hitsToSpanDetailData(response.hits.hits))
     .then((newItems) => {
       setSpanDetailData(newItems);
@@ -208,7 +208,7 @@ export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDe
 };
 
 export const handlePayloadRequest = (traceId, http, payloadData, setPayloadData) => {
-  handleRequest(http, getPayloadQuery(traceId))
+  handleDslRequest(http, getPayloadQuery(traceId))
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
     .catch((error) => console.error(error));
 };

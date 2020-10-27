@@ -1,6 +1,6 @@
 export const getTracesQuery = (traceId = null) => {
   const query = {
-    size: 10000,
+    size: 1000,
     query: {
       bool: {
         must: [],

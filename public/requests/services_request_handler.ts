@@ -1,8 +1,8 @@
 import { getServicesQuery } from './queries/services_queries';
-import { handleRequest } from './request_handler';
+import { handleDslRequest } from './request_handler';
 
 export const handleServicesRequest = (http, items, setItems) => {
-  handleRequest(http, getServicesQuery())
+  handleDslRequest(http, getServicesQuery())
     .then((response) =>
       Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
@@ -24,7 +24,7 @@ export const handleServicesRequest = (http, items, setItems) => {
 };
 
 export const handleServiceViewRequest = (serviceName, http, fields, setFields) => {
-  handleRequest(http, getServicesQuery(serviceName))
+  handleDslRequest(http, getServicesQuery(serviceName))
     .then((response) => {
       const bucket = response.aggregations.trace_group.buckets[0];
       return {
