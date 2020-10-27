@@ -23,12 +23,27 @@ export function renderBenchmark(value: number) {
   );
 }
 
-export function truncateText(text: string) {
-  const truncatePoint = 24;
-  if (text.length > truncatePoint) return `${text.slice(0, truncatePoint - 3)}...`;
-  return text;
-}
-
 export function nanoToMilliSec(nano: number) {
   return nano / 1000000;
+}
+
+export function calculateTicks(min, max, numTicks = 5) {
+  const range = max - min;
+  const minInterval = range / numTicks;
+  const magnitude = Math.pow(10, Math.floor(Math.log10(minInterval)));
+  const residue = Math.ceil(minInterval / magnitude);
+
+  let tick = magnitude;
+  if (residue > 5) tick *= 10;
+  else if (residue > 2) tick *= 5;
+  else if (residue > 1) tick *= 2;
+
+  let curr = Math.max(0, Math.floor((min - 1) / tick) * tick);
+  const ticks = [curr];
+  while (curr < max) {
+    curr += tick;
+    ticks.push(curr);
+  }
+
+  return ticks;
 }

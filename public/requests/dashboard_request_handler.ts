@@ -49,6 +49,9 @@ const loadRemainingItems = (http, items, setItems) => {
       return {
         ...item,
         error_rate: errorRate.aggregations.trace_group.buckets[0].error_rate.value,
+        latency_variance: Array.from({ length: 3 }, () =>
+          Math.floor(Math.random() * 1000)
+        ).sort((a, b) => a - b),
         '24_hour_latency_trend': {
           trendData: [
             {
