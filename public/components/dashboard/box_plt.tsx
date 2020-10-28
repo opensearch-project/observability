@@ -88,12 +88,12 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
           <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
-                Latency &lt;95 percentile
+                <p style={{ whiteSpace: 'nowrap' }}>Latency &lt;95 percentile</p>
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
-                Latency &gt;=95 percentile
+                <p style={{ whiteSpace: 'nowrap' }}>Latency &gt;=95 percentile</p>
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -101,16 +101,18 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         <EuiFlexItem grow={false}>
           <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
-              <EuiText
-                size="xs"
-                style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}
-              >{`${plotParams.left}ms - ${plotParams.mid}ms`}</EuiText>
+              <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
+                <p
+                  style={{ whiteSpace: 'nowrap' }}
+                >{`${plotParams.left}ms - ${plotParams.mid}ms`}</p>
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
-              <EuiText
-                size="xs"
-                style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}
-              >{`${plotParams.mid}ms - ${plotParams.right}ms`}</EuiText>
+              <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
+                <p
+                  style={{ whiteSpace: 'nowrap' }}
+                >{`${plotParams.mid}ms - ${plotParams.right}ms`}</p>
+              </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>

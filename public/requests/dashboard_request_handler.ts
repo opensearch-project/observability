@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardLatencyTrendQuery,
@@ -16,7 +15,7 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
         response.aggregations.trace_group.buckets.map((bucket) => {
           const latency_variance = Object.values(
             bucket.latency_variance_nanos.values
-          ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
+          ).map((nano: number) => Math.round(nanoToMilliSec(Math.max(0, nano))));
           return {
             trace_group_name: bucket.key,
             average_latency: bucket.average_latency.value,
