@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import { nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardErrorRateQuery,
   getDashboardLatencyTrendQuery,
@@ -14,10 +15,14 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
     .then((response) =>
       Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
+          const latency_variance = Object.values(bucket.latency_variance_nanos.values).map((nano: number) =>
+            _.round(nanoToMilliSec(Math.max(0, nano)), 2)
+          );
           return {
             trace_group_name: bucket.key,
             average_latency: bucket.average_latency.value,
             traces: bucket.doc_count,
+            latency_variance: latency_variance,
           };
         })
       )
@@ -53,9 +58,6 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
       return {
         ...item,
         error_rate: errorRate.aggregations.trace_group.buckets[0].error_rate.value,
-        latency_variance: Array.from({ length: 3 }, () => Math.floor(Math.random() * 20)).sort(
-          (a, b) => a - b
-        ),
         '24_hour_latency_trend': {
           trendData: [
             {
@@ -89,6 +91,7 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
     })
   )
     .then((newItems) => {
+      console.log('newItems', newItems);
       setItems(newItems);
     })
     .catch((error) => console.error(error));

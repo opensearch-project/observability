@@ -25,6 +25,7 @@ export function renderBenchmark(value: number) {
 }
 
 export function nanoToMilliSec(nano: number) {
+  if (typeof nano !== 'number') return 0;
   return nano / 1000000;
 }
 

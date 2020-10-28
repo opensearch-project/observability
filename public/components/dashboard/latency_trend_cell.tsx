@@ -35,16 +35,11 @@ function LinePlt(props: { data: Plotly.Data[] }) {
 function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
   const layout = {
     xaxis: {
-      // range: [0, 25],
-      // dtick: 6,
-      // showline: true,
       showgrid: false,
-      tickmode: 'linear',
+      tickmode: 'auto',
       color: '#899195',
     },
     yaxis: {
-      // range: [0, 100],
-      // dtick: 20,
       title: {
         text: 'Hourly latency (ms)',
         font: {

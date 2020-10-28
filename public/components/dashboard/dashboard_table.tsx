@@ -58,14 +58,17 @@ export function DashboardTable(props: { items: any[] }) {
     const maxDigits = ticks[ticks.length - 1].toString().length;
 
     // pads spaces (\u00A0) in between ticks to construct a scale
-    // width of a character equals the width of two spaces, maximum 36 characters in a scale
+    // width of a character equals the width of two spaces, maximum 32 characters in a scale
     const scale = ticks
       .map((tick) => {
         const tickStr = tick.toString();
         return tickStr.padEnd(tickStr.length + 2 * (maxDigits - tickStr.length), '\u00A0');
       })
-      .join('\u00A0'.repeat(2 * Math.floor((36 - ticks.length * maxDigits) / (ticks.length - 1))));
+      .join(
+        '\u00A0'.repeat(Math.floor((2 * (32 - ticks.length * maxDigits)) / (ticks.length - 1)))
+      );
 
+    console.log('|' + scale + '|');
     return { minRange, maxRange, ticks, scale };
   };
 
