@@ -1,7 +1,7 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import {
-  handleDashboardErrorRateRequest,
+  handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
@@ -41,7 +41,7 @@ export function Dashboard(props: DashboardProps) {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     handleDashboardRequest(props.http, DSL, tableItems, setTableItems);
     handleDashboardThroughputPltRequest(props.http, DSL, throughputPltItems, setThroughputPltItems);
-    handleDashboardErrorRateRequest(props.http, DSL, errorRatePltItems, setErrorRatePltItems)
+    handleDashboardErrorRatePltRequest(props.http, DSL, errorRatePltItems, setErrorRatePltItems)
   };
 
   return (

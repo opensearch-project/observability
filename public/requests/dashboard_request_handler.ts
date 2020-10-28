@@ -2,7 +2,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import { nanoToMilliSec } from '../components/common/helper_functions';
 import {
-  getDashboardErrorRateQuery,
   getDashboardLatencyTrendQuery,
   getDashboardQuery,
   getDashboardThroughputPltQuery,
@@ -23,6 +22,7 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
             average_latency: bucket.average_latency.value,
             traces: bucket.doc_count,
             latency_variance: latency_variance,
+            error_rate: bucket.error_rate.value,
           };
         })
       )
@@ -37,11 +37,6 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
 const loadRemainingItems = (http, DSL, items, setItems) => {
   Promise.all(
     items.map(async (item) => {
-      const errorRate = await handleDslRequest(
-        http,
-        DSL,
-        getDashboardErrorRateQuery(item.trace_group_name)
-      );
       const latencyTrend = await handleDslRequest(
         http,
         DSL,
@@ -57,7 +52,6 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
       };
       return {
         ...item,
-        error_rate: errorRate.aggregations.trace_group.buckets[0].error_rate.value,
         '24_hour_latency_trend': {
           trendData: [
             {
@@ -123,7 +117,7 @@ export const handleDashboardThroughputPltRequest = (http, DSL, items, setItems) 
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardErrorRateRequest = (http, DSL, items, setItems) => {
+export const handleDashboardErrorRatePltRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getErrorRatePltQuery())
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;

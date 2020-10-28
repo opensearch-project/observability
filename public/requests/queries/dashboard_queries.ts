@@ -41,35 +41,6 @@ export const getDashboardQuery = () => {
               percents: [0, 95, 100],
             },
           },
-        },
-      },
-    },
-  };
-};
-
-export const getDashboardErrorRateQuery = (traceGroupName: string) => {
-  return {
-    size: 0,
-    query: {
-      bool: {
-        must: [
-          {
-            term: {
-              name: traceGroupName,
-            },
-          },
-        ],
-        filter: [],
-        should: [],
-        must_not: [],
-      },
-    },
-    aggs: {
-      trace_group: {
-        terms: {
-          field: 'name',
-        },
-        aggs: {
           error_count: {
             filter: {
               exists: {

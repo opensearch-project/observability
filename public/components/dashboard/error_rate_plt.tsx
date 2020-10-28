@@ -7,7 +7,7 @@ import { Plt } from '../common/plt';
 export function ErrorRatePlt(props: { items: Plotly.Data[] }) {
   const layout = {
     width: 400,
-    height: 200,
+    height: 217,
     margin: {
       l: 50,
       r: 5,
