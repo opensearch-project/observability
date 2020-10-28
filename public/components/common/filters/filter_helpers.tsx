@@ -1,10 +1,4 @@
-import {
-  EuiFieldNumber,
-  EuiFieldText,
-  EuiFormControlLayoutDelimited,
-  EuiFormRow,
-  EuiSpacer,
-} from '@elastic/eui';
+import { EuiFieldText, EuiFormControlLayoutDelimited, EuiFormRow, EuiSpacer } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
 
@@ -165,11 +159,7 @@ export const getOperatorOptions = (field: string) => {
   return operators;
 };
 
-export const getValueComponent = (
-  operator: string,
-  value: string,
-  setValue: (v: string) => void
-) => {
+export const getValueComponent = (operator: string, value: any, setValue: (v: any) => void) => {
   const textField = (
     <>
       <EuiSpacer size="s" />
@@ -185,24 +175,22 @@ export const getValueComponent = (
 
   const getRangeField = () => {
     const getFromValue = () => {
-      if (value?.includes(' to ')) {
-        const from = value.split(' to ')[0];
-        return from.includes('\u221E') ? '' : from;
+      if (value?.from) {
+        return value.from.includes('\u221E') ? '' : value.from;
       }
       return '';
     };
     const getToValue = () => {
-      if (value?.includes(' to ')) {
-        const to = value.split(' to ')[1];
-        return to.includes('\u221E') ? '' : to;
+      if (value?.to) {
+        return value.to.includes('\u221E') ? '' : value.to;
       }
       return '';
     };
     const setFromValue = (from: string) => {
-      setValue(`${from || '-\u221E'} to ${getToValue() || '\u221E'}`);
+      setValue({ from: from || '-\u221E', to: getToValue() || '\u221E' });
     };
     const setToValue = (to: string) => {
-      setValue(`${getFromValue() || '-\u221E'} to ${to || '\u221E'}`);
+      setValue({ from: getFromValue() || '-\u221E', to: to || '\u221E' });
     };
     return (
       <>

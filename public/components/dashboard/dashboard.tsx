@@ -1,11 +1,12 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import {
+  handleDashboardErrorRateRequest,
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { CoreDeps } from '../app';
-import { SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
@@ -16,6 +17,7 @@ interface DashboardProps extends SearchBarProps, CoreDeps {}
 export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState([]);
+  const [errorRatePltItems, setErrorRatePltItems] = useState([]);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -28,9 +30,19 @@ export function Dashboard(props: DashboardProps) {
         href: '#dashboard',
       },
     ]);
-    handleDashboardRequest(props.http, tableItems, setTableItems);
-    handleDashboardThroughputPltRequest(props.http, throughputPltItems, setThroughputPltItems);
+    refresh();
   }, []);
+  
+  useEffect(() => {
+    refresh();
+  }, [props.filters])
+  
+  const refresh = () => {
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    handleDashboardRequest(props.http, DSL, tableItems, setTableItems);
+    handleDashboardThroughputPltRequest(props.http, DSL, throughputPltItems, setThroughputPltItems);
+    handleDashboardErrorRateRequest(props.http, DSL, errorRatePltItems, setErrorRatePltItems)
+  };
 
   return (
     <>
@@ -46,6 +58,7 @@ export function Dashboard(props: DashboardProps) {
         setStartTime={props.setStartTime}
         endTime={props.endTime}
         setEndTime={props.setEndTime}
+        refresh={refresh}
       />
       <EuiSpacer size="m" />
       <DashboardTable items={tableItems} />
@@ -57,7 +70,7 @@ export function Dashboard(props: DashboardProps) {
         <EuiFlexItem>
           <EuiFlexGroup direction="column">
             <EuiFlexItem>
-              <ErrorRatePlt />
+              <ErrorRatePlt items={errorRatePltItems} />
             </EuiFlexItem>
             <EuiFlexItem>
               <ThroughputPlt items={throughputPltItems} />

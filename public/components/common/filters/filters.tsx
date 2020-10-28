@@ -199,13 +199,17 @@ export function Filters(props: FiltersProps) {
         'globalFilterItem' +
         (filter.disabled ? ' globalFilterItem-isDisabled' : '') +
         (filter.inverted ? ' globalFilterItem-isExcluded' : '');
+      const value =
+        typeof filter.value === 'string'
+          ? filter.value
+          : `${filter.value.from} to ${filter.value.to}`;
       const filterLabel = filter.inverted ? (
         <>
           <EuiTextColor color={filter.disabled ? 'default' : 'danger'}>{'NOT '}</EuiTextColor>
-          <EuiTextColor color="default">{`${filter.field}: ${filter.value}`}</EuiTextColor>
+          <EuiTextColor color="default">{`${filter.field}: ${value}`}</EuiTextColor>
         </>
       ) : (
-        `${filter.field}: ${filter.value}`
+        `${filter.field}: ${value}`
       );
 
       const badge = (

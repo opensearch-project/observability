@@ -4,6 +4,9 @@ export const getServicesQuery = (serviceName = null) => {
     query: {
       bool: {
         must: [],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -14,10 +17,8 @@ export const getServicesQuery = (serviceName = null) => {
         aggs: {
           error_count: {
             filter: {
-              range: {
-                'status.code': {
-                  gt: '0',
-                },
+              exists: {
+                field: 'status.code',
               },
             },
           },

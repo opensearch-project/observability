@@ -6,8 +6,9 @@ import {
   EuiSpacer,
   EuiSuperDatePicker,
 } from '@elastic/eui';
-import React, { Dispatch, SetStateAction } from 'react';
-import { FiltersProps, Filters } from './filters';
+import _ from 'lodash';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { FiltersProps, Filters } from './filters/filters';
 
 export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) => {
   return (
@@ -16,7 +17,6 @@ export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) =
       end={endTime}
       showUpdateButton={false}
       onTimeChange={(e) => {
-        console.log(e);
         setStartTime(e.start);
         setEndTime(e.end);
       }}
@@ -33,7 +33,15 @@ export interface SearchBarProps extends FiltersProps {
   setEndTime: Dispatch<SetStateAction<string>>;
 }
 
-export function SearchBar(props: SearchBarProps) {
+interface SearchBarOwnProps extends SearchBarProps {
+  refresh: () => void;
+}
+
+export function SearchBar(props: SearchBarOwnProps) {
+  // use another query state to avoid typing delay
+  const [query, setQuery] = useState(props.query);
+  const setGlobalQuery = _.debounce((q) => props.setQuery(q), 50);
+
   return (
     <>
       <EuiFlexGroup gutterSize="s">
@@ -41,26 +49,26 @@ export function SearchBar(props: SearchBarProps) {
           <EuiFieldSearch
             fullWidth
             placeholder="Trace ID, trace group name, user ID, service name"
-            value={props.query}
-            onChange={(e) => props.setQuery(e.target.value)}
-            onSearch={(e) => console.log(e)}
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setGlobalQuery(e.target.value);
+            }}
+            onSearch={props.refresh}
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton fill iconType="refresh">
+          <EuiButton fill iconType="refresh" onClick={props.refresh}>
             Refresh
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
 
       <EuiSpacer size="s" />
-      <Filters
-        filters={props.filters}
-        setFilters={props.setFilters}
-      />
+      <Filters filters={props.filters} setFilters={props.setFilters} />
     </>
   );
 }

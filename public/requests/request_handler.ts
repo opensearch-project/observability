@@ -1,8 +1,12 @@
+import _ from 'lodash';
 import { CoreStart } from '../../../../src/core/public';
 import { DSL_ROUTE, SQL_ROUTE } from '../../server/utils/constants';
 
-export function handleDslRequest(http: CoreStart['http'], query) {
-  console.log('DSL:', query);
+export function handleDslRequest(http: CoreStart['http'], DSL, query) {
+  if (DSL) {
+    query.query.bool.must.push(...DSL.query.bool.must);
+    query.query.bool.must_not.push(...DSL.query.bool.must_not);
+  }
   return http
     .post(DSL_ROUTE, {
       body: JSON.stringify(query),

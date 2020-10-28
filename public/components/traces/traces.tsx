@@ -1,7 +1,7 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
-import { SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { TracesTable } from './traces_table';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 
@@ -20,8 +20,17 @@ export function Traces(props: TracesProps) {
         href: '#traces',
       },
     ]);
-    handleTracesRequest(props.http, tableItems, setTableItems);
+    refresh();
   }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [props.filters]);
+
+  const refresh = () => {
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    handleTracesRequest(props.http, DSL, tableItems, setTableItems);
+  };
 
   return (
     <>
@@ -37,6 +46,7 @@ export function Traces(props: TracesProps) {
         setStartTime={props.setStartTime}
         endTime={props.endTime}
         setEndTime={props.setEndTime}
+        refresh={refresh}
       />
       <EuiSpacer size="m" />
       <TracesTable items={tableItems} />

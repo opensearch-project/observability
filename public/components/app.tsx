@@ -5,7 +5,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 import { SearchBarProps } from './common';
-import { FilterType } from './common/filters';
+import { FilterType } from './common/filters/filters';
 import { SideNav } from './common/side_nav';
 import { Dashboard } from './dashboard';
 import { Services, ServiceView } from './services';
@@ -47,7 +47,7 @@ export const TraceAnalyticsApp = ({
 }: TraceAnalyticsAppDeps) => {
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<FilterType[]>([]);
-  const [startTime, setStartTime] = useState<string>('now-5m');
+  const [startTime, setStartTime] = useState<string>('now-1y');
   const [endTime, setEndTime] = useState<string>('now');
   const commonProps: SearchBarProps & CoreDeps = {
     http,

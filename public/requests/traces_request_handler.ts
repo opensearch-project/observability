@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import moment from 'moment';
 import { v1 as uuid } from 'uuid';
 import { DATE_FORMAT } from '../../common';
@@ -12,8 +13,8 @@ import {
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleTracesRequest = (http, items, setItems) => {
-  handleDslRequest(http, getTracesQuery())
+export const handleTracesRequest = (http, DSL, items, setItems) => {
+  handleDslRequest(http, DSL, getTracesQuery())
     .then((response) =>
       Promise.all(
         response.hits.hits.map((hit) => {
@@ -28,16 +29,16 @@ export const handleTracesRequest = (http, items, setItems) => {
     )
     .then((newItems) => {
       setItems(newItems);
-      loadRemainingItems(http, newItems, setItems);
+      loadRemainingItems(http, DSL, newItems, setItems);
     })
     .catch((error) => console.error(error));
 };
 
-const loadRemainingItems = (http, items, setItems) => {
+const loadRemainingItems = (http, DSL, items, setItems) => {
   Promise.all(
     items.map(async (item) => {
-      const lastUpdated = await handleDslRequest(http, getTracesLastUpdatedQuery(item.trace_id));
-      const errorCount = await handleDslRequest(http, getTracesErrorCountQuery(item.trace_id));
+      const lastUpdated = await handleDslRequest(http, DSL, getTracesLastUpdatedQuery(item.trace_id));
+      const errorCount = await handleDslRequest(http, DSL, getTracesErrorCountQuery(item.trace_id));
       return {
         ...item,
         last_updated: moment(lastUpdated.aggregations.last_updated.value).format(DATE_FORMAT),
@@ -54,11 +55,11 @@ const loadRemainingItems = (http, items, setItems) => {
 // 'latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
 
 export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
-  handleDslRequest(http, getTracesQuery(traceId))
+  handleDslRequest(http, null, getTracesQuery(traceId))
     .then(async (response) => {
       const hit = response.hits.hits[0];
-      const lastUpdated = await handleDslRequest(http, getTracesLastUpdatedQuery(traceId));
-      const errorCount = await handleDslRequest(http, getTracesErrorCountQuery(traceId));
+      const lastUpdated = await handleDslRequest(http, null, getTracesLastUpdatedQuery(traceId));
+      const errorCount = await handleDslRequest(http, null, getTracesErrorCountQuery(traceId));
       return {
         trace_id: hit._source.traceId,
         trace_group: hit._source.name,
@@ -108,7 +109,7 @@ export const handleServiceBreakdownRequest = (
   serviceBreakdownData,
   setServiceBreakdownData
 ) => {
-  handleDslRequest(http, getServiceBreakdownQuery(traceId))
+  handleDslRequest(http, null, getServiceBreakdownQuery(traceId))
     .then((response) =>
       Promise.all(
         response.aggregations.service_type.buckets.map((bucket, i) => {
@@ -156,6 +157,7 @@ const hitsToSpanDetailData = async (hits) => {
     const serviceName = _.get(hit, ['_source', 'resource.attributes.service.name']);
     const name = _.get(hit, '_source.name');
     const error = hit._source.status?.code || '';
+    // const uniqueLabel = `${serviceName}<br>${name}` + uuid();
     const uniqueLabel = `${serviceName}:${name}` + uuid();
     data.table.push({
       service_name: serviceName,
@@ -199,7 +201,7 @@ const hitsToSpanDetailData = async (hits) => {
 };
 
 export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDetailData) => {
-  handleDslRequest(http, getSpanDetailQuery(traceId))
+  handleDslRequest(http, null, getSpanDetailQuery(traceId))
     .then((response) => hitsToSpanDetailData(response.hits.hits))
     .then((newItems) => {
       setSpanDetailData(newItems);
@@ -208,7 +210,7 @@ export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDe
 };
 
 export const handlePayloadRequest = (traceId, http, payloadData, setPayloadData) => {
-  handleDslRequest(http, getPayloadQuery(traceId))
+  handleDslRequest(http, null, getPayloadQuery(traceId))
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
     .catch((error) => console.error(error));
 };

@@ -10,8 +10,9 @@ import {
   EuiTableFieldDataColumnType,
   EuiText,
 } from '@elastic/eui';
+import _ from 'lodash';
 import React from 'react';
-import { PanelTitle, truncateText } from '../common';
+import { PanelTitle } from '../common';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -72,7 +73,7 @@ const columns = [
     align: 'left',
     sortable: true,
     truncateText: true,
-    render: (item) => (item ? <EuiText size="s">{truncateText(item)}</EuiText> : '-'),
+    render: (item) => (item ? <EuiText size="s">{_.truncate(item, {length: 24})}</EuiText> : '-'),
   },
   {
     field: 'traces',

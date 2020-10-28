@@ -4,6 +4,8 @@ export const getTracesQuery = (traceId = null) => {
     query: {
       bool: {
         must: [],
+        filter: [],
+        should: [],
         must_not: [
           {
             exists: {
@@ -45,6 +47,9 @@ export const getTracesLastUpdatedQuery = (traceId: string) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -74,6 +79,9 @@ export const getTracesErrorCountQuery = (traceId: string) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -98,6 +106,9 @@ export const getServiceBreakdownQuery = (traceId: string) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -157,6 +168,9 @@ export const getSpanDetailQuery = (traceId: string, size = 200) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     sort: [
@@ -198,6 +212,9 @@ export const getPayloadQuery = (traceId: string, size = 200) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
   };

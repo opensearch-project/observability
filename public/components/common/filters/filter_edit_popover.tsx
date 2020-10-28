@@ -1,18 +1,13 @@
 import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiComboBox,
+  EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
   EuiFormRow,
-  EuiComboBox,
   EuiSpacer,
-  EuiFieldNumber,
-  EuiButtonEmpty,
-  EuiButton,
-  EuiComboBoxOptionOption,
-  EuiFieldText,
-  EuiButtonIcon,
-  EuiIcon,
 } from '@elastic/eui';
-import { filter } from 'bluebird';
 import React, { useState } from 'react';
 import { FilterType } from './filters';
 import {

@@ -2,7 +2,7 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { ServicesTable } from './services_table';
 
 interface ServicesProps extends SearchBarProps, CoreDeps {}
@@ -20,8 +20,17 @@ export function Services(props: ServicesProps) {
         href: '#services',
       },
     ]);
-    handleServicesRequest(props.http, tableItems, setTableItems);
+    refresh();
   }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [props.filters]);
+
+  const refresh = () => {
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    handleServicesRequest(props.http, DSL, tableItems, setTableItems);
+  };
 
   return (
     <>
@@ -37,6 +46,7 @@ export function Services(props: ServicesProps) {
         setStartTime={props.setStartTime}
         endTime={props.endTime}
         setEndTime={props.setEndTime}
+        refresh={refresh}
       />
       <EuiSpacer size="m" />
       <ServicesTable items={tableItems} />

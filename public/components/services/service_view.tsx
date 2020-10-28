@@ -16,7 +16,7 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { handleServiceViewRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { PanelTitle, renderDatePicker, SearchBarProps } from '../common';
+import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { ServiceMap } from './service_map';
 
 const renderTitle = (
@@ -133,8 +133,17 @@ export function ServiceView(props: ServiceViewProps) {
         href: `#services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
-    handleServiceViewRequest(props.serviceName, props.http, fields, setFields);
+    refresh();
   }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [props.startTime, props.endTime]);
+
+  const refresh = () => {
+    const DSL = filtersToDsl([], '', props.startTime, props.endTime);
+    handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
+  };
 
   return (
     <>

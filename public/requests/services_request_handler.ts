@@ -1,8 +1,8 @@
 import { getServicesQuery } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleServicesRequest = (http, items, setItems) => {
-  handleDslRequest(http, getServicesQuery())
+export const handleServicesRequest = (http, DSL, items, setItems) => {
+  handleDslRequest(http, DSL, getServicesQuery())
     .then((response) =>
       Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
@@ -23,8 +23,8 @@ export const handleServicesRequest = (http, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceViewRequest = (serviceName, http, fields, setFields) => {
-  handleDslRequest(http, getServicesQuery(serviceName))
+export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {
+  handleDslRequest(http, DSL, getServicesQuery(serviceName))
     .then((response) => {
       const bucket = response.aggregations.trace_group.buckets[0];
       return {

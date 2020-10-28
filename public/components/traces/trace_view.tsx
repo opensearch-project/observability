@@ -137,6 +137,10 @@ export function TraceView(props: TraceViewProps) {
         href: `#traces/${encodeURIComponent(props.traceId)}`,
       },
     ]);
+    refresh();
+  }, []);
+
+  const refresh = () => {
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
     handleServiceBreakdownRequest(
       props.traceId,
@@ -146,7 +150,7 @@ export function TraceView(props: TraceViewProps) {
     );
     handleSpanDetailRequest(props.traceId, props.http, spanDetailData, setSpanDetailData);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
-  }, []);
+  };
 
   return (
     <>

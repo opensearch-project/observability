@@ -3,6 +3,9 @@ export const getDashboardQuery = () => {
     size: 0,
     query: {
       bool: {
+        must: [],
+        filter: [],
+        should: [],
         must_not: [
           {
             exists: {
@@ -71,6 +74,9 @@ export const getDashboardErrorRateQuery = (traceGroupName: string) => {
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -81,10 +87,8 @@ export const getDashboardErrorRateQuery = (traceGroupName: string) => {
         aggs: {
           error_count: {
             filter: {
-              range: {
-                'status.code': {
-                  gt: '0',
-                },
+              exists: {
+                field: 'status.code',
               },
             },
           },
@@ -179,27 +183,67 @@ export const getDashboardLatencyTrendQuery = (traceGroupName: string) => {
   };
 };
 
-export const getDashboardThroughputPltQuery = () => {
+export const getErrorRatePltQuery = () => {
   return {
     size: 0,
     query: {
       bool: {
-        must: [
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [
           {
-            range: {
-              endTime: {
-                gte: '2020-08-27T20:21:00.000Z',
-                lte: '2020-08-27T20:26:00.000Z',
-              },
+            exists: {
+              field: 'parentSpanId',
             },
           },
         ],
       },
     },
     aggs: {
+      error_rate: {
+        date_histogram: {
+          field: 'startTime',
+          calendar_interval: 'minute',
+        },
+        aggs: {
+          error_count: {
+            filter: {
+              exists: {
+                field: 'status.code',
+              },
+            },
+          },
+          error_rate: {
+            bucket_script: {
+              buckets_path: {
+                total: '_count',
+                errors: 'error_count._count',
+              },
+              script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+};
+
+export const getDashboardThroughputPltQuery = () => {
+  return {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
       throughput: {
         date_histogram: {
-          field: 'endTime',
+          field: 'startTime',
           calendar_interval: 'minute',
         },
       },

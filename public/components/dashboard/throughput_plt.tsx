@@ -10,7 +10,7 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
     margin: {
       l: 50,
       r: 5,
-      b: 30,
+      b: 50,
       t: 30, // 10
       pad: 4,
     },
@@ -24,7 +24,7 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
         yref: 'y',
         text: `Now: ${props.items[0].y[props.items[0].y.length - 1]}`,
         ax: 0,
-        ay: -160,
+        ay: -140,
         borderpad: 10,
         arrowwidth: 0.7,
       },

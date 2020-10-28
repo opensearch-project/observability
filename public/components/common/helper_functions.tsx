@@ -1,5 +1,6 @@
 import { EuiText } from '@elastic/eui';
 import React from 'react';
+import { FilterType } from './filters/filters';
 
 export function PanelTitle({ title, totalItems }: { title: string; totalItems?: number }) {
   return (
@@ -47,3 +48,77 @@ export function calculateTicks(min, max, numTicks = 5) {
 
   return ticks;
 }
+
+export const filtersToDsl = (
+  filters: FilterType[],
+  query: string,
+  startTime: string,
+  endTime: string
+) => {
+  const DSL = {
+    query: {
+      bool: {
+        must: [],
+        must_not: [],
+      },
+    },
+  };
+  DSL.query.bool.must.push({
+    range: {
+      startTime: {
+        gte: startTime,
+        lte: endTime,
+      },
+    },
+  });
+  if (query.length > 0) {
+    DSL.query.bool.must.push({
+      query_string: {
+        query: query,
+      },
+    });
+  }
+
+  filters
+    .filter((filter) => !filter.disabled)
+    .forEach((filter) => {
+      let query = {};
+      switch (filter.operator) {
+        case 'exists':
+        case 'does not exist':
+          query = {
+            exists: {
+              field: filter.field,
+            },
+          };
+          break;
+
+        case 'is':
+        case 'is not':
+          query = {
+            term: {
+              [filter.field]: filter.value,
+            },
+          };
+          break;
+
+        case 'is between':
+        case 'is not between':
+          query = {
+            range: {
+              [filter.field]: {
+                gte: filter.value.from,
+                lte: filter.value.to,
+              },
+            },
+          };
+          break;
+
+        default:
+          break;
+      }
+      filter.inverted ? DSL.query.bool.must_not.push(query) : DSL.query.bool.must.push(query);
+    });
+
+  return DSL;
+};
