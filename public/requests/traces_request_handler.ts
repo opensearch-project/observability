@@ -147,18 +147,22 @@ export const handleServiceBreakdownRequest = (
 };
 
 const hitsToSpanDetailData = async (hits) => {
-  const data = { gantt: [], table: [] };
+  const data = { gantt: [], table: [], ganttMaxX: 0 };
   if (hits.length === 0) return data;
-  // startTime is in nanoseconds, convert to milliseconds to match latency
+
   const minStartTime = nanoToMilliSec(hits[hits.length - 1].sort[0]);
+  let maxEndTime = 0;
+
   hits.forEach((hit) => {
     const startTime = nanoToMilliSec(hit.sort[0]) - minStartTime;
-    const duration = hit.fields.latency[0];
+    const duration = _.round(nanoToMilliSec(hit._source.durationInNanos), 2);
     const serviceName = _.get(hit, ['_source', 'resource.attributes.service.name']);
     const name = _.get(hit, '_source.name');
     const error = hit._source.status?.code || '';
-    // const uniqueLabel = `${serviceName}<br>${name}` + uuid();
-    const uniqueLabel = `${serviceName}:${name}` + uuid();
+    const uniqueLabel = `${serviceName}<br>${name}` + uuid();
+    // const uniqueLabel = `${serviceName}:${name}` + uuid();
+    maxEndTime = Math.max(maxEndTime, startTime + duration);
+
     data.table.push({
       service_name: serviceName,
       span_id: hit._source.spanId,
@@ -197,6 +201,8 @@ const hitsToSpanDetailData = async (hits) => {
       }
     );
   });
+
+  data.ganttMaxX = maxEndTime;
   return data;
 };
 

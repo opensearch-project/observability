@@ -68,7 +68,6 @@ export function DashboardTable(props: { items: any[] }) {
         '\u00A0'.repeat(Math.floor((2 * (32 - ticks.length * maxDigits)) / (ticks.length - 1)))
       );
 
-    console.log('|' + scale + '|');
     return { minRange, maxRange, ticks, scale };
   };
 

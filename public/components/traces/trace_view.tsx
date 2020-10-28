@@ -119,7 +119,7 @@ interface TraceViewProps extends CoreDeps {
 export function TraceView(props: TraceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
-  const [spanDetailData, setSpanDetailData] = useState({ gantt: [], table: [] });
+  const [spanDetailData, setSpanDetailData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const [payloadData, setPayloadData] = useState('');
 
   useEffect(() => {

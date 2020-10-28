@@ -91,7 +91,6 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
     })
   )
     .then((newItems) => {
-      console.log('newItems', newItems);
       setItems(newItems);
     })
     .catch((error) => console.error(error));

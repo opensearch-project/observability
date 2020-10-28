@@ -188,13 +188,8 @@ export const getSpanDetailQuery = (traceId: string, size = 200) => {
         'endTime',
         'spanId',
         'status.code',
+        'durationInNanos',
       ],
-    },
-    script_fields: {
-      latency: {
-        script:
-          "doc['endTime'].value.toInstant().toEpochMilli() - doc['startTime'].value.toInstant().toEpochMilli()",
-      },
     },
   };
   return query;
