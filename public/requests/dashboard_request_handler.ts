@@ -14,9 +14,9 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
     .then((response) =>
       Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
-          const latency_variance = Object.values(bucket.latency_variance_nanos.values).map((nano: number) =>
-            _.round(nanoToMilliSec(Math.max(0, nano)), 2)
-          );
+          const latency_variance = Object.values(
+            bucket.latency_variance_nanos.values
+          ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
           return {
             trace_group_name: bucket.key,
             average_latency: bucket.average_latency.value,
@@ -70,6 +70,10 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
               ...values,
               type: 'scatter',
               mode: 'lines+markers',
+              hovertemplate: '%{x}<br>Average latency: %{y}<extra></extra>',
+              hoverlabel: {
+                bgcolor: '#d7c2ff',
+              },
               marker: {
                 color: '#987dcb',
                 size: 8,
@@ -93,22 +97,22 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
 // 'latency_variance': Array.from({ length: 3 }, () => Math.floor(Math.random() * 70 + 10)).sort(),
 // 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
 
-export const handleDashboardThroughputPltRequest = (http, DSL, items, setItems) => {
-  handleDslRequest(http, DSL, getDashboardThroughputPltQuery())
+export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
+  handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
       const newItems =
         buckets.length > 0
           ? [
               {
-                x: buckets.map((bucket) => moment(bucket.key).format('HH:mm')),
+                x: buckets.map((bucket) => bucket.key_as_string),
                 y: buckets.map((bucket) => bucket.doc_count),
                 marker: {
                   color: 'rgb(171, 211, 240)',
                 },
                 width: 0.3,
                 type: 'bar',
-                hovertemplate: '%{y}<extra></extra>',
+                hovertemplate: 'Throughput: %{y}<extra></extra>',
               },
             ]
           : [];
@@ -117,22 +121,22 @@ export const handleDashboardThroughputPltRequest = (http, DSL, items, setItems) 
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardErrorRatePltRequest = (http, DSL, items, setItems) => {
-  handleDslRequest(http, DSL, getErrorRatePltQuery())
+export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems) => {
+  handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
       const newItems =
         buckets.length > 0
           ? [
               {
-                x: buckets.map((bucket) => moment(bucket.key).format('HH:mm')),
+                x: buckets.map((bucket) => bucket.key_as_string),
                 y: buckets.map((bucket) => _.round(bucket.error_rate?.value, 2)),
                 marker: {
                   color: '#fad963',
                 },
                 width: 0.3,
                 type: 'bar',
-                hovertemplate: '%{y}<extra></extra>',
+                hovertemplate: 'Error rate: %{y}<extra></extra>',
               },
             ]
           : [];

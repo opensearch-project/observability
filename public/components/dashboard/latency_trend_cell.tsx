@@ -32,7 +32,11 @@ function LinePlt(props: { data: Plotly.Data[] }) {
   return <Plt data={props.data} layout={layout} />;
 }
 
-function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
+function LatencyPlt(props: {
+  data: Plotly.Data[];
+  closePopover: () => void;
+  traceGroupName: string;
+}) {
   const layout = {
     xaxis: {
       showgrid: false,
@@ -68,7 +72,7 @@ function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
     margin: {
       l: 50,
       r: 30,
-      b: 30,
+      b: 50,
       t: 30,
       pad: 0,
     },
@@ -80,7 +84,7 @@ function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
       <EuiFlexGroup>
         <EuiFlexItem>
           <EuiText size="s">24-hour latency trend</EuiText>
-          <EuiText size="s">makePayment.auto</EuiText>
+          <EuiText size="s">{props.traceGroupName}</EuiText>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButtonIcon iconType="cross" color="text" onClick={() => props.closePopover()} />
@@ -93,11 +97,13 @@ function LatencyPlt(props: { data: Plotly.Data[]; closePopover: () => void }) {
 
 export function LatencyTrendCell({
   item,
+  traceGroupName,
 }: {
   item: {
     popoverData: Plotly.Data[];
     trendData: Plotly.Data[];
   };
+  traceGroupName: string;
 }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   return (
@@ -120,7 +126,11 @@ export function LatencyTrendCell({
           isOpen={isPopoverOpen}
           closePopover={() => setIsPopoverOpen(false)}
         >
-          <LatencyPlt data={item.popoverData} closePopover={() => setIsPopoverOpen(false)} />
+          <LatencyPlt
+            data={item.popoverData}
+            closePopover={() => setIsPopoverOpen(false)}
+            traceGroupName={traceGroupName}
+          />
         </EuiPopover>
       </EuiFlexItem>
     </EuiFlexGroup>

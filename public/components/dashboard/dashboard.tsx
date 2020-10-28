@@ -6,7 +6,7 @@ import {
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, minFixedInterval, SearchBar, SearchBarProps } from '../common';
 import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
@@ -39,9 +39,11 @@ export function Dashboard(props: DashboardProps) {
   
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const fixedInterval = minFixedInterval(props.startTime, props.endTime)
+
     handleDashboardRequest(props.http, DSL, tableItems, setTableItems);
-    handleDashboardThroughputPltRequest(props.http, DSL, throughputPltItems, setThroughputPltItems);
-    handleDashboardErrorRatePltRequest(props.http, DSL, errorRatePltItems, setErrorRatePltItems)
+    handleDashboardThroughputPltRequest(props.http, DSL, fixedInterval, throughputPltItems, setThroughputPltItems);
+    handleDashboardErrorRatePltRequest(props.http, DSL, fixedInterval, errorRatePltItems, setErrorRatePltItems)
   };
 
   return (

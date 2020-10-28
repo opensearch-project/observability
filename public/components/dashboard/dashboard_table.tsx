@@ -185,7 +185,7 @@ export function DashboardTable(props: { items: any[] }) {
       ),
       align: 'right',
       sortable: false,
-      render: (item) => (item ? <LatencyTrendCell item={item} /> : '-'),
+      render: (item, row) => (item ? <LatencyTrendCell item={item} traceGroupName={row.trace_group_name} /> : '-'),
     },
     {
       field: 'error_rate',

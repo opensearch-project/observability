@@ -87,7 +87,6 @@ const columns = [
 ] as Array<EuiTableFieldDataColumnType<any>>;
 
 export function SpanDetailPanel(props) {
-  console.log('props.data',props.data)
   return (
     <>
       <EuiPanel>

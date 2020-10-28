@@ -1,6 +1,8 @@
-import { EuiText } from '@elastic/eui';
+import { EuiText, prettyDuration } from '@elastic/eui';
+import moment from 'moment';
 import React from 'react';
 import { FilterType } from './filters/filters';
+import dateMath from '@elastic/datemath';
 
 export function PanelTitle({ title, totalItems }: { title: string; totalItems?: number }) {
   return (
@@ -49,6 +51,23 @@ export function calculateTicks(min, max, numTicks = 5) {
 
   return ticks;
 }
+
+// calculates the minimum fixed_interval for date_histogram from time filter
+export const minFixedInterval = (startTime: string, endTime: string) => {
+  if (startTime?.length === 0 || endTime?.length === 0) return 'minute';
+  const momentStart = dateMath.parse(startTime);
+  const momentEnd = dateMath.parse(endTime);
+  const diffSeconds = momentEnd.unix() - momentStart.unix();
+
+  if (diffSeconds <= 1) return '1ms'; // less than 1 minute
+  if (diffSeconds <= 60) return '1s'; // less than 1 minute
+  if (diffSeconds <= 3600) return '1m'; // less than 1 hour
+  if (diffSeconds <= 86400) return '1h'; // less than 1 day
+  if (diffSeconds <= 86400 * 7) return '1d'; // less than 1 week
+  if (diffSeconds <= 86400 * 31) return '7d'; // less than 1 month
+  if (diffSeconds <= 86400 * 366) return '30d'; // less than 1 year
+  return '365d';
+};
 
 export const filtersToDsl = (
   filters: FilterType[],

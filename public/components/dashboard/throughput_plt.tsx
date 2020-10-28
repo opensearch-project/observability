@@ -24,7 +24,7 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
         yref: 'y',
         text: `Now: ${props.items[0].y[props.items[0].y.length - 1]}`,
         ax: 0,
-        ay: -140,
+        ay: -160,
         borderpad: 10,
         arrowwidth: 0.7,
       },

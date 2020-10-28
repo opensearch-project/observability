@@ -118,7 +118,7 @@ export const getDashboardLatencyTrendQuery = (traceGroupName: string) => {
   };
 };
 
-export const getErrorRatePltQuery = () => {
+export const getErrorRatePltQuery = (fixedInterval) => {
   return {
     size: 0,
     query: {
@@ -139,7 +139,7 @@ export const getErrorRatePltQuery = () => {
       error_rate: {
         date_histogram: {
           field: 'startTime',
-          calendar_interval: 'minute',
+          fixed_interval: fixedInterval,
         },
         aggs: {
           error_count: {
@@ -164,7 +164,7 @@ export const getErrorRatePltQuery = () => {
   };
 };
 
-export const getDashboardThroughputPltQuery = () => {
+export const getDashboardThroughputPltQuery = (fixedInterval) => {
   return {
     size: 0,
     query: {
@@ -179,7 +179,7 @@ export const getDashboardThroughputPltQuery = () => {
       throughput: {
         date_histogram: {
           field: 'startTime',
-          calendar_interval: 'minute',
+          fixed_interval: fixedInterval,
         },
       },
     },
