@@ -21,7 +21,7 @@ export const handleTracesRequest = (http, DSL, items, setItems) => {
           return {
             trace_id: hit._source.traceId,
             trace_group: hit._source.name,
-            latency: hit.fields.latency[0],
+            latency: _.round(nanoToMilliSec(hit._source.durationInNanos), 2),
             actions: '#',
           };
         })
@@ -65,7 +65,7 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
         trace_group: hit._source.name,
         last_updated: moment(lastUpdated.aggregations.last_updated.value).format(DATE_FORMAT),
         user_id: 'N/A',
-        latency: hit.fields.latency[0],
+        latency: _.round(nanoToMilliSec(hit._source.durationInNanos), 2),
         latency_vs_benchmark: 'N/A',
         percentile_in_trace_group: 'N/A',
         error_count: errorCount.aggregations.error_count.value,

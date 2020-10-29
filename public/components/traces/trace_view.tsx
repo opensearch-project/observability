@@ -58,7 +58,11 @@ const renderOverview = (fields) => {
                   <EuiFlexItem grow={false}>
                     <EuiCopy textToCopy={fields.trace_id}>
                       {(copy) => (
-                        <EuiButtonIcon iconType="copyClipboard" onClick={copy}>
+                        <EuiButtonIcon
+                          aria-label="Copy trace id"
+                          iconType="copyClipboard"
+                          onClick={copy}
+                        >
                           Click to copy
                         </EuiButtonIcon>
                       )}
@@ -84,9 +88,9 @@ const renderOverview = (fields) => {
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">Percentile in trace group</EuiText>
+              <EuiText className="overview-title">Last updated</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.percentile_in_trace_group}
+                {fields.last_updated}
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -97,12 +101,6 @@ const renderOverview = (fields) => {
               <EuiText className="overview-title">Errors</EuiText>
               <EuiText size="s" className="overview-content">
                 {fields.error_count}
-              </EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiText className="overview-title">Last updated</EuiText>
-              <EuiText size="s" className="overview-content">
-                {fields.last_updated}
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>

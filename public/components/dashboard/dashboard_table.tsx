@@ -66,7 +66,9 @@ export function DashboardTable(props: { items: any[]; addFilter: (filter: Filter
         return tickStr.padEnd(tickStr.length + 2 * (maxDigits - tickStr.length), '\u00A0');
       })
       .join(
-        '\u00A0'.repeat(Math.floor((2 * (32 - ticks.length * maxDigits)) / (ticks.length - 1)))
+        '\u00A0'.repeat(
+          Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
+        )
       );
 
     return { minRange, maxRange, ticks, scale };
@@ -125,10 +127,10 @@ export function DashboardTable(props: { items: any[]; addFilter: (filter: Filter
       // width: '20%',
       render: (item) => {
         return item ? (
-          // expand plot ranges by 4 to accomondate scale
+          // expand plot ranges to accomondate scale
           <BoxPlt
             plotParams={{
-              min: varianceProps.ticks[0],
+              min: varianceProps.ticks.length > 1 ? varianceProps.ticks[0] : varianceProps.ticks[0] / 1.03,
               max: varianceProps.ticks[varianceProps.ticks.length - 1] * 1.03,
               left: item[0],
               mid: item[1],

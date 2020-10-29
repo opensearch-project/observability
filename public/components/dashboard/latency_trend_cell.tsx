@@ -87,7 +87,12 @@ function LatencyPlt(props: {
           <EuiText size="s">{props.traceGroupName}</EuiText>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButtonIcon iconType="cross" color="text" onClick={() => props.closePopover()} />
+          <EuiButtonIcon
+            aria-label="Close popover"
+            iconType="cross"
+            color="text"
+            onClick={() => props.closePopover()}
+          />
         </EuiFlexItem>
       </EuiFlexGroup>
       <Plt data={props.data} layout={layout} />
@@ -118,6 +123,7 @@ export function LatencyTrendCell({
           anchorPosition="downCenter"
           button={
             <EuiButtonIcon
+              aria-label="Open popover"
               onClick={() => setIsPopoverOpen(true)}
               iconType="magnifyWithPlus"
               size="s"

@@ -32,6 +32,8 @@ export function nanoToMilliSec(nano: number) {
 }
 
 export function calculateTicks(min, max, numTicks = 5) {
+  if (min >= max) return [max];
+
   const range = max - min;
   const minInterval = range / numTicks;
   const magnitude = Math.pow(10, Math.floor(Math.log10(minInterval)));
@@ -124,12 +126,12 @@ export const filtersToDsl = (
 
         case 'is between':
         case 'is not between':
+          const range: { gte?: string; lte?: string } = {};
+          if (!filter.value.from.includes('\u221E')) range.gte = filter.value.from;
+          if (!filter.value.to.includes('\u221E')) range.lte = filter.value.to;
           query = {
             range: {
-              [filter.field]: {
-                gte: filter.value.from,
-                lte: filter.value.to,
-              },
+              [filter.field]: range,
             },
           };
           break;

@@ -44,7 +44,7 @@ export function ErrorRatePlt(props: { items: Plotly.Data[] }) {
           size: 12,
         },
       },
-      range: [0, Math.min(20, Math.max(...props.items.map((item) => item?.y * 1.2)))],
+      range: [0, Math.min(100, Math.max(...props.items.map((item) => item?.y * 1.2), 20))],
       fixedrange: true,
       ticksuffix: '%',
       gridcolor: '#d9d9d9',

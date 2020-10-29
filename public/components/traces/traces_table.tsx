@@ -4,19 +4,16 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
-  EuiIcon,
   EuiInMemoryTable,
   EuiLink,
   EuiPanel,
   EuiSpacer,
-  EuiSuperSelect,
   EuiTableFieldDataColumnType,
   EuiText,
-  EuiToolTip,
 } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
-import { PanelTitle, renderBenchmark } from '../common';
+import { PanelTitle } from '../common';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -37,7 +34,7 @@ const columns = [
     truncateText: true,
     render: (item) => (
       <EuiFlexGroup gutterSize="s" alignItems="center">
-        <EuiFlexItem>
+        <EuiFlexItem grow={10}>
           <EuiLink href={`#traces/${encodeURIComponent(item)}`}>
             {_.truncate(item, { length: 24 })}
           </EuiLink>
@@ -45,12 +42,13 @@ const columns = [
         <EuiFlexItem grow={false}>
           <EuiCopy textToCopy={item}>
             {(copy) => (
-              <EuiButtonIcon iconType="copyClipboard" onClick={copy}>
+              <EuiButtonIcon aria-label="Copy trace id" iconType="copyClipboard" onClick={copy}>
                 Click to copy
               </EuiButtonIcon>
             )}
           </EuiCopy>
         </EuiFlexItem>
+        <EuiFlexItem grow={1} />
       </EuiFlexGroup>
     ),
   },

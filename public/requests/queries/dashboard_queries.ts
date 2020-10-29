@@ -172,7 +172,13 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
         must: [],
         filter: [],
         should: [],
-        must_not: [],
+        must_not: [
+          {
+            exists: {
+              field: 'parentSpanId',
+            },
+          },
+        ],
       },
     },
     aggs: {

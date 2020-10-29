@@ -109,7 +109,6 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
                 marker: {
                   color: 'rgb(171, 211, 240)',
                 },
-                width: 0.3,
                 type: 'bar',
                 hovertemplate: 'Throughput: %{y}<extra></extra>',
               },
@@ -133,7 +132,6 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
                 marker: {
                   color: '#fad963',
                 },
-                width: 0.3,
                 type: 'bar',
                 hovertemplate: 'Error rate: %{y}<extra></extra>',
               },

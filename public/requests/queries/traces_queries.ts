@@ -16,13 +16,7 @@ export const getTracesQuery = (traceId = null) => {
       },
     },
     _source: {
-      includes: ['traceId', 'name'],
-    },
-    script_fields: {
-      latency: {
-        script:
-          "doc['endTime'].value.toInstant().toEpochMilli() - doc['startTime'].value.toInstant().toEpochMilli()",
-      },
+      includes: ['traceId', 'name', 'durationInNanos'],
     },
   };
   if (traceId) {
