@@ -1,5 +1,5 @@
-export const getTracesQuery = (traceId = null) => {
-  const query = {
+export const getTracesQuery = (traceId = null, getPercentile = false) => {
+  const query: any = {
     size: 0,
     query: {
       bool: {
@@ -60,6 +60,14 @@ export const getTracesQuery = (traceId = null) => {
         traceId,
       },
     });
+  }
+  if (getPercentile) {
+    query.aggs.percentiles = {
+      percentiles: {
+        field: 'durationInNanos',
+        percents: Array.from({ length: 101 }, (v, i) => i),
+      },
+    };
   }
   return query;
 };

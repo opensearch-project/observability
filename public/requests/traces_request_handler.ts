@@ -14,9 +14,25 @@ import {
 import { handleDslRequest } from './request_handler';
 
 export const handleTracesRequest = (http, DSL, items, setItems) => {
-  handleDslRequest(http, DSL, getTracesQuery())
-    .then((response) =>
-      Promise.all(
+  const binarySearch = (arr: number[], target: number) => {
+    let low = 0,
+      high = arr.length,
+      mid;
+    while (low < high) {
+      mid = Math.floor((low + high) / 2);
+      if (arr[mid] < target) low = mid + 1;
+      else high = mid;
+    }
+    return low;
+  };
+
+  handleDslRequest(http, DSL, getTracesQuery(null, true))
+    .then((response) => {
+      const percentileRanges = Object.values(
+        response.aggregations.percentiles.values
+      ).map((value: number) => nanoToMilliSec(value));
+
+      return Promise.all(
         response.aggregations.traces.buckets.map((bucket) => {
           return {
             trace_id: bucket.key,
@@ -24,18 +40,17 @@ export const handleTracesRequest = (http, DSL, items, setItems) => {
             latency: bucket.latency.value,
             last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
             error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
+            percentile_in_trace_group: binarySearch(percentileRanges, bucket.latency.value),
             actions: '#',
           };
         })
-      )
-    )
+      );
+    })
     .then((newItems) => {
-      console.log(newItems)
       setItems(newItems);
     })
     .catch((error) => console.error(error));
 };
-
 
 export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
   handleDslRequest(http, null, getTracesQuery(traceId))
