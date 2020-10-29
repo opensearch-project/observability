@@ -7,6 +7,7 @@ import {
 } from '../../requests/dashboard_request_handler';
 import { CoreDeps } from '../app';
 import { filtersToDsl, minFixedInterval, SearchBar, SearchBarProps } from '../common';
+import { FilterType } from '../common/filters/filters';
 import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
 import { ErrorRatePlt } from './error_rate_plt';
@@ -32,18 +33,35 @@ export function Dashboard(props: DashboardProps) {
     ]);
     refresh();
   }, []);
-  
+
   useEffect(() => {
     refresh();
-  }, [props.filters])
-  
+  }, [props.filters]);
+
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    const fixedInterval = minFixedInterval(props.startTime, props.endTime)
+    const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
     handleDashboardRequest(props.http, DSL, tableItems, setTableItems);
-    handleDashboardThroughputPltRequest(props.http, DSL, fixedInterval, throughputPltItems, setThroughputPltItems);
-    handleDashboardErrorRatePltRequest(props.http, DSL, fixedInterval, errorRatePltItems, setErrorRatePltItems)
+    handleDashboardThroughputPltRequest(
+      props.http,
+      DSL,
+      fixedInterval,
+      throughputPltItems,
+      setThroughputPltItems
+    );
+    handleDashboardErrorRatePltRequest(
+      props.http,
+      DSL,
+      fixedInterval,
+      errorRatePltItems,
+      setErrorRatePltItems
+    );
+  };
+
+  const addFilter = (filter: FilterType) => {
+    const newFilters = [...props.filters, filter];
+    props.setFilters(newFilters);
   };
 
   return (
@@ -63,7 +81,7 @@ export function Dashboard(props: DashboardProps) {
         refresh={refresh}
       />
       <EuiSpacer size="m" />
-      <DashboardTable items={tableItems} />
+      <DashboardTable items={tableItems} addFilter={addFilter} />
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>

@@ -18,6 +18,7 @@ import { EuiTableFieldDataColumnType } from '@elastic/eui';
 import { calculateTicks, PanelTitle, renderBenchmark } from '../common';
 import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
+import { FilterType } from '../common/filters/filters';
 
 const renderTitleBar = (totalItems) => {
   return (
@@ -45,7 +46,7 @@ const renderTitleBar = (totalItems) => {
   );
 };
 
-export function DashboardTable(props: { items: any[] }) {
+export function DashboardTable(props: { items: any[]; addFilter: (filter: FilterType) => void }) {
   const getVarianceProps = (items) => {
     if (!items[0]?.latency_variance) {
       return null;
@@ -185,7 +186,8 @@ export function DashboardTable(props: { items: any[] }) {
       ),
       align: 'right',
       sortable: false,
-      render: (item, row) => (item ? <LatencyTrendCell item={item} traceGroupName={row.trace_group_name} /> : '-'),
+      render: (item, row) =>
+        item ? <LatencyTrendCell item={item} traceGroupName={row.trace_group_name} /> : '-',
     },
     {
       field: 'error_rate',
@@ -228,8 +230,19 @@ export function DashboardTable(props: { items: any[] }) {
       ),
       align: 'right',
       sortable: true,
-      render: (item) => (
-        <EuiLink href="#traces">
+      render: (item, row) => (
+        <EuiLink
+          href="#traces"
+          onClick={() =>
+            props.addFilter({
+              field: 'name',
+              operator: 'is',
+              value: row.trace_group_name,
+              inverted: false,
+              disabled: false,
+            })
+          }
+        >
           <EuiI18nNumber value={item} />
         </EuiLink>
       ),
