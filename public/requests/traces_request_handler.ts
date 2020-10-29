@@ -17,58 +17,39 @@ export const handleTracesRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getTracesQuery())
     .then((response) =>
       Promise.all(
-        response.hits.hits.map((hit) => {
+        response.aggregations.traces.buckets.map((bucket) => {
           return {
-            trace_id: hit._source.traceId,
-            trace_group: hit._source.name,
-            latency: _.round(nanoToMilliSec(hit._source.durationInNanos), 2),
+            trace_id: bucket.key,
+            trace_group: bucket.trace_group_name.buckets[0]?.key,
+            latency: bucket.latency.value,
+            last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
+            error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
             actions: '#',
           };
         })
       )
     )
     .then((newItems) => {
+      console.log(newItems)
       setItems(newItems);
-      loadRemainingItems(http, DSL, newItems, setItems);
     })
     .catch((error) => console.error(error));
 };
 
-const loadRemainingItems = (http, DSL, items, setItems) => {
-  Promise.all(
-    items.map(async (item) => {
-      const lastUpdated = await handleDslRequest(http, DSL, getTracesLastUpdatedQuery(item.trace_id));
-      const errorCount = await handleDslRequest(http, DSL, getTracesErrorCountQuery(item.trace_id));
-      return {
-        ...item,
-        last_updated: moment(lastUpdated.aggregations.last_updated.value).format(DATE_FORMAT),
-        error_count: errorCount.aggregations.error_count.value,
-      };
-    })
-  )
-    .then((newItems) => {
-      setItems(newItems);
-    })
-    .catch((error) => console.error(error));
-};
-// 'percentile_in_trace_group': `${Math.floor(Math.random() * (10) + 90)}th`,
-// 'latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
 
 export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
   handleDslRequest(http, null, getTracesQuery(traceId))
     .then(async (response) => {
-      const hit = response.hits.hits[0];
-      const lastUpdated = await handleDslRequest(http, null, getTracesLastUpdatedQuery(traceId));
-      const errorCount = await handleDslRequest(http, null, getTracesErrorCountQuery(traceId));
+      const bucket = response.aggregations.traces.buckets[0];
       return {
-        trace_id: hit._source.traceId,
-        trace_group: hit._source.name,
-        last_updated: moment(lastUpdated.aggregations.last_updated.value).format(DATE_FORMAT),
+        trace_id: bucket.key,
+        trace_group: bucket.trace_group_name.buckets[0]?.key,
+        last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
         user_id: 'N/A',
-        latency: _.round(nanoToMilliSec(hit._source.durationInNanos), 2),
+        latency: bucket.latency.value,
         latency_vs_benchmark: 'N/A',
         percentile_in_trace_group: 'N/A',
-        error_count: errorCount.aggregations.error_count.value,
+        error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
         errors_vs_benchmark: 'N/A',
       };
     })

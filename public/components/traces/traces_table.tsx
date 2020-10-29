@@ -82,7 +82,7 @@ const columns = [
   },
   {
     field: 'error_count',
-    name: 'Error count',
+    name: 'Error flag',
     align: 'right',
     sortable: true,
     render: (item) => (item === 0 || item ? item : '-'),

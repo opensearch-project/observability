@@ -1,6 +1,6 @@
 export const getTracesQuery = (traceId = null) => {
   const query = {
-    size: 1000,
+    size: 0,
     query: {
       bool: {
         must: [],
@@ -15,8 +15,43 @@ export const getTracesQuery = (traceId = null) => {
         ],
       },
     },
-    _source: {
-      includes: ['traceId', 'name', 'durationInNanos'],
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: 10000,
+        },
+        aggs: {
+          latency: {
+            max: {
+              script: {
+                source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
+                lang: 'painless',
+              },
+            },
+          },
+          trace_group_name: {
+            terms: {
+              field: 'name',
+              size: 1,
+            },
+          },
+          last_updated: {
+            max: {
+              field: 'endTime',
+            },
+          },
+          error_count: {
+            filter: {
+              range: {
+                'status.code': {
+                  gte: '0',
+                },
+              },
+            },
+          },
+        },
+      },
     },
   };
   if (traceId) {
