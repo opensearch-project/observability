@@ -1,6 +1,6 @@
 import { EuiPage, EuiPageBody, EuiPageSideBar } from '@elastic/eui';
 import { I18nProvider } from '@kbn/i18n/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
@@ -45,24 +45,51 @@ export const TraceAnalyticsApp = ({
   chrome,
   navigation,
 }: TraceAnalyticsAppDeps) => {
-  const [query, setQuery] = useState<string>('');
-  const [filters, setFilters] = useState<FilterType[]>([]);
-  // const [startTime, setStartTime] = useState<string>('Oct 15, 2020, 07:30:00.000');
-  // const [endTime, setEndTime] = useState<string>('Oct 15, 2020, 08:30:00.000');
-  const [startTime, setStartTime] = useState<string>('now-1y');
-  const [endTime, setEndTime] = useState<string>('now');
+  const storedFilters = window.localStorage.getItem('TraceAnalyticsFilters');
+  const [query, setQuery] = useState<string>(
+    window.localStorage.getItem('TraceAnalyticsQuery') || ''
+  );
+  const [filters, setFilters] = useState<FilterType[]>(
+    storedFilters ? JSON.parse(storedFilters) : []
+  );
+  const [startTime, setStartTime] = useState<string>(
+    window.localStorage.getItem('TraceAnalyticsStartTime') || 'now-1y'
+  );
+  const [endTime, setEndTime] = useState<string>(
+    window.localStorage.getItem('TraceAnalyticsEndTime') || 'now'
+  );
+  // const [startTime, setStartTime] = useState<string>('Oct 15, 2020 @ 07:30:00.000');
+  // const [endTime, setEndTime] = useState<string>('Oct 15, 2020 @ 08:30:00.000');
+
+  const setFiltersWithStorage = (newFilters: FilterType[]) => {
+    setFilters(newFilters);
+    window.localStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
+  };
+  const setQueryWithStorage = (newQuery: string) => {
+    setQuery(newQuery);
+    window.localStorage.setItem('TraceAnalyticsQuery', newQuery);
+  };
+  const setStartTimeWithStorage = (newStartTime: string) => {
+    setStartTime(newStartTime);
+    window.localStorage.setItem('TraceAnalyticsStartTime', newStartTime);
+  };
+  const setEndTimeWithStorage = (newEndTime: string) => {
+    setEndTime(newEndTime);
+    window.localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
+  };
+
   const commonProps: SearchBarProps & CoreDeps = {
     http,
     uiSettings,
     setBreadcrumbs: chrome.setBreadcrumbs,
     query,
-    setQuery,
+    setQuery: setQueryWithStorage,
     filters,
-    setFilters,
+    setFilters: setFiltersWithStorage,
     startTime,
-    setStartTime,
+    setStartTime: setStartTimeWithStorage,
     endTime,
-    setEndTime,
+    setEndTime: setEndTimeWithStorage,
   };
 
   return (

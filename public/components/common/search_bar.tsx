@@ -48,6 +48,7 @@ export function SearchBar(props: SearchBarOwnProps) {
         <EuiFlexItem>
           <EuiFieldSearch
             fullWidth
+            isClearable={false}
             placeholder="Trace ID, trace group name, user ID, service name"
             value={query}
             onChange={(e) => {
