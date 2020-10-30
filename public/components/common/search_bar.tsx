@@ -49,7 +49,7 @@ export function SearchBar(props: SearchBarOwnProps) {
           <EuiFieldSearch
             fullWidth
             isClearable={false}
-            placeholder="Trace ID, trace group name, user ID, service name"
+            placeholder="Trace ID, trace group name, service name"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
