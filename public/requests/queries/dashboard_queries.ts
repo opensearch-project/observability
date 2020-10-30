@@ -35,12 +35,6 @@ export const getDashboardQuery = () => {
               script: 'Math.round(params.latency / 10000) / 100.0',
             },
           },
-          latency_variance_nanos: {
-            percentiles: {
-              field: 'durationInNanos',
-              percents: [0, 95, 100],
-            },
-          },
           error_count: {
             filter: {
               exists: {
@@ -55,6 +49,41 @@ export const getDashboardQuery = () => {
                 errors: 'error_count._count',
               },
               script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+};
+
+export const getDashboardTraceGroupPercentiles = () => {
+  return {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [
+          {
+            exists: {
+              field: 'parentSpanId',
+            },
+          },
+        ],
+      },
+    },
+    aggs: {
+      trace_group: {
+        terms: {
+          field: 'name',
+        },
+        aggs: {
+          latency_variance_nanos: {
+            percentiles: {
+              field: 'durationInNanos',
+              percents: [0, 95, 100],
             },
           },
         },

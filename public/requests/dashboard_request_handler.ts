@@ -4,23 +4,35 @@ import {
   getDashboardLatencyTrendQuery,
   getDashboardQuery,
   getDashboardThroughputPltQuery,
+  getDashboardTraceGroupPercentiles,
   getErrorRatePltQuery,
 } from './queries/dashboard_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleDashboardRequest = (http, DSL, items, setItems) => {
+export const handleDashboardRequest = async (http, DSL, items, setItems) => {
+  const latency_variances = await handleDslRequest(
+    http,
+    {},
+    getDashboardTraceGroupPercentiles()
+  ).then((response) => {
+    const map: any = {};
+    response.aggregations.trace_group.buckets.forEach((traceGroup) => {
+      map[traceGroup.key] = Object.values(
+        traceGroup.latency_variance_nanos.values
+      ).map((nano: number) => Math.round(nanoToMilliSec(Math.max(0, nano))));
+    });
+    return map;
+  });
+
   handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
-          const latency_variance = Object.values(
-            bucket.latency_variance_nanos.values
-          ).map((nano: number) => Math.round(nanoToMilliSec(Math.max(0, nano))));
           return {
             trace_group_name: bucket.key,
             average_latency: bucket.average_latency.value,
             traces: bucket.doc_count,
-            latency_variance: latency_variance,
+            latency_variance: latency_variances[bucket.key],
             error_rate: bucket.error_rate.value,
           };
         })
