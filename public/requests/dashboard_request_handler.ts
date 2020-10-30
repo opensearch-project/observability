@@ -149,6 +149,7 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
               },
             ]
           : [];
+          console.log('newItems:', newItems);
       setItems(newItems);
     })
     .catch((error) => console.error(error));
