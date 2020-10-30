@@ -1,4 +1,41 @@
-export const getTracesQuery = (traceId = null, getPercentile = false) => {
+export const getTraceGroupPercentiles = () => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [
+          {
+            exists: {
+              field: 'parentSpanId',
+            },
+          },
+        ],
+      },
+    },
+    aggs: {
+      trace_group_name: {
+        terms: {
+          field: 'name',
+          size: 10000,
+        },
+        aggs: {
+          percentiles: {
+            percentiles: {
+              field: 'durationInNanos',
+              percents: Array.from({ length: 101 }, (v, i) => i),
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+};
+
+export const getTracesQuery = (traceId = null) => {
   const query: any = {
     size: 0,
     query: {
@@ -60,14 +97,6 @@ export const getTracesQuery = (traceId = null, getPercentile = false) => {
         traceId,
       },
     });
-  }
-  if (getPercentile) {
-    query.aggs.percentiles = {
-      percentiles: {
-        field: 'durationInNanos',
-        percents: Array.from({ length: 101 }, (v, i) => i),
-      },
-    };
   }
   return query;
 };
