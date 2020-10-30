@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react';
 import { handleServiceViewRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
 import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
+import { FilterType } from '../common/filters/filters';
 import { ServiceMap } from './service_map';
 
 const renderTitle = (
@@ -24,7 +25,8 @@ const renderTitle = (
   startTime: SearchBarProps['startTime'],
   setStartTime: SearchBarProps['setStartTime'],
   endTime: SearchBarProps['endTime'],
-  setEndTime: SearchBarProps['setEndTime']
+  setEndTime: SearchBarProps['setEndTime'],
+  addFilter: (filter: FilterType) => void
 ) => {
   return (
     <>
@@ -41,13 +43,26 @@ const renderTitle = (
         <EuiButton>View in dashboard</EuiButton>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButton>View related traces</EuiButton>
+        <EuiButton
+          onClick={() => {
+            addFilter({
+              field: 'resource.attributes.service.name',
+              operator: 'is',
+              value: serviceName,
+              inverted: false,
+              disabled: false,
+            });
+            window.location.assign('#traces');
+          }}
+        >
+          View related traces
+        </EuiButton>
       </EuiFlexItem>
     </>
   );
 };
 
-const renderOverview = (fields) => {
+const renderOverview = (fields, addFilter) => {
   return (
     <EuiPanel>
       <PanelTitle title="Overview" />
@@ -58,7 +73,7 @@ const renderOverview = (fields) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Name</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.name}
+                {fields.name || '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -80,13 +95,13 @@ const renderOverview = (fields) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Average latency (ms)</EuiText>
               <EuiText size="s" className="overview-content">
-                {_.round(fields.average_latency, 2)}
+                {_.round(fields.average_latency, 2).toString()}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Error rate</EuiText>
               <EuiText size="s" className="overview-content">
-                {_.round(fields.error_rate, 2)}%
+                {_.round(fields.error_rate, 2).toString()}%
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -98,7 +113,18 @@ const renderOverview = (fields) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Traces</EuiText>
               <EuiText size="s" className="overview-content">
-                <EuiLink href="#traces">
+                <EuiLink
+                  href="#traces"
+                  onClick={() =>
+                    addFilter({
+                      field: 'resource.attributes.service.name',
+                      operator: 'is',
+                      value: fields.name,
+                      inverted: false,
+                      disabled: false,
+                    })
+                  }
+                >
                   <EuiI18nNumber value={fields.traces} />
                 </EuiLink>
               </EuiText>
@@ -113,6 +139,7 @@ const renderOverview = (fields) => {
 
 interface ServiceViewProps extends SearchBarProps, CoreDeps {
   serviceName: string;
+  addFilter: (filter: FilterType) => void;
 }
 
 export function ServiceView(props: ServiceViewProps) {
@@ -155,11 +182,12 @@ export function ServiceView(props: ServiceViewProps) {
               props.startTime,
               props.setStartTime,
               props.endTime,
-              props.setEndTime
+              props.setEndTime,
+              props.addFilter
             )}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
-          {renderOverview(fields)}
+          {renderOverview(fields, props.addFilter)}
           <EuiSpacer />
           <ServiceMap />
         </EuiPageBody>

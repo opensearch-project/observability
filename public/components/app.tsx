@@ -129,6 +129,10 @@ export const TraceAnalyticsApp = ({
                 <ServiceView
                   serviceName={decodeURIComponent(props.match.params.id)}
                   {...commonProps}
+                  addFilter={(filter: FilterType) => {
+                    const newFilters = [...filters, filter];
+                    setFiltersWithStorage(newFilters);
+                  }}
                 />
               )}
             />

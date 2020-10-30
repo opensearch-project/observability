@@ -8,7 +8,6 @@ import {
   EuiLink,
   EuiPanel,
   EuiSpacer,
-  EuiSuperSelect,
   EuiText,
   EuiToolTip,
 } from '@elastic/eui';

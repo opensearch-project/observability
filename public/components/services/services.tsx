@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
 import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { FilterType } from '../common/filters/filters';
 import { ServicesTable } from './services_table';
 
 interface ServicesProps extends SearchBarProps, CoreDeps {}
@@ -32,6 +33,11 @@ export function Services(props: ServicesProps) {
     handleServicesRequest(props.http, DSL, tableItems, setTableItems);
   };
 
+  const addFilter = (filter: FilterType) => {
+    const newFilters = [...props.filters, filter];
+    props.setFilters(newFilters);
+  };
+
   return (
     <>
       <EuiTitle size="l">
@@ -49,7 +55,7 @@ export function Services(props: ServicesProps) {
         refresh={refresh}
       />
       <EuiSpacer size="m" />
-      <ServicesTable items={tableItems} />
+      <ServicesTable items={tableItems} addFilter={addFilter} />
     </>
   );
 }

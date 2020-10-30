@@ -13,6 +13,7 @@ import {
 import _ from 'lodash';
 import React from 'react';
 import { PanelTitle } from '../common';
+import { FilterType } from '../common/filters/filters';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -24,72 +25,84 @@ const renderTitleBar = (totalItems?: number) => {
   );
 };
 
-const columns = [
-  {
-    field: 'name',
-    name: 'Name',
-    align: 'left',
-    sortable: true,
-    render: (item) => (
-      <EuiLink href={`#services/${encodeURIComponent(item)}`}>
-        {_.truncate(item, { length: 24 })}
-      </EuiLink>
-    ),
-  },
-  {
-    field: 'average_latency',
-    name: 'Average latency (ms)',
-    align: 'right',
-    sortable: true,
-    render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
-  },
-  {
-    field: 'error_rate',
-    name: 'Error rate',
-    align: 'right',
-    sortable: true,
-    render: (item) =>
-      item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
-  },
-  {
-    field: 'throughput',
-    name: 'Throughput',
-    align: 'right',
-    sortable: true,
-    truncateText: true,
-    render: (item) => <EuiI18nNumber value={item} />,
-  },
-  {
-    field: 'number_of_connected_services',
-    name: 'Number of connected services',
-    align: 'right',
-    sortable: true,
-    truncateText: true,
-    render: (item) => (item === 0 || item ? item : '-'),
-  },
-  {
-    field: 'connected_services',
-    name: 'Connected services',
-    align: 'left',
-    sortable: true,
-    truncateText: true,
-    render: (item) => (item ? <EuiText size="s">{_.truncate(item, {length: 24})}</EuiText> : '-'),
-  },
-  {
-    field: 'traces',
-    name: 'Traces',
-    align: 'right',
-    sortable: true,
-    truncateText: true,
-    render: (item) => (
-      <EuiLink href="#traces">
-        <EuiI18nNumber value={item} />
-      </EuiLink>
-    ),
-  },
-] as Array<EuiTableFieldDataColumnType<any>>;
+export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterType) => void }) {
+  const columns = [
+    {
+      field: 'name',
+      name: 'Name',
+      align: 'left',
+      sortable: true,
+      render: (item) => (
+        <EuiLink href={`#services/${encodeURIComponent(item)}`}>
+          {_.truncate(item, { length: 24 })}
+        </EuiLink>
+      ),
+    },
+    {
+      field: 'average_latency',
+      name: 'Average latency (ms)',
+      align: 'right',
+      sortable: true,
+      render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
+    },
+    {
+      field: 'error_rate',
+      name: 'Error rate',
+      align: 'right',
+      sortable: true,
+      render: (item) =>
+        item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
+    },
+    {
+      field: 'throughput',
+      name: 'Throughput',
+      align: 'right',
+      sortable: true,
+      truncateText: true,
+      render: (item) => <EuiI18nNumber value={item} />,
+    },
+    {
+      field: 'number_of_connected_services',
+      name: 'Number of connected services',
+      align: 'right',
+      sortable: true,
+      truncateText: true,
+      render: (item) => (item === 0 || item ? item : '-'),
+    },
+    {
+      field: 'connected_services',
+      name: 'Connected services',
+      align: 'left',
+      sortable: true,
+      truncateText: true,
+      render: (item) =>
+        item ? <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText> : '-',
+    },
+    {
+      field: 'traces',
+      name: 'Traces',
+      align: 'right',
+      sortable: true,
+      truncateText: true,
+      render: (item, row) => (
+        <EuiLink
+          href="#traces"
+          onClick={() =>
+            props.addFilter({
+              field: 'resource.attributes.service.name',
+              operator: 'is',
+              value: row.name,
+              inverted: false,
+              disabled: false,
+            })
+          }
+        >
+          <EuiI18nNumber value={item} />
+        </EuiLink>
+      ),
+    },
+  ] as Array<EuiTableFieldDataColumnType<any>>;
 
-export function ServicesTable(props: { items: any[] }) {
   return (
     <>
       <EuiPanel>
