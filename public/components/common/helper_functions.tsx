@@ -1,4 +1,4 @@
-import { EuiText, prettyDuration } from '@elastic/eui';
+import { EuiText } from '@elastic/eui';
 import moment from 'moment';
 import React from 'react';
 import { FilterType } from './filters/filters';
@@ -29,6 +29,11 @@ export function renderBenchmark(value: number) {
 export function nanoToMilliSec(nano: number) {
   if (typeof nano !== 'number') return 0;
   return nano / 1000000;
+}
+
+export function milliToNanoSec(ms: number) {
+  if (typeof ms !== 'number') return 0;
+  return ms * 1000000;
 }
 
 export function calculateTicks(min, max, numTicks = 5) {
@@ -71,6 +76,54 @@ export const minFixedInterval = (startTime: string, endTime: string) => {
   return '365d';
 };
 
+export const getPercentileFilter = (
+  percentileMaps: {
+    traceGroupName: string;
+    durationFilter: { gte?: number; lte?: number };
+  }[],
+  conditionString: string // >= 95
+): FilterType => {
+  const DSL = {
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+        minimum_should_match: 1,
+      },
+    },
+  };
+  percentileMaps.forEach((map) => {
+    DSL.query.bool.should.push({
+      bool: {
+        must: [
+          {
+            term: {
+              name: {
+                value: map.traceGroupName,
+              },
+            },
+          },
+          {
+            range: {
+              durationInNanos: map.durationFilter,
+            },
+          },
+        ],
+      },
+    });
+  });
+  return {
+    field: 'Latency percentile within trace group',
+    operator: '',
+    value: conditionString,
+    inverted: false,
+    disabled: false,
+    DSL: DSL,
+  };
+};
+
 export const filtersToDsl = (
   filters: FilterType[],
   query: string,
@@ -81,6 +134,8 @@ export const filtersToDsl = (
     query: {
       bool: {
         must: [],
+        filter: [],
+        should: [],
         must_not: [],
       },
     },
@@ -104,6 +159,11 @@ export const filtersToDsl = (
   filters
     .filter((filter) => !filter.disabled)
     .forEach((filter) => {
+      if (filter.DSL) {
+        DSL.query.bool.should.push(...filter.DSL.query.bool.should);
+        DSL.query.bool.minimum_should_match = filter.DSL.query.bool.minimum_should_match;
+        return;
+      }
       let query = {};
       switch (filter.operator) {
         case 'exists':

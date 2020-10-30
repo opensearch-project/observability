@@ -8,6 +8,7 @@ interface PlotParamsType {
   left: number;
   mid: number;
   right: number;
+  addFilter: (condition: 'gte' | 'lte') => void;
 }
 
 export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
@@ -127,9 +128,21 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
     else setHovered('');
   };
 
+  const onClickHandler = (e) => {
+    if (e.points[0].fullData.index === 1)
+      plotParams.addFilter('lte');
+    else if (e.points[0].fullData.index === 2)
+      plotParams.addFilter('gte');
+  };
+
   return (
     <EuiToolTip content={renderTooltip()} position="bottom" onMouseOut={() => setHovered('')}>
-      <Plt data={data} layout={layout} onHoverHandler={onHoverHandler} />
+      <Plt
+        data={data}
+        layout={layout}
+        onHoverHandler={onHoverHandler}
+        onClickHandler={onClickHandler}
+      />
     </EuiToolTip>
   );
 }

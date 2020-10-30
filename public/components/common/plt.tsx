@@ -5,6 +5,7 @@ interface PltProps {
   data: Plotly.Data[];
   layout?: Partial<Plotly.Layout>;
   onHoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
+  onClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
 }
 
 export function Plt(props: PltProps) {
@@ -13,6 +14,7 @@ export function Plt(props: PltProps) {
       data={props.data}
       style={{ width: '100%', height: '100%' }}
       onHover={props.onHoverHandler}
+      onClick={props.onClickHandler}
       useResizeHandler
       config={{ displayModeBar: false }}
       layout={{

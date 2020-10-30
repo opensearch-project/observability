@@ -27,7 +27,7 @@ export const handleTracesRequest = async (http, DSL, items, setItems) => {
     return low;
   };
 
-  const percentileRanges = await handleDslRequest(http, DSL, getTraceGroupPercentiles()).then(
+  const percentileRanges = await handleDslRequest(http, {}, getTraceGroupPercentiles()).then(
     (response) => {
       const map: any = {};
       response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {

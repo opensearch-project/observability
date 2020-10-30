@@ -19,33 +19,11 @@ import { BoxPlt } from './box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 import { FilterType } from '../common/filters/filters';
 
-const renderTitleBar = (totalItems) => {
-  return (
-    <EuiFlexGroup alignItems="center" gutterSize="s">
-      <EuiFlexItem grow={10}>
-        <PanelTitle title="Latency by trace group" totalItems={totalItems} />
-      </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiLink>
-          <EuiText size="xs">
-            <span style={{ color: '#957ac9' }}>&#x25a1;</span> &lt; 95 percentile
-          </EuiText>
-        </EuiLink>
-      </EuiFlexItem>
-      <EuiFlexItem grow={1} />
-      <EuiFlexItem grow={false}>
-        <EuiLink>
-          <EuiText size="xs">
-            <span style={{ color: '#957ac9' }}>&#x25a0;</span> &gt;= 95 percentile
-          </EuiText>
-        </EuiLink>
-      </EuiFlexItem>
-      <EuiFlexItem grow={1} />
-    </EuiFlexGroup>
-  );
-};
-
-export function DashboardTable(props: { items: any[]; addFilter: (filter: FilterType) => void }) {
+export function DashboardTable(props: {
+  items: any[];
+  addFilter: (filter: FilterType) => void;
+  addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
+}) {
   const getVarianceProps = (items) => {
     if (!items[0]?.latency_variance) {
       return null;
@@ -124,16 +102,30 @@ export function DashboardTable(props: { items: any[]; addFilter: (filter: Filter
       align: 'center',
       sortable: false,
       // width: '20%',
-      render: (item) => {
+      render: (item, row) => {
         return item ? (
           // expand plot ranges to accomondate scale
           <BoxPlt
             plotParams={{
-              min: varianceProps.ticks.length > 1 ? varianceProps.ticks[0] : varianceProps.ticks[0] / 1.03,
+              min:
+                varianceProps.ticks.length > 1
+                  ? varianceProps.ticks[0]
+                  : varianceProps.ticks[0] / 1.03,
               max: varianceProps.ticks[varianceProps.ticks.length - 1] * 1.03,
               left: item[0],
               mid: item[1],
               right: item[2],
+              addFilter: (condition?: 'lte' | 'gte') => {
+                props.addPercentileFilter(condition, [
+                  {
+                    field: 'name',
+                    operator: 'is',
+                    value: row.trace_group_name,
+                    inverted: false,
+                    disabled: false,
+                  },
+                ]);
+              },
             }}
           />
         ) : (
@@ -249,6 +241,32 @@ export function DashboardTable(props: { items: any[]; addFilter: (filter: Filter
       ),
     },
   ] as Array<EuiTableFieldDataColumnType<any>>;
+
+  const renderTitleBar = (totalItems) => {
+    return (
+      <EuiFlexGroup alignItems="center" gutterSize="s">
+        <EuiFlexItem grow={10}>
+          <PanelTitle title="Latency by trace group" totalItems={totalItems} />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiLink onClick={() => props.addPercentileFilter('lte')}>
+            <EuiText size="xs">
+              <span style={{ color: '#957ac9' }}>&#x25a1;</span> &lt; 95 percentile
+            </EuiText>
+          </EuiLink>
+        </EuiFlexItem>
+        <EuiFlexItem grow={1} />
+        <EuiFlexItem grow={false}>
+          <EuiLink onClick={() => props.addPercentileFilter('gte')}>
+            <EuiText size="xs">
+              <span style={{ color: '#957ac9' }}>&#x25a0;</span> &gt;= 95 percentile
+            </EuiText>
+          </EuiLink>
+        </EuiFlexItem>
+        <EuiFlexItem grow={1} />
+      </EuiFlexGroup>
+    );
+  };
 
   return (
     <>

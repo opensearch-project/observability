@@ -75,6 +75,8 @@ export const getDashboardLatencyTrendQuery = (traceGroupName: string) => {
             },
           },
         ],
+        filter: [],
+        should: [],
         must_not: [
           {
             exists: {

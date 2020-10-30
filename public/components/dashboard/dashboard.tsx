@@ -6,7 +6,14 @@ import {
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, minFixedInterval, SearchBar, SearchBarProps } from '../common';
+import {
+  filtersToDsl,
+  getPercentileFilter,
+  milliToNanoSec,
+  minFixedInterval,
+  SearchBar,
+  SearchBarProps,
+} from '../common';
 import { FilterType } from '../common/filters/filters';
 import { ServiceMap } from '../services';
 import { DashboardTable } from './dashboard_table';
@@ -64,6 +71,36 @@ export function Dashboard(props: DashboardProps) {
     props.setFilters(newFilters);
   };
 
+  const addPercentileFilter = (condition = 'gte', additionalFilters = []) => {
+    if (tableItems.length === 0) return;
+    for (let i = 0; i < props.filters.length; i++) {
+      if (props.filters[i].DSL) {
+        const newFilter = JSON.parse(
+          JSON.stringify(props.filters[i]).replace(
+            /{"range":{"durationInNanos":{"[gl]te?"/g,
+            `{"range":{"durationInNanos":{"${condition}"`
+          )
+        );
+        newFilter.value = condition === 'gte' ? '>= 95th' : ' <= 95th';
+        const newFilters = [...props.filters, ...additionalFilters];
+        newFilters.splice(i, 1, newFilter);
+        props.setFilters(newFilters);
+        return;
+      }
+    }
+
+    const percentileMaps = tableItems.map((item) => ({
+      traceGroupName: item.trace_group_name,
+      durationFilter: { [condition]: milliToNanoSec(item.latency_variance[1]) },
+    }));
+    const percentileFilter = getPercentileFilter(
+      percentileMaps,
+      condition === 'gte' ? '>= 95th' : ' <= 95th'
+    );
+    const newFilters = [...props.filters, percentileFilter, ...additionalFilters];
+    props.setFilters(newFilters);
+  };
+
   return (
     <>
       <EuiTitle size="l">
@@ -81,7 +118,11 @@ export function Dashboard(props: DashboardProps) {
         refresh={refresh}
       />
       <EuiSpacer size="m" />
-      <DashboardTable items={tableItems} addFilter={addFilter} />
+      <DashboardTable
+        items={tableItems}
+        addFilter={addFilter}
+        addPercentileFilter={addPercentileFilter}
+      />
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>

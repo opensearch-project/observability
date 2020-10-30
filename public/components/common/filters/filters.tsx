@@ -20,6 +20,7 @@ export interface FilterType {
   value: any;
   inverted: boolean;
   disabled: boolean;
+  DSL?: any;
 }
 
 export interface FiltersProps {
@@ -61,7 +62,11 @@ export function Filters(props: FiltersProps) {
           icon: <EuiIcon type="invert" size="m" />,
           onClick: () => {
             props.setFilters(
-              props.filters.map((filter) => ({ ...filter, inverted: !filter.inverted }))
+              // if filter.DSL.query exists, it's a customized filter and "inverted" is alwasy false
+              props.filters.map((filter) => ({
+                ...filter,
+                inverted: filter.DSL?.query ? false : !filter.inverted,
+              }))
             );
           },
         },
@@ -96,11 +101,13 @@ export function Filters(props: FiltersProps) {
         {
           name: 'Edit filter',
           icon: <EuiIcon type="invert" size="m" />,
+          disabled: !!filter.DSL?.query,
           panel: 1,
         },
         {
           name: `${filter.inverted ? 'Include' : 'Exclude'} results`,
           icon: <EuiIcon type={filter.inverted ? 'plusInCircle' : 'minusInCircle'} size="m" />,
+          disabled: !!filter.DSL?.query,
           onClick: () => {
             filter.inverted = !filter.inverted;
             setFilter(filter, index);

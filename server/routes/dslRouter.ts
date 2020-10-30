@@ -19,6 +19,7 @@ export function DslRouter(router: IRouter) {
                 must: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
                 should: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
                 must_not: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
+                minimum_should_match: schema.maybe(schema.number()),
               }),
             })
           ),

@@ -10,8 +10,8 @@ import { handleDslRequest } from './request_handler';
 
 export const handleDashboardRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getDashboardQuery())
-    .then((response) =>
-      Promise.all(
+    .then((response) => {
+      return Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
           const latency_variance = Object.values(
             bucket.latency_variance_nanos.values
@@ -24,8 +24,8 @@ export const handleDashboardRequest = (http, DSL, items, setItems) => {
             error_rate: bucket.error_rate.value,
           };
         })
-      )
-    )
+      );
+    })
     .then((newItems) => {
       setItems(newItems);
       loadRemainingItems(http, DSL, newItems, setItems);
