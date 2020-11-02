@@ -40,6 +40,7 @@ function LatencyPlt(props: {
   const layout = {
     xaxis: {
       showgrid: false,
+      type: 'date',
       tickmode: 'auto',
       color: '#899195',
     },

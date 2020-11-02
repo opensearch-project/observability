@@ -35,6 +35,7 @@ export function ErrorRatePlt(props: { items: Plotly.Data[] }) {
       fixedrange: true,
       showgrid: false,
       visible: true,
+      type: 'date',
       color: '#899195',
     },
     yaxis: {

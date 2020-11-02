@@ -55,7 +55,7 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
       );
       const values = {
         x: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map(
-          (bucket) => bucket.key_as_string
+          (bucket) => bucket.key
         ),
         y: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map(
           (bucket) => bucket.average_latency?.value || 0
@@ -116,7 +116,7 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
         buckets.length > 0
           ? [
               {
-                x: buckets.map((bucket) => bucket.key_as_string),
+                x: buckets.map((bucket) => bucket.key),
                 y: buckets.map((bucket) => bucket.doc_count),
                 marker: {
                   color: 'rgb(171, 211, 240)',
@@ -139,7 +139,7 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
         buckets.length > 0
           ? [
               {
-                x: buckets.map((bucket) => bucket.key_as_string),
+                x: buckets.map((bucket) => bucket.key),
                 y: buckets.map((bucket) => _.round(bucket.error_rate?.value, 2)),
                 marker: {
                   color: '#fad963',
@@ -149,7 +149,6 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
               },
             ]
           : [];
-          console.log('newItems:', newItems);
       setItems(newItems);
     })
     .catch((error) => console.error(error));
