@@ -5,6 +5,7 @@ import {
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
+import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
 import {
   filtersToDsl,
@@ -26,6 +27,7 @@ export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({items: [], fixedInterval: '1h'});
   const [errorRatePltItems, setErrorRatePltItems] = useState({items: [], fixedInterval: '1h'});
+  const [mapItems, setMapItems] = useState([]);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -47,9 +49,10 @@ export function Dashboard(props: DashboardProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
-    handleDashboardRequest(props.http, DSL, tableItems, setTableItems);
+    handleDashboardRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems);
     handleDashboardThroughputPltRequest(
       props.http,
       DSL,
@@ -64,6 +67,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
+    handleServiceMapRequest(props.http, DSL, mapItems, setMapItems);
   };
 
   const addFilter = (filter: FilterType) => {

@@ -1,3 +1,5 @@
+import { SERVICE_MAP_INDEX_NAME, SERVICE_MAP_MAX_NODES } from '../../../common';
+
 export const getServicesQuery = (serviceName = null) => {
   const query = {
     size: 0,
@@ -68,4 +70,27 @@ export const getServicesQuery = (serviceName = null) => {
     });
   }
   return query;
+};
+
+export const getServiceNodesQuery = () => {
+  return {
+    size: 0,
+    index: SERVICE_MAP_INDEX_NAME,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      service_name: {
+        terms: {
+          field: 'serviceName',
+          size: SERVICE_MAP_MAX_NODES,
+        },
+      },
+    },
+  };
 };

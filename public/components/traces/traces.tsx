@@ -29,7 +29,8 @@ export function Traces(props: TracesProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleTracesRequest(props.http, DSL, tableItems, setTableItems);
+    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
+    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems);
   };
 
   return (

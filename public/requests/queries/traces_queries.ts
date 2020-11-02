@@ -101,65 +101,6 @@ export const getTracesQuery = (traceId = null) => {
   return query;
 };
 
-export const getTracesLastUpdatedQuery = (traceId: string) => {
-  return {
-    size: 0,
-    query: {
-      bool: {
-        must: [
-          {
-            term: {
-              traceId,
-            },
-          },
-        ],
-        filter: [],
-        should: [],
-        must_not: [],
-      },
-    },
-    aggs: {
-      last_updated: {
-        max: {
-          field: 'endTime',
-        },
-      },
-    },
-  };
-};
-
-export const getTracesErrorCountQuery = (traceId: string) => {
-  return {
-    size: 0,
-    query: {
-      bool: {
-        must: [
-          {
-            term: {
-              traceId,
-            },
-          },
-          {
-            exists: {
-              field: 'status.code',
-            },
-          },
-        ],
-        filter: [],
-        should: [],
-        must_not: [],
-      },
-    },
-    aggs: {
-      error_count: {
-        value_count: {
-          field: 'status.code',
-        },
-      },
-    },
-  };
-};
-
 export const getServiceBreakdownQuery = (traceId: string) => {
   const query = {
     size: 0,
@@ -183,30 +124,18 @@ export const getServiceBreakdownQuery = (traceId: string) => {
           field: 'resource.attributes.service.name',
         },
         aggs: {
+          total_latency_nanos: {
+            sum: {
+              field: 'durationInNanos',
+            },
+          },
           total_latency: {
-            scripted_metric: {
-              init_script: `
-                state.latencies = [];
-              `,
-              map_script: `
-                state.latencies.add(doc['endTime'].value.toInstant().toEpochMilli() - doc['startTime'].value.toInstant().toEpochMilli());
-              `,
-              combine_script: `
-                double sumLatency = 0;
-                for (t in state.latencies) { 
-                  sumLatency += t;
-                }
-                return sumLatency;
-              `,
-              reduce_script: `
-                double sumLatency = 0;
-                for (a in states) {
-                  if (a != null) {
-                    sumLatency += a;
-                  }
-                }
-                return sumLatency;
-              `,
+            bucket_script: {
+              buckets_path: {
+                count: '_count',
+                latency: 'total_latency_nanos.value',
+              },
+              script: 'Math.round(params.latency / 10000) / 100.0',
             },
           },
         },

@@ -1,8 +1,8 @@
 import { RequestParams } from "@elastic/elasticsearch";
 import { IRouter } from "../../../../src/core/server";
 import { schema } from '@kbn/config-schema';
-import { INDEX_NAME } from "../../common";
 import { DSL_ROUTE } from "../utils/constants";
+import { RAW_INDEX_NAME } from "../../common";
 
 export function DslRouter(router: IRouter) {
   router.post(
@@ -10,6 +10,7 @@ export function DslRouter(router: IRouter) {
       path: DSL_ROUTE,
       validate: {
         body: schema.object({
+          index: schema.maybe(schema.string()),
           from: schema.maybe(schema.number()),
           size: schema.number(),
           query: schema.maybe(
@@ -35,9 +36,9 @@ export function DslRouter(router: IRouter) {
       },
     },
     async (context, request, response) => {
-      const { size, ...rest } = request.body;
+      const { index, size, ...rest } = request.body;
       const params: RequestParams.Search = {
-        index: INDEX_NAME,
+        index: index || RAW_INDEX_NAME,
         size,
         body: rest,
       };

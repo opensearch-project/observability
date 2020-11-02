@@ -1,26 +1,30 @@
-import { getServicesQuery } from './queries/services_queries';
+import { getServiceNodesQuery, getServicesQuery } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
 export const handleServicesRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getServicesQuery())
     .then((response) =>
       Promise.all(
-        response.aggregations.trace_group.buckets.map((bucket) => {
-          return {
-            name: bucket.key,
-            average_latency: bucket.average_latency.value,
-            error_rate: bucket.error_rate.value,
-            throughput: bucket.doc_count,
-            traces: bucket.traces.doc_count,
-          };
-        })
+        response.aggregations.trace_group.buckets.map((bucket) => ({
+          name: bucket.key,
+          average_latency: bucket.average_latency.value,
+          error_rate: bucket.error_rate.value,
+          throughput: bucket.doc_count,
+          traces: bucket.traces.doc_count,
+        }))
       )
     )
     .then((newItems) => {
       setItems(newItems);
-      // loadRemainingItems(http, newItems, setItems)
     })
     .catch((error) => console.error(error));
+};
+
+export const handleServiceMapRequest = async (http, DSL, items, setItems) => {
+  const nodes = await handleDslRequest(http, {}, getServiceNodesQuery()).then((response) =>
+    Promise.all(response.aggregations.service_name.buckets.map((bucket) => bucket.key))
+  );
+  console.log(nodes);
 };
 
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {

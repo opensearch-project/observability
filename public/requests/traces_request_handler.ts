@@ -8,13 +8,11 @@ import {
   getServiceBreakdownQuery,
   getSpanDetailQuery,
   getTraceGroupPercentiles,
-  getTracesErrorCountQuery,
-  getTracesLastUpdatedQuery,
   getTracesQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleTracesRequest = async (http, DSL, items, setItems) => {
+export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
     let low = 0,
       high = arr.length,
@@ -27,17 +25,20 @@ export const handleTracesRequest = async (http, DSL, items, setItems) => {
     return low;
   };
 
-  const percentileRanges = await handleDslRequest(http, {}, getTraceGroupPercentiles()).then(
-    (response) => {
-      const map: any = {};
-      response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {
-        map[traceGroup.key] = Object.values(traceGroup.percentiles.values).map((value: number) =>
-          nanoToMilliSec(value)
-        );
-      });
-      return map;
-    }
-  );
+  // percentile should only be affected by timefilter
+  const percentileRanges = await handleDslRequest(
+    http,
+    timeFilterDSL,
+    getTraceGroupPercentiles()
+  ).then((response) => {
+    const map: any = {};
+    response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {
+      map[traceGroup.key] = Object.values(traceGroup.percentiles.values).map((value: number) =>
+        nanoToMilliSec(value)
+      );
+    });
+    return map;
+  });
 
   handleDslRequest(http, DSL, getTracesQuery(null))
     .then((response) => {
@@ -49,7 +50,10 @@ export const handleTracesRequest = async (http, DSL, items, setItems) => {
             latency: bucket.latency.value,
             last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
             error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
-            percentile_in_trace_group: binarySearch(percentileRanges[bucket.trace_group_name.buckets[0].key], bucket.latency.value),
+            percentile_in_trace_group: binarySearch(
+              percentileRanges[bucket.trace_group_name.buckets[0].key],
+              bucket.latency.value
+            ),
             actions: '#',
           };
         })

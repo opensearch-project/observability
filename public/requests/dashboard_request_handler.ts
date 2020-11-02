@@ -9,10 +9,11 @@ import {
 } from './queries/dashboard_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleDashboardRequest = async (http, DSL, items, setItems) => {
+export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
+  // latency_variance should only be affected by timefilter
   const latency_variances = await handleDslRequest(
     http,
-    {},
+    timeFilterDSL,
     getDashboardTraceGroupPercentiles()
   ).then((response) => {
     const map: any = {};
