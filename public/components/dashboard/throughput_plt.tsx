@@ -1,9 +1,9 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
-import { PanelTitle } from '../common';
+import { fixedIntervalToTickFormat, PanelTitle } from '../common';
 import { Plt } from '../common/plt';
 
-export function ThroughputPlt(props: { items: Plotly.Data[] }) {
+export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
   const layout = {
     width: 400,
     height: 217,
@@ -14,15 +14,15 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
       t: 30, // 10
       pad: 4,
     },
-    annotations: props.items.length > 0 && [
+    annotations: props.items.items.length > 0 && [
       {
-        x: props.items[0].x[props.items[0].x.length - 1],
+        x: props.items.items[0].x[props.items.items[0].x.length - 1],
         y: 0,
         showarrow: true,
         arrowhead: 0,
         xref: 'x',
         yref: 'y',
-        text: `Now: ${props.items[0].y[props.items[0].y.length - 1]}`,
+        text: `Now: ${props.items.items[0].y[props.items.items[0].y.length - 1]}`,
         ax: 0,
         ay: -160,
         borderpad: 10,
@@ -34,6 +34,7 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
       showgrid: false,
       visible: true,
       type: 'date',
+      tickformat: fixedIntervalToTickFormat(props.items.fixedInterval),
       color: '#899195',
     },
     yaxis: {
@@ -58,7 +59,7 @@ export function ThroughputPlt(props: { items: Plotly.Data[] }) {
       <EuiPanel>
         <PanelTitle title="Throughput over time" />
         <EuiHorizontalRule margin="m" />
-        <Plt data={props.items} layout={layout} />
+        <Plt data={props.items.items} layout={layout} />
       </EuiPanel>
     </>
   );

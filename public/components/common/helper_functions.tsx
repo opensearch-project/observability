@@ -66,14 +66,23 @@ export const minFixedInterval = (startTime: string, endTime: string) => {
   const momentEnd = dateMath.parse(endTime);
   const diffSeconds = momentEnd.unix() - momentStart.unix();
 
-  if (diffSeconds <= 1) return '1ms'; // less than 1 minute
+  if (diffSeconds <= 1) return '1ms'; // less than 1 second
   if (diffSeconds <= 60) return '1s'; // less than 1 minute
   if (diffSeconds <= 3600) return '1m'; // less than 1 hour
   if (diffSeconds <= 86400) return '1h'; // less than 1 day
-  if (diffSeconds <= 86400 * 7) return '1d'; // less than 1 week
-  if (diffSeconds <= 86400 * 31) return '7d'; // less than 1 month
+  if (diffSeconds <= 86400 * 31) return '1d'; // less than 1 month
   if (diffSeconds <= 86400 * 366) return '30d'; // less than 1 year
   return '365d';
+};
+
+export const fixedIntervalToTickFormat = (fixedInterval: string) => {
+  if (fixedInterval === '1d')
+    return '%b %e, %Y'
+  if (fixedInterval === '30d')
+    return '%b %Y'
+  if (fixedInterval === '365d')
+    return '%Y';
+  return '';
 };
 
 export const getPercentileFilter = (

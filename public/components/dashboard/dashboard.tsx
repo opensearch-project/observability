@@ -24,8 +24,8 @@ interface DashboardProps extends SearchBarProps, CoreDeps {}
 
 export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
-  const [throughputPltItems, setThroughputPltItems] = useState([]);
-  const [errorRatePltItems, setErrorRatePltItems] = useState([]);
+  const [throughputPltItems, setThroughputPltItems] = useState({items: [], fixedInterval: '1h'});
+  const [errorRatePltItems, setErrorRatePltItems] = useState({items: [], fixedInterval: '1h'});
 
   useEffect(() => {
     props.setBreadcrumbs([

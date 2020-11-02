@@ -122,11 +122,11 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
                   color: 'rgb(171, 211, 240)',
                 },
                 type: 'bar',
-                hovertemplate: 'Throughput: %{y}<extra></extra>',
+                hovertemplate: '%{x}<br>Throughput: %{y}<extra></extra>',
               },
             ]
           : [];
-      setItems(newItems);
+      setItems({ items: newItems, fixedInterval: fixedInterval });
     })
     .catch((error) => console.error(error));
 };
@@ -145,11 +145,11 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
                   color: '#fad963',
                 },
                 type: 'bar',
-                hovertemplate: 'Error rate: %{y}<extra></extra>',
+                hovertemplate: '%{x}<br>Error rate: %{y}<extra></extra>',
               },
             ]
           : [];
-      setItems(newItems);
+      setItems({ items: newItems, fixedInterval: fixedInterval });
     })
     .catch((error) => console.error(error));
 };
