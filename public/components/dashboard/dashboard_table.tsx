@@ -15,7 +15,7 @@ import React from 'react';
 import _ from 'lodash';
 import { EuiTableFieldDataColumnType } from '@elastic/eui';
 import { calculateTicks, PanelTitle, renderBenchmark } from '../common';
-import { BoxPlt } from './box_plt';
+import { BoxPlt } from '../common/plots/box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 import { FilterType } from '../common/filters/filters';
 

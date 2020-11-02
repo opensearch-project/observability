@@ -10,38 +10,7 @@ import {
 import _ from 'lodash';
 import React from 'react';
 import { PanelTitle, renderBenchmark } from '../common';
-import { Plt } from '../common/plt';
-
-// breaks when window width too small
-// const renderStats = (serviceBreakdownData) => {
-//   if (serviceBreakdownData.length === 0)
-//     return null;
-//   const trace = serviceBreakdownData[0];
-//   return (
-//     <EuiFlexGrid columns={3} responsive={false}>
-//       <EuiFlexItem />
-//       <EuiFlexItem>
-//         <EuiText size='s'>%time spent</EuiText>
-//       </EuiFlexItem>
-//       <EuiFlexItem>
-//         <EuiText size='s'>%time spent</EuiText>
-//       </EuiFlexItem>
-//       {serviceBreakdownData[0].labels.map((label, i) => (
-//         <>
-//           <EuiFlexItem key={`row-${i}`}>
-//             <EuiHealth color={trace.marker.colors[i]}>{label}</EuiHealth>
-//           </EuiFlexItem>
-//           <EuiFlexItem>
-//             <EuiText size='s'>{_.round(trace.values[i], 2)}%</EuiText>
-//           </EuiFlexItem>
-//           <EuiFlexItem>
-//             {renderBenchmark(trace.benchmarks[i])}
-//           </EuiFlexItem>
-//         </>
-//       ))}
-//     </EuiFlexGrid>
-//   );
-// }
+import { Plt } from '../common/plots/plt';
 
 const renderStats = (serviceBreakdownData) => {
   return serviceBreakdownData.length > 0 ? (
@@ -88,7 +57,7 @@ const layout = {
   },
 } as Partial<Plotly.Layout>;
 
-export function ServiceBreakdownPlt(props: { data: Plotly.Data[] }) {
+export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
   return (
     <>
       <EuiPanel>

@@ -18,7 +18,7 @@ import { handleServiceViewRequest } from '../../requests/services_request_handle
 import { CoreDeps } from '../app';
 import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
-import { ServiceMap } from './service_map';
+import { ServiceMap } from '../common/plots/service_map';
 
 const renderTitle = (
   serviceName: string,
@@ -62,7 +62,7 @@ const renderTitle = (
   );
 };
 
-const renderOverview = (fields, addFilter) => {
+const renderOverview = (fields, addFilter, serviceName) => {
   return (
     <EuiPanel>
       <PanelTitle title="Overview" />
@@ -73,7 +73,7 @@ const renderOverview = (fields, addFilter) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Name</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.name || '-'}
+                {serviceName || '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -119,7 +119,7 @@ const renderOverview = (fields, addFilter) => {
                     addFilter({
                       field: 'resource.attributes.service.name',
                       operator: 'is',
-                      value: fields.name,
+                      value: serviceName,
                       inverted: false,
                       disabled: false,
                     })
@@ -187,7 +187,7 @@ export function ServiceView(props: ServiceViewProps) {
             )}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
-          {renderOverview(fields, props.addFilter)}
+          {renderOverview(fields, props.addFilter, props.serviceName)}
           <EuiSpacer />
           <ServiceMap />
         </EuiPageBody>

@@ -1,8 +1,7 @@
+import dateMath from '@elastic/datemath';
 import { EuiText } from '@elastic/eui';
-import moment from 'moment';
 import React from 'react';
 import { FilterType } from './filters/filters';
-import dateMath from '@elastic/datemath';
 
 export function PanelTitle({ title, totalItems }: { title: string; totalItems?: number }) {
   return (
@@ -76,12 +75,9 @@ export const minFixedInterval = (startTime: string, endTime: string) => {
 };
 
 export const fixedIntervalToTickFormat = (fixedInterval: string) => {
-  if (fixedInterval === '1d')
-    return '%b %e, %Y'
-  if (fixedInterval === '30d')
-    return '%b %Y'
-  if (fixedInterval === '365d')
-    return '%Y';
+  if (fixedInterval === '1d') return '%b %e, %Y';
+  if (fixedInterval === '30d') return '%b %Y';
+  if (fixedInterval === '365d') return '%Y';
   return '';
 };
 

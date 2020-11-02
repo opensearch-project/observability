@@ -1,5 +1,16 @@
-import { EuiSideNav, EuiText } from '@elastic/eui';
+import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiText } from '@elastic/eui';
 import React from 'react';
+
+export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) => {
+  return (
+    <EuiPage>
+      <EuiPageSideBar>
+        <SideNav activeId={activeId} />
+      </EuiPageSideBar>
+      <EuiPageBody>{BodyComponent}</EuiPageBody>
+    </EuiPage>
+  );
+};
 
 export function SideNav({ activeId }: { activeId: number }) {
   return (

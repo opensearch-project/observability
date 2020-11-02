@@ -74,8 +74,8 @@ export const getServicesQuery = (serviceName = null) => {
 
 export const getServiceNodesQuery = () => {
   return {
-    size: 0,
     index: SERVICE_MAP_INDEX_NAME,
+    size: 0,
     query: {
       bool: {
         must: [],
@@ -90,6 +90,34 @@ export const getServiceNodesQuery = () => {
           field: 'serviceName',
           size: SERVICE_MAP_MAX_NODES,
         },
+      },
+    },
+  };
+};
+
+export const getServiceSourceQuery = (serviceName: string) => {
+  return {
+    index: SERVICE_MAP_INDEX_NAME,
+    size: 1000,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              serviceName: {
+                value: serviceName,
+              },
+            },
+          },
+          {
+            exists: {
+              field: 'destination',
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
   };

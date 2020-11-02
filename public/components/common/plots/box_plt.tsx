@@ -1,6 +1,6 @@
 import { EuiFlexGroup, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
 import React, { useState } from 'react';
-import { Plt } from '../common/plt';
+import { Plt } from './plt';
 
 interface PlotParamsType {
   min: number;
@@ -40,7 +40,8 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
     },
     height: 15,
     width: 200,
-  };
+  } as Partial<Plotly.Layout>;
+
   const data = [
     {
       x: [plotParams.left],
@@ -80,7 +81,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         },
       },
     },
-  ];
+  ] as Plotly.Data[];
 
   const renderTooltip = () => {
     return (

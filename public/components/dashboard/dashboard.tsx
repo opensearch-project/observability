@@ -16,17 +16,17 @@ import {
   SearchBarProps,
 } from '../common';
 import { FilterType } from '../common/filters/filters';
-import { ServiceMap } from '../services';
+import { ErrorRatePlt } from '../common/plots/error_rate_plt';
+import { ServiceMap } from '../common/plots/service_map';
+import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { DashboardTable } from './dashboard_table';
-import { ErrorRatePlt } from './error_rate_plt';
-import { ThroughputPlt } from './throughput_plt';
 
 interface DashboardProps extends SearchBarProps, CoreDeps {}
 
 export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
-  const [throughputPltItems, setThroughputPltItems] = useState({items: [], fixedInterval: '1h'});
-  const [errorRatePltItems, setErrorRatePltItems] = useState({items: [], fixedInterval: '1h'});
+  const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
+  const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [mapItems, setMapItems] = useState([]);
 
   useEffect(() => {

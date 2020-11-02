@@ -1,4 +1,4 @@
-import { getServiceNodesQuery, getServicesQuery } from './queries/services_queries';
+import { getServiceNodesQuery, getServiceSourceQuery, getServicesQuery } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
 export const handleServicesRequest = (http, DSL, items, setItems) => {
@@ -21,10 +21,14 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
 };
 
 export const handleServiceMapRequest = async (http, DSL, items, setItems) => {
-  const nodes = await handleDslRequest(http, {}, getServiceNodesQuery()).then((response) =>
+  const nodes = await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
     Promise.all(response.aggregations.service_name.buckets.map((bucket) => bucket.key))
   );
   console.log(nodes);
+  const edges = await Promise.all(nodes.map(async (service: string) => {
+    const hits = await handleDslRequest(http, null, getServiceSourceQuery(service))
+    console.log(service, hits)
+  }))
 };
 
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {
@@ -38,7 +42,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
         average_latency: bucket.average_latency.value,
         error_rate: bucket.error_rate.value,
         throughput: bucket.doc_count,
-        traces: bucket.doc_count,
+        traces: bucket.traces.doc_count,
       };
     })
     .then((newFields) => {

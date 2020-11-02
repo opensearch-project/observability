@@ -23,7 +23,7 @@ import {
 } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
 import { PanelTitle, renderBenchmark } from '../common';
-import { ServiceBreakdownPlt } from './service_breakdown_plt';
+import { ServiceBreakdownPanel } from './service_breakdown_panel';
 import { SpanDetailPanel } from './span_detail_panel';
 
 const renderTitle = (traceId: string) => {
@@ -163,7 +163,7 @@ export function TraceView(props: TraceViewProps) {
           <EuiSpacer />
           <EuiFlexGroup>
             <EuiFlexItem grow={3}>
-              <ServiceBreakdownPlt data={serviceBreakdownData} />
+              <ServiceBreakdownPanel data={serviceBreakdownData} />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
               <SpanDetailPanel data={spanDetailData} />

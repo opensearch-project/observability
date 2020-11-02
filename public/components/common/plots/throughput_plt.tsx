@@ -1,7 +1,7 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
-import { fixedIntervalToTickFormat, PanelTitle } from '../common';
-import { Plt } from '../common/plt';
+import { fixedIntervalToTickFormat, PanelTitle } from '..';
+import { Plt } from './plt';
 
 export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
   const layout = {

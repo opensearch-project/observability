@@ -1,12 +1,11 @@
-import { EuiPage, EuiPageBody, EuiPageSideBar } from '@elastic/eui';
 import { I18nProvider } from '@kbn/i18n/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 import { SearchBarProps } from './common';
 import { FilterType } from './common/filters/filters';
-import { SideNav } from './common/side_nav';
+import { renderPageWithSidebar } from './common/side_nav';
 import { Dashboard } from './dashboard';
 import { Services, ServiceView } from './services';
 import { Traces, TraceView } from './traces';
@@ -19,17 +18,6 @@ interface TraceAnalyticsAppDeps {
   chrome: CoreStart['chrome'];
   navigation: NavigationPublicPluginStart;
 }
-
-export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) => {
-  return (
-    <EuiPage>
-      <EuiPageSideBar>
-        <SideNav activeId={activeId} />
-      </EuiPageSideBar>
-      <EuiPageBody>{BodyComponent}</EuiPageBody>
-    </EuiPage>
-  );
-};
 
 export interface CoreDeps {
   http: CoreStart['http'];
@@ -53,13 +41,11 @@ export const TraceAnalyticsApp = ({
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    window.localStorage.getItem('TraceAnalyticsStartTime') || 'now-1y'
+    window.localStorage.getItem('TraceAnalyticsStartTime') || '2020-10-15T14:00:00.000Z'
   );
   const [endTime, setEndTime] = useState<string>(
-    window.localStorage.getItem('TraceAnalyticsEndTime') || 'now'
+    window.localStorage.getItem('TraceAnalyticsEndTime') || '2020-10-15T15:30:00.000Z'
   );
-  // const [startTime, setStartTime] = useState<string>('Oct 15, 2020 @ 07:30:00.000');
-  // const [endTime, setEndTime] = useState<string>('Oct 15, 2020 @ 08:30:00.000');
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);

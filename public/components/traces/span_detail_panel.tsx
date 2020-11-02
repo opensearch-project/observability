@@ -9,7 +9,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { DATE_FORMAT } from '../../../common';
 import { PanelTitle, renderBenchmark } from '../common';
-import { Plt } from '../common/plt';
+import { Plt } from '../common/plots/plt';
 
 const getSpanDetailLayout = (plotTraces: Plotly.Data[], maxX: number): Partial<Plotly.Layout> => {
   // get unique labels from traces

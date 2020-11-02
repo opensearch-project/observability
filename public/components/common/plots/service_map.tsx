@@ -11,9 +11,9 @@ import {
 import React, { useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
-import { getServiceMapData } from '../../data/service_map_data';
-import { PanelTitle } from '../common';
-import { Plt } from '../common/plt';
+import { getServiceMapData } from '../../../data/service_map_data';
+import { PanelTitle } from '..';
+import { Plt } from './plt';
 
 const renderServiceMap = (serviceMapData) => {
   return (
