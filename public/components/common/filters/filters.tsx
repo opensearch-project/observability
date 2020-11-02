@@ -262,7 +262,7 @@ export function Filters(props: FiltersProps) {
   };
 
   return (
-    <EuiFlexGroup gutterSize="xs" alignItems="center" responsive={false}>
+    <EuiFlexGroup gutterSize="xs" alignItems="center" responsive={false} style={{ minHeight: 32 }}>
       <EuiFlexItem grow={false}>
         <GlobalFilterButton />
       </EuiFlexItem>

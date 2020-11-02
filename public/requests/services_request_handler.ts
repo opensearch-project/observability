@@ -11,7 +11,7 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
             average_latency: bucket.average_latency.value,
             error_rate: bucket.error_rate.value,
             throughput: bucket.doc_count,
-            traces: bucket.doc_count,
+            traces: bucket.traces.doc_count,
           };
         })
       )

@@ -15,37 +15,22 @@ export const getServicesQuery = (serviceName = null) => {
           field: 'resource.attributes.service.name',
         },
         aggs: {
+          traces: {
+            filter: {
+              bool: {
+                must_not: {
+                  exists: {
+                    field: 'parentSpanId',
+                  },
+                },
+              },
+            },
+          },
           error_count: {
             filter: {
               exists: {
                 field: 'status.code',
               },
-            },
-          },
-          total_latency: {
-            scripted_metric: {
-              init_script: `
-                state.latencies = [];
-              `,
-              map_script: `
-                state.latencies.add(doc['endTime'].value.toInstant().toEpochMilli() - doc['startTime'].value.toInstant().toEpochMilli());
-              `,
-              combine_script: `
-                double sumLatency = 0;
-                for (t in state.latencies) { 
-                  sumLatency += t;
-                }
-                return sumLatency;
-              `,
-              reduce_script: `
-                double sumLatency = 0;
-                for (a in states) {
-                  if (a != null) {
-                    sumLatency += a;
-                  }
-                }
-                return sumLatency;
-              `,
             },
           },
           error_rate: {
@@ -57,13 +42,18 @@ export const getServicesQuery = (serviceName = null) => {
               script: 'params.errors / params.total * 100',
             },
           },
+          average_latency_nanos: {
+            avg: {
+              field: 'durationInNanos',
+            },
+          },
           average_latency: {
             bucket_script: {
               buckets_path: {
                 count: '_count',
-                latency: 'total_latency.value',
+                latency: 'average_latency_nanos.value',
               },
-              script: 'params.latency / params.count',
+              script: 'Math.round(params.latency / 10000) / 100.0',
             },
           },
         },
