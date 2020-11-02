@@ -100,8 +100,7 @@ export function DashboardTable(props: {
         </>
       ),
       align: 'center',
-      sortable: false,
-      // width: '20%',
+      sortable: ({ latency_variance }) => latency_variance[2] - latency_variance[0],
       render: (item, row) => {
         return item ? (
           // expand plot ranges to accomondate scale
