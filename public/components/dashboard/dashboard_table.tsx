@@ -224,16 +224,18 @@ export function DashboardTable(props: {
       sortable: true,
       render: (item, row) => (
         <EuiLink
-          href="#traces"
-          onClick={() =>
+          onClick={() => {
             props.addFilter({
               field: 'name',
               operator: 'is',
               value: row.trace_group_name,
               inverted: false,
               disabled: false,
-            })
-          }
+            });
+            setTimeout(() => {
+              location.assign('#/traces');
+            }, 300);
+          }}
         >
           <EuiI18nNumber value={item} />
         </EuiLink>

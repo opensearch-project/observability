@@ -86,8 +86,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       truncateText: true,
       render: (item, row) => (
         <EuiLink
-          href="#traces"
-          onClick={() =>
+          onClick={() =>{
             props.addFilter({
               field: 'resource.attributes.service.name',
               operator: 'is',
@@ -95,7 +94,10 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
               inverted: false,
               disabled: false,
             })
-          }
+            setTimeout(() => {
+              location.assign('#/traces');
+            }, 300);
+          }}
         >
           <EuiI18nNumber value={item} />
         </EuiLink>

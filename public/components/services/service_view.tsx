@@ -52,7 +52,9 @@ const renderTitle = (
               inverted: false,
               disabled: false,
             });
-            window.location.assign('#traces');
+            setTimeout(() => {
+              location.assign('#/traces');
+            }, 300);
           }}
         >
           View related traces
@@ -114,16 +116,18 @@ const renderOverview = (fields, addFilter, serviceName) => {
               <EuiText className="overview-title">Traces</EuiText>
               <EuiText size="s" className="overview-content">
                 <EuiLink
-                  href="#traces"
-                  onClick={() =>
+                  onClick={() => {
                     addFilter({
                       field: 'resource.attributes.service.name',
                       operator: 'is',
                       value: serviceName,
                       inverted: false,
                       disabled: false,
-                    })
-                  }
+                    });
+                    setTimeout(() => {
+                      location.assign('#/traces');
+                    }, 300);
+                  }}
                 >
                   <EuiI18nNumber value={fields.traces} />
                 </EuiLink>
