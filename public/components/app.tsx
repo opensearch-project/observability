@@ -33,35 +33,33 @@ export const TraceAnalyticsApp = ({
   chrome,
   navigation,
 }: TraceAnalyticsAppDeps) => {
-  const storedFilters = window.localStorage.getItem('TraceAnalyticsFilters');
-  const [query, setQuery] = useState<string>(
-    window.localStorage.getItem('TraceAnalyticsQuery') || ''
-  );
+  const storedFilters = localStorage.getItem('TraceAnalyticsFilters');
+  const [query, setQuery] = useState<string>(localStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    window.localStorage.getItem('TraceAnalyticsStartTime') || '2020-10-15T14:00:00.000Z'
+    localStorage.getItem('TraceAnalyticsStartTime') || '2020-10-15T14:00:00.000Z'
   );
   const [endTime, setEndTime] = useState<string>(
-    window.localStorage.getItem('TraceAnalyticsEndTime') || '2020-10-15T15:30:00.000Z'
+    localStorage.getItem('TraceAnalyticsEndTime') || '2020-10-15T15:30:00.000Z'
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);
-    window.localStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
+    localStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
   };
   const setQueryWithStorage = (newQuery: string) => {
     setQuery(newQuery);
-    window.localStorage.setItem('TraceAnalyticsQuery', newQuery);
+    localStorage.setItem('TraceAnalyticsQuery', newQuery);
   };
   const setStartTimeWithStorage = (newStartTime: string) => {
     setStartTime(newStartTime);
-    window.localStorage.setItem('TraceAnalyticsStartTime', newStartTime);
+    localStorage.setItem('TraceAnalyticsStartTime', newStartTime);
   };
   const setEndTimeWithStorage = (newEndTime: string) => {
     setEndTime(newEndTime);
-    window.localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
+    localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
   };
 
   const commonProps: SearchBarProps & CoreDeps = {
