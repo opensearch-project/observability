@@ -4,9 +4,9 @@ The Open Distro for Elasticsearch Trace Analytics plugin provides instant on das
 
 1. Dashboard: an overview of the trace groups and three charts: service map, error rate, and throughput.
 
-1. Traces: a table of the top level traces, where users can click on any trace to see its statistics, service breakdown, and a latency Gantt chart.
+1. Traces: a table of top-level traces with unique trace id's, where users can click on any trace to see its end-to-end performance metrics, service performance metrics, and a span latency metrics in a Gantt chart.
 
-1. Services: a table of the services, where users can click on a service to see its statistics and related services.
+1. Services: a table of the services, where users can click on a service to see its performance metrics and related services.
 
 Additionally the fields can be sorted and filtered.
 
