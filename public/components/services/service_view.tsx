@@ -164,7 +164,6 @@ export function ServiceView(props: ServiceViewProps) {
         href: `#services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
-    refresh();
   }, []);
 
   useEffect(() => {

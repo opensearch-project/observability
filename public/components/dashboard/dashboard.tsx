@@ -27,7 +27,8 @@ export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
-  const [mapItems, setMapItems] = useState([]);
+  const [mapItems, setMapItems] = useState({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -40,7 +41,6 @@ export function Dashboard(props: DashboardProps) {
         href: '#dashboard',
       },
     ]);
-    refresh();
   }, []);
 
   useEffect(() => {
@@ -130,7 +130,11 @@ export function Dashboard(props: DashboardProps) {
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>
-          <ServiceMap />
+          <ServiceMap
+            items={mapItems}
+            idSelected={serviceMapIdSelected}
+            setIdSelected={setServiceMapIdSelected}
+          />
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFlexGroup direction="column">

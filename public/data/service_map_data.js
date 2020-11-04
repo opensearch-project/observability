@@ -21,6 +21,7 @@ export const getServiceMapData = (colorMap) => {
       edges: [
         { from: 1, to: 2 },
         { from: 2, to: 5 },
+        { from: 2, to: 5 },
         { from: 4, to: 5 },
         { from: 3, to: 5 },
         { from: 6, to: 5 },

@@ -1,4 +1,9 @@
-import { getServiceNodesQuery, getServiceSourceQuery, getServicesQuery } from './queries/services_queries';
+import {
+  getServiceEdgesQuery,
+  getServiceNodesQuery,
+  getServiceSourcesQuery,
+  getServicesQuery,
+} from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
 export const handleServicesRequest = (http, DSL, items, setItems) => {
@@ -21,14 +26,51 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
 };
 
 export const handleServiceMapRequest = async (http, DSL, items, setItems) => {
-  const nodes = await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
-    Promise.all(response.aggregations.service_name.buckets.map((bucket) => bucket.key))
+  const buckets = await handleDslRequest(http, null, getServiceSourcesQuery()).then(
+    (response) => response.aggregations.service_name.buckets
   );
-  console.log(nodes);
-  const edges = await Promise.all(nodes.map(async (service: string) => {
-    const hits = await handleDslRequest(http, null, getServiceSourceQuery(service))
-    console.log(service, hits)
-  }))
+  const outgoingServices = [];
+  await Promise.all(
+    buckets.map((bucket) => {
+      bucket.resource.buckets.map((resource) => {
+        resource.domain.buckets.map((domain) => {
+          outgoingServices.push({
+            serviceName: bucket.key,
+            destination: { resource: resource.key, domain: domain.key },
+          });
+        });
+      });
+    })
+  );
+
+  const nodesMap = {};
+  const nodes = [];
+  let id = 1;
+  const getId = (service: string) => {
+    if (nodesMap[service]) return nodesMap[service];
+    nodes.push({
+      id: id,
+      label: service,
+    });
+    nodesMap[service] = id++;
+    return id - 1;
+  };
+
+  const edges = await Promise.all(
+    outgoingServices.map(async (service) => {
+      const response = await handleDslRequest(
+        http,
+        null,
+        getServiceEdgesQuery(service.destination)
+      );
+      if (!response.aggregations.service_name.buckets) return;
+      return {
+        from: getId(service.serviceName),
+        to: getId(response.aggregations.service_name.buckets[0].key),
+      };
+    })
+  );
+  setItems({ graph: { nodes, edges } });
 };
 
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {

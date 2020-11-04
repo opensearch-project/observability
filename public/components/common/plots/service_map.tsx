@@ -11,22 +11,8 @@ import {
 import React, { useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
-import { getServiceMapData } from '../../../data/service_map_data';
 import { PanelTitle } from '..';
 import { Plt } from './plt';
-
-const renderServiceMap = (serviceMapData) => {
-  return (
-    <Graph
-      graph={serviceMapData.graph}
-      options={serviceMapData.options}
-      events={serviceMapData.events}
-      getNetwork={(network) => {
-        //  if you want access to vis.js network api you can set the state in a parent component using this property
-      }}
-    />
-  );
-};
 
 const renderServiceMapScale = (scaleData) => {
   const layout = _.merge(
@@ -81,7 +67,15 @@ const renderServiceMapScale = (scaleData) => {
   );
 };
 
-export function ServiceMap() {
+export function ServiceMap({
+  items,
+  idSelected,
+  setIdSelected,
+}: {
+  items: any;
+  idSelected: string;
+  setIdSelected: (newId: string) => void;
+}) {
   const toggleButtons = [
     {
       id: 'latency',
@@ -96,8 +90,6 @@ export function ServiceMap() {
       label: 'Throughput',
     },
   ];
-
-  const [idSelected, setIdSelected] = useState<string>('latency');
 
   const scaleData = {
     [toggleButtons[0].id]: {
@@ -151,7 +143,36 @@ export function ServiceMap() {
     },
   };
 
-  const serviceMapData = getServiceMapData(scaleData[idSelected].data.marker.color);
+  const options = {
+    layout: {
+      hierarchical: false,
+    },
+    edges: {
+      arrows: {
+        to: {
+          enabled: false,
+        },
+      },
+    },
+    nodes: {
+      shape: 'dot',
+      size: 20,
+      font: {
+        size: 22,
+      },
+    },
+    height: '434px',
+    width: '100%',
+    autoResize: true,
+  };
+
+  const events = {
+    select: function (event) {
+      const { nodes, edges } = event;
+    },
+  };
+  
+  console.log(items)
 
   return (
     <>
@@ -177,7 +198,14 @@ export function ServiceMap() {
         <EuiSpacer />
 
         <EuiFlexGroup gutterSize="none" responsive={false}>
-          <EuiFlexItem>{renderServiceMap(serviceMapData)}</EuiFlexItem>
+          <EuiFlexItem>
+            {items?.graph && <Graph
+              graph={items.graph}
+              options={options}
+              events={events}
+              getNetwork={(network) => { }}
+            />}
+          </EuiFlexItem>
           <EuiFlexItem grow={false}>{renderServiceMapScale(scaleData[idSelected])}</EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>

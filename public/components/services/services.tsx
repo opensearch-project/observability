@@ -21,7 +21,6 @@ export function Services(props: ServicesProps) {
         href: '#services',
       },
     ]);
-    refresh();
   }, []);
 
   useEffect(() => {

@@ -20,7 +20,6 @@ export function Traces(props: TracesProps) {
         href: '#traces',
       },
     ]);
-    refresh();
   }, []);
 
   useEffect(() => {

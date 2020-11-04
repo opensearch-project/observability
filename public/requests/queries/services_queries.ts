@@ -1,4 +1,4 @@
-import { SERVICE_MAP_INDEX_NAME, SERVICE_MAP_MAX_NODES } from '../../../common';
+import { SERVICE_MAP_INDEX_NAME, SERVICE_MAP_MAX_EDGES, SERVICE_MAP_MAX_NODES } from '../../../common';
 
 export const getServicesQuery = (serviceName = null) => {
   const query = {
@@ -95,20 +95,13 @@ export const getServiceNodesQuery = () => {
   };
 };
 
-export const getServiceSourceQuery = (serviceName: string) => {
+export const getServiceSourcesQuery = () => {
   return {
     index: SERVICE_MAP_INDEX_NAME,
-    size: 1000,
+    size: 0,
     query: {
       bool: {
         must: [
-          {
-            term: {
-              serviceName: {
-                value: serviceName,
-              },
-            },
-          },
           {
             exists: {
               field: 'destination',
@@ -118,6 +111,68 @@ export const getServiceSourceQuery = (serviceName: string) => {
         filter: [],
         should: [],
         must_not: [],
+      },
+    },
+    aggs: {
+      service_name: {
+        terms: {
+          field: 'serviceName',
+          size: SERVICE_MAP_MAX_EDGES,
+        },
+        aggs: {
+          resource: {
+            terms: {
+              field: 'destination.resource',
+              size: SERVICE_MAP_MAX_EDGES,
+            },
+            aggs: {
+              domain: {
+                terms: {
+                  field: 'destination.domain',
+                  size: SERVICE_MAP_MAX_EDGES,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+};
+
+export const getServiceEdgesQuery = (destination: { resource: string; domain: string }) => {
+  return {
+    index: SERVICE_MAP_INDEX_NAME,
+    size: 0,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              'target.resource': {
+                value: destination.resource,
+              },
+            },
+          },
+          {
+            term: {
+              'target.domain': {
+                value: destination.domain,
+              },
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      service_name: {
+        terms: {
+          field: 'serviceName',
+          size: SERVICE_MAP_MAX_NODES,
+        },
       },
     },
   };
