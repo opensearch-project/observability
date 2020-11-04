@@ -14,7 +14,10 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { handleServiceViewRequest } from '../../requests/services_request_handler';
+import {
+  handleServiceMapRequest,
+  handleServiceViewRequest,
+} from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
 import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
@@ -81,13 +84,13 @@ const renderOverview = (fields, addFilter, serviceName) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Number of connected services</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.number_of_connected_services}
+                {fields.number_of_connected_services || 0}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Connected services</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.connected_services}
+                {fields.connected_services || '-'}
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -97,19 +100,19 @@ const renderOverview = (fields, addFilter, serviceName) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Average latency (ms)</EuiText>
               <EuiText size="s" className="overview-content">
-                {_.round(fields.average_latency, 2).toString()}
+                {fields.average_latency || '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Error rate</EuiText>
               <EuiText size="s" className="overview-content">
-                {_.round(fields.error_rate, 2).toString()}%
+                {fields.error_rate ? _.round(fields.error_rate, 2).toString() + '%' : '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Throughput</EuiText>
               <EuiText size="s" className="overview-content">
-                <EuiI18nNumber value={fields.throughput} />
+                <EuiI18nNumber value={fields.throughput || 0} />
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -129,7 +132,7 @@ const renderOverview = (fields, addFilter, serviceName) => {
                     }, 300);
                   }}
                 >
-                  <EuiI18nNumber value={fields.traces} />
+                  <EuiI18nNumber value={fields.traces || 0} />
                 </EuiLink>
               </EuiText>
             </EuiFlexItem>
@@ -148,6 +151,8 @@ interface ServiceViewProps extends SearchBarProps, CoreDeps {
 
 export function ServiceView(props: ServiceViewProps) {
   const [fields, setFields] = useState({});
+  const [mapItems, setMapItems] = useState({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -173,6 +178,7 @@ export function ServiceView(props: ServiceViewProps) {
   const refresh = () => {
     const DSL = filtersToDsl([], '', props.startTime, props.endTime);
     handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
+    handleServiceMapRequest(props.http, {}, mapItems, setMapItems);
   };
 
   return (
@@ -192,7 +198,11 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiSpacer size="xl" />
           {renderOverview(fields, props.addFilter, props.serviceName)}
           <EuiSpacer />
-          <ServiceMap />
+          <ServiceMap
+            items={mapItems}
+            idSelected={serviceMapIdSelected}
+            setIdSelected={setServiceMapIdSelected}
+          />
         </EuiPageBody>
       </EuiPage>
     </>

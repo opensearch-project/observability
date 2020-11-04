@@ -6,26 +6,42 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
+const getConnectedServices = (serviceName, graph: { nodes: any[]; edges: any[] }) => {
+  const id = graph.nodes?.find((node) => node.label === serviceName)?.id;
+  if (id === undefined) return [];
+  const connectedServices = graph.edges
+    .filter((edge) => edge.from === id)
+    .map((edge) => graph.nodes?.find((node) => node.id === edge.to)?.label)
+    .filter((service) => service);
+  return connectedServices;
+};
+
 export const handleServicesRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getServicesQuery())
-    .then((response) =>
-      Promise.all(
-        response.aggregations.trace_group.buckets.map((bucket) => ({
-          name: bucket.key,
-          average_latency: bucket.average_latency.value,
-          error_rate: bucket.error_rate.value,
-          throughput: bucket.doc_count,
-          traces: bucket.traces.doc_count,
-        }))
-      )
-    )
+    .then(async (response) => {
+      const serviceMap = await handleServiceMapRequest(http, {});
+      return Promise.all(
+        response.aggregations.trace_group.buckets.map((bucket) => {
+          const connectedServices = getConnectedServices(bucket.key, serviceMap.graph);
+          return {
+            name: bucket.key,
+            average_latency: bucket.average_latency.value,
+            error_rate: bucket.error_rate.value,
+            throughput: bucket.doc_count,
+            traces: bucket.traces.doc_count,
+            connected_services: connectedServices.join(', '),
+            number_of_connected_services: connectedServices.length,
+          };
+        })
+      );
+    })
     .then((newItems) => {
       setItems(newItems);
     })
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items, setItems) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
   const buckets = await handleDslRequest(http, null, getServiceSourcesQuery()).then(
     (response) => response.aggregations.service_name.buckets
   );
@@ -70,17 +86,22 @@ export const handleServiceMapRequest = async (http, DSL, items, setItems) => {
       };
     })
   );
-  setItems({ graph: { nodes, edges } });
+  const result = { graph: { nodes, edges } };
+  if (setItems) setItems(result);
+  return result;
 };
 
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {
   handleDslRequest(http, DSL, getServicesQuery(serviceName))
-    .then((response) => {
+    .then(async (response) => {
       const bucket = response.aggregations.trace_group.buckets[0];
+      if (!bucket) return {};
+      const serviceMap = await handleServiceMapRequest(http, {});
+      const connectedServices = getConnectedServices(bucket.key, serviceMap.graph);
       return {
         name: bucket.key,
-        number_of_connected_services: 'N/A',
-        connected_services: 'N/A',
+        connected_services: connectedServices.join(', '),
+        number_of_connected_services: connectedServices.length,
         average_latency: bucket.average_latency.value,
         error_rate: bucket.error_rate.value,
         throughput: bucket.doc_count,
@@ -92,6 +113,3 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
     })
     .catch((error) => console.error(error));
 };
-
-// 'number_of_connected_services': Math.floor(Math.random() * 5 + 2),
-// 'connected_services': Array.from({ length: 3 }, () => Math.random().toString(36).substring(2)).join(', '),

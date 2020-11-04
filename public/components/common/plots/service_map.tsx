@@ -171,8 +171,6 @@ export function ServiceMap({
       const { nodes, edges } = event;
     },
   };
-  
-  console.log(items)
 
   return (
     <>
