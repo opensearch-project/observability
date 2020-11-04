@@ -1,6 +1,6 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
-import { fixedIntervalToTickFormat, PanelTitle } from '..';
+import { fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
 import { Plt } from './plt';
 
 export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
@@ -56,10 +56,14 @@ export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInter
 
   return (
     <>
-      <EuiPanel>
+      <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
         <PanelTitle title="Throughput over time" />
         <EuiHorizontalRule margin="m" />
-        <Plt data={props.items.items} layout={layout} />
+        {props.items?.items?.length > 0 ? (
+          <Plt data={props.items.items} layout={layout} />
+        ) : (
+          <NoMatchMessage size="s" />
+        )}
       </EuiPanel>
     </>
   );

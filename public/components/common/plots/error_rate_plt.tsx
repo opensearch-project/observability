@@ -1,7 +1,7 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
-import { fixedIntervalToTickFormat, PanelTitle } from '..';
+import { fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
 import { Plt } from './plt';
 
 export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
@@ -46,7 +46,10 @@ export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterv
           size: 12,
         },
       },
-      range: [0, Math.min(100, Math.max(...(props.items.items[0]?.y.map((y) => y * 1.2) || []), 20))],
+      range: [
+        0,
+        Math.min(100, Math.max(...(props.items.items[0]?.y.map((y) => y * 1.2) || []), 20)),
+      ],
       fixedrange: true,
       ticksuffix: '%',
       gridcolor: '#d9d9d9',
@@ -60,10 +63,14 @@ export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterv
 
   return (
     <>
-      <EuiPanel>
+      <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
         <PanelTitle title="Error rate over time" />
         <EuiHorizontalRule margin="m" />
-        <Plt data={props.items.items} layout={layout} />
+        {props.items?.items?.length > 0 ? (
+          <Plt data={props.items.items} layout={layout} />
+        ) : (
+          <NoMatchMessage size="s" />
+        )}
       </EuiPanel>
     </>
   );

@@ -12,7 +12,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
-import { PanelTitle } from '../common';
+import { NoMatchMessage, PanelTitle } from '../common';
 import { FilterType } from '../common/filters/filters';
 
 const renderTitleBar = (totalItems?: number) => {
@@ -86,14 +86,14 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       truncateText: true,
       render: (item, row) => (
         <EuiLink
-          onClick={() =>{
+          onClick={() => {
             props.addFilter({
               field: 'serviceName',
               operator: 'is',
               value: row.name,
               inverted: false,
               disabled: false,
-            })
+            });
             setTimeout(() => {
               location.assign('#/traces');
             }, 300);
@@ -111,16 +111,20 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
         {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
-        <EuiInMemoryTable
-          tableLayout="auto"
-          items={props.items}
-          columns={columns}
-          pagination={{
-            initialPageSize: 10,
-            pageSizeOptions: [5, 10, 15],
-          }}
-          sorting={true}
-        />
+        {props.items?.length > 0 ? (
+          <EuiInMemoryTable
+            tableLayout="auto"
+            items={props.items}
+            columns={columns}
+            pagination={{
+              initialPageSize: 10,
+              pageSizeOptions: [5, 10, 15],
+            }}
+            sorting={true}
+          />
+        ) : (
+          <NoMatchMessage size="xl" />
+        )}
       </EuiPanel>
     </>
   );

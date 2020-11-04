@@ -13,7 +13,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
-import { PanelTitle } from '../common';
+import { NoMatchMessage, PanelTitle } from '../common';
 
 const renderTitleBar = (totalItems?: number) => {
   return (
@@ -103,16 +103,20 @@ export function TracesTable(props: { items: any[] }) {
         {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
-        <EuiInMemoryTable
-          tableLayout="auto"
-          items={props.items}
-          columns={columns}
-          pagination={{
-            initialPageSize: 10,
-            pageSizeOptions: [8, 10, 13],
-          }}
-          sorting={true}
-        />
+        {props.items?.length > 0 ? (
+          <EuiInMemoryTable
+            tableLayout="auto"
+            items={props.items}
+            columns={columns}
+            pagination={{
+              initialPageSize: 10,
+              pageSizeOptions: [8, 10, 13],
+            }}
+            sorting={true}
+          />
+        ) : (
+          <NoMatchMessage size="xl" />
+        )}
       </EuiPanel>
     </>
   );

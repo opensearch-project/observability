@@ -14,7 +14,7 @@ import {
 import React from 'react';
 import _ from 'lodash';
 import { EuiTableFieldDataColumnType } from '@elastic/eui';
-import { calculateTicks, PanelTitle, renderBenchmark } from '../common';
+import { calculateTicks, NoMatchMessage, PanelTitle, renderBenchmark } from '../common';
 import { BoxPlt } from '../common/plots/box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 import { FilterType } from '../common/filters/filters';
@@ -275,16 +275,20 @@ export function DashboardTable(props: {
         {renderTitleBar(props.items?.length)}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
-        <EuiInMemoryTable
-          items={props.items}
-          columns={columns}
-          pagination={{
-            initialPageSize: 10,
-            pageSizeOptions: [5, 10, 15],
-          }}
-          sorting={true}
-          tableLayout="auto"
-        />
+        {props.items?.length > 0 ? (
+          <EuiInMemoryTable
+            items={props.items}
+            columns={columns}
+            pagination={{
+              initialPageSize: 10,
+              pageSizeOptions: [5, 10, 15],
+            }}
+            sorting={true}
+            tableLayout="auto"
+          />
+        ) : (
+          <NoMatchMessage size="xl" />
+        )}
       </EuiPanel>
     </>
   );

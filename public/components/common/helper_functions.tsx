@@ -1,5 +1,6 @@
 import dateMath from '@elastic/datemath';
-import { EuiText } from '@elastic/eui';
+import { EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
+import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import React from 'react';
 import { FilterType } from './filters/filters';
 
@@ -11,6 +12,24 @@ export function PanelTitle({ title, totalItems }: { title: string; totalItems?: 
         <span className="panel-title-count">{` (${totalItems})`}</span>
       ) : null}
     </EuiText>
+  );
+}
+
+export function NoMatchMessage(props: { size: SpacerSize }) {
+  return (
+    <>
+      <EuiSpacer size={props.size} />
+      <EuiEmptyPrompt
+        title={<h2>No matches</h2>}
+        body={
+          <EuiText>
+            No data matches the selected filter. Clear the filter and/or increase the time range to
+            see more results
+          </EuiText>
+        }
+      />
+      <EuiSpacer size={props.size} />
+    </>
   );
 }
 
