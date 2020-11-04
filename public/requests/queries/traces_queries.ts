@@ -59,7 +59,32 @@ export const getTracesQuery = (traceId = null) => {
     size: 0,
     query: {
       bool: {
-        must: [],
+        must: [
+          {
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
         filter: [],
         should: [],
         must_not: [],
@@ -72,52 +97,18 @@ export const getTracesQuery = (traceId = null) => {
           size: 10000,
         },
         aggs: {
-          parent_span: {
-            filter: {
-              bool: {
-                must: [
-                  {
-                    bool: {
-                      should: [
-                        {
-                          bool: {
-                            must_not: [
-                              {
-                                exists: {
-                                  field: 'parentSpanId',
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        {
-                          term: {
-                            parentSpanId: {
-                              value: '',
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  },
-                ],
+          latency: {
+            max: {
+              script: {
+                source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
+                lang: 'painless',
               },
             },
-            aggs: {
-              latency: {
-                max: {
-                  script: {
-                    source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
-                    lang: 'painless',
-                  },
-                },
-              },
-              trace_group_name: {
-                terms: {
-                  field: 'name',
-                  size: 1,
-                },
-              },
+          },
+          trace_group_name: {
+            terms: {
+              field: 'name',
+              size: 1,
             },
           },
           last_updated: {
