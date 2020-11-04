@@ -14,9 +14,9 @@ import { handleDslRequest } from './request_handler';
 
 export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
-    let low = 0,
-      high = arr.length,
-      mid;
+    let low = 0;
+    let high = arr.length;
+    let mid;
     while (low < high) {
       mid = Math.floor((low + high) / 2);
       if (arr[mid] < target) low = mid + 1;
@@ -44,15 +44,16 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket) => {
+          console.log('bucket:', bucket);
           return {
             trace_id: bucket.key,
-            trace_group: bucket.trace_group_name.buckets[0]?.key,
-            latency: bucket.latency.value,
+            trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
+            latency: bucket.parent_span.latency.value,
             last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
             error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
             percentile_in_trace_group: binarySearch(
-              percentileRanges[bucket.trace_group_name.buckets[0].key],
-              bucket.latency.value
+              percentileRanges[bucket.parent_span.trace_group_name.buckets[0].key],
+              bucket.parent_span.latency.value
             ),
             actions: '#',
           };
@@ -71,10 +72,10 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
       const bucket = response.aggregations.traces.buckets[0];
       return {
         trace_id: bucket.key,
-        trace_group: bucket.trace_group_name.buckets[0]?.key,
+        trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
         last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
         user_id: 'N/A',
-        latency: bucket.latency.value,
+        latency: bucket.parent_span.latency.value,
         latency_vs_benchmark: 'N/A',
         percentile_in_trace_group: 'N/A',
         error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
