@@ -67,7 +67,7 @@ const fields = [
   'events.attributes.name',
   'events.attributes.timeUnixNano',
   'resource.attributes.host.hostname',
-  'resource.attributes.service.name',
+  'serviceName',
   'resource.service.info',
   'resource.service.instance.id',
   'resource.service.name',

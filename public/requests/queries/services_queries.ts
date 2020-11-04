@@ -1,4 +1,8 @@
-import { SERVICE_MAP_INDEX_NAME, SERVICE_MAP_MAX_EDGES, SERVICE_MAP_MAX_NODES } from '../../../common';
+import {
+  SERVICE_MAP_INDEX_NAME,
+  SERVICE_MAP_MAX_EDGES,
+  SERVICE_MAP_MAX_NODES,
+} from '../../../common';
 
 export const getServicesQuery = (serviceName = null) => {
   const query = {
@@ -14,24 +18,41 @@ export const getServicesQuery = (serviceName = null) => {
     aggs: {
       trace_group: {
         terms: {
-          field: 'resource.attributes.service.name',
+          field: 'serviceName',
         },
         aggs: {
           traces: {
             filter: {
               bool: {
-                must_not: {
-                  exists: {
-                    field: 'parentSpanId',
+                should: [
+                  {
+                    bool: {
+                      must_not: [
+                        {
+                          exists: {
+                            field: 'parentSpanId',
+                          },
+                        },
+                      ],
+                    },
                   },
-                },
+                  {
+                    term: {
+                      parentSpanId: {
+                        value: '',
+                      },
+                    },
+                  },
+                ],
               },
             },
           },
           error_count: {
             filter: {
-              exists: {
-                field: 'status.code',
+              range: {
+                'status.code': {
+                  gt: '0',
+                },
               },
             },
           },
@@ -65,7 +86,7 @@ export const getServicesQuery = (serviceName = null) => {
   if (serviceName) {
     query.query.bool.must.push({
       term: {
-        'resource.attributes.service.name': serviceName,
+        serviceName: serviceName,
       },
     });
   }

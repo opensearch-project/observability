@@ -3,16 +3,35 @@ export const getTraceGroupPercentiles = () => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -40,16 +59,35 @@ export const getTracesQuery = (traceId = null) => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -82,7 +120,7 @@ export const getTracesQuery = (traceId = null) => {
             filter: {
               range: {
                 'status.code': {
-                  gte: '0',
+                  gt: '0',
                 },
               },
             },
@@ -121,7 +159,7 @@ export const getServiceBreakdownQuery = (traceId: string) => {
     aggs: {
       service_type: {
         terms: {
-          field: 'resource.attributes.service.name',
+          field: 'serviceName',
         },
         aggs: {
           total_latency_nanos: {
@@ -159,7 +197,7 @@ export const getSpanDetailQuery = (traceId: string, size = 200) => {
           },
           {
             exists: {
-              field: 'resource.attributes.service.name',
+              field: 'serviceName',
             },
           },
         ],
@@ -177,7 +215,7 @@ export const getSpanDetailQuery = (traceId: string, size = 200) => {
     ],
     _source: {
       includes: [
-        'resource.attributes.service.name',
+        'serviceName',
         'name',
         'startTime',
         'endTime',

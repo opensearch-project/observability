@@ -46,7 +46,7 @@ const renderTitle = (
         <EuiButton
           onClick={() => {
             addFilter({
-              field: 'resource.attributes.service.name',
+              field: 'serviceName',
               operator: 'is',
               value: serviceName,
               inverted: false,
@@ -118,7 +118,7 @@ const renderOverview = (fields, addFilter, serviceName) => {
                 <EuiLink
                   onClick={() => {
                     addFilter({
-                      field: 'resource.attributes.service.name',
+                      field: 'serviceName',
                       operator: 'is',
                       value: serviceName,
                       inverted: false,

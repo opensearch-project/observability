@@ -88,7 +88,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
         <EuiLink
           onClick={() =>{
             props.addFilter({
-              field: 'resource.attributes.service.name',
+              field: 'serviceName',
               operator: 'is',
               value: row.name,
               inverted: false,

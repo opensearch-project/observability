@@ -3,16 +3,35 @@ export const getDashboardQuery = () => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -37,8 +56,10 @@ export const getDashboardQuery = () => {
           },
           error_count: {
             filter: {
-              exists: {
-                field: 'status.code',
+              range: {
+                'status.code': {
+                  gt: '0',
+                },
               },
             },
           },
@@ -62,16 +83,35 @@ export const getDashboardTraceGroupPercentiles = () => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -103,16 +143,34 @@ export const getDashboardLatencyTrendQuery = (traceGroupName: string) => {
               name: traceGroupName,
             },
           },
-        ],
-        filter: [],
-        should: [],
-        must_not: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -154,16 +212,35 @@ export const getErrorRatePltQuery = (fixedInterval) => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {
@@ -175,8 +252,10 @@ export const getErrorRatePltQuery = (fixedInterval) => {
         aggs: {
           error_count: {
             filter: {
-              exists: {
-                field: 'status.code',
+              range: {
+                'status.code': {
+                  gt: '0',
+                },
               },
             },
           },
@@ -200,16 +279,35 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
     size: 0,
     query: {
       bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [
+        must: [
           {
-            exists: {
-              field: 'parentSpanId',
+            bool: {
+              should: [
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        exists: {
+                          field: 'parentSpanId',
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  term: {
+                    parentSpanId: {
+                      value: '',
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
+        filter: [],
+        should: [],
+        must_not: [],
       },
     },
     aggs: {

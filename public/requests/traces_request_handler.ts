@@ -165,9 +165,9 @@ const hitsToSpanDetailData = async (hits) => {
   hits.forEach((hit) => {
     const startTime = nanoToMilliSec(hit.sort[0]) - minStartTime;
     const duration = _.round(nanoToMilliSec(hit._source.durationInNanos), 2);
-    const serviceName = _.get(hit, ['_source', 'resource.attributes.service.name']);
+    const serviceName = _.get(hit, ['_source', 'serviceName']);
     const name = _.get(hit, '_source.name');
-    const error = hit._source.status?.code || '';
+    const error = hit._source['status.code'] || '';
     const uniqueLabel = `${serviceName}<br>${name}` + uuid();
     // const uniqueLabel = `${serviceName}:${name}` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
