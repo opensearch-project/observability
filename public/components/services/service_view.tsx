@@ -106,7 +106,7 @@ const renderOverview = (fields, addFilter, serviceName) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Error rate</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.error_rate ? _.round(fields.error_rate, 2).toString() + '%' : '-'}
+                {fields.error_rate || fields.error_rate === 0 ? _.round(fields.error_rate, 2).toString() + '%' : '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
