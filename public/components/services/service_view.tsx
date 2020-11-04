@@ -178,7 +178,7 @@ export function ServiceView(props: ServiceViewProps) {
   const refresh = () => {
     const DSL = filtersToDsl([], '', props.startTime, props.endTime);
     handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
-    handleServiceMapRequest(props.http, {}, mapItems, setMapItems);
+    handleServiceMapRequest(props.http, {}, mapItems, setMapItems, props.serviceName);
   };
 
   return (

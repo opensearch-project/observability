@@ -1,3 +1,5 @@
+@import '../node_modules/vis-network/dist/vis-network.min.css';
+
 .overview-title {
   color: '#333333';
   font-weight: 370;
@@ -15,4 +17,15 @@
 .panel-title-count {
   color: '#8a9596';
   font-weight: 300;
+}
+
+div.vis-network > div.vis-tooltip {
+  color: #f4f5f5;
+  background-color: #3d4652;
+  opacity: 0.9;
+  padding: 5px;
+  font-size: small;
+  p {
+    padding: 5px;
+  }
 }

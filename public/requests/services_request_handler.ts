@@ -41,7 +41,7 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?, selectedService?) => {
   const buckets = await handleDslRequest(http, null, getServiceSourcesQuery()).then(
     (response) => response.aggregations.service_name.buckets
   );
@@ -67,6 +67,8 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
     nodes.push({
       id: id,
       label: service,
+      size: service === selectedService ? 25 : 15,
+      title: `<p>${service}</p><p>Average latency:</p>`,
     });
     nodesMap[service] = id++;
     return id - 1;

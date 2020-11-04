@@ -13,59 +13,7 @@ import Graph from 'react-graph-vis';
 import _ from 'lodash';
 import { PanelTitle } from '..';
 import { Plt } from './plt';
-
-const renderServiceMapScale = (scaleData) => {
-  const layout = _.merge(
-    {
-      plot_bgcolor: 'rgba(0, 0, 0, 0)',
-      paper_bgcolor: 'rgba(0, 0, 0, 0)',
-      xaxis: {
-        range: [-0.35, 0.35],
-        fixedrange: true,
-        showgrid: false,
-        showline: false,
-        zeroline: false,
-        showticklabels: false,
-      },
-      yaxis: {
-        side: 'right',
-        fixedrange: true,
-        showgrid: false,
-        showline: false,
-        zeroline: false,
-        showticklabels: true,
-      },
-      margin: {
-        l: 0,
-        r: 45,
-        b: 10,
-        t: 10,
-        pad: 0,
-      },
-      height: 400,
-      width: 65,
-    },
-    scaleData.layout
-  ) as Partial<Plotly.Layout>;
-
-  const data = [
-    {
-      x: [0, 0, 0, 0, 0],
-      type: 'bar',
-      orientation: 'v',
-      width: 0.4,
-      hoverinfo: 'none',
-      showlegend: false,
-      ...scaleData.data,
-    },
-  ];
-
-  return (
-    <div>
-      <Plt data={data} layout={layout} />
-    </div>
-  );
-};
+import { ServiceMapScale } from './service_map_scale';
 
 export function ServiceMap({
   items,
@@ -91,58 +39,6 @@ export function ServiceMap({
     },
   ];
 
-  const scaleData = {
-    [toggleButtons[0].id]: {
-      data: {
-        y: [20, 20, 20, 20, 20],
-        marker: {
-          color: ['#dad6e3', '#c7b2f1', '#987dcb', '#6448a0', '#330a5f'],
-        },
-      },
-      layout: {
-        yaxis: {
-          range: [0, 100],
-          title: {
-            text: 'Latency (ms)',
-          },
-        },
-      },
-    },
-    [toggleButtons[1].id]: {
-      data: {
-        y: [5, 5, 5, 5, 5],
-        marker: {
-          color: ['#efe0e6', '#f19ebb', '#ec6592', '#be3c64', '#7a1e39'],
-        },
-      },
-      layout: {
-        yaxis: {
-          range: [0, 25],
-          ticksuffix: '%',
-          title: {
-            text: 'Error rate',
-          },
-        },
-      },
-    },
-    [toggleButtons[2].id]: {
-      data: {
-        y: [100, 100, 100, 100, 100],
-        marker: {
-          color: ['#d6d7d7', '#deecf7', '#abd3f0', '#5f9fd4', '#1f4e78'],
-        },
-      },
-      layout: {
-        yaxis: {
-          range: [0, 500],
-          title: {
-            text: 'Throughput',
-          },
-        },
-      },
-    },
-  };
-
   const options = {
     layout: {
       hierarchical: false,
@@ -156,10 +52,19 @@ export function ServiceMap({
     },
     nodes: {
       shape: 'dot',
-      size: 20,
+      color: '#adadad',
       font: {
-        size: 22,
+        size: 17,
+        color: '#387ab9',
       },
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 30,
+      selectable: true,
+    },
+    manipulation: {
+      enabled: false,
     },
     height: '434px',
     width: '100%',
@@ -169,6 +74,10 @@ export function ServiceMap({
   const events = {
     select: function (event) {
       const { nodes, edges } = event;
+      console.log('select', nodes, edges);
+    },
+    hoverNode: function (event) {
+      console.log('hover', event);
     },
   };
 
@@ -197,14 +106,18 @@ export function ServiceMap({
 
         <EuiFlexGroup gutterSize="none" responsive={false}>
           <EuiFlexItem>
-            {items?.graph && <Graph
-              graph={items.graph}
-              options={options}
-              events={events}
-              getNetwork={(network) => { }}
-            />}
+            {items?.graph && (
+              <Graph
+                graph={items.graph}
+                options={options}
+                events={events}
+                getNetwork={(network) => {}}
+              />
+            )}
           </EuiFlexItem>
-          <EuiFlexItem grow={false}>{renderServiceMapScale(scaleData[idSelected])}</EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <ServiceMapScale idSelected={idSelected} />
+          </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>
     </>
