@@ -111,24 +111,34 @@ export const getServiceNodesQuery = () => {
           field: 'serviceName',
           size: SERVICE_MAP_MAX_NODES,
         },
+        aggs: {
+          trace_group: {
+            terms: {
+              field: 'traceGroupName',
+              size: SERVICE_MAP_MAX_EDGES,
+            },
+            aggs: {
+              target_resource: {
+                terms: {
+                  field: 'target.resource',
+                  size: SERVICE_MAP_MAX_EDGES,
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
 };
 
-export const getServiceSourcesQuery = () => {
+export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   return {
     index: SERVICE_MAP_INDEX_NAME,
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            exists: {
-              field: 'destination',
-            },
-          },
-        ],
+        must: [],
         filter: [],
         should: [],
         must_not: [],
@@ -143,13 +153,13 @@ export const getServiceSourcesQuery = () => {
         aggs: {
           resource: {
             terms: {
-              field: 'destination.resource',
+              field: `${source}.resource`,
               size: SERVICE_MAP_MAX_EDGES,
             },
             aggs: {
               domain: {
                 terms: {
-                  field: 'destination.domain',
+                  field: `${source}.domain`,
                   size: SERVICE_MAP_MAX_EDGES,
                 },
               },
@@ -161,40 +171,40 @@ export const getServiceSourcesQuery = () => {
   };
 };
 
-export const getServiceEdgesQuery = (destination: { resource: string; domain: string }) => {
-  return {
-    index: SERVICE_MAP_INDEX_NAME,
-    size: 0,
-    query: {
-      bool: {
-        must: [
-          {
-            term: {
-              'target.resource': {
-                value: destination.resource,
-              },
-            },
-          },
-          {
-            term: {
-              'target.domain': {
-                value: destination.domain,
-              },
-            },
-          },
-        ],
-        filter: [],
-        should: [],
-        must_not: [],
-      },
-    },
-    aggs: {
-      service_name: {
-        terms: {
-          field: 'serviceName',
-          size: SERVICE_MAP_MAX_NODES,
-        },
-      },
-    },
-  };
-};
+// export const getServiceEdgesQuery = (destination: { resource: string; domain: string }) => {
+//   return {
+//     index: SERVICE_MAP_INDEX_NAME,
+//     size: 0,
+//     query: {
+//       bool: {
+//         must: [
+//           {
+//             term: {
+//               'target.resource': {
+//                 value: destination.resource,
+//               },
+//             },
+//           },
+//           {
+//             term: {
+//               'target.domain': {
+//                 value: destination.domain,
+//               },
+//             },
+//           },
+//         ],
+//         filter: [],
+//         should: [],
+//         must_not: [],
+//       },
+//     },
+//     aggs: {
+//       service_name: {
+//         terms: {
+//           field: 'serviceName',
+//           size: SERVICE_MAP_MAX_NODES,
+//         },
+//       },
+//     },
+//   };
+// };

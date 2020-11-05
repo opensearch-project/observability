@@ -15,6 +15,15 @@ import { PanelTitle } from '..';
 import { Plt } from './plt';
 import { ServiceMapScale } from './service_map_scale';
 
+export interface ServiceObject {
+  [key: string]: {
+    serviceName: string;
+    id: number;
+    traceGroups: { traceGroup: string; targetResource: string[] }[];
+    targetServices: string[];
+  };
+}
+
 export function ServiceMap({
   items,
   idSelected,

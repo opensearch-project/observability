@@ -19,9 +19,15 @@ import {
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
+import {
+  filtersToDsl,
+  getServiceMapGraph,
+  PanelTitle,
+  renderDatePicker,
+  SearchBarProps,
+} from '../common';
 import { FilterType } from '../common/filters/filters';
-import { ServiceMap } from '../common/plots/service_map';
+import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 
 const renderTitle = (
   serviceName: string,
@@ -106,7 +112,9 @@ const renderOverview = (fields, addFilter, serviceName) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Error rate</EuiText>
               <EuiText size="s" className="overview-content">
-                {fields.error_rate || fields.error_rate === 0 ? _.round(fields.error_rate, 2).toString() + '%' : '-'}
+                {fields.error_rate || fields.error_rate === 0
+                  ? _.round(fields.error_rate, 2).toString() + '%'
+                  : '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -151,7 +159,8 @@ interface ServiceViewProps extends SearchBarProps, CoreDeps {
 
 export function ServiceView(props: ServiceViewProps) {
   const [fields, setFields] = useState({});
-  const [mapItems, setMapItems] = useState({});
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [serviceMapItems, setServiceMapItems] = useState({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
@@ -175,10 +184,14 @@ export function ServiceView(props: ServiceViewProps) {
     refresh();
   }, [props.startTime, props.endTime]);
 
+  useEffect(() => {
+    setServiceMapItems(getServiceMapGraph(serviceMap, props.serviceName));
+  }, [serviceMap]);
+
   const refresh = () => {
     const DSL = filtersToDsl([], '', props.startTime, props.endTime);
     handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
-    handleServiceMapRequest(props.http, {}, mapItems, setMapItems, props.serviceName);
+    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
   };
 
   return (
@@ -199,7 +212,7 @@ export function ServiceView(props: ServiceViewProps) {
           {renderOverview(fields, props.addFilter, props.serviceName)}
           <EuiSpacer />
           <ServiceMap
-            items={mapItems}
+            items={serviceMapItems}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
           />

@@ -3,6 +3,7 @@ import { EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import React from 'react';
 import { FilterType } from './filters/filters';
+import { ServiceObject } from './plots/service_map';
 
 export function PanelTitle({ title, totalItems }: { title: string; totalItems?: number }) {
   return (
@@ -52,6 +53,34 @@ export function nanoToMilliSec(nano: number) {
 export function milliToNanoSec(ms: number) {
   if (typeof ms !== 'number') return 0;
   return ms * 1000000;
+}
+
+// construct vis-js graph from ServiceObject
+export function getServiceMapGraph(map: ServiceObject, currService?: string) {
+  const nodes = Object.keys(map).map((service) => ({
+    id: map[service].id,
+    label: service,
+    size: service === currService ? 25 : 15,
+    title: `<p>${service}</p><p>Average latency:</p>`,
+  }));
+  const edges = [];
+  Object.keys(map).map((service) => {
+    map[service].targetServices.map((target) => {
+      edges.push({
+        from: map[service].id,
+        to: map[target].id,
+      });
+    });
+  });
+  return { graph: { nodes, edges } };
+}
+
+// returns flattened targetResource as an array for all traceGroups
+export function getServiceMapTargetResources(map: ServiceObject, serviceName: string) {
+  return [].concat.apply(
+    [],
+    [...map[serviceName].traceGroups.map((traceGroup) => [...traceGroup.targetResource])]
+  );
 }
 
 export function calculateTicks(min, max, numTicks = 5) {

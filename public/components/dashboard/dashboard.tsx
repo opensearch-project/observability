@@ -10,6 +10,7 @@ import { CoreDeps } from '../app';
 import {
   filtersToDsl,
   getPercentileFilter,
+  getServiceMapGraph,
   milliToNanoSec,
   minFixedInterval,
   SearchBar,
@@ -17,7 +18,7 @@ import {
 } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
-import { ServiceMap } from '../common/plots/service_map';
+import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { DashboardTable } from './dashboard_table';
 
@@ -27,7 +28,8 @@ export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
-  const [mapItems, setMapItems] = useState({});
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [serviceMapItems, setServiceMapItems] = useState({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
@@ -46,6 +48,10 @@ export function Dashboard(props: DashboardProps) {
   useEffect(() => {
     refresh();
   }, [props.filters]);
+
+  useEffect(() => {
+    setServiceMapItems(getServiceMapGraph(serviceMap));
+  }, [serviceMap]);
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
@@ -67,7 +73,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, {}, mapItems, setMapItems);
+    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -131,7 +137,7 @@ export function Dashboard(props: DashboardProps) {
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>
           <ServiceMap
-            items={mapItems}
+            items={serviceMapItems}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
           />

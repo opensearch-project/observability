@@ -1,7 +1,8 @@
+import { getServiceMapGraph } from '../components/common';
+import { ServiceObject } from '../components/common/plots/service_map';
 import {
   getServiceEdgesQuery,
   getServiceNodesQuery,
-  getServiceSourcesQuery,
   getServicesQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
@@ -19,7 +20,7 @@ const getConnectedServices = (serviceName, graph: { nodes: any[]; edges: any[] }
 export const handleServicesRequest = (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getServicesQuery())
     .then(async (response) => {
-      const serviceMap = await handleServiceMapRequest(http, {});
+      const serviceMap = getServiceMapGraph(await handleServiceMapRequest(http, {}));
       return Promise.all(
         response.aggregations.trace_group.buckets.map((bucket) => {
           const connectedServices = getConnectedServices(bucket.key, serviceMap.graph);
@@ -41,56 +42,48 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?, selectedService?) => {
-  const buckets = await handleDslRequest(http, null, getServiceSourcesQuery()).then(
-    (response) => response.aggregations.service_name.buckets
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
+  const map: ServiceObject = {};
+  let id = 1;
+  await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
+    response.aggregations.service_name.buckets.map(
+      (bucket) =>
+        (map[bucket.key] = {
+          serviceName: bucket.key,
+          id: id++,
+          traceGroups: bucket.trace_group.buckets.map((traceGroup) => ({
+            traceGroup: traceGroup.key,
+            targetResource: traceGroup.target_resource.buckets.map((res) => res.key),
+          })),
+          targetServices: [],
+        })
+    )
   );
-  const outgoingServices = [];
-  await Promise.all(
-    buckets.map((bucket) => {
+
+  const targets = {};
+  await handleDslRequest(http, null, getServiceEdgesQuery('target')).then((response) =>
+    response.aggregations.service_name.buckets.map((bucket) => {
       bucket.resource.buckets.map((resource) => {
         resource.domain.buckets.map((domain) => {
-          outgoingServices.push({
-            serviceName: bucket.key,
-            destination: { resource: resource.key, domain: domain.key },
-          });
+          targets[resource.key + ':' + domain.key] = bucket.key;
         });
       });
     })
   );
-
-  const nodesMap = {};
-  const nodes = [];
-  let id = 1;
-  const getId = (service: string) => {
-    if (nodesMap[service]) return nodesMap[service];
-    nodes.push({
-      id: id,
-      label: service,
-      size: service === selectedService ? 25 : 15,
-      title: `<p>${service}</p><p>Average latency:</p>`,
-    });
-    nodesMap[service] = id++;
-    return id - 1;
-  };
-
-  const edges = await Promise.all(
-    outgoingServices.map(async (service) => {
-      const response = await handleDslRequest(
-        http,
-        null,
-        getServiceEdgesQuery(service.destination)
-      );
-      if (!response.aggregations.service_name.buckets) return;
-      return {
-        from: getId(service.serviceName),
-        to: getId(response.aggregations.service_name.buckets[0].key),
-      };
-    })
+  await handleDslRequest(http, null, getServiceEdgesQuery('destination')).then((response) =>
+    Promise.all(
+      response.aggregations.service_name.buckets.map((bucket) => {
+        bucket.resource.buckets.map((resource) => {
+          resource.domain.buckets.map((domain) => {
+            const targetService = targets[resource.key + ':' + domain.key];
+            map[bucket.key].targetServices.push(targetService);
+          });
+        });
+      })
+    )
   );
-  const result = { graph: { nodes, edges } };
-  if (setItems) setItems(result);
-  return result;
+  if (setItems) setItems(map);
+  return map;
 };
 
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {
@@ -98,7 +91,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
     .then(async (response) => {
       const bucket = response.aggregations.trace_group.buckets[0];
       if (!bucket) return {};
-      const serviceMap = await handleServiceMapRequest(http, {});
+      const serviceMap = getServiceMapGraph(await handleServiceMapRequest(http, {}));
       const connectedServices = getConnectedServices(bucket.key, serviceMap.graph);
       return {
         name: bucket.key,
