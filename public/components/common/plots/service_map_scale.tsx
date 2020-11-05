@@ -1,106 +1,106 @@
-import React from 'react';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { calculateTicks, getServiceMapScaleColor } from '..';
 import { Plt } from './plt';
+import { ServiceObject } from './service_map';
 
-export function ServiceMapScale(props: { idSelected }) {
-  const scaleData = {
-    latency: {
+export function ServiceMapScale(props: { idSelected: string; serviceMap: ServiceObject }) {
+  const [scaleProps, setScaleProps] = useState({});
+  const getScaleData = (min, max) => {
+    const ticks = calculateTicks(min, max);
+    const delta = ticks[1] - ticks[0];
+    const title = { latency: 'Latency (ms)', error_rate: 'Error rate', throughput: 'Throughput' }[
+      props.idSelected
+    ];
+    const percent = 1 / (ticks.length + 1);
+    const percents = Array.from({ length: ticks.length - 1 }, (v, i) => percent * i);
+    const color = percents
+      .map((percent) => getServiceMapScaleColor(percent, props.idSelected))
+      .map((color) => `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+
+    // console.log('percents', percents);
+    // console.log('color:', color);
+    // console.log('y', [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)]);
+    // console.log('range', [ticks[0], ticks[ticks.length - 1]]);
+
+    const result = {
       data: {
-        y: [20, 20, 20, 20, 20],
+        y: [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)],
         marker: {
-          color: ['#dad6e3', '#c7b2f1', '#987dcb', '#6448a0', '#330a5f'],
+          color: color,
         },
       },
       layout: {
         yaxis: {
-          range: [0, 100],
+          range: [ticks[0], ticks[ticks.length - 1]],
+          ticksuffix: props.idSelected === 'error_rate' ? '%' : '',
           title: {
-            text: 'Latency (ms)',
+            text: title,
           },
         },
       },
-    },
-    error_rate: {
-      data: {
-        y: [5, 5, 5, 5, 5],
-        marker: {
-          color: ['#efe0e6', '#f19ebb', '#ec6592', '#be3c64', '#7a1e39'],
-        },
-      },
-      layout: {
-        yaxis: {
-          range: [0, 25],
-          ticksuffix: '%',
-          title: {
-            text: 'Error rate',
-          },
-        },
-      },
-    },
-    throughput: {
-      data: {
-        y: [100, 100, 100, 100, 100],
-        marker: {
-          color: ['#d6d7d7', '#deecf7', '#abd3f0', '#5f9fd4', '#1f4e78'],
-        },
-      },
-      layout: {
-        yaxis: {
-          range: [0, 500],
-          title: {
-            text: 'Throughput',
-          },
-        },
-      },
-    },
+    };
+    return result;
   };
-  const layout = _.merge(
-    {
-      plot_bgcolor: 'rgba(0, 0, 0, 0)',
-      paper_bgcolor: 'rgba(0, 0, 0, 0)',
-      xaxis: {
-        range: [-0.35, 0.35],
-        fixedrange: true,
-        showgrid: false,
-        showline: false,
-        zeroline: false,
-        showticklabels: false,
-      },
-      yaxis: {
-        side: 'right',
-        fixedrange: true,
-        showgrid: false,
-        showline: false,
-        zeroline: false,
-        showticklabels: true,
-      },
-      margin: {
-        l: 0,
-        r: 45,
-        b: 10,
-        t: 10,
-        pad: 0,
-      },
-      height: 400,
-      width: 65,
-    },
-    scaleData[props.idSelected].layout
-  ) as Partial<Plotly.Layout>;
 
-  const data = [
-    {
-      x: [0, 0, 0, 0, 0],
-      type: 'bar',
-      orientation: 'v',
-      width: 0.4,
-      hoverinfo: 'none',
-      showlegend: false,
-      ...scaleData[props.idSelected].data,
-    },
-  ];
+  const getScaleProps = (min, max) => {
+    const result = getScaleData(min, max);
+    const scaleData = result.data;
+    const scaleLayout = result.layout;
+    const data = [
+      {
+        x: Array.from({ length: result.data.y.length }, () => 0),
+        type: 'bar',
+        orientation: 'v',
+        width: 0.4,
+        hoverinfo: 'none',
+        showlegend: false,
+        ...scaleData,
+      },
+    ] as Plotly.Data;
+
+    const layout = _.merge(
+      {
+        plot_bgcolor: 'rgba(0, 0, 0, 0)',
+        paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        xaxis: {
+          range: [-0.35, 0.35],
+          fixedrange: true,
+          showgrid: false,
+          showline: false,
+          zeroline: false,
+          showticklabels: false,
+        },
+        yaxis: {
+          side: 'right',
+          fixedrange: true,
+          showgrid: false,
+          showline: false,
+          zeroline: false,
+          showticklabels: true,
+        },
+        margin: {
+          l: 0,
+          r: 45,
+          b: 10,
+          t: 10,
+          pad: 0,
+        },
+        height: 400,
+        width: 65,
+      },
+      scaleLayout
+    ) as Partial<Plotly.Layout>;
+    return { data, layout };
+  };
+  
+  useEffect(() => {
+    setScaleProps(getScaleProps(231, 1231))
+  }, [props.idSelected, props.serviceMap]);
 
   return (
-    <div>
-      <Plt data={data} layout={layout} />
+    <div style={{minHeight: 400, minWidth: 65}}>
+      <Plt {...scaleProps} />
     </div>
   );
 }

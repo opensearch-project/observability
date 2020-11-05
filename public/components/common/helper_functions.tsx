@@ -55,13 +55,40 @@ export function milliToNanoSec(ms: number) {
   return ms * 1000000;
 }
 
+export function getServiceMapScaleColor(percent, idSelected) {
+  const palatte = {
+    latency: [
+      [217, 214, 226],
+      [46, 17, 91],
+    ],
+    error_rate: [
+      [236, 224, 230],
+      [112, 38, 57],
+    ],
+    throughput: [
+      [214, 215, 215],
+      [43, 78, 117],
+    ],
+  }[idSelected];
+  const r = palatte[0][0] - Math.floor((palatte[0][0] - palatte[1][0]) * percent);
+  const g = palatte[0][1] - Math.floor((palatte[0][1] - palatte[1][1]) * percent);
+  const b = palatte[0][2] - Math.floor((palatte[0][2] - palatte[1][2]) * percent);
+  return [r, g, b];
+}
+
 // construct vis-js graph from ServiceObject
-export function getServiceMapGraph(map: ServiceObject, currService?: string) {
+export function getServiceMapGraph(
+  map: ServiceObject,
+  currService?: string,
+  relatedServices: string[] = ['frontend', 'customer', 'route', 'driver']
+) {
   const nodes = Object.keys(map).map((service) => ({
     id: map[service].id,
     label: service,
-    size: service === currService ? 25 : 15,
+    size: service === currService ? 30 : 15,
     title: `<p>${service}</p><p>Average latency:</p>`,
+    color:
+      relatedServices.indexOf(service) >= 0 ? 'rgba(152, 125, 203)' : 'rgba(152, 125, 203, 0.3)',
   }));
   const edges = [];
   Object.keys(map).map((service) => {
@@ -69,6 +96,10 @@ export function getServiceMapGraph(map: ServiceObject, currService?: string) {
       edges.push({
         from: map[service].id,
         to: map[target].id,
+        color:
+          relatedServices.indexOf(service) >= 0 && relatedServices.indexOf(target) >= 0
+            ? 'rgba(0, 0, 0, 1)'
+            : 'rgba(0, 0, 0, 0.3)',
       });
     });
   });
@@ -195,7 +226,7 @@ export const filtersToDsl = (
   startTime: string,
   endTime: string
 ) => {
-  const DSL = {
+  const DSL: any = {
     query: {
       bool: {
         must: [],

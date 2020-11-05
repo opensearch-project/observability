@@ -8,11 +8,12 @@ import {
   EuiSpacer,
   EuiText,
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
 import { PanelTitle } from '..';
 import { ServiceMapScale } from './service_map_scale';
+import { FilterType } from '../filters/filters';
 
 export interface ServiceObject {
   [key: string]: {
@@ -29,11 +30,13 @@ export function ServiceMap({
   serviceMap,
   idSelected,
   setIdSelected,
+  addFilter,
 }: {
   items: any;
   serviceMap: ServiceObject;
   idSelected: string;
   setIdSelected: (newId: string) => void;
+  addFilter: (filter: FilterType) => void;
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
@@ -66,6 +69,7 @@ export function ServiceMap({
     nodes: {
       shape: 'dot',
       color: '#adadad',
+      borderWidth: 0,
       font: {
         size: 17,
         color: '#387ab9',
@@ -87,11 +91,19 @@ export function ServiceMap({
   const events = {
     select: function (event) {
       const { nodes, edges } = event;
-      console.log('select', nodes, edges);
+      if (!addFilter || !nodes) return;
+      const serviceName = items?.graph.nodes.find((node) => node.id === nodes[0])?.label;
+      if (serviceName) {
+        addFilter({
+          field: 'serviceName',
+          operator: 'is',
+          value: serviceName,
+          inverted: false,
+          disabled: false,
+        });
+      }
     },
-    hoverNode: function (event) {
-      console.log('hover', event);
-    },
+    hoverNode: function (event) {},
   };
 
   const onFocus = (service: string) => {
@@ -135,7 +147,7 @@ export function ServiceMap({
 
         <EuiFlexGroup gutterSize="none" responsive={false}>
           <EuiFlexItem grow={false}>
-            <ServiceMapScale idSelected={idSelected} />
+            <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} />
           </EuiFlexItem>
           <EuiFlexItem>
             {items?.graph && (
