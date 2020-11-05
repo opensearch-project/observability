@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { calculateTicks, getServiceMapScaleColor } from '..';
+import { getServiceMapScaleColor } from '..';
 import { Plt } from './plt';
 import { ServiceObject } from './service_map';
 
-export function ServiceMapScale(props: { idSelected: string; serviceMap: ServiceObject }) {
+export function ServiceMapScale(props: {
+  idSelected: string;
+  serviceMap: ServiceObject;
+  ticks: number[];
+}) {
   const [scaleProps, setScaleProps] = useState({});
-  const getScaleData = (min, max) => {
-    const ticks = calculateTicks(min, max);
+  const getScaleData = () => {
+    const ticks = props.ticks;
+
     const delta = ticks[1] - ticks[0];
     const title = { latency: 'Latency (ms)', error_rate: 'Error rate', throughput: 'Throughput' }[
       props.idSelected
@@ -18,10 +23,10 @@ export function ServiceMapScale(props: { idSelected: string; serviceMap: Service
       .map((percent) => getServiceMapScaleColor(percent, props.idSelected))
       .map((color) => `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
 
-    // console.log('percents', percents);
-    // console.log('color:', color);
-    // console.log('y', [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)]);
-    // console.log('range', [ticks[0], ticks[ticks.length - 1]]);
+    console.log('percents', percents);
+    console.log('color:', color);
+    console.log('y', [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)]);
+    console.log('range', [ticks[0], ticks[ticks.length - 1]]);
 
     const result = {
       data: {
@@ -43,10 +48,8 @@ export function ServiceMapScale(props: { idSelected: string; serviceMap: Service
     return result;
   };
 
-  const getScaleProps = (min, max) => {
-    const result = getScaleData(min, max);
-    const scaleData = result.data;
-    const scaleLayout = result.layout;
+  const getScaleProps = () => {
+    const result = getScaleData();
     const data = [
       {
         x: Array.from({ length: result.data.y.length }, () => 0),
@@ -55,7 +58,7 @@ export function ServiceMapScale(props: { idSelected: string; serviceMap: Service
         width: 0.4,
         hoverinfo: 'none',
         showlegend: false,
-        ...scaleData,
+        ...result.data,
       },
     ] as Plotly.Data;
 
@@ -78,6 +81,8 @@ export function ServiceMapScale(props: { idSelected: string; serviceMap: Service
           showline: false,
           zeroline: false,
           showticklabels: true,
+          tickvals: props.ticks,
+          ticktexts: props.ticks,
         },
         margin: {
           l: 0,
@@ -89,17 +94,17 @@ export function ServiceMapScale(props: { idSelected: string; serviceMap: Service
         height: 400,
         width: 65,
       },
-      scaleLayout
+      result.layout
     ) as Partial<Plotly.Layout>;
     return { data, layout };
   };
-  
+
   useEffect(() => {
-    setScaleProps(getScaleProps(231, 1231))
-  }, [props.idSelected, props.serviceMap]);
+    if (Object.keys(props.ticks).length > 0) setScaleProps(getScaleProps());
+  }, [props.idSelected, props.serviceMap, props.ticks]);
 
   return (
-    <div style={{minHeight: 400, minWidth: 65}}>
+    <div style={{ minHeight: 400, minWidth: 65 }}>
       <Plt {...scaleProps} />
     </div>
   );

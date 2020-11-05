@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
-import { getServiceMapGraph, PanelTitle } from '..';
+import { calculateTicks, getServiceMapGraph, PanelTitle } from '..';
 import { ServiceMapScale } from './service_map_scale';
 import { FilterType } from '../filters/filters';
 
@@ -121,12 +121,16 @@ export function ServiceMap({
   };
 
   useEffect(() => {
+    if (Object.keys(serviceMap).length === 0) return;
+    const values = Object.keys(serviceMap)
+      .map((service) => serviceMap[service][idSelected] || null)
+      .filter((val) => val !== null);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const calculatedTicks = calculateTicks(min, max);
+    setTicks(calculatedTicks);
     setItems(getServiceMapGraph(serviceMap));
-  }, [serviceMap]);
-
-  useEffect(() => {
-    console.log(serviceMap);
-  }, [serviceMap]);
+  }, [serviceMap, idSelected]);
 
   return (
     <>
@@ -158,7 +162,7 @@ export function ServiceMap({
 
         <EuiFlexGroup gutterSize="none" responsive={false}>
           <EuiFlexItem grow={false}>
-            <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} />
+            <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} ticks={ticks} />
           </EuiFlexItem>
           <EuiFlexItem>
             {items?.graph && (
