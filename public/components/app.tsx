@@ -77,7 +77,7 @@ export const TraceAnalyticsApp = ({
   };
 
   return (
-    <HashRouter basename={basename}>
+    <HashRouter basename={basename + '#'}>
       <I18nProvider>
         <>
           <Switch>

@@ -12,7 +12,6 @@ import React, { useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
 import { PanelTitle } from '..';
-import { Plt } from './plt';
 import { ServiceMapScale } from './service_map_scale';
 
 export interface ServiceObject {
@@ -21,6 +20,7 @@ export interface ServiceObject {
     id: number;
     traceGroups: { traceGroup: string; targetResource: string[] }[];
     targetServices: string[];
+    destServices: string[];
   };
 }
 
@@ -35,7 +35,6 @@ export function ServiceMap({
   idSelected: string;
   setIdSelected: (newId: string) => void;
 }) {
-  const [serviceQuery, setServiceQuery] = useState('');
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
   const toggleButtons = [
@@ -126,8 +125,6 @@ export function ServiceMap({
           <EuiFlexItem>
             <EuiFieldSearch
               placeholder="Service name"
-              value={serviceQuery}
-              onChange={(e) => setServiceQuery(e.target.value)}
               onSearch={(service) => onFocus(service)}
               isInvalid={invalid}
               isClearable={false}
