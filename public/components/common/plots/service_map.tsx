@@ -26,13 +26,18 @@ export interface ServiceObject {
 
 export function ServiceMap({
   items,
+  serviceMap,
   idSelected,
   setIdSelected,
 }: {
   items: any;
+  serviceMap: ServiceObject;
   idSelected: string;
   setIdSelected: (newId: string) => void;
 }) {
+  const [serviceQuery, setServiceQuery] = useState('');
+  const [invalid, setInvalid] = useState(false);
+  const [network, setNetwork] = useState(null);
   const toggleButtons = [
     {
       id: 'latency',
@@ -90,6 +95,17 @@ export function ServiceMap({
     },
   };
 
+  const onFocus = (service: string) => {
+    if (service.length === 0) {
+      setInvalid(false);
+    } else if (serviceMap[service]) {
+      network.focus(serviceMap[service].id, { animation: true });
+      setInvalid(false);
+    } else {
+      setInvalid(true);
+    }
+  };
+
   return (
     <>
       <EuiPanel>
@@ -108,7 +124,14 @@ export function ServiceMap({
             <EuiText>Focus on</EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiFieldSearch placeholder="Service name" value={''} onChange={() => {}} />
+            <EuiFieldSearch
+              placeholder="Service name"
+              value={serviceQuery}
+              onChange={(e) => setServiceQuery(e.target.value)}
+              onSearch={(service) => onFocus(service)}
+              isInvalid={invalid}
+              isClearable={false}
+            />
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
@@ -123,7 +146,7 @@ export function ServiceMap({
                 graph={items.graph}
                 options={options}
                 events={events}
-                getNetwork={(network) => {}}
+                getNetwork={(network) => setNetwork(network)}
               />
             )}
           </EuiFlexItem>
