@@ -1,6 +1,9 @@
+import _ from 'lodash';
+import { getServiceMapTargetResources } from '../components/common';
 import { ServiceObject } from '../components/common/plots/service_map';
 import {
   getServiceEdgesQuery,
+  getServiceMetricsQuery,
   getServiceNodesQuery,
   getServicesQuery,
 } from './queries/services_queries';
@@ -34,7 +37,7 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?, metrics = false) => {
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
@@ -78,6 +81,23 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
       })
     )
   );
+
+  if (metrics) {
+    const latencies = await handleDslRequest(
+      http,
+      {},
+      getServiceMetricsQuery(
+        Object.keys(map),
+        [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)))
+      )
+    );
+    latencies.aggregations.service_name.buckets.map((bucket) => {
+      map[bucket.key].latency = bucket.average_latency.value;
+      map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
+      map[bucket.key].throughput = bucket.doc_count;
+    });
+  }
+
   if (setItems) setItems(map);
   return map;
 };

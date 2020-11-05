@@ -160,7 +160,6 @@ interface ServiceViewProps extends SearchBarProps, CoreDeps {
 export function ServiceView(props: ServiceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapItems, setServiceMapItems] = useState({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
@@ -183,10 +182,6 @@ export function ServiceView(props: ServiceViewProps) {
   useEffect(() => {
     refresh();
   }, [props.startTime, props.endTime]);
-
-  useEffect(() => {
-    setServiceMapItems(getServiceMapGraph(serviceMap, props.serviceName));
-  }, [serviceMap]);
 
   const refresh = () => {
     const DSL = filtersToDsl([], '', props.startTime, props.endTime);
@@ -212,7 +207,7 @@ export function ServiceView(props: ServiceViewProps) {
           {renderOverview(fields, props.addFilter, props.serviceName)}
           <EuiSpacer />
           <ServiceMap
-            items={serviceMapItems}
+            serviceMap={serviceMap}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
           />

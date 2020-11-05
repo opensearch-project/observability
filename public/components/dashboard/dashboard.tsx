@@ -29,7 +29,6 @@ export function Dashboard(props: DashboardProps) {
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapItems, setServiceMapItems] = useState({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
 
   useEffect(() => {
@@ -48,10 +47,6 @@ export function Dashboard(props: DashboardProps) {
   useEffect(() => {
     refresh();
   }, [props.filters]);
-
-  useEffect(() => {
-    setServiceMapItems(getServiceMapGraph(serviceMap));
-  }, [serviceMap]);
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
@@ -73,7 +68,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
+    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap, true);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -138,7 +133,6 @@ export function Dashboard(props: DashboardProps) {
       <EuiFlexGroup alignItems="baseline">
         <EuiFlexItem grow={4}>
           <ServiceMap
-            items={serviceMapItems}
             serviceMap={serviceMap}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}

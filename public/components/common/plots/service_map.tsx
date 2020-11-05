@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
-import { PanelTitle } from '..';
+import { getServiceMapGraph, PanelTitle } from '..';
 import { ServiceMapScale } from './service_map_scale';
 import { FilterType } from '../filters/filters';
 
@@ -22,24 +22,27 @@ export interface ServiceObject {
     traceGroups: { traceGroup: string; targetResource: string[] }[];
     targetServices: string[];
     destServices: string[];
+    latency?: number;
+    error_rate?: number;
+    throughput?: number;
   };
 }
 
 export function ServiceMap({
-  items,
   serviceMap,
   idSelected,
   setIdSelected,
   addFilter,
 }: {
-  items: any;
   serviceMap: ServiceObject;
   idSelected: string;
   setIdSelected: (newId: string) => void;
-  addFilter: (filter: FilterType) => void;
+  addFilter?: (filter: FilterType) => void;
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
+  const [ticks, setTicks] = useState([]);
+  const [items, setItems] = useState<any>({});
   const toggleButtons = [
     {
       id: 'latency',
@@ -116,6 +119,14 @@ export function ServiceMap({
       setInvalid(true);
     }
   };
+
+  useEffect(() => {
+    setItems(getServiceMapGraph(serviceMap));
+  }, [serviceMap]);
+
+  useEffect(() => {
+    console.log(serviceMap);
+  }, [serviceMap]);
 
   return (
     <>

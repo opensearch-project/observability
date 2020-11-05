@@ -1,8 +1,8 @@
-import { RequestParams } from "@elastic/elasticsearch";
-import { IRouter } from "../../../../src/core/server";
+import { RequestParams } from '@elastic/elasticsearch';
+import { IRouter } from '../../../../src/core/server';
 import { schema } from '@kbn/config-schema';
-import { DSL_ROUTE } from "../utils/constants";
-import { RAW_INDEX_NAME } from "../../common";
+import { DSL_ROUTE } from '../utils/constants';
+import { RAW_INDEX_NAME } from '../../common';
 
 export function DslRouter(router: IRouter) {
   router.post(
@@ -21,10 +21,13 @@ export function DslRouter(router: IRouter) {
                 should: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
                 must_not: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
                 minimum_should_match: schema.maybe(schema.number()),
+                adjust_pure_negative: schema.maybe(schema.boolean()),
+                boost: schema.maybe(schema.any()),
               }),
             })
           ),
           aggs: schema.maybe(schema.any()),
+          aggregations: schema.maybe(schema.any()),
           sort: schema.maybe(schema.arrayOf(schema.any())),
           _source: schema.maybe(
             schema.object({
