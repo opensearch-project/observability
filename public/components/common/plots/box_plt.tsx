@@ -8,6 +8,7 @@ interface PlotParamsType {
   left: number;
   mid: number;
   right: number;
+  percentileFilterPresent: boolean;
   addFilter: (condition: 'gte' | 'lte') => void;
 }
 
@@ -60,9 +61,9 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
       orientation: 'h',
       width: 1,
       marker: {
-        color: '#ffffff',
+        color: plotParams.percentileFilterPresent ? '#fcfcfc' : '#ffffff',
         line: {
-          color: hovered === 'lower' ? '#2e73b5' : '#957ac9',
+          color: plotParams.percentileFilterPresent ? '#eceded' : hovered === 'lower' ? '#2e73b5' : '#957ac9',
           width: hovered === 'lower' ? 3 : 1,
         },
       },
@@ -76,7 +77,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
       marker: {
         color: '#957ac9',
         line: {
-          color: hovered === 'upper' ? '#2e73b5' : '#957ac9',
+          color: plotParams.percentileFilterPresent ? '#eceded' : hovered === 'upper' ? '#2e73b5' : '#957ac9',
           width: hovered === 'upper' ? 3 : 1,
         },
       },
@@ -123,6 +124,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   };
 
   const onHoverHandler = (e) => {
+    if (plotParams.percentileFilterPresent) return;
     const mouseX = e.xvals[0];
     if (plotParams.left <= mouseX && mouseX <= plotParams.mid) setHovered('lower');
     else if (plotParams.mid <= mouseX && mouseX <= plotParams.right) setHovered('upper');
@@ -130,10 +132,9 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   };
 
   const onClickHandler = (e) => {
-    if (e.points[0].fullData.index === 1)
-      plotParams.addFilter('lte');
-    else if (e.points[0].fullData.index === 2)
-      plotParams.addFilter('gte');
+    if (plotParams.percentileFilterPresent) return;
+    if (e.points[0].fullData.index === 1) plotParams.addFilter('lte');
+    else if (e.points[0].fullData.index === 2) plotParams.addFilter('gte');
   };
 
   return (

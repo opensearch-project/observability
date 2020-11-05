@@ -120,7 +120,12 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
               initialPageSize: 10,
               pageSizeOptions: [5, 10, 15],
             }}
-            sorting={true}
+            sorting={{
+              sort: {
+                field: 'name',
+                direction: 'asc',
+              },
+            }}
           />
         ) : (
           <NoMatchMessage size="xl" />

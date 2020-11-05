@@ -49,7 +49,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
             trace_group: bucket.trace_group_name.buckets[0]?.key,
             latency: bucket.latency.value,
             last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
-            error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
+            error_count: bucket.error_count.doc_count > 0 ? 'Yes' : 'No',
             percentile_in_trace_group: binarySearch(
               percentileRanges[bucket.trace_group_name.buckets[0].key],
               bucket.latency.value
@@ -77,7 +77,7 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
         latency: bucket.latency.value,
         latency_vs_benchmark: 'N/A',
         percentile_in_trace_group: 'N/A',
-        error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
+        error_count: bucket.error_count.doc_count > 0 ? 'Yes' : 'No',
         errors_vs_benchmark: 'N/A',
       };
     })

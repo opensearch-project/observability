@@ -82,7 +82,7 @@ const columns = [
   },
   {
     field: 'error_count',
-    name: 'Error flag',
+    name: 'Errors',
     align: 'right',
     sortable: true,
     render: (item) => (item === 0 || item ? item : '-'),
@@ -112,7 +112,12 @@ export function TracesTable(props: { items: any[] }) {
               initialPageSize: 10,
               pageSizeOptions: [8, 10, 13],
             }}
-            sorting={true}
+            sorting={{
+              sort: {
+                field: 'trace_id',
+                direction: 'asc',
+              },
+            }}
           />
         ) : (
           <NoMatchMessage size="xl" />

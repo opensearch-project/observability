@@ -15,25 +15,26 @@ import { Plt } from '../common/plots/plt';
 const renderStats = (serviceBreakdownData) => {
   return serviceBreakdownData.length > 0 ? (
     <EuiFlexGroup responsive={false}>
-      <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
-        <EuiFlexItem />
-        {serviceBreakdownData[0].marker.colors.map((color, i) => (
-          <EuiFlexItem key={`label-${i}`}>
-            <EuiHealth color={color}>{serviceBreakdownData[0].labels[i]}</EuiHealth>
-          </EuiFlexItem>
-        ))}
-      </EuiFlexGroup>
+      <EuiFlexItem>
+        <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
+          {serviceBreakdownData[0].marker.colors.map((color, i) => (
+            <EuiFlexItem key={`label-${i}`}>
+              <EuiHealth color={color}>{serviceBreakdownData[0].labels[i]}</EuiHealth>
+            </EuiFlexItem>
+          ))}
+        </EuiFlexGroup>
+      </EuiFlexItem>
       <EuiFlexItem />
-      <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
-        <EuiFlexItem>
-          <EuiText size="s">%time spent</EuiText>
-        </EuiFlexItem>
-        {serviceBreakdownData[0].values.map((value, i) => (
-          <EuiFlexItem key={`value-${i}`}>
-            <EuiText size="s">{_.round(value, 2)}%</EuiText>
-          </EuiFlexItem>
-        ))}
-      </EuiFlexGroup>
+      <EuiFlexItem />
+      <EuiFlexItem>
+        <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
+          {serviceBreakdownData[0].values.map((value, i) => (
+            <EuiFlexItem key={`value-${i}`}>
+              <EuiText size="s">{_.round(value, 2)}%</EuiText>
+            </EuiFlexItem>
+          ))}
+        </EuiFlexGroup>
+      </EuiFlexItem>
     </EuiFlexGroup>
   ) : null;
 };
@@ -61,7 +62,7 @@ export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
   return (
     <>
       <EuiPanel>
-        <PanelTitle title="Service breakdown" />
+        <PanelTitle title="Time spent by service" />
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup direction="column" alignItems="center">
           <EuiFlexItem>

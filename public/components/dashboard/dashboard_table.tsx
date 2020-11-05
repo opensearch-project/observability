@@ -21,6 +21,7 @@ import { FilterType } from '../common/filters/filters';
 
 export function DashboardTable(props: {
   items: any[];
+  filters: FilterType[];
   addFilter: (filter: FilterType) => void;
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
 }) {
@@ -88,7 +89,7 @@ export function DashboardTable(props: {
             }
           >
             <span>
-              Latency variance{' '}
+              Latency variance (ms){' '}
               <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
             </span>
           </EuiToolTip>
@@ -114,6 +115,10 @@ export function DashboardTable(props: {
               left: item[0],
               mid: item[1],
               right: item[2],
+              percentileFilterPresent:
+                props.filters.find(
+                  (filter) => filter.field === 'Latency percentile within trace group'
+                ) !== undefined,
               addFilter: (condition?: 'lte' | 'gte') => {
                 props.addPercentileFilter(condition, [
                   {
@@ -283,7 +288,12 @@ export function DashboardTable(props: {
               initialPageSize: 10,
               pageSizeOptions: [5, 10, 15],
             }}
-            sorting={true}
+            sorting={{
+              sort: {
+                field: 'latency_variance',
+                direction: 'desc',
+              },
+            }}
             tableLayout="auto"
           />
         ) : (

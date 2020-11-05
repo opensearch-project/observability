@@ -122,6 +122,18 @@ export const minFixedInterval = (startTime: string, endTime: string) => {
   return '365d';
 };
 
+export const fixedIntervalToMilli = (fixedInterval: string) => {
+  return {
+    '1ms': 1,
+    '1s': 1000,
+    '1m': 60000,
+    '1h': 3600000,
+    '1d': 86400000,
+    '30d': 86400000 * 30,
+    '365d': 86400000 * 365,
+  }[fixedInterval];
+};
+
 export const fixedIntervalToTickFormat = (fixedInterval: string) => {
   if (fixedInterval === '1d') return '%b %e, %Y';
   if (fixedInterval === '30d') return '%b %Y';

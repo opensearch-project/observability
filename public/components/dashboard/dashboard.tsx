@@ -130,6 +130,7 @@ export function Dashboard(props: DashboardProps) {
       <EuiSpacer size="m" />
       <DashboardTable
         items={tableItems}
+        filters={props.filters}
         addFilter={addFilter}
         addPercentileFilter={addPercentileFilter}
       />

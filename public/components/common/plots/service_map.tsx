@@ -105,7 +105,7 @@ export function ServiceMap({
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup alignItems="center" gutterSize="s">
           <EuiFlexItem grow={false}>
-            <EuiText>Zoom in to</EuiText>
+            <EuiText>Focus on</EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiFieldSearch placeholder="Service name" value={''} onChange={() => {}} />
@@ -114,6 +114,9 @@ export function ServiceMap({
         <EuiSpacer />
 
         <EuiFlexGroup gutterSize="none" responsive={false}>
+          <EuiFlexItem grow={false}>
+            <ServiceMapScale idSelected={idSelected} />
+          </EuiFlexItem>
           <EuiFlexItem>
             {items?.graph && (
               <Graph
@@ -123,9 +126,6 @@ export function ServiceMap({
                 getNetwork={(network) => {}}
               />
             )}
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            <ServiceMapScale idSelected={idSelected} />
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPanel>

@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { nanoToMilliSec } from '../components/common/helper_functions';
+import moment from 'moment';
+import { DATE_FORMAT, DATE_PICKER_FORMAT } from '../../common';
+import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardLatencyTrendQuery,
   getDashboardQuery,
@@ -106,13 +108,16 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-// 'latency_variance': Array.from({ length: 3 }, () => Math.floor(Math.random() * 70 + 10)).sort(),
-// 'average_latency_vs_benchmark': Math.floor(Math.random() * (41) - 20) * 5,
-
 export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
   handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
+      const texts = buckets.map(
+        (bucket) =>
+          `${moment(bucket.key).format(DATE_PICKER_FORMAT)} - ${moment(
+            bucket.key + fixedIntervalToMilli(fixedInterval)
+          ).format(DATE_PICKER_FORMAT)}`
+      );
       const newItems =
         buckets.length > 0
           ? [
@@ -123,7 +128,11 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
                   color: 'rgb(171, 211, 240)',
                 },
                 type: 'bar',
-                hovertemplate: '%{x}<br>Throughput: %{y}<extra></extra>',
+                text: texts,
+                hoverlabel: {
+                  align: 'left',
+                },
+                hovertemplate: '%{text}<br>Throughput: %{y}<extra></extra>',
               },
             ]
           : [];
@@ -136,17 +145,27 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
   handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
+      const texts = buckets.map(
+        (bucket) =>
+          `${moment(bucket.key).format(DATE_PICKER_FORMAT)} - ${moment(
+            bucket.key + fixedIntervalToMilli(fixedInterval)
+          ).format(DATE_PICKER_FORMAT)}`
+      );
       const newItems =
         buckets.length > 0
           ? [
               {
                 x: buckets.map((bucket) => bucket.key),
-                y: buckets.map((bucket) => _.round(bucket.error_rate?.value, 2)),
+                y: buckets.map((bucket) => _.round(bucket.error_rate?.value || 0, 2)),
                 marker: {
                   color: '#fad963',
                 },
                 type: 'bar',
-                hovertemplate: '%{x}<br>Error rate: %{y}<extra></extra>',
+                text: texts,
+                hoverlabel: {
+                  align: 'left',
+                },
+                hovertemplate: '%{text}<br>Error rate: %{y}<extra></extra>',
               },
             ]
           : [];
