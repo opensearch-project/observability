@@ -21,7 +21,6 @@ import {
 import { CoreDeps } from '../app';
 import {
   filtersToDsl,
-  getServiceMapGraph,
   PanelTitle,
   renderDatePicker,
   SearchBarProps,
@@ -210,6 +209,7 @@ export function ServiceView(props: ServiceViewProps) {
             serviceMap={serviceMap}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
+            currService={props.serviceName}
           />
         </EuiPageBody>
       </EuiPage>

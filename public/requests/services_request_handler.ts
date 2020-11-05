@@ -37,7 +37,7 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?, metrics = false) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
@@ -82,7 +82,6 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, metr
     )
   );
 
-  if (metrics) {
     const latencies = await handleDslRequest(
       http,
       {},
@@ -96,7 +95,6 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, metr
       map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
       map[bucket.key].throughput = bucket.doc_count;
     });
-  }
 
   if (setItems) setItems(map);
   return map;

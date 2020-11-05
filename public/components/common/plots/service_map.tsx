@@ -33,11 +33,13 @@ export function ServiceMap({
   idSelected,
   setIdSelected,
   addFilter,
+  currService,
 }: {
   serviceMap: ServiceObject;
   idSelected: string;
   setIdSelected: (newId: string) => void;
   addFilter?: (filter: FilterType) => void;
+  currService?: string;
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
@@ -129,7 +131,7 @@ export function ServiceMap({
     const max = Math.max(...values);
     const calculatedTicks = calculateTicks(min, max);
     setTicks(calculatedTicks);
-    setItems(getServiceMapGraph(serviceMap));
+    setItems(getServiceMapGraph(serviceMap, idSelected, calculatedTicks, currService));
   }, [serviceMap, idSelected]);
 
   return (

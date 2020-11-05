@@ -12,21 +12,15 @@ export function ServiceMapScale(props: {
   const [scaleProps, setScaleProps] = useState({});
   const getScaleData = () => {
     const ticks = props.ticks;
-
     const delta = ticks[1] - ticks[0];
     const title = { latency: 'Latency (ms)', error_rate: 'Error rate', throughput: 'Throughput' }[
       props.idSelected
     ];
-    const percent = 1 / (ticks.length + 1);
-    const percents = Array.from({ length: ticks.length - 1 }, (v, i) => percent * i);
+    const percentInterval = 1 / Math.max(ticks.length - 1, 1);
+    const percents = Array.from({ length: ticks.length - 1 }, (v, i) => percentInterval * i);
     const color = percents
       .map((percent) => getServiceMapScaleColor(percent, props.idSelected))
-      .map((color) => `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
-
-    console.log('percents', percents);
-    console.log('color:', color);
-    console.log('y', [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)]);
-    console.log('range', [ticks[0], ticks[ticks.length - 1]]);
+      .map((color) => `rgb(${color})`);
 
     const result = {
       data: {
@@ -105,7 +99,7 @@ export function ServiceMapScale(props: {
 
   return (
     <div style={{ minHeight: 400, minWidth: 65 }}>
-      <Plt {...scaleProps} />
+      {Object.keys(props.ticks).length > 0 && <Plt {...scaleProps} />}
     </div>
   );
 }

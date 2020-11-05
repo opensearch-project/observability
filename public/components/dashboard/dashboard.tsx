@@ -10,7 +10,6 @@ import { CoreDeps } from '../app';
 import {
   filtersToDsl,
   getPercentileFilter,
-  getServiceMapGraph,
   milliToNanoSec,
   minFixedInterval,
   SearchBar,
@@ -68,7 +67,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap, true);
+    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
   };
 
   const addFilter = (filter: FilterType) => {

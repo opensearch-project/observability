@@ -2,6 +2,7 @@ import dateMath from '@elastic/datemath';
 import { EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import React from 'react';
+import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
 
@@ -56,40 +57,39 @@ export function milliToNanoSec(ms: number) {
 }
 
 export function getServiceMapScaleColor(percent, idSelected) {
-  const palatte = {
-    latency: [
-      [217, 214, 226],
-      [46, 17, 91],
-    ],
-    error_rate: [
-      [236, 224, 230],
-      [112, 38, 57],
-    ],
-    throughput: [
-      [214, 215, 215],
-      [43, 78, 117],
-    ],
-  }[idSelected];
-  const r = palatte[0][0] - Math.floor((palatte[0][0] - palatte[1][0]) * percent);
-  const g = palatte[0][1] - Math.floor((palatte[0][1] - palatte[1][1]) * percent);
-  const b = palatte[0][2] - Math.floor((palatte[0][2] - palatte[1][2]) * percent);
-  return [r, g, b];
+  return serviceMapColorPalette[idSelected][Math.min(100, Math.max(0, Math.floor(percent * 100)))];
 }
 
 // construct vis-js graph from ServiceObject
 export function getServiceMapGraph(
   map: ServiceObject,
+  idSelected: string,
+  ticks?: number[],
   currService?: string,
   relatedServices: string[] = ['frontend', 'customer', 'route', 'driver']
 ) {
-  const nodes = Object.keys(map).map((service) => ({
-    id: map[service].id,
-    label: service,
-    size: service === currService ? 30 : 15,
-    title: `<p>${service}</p><p>Average latency:</p>`,
-    color:
-      relatedServices.indexOf(service) >= 0 ? 'rgba(152, 125, 203)' : 'rgba(152, 125, 203, 0.3)',
-  }));
+  const nodes = Object.keys(map).map((service) => {
+    const value = map[service][idSelected];
+    let color = '140, 148, 169';
+    if (value || value === 0) {
+      const percent = (value - ticks[0]) / (ticks[ticks.length - 1] - ticks[0]);
+      color = getServiceMapScaleColor(percent, idSelected);
+    }
+    const message =
+      { latency: 'Average latency: ', error_rate: 'Error rate: ', throughput: 'Throughput: ' }[
+        idSelected
+      ] +
+      (value >= 0 ? value : 'N/A') +
+      (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '');
+
+    return {
+      id: map[service].id,
+      label: service,
+      size: service === currService ? 30 : 15,
+      title: `<p>${service}</p><p>${message}</p>`,
+      color: relatedServices.indexOf(service) >= 0 ? `rgba(${color}, 1)` : `rgba(${color}, 0.3)`,
+    };
+  });
   const edges = [];
   Object.keys(map).map((service) => {
     map[service].targetServices.map((target) => {
@@ -115,7 +115,7 @@ export function getServiceMapTargetResources(map: ServiceObject, serviceName: st
 }
 
 export function calculateTicks(min, max, numTicks = 5) {
-  if (min >= max) return calculateTicks(0, max, numTicks);
+  if (min >= max) return calculateTicks(0, Math.max(1, max), numTicks);
 
   const range = max - min;
   const minInterval = range / numTicks;
