@@ -28,15 +28,24 @@ export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, se
   });
 
   const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
-  handleDslRequest(http, DSL, getDashboardQuery(DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude))
+  handleDslRequest(
+    http,
+    DSL,
+    getDashboardQuery(DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude)
+  )
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets
-          .filter((bucket) => bucket.parent_span.doc_count > 0 && (!filteredByService || bucket.service.doc_count > 0))
+          .filter(
+            (bucket) =>
+              bucket.parent_span.doc_count > 0 &&
+              (!filteredByService || bucket.service.doc_count > 0)
+          )
           .map((bucket) => {
             return {
               trace_group_name: bucket.key,
-              average_latency: bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
+              average_latency:
+                bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
               traces: bucket.doc_count,
               latency_variance: latency_variances[bucket.key],
               error_rate: bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
@@ -59,13 +68,12 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
         DSL,
         getDashboardLatencyTrendQuery(item.trace_group_name)
       );
+      const buckets = latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.filter(
+        (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0
+      );
       const values = {
-        x: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map(
-          (bucket) => bucket.key
-        ),
-        y: latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.map(
-          (bucket) => bucket.average_latency?.value || 0
-        ),
+        x: buckets.map((bucket) => bucket.key),
+        y: buckets.map((bucket) => bucket.average_latency?.value || 0),
       };
       return {
         ...item,
