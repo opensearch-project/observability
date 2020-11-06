@@ -255,11 +255,12 @@ export const filtersToDsl = (
   filters
     .filter((filter) => !filter.disabled)
     .forEach((filter) => {
-      if (filter.DSL) {
-        DSL.query.bool.should.push(...filter.DSL.query.bool.should);
-        DSL.query.bool.minimum_should_match = filter.DSL.query.bool.minimum_should_match;
+      if (filter.custom?.query) {
+        DSL.query.bool.should.push(...filter.custom.query.bool.should);
+        DSL.query.bool.minimum_should_match = filter.custom.query.bool.minimum_should_match;
         return;
       }
+      if (filter.custom) return;
       let query = {};
       switch (filter.operator) {
         case 'exists':
