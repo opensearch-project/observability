@@ -12,14 +12,7 @@ import {
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleTracesRequest = async (
-  http,
-  DSL,
-  timeFilterDSL,
-  items,
-  setItems,
-  serviceFilters?
-) => {
+export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
     let low = 0,
       high = arr.length,
@@ -47,8 +40,12 @@ export const handleTracesRequest = async (
     return map;
   });
 
-  const filteredByService = serviceFilters.length > 0;
-  handleDslRequest(http, DSL, getTracesQuery(null, serviceFilters))
+  const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
+  handleDslRequest(
+    http,
+    DSL,
+    getTracesQuery(null, DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude)
+  )
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets

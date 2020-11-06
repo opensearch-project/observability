@@ -54,7 +54,7 @@ export const getTraceGroupPercentiles = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null, serviceFilters = []) => {
+export const getTracesQuery = (traceId = null, serviceNames = [], serviceNamesExclude = []) => {
   const query: any = {
     size: 0,
     query: {
@@ -74,8 +74,9 @@ export const getTracesQuery = (traceId = null, serviceFilters = []) => {
         aggs: {
           service: {
             filter: {
-              terms: {
-                serviceName: serviceFilters,
+              bool: {
+                must: [],
+                must_not: [],
               },
             },
           },
@@ -145,12 +146,28 @@ export const getTracesQuery = (traceId = null, serviceFilters = []) => {
       },
     },
   };
+
   if (traceId) {
     query.query.bool.must.push({
       term: {
         traceId,
       },
     });
+  }
+  if (serviceNames.length > 0 || serviceNamesExclude.length > 0) {
+    if (serviceNames.length > 0)
+      query.aggs.traces.aggs.service.filter.bool.must.push({
+        terms: {
+          serviceName: serviceNames,
+        },
+      });
+    if (serviceNamesExclude.length > 0) {
+      query.aggs.traces.aggs.service.filter.bool.must_not.push({
+        terms: {
+          serviceName: serviceNamesExclude,
+        },
+      });
+    }
   }
   return query;
 };

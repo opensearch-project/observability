@@ -9,8 +9,12 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleServicesRequest = (http, DSL, items, setItems, serviceFilters?) => {
-  handleDslRequest(http, DSL, getServicesQuery(null, serviceFilters))
+export const handleServicesRequest = (http, DSL, items, setItems) => {
+  handleDslRequest(
+    http,
+    DSL,
+    getServicesQuery(null, DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude)
+  )
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
       return Promise.all(

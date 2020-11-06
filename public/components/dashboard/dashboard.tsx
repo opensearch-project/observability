@@ -78,7 +78,7 @@ export function Dashboard(props: DashboardProps) {
   const addPercentileFilter = (condition = 'gte', additionalFilters = []) => {
     if (tableItems.length === 0) return;
     for (let i = 0; i < props.filters.length; i++) {
-      if (props.filters[i].DSL) {
+      if (props.filters[i].custom) {
         const newFilter = JSON.parse(
           JSON.stringify(props.filters[i]).replace(
             /{"range":{"durationInNanos":{"[gl]te?"/g,

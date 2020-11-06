@@ -221,13 +221,6 @@ export const getPercentileFilter = (
   };
 };
 
-// return the list of serviceNames to filter by
-export const getServiceFilters = (filters: FilterType[]) => {
-  return filters
-    .filter((filter) => filter.custom?.serviceName)
-    .map((filter) => filter.custom.serviceName);
-};
-
 export const filtersToDsl = (
   filters: FilterType[],
   query: string,
@@ -268,7 +261,18 @@ export const filtersToDsl = (
         DSL.query.bool.minimum_should_match = filter.custom.query.bool.minimum_should_match;
         return;
       }
-      if (filter.custom) return;
+
+      if (filter.field === 'serviceName' && (filter.operator  === 'is' || filter.operator === 'is not')) {
+        if (!DSL.custom) {
+          DSL.custom = {
+            serviceNames: [],
+            serviceNamesExclude: [],
+          };
+        }
+        DSL.custom[filter.inverted ? 'serviceNamesExclude' : 'serviceNames'].push(filter.value);
+        return;
+      }
+
       let query = {};
       switch (filter.operator) {
         case 'exists':

@@ -93,9 +93,6 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
               value: row.name,
               inverted: false,
               disabled: false,
-              custom: {
-                serviceName: row.name,
-              }
             });
             setTimeout(() => {
               location.assign('#/traces');

@@ -29,8 +29,7 @@ export function Services(props: ServicesProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    const serviceFilters = getServiceFilters(props.filters);
-    handleServicesRequest(props.http, DSL, tableItems, setTableItems, serviceFilters);
+    handleServicesRequest(props.http, DSL, tableItems, setTableItems);
   };
 
   const addFilter = (filter: FilterType) => {

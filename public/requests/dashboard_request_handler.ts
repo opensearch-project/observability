@@ -27,18 +27,22 @@ export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, se
     return map;
   });
 
-  handleDslRequest(http, DSL, getDashboardQuery())
+  const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
+  handleDslRequest(http, DSL, getDashboardQuery(DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude))
     .then((response) => {
+      console.log('response:', response);
       return Promise.all(
-        response.aggregations.trace_group.buckets.map((bucket) => {
-          return {
-            trace_group_name: bucket.key,
-            average_latency: bucket.average_latency.value,
-            traces: bucket.doc_count,
-            latency_variance: latency_variances[bucket.key],
-            error_rate: bucket.error_rate.value,
-          };
-        })
+        response.aggregations.trace_group_name.buckets
+          .filter((bucket) => bucket.parent_span.doc_count > 0 && (!filteredByService || bucket.service.doc_count > 0))
+          .map((bucket) => {
+            return {
+              trace_group_name: bucket.key,
+              average_latency: bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
+              traces: bucket.doc_count,
+              latency_variance: latency_variances[bucket.key],
+              error_rate: bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
+            };
+          })
       );
     })
     .then((newItems) => {

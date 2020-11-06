@@ -1,7 +1,7 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { CoreDeps } from '../app';
-import { filtersToDsl, getServiceFilters, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { TracesTable } from './traces_table';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 
@@ -29,8 +29,7 @@ export function Traces(props: TracesProps) {
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
-    const serviceFilters = getServiceFilters(props.filters);
-    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, serviceFilters);
+    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems);
   };
 
   return (

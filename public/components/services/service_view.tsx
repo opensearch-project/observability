@@ -51,9 +51,6 @@ const renderTitle = (
               value: serviceName,
               inverted: false,
               disabled: false,
-              custom: {
-                serviceName: serviceName,
-              },
             });
             setTimeout(() => {
               location.assign('#/dashboard');
@@ -72,9 +69,6 @@ const renderTitle = (
               value: serviceName,
               inverted: false,
               disabled: false,
-              custom: {
-                serviceName: serviceName,
-              },
             });
             setTimeout(() => {
               location.assign('#/traces');
@@ -149,9 +143,6 @@ const renderOverview = (fields, addFilter, serviceName) => {
                       value: serviceName,
                       inverted: false,
                       disabled: false,
-                      custom: {
-                        serviceName: serviceName,
-                      },
                     });
                     setTimeout(() => {
                       location.assign('#/traces');
