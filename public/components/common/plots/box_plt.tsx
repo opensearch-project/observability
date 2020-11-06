@@ -107,14 +107,14 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
               <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
                 <p
                   style={{ whiteSpace: 'nowrap' }}
-                >{`${plotParams.left}ms - ${plotParams.mid}ms`}</p>
+                >{`${Math.round(plotParams.left)}ms - ${Math.round(plotParams.mid)}ms`}</p>
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
                 <p
                   style={{ whiteSpace: 'nowrap' }}
-                >{`${plotParams.mid}ms - ${plotParams.right}ms`}</p>
+                >{`${Math.round(plotParams.mid)}ms - ${Math.round(plotParams.right)}ms`}</p>
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>

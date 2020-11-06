@@ -22,7 +22,7 @@ export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, se
     response.aggregations.trace_group.buckets.forEach((traceGroup) => {
       map[traceGroup.key] = Object.values(
         traceGroup.latency_variance_nanos.values
-      ).map((nano: number) => Math.round(nanoToMilliSec(Math.max(0, nano))));
+      ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
     });
     return map;
   });
