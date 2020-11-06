@@ -9,22 +9,22 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleServicesRequest = (http, DSL, items, setItems) => {
-  handleDslRequest(http, DSL, getServicesQuery())
+export const handleServicesRequest = (http, DSL, items, setItems, serviceFilters?) => {
+  handleDslRequest(http, DSL, getServicesQuery(null, serviceFilters))
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
       return Promise.all(
-        response.aggregations.trace_group.buckets.map((bucket) => {
+        response.aggregations.service.buckets.map((bucket) => {
           const connectedServices = [
             ...serviceObject[bucket.key].targetServices,
             ...serviceObject[bucket.key].destServices,
           ];
           return {
             name: bucket.key,
-            average_latency: bucket.average_latency.value,
-            error_rate: bucket.error_rate.value,
-            throughput: bucket.doc_count,
-            traces: bucket.traces.doc_count,
+            average_latency: serviceObject[bucket.key].latency,
+            error_rate: serviceObject[bucket.key].error_rate,
+            throughput: serviceObject[bucket.key].throughput,
+            traces: bucket.trace_count.value,
             connected_services: connectedServices.join(', '),
             number_of_connected_services: connectedServices.length,
           };

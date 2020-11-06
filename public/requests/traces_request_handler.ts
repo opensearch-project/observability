@@ -12,7 +12,7 @@ import {
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
+export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems, serviceFilters?) => {
   const binarySearch = (arr: number[], target: number) => {
     let low = 0,
       high = arr.length,
@@ -40,23 +40,25 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     return map;
   });
 
-  handleDslRequest(http, DSL, getTracesQuery(null))
+  handleDslRequest(http, DSL, getTracesQuery(null, serviceFilters))
     .then((response) => {
       return Promise.all(
-        response.aggregations.traces.buckets.map((bucket) => {
-          return {
-            trace_id: bucket.key,
-            trace_group: bucket.trace_group_name.buckets[0]?.key,
-            latency: bucket.latency.value,
-            last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
-            error_count: bucket.error_count.doc_count > 0 ? 'Yes' : 'No',
-            percentile_in_trace_group: binarySearch(
-              percentileRanges[bucket.trace_group_name.buckets[0].key],
-              bucket.latency.value
-            ),
-            actions: '#',
-          };
-        })
+        response.aggregations.traces.buckets
+          .filter((bucket) => bucket.service.doc_count > 0 || bucket.service.meta)
+          .map((bucket) => {
+            return {
+              trace_id: bucket.key,
+              trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
+              latency: bucket.parent_span.latency.value,
+              last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
+              error_count: bucket.parent_span.error_count.doc_count > 0 ? 'True' : 'False',
+              percentile_in_trace_group: binarySearch(
+                percentileRanges[bucket.parent_span.trace_group_name.buckets[0]?.key],
+                bucket.parent_span.latency.value
+              ),
+              actions: '#',
+            };
+          })
       );
     })
     .then((newItems) => {

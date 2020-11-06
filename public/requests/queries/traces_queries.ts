@@ -54,37 +54,12 @@ export const getTraceGroupPercentiles = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null) => {
+export const getTracesQuery = (traceId = null, serviceFilters = []) => {
   const query: any = {
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            bool: {
-              should: [
-                {
-                  bool: {
-                    must_not: [
-                      {
-                        exists: {
-                          field: 'parentSpanId',
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  term: {
-                    parentSpanId: {
-                      value: '',
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        ],
+        must: [],
         filter: [],
         should: [],
         must_not: [],
@@ -97,32 +72,73 @@ export const getTracesQuery = (traceId = null) => {
           size: 10000,
         },
         aggs: {
-          latency: {
-            max: {
-              script: {
-                source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
-                lang: 'painless',
+          service: {
+            filter: {
+              terms: {
+                serviceName: serviceFilters,
               },
             },
           },
-          trace_group_name: {
-            terms: {
-              field: 'name',
-              size: 1,
+          parent_span: {
+            filter: {
+              bool: {
+                must: [
+                  {
+                    bool: {
+                      should: [
+                        {
+                          bool: {
+                            must_not: [
+                              {
+                                exists: {
+                                  field: 'parentSpanId',
+                                },
+                              },
+                            ],
+                          },
+                        },
+                        {
+                          term: {
+                            parentSpanId: {
+                              value: '',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+            aggs: {
+              latency: {
+                max: {
+                  script: {
+                    source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
+                    lang: 'painless',
+                  },
+                },
+              },
+              trace_group_name: {
+                terms: {
+                  field: 'name',
+                  size: 1,
+                },
+              },
+              error_count: {
+                filter: {
+                  range: {
+                    'status.code': {
+                      gt: '0',
+                    },
+                  },
+                },
+              },
             },
           },
           last_updated: {
             max: {
               field: 'endTime',
-            },
-          },
-          error_count: {
-            filter: {
-              range: {
-                'status.code': {
-                  gt: '0',
-                },
-              },
             },
           },
         },

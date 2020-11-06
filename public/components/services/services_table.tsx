@@ -59,7 +59,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       align: 'right',
       sortable: true,
       truncateText: true,
-      render: (item) => <EuiI18nNumber value={item} />,
+      render: (item) => item === 0 || item ? <EuiI18nNumber value={item} /> : '-',
     },
     {
       field: 'number_of_connected_services',
@@ -93,6 +93,9 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
               value: row.name,
               inverted: false,
               disabled: false,
+              custom: {
+                serviceName: row.name,
+              }
             });
             setTimeout(() => {
               location.assign('#/traces');

@@ -216,8 +216,15 @@ export const getPercentileFilter = (
     value: conditionString,
     inverted: false,
     disabled: false,
-    DSL: DSL,
+    custom: DSL,
   };
+};
+
+// return the list of serviceNames to filter by
+export const getServiceFilters = (filters: FilterType[]) => {
+  return filters
+    .filter((filter) => filter.custom?.serviceName)
+    .map((filter) => filter.custom.serviceName);
 };
 
 export const filtersToDsl = (

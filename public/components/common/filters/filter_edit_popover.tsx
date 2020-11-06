@@ -23,17 +23,6 @@ export default function FilterEditPopover(props: {
   setFilter: (newFilter: FilterType, index: number) => void;
   closePopover: () => void;
 }) {
-  const operatorOptions = [
-    {
-      label: 'test',
-    },
-    {
-      label: 'test2',
-    },
-    {
-      label: 'test3',
-    },
-  ];
   const [selectedFieldOptions, setSelectedFieldOptions] = useState<
     Array<EuiComboBoxOptionOption<string>>
   >(props.filter ? [{ label: props.filter.field }] : []);
@@ -105,6 +94,12 @@ export default function FilterEditPopover(props: {
             }
             onClick={() => {
               props.closePopover();
+              const extra: any = {};
+              if (selectedFieldOptions[0].label === 'serviceName') {
+                if (selectedOperatorOptions[0].label === 'is')
+                  extra.custom = { serviceName: filterValue };
+              }
+
               props.setFilter(
                 {
                   field: selectedFieldOptions[0].label,
@@ -114,6 +109,7 @@ export default function FilterEditPopover(props: {
                     : filterValue,
                   inverted: selectedOperatorOptions[0].label.includes('not'),
                   disabled: props.filter ? props.filter.disabled : false,
+                  ...extra,
                 },
                 props.index
               );

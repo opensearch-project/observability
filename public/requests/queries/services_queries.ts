@@ -4,7 +4,7 @@ import {
   SERVICE_MAP_MAX_NODES,
 } from '../../../common';
 
-export const getServicesQuery = (serviceName = null) => {
+export const getServicesQuery = (serviceName = null, serviceFilters = []) => {
   const query = {
     size: 0,
     query: {
@@ -16,77 +16,25 @@ export const getServicesQuery = (serviceName = null) => {
       },
     },
     aggs: {
-      trace_group: {
+      service: {
         terms: {
           field: 'serviceName',
         },
         aggs: {
-          traces: {
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool: {
-                      must_not: [
-                        {
-                          exists: {
-                            field: 'parentSpanId',
-                          },
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    term: {
-                      parentSpanId: {
-                        value: '',
-                      },
-                    },
-                  },
-                ],
-              },
-            },
-          },
-          error_count: {
-            filter: {
-              range: {
-                'status.code': {
-                  gt: '0',
-                },
-              },
-            },
-          },
-          error_rate: {
-            bucket_script: {
-              buckets_path: {
-                total: '_count',
-                errors: 'error_count._count',
-              },
-              script: 'params.errors / params.total * 100',
-            },
-          },
-          average_latency_nanos: {
-            avg: {
-              field: 'durationInNanos',
-            },
-          },
-          average_latency: {
-            bucket_script: {
-              buckets_path: {
-                count: '_count',
-                latency: 'average_latency_nanos.value',
-              },
-              script: 'Math.round(params.latency / 10000) / 100.0',
+          trace_count: {
+            cardinality: {
+              field: 'traceId',
             },
           },
         },
       },
     },
   };
-  if (serviceName) {
+  if (serviceName || serviceFilters.length > 0) {
+    if (serviceName) serviceFilters.push(serviceName);
     query.query.bool.must.push({
-      term: {
-        serviceName: serviceName,
+      terms: {
+        serviceName: serviceFilters,
       },
     });
   }

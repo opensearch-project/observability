@@ -2,7 +2,7 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, getServiceFilters, SearchBar, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { ServicesTable } from './services_table';
 
@@ -29,7 +29,8 @@ export function Services(props: ServicesProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServicesRequest(props.http, DSL, tableItems, setTableItems);
+    const serviceFilters = getServiceFilters(props.filters);
+    handleServicesRequest(props.http, DSL, tableItems, setTableItems, serviceFilters);
   };
 
   const addFilter = (filter: FilterType) => {
