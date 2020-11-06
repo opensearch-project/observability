@@ -66,8 +66,10 @@ export function getServiceMapGraph(
   idSelected: string,
   ticks?: number[],
   currService?: string,
-  relatedServices: string[] = ['frontend', 'customer', 'route', 'driver']
+  relatedServices?: string[]
 ) {
+  if (!relatedServices) relatedServices = Object.keys(map);
+
   const nodes = Object.keys(map).map((service) => {
     const value = map[service][idSelected];
     let color = '140, 148, 169';
@@ -262,7 +264,10 @@ export const filtersToDsl = (
         return;
       }
 
-      if (filter.field === 'serviceName' && (filter.operator  === 'is' || filter.operator === 'is not')) {
+      if (
+        filter.field === 'serviceName' &&
+        (filter.operator === 'is' || filter.operator === 'is not')
+      ) {
         if (!DSL.custom) {
           DSL.custom = {
             serviceNames: [],

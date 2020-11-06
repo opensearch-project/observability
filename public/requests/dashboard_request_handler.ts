@@ -30,7 +30,6 @@ export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, se
   const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
   handleDslRequest(http, DSL, getDashboardQuery(DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude))
     .then((response) => {
-      console.log('response:', response);
       return Promise.all(
         response.aggregations.trace_group_name.buckets
           .filter((bucket) => bucket.parent_span.doc_count > 0 && (!filteredByService || bucket.service.doc_count > 0))

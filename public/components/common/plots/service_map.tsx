@@ -25,6 +25,7 @@ export interface ServiceObject {
     latency?: number;
     error_rate?: number;
     throughput?: number;
+    relatedServices?: string[]; // services appear in the same traces this service appears
   };
 }
 
@@ -131,7 +132,7 @@ export function ServiceMap({
     const max = Math.max(...values);
     const calculatedTicks = calculateTicks(min, max);
     setTicks(calculatedTicks);
-    setItems(getServiceMapGraph(serviceMap, idSelected, calculatedTicks, currService));
+    setItems(getServiceMapGraph(serviceMap, idSelected, calculatedTicks, currService, serviceMap[currService]?.relatedServices));
   }, [serviceMap, idSelected]);
 
   return (

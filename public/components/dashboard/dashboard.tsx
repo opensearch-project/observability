@@ -67,7 +67,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
   };
 
   const addFilter = (filter: FilterType) => {

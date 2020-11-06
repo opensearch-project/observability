@@ -4,7 +4,11 @@ import {
   SERVICE_MAP_MAX_NODES,
 } from '../../../common';
 
-export const getServicesQuery = (serviceName = null, serviceNames = [], serviceNamesExclude = []) => {
+export const getServicesQuery = (
+  serviceName = null,
+  serviceNames = [],
+  serviceNamesExclude = []
+) => {
   const query = {
     size: 0,
     query: {
@@ -45,6 +49,51 @@ export const getServicesQuery = (serviceName = null, serviceNames = [], serviceN
       },
     });
   }
+  return query;
+};
+
+export const getRelatedServicesQuery = (serviceName) => {
+  const query = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: 10000,
+        },
+        aggs: {
+          all_services: {
+            terms: {
+              field: 'serviceName',
+              size: 10000,
+            },
+          },
+          service: {
+            filter: {
+              bool: {
+                must: [
+                  {
+                    term: {
+                      serviceName: serviceName,
+                    },
+                  },
+                ],
+                must_not: [],
+              },
+            },
+          },
+        },
+      },
+    },
+  };
   return query;
 };
 

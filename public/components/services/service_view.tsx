@@ -15,6 +15,7 @@ import {
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
+  handleServiceMapRelatedServicesRequest,
   handleServiceMapRequest,
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
@@ -195,7 +196,7 @@ export function ServiceView(props: ServiceViewProps) {
   const refresh = () => {
     const DSL = filtersToDsl([], '', props.startTime, props.endTime);
     handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
-    handleServiceMapRequest(props.http, {}, serviceMap, setServiceMap);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, props.serviceName);
   };
 
   return (

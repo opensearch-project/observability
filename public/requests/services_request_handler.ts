@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { getServiceMapTargetResources } from '../components/common';
 import { ServiceObject } from '../components/common/plots/service_map';
 import {
+  getRelatedServicesQuery,
   getServiceEdgesQuery,
   getServiceMetricsQuery,
   getServiceNodesQuery,
@@ -41,7 +42,7 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?, currService?) => {
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery()).then((response) =>
@@ -99,6 +100,24 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
     map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
     map[bucket.key].throughput = bucket.doc_count;
   });
+
+  // load related services to set nodes opacity
+  if (currService) {
+    const traces = await handleDslRequest(
+      http,
+      DSL,
+      getRelatedServicesQuery(currService)
+    ).then((response) =>
+      response.aggregations.traces.buckets.filter((bucket) => bucket.service.doc_count > 0)
+    );
+    const maxNumServices = Object.keys(map).length;
+    const relatedServices = new Set<string>();
+    for (let i = 0; i < traces.length; i++) {
+      traces[i].all_services.buckets.map((bucket) => relatedServices.add(bucket.key));
+      if (relatedServices.size === maxNumServices) break;
+    }
+    map[currService].relatedServices = [...relatedServices];
+  }
 
   if (setItems) setItems(map);
   return map;
