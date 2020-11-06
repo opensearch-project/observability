@@ -82,19 +82,19 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
     )
   );
 
-    const latencies = await handleDslRequest(
-      http,
-      {},
-      getServiceMetricsQuery(
-        Object.keys(map),
-        [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)))
-      )
-    );
-    latencies.aggregations.service_name.buckets.map((bucket) => {
-      map[bucket.key].latency = bucket.average_latency.value;
-      map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
-      map[bucket.key].throughput = bucket.doc_count;
-    });
+  const latencies = await handleDslRequest(
+    http,
+    {},
+    getServiceMetricsQuery(
+      Object.keys(map),
+      [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)))
+    )
+  );
+  latencies.aggregations.service_name.buckets.map((bucket) => {
+    map[bucket.key].latency = bucket.average_latency.value;
+    map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
+    map[bucket.key].throughput = bucket.doc_count;
+  });
 
   if (setItems) setItems(map);
   return map;
@@ -103,7 +103,7 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?) => {
 export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFields) => {
   handleDslRequest(http, DSL, getServicesQuery(serviceName))
     .then(async (response) => {
-      const bucket = response.aggregations.trace_group.buckets[0];
+      const bucket = response.aggregations.service.buckets[0];
       if (!bucket) return {};
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
       const connectedServices = [
@@ -114,10 +114,10 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
         name: bucket.key,
         connected_services: connectedServices.join(', '),
         number_of_connected_services: connectedServices.length,
-        average_latency: bucket.average_latency.value,
-        error_rate: bucket.error_rate.value,
-        throughput: bucket.doc_count,
-        traces: bucket.traces.doc_count,
+        average_latency: serviceObject[bucket.key].latency,
+        error_rate: serviceObject[bucket.key].error_rate,
+        throughput: serviceObject[bucket.key].throughput,
+        traces: bucket.trace_count.value,
       };
     })
     .then((newFields) => {

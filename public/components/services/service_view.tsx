@@ -19,12 +19,7 @@ import {
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import {
-  filtersToDsl,
-  PanelTitle,
-  renderDatePicker,
-  SearchBarProps,
-} from '../common';
+import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 
@@ -48,7 +43,25 @@ const renderTitle = (
       </EuiFlexItem>
       <EuiFlexItem grow={false} />
       <EuiFlexItem grow={false}>
-        <EuiButton>View in dashboard</EuiButton>
+        <EuiButton
+          onClick={() => {
+            addFilter({
+              field: 'serviceName',
+              operator: 'is',
+              value: serviceName,
+              inverted: false,
+              disabled: false,
+              custom: {
+                serviceName: serviceName,
+              },
+            });
+            setTimeout(() => {
+              location.assign('#/dashboard');
+            }, 300);
+          }}
+        >
+          View in dashboard
+        </EuiButton>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiButton
@@ -59,6 +72,9 @@ const renderTitle = (
               value: serviceName,
               inverted: false,
               disabled: false,
+              custom: {
+                serviceName: serviceName,
+              },
             });
             setTimeout(() => {
               location.assign('#/traces');
@@ -119,7 +135,7 @@ const renderOverview = (fields, addFilter, serviceName) => {
             <EuiFlexItem grow={false}>
               <EuiText className="overview-title">Throughput</EuiText>
               <EuiText size="s" className="overview-content">
-                <EuiI18nNumber value={fields.throughput || 0} />
+                {fields.throughput ? <EuiI18nNumber value={fields.throughput} /> : '-'}
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
@@ -133,6 +149,9 @@ const renderOverview = (fields, addFilter, serviceName) => {
                       value: serviceName,
                       inverted: false,
                       disabled: false,
+                      custom: {
+                        serviceName: serviceName,
+                      },
                     });
                     setTimeout(() => {
                       location.assign('#/traces');

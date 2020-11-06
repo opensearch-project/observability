@@ -12,7 +12,14 @@ import {
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems, serviceFilters?) => {
+export const handleTracesRequest = async (
+  http,
+  DSL,
+  timeFilterDSL,
+  items,
+  setItems,
+  serviceFilters?
+) => {
   const binarySearch = (arr: number[], target: number) => {
     let low = 0,
       high = arr.length,
@@ -40,11 +47,12 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     return map;
   });
 
+  const filteredByService = serviceFilters.length > 0;
   handleDslRequest(http, DSL, getTracesQuery(null, serviceFilters))
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets
-          .filter((bucket) => bucket.service.doc_count > 0 || bucket.service.meta)
+          .filter((bucket) => !filteredByService || bucket.service.doc_count > 0)
           .map((bucket) => {
             return {
               trace_id: bucket.key,
@@ -73,13 +81,13 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
       const bucket = response.aggregations.traces.buckets[0];
       return {
         trace_id: bucket.key,
-        trace_group: bucket.trace_group_name.buckets[0]?.key,
+        trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
         last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
         user_id: 'N/A',
-        latency: bucket.latency.value,
+        latency: bucket.parent_span.latency.value,
         latency_vs_benchmark: 'N/A',
         percentile_in_trace_group: 'N/A',
-        error_count: bucket.error_count.doc_count > 0 ? 'Yes' : 'No',
+        error_count: bucket.parent_span.error_count.doc_count > 0 ? 'Yes' : 'No',
         errors_vs_benchmark: 'N/A',
       };
     })

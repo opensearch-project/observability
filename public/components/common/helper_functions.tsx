@@ -79,8 +79,9 @@ export function getServiceMapGraph(
       { latency: 'Average latency: ', error_rate: 'Error rate: ', throughput: 'Throughput: ' }[
         idSelected
       ] +
-      (value >= 0 ? value : 'N/A') +
-      (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '');
+      (value >= 0
+        ? value + (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '')
+        : 'N/A');
 
     return {
       id: map[service].id,
@@ -139,7 +140,7 @@ export function calculateTicks(min, max, numTicks = 5) {
 
 // calculates the minimum fixed_interval for date_histogram from time filter
 export const minFixedInterval = (startTime: string, endTime: string) => {
-  if (startTime?.length === 0 || endTime?.length === 0) return 'minute';
+  if (startTime?.length === 0 || endTime?.length === 0 || startTime === endTime) return '1d';
   const momentStart = dateMath.parse(startTime);
   const momentEnd = dateMath.parse(endTime);
   const diffSeconds = momentEnd.unix() - momentStart.unix();
