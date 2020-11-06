@@ -7,6 +7,7 @@ const fields = [
   'traceId',
   'parentSpanId',
   'name',
+  'traceGroup',
   'kind',
   'startTime',
   'endTime',

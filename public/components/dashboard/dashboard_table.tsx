@@ -122,7 +122,7 @@ export function DashboardTable(props: {
               addFilter: (condition?: 'lte' | 'gte') => {
                 props.addPercentileFilter(condition, [
                   {
-                    field: 'name',
+                    field: 'traceGroup',
                     operator: 'is',
                     value: row.trace_group_name,
                     inverted: false,

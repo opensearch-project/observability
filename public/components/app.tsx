@@ -39,10 +39,10 @@ export const TraceAnalyticsApp = ({
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    localStorage.getItem('TraceAnalyticsStartTime') || '2020-10-15T14:00:00.000Z'
+    localStorage.getItem('TraceAnalyticsStartTime') || 'now-10d'
   );
   const [endTime, setEndTime] = useState<string>(
-    localStorage.getItem('TraceAnalyticsEndTime') || '2020-10-15T15:30:00.000Z'
+    localStorage.getItem('TraceAnalyticsEndTime') || 'now'
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {

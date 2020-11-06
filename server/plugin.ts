@@ -24,12 +24,12 @@ export class TraceAnalyticsPlugin
     this.logger.debug('trace_analytics: Setup');
     const router = core.http.createRouter();
 
-    const sqlClient: ILegacyClusterClient = core.elasticsearch.legacy.createClient(SQL_CLUSTER, {
-      plugins: [sqlPlugin],
-    });
+    // const sqlClient: ILegacyClusterClient = core.elasticsearch.legacy.createClient(SQL_CLUSTER, {
+    //   plugins: [sqlPlugin],
+    // });
 
     // Register server side APIs
-    defineRoutes(router, sqlClient);
+    defineRoutes(router);
 
     return {};
   }

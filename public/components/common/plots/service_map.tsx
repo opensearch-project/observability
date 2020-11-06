@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
-import { calculateTicks, getServiceMapGraph, PanelTitle } from '..';
+import { calculateTicks, getServiceMapGraph, NoMatchMessage, PanelTitle } from '..';
 import { ServiceMapScale } from './service_map_scale';
 import { FilterType } from '../filters/filters';
 
@@ -132,7 +132,15 @@ export function ServiceMap({
     const max = Math.max(...values);
     const calculatedTicks = calculateTicks(min, max);
     setTicks(calculatedTicks);
-    setItems(getServiceMapGraph(serviceMap, idSelected, calculatedTicks, currService, serviceMap[currService]?.relatedServices));
+    setItems(
+      getServiceMapGraph(
+        serviceMap,
+        idSelected,
+        calculatedTicks,
+        currService,
+        serviceMap[currService]?.relatedServices
+      )
+    );
   }, [serviceMap, idSelected]);
 
   return (
@@ -163,21 +171,27 @@ export function ServiceMap({
         </EuiFlexGroup>
         <EuiSpacer />
 
-        <EuiFlexGroup gutterSize="none" responsive={false}>
-          <EuiFlexItem grow={false}>
-            <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} ticks={ticks} />
-          </EuiFlexItem>
-          <EuiFlexItem>
-            {items?.graph && (
-              <Graph
-                graph={items.graph}
-                options={options}
-                events={events}
-                getNetwork={(network) => setNetwork(network)}
-              />
-            )}
-          </EuiFlexItem>
-        </EuiFlexGroup>
+        {Object.keys(serviceMap).length > 0 ? (
+          <EuiFlexGroup gutterSize="none" responsive={false}>
+            <EuiFlexItem grow={false}>
+              <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} ticks={ticks} />
+            </EuiFlexItem>
+            <EuiFlexItem>
+              {items?.graph && (
+                <Graph
+                  graph={items.graph}
+                  options={options}
+                  events={events}
+                  getNetwork={(network) => setNetwork(network)}
+                />
+              )}
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        ) : (
+          <div style={{ minHeight: 434 }}>
+            <NoMatchMessage size="s" />
+          </div>
+        )}
       </EuiPanel>
     </>
   );
