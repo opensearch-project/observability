@@ -45,7 +45,7 @@ export function DashboardTable(props: {
       })
       .join(
         '\u00A0'.repeat(
-          Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
+          Math.max(1, Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1)))
         )
       );
 
