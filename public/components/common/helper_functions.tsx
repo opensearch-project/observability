@@ -238,15 +238,24 @@ export const filtersToDsl = (
         must_not: [],
       },
     },
+    custom: {
+      timeFilter: [],
+      serviceNames: [],
+      serviceNamesExclude: [],
+      traceGroup: [],
+      traceGroupExclude: [],
+    },
   };
-  DSL.query.bool.must.push({
+  const timeFilter = {
     range: {
       startTime: {
         gte: startTime,
         lte: endTime,
       },
     },
-  });
+  };
+  DSL.query.bool.must.push(timeFilter);
+  DSL.custom.timeFilter.push(timeFilter);
   if (query.length > 0) {
     DSL.query.bool.must.push({
       query_string: {
@@ -268,14 +277,12 @@ export const filtersToDsl = (
         filter.field === 'serviceName' &&
         (filter.operator === 'is' || filter.operator === 'is not')
       ) {
-        if (!DSL.custom) {
-          DSL.custom = {
-            serviceNames: [],
-            serviceNamesExclude: [],
-          };
-        }
         DSL.custom[filter.inverted ? 'serviceNamesExclude' : 'serviceNames'].push(filter.value);
         return;
+      }
+
+      if (filter.field === 'traceGroup') {
+        DSL.custom[filter.inverted ? 'traceGroupExclude' : 'traceGroup'].push(filter.value);
       }
 
       let query = {};

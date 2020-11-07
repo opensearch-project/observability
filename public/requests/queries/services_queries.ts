@@ -3,6 +3,8 @@ import {
   SERVICE_MAP_MAX_EDGES,
   SERVICE_MAP_MAX_NODES,
 } from '../../../common';
+import { getServiceMapTargetResources } from '../../components/common';
+import { ServiceObject } from '../../components/common/plots/service_map';
 
 export const getServicesQuery = (
   serviceName = null,
@@ -175,11 +177,27 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   };
 };
 
-export const getServiceMetricsQuery = (serviceNames: string[], targetResource: string[]) => {
-  return {
+export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
+  const traceGroupFilter = new Set(DSL.custom?.traceGroup);
+  const targetResource =
+    traceGroupFilter.size > 0
+      ? [].concat(
+          ...[].concat(
+            ...serviceNames.map((service) =>
+              map[service].traceGroups
+                .filter((traceGroup) => traceGroupFilter.has(traceGroup.traceGroup))
+                .map((traceGroup) => traceGroup.targetResource)
+            )
+          )
+        )
+      : [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)));
+  const query: any = {
     size: 0,
     query: {
       bool: {
+        must: [],
+        should: [],
+        must_not: [],
         filter: [
           {
             terms: {
@@ -286,4 +304,13 @@ export const getServiceMetricsQuery = (serviceNames: string[], targetResource: s
       },
     },
   };
+  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
+  if (DSL.custom?.traceGroup.length > 0) {
+    query.query.bool.filter.push({
+      terms: {
+        traceGroup: DSL.custom.traceGroup,
+      },
+    });
+  }
+  return query;
 };

@@ -87,12 +87,14 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     )
   );
 
+  // service map handles DSL differently
   const latencies = await handleDslRequest(
     http,
     {},
     getServiceMetricsQuery(
+      DSL,
       Object.keys(map),
-      [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)))
+      map
     )
   );
   latencies.aggregations.service_name.buckets.map((bucket) => {

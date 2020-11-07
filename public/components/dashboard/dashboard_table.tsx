@@ -231,7 +231,7 @@ export function DashboardTable(props: {
         <EuiLink
           onClick={() => {
             props.addFilter({
-              field: 'name',
+              field: 'traceGroup',
               operator: 'is',
               value: row.trace_group_name,
               inverted: false,
