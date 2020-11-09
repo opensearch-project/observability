@@ -252,6 +252,13 @@ export const filtersToDsl = (
       serviceNamesExclude: [],
       traceGroup: [],
       traceGroupExclude: [],
+      percentiles: {
+        query: {
+          bool: {
+            should: [],
+          },
+        },
+      },
     },
   };
   const timeFilter = {
@@ -276,8 +283,12 @@ export const filtersToDsl = (
     .filter((filter) => !filter.disabled && !filter.locked)
     .forEach((filter) => {
       if (filter.custom?.query) {
+        // add percentile filter
         DSL.query.bool.should.push(...filter.custom.query.bool.should);
+        DSL.custom.percentiles.query.bool.should.push(...filter.custom.query.bool.should);
         DSL.query.bool.minimum_should_match = filter.custom.query.bool.minimum_should_match;
+        DSL.custom.percentiles.query.bool.minimum_should_match =
+          filter.custom.query.bool.minimum_should_match;
         return;
       }
 

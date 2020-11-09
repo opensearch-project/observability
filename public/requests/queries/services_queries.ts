@@ -177,7 +177,12 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   };
 };
 
-export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
+export const getServiceMetricsQuery = (
+  DSL,
+  serviceNames: string[],
+  map: ServiceObject,
+  validTraceIds: string[]
+) => {
   const traceGroupFilter = new Set(DSL.custom?.traceGroup);
   const targetResource =
     traceGroupFilter.size > 0
@@ -195,7 +200,13 @@ export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: Service
     size: 0,
     query: {
       bool: {
-        must: [],
+        must: [
+          {
+            terms: {
+              traceId: validTraceIds,
+            },
+          },
+        ],
         should: [],
         must_not: [],
         filter: [
@@ -305,12 +316,40 @@ export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: Service
     },
   };
   if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
+  return query;
+};
+
+export const getValidTraceIdsQuery = (DSL) => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: 10000,
+        },
+      },
+    },
+  };
+  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
   if (DSL.custom?.traceGroup.length > 0) {
     query.query.bool.filter.push({
       terms: {
         traceGroup: DSL.custom.traceGroup,
       },
     });
+  }
+  if (DSL.custom?.percentiles?.query.bool.should.length > 0) {
+    query.query.bool.should.push(...DSL.custom.percentiles.query.bool.should);
+    query.query.bool.minimum_should_match = DSL.custom.percentiles.query.bool.minimum_should_match;
   }
   return query;
 };

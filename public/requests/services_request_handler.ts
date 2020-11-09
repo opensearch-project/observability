@@ -6,6 +6,7 @@ import {
   getServiceMetricsQuery,
   getServiceNodesQuery,
   getServicesQuery,
+  getValidTraceIdsQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
@@ -92,11 +93,17 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     )
     .catch((error) => console.error(error));
 
+  const validTraceIds = await handleDslRequest(
+    http,
+    {},
+    getValidTraceIdsQuery(DSL)
+  ).then((response) => response.aggregations.traces.buckets.map((bucket) => bucket.key));
+
   // service map handles DSL differently
   const latencies = await handleDslRequest(
     http,
     {},
-    getServiceMetricsQuery(DSL, Object.keys(map), map)
+    getServiceMetricsQuery(DSL, Object.keys(map), map, validTraceIds)
   );
   latencies.aggregations.service_name.buckets.map((bucket) => {
     map[bucket.key].latency = bucket.average_latency.value;
