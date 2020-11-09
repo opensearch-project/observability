@@ -2,8 +2,9 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, getServiceFilters, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
+import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { ServicesTable } from './services_table';
 
 interface ServicesProps extends SearchBarProps, CoreDeps {}
@@ -20,6 +21,13 @@ export function Services(props: ServicesProps) {
         text: 'Services',
         href: '#services',
       },
+    ]);
+    const validFilters = getValidFilterFields('services');
+    props.setFilters([
+      ...props.filters.map((filter) => ({
+        ...filter,
+        locked: validFilters.indexOf(filter.field) === -1,
+      })),
     ]);
   }, []);
 
@@ -52,6 +60,7 @@ export function Services(props: ServicesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
+        page="services"
       />
       <EuiSpacer size="m" />
       <ServicesTable items={tableItems} addFilter={addFilter} />

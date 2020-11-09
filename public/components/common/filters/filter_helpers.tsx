@@ -1,22 +1,46 @@
 import { EuiFieldText, EuiFormControlLayoutDelimited, EuiFormRow, EuiSpacer } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
+import { FilterType } from './filters';
 
-const fields = [
-  'spanId',
-  'traceId',
-  'parentSpanId',
-  'name',
-  'traceGroup',
-  'kind',
-  'startTime',
-  'endTime',
-  'status.code',
-  'status.message',
-  'serviceName',
-  'durationInNanos',
-];
-export const fieldOptions = fields.map((field) => ({ label: field }));
+const fields = {
+  dashboard: [
+    'traceGroup',
+    'startTime',
+    'endTime',
+    'status.code',
+    'status.message',
+    'durationInNanos',
+  ],
+  traces: [
+    'spanId',
+    'traceId',
+    'parentSpanId',
+    'name',
+    'traceGroup',
+    'startTime',
+    'endTime',
+    'status.code',
+    'status.message',
+    'serviceName',
+    'durationInNanos',
+  ],
+  services: [
+    'spanId',
+    'traceId',
+    'parentSpanId',
+    'startTime',
+    'endTime',
+    'status.code',
+    'status.message',
+    'serviceName',
+    'durationInNanos',
+  ],
+};
+// filters will take effect and can be manually added
+export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => fields[page];
+// filters will take effect
+export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => [...fields[page], 'Latency percentile within trace group'];
 
 export const getType = (field: string): string => {
   const typeMapping = {

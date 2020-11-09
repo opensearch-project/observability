@@ -35,6 +35,7 @@ export interface SearchBarProps extends FiltersProps {
 
 interface SearchBarOwnProps extends SearchBarProps {
   refresh: () => void;
+  page: 'dashboard' | 'traces' | 'services';
 }
 
 export function SearchBar(props: SearchBarOwnProps) {
@@ -69,7 +70,7 @@ export function SearchBar(props: SearchBarOwnProps) {
       </EuiFlexGroup>
 
       <EuiSpacer size="s" />
-      <Filters filters={props.filters} setFilters={props.setFilters} />
+      <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />
     </>
   );
 }

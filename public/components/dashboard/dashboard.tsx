@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
-  handleDashboardThroughputPltRequest,
+  handleDashboardThroughputPltRequest
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
@@ -13,9 +13,10 @@ import {
   milliToNanoSec,
   minFixedInterval,
   SearchBar,
-  SearchBarProps,
+  SearchBarProps
 } from '../common';
 import { FilterType } from '../common/filters/filters';
+import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ThroughputPlt } from '../common/plots/throughput_plt';
@@ -40,6 +41,13 @@ export function Dashboard(props: DashboardProps) {
         text: 'Dashboard',
         href: '#dashboard',
       },
+    ]);
+    const validFilters = getValidFilterFields('dashboard');
+    props.setFilters([
+      ...props.filters.map((filter) => ({
+        ...filter,
+        locked: validFilters.indexOf(filter.field) === -1,
+      })),
     ]);
   }, []);
 
@@ -120,6 +128,7 @@ export function Dashboard(props: DashboardProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
+        page="dashboard"
       />
       <EuiSpacer size="m" />
       <DashboardTable

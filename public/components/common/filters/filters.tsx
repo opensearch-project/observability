@@ -13,6 +13,7 @@ import {
 } from '@elastic/eui';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import FilterEditPopover from './filter_edit_popover';
+import { getFilterFields, getValidFilterFields } from './filter_helpers';
 
 export interface FilterType {
   field: string;
@@ -21,6 +22,7 @@ export interface FilterType {
   inverted: boolean;
   disabled: boolean;
   custom?: any;
+  locked?: boolean;
 }
 
 export interface FiltersProps {
@@ -28,7 +30,11 @@ export interface FiltersProps {
   setFilters: Dispatch<SetStateAction<FilterType[]>>;
 }
 
-export function Filters(props: FiltersProps) {
+interface FiltersOwnProps extends FiltersProps {
+  page: 'dashboard' | 'traces' | 'services';
+}
+
+export function Filters(props: FiltersOwnProps) {
   // set a filter at an index. if newFilter doesn't exist, remove filter at the index
   // if index doesn't exist, append newFilter to the end
   const setFilter = (newFilter: FilterType, index: number) => {
@@ -37,6 +43,9 @@ export function Filters(props: FiltersProps) {
     else newFilters.splice(index, 1);
     props.setFilters(newFilters);
   };
+
+  const validFilterFields = getValidFilterFields(props.page);
+  const filterFieldOptions = getFilterFields(props.page).map((field) => ({ label: field }));
 
   const globalPopoverPanels = [
     {
@@ -47,14 +56,24 @@ export function Filters(props: FiltersProps) {
           name: 'Enable all',
           icon: <EuiIcon type="eye" size="m" />,
           onClick: () => {
-            props.setFilters(props.filters.map((filter) => ({ ...filter, disabled: false })));
+            props.setFilters(
+              props.filters.map((filter) => ({
+                ...filter,
+                disabled: filter.locked ? filter.disabled : false,
+              }))
+            );
           },
         },
         {
           name: 'Disable all',
           icon: <EuiIcon type="eyeClosed" size="m" />,
           onClick: () => {
-            props.setFilters(props.filters.map((filter) => ({ ...filter, disabled: true })));
+            props.setFilters(
+              props.filters.map((filter) => ({
+                ...filter,
+                disabled: filter.locked ? filter.disabled : true,
+              }))
+            );
           },
         },
         {
@@ -65,7 +84,11 @@ export function Filters(props: FiltersProps) {
               // if filter.custom.query exists, it's a customized filter and "inverted" is alwasy false
               props.filters.map((filter) => ({
                 ...filter,
-                inverted: filter.custom?.query ? false : !filter.inverted,
+                inverted: filter.locked
+                  ? filter.inverted
+                  : filter.custom?.query
+                  ? false
+                  : !filter.inverted,
               }))
             );
           },
@@ -75,7 +98,10 @@ export function Filters(props: FiltersProps) {
           icon: <EuiIcon type="eye" size="m" />,
           onClick: () => {
             props.setFilters(
-              props.filters.map((filter) => ({ ...filter, disabled: !filter.disabled }))
+              props.filters.map((filter) => ({
+                ...filter,
+                disabled: filter.locked ? filter.disabled : !filter.disabled,
+              }))
             );
           },
         },
@@ -101,13 +127,13 @@ export function Filters(props: FiltersProps) {
         {
           name: 'Edit filter',
           icon: <EuiIcon type="invert" size="m" />,
-          disabled: !!filter.custom?.query,
+          disabled: !!filter.custom?.query || validFilterFields.indexOf(filter.field) === -1,
           panel: 1,
         },
         {
           name: `${filter.inverted ? 'Include' : 'Exclude'} results`,
           icon: <EuiIcon type={filter.inverted ? 'plusInCircle' : 'minusInCircle'} size="m" />,
-          disabled: !!filter.custom?.query,
+          disabled: !!filter.custom?.query || validFilterFields.indexOf(filter.field) === -1,
           onClick: () => {
             filter.inverted = !filter.inverted;
             setFilter(filter, index);
@@ -116,6 +142,7 @@ export function Filters(props: FiltersProps) {
         {
           name: filter.disabled ? 'Re-enable' : 'Temporarily disable',
           icon: <EuiIcon type={filter.disabled ? 'eye' : 'eyeClosed'} size="m" />,
+          disabled: validFilterFields.indexOf(filter.field) === -1,
           onClick: () => {
             filter.disabled = !filter.disabled;
             setFilter(filter, index);
@@ -135,6 +162,7 @@ export function Filters(props: FiltersProps) {
       content: (
         <div style={{ margin: 15 }}>
           <FilterEditPopover
+            filterFieldOptions={filterFieldOptions}
             filter={filter}
             index={index}
             setFilter={setFilter}
@@ -191,6 +219,7 @@ export function Filters(props: FiltersProps) {
       >
         <EuiPopoverTitle>{'Add filter'}</EuiPopoverTitle>
         <FilterEditPopover
+          filterFieldOptions={filterFieldOptions}
           index={props.filters.length}
           setFilter={setFilter}
           closePopover={() => setIsPopoverOpen(false)}
@@ -202,9 +231,10 @@ export function Filters(props: FiltersProps) {
   const renderFilters = () => {
     const FilterBadge = ({ filter, index }: { filter: FilterType; index: number }) => {
       const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+      const disabled = filter.locked || filter.disabled;
       const className =
         'globalFilterItem' +
-        (filter.disabled ? ' globalFilterItem-isDisabled' : '') +
+        (disabled ? ' globalFilterItem-isDisabled' : '') +
         (filter.inverted ? ' globalFilterItem-isExcluded' : '');
       const value =
         typeof filter.value === 'string'
@@ -212,7 +242,7 @@ export function Filters(props: FiltersProps) {
           : `${filter.value.from} to ${filter.value.to}`;
       const filterLabel = filter.inverted ? (
         <>
-          <EuiTextColor color={filter.disabled ? 'default' : 'danger'}>{'NOT '}</EuiTextColor>
+          <EuiTextColor color={disabled ? 'default' : 'danger'}>{'NOT '}</EuiTextColor>
           <EuiTextColor color="default">{`${filter.field}: ${value}`}</EuiTextColor>
         </>
       ) : (
@@ -224,7 +254,7 @@ export function Filters(props: FiltersProps) {
           className={className}
           onClick={() => setIsPopoverOpen(true)}
           onClickAriaLabel="Open filter settings"
-          color={filter.disabled ? '#e7e9f0' : 'hollow'}
+          color={disabled ? '#e7e9f0' : 'hollow'}
           iconType="cross"
           iconSide="right"
           iconOnClick={() => {

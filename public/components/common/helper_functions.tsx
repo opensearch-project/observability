@@ -265,7 +265,7 @@ export const filtersToDsl = (
   }
 
   filters
-    .filter((filter) => !filter.disabled)
+    .filter((filter) => !filter.disabled && !filter.locked)
     .forEach((filter) => {
       if (filter.custom?.query) {
         DSL.query.bool.should.push(...filter.custom.query.bool.should);

@@ -10,18 +10,14 @@ import {
 } from '@elastic/eui';
 import React, { useState } from 'react';
 import { FilterType } from './filters';
-import {
-  fieldOptions,
-  getInvertedOperator,
-  getOperatorOptions,
-  getValueComponent,
-} from './filter_helpers';
+import { getInvertedOperator, getOperatorOptions, getValueComponent } from './filter_helpers';
 
 export default function FilterEditPopover(props: {
   filter?: FilterType;
   index: number;
   setFilter: (newFilter: FilterType, index: number) => void;
   closePopover: () => void;
+  filterFieldOptions: { label: string }[];
 }) {
   const [selectedFieldOptions, setSelectedFieldOptions] = useState<
     Array<EuiComboBoxOptionOption<string>>
@@ -45,7 +41,7 @@ export default function FilterEditPopover(props: {
             <EuiComboBox
               placeholder="Select a field first"
               isClearable={false}
-              options={fieldOptions}
+              options={props.filterFieldOptions}
               selectedOptions={selectedFieldOptions}
               onChange={(e) => {
                 setSelectedFieldOptions(e);

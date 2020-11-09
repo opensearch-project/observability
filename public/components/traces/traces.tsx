@@ -1,9 +1,10 @@
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
 import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { TracesTable } from './traces_table';
-import { handleTracesRequest } from '../../requests/traces_request_handler';
 
 interface TracesProps extends SearchBarProps, CoreDeps {}
 
@@ -19,6 +20,13 @@ export function Traces(props: TracesProps) {
         text: 'Traces',
         href: '#traces',
       },
+    ]);
+    const validFilters = getValidFilterFields('traces');
+    props.setFilters([
+      ...props.filters.map((filter) => ({
+        ...filter,
+        locked: validFilters.indexOf(filter.field) === -1,
+      })),
     ]);
   }, []);
 
@@ -47,6 +55,7 @@ export function Traces(props: TracesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
+        page="traces"
       />
       <EuiSpacer size="m" />
       <TracesTable items={tableItems} />
