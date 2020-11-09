@@ -2,7 +2,7 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, MissingConfigurationMessage, SearchBar, SearchBarProps } from '../common';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { TracesTable } from './traces_table';
 
@@ -31,7 +31,7 @@ export function Traces(props: TracesProps) {
   }, []);
 
   useEffect(() => {
-    refresh();
+    if (props.indicesExist) refresh();
   }, [props.filters]);
 
   const refresh = () => {
@@ -58,7 +58,7 @@ export function Traces(props: TracesProps) {
         page="traces"
       />
       <EuiSpacer size="m" />
-      <TracesTable items={tableItems} />
+      {props.indicesExist ? <TracesTable items={tableItems} /> : <MissingConfigurationMessage />}
     </>
   );
 }

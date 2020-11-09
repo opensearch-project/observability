@@ -14,6 +14,7 @@ import {
   getPercentileFilter,
   milliToNanoSec,
   minFixedInterval,
+  MissingConfigurationMessage,
   SearchBar,
   SearchBarProps,
 } from '../common';
@@ -56,7 +57,7 @@ export function Dashboard(props: DashboardProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect) refresh();
+    if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
   const refresh = async () => {
@@ -155,34 +156,40 @@ export function Dashboard(props: DashboardProps) {
         page="dashboard"
       />
       <EuiSpacer size="m" />
-      <DashboardTable
-        items={tableItems}
-        filters={props.filters}
-        addFilter={addFilter}
-        addPercentileFilter={addPercentileFilter}
-        setRedirect={setRedirect}
-      />
-      <EuiSpacer />
-      <EuiFlexGroup alignItems="baseline">
-        <EuiFlexItem grow={4}>
-          <ServiceMap
-            serviceMap={serviceMap}
-            idSelected={serviceMapIdSelected}
-            setIdSelected={setServiceMapIdSelected}
+      {props.indicesExist ? (
+        <>
+          <DashboardTable
+            items={tableItems}
+            filters={props.filters}
             addFilter={addFilter}
+            addPercentileFilter={addPercentileFilter}
+            setRedirect={setRedirect}
           />
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiFlexGroup direction="column">
-            <EuiFlexItem>
-              <ErrorRatePlt items={errorRatePltItems} />
+          <EuiSpacer />
+          <EuiFlexGroup alignItems="baseline">
+            <EuiFlexItem grow={4}>
+              <ServiceMap
+                serviceMap={serviceMap}
+                idSelected={serviceMapIdSelected}
+                setIdSelected={setServiceMapIdSelected}
+                addFilter={addFilter}
+              />
             </EuiFlexItem>
             <EuiFlexItem>
-              <ThroughputPlt items={throughputPltItems} />
+              <EuiFlexGroup direction="column">
+                <EuiFlexItem>
+                  <ErrorRatePlt items={errorRatePltItems} />
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <ThroughputPlt items={throughputPltItems} />
+                </EuiFlexItem>
+              </EuiFlexGroup>
             </EuiFlexItem>
           </EuiFlexGroup>
-        </EuiFlexItem>
-      </EuiFlexGroup>
+        </>
+      ) : (
+        <MissingConfigurationMessage />
+      )}
     </>
   );
 }

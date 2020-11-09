@@ -3,7 +3,7 @@ import { ILegacyClusterClient, IRouter } from '../../../../src/core/server';
 import { schema } from '@kbn/config-schema';
 import { SQL_ROUTE } from '../utils/constants';
 
-export function SqlRouter(router: IRouter, sqlClient: ILegacyClusterClient) {
+export function RegisterSqlRouter(router: IRouter, sqlClient: ILegacyClusterClient) {
   router.post(
     {
       path: SQL_ROUTE,

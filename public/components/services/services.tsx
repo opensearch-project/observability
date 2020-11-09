@@ -2,7 +2,7 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleServicesRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
+import { filtersToDsl, MissingConfigurationMessage, SearchBar, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { ServicesTable } from './services_table';
@@ -33,7 +33,7 @@ export function Services(props: ServicesProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect) refresh();
+    if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
   const refresh = () => {
@@ -73,7 +73,11 @@ export function Services(props: ServicesProps) {
         page="services"
       />
       <EuiSpacer size="m" />
-      <ServicesTable items={tableItems} addFilter={addFilter} setRedirect={setRedirect} />
+      {props.indicesExist ? (
+        <ServicesTable items={tableItems} addFilter={addFilter} setRedirect={setRedirect} />
+      ) : (
+        <MissingConfigurationMessage />
+      )}
     </>
   );
 }

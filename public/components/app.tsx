@@ -1,8 +1,9 @@
 import { I18nProvider } from '@kbn/i18n/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
+import { handleIndicesExistRequest } from '../requests/request_handler';
 import { SearchBarProps } from './common';
 import { FilterType } from './common/filters/filters';
 import { renderPageWithSidebar } from './common/side_nav';
@@ -23,6 +24,7 @@ export interface CoreDeps {
   http: CoreStart['http'];
   uiSettings: IUiSettingsClient;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
+  indicesExist: boolean;
 }
 
 export const TraceAnalyticsApp = ({
@@ -33,6 +35,7 @@ export const TraceAnalyticsApp = ({
   chrome,
   navigation,
 }: TraceAnalyticsAppDeps) => {
+  const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = localStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(localStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
@@ -61,7 +64,11 @@ export const TraceAnalyticsApp = ({
     setEndTime(newEndTime);
     localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
   };
-
+  
+  useEffect(() => {
+    handleIndicesExistRequest(http, setIndicesExist)
+  }, []);
+  
   const commonProps: SearchBarProps & CoreDeps = {
     http,
     uiSettings,
@@ -74,6 +81,7 @@ export const TraceAnalyticsApp = ({
     setStartTime: setStartTimeWithStorage,
     endTime,
     setEndTime: setEndTimeWithStorage,
+    indicesExist,
   };
 
   return (

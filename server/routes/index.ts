@@ -1,8 +1,8 @@
 import { ILegacyClusterClient, IRouter } from '../../../../src/core/server';
-import { DslRouter } from './dslRouter';
-import { SqlRouter } from './sqlRouter';
+import { RegisterDslRouter } from './dslRouter';
+import { RegisterSqlRouter } from './sqlRouter';
 
 export function defineRoutes(router: IRouter, sqlClient?: ILegacyClusterClient) {
-  DslRouter(router);
-  if (sqlClient) SqlRouter(router, sqlClient);
+  RegisterDslRouter(router);
+  if (sqlClient) RegisterSqlRouter(router, sqlClient);
 }

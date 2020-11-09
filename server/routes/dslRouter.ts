@@ -1,10 +1,36 @@
 import { RequestParams } from '@elastic/elasticsearch';
 import { IRouter } from '../../../../src/core/server';
 import { schema } from '@kbn/config-schema';
-import { DSL_ROUTE } from '../utils/constants';
-import { RAW_INDEX_NAME } from '../../common';
+import { DSL_ROUTE, INDICES_ROUTE } from '../utils/constants';
+import { RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../common';
 
-export function DslRouter(router: IRouter) {
+export function RegisterDslRouter(router: IRouter) {
+  router.post(
+    {
+      path: INDICES_ROUTE,
+      validate: false,
+    },
+    async (context, request, response) => {
+      const params: RequestParams.IndicesExists = {
+        index: [RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME],
+      };
+      try {
+        const resp = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
+          'indices.exists',
+          params
+        );
+        return response.ok({
+          body: resp,
+        });
+      } catch (error) {
+        console.error(error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
   router.post(
     {
       path: DSL_ROUTE,

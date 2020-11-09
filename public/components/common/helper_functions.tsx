@@ -1,8 +1,9 @@
 import dateMath from '@elastic/datemath';
-import { EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
+import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import moment from 'moment';
 import React from 'react';
+import { RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../../common';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -32,6 +33,27 @@ export function NoMatchMessage(props: { size: SpacerSize }) {
         }
       />
       <EuiSpacer size={props.size} />
+    </>
+  );
+}
+
+export function MissingConfigurationMessage() {
+  return (
+    <>
+      <EuiEmptyPrompt
+        title={<h2>Missing configuration</h2>}
+        body={
+          <EuiText>
+            {`The indices required for trace analytics (${RAW_INDEX_NAME} and ${SERVICE_MAP_INDEX_NAME}) do not exist.`}
+          </EuiText>
+        }
+        actions={
+          // TODO: add docs link here
+          <EuiButton color="primary" iconSide="right" iconType="popout" onClick={() => {}}>
+            Learn more
+          </EuiButton>
+        }
+      />
     </>
   );
 }

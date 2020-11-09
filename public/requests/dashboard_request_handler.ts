@@ -9,7 +9,6 @@ import {
   getDashboardTraceGroupPercentiles,
   getErrorRatePltQuery,
 } from './queries/dashboard_queries';
-import { getValidTraceIdsQuery } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
 export const handleDashboardRequest = async (

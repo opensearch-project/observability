@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { CoreStart } from '../../../../src/core/public';
-import { DSL_ROUTE, SQL_ROUTE } from '../../server/utils/constants';
+import { DSL_ROUTE, INDICES_ROUTE, SQL_ROUTE } from '../../server/utils/constants';
 
 export function handleDslRequest(http: CoreStart['http'], DSL, query) {
   if (DSL?.query) {
@@ -16,6 +16,11 @@ export function handleDslRequest(http: CoreStart['http'], DSL, query) {
       body: JSON.stringify(query),
     })
     .catch((error) => console.error(error));
+}
+
+export async function handleIndicesExistRequest(http: CoreStart['http'], setIndicesExist) {
+  const exists = await http.post(INDICES_ROUTE);
+  setIndicesExist(exists);
 }
 
 export function handleSqlRequest(http: CoreStart['http'], query: string) {

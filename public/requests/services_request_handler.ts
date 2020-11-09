@@ -6,7 +6,6 @@ import {
   getServiceMetricsQuery,
   getServiceNodesQuery,
   getServicesQuery,
-  getValidTraceIdsQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 import { handleValidTraceIds } from './traces_request_handler';
