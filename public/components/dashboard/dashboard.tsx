@@ -34,7 +34,7 @@ export function Dashboard(props: DashboardProps) {
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
-  const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(true);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -54,6 +54,7 @@ export function Dashboard(props: DashboardProps) {
         locked: validFilters.indexOf(filter.field) === -1,
       })),
     ]);
+    setRedirect(false);
   }, []);
 
   useEffect(() => {

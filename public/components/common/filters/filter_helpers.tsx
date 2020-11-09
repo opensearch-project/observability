@@ -42,9 +42,9 @@ const fields = {
 export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => fields[page];
 // filters will take effect
 export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => {
-  const validFields = fields[page];
-  if (page !== 'services') validFields.push('Latency percentile within trace group');
-  return validFields;
+  if (page !== 'services')
+    return [...fields[page], 'Latency percentile within trace group']
+  return fields[page];
 };
 
 export const getType = (field: string): string => {

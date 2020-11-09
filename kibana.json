@@ -1,6 +1,6 @@
 {
   "id": "traceAnalytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "kibanaVersion": "7.9.1",
   "server": true,
   "ui": true,

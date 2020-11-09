@@ -11,7 +11,7 @@ interface ServicesProps extends SearchBarProps, CoreDeps {}
 
 export function Services(props: ServicesProps) {
   const [tableItems, setTableItems] = useState([]);
-  const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(true);
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -30,6 +30,7 @@ export function Services(props: ServicesProps) {
         locked: validFilters.indexOf(filter.field) === -1,
       })),
     ]);
+    setRedirect(false);
   }, []);
 
   useEffect(() => {

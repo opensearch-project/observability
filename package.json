@@ -1,6 +1,6 @@
 {
   "name": "trace_analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "kibana": {
     "version": "7.9.1",
     "templateVersion": "1.0.0"
