@@ -79,7 +79,23 @@ export function DashboardTable(props: {
       align: 'left',
       sortable: true,
       render: (item) =>
-        item ? <EuiLink href="#">{_.truncate(item, { length: 24 })}</EuiLink> : '-',
+        item ? (
+          <EuiLink
+            onClick={() =>
+              props.addFilter({
+                field: 'traceGroup',
+                operator: 'is',
+                value: item,
+                inverted: false,
+                disabled: false,
+              })
+            }
+          >
+            {_.truncate(item, { length: 24 })}
+          </EuiLink>
+        ) : (
+          '-'
+        ),
     },
     {
       field: 'latency_variance',

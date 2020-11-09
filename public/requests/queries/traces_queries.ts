@@ -1,4 +1,4 @@
-export const getTraceGroupPercentiles = () => {
+export const getTraceGroupPercentilesQuery = () => {
   const query: any = {
     size: 0,
     query: {
@@ -54,7 +54,7 @@ export const getTraceGroupPercentiles = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null, serviceNames = [], serviceNamesExclude = []) => {
+export const getTracesQuery = (traceId = null, validTraceIds?: string[]) => {
   const query: any = {
     size: 0,
     query: {
@@ -154,20 +154,12 @@ export const getTracesQuery = (traceId = null, serviceNames = [], serviceNamesEx
       },
     });
   }
-  if (serviceNames.length > 0 || serviceNamesExclude.length > 0) {
-    if (serviceNames.length > 0)
-      query.aggs.traces.aggs.service.filter.bool.must.push({
-        terms: {
-          serviceName: serviceNames,
-        },
-      });
-    if (serviceNamesExclude.length > 0) {
-      query.aggs.traces.aggs.service.filter.bool.must_not.push({
-        terms: {
-          serviceName: serviceNamesExclude,
-        },
-      });
-    }
+  if (validTraceIds) {
+    query.query.bool.must.push({
+      terms: {
+        traceId: validTraceIds,
+      },
+    });
   }
   return query;
 };
@@ -279,4 +271,46 @@ export const getPayloadQuery = (traceId: string, size = 200) => {
       },
     },
   };
+};
+
+export const getValidTraceIdsQuery = (DSL) => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: 10000,
+        },
+      },
+    },
+  };
+  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
+  if (DSL.custom?.traceGroup.length > 0) {
+    query.query.bool.filter.push({
+      terms: {
+        traceGroup: DSL.custom.traceGroup,
+      },
+    });
+  }
+  if (DSL.custom?.percentiles?.query.bool.should.length > 0) {
+    query.query.bool.should.push(...DSL.custom.percentiles.query.bool.should);
+    query.query.bool.minimum_should_match = DSL.custom.percentiles.query.bool.minimum_should_match;
+  }
+  if (DSL.custom?.serviceNames.length > 0) {
+    query.query.bool.filter.push({
+      terms: {
+        serviceName: DSL.custom.serviceNames,
+      },
+    });
+  }
+  return query;
 };

@@ -7,6 +7,7 @@ import {
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
+import { handleValidTraceIds } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
 import {
   filtersToDsl,
@@ -58,15 +59,17 @@ export function Dashboard(props: DashboardProps) {
     if (!redirect) refresh();
   }, [props.filters]);
 
-  const refresh = () => {
+  const refresh = async () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
+    const validTraceIds = await handleValidTraceIds(props.http, DSL);
 
     handleDashboardRequest(
       props.http,
       DSL,
       timeFilterDSL,
+      validTraceIds,
       tableItems,
       setTableItems,
       setPercentileMap
@@ -74,6 +77,7 @@ export function Dashboard(props: DashboardProps) {
     handleDashboardThroughputPltRequest(
       props.http,
       DSL,
+      validTraceIds,
       fixedInterval,
       throughputPltItems,
       setThroughputPltItems
@@ -81,11 +85,12 @@ export function Dashboard(props: DashboardProps) {
     handleDashboardErrorRatePltRequest(
       props.http,
       DSL,
+      validTraceIds,
       fixedInterval,
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, null, validTraceIds);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -164,7 +169,7 @@ export function Dashboard(props: DashboardProps) {
             serviceMap={serviceMap}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
-            // addFilter={addFilter}
+            addFilter={addFilter}
           />
         </EuiFlexItem>
         <EuiFlexItem>

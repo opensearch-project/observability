@@ -6,11 +6,7 @@ import {
 import { getServiceMapTargetResources } from '../../components/common';
 import { ServiceObject } from '../../components/common/plots/service_map';
 
-export const getServicesQuery = (
-  serviceName = null,
-  serviceNames = [],
-  serviceNamesExclude = []
-) => {
+export const getServicesQuery = (serviceName = null, validTraceIds) => {
   const query = {
     size: 0,
     query: {
@@ -36,18 +32,10 @@ export const getServicesQuery = (
       },
     },
   };
-  if (serviceName || serviceNames.length > 0) {
-    if (serviceName) serviceNames.push(serviceName);
+  if (validTraceIds) {
     query.query.bool.must.push({
       terms: {
-        serviceName: serviceNames,
-      },
-    });
-  }
-  if (serviceNamesExclude.length > 0) {
-    query.query.bool.must_not.push({
-      terms: {
-        serviceName: serviceNames,
+        traceId: validTraceIds,
       },
     });
   }
@@ -316,40 +304,5 @@ export const getServiceMetricsQuery = (
     },
   };
   if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  return query;
-};
-
-export const getValidTraceIdsQuery = (DSL) => {
-  const query: any = {
-    size: 0,
-    query: {
-      bool: {
-        must: [],
-        filter: [],
-        should: [],
-        must_not: [],
-      },
-    },
-    aggs: {
-      traces: {
-        terms: {
-          field: 'traceId',
-          size: 10000,
-        },
-      },
-    },
-  };
-  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  if (DSL.custom?.traceGroup.length > 0) {
-    query.query.bool.filter.push({
-      terms: {
-        traceGroup: DSL.custom.traceGroup,
-      },
-    });
-  }
-  if (DSL.custom?.percentiles?.query.bool.should.length > 0) {
-    query.query.bool.should.push(...DSL.custom.percentiles.query.bool.should);
-    query.query.bool.minimum_should_match = DSL.custom.percentiles.query.bool.minimum_should_match;
-  }
   return query;
 };

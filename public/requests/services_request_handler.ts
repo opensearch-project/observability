@@ -9,12 +9,14 @@ import {
   getValidTraceIdsQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
+import { handleValidTraceIds } from './traces_request_handler';
 
-export const handleServicesRequest = (http, DSL, items, setItems) => {
+export const handleServicesRequest = async (http, DSL, items, setItems) => {
+  const validTraceIds = await handleValidTraceIds(http, DSL);
   handleDslRequest(
     http,
     DSL,
-    getServicesQuery(null, DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude)
+    getServicesQuery(null, validTraceIds)
   )
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
@@ -42,7 +44,14 @@ export const handleServicesRequest = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (http, DSL, items?, setItems?, currService?) => {
+export const handleServiceMapRequest = async (
+  http,
+  DSL,
+  items?,
+  setItems?,
+  currService?,
+  validTraceIds = undefined
+) => {
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery())
@@ -93,11 +102,7 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     )
     .catch((error) => console.error(error));
 
-  const validTraceIds = await handleDslRequest(
-    http,
-    {},
-    getValidTraceIdsQuery(DSL)
-  ).then((response) => response.aggregations.traces.buckets.map((bucket) => bucket.key));
+  if (validTraceIds === undefined) validTraceIds = await handleValidTraceIds(http, DSL);
 
   // service map handles DSL differently
   const latencies = await handleDslRequest(

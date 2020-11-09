@@ -7,10 +7,17 @@ import {
   getPayloadQuery,
   getServiceBreakdownQuery,
   getSpanDetailQuery,
-  getTraceGroupPercentiles,
+  getTraceGroupPercentilesQuery,
   getTracesQuery,
+  getValidTraceIdsQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
+
+export const handleValidTraceIds = (http, DSL) => {
+  return handleDslRequest(http, {}, getValidTraceIdsQuery(DSL))
+    .then((response) => response.aggregations.traces.buckets.map((bucket) => bucket.key))
+    .catch((error) => console.error(error));
+};
 
 export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
@@ -30,7 +37,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
   const percentileRanges = await handleDslRequest(
     http,
     timeFilterDSL,
-    getTraceGroupPercentiles()
+    getTraceGroupPercentilesQuery()
   ).then((response) => {
     const map: any = {};
     response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {
@@ -41,30 +48,25 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     return map;
   });
 
-  const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
-  handleDslRequest(
-    http,
-    DSL,
-    getTracesQuery(null, DSL.custom?.serviceNames, DSL.custom?.serviceNamesExclude)
-  )
+  const validTraceIds = await handleValidTraceIds(http, DSL);
+
+  handleDslRequest(http, DSL, getTracesQuery(null, validTraceIds))
     .then((response) => {
       return Promise.all(
-        response.aggregations.traces.buckets
-          .filter((bucket) => !filteredByService || bucket.service.doc_count > 0)
-          .map((bucket) => {
-            return {
-              trace_id: bucket.key,
-              trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
-              latency: bucket.parent_span.latency.value,
-              last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
-              error_count: bucket.parent_span.error_count.doc_count > 0 ? 'True' : 'False',
-              percentile_in_trace_group: binarySearch(
-                percentileRanges[bucket.parent_span.trace_group_name.buckets[0]?.key],
-                bucket.parent_span.latency.value
-              ),
-              actions: '#',
-            };
-          })
+        response.aggregations.traces.buckets.map((bucket) => {
+          return {
+            trace_id: bucket.key,
+            trace_group: bucket.parent_span.trace_group_name.buckets[0]?.key,
+            latency: bucket.parent_span.latency.value,
+            last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
+            error_count: bucket.parent_span.error_count.doc_count > 0 ? 'True' : 'False',
+            percentile_in_trace_group: binarySearch(
+              percentileRanges[bucket.parent_span.trace_group_name.buckets[0]?.key],
+              bucket.parent_span.latency.value
+            ),
+            actions: '#',
+          };
+        })
       );
     })
     .then((newItems) => {

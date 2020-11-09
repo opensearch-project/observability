@@ -10,6 +10,7 @@ const fields = {
     'endTime',
     'status.code',
     'status.message',
+    'serviceName',
     'durationInNanos',
   ],
   traces: [
@@ -40,7 +41,11 @@ const fields = {
 // filters will take effect and can be manually added
 export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => fields[page];
 // filters will take effect
-export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => [...fields[page], 'Latency percentile within trace group'];
+export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => {
+  const validFields = fields[page];
+  if (page !== 'services') validFields.push('Latency percentile within trace group');
+  return validFields;
+};
 
 export const getType = (field: string): string => {
   const typeMapping = {

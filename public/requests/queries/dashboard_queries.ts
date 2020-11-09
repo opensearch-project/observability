@@ -1,4 +1,4 @@
-export const getDashboardQuery = (serviceNames = [], serviceNamesExclude = []) => {
+export const getDashboardQuery = (validTraceIds?: string[]) => {
   const query = {
     size: 0,
     query: {
@@ -102,20 +102,12 @@ export const getDashboardQuery = (serviceNames = [], serviceNamesExclude = []) =
       },
     },
   };
-  if (serviceNames.length > 0 || serviceNamesExclude.length > 0) {
-    if (serviceNames.length > 0)
-      query.aggs.trace_group_name.aggs.service.filter.bool.must.push({
-        terms: {
-          serviceName: serviceNames,
-        },
-      });
-    if (serviceNamesExclude.length > 0) {
-      query.aggs.trace_group_name.aggs.service.filter.bool.must_not.push({
-        terms: {
-          serviceName: serviceNamesExclude,
-        },
-      });
-    }
+  if (validTraceIds) {
+    query.query.bool.must.push({
+      terms: {
+        traceId: validTraceIds,
+      },
+    });
   }
   return query;
 };
@@ -249,8 +241,8 @@ export const getDashboardLatencyTrendQuery = (traceGroupName: string) => {
   };
 };
 
-export const getErrorRatePltQuery = (fixedInterval) => {
-  return {
+export const getErrorRatePltQuery = (fixedInterval, validTraceIds) => {
+  const query: any = {
     size: 0,
     query: {
       bool: {
@@ -314,10 +306,18 @@ export const getErrorRatePltQuery = (fixedInterval) => {
       },
     },
   };
+  if (validTraceIds) {
+    query.query.bool.must.push({
+      terms: {
+        traceId: validTraceIds,
+      },
+    });
+  }
+  return query;
 };
 
-export const getDashboardThroughputPltQuery = (fixedInterval) => {
-  return {
+export const getDashboardThroughputPltQuery = (fixedInterval, validTraceIds) => {
+  const query: any = {
     size: 0,
     query: {
       bool: {
@@ -361,4 +361,12 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
       },
     },
   };
+  if (validTraceIds) {
+    query.query.bool.must.push({
+      terms: {
+        traceId: validTraceIds,
+      },
+    });
+  }
+  return query;
 };
