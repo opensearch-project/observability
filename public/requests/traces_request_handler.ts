@@ -14,6 +14,7 @@ import { handleDslRequest } from './request_handler';
 
 export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
+    if (!arr) return Number.NaN;
     let low = 0,
       high = arr.length,
       mid;

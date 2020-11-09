@@ -1,9 +1,10 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
-  handleDashboardThroughputPltRequest
+  handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { CoreDeps } from '../app';
@@ -13,7 +14,7 @@ import {
   milliToNanoSec,
   minFixedInterval,
   SearchBar,
-  SearchBarProps
+  SearchBarProps,
 } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
@@ -30,6 +31,8 @@ export function Dashboard(props: DashboardProps) {
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
+  const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -39,7 +42,7 @@ export function Dashboard(props: DashboardProps) {
       },
       {
         text: 'Dashboard',
-        href: '#dashboard',
+        href: '#/dashboard',
       },
     ]);
     const validFilters = getValidFilterFields('dashboard');
@@ -52,7 +55,7 @@ export function Dashboard(props: DashboardProps) {
   }, []);
 
   useEffect(() => {
-    refresh();
+    if (!redirect) refresh();
   }, [props.filters]);
 
   const refresh = () => {
@@ -60,7 +63,14 @@ export function Dashboard(props: DashboardProps) {
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
-    handleDashboardRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems);
+    handleDashboardRequest(
+      props.http,
+      DSL,
+      timeFilterDSL,
+      tableItems,
+      setTableItems,
+      setPercentileMap
+    );
     handleDashboardThroughputPltRequest(
       props.http,
       DSL,
@@ -79,12 +89,21 @@ export function Dashboard(props: DashboardProps) {
   };
 
   const addFilter = (filter: FilterType) => {
+    for (const addedFilter of props.filters) {
+      if (
+        addedFilter.field === filter.field &&
+        addedFilter.operator === filter.operator &&
+        addedFilter.value === filter.value
+      ) {
+        return;
+      }
+    }
     const newFilters = [...props.filters, filter];
     props.setFilters(newFilters);
   };
 
   const addPercentileFilter = (condition = 'gte', additionalFilters = []) => {
-    if (tableItems.length === 0) return;
+    if (tableItems.length === 0 || Object.keys(percentileMap).length === 0) return;
     for (let i = 0; i < props.filters.length; i++) {
       if (props.filters[i].custom) {
         const newFilter = JSON.parse(
@@ -101,9 +120,9 @@ export function Dashboard(props: DashboardProps) {
       }
     }
 
-    const percentileMaps = tableItems.map((item) => ({
-      traceGroupName: item.trace_group_name,
-      durationFilter: { [condition]: milliToNanoSec(item.latency_variance[1]) },
+    const percentileMaps = Object.keys(percentileMap).map((traceGroup) => ({
+      traceGroupName: traceGroup,
+      durationFilter: { [condition]: milliToNanoSec(percentileMap[traceGroup][1]) },
     }));
     const percentileFilter = getPercentileFilter(
       percentileMaps,
@@ -136,6 +155,7 @@ export function Dashboard(props: DashboardProps) {
         filters={props.filters}
         addFilter={addFilter}
         addPercentileFilter={addPercentileFilter}
+        setRedirect={setRedirect}
       />
       <EuiSpacer />
       <EuiFlexGroup alignItems="baseline">
@@ -144,7 +164,7 @@ export function Dashboard(props: DashboardProps) {
             serviceMap={serviceMap}
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
-            addFilter={addFilter}
+            // addFilter={addFilter}
           />
         </EuiFlexItem>
         <EuiFlexItem>

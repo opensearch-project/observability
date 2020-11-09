@@ -35,7 +35,7 @@ const columns = [
     render: (item) => (
       <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem grow={10}>
-          <EuiLink href={`#traces/${encodeURIComponent(item)}`}>
+          <EuiLink href={`#/traces/${encodeURIComponent(item)}`}>
             {_.truncate(item, { length: 24 })}
           </EuiLink>
         </EuiFlexItem>

@@ -11,21 +11,31 @@ import {
 } from './queries/dashboard_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleDashboardRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
+export const handleDashboardRequest = async (
+  http,
+  DSL,
+  timeFilterDSL,
+  items,
+  setItems,
+  setPercentileMap?
+) => {
   // latency_variance should only be affected by timefilter
   const latency_variances = await handleDslRequest(
     http,
     timeFilterDSL,
     getDashboardTraceGroupPercentiles()
-  ).then((response) => {
-    const map: any = {};
-    response.aggregations.trace_group.buckets.forEach((traceGroup) => {
-      map[traceGroup.key] = Object.values(
-        traceGroup.latency_variance_nanos.values
-      ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
-    });
-    return map;
-  });
+  )
+    .then((response) => {
+      const map: any = {};
+      response.aggregations.trace_group.buckets.forEach((traceGroup) => {
+        map[traceGroup.key] = Object.values(
+          traceGroup.latency_variance_nanos.values
+        ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
+      });
+      return map;
+    })
+    .catch((error) => console.error(error));
+  if (setPercentileMap) setPercentileMap(latency_variances);
 
   const filteredByService = DSL.custom?.serviceNames || DSL.custom?.serviceNamesExclude;
   handleDslRequest(
@@ -67,7 +77,7 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
         http,
         DSL,
         getDashboardLatencyTrendQuery(item.trace_group_name)
-      );
+      ).catch((error) => console.error(error));
       const buckets = latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.filter(
         (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0
       );

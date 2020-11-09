@@ -25,7 +25,11 @@ const renderTitleBar = (totalItems?: number) => {
   );
 };
 
-export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterType) => void }) {
+export function ServicesTable(props: {
+  items: any[];
+  addFilter: (filter: FilterType) => void;
+  setRedirect: (redirect: boolean) => void;
+}) {
   const columns = [
     {
       field: 'name',
@@ -33,7 +37,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       align: 'left',
       sortable: true,
       render: (item) => (
-        <EuiLink href={`#services/${encodeURIComponent(item)}`}>
+        <EuiLink href={`#/services/${encodeURIComponent(item)}`}>
           {_.truncate(item, { length: 24 })}
         </EuiLink>
       ),
@@ -59,7 +63,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       align: 'right',
       sortable: true,
       truncateText: true,
-      render: (item) => item === 0 || item ? <EuiI18nNumber value={item} /> : '-',
+      render: (item) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
     },
     {
       field: 'number_of_connected_services',
@@ -87,6 +91,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
       render: (item, row) => (
         <EuiLink
           onClick={() => {
+            props.setRedirect(true);
             props.addFilter({
               field: 'serviceName',
               operator: 'is',
@@ -94,9 +99,7 @@ export function ServicesTable(props: { items: any[]; addFilter: (filter: FilterT
               inverted: false,
               disabled: false,
             });
-            setTimeout(() => {
-              location.assign('#/traces');
-            }, 300);
+            location.assign('#/traces');
           }}
         >
           <EuiI18nNumber value={item} />

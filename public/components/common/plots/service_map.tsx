@@ -46,6 +46,7 @@ export function ServiceMap({
   const [network, setNetwork] = useState(null);
   const [ticks, setTicks] = useState([]);
   const [items, setItems] = useState<any>({});
+  const [query, setQuery] = useState('');
   const toggleButtons = [
     {
       id: 'latency',
@@ -163,9 +164,10 @@ export function ServiceMap({
           <EuiFlexItem>
             <EuiFieldSearch
               placeholder="Service name"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               onSearch={(service) => onFocus(service)}
-              isInvalid={invalid}
-              isClearable={false}
+              isInvalid={query.length > 0 && invalid}
             />
           </EuiFlexItem>
         </EuiFlexGroup>

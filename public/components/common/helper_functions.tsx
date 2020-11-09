@@ -1,6 +1,7 @@
 import dateMath from '@elastic/datemath';
 import { EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
+import moment from 'moment';
 import React from 'react';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
@@ -173,6 +174,13 @@ export const fixedIntervalToTickFormat = (fixedInterval: string) => {
   if (fixedInterval === '30d') return '%b %Y';
   if (fixedInterval === '365d') return '%Y';
   return '';
+};
+
+export const convertToTimeString = (timestamp: number, fixedInterval: string) => {
+  if (fixedInterval === '1d') return moment(timestamp).format('MMM D, YYYY');
+  if (fixedInterval === '30d') return moment(timestamp).format('MMM YYYY');
+  if (fixedInterval === '365d') return moment(timestamp).format('YYYY');
+  return moment(timestamp).format('');
 };
 
 export const getPercentileFilter = (

@@ -77,7 +77,7 @@ export const TraceAnalyticsApp = ({
   };
 
   return (
-    <HashRouter basename={basename + '#'}>
+    <HashRouter>
       <I18nProvider>
         <>
           <Switch>
@@ -114,6 +114,15 @@ export const TraceAnalyticsApp = ({
                   serviceName={decodeURIComponent(props.match.params.id)}
                   {...commonProps}
                   addFilter={(filter: FilterType) => {
+                    for (const addedFilter of filters) {
+                      if (
+                        addedFilter.field === filter.field &&
+                        addedFilter.operator === filter.operator &&
+                        addedFilter.value === filter.value
+                      ) {
+                        return;
+                      }
+                    }
                     const newFilters = [...filters, filter];
                     setFiltersWithStorage(newFilters);
                   }}

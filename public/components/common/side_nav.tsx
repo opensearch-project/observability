@@ -23,17 +23,17 @@ export function SideNav({ activeId }: { activeId: number }) {
             {
               name: 'Dashboard',
               id: 1,
-              href: '#dashboard',
+              href: '#/dashboard',
             },
             {
               name: 'Traces',
               id: 2,
-              href: '#traces',
+              href: '#/traces',
             },
             {
               name: 'Services',
               id: 3,
-              href: '#services',
+              href: '#/services',
             },
           ].map((item) => {
             return { ...item, isSelected: activeId === item.id };

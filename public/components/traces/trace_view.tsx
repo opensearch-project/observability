@@ -128,11 +128,11 @@ export function TraceView(props: TraceViewProps) {
       },
       {
         text: 'Traces',
-        href: '#traces',
+        href: '#/traces',
       },
       {
         text: props.traceId,
-        href: `#traces/${encodeURIComponent(props.traceId)}`,
+        href: `#/traces/${encodeURIComponent(props.traceId)}`,
       },
     ]);
     refresh();

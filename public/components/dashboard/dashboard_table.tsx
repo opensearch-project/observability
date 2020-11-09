@@ -24,6 +24,7 @@ export function DashboardTable(props: {
   filters: FilterType[];
   addFilter: (filter: FilterType) => void;
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
+  setRedirect: (redirect: boolean) => void;
 }) {
   const getVarianceProps = (items) => {
     if (!items[0]?.latency_variance) {
@@ -45,7 +46,10 @@ export function DashboardTable(props: {
       })
       .join(
         '\u00A0'.repeat(
-          Math.max(1, Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1)))
+          Math.max(
+            1,
+            Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
+          )
         )
       );
 
@@ -120,15 +124,24 @@ export function DashboardTable(props: {
                   (filter) => filter.field === 'Latency percentile within trace group'
                 ) !== undefined,
               addFilter: (condition?: 'lte' | 'gte') => {
-                props.addPercentileFilter(condition, [
-                  {
-                    field: 'traceGroup',
-                    operator: 'is',
-                    value: row.trace_group_name,
-                    inverted: false,
-                    disabled: false,
-                  },
-                ]);
+                const traceGroupFilter = {
+                  field: 'traceGroup',
+                  operator: 'is',
+                  value: row.trace_group_name,
+                  inverted: false,
+                  disabled: false,
+                };
+                const additionalFilters = [traceGroupFilter];
+                for (const addedFilter of props.filters) {
+                  if (
+                    addedFilter.field === traceGroupFilter.field &&
+                    addedFilter.operator === traceGroupFilter.operator &&
+                    addedFilter.value === traceGroupFilter.value
+                  ) {
+                    additionalFilters.pop();
+                  }
+                }
+                props.addPercentileFilter(condition, additionalFilters);
               },
             }}
           />
@@ -230,6 +243,7 @@ export function DashboardTable(props: {
       render: (item, row) => (
         <EuiLink
           onClick={() => {
+            props.setRedirect(true);
             props.addFilter({
               field: 'traceGroup',
               operator: 'is',
@@ -237,9 +251,7 @@ export function DashboardTable(props: {
               inverted: false,
               disabled: false,
             });
-            setTimeout(() => {
-              location.assign('#/traces');
-            }, 300);
+            location.assign('#/traces');
           }}
         >
           <EuiI18nNumber value={item} />

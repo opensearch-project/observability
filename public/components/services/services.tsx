@@ -11,6 +11,7 @@ interface ServicesProps extends SearchBarProps, CoreDeps {}
 
 export function Services(props: ServicesProps) {
   const [tableItems, setTableItems] = useState([]);
+  const [redirect, setRedirect] = useState(false);
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -19,7 +20,7 @@ export function Services(props: ServicesProps) {
       },
       {
         text: 'Services',
-        href: '#services',
+        href: '#/services',
       },
     ]);
     const validFilters = getValidFilterFields('services');
@@ -32,7 +33,7 @@ export function Services(props: ServicesProps) {
   }, []);
 
   useEffect(() => {
-    refresh();
+    if (!redirect) refresh();
   }, [props.filters]);
 
   const refresh = () => {
@@ -41,6 +42,15 @@ export function Services(props: ServicesProps) {
   };
 
   const addFilter = (filter: FilterType) => {
+    for (const addedFilter of props.filters) {
+      if (
+        addedFilter.field === filter.field &&
+        addedFilter.operator === filter.operator &&
+        addedFilter.value === filter.value
+      ) {
+        return;
+      }
+    }
     const newFilters = [...props.filters, filter];
     props.setFilters(newFilters);
   };
@@ -63,7 +73,7 @@ export function Services(props: ServicesProps) {
         page="services"
       />
       <EuiSpacer size="m" />
-      <ServicesTable items={tableItems} addFilter={addFilter} />
+      <ServicesTable items={tableItems} addFilter={addFilter} setRedirect={setRedirect} />
     </>
   );
 }

@@ -15,7 +15,6 @@ import {
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
-  handleServiceMapRelatedServicesRequest,
   handleServiceMapRequest,
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
@@ -30,7 +29,8 @@ const renderTitle = (
   setStartTime: SearchBarProps['setStartTime'],
   endTime: SearchBarProps['endTime'],
   setEndTime: SearchBarProps['setEndTime'],
-  addFilter: (filter: FilterType) => void
+  addFilter: (filter: FilterType) => void,
+  setRedirect: (redirect: boolean) => void
 ) => {
   return (
     <>
@@ -43,9 +43,10 @@ const renderTitle = (
         {renderDatePicker(startTime, setStartTime, endTime, setEndTime)}
       </EuiFlexItem>
       <EuiFlexItem grow={false} />
-      <EuiFlexItem grow={false}>
+      {/* <EuiFlexItem grow={false}>
         <EuiButton
           onClick={() => {
+            setRedirect(true);
             addFilter({
               field: 'serviceName',
               operator: 'is',
@@ -53,17 +54,16 @@ const renderTitle = (
               inverted: false,
               disabled: false,
             });
-            setTimeout(() => {
-              location.assign('#/dashboard');
-            }, 300);
+            location.assign('#/dashboard');
           }}
         >
           View in dashboard
         </EuiButton>
-      </EuiFlexItem>
+      </EuiFlexItem> */}
       <EuiFlexItem grow={false}>
         <EuiButton
           onClick={() => {
+            setRedirect(true);
             addFilter({
               field: 'serviceName',
               operator: 'is',
@@ -71,9 +71,7 @@ const renderTitle = (
               inverted: false,
               disabled: false,
             });
-            setTimeout(() => {
-              location.assign('#/traces');
-            }, 300);
+            location.assign('#/traces');
           }}
         >
           View related traces
@@ -171,6 +169,7 @@ export function ServiceView(props: ServiceViewProps) {
   const [fields, setFields] = useState({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -180,17 +179,17 @@ export function ServiceView(props: ServiceViewProps) {
       },
       {
         text: 'Services',
-        href: '#services',
+        href: '#/services',
       },
       {
         text: props.serviceName,
-        href: `#services/${encodeURIComponent(props.serviceName)}`,
+        href: `#/services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
   }, []);
 
   useEffect(() => {
-    refresh();
+    if (!redirect) refresh();
   }, [props.startTime, props.endTime]);
 
   const refresh = () => {
@@ -210,7 +209,8 @@ export function ServiceView(props: ServiceViewProps) {
               props.setStartTime,
               props.endTime,
               props.setEndTime,
-              props.addFilter
+              props.addFilter,
+              setRedirect
             )}
           </EuiFlexGroup>
           <EuiSpacer size="xl" />

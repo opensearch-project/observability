@@ -1,9 +1,16 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import React from 'react';
-import { fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
+import { convertToTimeString, fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
 import { Plt } from './plt';
 
 export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
+  const layoutExtra: any = {};
+  if (props.items?.items[0] && props.items.items[0].x.length === 1) {
+    layoutExtra.xaxis = {
+      tickvals: props.items.items[0].x,
+      ticktext: [convertToTimeString(props.items.items[0].x[0], props.items.fixedInterval)],
+    }
+  }
   const layout = {
     width: 400,
     height: 217,
@@ -52,6 +59,7 @@ export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInter
       visible: true,
       color: '#899195',
     },
+    // ...layoutExtra,
   } as Partial<Plotly.Layout>;
 
   return (

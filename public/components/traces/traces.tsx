@@ -18,7 +18,7 @@ export function Traces(props: TracesProps) {
       },
       {
         text: 'Traces',
-        href: '#traces',
+        href: '#/traces',
       },
     ]);
     const validFilters = getValidFilterFields('traces');
