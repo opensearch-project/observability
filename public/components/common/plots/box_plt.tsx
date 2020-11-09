@@ -16,8 +16,6 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   const [hovered, setHovered] = useState('');
 
   const layout = {
-    // plot_bgcolor: '#fafafa',
-    // paper_bgcolor: '#fafafa',
     plot_bgcolor: 'rgba(0, 0, 0, 0)',
     paper_bgcolor: 'rgba(0, 0, 0, 0)',
     xaxis: {
@@ -40,7 +38,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
       pad: 0,
     },
     height: 15,
-    width: 200,
+    width: 300,
   } as Partial<Plotly.Layout>;
 
   const data = [

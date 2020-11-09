@@ -28,7 +28,7 @@ export function DashboardTable(props: {
 }) {
   const getVarianceProps = (items) => {
     if (!items[0]?.latency_variance) {
-      return null;
+      return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
     }
     const variances = [].concat(...items.map((item) => item.latency_variance));
     const minRange = Math.min(...variances);
@@ -48,7 +48,7 @@ export function DashboardTable(props: {
         '\u00A0'.repeat(
           Math.max(
             1,
-            Math.floor((2 * (32 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
+            Math.floor((2 * (44 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
           )
         )
       );
@@ -121,7 +121,9 @@ export function DashboardTable(props: {
         </>
       ),
       align: 'center',
-      sortable: ({ latency_variance }) => latency_variance[2] - latency_variance[0],
+      sortable: ({ latency_variance }) =>
+        latency_variance?.length > 0 ? latency_variance[2] - latency_variance[0] : 0,
+      width: '300px',
       render: (item, row) => {
         return item ? (
           // expand plot ranges to accomondate scale

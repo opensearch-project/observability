@@ -208,37 +208,33 @@ export const getServiceMetricsQuery = (
               should: [
                 {
                   bool: {
-                    must: [
+                    filter: [
                       {
                         bool: {
-                          should: [
-                            {
-                              bool: {
-                                must_not: [
-                                  {
-                                    exists: {
-                                      field: 'parentSpanId',
-                                    },
-                                  },
-                                ],
-                              },
+                          must_not: {
+                            exists: {
+                              field: 'traceGroup',
+                              boost: 1,
                             },
-                            {
-                              term: {
-                                parentSpanId: {
-                                  value: '',
-                                },
-                              },
-                            },
-                          ],
+                          },
+                        },
+                      },
+                      {
+                        terms: {
+                          name: targetResource,
                         },
                       },
                     ],
                   },
                 },
                 {
-                  terms: {
-                    name: targetResource,
+                  bool: {
+                    must: {
+                      exists: {
+                        field: 'traceGroup',
+                        boost: 1,
+                      },
+                    },
                   },
                 },
               ],
