@@ -1,4 +1,5 @@
 import {
+  Direction,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -11,7 +12,7 @@ import {
   EuiText,
   EuiToolTip,
 } from '@elastic/eui';
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { EuiTableFieldDataColumnType } from '@elastic/eui';
 import { calculateTicks, NoMatchMessage, PanelTitle, renderBenchmark } from '../common';
@@ -26,6 +27,14 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
 }) {
+  const [sortField, setSortField] = useState('dashboard_latency_variance');
+  const [sortDirection, setSortDirection] = useState<Direction>('desc');
+  const onTableChange = ({ page, sort }) => {
+    const { field: sortField, direction: sortDirection } = sort;
+    setSortField(sortField);
+    setSortDirection(sortDirection);
+  };
+
   const getVarianceProps = (items) => {
     if (!items[0]?.dashboard_latency_variance) {
       return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
@@ -124,8 +133,10 @@ export function DashboardTable(props: {
         </>
       ),
       align: 'center',
-      sortable: ({ latency_variance }) =>
-        latency_variance?.length > 0 ? latency_variance[2] - latency_variance[0] : 0,
+      sortable: ({ dashboard_latency_variance }) =>
+        dashboard_latency_variance?.length > 0
+          ? dashboard_latency_variance[2] - dashboard_latency_variance[0]
+          : 0,
       width: '300px',
       render: (item, row) => {
         const filter = props.filters.find(
@@ -221,7 +232,11 @@ export function DashboardTable(props: {
       align: 'right',
       sortable: false,
       render: (item, row) =>
-        item ? <LatencyTrendCell item={item} traceGroupName={row.dashboard_trace_group_name} /> : '-',
+        item ? (
+          <LatencyTrendCell item={item} traceGroupName={row.dashboard_trace_group_name} />
+        ) : (
+          '-'
+        ),
     },
     {
       field: 'dashboard_error_rate',
@@ -325,14 +340,20 @@ export function DashboardTable(props: {
         <EuiHorizontalRule margin="none" />
         {props.items?.length > 0 ? (
           <EuiInMemoryTable
+            tableLayout="auto"
             items={props.items}
             columns={columns}
             pagination={{
               initialPageSize: 10,
-              pageSizeOptions: [5, 10, 15],
+              pageSizeOptions: [8, 10, 15],
             }}
-            sorting
-            tableLayout="auto"
+            sorting={{
+              sort: {
+                field: sortField,
+                direction: sortDirection,
+              },
+            }}
+            onChange={onTableChange}
           />
         ) : (
           <NoMatchMessage size="xl" />
