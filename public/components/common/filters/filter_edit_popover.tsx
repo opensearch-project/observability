@@ -12,12 +12,12 @@ import React, { useState } from 'react';
 import { FilterType } from './filters';
 import { getInvertedOperator, getOperatorOptions, getValueComponent } from './filter_helpers';
 
-export default function FilterEditPopover(props: {
+export function FilterEditPopover(props: {
   filter?: FilterType;
   index: number;
   setFilter: (newFilter: FilterType, index: number) => void;
   closePopover: () => void;
-  filterFieldOptions: { label: string }[];
+  filterFieldOptions: Array<{ label: string }>;
 }) {
   const [selectedFieldOptions, setSelectedFieldOptions] = useState<
     Array<EuiComboBoxOptionOption<string>>

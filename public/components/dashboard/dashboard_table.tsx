@@ -12,7 +12,7 @@ import {
   EuiText,
   EuiToolTip,
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import _ from 'lodash';
 import { EuiTableFieldDataColumnType } from '@elastic/eui';
 import { calculateTicks, NoMatchMessage, PanelTitle, renderBenchmark } from '../common';
@@ -30,16 +30,20 @@ export function DashboardTable(props: {
   const [sortField, setSortField] = useState('dashboard_latency_variance');
   const [sortDirection, setSortDirection] = useState<Direction>('desc');
   const onTableChange = ({ page, sort }) => {
-    const { field: sortField, direction: sortDirection } = sort;
-    setSortField(sortField);
-    setSortDirection(sortDirection);
+    const { field, direction } = sort;
+    setSortField(field);
+    setSortDirection(direction);
   };
 
   const getVarianceProps = (items) => {
-    if (!items[0]?.dashboard_latency_variance) {
+    if (items.length === 0) {
       return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
     }
-    const variances = [].concat(...items.map((item) => item.dashboard_latency_variance));
+    const variances = [].concat(
+      ...items
+        .filter((item) => item.dashboard_latency_variance)
+        .map((item) => item.dashboard_latency_variance)
+    );
     const minRange = Math.min(...variances);
     const maxRange = Math.max(...variances);
     const ticks = calculateTicks(minRange, maxRange);
@@ -47,7 +51,7 @@ export function DashboardTable(props: {
     const maxDigits = ticks[ticks.length - 1].toString().length;
 
     // pads spaces (\u00A0) in between ticks to construct a scale
-    // width of a character equals the width of two spaces, maximum 32 characters in a scale
+    // width of a character equals the width of two spaces, maximum 39 characters in a scale
     const scale = ticks
       .map((tick) => {
         const tickStr = tick.toString();
@@ -57,7 +61,7 @@ export function DashboardTable(props: {
         '\u00A0'.repeat(
           Math.max(
             1,
-            Math.floor((2 * (44 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
+            Math.floor((2 * (39 - ticks.length * maxDigits)) / Math.max(1, ticks.length - 1))
           )
         )
       );
@@ -65,246 +69,275 @@ export function DashboardTable(props: {
     return { minRange, maxRange, ticks, scale };
   };
 
-  const varianceProps = getVarianceProps(props.items);
-
-  const columns = [
-    {
-      field: 'dashboard_trace_group_name',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              Traces of all requests that share a common API and operation at the start of
-              distributed tracing instrumentation.
-            </EuiText>
-          }
-        >
-          <>
-            <div>
-              Trace group name{' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </div>
-            <div>&nbsp;</div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'left',
-      sortable: true,
-      render: (item) =>
-        item ? (
-          <EuiLink
-            onClick={() =>
-              props.addFilter({
-                field: 'traceGroup',
-                operator: 'is',
-                value: item,
-                inverted: false,
-                disabled: false,
-              })
-            }
-          >
-            {_.truncate(item, { length: 24 })}
-          </EuiLink>
-        ) : (
-          '-'
-        ),
-    },
-    {
-      field: 'dashboard_latency_variance',
-      name: (
-        <>
+  const getColumns = () =>
+    [
+      {
+        field: 'dashboard_trace_group_name',
+        name: (
           <EuiToolTip
             content={
               <EuiText size="xs">
-                Range of latencies for traces within a trace group in the selected time range.
+                Traces of all requests that share a common API and operation at the start of
+                distributed tracing instrumentation.
               </EuiText>
             }
           >
-            <span>
-              Latency variance (ms){' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </span>
+            <>
+              <div>
+                Trace group name{' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </div>
+              <div>&nbsp;</div>
+            </>
           </EuiToolTip>
-          {varianceProps && (
-            <EuiText size="xs" color="subdued">
-              {varianceProps.scale}
-            </EuiText>
-          )}
-        </>
-      ),
-      align: 'center',
-      sortable: ({ dashboard_latency_variance }) =>
-        dashboard_latency_variance?.length > 0
-          ? dashboard_latency_variance[2] - dashboard_latency_variance[0]
-          : 0,
-      width: '300px',
-      render: (item, row) => {
-        const filter = props.filters.find(
-          (filter) => filter.field === 'Latency percentile within trace group'
-        );
-        const currPercentileFilter = filter ? filter.value : '';
-        return item ? (
-          // expand plot ranges to accomondate scale
-          <BoxPlt
-            plotParams={{
-              min:
-                varianceProps.ticks.length > 1
-                  ? varianceProps.ticks[0]
-                  : varianceProps.ticks[0] / 1.03,
-              max: varianceProps.ticks[varianceProps.ticks.length - 1] * 1.03,
-              left: item[0],
-              mid: item[1],
-              right: item[2],
-              currPercentileFilter: currPercentileFilter,
-              addFilter: (condition?: 'lte' | 'gte') => {
-                const traceGroupFilter = {
+        ),
+        align: 'left',
+        sortable: true,
+        render: (item) =>
+          item ? (
+            <EuiLink
+              onClick={() =>
+                props.addFilter({
                   field: 'traceGroup',
                   operator: 'is',
-                  value: row.dashboard_trace_group_name,
+                  value: item,
                   inverted: false,
                   disabled: false,
-                };
-                const additionalFilters = [traceGroupFilter];
-                for (const addedFilter of props.filters) {
-                  if (
-                    addedFilter.field === traceGroupFilter.field &&
-                    addedFilter.operator === traceGroupFilter.operator &&
-                    addedFilter.value === traceGroupFilter.value
-                  ) {
-                    additionalFilters.pop();
-                  }
-                }
-                props.addPercentileFilter(condition, additionalFilters);
-              },
-            }}
-          />
-        ) : (
-          '-'
-        );
+                })
+              }
+            >
+              {_.truncate(item, { length: 24 })}
+            </EuiLink>
+          ) : (
+            '-'
+          ),
       },
-    },
-    {
-      field: 'dashboard_average_latency',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              Average latency of traces within a trace group in the selected time range.
-            </EuiText>
-          }
-        >
+      {
+        field: 'dashboard_latency_variance',
+        name: (
           <>
-            {/* <div style={{ marginRight: 40 }}>Average</div> */}
-            <div>
-              Average latency (ms){' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </div>
-            <div>&nbsp;</div>
+            <EuiToolTip
+              content={
+                <EuiText size="xs">
+                  Range of latencies for traces within a trace group in the selected time range.
+                </EuiText>
+              }
+            >
+              <span>
+                Latency variance (ms){' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </span>
+            </EuiToolTip>
+            {varianceProps && (
+              <EuiText size="xs" color="subdued">
+                {varianceProps.scale}
+              </EuiText>
+            )}
           </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      dataType: 'number',
-      render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
-    },
-    {
-      field: '24_hour_latency_trend',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              24 hour time series view of hourly average, hourly percentile, and hourly range of
-              latency for traces within a trace group.
-            </EuiText>
-          }
-        >
-          <>
-            {/* <div style={{ marginRight: 44 }}>24-hour</div> */}
-            <div>
-              24-hour latency trend{' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </div>
-            <div>&nbsp;</div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: false,
-      render: (item, row) =>
-        item ? (
-          <LatencyTrendCell item={item} traceGroupName={row.dashboard_trace_group_name} />
-        ) : (
-          '-'
         ),
-    },
-    {
-      field: 'dashboard_error_rate',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              Error rate based on count of errors on all traces and spans within a trace group in
-              the selected time range (eg. 3 errors on different spans on a single trace counts as 3
-              errors in this calculation).
-            </EuiText>
-          }
-        >
-          <>
-            <div>
-              Error rate{' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </div>
-            <div>&nbsp;</div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      render: (item) =>
-        item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
-    },
-    {
-      field: 'dashboard_traces',
-      name: (
-        <EuiToolTip
-          content={
-            <EuiText size="xs">
-              Count of the number of traces with unique trace identifiers in the selected time
-              range.
-            </EuiText>
-          }
-        >
-          <>
-            <div>
-              Traces{' '}
-              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-            </div>
-            <div>&nbsp;</div>
-          </>
-        </EuiToolTip>
-      ),
-      align: 'right',
-      sortable: true,
-      render: (item, row) => (
-        <EuiLink
-          onClick={() => {
-            props.setRedirect(true);
-            props.addFilter({
-              field: 'traceGroup',
-              operator: 'is',
-              value: row.dashboard_trace_group_name,
-              inverted: false,
-              disabled: false,
-            });
-            location.assign('#/traces');
-          }}
-        >
-          <EuiI18nNumber value={item} />
-        </EuiLink>
-      ),
-    },
-  ] as Array<EuiTableFieldDataColumnType<any>>;
+        align: 'center',
+        sortable: ({ dashboard_latency_variance }) =>
+          dashboard_latency_variance?.length > 0
+            ? dashboard_latency_variance[2] - dashboard_latency_variance[0]
+            : 0,
+        width: '300px',
+        render: (item, row) => {
+          const filter = props.filters.find(
+            (f) => f.field === 'Latency percentile within trace group'
+          );
+          const currPercentileFilter = filter ? filter.value : '';
+          return item ? (
+            // expand plot ranges to accomondate scale
+            <BoxPlt
+              plotParams={{
+                min:
+                  varianceProps.ticks.length > 1
+                    ? varianceProps.ticks[0]
+                    : varianceProps.ticks[0] / 1.03,
+                max: varianceProps.ticks[varianceProps.ticks.length - 1] * 1.03,
+                left: item[0],
+                mid: item[1],
+                right: item[2],
+                currPercentileFilter,
+                addFilter: (condition?: 'lte' | 'gte') => {
+                  const traceGroupFilter = {
+                    field: 'traceGroup',
+                    operator: 'is',
+                    value: row.dashboard_trace_group_name,
+                    inverted: false,
+                    disabled: false,
+                  };
+                  const additionalFilters = [traceGroupFilter];
+                  for (const addedFilter of props.filters) {
+                    if (
+                      addedFilter.field === traceGroupFilter.field &&
+                      addedFilter.operator === traceGroupFilter.operator &&
+                      addedFilter.value === traceGroupFilter.value
+                    ) {
+                      additionalFilters.pop();
+                    }
+                  }
+                  props.addPercentileFilter(condition, additionalFilters);
+                },
+              }}
+            />
+          ) : (
+            '-'
+          );
+        },
+      },
+      {
+        field: 'dashboard_average_latency',
+        name: (
+          <EuiToolTip
+            content={
+              <EuiText size="xs">
+                Average latency of traces within a trace group in the selected time range.
+              </EuiText>
+            }
+          >
+            <>
+              {/* <div style={{ marginRight: 40 }}>Average</div> */}
+              <div>
+                Average latency (ms){' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </div>
+              <div>&nbsp;</div>
+            </>
+          </EuiToolTip>
+        ),
+        align: 'right',
+        sortable: true,
+        dataType: 'number',
+        render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
+      },
+      {
+        field: '24_hour_latency_trend',
+        name: (
+          <EuiToolTip
+            content={
+              <EuiText size="xs">
+                24 hour time series view of hourly average, hourly percentile, and hourly range of
+                latency for traces within a trace group.
+              </EuiText>
+            }
+          >
+            <>
+              {/* <div style={{ marginRight: 44 }}>24-hour</div> */}
+              <div>
+                24-hour latency trend{' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </div>
+              <div>&nbsp;</div>
+            </>
+          </EuiToolTip>
+        ),
+        align: 'right',
+        sortable: false,
+        render: (item, row) =>
+          item ? (
+            <LatencyTrendCell item={item} traceGroupName={row.dashboard_trace_group_name} />
+          ) : (
+            '-'
+          ),
+      },
+      {
+        field: 'dashboard_error_rate',
+        name: (
+          <EuiToolTip
+            content={
+              <EuiText size="xs">
+                Error rate based on count of errors on all traces and spans within a trace group in
+                the selected time range (eg. 3 errors on different spans on a single trace counts as
+                3 errors in this calculation).
+              </EuiText>
+            }
+          >
+            <>
+              <div>
+                Error rate{' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </div>
+              <div>&nbsp;</div>
+            </>
+          </EuiToolTip>
+        ),
+        align: 'right',
+        sortable: true,
+        render: (item) =>
+          item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
+      },
+      {
+        field: 'dashboard_traces',
+        name: (
+          <EuiToolTip
+            content={
+              <EuiText size="xs">
+                Count of the number of traces with unique trace identifiers in the selected time
+                range.
+              </EuiText>
+            }
+          >
+            <>
+              <div>
+                Traces{' '}
+                <EuiIcon
+                  size="s"
+                  color="subdued"
+                  type="questionInCircle"
+                  className="eui-alignTop"
+                />
+              </div>
+              <div>&nbsp;</div>
+            </>
+          </EuiToolTip>
+        ),
+        align: 'right',
+        sortable: true,
+        render: (item, row) => (
+          <EuiLink
+            onClick={() => {
+              props.setRedirect(true);
+              props.addFilter({
+                field: 'traceGroup',
+                operator: 'is',
+                value: row.dashboard_trace_group_name,
+                inverted: false,
+                disabled: false,
+              });
+              location.assign('#/traces');
+            }}
+          >
+            <EuiI18nNumber value={item} />
+          </EuiLink>
+        ),
+      },
+    ] as Array<EuiTableFieldDataColumnType<any>>;
 
   const renderTitleBar = (totalItems) => {
     return (
@@ -332,10 +365,14 @@ export function DashboardTable(props: {
     );
   };
 
+  const varianceProps = useMemo(() => getVarianceProps(props.items), [props.items]);
+  const columns = useMemo(() => getColumns(), [props.items]);
+  const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
+
   return (
     <>
       <EuiPanel>
-        {renderTitleBar(props.items?.length)}
+        {titleBar}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
         {props.items?.length > 0 ? (

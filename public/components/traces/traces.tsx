@@ -10,6 +10,7 @@ interface TracesProps extends SearchBarProps, CoreDeps {}
 
 export function Traces(props: TracesProps) {
   const [tableItems, setTableItems] = useState([]);
+  const [redirect, setRedirect] = useState(true);
   useEffect(() => {
     props.setBreadcrumbs([
       {
@@ -28,10 +29,11 @@ export function Traces(props: TracesProps) {
         locked: validFilters.indexOf(filter.field) === -1,
       })),
     ]);
+    setRedirect(false);
   }, []);
 
   useEffect(() => {
-    if (props.indicesExist) refresh();
+    if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
   const refresh = () => {

@@ -20,13 +20,13 @@ export function ServiceMapScale(props: {
     const percents = Array.from({ length: ticks.length - 1 }, (v, i) => percentInterval * i);
     const color = percents
       .map((percent) => getServiceMapScaleColor(percent, props.idSelected))
-      .map((color) => `rgb(${color})`);
+      .map((rgb) => `rgb(${rgb})`);
 
     const result = {
       data: {
         y: [delta + ticks[0], ...Array.from({ length: ticks.length - 1 }, () => delta)],
         marker: {
-          color: color,
+          color,
         },
       },
       layout: {

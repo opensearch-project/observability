@@ -22,9 +22,9 @@ export const handleValidTraceIds = (http, DSL) => {
 export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems) => {
   const binarySearch = (arr: number[], target: number) => {
     if (!arr) return Number.NaN;
-    let low = 0,
-      high = arr.length,
-      mid;
+    let low = 0;
+    let high = arr.length;
+    let mid;
     while (low < high) {
       mid = Math.floor((low + high) / 2);
       if (arr[mid] < target) low = mid + 1;

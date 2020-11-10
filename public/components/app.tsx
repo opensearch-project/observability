@@ -24,7 +24,7 @@ export interface CoreDeps {
   http: CoreStart['http'];
   uiSettings: IUiSettingsClient;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  indicesExist: boolean;
+  indicesExist?: boolean;
 }
 
 export const TraceAnalyticsApp = ({
@@ -64,11 +64,11 @@ export const TraceAnalyticsApp = ({
     setEndTime(newEndTime);
     localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
   };
-  
+
   useEffect(() => {
-    handleIndicesExistRequest(http, setIndicesExist)
+    handleIndicesExistRequest(http, setIndicesExist);
   }, []);
-  
+
   const commonProps: SearchBarProps & CoreDeps = {
     http,
     uiSettings,

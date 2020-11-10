@@ -8,57 +8,63 @@ import {
   EuiText,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PanelTitle, renderBenchmark } from '../common';
 import { Plt } from '../common/plots/plt';
 
-const renderStats = (serviceBreakdownData) => {
-  return serviceBreakdownData.length > 0 ? (
-    <EuiFlexGroup responsive={false}>
-      <EuiFlexItem>
-        <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
-          {serviceBreakdownData[0].marker.colors.map((color, i) => (
-            <EuiFlexItem key={`label-${i}`}>
-              <EuiHealth color={color}>{serviceBreakdownData[0].labels[i]}</EuiHealth>
-            </EuiFlexItem>
-          ))}
-        </EuiFlexGroup>
-      </EuiFlexItem>
-      <EuiFlexItem />
-      <EuiFlexItem />
-      <EuiFlexItem>
-        <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
-          {serviceBreakdownData[0].values.map((value, i) => (
-            <EuiFlexItem key={`value-${i}`}>
-              <EuiText size="s">{_.round(value, 2)}%</EuiText>
-            </EuiFlexItem>
-          ))}
-        </EuiFlexGroup>
-      </EuiFlexItem>
-    </EuiFlexGroup>
-  ) : null;
-};
-
-const layout = {
-  height: 200,
-  width: 200,
-  // showlegend: false,
-  legend: {
-    orientation: 'h',
-    traceorder: 'normal',
-    x: 0,
-    xanchor: 'left',
-    y: 1.5,
-  },
-  margin: {
-    l: 5,
-    r: 5,
-    b: 5,
-    t: 5, // 10
-  },
-} as Partial<Plotly.Layout>;
-
 export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
+  const layout = useMemo(
+    () =>
+      ({
+        height: 200,
+        width: 200,
+        // showlegend: false,
+        legend: {
+          orientation: 'h',
+          traceorder: 'normal',
+          x: 0,
+          xanchor: 'left',
+          y: 1.5,
+        },
+        margin: {
+          l: 5,
+          r: 5,
+          b: 5,
+          t: 5, // 10
+        },
+      } as Partial<Plotly.Layout>),
+    [props.data]
+  );
+
+  const renderStats = () => {
+    return props.data.length > 0 ? (
+      <EuiFlexGroup responsive={false}>
+        <EuiFlexItem>
+          <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
+            {props.data[0].marker.colors.map((color, i) => (
+              <EuiFlexItem key={`label-${i}`}>
+                <EuiHealth color={color}>{props.data[0].labels[i]}</EuiHealth>
+              </EuiFlexItem>
+            ))}
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem />
+        <EuiFlexItem />
+        <EuiFlexItem>
+          <EuiFlexGroup direction="column" alignItems="flexEnd" gutterSize="m" responsive={false}>
+            {props.data[0].values.map((value, i) => (
+              <EuiFlexItem key={`value-${i}`}>
+                <EuiText size="s">{_.round(value, 2)}%</EuiText>
+              </EuiFlexItem>
+            ))}
+          </EuiFlexGroup>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    ) : null;
+  };
+
+  const stats = useMemo(() => renderStats(), [props.data]);
+
   return (
     <>
       <EuiPanel>
@@ -69,7 +75,7 @@ export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
             {props.data?.length > 0 ? <Plt data={props.data} layout={layout} /> : null}
           </EuiFlexItem>
           <EuiSpacer />
-          <EuiFlexItem>{renderStats(props.data)}</EuiFlexItem>
+          <EuiFlexItem>{stats}</EuiFlexItem>
         </EuiFlexGroup>
         <EuiSpacer />
       </EuiPanel>

@@ -1,5 +1,5 @@
-import { EuiFlexGroup, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
-import React, { useState } from 'react';
+import { EuiFlexGrid, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
+import React, { useMemo, useState } from 'react';
 import { Plt } from './plt';
 
 interface PlotParamsType {
@@ -15,107 +15,110 @@ interface PlotParamsType {
 export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   const [hovered, setHovered] = useState('');
 
-  const layout = {
-    plot_bgcolor: 'rgba(0, 0, 0, 0)',
-    paper_bgcolor: 'rgba(0, 0, 0, 0)',
-    xaxis: {
-      range: [plotParams.min, plotParams.max],
-      fixedrange: true,
-      showgrid: false,
-      visible: false,
-    },
-    yaxis: {
-      range: [-0.6, 0.6],
-      fixedrange: true,
-      showgrid: false,
-      visible: false,
-    },
-    margin: {
-      l: 0,
-      r: 0,
-      b: 0,
-      t: 0,
-      pad: 0,
-    },
-    height: 15,
-    width: 300,
-  } as Partial<Plotly.Layout>;
+  const getLayout = () =>
+    ({
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        range: [plotParams.min, plotParams.max],
+        fixedrange: true,
+        showgrid: false,
+        visible: false,
+      },
+      yaxis: {
+        range: [-0.6, 0.6],
+        fixedrange: true,
+        showgrid: false,
+        visible: false,
+      },
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
+        pad: 0,
+      },
+      height: 15,
+      width: 250,
+    } as Partial<Plotly.Layout>);
 
-  const data = [
-    {
-      x: [plotParams.left],
-      y: [0],
-      type: 'bar',
-      orientation: 'h',
-      width: 1,
-      marker: { color: 'rgba(0, 0, 0, 0)' },
-      hoverinfo: 'none',
-      showlegend: false,
-    },
-    {
-      x: [plotParams.mid - plotParams.left],
-      y: [0],
-      type: 'bar',
-      orientation: 'h',
-      width: 1,
-      marker: {
-        color: plotParams.currPercentileFilter === '<= 95th' ? '#fcfcfc' : '#ffffff',
-        line: {
-          color: plotParams.currPercentileFilter === '<= 95th' ? '#eceded' : hovered === 'lower' ? '#2e73b5' : '#957ac9',
-          width: hovered === 'lower' ? 3 : 1,
+  const getData = () =>
+    [
+      {
+        x: [plotParams.left],
+        y: [0],
+        type: 'bar',
+        orientation: 'h',
+        width: 1,
+        marker: { color: 'rgba(0, 0, 0, 0)' },
+        hoverinfo: 'none',
+        showlegend: false,
+      },
+      {
+        x: [plotParams.mid - plotParams.left],
+        y: [0],
+        type: 'bar',
+        orientation: 'h',
+        width: 1,
+        marker: {
+          color: plotParams.currPercentileFilter === '<= 95th' ? '#fcfcfc' : '#ffffff',
+          line: {
+            color:
+              plotParams.currPercentileFilter === '<= 95th'
+                ? '#eceded'
+                : hovered === 'lower'
+                ? '#2e73b5'
+                : '#957ac9',
+            width: hovered === 'lower' ? 3 : 1,
+          },
         },
       },
-    },
-    {
-      x: [plotParams.right - plotParams.mid],
-      y: [0],
-      type: 'bar',
-      orientation: 'h',
-      width: 1,
-      marker: {
-        color: plotParams.currPercentileFilter === '>= 95th' ? '#aea4d1': '#957ac9',
-        line: {
-          color: hovered === 'upper' ? '#2e73b5' : '#957ac9',
-          width: hovered === 'upper' ? 3 : 1,
+      {
+        x: [plotParams.right - plotParams.mid],
+        y: [0],
+        type: 'bar',
+        orientation: 'h',
+        width: 1,
+        marker: {
+          color: plotParams.currPercentileFilter === '>= 95th' ? '#aea4d1' : '#957ac9',
+          line: {
+            color: hovered === 'upper' ? '#2e73b5' : '#957ac9',
+            width: hovered === 'upper' ? 3 : 1,
+          },
         },
       },
-    },
-  ] as Plotly.Data[];
+    ] as Plotly.Data[];
 
   const renderTooltip = () => {
     return (
-      <EuiFlexGroup gutterSize="s" responsive={false} alignItems="baseline">
-        <EuiFlexItem grow={false}>
-          <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
-            <EuiFlexItem>
-              <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
-                <p>Latency &lt;95 percentile</p>
-              </EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
-                <p>Latency &gt;=95 percentile</p>
-              </EuiText>
-            </EuiFlexItem>
-          </EuiFlexGroup>
+      <EuiFlexGrid columns={2} gutterSize="s" responsive={false}>
+        <EuiFlexItem>
+          <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
+            <p>Latency &lt;95 percentile</p>
+          </EuiText>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
-            <EuiFlexItem>
-              <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
-                <p>{`${Math.round(plotParams.left)}ms - ${Math.round(plotParams.mid)}ms`}</p>
-              </EuiText>
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
-                <p>{`${Math.round(plotParams.mid)}ms - ${Math.round(plotParams.right)}ms`}</p>
-              </EuiText>
-            </EuiFlexItem>
-          </EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
+            <p>{`${Math.round(plotParams.left)}ms - ${Math.round(plotParams.mid)}ms`}</p>
+          </EuiText>
         </EuiFlexItem>
-      </EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
+            <p>Latency &gt;=95 percentile</p>
+          </EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
+            <p>{`${Math.round(plotParams.mid)}ms - ${Math.round(plotParams.right)}ms`}</p>
+          </EuiText>
+        </EuiFlexItem>
+      </EuiFlexGrid>
     );
   };
+
+  const layout = useMemo(() => getLayout(), [plotParams]);
+  const data = useMemo(() => getData(), [plotParams, hovered]);
+  const tooltip = useMemo(() => renderTooltip(), [plotParams, hovered]);
 
   const onHoverHandler = (e) => {
     if (plotParams.currPercentileFilter) return;
@@ -132,15 +135,15 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   };
 
   return (
-  <>
-    <EuiToolTip content={renderTooltip()} position="bottom" onMouseOut={() => setHovered('')}>
-      <Plt
-        data={data}
-        layout={layout}
-        onHoverHandler={onHoverHandler}
-        onClickHandler={onClickHandler}
-      />
-    </EuiToolTip>
+    <>
+      <EuiToolTip content={tooltip} position="bottom" onMouseOut={() => setHovered('')}>
+        <Plt
+          data={data}
+          layout={layout}
+          onHoverHandler={onHoverHandler}
+          onClickHandler={onClickHandler}
+        />
+      </EuiToolTip>
     </>
   );
 }

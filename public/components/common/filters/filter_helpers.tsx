@@ -1,7 +1,6 @@
 import { EuiFieldText, EuiFormControlLayoutDelimited, EuiFormRow, EuiSpacer } from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
-import { FilterType } from './filters';
 
 const fields = {
   dashboard: [
@@ -42,8 +41,7 @@ const fields = {
 export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => fields[page];
 // filters will take effect
 export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => {
-  if (page !== 'services')
-    return [...fields[page], 'Latency percentile within trace group']
+  if (page !== 'services') return [...fields[page], 'Latency percentile within trace group'];
   return fields[page];
 };
 

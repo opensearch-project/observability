@@ -11,8 +11,8 @@ import {
   EuiPopoverTitle,
   EuiTextColor,
 } from '@elastic/eui';
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import FilterEditPopover from './filter_edit_popover';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { FilterEditPopover } from './filter_edit_popover';
 import { getFilterFields, getValidFilterFields } from './filter_helpers';
 
 export interface FilterType {
@@ -44,8 +44,11 @@ export function Filters(props: FiltersOwnProps) {
     props.setFilters(newFilters);
   };
 
-  const validFilterFields = getValidFilterFields(props.page);
-  const filterFieldOptions = getFilterFields(props.page).map((field) => ({ label: field }));
+  const validFilterFields = useMemo(() => getValidFilterFields(props.page), [props.page]);
+  const filterFieldOptions = useMemo(
+    () => getFilterFields(props.page).map((field) => ({ label: field })),
+    [props.page]
+  );
 
   const globalPopoverPanels = [
     {
@@ -291,12 +294,14 @@ export function Filters(props: FiltersOwnProps) {
     );
   };
 
+  const filterComponents = useMemo(() => renderFilters(), [props.filters]);
+
   return (
     <EuiFlexGroup gutterSize="xs" alignItems="center" responsive={false} style={{ minHeight: 32 }}>
       <EuiFlexItem grow={false}>
         <GlobalFilterButton />
       </EuiFlexItem>
-      {renderFilters()}
+      {filterComponents}
       <EuiFlexItem grow={false}>
         <AddFilterButton />
       </EuiFlexItem>

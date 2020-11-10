@@ -206,10 +206,7 @@ export const convertToTimeString = (timestamp: number, fixedInterval: string) =>
 };
 
 export const getPercentileFilter = (
-  percentileMaps: {
-    traceGroupName: string;
-    durationFilter: { gte?: number; lte?: number };
-  }[],
+  percentileMaps: Array<{ traceGroupName: string; durationFilter: { gte?: number; lte?: number } }>,
   conditionString: string // >= 95
 ): FilterType => {
   const DSL = {
@@ -296,7 +293,7 @@ export const filtersToDsl = (
   if (query.length > 0) {
     DSL.query.bool.must.push({
       query_string: {
-        query: query,
+        query,
       },
     });
   }
@@ -326,11 +323,11 @@ export const filtersToDsl = (
         DSL.custom[filter.inverted ? 'traceGroupExclude' : 'traceGroup'].push(filter.value);
       }
 
-      let query = {};
+      let filterQuery = {};
       switch (filter.operator) {
         case 'exists':
         case 'does not exist':
-          query = {
+          filterQuery = {
             exists: {
               field: filter.field,
             },
@@ -339,7 +336,7 @@ export const filtersToDsl = (
 
         case 'is':
         case 'is not':
-          query = {
+          filterQuery = {
             term: {
               [filter.field]: filter.value,
             },
@@ -351,7 +348,7 @@ export const filtersToDsl = (
           const range: { gte?: string; lte?: string } = {};
           if (!filter.value.from.includes('\u221E')) range.gte = filter.value.from;
           if (!filter.value.to.includes('\u221E')) range.lte = filter.value.to;
-          query = {
+          filterQuery = {
             range: {
               [filter.field]: range,
             },
@@ -361,7 +358,7 @@ export const filtersToDsl = (
         default:
           break;
       }
-      filter.inverted ? DSL.query.bool.must_not.push(query) : DSL.query.bool.must.push(query);
+      DSL.query.bool[filter.inverted ? 'must_not' : 'must'].push(filterQuery);
     });
 
   return DSL;

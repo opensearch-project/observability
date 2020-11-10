@@ -23,11 +23,11 @@ export async function handleIndicesExistRequest(http: CoreStart['http'], setIndi
   setIndicesExist(exists);
 }
 
-export function handleSqlRequest(http: CoreStart['http'], query: string) {
-  console.log('SQL:', query);
-  return http
-    .post(SQL_ROUTE, {
-      body: `{ "query": "${query}" }`,
-    })
-    .catch((error) => console.error(error));
-}
+// export function handleSqlRequest(http: CoreStart['http'], query: string) {
+//   console.log('SQL:', query);
+//   return http
+//     .post(SQL_ROUTE, {
+//       body: `{ "query": "${query}" }`,
+//     })
+//     .catch((error) => console.error(error));
+// }

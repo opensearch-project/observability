@@ -19,7 +19,7 @@ export interface ServiceObject {
   [key: string]: {
     serviceName: string;
     id: number;
-    traceGroups: { traceGroup: string; targetResource: string[] }[];
+    traceGroups: Array<{ traceGroup: string; targetResource: string[] }>;
     targetServices: string[];
     destServices: string[];
     latency?: number;
@@ -72,6 +72,7 @@ export function ServiceMap({
           enabled: false,
         },
       },
+      physics: false,
     },
     nodes: {
       shape: 'dot',
@@ -96,7 +97,7 @@ export function ServiceMap({
   };
 
   const events = {
-    select: function (event) {
+    select: (event) => {
       const { nodes, edges } = event;
       if (!addFilter || !nodes) return;
       const serviceName = items?.graph.nodes.find((node) => node.id === nodes[0])?.label;
@@ -110,7 +111,7 @@ export function ServiceMap({
         });
       }
     },
-    hoverNode: function (event) {},
+    hoverNode: (event) => {},
   };
 
   const onFocus = (service: string) => {
@@ -181,7 +182,7 @@ export function ServiceMap({
                   graph={items.graph}
                   options={options}
                   events={events}
-                  getNetwork={(network) => setNetwork(network)}
+                  getNetwork={(networkInstance) => setNetwork(networkInstance)}
                 />
               )}
             </EuiFlexItem>
