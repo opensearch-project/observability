@@ -36,10 +36,10 @@ const columns = [
       <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem grow={10}>
           <EuiLink href={`#/traces/${encodeURIComponent(item)}`}>
-            {_.truncate(item, { length: 24 })}
+            {_.truncate(item.replace(/^0+/, ''), { length: 24 })}
           </EuiLink>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
+        <EuiFlexItem grow={5}>
           <EuiCopy textToCopy={item}>
             {(copy) => (
               <EuiButtonIcon aria-label="Copy trace id" iconType="copyClipboard" onClick={copy}>
@@ -48,7 +48,6 @@ const columns = [
             )}
           </EuiCopy>
         </EuiFlexItem>
-        <EuiFlexItem grow={1} />
       </EuiFlexGroup>
     ),
   },
@@ -71,8 +70,8 @@ const columns = [
     field: 'percentile_in_trace_group',
     name: (
       <>
-        <div>Percentile in</div>
-        <div style={{ marginRight: 5 }}>trace group</div>
+        <div>Percentile in trace group</div>
+        {/* <div style={{ marginRight: 5 }}>trace group</div> */}
       </>
     ),
     align: 'right',

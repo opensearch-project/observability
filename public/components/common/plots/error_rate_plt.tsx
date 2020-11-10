@@ -1,15 +1,20 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import _ from 'lodash';
-import React from 'react';
-import { fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
+import moment from 'moment';
+import React, { Dispatch, SetStateAction } from 'react';
+import { fixedIntervalToMilli, fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
 import { Plt } from './plt';
 
-export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
+export function ErrorRatePlt(props: {
+  items: { items: Plotly.Data[]; fixedInterval: string }
+  setStartTime: Dispatch<SetStateAction<string>>;
+  setEndTime: Dispatch<SetStateAction<string>>;
+}) {
   const layout = {
     width: 400,
     height: 217,
     margin: {
-      l: 50,
+      l: 57,
       r: 5,
       b: 50,
       t: 30, // 10
@@ -45,6 +50,7 @@ export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterv
         font: {
           size: 12,
         },
+        standoff: 10,
       },
       range: [
         0,
@@ -60,6 +66,15 @@ export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterv
       color: '#899195',
     },
   } as Partial<Plotly.Layout>;
+  
+  const onClick = (event) => {
+    if (!event?.points) return;
+    const point = event.points[0];
+    const start = point.data.x[point.pointNumber];
+    const end = start + fixedIntervalToMilli(props.items.fixedInterval);
+    props.setStartTime(moment(start).toISOString());
+    props.setEndTime(moment(end).toISOString());
+  };
 
   return (
     <>
@@ -67,7 +82,7 @@ export function ErrorRatePlt(props: { items: { items: Plotly.Data[]; fixedInterv
         <PanelTitle title="Error rate over time" />
         <EuiHorizontalRule margin="m" />
         {props.items?.items?.length > 0 ? (
-          <Plt data={props.items.items} layout={layout} />
+          <Plt data={props.items.items} layout={layout} onClickHandler={onClick} />
         ) : (
           <NoMatchMessage size="s" />
         )}

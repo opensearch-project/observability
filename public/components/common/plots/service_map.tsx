@@ -175,9 +175,6 @@ export function ServiceMap({
 
         {Object.keys(serviceMap).length > 0 ? (
           <EuiFlexGroup gutterSize="none" responsive={false}>
-            <EuiFlexItem grow={false}>
-              <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} ticks={ticks} />
-            </EuiFlexItem>
             <EuiFlexItem>
               {items?.graph && (
                 <Graph
@@ -187,6 +184,9 @@ export function ServiceMap({
                   getNetwork={(network) => setNetwork(network)}
                 />
               )}
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <ServiceMapScale idSelected={idSelected} serviceMap={serviceMap} ticks={ticks} />
             </EuiFlexItem>
           </EuiFlexGroup>
         ) : (

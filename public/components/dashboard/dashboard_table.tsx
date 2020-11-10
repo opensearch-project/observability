@@ -27,10 +27,10 @@ export function DashboardTable(props: {
   setRedirect: (redirect: boolean) => void;
 }) {
   const getVarianceProps = (items) => {
-    if (!items[0]?.latency_variance) {
+    if (!items[0]?.dashboard_latency_variance) {
       return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
     }
-    const variances = [].concat(...items.map((item) => item.latency_variance));
+    const variances = [].concat(...items.map((item) => item.dashboard_latency_variance));
     const minRange = Math.min(...variances);
     const maxRange = Math.max(...variances);
     const ticks = calculateTicks(minRange, maxRange);
@@ -60,20 +60,23 @@ export function DashboardTable(props: {
 
   const columns = [
     {
-      field: 'trace_group_name',
+      field: 'dashboard_trace_group_name',
       name: (
         <EuiToolTip
           content={
             <EuiText size="xs">
               Traces of all requests that share a common API and operation at the start of
-              distributed tracing instrumentation
+              distributed tracing instrumentation.
             </EuiText>
           }
         >
-          <span>
-            Trace group name{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
+          <>
+            <div>
+              Trace group name{' '}
+              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+            </div>
+            <div>&nbsp;</div>
+          </>
         </EuiToolTip>
       ),
       align: 'left',
@@ -98,13 +101,13 @@ export function DashboardTable(props: {
         ),
     },
     {
-      field: 'latency_variance',
+      field: 'dashboard_latency_variance',
       name: (
         <>
           <EuiToolTip
             content={
               <EuiText size="xs">
-                Range of latencies for traces within a trace group in the selected time range
+                Range of latencies for traces within a trace group in the selected time range.
               </EuiText>
             }
           >
@@ -125,6 +128,10 @@ export function DashboardTable(props: {
         latency_variance?.length > 0 ? latency_variance[2] - latency_variance[0] : 0,
       width: '300px',
       render: (item, row) => {
+        const filter = props.filters.find(
+          (filter) => filter.field === 'Latency percentile within trace group'
+        );
+        const currPercentileFilter = filter ? filter.value : '';
         return item ? (
           // expand plot ranges to accomondate scale
           <BoxPlt
@@ -137,15 +144,12 @@ export function DashboardTable(props: {
               left: item[0],
               mid: item[1],
               right: item[2],
-              percentileFilterPresent:
-                props.filters.find(
-                  (filter) => filter.field === 'Latency percentile within trace group'
-                ) !== undefined,
+              currPercentileFilter: currPercentileFilter,
               addFilter: (condition?: 'lte' | 'gte') => {
                 const traceGroupFilter = {
                   field: 'traceGroup',
                   operator: 'is',
-                  value: row.trace_group_name,
+                  value: row.dashboard_trace_group_name,
                   inverted: false,
                   disabled: false,
                 };
@@ -169,21 +173,22 @@ export function DashboardTable(props: {
       },
     },
     {
-      field: 'average_latency',
+      field: 'dashboard_average_latency',
       name: (
         <EuiToolTip
           content={
             <EuiText size="xs">
-              Average latency of traces within a trace group in the selected time range
+              Average latency of traces within a trace group in the selected time range.
             </EuiText>
           }
         >
           <>
-            <div style={{ marginRight: 40 }}>Average</div>
+            {/* <div style={{ marginRight: 40 }}>Average</div> */}
             <div>
-              latency (ms){' '}
+              Average latency (ms){' '}
               <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
             </div>
+            <div>&nbsp;</div>
           </>
         </EuiToolTip>
       ),
@@ -199,40 +204,44 @@ export function DashboardTable(props: {
           content={
             <EuiText size="xs">
               24 hour time series view of hourly average, hourly percentile, and hourly range of
-              latency for traces within a trace group
+              latency for traces within a trace group.
             </EuiText>
           }
         >
           <>
-            <div style={{ marginRight: 44 }}>24-hour</div>
+            {/* <div style={{ marginRight: 44 }}>24-hour</div> */}
             <div>
-              latency trend{' '}
+              24-hour latency trend{' '}
               <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
             </div>
+            <div>&nbsp;</div>
           </>
         </EuiToolTip>
       ),
       align: 'right',
       sortable: false,
       render: (item, row) =>
-        item ? <LatencyTrendCell item={item} traceGroupName={row.trace_group_name} /> : '-',
+        item ? <LatencyTrendCell item={item} traceGroupName={row.dashboard_trace_group_name} /> : '-',
     },
     {
-      field: 'error_rate',
+      field: 'dashboard_error_rate',
       name: (
         <EuiToolTip
           content={
             <EuiText size="xs">
               Error rate based on count of errors on all traces and spans within a trace group in
               the selected time range (eg. 3 errors on different spans on a single trace counts as 3
-              errors in this calculation)
+              errors in this calculation).
             </EuiText>
           }
         >
-          <span>
-            Error rate{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
+          <>
+            <div>
+              Error rate{' '}
+              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+            </div>
+            <div>&nbsp;</div>
+          </>
         </EuiToolTip>
       ),
       align: 'right',
@@ -241,19 +250,23 @@ export function DashboardTable(props: {
         item === 0 || item ? <EuiText size="s">{`${_.round(item, 2)}%`}</EuiText> : '-',
     },
     {
-      field: 'traces',
+      field: 'dashboard_traces',
       name: (
         <EuiToolTip
           content={
             <EuiText size="xs">
-              Count of the number of traces with unique trace identifiers in the selected time range
+              Count of the number of traces with unique trace identifiers in the selected time
+              range.
             </EuiText>
           }
         >
-          <span>
-            Traces{' '}
-            <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
-          </span>
+          <>
+            <div>
+              Traces{' '}
+              <EuiIcon size="s" color="subdued" type="questionInCircle" className="eui-alignTop" />
+            </div>
+            <div>&nbsp;</div>
+          </>
         </EuiToolTip>
       ),
       align: 'right',
@@ -265,7 +278,7 @@ export function DashboardTable(props: {
             props.addFilter({
               field: 'traceGroup',
               operator: 'is',
-              value: row.trace_group_name,
+              value: row.dashboard_trace_group_name,
               inverted: false,
               disabled: false,
             });
@@ -318,12 +331,7 @@ export function DashboardTable(props: {
               initialPageSize: 10,
               pageSizeOptions: [5, 10, 15],
             }}
-            sorting={{
-              sort: {
-                field: 'latency_variance',
-                direction: 'desc',
-              },
-            }}
+            sorting
             tableLayout="auto"
           />
         ) : (

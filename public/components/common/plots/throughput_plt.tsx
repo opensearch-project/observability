@@ -1,15 +1,26 @@
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
-import React from 'react';
-import { convertToTimeString, fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
+import moment from 'moment';
+import React, { Dispatch, SetStateAction } from 'react';
+import {
+  convertToTimeString,
+  fixedIntervalToMilli,
+  fixedIntervalToTickFormat,
+  NoMatchMessage,
+  PanelTitle,
+} from '..';
 import { Plt } from './plt';
 
-export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInterval: string } }) {
+export function ThroughputPlt(props: {
+  items: { items: Plotly.Data[]; fixedInterval: string };
+  setStartTime: Dispatch<SetStateAction<string>>;
+  setEndTime: Dispatch<SetStateAction<string>>;
+}) {
   const layoutExtra: any = {};
   if (props.items?.items[0] && props.items.items[0].x.length === 1) {
     layoutExtra.xaxis = {
       tickvals: props.items.items[0].x,
       ticktext: [convertToTimeString(props.items.items[0].x[0], props.items.fixedInterval)],
-    }
+    };
   }
   const layout = {
     width: 400,
@@ -62,13 +73,22 @@ export function ThroughputPlt(props: { items: { items: Plotly.Data[]; fixedInter
     // ...layoutExtra,
   } as Partial<Plotly.Layout>;
 
+  const onClick = (event) => {
+    if (!event?.points) return;
+    const point = event.points[0];
+    const start = point.data.x[point.pointNumber];
+    const end = start + fixedIntervalToMilli(props.items.fixedInterval);
+    props.setStartTime(moment(start).toISOString());
+    props.setEndTime(moment(end).toISOString());
+  };
+
   return (
     <>
       <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
         <PanelTitle title="Throughput over time" />
         <EuiHorizontalRule margin="m" />
         {props.items?.items?.length > 0 ? (
-          <Plt data={props.items.items} layout={layout} />
+          <Plt data={props.items.items} layout={layout} onClickHandler={onClick} />
         ) : (
           <NoMatchMessage size="s" />
         )}

@@ -59,7 +59,7 @@ export function Dashboard(props: DashboardProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters]);
+  }, [props.filters, props.startTime, props.endTime]);
 
   const refresh = async () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
@@ -133,7 +133,7 @@ export function Dashboard(props: DashboardProps) {
     }));
     const percentileFilter = getPercentileFilter(
       percentileMaps,
-      condition === 'gte' ? '>= 95th' : ' <= 95th'
+      condition === 'gte' ? '>= 95th' : '<= 95th'
     );
     const newFilters = [...props.filters, percentileFilter, ...additionalFilters];
     props.setFilters(newFilters);
@@ -179,10 +179,18 @@ export function Dashboard(props: DashboardProps) {
             <EuiFlexItem>
               <EuiFlexGroup direction="column">
                 <EuiFlexItem>
-                  <ErrorRatePlt items={errorRatePltItems} />
+                  <ErrorRatePlt
+                    items={errorRatePltItems}
+                    setStartTime={props.setStartTime}
+                    setEndTime={props.setEndTime}
+                  />
                 </EuiFlexItem>
                 <EuiFlexItem>
-                  <ThroughputPlt items={throughputPltItems} />
+                  <ThroughputPlt
+                    items={throughputPltItems}
+                    setStartTime={props.setStartTime}
+                    setEndTime={props.setEndTime}
+                  />
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiFlexItem>

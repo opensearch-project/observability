@@ -8,7 +8,7 @@ interface PlotParamsType {
   left: number;
   mid: number;
   right: number;
-  percentileFilterPresent: boolean;
+  currPercentileFilter: string;
   addFilter: (condition: 'gte' | 'lte') => void;
 }
 
@@ -59,9 +59,9 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
       orientation: 'h',
       width: 1,
       marker: {
-        color: plotParams.percentileFilterPresent ? '#fcfcfc' : '#ffffff',
+        color: plotParams.currPercentileFilter === '<= 95th' ? '#fcfcfc' : '#ffffff',
         line: {
-          color: plotParams.percentileFilterPresent ? '#eceded' : hovered === 'lower' ? '#2e73b5' : '#957ac9',
+          color: plotParams.currPercentileFilter === '<= 95th' ? '#eceded' : hovered === 'lower' ? '#2e73b5' : '#957ac9',
           width: hovered === 'lower' ? 3 : 1,
         },
       },
@@ -73,9 +73,9 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
       orientation: 'h',
       width: 1,
       marker: {
-        color: '#957ac9',
+        color: plotParams.currPercentileFilter === '>= 95th' ? '#aea4d1': '#957ac9',
         line: {
-          color: plotParams.percentileFilterPresent ? '#eceded' : hovered === 'upper' ? '#2e73b5' : '#957ac9',
+          color: hovered === 'upper' ? '#2e73b5' : '#957ac9',
           width: hovered === 'upper' ? 3 : 1,
         },
       },
@@ -84,17 +84,17 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
 
   const renderTooltip = () => {
     return (
-      <EuiFlexGroup gutterSize="s" responsive={false}>
+      <EuiFlexGroup gutterSize="s" responsive={false} alignItems="baseline">
         <EuiFlexItem grow={false}>
           <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
-                <p style={{ whiteSpace: 'nowrap' }}>Latency &lt;95 percentile</p>
+                <p>Latency &lt;95 percentile</p>
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
-                <p style={{ whiteSpace: 'nowrap' }}>Latency &gt;=95 percentile</p>
+                <p>Latency &gt;=95 percentile</p>
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -103,16 +103,12 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
           <EuiFlexGroup direction="column" gutterSize="xs" responsive={false}>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'lower' ? '#ffffff' : '#c9cbce' }}>
-                <p
-                  style={{ whiteSpace: 'nowrap' }}
-                >{`${Math.round(plotParams.left)}ms - ${Math.round(plotParams.mid)}ms`}</p>
+                <p>{`${Math.round(plotParams.left)}ms - ${Math.round(plotParams.mid)}ms`}</p>
               </EuiText>
             </EuiFlexItem>
             <EuiFlexItem>
               <EuiText size="xs" style={{ color: hovered === 'upper' ? '#ffffff' : '#c9cbce' }}>
-                <p
-                  style={{ whiteSpace: 'nowrap' }}
-                >{`${Math.round(plotParams.mid)}ms - ${Math.round(plotParams.right)}ms`}</p>
+                <p>{`${Math.round(plotParams.mid)}ms - ${Math.round(plotParams.right)}ms`}</p>
               </EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -122,7 +118,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   };
 
   const onHoverHandler = (e) => {
-    if (plotParams.percentileFilterPresent) return;
+    if (plotParams.currPercentileFilter) return;
     const mouseX = e.xvals[0];
     if (plotParams.left <= mouseX && mouseX <= plotParams.mid) setHovered('lower');
     else if (plotParams.mid <= mouseX && mouseX <= plotParams.right) setHovered('upper');
@@ -130,12 +126,13 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
   };
 
   const onClickHandler = (e) => {
-    if (plotParams.percentileFilterPresent) return;
+    if (plotParams.currPercentileFilter) return;
     if (e.points[0].fullData.index === 1) plotParams.addFilter('lte');
     else if (e.points[0].fullData.index === 2) plotParams.addFilter('gte');
   };
 
   return (
+  <>
     <EuiToolTip content={renderTooltip()} position="bottom" onMouseOut={() => setHovered('')}>
       <Plt
         data={data}
@@ -144,5 +141,6 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         onClickHandler={onClickHandler}
       />
     </EuiToolTip>
+    </>
   );
 }

@@ -178,7 +178,7 @@ const hitsToSpanDetailData = async (hits) => {
     const serviceName = _.get(hit, ['_source', 'serviceName']);
     const name = _.get(hit, '_source.name');
     const error = hit._source['status.code'] || '';
-    const uniqueLabel = `${serviceName}<br>${name}` + uuid();
+    const uniqueLabel = `${serviceName} <br>${name} ` + uuid();
     // const uniqueLabel = `${serviceName}:${name}` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
 

@@ -45,12 +45,12 @@ export const handleDashboardRequest = async (
           .filter((bucket) => bucket.parent_span.doc_count > 0)
           .map((bucket) => {
             return {
-              trace_group_name: bucket.key,
-              average_latency:
+              dashboard_trace_group_name: bucket.key,
+              dashboard_average_latency:
                 bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
-              traces: bucket.doc_count,
-              latency_variance: latency_variances[bucket.key],
-              error_rate: bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
+              dashboard_traces: bucket.doc_count,
+              dashboard_latency_variance: latency_variances[bucket.key],
+              dashboard_error_rate: bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
             };
           })
       );
@@ -68,7 +68,7 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
       const latencyTrend = await handleDslRequest(
         http,
         DSL,
-        getDashboardLatencyTrendQuery(item.trace_group_name)
+        getDashboardLatencyTrendQuery(item.dashboard_trace_group_name)
       ).catch((error) => console.error(error));
       const buckets = latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.filter(
         (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0

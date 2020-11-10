@@ -28,7 +28,7 @@ export function LinePlt(props: { data: Plotly.Data[] }) {
     height: 15,
     width: 60,
   };
-  return <Plt data={props.data} layout={layout} />;
+  return props.data[0].x.length > 1 ? <Plt data={props.data} layout={layout} /> : <div>-</div>;
 }
 
 export function LatencyPlt(props: { data: Plotly.Data[] }) {
