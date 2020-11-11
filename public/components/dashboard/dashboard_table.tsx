@@ -27,19 +27,6 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
 }) {
-  const [sortField, setSortField] = useState('dashboard_latency_variance');
-  const [sortDirection, setSortDirection] = useState<Direction>('desc');
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(8);
-  const onTableChange = ({ page, sort }) => {
-    const { field, direction } = sort;
-    const { index, size } = page;
-    setSortField(field);
-    setSortDirection(direction);
-    setPageIndex(index);
-    setPageSize(size);
-  };
-
   const getVarianceProps = (items) => {
     if (items.length === 0) {
       return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
@@ -353,15 +340,9 @@ export function DashboardTable(props: {
             columns={columns}
             pagination={{
               initialPageSize: 10,
-              pageSizeOptions: [8, 10, 15],
+              pageSizeOptions: [5, 10, 15],
             }}
-            sorting={{
-              sort: {
-                field: sortField,
-                direction: sortDirection,
-              },
-            }}
-            onChange={onTableChange}
+            sorting
           />
         ) : (
           <NoMatchMessage size="xl" />

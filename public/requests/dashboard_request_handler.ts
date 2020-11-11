@@ -49,7 +49,8 @@ export const handleDashboardRequest = async (
                 bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
               dashboard_traces: bucket.doc_count,
               dashboard_latency_variance: latency_variances[bucket.key],
-              dashboard_error_rate: bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
+              dashboard_error_rate:
+                bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
             };
           })
       );
@@ -120,13 +121,7 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardThroughputPltRequest = (
-  http,
-  DSL,
-  fixedInterval,
-  items,
-  setItems
-) => {
+export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
   handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
@@ -159,13 +154,7 @@ export const handleDashboardThroughputPltRequest = (
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardErrorRatePltRequest = (
-  http,
-  DSL,
-  fixedInterval,
-  items,
-  setItems
-) => {
+export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems) => {
   handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;

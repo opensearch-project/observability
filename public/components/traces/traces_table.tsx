@@ -119,7 +119,7 @@ export function TracesTable(props: { items: any[] }) {
             columns={columns}
             pagination={{
               initialPageSize: 10,
-              pageSizeOptions: [8, 10, 13],
+              pageSizeOptions: [5, 10, 15],
             }}
             sorting={{
               sort: {
