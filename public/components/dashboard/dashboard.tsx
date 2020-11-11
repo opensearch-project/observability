@@ -71,7 +71,6 @@ export function Dashboard(props: DashboardProps) {
       props.http,
       DSL,
       timeFilterDSL,
-      validTraceIds,
       tableItems,
       setTableItems,
       setPercentileMap
@@ -79,7 +78,6 @@ export function Dashboard(props: DashboardProps) {
     handleDashboardThroughputPltRequest(
       props.http,
       DSL,
-      validTraceIds,
       fixedInterval,
       throughputPltItems,
       setThroughputPltItems
@@ -87,7 +85,6 @@ export function Dashboard(props: DashboardProps) {
     handleDashboardErrorRatePltRequest(
       props.http,
       DSL,
-      validTraceIds,
       fixedInterval,
       errorRatePltItems,
       setErrorRatePltItems
@@ -173,7 +170,6 @@ export function Dashboard(props: DashboardProps) {
                 serviceMap={serviceMap}
                 idSelected={serviceMapIdSelected}
                 setIdSelected={setServiceMapIdSelected}
-                addFilter={addFilter}
               />
             </EuiFlexItem>
             <EuiFlexItem>

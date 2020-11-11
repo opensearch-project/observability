@@ -5,11 +5,8 @@ import React from 'react';
 const fields = {
   dashboard: [
     'traceGroup',
-    'startTime',
-    'endTime',
     'status.code',
     'status.message',
-    'serviceName',
     'durationInNanos',
   ],
   traces: [
@@ -18,8 +15,6 @@ const fields = {
     'parentSpanId',
     'name',
     'traceGroup',
-    'startTime',
-    'endTime',
     'status.code',
     'status.message',
     'serviceName',
@@ -29,8 +24,6 @@ const fields = {
     'spanId',
     'traceId',
     'parentSpanId',
-    'startTime',
-    'endTime',
     'status.code',
     'status.message',
     'serviceName',

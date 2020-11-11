@@ -6,7 +6,7 @@ import {
 import { getServiceMapTargetResources } from '../../components/common';
 import { ServiceObject } from '../../components/common/plots/service_map';
 
-export const getServicesQuery = (serviceName = null, validTraceIds?) => {
+export const getServicesQuery = (serviceName = null, DSL?) => {
   const query = {
     size: 0,
     query: {
@@ -32,13 +32,20 @@ export const getServicesQuery = (serviceName = null, validTraceIds?) => {
       },
     },
   };
-  if (validTraceIds) {
+  DSL?.custom?.serviceNames?.map((service) => {
     query.query.bool.must.push({
-      terms: {
-        traceId: validTraceIds,
+      term: {
+        serviceName: service,
       },
     });
-  }
+  });
+  DSL?.custom?.serviceNamesExclude?.map((service) => {
+    query.query.bool.must_not.push({
+      term: {
+        serviceName: service,
+      },
+    });
+  });
   return query;
 };
 

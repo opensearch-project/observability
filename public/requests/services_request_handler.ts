@@ -11,8 +11,7 @@ import { handleDslRequest } from './request_handler';
 import { handleValidTraceIds } from './traces_request_handler';
 
 export const handleServicesRequest = async (http, DSL, items, setItems) => {
-  const validTraceIds = await handleValidTraceIds(http, DSL);
-  handleDslRequest(http, DSL, getServicesQuery(null, validTraceIds))
+  handleDslRequest(http, DSL, getServicesQuery(null, DSL))
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
       return Promise.all(

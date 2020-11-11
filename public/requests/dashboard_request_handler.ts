@@ -15,7 +15,6 @@ export const handleDashboardRequest = async (
   http,
   DSL,
   timeFilterDSL,
-  validTraceIds,
   items,
   setItems,
   setPercentileMap?
@@ -38,7 +37,7 @@ export const handleDashboardRequest = async (
     .catch((error) => console.error(error));
   if (setPercentileMap) setPercentileMap(latency_variances);
 
-  handleDslRequest(http, DSL, getDashboardQuery(validTraceIds))
+  handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets
@@ -124,12 +123,11 @@ const loadRemainingItems = (http, DSL, items, setItems) => {
 export const handleDashboardThroughputPltRequest = (
   http,
   DSL,
-  validTraceIds,
   fixedInterval,
   items,
   setItems
 ) => {
-  handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval, validTraceIds))
+  handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
       const texts = buckets.map(
@@ -164,12 +162,11 @@ export const handleDashboardThroughputPltRequest = (
 export const handleDashboardErrorRatePltRequest = (
   http,
   DSL,
-  validTraceIds,
   fixedInterval,
   items,
   setItems
 ) => {
-  handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval, validTraceIds))
+  handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
       const texts = buckets.map(
