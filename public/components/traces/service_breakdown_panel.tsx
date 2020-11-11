@@ -43,7 +43,9 @@ export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
           <EuiFlexGroup direction="column" alignItems="flexStart" gutterSize="m" responsive={false}>
             {props.data[0].marker.colors.map((color, i) => (
               <EuiFlexItem key={`label-${i}`}>
-                <EuiHealth color={color}>{props.data[0].labels[i]}</EuiHealth>
+                <EuiHealth color={color}>
+                  <div style={{ whiteSpace: 'nowrap' }}>{props.data[0].labels[i]}</div>
+                </EuiHealth>
               </EuiFlexItem>
             ))}
           </EuiFlexGroup>

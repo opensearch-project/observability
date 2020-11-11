@@ -80,13 +80,13 @@ export function ServiceMapScale(props: {
         },
         margin: {
           l: 0,
-          r: 45,
+          r: 60,
           b: 10,
           t: 10,
           pad: 0,
         },
         height: 270,
-        width: 62,
+        width: 77,
       },
       result.layout
     ) as Partial<Plotly.Layout>;

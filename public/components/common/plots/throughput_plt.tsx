@@ -42,7 +42,9 @@ export function ThroughputPlt(props: {
             arrowhead: 0,
             xref: 'x',
             yref: 'y',
-            text: `Now: ${props.items.items[0].y[props.items.items[0].y.length - 1]}`,
+            text: `Now: ${props.items.items[0].y[props.items.items[0].y.length - 1]?.toLocaleString(
+              undefined
+            )}`,
             ax: 0,
             ay: -160,
             borderpad: 10,
@@ -59,7 +61,7 @@ export function ThroughputPlt(props: {
         },
         yaxis: {
           title: {
-            text: 'Throughput',
+            text: 'Throughput (n)',
             font: {
               size: 12,
             },
@@ -84,6 +86,7 @@ export function ThroughputPlt(props: {
     const end = start + fixedIntervalToMilli(props.items.fixedInterval);
     props.setStartTime(moment(start).toISOString());
     props.setEndTime(moment(end).toISOString());
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
   };
 
   return (

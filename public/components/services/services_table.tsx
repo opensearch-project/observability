@@ -69,10 +69,11 @@ export function ServicesTable(props: {
         },
         {
           field: 'number_of_connected_services',
-          name: 'Number of connected services',
+          name: 'No. of connected services',
           align: 'right',
           sortable: true,
           truncateText: true,
+          width: '80px',
           render: (item) => (item === 0 || item ? item : '-'),
         },
         {
@@ -82,7 +83,7 @@ export function ServicesTable(props: {
           sortable: true,
           truncateText: true,
           render: (item) =>
-            item ? <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText> : '-',
+            item ? <EuiText size="s">{_.truncate(item, { length: 50 })}</EuiText> : '-',
         },
         {
           field: 'traces',

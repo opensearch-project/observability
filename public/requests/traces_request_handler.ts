@@ -98,20 +98,19 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
 };
 
 const getColor = (label) => {
-  // const colors = ['#6db19a', '#6a92bc', '#c56886', '#8c73b3', '#c191ad', '#d2bf67', '#b6a98c', '#d08e52', '#a0685a', '#d86e54'];
   const colors = [
-    '#6DCCB1',
-    '#79AAD9',
-    '#A987D1',
-    '#E4A6C7',
-    '#F1D86F',
-    '#D2C0A0',
-    '#F5A35C',
-    '#C47C6C',
-    '#FF7E62',
-    '#d577bc',
-    '#81ceea',
-    '#987dcb',
+    '#7492e7',
+    '#c33d69',
+    '#2ea597',
+    '#8456ce',
+    '#e07941',
+    '#3759ce',
+    '#ce567c',
+    '#9469d6',
+    '#4066df',
+    '#da7596',
+    '#a783e1',
+    '#5978e3',
   ];
   let hash = 0;
   for (let i = 0; i < label.length; i++) {

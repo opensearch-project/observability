@@ -47,7 +47,7 @@ export function ErrorRatePlt(props: {
       },
       yaxis: {
         title: {
-          text: 'Error rate',
+          text: 'Error rate (%)',
           font: {
             size: 12,
           },
@@ -77,6 +77,7 @@ export function ErrorRatePlt(props: {
     const end = start + fixedIntervalToMilli(props.items.fixedInterval);
     props.setStartTime(moment(start).toISOString());
     props.setEndTime(moment(end).toISOString());
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
   };
 
   return (

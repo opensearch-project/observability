@@ -152,7 +152,7 @@ export const handleDashboardThroughputPltRequest = (
                 hoverlabel: {
                   align: 'left',
                 },
-                hovertemplate: '%{text}<br>Throughput: %{y}<extra></extra>',
+                hovertemplate: '%{text}<br>Throughput: %{y:,}<extra></extra>',
               },
             ]
           : [];

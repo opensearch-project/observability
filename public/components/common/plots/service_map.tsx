@@ -114,11 +114,12 @@ export function ServiceMap({
     hoverNode: (event) => {},
   };
 
-  const onFocus = (service: string) => {
+  const onFocus = (service: string, networkInstance?) => {
     if (service.length === 0) {
       setInvalid(false);
     } else if (serviceMap[service]) {
-      network.focus(serviceMap[service].id, { animation: true });
+      if (!networkInstance) networkInstance = network;
+      networkInstance.focus(serviceMap[service].id, { animation: true });
       setInvalid(false);
     } else {
       setInvalid(true);
@@ -182,7 +183,10 @@ export function ServiceMap({
                   graph={items.graph}
                   options={options}
                   events={events}
-                  getNetwork={(networkInstance) => setNetwork(networkInstance)}
+                  getNetwork={(networkInstance) => {
+                    setNetwork(networkInstance);
+                    if (currService) onFocus(currService, networkInstance);
+                  }}
                 />
               )}
             </EuiFlexItem>

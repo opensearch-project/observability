@@ -29,10 +29,15 @@ export function DashboardTable(props: {
 }) {
   const [sortField, setSortField] = useState('dashboard_latency_variance');
   const [sortDirection, setSortDirection] = useState<Direction>('desc');
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(8);
   const onTableChange = ({ page, sort }) => {
     const { field, direction } = sort;
+    const { index, size } = page;
     setSortField(field);
     setSortDirection(direction);
+    setPageIndex(index);
+    setPageSize(size);
   };
 
   const getVarianceProps = (items) => {
@@ -298,8 +303,7 @@ export function DashboardTable(props: {
           <EuiToolTip
             content={
               <EuiText size="xs">
-                Count of the number of traces with unique trace identifiers in the selected time
-                range.
+                Count of traces with unique trace identifiers in the selected time range.
               </EuiText>
             }
           >

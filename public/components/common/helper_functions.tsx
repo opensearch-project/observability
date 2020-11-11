@@ -28,7 +28,7 @@ export function NoMatchMessage(props: { size: SpacerSize }) {
         body={
           <EuiText>
             No data matches the selected filter. Clear the filter and/or increase the time range to
-            see more results
+            see more results.
           </EuiText>
         }
       />
