@@ -23,15 +23,43 @@ export const getServicesQuery = (serviceName = null, DSL?) => {
           field: 'serviceName',
         },
         aggs: {
-          trace_count: {
-            cardinality: {
-              field: 'traceId',
+          traces: {
+            filter: {
+              bool: {
+                should: [
+                  {
+                    bool: {
+                      must_not: [
+                        {
+                          exists: {
+                            field: 'parentSpanId',
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    term: {
+                      parentSpanId: {
+                        value: '',
+                      },
+                    },
+                  },
+                ],
+              },
             },
           },
         },
       },
     },
   };
+  if (serviceName) {
+    query.query.bool.must.push({
+      term: {
+        serviceName: serviceName,
+      },
+    });
+  }
   DSL?.custom?.serviceNames?.map((service) => {
     query.query.bool.must.push({
       term: {
@@ -172,12 +200,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   };
 };
 
-export const getServiceMetricsQuery = (
-  DSL,
-  serviceNames: string[],
-  map: ServiceObject,
-  validTraceIds: string[]
-) => {
+export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
   const traceGroupFilter = new Set(DSL.custom?.traceGroup);
   const targetResource =
     traceGroupFilter.size > 0
@@ -195,13 +218,7 @@ export const getServiceMetricsQuery = (
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            terms: {
-              traceId: validTraceIds,
-            },
-          },
-        ],
+        must: [],
         should: [],
         must_not: [],
         filter: [

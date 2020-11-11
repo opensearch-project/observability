@@ -54,12 +54,18 @@ export const getTraceGroupPercentilesQuery = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null, validTraceIds?: string[]) => {
+export const getTracesQuery = (traceId = null) => {
   const query: any = {
     size: 0,
     query: {
       bool: {
-        must: [],
+        must: [
+          {
+            exists: {
+              field: 'traceGroup',
+            },
+          },
+        ],
         filter: [],
         should: [],
         must_not: [],
@@ -72,67 +78,25 @@ export const getTracesQuery = (traceId = null, validTraceIds?: string[]) => {
           size: 10000,
         },
         aggs: {
-          service: {
-            filter: {
-              bool: {
-                must: [],
-                must_not: [],
+          latency: {
+            max: {
+              script: {
+                source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
+                lang: 'painless',
               },
             },
           },
-          parent_span: {
-            filter: {
-              bool: {
-                must: [
-                  {
-                    bool: {
-                      should: [
-                        {
-                          bool: {
-                            must_not: [
-                              {
-                                exists: {
-                                  field: 'parentSpanId',
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        {
-                          term: {
-                            parentSpanId: {
-                              value: '',
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
+          trace_group_name: {
+            terms: {
+              field: 'name',
+              size: 1,
             },
-            aggs: {
-              latency: {
-                max: {
-                  script: {
-                    source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
-                    lang: 'painless',
-                  },
-                },
-              },
-              trace_group_name: {
-                terms: {
-                  field: 'name',
-                  size: 1,
-                },
-              },
-              error_count: {
-                filter: {
-                  range: {
-                    'status.code': {
-                      gt: '0',
-                    },
-                  },
+          },
+          error_count: {
+            filter: {
+              range: {
+                'status.code': {
+                  gt: '0',
                 },
               },
             },
@@ -146,18 +110,10 @@ export const getTracesQuery = (traceId = null, validTraceIds?: string[]) => {
       },
     },
   };
-
   if (traceId) {
     query.query.bool.must.push({
       term: {
         traceId,
-      },
-    });
-  }
-  if (validTraceIds) {
-    query.query.bool.must.push({
-      terms: {
-        traceId: validTraceIds,
       },
     });
   }

@@ -7,7 +7,6 @@ import {
   handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
-import { handleValidTraceIds } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
 import {
   filtersToDsl,
@@ -65,7 +64,6 @@ export function Dashboard(props: DashboardProps) {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
-    const validTraceIds = await handleValidTraceIds(props.http, DSL);
 
     handleDashboardRequest(
       props.http,
@@ -89,7 +87,7 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, null, validTraceIds);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
   };
 
   const addFilter = (filter: FilterType) => {

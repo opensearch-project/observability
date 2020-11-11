@@ -2,40 +2,29 @@ import { EuiFieldText, EuiFormControlLayoutDelimited, EuiFormRow, EuiSpacer } fr
 import _ from 'lodash';
 import React from 'react';
 
-const fields = {
-  dashboard: [
-    'traceGroup',
-    'status.code',
-    'status.message',
-    'durationInNanos',
-  ],
-  traces: [
-    'spanId',
-    'traceId',
-    'parentSpanId',
-    'name',
-    'traceGroup',
-    'status.code',
-    'status.message',
-    'serviceName',
-    'durationInNanos',
-  ],
-  services: [
-    'spanId',
-    'traceId',
-    'parentSpanId',
-    'status.code',
-    'status.message',
-    'serviceName',
-    'durationInNanos',
-  ],
-};
+const getFields = (page) =>
+  ({
+    dashboard: ['status.code', 'status.message', 'durationInNanos'],
+    traces: [
+      'spanId',
+      'traceId',
+      'parentSpanId',
+      'name',
+      'traceGroup',
+      'status.code',
+      'status.message',
+      'serviceName',
+      'durationInNanos',
+    ],
+    services: [],
+  }[page]);
 // filters will take effect and can be manually added
-export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => fields[page];
+export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => getFields(page);
 // filters will take effect
 export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => {
-  if (page !== 'services') return [...fields[page], 'Latency percentile within trace group'];
-  return fields[page];
+  const fields = getFields(page);
+  if (page !== 'services') return [...fields, 'Latency percentile within trace group'];
+  return fields;
 };
 
 export const getType = (field: string): string => {

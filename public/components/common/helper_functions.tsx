@@ -316,7 +316,6 @@ export const filtersToDsl = (
         (filter.operator === 'is' || filter.operator === 'is not')
       ) {
         DSL.custom[filter.inverted ? 'serviceNamesExclude' : 'serviceNames'].push(filter.value);
-        return;
       }
 
       if (filter.field === 'traceGroup') {

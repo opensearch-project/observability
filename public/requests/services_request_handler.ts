@@ -8,7 +8,6 @@ import {
   getServicesQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
-import { handleValidTraceIds } from './traces_request_handler';
 
 export const handleServicesRequest = async (http, DSL, items, setItems) => {
   handleDslRequest(http, DSL, getServicesQuery(null, DSL))
@@ -25,7 +24,7 @@ export const handleServicesRequest = async (http, DSL, items, setItems) => {
             average_latency: serviceObject[bucket.key].latency,
             error_rate: serviceObject[bucket.key].error_rate,
             throughput: serviceObject[bucket.key].throughput,
-            traces: bucket.trace_count.value,
+            traces: bucket.traces.doc_count,
             connected_services: connectedServices.join(', '),
             number_of_connected_services: connectedServices.length,
           };
@@ -44,7 +43,6 @@ export const handleServiceMapRequest = async (
   items?,
   setItems?,
   currService?,
-  validTraceIds = undefined
 ) => {
   const map: ServiceObject = {};
   let id = 1;
@@ -96,13 +94,11 @@ export const handleServiceMapRequest = async (
     )
     .catch((error) => console.error(error));
 
-  if (validTraceIds === undefined) validTraceIds = await handleValidTraceIds(http, DSL);
-
   // service map handles DSL differently
   const latencies = await handleDslRequest(
     http,
     {},
-    getServiceMetricsQuery(DSL, Object.keys(map), map, validTraceIds)
+    getServiceMetricsQuery(DSL, Object.keys(map), map)
   );
   latencies.aggregations.service_name.buckets.map((bucket) => {
     map[bucket.key].latency = bucket.average_latency.value;
@@ -147,7 +143,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
         average_latency: serviceObject[bucket.key].latency,
         error_rate: serviceObject[bucket.key].error_rate,
         throughput: serviceObject[bucket.key].throughput,
-        traces: bucket.trace_count.value,
+        traces: bucket.traces.doc_count,
       };
     })
     .then((newFields) => {

@@ -104,23 +104,7 @@ export function DashboardTable(props: {
         align: 'left',
         sortable: true,
         render: (item) =>
-          item ? (
-            <EuiLink
-              onClick={() =>
-                props.addFilter({
-                  field: 'traceGroup',
-                  operator: 'is',
-                  value: item,
-                  inverted: false,
-                  disabled: false,
-                })
-              }
-            >
-              {_.truncate(item, { length: 24 })}
-            </EuiLink>
-          ) : (
-            '-'
-          ),
+          item ? <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText> : '-',
       },
       {
         field: 'dashboard_latency_variance',
@@ -175,24 +159,7 @@ export function DashboardTable(props: {
                 right: item[2],
                 currPercentileFilter,
                 addFilter: (condition?: 'lte' | 'gte') => {
-                  const traceGroupFilter = {
-                    field: 'traceGroup',
-                    operator: 'is',
-                    value: row.dashboard_trace_group_name,
-                    inverted: false,
-                    disabled: false,
-                  };
-                  const additionalFilters = [traceGroupFilter];
-                  for (const addedFilter of props.filters) {
-                    if (
-                      addedFilter.field === traceGroupFilter.field &&
-                      addedFilter.operator === traceGroupFilter.operator &&
-                      addedFilter.value === traceGroupFilter.value
-                    ) {
-                      additionalFilters.pop();
-                    }
-                  }
-                  props.addPercentileFilter(condition, additionalFilters);
+                  props.addPercentileFilter(condition);
                 },
               }}
             />
