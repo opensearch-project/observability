@@ -123,7 +123,7 @@ export function TraceView(props: TraceViewProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
-        text: 'Trace analytics',
+        text: 'Trace Analytics',
         href: '#',
       },
       {

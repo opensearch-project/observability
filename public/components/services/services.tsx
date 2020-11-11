@@ -15,7 +15,7 @@ export function Services(props: ServicesProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
-        text: 'Trace analytics',
+        text: 'Trace Analytics',
         href: '#',
       },
       {

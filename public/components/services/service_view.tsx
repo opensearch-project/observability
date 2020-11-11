@@ -37,7 +37,7 @@ export function ServiceView(props: ServiceViewProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
-        text: 'Trace analytics',
+        text: 'Trace Analytics',
         href: '#',
       },
       {

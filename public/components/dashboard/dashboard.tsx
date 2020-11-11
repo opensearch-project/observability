@@ -38,7 +38,7 @@ export function Dashboard(props: DashboardProps) {
   useEffect(() => {
     props.setBreadcrumbs([
       {
-        text: 'Trace analytics',
+        text: 'Trace Analytics',
         href: '#',
       },
       {
