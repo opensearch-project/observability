@@ -114,7 +114,7 @@ export function Dashboard(props: DashboardProps) {
             `{"range":{"durationInNanos":{"${condition}"`
           )
         );
-        newFilter.value = condition === 'gte' ? '>= 95th' : ' <= 95th';
+        newFilter.value = condition === 'gte' ? '>= 95th' : '< 95th';
         const newFilters = [...props.filters, ...additionalFilters];
         newFilters.splice(i, 1, newFilter);
         props.setFilters(newFilters);
@@ -128,7 +128,7 @@ export function Dashboard(props: DashboardProps) {
     }));
     const percentileFilter = getPercentileFilter(
       percentileMaps,
-      condition === 'gte' ? '>= 95th' : '<= 95th'
+      condition === 'gte' ? '>= 95th' : '< 95th'
     );
     const newFilters = [...props.filters, percentileFilter, ...additionalFilters];
     props.setFilters(newFilters);

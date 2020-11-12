@@ -61,10 +61,10 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         orientation: 'h',
         width: 1,
         marker: {
-          color: plotParams.currPercentileFilter === '<= 95th' ? '#fcfcfc' : '#ffffff',
+          color: plotParams.currPercentileFilter === '< 95th' ? '#fcfcfc' : '#ffffff',
           line: {
             color:
-              plotParams.currPercentileFilter === '<= 95th'
+              plotParams.currPercentileFilter === '< 95th'
                 ? '#eceded'
                 : hovered === 'lower'
                 ? '#2e73b5'

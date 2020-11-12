@@ -6,10 +6,7 @@ const getFields = (page) =>
   ({
     dashboard: ['status.code', 'status.message', 'durationInNanos'],
     traces: [
-      'spanId',
       'traceId',
-      'parentSpanId',
-      'name',
       'traceGroup',
       'status.code',
       'status.message',
