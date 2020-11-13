@@ -121,22 +121,6 @@ export const handleServiceMapRequest = async (
     map[bucket.key].throughput = bucket.doc_count;
   });
 
-  // load related services to set nodes opacity
-  if (currService) {
-    const traces = await handleDslRequest(http, DSL, getRelatedServicesQuery(currService))
-      .then((response) =>
-        response.aggregations.traces.buckets.filter((bucket) => bucket.service.doc_count > 0)
-      )
-      .catch((error) => console.error(error));
-    const maxNumServices = Object.keys(map).length;
-    const relatedServices = new Set<string>();
-    for (let i = 0; i < traces.length; i++) {
-      traces[i].all_services.buckets.map((bucket) => relatedServices.add(bucket.key));
-      if (relatedServices.size === maxNumServices) break;
-    }
-    map[currService].relatedServices = [...relatedServices];
-  }
-
   if (setItems) setItems(map);
   return map;
 };
