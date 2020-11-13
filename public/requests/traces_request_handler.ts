@@ -63,7 +63,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     return map;
   });
 
-  handleDslRequest(http, DSL, getTracesQuery(undefined, sort))
+  return handleDslRequest(http, DSL, getTracesQuery(undefined, sort))
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket) => {

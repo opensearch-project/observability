@@ -51,10 +51,10 @@ export function Traces(props: TracesProps) {
     if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
-  const refresh = (sort?: PropertySort) => {
+  const refresh = async (sort?: PropertySort) => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
-    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
+    await handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
   };
 
   return (

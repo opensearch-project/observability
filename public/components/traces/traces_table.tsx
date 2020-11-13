@@ -59,7 +59,7 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
                   {_.truncate(item, { length: 24 })}
                 </EuiLink>
               </EuiFlexItem>
-              <EuiFlexItem grow={5}>
+              <EuiFlexItem grow={false}>
                 <EuiCopy textToCopy={item}>
                   {(copy) => (
                     <EuiButtonIcon
@@ -72,6 +72,7 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
                   )}
                 </EuiCopy>
               </EuiFlexItem>
+              <EuiFlexItem grow={3} />
             </EuiFlexGroup>
           ),
         },
@@ -130,11 +131,8 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
     },
   });
 
-  const onTableChange = ({ page, sort }) => {
+  const onTableChange = async ({ page, sort }) => {
     if (typeof sort?.field !== 'string') return;
-    setSorting({ sort });
-
-    if (sort.field.length === 0 || props.items?.length < TRACES_MAX_NUM) return;
 
     const field = {
       trace_id: '_key',
@@ -144,7 +142,20 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
       error_count: 'error_count',
       last_updated: 'last_updated',
     }[sort.field];
-    if (field) props.refresh({ ...sort, field });
+    if (!field || props.items?.length < TRACES_MAX_NUM) {
+      setSorting({ sort });
+      return;
+    }
+
+    // using await when soring the default sorted field leads to a bug in UI
+    if (sort.field === 'trace_id') {
+      props.refresh({ ...sort, field });
+      setSorting({ sort });
+      return;
+    }
+
+    await props.refresh({ ...sort, field });
+    setSorting({ sort });
   };
 
   return (
