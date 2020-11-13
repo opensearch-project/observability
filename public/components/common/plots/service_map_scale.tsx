@@ -50,6 +50,7 @@ export function ServiceMapScale(props: {
           ticksuffix: props.idSelected === 'error_rate' ? '%' : '',
           title: {
             text: title,
+            standoff: 15,
           },
         },
       },
