@@ -1,4 +1,4 @@
-(window["opendistro-notebooks-kibana_bundle_jsonpfunction"] = window["opendistro-notebooks-kibana_bundle_jsonpfunction"] || []).push([[0],{
+(window["opendistroNotebooksKibana_bundle_jsonpfunction"] = window["opendistroNotebooksKibana_bundle_jsonpfunction"] || []).push([[0],{
 
 /***/ "../../node_modules/path-browserify/index.js":
 /*!*******************************************************************************************!*\

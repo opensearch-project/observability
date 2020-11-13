@@ -1,4 +1,4 @@
-(window["opendistro-notebooks-kibana_bundle_jsonpfunction"] = window["opendistro-notebooks-kibana_bundle_jsonpfunction"] || []).push([[1],{
+(window["opendistroNotebooksKibana_bundle_jsonpfunction"] = window["opendistroNotebooksKibana_bundle_jsonpfunction"] || []).push([[1],{
 
 /***/ "./public/application.tsx":
 /*!********************************!*\

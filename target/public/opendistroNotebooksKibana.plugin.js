@@ -36,7 +36,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		"opendistro-notebooks-kibana": 0
+/******/ 		"opendistroNotebooksKibana": 0
 /******/ 	};
 /******/
 /******/
@@ -187,7 +187,7 @@
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
-/******/ 	var jsonpArray = window["opendistro-notebooks-kibana_bundle_jsonpfunction"] = window["opendistro-notebooks-kibana_bundle_jsonpfunction"] || [];
+/******/ 	var jsonpArray = window["opendistroNotebooksKibana_bundle_jsonpfunction"] = window["opendistroNotebooksKibana_bundle_jsonpfunction"] || [];
 /******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
 /******/ 	jsonpArray.push = webpackJsonpCallback;
 /******/ 	jsonpArray = jsonpArray.slice();
@@ -622,14 +622,14 @@ module.exports = function (list, options) {
 
 /***/ }),
 
-/***/ "../../node_modules/val-loader/dist/cjs.js?key=opendistro-notebooks-kibana!../../packages/kbn-ui-shared-deps/public_path_module_creator.js":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** /Users/lijshu/Projects/7.9.1/kibana-workbench/node_modules/val-loader/dist/cjs.js?key=opendistro-notebooks-kibana!/Users/lijshu/Projects/7.9.1/kibana-workbench/packages/kbn-ui-shared-deps/public_path_module_creator.js ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/val-loader/dist/cjs.js?key=opendistroNotebooksKibana!../../packages/kbn-ui-shared-deps/public_path_module_creator.js":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** /Users/lijshu/Projects/7.9.1/kibana-workbench/node_modules/val-loader/dist/cjs.js?key=opendistroNotebooksKibana!/Users/lijshu/Projects/7.9.1/kibana-workbench/packages/kbn-ui-shared-deps/public_path_module_creator.js ***!
+  \*******************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__.p = window.__kbnPublicPath__['opendistro-notebooks-kibana']
+__webpack_require__.p = window.__kbnPublicPath__['opendistroNotebooksKibana']
 
 /***/ }),
 
@@ -642,9 +642,9 @@ __webpack_require__.p = window.__kbnPublicPath__['opendistro-notebooks-kibana']
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_val_loader_dist_cjs_js_key_opendistro_notebooks_kibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/val-loader/dist/cjs.js?key=opendistro-notebooks-kibana!../../../kbn-ui-shared-deps/public_path_module_creator.js */ "../../node_modules/val-loader/dist/cjs.js?key=opendistro-notebooks-kibana!../../packages/kbn-ui-shared-deps/public_path_module_creator.js");
-/* harmony import */ var _node_modules_val_loader_dist_cjs_js_key_opendistro_notebooks_kibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_val_loader_dist_cjs_js_key_opendistro_notebooks_kibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0__);
-__kbnBundles__.define('plugin/opendistro-notebooks-kibana/public', __webpack_require__, /*require.resolve*/(/*! ../../../../plugins/kibana-notebooks/public */ "./public/index.ts"))
+/* harmony import */ var _node_modules_val_loader_dist_cjs_js_key_opendistroNotebooksKibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/val-loader/dist/cjs.js?key=opendistroNotebooksKibana!../../../kbn-ui-shared-deps/public_path_module_creator.js */ "../../node_modules/val-loader/dist/cjs.js?key=opendistroNotebooksKibana!../../packages/kbn-ui-shared-deps/public_path_module_creator.js");
+/* harmony import */ var _node_modules_val_loader_dist_cjs_js_key_opendistroNotebooksKibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_val_loader_dist_cjs_js_key_opendistroNotebooksKibana_kbn_ui_shared_deps_public_path_module_creator_js__WEBPACK_IMPORTED_MODULE_0__);
+__kbnBundles__.define('plugin/opendistroNotebooksKibana/public', __webpack_require__, /*require.resolve*/(/*! ../../../../plugins/kibana-notebooks/public */ "./public/index.ts"))
 
 /***/ }),
 
@@ -716,11 +716,11 @@ switch (window.__kbnThemeTag__) {
     return __webpack_require__(/*! ./index.scss?v7light */ "./public/index.scss?v7light");
 
   case 'v8dark':
-    console.error(new Error("SASS files in [opendistro-notebooks-kibana] were not built for theme [v8dark]. Styles were compiled using the [v7dark] theme instead to keep Kibana somewhat usable. Please adjust the advanced settings to make use of [v7dark,v7light] or make sure the KBN_OPTIMIZER_THEMES environment variable includes [v8dark] in a comma separated list of themes you want to compile. You can also set it to \"*\" to build all themes."));
+    console.error(new Error("SASS files in [opendistroNotebooksKibana] were not built for theme [v8dark]. Styles were compiled using the [v7dark] theme instead to keep Kibana somewhat usable. Please adjust the advanced settings to make use of [v7dark,v7light] or make sure the KBN_OPTIMIZER_THEMES environment variable includes [v8dark] in a comma separated list of themes you want to compile. You can also set it to \"*\" to build all themes."));
     return __webpack_require__(/*! ./index.scss?v7dark */ "./public/index.scss?v7dark")
 
   case 'v8light':
-    console.error(new Error("SASS files in [opendistro-notebooks-kibana] were not built for theme [v8light]. Styles were compiled using the [v7light] theme instead to keep Kibana somewhat usable. Please adjust the advanced settings to make use of [v7dark,v7light] or make sure the KBN_OPTIMIZER_THEMES environment variable includes [v8light] in a comma separated list of themes you want to compile. You can also set it to \"*\" to build all themes."));
+    console.error(new Error("SASS files in [opendistroNotebooksKibana] were not built for theme [v8light]. Styles were compiled using the [v7light] theme instead to keep Kibana somewhat usable. Please adjust the advanced settings to make use of [v7dark,v7light] or make sure the KBN_OPTIMIZER_THEMES environment variable includes [v8light] in a comma separated list of themes you want to compile. You can also set it to \"*\" to build all themes."));
     return __webpack_require__(/*! ./index.scss?v7light */ "./public/index.scss?v7light")
 }
 
@@ -1037,4 +1037,4 @@ module.exports = __kbnSharedDeps__.StyledComponents;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=opendistro-notebooks-kibana.plugin.js.map
+//# sourceMappingURL=opendistroNotebooksKibana.plugin.js.map

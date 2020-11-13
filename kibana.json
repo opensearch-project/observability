@@ -1,5 +1,5 @@
 {
-  "id": "opendistro-notebooks-kibana",
+  "id": "opendistroNotebooksKibana",
   "version": "1.11.0.0",
   "kibanaVersion": "7.9.1",
   "server": true,
