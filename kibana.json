@@ -1,0 +1,9 @@
+{
+  "id": "opendistroTraceAnalytics",
+  "version": "0.0.3",
+  "kibanaVersion": "7.9.1",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["navigation"],
+  "optionalPlugins": []
+}
