@@ -13,7 +13,7 @@
  *   permissions and limitations under the License.
  */
 
-import { EuiSpacer, EuiTitle } from '@elastic/eui';
+import { EuiSpacer, EuiTitle, PropertySort } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
@@ -51,10 +51,10 @@ export function Traces(props: TracesProps) {
     if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
-  const refresh = () => {
+  const refresh = (sort?: PropertySort) => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
-    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems);
+    handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
   };
 
   return (
@@ -75,7 +75,7 @@ export function Traces(props: TracesProps) {
         page="traces"
       />
       <EuiSpacer size="m" />
-      {props.indicesExist ? <TracesTable items={tableItems} /> : <MissingConfigurationMessage />}
+      {props.indicesExist ? <TracesTable items={tableItems} refresh={refresh} /> : <MissingConfigurationMessage />}
     </>
   );
 }

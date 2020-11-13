@@ -13,6 +13,9 @@
  *   permissions and limitations under the License.
  */
 
+import { PropertySort } from '@elastic/eui';
+import { TRACES_MAX_NUM } from '../../../common';
+
 export const getTraceGroupPercentilesQuery = () => {
   const query: any = {
     size: 0,
@@ -69,7 +72,7 @@ export const getTraceGroupPercentilesQuery = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null) => {
+export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
   const query: any = {
     size: 0,
     query: {
@@ -90,7 +93,7 @@ export const getTracesQuery = (traceId = null) => {
       traces: {
         terms: {
           field: 'traceId',
-          size: 10000,
+          size: TRACES_MAX_NUM,
         },
         aggs: {
           latency: {
@@ -101,7 +104,7 @@ export const getTracesQuery = (traceId = null) => {
               },
             },
           },
-          trace_group_name: {
+          trace_group: {
             terms: {
               field: 'name',
               size: 1,
@@ -131,6 +134,11 @@ export const getTracesQuery = (traceId = null) => {
         traceId,
       },
     });
+  }
+  if (sort) {
+    query.aggs.traces.terms.order = {
+      [sort.field]: sort.direction
+    }
   }
   return query;
 };

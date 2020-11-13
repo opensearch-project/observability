@@ -25,12 +25,14 @@ import {
   EuiSpacer,
   EuiTableFieldDataColumnType,
   EuiText,
+  PropertySort,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { TRACES_MAX_NUM } from '../../../common';
 import { NoMatchMessage, PanelTitle } from '../common';
 
-export function TracesTable(props: { items: any[] }) {
+export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort) => void }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
@@ -121,6 +123,30 @@ export function TracesTable(props: { items: any[] }) {
 
   const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
 
+  const [sorting, setSorting] = useState<{ sort: PropertySort }>({
+    sort: {
+      field: 'trace_id',
+      direction: 'asc',
+    },
+  });
+
+  const onTableChange = ({ page, sort }) => {
+    if (typeof sort?.field !== 'string') return;
+    setSorting({ sort });
+
+    if (sort.field.length === 0 || props.items?.length < TRACES_MAX_NUM) return;
+
+    const field = {
+      trace_id: '_key',
+      trace_group: null,
+      latency: 'latency',
+      percentile_in_trace_group: null,
+      error_count: 'error_count',
+      last_updated: 'last_updated',
+    }[sort.field];
+    if (field) props.refresh({ ...sort, field });
+  };
+
   return (
     <>
       <EuiPanel>
@@ -136,12 +162,8 @@ export function TracesTable(props: { items: any[] }) {
               initialPageSize: 10,
               pageSizeOptions: [5, 10, 15],
             }}
-            sorting={{
-              sort: {
-                field: 'trace_id',
-                direction: 'asc',
-              },
-            }}
+            sorting={sorting}
+            onTableChange={onTableChange}
           />
         ) : (
           <NoMatchMessage size="xl" />
