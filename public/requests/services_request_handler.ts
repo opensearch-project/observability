@@ -24,10 +24,18 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleServicesRequest = async (http, DSL, items, setItems) => {
-  handleDslRequest(http, DSL, getServicesQuery(null, DSL))
+export const handleServicesRequest = async (
+  http,
+  DSL,
+  items,
+  setItems,
+  setServiceMap?,
+  serviceNameFilter?
+) => {
+  handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL))
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
+      if (setServiceMap) setServiceMap(serviceObject);
       return Promise.all(
         response.aggregations.service.buckets.map((bucket) => {
           const connectedServices = [
@@ -39,7 +47,7 @@ export const handleServicesRequest = async (http, DSL, items, setItems) => {
             average_latency: serviceObject[bucket.key].latency,
             error_rate: serviceObject[bucket.key].error_rate,
             throughput: serviceObject[bucket.key].throughput,
-            traces: bucket.traces.doc_count,
+            traces: bucket.trace_count.value,
             connected_services: connectedServices.join(', '),
             number_of_connected_services: connectedServices.length,
           };
@@ -52,13 +60,7 @@ export const handleServicesRequest = async (http, DSL, items, setItems) => {
     .catch((error) => console.error(error));
 };
 
-export const handleServiceMapRequest = async (
-  http,
-  DSL,
-  items?,
-  setItems?,
-  currService?,
-) => {
+export const handleServiceMapRequest = async (http, DSL, items?, setItems?, currService?) => {
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery())
@@ -142,7 +144,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
         average_latency: serviceObject[bucket.key].latency,
         error_rate: serviceObject[bucket.key].error_rate,
         throughput: serviceObject[bucket.key].throughput,
-        traces: bucket.traces.doc_count,
+        traces: bucket.trace_count.value,
       };
     })
     .then((newFields) => {

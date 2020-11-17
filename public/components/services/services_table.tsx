@@ -14,6 +14,7 @@
  */
 
 import {
+  EuiFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -26,7 +27,7 @@ import {
   EuiText,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NoMatchMessage, PanelTitle } from '../common';
 import { FilterType } from '../common/filters/filters';
 
@@ -34,6 +35,9 @@ export function ServicesTable(props: {
   items: any[];
   addFilter: (filter: FilterType) => void;
   setRedirect: (redirect: boolean) => void;
+  serviceQuery: string;
+  setServiceQuery: (query: string) => void;
+  refresh: () => void;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -106,23 +110,7 @@ export function ServicesTable(props: {
           align: 'right',
           sortable: true,
           truncateText: true,
-          render: (item, row) => (
-            <EuiLink
-              onClick={() => {
-                props.setRedirect(true);
-                props.addFilter({
-                  field: 'serviceName',
-                  operator: 'is',
-                  value: row.name,
-                  inverted: false,
-                  disabled: false,
-                });
-                location.assign('#/traces');
-              }}
-            >
-              <EuiI18nNumber value={item} />
-            </EuiLink>
-          ),
+          render: (item) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
         },
       ] as Array<EuiTableFieldDataColumnType<any>>,
     [props.items]
@@ -134,8 +122,16 @@ export function ServicesTable(props: {
     <>
       <EuiPanel>
         {titleBar}
-        <EuiSpacer size="m" />
-        <EuiHorizontalRule margin="none" />
+        <EuiHorizontalRule margin="s" style={{ marginTop: 10 }} />
+        <EuiFieldSearch
+          fullWidth
+          placeholder="Service name"
+          value={props.serviceQuery}
+          onChange={(e) => props.setServiceQuery(e.target.value)}
+          onSearch={() => props.refresh()}
+        />
+        <EuiHorizontalRule margin="s" style={{ marginBottom: 0 }} />
+
         {props.items?.length > 0 ? (
           <EuiInMemoryTable
             tableLayout="auto"

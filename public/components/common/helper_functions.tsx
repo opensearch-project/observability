@@ -213,13 +213,6 @@ export const fixedIntervalToTickFormat = (fixedInterval: string) => {
   return '';
 };
 
-export const convertToTimeString = (timestamp: number, fixedInterval: string) => {
-  if (fixedInterval === '1d') return moment(timestamp).format('MMM D, YYYY');
-  if (fixedInterval === '30d') return moment(timestamp).format('MMM YYYY');
-  if (fixedInterval === '365d') return moment(timestamp).format('YYYY');
-  return moment(timestamp).format('');
-};
-
 export const getPercentileFilter = (
   percentileMaps: Array<{ traceGroupName: string; durationFilter: { gte?: number; lte?: number } }>,
   conditionString: string // >= 95

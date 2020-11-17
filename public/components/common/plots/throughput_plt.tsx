@@ -17,7 +17,6 @@ import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import moment from 'moment';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import {
-  convertToTimeString,
   fixedIntervalToMilli,
   fixedIntervalToTickFormat,
   NoMatchMessage,
@@ -30,23 +29,15 @@ export function ThroughputPlt(props: {
   setStartTime: Dispatch<SetStateAction<string>>;
   setEndTime: Dispatch<SetStateAction<string>>;
 }) {
-  // const layoutExtra: any = {};
-  // if (props.items?.items[0] && props.items.items[0].x.length === 1) {
-  //   layoutExtra.xaxis = {
-  //     tickvals: props.items.items[0].x,
-  //     ticktext: [convertToTimeString(props.items.items[0].x[0], props.items.fixedInterval)],
-  //   };
-  // }
   const layout = useMemo(
     () =>
       ({
-        width: 400,
         height: 217,
         margin: {
           l: 50,
           r: 5,
           b: 50,
-          t: 30, // 10
+          t: 30,
           pad: 4,
         },
         annotations: props.items.items.length > 0 && [
@@ -84,12 +75,9 @@ export function ThroughputPlt(props: {
           fixedrange: true,
           gridcolor: '#d9d9d9',
           showgrid: true,
-          // showline: true,
-          // zeroline: true,
           visible: true,
           color: '#899195',
         },
-        // ...layoutExtra,
       } as Partial<Plotly.Layout>),
     [props.items]
   );

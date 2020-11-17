@@ -14,7 +14,6 @@
  */
 
 import {
-  Direction,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -26,6 +25,7 @@ import {
   EuiSpacer,
   EuiText,
   EuiToolTip,
+  PropertySort,
 } from '@elastic/eui';
 import React, { useMemo, useState } from 'react';
 import _ from 'lodash';
@@ -106,7 +106,23 @@ export function DashboardTable(props: {
         align: 'left',
         sortable: true,
         render: (item) =>
-          item ? <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText> : '-',
+          item ? (
+            <EuiLink
+              onClick={() =>
+                props.addFilter({
+                  field: 'traceGroup',
+                  operator: 'is',
+                  value: item,
+                  inverted: false,
+                  disabled: false,
+                })
+              }
+            >
+              {_.truncate(item, { length: 24 })}
+            </EuiLink>
+          ) : (
+            '-'
+          ),
       },
       {
         field: 'dashboard_latency_variance',
@@ -161,7 +177,24 @@ export function DashboardTable(props: {
                 right: item[2],
                 currPercentileFilter,
                 addFilter: (condition?: 'lte' | 'gte') => {
-                  props.addPercentileFilter(condition);
+                  const traceGroupFilter = {
+                    field: 'traceGroup',
+                    operator: 'is',
+                    value: row.dashboard_trace_group_name,
+                    inverted: false,
+                    disabled: false,
+                  };
+                  const additionalFilters = [traceGroupFilter];
+                  for (const addedFilter of props.filters) {
+                    if (
+                      addedFilter.field === traceGroupFilter.field &&
+                      addedFilter.operator === traceGroupFilter.operator &&
+                      addedFilter.value === traceGroupFilter.value
+                    ) {
+                      additionalFilters.pop();
+                    }
+                  }
+                  props.addPercentileFilter(condition, additionalFilters);
                 },
               }}
             />
@@ -342,6 +375,18 @@ export function DashboardTable(props: {
   const columns = useMemo(() => getColumns(), [props.items]);
   const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
 
+  const [sorting, setSorting] = useState<{ sort: PropertySort }>({
+    sort: {
+      field: 'dashboard_latency_variance',
+      direction: 'desc',
+    },
+  });
+
+  const onTableChange = async ({ page, sort }) => {
+    if (typeof sort?.field !== 'string') return;
+    setSorting({ sort });
+  };
+
   return (
     <>
       <EuiPanel>
@@ -357,7 +402,8 @@ export function DashboardTable(props: {
               initialPageSize: 10,
               pageSizeOptions: [5, 10, 15],
             }}
-            sorting
+            sorting={sorting}
+            onTableChange={onTableChange}
           />
         ) : (
           <NoMatchMessage size="xl" />

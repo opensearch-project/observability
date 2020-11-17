@@ -23,27 +23,8 @@ export const getTraceGroupPercentilesQuery = () => {
       bool: {
         must: [
           {
-            bool: {
-              should: [
-                {
-                  bool: {
-                    must_not: [
-                      {
-                        exists: {
-                          field: 'parentSpanId',
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  term: {
-                    parentSpanId: {
-                      value: '',
-                    },
-                  },
-                },
-              ],
+            exists: {
+              field: 'traceGroup',
             },
           },
         ],
@@ -73,6 +54,8 @@ export const getTraceGroupPercentilesQuery = () => {
 };
 
 export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
+  const field = sort?.field || '_key';
+  const direction = sort?.direction || 'asc';
   const query: any = {
     size: 0,
     query: {
@@ -94,6 +77,9 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
         terms: {
           field: 'traceId',
           size: TRACES_MAX_NUM,
+          order: {
+            [field]: direction,
+          },
         },
         aggs: {
           latency: {
@@ -112,10 +98,8 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
           },
           error_count: {
             filter: {
-              range: {
-                'status.code': {
-                  gt: '0',
-                },
+              term: {
+                'status.code': '2',
               },
             },
           },
@@ -134,11 +118,6 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
         traceId,
       },
     });
-  }
-  if (sort) {
-    query.aggs.traces.terms.order = {
-      [sort.field]: sort.direction
-    }
   }
   return query;
 };
@@ -189,7 +168,6 @@ export const getServiceBreakdownQuery = (traceId: string) => {
 
 export const getSpanDetailQuery = (traceId: string, size = 200) => {
   const query = {
-    from: 0,
     size,
     query: {
       bool: {
@@ -232,7 +210,7 @@ export const getSpanDetailQuery = (traceId: string, size = 200) => {
   return query;
 };
 
-export const getPayloadQuery = (traceId: string, size = 200) => {
+export const getPayloadQuery = (traceId: string, size = 1000) => {
   return {
     size,
     query: {

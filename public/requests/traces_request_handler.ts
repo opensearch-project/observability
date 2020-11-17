@@ -191,7 +191,6 @@ const hitsToSpanDetailData = async (hits) => {
     const name = _.get(hit, '_source.name');
     const error = hit._source['status.code'] ? 'Error' : '';
     const uniqueLabel = `${serviceName} <br>${name} ` + uuid();
-    // const uniqueLabel = `${serviceName}:${name}` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
 
     data.table.push({

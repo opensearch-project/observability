@@ -23,13 +23,11 @@ export function LinePlt(props: { data: Plotly.Data[] }) {
       plot_bgcolor: 'rgba(0, 0, 0, 0)',
       paper_bgcolor: 'rgba(0, 0, 0, 0)',
       xaxis: {
-        // range: [props.min, props.max],
         fixedrange: true,
         showgrid: false,
         visible: false,
       },
       yaxis: {
-        // range: [-0.45, 0.45],
         fixedrange: true,
         showgrid: false,
         visible: false,
@@ -66,7 +64,6 @@ export function LatencyPlt(props: { data: Plotly.Data[] }) {
               size: 12,
             },
           },
-          // showline: true,
           gridcolor: '#d9d9d9',
           color: '#899195',
         },

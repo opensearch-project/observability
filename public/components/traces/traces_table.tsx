@@ -147,7 +147,7 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
       return;
     }
 
-    // using await when soring the default sorted field leads to a bug in UI
+    // using await when sorting the default sorted field leads to a bug in UI
     if (sort.field === 'trace_id') {
       props.refresh({ ...sort, field });
       setSorting({ sort });
