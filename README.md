@@ -2,17 +2,17 @@
 
 The Open Distro for Elasticsearch Trace Analytics plugin provides instant on dashboards in Kibana for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
 
-1. Dashboard: an overview of the trace groups and three charts: service map, error rate, and throughput.
+1. Dashboard: an overview of the trace groups and two charts: error rate and throughput.
 
 1. Traces: a table of top-level traces with unique trace id's, where users can click on any trace to see its end-to-end performance metrics, service performance metrics, and a span latency metrics in a Gantt chart.
 
-1. Services: a table of the services, where users can click on a service to see its performance metrics and related services.
+1. Services: a table of the services and a service map, where users can click on a service in the table to see its performance metrics and related services.
 
 Additionally the fields can be sorted and filtered.
 
 ## Documentation
 
-Please see our technical [documentation](https://opendistro.github.io/for-elasticsearch-docs/docs/kibana/) to learn more about its features.
+Please see our technical [documentation](https://opendistro.github.io/for-elasticsearch-docs/docs/trace/) to learn more about its features.
 
 ## Setup
 
@@ -39,7 +39,7 @@ Ultimately, your directory structure should look like this:
 
 To build the plugin's distributable zip simply run `yarn build`.
 
-Example output: `./build/opendistro-trace-analytics-*.zip`
+Example output: `./build/opendistroTraceAnalytics-*.zip`
 
 
 ## Run
