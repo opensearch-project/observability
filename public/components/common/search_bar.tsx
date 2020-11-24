@@ -22,7 +22,7 @@ import {
   EuiSuperDatePicker,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { FiltersProps, Filters } from './filters/filters';
 
 export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) => {
@@ -51,6 +51,7 @@ export interface SearchBarProps extends FiltersProps {
 interface SearchBarOwnProps extends SearchBarProps {
   refresh: () => void;
   page: 'dashboard' | 'traces' | 'services';
+  datepickerOnly?: boolean;
 }
 
 export function SearchBar(props: SearchBarOwnProps) {
@@ -61,19 +62,21 @@ export function SearchBar(props: SearchBarOwnProps) {
   return (
     <>
       <EuiFlexGroup gutterSize="s">
-        <EuiFlexItem>
-          <EuiFieldSearch
-            fullWidth
-            isClearable={false}
-            placeholder="Trace ID, trace group name, service name"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setGlobalQuery(e.target.value);
-            }}
-            onSearch={props.refresh}
-          />
-        </EuiFlexItem>
+        {!props.datepickerOnly && (
+          <EuiFlexItem>
+            <EuiFieldSearch
+              fullWidth
+              isClearable={false}
+              placeholder="Trace ID, trace group name"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setGlobalQuery(e.target.value);
+              }}
+              onSearch={props.refresh}
+            />
+          </EuiFlexItem>
+        )}
         <EuiFlexItem grow={false}>
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
@@ -84,8 +87,12 @@ export function SearchBar(props: SearchBarOwnProps) {
         </EuiFlexItem>
       </EuiFlexGroup>
 
-      <EuiSpacer size="s" />
-      <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />
+      {!props.datepickerOnly  && (
+        <>
+          <EuiSpacer size="s" />
+          <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />
+        </>
+      )}
     </>
   );
 }

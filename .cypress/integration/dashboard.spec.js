@@ -79,7 +79,7 @@ describe('Testing dashboard table', () => {
     cy.get('.euiSideNavItemButton__label').contains('Dashboard').click();
     cy.wait(delay);
 
-    cy.get('.globalFilterItem-isDisabled').should('exist');
+    cy.get('.globalFilterItem-isDisabled').should('not.exist');
   });
 });
 
@@ -89,33 +89,16 @@ describe('Testing plots', () => {
     setTimeFilter();
   });
 
-  it('Renders service map', () => {
-    cy.get('text.ytitle[data-unformatted="Latency (ms)"]').should('exist');
-    cy.get('text[data-unformatted="250"]').should('exist');
-    cy.get('.vis-network').should('exist');
-
-    cy.get('.euiToggle__input[title="Error rate"]').click();
-    cy.get('text.ytitle[data-unformatted="Error rate"]').should('exist');
-    cy.get('text[data-unformatted="10%"]').should('exist');
-
-    cy.get('.euiToggle__input[title="Throughput"]').click();
-    cy.get('text.ytitle[data-unformatted="Throughput"]').should('exist');
-    cy.get('text[data-unformatted="60"]').should('exist');
-
-    cy.get('input.euiFieldSearch[placeholder="Service name"]').focus().type('payment{enter}');
-    cy.wait(delay);
-  });
-
   it('Renders plots', () => {
     cy.get('text.ytitle[data-unformatted="Error rate (%)"]').should('exist');
     cy.get('text.annotation-text[data-unformatted="Now: 22.22%"]').should('exist');
     cy.get('text.ytitle[data-unformatted="Throughput (n)"]').should('exist');
     cy.get('text.annotation-text[data-unformatted="Now: 36"]').should('exist');
 
-    // index 0-7 are box plots in dashboard table, 8 is service map scale, 9 is error rate plot
-    cy.get('rect.nsewdrag').eq(9).click({ force: true });
+    // index 0-7 are box plots in dashboard table, 8 is error rate plot
+    cy.get('rect.nsewdrag').eq(8).click({ force: true });
     cy.wait(delay);
-    cy.get('rect.nsewdrag').eq(9).click({ force: true });
+    cy.get('rect.nsewdrag').eq(8).click({ force: true });
     cy.wait(delay);
     cy.get('text.annotation-text[data-unformatted="Now: 7.41%"]').should('exist');
     cy.get('text.annotation-text[data-unformatted="Now: 27"]').should('exist');

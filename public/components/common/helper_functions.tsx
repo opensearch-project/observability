@@ -16,9 +16,8 @@
 import dateMath from '@elastic/datemath';
 import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
-import moment from 'moment';
 import React from 'react';
-import { RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../../common';
+import { DOCUMENTATION_LINK, RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../../common';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -64,7 +63,12 @@ export function MissingConfigurationMessage() {
         }
         actions={
           // TODO: add docs link here
-          <EuiButton color="primary" iconSide="right" iconType="popout" onClick={() => {}}>
+          <EuiButton
+            color="primary"
+            iconSide="right"
+            iconType="popout"
+            onClick={() => window.open(DOCUMENTATION_LINK, '_blank')}
+          >
             Learn more
           </EuiButton>
         }
@@ -186,10 +190,10 @@ export const minFixedInterval = (startTime: string, endTime: string) => {
   const diffSeconds = momentEnd.unix() - momentStart.unix();
 
   if (diffSeconds <= 1) return '1ms'; // less than 1 second
-  if (diffSeconds <= 60) return '1s'; // less than 1 minute
-  if (diffSeconds <= 3600) return '1m'; // less than 1 hour
-  if (diffSeconds <= 86400) return '1h'; // less than 1 day
-  if (diffSeconds <= 86400 * 31) return '1d'; // less than 1 month
+  if (diffSeconds <= 60 * 2) return '1s'; // less than 2 minutes
+  if (diffSeconds <= 3600 * 2) return '1m'; // less than 2 hours
+  if (diffSeconds <= 86400 * 2) return '1h'; // less than 2 days
+  if (diffSeconds <= 86400 * 62) return '1d'; // less than 2 months
   if (diffSeconds <= 86400 * 366) return '30d'; // less than 1 year
   return '365d';
 };
@@ -211,13 +215,6 @@ export const fixedIntervalToTickFormat = (fixedInterval: string) => {
   if (fixedInterval === '30d') return '%b %Y';
   if (fixedInterval === '365d') return '%Y';
   return '';
-};
-
-export const convertToTimeString = (timestamp: number, fixedInterval: string) => {
-  if (fixedInterval === '1d') return moment(timestamp).format('MMM D, YYYY');
-  if (fixedInterval === '30d') return moment(timestamp).format('MMM YYYY');
-  if (fixedInterval === '365d') return moment(timestamp).format('YYYY');
-  return moment(timestamp).format('');
 };
 
 export const getPercentileFilter = (

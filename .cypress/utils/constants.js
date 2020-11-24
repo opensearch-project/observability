@@ -16,7 +16,6 @@
 export const delay = 1500;
 export const TRACE_ID = '9a2d91f9557028fc70bce0f3297ecfae';
 export const SPAN_ID = 'dc7f49faa6b065c1';
-export const NON_ERROR_CODE = '0';
 export const SERVICE_NAME = 'frontend-client';
 
 export const setTimeFilter = (

@@ -95,40 +95,6 @@ export function ServiceView(props: ServiceViewProps) {
           {renderDatePicker(startTime, setStartTime, endTime, setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false} />
-        {/* <EuiFlexItem grow={false}>
-        <EuiButton
-          onClick={() => {
-            setRedirect(true);
-            addFilter({
-              field: 'serviceName',
-              operator: 'is',
-              value: serviceName,
-              inverted: false,
-              disabled: false,
-            });
-            location.assign('#/dashboard');
-          }}
-        >
-          View in dashboard
-        </EuiButton>
-      </EuiFlexItem> */}
-        <EuiFlexItem grow={false}>
-          <EuiButton
-            onClick={() => {
-              setRedirect(true);
-              addFilter({
-                field: 'serviceName',
-                operator: 'is',
-                value: serviceName,
-                inverted: false,
-                disabled: false,
-              });
-              location.assign('#/traces');
-            }}
-          >
-            View related traces
-          </EuiButton>
-        </EuiFlexItem>
       </>
     );
   };
@@ -150,7 +116,9 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Number of connected services</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.number_of_connected_services || 0}
+                  {fields.number_of_connected_services !== undefined
+                    ? fields.number_of_connected_services
+                    : 0}
                 </EuiText>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
@@ -166,13 +134,13 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Average latency (ms)</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.average_latency || '-'}
+                  {fields.average_latency !== undefined ? fields.average_latency : '-'}
                 </EuiText>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Error rate</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.error_rate || fields.error_rate === 0
+                  {fields.error_rate !== undefined
                     ? _.round(fields.error_rate, 2).toString() + '%'
                     : '-'}
                 </EuiText>
@@ -180,28 +148,17 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Throughput</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.throughput ? <EuiI18nNumber value={fields.throughput} /> : '-'}
+                  {fields.throughput !== undefined ? (
+                    <EuiI18nNumber value={fields.throughput} />
+                  ) : (
+                    '-'
+                  )}
                 </EuiText>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Traces</EuiText>
                 <EuiText size="s" className="overview-content">
-                  <EuiLink
-                    onClick={() => {
-                      props.addFilter({
-                        field: 'serviceName',
-                        operator: 'is',
-                        value: props.serviceName,
-                        inverted: false,
-                        disabled: false,
-                      });
-                      setTimeout(() => {
-                        location.assign('#/traces');
-                      }, 300);
-                    }}
-                  >
-                    <EuiI18nNumber value={fields.traces || 0} />
-                  </EuiLink>
+                  {fields.traces !== undefined ? <EuiI18nNumber value={fields.traces} /> : '-'}
                 </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>

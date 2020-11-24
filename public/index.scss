@@ -48,10 +48,17 @@ div.vis-network > div.vis-tooltip {
 th[data-test-subj^='tableHeaderCell_dashboard_trace_group_name'],
 th[data-test-subj^='tableHeaderCell_dashboard_latency_variance'],
 th[data-test-subj^='tableHeaderCell_dashboard_average_latency'],
-th[data-test-subj^='tableHeaderCell_dashboard_latency_variance'],
 th[data-test-subj^='tableHeaderCell_dashboard_error_rate'],
 th[data-test-subj^='tableHeaderCell_dashboard_traces'] {
   svg[aria-label^="Sorted in"] {
     margin-top: -20px;
+  }
+}
+
+th[data-test-subj^='tableHeaderCell_dashboard_latency_variance'] {
+  svg[aria-label^="Sorted in"] {
+    margin-left: -16px;
+    position: relative;
+    left: 10px;
   }
 }

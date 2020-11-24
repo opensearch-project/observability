@@ -18,7 +18,6 @@ import moment from 'moment';
 import { DATE_FORMAT, DATE_PICKER_FORMAT } from '../../common';
 import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
 import {
-  getDashboardLatencyTrendQuery,
   getDashboardQuery,
   getDashboardThroughputPltQuery,
   getDashboardTraceGroupPercentiles,
@@ -35,7 +34,7 @@ export const handleDashboardRequest = async (
   setPercentileMap?
 ) => {
   // latency_variance should only be affected by timefilter
-  const latency_variances = await handleDslRequest(
+  const latencyVariances = await handleDslRequest(
     http,
     timeFilterDSL,
     getDashboardTraceGroupPercentiles()
@@ -50,86 +49,70 @@ export const handleDashboardRequest = async (
       return map;
     })
     .catch((error) => console.error(error));
-  if (setPercentileMap) setPercentileMap(latency_variances);
+  if (setPercentileMap) setPercentileMap(latencyVariances);
 
   handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
-        response.aggregations.trace_group_name.buckets
-          .filter((bucket) => bucket.parent_span.doc_count > 0)
-          .map((bucket) => {
-            return {
-              dashboard_trace_group_name: bucket.key,
-              dashboard_average_latency:
-                bucket.parent_span.trace_group_name.buckets[0]?.average_latency.value,
-              dashboard_traces: bucket.doc_count,
-              dashboard_latency_variance: latency_variances[bucket.key],
-              dashboard_error_rate:
-                bucket.parent_span.trace_group_name.buckets[0]?.error_rate.value,
-            };
-          })
+        response.aggregations.trace_group_name.buckets.map((bucket) => {
+          const latencyTrend = bucket.group_by_hour.buckets
+            .slice(-24)
+            .filter(
+              (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0
+            );
+          const values = {
+            x: latencyTrend.map((bucket) => bucket.key),
+            y: latencyTrend.map((bucket) => bucket.average_latency?.value || 0),
+          };
+          const latencyTrendData =
+            values.x?.length > 0
+              ? {
+                  '24_hour_latency_trend': {
+                    trendData: [
+                      {
+                        ...values,
+                        type: 'scatter',
+                        mode: 'lines',
+                        hoverinfo: 'none',
+                        line: {
+                          color: '#000000',
+                          width: 1,
+                        },
+                      },
+                    ],
+                    popoverData: [
+                      {
+                        ...values,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        hovertemplate: '%{x}<br>Average latency: %{y}<extra></extra>',
+                        hoverlabel: {
+                          bgcolor: '#d7c2ff',
+                        },
+                        marker: {
+                          color: '#987dcb',
+                          size: 8,
+                        },
+                        line: {
+                          color: '#987dcb',
+                          size: 2,
+                        },
+                      },
+                    ],
+                  },
+                }
+              : {};
+          return {
+            dashboard_trace_group_name: bucket.key,
+            dashboard_average_latency: bucket.average_latency.value,
+            dashboard_traces: bucket.doc_count,
+            dashboard_latency_variance: latencyVariances[bucket.key],
+            dashboard_error_rate: bucket.error_rate.value,
+            ...latencyTrendData,
+          };
+        })
       );
     })
-    .then((newItems) => {
-      setItems(newItems);
-      loadRemainingItems(http, DSL, newItems, setItems);
-    })
-    .catch((error) => console.error(error));
-};
-
-const loadRemainingItems = (http, DSL, items, setItems) => {
-  Promise.all(
-    items.map(async (item) => {
-      const latencyTrend = await handleDslRequest(
-        http,
-        DSL,
-        getDashboardLatencyTrendQuery(item.dashboard_trace_group_name)
-      ).catch((error) => console.error(error));
-      const buckets = latencyTrend.aggregations.trace_group.buckets[0].group_by_hour.buckets.filter(
-        (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0
-      );
-      const values = {
-        x: buckets.map((bucket) => bucket.key),
-        y: buckets.map((bucket) => bucket.average_latency?.value || 0),
-      };
-      return {
-        ...item,
-        '24_hour_latency_trend': {
-          trendData: [
-            {
-              ...values,
-              type: 'scatter',
-              mode: 'lines',
-              hoverinfo: 'none',
-              line: {
-                color: '#000000',
-                width: 1,
-              },
-            },
-          ],
-          popoverData: [
-            {
-              ...values,
-              type: 'scatter',
-              mode: 'lines+markers',
-              hovertemplate: '%{x}<br>Average latency: %{y}<extra></extra>',
-              hoverlabel: {
-                bgcolor: '#d7c2ff',
-              },
-              marker: {
-                color: '#987dcb',
-                size: 8,
-              },
-              line: {
-                color: '#987dcb',
-                size: 2,
-              },
-            },
-          ],
-        },
-      };
-    })
-  )
     .then((newItems) => {
       setItems(newItems);
     })

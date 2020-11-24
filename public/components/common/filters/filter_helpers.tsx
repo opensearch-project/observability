@@ -19,13 +19,12 @@ import React from 'react';
 
 const getFields = (page) =>
   ({
-    dashboard: ['status.code', 'status.message', 'durationInNanos'],
+    dashboard: ['traceGroup', 'status.code', 'status.message', 'durationInNanos'],
     traces: [
       'traceId',
       'traceGroup',
       'status.code',
       'status.message',
-      'serviceName',
       'durationInNanos',
     ],
     services: [],

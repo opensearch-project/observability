@@ -43,21 +43,28 @@ describe('Testing services table', () => {
   });
 
   it('Searches correctly', () => {
-    cy.get('input[type="search"]').focus().type(`${SERVICE_NAME}{enter}`);
+    cy.get('input[type="search"]').first().focus().type(`${SERVICE_NAME}{enter}`);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay);
     cy.contains(' (1)').should('exist');
     cy.contains('7.41%').should('exist');
   });
 
-  it('Redirects to traces view with filter', () => {
-    cy.wait(delay * 5);
-    cy.get('.euiLink').contains('27').click();
-    cy.wait(delay);
+  it('Renders service map', () => {
+    cy.get('text.ytitle[data-unformatted="Latency (ms)"]').should('exist');
+    cy.get('text[data-unformatted="250"]').should('exist');
+    cy.get('.vis-network').should('exist');
 
-    cy.get('h2.euiTitle').contains('Traces').should('exist');
-    cy.contains(' (27)').should('exist');
-    cy.contains('serviceName: frontend-client').should('exist');
+    cy.get('.euiToggle__input[title="Error rate"]').click();
+    cy.get('text.ytitle[data-unformatted="Error rate"]').should('exist');
+    cy.get('text[data-unformatted="10%"]').should('exist');
+
+    cy.get('.euiToggle__input[title="Throughput"]').click();
+    cy.get('text.ytitle[data-unformatted="Throughput"]').should('exist');
+    cy.get('text[data-unformatted="60"]').should('exist');
+
+    cy.get('input[type="search"]').eq(1).focus().type('payment{enter}');
+    cy.wait(delay);
   });
 });
 

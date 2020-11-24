@@ -15,7 +15,7 @@
 
 /// <reference types="cypress" />
 
-import { delay, setTimeFilter, TRACE_ID, SPAN_ID, NON_ERROR_CODE } from '../utils/constants';
+import { delay, setTimeFilter, TRACE_ID, SPAN_ID } from '../utils/constants';
 
 describe('Testing traces table empty state', () => {
   beforeEach(() => {
@@ -48,42 +48,6 @@ describe('Testing traces table', () => {
     cy.wait(delay);
     cy.contains(' (1)').should('exist');
     cy.contains('11/10/2020 09:56:24').should('exist');
-  });
-
-  it('Filters correctly', () => {
-    cy.get('.euiButtonEmpty__text').contains('+ Add filter').click();
-    cy.wait(delay);
-
-    cy.contains('Select a field first').click({ force: true });
-    cy.wait(delay);
-    cy.get('.euiComboBoxOption__content').contains('status.code').click({ force: true });
-    cy.wait(delay);
-    cy.get('[data-test-subj="comboBoxInput"]').eq(1).click({ force: true });
-    cy.wait(delay);
-    cy.get('.euiComboBoxOption__content').contains('is not').click({ force: true });
-    cy.wait(delay);
-    cy.get('input.euiFieldText[placeholder="Enter a value"]').focus().type(NON_ERROR_CODE);
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
-    cy.wait(delay);
-
-    cy.get('.euiTableCellContent').find('False').should('not.exist');
-    cy.contains(' (8)').should('exist');
-
-    cy.get('.euiBadge__childButton').contains('status.code: 0').click({ force: true });
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Include results').click();
-    cy.wait(delay);
-
-    cy.get('.euiTableCellContent').contains('True').should('not.exist');
-    cy.contains(' (28)').should('exist');
-
-    cy.get('.euiBadge__childButton').contains('status.code: 0').click({ force: true });
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Temporarily disable').click();
-    cy.wait(delay);
-
-    cy.contains(' (36)').should('exist');
   });
 });
 

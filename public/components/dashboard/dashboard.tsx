@@ -178,30 +178,19 @@ export function Dashboard(props: DashboardProps) {
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">
-            <EuiFlexItem grow={4}>
-              <ServiceMap
-                serviceMap={serviceMap}
-                idSelected={serviceMapIdSelected}
-                setIdSelected={setServiceMapIdSelected}
+            <EuiFlexItem>
+              <ErrorRatePlt
+                items={errorRatePltItems}
+                setStartTime={props.setStartTime}
+                setEndTime={props.setEndTime}
               />
             </EuiFlexItem>
             <EuiFlexItem>
-              <EuiFlexGroup direction="column">
-                <EuiFlexItem>
-                  <ErrorRatePlt
-                    items={errorRatePltItems}
-                    setStartTime={props.setStartTime}
-                    setEndTime={props.setEndTime}
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <ThroughputPlt
-                    items={throughputPltItems}
-                    setStartTime={props.setStartTime}
-                    setEndTime={props.setEndTime}
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
+              <ThroughputPlt
+                items={throughputPltItems}
+                setStartTime={props.setStartTime}
+                setEndTime={props.setEndTime}
+              />
             </EuiFlexItem>
           </EuiFlexGroup>
         </>

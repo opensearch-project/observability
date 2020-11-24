@@ -38,7 +38,7 @@ export function Plt(props: PltProps) {
           l: 30,
           r: 5,
           b: 30,
-          t: 5, // 10
+          t: 5,
           pad: 4,
         },
         barmode: 'stack',
@@ -51,15 +51,11 @@ export function Plt(props: PltProps) {
         xaxis: {
           showgrid: true,
           zeroline: false,
-          // type: 'auto',
           rangemode: 'normal',
         },
         yaxis: {
           showgrid: true,
           zeroline: false,
-          // type: 'linear',
-          // type: 'category',
-          // gridcolor: 'rgb(60,61,64)',
           rangemode: 'normal',
         },
         ...props.layout,

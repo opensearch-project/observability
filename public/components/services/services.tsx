@@ -20,11 +20,14 @@ import { CoreDeps } from '../app';
 import { filtersToDsl, MissingConfigurationMessage, SearchBar, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
+import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ServicesTable } from './services_table';
 
 interface ServicesProps extends SearchBarProps, CoreDeps {}
 
 export function Services(props: ServicesProps) {
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   useEffect(() => {
@@ -54,7 +57,7 @@ export function Services(props: ServicesProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServicesRequest(props.http, DSL, tableItems, setTableItems);
+    handleServicesRequest(props.http, DSL, tableItems, setTableItems, setServiceMap, serviceQuery);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -71,12 +74,15 @@ export function Services(props: ServicesProps) {
     props.setFilters(newFilters);
   };
 
+  const [serviceQuery, setServiceQuery] = useState('');
+
   return (
     <>
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Services</h2>
       </EuiTitle>
       <SearchBar
+        datepickerOnly={true}
         query={props.query}
         filters={props.filters}
         setFilters={props.setFilters}
@@ -88,9 +94,24 @@ export function Services(props: ServicesProps) {
         refresh={refresh}
         page="services"
       />
-      <EuiSpacer size="m" />
+      <EuiSpacer />
       {props.indicesExist ? (
-        <ServicesTable items={tableItems} addFilter={addFilter} setRedirect={setRedirect} />
+        <>
+          <ServicesTable
+            items={tableItems}
+            addFilter={addFilter}
+            setRedirect={setRedirect}
+            serviceQuery={serviceQuery}
+            setServiceQuery={setServiceQuery}
+            refresh={refresh}
+          />
+          <EuiSpacer />
+          <ServiceMap
+            serviceMap={serviceMap}
+            idSelected={serviceMapIdSelected}
+            setIdSelected={setServiceMapIdSelected}
+          />
+        </>
       ) : (
         <MissingConfigurationMessage />
       )}

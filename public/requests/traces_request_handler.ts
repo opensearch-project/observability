@@ -72,7 +72,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
             trace_group: bucket.trace_group.buckets[0]?.key,
             latency: bucket.latency.value,
             last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
-            error_count: bucket.error_count.doc_count > 0 ? 'True' : 'False',
+            error_count: bucket.error_count.doc_count > 0 ? 'Yes' : 'No',
             percentile_in_trace_group: binarySearch(
               percentileRanges[bucket.trace_group.buckets[0]?.key],
               bucket.latency.value
@@ -191,7 +191,6 @@ const hitsToSpanDetailData = async (hits) => {
     const name = _.get(hit, '_source.name');
     const error = hit._source['status.code'] ? 'Error' : '';
     const uniqueLabel = `${serviceName} <br>${name} ` + uuid();
-    // const uniqueLabel = `${serviceName}:${name}` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
 
     data.table.push({

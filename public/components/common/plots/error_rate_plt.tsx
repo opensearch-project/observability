@@ -27,13 +27,12 @@ export function ErrorRatePlt(props: {
 }) {
   const getLayout = () =>
     ({
-      width: 400,
       height: 217,
       margin: {
         l: 57,
         r: 5,
         b: 50,
-        t: 30, // 10
+        t: 30,
         pad: 4,
       },
       annotations: props.items.items.length > 0 && [
@@ -76,8 +75,6 @@ export function ErrorRatePlt(props: {
         ticksuffix: '%',
         gridcolor: '#d9d9d9',
         showgrid: true,
-        // showline: true,
-        // zeroline: true,
         visible: true,
         color: '#899195',
       },

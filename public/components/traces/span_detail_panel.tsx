@@ -36,7 +36,7 @@ export function SpanDetailPanel(props: {
         l: 260,
         r: 5,
         b: 30,
-        t: 30, // 10
+        t: 30,
       },
       xaxis: {
         ticksuffix: ' ms',
