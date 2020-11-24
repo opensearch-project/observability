@@ -32,8 +32,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import {
   handlePayloadRequest,
-  handleServiceBreakdownRequest,
-  handleSpanDetailRequest,
+  handleTracesChartsRequest,
   handleTraceViewRequest,
 } from '../../requests/traces_request_handler';
 import { CoreDeps } from '../app';
@@ -155,13 +154,14 @@ export function TraceView(props: TraceViewProps) {
 
   const refresh = () => {
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handleServiceBreakdownRequest(
+    handleTracesChartsRequest(
       props.traceId,
       props.http,
       serviceBreakdownData,
-      setServiceBreakdownData
+      setServiceBreakdownData,
+      spanDetailData,
+      setSpanDetailData
     );
-    handleSpanDetailRequest(props.traceId, props.http, spanDetailData, setSpanDetailData);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
   };
 

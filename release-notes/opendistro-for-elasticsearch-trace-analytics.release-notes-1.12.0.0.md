@@ -6,6 +6,7 @@
 
 ### Enhancements
 * Move service map UI and update status.code definition ([#3](https://github.com/opendistro-for-elasticsearch/trace-analytics/pull/3))
+* Improve colors on trace view charts ([#8](https://github.com/opendistro-for-elasticsearch/trace-analytics/pull/8))
 
 
 ### Maintenance

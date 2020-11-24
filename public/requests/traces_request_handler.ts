@@ -110,7 +110,14 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
     .catch((error) => console.error(error));
 };
 
-const getColor = (label) => {
+export const handleTracesChartsRequest = async (
+  traceId,
+  http,
+  serviceBreakdownData,
+  setServiceBreakdownData,
+  spanDetailData,
+  setSpanDetailData
+) => {
   const colors = [
     '#7492e7',
     '#c33d69',
@@ -125,59 +132,54 @@ const getColor = (label) => {
     '#a783e1',
     '#5978e3',
   ];
-  let hash = 0;
-  for (let i = 0; i < label.length; i++) {
-    const character = label.charCodeAt(i);
-    hash = (hash << 5) - hash + character;
-    hash = hash & hash;
-  }
-  return colors[Math.abs(hash) % colors.length];
-};
-
-export const handleServiceBreakdownRequest = (
-  traceId,
-  http,
-  serviceBreakdownData,
-  setServiceBreakdownData
-) => {
-  handleDslRequest(http, null, getServiceBreakdownQuery(traceId))
-    .then((response) =>
-      Promise.all(
-        response.aggregations.service_type.buckets.map((bucket, i) => {
-          return {
-            name: bucket.key,
-            color: getColor(bucket.key),
-            value: bucket.total_latency.value,
-            benchmark: 0,
-          };
-        })
+  const colorMap = {};
+  let index = 0;
+  Promise.all([
+    handleDslRequest(http, null, getServiceBreakdownQuery(traceId))
+      .then((response) =>
+        Promise.all(
+          response.aggregations.service_type.buckets.map((bucket) => {
+            colorMap[bucket.key] = colors[index++ % colors.length];
+            return {
+              name: bucket.key,
+              color: colorMap[bucket.key],
+              value: bucket.total_latency.value,
+              benchmark: 0,
+            };
+          })
+        )
       )
-    )
-    .then((newItems) => {
-      const latencySum = newItems.map((item) => item.value).reduce((a, b) => a + b, 0);
-      return [
-        {
-          values: newItems.map((item) =>
-            latencySum === 0 ? 100 : (item.value / latencySum) * 100
-          ),
-          labels: newItems.map((item) => item.name),
-          benchmarks: newItems.map((item) => item.benchmark),
-          marker: {
-            colors: newItems.map((item) => item.color),
+      .then((newItems) => {
+        const latencySum = newItems.map((item) => item.value).reduce((a, b) => a + b, 0);
+        return [
+          {
+            values: newItems.map((item) =>
+              latencySum === 0 ? 100 : (item.value / latencySum) * 100
+            ),
+            labels: newItems.map((item) => item.name),
+            benchmarks: newItems.map((item) => item.benchmark),
+            marker: {
+              colors: newItems.map((item) => item.color),
+            },
+            type: 'pie',
+            textinfo: 'none',
+            hovertemplate: '%{label}<br>%{value:.2f}%<extra></extra>',
           },
-          type: 'pie',
-          textinfo: 'none',
-          hovertemplate: '%{label}<br>%{value:.2f}%<extra></extra>',
-        },
-      ];
-    })
-    .then((newItems) => {
-      setServiceBreakdownData(newItems);
-    })
+        ];
+      })
+      .then((newItems) => {
+        setServiceBreakdownData(newItems);
+      })
+      .catch((error) => console.error(error)),
+
+    handleDslRequest(http, null, getSpanDetailQuery(traceId))
+  ])
+    .then((response) => hitsToSpanDetailData(response[1].hits.hits, colorMap))
+    .then((newItems) => setSpanDetailData(newItems))
     .catch((error) => console.error(error));
 };
 
-const hitsToSpanDetailData = async (hits) => {
+const hitsToSpanDetailData = async (hits, colorMap) => {
   const data = { gantt: [], table: [], ganttMaxX: 0 };
   if (hits.length === 0) return data;
 
@@ -222,7 +224,7 @@ const hitsToSpanDetailData = async (hits) => {
         textfont: { color: ['#c14125'] },
         textposition: 'outside',
         marker: {
-          color: getColor(serviceName),
+          color: colorMap[serviceName],
         },
         width: 0.4,
         type: 'bar',
@@ -234,15 +236,6 @@ const hitsToSpanDetailData = async (hits) => {
 
   data.ganttMaxX = maxEndTime;
   return data;
-};
-
-export const handleSpanDetailRequest = (traceId, http, spanDetailData, setSpanDetailData) => {
-  handleDslRequest(http, null, getSpanDetailQuery(traceId))
-    .then((response) => hitsToSpanDetailData(response.hits.hits))
-    .then((newItems) => {
-      setSpanDetailData(newItems);
-    })
-    .catch((error) => console.error(error));
 };
 
 export const handlePayloadRequest = (traceId, http, payloadData, setPayloadData) => {

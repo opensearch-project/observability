@@ -143,6 +143,11 @@ export const getServiceBreakdownQuery = (traceId: string) => {
       service_type: {
         terms: {
           field: 'serviceName',
+          order: [
+            {
+              total_latency_nanos: 'desc',
+            },
+          ],
         },
         aggs: {
           total_latency_nanos: {
