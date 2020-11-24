@@ -1,6 +1,6 @@
 # Open Distro for Elasticsearch Kibana Notebooks
 
-Dashboards offer a solution for a few selected use cases, and are a great tool if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and decorate data in elastic with other reference data sources.
+Dashboards offer a solution for a few selected use cases, and are great tools if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and decorate data in elastic with other reference data sources.
 
 ## Documentation
 
@@ -31,7 +31,7 @@ Ultimately, your directory structure should look like this:
 
 To build the plugin's distributable zip simply run `yarn build`.
 
-Example output: `./build/kibana_notebooks-*.zip`
+Example output: `./build/opendistro-notebooks-kibana-*.zip`
 
 
 ## Run
@@ -40,7 +40,7 @@ Example output: `./build/kibana_notebooks-*.zip`
 
   Starts Kibana and includes this plugin. Kibana will be available on `localhost:5601`.
 
-- `yarn test`
+- `yarn test:cypress`
 
   Runs the plugin cypress tests.
 
