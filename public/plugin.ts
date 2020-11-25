@@ -29,8 +29,13 @@ export class KibanaNotebooksPlugin
     core.application.register({
       id: PLUGIN_ID,
       title: PLUGIN_NAME,
-      category: DEFAULT_APP_CATEGORIES.kibana,
-      order: 8040,
+      category: {
+        id: 'odfe',
+        label: 'Open Distro for Elasticsearch',
+        euiIconType: 'logoKibana',
+        order: 2000,
+      },
+      order: 3000,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
