@@ -14,7 +14,7 @@
  */
 
 import { i18n } from '@kbn/i18n';
-import { AppMountParameters, CoreSetup, CoreStart, Plugin, DEFAULT_APP_CATEGORIES } from '../../../src/core/public';
+import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
 import {
   KibanaNotebooksPluginSetup,
   KibanaNotebooksPluginStart,
