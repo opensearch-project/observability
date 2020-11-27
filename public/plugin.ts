@@ -14,7 +14,7 @@
  */
 
 import { i18n } from '@kbn/i18n';
-import { AppMountParameters, CoreSetup, CoreStart, Plugin, DEFAULT_APP_CATEGORIES } from '../../../src/core/public';
+import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
 import {
   KibanaNotebooksPluginSetup,
   KibanaNotebooksPluginStart,
@@ -29,8 +29,13 @@ export class KibanaNotebooksPlugin
     core.application.register({
       id: PLUGIN_ID,
       title: PLUGIN_NAME,
-      category: DEFAULT_APP_CATEGORIES.kibana,
-      order: 8040,
+      category: {
+        id: 'odfe',
+        label: 'Open Distro for Elasticsearch',
+        euiIconType: 'logoKibana',
+        order: 2000,
+      },
+      order: 3000,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
