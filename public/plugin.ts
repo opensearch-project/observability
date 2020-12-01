@@ -37,7 +37,6 @@ export class TraceAnalyticsPlugin
       category: {
         id: 'odfe',
         label: 'Open Distro for Elasticsearch',
-        euiIconType: 'logoKibana',
         order: 2000,
       },
       order: 6000,
