@@ -95,7 +95,7 @@ export function RegisterDslRouter(router: IRouter) {
           body: resp,
         });
       } catch (error) {
-        console.error(error);
+        if (error.statusCode !== 404) console.error(error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,

@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "lodash": "^4.17.20",
-    "plotly.js": "^1.54.1",
+    "plotly.js-dist": "^1.57.1",
     "react-graph-vis": "^1.0.5",
     "react-plotly.js": "^2.4.0"
   },
   "devDependencies": {
+    "@types/react-plotly.js": "^2.2.4",
     "cypress": "^5.0.0",
-    "eslint": "^6.8.0",
-    "@types/react-plotly.js": "^2.2.4"
+    "eslint": "^6.8.0"
   },
   "engines": {
     "node": "10.22.1",

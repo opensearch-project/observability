@@ -14,7 +14,8 @@
  */
 
 import React from 'react';
-import Plot from 'react-plotly.js';
+import plotComponentFactory from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-dist';
 
 interface PltProps {
   data: Plotly.Data[];
@@ -24,8 +25,10 @@ interface PltProps {
 }
 
 export function Plt(props: PltProps) {
+  const PlotComponent = plotComponentFactory(Plotly);
+
   return (
-    <Plot
+    <PlotComponent
       data={props.data}
       style={{ width: '100%', height: '100%' }}
       onHover={props.onHoverHandler}
