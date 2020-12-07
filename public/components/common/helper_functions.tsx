@@ -58,11 +58,10 @@ export function MissingConfigurationMessage() {
         title={<h2>Indices required</h2>}
         body={
           <EuiText>
-            {`The indices required for trace analytics (${RAW_INDEX_NAME} and ${SERVICE_MAP_INDEX_NAME}) do not exist.`}
+            {`The indices required for trace analytics (${RAW_INDEX_NAME} and ${SERVICE_MAP_INDEX_NAME}) do not exist or you do not have permission to access them.`}
           </EuiText>
         }
         actions={
-          // TODO: add docs link here
           <EuiButton
             color="primary"
             iconSide="right"

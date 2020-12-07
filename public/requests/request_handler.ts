@@ -34,8 +34,10 @@ export function handleDslRequest(http: CoreStart['http'], DSL, query) {
 }
 
 export async function handleIndicesExistRequest(http: CoreStart['http'], setIndicesExist) {
-  const exists = await http.post(INDICES_ROUTE);
-  setIndicesExist(exists);
+  http
+    .post(INDICES_ROUTE)
+    .then((exists) => setIndicesExist(exists))
+    .catch(() => setIndicesExist(false));
 }
 
 // export function handleSqlRequest(http: CoreStart['http'], query: string) {
