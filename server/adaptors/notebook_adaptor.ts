@@ -13,20 +13,20 @@
  * permissions and limitations under the License.
  */
 
-import { RequestHandlerContext } from '../../../../src/core/server';
+import { ILegacyScopedClusterClient, RequestHandlerContext } from '../../../../src/core/server';
 import { optionsType } from '../../common';
 
 export interface NotebookAdaptor {
   backend: string;
 
   // Gets all the notebooks available
-  viewNotes: (context: RequestHandlerContext, wreckOptions: optionsType) => Promise<any[]>;
+  viewNotes: (client: ILegacyScopedClusterClient, wreckOptions: optionsType) => Promise<any[]>;
 
   /* Fetches a notebook by id
    * Param: noteId -> Id of notebook to be fetched
    */
   fetchNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -35,7 +35,7 @@ export interface NotebookAdaptor {
    * Param: name -> name of new notebook
    */
   addNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -45,7 +45,7 @@ export interface NotebookAdaptor {
    *         noteId -> Id of notebook to be fetched
    */
   renameNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string; noteId: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -55,7 +55,7 @@ export interface NotebookAdaptor {
    *         noteId -> Id for the notebook to be cloned
    */
   cloneNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string; noteId: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -64,7 +64,7 @@ export interface NotebookAdaptor {
    * Param: noteId -> Id for the notebook to be deleted
    */
   deleteNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -73,7 +73,7 @@ export interface NotebookAdaptor {
    * Param: noteId -> Id for the notebook to be exported
    */
   exportNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -82,7 +82,7 @@ export interface NotebookAdaptor {
    * Params: noteObj -> note Object to be imported
    */
   importNote: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteObj: any,
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -95,7 +95,7 @@ export interface NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphId: string; paragraphInput: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -107,7 +107,7 @@ export interface NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateFetchParagraph: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphId: string; paragraphInput: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -118,7 +118,7 @@ export interface NotebookAdaptor {
    *         paragraphId -> Id of the paragraph to be fetched
    */
   addFetchNewParagraph: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphIndex: number; paragraphInput: string; inputType: string },
     wreckOptions: optionsType
   ) => Promise<any>;
@@ -129,7 +129,7 @@ export interface NotebookAdaptor {
    *         paragraphId -> Id of the paragraph to be deleted
    */
   deleteFetchParagraphs: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphId: string },
     wreckOptions: optionsType
   ) => Promise<{ paragraphs: any }>;
@@ -139,7 +139,7 @@ export interface NotebookAdaptor {
    * Param: noteId -> Id of notebook to be cleared
    */
   clearAllFetchParagraphs: (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string },
     wreckOptions: optionsType
   ) => Promise<{ paragraphs: any }>;

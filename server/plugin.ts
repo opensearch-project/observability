@@ -19,10 +19,12 @@ import {
   CoreStart,
   Plugin,
   Logger,
+  ILegacyClusterClient,
 } from '../../../src/core/server';
 
 import { KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart } from './types';
 import { serverRoute } from './routes';
+import { NotebooksPlugin } from './adaptors/es_notebooks_plugin';
 
 export class KibanaNotebooksPlugin
   implements Plugin<KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart> {
@@ -35,6 +37,19 @@ export class KibanaNotebooksPlugin
   public setup(core: CoreSetup) {
     this.logger.debug('kibana_notebooks: Setup');
     const router = core.http.createRouter();
+
+    const esNotebooksClient: ILegacyClusterClient = core.elasticsearch.legacy.createClient(
+      'es_notebooks',
+      {
+        plugins: [NotebooksPlugin],
+      }
+    );
+    core.http.registerRouteHandlerContext('notebooks_plugin', (context, request) => {
+      return {
+        logger: this.logger,
+        esNotebooksClient,
+      };
+    });
 
     // Register server side APIs
     serverRoute(router);

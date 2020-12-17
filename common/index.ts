@@ -31,6 +31,12 @@ export const wreckOptions = {
   headers: { 'Content-Type': 'application/json' },
 };
 
+const BASE_NOTEBOOKS_URI = '/_opendistro/_notebooks';
+export const ES_NOTEBOOKS_API = {
+  GET_NOTEBOOKS: `${BASE_NOTEBOOKS_URI}/notebooks`,
+  NOTEBOOK: `${BASE_NOTEBOOKS_URI}/notebook`,
+};
+
 export interface optionsType {
   baseUrl: string;
   payload?: any;

@@ -82,8 +82,9 @@ describe('Testing notebooks table', () => {
     cy.get('.euiFormControlLayoutClearButton').click();
     cy.wait(delay);
     cy.get('input.euiFieldSearch').type(TEST_NOTEBOOK + ' (copy) (rename)');
+    cy.wait(delay);
 
-    cy.get('.euiLink[href*="#note_"').should('exist');
+    cy.get('a.euiLink').contains(TEST_NOTEBOOK + ' (copy) (rename)').should('exist');
   });
 
   it('Deletes notebooks', () => {

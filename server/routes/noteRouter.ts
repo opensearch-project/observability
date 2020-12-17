@@ -14,7 +14,12 @@
  */
 
 import { schema } from '@kbn/config-schema';
-import { IRouter, IKibanaResponse, ResponseError } from '../../../../src/core/server';
+import {
+  IRouter,
+  IKibanaResponse,
+  ResponseError,
+  ILegacyScopedClusterClient,
+} from '../../../../src/core/server';
 import { API_PREFIX, wreckOptions } from '../../common';
 import BACKEND from '../adaptors';
 
@@ -26,9 +31,12 @@ export function NoteRouter(router: IRouter) {
       validate: {},
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       let notebooksData = [];
       try {
-        notebooksData = await BACKEND.viewNotes(context, wreckOptions);
+        notebooksData = await BACKEND.viewNotes(esNotebooksClient, wreckOptions);
         return response.ok({
           body: {
             data: notebooksData,
@@ -55,8 +63,11 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       try {
-        const notebookinfo = await BACKEND.fetchNote(context, request.params.noteId, wreckOptions);
+        const notebookinfo = await BACKEND.fetchNote(esNotebooksClient, request.params.noteId, wreckOptions);
         return response.ok({
           body: notebookinfo,
         });
@@ -80,11 +91,13 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let addResponse = {};
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       try {
-        addResponse = await BACKEND.addNote(context, request.body, wreckOptions);
+        const addResponse = await BACKEND.addNote(esNotebooksClient, request.body, wreckOptions);
         return response.ok({
-          body: addResponse,
+          body: addResponse.message.notebookId,
         });
       } catch (error) {
         return response.custom({
@@ -107,9 +120,11 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let renameResponse = {};
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       try {
-        renameResponse = await BACKEND.renameNote(context, request.body, wreckOptions);
+        const renameResponse = await BACKEND.renameNote(esNotebooksClient, request.body, wreckOptions);
         return response.ok({
           body: renameResponse,
         });
@@ -134,9 +149,11 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
-      let cloneResponse = {};
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       try {
-        const cloneResponse = await BACKEND.cloneNote(context, request.body, wreckOptions);
+        const cloneResponse = await BACKEND.cloneNote(esNotebooksClient, request.body, wreckOptions);
         return response.ok({
           body: cloneResponse,
         });
@@ -160,8 +177,11 @@ export function NoteRouter(router: IRouter) {
       },
     },
     async (context, request, response): Promise<IKibanaResponse<any | ResponseError>> => {
+      const esNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.esNotebooksClient.asScoped(
+        request
+      );
       try {
-        const delResponse = await BACKEND.deleteNote(context, request.params.noteid, wreckOptions);
+        const delResponse = await BACKEND.deleteNote(esNotebooksClient, request.params.noteid, wreckOptions);
         return response.ok({
           body: delResponse,
         });

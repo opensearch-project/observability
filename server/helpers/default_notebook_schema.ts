@@ -34,10 +34,8 @@ export type DefaultParagraph = {
 };
 export type DefaultNotebooks = {
   name: string;
-  id: string;
   dateCreated: string;
   dateModified: string;
-  pluginVersion: string;
   backend: string;
   paragraphs: Array<DefaultParagraph>;
 };

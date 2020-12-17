@@ -107,7 +107,10 @@ export function NoteTable(props: NoteTableProps) {
       's' : ' ' + selectedNotebooks[0].path} successfully deleted!`;
     Promise.all(selectedNotebooks.map((notebook) => deleteNotebook(notebook.id, undefined, false)))
       .then(() => props.setToast(toastMessage))
-      .catch((error) => props.setToast('Issue in deleting notebooks' + error.body.message, 'danger'));
+      .catch((err) => {
+        props.setToast('Error deleting notebooks, please make sure you have the correct permission.', 'danger');
+        console.error(err.body.message);
+      });
     closeModal();
   };
 

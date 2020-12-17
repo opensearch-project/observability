@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
+import React, { ReactChild } from 'react';
 
 import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
@@ -47,7 +47,7 @@ type MainProps = {
 
 type MainState = {
   data: Array<NotebookType>;
-  openedNotebook: NotebookType;
+  openedNotebook: NotebookType | undefined;
   toasts: Toast[];
 };
 
@@ -68,15 +68,16 @@ export class Main extends React.Component<MainProps, MainState> {
     };
   }
 
-  setToast = (title: string, color = 'success', text = '') => {
-    this.setState({
-      toasts: [{
+  setToast = (title: string, color = 'success', text?: ReactChild) => {
+    if (!text) text = '';
+    this.setState((prevState) => ({
+      toasts: [...prevState.toasts, {
         id: new Date().toISOString(),
         title,
         text,
         color,
-      }]
-    })
+      } as Toast]
+    }));
   }
 
   // Fetches path and id for all stored notebooks
@@ -105,7 +106,7 @@ export class Main extends React.Component<MainProps, MainState> {
       })
       .then(async (res) => {
         this.setToast(`Notebook "${newNoteName}" successfully created!`);
-        window.location.assign(`${this.props.basename}#${res.body}`);
+        window.location.assign(`${this.props.basename}#${res}`);
       })
       .catch((err) => {
         this.setToast('Please ask your administrator to enable Notebooks for you.', 'danger',
@@ -130,14 +131,27 @@ export class Main extends React.Component<MainProps, MainState> {
         body: JSON.stringify(renameNoteObject),
       })
       .then((res) => {
-        this.fetchNotebooks();
+        this.setState((prevState) => {
+          const newData = [...prevState.data];
+          const renamedNotebook = newData.find((notebook) => notebook.id === editedNoteID);
+          if (renamedNotebook)
+            renamedNotebook.path = editedNoteName;
+          return { data: newData };
+        });
         this.setToast(`Notebook successfully renamed into "${editedNoteName}"`);
       })
-      .catch((err) => this.setToast('Issue in renaming the notebook ' + err.body.message, 'danger'));
+      .catch((err) => {
+        this.setToast('Error renaming notebook, please make sure you have the correct permission.', 'danger');
+        console.error(err.body.message);
+      });
   };
 
-  // Clones an existing notebook
-  cloneNotebook = (clonedNoteName: string, clonedNoteID: string) => {
+  // Clones an existing notebook, return new notebook's id
+  cloneNotebook = (clonedNoteName: string, clonedNoteID: string): Promise<string> => {
+    if (clonedNoteName.length >= 50 || clonedNoteName.length === 0) {
+      this.setToast('Invalid notebook name', 'danger');
+      return Promise.reject();
+    }
     const cloneNoteObject = {
       name: clonedNoteName,
       noteId: clonedNoteID,
@@ -148,11 +162,21 @@ export class Main extends React.Component<MainProps, MainState> {
         body: JSON.stringify(cloneNoteObject),
       })
       .then((res) => {
-        this.fetchNotebooks();
+        this.setState((prevState) => ({
+          data: [...prevState.data, {
+            path: clonedNoteName,
+            id: res.body.id,
+            dateCreated: res.body.dateCreated,
+            dateModified: res.body.dateModified,
+          }],
+        }));
         this.setToast(`Notebook "${clonedNoteName}" successfully created!`);
-        return res.body;
+        return res.body.id;
       })
-      .catch((err) => this.setToast('Issue in cloning the notebook ' + err.body.message, 'danger'));
+      .catch((err) => {
+        this.setToast('Error cloning notebook, please make sure you have the correct permission.', 'danger');
+        console.error(err.body.message);
+      });
   };
 
   // Deletes an existing notebook
@@ -160,16 +184,22 @@ export class Main extends React.Component<MainProps, MainState> {
     return this.props.http
       .delete(`${API_PREFIX}/note/` + notebookId)
       .then((res) => {
-        this.fetchNotebooks();
+        this.setState((prevState) => ({
+          data: prevState.data.filter((notebook) => notebook.id !== notebookId)
+        }));
         if (showToast)
           this.setToast(`Notebook "${notebookName}" successfully deleted!`);
+        return res;
       })
-      .catch((err) => this.setToast('Issue in deleting the notebook ' + err.body.message, 'danger'));
+      .catch((err) => {
+        this.setToast('Error deleting notebook, please make sure you have the correct permission.', 'danger');
+        console.error(err.body.message);
+      });
   };
 
   render() {
     return (
-      <HashRouter basename={this.props.basename}>
+      <HashRouter>
         <>
           <EuiGlobalToastList
             toasts={this.state.toasts}
