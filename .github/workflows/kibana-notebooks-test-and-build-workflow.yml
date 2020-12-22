@@ -3,6 +3,10 @@ name: Test and Build Kibana Notebooks
 
 on: [pull_request, push]
 
+env:
+  PLUGIN_NAME: opendistroNotebooksKibana
+  OD_VERSION: 1.12.0.0
+
 jobs:
 
   build:
@@ -10,29 +14,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Plugin
+        uses: actions/checkout@v1
+
       - name: Checkout Kibana
         uses: actions/checkout@v1
         with:
           repository: elastic/kibana
           ref: v7.10.0
-          path: kibana
-      - name: Checkout Plugin
-        uses: actions/checkout@v1
-        with:
-          path: kibana/plugins/kibana-notebooks
+          path: kibana-notebooks/kibana
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '10.22.1'
+
+      - name: Move Kibana Notebooks to Plugins Dir
+        run: mv kibana-notebooks kibana/plugins/kibana-notebooks
+
       - name: Kibana Pluign Bootstrap
         run: |
+          cd kibana/plugins/kibana-notebooks
           yarn kbn bootstrap
+
       - name: Build Artifact
         run: |
+          cd kibana/plugins/kibana-notebooks
           yarn build
-          mv ./build/*.zip ./build/opendistroNotebooksKibana-1.12.0.0.zip
+          mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: kibana-notebooks
-          path: ./build
+          path: kibana/plugins/kibana-notebooks/build
