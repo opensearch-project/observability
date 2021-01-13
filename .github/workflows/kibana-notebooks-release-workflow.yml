@@ -2,12 +2,9 @@
 name: Release Kibana Notebooks Artifacts
 
 on:
-  # push:
-  #   tags:
-  #     - 'v*'
   push:
-    branches:
-      - "release-workflow-patch"
+    tags:
+      - 'v*'
 
 env:
   PLUGIN_NAME: opendistroNotebooksKibana
