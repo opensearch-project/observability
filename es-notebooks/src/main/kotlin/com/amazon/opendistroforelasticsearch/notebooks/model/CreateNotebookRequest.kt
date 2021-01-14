@@ -38,7 +38,7 @@ import java.io.IOException
  * <pre> JSON format
  * {@code
  * {
- *   "Notebook":{
+ *   "notebook":{
  *      // refer [com.amazon.opendistroforelasticsearch.notebooks.model.Notebook]
  *   }
  * }
