@@ -29,7 +29,8 @@
     "lodash": "^4.17.20",
     "@babel/cli": "^7.10.5",
     "@nteract/outputs": "^3.0.11",
-    "@nteract/presentational-components": "^3.4.3"
+    "@nteract/presentational-components": "^3.4.3",
+    "trim": "https://github.com/davidcui-amzn/trim.git"
   },
   "resolutions": {
     "prismjs": "^1.22.0"

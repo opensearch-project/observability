@@ -3424,6 +3424,10 @@ trim@0.0.1:
   resolved "https://registry.yarnpkg.com/trim/-/trim-0.0.1.tgz#5858547f6b290757ee95cccc666fb50084c460dd"
   integrity sha1-WFhUf2spB1fulczMZm+1AITEYN0=
 
+"trim@https://github.com/davidcui-amzn/trim.git":
+  version "0.0.1"
+  resolved "https://github.com/davidcui-amzn/trim.git#279ee1d64575b95f929373232115b43914747d2d"
+
 trough@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.5.tgz#b8b639cefad7d0bb2abd37d433ff8293efa5f406"
