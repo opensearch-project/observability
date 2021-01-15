@@ -274,7 +274,7 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Rename notebook').click();
     cy.wait(delay);
-    cy.get('input.euiFieldText').type(' (rename)');
+    cy.get('input.euiFieldText[data-autofocus="true"]').type(' (rename)');
     cy.wait(delay);
     cy.get('.euiButton__text').last().contains('Rename').click();
     cy.wait(delay);

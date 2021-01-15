@@ -32,6 +32,7 @@
     "@nteract/presentational-components": "^3.4.3"
   },
   "resolutions": {
+    "react-syntax-highlighter": "^15.4.3",
     "prismjs": "^1.22.0",
     "trim": "^1.0.0"
   },
