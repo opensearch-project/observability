@@ -30,9 +30,13 @@ import {
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { TRACES_MAX_NUM } from '../../../common';
-import { NoMatchMessage, PanelTitle } from '../common';
+import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common';
 
-export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort) => void }) {
+export function TracesTable(props: {
+  items: any[];
+  refresh: (sort?: PropertySort) => void;
+  indicesExist: boolean;
+}) {
   const renderTitleBar = (totalItems?: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
@@ -176,8 +180,10 @@ export function TracesTable(props: { items: any[]; refresh: (sort?: PropertySort
             sorting={sorting}
             onTableChange={onTableChange}
           />
-        ) : (
+        ) : props.indicesExist ? (
           <NoMatchMessage size="xl" />
+        ) : (
+          <MissingConfigurationMessage />
         )}
       </EuiPanel>
     </>

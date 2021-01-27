@@ -55,7 +55,7 @@ export function MissingConfigurationMessage() {
   return (
     <>
       <EuiEmptyPrompt
-        title={<h2>Indices required</h2>}
+        title={<h2>Trace Analytics not set up</h2>}
         body={
           <EuiText>
             {`The indices required for trace analytics (${RAW_INDEX_NAME} and ${SERVICE_MAP_INDEX_NAME}) do not exist or you do not have permission to access them.`}
