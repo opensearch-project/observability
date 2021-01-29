@@ -18,6 +18,7 @@ import React, { useMemo } from 'react';
 import { Plt } from './plt';
 
 export function LinePlt(props: { data: Plotly.Data[] }) {
+  const maxY = props.data[0]?.y ? Math.max(...props.data[0].y) : 0;
   const layout = useMemo(
     () => ({
       plot_bgcolor: 'rgba(0, 0, 0, 0)',
@@ -31,6 +32,7 @@ export function LinePlt(props: { data: Plotly.Data[] }) {
         fixedrange: true,
         showgrid: false,
         visible: false,
+        range: [0, maxY * 1.1],
       },
       margin: {
         l: 0,
@@ -39,7 +41,7 @@ export function LinePlt(props: { data: Plotly.Data[] }) {
         t: 0,
         pad: 0,
       },
-      height: 15,
+      height: 20,
       width: 60,
     }),
     [props.data]
