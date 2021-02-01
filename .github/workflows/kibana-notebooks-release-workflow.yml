@@ -21,8 +21,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_STAGING_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_STAGING_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Checkout Plugin
@@ -54,7 +54,16 @@ jobs:
           cd kibana/plugins/kibana-notebooks
           yarn build
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
+
+      - name: Upload to S3
+        run: |
+          cd kibana/plugins/kibana-notebooks
           artifact=`ls ./build/*.zip`
 
-          aws s3 cp $artifact s3://artifacts.opendistroforelasticsearch.amazon.com/downloads/kibana-plugins/opendistro-notebooks/
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/downloads/*"
+          # inject build number before the suffix
+          zip_outfile=`basename ${artifact%.zip}-build-${GITHUB_RUN_NUMBER}.zip`
+
+          s3_prefix="s3://staging.artifacts.opendistroforelasticsearch.amazon.com/snapshots/kibana-plugins/notebooks/"
+
+          echo "Copying ${artifact} to ${s3_prefix}${zip_outfile}"
+          aws s3 cp --quiet $artifact ${s3_prefix}${zip_outfile}
