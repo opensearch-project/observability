@@ -19,7 +19,7 @@ import java.util.concurrent.Callable
 buildscript {
     ext {
         es_group = "org.elasticsearch"
-        es_version = System.getProperty("es.version", "7.10.0")
+        es_version = System.getProperty("es.version", "7.10.2")
         kotlin_version = System.getProperty("kotlin.version", "1.4.0")
     }
 
@@ -224,18 +224,6 @@ integTest.getClusters().forEach{c -> c.plugin(project.getObjects().fileProperty(
 
 testClusters.integTest {
     testDistribution = 'OSS'
-    // need to install job-scheduler first, need to assemble job-scheduler first
-    plugin(provider(new Callable<RegularFile>(){
-        @Override
-        RegularFile call() throws Exception {
-            return new RegularFile() {
-                @Override
-                File getAsFile() {
-                    return fileTree("src/test/resources/job-scheduler").getSingleFile()
-                }
-            }
-        }
-    }))
     // Cluster shrink exception thrown if we try to set numberOfNodes to 1, so only apply if > 1
     if (_numNodes > 1) numberOfNodes = _numNodes
     // When running integration tests it doesn't forward the --debug-jvm to the cluster anymore
