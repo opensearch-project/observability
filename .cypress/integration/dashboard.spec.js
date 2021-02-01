@@ -94,13 +94,5 @@ describe('Testing plots', () => {
     cy.get('text.annotation-text[data-unformatted="Now: 22.22%"]').should('exist');
     cy.get('text.ytitle[data-unformatted="Throughput (n)"]').should('exist');
     cy.get('text.annotation-text[data-unformatted="Now: 36"]').should('exist');
-
-    // index 0-7 are box plots in dashboard table, 8 is error rate plot
-    cy.get('rect.nsewdrag').eq(8).click({ force: true });
-    cy.wait(delay);
-    cy.get('rect.nsewdrag').eq(8).click({ force: true });
-    cy.wait(delay);
-    cy.get('text.annotation-text[data-unformatted="Now: 7.41%"]').should('exist');
-    cy.get('text.annotation-text[data-unformatted="Now: 27"]').should('exist');
   });
 });

@@ -68,6 +68,7 @@ export function SearchBar(props: SearchBarOwnProps) {
               fullWidth
               isClearable={false}
               placeholder="Trace ID, trace group name"
+              data-test-subj="search-bar-input-box"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -81,13 +82,18 @@ export function SearchBar(props: SearchBarOwnProps) {
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton fill iconType="refresh" onClick={props.refresh}>
+          <EuiButton
+            data-test-subj="search-bar-refresh-button"
+            fill
+            iconType="refresh"
+            onClick={props.refresh}
+          >
             Refresh
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
 
-      {!props.datepickerOnly  && (
+      {!props.datepickerOnly && (
         <>
           <EuiSpacer size="s" />
           <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />

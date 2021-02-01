@@ -105,7 +105,7 @@ export function getServiceMapScaleColor(percent, idSelected) {
 export function getServiceMapGraph(
   map: ServiceObject,
   idSelected: string,
-  ticks?: number[],
+  ticks: number[],
   currService?: string,
   relatedServices?: string[]
 ) {
@@ -218,7 +218,7 @@ export const fixedIntervalToTickFormat = (fixedInterval: string) => {
 
 export const getPercentileFilter = (
   percentileMaps: Array<{ traceGroupName: string; durationFilter: { gte?: number; lte?: number } }>,
-  conditionString: string // >= 95
+  conditionString: string // >= 95th, < 95th
 ): FilterType => {
   const DSL = {
     query: {

@@ -93,7 +93,9 @@ export function FilterEditPopover(props: {
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
-          <EuiButtonEmpty onClick={props.closePopover}>Cancel</EuiButtonEmpty>
+          <EuiButtonEmpty data-test-subj="filter-popover-cancel-button" onClick={props.closePopover}>
+            Cancel
+          </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButton

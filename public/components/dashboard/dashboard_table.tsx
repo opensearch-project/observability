@@ -108,6 +108,7 @@ export function DashboardTable(props: {
         render: (item) =>
           item ? (
             <EuiLink
+              data-test-subj="dashboard-table-trace-group-name-button"
               onClick={() =>
                 props.addFilter({
                   field: 'traceGroup',
@@ -327,6 +328,7 @@ export function DashboardTable(props: {
         sortable: true,
         render: (item, row) => (
           <EuiLink
+            data-test-subj="dashboard-table-traces-button"
             onClick={() => {
               props.setRedirect(true);
               props.addFilter({
@@ -352,7 +354,10 @@ export function DashboardTable(props: {
           <PanelTitle title="Latency by trace group" totalItems={totalItems} />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiLink onClick={() => props.addPercentileFilter('lte')}>
+          <EuiLink
+            data-test-subj="dashboard-table-percentile-button-1"
+            onClick={() => props.addPercentileFilter('lte')}
+          >
             <EuiText size="xs">
               <span style={{ color: '#957ac9' }}>&#x25a1;</span> &lt; 95 percentile
             </EuiText>
@@ -360,7 +365,10 @@ export function DashboardTable(props: {
         </EuiFlexItem>
         <EuiFlexItem grow={1} />
         <EuiFlexItem grow={false}>
-          <EuiLink onClick={() => props.addPercentileFilter('gte')}>
+          <EuiLink
+            data-test-subj="dashboard-table-percentile-button-2"
+            onClick={() => props.addPercentileFilter('gte')}
+          >
             <EuiText size="xs">
               <span style={{ color: '#957ac9' }}>&#x25a0;</span> &gt;= 95 percentile
             </EuiText>

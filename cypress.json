@@ -7,6 +7,8 @@
   "screenshotsFolder": ".cypress/screenshots",
   "supportFile": ".cypress/support/index.js",
   "videosFolder": ".cypress/videos",
+  "viewportWidth": 1000,
+  "viewportHeight": 1600,
   "requestTimeout": 60000,
   "responseTimeout": 60000,
   "defaultCommandTimeout": 60000
