@@ -34,7 +34,7 @@ export const handleServicesRequest = async (
 ) => {
   handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL))
     .then(async (response) => {
-      const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
+      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL);
       if (setServiceMap) setServiceMap(serviceObject);
       return Promise.all(
         response.aggregations.service.buckets.map((bucket) => {
