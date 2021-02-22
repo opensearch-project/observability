@@ -13,14 +13,15 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Outputs } from '@nteract/presentational-components';
 import { Media } from '@nteract/outputs';
 import MarkdownRender from '@nteract/markdown';
-import { EuiText } from '@elastic/eui';
+import { EuiText, EuiSpacer, EuiCodeBlock } from '@elastic/eui';
 
 import { DATE_FORMAT, ParaType } from '../../../common';
 import { DashboardContainerInput, DashboardStart } from '../../../../../src/plugins/dashboard/public';
+import { QueryDataGrid } from './para_query_grid';
 import moment from 'moment';
 
 /*
@@ -38,14 +39,81 @@ export const ParaOutput = (props: {
   setVisInput: (input: DashboardContainerInput) => void;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
 }) => {
+
+  const createQueryColumns = (jsonColumns: any[]) => {
+    let index = 0;
+    let datagridColumns = [];
+    for (index = 0; index < jsonColumns.length; ++index) {
+      const datagridColumnObject = {
+        id: jsonColumns[index].name,
+        displayAsText: jsonColumns[index].name
+      }
+      datagridColumns.push(datagridColumnObject);
+    }
+    return datagridColumns;
+  }
+
+  const getQueryOutputData = (queryObject: any) => {
+    const data = [];
+    let index = 0;
+    let schemaIndex = 0;
+    for (index = 0; index < queryObject.datarows.length; ++index) {
+      let datarowValue = {};
+      for (schemaIndex = 0; schemaIndex < queryObject.schema.length; ++schemaIndex) {
+        const columnName = queryObject.schema[schemaIndex].name;
+        if (typeof(queryObject.datarows[index][schemaIndex]) === 'object') {
+          datarowValue[columnName] = JSON.stringify(queryObject.datarows[index][schemaIndex]);
+        }
+        else if (typeof(queryObject.datarows[index][schemaIndex]) === 'boolean') {
+          datarowValue[columnName] = queryObject.datarows[index][schemaIndex].toString();
+        }
+        else {
+          datarowValue[columnName] = queryObject.datarows[index][schemaIndex];
+        }
+      }
+      data.push(datarowValue);
+    }
+    return data;
+  }
+
   const outputBody = (key: string, typeOut: string, val: string) => {
     /* Returns a component to render paragraph outputs using the para.typeOut property
      * Currently supports HTML, TABLE, IMG
      * TODO: add table rendering
      */
-
     if (typeOut !== undefined) {
       switch (typeOut) {
+        case 'QUERY':
+          const inputQuery = para.inp.substring(4, para.inp.length);
+          const queryObject = JSON.parse(val);
+          if (queryObject.hasOwnProperty('error')) {
+            return (
+              <EuiCodeBlock key={key}>
+                {val}
+              </EuiCodeBlock>
+            )
+          }
+          else {
+            const columns = createQueryColumns(queryObject.schema);
+            const data = getQueryOutputData(queryObject);
+            const [visibleColumns, setVisibleColumns] = useState(() =>
+              columns.map(({ id }) => id)
+            );
+            return (
+              <div>
+                <EuiText key={'query-input-key'}><b>{inputQuery}</b></EuiText>
+                <EuiSpacer/>
+                <QueryDataGrid
+                  key={key}
+                  rowCount={queryObject.datarows.length}
+                  queryColumns={columns}
+                  visibleColumns={visibleColumns}
+                  setVisibleColumns={setVisibleColumns}
+                  dataValues={data}
+                /> 
+              </div>
+            );            
+          }
         case 'MARKDOWN':
           return (
             <EuiText key={key} className='markdown-output-text'>

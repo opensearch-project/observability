@@ -17,7 +17,7 @@
 export const delay = 1000;
 export const TEST_NOTEBOOK = 'Test Notebook';
 export const SAMPLE_URL = 'https://github.com/opendistro-for-elasticsearch/sql/tree/master/sql-jdbc';
-export const MARKDOWN_TEXT = `
+export const MARKDOWN_TEXT = `%md
 # Heading 1
 
 #### List and links
@@ -41,4 +41,12 @@ POST _opendistro/_sql/_explain
 |----|----|----|----|
 | a2 | b2 | c2 | d2 |
 | a3 | b3 | c3 | d3 |
+`
+
+export const SQL_QUERY_TEXT = `%sql
+select * from kibana_sample_data_flights limit 20
+`
+
+export const PPL_QUERY_TEXT = `%ppl
+source=kibana_sample_data_flights
 `

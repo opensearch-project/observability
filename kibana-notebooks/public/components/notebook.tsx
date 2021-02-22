@@ -35,6 +35,7 @@ import {
   EuiPanel,
   EuiCard,
 } from '@elastic/eui';
+import _ from 'lodash';
 import { Cells } from '@nteract/presentational-components';
 
 import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
@@ -48,6 +49,21 @@ import { defaultParagraphParser } from './helpers/default_parser';
 import moment from 'moment';
 import { PanelWrapper } from './helpers/panel_wrapper';
 import { getDeleteModal, getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
+import CSS from 'csstype';
+
+const panelStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1200px',
+  marginTop: '20px'
+};
+
+const pageStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1570px',
+}
+
 
 /*
  * "Notebook" component is used to display an open notebook
@@ -319,7 +335,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       paragraphInput: newParaContent,
       inputType: inpType,
     };
-
+    
     return this.props.http
       .post(`${API_PREFIX}/paragraph/`, {
         body: JSON.stringify(addParaObj),
@@ -423,7 +439,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       .post(`${API_PREFIX}/paragraph/update/run/`, {
         body: JSON.stringify(paraUpdateObject),
       })
-      .then((res) => {
+      .then(async (res) => {
+        if (res.output[0].outputType === 'QUERY') {
+          await this.loadQueryResultsFromInput(res);
+        }
         const paragraphs = this.state.paragraphs;
         paragraphs[index] = res;
         const parsedPara = [...this.state.parsedPara];
@@ -476,8 +495,15 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     this.showParagraphRunning('queue');
     this.props.http
       .get(`${API_PREFIX}/note/` + this.props.openedNoteId)
-      .then((res) => {
+      .then(async (res) => {
         this.setBreadcrumbs(res.path);
+        let index = 0;
+        for (index = 0; index < res.paragraphs.length; ++index) {
+          // if the paragraph is a query, load the query output
+          if (res.paragraphs[index].output[0].outputType === 'QUERY') {
+            await this.loadQueryResultsFromInput(res.paragraphs[index]);
+          }
+        }
         this.setState(res, this.parseAllParagraphs);
       })
     .catch((err) => {
@@ -485,6 +511,23 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       console.error(err.body.message);
     });
   };
+
+  loadQueryResultsFromInput = async (paragraph: any) => {
+    const queryType = (paragraph.input.inputText.substring(0, 4) === '%sql') 
+    ? 'sqlquery' : 'pplquery';
+      await this.props.http.post(
+        `/api/sql/${queryType}`, {
+          body: JSON.stringify(paragraph.output[0].result)
+        })
+        .then((response) => {
+          paragraph.output[0].result = response.data.resp;
+          return paragraph;
+        })
+        .catch((err) => {
+          this.props.setToast('Error getting query output', 'danger');
+          console.error(err);
+        });      
+  }
 
   setPara = (para: ParaType, index: number) => {
     const parsedPara = [...this.state.parsedPara];
@@ -511,6 +554,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   }
 
   render() {
+    const createdText = (
+      <div>
+        <p>Created <br/> {moment(this.state.dateCreated).format(DATE_FORMAT)}</p>
+      </div>
+    );
     const viewOptions: EuiButtonGroupOption[] = [
       {
         id: 'view_both',
@@ -528,10 +576,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     const addParaPanels: EuiContextMenuPanelDescriptor[] = [
       {
         id: 0,
-        title: 'Input type',
+        title: 'Type',
         items: [
           {
-            name: 'Markdown',
+            name: 'Code block',
             onClick: () => {
               this.setState({ isAddParaPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'CODE');
@@ -663,7 +711,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     ];
 
     return (
-      <>
+      <div style={pageStyles}>
         <EuiPage>
           <EuiPageBody component="div">
             <EuiPageHeader>
@@ -686,6 +734,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                       />
                     </EuiFlexItem>
                   }
+                  <EuiFlexItem />
+                  <EuiFlexItem />
                   <EuiFlexItem />
                   <EuiFlexItem>
                     <EuiPopover
@@ -722,13 +772,17 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                 </EuiFlexGroup>
               </EuiPageHeaderSection>
             </EuiPageHeader>
-            <EuiText color="subdued">Created: {moment(this.state.dateCreated).format(DATE_FORMAT)}</EuiText>
+            <EuiFlexGroup alignItems={'flexStart'} gutterSize={'l'}>
+              <EuiFlexItem grow={false}>
+                <EuiText>{createdText}</EuiText>
+              </EuiFlexItem>
+            </EuiFlexGroup>
             {this.state.parsedPara.length > 0 ? (
               <>
                 <Cells>
                   <PanelWrapper shouldWrap={this.state.selectedViewId === 'output_only'}>
                     {this.state.parsedPara.map((para: ParaType, index: number) => (
-                      <div ref={this.state.parsedPara[index].paraDivRef} key={`para_div_${para.uniqueId}`}>
+                      <div ref={this.state.parsedPara[index].paraDivRef} key={`para_div_${para.uniqueId}`} style={panelStyles}>
                         <Paragraphs
                           ref={this.state.parsedPara[index].paraRef}
                           para={para}
@@ -773,7 +827,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
               </>
             ) : (
                 // show default paragraph if no paragraphs in this notebook
-                <div style={{ marginTop: 20 }}>
+                <div style={panelStyles}>
                   <EuiPanel>
                     <EuiSpacer size='xxl' />
                     <EuiText textAlign='center'>
@@ -788,11 +842,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                       <EuiFlexItem grow={3}>
                         <EuiCard
                           icon={<EuiIcon size="xxl" type="editorCodeBlock" />}
-                          title="Markdown"
-                          description="Create rich text with markup language"
+                          title="Code block"
+                          description="Write contents directly using markdown, SQL or PPL"
                           footer={
                             <EuiButton onClick={() => this.addPara(0, '', 'CODE')} style={{ marginBottom: 17 }}>
-                              Add markdown paragraph
+                              Add
                             </EuiButton>
                           }
                         />
@@ -818,7 +872,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           </EuiPageBody>
         </EuiPage>
         {this.state.isModalVisible && this.state.modalLayout}
-      </>
+      </div>
     );
   }
 }

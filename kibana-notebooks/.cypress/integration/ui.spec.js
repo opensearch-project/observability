@@ -15,7 +15,14 @@
 
 /// <reference types="cypress" />
 
-import { delay, TEST_NOTEBOOK, MARKDOWN_TEXT, SAMPLE_URL } from "../utils/constants";
+import { 
+  delay, 
+  TEST_NOTEBOOK, 
+  MARKDOWN_TEXT, 
+  SAMPLE_URL, 
+  SQL_QUERY_TEXT, 
+  PPL_QUERY_TEXT 
+} from "../utils/constants";
 
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
@@ -120,7 +127,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Goes into a notebook and creates paragraphs', () => {
-    cy.get('.euiButton__text').contains('Add markdown paragraph').click();
+    cy.get('.euiButton__text').contains('Add').click();
     cy.wait(delay);
 
     cy.get('.euiTextArea').should('exist');
@@ -128,7 +135,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay);
     cy.get('.euiTextColor').contains('Input is required.').should('exist');
-
+    cy.get('.euiTextArea').clear();
     cy.get('.euiTextArea').type(MARKDOWN_TEXT);
     cy.wait(delay);
 
@@ -210,6 +217,38 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
 
     cy.get('div.visualization').should('exist');
+  });
+
+  it('Adds a SQL query paragraph', () => {
+    cy.get('.euiButton__text').contains('Add paragraph').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Code block').click();
+    cy.wait(delay);
+
+    cy.get('.euiTextArea').type(SQL_QUERY_TEXT);
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Run').click();
+    cy.wait(delay);
+
+    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('select * from kibana_sample_data_flights limit 20');
+    
+    cy.get('.euiDataGrid__overflow').should('exist');
+  });
+
+  it('Adds a PPL query paragraph', () => {
+    cy.get('.euiButton__text').contains('Add paragraph').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Code block').click();
+    cy.wait(delay);
+
+    cy.get('.euiTextArea').type(PPL_QUERY_TEXT);
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Run').click();
+    cy.wait(delay);
+
+    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('source=kibana_sample_data_flights');
+    
+    cy.get('.euiDataGrid__overflow').should('exist');
   });
 
   it('Clears outputs', () => {

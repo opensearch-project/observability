@@ -25,6 +25,7 @@ import {
 import { KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart } from './types';
 import { serverRoute } from './routes';
 import { NotebooksPlugin } from './adaptors/es_notebooks_plugin';
+import sqlPlugin from './clusters/sql/sqlPlugin';
 
 export class KibanaNotebooksPlugin
   implements Plugin<KibanaNotebooksPluginSetup, KibanaNotebooksPluginStart> {
@@ -41,7 +42,7 @@ export class KibanaNotebooksPlugin
     const esNotebooksClient: ILegacyClusterClient = core.elasticsearch.legacy.createClient(
       'es_notebooks',
       {
-        plugins: [NotebooksPlugin],
+        plugins: [NotebooksPlugin, sqlPlugin],
       }
     );
     core.http.registerRouteHandlerContext('notebooks_plugin', (context, request) => {
@@ -52,7 +53,7 @@ export class KibanaNotebooksPlugin
     });
 
     // Register server side APIs
-    serverRoute(router);
+    serverRoute(router, esNotebooksClient);
 
     return {};
   }

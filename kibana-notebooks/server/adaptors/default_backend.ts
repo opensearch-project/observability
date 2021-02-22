@@ -15,15 +15,15 @@
 
 import { v4 as uuid } from 'uuid';
 import { NotebookAdaptor } from './notebook_adaptor';
-import { ILegacyScopedClusterClient, RequestHandlerContext } from '../../../../src/core/server';
-import { optionsType, FETCH_SIZE } from '../../common';
-import { RequestParams, errors } from '@elastic/elasticsearch';
+import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../src/core/server';
+import { optionsType } from '../../common';
 import {
   DefaultNotebooks,
   DefaultParagraph,
   DefaultInput,
   DefaultOutput,
 } from '../helpers/default_notebook_schema';
+import { formatNotRecognized, inputIsQuery } from '../helpers/query_helpers';
 
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
@@ -275,6 +275,9 @@ export class DefaultBackend implements NotebookAdaptor {
       if (inputType === 'VISUALIZATION') {
         paragraphType = 'VISUALIZATION';
       }
+      if (paragraphInput.substring(0, 3) === '%sql' || paragraphInput.substring(0, 3) === '%ppl') {
+        paragraphType = 'QUERY';
+      } 
       const inputObject = {
         inputType: paragraphType,
         inputText: paragraphInput,
@@ -304,32 +307,51 @@ export class DefaultBackend implements NotebookAdaptor {
    * Currently only runs markdown by copying input.inputText to result
    * UI renders Markdown
    */
-  runParagraph = async function (paragraphs: Array<DefaultParagraph>, paragraphId: string) {
+  runParagraph = async function (paragraphs: Array<DefaultParagraph>, paragraphId: string, client: ILegacyScopedClusterClient) {
     try {
       const updatedParagraphs = [];
-      paragraphs.map((paragraph: DefaultParagraph) => {
-        const updatedParagraph = { ...paragraph };
-        if (paragraph.input.inputType === 'MARKDOWN' && paragraph.id === paragraphId) {
+      let index = 0;
+      for (index = 0; index < paragraphs.length; ++index) {
+        const updatedParagraph = { ...paragraphs[index] };
+        if (paragraphs[index].input.inputType === 'MARKDOWN' && paragraphs[index].id === paragraphId) {
           updatedParagraph.dateModified = new Date().toISOString();
-          updatedParagraph.output = [
-            {
-              outputType: 'MARKDOWN',
-              result: paragraph.input.inputText,
-              execution_time: '0s',
-            },
-          ];
-        } else if (paragraph.input.inputType === 'VISUALIZATION' && paragraph.id === paragraphId) {
-          updatedParagraph.dateModified = new Date().toISOString();
-          updatedParagraph.output = [
-            {
-              outputType: 'VISUALIZATION',
-              result: '',
-              execution_time: '0s',
-            },
-          ];
+          if (inputIsQuery(paragraphs[index].input.inputText)) {
+            updatedParagraph.output = [
+              {
+                outputType: 'QUERY',
+                result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
+                execution_time: '0s',
+              },
+            ];
+          } else if (paragraphs[index].input.inputText.substring(0, 3) === '%md') {
+            updatedParagraph.output = [
+              {
+                outputType: 'MARKDOWN',
+                result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
+                execution_time: '0s',
+              },
+            ];            
+          } else if (paragraphs[index].input.inputType === 'VISUALIZATION' && paragraphs[index].id === paragraphId) {
+            updatedParagraph.dateModified = new Date().toISOString();
+            updatedParagraph.output = [
+              {
+                outputType: 'VISUALIZATION',
+                result: '',
+                execution_time: '0s',
+              },
+            ];
+        } else if (formatNotRecognized(paragraphs[index].input.inputText)) {
+            updatedParagraph.output = [
+              {
+                outputType: 'MARKDOWN',
+                result: 'Please select an input type (%sql, %ppl, or %md)',
+                execution_time: '0s',
+              },
+            ];     
+         }
         }
         updatedParagraphs.push(updatedParagraph);
-      });
+      }
       return updatedParagraphs;
     } catch (error) {
       throw new Error('Running Paragraph Error:' + error);
@@ -345,12 +367,14 @@ export class DefaultBackend implements NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph = async function (
-    client: ILegacyScopedClusterClient,
-    params: { noteId: string; paragraphId: string; paragraphInput: string },
+    client: ILegacyClusterClient,
+    request: any,
     _wreckOptions: optionsType
   ) {
     try {
-      const esClientGetResponse = await this.getNote(client, params.noteId);
+      const scopedClient = client.asScoped(request);
+      const params = request.body;
+      const esClientGetResponse = await this.getNote(scopedClient, params.noteId);
       const updatedInputParagraphs = this.updateParagraphInput(
         esClientGetResponse.notebook.paragraphs,
         params.paragraphId,
@@ -358,21 +382,22 @@ export class DefaultBackend implements NotebookAdaptor {
       );
       const updatedOutputParagraphs = await this.runParagraph(
         updatedInputParagraphs,
-        params.paragraphId
+        params.paragraphId,
+        client
       );
-
       const updateNotebook = {
         paragraphs: updatedOutputParagraphs,
         dateModified: new Date().toISOString(),
       };
-      const esClientResponse = await this.updateNote(client, params.noteId, updateNotebook);
-
+      const esClientResponse = await this.updateNote(scopedClient, params.noteId, updateNotebook);
       let resultParagraph = {};
-      updatedOutputParagraphs.map((paragraph: DefaultParagraph) => {
-        if (params.paragraphId === paragraph.id) {
-          resultParagraph = paragraph;
+      let index = 0;
+
+      for (index = 0; index < updatedOutputParagraphs.length; ++index) {
+        if (params.paragraphId === updatedOutputParagraphs[index].id) {
+          resultParagraph = updatedOutputParagraphs[index];
         }
-      });
+      };
       return resultParagraph;
     } catch (error) {
       throw new Error('Update/Run Paragraph Error:' + error);

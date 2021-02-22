@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-import { ILegacyScopedClusterClient, RequestHandlerContext } from '../../../../src/core/server';
+import { ILegacyClusterClient, ILegacyScopedClusterClient, RequestHandlerContext } from '../../../../src/core/server';
 import { optionsType } from '../../common';
 
 export interface NotebookAdaptor {
@@ -95,8 +95,8 @@ export interface NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph: (
-    client: ILegacyScopedClusterClient,
-    params: { noteId: string; paragraphId: string; paragraphInput: string },
+    client: ILegacyClusterClient,
+    request: any,
     wreckOptions: optionsType
   ) => Promise<any>;
 
