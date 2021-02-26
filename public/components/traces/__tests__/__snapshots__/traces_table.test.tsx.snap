@@ -78,7 +78,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
           }
           body={
             <EuiText>
-              The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map) do not exist or you do not have permission to access them.
+              The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
             </EuiText>
           }
           title={
@@ -120,7 +120,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
                       <div
                         className="euiText euiText--medium"
                       >
-                        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map) do not exist or you do not have permission to access them.
+                        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
                       </div>
                     </EuiText>
                   </div>

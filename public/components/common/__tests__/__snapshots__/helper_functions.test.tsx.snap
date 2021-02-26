@@ -104,7 +104,7 @@ exports[`Helper functions renders no match and missing configuration messages 2`
     }
     body={
       <EuiText>
-        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map) do not exist or you do not have permission to access them.
+        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
       </EuiText>
     }
     title={
