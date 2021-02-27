@@ -28,6 +28,7 @@ export function RegisterDslRouter(router: IRouter) {
     async (context, request, response) => {
       const params: RequestParams.IndicesExists = {
         index: [RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME],
+        allow_no_indices: false,
       };
       try {
         const resp = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
