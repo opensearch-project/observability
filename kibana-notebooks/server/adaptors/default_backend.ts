@@ -24,6 +24,7 @@ import {
   DefaultOutput,
 } from '../helpers/default_notebook_schema';
 import { formatNotRecognized, inputIsQuery } from '../helpers/query_helpers';
+import now from "performance-now";
 
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
@@ -277,7 +278,7 @@ export class DefaultBackend implements NotebookAdaptor {
       }
       if (paragraphInput.substring(0, 3) === '%sql' || paragraphInput.substring(0, 3) === '%ppl') {
         paragraphType = 'QUERY';
-      } 
+      }
       const inputObject = {
         inputType: paragraphType,
         inputText: paragraphInput,
@@ -312,6 +313,7 @@ export class DefaultBackend implements NotebookAdaptor {
       const updatedParagraphs = [];
       let index = 0;
       for (index = 0; index < paragraphs.length; ++index) {
+        const startTime = now();
         const updatedParagraph = { ...paragraphs[index] };
         if (paragraphs[index].input.inputType === 'MARKDOWN' && paragraphs[index].id === paragraphId) {
           updatedParagraph.dateModified = new Date().toISOString();
@@ -320,7 +322,7 @@ export class DefaultBackend implements NotebookAdaptor {
               {
                 outputType: 'QUERY',
                 result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
-                execution_time: '0s',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
           } else if (paragraphs[index].input.inputText.substring(0, 3) === '%md') {
@@ -328,27 +330,27 @@ export class DefaultBackend implements NotebookAdaptor {
               {
                 outputType: 'MARKDOWN',
                 result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
-                execution_time: '0s',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
-            ];            
+            ];
           } else if (paragraphs[index].input.inputType === 'VISUALIZATION' && paragraphs[index].id === paragraphId) {
             updatedParagraph.dateModified = new Date().toISOString();
             updatedParagraph.output = [
               {
                 outputType: 'VISUALIZATION',
                 result: '',
-                execution_time: '0s',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
-        } else if (formatNotRecognized(paragraphs[index].input.inputText)) {
+          } else if (formatNotRecognized(paragraphs[index].input.inputText)) {
             updatedParagraph.output = [
               {
                 outputType: 'MARKDOWN',
                 result: 'Please select an input type (%sql, %ppl, or %md)',
-                execution_time: '0s',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
-            ];     
-         }
+            ];
+          }
         }
         updatedParagraphs.push(updatedParagraph);
       }
