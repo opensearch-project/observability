@@ -30,6 +30,7 @@ import {
   EuiContextMenuPanelDescriptor,
   EuiIcon,
   EuiLink,
+  EuiFormRow,
 } from '@elastic/eui';
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 import _ from 'lodash';
@@ -89,6 +90,8 @@ type ParagraphProps = {
   runPara: (para: ParaType, index: number, vizObjectInput?: string) => void;
   clonePara: (para: ParaType, index: number) => void;
   movePara: (index: number, targetIndex: number) => void;
+  showQueryParagraphError: boolean;
+  queryParagraphErrorMessage: string;
 };
 
 export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
@@ -101,7 +104,9 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     addPara,
     DashboardContainerByValueRenderer,
     deleteVizualization,
-    http,
+    showQueryParagraphError,
+    queryParagraphErrorMessage,
+    http
   } = props;
 
   const [visOptions, setVisOptions] = useState([]); // options for loading saved visualizations
@@ -421,6 +426,8 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     }
   };
 
+  const paragraphLabel = "Specify the input language on the first line using %[language type]. Supported languages include markdown, SQL and PPL"
+
   return (
     <>
       <EuiPanel>
@@ -429,21 +436,28 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           {para.isInputExpanded &&
             <>
               <EuiSpacer size='s' />
-              <ParaInput
-                para={para}
-                index={index}
-                runParaError={runParaError}
-                textValueEditor={textValueEditor}
-                handleKeyPress={handleKeyPress}
-                startTime={para.visStartTime}
-                setStartTime={setStartTime}
-                endTime={para.visEndTime}
-                setEndTime={setEndTime}
-                setIsOutputStale={setIsOutputStale}
-                visOptions={visOptions}
-                selectedVisOption={selectedVisOption}
-                setSelectedVisOption={setSelectedVisOption}
-              />
+              <EuiFormRow 
+                fullWidth={true} 
+                helpText={paragraphLabel} 
+                isInvalid={showQueryParagraphError}
+                error={queryParagraphErrorMessage}
+              >
+                <ParaInput
+                  para={para}
+                  index={index}
+                  runParaError={runParaError}
+                  textValueEditor={textValueEditor}
+                  handleKeyPress={handleKeyPress}
+                  startTime={para.visStartTime}
+                  setStartTime={setStartTime}
+                  endTime={para.visEndTime}
+                  setEndTime={setEndTime}
+                  setIsOutputStale={setIsOutputStale}
+                  visOptions={visOptions}
+                  selectedVisOption={selectedVisOption}
+                  setSelectedVisOption={setSelectedVisOption}
+                />
+              </EuiFormRow>
               {runParaError &&
                 <EuiText color="danger" size="s">{`${para.isVizualisation ? 'Visualization' : 'Input'} is required.`}</EuiText>
               }

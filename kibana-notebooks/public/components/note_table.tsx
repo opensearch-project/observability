@@ -45,6 +45,12 @@ import { CREATE_NOTE_MESSAGE, DATE_FORMAT, DOCUMENTATION_URL } from '../../commo
 import { getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
 import { NotebookType } from './main';
 
+const pageStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1130px',
+}
+
 type NoteTableProps = {
   fetchNotebooks: () => void;
   notebooks: Array<NotebookType>;
@@ -235,7 +241,7 @@ export function NoteTable(props: NoteTableProps) {
   ] as Array<EuiTableFieldDataColumnType<{ path: string; id: string; dateCreated: string; dateModified: string; }>>;
 
   return (
-    <>
+    <div style={pageStyles}>
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>
@@ -332,6 +338,6 @@ export function NoteTable(props: NoteTableProps) {
         </EuiPageBody>
       </EuiPage>
       {isModalVisible && modalLayout}
-    </>
+    </div>
   );
 };

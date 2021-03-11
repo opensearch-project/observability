@@ -54,14 +54,14 @@ import CSS from 'csstype';
 const panelStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
-  maxWidth: '1200px',
+  maxWidth: '1130px',
   marginTop: '20px'
 };
 
 const pageStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
-  maxWidth: '1570px',
+  maxWidth: '1500px',
 }
 
 
@@ -99,6 +99,8 @@ type NotebookState = {
   isNoteActionsPopoverOpen: boolean;
   isModalVisible: boolean;
   modalLayout: React.ReactNode;
+  showQueryParagraphError: boolean;
+  queryParagraphErrorMessage: string;
 };
 export class Notebook extends Component<NotebookProps, NotebookState> {
   constructor(props: Readonly<NotebookProps>) {
@@ -116,6 +118,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       isNoteActionsPopoverOpen: false,
       isModalVisible: false,
       modalLayout: <EuiOverlayMask></EuiOverlayMask>,
+      showQueryParagraphError: false,
+      queryParagraphErrorMessage: '',
     };
   }
 
@@ -442,6 +446,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       .then(async (res) => {
         if (res.output[0].outputType === 'QUERY') {
           await this.loadQueryResultsFromInput(res);
+          const checkErrorJSON = JSON.parse(res.output[0].result);
+          if (this.checkQueryOutputError(checkErrorJSON)) {
+            return;
+          }
         }
         const paragraphs = this.state.paragraphs;
         paragraphs[index] = res;
@@ -454,6 +462,25 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         console.error(err.body.message);
       });
   };
+
+  checkQueryOutputError = (checkErrorJSON: JSON) => {
+    // if query output has error output
+    if (checkErrorJSON.hasOwnProperty('error')) {
+      this.setState({
+        showQueryParagraphError: true,
+        queryParagraphErrorMessage: checkErrorJSON.error.reason
+      });
+      return true;
+    }
+    // query ran successfully, reset error variables if currently set to true
+    else if (this.state.showQueryParagraphError) {
+      this.setState({
+        showQueryParagraphError: false,
+        queryParagraphErrorMessage: ''
+      });
+      return false;
+    }
+  }
 
   runForAllParagraphs = (reducer: (para: ParaType, index: number) => Promise<any>) => {
     return this.state.parsedPara.map((para: ParaType, index: number) => () => reducer(para, index))
@@ -598,7 +625,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     const paraActionsPanels: EuiContextMenuPanelDescriptor[] = [
       {
         id: 0,
-        title: 'Paragraph actions',
+        title: 'Actions',
         items: [
           {
             name: 'Add paragraph to top',
@@ -746,7 +773,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                           iconType='arrowDown'
                           iconSide='right'
                           onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
-                        >Paragraph actions</EuiButton>
+                        >Actions</EuiButton>
                       }
                       isOpen={this.state.isParaActionsPopoverOpen}
                       closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
@@ -803,6 +830,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                           runPara={this.updateRunParagraph}
                           clonePara={this.cloneParaButton}
                           movePara={this.movePara}
+                          showQueryParagraphError={this.state.showQueryParagraphError}
+                          queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
                         />
                       </div>
                     ))}
