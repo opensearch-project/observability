@@ -1,5 +1,4 @@
 {
-  "baseUrl": "http://localhost:5601",
   "video": true,
   "fixturesFolder": ".cypress/fixtures",
   "integrationFolder": ".cypress/integration",
@@ -11,5 +10,10 @@
   "viewportHeight": 1600,
   "requestTimeout": 60000,
   "responseTimeout": 60000,
-  "defaultCommandTimeout": 60000
+  "defaultCommandTimeout": 60000,
+  "env": {
+    "elasticsearch": "localhost:9200",
+    "kibana": "localhost:5601",
+    "security_enabled": false
+  }
 }

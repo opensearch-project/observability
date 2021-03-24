@@ -26,7 +26,7 @@ import {
 
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
-    cy.visit('app/home#/tutorial_directory/sampleData');
+    cy.visit(`${Cypress.env('kibana')}/app/home#/tutorial_directory/sampleData`);
     cy.get('div[data-test-subj="sampleDataSetCardflights"]').contains(/(Add|View) data/).click();
     cy.wait(delay * 3);
   });
@@ -34,7 +34,7 @@ describe('Adding sample data and visualization', () => {
 
 describe('Testing notebooks table', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-notebooks-kibana#');
+    cy.visit(`${Cypress.env('kibana')}/app/opendistro-notebooks-kibana#`);
     cy.wait(delay * 3);
   });
 
@@ -121,7 +121,7 @@ describe('Testing notebooks table', () => {
 
 describe('Testing paragraphs', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-notebooks-kibana#');
+    cy.visit(`${Cypress.env('kibana')}/app/opendistro-notebooks-kibana#`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
     cy.wait(delay * 3);
   });
