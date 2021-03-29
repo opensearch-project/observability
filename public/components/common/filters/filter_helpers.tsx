@@ -13,21 +13,21 @@
  *   permissions and limitations under the License.
  */
 
-import { EuiFieldText, EuiFormControlLayoutDelimited, EuiFormRow, EuiSpacer } from '@elastic/eui';
+import {
+  EuiComboBox,
+  EuiFieldText,
+  EuiFormControlLayoutDelimited,
+  EuiFormRow,
+  EuiSpacer,
+} from '@elastic/eui';
 import _ from 'lodash';
 import React from 'react';
 
-const getFields = (page) =>
+const getFields = (page: 'dashboard' | 'traces' | 'services') =>
   ({
-    dashboard: ['traceGroup', 'status.code', 'status.message', 'durationInNanos'],
-    traces: [
-      'traceId',
-      'traceGroup',
-      'status.code',
-      'status.message',
-      'durationInNanos',
-    ],
-    services: [],
+    dashboard: ['traceGroup.name', 'serviceName', 'error', 'status.message', 'latency'],
+    traces: ['traceId', 'traceGroup.name', 'serviceName', 'error', 'status.message', 'latency'],
+    services: ['traceGroup.name', 'serviceName', 'error', 'status.message', 'latency'],
   }[page]);
 // filters will take effect and can be manually added
 export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => getFields(page);
@@ -38,7 +38,7 @@ export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') 
   return fields;
 };
 
-export const getType = (field: string): string => {
+const getType = (field: string): string => {
   const typeMapping = {
     attributes: {
       host: {
@@ -63,6 +63,7 @@ export const getType = (field: string): string => {
       port: 'long',
     },
     durationInNanos: 'long',
+    latency: 'long',
     endTime: 'date_nanos',
     startTime: 'date_nanos',
   };
@@ -121,7 +122,12 @@ export const getOperatorOptions = (field: string) => {
   return operators;
 };
 
-export const getValueComponent = (operator: string, value: any, setValue: (v: any) => void) => {
+export const getValueComponent = (
+  field: string,
+  operator: string,
+  value: any,
+  setValue: (v: any) => void
+) => {
   const textField = (
     <>
       <EuiSpacer size="s" />
@@ -182,6 +188,34 @@ export const getValueComponent = (operator: string, value: any, setValue: (v: an
       </>
     );
   };
+
+  const getComboBoxField = () => {
+    return (
+      <>
+        <EuiSpacer size="s" />
+        <EuiFormRow label={'Value'}>
+          <EuiComboBox
+            placeholder="Select a value"
+            options={[
+              {
+                label: 'true',
+              },
+              {
+                label: 'false',
+              },
+            ]}
+            onChange={setValue}
+            selectedOptions={value || []}
+            singleSelection={true}
+          />
+        </EuiFormRow>
+      </>
+    );
+  };
+
+  if (field === 'error' && (operator === 'is' || operator === 'is not')) {
+    return getComboBoxField();
+  }
 
   const valueMapping = {
     is: textField,

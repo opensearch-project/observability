@@ -11,7 +11,7 @@ exports[`Error rate plot component renders error rate plot 1`] = `
     }
   >
     <PanelTitle
-      title="Error rate over time"
+      title="Trace error rate over time"
     />
     <EuiHorizontalRule
       margin="m"

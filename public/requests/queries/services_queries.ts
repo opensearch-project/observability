@@ -195,7 +195,12 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
 };
 
 export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
-  const traceGroupFilter = new Set(DSL.custom?.traceGroup);
+  const traceGroupFilter = new Set(
+    DSL?.query?.bool.must
+      .filter((must) => must.term?.['traceGroup.name'])
+      .map((must) => must.term['traceGroup.name']) || []
+  );
+
   const targetResource =
     traceGroupFilter.size > 0
       ? [].concat(
@@ -230,9 +235,10 @@ export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: Service
                       {
                         bool: {
                           must_not: {
-                            exists: {
-                              field: 'traceGroup',
-                              boost: 1,
+                            term: {
+                              parentSpanId: {
+                                value: '',
+                              },
                             },
                           },
                         },
@@ -248,9 +254,10 @@ export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: Service
                 {
                   bool: {
                     must: {
-                      exists: {
-                        field: 'traceGroup',
-                        boost: 1,
+                      term: {
+                        parentSpanId: {
+                          value: '',
+                        },
                       },
                     },
                   },

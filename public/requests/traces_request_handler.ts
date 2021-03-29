@@ -45,7 +45,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
       if (arr[mid] < target) low = mid + 1;
       else high = mid;
     }
-    return low;
+    return Math.max(0, Math.min(100, low));
   };
 
   // percentile should only be affected by timefilter

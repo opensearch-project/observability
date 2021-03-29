@@ -3,6 +3,7 @@
 exports[`Services table component renders empty services table message 1`] = `
 <ServicesTable
   addFilter={[MockFunction]}
+  indicesExist={true}
   items={Array []}
   refresh={[MockFunction]}
   serviceQuery="test"
@@ -53,171 +54,18 @@ exports[`Services table component renders empty services table message 1`] = `
           </EuiFlexItem>
         </div>
       </EuiFlexGroup>
-      <EuiHorizontalRule
-        margin="s"
-        style={
-          Object {
-            "marginTop": 10,
-          }
-        }
+      <EuiSpacer
+        size="m"
       >
-        <hr
-          className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
-          style={
-            Object {
-              "marginTop": 10,
-            }
-          }
+        <div
+          className="euiSpacer euiSpacer--m"
         />
-      </EuiHorizontalRule>
-      <EuiFieldSearch
-        compressed={false}
-        fullWidth={true}
-        incremental={false}
-        isClearable={true}
-        isLoading={false}
-        onChange={[Function]}
-        onSearch={[Function]}
-        placeholder="Service name"
-        value="test"
-      >
-        <EuiFormControlLayout
-          clear={
-            Object {
-              "onClick": [Function],
-            }
-          }
-          compressed={false}
-          fullWidth={true}
-          icon="search"
-          isLoading={false}
-        >
-          <div
-            className="euiFormControlLayout euiFormControlLayout--fullWidth"
-          >
-            <div
-              className="euiFormControlLayout__childrenWrapper"
-            >
-              <EuiValidatableControl>
-                <input
-                  className="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
-                  onChange={[Function]}
-                  onKeyUp={[Function]}
-                  placeholder="Service name"
-                  type="search"
-                  value="test"
-                />
-              </EuiValidatableControl>
-              <EuiFormControlLayoutIcons
-                clear={
-                  Object {
-                    "onClick": [Function],
-                  }
-                }
-                icon="search"
-                isLoading={false}
-              >
-                <div
-                  className="euiFormControlLayoutIcons"
-                >
-                  <EuiFormControlLayoutCustomIcon
-                    type="search"
-                  >
-                    <span
-                      className="euiFormControlLayoutCustomIcon"
-                    >
-                      <EuiIcon
-                        aria-hidden="true"
-                        className="euiFormControlLayoutCustomIcon__icon"
-                        type="search"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                    </span>
-                  </EuiFormControlLayoutCustomIcon>
-                </div>
-                <div
-                  className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-                >
-                  <EuiFormControlLayoutClearButton
-                    onClick={[Function]}
-                  >
-                    <EuiI18n
-                      default="Clear input"
-                      token="euiFormControlLayoutClearButton.label"
-                    >
-                      <button
-                        aria-label="Clear input"
-                        className="euiFormControlLayoutClearButton"
-                        onClick={[Function]}
-                        type="button"
-                      >
-                        <EuiIcon
-                          className="euiFormControlLayoutClearButton__icon"
-                          type="cross"
-                        >
-                          <EuiIconEmpty
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                            focusable="false"
-                            role="img"
-                            style={null}
-                          >
-                            <svg
-                              aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                              focusable="false"
-                              height={16}
-                              role="img"
-                              style={null}
-                              viewBox="0 0 16 16"
-                              width={16}
-                              xmlns="http://www.w3.org/2000/svg"
-                            />
-                          </EuiIconEmpty>
-                        </EuiIcon>
-                      </button>
-                    </EuiI18n>
-                  </EuiFormControlLayoutClearButton>
-                </div>
-              </EuiFormControlLayoutIcons>
-            </div>
-          </div>
-        </EuiFormControlLayout>
-      </EuiFieldSearch>
+      </EuiSpacer>
       <EuiHorizontalRule
-        margin="s"
-        style={
-          Object {
-            "marginBottom": 0,
-          }
-        }
+        margin="none"
       >
         <hr
-          className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
+          className="euiHorizontalRule euiHorizontalRule--full"
         />
       </EuiHorizontalRule>
       <NoMatchMessage
@@ -300,6 +148,7 @@ exports[`Services table component renders empty services table message 1`] = `
 exports[`Services table component renders services table 1`] = `
 <ServicesTable
   addFilter={[MockFunction]}
+  indicesExist={true}
   items={
     Array [
       Object {
@@ -362,179 +211,18 @@ exports[`Services table component renders services table 1`] = `
           </EuiFlexItem>
         </div>
       </EuiFlexGroup>
-      <EuiHorizontalRule
-        margin="s"
-        style={
-          Object {
-            "marginTop": 10,
-          }
-        }
+      <EuiSpacer
+        size="m"
       >
-        <hr
-          className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
-          style={
-            Object {
-              "marginTop": 10,
-            }
-          }
+        <div
+          className="euiSpacer euiSpacer--m"
         />
-      </EuiHorizontalRule>
-      <EuiFieldSearch
-        compressed={false}
-        fullWidth={true}
-        incremental={false}
-        isClearable={true}
-        isLoading={false}
-        onChange={[Function]}
-        onSearch={[Function]}
-        placeholder="Service name"
-        value="test"
-      >
-        <EuiFormControlLayout
-          clear={
-            Object {
-              "onClick": [Function],
-            }
-          }
-          compressed={false}
-          fullWidth={true}
-          icon="search"
-          isLoading={false}
-        >
-          <div
-            className="euiFormControlLayout euiFormControlLayout--fullWidth"
-          >
-            <div
-              className="euiFormControlLayout__childrenWrapper"
-            >
-              <EuiValidatableControl>
-                <input
-                  className="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
-                  onChange={[Function]}
-                  onKeyUp={[Function]}
-                  placeholder="Service name"
-                  type="search"
-                  value="test"
-                />
-              </EuiValidatableControl>
-              <EuiFormControlLayoutIcons
-                clear={
-                  Object {
-                    "onClick": [Function],
-                  }
-                }
-                icon="search"
-                isLoading={false}
-              >
-                <div
-                  className="euiFormControlLayoutIcons"
-                >
-                  <EuiFormControlLayoutCustomIcon
-                    type="search"
-                  >
-                    <span
-                      className="euiFormControlLayoutCustomIcon"
-                    >
-                      <EuiIcon
-                        aria-hidden="true"
-                        className="euiFormControlLayoutCustomIcon__icon"
-                        type="search"
-                      >
-                        <EuiIconSearch
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M11.271 11.978l3.872 3.873a.502.502 0 00.708 0 .502.502 0 000-.708l-3.565-3.564c2.38-2.747 2.267-6.923-.342-9.532-2.73-2.73-7.17-2.73-9.898 0-2.728 2.729-2.728 7.17 0 9.9a6.955 6.955 0 004.949 2.05.5.5 0 000-1 5.96 5.96 0 01-4.242-1.757 6.01 6.01 0 010-8.486c2.337-2.34 6.143-2.34 8.484 0a6.01 6.01 0 010 8.486.5.5 0 00.034.738z"
-                            />
-                          </svg>
-                        </EuiIconSearch>
-                      </EuiIcon>
-                    </span>
-                  </EuiFormControlLayoutCustomIcon>
-                </div>
-                <div
-                  className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-                >
-                  <EuiFormControlLayoutClearButton
-                    onClick={[Function]}
-                  >
-                    <EuiI18n
-                      default="Clear input"
-                      token="euiFormControlLayoutClearButton.label"
-                    >
-                      <button
-                        aria-label="Clear input"
-                        className="euiFormControlLayoutClearButton"
-                        onClick={[Function]}
-                        type="button"
-                      >
-                        <EuiIcon
-                          className="euiFormControlLayoutClearButton__icon"
-                          type="cross"
-                        >
-                          <EuiIconCross
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiFormControlLayoutClearButton__icon"
-                            focusable="false"
-                            role="img"
-                            style={null}
-                          >
-                            <svg
-                              aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiFormControlLayoutClearButton__icon"
-                              focusable="false"
-                              height={16}
-                              role="img"
-                              style={null}
-                              viewBox="0 0 16 16"
-                              width={16}
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
-                              />
-                            </svg>
-                          </EuiIconCross>
-                        </EuiIcon>
-                      </button>
-                    </EuiI18n>
-                  </EuiFormControlLayoutClearButton>
-                </div>
-              </EuiFormControlLayoutIcons>
-            </div>
-          </div>
-        </EuiFormControlLayout>
-      </EuiFieldSearch>
+      </EuiSpacer>
       <EuiHorizontalRule
-        margin="s"
-        style={
-          Object {
-            "marginBottom": 0,
-          }
-        }
+        margin="none"
       >
         <hr
-          className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
+          className="euiHorizontalRule euiHorizontalRule--full"
         />
       </EuiHorizontalRule>
       <EuiInMemoryTable
@@ -1724,13 +1412,22 @@ exports[`Services table component renders services table 1`] = `
                               <div
                                 className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
                               >
-                                <EuiI18nNumber
-                                  className=""
-                                  key=".0"
-                                  value={31}
+                                <EuiLink
+                                  onClick={[Function]}
                                 >
-                                  31
-                                </EuiI18nNumber>
+                                  <button
+                                    className="euiLink euiLink--primary"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    <EuiI18nNumber
+                                      value={31}
+                                    >
+                                      31
+                                    </EuiI18nNumber>
+                                  </button>
+                                </EuiLink>
                               </div>
                             </td>
                           </EuiTableRowCell>

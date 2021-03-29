@@ -6,16 +6,19 @@ exports[`Filter popover component renders filter popover 1`] = `
   filterFieldOptions={
     Array [
       Object {
-        "label": "traceGroup",
+        "label": "traceGroup.name",
       },
       Object {
-        "label": "status.code",
+        "label": "serviceName",
+      },
+      Object {
+        "label": "error",
       },
       Object {
         "label": "status.message",
       },
       Object {
-        "label": "durationInNanos",
+        "label": "latency",
       },
     ]
   }
@@ -97,16 +100,19 @@ exports[`Filter popover component renders filter popover 1`] = `
                     options={
                       Array [
                         Object {
-                          "label": "traceGroup",
+                          "label": "traceGroup.name",
                         },
                         Object {
-                          "label": "status.code",
+                          "label": "serviceName",
+                        },
+                        Object {
+                          "label": "error",
                         },
                         Object {
                           "label": "status.message",
                         },
                         Object {
-                          "label": "durationInNanos",
+                          "label": "latency",
                         },
                       ]
                     }

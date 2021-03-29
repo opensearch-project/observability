@@ -257,7 +257,9 @@ export function Filters(props: FiltersOwnProps) {
       const value =
         typeof filter.value === 'string'
           ? filter.value
-          : `${filter.value.from} to ${filter.value.to}`;
+          : Array.isArray(filter.value)  // combo box
+          ? filter.value[0].label
+          : `${filter.value.from} to ${filter.value.to}`;  // range selector
       const filterLabel = filter.inverted ? (
         <>
           <EuiTextColor color={disabled ? 'default' : 'danger'}>{'NOT '}</EuiTextColor>

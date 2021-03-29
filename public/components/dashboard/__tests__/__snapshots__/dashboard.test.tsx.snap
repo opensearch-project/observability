@@ -111,7 +111,7 @@ exports[`Dashboard component renders dashboard 1`] = `
               isLoading={false}
               onChange={[Function]}
               onSearch={[Function]}
-              placeholder="Trace ID, trace group name"
+              placeholder="Trace ID, trace group name, service name"
               value=""
             >
               <EuiFormControlLayout
@@ -132,7 +132,7 @@ exports[`Dashboard component renders dashboard 1`] = `
                         data-test-subj="search-bar-input-box"
                         onChange={[Function]}
                         onKeyUp={[Function]}
-                        placeholder="Trace ID, trace group name"
+                        placeholder="Trace ID, trace group name, service name"
                         type="search"
                         value=""
                       />
@@ -1139,39 +1139,24 @@ exports[`Dashboard component renders dashboard 1`] = `
     <div
       className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
-      <EuiFlexItem>
+      <EuiFlexItem
+        grow={4}
+      >
         <div
-          className="euiFlexItem"
+          className="euiFlexItem euiFlexItem--flexGrow4"
         >
-          <ErrorRatePlt
-            items={
-              Object {
-                "fixedInterval": "1h",
-                "items": Array [],
-              }
-            }
-            setEndTime={[MockFunction]}
-            setStartTime={[MockFunction]}
+          <ServiceMap
+            addFilter={[Function]}
+            idSelected="latency"
+            serviceMap={Object {}}
+            setIdSelected={[Function]}
           >
-            <EuiPanel
-              style={
-                Object {
-                  "minHeight": 308,
-                  "minWidth": 433,
-                }
-              }
-            >
+            <EuiPanel>
               <div
                 className="euiPanel euiPanel--paddingMedium"
-                style={
-                  Object {
-                    "minHeight": 308,
-                    "minWidth": 433,
-                  }
-                }
               >
                 <PanelTitle
-                  title="Error rate over time"
+                  title="Service map"
                 >
                   <EuiText
                     size="m"
@@ -1182,11 +1167,304 @@ exports[`Dashboard component renders dashboard 1`] = `
                       <span
                         className="panel-title"
                       >
-                        Error rate over time
+                        Service map
                       </span>
                     </div>
                   </EuiText>
                 </PanelTitle>
+                <EuiSpacer
+                  size="m"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--m"
+                  />
+                </EuiSpacer>
+                <EuiButtonGroup
+                  buttonSize="s"
+                  color="text"
+                  idSelected="latency"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "id": "latency",
+                        "label": "Latency",
+                      },
+                      Object {
+                        "id": "error_rate",
+                        "label": "Error rate",
+                      },
+                      Object {
+                        "id": "throughput",
+                        "label": "Throughput",
+                      },
+                    ]
+                  }
+                >
+                  <fieldset
+                    className="euiButtonGroup__fieldset"
+                  >
+                    <div
+                      className="euiButtonGroup euiButtonGroup--s"
+                    >
+                      <EuiButtonToggle
+                        className="euiButtonGroup__button euiButtonGroup__button--selected"
+                        color="text"
+                        fill={true}
+                        id="latency"
+                        isSelected={true}
+                        key="0"
+                        label="Latency"
+                        onChange={[Function]}
+                        size="s"
+                        toggleClassName="euiButtonGroup__toggle"
+                        type="single"
+                      >
+                        <EuiToggle
+                          checked={true}
+                          className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          inputClassName="euiButtonToggle__input"
+                          label="Latency"
+                          onChange={[Function]}
+                          title="Latency"
+                          type="single"
+                        >
+                          <div
+                            className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          >
+                            <input
+                              aria-label="Latency"
+                              checked={true}
+                              className="euiToggle__input euiButtonToggle__input"
+                              onChange={[Function]}
+                              title="Latency"
+                              type="radio"
+                            />
+                            <EuiButton
+                              className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                              color="text"
+                              fill={true}
+                              id="latency"
+                              size="s"
+                              tabIndex={-1}
+                            >
+                              <EuiButtonDisplay
+                                className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                                color="text"
+                                disabled={false}
+                                element="button"
+                                fill={true}
+                                id="latency"
+                                isDisabled={false}
+                                size="s"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <button
+                                  className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
+                                  disabled={false}
+                                  id="latency"
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiButtonContent euiButton__content"
+                                    >
+                                      <span
+                                        className="euiButton__text"
+                                      >
+                                        Latency
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </button>
+                              </EuiButtonDisplay>
+                            </EuiButton>
+                          </div>
+                        </EuiToggle>
+                      </EuiButtonToggle>
+                      <EuiButtonToggle
+                        className="euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="error_rate"
+                        isSelected={false}
+                        key="1"
+                        label="Error rate"
+                        onChange={[Function]}
+                        size="s"
+                        toggleClassName="euiButtonGroup__toggle"
+                        type="single"
+                      >
+                        <EuiToggle
+                          checked={false}
+                          className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          inputClassName="euiButtonToggle__input"
+                          label="Error rate"
+                          onChange={[Function]}
+                          title="Error rate"
+                          type="single"
+                        >
+                          <div
+                            className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          >
+                            <input
+                              aria-label="Error rate"
+                              checked={false}
+                              className="euiToggle__input euiButtonToggle__input"
+                              onChange={[Function]}
+                              title="Error rate"
+                              type="radio"
+                            />
+                            <EuiButton
+                              className="euiButtonToggle euiButtonGroup__button"
+                              color="text"
+                              fill={false}
+                              id="error_rate"
+                              size="s"
+                              tabIndex={-1}
+                            >
+                              <EuiButtonDisplay
+                                className="euiButtonToggle euiButtonGroup__button"
+                                color="text"
+                                disabled={false}
+                                element="button"
+                                fill={false}
+                                id="error_rate"
+                                isDisabled={false}
+                                size="s"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <button
+                                  className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                                  disabled={false}
+                                  id="error_rate"
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiButtonContent euiButton__content"
+                                    >
+                                      <span
+                                        className="euiButton__text"
+                                      >
+                                        Error rate
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </button>
+                              </EuiButtonDisplay>
+                            </EuiButton>
+                          </div>
+                        </EuiToggle>
+                      </EuiButtonToggle>
+                      <EuiButtonToggle
+                        className="euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="throughput"
+                        isSelected={false}
+                        key="2"
+                        label="Throughput"
+                        onChange={[Function]}
+                        size="s"
+                        toggleClassName="euiButtonGroup__toggle"
+                        type="single"
+                      >
+                        <EuiToggle
+                          checked={false}
+                          className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          inputClassName="euiButtonToggle__input"
+                          label="Throughput"
+                          onChange={[Function]}
+                          title="Throughput"
+                          type="single"
+                        >
+                          <div
+                            className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                          >
+                            <input
+                              aria-label="Throughput"
+                              checked={false}
+                              className="euiToggle__input euiButtonToggle__input"
+                              onChange={[Function]}
+                              title="Throughput"
+                              type="radio"
+                            />
+                            <EuiButton
+                              className="euiButtonToggle euiButtonGroup__button"
+                              color="text"
+                              fill={false}
+                              id="throughput"
+                              size="s"
+                              tabIndex={-1}
+                            >
+                              <EuiButtonDisplay
+                                className="euiButtonToggle euiButtonGroup__button"
+                                color="text"
+                                disabled={false}
+                                element="button"
+                                fill={false}
+                                id="throughput"
+                                isDisabled={false}
+                                size="s"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <button
+                                  className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                                  disabled={false}
+                                  id="throughput"
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiButtonContent euiButton__content"
+                                    >
+                                      <span
+                                        className="euiButton__text"
+                                      >
+                                        Throughput
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </button>
+                              </EuiButtonDisplay>
+                            </EuiButton>
+                          </div>
+                        </EuiToggle>
+                      </EuiButtonToggle>
+                    </div>
+                  </fieldset>
+                </EuiButtonGroup>
                 <EuiHorizontalRule
                   margin="m"
                 >
@@ -1194,213 +1472,488 @@ exports[`Dashboard component renders dashboard 1`] = `
                     className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
                   />
                 </EuiHorizontalRule>
-                <NoMatchMessage
-                  size="s"
+                <EuiFlexGroup
+                  alignItems="center"
+                  gutterSize="s"
                 >
-                  <EuiSpacer
-                    size="s"
+                  <div
+                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
                   >
-                    <div
-                      className="euiSpacer euiSpacer--s"
-                    />
-                  </EuiSpacer>
-                  <EuiEmptyPrompt
-                    body={
-                      <EuiText>
-                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
-                      </EuiText>
-                    }
-                    title={
-                      <h2>
-                        No matches
-                      </h2>
-                    }
-                  >
-                    <div
-                      className="euiEmptyPrompt"
+                    <EuiFlexItem
+                      grow={false}
                     >
-                      <EuiTextColor
-                        color="subdued"
+                      <div
+                        className="euiFlexItem euiFlexItem--flexGrowZero"
                       >
-                        <span
-                          className="euiTextColor euiTextColor--subdued"
+                        <EuiText>
+                          <div
+                            className="euiText euiText--medium"
+                          >
+                            Focus on
+                          </div>
+                        </EuiText>
+                      </div>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiFieldSearch
+                          compressed={false}
+                          fullWidth={false}
+                          incremental={false}
+                          isClearable={true}
+                          isInvalid={false}
+                          isLoading={false}
+                          onChange={[Function]}
+                          onSearch={[Function]}
+                          placeholder="Service name"
+                          value=""
                         >
-                          <EuiTitle
-                            size="m"
-                          >
-                            <h2
-                              className="euiTitle euiTitle--medium"
-                            >
-                              No matches
-                            </h2>
-                          </EuiTitle>
-                          <EuiSpacer
-                            size="m"
+                          <EuiFormControlLayout
+                            compressed={false}
+                            fullWidth={false}
+                            icon="search"
+                            isLoading={false}
                           >
                             <div
-                              className="euiSpacer euiSpacer--m"
-                            />
-                          </EuiSpacer>
-                          <EuiText>
-                            <div
-                              className="euiText euiText--medium"
+                              className="euiFormControlLayout"
                             >
-                              <EuiText>
-                                <div
-                                  className="euiText euiText--medium"
+                              <div
+                                className="euiFormControlLayout__childrenWrapper"
+                              >
+                                <EuiValidatableControl
+                                  isInvalid={false}
                                 >
-                                  No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
-                                </div>
-                              </EuiText>
+                                  <input
+                                    className="euiFieldSearch euiFieldSearch-isClearable"
+                                    onChange={[Function]}
+                                    onKeyUp={[Function]}
+                                    placeholder="Service name"
+                                    type="search"
+                                    value=""
+                                  />
+                                </EuiValidatableControl>
+                                <EuiFormControlLayoutIcons
+                                  icon="search"
+                                  isLoading={false}
+                                >
+                                  <div
+                                    className="euiFormControlLayoutIcons"
+                                  >
+                                    <EuiFormControlLayoutCustomIcon
+                                      type="search"
+                                    >
+                                      <span
+                                        className="euiFormControlLayoutCustomIcon"
+                                      >
+                                        <EuiIcon
+                                          aria-hidden="true"
+                                          className="euiFormControlLayoutCustomIcon__icon"
+                                          type="search"
+                                        >
+                                          <EuiIconSearch
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                d="M11.271 11.978l3.872 3.873a.502.502 0 00.708 0 .502.502 0 000-.708l-3.565-3.564c2.38-2.747 2.267-6.923-.342-9.532-2.73-2.73-7.17-2.73-9.898 0-2.728 2.729-2.728 7.17 0 9.9a6.955 6.955 0 004.949 2.05.5.5 0 000-1 5.96 5.96 0 01-4.242-1.757 6.01 6.01 0 010-8.486c2.337-2.34 6.143-2.34 8.484 0a6.01 6.01 0 010 8.486.5.5 0 00.034.738z"
+                                              />
+                                            </svg>
+                                          </EuiIconSearch>
+                                        </EuiIcon>
+                                      </span>
+                                    </EuiFormControlLayoutCustomIcon>
+                                  </div>
+                                </EuiFormControlLayoutIcons>
+                              </div>
                             </div>
-                          </EuiText>
-                        </span>
-                      </EuiTextColor>
-                    </div>
-                  </EuiEmptyPrompt>
-                  <EuiSpacer
+                          </EuiFormControlLayout>
+                        </EuiFieldSearch>
+                      </div>
+                    </EuiFlexItem>
+                  </div>
+                </EuiFlexGroup>
+                <EuiSpacer>
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <div
+                  style={
+                    Object {
+                      "minHeight": 434,
+                    }
+                  }
+                >
+                  <NoMatchMessage
                     size="s"
                   >
-                    <div
-                      className="euiSpacer euiSpacer--s"
-                    />
-                  </EuiSpacer>
-                </NoMatchMessage>
+                    <EuiSpacer
+                      size="s"
+                    >
+                      <div
+                        className="euiSpacer euiSpacer--s"
+                      />
+                    </EuiSpacer>
+                    <EuiEmptyPrompt
+                      body={
+                        <EuiText>
+                          No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                        </EuiText>
+                      }
+                      title={
+                        <h2>
+                          No matches
+                        </h2>
+                      }
+                    >
+                      <div
+                        className="euiEmptyPrompt"
+                      >
+                        <EuiTextColor
+                          color="subdued"
+                        >
+                          <span
+                            className="euiTextColor euiTextColor--subdued"
+                          >
+                            <EuiTitle
+                              size="m"
+                            >
+                              <h2
+                                className="euiTitle euiTitle--medium"
+                              >
+                                No matches
+                              </h2>
+                            </EuiTitle>
+                            <EuiSpacer
+                              size="m"
+                            >
+                              <div
+                                className="euiSpacer euiSpacer--m"
+                              />
+                            </EuiSpacer>
+                            <EuiText>
+                              <div
+                                className="euiText euiText--medium"
+                              >
+                                <EuiText>
+                                  <div
+                                    className="euiText euiText--medium"
+                                  >
+                                    No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                                  </div>
+                                </EuiText>
+                              </div>
+                            </EuiText>
+                          </span>
+                        </EuiTextColor>
+                      </div>
+                    </EuiEmptyPrompt>
+                    <EuiSpacer
+                      size="s"
+                    >
+                      <div
+                        className="euiSpacer euiSpacer--s"
+                      />
+                    </EuiSpacer>
+                  </NoMatchMessage>
+                </div>
               </div>
             </EuiPanel>
-          </ErrorRatePlt>
+          </ServiceMap>
         </div>
       </EuiFlexItem>
       <EuiFlexItem>
         <div
           className="euiFlexItem"
         >
-          <ThroughputPlt
-            items={
-              Object {
-                "fixedInterval": "1h",
-                "items": Array [],
-              }
-            }
-            setEndTime={[MockFunction]}
-            setStartTime={[MockFunction]}
+          <EuiFlexGroup
+            direction="column"
           >
-            <EuiPanel
-              style={
-                Object {
-                  "minHeight": 308,
-                  "minWidth": 433,
-                }
-              }
+            <div
+              className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionColumn euiFlexGroup--responsive"
             >
-              <div
-                className="euiPanel euiPanel--paddingMedium"
-                style={
-                  Object {
-                    "minHeight": 308,
-                    "minWidth": 433,
-                  }
-                }
-              >
-                <PanelTitle
-                  title="Throughput over time"
+              <EuiFlexItem>
+                <div
+                  className="euiFlexItem"
                 >
-                  <EuiText
-                    size="m"
-                  >
-                    <div
-                      className="euiText euiText--medium"
-                    >
-                      <span
-                        className="panel-title"
-                      >
-                        Throughput over time
-                      </span>
-                    </div>
-                  </EuiText>
-                </PanelTitle>
-                <EuiHorizontalRule
-                  margin="m"
-                >
-                  <hr
-                    className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
-                  />
-                </EuiHorizontalRule>
-                <NoMatchMessage
-                  size="s"
-                >
-                  <EuiSpacer
-                    size="s"
-                  >
-                    <div
-                      className="euiSpacer euiSpacer--s"
-                    />
-                  </EuiSpacer>
-                  <EuiEmptyPrompt
-                    body={
-                      <EuiText>
-                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
-                      </EuiText>
+                  <ErrorRatePlt
+                    items={
+                      Object {
+                        "fixedInterval": "1h",
+                        "items": Array [],
+                      }
                     }
-                    title={
-                      <h2>
-                        No matches
-                      </h2>
-                    }
+                    setEndTime={[MockFunction]}
+                    setStartTime={[MockFunction]}
                   >
-                    <div
-                      className="euiEmptyPrompt"
+                    <EuiPanel
+                      style={
+                        Object {
+                          "minHeight": 308,
+                          "minWidth": 433,
+                        }
+                      }
                     >
-                      <EuiTextColor
-                        color="subdued"
+                      <div
+                        className="euiPanel euiPanel--paddingMedium"
+                        style={
+                          Object {
+                            "minHeight": 308,
+                            "minWidth": 433,
+                          }
+                        }
                       >
-                        <span
-                          className="euiTextColor euiTextColor--subdued"
+                        <PanelTitle
+                          title="Trace error rate over time"
                         >
-                          <EuiTitle
+                          <EuiText
                             size="m"
                           >
-                            <h2
-                              className="euiTitle euiTitle--medium"
-                            >
-                              No matches
-                            </h2>
-                          </EuiTitle>
-                          <EuiSpacer
-                            size="m"
-                          >
-                            <div
-                              className="euiSpacer euiSpacer--m"
-                            />
-                          </EuiSpacer>
-                          <EuiText>
                             <div
                               className="euiText euiText--medium"
                             >
-                              <EuiText>
-                                <div
-                                  className="euiText euiText--medium"
-                                >
-                                  No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
-                                </div>
-                              </EuiText>
+                              <span
+                                className="panel-title"
+                              >
+                                Trace error rate over time
+                              </span>
                             </div>
                           </EuiText>
-                        </span>
-                      </EuiTextColor>
-                    </div>
-                  </EuiEmptyPrompt>
-                  <EuiSpacer
-                    size="s"
+                        </PanelTitle>
+                        <EuiHorizontalRule
+                          margin="m"
+                        >
+                          <hr
+                            className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                          />
+                        </EuiHorizontalRule>
+                        <NoMatchMessage
+                          size="s"
+                        >
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiEmptyPrompt
+                            body={
+                              <EuiText>
+                                No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                              </EuiText>
+                            }
+                            title={
+                              <h2>
+                                No matches
+                              </h2>
+                            }
+                          >
+                            <div
+                              className="euiEmptyPrompt"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                              >
+                                <span
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  <EuiTitle
+                                    size="m"
+                                  >
+                                    <h2
+                                      className="euiTitle euiTitle--medium"
+                                    >
+                                      No matches
+                                    </h2>
+                                  </EuiTitle>
+                                  <EuiSpacer
+                                    size="m"
+                                  >
+                                    <div
+                                      className="euiSpacer euiSpacer--m"
+                                    />
+                                  </EuiSpacer>
+                                  <EuiText>
+                                    <div
+                                      className="euiText euiText--medium"
+                                    >
+                                      <EuiText>
+                                        <div
+                                          className="euiText euiText--medium"
+                                        >
+                                          No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                                        </div>
+                                      </EuiText>
+                                    </div>
+                                  </EuiText>
+                                </span>
+                              </EuiTextColor>
+                            </div>
+                          </EuiEmptyPrompt>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                        </NoMatchMessage>
+                      </div>
+                    </EuiPanel>
+                  </ErrorRatePlt>
+                </div>
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <div
+                  className="euiFlexItem"
+                >
+                  <ThroughputPlt
+                    items={
+                      Object {
+                        "fixedInterval": "1h",
+                        "items": Array [],
+                      }
+                    }
+                    setEndTime={[MockFunction]}
+                    setStartTime={[MockFunction]}
                   >
-                    <div
-                      className="euiSpacer euiSpacer--s"
-                    />
-                  </EuiSpacer>
-                </NoMatchMessage>
-              </div>
-            </EuiPanel>
-          </ThroughputPlt>
+                    <EuiPanel
+                      style={
+                        Object {
+                          "minHeight": 308,
+                          "minWidth": 433,
+                        }
+                      }
+                    >
+                      <div
+                        className="euiPanel euiPanel--paddingMedium"
+                        style={
+                          Object {
+                            "minHeight": 308,
+                            "minWidth": 433,
+                          }
+                        }
+                      >
+                        <PanelTitle
+                          title="Traces over time"
+                        >
+                          <EuiText
+                            size="m"
+                          >
+                            <div
+                              className="euiText euiText--medium"
+                            >
+                              <span
+                                className="panel-title"
+                              >
+                                Traces over time
+                              </span>
+                            </div>
+                          </EuiText>
+                        </PanelTitle>
+                        <EuiHorizontalRule
+                          margin="m"
+                        >
+                          <hr
+                            className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                          />
+                        </EuiHorizontalRule>
+                        <NoMatchMessage
+                          size="s"
+                        >
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiEmptyPrompt
+                            body={
+                              <EuiText>
+                                No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                              </EuiText>
+                            }
+                            title={
+                              <h2>
+                                No matches
+                              </h2>
+                            }
+                          >
+                            <div
+                              className="euiEmptyPrompt"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                              >
+                                <span
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  <EuiTitle
+                                    size="m"
+                                  >
+                                    <h2
+                                      className="euiTitle euiTitle--medium"
+                                    >
+                                      No matches
+                                    </h2>
+                                  </EuiTitle>
+                                  <EuiSpacer
+                                    size="m"
+                                  >
+                                    <div
+                                      className="euiSpacer euiSpacer--m"
+                                    />
+                                  </EuiSpacer>
+                                  <EuiText>
+                                    <div
+                                      className="euiText euiText--medium"
+                                    >
+                                      <EuiText>
+                                        <div
+                                          className="euiText euiText--medium"
+                                        >
+                                          No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                                        </div>
+                                      </EuiText>
+                                    </div>
+                                  </EuiText>
+                                </span>
+                              </EuiTextColor>
+                            </div>
+                          </EuiEmptyPrompt>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                        </NoMatchMessage>
+                      </div>
+                    </EuiPanel>
+                  </ThroughputPlt>
+                </div>
+              </EuiFlexItem>
+            </div>
+          </EuiFlexGroup>
         </div>
       </EuiFlexItem>
     </div>
@@ -1519,7 +2072,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
               isLoading={false}
               onChange={[Function]}
               onSearch={[Function]}
-              placeholder="Trace ID, trace group name"
+              placeholder="Trace ID, trace group name, service name"
               value=""
             >
               <EuiFormControlLayout
@@ -1540,7 +2093,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                         data-test-subj="search-bar-input-box"
                         onChange={[Function]}
                         onKeyUp={[Function]}
-                        placeholder="Trace ID, trace group name"
+                        placeholder="Trace ID, trace group name, service name"
                         type="search"
                         value=""
                       />

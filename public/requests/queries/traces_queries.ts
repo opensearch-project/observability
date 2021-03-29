@@ -23,8 +23,10 @@ export const getTraceGroupPercentilesQuery = () => {
       bool: {
         must: [
           {
-            exists: {
-              field: 'traceGroup',
+            term: {
+              parentSpanId: {
+                value: '',
+              },
             },
           },
         ],
@@ -60,13 +62,7 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            exists: {
-              field: 'traceGroup',
-            },
-          },
-        ],
+        must: [],
         filter: [],
         should: [],
         must_not: [],
@@ -85,27 +81,27 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
           latency: {
             max: {
               script: {
-                source: "Math.round(doc['durationInNanos'].value / 10000) / 100.0",
+                source: "Math.round(doc['traceGroup.durationInNanos'].value / 10000) / 100.0",
                 lang: 'painless',
               },
             },
           },
           trace_group: {
             terms: {
-              field: 'name',
+              field: 'traceGroup.name',
               size: 1,
             },
           },
           error_count: {
             filter: {
               term: {
-                'status.code': '2',
+                'traceGroup.statusCode': '2',
               },
             },
           },
           last_updated: {
             max: {
-              field: 'endTime',
+              field: 'traceGroup.endTime',
             },
           },
         },

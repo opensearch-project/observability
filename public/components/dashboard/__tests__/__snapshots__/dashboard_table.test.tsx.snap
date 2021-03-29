@@ -8,7 +8,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
     Array [
       Object {
         "disabled": false,
-        "field": "traceGroup",
+        "field": "traceGroup.name",
         "inverted": false,
         "operator": "exists",
         "value": "exists",
@@ -331,7 +331,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                   <EuiText
                     size="xs"
                   >
-                    Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                    Error rate based on count of trace errors within a trace group in the selected time range.
                   </EuiText>
                 }
                 delay="regular"
@@ -577,7 +577,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                     <EuiText
                       size="xs"
                     >
-                      Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                      Error rate based on count of trace errors within a trace group in the selected time range.
                     </EuiText>
                   }
                   delay="regular"
@@ -852,7 +852,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                       <EuiText
                                         size="xs"
                                       >
-                                        Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                                        Error rate based on count of trace errors within a trace group in the selected time range.
                                       </EuiText>
                                     }
                                     delay="regular"
@@ -1590,7 +1590,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                           <EuiText
                                             size="xs"
                                           >
-                                            Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                                            Error rate based on count of trace errors within a trace group in the selected time range.
                                           </EuiText>
                                         }
                                         delay="regular"
@@ -2580,7 +2580,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                     <EuiText
                                       size="xs"
                                     >
-                                      Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                                      Error rate based on count of trace errors within a trace group in the selected time range.
                                     </EuiText>
                                   }
                                   delay="regular"
@@ -2624,7 +2624,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                     <EuiText
                                       size="xs"
                                     >
-                                      Error rate based on count of errors on all traces and spans within a trace group in the selected time range (eg. 3 errors on different spans on a single trace counts as 3 errors in this calculation).
+                                      Error rate based on count of trace errors within a trace group in the selected time range.
                                     </EuiText>
                                   }
                                   delay="regular"

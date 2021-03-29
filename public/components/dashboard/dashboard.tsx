@@ -14,7 +14,6 @@
  */
 
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
-import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
   handleDashboardErrorRatePltRequest,
@@ -178,19 +177,31 @@ export function Dashboard(props: DashboardProps) {
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">
-            <EuiFlexItem>
-              <ErrorRatePlt
-                items={errorRatePltItems}
-                setStartTime={props.setStartTime}
-                setEndTime={props.setEndTime}
+            <EuiFlexItem grow={4}>
+              <ServiceMap
+                addFilter={addFilter}
+                serviceMap={serviceMap}
+                idSelected={serviceMapIdSelected}
+                setIdSelected={setServiceMapIdSelected}
               />
             </EuiFlexItem>
             <EuiFlexItem>
-              <ThroughputPlt
-                items={throughputPltItems}
-                setStartTime={props.setStartTime}
-                setEndTime={props.setEndTime}
-              />
+              <EuiFlexGroup direction="column">
+                <EuiFlexItem>
+                  <ErrorRatePlt
+                    items={errorRatePltItems}
+                    setStartTime={props.setStartTime}
+                    setEndTime={props.setEndTime}
+                  />
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <ThroughputPlt
+                    items={throughputPltItems}
+                    setStartTime={props.setStartTime}
+                    setEndTime={props.setEndTime}
+                  />
+                </EuiFlexItem>
+              </EuiFlexGroup>
             </EuiFlexItem>
           </EuiFlexGroup>
         </>

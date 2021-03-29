@@ -14,12 +14,10 @@
  */
 
 import {
-  EuiButton,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
   EuiI18nNumber,
-  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPanel,
@@ -71,7 +69,7 @@ export function ServiceView(props: ServiceViewProps) {
   }, [props.startTime, props.endTime]);
 
   const refresh = () => {
-    const DSL = filtersToDsl([], '', props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
     handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, props.serviceName);
   };
@@ -184,6 +182,11 @@ export function ServiceView(props: ServiceViewProps) {
     [props.serviceName, props.startTime, props.endTime]
   );
 
+  const activeFilters = useMemo(
+    () => props.filters.filter((filter) => !filter.locked && !filter.disabled),
+    [props.filters]
+  );
+
   return (
     <>
       <EuiPage>
@@ -191,6 +194,11 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiFlexGroup alignItems="center" gutterSize="s">
             {title}
           </EuiFlexGroup>
+          {activeFilters.length > 0 && (
+            <EuiText textAlign="right" style={{ marginRight: 20 }} color="subdued">
+              results are filtered by {activeFilters.map((filter) => filter.field).join(', ')}
+            </EuiText>
+          )}
           <EuiSpacer size="xl" />
           {overview}
           <EuiSpacer />

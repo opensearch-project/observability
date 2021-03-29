@@ -35,6 +35,7 @@ describe('Services table component', () => {
         serviceQuery="test"
         setServiceQuery={setServiceQuery}
         refresh={refresh}
+        indicesExist={true}
       />
     );
 
@@ -65,14 +66,10 @@ describe('Services table component', () => {
         serviceQuery="test"
         setServiceQuery={setServiceQuery}
         refresh={refresh}
+        indicesExist={true}
       />
     );
 
     expect(wrapper).toMatchSnapshot();
-
-    wrapper
-      .find('input[placeholder="Service name"]')
-      .simulate('change', { target: { value: 'test' } });
-    expect(setServiceQuery).toBeCalledWith('test');
   });
 });

@@ -67,7 +67,7 @@ export function SearchBar(props: SearchBarOwnProps) {
             <EuiFieldSearch
               fullWidth
               isClearable={false}
-              placeholder="Trace ID, trace group name"
+              placeholder="Trace ID, trace group name, service name"
               data-test-subj="search-bar-input-box"
               value={query}
               onChange={(e) => {

@@ -98,7 +98,7 @@ export function milliToNanoSec(ms: number) {
 }
 
 export function getServiceMapScaleColor(percent, idSelected) {
-  return serviceMapColorPalette[idSelected][Math.min(100, Math.max(0, Math.floor(percent * 100)))];
+  return serviceMapColorPalette[idSelected][Math.min(99, Math.max(0, Math.floor(percent * 100)))];
 }
 
 // construct vis-js graph from ServiceObject
@@ -160,6 +160,8 @@ export function getServiceMapTargetResources(map: ServiceObject, serviceName: st
 
 export function calculateTicks(min, max, numTicks = 5) {
   if (min >= max) return calculateTicks(0, Math.max(1, max), numTicks);
+  min = Math.floor(min);
+  max = Math.ceil(max);
 
   const range = max - min;
   const minInterval = range / numTicks;
@@ -237,20 +239,21 @@ export const getPercentileFilter = (
         must: [
           {
             term: {
-              name: {
+              'traceGroup.name': {
                 value: map.traceGroupName,
               },
             },
           },
           {
             range: {
-              durationInNanos: map.durationFilter,
+              'traceGroup.durationInNanos': map.durationFilter,
             },
           },
         ],
       },
     });
   });
+  console.log('DSL', DSL);
   return {
     field: 'Latency percentile within trace group',
     operator: '',
@@ -322,33 +325,35 @@ export const filtersToDsl = (
         return;
       }
 
-      if (
-        filter.field === 'serviceName' &&
-        (filter.operator === 'is' || filter.operator === 'is not')
-      ) {
-        DSL.custom[filter.inverted ? 'serviceNamesExclude' : 'serviceNames'].push(filter.value);
-      }
-
-      if (filter.field === 'traceGroup') {
-        DSL.custom[filter.inverted ? 'traceGroupExclude' : 'traceGroup'].push(filter.value);
-      }
-
       let filterQuery = {};
+      let field = filter.field;
+      if (field === 'latency') field = 'traceGroup.durationInNanos';
+      else if (field === 'error') field = 'traceGroup.statusCode';
+      let value;
+
       switch (filter.operator) {
         case 'exists':
         case 'does not exist':
           filterQuery = {
             exists: {
-              field: filter.field,
+              field,
             },
           };
           break;
 
         case 'is':
         case 'is not':
+          value = filter.value;
+          // latency and error are not actual fields, need to convert first
+          if (field === 'traceGroup.durationInNanos') {
+            value = milliToNanoSec(value);
+          } else if (field === 'traceGroup.statusCode') {
+            value = value[0].label === 'true' ? '2' : '0';
+          }
+
           filterQuery = {
             term: {
-              [filter.field]: filter.value,
+              [field]: value,
             },
           };
           break;
@@ -358,9 +363,13 @@ export const filtersToDsl = (
           const range: { gte?: string; lte?: string } = {};
           if (!filter.value.from.includes('\u221E')) range.gte = filter.value.from;
           if (!filter.value.to.includes('\u221E')) range.lte = filter.value.to;
+          if (field === 'traceGroup.durationInNanos') {
+            if (range.lte) range.lte = milliToNanoSec(parseInt(range.lte || '')).toString();
+            if (range.gte) range.gte = milliToNanoSec(parseInt(range.gte || '')).toString();
+          }
           filterQuery = {
             range: {
-              [filter.field]: range,
+              [field]: range,
             },
           };
           break;

@@ -111,7 +111,7 @@ exports[`Traces component renders empty traces page 1`] = `
               isLoading={false}
               onChange={[Function]}
               onSearch={[Function]}
-              placeholder="Trace ID, trace group name"
+              placeholder="Trace ID, trace group name, service name"
               value=""
             >
               <EuiFormControlLayout
@@ -132,7 +132,7 @@ exports[`Traces component renders empty traces page 1`] = `
                         data-test-subj="search-bar-input-box"
                         onChange={[Function]}
                         onKeyUp={[Function]}
-                        placeholder="Trace ID, trace group name"
+                        placeholder="Trace ID, trace group name, service name"
                         type="search"
                         value=""
                       />
@@ -1203,7 +1203,7 @@ exports[`Traces component renders traces page 1`] = `
               isLoading={false}
               onChange={[Function]}
               onSearch={[Function]}
-              placeholder="Trace ID, trace group name"
+              placeholder="Trace ID, trace group name, service name"
               value=""
             >
               <EuiFormControlLayout
@@ -1224,7 +1224,7 @@ exports[`Traces component renders traces page 1`] = `
                         data-test-subj="search-bar-input-box"
                         onChange={[Function]}
                         onKeyUp={[Function]}
-                        placeholder="Trace ID, trace group name"
+                        placeholder="Trace ID, trace group name, service name"
                         type="search"
                         value=""
                       />

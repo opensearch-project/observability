@@ -412,7 +412,7 @@ exports[`Search bar components renders search bar 1`] = `
             isLoading={false}
             onChange={[Function]}
             onSearch={[MockFunction]}
-            placeholder="Trace ID, trace group name"
+            placeholder="Trace ID, trace group name, service name"
             value="test"
           >
             <EuiFormControlLayout
@@ -433,7 +433,7 @@ exports[`Search bar components renders search bar 1`] = `
                       data-test-subj="search-bar-input-box"
                       onChange={[Function]}
                       onKeyUp={[Function]}
-                      placeholder="Trace ID, trace group name"
+                      placeholder="Trace ID, trace group name, service name"
                       type="search"
                       value="test"
                     />

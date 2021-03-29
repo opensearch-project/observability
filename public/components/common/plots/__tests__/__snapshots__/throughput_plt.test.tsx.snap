@@ -11,7 +11,7 @@ exports[`Throughput plot component renders throughput plot 1`] = `
     }
   >
     <PanelTitle
-      title="Throughput over time"
+      title="Traces over time"
     />
     <EuiHorizontalRule
       margin="m"

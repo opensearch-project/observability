@@ -95,7 +95,7 @@ export function ErrorRatePlt(props: {
   return (
     <>
       <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
-        <PanelTitle title="Error rate over time" />
+        <PanelTitle title="Trace error rate over time" />
         <EuiHorizontalRule margin="m" />
         {props.items?.items?.length > 0 ? (
           <Plt data={props.items.items} layout={layout} onClickHandler={onClick} />

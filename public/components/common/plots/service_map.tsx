@@ -124,6 +124,7 @@ export function ServiceMap({
           inverted: false,
           disabled: false,
         });
+        window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
       }
     },
     hoverNode: (event) => {},

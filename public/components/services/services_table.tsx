@@ -14,7 +14,6 @@
  */
 
 import {
-  EuiFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -27,8 +26,8 @@ import {
   EuiText,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React, { useMemo, useState } from 'react';
-import { NoMatchMessage, PanelTitle } from '../common';
+import React, { useMemo } from 'react';
+import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common';
 import { FilterType } from '../common/filters/filters';
 
 export function ServicesTable(props: {
@@ -38,6 +37,7 @@ export function ServicesTable(props: {
   serviceQuery: string;
   setServiceQuery: (query: string) => void;
   refresh: () => void;
+  indicesExist: boolean;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -110,7 +110,29 @@ export function ServicesTable(props: {
           align: 'right',
           sortable: true,
           truncateText: true,
-          render: (item) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
+          render: (item, row) => (
+            <>
+              {item === 0 || item ? (
+                <EuiLink
+                  onClick={() => {
+                    props.setRedirect(true);
+                    props.addFilter({
+                      field: 'serviceName',
+                      operator: 'is',
+                      value: row.name,
+                      inverted: false,
+                      disabled: false,
+                    });
+                    location.assign('#/traces');
+                  }}
+                >
+                  <EuiI18nNumber value={item} />
+                </EuiLink>
+              ) : (
+                '-'
+              )}
+            </>
+          ),
         },
       ] as Array<EuiTableFieldDataColumnType<any>>,
     [props.items]
@@ -122,16 +144,8 @@ export function ServicesTable(props: {
     <>
       <EuiPanel>
         {titleBar}
-        <EuiHorizontalRule margin="s" style={{ marginTop: 10 }} />
-        <EuiFieldSearch
-          fullWidth
-          placeholder="Service name"
-          value={props.serviceQuery}
-          onChange={(e) => props.setServiceQuery(e.target.value)}
-          onSearch={() => props.refresh()}
-        />
-        <EuiHorizontalRule margin="s" style={{ marginBottom: 0 }} />
-
+        <EuiSpacer size="m" />
+        <EuiHorizontalRule margin="none" />
         {props.items?.length > 0 ? (
           <EuiInMemoryTable
             tableLayout="auto"
@@ -148,8 +162,10 @@ export function ServicesTable(props: {
               },
             }}
           />
-        ) : (
+        ) : props.indicesExist ? (
           <NoMatchMessage size="xl" />
+        ) : (
+          <MissingConfigurationMessage />
         )}
       </EuiPanel>
     </>

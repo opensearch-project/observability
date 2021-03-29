@@ -89,11 +89,19 @@ export function FilterEditPopover(props: {
         </EuiFlexItem>
       </EuiFlexGroup>
       {selectedOperatorOptions.length > 0 &&
-        getValueComponent(selectedOperatorOptions[0].label, filterValue, setFilterValue)}
+        getValueComponent(
+          selectedFieldOptions[0].label,
+          selectedOperatorOptions[0].label,
+          filterValue,
+          setFilterValue
+        )}
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
-          <EuiButtonEmpty data-test-subj="filter-popover-cancel-button" onClick={props.closePopover}>
+          <EuiButtonEmpty
+            data-test-subj="filter-popover-cancel-button"
+            onClick={props.closePopover}
+          >
             Cancel
           </EuiButtonEmpty>
         </EuiFlexItem>

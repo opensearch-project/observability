@@ -27,7 +27,7 @@ export const getDashboardQuery = () => {
     aggs: {
       trace_group_name: {
         terms: {
-          field: 'traceGroup',
+          field: 'traceGroup.name',
           size: 10000,
         },
         aggs: {
@@ -37,9 +37,30 @@ export const getDashboardQuery = () => {
               calendar_interval: 'hour',
             },
             aggs: {
+              traces: {
+                terms: {
+                  field: 'traceId',
+                  order: {
+                    last_updated: 'desc',
+                  },
+                  size: 10000,
+                },
+                aggs: {
+                  duration: {
+                    max: {
+                      field: 'traceGroup.durationInNanos',
+                    },
+                  },
+                  last_updated: {
+                    max: {
+                      field: 'traceGroup.endTime',
+                    },
+                  },
+                },
+              },
               average_latency_nanos: {
-                avg: {
-                  field: 'durationInNanos',
+                avg_bucket: {
+                  buckets_path: 'traces>duration',
                 },
               },
               average_latency: {
@@ -53,9 +74,30 @@ export const getDashboardQuery = () => {
               },
             },
           },
+          traces: {
+            terms: {
+              field: 'traceId',
+              order: {
+                last_updated: 'desc',
+              },
+              size: 10000,
+            },
+            aggs: {
+              duration: {
+                max: {
+                  field: 'traceGroup.durationInNanos',
+                },
+              },
+              last_updated: {
+                max: {
+                  field: 'traceGroup.endTime',
+                },
+              },
+            },
+          },
           average_latency_nanos: {
-            avg: {
-              field: 'durationInNanos',
+            avg_bucket: {
+              buckets_path: 'traces>duration',
             },
           },
           average_latency: {
@@ -67,18 +109,30 @@ export const getDashboardQuery = () => {
               script: 'Math.round(params.latency / 10000) / 100.0',
             },
           },
+          trace_count: {
+            cardinality: {
+              field: 'traceId',
+            },
+          },
           error_count: {
             filter: {
               term: {
-                'status.code': '2',
+                'traceGroup.statusCode': '2',
+              },
+            },
+            aggs: {
+              trace_count: {
+                cardinality: {
+                  field: 'traceId',
+                },
               },
             },
           },
           error_rate: {
             bucket_script: {
               buckets_path: {
-                total: '_count',
-                errors: 'error_count._count',
+                total: 'trace_count.value',
+                errors: 'error_count>trace_count.value',
               },
               script: 'params.errors / params.total * 100',
             },
@@ -95,7 +149,15 @@ export const getDashboardTraceGroupPercentiles = () => {
     size: 0,
     query: {
       bool: {
-        must: [],
+        must: [
+          {
+            term: {
+              parentSpanId: {
+                value: '',
+              },
+            },
+          },
+        ],
         filter: [],
         should: [],
         must_not: [],
@@ -104,12 +166,12 @@ export const getDashboardTraceGroupPercentiles = () => {
     aggs: {
       trace_group: {
         terms: {
-          field: 'traceGroup',
+          field: 'traceGroup.name',
         },
         aggs: {
           latency_variance_nanos: {
             percentiles: {
-              field: 'durationInNanos',
+              field: 'traceGroup.durationInNanos',
               percents: [0, 95, 100],
             },
           },
@@ -124,13 +186,7 @@ export const getErrorRatePltQuery = (fixedInterval) => {
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            exists: {
-              field: 'traceGroup',
-            },
-          },
-        ],
+        must: [],
         filter: [],
         should: [],
         must_not: [],
@@ -146,15 +202,27 @@ export const getErrorRatePltQuery = (fixedInterval) => {
           error_count: {
             filter: {
               term: {
-                'status.code': '2',
+                'traceGroup.statusCode': '2',
               },
+            },
+            aggs: {
+              trace_count: {
+                cardinality: {
+                  field: 'traceId',
+                },
+              },
+            },
+          },
+          trace_count: {
+            cardinality: {
+              field: 'traceId',
             },
           },
           error_rate: {
             bucket_script: {
               buckets_path: {
-                total: '_count',
-                errors: 'error_count._count',
+                total: 'trace_count.value',
+                errors: 'error_count>trace_count.value',
               },
               script: 'params.errors / params.total * 100',
             },
@@ -171,13 +239,7 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
     size: 0,
     query: {
       bool: {
-        must: [
-          {
-            exists: {
-              field: 'traceGroup',
-            },
-          },
-        ],
+        must: [],
         filter: [],
         should: [],
         must_not: [],
@@ -188,6 +250,13 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
         date_histogram: {
           field: 'startTime',
           fixed_interval: fixedInterval,
+        },
+        aggs: {
+          trace_count: {
+            cardinality: {
+              field: 'traceId',
+            },
+          },
         },
       },
     },

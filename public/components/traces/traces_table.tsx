@@ -138,6 +138,7 @@ export function TracesTable(props: {
   const onTableChange = async ({ page, sort }) => {
     if (typeof sort?.field !== 'string') return;
 
+    // maps table column key to DSL aggregation name
     const field = {
       trace_id: '_key',
       trace_group: null,

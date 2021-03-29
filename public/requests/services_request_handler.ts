@@ -114,7 +114,7 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
   // service map handles DSL differently
   const latencies = await handleDslRequest(
     http,
-    {},
+    DSL,
     getServiceMetricsQuery(DSL, Object.keys(map), map)
   );
   latencies.aggregations.service_name.buckets.map((bucket) => {
@@ -122,6 +122,21 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
     map[bucket.key].throughput = bucket.doc_count;
   });
+
+  if (currService) {
+    const traces = await handleDslRequest(http, DSL, getRelatedServicesQuery(currService))
+      .then((response) =>
+        response.aggregations.traces.buckets.filter((bucket) => bucket.service.doc_count > 0)
+      )
+      .catch((error) => console.error(error));
+    const maxNumServices = Object.keys(map).length;
+    const relatedServices = new Set<string>();
+    for (let i = 0; i < traces.length; i++) {
+      traces[i].all_services.buckets.map((bucket) => relatedServices.add(bucket.key));
+      if (relatedServices.size === maxNumServices) break;
+    }
+    map[currService].relatedServices = [...relatedServices];
+  }
 
   if (setItems) setItems(map);
   return map;
@@ -132,7 +147,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
     .then(async (response) => {
       const bucket = response.aggregations.service.buckets[0];
       if (!bucket) return {};
-      const serviceObject: ServiceObject = await handleServiceMapRequest(http, {});
+      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL);
       const connectedServices = [
         ...serviceObject[bucket.key].targetServices,
         ...serviceObject[bucket.key].destServices,

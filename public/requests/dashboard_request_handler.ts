@@ -105,7 +105,7 @@ export const handleDashboardRequest = async (
           return {
             dashboard_trace_group_name: bucket.key,
             dashboard_average_latency: bucket.average_latency.value,
-            dashboard_traces: bucket.doc_count,
+            dashboard_traces: bucket.trace_count.value,
             dashboard_latency_variance: latencyVariances[bucket.key],
             dashboard_error_rate: bucket.error_rate.value,
             ...latencyTrendData,
@@ -134,7 +134,7 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
           ? [
               {
                 x: buckets.map((bucket) => bucket.key),
-                y: buckets.map((bucket) => bucket.doc_count),
+                y: buckets.map((bucket) => bucket.trace_count.value),
                 marker: {
                   color: 'rgb(171, 211, 240)',
                 },
