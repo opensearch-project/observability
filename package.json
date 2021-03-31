@@ -1,6 +1,6 @@
 {
   "name": "opendistro-trace-analytics-kibana",
-  "version": "1.13.0.0",
+  "version": "1.13.2.0",
   "kibana": {
     "version": "7.10.2",
     "templateVersion": "1.0.0"
