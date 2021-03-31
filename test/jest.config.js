@@ -32,6 +32,6 @@ module.exports = {
   transformIgnorePatterns: ['<rootDir>/node_modules'],
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': '<rootDir>/test/__mocks__/styleMock.js',
-    '\\.(gif|ttf|eot|svg)$': '<rootDir>/test/__mocks__/fileMock.js',
+    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
   },
 };

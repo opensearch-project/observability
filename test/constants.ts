@@ -6,6 +6,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'order',
         size: 15,
         title: '<p>order</p><p>Average latency: 90.1ms</p>',
+        borderWidth: 0,
         color: 'rgba(158, 134, 192, 1)',
       },
       {
@@ -13,6 +14,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'analytics-service',
         size: 15,
         title: '<p>analytics-service</p><p>Average latency: 12.99ms</p>',
+        borderWidth: 0,
         color: 'rgba(210, 202, 224, 1)',
       },
       {
@@ -20,6 +22,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'database',
         size: 15,
         title: '<p>database</p><p>Average latency: 49.54ms</p>',
+        borderWidth: 0,
         color: 'rgba(187, 171, 212, 1)',
       },
       {
@@ -27,6 +30,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'frontend-client',
         size: 15,
         title: '<p>frontend-client</p><p>Average latency: 207.71ms</p>',
+        borderWidth: 0,
         color: 'rgba(78, 42, 122, 1)',
       },
       {
@@ -34,6 +38,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'inventory',
         size: 15,
         title: '<p>inventory</p><p>Average latency: 183.52ms</p>',
+        borderWidth: 0,
         color: 'rgba(95, 61, 138, 1)',
       },
       {
@@ -41,6 +46,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'authentication',
         size: 15,
         title: '<p>authentication</p><p>Average latency: 139.09ms</p>',
+        borderWidth: 0,
         color: 'rgba(125, 95, 166, 1)',
       },
       {
@@ -48,6 +54,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'payment',
         size: 15,
         title: '<p>payment</p><p>Average latency: 134.36ms</p>',
+        borderWidth: 0,
         color: 'rgba(129, 99, 169, 1)',
       },
       {
@@ -55,6 +62,7 @@ export const TEST_SERVICE_MAP_GRAPH = {
         label: 'recommendation',
         size: 15,
         title: '<p>recommendation</p><p>Average latency: 176.97ms</p>',
+        borderWidth: 0,
         color: 'rgba(100, 66, 143, 1)',
       },
     ],

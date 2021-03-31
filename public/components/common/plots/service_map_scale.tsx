@@ -13,9 +13,11 @@
  *   permissions and limitations under the License.
  */
 
+import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiText } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { getServiceMapScaleColor } from '..';
+import unmatchedNode from '../../../images/unmatched_node.png';
 import { Plt } from './plt';
 import { ServiceObject } from './service_map';
 
@@ -115,7 +117,26 @@ export function ServiceMapScale(props: {
 
   return (
     <div style={{ minHeight: 400, minWidth: 65 }}>
-      {Object.keys(props.ticks).length > 0 && <Plt {...scaleProps} />}
+      {Object.keys(props.ticks).length > 0 && (
+        <>
+          <Plt {...scaleProps} height="270px" />
+          <EuiSpacer />
+          <EuiFlexGroup gutterSize="none">
+            <EuiFlexItem grow={false}>
+              <img
+                src={unmatchedNode}
+                alt="unmatched-node-legend"
+                style={{ width: 40, height: 40 }}
+              />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false} style={{ marginRight: -30, marginLeft: -10 }}>
+              <EuiText style={{ transform: 'rotate(-90deg)', fontSize: '14px', color: '#444444' }}>
+                No match
+              </EuiText>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </>
+      )}
     </div>
   );
 }

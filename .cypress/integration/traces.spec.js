@@ -36,10 +36,10 @@ describe('Testing traces table', () => {
   });
 
   it('Renders the traces table', () => {
-    cy.contains(' (36)').should('exist');
-    cy.contains('11/10/2020 09:55:45').should('exist');
-    cy.contains('10265fbdb2d1195fb4620...').should('exist');
-    cy.contains('123.26').should('exist');
+    cy.contains(' (46)').should('exist');
+    cy.contains('03/25/2021 10:23:45').should('exist');
+    cy.contains('03f9c770db5ee2f1caac0...').should('exist');
+    cy.contains('224.99').should('exist');
   });
 
   it('Searches correctly', () => {
@@ -47,7 +47,7 @@ describe('Testing traces table', () => {
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay);
     cy.contains(' (1)').should('exist');
-    cy.contains('11/10/2020 09:56:24').should('exist');
+    cy.contains('03/25/2021 10:21:22').should('exist');
   });
 });
 
@@ -58,9 +58,9 @@ describe('Testing trace view', () => {
   });
 
   it('Renders the trace view', () => {
-    cy.contains('42.11%').should('exist');
-    cy.contains('36.03%').should('exist');
-    cy.contains('11/10/2020 09:56:24').should('exist');
+    cy.contains('43.75%').should('exist');
+    cy.contains('42.58%').should('exist');
+    cy.contains('03/25/2021 10:21:22').should('exist');
     cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');
 
     cy.get('div.js-plotly-plot').should('have.length', 2);

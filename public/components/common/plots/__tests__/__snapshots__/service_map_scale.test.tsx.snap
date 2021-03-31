@@ -59,6 +59,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
           },
         ]
       }
+      height="270px"
       layout={
         Object {
           "height": 270,
@@ -231,7 +232,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
         }
         style={
           Object {
-            "height": "100%",
+            "height": "270px",
             "width": "100%",
           }
         }
@@ -240,13 +241,86 @@ exports[`Service map scale component renders service map scale plot 1`] = `
         <div
           style={
             Object {
-              "height": "100%",
+              "height": "270px",
               "width": "100%",
             }
           }
         />
       </PlotlyComponent>
     </Plt>
+    <EuiSpacer>
+      <div
+        className="euiSpacer euiSpacer--l"
+      />
+    </EuiSpacer>
+    <EuiFlexGroup
+      gutterSize="none"
+    >
+      <div
+        className="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <img
+              alt="unmatched-node-legend"
+              src="file-stub"
+              style={
+                Object {
+                  "height": 40,
+                  "width": 40,
+                }
+              }
+            />
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+          style={
+            Object {
+              "marginLeft": -10,
+              "marginRight": -30,
+            }
+          }
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "marginLeft": -10,
+                "marginRight": -30,
+              }
+            }
+          >
+            <EuiText
+              style={
+                Object {
+                  "color": "#444444",
+                  "fontSize": "14px",
+                  "transform": "rotate(-90deg)",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--medium"
+                style={
+                  Object {
+                    "color": "#444444",
+                    "fontSize": "14px",
+                    "transform": "rotate(-90deg)",
+                  }
+                }
+              >
+                No match
+              </div>
+            </EuiText>
+          </div>
+        </EuiFlexItem>
+      </div>
+    </EuiFlexGroup>
   </div>
 </ServiceMapScale>
 `;

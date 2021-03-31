@@ -14,13 +14,13 @@
  */
 
 export const delay = 1500;
-export const TRACE_ID = '9a2d91f9557028fc70bce0f3297ecfae';
-export const SPAN_ID = 'dc7f49faa6b065c1';
+export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';
+export const SPAN_ID = 'a673bc074b438374';
 export const SERVICE_NAME = 'frontend-client';
 
 export const setTimeFilter = (
-  startTime = 'Nov 10, 2020 @ 09:00:00.000',
-  endTime = 'Nov 10, 2020 @ 10:00:00.000',
+  startTime = 'Mar 25, 2021 @ 10:00:00.000',
+  endTime = 'Mar 25, 2021 @ 11:00:00.000',
   refresh = true
 ) => {
   cy.get('button.euiButtonEmpty[aria-label="Date quick select"]').click();
