@@ -51,7 +51,15 @@ jobs:
         run: |
           yarn build
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
+
+      - name: Upload to S3
+        run: |
           artifact=`ls ./build/*.zip`
 
-          aws s3 cp $artifact s3://artifacts.opendistroforelasticsearch.amazon.com/downloads/kibana-plugins/opendistro-trace-analytics/
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/downloads/*"
+          # inject build number before the suffix
+          zip_outfile=`basename ${artifact%.zip}-build-${GITHUB_RUN_NUMBER}.zip`
+
+          s3_prefix="s3://staging.artifacts.opendistroforelasticsearch.amazon.com/snapshots/kibana-plugins/trace-analytics/"
+
+          echo "Copying ${artifact} to ${s3_prefix}${zip_outfile}"
+          aws s3 cp --quiet $artifact ${s3_prefix}${zip_outfile}
