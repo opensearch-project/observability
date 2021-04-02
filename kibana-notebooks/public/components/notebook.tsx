@@ -527,7 +527,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         let index = 0;
         for (index = 0; index < res.paragraphs.length; ++index) {
           // if the paragraph is a query, load the query output
-          if (res.paragraphs[index].output[0].outputType === 'QUERY') {
+          if (res.paragraphs[index].output[0]?.outputType === 'QUERY') {
             await this.loadQueryResultsFromInput(res.paragraphs[index]);
           }
         }

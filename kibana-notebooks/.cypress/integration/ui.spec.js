@@ -15,13 +15,13 @@
 
 /// <reference types="cypress" />
 
-import { 
-  delay, 
-  TEST_NOTEBOOK, 
-  MARKDOWN_TEXT, 
-  SAMPLE_URL, 
-  SQL_QUERY_TEXT, 
-  PPL_QUERY_TEXT 
+import {
+  delay,
+  TEST_NOTEBOOK,
+  MARKDOWN_TEXT,
+  SAMPLE_URL,
+  SQL_QUERY_TEXT,
+  PPL_QUERY_TEXT
 } from "../utils/constants";
 
 describe('Adding sample data and visualization', () => {
@@ -187,7 +187,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Duplicates paragraphs', () => {
-    cy.get('.euiButtonIcon[aria-label="Open paragraph menu"').eq(0).click();
+    cy.get('.euiButtonIcon[aria-label="Open paragraph menu"]').eq(0).click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Duplicate').eq(0).click();
     cy.wait(delay);
@@ -231,7 +231,7 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
 
     cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('select * from kibana_sample_data_flights limit 20');
-    
+
     cy.get('.euiDataGrid__overflow').should('exist');
   });
 
@@ -247,12 +247,12 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
 
     cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('source=kibana_sample_data_flights');
-    
+
     cy.get('.euiDataGrid__overflow').should('exist');
   });
 
   it('Clears outputs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('.euiButton__text').contains('Actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Clear all outputs').click();
     cy.wait(delay);
@@ -263,7 +263,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Runs all paragraphs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('.euiButton__text').contains('Actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Run all paragraphs').click();
     cy.wait(delay);
@@ -272,13 +272,13 @@ describe('Testing paragraphs', () => {
   });
 
   it('Adds paragraph to top and bottom', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('.euiButton__text').contains('Actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to top').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Markdown').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('.euiButton__text').contains('Actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to bottom').click();
     cy.wait(delay);
@@ -286,7 +286,7 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
 
     cy.get('.euiText').contains('[4] Kibana visualization').should('exist');
-    cy.get('.euiText').contains('[5] Markdown').should('exist');
+    cy.get('.euiText').contains('[5] Code block').should('exist');
   });
 
   it('Moves paragraphs', () => {
@@ -325,7 +325,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Deletes paragraphs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('.euiButton__text').contains('Actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete all paragraphs').click();
     cy.wait(delay);
