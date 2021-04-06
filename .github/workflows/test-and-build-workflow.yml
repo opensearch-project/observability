@@ -4,8 +4,8 @@ name: Test and Build Trace Analytics
 on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: opendistroTraceAnalyticsKibana
-  OD_VERSION: 1.13.0.0-alpha
+  PLUGIN_NAME: opendistroTraceAnalyticsOpenSearchDashboards
+  OD_VERSION: 1.15.0.0
 
 jobs:
 
@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # TODO change to opensearch dashboards
       - name: Checkout Kibana
         uses: actions/checkout@v1
         with:
@@ -23,14 +24,14 @@ jobs:
       - name: Checkout Plugin
         uses: actions/checkout@v1
         with:
-          path: kibana/plugins/trace-analytics
+          path: OpenSearch-Dashboards/plugins/trace-analytics
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '10.23.1'
-      - name: Kibana Pluign Bootstrap
+      - name: Pluign Bootstrap
         run: |
-          yarn kbn bootstrap
+          yarn osd bootstrap
       - name: Test
         run: |
           yarn test
