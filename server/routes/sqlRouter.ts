@@ -15,7 +15,7 @@
 
 import { RequestParams } from '@elastic/elasticsearch';
 import { ILegacyClusterClient, IRouter } from '../../../../src/core/server';
-import { schema } from '@kbn/config-schema';
+import { schema } from '@osd/config-schema';
 import { SQL_ROUTE } from '../utils/constants';
 
 export function RegisterSqlRouter(router: IRouter, sqlClient: ILegacyClusterClient) {
