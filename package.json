@@ -1,6 +1,6 @@
 {
   "name": "opendistro-trace-analytics-opensearch-dashboards",
-  "version": "1.13.0.0",
+  "version": "1.15.0.0",
   "opensearchDashboards": {
     "version": "7.10.2",
     "templateVersion": "1.0.0"
