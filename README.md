@@ -1,6 +1,6 @@
-# Open Distro for Elasticsearch Trace Analytics
+# OpenSearch Dashboards Trace Analytics
 
-The Open Distro for Elasticsearch Trace Analytics plugin provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
+The OpenSearch Dashboards Trace Analytics plugin provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
 
 1. Dashboard: an overview of the trace groups and two charts: error rate and throughput.
 
@@ -46,13 +46,13 @@ Example output: `./build/opendistroTraceAnalytics*.zip`
 
   Starts OpenSearch Dashboards and includes this plugin. OpenSearch Dashboards will be available on `localhost:5601`.
 
-## Contributing to Open Distro for Elasticsearch Trace Analytics
+## Contributing to OpenSearch Dashboards Trace Analytics
 
 We welcome you to get involved in development, documentation, testing the OpenSearch Dashboards Trace Analytics plugin. See our [CONTRIBUTING.md](./CONTRIBUTING.md) and join in.
 
 ## Bugs, Enhancements or Questions
 
-Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opendistro-for-elasticsearch/trace-analytics/issues).
+Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opensearch-project/trace-analytics/issues).
 
 ## License
 

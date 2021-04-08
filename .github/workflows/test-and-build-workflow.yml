@@ -15,7 +15,7 @@ jobs:
 
     steps:
       # TODO change to opensearch dashboards
-      - name: Checkout Kibana
+      - name: Checkout OpenSerach Dashboards
         uses: actions/checkout@v1
         with:
           repository: elastic/kibana
