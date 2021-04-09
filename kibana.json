@@ -1,0 +1,8 @@
+{
+  "id": "opendsearchObservability",
+  "version": "0.0.1",
+  "kibanaVersion": "7.10.2",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": []
+}
