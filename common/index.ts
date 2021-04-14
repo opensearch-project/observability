@@ -13,7 +13,7 @@
  *   permissions and limitations under the License.
  */
 
-export const PLUGIN_ID = 'opendistro-trace-analytics';
+export const PLUGIN_ID = 'trace-analytics-dashboards';
 export const PLUGIN_NAME = 'Trace Analytics';
 
 export const RAW_INDEX_NAME = 'otel-v1-apm-span-*';

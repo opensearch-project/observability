@@ -19,7 +19,7 @@ import { delay, setTimeFilter, SERVICE_NAME } from '../utils/constants';
 
 describe('Testing services table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/services');
+    cy.visit('app/trace-analytics-dashboards#/services');
     cy.wait(delay * 3);
   });
 
@@ -31,7 +31,7 @@ describe('Testing services table empty state', () => {
 
 describe('Testing services table', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/services');
+    cy.visit('app/trace-analytics-dashboards#/services');
     setTimeFilter();
   });
 
@@ -53,7 +53,7 @@ describe('Testing services table', () => {
 
 describe('Testing service view empty state', () => {
   beforeEach(() => {
-    cy.visit(`app/opendistro-trace-analytics#/services/${SERVICE_NAME}`);
+    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`);
     cy.wait(delay * 3);
   });
 
@@ -66,7 +66,7 @@ describe('Testing service view empty state', () => {
 
 describe('Testing service view', () => {
   beforeEach(() => {
-    cy.visit(`app/opendistro-trace-analytics#/services/${SERVICE_NAME}`);
+    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`);
     setTimeFilter(undefined, undefined, false);
   });
   

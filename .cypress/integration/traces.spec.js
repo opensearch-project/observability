@@ -19,7 +19,7 @@ import { delay, setTimeFilter, TRACE_ID, SPAN_ID } from '../utils/constants';
 
 describe('Testing traces table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/traces');
+    cy.visit('app/trace-analytics-dashboards#/traces');
     cy.wait(delay * 3);
   });
 
@@ -31,7 +31,7 @@ describe('Testing traces table empty state', () => {
 
 describe('Testing traces table', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/traces');
+    cy.visit('app/trace-analytics-dashboards#/traces');
     setTimeFilter();
   });
 
@@ -53,7 +53,7 @@ describe('Testing traces table', () => {
 
 describe('Testing trace view', () => {
   beforeEach(() => {
-    cy.visit(`app/opendistro-trace-analytics#/traces/${TRACE_ID}`);
+    cy.visit(`app/trace-analytics-dashboards#/traces/${TRACE_ID}`);
     cy.wait(delay * 3);
   });
 

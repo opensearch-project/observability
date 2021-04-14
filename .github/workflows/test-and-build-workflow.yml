@@ -4,7 +4,7 @@ name: Test and Build Trace Analytics
 on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: opendistroTraceAnalyticsOpenSearchDashboards
+  PLUGIN_NAME: traceAnalyticsDashboards
   OD_VERSION: 1.15.0.0
 
 jobs:

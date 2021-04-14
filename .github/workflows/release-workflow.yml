@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 env:
-  PLUGIN_NAME: opendistroTraceAnalyticsOpenSearchDashboards
+  PLUGIN_NAME: traceAnalyticsDashboards
   OD_VERSION: 1.15.0.0
 
 jobs:

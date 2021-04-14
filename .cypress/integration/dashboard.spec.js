@@ -19,7 +19,7 @@ import { delay, setTimeFilter } from '../utils/constants';
 
 describe('Testing dashboard table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard');
     cy.wait(delay * 3);
   });
 
@@ -31,7 +31,7 @@ describe('Testing dashboard table empty state', () => {
 
 describe('Testing dashboard table', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard');
     setTimeFilter();
   });
 
@@ -85,7 +85,7 @@ describe('Testing dashboard table', () => {
 
 describe('Testing plots', () => {
   beforeEach(() => {
-    cy.visit('app/opendistro-trace-analytics#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard');
     setTimeFilter();
   });
 
