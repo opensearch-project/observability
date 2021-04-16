@@ -69,7 +69,7 @@ describe('Dashboard table component', () => {
         items={tableItems}
         filters={[
           {
-            field: 'traceGroupFields.name',
+            field: 'traceGroup.name',
             operator: 'exists',
             value: 'exists',
             inverted: false,

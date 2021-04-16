@@ -51,7 +51,7 @@ describe('Filter popover component', () => {
     wrapper
       .find('input')
       .at(0)
-      .simulate('change', [{ label: 'traceGroupFields.name' }]);
+      .simulate('change', [{ label: 'traceGroup.name' }]);
     wrapper
       .find('input')
       .at(1)

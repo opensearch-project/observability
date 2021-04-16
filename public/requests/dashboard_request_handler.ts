@@ -53,8 +53,8 @@ export const handleDashboardRequest = async (
     .then((response) => {
       const map: any = {};
       response.aggregations.trace_group.buckets.forEach((traceGroup) => {
-        map[traceGroupFields.key] = Object.values(
-          traceGroupFields.latency_variance_nanos.values
+        map[traceGroup.key] = Object.values(
+          traceGroup.latency_variance_nanos.values
         ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
       });
       return map;

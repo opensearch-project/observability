@@ -67,7 +67,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
   ).then((response) => {
     const map: any = {};
     response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {
-      map[traceGroupFields.key] = Object.values(traceGroupFields.percentiles.values).map((value: number) =>
+      map[traceGroup.key] = Object.values(traceGroup.percentiles.values).map((value: number) =>
         nanoToMilliSec(value)
       );
     });
