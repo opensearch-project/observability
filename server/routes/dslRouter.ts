@@ -15,7 +15,7 @@
 
 import { RequestParams } from '@elastic/elasticsearch';
 import { IRouter } from '../../../../src/core/server';
-import { schema } from '@kbn/config-schema';
+import { schema } from '@osd/config-schema';
 import { DSL_ROUTE, INDICES_ROUTE } from '../utils/constants';
 import { RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../common';
 
@@ -31,7 +31,7 @@ export function RegisterDslRouter(router: IRouter) {
         allow_no_indices: false,
       };
       try {
-        const resp = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
+        const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
           'indices.exists',
           params
         );
@@ -88,7 +88,7 @@ export function RegisterDslRouter(router: IRouter) {
         body: rest,
       };
       try {
-        const resp = await context.core.elasticsearch.legacy.client.callAsCurrentUser(
+        const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
           'search',
           params
         );

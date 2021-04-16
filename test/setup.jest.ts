@@ -19,6 +19,7 @@ import { configure } from '@testing-library/react';
 configure({ testIdAttribute: 'data-test-subj' });
 
 window.URL.createObjectURL = () => '';
+HTMLCanvasElement.prototype.getContext = () => '';
 
 jest.mock('@elastic/eui/lib/components/form/form_row/make_id', () => () => 'random-id');
 

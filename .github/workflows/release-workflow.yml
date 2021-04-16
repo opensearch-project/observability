@@ -7,8 +7,8 @@ on:
       - 'v*'
 
 env:
-  PLUGIN_NAME: opendistroTraceAnalyticsKibana
-  OD_VERSION: 1.13.0.0-alpha
+  PLUGIN_NAME: traceanalyticsDashboards
+  OD_VERSION: 1.15.0.0
 
 jobs:
 
@@ -25,27 +25,27 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Checkout Kibana
+      # TODO change to opensearch dashboards
+      - name: Checkout OpenSerach Dashboards
         uses: actions/checkout@v1
         with:
-          repository: opendistro-for-elasticsearch/kibana-oss
-          ref: 7.10.2
-          token: ${{secrets.OD_ACCESS}}
-          path: kibana
+          repository: opensearch-project/Opensearch-Dashboards
+          ref: 1.x
+          path: OpenSearch-Dashboards
 
       - name: Checkout Plugin
         uses: actions/checkout@v1
         with:
-          path: kibana/plugins/trace-analytics
+          path: OpenSearch-Dashboards/plugins/trace-analytics
 
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '10.23.1'
 
-      - name: Kibana Pluign Bootstrap
+      - name: Pluign Bootstrap
         run: |
-          yarn kbn bootstrap
+          yarn osd bootstrap
 
       - name: Build Artifact
         run: |
@@ -53,5 +53,6 @@ jobs:
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
           artifact=`ls ./build/*.zip`
 
+          # TODO change to new bucket
           aws s3 cp $artifact s3://artifacts.opendistroforelasticsearch.amazon.com/downloads/kibana-plugins/opendistro-trace-analytics/
           aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/downloads/*"

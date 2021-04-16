@@ -13,7 +13,7 @@
  *   permissions and limitations under the License.
  */
 
-import { i18n } from '@kbn/i18n';
+import { i18n } from '@osd/i18n';
 import {
   AppMountParameters,
   CoreSetup,
@@ -43,7 +43,7 @@ export class TraceAnalyticsPlugin
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
-        // Get start services as specified in kibana.json
+        // Get start services as specified in opensearch_dashboards.json
         const [coreStart, depsStart] = await core.getStartServices();
         // Render the application
         return renderApp(coreStart, depsStart as AppPluginStartDependencies, params);

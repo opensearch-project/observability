@@ -1,13 +1,14 @@
 {
-  "name": "opendistro-trace-analytics-kibana",
-  "version": "1.13.0.0",
-  "kibana": {
+  "name": "trace-analytics-dashboards",
+  "version": "1.15.0.0",
+  "opensearchDashboards": {
     "version": "7.10.2",
     "templateVersion": "1.0.0"
   },
   "license": "Apache-2.0",
   "scripts": {
-    "kbn": "node ../../scripts/kbn",
+    "osd": "node ../../scripts/osd",
+    "opensearch": "node ../../scripts/opensearch",
     "lint": "eslint .",
     "test:cypress": "cypress run",
     "plugin-helpers": "node ../../scripts/plugin_helpers",

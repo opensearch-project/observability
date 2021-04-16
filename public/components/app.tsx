@@ -13,7 +13,7 @@
  *   permissions and limitations under the License.
  */
 
-import { I18nProvider } from '@kbn/i18n/react';
+import { I18nProvider } from '@osd/i18n/react';
 import React, { useEffect, useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
