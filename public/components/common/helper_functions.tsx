@@ -183,7 +183,7 @@ export function getServiceMapGraph(
 export function getServiceMapTargetResources(map: ServiceObject, serviceName: string) {
   return [].concat.apply(
     [],
-    [...map[serviceName].traceGroups.map((traceGroup) => [...traceGroup.targetResource])]
+    [...map[serviceName].traceGroups.map((traceGroup) => [...traceGroupFields.targetResource])]
   );
 }
 
@@ -268,14 +268,14 @@ export const getPercentileFilter = (
         must: [
           {
             term: {
-              'traceGroup.name': {
+              'traceGroupFields.name': {
                 value: map.traceGroupName,
               },
             },
           },
           {
             range: {
-              'traceGroup.durationInNanos': map.durationFilter,
+              'traceGroupFields.durationInNanos': map.durationFilter,
             },
           },
         ],
@@ -355,8 +355,8 @@ export const filtersToDsl = (
 
       let filterQuery = {};
       let field = filter.field;
-      if (field === 'latency') field = 'traceGroup.durationInNanos';
-      else if (field === 'error') field = 'traceGroup.statusCode';
+      if (field === 'latency') field = 'traceGroupFields.durationInNanos';
+      else if (field === 'error') field = 'traceGroupFields.statusCode';
       let value;
 
       switch (filter.operator) {
@@ -373,9 +373,9 @@ export const filtersToDsl = (
         case 'is not':
           value = filter.value;
           // latency and error are not actual fields, need to convert first
-          if (field === 'traceGroup.durationInNanos') {
+          if (field === 'traceGroupFields.durationInNanos') {
             value = milliToNanoSec(value);
-          } else if (field === 'traceGroup.statusCode') {
+          } else if (field === 'traceGroupFields.statusCode') {
             value = value[0].label === 'true' ? '2' : '0';
           }
 
@@ -391,7 +391,7 @@ export const filtersToDsl = (
           const range: { gte?: string; lte?: string } = {};
           if (!filter.value.from.includes('\u221E')) range.gte = filter.value.from;
           if (!filter.value.to.includes('\u221E')) range.lte = filter.value.to;
-          if (field === 'traceGroup.durationInNanos') {
+          if (field === 'traceGroupFields.durationInNanos') {
             if (range.lte) range.lte = milliToNanoSec(parseInt(range.lte || '')).toString();
             if (range.gte) range.gte = milliToNanoSec(parseInt(range.gte || '')).toString();
           }

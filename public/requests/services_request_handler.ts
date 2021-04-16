@@ -82,8 +82,8 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
             serviceName: bucket.key,
             id: id++,
             traceGroups: bucket.trace_group.buckets.map((traceGroup) => ({
-              traceGroup: traceGroup.key,
-              targetResource: traceGroup.target_resource.buckets.map((res) => res.key),
+              traceGroup: traceGroupFields.key,
+              targetResource: traceGroupFields.target_resource.buckets.map((res) => res.key),
             })),
             targetServices: [],
             destServices: [],
