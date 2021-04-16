@@ -1,0 +1,50 @@
+
+name: Test and Build Dashboards Notebooks
+
+on: [pull_request, push]
+
+env:
+  PLUGIN_NAME: notebooksDashboards
+  OD_VERSION: 1.15.0.0
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Plugin
+        uses: actions/checkout@v1
+
+      - name: Checkout OpenSearch Dashboards
+        uses: actions/checkout@v1
+        with:
+          repository: opensearch-project/Opensearch-Dashboards
+          ref: 1.x
+          path: dashboards-notebooks/OpenSearch-Dashboards
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.23.1'
+
+      - name: Move Notebooks to Plugins Dir
+        run: mv dashboards-notebooks OpenSearch-Dashboards/plugins/dashboards-notebooks
+
+      - name: OpenSearch Dashboards Pluign Bootstrap
+        run: |
+          cd OpenSearch-Dashboards/plugins/dashboards-notebooks
+          yarn osd bootstrap
+
+      - name: Build Artifact
+        run: |
+          cd OpenSearch-Dashboards/plugins/dashboards-notebooks
+          yarn build
+          mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dashboards-notebooks
+          path: OpenSearch-Dashboards/plugins/dashboards-notebooks/build
