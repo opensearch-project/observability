@@ -23,7 +23,7 @@ afterEvaluate {
         release = isSnapshot ? "0.1" : '1'
         version = "${project.version}" - "-SNAPSHOT"
 
-        into '/usr/share/elasticsearch/plugins'
+        into '/usr/share/opensearch/plugins'
         from(zipTree(bundlePlugin.archivePath)) {
             into opensearchplugin.name
         }
@@ -33,17 +33,17 @@ afterEvaluate {
         fileMode 0644
         dirMode 0755
 
-        requires('elasticsearch-oss', versions.elasticsearch, EQUAL)
+        requires('opensearch-oss', versions.opensearch, EQUAL)
         packager = 'Amazon'
         vendor = 'Amazon'
         os = 'LINUX'
         prefix '/usr'
 
         license 'ASL-2.0'
-        maintainer 'OpenDistro for Elasticsearch Team <opendistro@amazon.com>'
-        url 'https://opendistro.github.io/elasticsearch/downloads'
+        maintainer 'OpenSearch Team <opensearch@amazon.com>'
+        url 'https://opensearch.org/'
         summary '''
-         Open Distro for Elasticsearch Report scheduler.
+         OpenSearch Reports scheduler.
          Reference documentation can be found at https://opendistro.github.io/elasticsearch/docs.
     '''.stripIndent().replace('\n', ' ').trim()
     }
