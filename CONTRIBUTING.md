@@ -11,13 +11,50 @@ information to effectively respond to your bug report or contribution.
 
 We welcome you to use the GitHub issue tracker to report bugs or suggest features.
 
-When filing an issue, please check [existing open](https://github.com/mauve-hedgehog/OpenES-Sample/issues), or [recently closed](https://github.com/mauve-hedgehog/OpenES-Sample/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already
+When filing an issue, please check [existing open](https://github.com/opensearch-project/dashboards-notebooks/issues), or [recently closed](https://github.com/opensearch-project/dashboards-notebooks/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already
 reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
 
 * A reproducible test case or series of steps
 * The version of our code being used
 * Any modifications you've made relevant to the bug
 * Anything unusual about your environment or deployment
+
+## Sign your work
+The sign-off is a simple line at the end of each commit, which certifies that you wrote it or otherwise have the right to pass it on as an open-source patch. if you can certify the below
+```
+By making a contribution to this project, I certify that:
+(a) The contribution was created in whole or in part by me and I
+have the right to submit it under the open source license
+indicated in the file; or
+(b) The contribution is based upon previous work that, to the best
+of my knowledge, is covered under an appropriate open source
+license and I have the right under that license to submit that
+work with modifications, whether created in whole or in part
+by me, under the same open source license (unless I am
+permitted to submit under a different license), as indicated
+in the file; or
+(c) The contribution was provided directly to me by some other
+person who certified (a), (b) or (c) and I have not modified
+it.
+(d) I understand and agree that this project and the contribution
+are public and that a record of the contribution (including all
+personal information I submit with it, including my sign-off) is
+maintained indefinitely and may be redistributed consistent with
+this project or the open source license(s) involved.
+```
+then you just add a line to every git commit message:
+```
+Signed-off-by: Bob Sanders <bob.sanders@email.com>
+```
+You can sign off your work easily by adding the configuration in github
+```
+git config user.name "Bob Sanders"
+git config user.email "bob.sanders@email.com"
+```
+Then, you could sign off commits automatically by adding `-s` or `-=signoff` parameter to your usual git commits commands. e.g.
+```
+git commit -s -m "my first commit"
+```
 
 
 ## Contributing via Pull Requests
@@ -41,7 +78,7 @@ GitHub provides additional document on [forking a repository](https://help.githu
 
 
 ## Finding contributions to work on
-Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'](https://github.com/mauve-hedgehog/OpenES-Sample/labels/help%20wanted) issues is a great place to start.
+Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'](https://github.com/opensearch-project/dashboards-notebooks/labels/help%20wanted) issues is a great place to start.
 
 
 ## Code of Conduct
@@ -56,6 +93,6 @@ If you discover a potential security issue in this project we ask that you notif
 
 ## Licensing
 
-See the [LICENSE](https://github.com/mauve-hedgehog/OpenES-Sample/blob/master/LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
+See the [LICENSE](https://github.com/opensearch-project/dashboards-notebooks/blob/master/LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
 
 We may ask you to sign a [Contributor License Agreement (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) for larger changes.
