@@ -35,8 +35,8 @@ export class TraceAnalyticsPlugin
       id: PLUGIN_ID,
       title: PLUGIN_NAME,
       category: {
-        id: 'odfe',
-        label: 'Open Distro for Elasticsearch',
+        id: 'opensearch',
+        label: 'OpenSearch Plugins',
         order: 2000,
       },
       order: 6000,
