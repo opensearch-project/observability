@@ -92,27 +92,33 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
           latency: {
             max: {
               script: {
-                source: "Math.round(doc['traceGroup.durationInNanos'].value / 10000) / 100.0",
+                source: `
+                if (!doc.containsKey('traceGroupFields') || doc['traceGroupFields'].empty) {
+                    return 0
+                }
+
+                return Math.round(doc['traceGroupFields.durationInNanos'].value / 10000) / 100.0
+                `,
                 lang: 'painless',
               },
             },
           },
           trace_group: {
             terms: {
-              field: 'traceGroup.name',
+              field: 'traceGroup',
               size: 1,
             },
           },
           error_count: {
             filter: {
               term: {
-                'traceGroup.statusCode': '2',
+                'traceGroupFields.statusCode': '2',
               },
             },
           },
           last_updated: {
             max: {
-              field: 'traceGroup.endTime',
+              field: 'traceGroupFields.endTime',
             },
           },
         },
@@ -263,7 +269,7 @@ export const getValidTraceIdsQuery = (DSL) => {
     },
   };
   if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  if (DSL.custom?.traceGroup.length > 0) {
+  if (DSL.custom?.traceGroupFields.length > 0) {
     query.query.bool.filter.push({
       terms: {
         traceGroup: DSL.custom.traceGroup,
