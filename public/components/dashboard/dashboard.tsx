@@ -133,11 +133,19 @@ export function Dashboard(props: DashboardProps) {
     if (tableItems.length === 0 || Object.keys(percentileMap).length === 0) return;
     for (let i = 0; i < props.filters.length; i++) {
       if (props.filters[i].custom) {
-        const newFilter = JSON.parse(
-          JSON.stringify(props.filters[i]).replace(
-            /{"range":{"durationInNanos":{"[gl]te?"/g,
-            `{"range":{"durationInNanos":{"${condition}"`
-          )
+        const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
+        newFilter.custom.query.bool.should.forEach((should) =>
+          should.bool.must.forEach((must) => {
+            const range = must?.range?.['traceGroupFields.durationInNanos'];
+            if (range) {
+              const duration = range.lt || range.lte || range.gt || range.gte;
+              if (duration || duration === 0) {
+                must.range['traceGroupFields.durationInNanos'] = {
+                  [condition]: duration,
+                };
+              }
+            }
+          })
         );
         newFilter.value = condition === 'gte' ? '>= 95th' : '< 95th';
         const newFilters = [...props.filters, ...additionalFilters];
