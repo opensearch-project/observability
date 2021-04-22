@@ -8,7 +8,7 @@ on:
 
 env:
   PLUGIN_NAME: traceanalyticsDashboards
-  OD_VERSION: 1.15.0.0
+  OD_VERSION: 1.0.0.0
 
 jobs:
 
@@ -25,12 +25,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # TODO change to opensearch dashboards
       - name: Checkout OpenSerach Dashboards
         uses: actions/checkout@v1
         with:
           repository: opensearch-project/Opensearch-Dashboards
-          ref: 1.x
+          ref: main
           path: OpenSearch-Dashboards
 
       - name: Checkout Plugin
