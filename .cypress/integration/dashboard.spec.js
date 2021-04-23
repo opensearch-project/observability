@@ -85,12 +85,12 @@ describe('Testing dashboard table', () => {
 
     cy.get('h2.euiTitle').contains('Traces').should('exist');
     cy.contains(' (7)').should('exist');
-    cy.contains('traceGroup: HTTP GET').should('exist');
+    cy.contains('traceGroup.name: HTTP GET').should('exist');
 
     cy.get('.euiSideNavItemButton__label').contains('Dashboard').click();
     cy.wait(delay);
 
-    cy.contains('traceGroup: HTTP GET').should('exist');
+    cy.contains('traceGroup.name: HTTP GET').should('exist');
   });
 });
 

@@ -8,7 +8,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
     Array [
       Object {
         "disabled": false,
-        "field": "traceGroup",
+        "field": "traceGroup.name",
         "inverted": false,
         "operator": "exists",
         "value": "exists",
