@@ -42,7 +42,7 @@ export const wreckOptions = {
   headers: { 'Content-Type': 'application/json' },
 };
 
-const BASE_NOTEBOOKS_URI = '/_opendistro/_notebooks';
+const BASE_NOTEBOOKS_URI = '/_opensearch/_notebooks';
 export const OPENSEARCH_NOTEBOOKS_API = {
   GET_NOTEBOOKS: `${BASE_NOTEBOOKS_URI}/notebooks`,
   NOTEBOOK: `${BASE_NOTEBOOKS_URI}/notebook`,

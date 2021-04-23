@@ -1,11 +1,11 @@
 {
   "name": "notebooks-dashboards",
-  "version": "1.15.0.0",
+  "version": "1.0.0.0",
   "description": "OpenSearch Dashboards Notebooks",
   "main": "index.ts",
   "license": "Apache-2.0",
   "opensearchDashboards": {
-    "version": "7.10.2",
+    "version": "1.0.0",
     "templateVersion": "1.0.0"
   },
   "scripts": {
