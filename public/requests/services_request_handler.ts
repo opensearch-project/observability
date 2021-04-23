@@ -48,21 +48,23 @@ export const handleServicesRequest = async (
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL);
       if (setServiceMap) setServiceMap(serviceObject);
       return Promise.all(
-        response.aggregations.service.buckets.map((bucket) => {
-          const connectedServices = [
-            ...serviceObject[bucket.key].targetServices,
-            ...serviceObject[bucket.key].destServices,
-          ];
-          return {
-            name: bucket.key,
-            average_latency: serviceObject[bucket.key].latency,
-            error_rate: serviceObject[bucket.key].error_rate,
-            throughput: serviceObject[bucket.key].throughput,
-            traces: bucket.trace_count.value,
-            connected_services: connectedServices.join(', '),
-            number_of_connected_services: connectedServices.length,
-          };
-        })
+        response.aggregations.service.buckets
+          .filter((bucket) => serviceObject[bucket.key])
+          .map((bucket) => {
+            const connectedServices = [
+              ...serviceObject[bucket.key].targetServices,
+              ...serviceObject[bucket.key].destServices,
+            ];
+            return {
+              name: bucket.key,
+              average_latency: serviceObject[bucket.key].latency,
+              error_rate: serviceObject[bucket.key].error_rate,
+              throughput: serviceObject[bucket.key].throughput,
+              traces: bucket.trace_count.value,
+              connected_services: connectedServices.join(', '),
+              number_of_connected_services: connectedServices.length,
+            };
+          })
       );
     })
     .then((newItems) => {
@@ -111,10 +113,12 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
           bucket.resource.buckets.map((resource) => {
             resource.domain.buckets.map((domain) => {
               const targetService = targets[resource.key + ':' + domain.key];
-              if (map[bucket.key].targetServices.indexOf(targetService) === -1)
-                map[bucket.key].targetServices.push(targetService);
-              if (map[targetService].destServices.indexOf(bucket.key) === -1)
-                map[targetService].destServices.push(bucket.key);
+              if (targetService) {
+                if (map[bucket.key].targetServices.indexOf(targetService) === -1)
+                  map[bucket.key].targetServices.push(targetService);
+                if (map[targetService].destServices.indexOf(bucket.key) === -1)
+                  map[targetService].destServices.push(bucket.key);
+              }
             });
           });
         })

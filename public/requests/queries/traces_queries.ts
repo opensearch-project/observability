@@ -92,7 +92,13 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
           latency: {
             max: {
               script: {
-                source: "Math.round(doc['traceGroup.durationInNanos'].value / 10000) / 100.0",
+                source: `
+                if (doc.containsKey('traceGroup.durationInNanos') && !doc['traceGroup.durationInNanos'].empty) {
+                  return Math.round(doc['traceGroup.durationInNanos'].value / 10000) / 100.0
+                }
+
+                return 0
+                `,
                 lang: 'painless',
               },
             },
