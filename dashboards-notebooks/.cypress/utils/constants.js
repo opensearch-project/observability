@@ -27,7 +27,7 @@
 
 export const delay = 1000;
 export const TEST_NOTEBOOK = 'Test Notebook';
-export const SAMPLE_URL = 'https://github.com/opendistro-for-elasticsearch/sql/tree/master/sql-jdbc';
+export const SAMPLE_URL = 'https://github.com/opensearch-project/sql/tree/main/sql-jdbc';
 export const MARKDOWN_TEXT = `%md
 # Heading 1
 
@@ -41,7 +41,7 @@ export const MARKDOWN_TEXT = `%md
 #### Code block
 * Explain SQL
 \`\`\`
-POST _opendistro/_sql/_explain
+POST _opensearch/_sql/_explain
 {
   "query": "SELECT * FROM my-index LIMIT 50"
 }
