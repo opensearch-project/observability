@@ -20,26 +20,26 @@ jobs:
         with:
           repository: 'opensearch-project/OpenSearch'
           path: OpenSearch
-          ref: '1.0.0-alpha2'
+          ref: '1.0.0-beta1'
       - name: Build OpenSearch
         working-directory: ./OpenSearch
-        run: ./gradlew publishToMavenLocal -Dbuild.version_qualifier=alpha2 -Dbuild.snapshot=false
+        run: ./gradlew publishToMavenLocal -Dbuild.version_qualifier=beta1 -Dbuild.snapshot=false
 
       # dependencies: common-utils
       - name: Checkout common-utils
         uses: actions/checkout@v2
         with:
-          ref: '1.0.0-alpha2'
+          ref: '1.0.0-beta1'
           repository: 'opensearch-project/common-utils'
           path: common-utils
       - name: Build common-utils
         working-directory: ./common-utils
-        run: ./gradlew publishToMavenLocal -Dopensearch.version=1.0.0-alpha2
+        run: ./gradlew publishToMavenLocal -Dopensearch.version=1.0.0-beta1
 
       - name: Build with Gradle
         run: |
           cd opensearch-notebooks
-          ./gradlew build -Dopensearch.version=1.0.0-alpha2
+          ./gradlew build -Dopensearch.version=1.0.0-beta1
 
       - name: Create Artifact Path
         run: |
