@@ -29,6 +29,7 @@ jobs:
       - name: Checkout common-utils
         uses: actions/checkout@v2
         with:
+          ref: '1.0.0-alpha2'
           repository: 'opensearch-project/common-utils'
           path: common-utils
       - name: Build common-utils
