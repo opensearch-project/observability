@@ -40,17 +40,17 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
   );
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
+  const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
 
-  useEffect(() => {
-    handleSearch();
-  }, [startTime, endTime]);
+  // useEffect(() => {
+  //   handleSearch();
+  // }, [startTime, endTime]);
 
   const getDefaultQuery = (startTime: string, endTime: string) => {
     if (startTime && endTime && startTime === endTime) {
       endTime = 'now';
     }
     return `search source=kibana_sample_data_flights | where timestamp > timestamp('${moment(dateMath.parse(startTime)).format('yyyy-MM-DD HH:mm:ss')}') and timestamp < timestamp('${moment(dateMath.parse(endTime)).format('yyyy-MM-DD HH:mm:ss')}')`;
-
   };
   
   const handleSearch = async () => {
@@ -100,6 +100,10 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
     return data;
   }
 
+  const handleLiveStreamChecked = (e) => {
+    setLiveStreamChecked(!liveStreamChecked);
+  };
+
   return (
     <>
       <Search 
@@ -110,6 +114,8 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
         setStartTime={ setStartTime }
         setEndTime={ setEndTime }
         setIsOutputStale={ () => {} }
+        liveStreamChecked={liveStreamChecked}
+        onLiveStreamChange={ handleLiveStreamChecked }
       />
       { 
         !_.isEmpty(data) ?  <QueryDataGrid 

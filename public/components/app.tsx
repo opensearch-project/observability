@@ -17,7 +17,7 @@ import React from 'react';
 import { I18nProvider } from '@kbn/i18n/react';
 import { CoreStart } from '../../../../src/core/public';
 import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
-import { Home } from './home';
+import { LogExplorer } from './logExplorer';
 
 interface ObservabilityAppDeps {
   basename: string;
@@ -37,7 +37,7 @@ export const App = ({
   return (
     <I18nProvider>
       <>
-        <Home
+        <LogExplorer
           http={ http }
         />
       </>
