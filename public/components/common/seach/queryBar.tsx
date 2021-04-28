@@ -34,7 +34,7 @@ export function QueryBar(props: IQueryBarProps) {
       <EuiFieldSearch
         fullWidth
         isClearable={false}
-        placeholder="Enter PPL to retrieve log and traces"
+        placeholder="Enter PPL to retrieve log, traces and metrics"
         data-test-subj="search-bar-input-box"
         //value={query}
         onChange={(e) => {

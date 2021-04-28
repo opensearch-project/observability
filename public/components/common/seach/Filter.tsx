@@ -16,6 +16,7 @@
 import React from 'react';
 import {
   EuiFlexItem,
+  EuiSwitch,
   EuiSuperDatePicker,
 } from '@elastic/eui';
 import {
@@ -66,10 +67,15 @@ export function Filter(props: IFilterProps) {
     <EuiFlexItem
       className="euiFlexItem--flexGrowZero"
     >
+      <EuiSwitch
+        label="Live stream"
+        checked={props.liveStreamChecked}
+        onChange={(e) => props.onLiveStreamChange(e)}
+      />
       <EuiSuperDatePicker
         start={ startTime }
         end={ endTime }
-        showUpdateButton={ true }
+        showUpdateButton={ false }
         dateFormat="MM/DD/YYYY hh:mm:ss A"
         onTimeChange={(e) => {
           setStartTime(e.start);

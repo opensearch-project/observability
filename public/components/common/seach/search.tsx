@@ -74,6 +74,8 @@ function Search (props: any) {
             setStartTime={ setStartTime }
             setEndTime={ setEndTime }
             setIsOutputStale={ setIsOutputStale }
+            liveStreamChecked={props.liveStreamChecked}
+            onLiveStreamChange={props.onLiveStreamChange}
           />
       </EuiFlexGroup>
     </div>
