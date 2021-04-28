@@ -67,7 +67,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
-    const latestTabs = curTabsRef.current;
+    const latestTabs: Array<IQueryTab> = curTabsRef.current;
     if (latestTabs.length == 1) {
       console.log('Have to have at least one tab');
       return;
@@ -82,22 +82,22 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
     });
     // Always find the tab before the one being removed as the new focused tab, use the tab after
     // if the removed one is the first tab
-    const idxOfNewFocus = latestTabs.indexOf(tabToBeRemoved) - 1 >= 0 ? latestTabs.indexOf(tabToBeRemoved) - 1 : latestTabs.indexOf(tabToBeRemoved) + 1
-    const tabBeforeRemovedOne = latestTabs[idxOfNewFocus];
+    const idxOfNewFocus: number = latestTabs.indexOf(tabToBeRemoved) - 1 >= 0 ? latestTabs.indexOf(tabToBeRemoved) - 1 : latestTabs.indexOf(tabToBeRemoved) + 1
+    const tabBeforeRemovedOne: IQueryTab = latestTabs[idxOfNewFocus];
     updateTabs(newTabs);
     setCurSelectedTab(tabBeforeRemovedOne);
   };
 
   const handleAddNewTab = () => {
-    const newTab = getQueryTab();
+    const newTab: IQueryTab = getQueryTab();
     const newTabs: Array<IQueryTab> = [...curTabsRef.current, newTab];
     updateTabs(newTabs);
     setCurSelectedTab(newTab);
   };
 
   function getQueryTab () {
-    const tabId = new Date().valueOf();
-    const tab = `query_panel_${tabId}`;
+    const tabId: number = new Date().valueOf();
+    const tab: string = `query_panel_${tabId}`;
     return {
       id: tab,
       name: (<>
