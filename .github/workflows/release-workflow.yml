@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 env:
-  PLUGIN_NAME: traceanalyticsDashboards
+  PLUGIN_NAME: traceAnalyticsDashboards
   OPENSEARCH_VERSION: 1.0.0-beta1
   OPENSEARCH_PLUGIN_VERSION: 1.0.0.0-beta1
 
