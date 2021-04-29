@@ -61,7 +61,12 @@ import moment from 'moment';
 import { PanelWrapper } from './helpers/panel_wrapper';
 import { getDeleteModal, getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
 import CSS from 'csstype';
-
+import { 
+  generateInContextReport,
+  contextMenuViewReports,
+  contextMenuCreateReportDefinition
+} from './helpers/reporting_context_menu_helper';
+import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 const panelStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
@@ -108,6 +113,9 @@ type NotebookState = {
   isAddParaPopoverOpen: boolean;
   isParaActionsPopoverOpen: boolean;
   isNoteActionsPopoverOpen: boolean;
+  isReportingPluginInstalled: boolean;
+  isReportingActionsPopoverOpen: boolean;
+  isReportingLoadingModalOpen: boolean;
   isModalVisible: boolean;
   modalLayout: React.ReactNode;
   showQueryParagraphError: boolean;
@@ -127,11 +135,18 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       isAddParaPopoverOpen: false,
       isParaActionsPopoverOpen: false,
       isNoteActionsPopoverOpen: false,
+      isReportingPluginInstalled: false,
+      isReportingActionsPopoverOpen: false,
+      isReportingLoadingModalOpen: false,
       isModalVisible: false,
       modalLayout: <EuiOverlayMask></EuiOverlayMask>,
       showQueryParagraphError: false,
       queryParagraphErrorMessage: '',
     };
+  }
+
+  toggleReportingLoadingModal = (show: boolean) => {
+    this.setState({isReportingLoadingModalOpen: show});
   }
 
   parseAllParagraphs = () => {
@@ -586,9 +601,42 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     ]);
   }
 
+  checkIfReportingPluginIsInstalled() {
+    fetch('../api/status', 
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'osd-version': '1.0.0',
+        'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
+        pragma: 'no-cache',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+      },
+      method: 'GET',
+      referrerPolicy: 'strict-origin-when-cross-origin',
+      mode: 'cors',
+      credentials: 'include',
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then((data) => {
+      for (let i = 0; i < data.status.statuses.length; ++i) {
+        if (data.status.statuses[i].id.includes('plugin:reportsDashboards')) {
+          this.setState({ isReportingPluginInstalled: true })
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('error is', error);
+    })
+  }
+
   componentDidMount() {
     this.setBreadcrumbs('');
     this.loadNotebook();
+    this.checkIfReportingPluginIsInstalled();
   }
 
   render() {
@@ -748,12 +796,78 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       },
     ];
 
+    const reportingActionPanels: EuiContextMenuPanelDescriptor[] = [
+      {
+        id: 0,
+        title: 'Reporting',
+        items: [
+          {
+            name: 'Download PDF',
+            icon: <EuiIcon type="download" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              generateInContextReport('pdf', this.props, this.toggleReportingLoadingModal);
+            },
+          },
+          {
+            name: 'Download PNG',
+            icon: <EuiIcon type="download" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              generateInContextReport('png', this.props, this.toggleReportingLoadingModal);
+            }
+          },
+          {
+            name: 'Create report definition',
+            icon: <EuiIcon type="calendar" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              contextMenuCreateReportDefinition(window.location.href)
+            }
+          },
+          {
+            name: 'View reports',
+            icon: <EuiIcon type="document" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              contextMenuViewReports();
+            }
+          }
+        ]
+      }
+    ];
+
+    const showReportingContextMenu = (this.state.isReportingPluginInstalled) ? (
+      <div>
+        <EuiPopover
+          panelPaddingSize="none"
+          withTitle
+          button={
+            <EuiButton
+              iconType='arrowDown'
+              iconSide='right'
+              onClick={() => this.setState({ isReportingActionsPopoverOpen: true })}
+            >
+              Reporting
+            </EuiButton>
+          }
+          isOpen={this.state.isReportingActionsPopoverOpen}
+          closePopover={() => this.setState({ isReportingActionsPopoverOpen: false })}
+        >
+          <EuiContextMenu initialPanelId={0} panels={reportingActionPanels} />
+        </EuiPopover>
+      </div>
+    ) : null;
+
+    const showLoadingModal = (this.state.isReportingLoadingModalOpen) ?
+    <GenerateReportLoadingModal setShowLoading={this.toggleReportingLoadingModal} /> : null;
+
     return (
       <div style={pageStyles}>
         <EuiPage>
           <EuiPageBody component="div">
             <EuiPageHeader>
-              <EuiPageHeaderSection>
+              <EuiPageHeaderSection id="notebookTitle">
                 <EuiTitle size="l">
                   <h1>{this.state.path}</h1>
                 </EuiTitle>
@@ -790,6 +904,9 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                       closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
                       <EuiContextMenu initialPanelId={0} panels={paraActionsPanels} />
                     </EuiPopover>
+                  </EuiFlexItem>
+                  <EuiFlexItem>
+                    {showReportingContextMenu}
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <EuiPopover
@@ -909,6 +1026,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   </EuiPanel>
                 </div>
               )}
+            {showLoadingModal}
           </EuiPageBody>
         </EuiPage>
         {this.state.isModalVisible && this.state.modalLayout}
