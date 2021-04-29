@@ -1,5 +1,5 @@
 {
-  "id": "traceanalyticsDashboards",
+  "id": "traceAnalyticsDashboards",
   "version": "1.0.0.0-beta1",
   "opensearchDashboardsVersion": "1.0.0-beta1",
   "server": true,
