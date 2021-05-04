@@ -28,6 +28,49 @@ const getReportSourceURL = (baseURI: string) => {
   return baseURI.substr(baseURI.lastIndexOf('/') + 1, baseURI.length);
 }
 
+export const readDataReportToFile = async (
+  stream: string,
+  fileFormat: string,
+  fileName: string
+) => {
+  const blob = new Blob([stream]);
+  const url = URL.createObjectURL(blob);
+  let link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const getFileFormatPrefix = (fileFormat: string) => {
+  var fileFormatPrefix = 'data:' + fileFormat + ';base64,';
+  return fileFormatPrefix;
+};
+
+const readStreamToFile = async (
+  stream: string,
+  fileFormat: string,
+  fileName: string
+) => {
+  let link = document.createElement('a');
+  if (fileName.includes('csv')) {
+    readDataReportToFile(stream, fileFormat, fileName);
+    return;
+  }
+  let fileFormatPrefix = getFileFormatPrefix(fileFormat);
+  let url = fileFormatPrefix + stream;
+  if (typeof link.download !== 'string') {
+    window.open(url, '_blank');
+    return;
+  }
+  link.download = fileName;
+  link.href = url;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export const generateInContextReport = (
   fileFormat: string,
   props: any,
@@ -114,7 +157,11 @@ export const generateInContextReport = (
         );
       }
     }
-  });
+    return response.json();
+  })
+  .then(async (data) => {
+    await readStreamToFile(data.data, fileFormat, data.filename);
+  })
 }
 
 export const contextMenuCreateReportDefinition = (baseURI: string) => {

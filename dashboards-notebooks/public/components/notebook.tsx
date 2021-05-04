@@ -51,7 +51,6 @@ import { Cells } from '@nteract/presentational-components';
 
 import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-
 import { Paragraphs } from './paragraph_components/paragraphs';
 import { SELECTED_BACKEND, DATE_FORMAT, CREATE_NOTE_MESSAGE } from '../../common';
 import { API_PREFIX, ParaType } from '../../common';
@@ -529,8 +528,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     }
   };
 
+
   // update view mode, scrolls to paragraph and expands input if scrollToIndex is given
   updateView = (selectedViewId: string, scrollToIndex?: number) => {
+    this.configureViewParameter(selectedViewId);
     let parsedPara = [...this.state.parsedPara];
     this.state.parsedPara.map((para: ParaType, index: number) => {
       parsedPara[index].isInputExpanded = selectedViewId === 'input_only';
@@ -633,10 +634,26 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     })
   }
 
+  configureViewParameter(id: string) {
+    const url = new URL(window.location);
+    url.searchParams.set('view', id);
+    window.history.pushState({}, '', url);
+  }
+
   componentDidMount() {
     this.setBreadcrumbs('');
     this.loadNotebook();
     this.checkIfReportingPluginIsInstalled();
+    const url = new URL(window.location);
+    if (url.searchParams.get('view') === null) {
+      this.configureViewParameter('view_both');
+    }
+    if (url.searchParams.get('view') === 'output_only') {
+      this.setState({selectedViewId: 'output_only'});
+    }
+    else if (url.searchParams.get('view') === 'input_only') {
+      this.setState({selectedViewId: 'input_only'});
+    }
   }
 
   render() {
@@ -935,7 +952,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             {this.state.parsedPara.length > 0 ? (
               <>
                 <Cells>
-                  <PanelWrapper shouldWrap={this.state.selectedViewId === 'output_only'}>
+                  <PanelWrapper>
                     {this.state.parsedPara.map((para: ParaType, index: number) => (
                       <div ref={this.state.parsedPara[index].paraDivRef} key={`para_div_${para.uniqueId}`} style={panelStyles}>
                         <Paragraphs
