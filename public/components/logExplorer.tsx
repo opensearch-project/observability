@@ -34,6 +34,7 @@ interface IQueryTab {
 
 interface ILogExplorerProps {
   http: CoreStart['http']
+  plugins: any
 }
 
 export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
@@ -121,6 +122,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
           <Explorer
             key={`query_${tabId}`}
             http={ props.http }
+            plugins={ props.plugins }
           />
         </>)
     };

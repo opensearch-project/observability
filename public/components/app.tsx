@@ -32,13 +32,14 @@ export const App = ({
   notifications,
   http,
   chrome,
-  navigation,
+  plugins
 }: ObservabilityAppDeps) => {
   return (
     <I18nProvider>
       <>
         <LogExplorer
           http={ http }
+          plugins={ plugins }
         />
       </>
     </I18nProvider>

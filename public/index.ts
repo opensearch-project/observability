@@ -13,14 +13,16 @@
  *   permissions and limitations under the License.
  */
 
-import { PluginInitializer } from '../../../src/core/public';
+import { PluginInitializer, PluginInitializerContext } from '../../../src/core/public';
 import {
   ObservabilityPlugin,
-  CustomObservabilitySetup,
-  CustomObservabilityStart,
+  // CustomObservabilitySetup,
+  // CustomObservabilityStart,
 } from './plugin';
 
 export { ObservabilityPlugin as Plugin };
 
-export const plugin: PluginInitializer<CustomObservabilitySetup, CustomObservabilityStart> = () =>
-  new ObservabilityPlugin();
+// export const plugin: PluginInitializer<CustomObservabilitySetup, CustomObservabilityStart> = (initializerContext: PluginInitializerContext) =>
+//   new ObservabilityPlugin(initializerContext);
+
+export const plugin = (initializerContext: PluginInitializerContext) => new ObservabilityPlugin(initializerContext);

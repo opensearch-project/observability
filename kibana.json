@@ -1,8 +1,18 @@
 {
-  "id": "opendsearchObservability",
+  "id": "opensearchObservability",
   "version": "0.0.1",
   "kibanaVersion": "7.10.2",
   "server": true,
   "ui": true,
-  "requiredPlugins": []
+  "requiredPlugins": [
+    "charts",
+    "data",
+    "embeddable",
+    "inspector",
+    "kibanaLegacy",
+    "urlForwarding",
+    "navigation",
+    "uiActions",
+    "visualizations"
+  ]
 }

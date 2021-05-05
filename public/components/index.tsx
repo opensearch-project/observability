@@ -19,13 +19,16 @@ import {
   AppMountParameters,
   CoreStart
  } from '../../../../src/core/public';
+import { plugin } from '../../../../src/plugins/data/server';
+ import { DiscoverStartPlugins } from '../../../../src/plugins/discover/public/plugin';
  import { AppPluginStartDependencies } from '../types';
 import { App } from './app';
 
 export const Observability = (
   { notifications, http, chrome }: CoreStart,
-  { navigation, dashboard }: AppPluginStartDependencies,
-  { appBasePath, element }: AppMountParameters
+  // { navigation, dashboard }: AppPluginStartDependencies,
+  { appBasePath, element }: AppMountParameters,
+  plugins: DiscoverStartPlugins
 ) => {
   ReactDOM.render(
     <App
@@ -33,7 +36,8 @@ export const Observability = (
       notifications={ notifications }
       http={ http }
       chrome={ chrome }
-      navigation={ navigation }
+      // plugins={ plugins }
+      //navigation={ navigation }
     />,
     element
   );

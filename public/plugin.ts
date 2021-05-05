@@ -13,7 +13,21 @@
  *   permissions and limitations under the License.
  */
 
-import { Plugin, CoreSetup, CoreStart, IUiSettingsClient, HttpSetup, AppMountParameters } from '../../../src/core/public';
+import { 
+  Plugin,
+  CoreSetup,
+  CoreStart,
+  IUiSettingsClient, 
+  HttpSetup, 
+  AppMountParameters, 
+  PluginInitializerContext
+} from '../../../src/core/public';
+import {
+  DiscoverSetup,
+  DiscoverStart,
+  DiscoverSetupPlugins,
+  DiscoverStartPlugins
+} from '../../../src/plugins/discover/public/plugin';
 import { AppPluginStartDependencies } from './types';
 
 export interface ObservabilityDependencies extends Partial<CoreStart> {
@@ -21,27 +35,32 @@ export interface ObservabilityDependencies extends Partial<CoreStart> {
     http: HttpSetup;
 }
 
-export class ObservabilityPlugin implements Plugin<CustomObservabilitySetup, CustomObservabilityStart> {
-    public setup(core: CoreSetup) {
-        core.application.register({
-          id: 'opensearch-explorer',
-          title: 'Explorer',
-          category: {
-            id: 'opensearchplugins',
-            label: 'OpenSearch Plugins',
-            order: 400,
-          },
-          order: 1000,
-          async mount(params: AppMountParameters) {
-            const { Observability } = await import('./components/index');
-            const [coreStart, depsStart] = await core.getStartServices();
-            return Observability(coreStart, depsStart as AppPluginStartDependencies, params);
-          },
-        });
+export class ObservabilityPlugin implements Plugin<DiscoverSetup, DiscoverStart, DiscoverSetupPlugins, DiscoverStartPlugins> {
+    
+    constructor(initializerContext: PluginInitializerContext) {}
+
+    public setup(core: CoreSetup<DiscoverStartPlugins, DiscoverStart>, plugins: DiscoverSetupPlugins) {
+      console.log('DiscoverSetupPlugins: ', plugins);
+      core.application.register({
+        id: 'opensearch-explorer',
+        title: 'Explorer',
+        category: {
+          id: 'opensearchplugins',
+          label: 'OpenSearch Plugins',
+          order: 400,
+        },
+        order: 1000,
+        async mount(params: AppMountParameters) {
+          const { Observability } = await import('./components/index');
+          const [coreStart, depsStart] = await core.getStartServices();
+          // const plugins = await this.getPlugin();
+          return Observability(coreStart, params);
+        },
+      });
     }
-    public start() {}
+    public start(core: CoreStart, plugins: DiscoverStartPlugins) {}
     public stop() {}
 }
 
-export type CustomObservabilitySetup = ReturnType<ObservabilityPlugin['setup']>;
-export type CustomObservabilityStart = ReturnType<ObservabilityPlugin['start']>;
+// export type CustomObservabilitySetup = ReturnType<ObservabilityPlugin['setup']>;
+// export type CustomObservabilityStart = ReturnType<ObservabilityPlugin['start']>;

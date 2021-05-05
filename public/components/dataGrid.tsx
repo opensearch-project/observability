@@ -13,12 +13,17 @@
  *   permissions and limitations under the License.
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import './dataGrid.scss';
 
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import _ from 'lodash';
 import { 
   EuiFlexGroup,
-  EuiDataGrid
+  EuiDataGrid,
+  EuiBasicTable,
+  EuiIcon
 } from '@elastic/eui';
+import { DocViewRow } from './docTable/index';
 
 type QueryDataGridProps = {
   rowCount: number,
@@ -28,17 +33,20 @@ type QueryDataGridProps = {
   dataValues: Array<any>
 }
 
-export function QueryDataGrid(props: QueryDataGridProps) {
+export function QueryDataGrid(props: any) {
   const {
     rowCount,
     queryColumns,
     visibleColumns,
     setVisibleColumns,
-    dataValues
+    dataValues,
+    selectedCols = [],
+    plugins
   } = props;
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   // ** Sorting config
   const [sortingColumns, setSortingColumns] = useState([]);
+  const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   
   const onSort = useCallback(
     (sortingColumns) => {
@@ -63,6 +71,13 @@ export function QueryDataGrid(props: QueryDataGridProps) {
     [setPagination]
   );
 
+  const sorting = {
+    sort: {
+      field: 'timestamp',
+      direction: 'desc',
+    }
+  };
+
   const renderCellValue = useMemo(() => {
     return ({ rowIndex, columnId }) => {
       return dataValues.hasOwnProperty(rowIndex)
@@ -71,12 +86,49 @@ export function QueryDataGrid(props: QueryDataGridProps) {
     };
   }, [dataValues]);
 
-  // useEffect(() => {
-  // }, [visibleColumns, sortingColumns]);
+  const getTrs = (docs, selectedCols) => {
+    
+    return docs.map((doc) => {
+      return (
+        <DocViewRow 
+          doc={ doc }
+          selectedCols={ selectedCols }
+          plugins={ plugins }
+        />
+      );
+    });
+  };
+
+  const getHeaders = (queryColumns, selectedCols) => {
+    if (!selectedCols || selectedCols.length === 0) {
+      return (
+        <tr className="kbnDocTableHeader">
+          <th></th>
+          <th>Time</th>
+          <th>_source</th>
+        </tr>
+      );
+    }
+    
+  };
+
+  const headers = useMemo(() => getHeaders(queryColumns, selectedCols), [ queryColumns, selectedCols ]);
+
+  const tableRows = useMemo(() => getTrs(dataValues, selectedCols), [ dataValues, selectedCols ]);
 
   return (
     <div>
-      <EuiDataGrid
+      <table 
+        className="kbn-table table" 
+        data-test-subj="docTable">
+        <thead>
+          { headers }
+        </thead>
+        <tbody>
+            { tableRows }
+        </tbody>
+      </table>
+      {/* <EuiDataGrid
         aria-label='PPL datagrid'
         columns={queryColumns}
         columnVisibility={{ visibleColumns, setVisibleColumns }}
@@ -90,7 +142,7 @@ export function QueryDataGrid(props: QueryDataGridProps) {
           onChangeItemsPerPage: onChangeItemsPerPage,
           onChangePage: onChangePage,
         }}
-      />
+      /> */}
     </div>
   )
 }

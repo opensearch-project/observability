@@ -13,24 +13,39 @@
  *   permissions and limitations under the License.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
+import { 
+  FormattedMessage 
+} from '@kbn/i18n/react';
 import dateMath from '@elastic/datemath';
+import { 
+  EuiButtonIcon 
+} from '@elastic/eui';
+import classNames from 'classnames';
 import { CoreStart } from '../../../../src/core/public';
-import { DiscoverHistogram } from '../../../../src/plugins/discover/public/application/angular/directives/histogram';
+// import { DiscoverSidebar as Sidebar } from './sidebar';
+// import { DocTableLegacy } from '../../../../src/plugins/discover/public/application/angular/doc_table/create_doc_table_react';
+// import { DiscoverHistogram } from '../../../../src/plugins/discover/public/application/angular/directives/histogram';
 import { handlePplRequest } from '../requests/ppl';
 import Search from './common/seach/search';
+import { LoadingSpinner } from './common/loading_spinner/loading_spinner';
 import { QueryDataGrid } from './dataGrid';
 
 interface IExplorerProps {
-  http: CoreStart['http']
+  http: CoreStart['http'],
+  plugins: any
 }
 interface IPPLResult {}
 
-export const Explorer: React.FC<IExplorerProps> = (props) => {
-  
-  const { http } = props;
+const resultState = 'READY';
+
+export const Explorer: React.FC<any> = (props) => {
+  const { 
+    http,
+    plugins
+   } = props;
   const [query, setQuery] = useState<string>('search source=kibana_sample_data_flights');
   const [data, setData] = useState<IPPLResult>({});
   const columns = data && data.schema ? createQueryColumns(data.schema) : [];
@@ -41,6 +56,17 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
+
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
+  const fixedScrollRef = useCallback(
+    (node: HTMLElement) => {
+      if (node !== null) {
+        setFixedScrollEl(node);
+      }
+    },
+    [setFixedScrollEl]
+  );
 
   // useEffect(() => {
   //   handleSearch();
@@ -104,8 +130,18 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
     setLiveStreamChecked(!liveStreamChecked);
   };
 
+  const sidebarClassName = classNames({
+    closed: isSidebarClosed,
+  });
+
+  const mainSectionClassName = classNames({
+    'col-md-10': !isSidebarClosed,
+    'col-md-12': isSidebarClosed,
+  });
+
   return (
-    <>
+    <div className="dscAppContainer">
+      <h1 className="euiScreenReaderOnly">testing</h1>
       <Search 
         handleQueryChange={ setQuery }
         handleQuerySearch={ handleSearch }
@@ -117,7 +153,81 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
         liveStreamChecked={liveStreamChecked}
         onLiveStreamChange={ handleLiveStreamChecked }
       />
-      { 
+      <main className="container-fluid">
+        <div className="row">
+          <div
+              className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
+              id="discover-sidebar"
+              data-test-subj="discover-sidebar"
+            >
+              {!isSidebarClosed && (
+                <div className="dscFieldChooser">
+                  sidebar placehorder
+                </div>
+              )}
+              <EuiButtonIcon
+                iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+                iconSize="m"
+                size="s"
+                onClick={() => setIsSidebarClosed(!isSidebarClosed)}
+                data-test-subj="collapseSideBarButton"
+                aria-controls="discover-sidebar"
+                aria-expanded={isSidebarClosed ? 'false' : 'true'}
+                aria-label="Toggle sidebar"
+                className="dscCollapsibleSidebar__collapseButton"
+              />
+          </div>
+          <div className={`dscWrapper ${mainSectionClassName}`}>
+          { resultState === 'READY' && (
+            <div className="dscWrapper__content">
+              <div className="dscResults">
+                <section
+                  className="dscTable dscTableFixedScroll"
+                  aria-labelledby="documentsAriaLabel"
+                  ref={fixedScrollRef}
+                >
+                  <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
+                    <FormattedMessage
+                      id="discover.documentsAriaLabel"
+                      defaultMessage="Documents"
+                    />
+                  </h2>
+                  { !_.isEmpty(data) && (
+                    <div className="dscDiscover">
+                      <QueryDataGrid 
+                        // key={key}
+                        rowCount={ data?.datarows?.length || 0 }
+                        queryColumns={ createQueryColumns(data.schema) }
+                        visibleColumns={ visibleColumns }
+                        setVisibleColumns={ setVisibleColumns }
+                        dataValues={ queryData }
+                        plugins={ plugins }
+                      />
+                      <a tabIndex={0} id="discoverBottomMarker">
+                        &#8203;
+                      </a>
+                    </div>
+                  )}
+                </section>
+              </div>
+            </div>
+          )}
+          </div>
+        </div>
+      </main>
+      {/* {
+        <Sidebar
+          columns={["_source"]}
+          fieldCounts={{}}
+          hits={[]}
+          indexPatternList={[]}
+          onAddField={() => {}}
+          onAddFilter={() => {}}
+          onRemoveField={() => {}}
+          setIndexPattern={() => {}}
+        />
+      } */}
+      {/* { 
         !_.isEmpty(data) ?  <QueryDataGrid 
         // key={key}
         rowCount={ data?.datarows?.length || 0 }
@@ -126,8 +236,8 @@ export const Explorer: React.FC<IExplorerProps> = (props) => {
         setVisibleColumns={ setVisibleColumns }
         dataValues={ queryData }
       /> : null
-      }
-    </>
+      } */}
+    </div>
     
   );
 };
