@@ -112,8 +112,12 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           truncateText: true,
-          render: (item) =>
-            item ? <EuiText size="s">{_.truncate(item, { length: 50 })}</EuiText> : '-',
+          render: (items) =>
+            items ? (
+              <EuiText size="s">{_.truncate(items.join(', '), { length: 50 })}</EuiText>
+            ) : (
+              '-'
+            ),
         },
         {
           field: 'traces',

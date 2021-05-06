@@ -47,6 +47,7 @@ export const getServicesQuery = (serviceName = null, DSL?) => {
       service: {
         terms: {
           field: 'serviceName',
+          size: 10000,
         },
         aggs: {
           trace_count: {

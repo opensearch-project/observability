@@ -61,7 +61,7 @@ export const handleServicesRequest = async (
               error_rate: serviceObject[bucket.key].error_rate,
               throughput: serviceObject[bucket.key].throughput,
               traces: bucket.trace_count.value,
-              connected_services: connectedServices.join(', '),
+              connected_services: connectedServices.sort(),
               number_of_connected_services: connectedServices.length,
             };
           })
@@ -169,7 +169,7 @@ export const handleServiceViewRequest = (serviceName, http, DSL, fields, setFiel
       ];
       return {
         name: bucket.key,
-        connected_services: connectedServices.join(', '),
+        connected_services: connectedServices.sort(),
         number_of_connected_services: connectedServices.length,
         average_latency: serviceObject[bucket.key].latency,
         error_rate: serviceObject[bucket.key].error_rate,

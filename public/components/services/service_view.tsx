@@ -29,6 +29,7 @@ import {
   EuiFlexItem,
   EuiHorizontalRule,
   EuiI18nNumber,
+  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPanel,
@@ -133,7 +134,17 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Connected services</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.connected_services || '-'}
+                  {fields.connected_services
+                    ? fields.connected_services
+                        .map((service: string) => (
+                          <EuiLink href={`#/services/${service}`} target="_blank" key={service}>
+                            {service}
+                          </EuiLink>
+                        ))
+                        .reduce((prev: React.ReactNode, curr: React.ReactNode) => {
+                          return [prev, ', ', curr];
+                        })
+                    : '-'}
                 </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -167,7 +178,24 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Traces</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.traces !== undefined ? <EuiI18nNumber value={fields.traces} /> : '-'}
+                  {fields.traces === 0 || fields.traces ? (
+                    <EuiLink
+                      onClick={() => {
+                        props.addFilter({
+                          field: 'serviceName',
+                          operator: 'is',
+                          value: props.serviceName,
+                          inverted: false,
+                          disabled: false,
+                        });
+                        location.assign('#/traces');
+                      }}
+                    >
+                      <EuiI18nNumber value={fields.traces} />
+                    </EuiLink>
+                  ) : (
+                    '-'
+                  )}
                 </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>

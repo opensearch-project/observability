@@ -153,7 +153,10 @@ exports[`Services table component renders services table 1`] = `
     Array [
       Object {
         "average_latency": 49.54,
-        "connected_services": "order, inventory",
+        "connected_services": Array [
+          "order",
+          "inventory",
+        ],
         "error_rate": 3.77,
         "name": "database",
         "number_of_connected_services": 2,
@@ -288,7 +291,10 @@ exports[`Services table component renders services table 1`] = `
           Array [
             Object {
               "average_latency": 49.54,
-              "connected_services": "order, inventory",
+              "connected_services": Array [
+                "order",
+                "inventory",
+              ],
               "error_rate": 3.77,
               "name": "database",
               "number_of_connected_services": 2,
@@ -381,7 +387,10 @@ exports[`Services table component renders services table 1`] = `
             Array [
               Object {
                 "average_latency": 49.54,
-                "connected_services": "order, inventory",
+                "connected_services": Array [
+                  "order",
+                  "inventory",
+                ],
                 "error_rate": 3.77,
                 "name": "database",
                 "number_of_connected_services": 2,
