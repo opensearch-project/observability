@@ -78,7 +78,7 @@ export const generateInContextReport = (
   rest = {}
 ) => {
   toggleReportingLoadingModal(true);
-  const baseUrl = location.pathname + location.hash;
+  const baseUrl = location.pathname + '?view=output_only' + location.hash;
   const reportSource = 'Notebook';
   const contextMenuOnDemandReport = {
     query_url: baseUrl,
