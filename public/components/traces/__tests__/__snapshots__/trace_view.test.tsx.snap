@@ -55,7 +55,9 @@ exports[`Trace view component renders trace view 1`] = `
                 <EuiText
                   className="overview-content"
                   size="s"
-                />
+                >
+                  -
+                </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiFlexItem>

@@ -128,13 +128,13 @@ describe('Helper functions', () => {
     );
     expect(DSL).toEqual(
       JSON.parse(
-        `{"field":"Latency percentile within trace group","operator":"","value":">= 95th","inverted":false,"disabled":false,"custom":{"query":{"bool":{"must":[],"filter":[],"should":[{"bool":{"must":[{"term":{"traceGroup.name":{"value":"order"}}},{"range":{"traceGroup.durationInNanos":{"gte":1000}}}]}}],"must_not":[],"minimum_should_match":1}}}}`
+        `{"field":"Latency percentile within trace group","operator":"","value":">= 95th","inverted":false,"disabled":false,"custom":{"query":{"bool":{"must":[],"filter":[],"should":[{"bool":{"must":[{"term":{"traceGroup":{"value":"order"}}},{"range":{"traceGroupFields.durationInNanos":{"gte":1000}}}]}}],"must_not":[],"minimum_should_match":1}}}}`
       )
     );
   });
 
   it('converts filters to DSL', () => {
-    const getTestFilters = (field = 'traceGroup.name', operator = 'exists') => [
+    const getTestFilters = (field = 'traceGroup', operator = 'exists') => [
       [
         {
           field,
@@ -150,12 +150,12 @@ describe('Helper functions', () => {
     ];
     const existsDSL = filtersToDsl(...getTestFilters());
     expect(JSON.stringify(existsDSL)).toEqual(
-      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"exists\":{\"field\":\"traceGroup.name\"}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
+      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"exists\":{\"field\":\"traceGroup\"}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
     );
 
-    const isDSL = filtersToDsl(...getTestFilters('traceGroup.name', 'is'));
+    const isDSL = filtersToDsl(...getTestFilters('traceGroup', 'is'));
     expect(JSON.stringify(isDSL)).toEqual(
-      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"term\":{\"traceGroup.name\":{\"from\":\"100\",\"to\":\"∞\"}}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
+      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"term\":{\"traceGroup\":{\"from\":\"100\",\"to\":\"∞\"}}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
     );
     const isBetweenDSL = filtersToDsl(...getTestFilters('durationInNanos', 'is between'));
     expect(JSON.stringify(isBetweenDSL)).toEqual(

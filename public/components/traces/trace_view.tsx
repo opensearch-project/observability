@@ -104,7 +104,7 @@ export function TraceView(props: TraceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Trace group name</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.trace_group}
+                  {fields.trace_group || '-'}
                 </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>

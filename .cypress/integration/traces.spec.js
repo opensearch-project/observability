@@ -47,10 +47,15 @@ describe('Testing traces table', () => {
   });
 
   it('Renders the traces table', () => {
-    cy.contains(' (46)').should('exist');
+    cy.contains(' (108)').should('exist');
     cy.contains('03/25/2021 10:23:45').should('exist');
     cy.contains('03f9c770db5ee2f1caac0...').should('exist');
     cy.contains('224.99').should('exist');
+
+    // test data contains output from data-prepper 0.8, which doesn't have fields denormalized
+    // Trace Analytics should be able to handle the discrepancy if some fields cannot be parsed
+    cy.contains('Invalid date').should('exist');
+    cy.contains('-').should('exist');
   });
 
   it('Searches correctly', () => {

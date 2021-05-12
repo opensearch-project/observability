@@ -48,9 +48,9 @@ describe('Testing services table', () => {
 
   it('Renders the services table', () => {
     cy.contains(' (8)').should('exist');
-    cy.contains('analytics-service, recommendation, frontend-client').should('exist');
-    cy.contains('215.41').should('exist');
-    cy.contains('5.45%').should('exist');
+    cy.contains('analytics-service, frontend-client, recommendation').should('exist');
+    cy.contains('186.95').should('exist');
+    cy.contains('14.29%').should('exist');
   });
 
   it('Searches correctly', () => {
@@ -58,7 +58,7 @@ describe('Testing services table', () => {
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay);
     cy.contains(' (1)').should('exist');
-    cy.contains('6.45%').should('exist');
+    cy.contains('3.57%').should('exist');
   });
 });
 
@@ -83,8 +83,8 @@ describe('Testing service view', () => {
   
   it('Renders service view', () => {
     cy.get('h2.euiTitle').contains('frontend-client').should('exist');
-    cy.contains('237.57').should('exist');
-    cy.contains('6.45%').should('exist');
+    cy.contains('178.6').should('exist');
+    cy.contains('3.57%').should('exist');
     cy.get('div.vis-network').should('exist');
   });
 });

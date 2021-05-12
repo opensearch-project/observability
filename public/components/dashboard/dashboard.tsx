@@ -136,11 +136,11 @@ export function Dashboard(props: DashboardProps) {
         const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
         newFilter.custom.query.bool.should.forEach((should) =>
           should.bool.must.forEach((must) => {
-            const range = must?.range?.['traceGroup.durationInNanos'];
+            const range = must?.range?.['traceGroupFields.durationInNanos'];
             if (range) {
               const duration = range.lt || range.lte || range.gt || range.gte;
               if (duration || duration === 0) {
-                must.range['traceGroup.durationInNanos'] = {
+                must.range['traceGroupFields.durationInNanos'] = {
                   [condition]: duration,
                 };
               }

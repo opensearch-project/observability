@@ -97,7 +97,7 @@ export function TracesTable(props: {
           align: 'left',
           sortable: true,
           truncateText: true,
-          render: (item) => <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText>,
+          render: (item) => item ? <EuiText size="s">{_.truncate(item, { length: 24 })}</EuiText> : '-',
         },
         {
           field: 'latency',
