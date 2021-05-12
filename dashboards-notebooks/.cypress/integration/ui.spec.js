@@ -239,7 +239,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiTextArea').type(SQL_QUERY_TEXT);
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Run').click();
-    cy.wait(delay);
+    cy.wait(delay * 5);
 
     cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
 
@@ -255,7 +255,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiTextArea').type(PPL_QUERY_TEXT);
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Run').click();
-    cy.wait(delay);
+    cy.wait(delay * 5);
 
     cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('source=opensearch_dashboards_sample_data_flights');
 
