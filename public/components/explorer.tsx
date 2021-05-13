@@ -25,13 +25,11 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { CoreStart } from '../../../../src/core/public';
-// import { DiscoverSidebar as Sidebar } from './sidebar';
-// import { DocTableLegacy } from '../../../../src/plugins/discover/public/application/angular/doc_table/create_doc_table_react';
-// import { DiscoverHistogram } from '../../../../src/plugins/discover/public/application/angular/directives/histogram';
-import { handlePplRequest } from '../requests/ppl';
+// import { handlePplRequest } from '../requests/ppl';
 import Search from './common/seach/search';
 import { LoadingSpinner } from './common/loading_spinner/loading_spinner';
 import { QueryDataGrid } from './dataGrid';
+import {  Sidebar } from './sidebar/';
 
 interface IExplorerProps {
   http: CoreStart['http'],
@@ -42,17 +40,21 @@ interface IPPLResult {}
 const resultState = 'READY';
 
 export const Explorer: React.FC<any> = (props) => {
-  const { 
+  const {
+    tabId,
+    explorerData, 
     http,
-    plugins
+    plugins,
+    // setQuery
+    setSearchQuery
    } = props;
   const [query, setQuery] = useState<string>('search source=kibana_sample_data_flights');
   const [data, setData] = useState<IPPLResult>({});
-  const columns = data && data.schema ? createQueryColumns(data.schema) : [];
-  const queryData = data && data.datarows ? getQueryOutputData(data) : [];
-  const [visibleColumns, setVisibleColumns] = useState<any>(() =>
-    columns.map(({ id }) => id)
-  );
+  // const columns = data && data.schema ? createQueryColumns(data.schema) : [];
+  // const queryData = data && data.datarows ? getQueryOutputData(data) : [];
+  // const [visibleColumns, setVisibleColumns] = useState<any>(() =>
+  //   columns.map(({ id }) => id)
+  // );
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
@@ -80,51 +82,60 @@ export const Explorer: React.FC<any> = (props) => {
   };
   
   const handleSearch = async () => {
-    const res = await handlePplRequest(http, 
-      { query: query ? query.trim() : getDefaultQuery(startTime, endTime) }
-    );
-    setData(res);
+
+    props.handleQuerySearch
+
+    // const res = await handlePplRequest(http, 
+    //   { query: query ? query.trim() : getDefaultQuery(startTime, endTime) }
+    // );
+    // setData(res);
   };
 
-  const handleTimeChange = (startTime: string, endTime: string) => {
-    handleSearch();
-  };
+  // const handleTimeChange = (startTime: string, endTime: string) => {
+  //   handleSearch();
+  // };
 
   function createQueryColumns (jsonColumns: any[]) {
-    let index = 0;
-    let datagridColumns = [];
-    for (index = 0; index < jsonColumns.length; ++index) {
-      const datagridColumnObject = {
-        id: jsonColumns[index].name,
-        displayAsText: jsonColumns[index].name
-      }
-      datagridColumns.push(datagridColumnObject);
-    }
-    return datagridColumns;
+    let cols = [];
+    _.forEach(jsonColumns, (col) => {
+      cols.push({
+        id: `${_.uniqueId(col.name)}`,
+        displayAsText: col.name,
+        // type: col.type
+      });
+    });
+    // for (let index = 0; index < jsonColumns.length; ++index) {
+    //   const datagridColumnObject = {
+    //     id: jsonColumns[index].name,
+    //     displayAsText: jsonColumns[index].name
+    //   }
+    //   cols.push(datagridColumnObject);
+    // }
+    return cols;
   }
 
-  function getQueryOutputData (queryObject: any) {
-    const data = [];
-    let index = 0;
-    let schemaIndex = 0;
-    for (index = 0; index < queryObject.datarows.length; ++index) {
-      let datarowValue = {};
-      for (schemaIndex = 0; schemaIndex < queryObject.schema.length; ++schemaIndex) {
-        const columnName = queryObject.schema[schemaIndex].name;
-        if (typeof(queryObject.datarows[index][schemaIndex]) === 'object') {
-          datarowValue[columnName] = JSON.stringify(queryObject.datarows[index][schemaIndex]);
-        }
-        else if (typeof(queryObject.datarows[index][schemaIndex]) === 'boolean') {
-          datarowValue[columnName] = queryObject.datarows[index][schemaIndex].toString();
-        }
-        else {
-          datarowValue[columnName] = queryObject.datarows[index][schemaIndex];
-        }
-      }
-      data.push(datarowValue);
-    }
-    return data;
-  }
+  // function getQueryOutputData (queryObject: any) {
+  //   const data = [];
+  //   let index = 0;
+  //   let schemaIndex = 0;
+  //   for (index = 0; index < queryObject.datarows.length; ++index) {
+  //     let datarowValue = {};
+  //     for (schemaIndex = 0; schemaIndex < queryObject.schema.length; ++schemaIndex) {
+  //       const columnName = queryObject.schema[schemaIndex].name;
+  //       if (typeof(queryObject.datarows[index][schemaIndex]) === 'object') {
+  //         datarowValue[columnName] = JSON.stringify(queryObject.datarows[index][schemaIndex]);
+  //       }
+  //       else if (typeof(queryObject.datarows[index][schemaIndex]) === 'boolean') {
+  //         datarowValue[columnName] = queryObject.datarows[index][schemaIndex].toString();
+  //       }
+  //       else {
+  //         datarowValue[columnName] = queryObject.datarows[index][schemaIndex];
+  //       }
+  //     }
+  //     data.push(datarowValue);
+  //   }
+  //   return data;
+  // }
 
   const handleLiveStreamChecked = (e) => {
     setLiveStreamChecked(!liveStreamChecked);
@@ -162,7 +173,11 @@ export const Explorer: React.FC<any> = (props) => {
             >
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
-                  sidebar placehorder
+                  <Sidebar
+                    // columns={ columns }
+                    fields={data.schema}
+                    queryData={ data.jsonData }
+                  />
                 </div>
               )}
               <EuiButtonIcon
@@ -198,9 +213,9 @@ export const Explorer: React.FC<any> = (props) => {
                         // key={key}
                         rowCount={ data?.datarows?.length || 0 }
                         queryColumns={ createQueryColumns(data.schema) }
-                        visibleColumns={ visibleColumns }
-                        setVisibleColumns={ setVisibleColumns }
-                        dataValues={ queryData }
+                        // visibleColumns={ visibleColumns }
+                        // setVisibleColumns={ setVisibleColumns }
+                        dataValues={ data.jsonData }
                         plugins={ plugins }
                       />
                       <a tabIndex={0} id="discoverBottomMarker">
@@ -215,18 +230,6 @@ export const Explorer: React.FC<any> = (props) => {
           </div>
         </div>
       </main>
-      {/* {
-        <Sidebar
-          columns={["_source"]}
-          fieldCounts={{}}
-          hits={[]}
-          indexPatternList={[]}
-          onAddField={() => {}}
-          onAddFilter={() => {}}
-          onRemoveField={() => {}}
-          setIndexPattern={() => {}}
-        />
-      } */}
       {/* { 
         !_.isEmpty(data) ?  <QueryDataGrid 
         // key={key}

@@ -16,6 +16,7 @@
 import './logExplorer.scss';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import _ from 'lodash';
 import $ from 'jquery';
 import {
   EuiIcon,
@@ -25,6 +26,7 @@ import {
 } from '@elastic/eui';
 import { CoreStart } from '../../../../src/core/public';
 import { Explorer } from './explorer';
+import { handlePplRequest } from '../requests/ppl';
 
 interface IQueryTab {
   id: string,
@@ -39,16 +41,21 @@ interface ILogExplorerProps {
 
 export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
 
-  const [tabs, setTabs] = useState<Array<IQueryTab>>([
-    getQueryTab()
-  ]);
+  const initialTabId = getTabId('query_panel_');
+  const initialTabState = getInitialStateForNewTab()
+  const [tabsData, setTabsData] = useState<any>({
+    initialTabId: initialTabState
+  });
+  const initialTab = getQueryTab(initialTabId, initialTabState);
+  const [tabs, setTabs] = useState<Array<IQueryTab>>([ initialTab ]);
   const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab>(tabs[0]);
   const curTabsRef = useRef(tabs);
+  const curTabsDataRef = useRef(tabsData);
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
     const addNewLink = $('<a class="linkNewTag">+ Add new</a>').on('click', () => {
-      handleAddNewTab();
+      addNewTab();
     });
     $('.queryTabs .euiTabs').append(addNewLink);
     return () => {
@@ -56,9 +63,21 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
     }
   }, [tabs]);
 
+  // useEffect(() => {
+  //   if (tabs.length === 0) {
+  //     addNewTab();
+  //     setCurSelectedTab(tabs[0]);
+  //   }
+  // }, [tabs]);
+
   const updateTabs = (newState: Array<IQueryTab>) => {
     curTabsRef.current = newState;
     setTabs(newState);
+  }
+
+  const updateTabsData = (newState) => {
+    curTabsDataRef.current = newState;
+    setTabsData(newState);
   }
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
@@ -68,11 +87,16 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
+    
+    // Delete tab DOM along with state data associated with it
     const latestTabs: Array<IQueryTab> = curTabsRef.current;
+    const latestTabsData = curTabsDataRef.current;
+    
     if (latestTabs.length == 1) {
       console.log('Have to have at least one tab');
       return;
     }
+    
     let tabToBeRemoved: IQueryTab;
     const newTabs: Array<IQueryTab> = latestTabs.filter(tab => {
       if (tab.id === TabIdToBeClosed) {
@@ -81,26 +105,76 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
       }
       return tab.id != TabIdToBeClosed;
     });
+
+    const newTabsData = {
+      ...latestTabsData
+    };
+    delete newTabsData[TabIdToBeClosed];
+    
     // Always find the tab before the one being removed as the new focused tab, use the tab after
     // if the removed one is the first tab
     const idxOfNewFocus: number = latestTabs.indexOf(tabToBeRemoved) - 1 >= 0 ? latestTabs.indexOf(tabToBeRemoved) - 1 : latestTabs.indexOf(tabToBeRemoved) + 1
     const tabBeforeRemovedOne: IQueryTab = latestTabs[idxOfNewFocus];
+
+    updateTabsData(newTabsData);
     updateTabs(newTabs);
     setCurSelectedTab(tabBeforeRemovedOne);
   };
 
-  const handleAddNewTab = () => {
-    const newTab: IQueryTab = getQueryTab();
+  function getInitialStateForNewTab() {
+    return {
+      query: '',
+      timeRange: [],
+      liveStreamChecked: false,
+      isSidebarClosed: false,
+      queryResult: {},
+      selectedFields: [],
+      unselectedFields: [],
+      availableFields: []
+    };
+  };
+
+  function getTabId (prefix: string) { 
+    return _.uniqueId(prefix);
+  }
+
+  function addNewTab () {
+    const tabId: string = getTabId('query_panel_');
+    const initialTabData = getInitialStateForNewTab();
+    const newTabsData = {
+      ...curTabsDataRef.current,
+      tabId: initialTabData
+    };
+    
+    const newTab: IQueryTab = getQueryTab(tabId, newTabsData);
     const newTabs: Array<IQueryTab> = [...curTabsRef.current, newTab];
+    
+    updateTabsData(newTabsData);
     updateTabs(newTabs);
     setCurSelectedTab(newTab);
   };
 
-  function getQueryTab () {
-    const tabId: number = new Date().valueOf();
-    const tab: string = `query_panel_${tabId}`;
+  const handleQuerySearch = async (tabId: string) => {
+    const latestTabsData = curTabsDataRef.current;
+    const res = await handlePplRequest(props.http, { query: latestTabsData[tabId]['query'].trim() });
+    const newTabsData = {
+      ...curTabsDataRef.current
+    };
+    newTabsData[tabId]['queryResult'] = res;
+    updateTabsData(newTabsData);
+  };
+
+  const setQuery = (tabId: string, query: string) => {
+    const newTabsData = {
+      ...curTabsDataRef.current
+    };
+    newTabsData[tabId]['query'] = query;
+    updateTabsData
+  };
+
+  function getQueryTab (tabId: string, initialTabData) {
     return {
-      id: tab,
+      id: tabId,
       name: (<>
               <EuiText
                 size="xs"
@@ -112,7 +186,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
                   type="cross"
                   onClick={ (e) => {
                     e.stopPropagation();
-                    handleTabClose(tab)
+                    handleTabClose(tabId)
                   } }
                 />
               </EuiText>
@@ -123,6 +197,10 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
             key={`query_${tabId}`}
             http={ props.http }
             plugins={ props.plugins }
+            tabId={ tabId }
+            explorerData={ tabsData[tabId] || initialTabData }
+            setQuery={ setQuery }
+            handleQuerySearch={ handleQuerySearch }
           />
         </>)
     };

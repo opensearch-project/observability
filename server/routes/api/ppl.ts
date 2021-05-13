@@ -16,6 +16,7 @@
 import { IRouter } from '../../../../../src/core/server';
 import { Client } from '@elastic/elasticsearch';
 import { schema } from '@kbn/config-schema';
+import { PPLDataSource } from '../../datasources/index';
 
 export function registerPplRoute({
   router,
@@ -41,8 +42,10 @@ export function registerPplRoute({
       }, {});
 
       if (statusCode === 200) {
+        const pplresult = new PPLDataSource(body);
+        pplresult.getJSON();
         return res.ok({
-          body,
+          body: pplresult.getJSON(),
         });
       }
 

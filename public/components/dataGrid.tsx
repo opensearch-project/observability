@@ -37,8 +37,8 @@ export function QueryDataGrid(props: any) {
   const {
     rowCount,
     queryColumns,
-    visibleColumns,
-    setVisibleColumns,
+    // visibleColumns,
+    // setVisibleColumns,
     dataValues,
     selectedCols = [],
     plugins
@@ -118,16 +118,6 @@ export function QueryDataGrid(props: any) {
 
   return (
     <div>
-      <table 
-        className="kbn-table table" 
-        data-test-subj="docTable">
-        <thead>
-          { headers }
-        </thead>
-        <tbody>
-            { tableRows }
-        </tbody>
-      </table>
       {/* <EuiDataGrid
         aria-label='PPL datagrid'
         columns={queryColumns}
@@ -143,6 +133,16 @@ export function QueryDataGrid(props: any) {
           onChangePage: onChangePage,
         }}
       /> */}
+      <table 
+        className="kbn-table table" 
+        data-test-subj="docTable">
+        <thead>
+          { headers }
+        </thead>
+        <tbody>
+          { tableRows }
+        </tbody>
+      </table>
     </div>
   )
 }
