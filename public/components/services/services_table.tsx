@@ -70,7 +70,7 @@ export function ServicesTable(props: {
           sortable: true,
           render: (item) => (
             <EuiLink href={`#/services/${encodeURIComponent(item)}`}>
-              {_.truncate(item, { length: 24 })}
+              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>
           ),
         },
