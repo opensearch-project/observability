@@ -24,6 +24,7 @@
  *   permissions and limitations under the License.
  */
 
+import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import {
@@ -88,12 +89,23 @@ export function Dashboard(props: DashboardProps) {
   const refresh = async () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
+    const latencyTrendStartTime = dateMath
+      .parse(props.endTime)
+      ?.subtract(24, 'hours')
+      .toISOString()!;
+    const latencyTrendDSL = filtersToDsl(
+      props.filters,
+      props.query,
+      latencyTrendStartTime,
+      props.endTime
+    );
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
     handleDashboardRequest(
       props.http,
       DSL,
       timeFilterDSL,
+      latencyTrendDSL,
       tableItems,
       setTableItems,
       setPercentileMap

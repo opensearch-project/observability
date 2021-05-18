@@ -26,13 +26,14 @@
 
 import _ from 'lodash';
 import moment from 'moment';
-import { DATE_FORMAT, DATE_PICKER_FORMAT } from '../../common';
+import { DATE_PICKER_FORMAT } from '../../common';
 import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardQuery,
   getDashboardThroughputPltQuery,
   getDashboardTraceGroupPercentiles,
   getErrorRatePltQuery,
+  getLatencyTrendQuery,
 } from './queries/dashboard_queries';
 import { handleDslRequest } from './request_handler';
 
@@ -40,6 +41,7 @@ export const handleDashboardRequest = async (
   http,
   DSL,
   timeFilterDSL,
+  latencyTrendDSL,
   items,
   setItems,
   setPercentileMap?
@@ -62,64 +64,73 @@ export const handleDashboardRequest = async (
     .catch((error) => console.error(error));
   if (setPercentileMap) setPercentileMap(latencyVariances);
 
+  const latencyTrends = await handleDslRequest(http, latencyTrendDSL, getLatencyTrendQuery())
+    .then((response) => {
+      const map: any = {};
+      response.aggregations.trace_group_name.buckets.map((bucket) => {
+        const latencyTrend = bucket.group_by_hour.buckets
+          .slice(-24)
+          .filter((bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0);
+        const values = {
+          x: latencyTrend.map((bucket) => bucket.key),
+          y: latencyTrend.map((bucket) => bucket.average_latency?.value || 0),
+        };
+        const latencyTrendData =
+          values.x?.length > 0
+            ? {
+                '24_hour_latency_trend': {
+                  trendData: [
+                    {
+                      ...values,
+                      type: 'scatter',
+                      mode: 'lines',
+                      hoverinfo: 'none',
+                      line: {
+                        color: '#000000',
+                        width: 1,
+                      },
+                    },
+                  ],
+                  popoverData: [
+                    {
+                      ...values,
+                      type: 'scatter',
+                      mode: 'lines+markers',
+                      hovertemplate: '%{x}<br>Average latency: %{y}<extra></extra>',
+                      hoverlabel: {
+                        bgcolor: '#d7c2ff',
+                      },
+                      marker: {
+                        color: '#987dcb',
+                        size: 8,
+                      },
+                      line: {
+                        color: '#987dcb',
+                        size: 2,
+                      },
+                    },
+                  ],
+                },
+              }
+            : {};
+        map[bucket.key] = latencyTrendData;
+      });
+      return map;
+    })
+    .catch((error) => console.error(error));
+
   handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets.map((bucket) => {
-          const latencyTrend = bucket.group_by_hour.buckets
-            .slice(-24)
-            .filter(
-              (bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0
-            );
-          const values = {
-            x: latencyTrend.map((bucket) => bucket.key),
-            y: latencyTrend.map((bucket) => bucket.average_latency?.value || 0),
-          };
-          const latencyTrendData =
-            values.x?.length > 0
-              ? {
-                  '24_hour_latency_trend': {
-                    trendData: [
-                      {
-                        ...values,
-                        type: 'scatter',
-                        mode: 'lines',
-                        hoverinfo: 'none',
-                        line: {
-                          color: '#000000',
-                          width: 1,
-                        },
-                      },
-                    ],
-                    popoverData: [
-                      {
-                        ...values,
-                        type: 'scatter',
-                        mode: 'lines+markers',
-                        hovertemplate: '%{x}<br>Average latency: %{y}<extra></extra>',
-                        hoverlabel: {
-                          bgcolor: '#d7c2ff',
-                        },
-                        marker: {
-                          color: '#987dcb',
-                          size: 8,
-                        },
-                        line: {
-                          color: '#987dcb',
-                          size: 2,
-                        },
-                      },
-                    ],
-                  },
-                }
-              : {};
+          const latencyTrend = latencyTrends[bucket.key] || {};
           return {
             dashboard_trace_group_name: bucket.key,
-            dashboard_average_latency: bucket.average_latency.value,
+            dashboard_average_latency: bucket.average_latency?.value,
             dashboard_traces: bucket.trace_count.value,
             dashboard_latency_variance: latencyVariances[bucket.key],
             dashboard_error_rate: bucket.error_rate.value,
-            ...latencyTrendData,
+            ...latencyTrend,
           };
         })
       );

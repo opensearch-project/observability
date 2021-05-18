@@ -42,49 +42,6 @@ export const getDashboardQuery = () => {
           size: 10000,
         },
         aggs: {
-          group_by_hour: {
-            date_histogram: {
-              field: 'endTime',
-              calendar_interval: 'hour',
-            },
-            aggs: {
-              traces: {
-                terms: {
-                  field: 'traceId',
-                  order: {
-                    last_updated: 'desc',
-                  },
-                  size: 10000,
-                },
-                aggs: {
-                  duration: {
-                    max: {
-                      field: 'traceGroupFields.durationInNanos',
-                    },
-                  },
-                  last_updated: {
-                    max: {
-                      field: 'traceGroupFields.endTime',
-                    },
-                  },
-                },
-              },
-              average_latency_nanos: {
-                avg_bucket: {
-                  buckets_path: 'traces>duration',
-                },
-              },
-              average_latency: {
-                bucket_script: {
-                  buckets_path: {
-                    count: '_count',
-                    latency: 'average_latency_nanos.value',
-                  },
-                  script: 'Math.round(params.latency / 10000) / 100.0',
-                },
-              },
-            },
-          },
           traces: {
             terms: {
               field: 'traceId',
@@ -154,6 +111,74 @@ export const getDashboardQuery = () => {
   };
   return query;
 };
+
+export const getLatencyTrendQuery = () => {
+  const query = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      trace_group_name: {
+        terms: {
+          field: 'traceGroup',
+          size: 10000,
+        },
+        aggs: {
+          group_by_hour: {
+            date_histogram: {
+              field: 'endTime',
+              calendar_interval: 'hour',
+            },
+            aggs: {
+              traces: {
+                terms: {
+                  field: 'traceId',
+                  order: {
+                    last_updated: 'desc',
+                  },
+                  size: 10000,
+                },
+                aggs: {
+                  duration: {
+                    max: {
+                      field: 'traceGroupFields.durationInNanos',
+                    },
+                  },
+                  last_updated: {
+                    max: {
+                      field: 'traceGroupFields.endTime',
+                    },
+                  },
+                },
+              },
+              average_latency_nanos: {
+                avg_bucket: {
+                  buckets_path: 'traces>duration',
+                },
+              },
+              average_latency: {
+                bucket_script: {
+                  buckets_path: {
+                    count: '_count',
+                    latency: 'average_latency_nanos.value',
+                  },
+                  script: 'Math.round(params.latency / 10000) / 100.0',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+}
 
 export const getDashboardTraceGroupPercentiles = () => {
   return {

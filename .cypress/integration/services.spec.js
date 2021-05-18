@@ -78,7 +78,7 @@ describe('Testing service view empty state', () => {
 describe('Testing service view', () => {
   beforeEach(() => {
     cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`);
-    setTimeFilter(undefined, undefined, false);
+    setTimeFilter(undefined, false);
   });
   
   it('Renders service view', () => {
