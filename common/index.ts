@@ -35,5 +35,5 @@ export const SERVICE_MAP_MAX_NODES = 500;
 // size limit when requesting edge related queries, not necessarily the number of edges
 export const SERVICE_MAP_MAX_EDGES = 1000;
 export const TRACES_MAX_NUM = 3000;
-export const DOCUMENTATION_LINK = 'https://opendistro.github.io/for-elasticsearch-docs/docs/trace/';
+export const DOCUMENTATION_LINK = 'https://docs-beta.opensearch.org/docs/trace/';
 
