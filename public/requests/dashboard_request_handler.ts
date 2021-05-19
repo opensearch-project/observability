@@ -123,7 +123,7 @@ export const handleDashboardRequest = async (
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets.map((bucket) => {
-          const latencyTrend = latencyTrends[bucket.key] || {};
+          const latencyTrend = latencyTrends?.[bucket.key] || {};
           return {
             dashboard_trace_group_name: bucket.key,
             dashboard_average_latency: bucket.average_latency?.value,
