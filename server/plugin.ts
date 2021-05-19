@@ -36,7 +36,6 @@ import {
 import { TraceAnalyticsPluginSetup, TraceAnalyticsPluginStart } from './types';
 import { defineRoutes } from './routes';
 import sqlPlugin from './clusters/sql/sqlPlugin';
-import { SQL_CLUSTER } from './utils/constants';
 
 export class TraceAnalyticsPlugin
   implements Plugin<TraceAnalyticsPluginSetup, TraceAnalyticsPluginStart> {
@@ -50,9 +49,12 @@ export class TraceAnalyticsPlugin
     this.logger.debug('trace_analytics: Setup');
     const router = core.http.createRouter();
 
-    // const sqlClient: ILegacyClusterClient = core.opensearch.legacy.createClient(SQL_CLUSTER, {
-    //   plugins: [sqlPlugin],
-    // });
+    // const sqlClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
+    //   'trace_analytics_sql',
+    //   {
+    //     plugins: [sqlPlugin],
+    //   }
+    // );
 
     // Register server side APIs
     defineRoutes(router);
