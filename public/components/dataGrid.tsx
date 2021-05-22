@@ -15,14 +15,8 @@
 
 import './dataGrid.scss';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import _ from 'lodash';
-import { 
-  EuiFlexGroup,
-  EuiDataGrid,
-  EuiBasicTable,
-  EuiIcon
-} from '@elastic/eui';
 import { DocViewRow } from './docTable/index';
 
 type QueryDataGridProps = {
@@ -36,105 +30,59 @@ type QueryDataGridProps = {
 export function QueryDataGrid(props: any) {
   const {
     rowCount,
-    queryColumns,
-    // visibleColumns,
-    // setVisibleColumns,
-    dataValues,
-    selectedCols = [],
-    plugins
+    rows,
+    columns,
+    explorerFields
   } = props;
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  // ** Sorting config
-  const [sortingColumns, setSortingColumns] = useState([]);
-  const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
-  
-  const onSort = useCallback(
-    (sortingColumns) => {
-      setSortingColumns(sortingColumns);
-    },
-    [setSortingColumns]
-  );
 
-  const onChangeItemsPerPage = useCallback(
-    (pageSize) =>
-      setPagination((pagination) => ({
-        ...pagination,
-        pageSize,
-        pageIndex: 0,
-      })),
-    [setPagination]
-  );
-
-  const onChangePage = useCallback(
-    (pageIndex) =>
-      setPagination((pagination) => ({ ...pagination, pageIndex })),
-    [setPagination]
-  );
-
-  const sorting = {
-    sort: {
-      field: 'timestamp',
-      direction: 'desc',
-    }
-  };
-
-  const renderCellValue = useMemo(() => {
-    return ({ rowIndex, columnId }) => {
-      return dataValues.hasOwnProperty(rowIndex)
-        ? dataValues[rowIndex][columnId]
-        : null;
-    };
-  }, [dataValues]);
-
-  const getTrs = (docs, selectedCols) => {
-    
+  const getTrs = (docs, explorerFields) => {
     return docs.map((doc) => {
       return (
-        <DocViewRow 
+        <DocViewRow
+          key={ _.uniqueId('doc_view') } 
           doc={ doc }
-          selectedCols={ selectedCols }
-          plugins={ plugins }
+          selectedCols={ explorerFields?.selectedFields }
         />
       );
     });
   };
 
-  const getHeaders = (queryColumns, selectedCols) => {
-    if (!selectedCols || selectedCols.length === 0) {
-      return (
-        <tr className="kbnDocTableHeader">
-          <th></th>
-          <th>Time</th>
-          <th>_source</th>
-        </tr>
+  const getHeaders = (fields) => {
+
+    let tableHeadContent = null;
+    if (!fields.selectedFields || fields.selectedFields.length === 0) {
+      tableHeadContent = (
+          <>
+            <th></th>
+            <th>Time</th>
+            <th>_source</th>
+          </>
       );
+    } else {
+      tableHeadContent = fields.selectedFields.map(selField => {
+        return (
+          <th>{ selField.name }</th>
+        );
+      });
+      tableHeadContent.unshift(<th>Time</th>);
+      tableHeadContent.unshift(<th></th>);
     }
+
+    return (
+      <tr className="kbnDocTableHeader">
+        { tableHeadContent }
+      </tr>
+    );
     
   };
 
-  const headers = useMemo(() => getHeaders(queryColumns, selectedCols), [ queryColumns, selectedCols ]);
-
-  const tableRows = useMemo(() => getTrs(dataValues, selectedCols), [ dataValues, selectedCols ]);
+  const headers = useMemo(() => getHeaders(explorerFields), [ explorerFields ]);
+  const tableRows = useMemo(() => getTrs(rows, explorerFields), [ rows, explorerFields ]);
 
   return (
-    <div>
-      {/* <EuiDataGrid
-        aria-label='PPL datagrid'
-        columns={queryColumns}
-        columnVisibility={{ visibleColumns, setVisibleColumns }}
-        rowCount={rowCount}
-        renderCellValue={renderCellValue}
-        inMemory={{ level: 'sorting' }}
-        sorting={{ columns: sortingColumns, onSort }}
-        pagination={{
-          ...pagination,
-          pageSizeOptions: [10, 20, 50],
-          onChangeItemsPerPage: onChangeItemsPerPage,
-          onChangePage: onChangePage,
-        }}
-      /> */}
+    <>
       <table 
-        className="kbn-table table" 
+        className="kbn-table table"
         data-test-subj="docTable">
         <thead>
           { headers }
@@ -143,6 +91,6 @@ export function QueryDataGrid(props: any) {
           { tableRows }
         </tbody>
       </table>
-    </div>
+    </>
   )
 }

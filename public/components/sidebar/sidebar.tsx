@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useState } from 'react';
+import _ from 'lodash';
 import { 
   EuiTitle,
   EuiSpacer,
@@ -11,8 +12,9 @@ import { Field } from './field';
 export const Sidebar = (props: any) => {
 
   const {
-    fields,
-    queryData
+    explorerFields,
+    handleAddField,
+    handleRemoveField
   } = props;
 
   const [showFields, setShowFields] = useState<Boolean>(false);
@@ -22,12 +24,12 @@ export const Sidebar = (props: any) => {
       <section
         className="sidebar-list"
       >
-        index dropdown
+        {/* index dropdown */}
         <div className="dscSidebar__item">
-          field search
+          {/* field search */}
         </div>
         <div className="sidebar-list">
-          { fields && fields.length > 0 && (
+          { explorerFields && !_.isEmpty(explorerFields) && (
             <>
             <EuiTitle size="xxxs" id="selected_fields">
               <h3>
@@ -43,11 +45,21 @@ export const Sidebar = (props: any) => {
               aria-labelledby="selected_fields"
               data-test-subj={`fieldList-selected`}
             >
-              <li
-                className="dscSidebar__item"
-              >
-                list value
-              </li>
+              { explorerFields.selectedFields.map(field => {
+                return (
+                  <li
+                    key={`field${field.name}`}
+                    data-attr-field={field.name}
+                    className="dscSidebar__item"
+                  >
+                    <Field 
+                      field={ field }
+                      selected={ true }
+                      onRemoveField={ handleRemoveField }
+                    />
+                  </li>
+                )})
+              }
             </ul>
             <div className="euiFlexGroup euiFlexGroup--gutterMedium">
               <EuiTitle size="xxxs" id="available_fields" className="euiFlexItem">
@@ -81,38 +93,6 @@ export const Sidebar = (props: any) => {
                 />
               </div>
             </div>
-            {/* <>
-              <EuiTitle
-                size="xxxs"
-                className={`dscFieldListHeader ${!showFields ? 'hidden-sm hidden-xs' : ''}`}
-              >
-                <h4 id="available_fields_popular">
-                  <FormattedMessage
-                    id="discover.fieldChooser.filter.popularTitle"
-                    defaultMessage="Popular"
-                  />
-                </h4>
-              </EuiTitle>
-              <ul
-                className={`dscFieldList dscFieldList--popular ${
-                  !showFields ? 'hidden-sm hidden-xs' : ''
-                }`}
-                aria-labelledby="available_fields available_fields_popular"
-                data-test-subj={`fieldList-popular`}
-              >
-                { fields.map((col) => {
-                return (
-                  <li
-                    key={`field${col.name}`}
-                    data-attr-field={col.name}
-                    className="dscSidebar__item"
-                  >
-                    { col.name }
-                  </li>
-                );
-              }) }
-              </ul>
-            </>    */}
             <ul
               className={`dscFieldList dscFieldList--unpopular ${
                 !showFields ? 'hidden-sm hidden-xs' : ''
@@ -121,7 +101,7 @@ export const Sidebar = (props: any) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                fields.map((col) => {
+                explorerFields.unselectedFields.map((col) => {
                   return (
                     <li
                       key={`field${col.name}`}
@@ -130,6 +110,7 @@ export const Sidebar = (props: any) => {
                     >
                       <Field 
                         field={ col }
+                        onAddField={ handleAddField }
                         selected={ false }
                       />
                     </li>

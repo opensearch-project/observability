@@ -17,11 +17,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   EuiFlexGroup,
+  EuiButton,
+  EuiFlexItem
 } from '@elastic/eui';
 import _ from 'lodash';
 
 import { QueryBar } from './queryBar';
 import { Filter } from './Filter';
+
+import './search.scss';
 
 export interface IQueryBarProps {
   handleQueryChange: (query: string) => void
@@ -49,8 +53,6 @@ function Search (props: any) {
     setIsOutputStale
   } = props;
 
-  const [ dateRange, setDateRange ] = useState(['now-15m', 'now']);
-
   function renderQueryBar ({ handleQueryChange, handleQuerySearch }: IQueryBarProps) {
     return (
       <QueryBar 
@@ -61,7 +63,6 @@ function Search (props: any) {
   }
 
   return (
-    <>
     <div className="globalQueryBar">
       <EuiFlexGroup
           gutterSize="s"
@@ -77,9 +78,38 @@ function Search (props: any) {
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
           />
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="refresh"
+            >
+              Refresh
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="play"
+            >
+              Live
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="heart"
+            >
+              Save
+            </EuiButton>
+          </EuiFlexItem>
       </EuiFlexGroup>
     </div>
-    </>
   );
 }
 

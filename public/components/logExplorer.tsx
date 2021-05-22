@@ -39,99 +39,89 @@ interface ILogExplorerProps {
   plugins: any
 }
 
+const RAW_QUERY = 'rawQuery';
+
 export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
 
   const initialTabId = getTabId('query_panel_');
-  const initialTabState = getInitialStateForNewTab()
-  const [tabsData, setTabsData] = useState<any>({
-    initialTabId: initialTabState
+  const [tabIds, setTabIds] = useState([initialTabId]);
+  const [queries, setQueries] = useState({
+    [initialTabId]: {
+      [RAW_QUERY]: ''
+    }
   });
-  const initialTab = getQueryTab(initialTabId, initialTabState);
-  const [tabs, setTabs] = useState<Array<IQueryTab>>([ initialTab ]);
-  const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab>(tabs[0]);
-  const curTabsRef = useRef(tabs);
-  const curTabsDataRef = useRef(tabsData);
+  const [queryResults, setQueryResults] = useState({
+    [initialTabId]: {}
+  });
+  const [fields, setFields] = useState({
+    [initialTabId]: {}
+  });
+  const curQueriesRef = useRef(queries);
+  const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab>(null);
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
     const addNewLink = $('<a class="linkNewTag">+ Add new</a>').on('click', () => {
       addNewTab();
     });
-    $('.queryTabs .euiTabs').append(addNewLink);
+    $('.queryTabs > .euiTabs').append(addNewLink);
     return () => {
-      $('.queryTabs .euiTabs .linkNewTag').remove();
+      $('.queryTabs > .euiTabs .linkNewTag').remove();
     }
-  }, [tabs]);
-
-  // useEffect(() => {
-  //   if (tabs.length === 0) {
-  //     addNewTab();
-  //     setCurSelectedTab(tabs[0]);
-  //   }
-  // }, [tabs]);
-
-  const updateTabs = (newState: Array<IQueryTab>) => {
-    curTabsRef.current = newState;
-    setTabs(newState);
-  }
-
-  const updateTabsData = (newState) => {
-    curTabsDataRef.current = newState;
-    setTabsData(newState);
-  }
+  }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    if (selectedTab) {
       setCurSelectedTab(selectedTab);
-    }
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
     
-    // Delete tab DOM along with state data associated with it
-    const latestTabs: Array<IQueryTab> = curTabsRef.current;
-    const latestTabsData = curTabsDataRef.current;
-    
-    if (latestTabs.length == 1) {
+    if (tabIds.length === 1) {
       console.log('Have to have at least one tab');
       return;
     }
     
-    let tabToBeRemoved: IQueryTab;
-    const newTabs: Array<IQueryTab> = latestTabs.filter(tab => {
-      if (tab.id === TabIdToBeClosed) {
-        tabToBeRemoved = tab;
-        return false;
-      }
-      return tab.id != TabIdToBeClosed;
+    // let tabToBeRemoved: IQueryTab;
+    // const newTabs: Array<IQueryTab> = latestTabs.filter(tab => {
+    //   if (tab.id === TabIdToBeClosed) {
+    //     tabToBeRemoved = tab;
+    //     return false;
+    //   }
+    //   return tab.id != TabIdToBeClosed;
+    // });
+
+    console.log('TabIdToBeClosed: ', TabIdToBeClosed);
+
+    setTabIds(staleTabIds => {
+      return staleTabIds.filter((id) => {
+        if (id === TabIdToBeClosed) {
+          return false;
+        }
+        return id !== TabIdToBeClosed;
+      });
     });
-
-    const newTabsData = {
-      ...latestTabsData
-    };
-    delete newTabsData[TabIdToBeClosed];
-    
-    // Always find the tab before the one being removed as the new focused tab, use the tab after
-    // if the removed one is the first tab
-    const idxOfNewFocus: number = latestTabs.indexOf(tabToBeRemoved) - 1 >= 0 ? latestTabs.indexOf(tabToBeRemoved) - 1 : latestTabs.indexOf(tabToBeRemoved) + 1
-    const tabBeforeRemovedOne: IQueryTab = latestTabs[idxOfNewFocus];
-
-    updateTabsData(newTabsData);
-    updateTabs(newTabs);
-    setCurSelectedTab(tabBeforeRemovedOne);
-  };
-
-  function getInitialStateForNewTab() {
-    return {
-      query: '',
-      timeRange: [],
-      liveStreamChecked: false,
-      isSidebarClosed: false,
-      queryResult: {},
-      selectedFields: [],
-      unselectedFields: [],
-      availableFields: []
-    };
+    setQueries(staleQueries => {
+      const newQueries = {
+        ...staleQueries,
+      };
+      delete newQueries[TabIdToBeClosed];
+      curQueriesRef.current = newQueries;
+      return newQueries;
+    });
+    setQueryResults(staleQueryResults => {
+      const newQueryResults = {
+        ...staleQueryResults
+      };
+      delete newQueryResults[TabIdToBeClosed];
+      return newQueryResults;
+    });
+    setFields(staleFields => {
+      const newFields = {
+        ...staleFields
+      };
+      delete newFields[TabIdToBeClosed];
+      return newFields
+    });
   };
 
   function getTabId (prefix: string) { 
@@ -139,49 +129,118 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
   }
 
   function addNewTab () {
+
     const tabId: string = getTabId('query_panel_');
-    const initialTabData = getInitialStateForNewTab();
-    const newTabsData = {
-      ...curTabsDataRef.current,
-      tabId: initialTabData
-    };
     
-    const newTab: IQueryTab = getQueryTab(tabId, newTabsData);
-    const newTabs: Array<IQueryTab> = [...curTabsRef.current, newTab];
-    
-    updateTabsData(newTabsData);
-    updateTabs(newTabs);
-    setCurSelectedTab(newTab);
+    setTabIds(staleTabIds => {
+      return [...staleTabIds, tabId];
+    });
+    setQueries(staleQueries => {
+      const newQueries = {
+        ...staleQueries,
+        [tabId]: {
+          [RAW_QUERY]: ''
+        }
+      };
+      curQueriesRef.current = newQueries;
+      return newQueries;
+    });
+    setQueryResults(staleQueryResults => {
+      return {
+        ...staleQueryResults,
+        [tabId]: {}
+      };
+    });
+    setFields(staleFields => {
+      return {
+        ...staleFields,
+        [tabId]: {
+          'selectedFields': [],
+          'unselectedFields': []
+        }
+      };
+    });
   };
 
   const handleQuerySearch = async (tabId: string) => {
-    const latestTabsData = curTabsDataRef.current;
-    const res = await handlePplRequest(props.http, { query: latestTabsData[tabId]['query'].trim() });
-    const newTabsData = {
-      ...curTabsDataRef.current
-    };
-    newTabsData[tabId]['queryResult'] = res;
-    updateTabsData(newTabsData);
+    const latestQueries = curQueriesRef.current;
+    const res = await handlePplRequest(props.http, { query: latestQueries[tabId][RAW_QUERY].trim() });
+    setQueryResults(staleQueryResults => {
+      return {
+        ...staleQueryResults,
+        [tabId]: res
+      };
+    });
+    setFields(staleFields => {
+      return {
+        ...staleFields,
+        [tabId]: {
+          'selectedFields': [],
+          'unselectedFields': res?.schema || []
+        }
+      };
+    });
   };
 
-  const setQuery = (tabId: string, query: string) => {
-    const newTabsData = {
-      ...curTabsDataRef.current
-    };
-    newTabsData[tabId]['query'] = query;
-    updateTabsData
+  const setSearchQuery = (query: string, tabId: string) => {
+    setQueries(staleQueries => {
+      const newQueries = {
+        ...staleQueries,
+        [tabId]: {
+          [RAW_QUERY]: query
+        }
+      };
+      curQueriesRef.current = newQueries;
+      return newQueries;
+    });
   };
 
-  function getQueryTab (tabId: string, initialTabData) {
+  const handleAddField = (field: { name: string, type: string }, tabId: string) => {
+    setFields(staleFields => {
+
+      const nextFields = _.cloneDeep(staleFields);
+
+      const thisUnselectedFields = nextFields[tabId]['unselectedFields'];
+      const nextUnselected = thisUnselectedFields.filter(fd => fd.name !== field.name);
+      nextFields[tabId]['unselectedFields'] = nextUnselected;
+      nextFields[tabId]['selectedFields'].push(field);
+
+      return nextFields;
+    });
+  }
+
+  const handleRemoveField = (field: { name: string, type: string }, tabId: string) => {
+    setFields(staleFields => {
+
+      const nextFields = _.cloneDeep(staleFields);
+
+      const thisSelectedFields = nextFields[tabId]['selectedFields'];
+      const nextSelected = thisSelectedFields.filter(fd => fd.name !== field.name);
+      nextFields[tabId]['selectedFields'] = nextSelected;
+      nextFields[tabId]['unselectedFields'].push(field);
+
+      return nextFields;
+    });
+  }
+
+  function getQueryTab ({
+    tabTitle,
+    tabId,
+    fields,
+    queryResults,
+    setSearchQuery,
+    handleTabClose,
+    handleQuerySearch,
+  }) {
     return {
       id: tabId,
       name: (<>
               <EuiText
-                size="xs"
+                size="s"
                 textAlign="left"
                 color="default"
               >
-                <span className="tab-title">New query</span>
+                <span className="tab-title">{ tabTitle }</span>
                 <EuiIcon 
                   type="cross"
                   onClick={ (e) => {
@@ -194,24 +253,48 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
       content: (
         <>
           <Explorer
-            key={`query_${tabId}`}
-            http={ props.http }
-            plugins={ props.plugins }
+            key={`explorer_${tabId}`}
             tabId={ tabId }
-            explorerData={ tabsData[tabId] || initialTabData }
-            setQuery={ setQuery }
-            handleQuerySearch={ handleQuerySearch }
+            explorerFields={ fields[tabId] }
+            explorerData={ queryResults[tabId] }
+            setSearchQuery={ (query: string, tabId: string) => { setSearchQuery(query, tabId) } }
+            querySearch={ (tabId: string) => { handleQuerySearch(tabId) } }
+            addField={ (field, tabId) => { handleAddField(field, tabId) } }
+            removeField={ (field, tabId) => { handleRemoveField(field, tabId) } }
           />
         </>)
     };
   }
 
+  const memorizedTabs = useMemo(() => {
+    return _.map(tabIds, (tabId) => {
+      return getQueryTab(
+        {
+          tabTitle: 'New query',
+          tabId,
+          fields,
+          queryResults,
+          setSearchQuery,
+          handleTabClose,
+          handleQuerySearch,
+        }
+      );
+    });
+  }, 
+    [
+      tabIds,
+      queryResults,
+      fields
+    ]
+  );
+
   return (
     <>
       <EuiTabbedContent
+        id="queryTabs"
         className="queryTabs"
-        tabs={tabs}
-        selectedTab={ curSelectedTab }
+        tabs={ memorizedTabs }
+        selectedTab={ curSelectedTab || memorizedTabs[0] }
         onTabClick={ (selectedTab: EuiTabbedContentTab) => handleTabClick(selectedTab) }
       />
     </>

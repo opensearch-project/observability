@@ -67,11 +67,6 @@ export function Filter(props: IFilterProps) {
     <EuiFlexItem
       className="euiFlexItem--flexGrowZero"
     >
-      <EuiSwitch
-        label="Live stream"
-        checked={props.liveStreamChecked}
-        onChange={(e) => props.onLiveStreamChange(e)}
-      />
       <EuiSuperDatePicker
         start={ startTime }
         end={ endTime }

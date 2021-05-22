@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import _ from 'lodash';
 import { EuiIcon } from '@elastic/eui';
 import { DocViewer } from './docViewer';
@@ -8,8 +8,7 @@ export const DocViewRow = (props: any) => {
 
   const {
     doc,
-    selectedCols = [],
-    plugins
+    selectedCols
   } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
@@ -21,6 +20,7 @@ export const DocViewRow = (props: any) => {
     } = conf;
     return (
       <td
+        key={_.uniqueId('grid-td-')}
         className={ clsName }
       >
         { content }
@@ -38,14 +38,16 @@ export const DocViewRow = (props: any) => {
           <dl className="source truncate-by-height">
             { _.toPairs(doc).map((entry) => {
               return (
-                <>
+                <span
+                  key={ _.uniqueId('grid-desc') }
+                >
                   <dt>{ entry[0] }:</dt>
                   <dd>
                     <span>
                       { entry[1] }
                     </span>
                   </dd>
-                </>
+                </span>
               );
             })}
           </dl>
@@ -67,6 +69,7 @@ export const DocViewRow = (props: any) => {
     return (
       <td
         className="kbnDocTableCell__toggleDetails"
+        key={_.uniqueId('grid-td-')}
       >
         <button
           className="euiButtonIcon euiButtonIcon--text"
@@ -77,12 +80,11 @@ export const DocViewRow = (props: any) => {
       </td>
     );
   };
-
+  
   const getTds = (doc, selectedCols) => {
     const cols = [];
     const fieldClsName = 'kbnDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
-    
     // No field is selected
     if (!selectedCols || selectedCols.length === 0) {
       if (_.has(doc, 'timestamp')) {
@@ -103,17 +105,13 @@ export const DocViewRow = (props: any) => {
     } else {
       
       // Has at least one field selected
-      _.forEach(doc, (val, key) => {
-        if (key === 'timestamp') {
-          // Always append timestamp to the leftmost of the table
-          cols.unshift(
-            getTdTmpl({ 
-              clsName: timestampClsName,
-              content: val
-            })
-          );
-          return;
+      const filteredDoc = {};
+      _.forEach(selectedCols, selCol => {
+        if (_.has(doc, selCol.name)) {
+          filteredDoc[selCol.name] = doc[selCol.name];
         }
+      })
+      _.forEach(filteredDoc, (val, key) => {
         cols.push(
           getTdTmpl({ 
             clsName: fieldClsName,
@@ -121,6 +119,15 @@ export const DocViewRow = (props: any) => {
           })
         );
       });
+
+      if (_.has(doc, 'timestamp')) {
+        cols.unshift(
+              getTdTmpl({ 
+                clsName: timestampClsName,
+                content: doc['timestamp']
+              })
+            );
+      }
     }
 
     // Add detail toggling column
@@ -130,19 +137,31 @@ export const DocViewRow = (props: any) => {
     return cols;
   };
 
+  const memorizedTds = useMemo(() => {
+    return getTds(doc, selectedCols)
+  }, 
+    [ 
+      doc,
+      selectedCols,
+      detailsOpen
+    ]
+  );
+
   return (
     <>
       <tr
         className="kbnDocTable__row"
       >
-        { getTds(doc, selectedCols) }
+        { memorizedTds }
       </tr>
       { detailsOpen ? <tr className="kbnDocTableDetails__row">
-        <td colSpan={3}>
+        <td 
+          key={_.uniqueId('grid-td-detail-')}
+          colSpan={3}
+        >
           <DocDetailTitle />
           <DocViewer
             hit={ doc }
-            plugins={ plugins }
           />
         </td>
       </tr> : null }

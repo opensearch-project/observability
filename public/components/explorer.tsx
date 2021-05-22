@@ -13,23 +13,23 @@
  *   permissions and limitations under the License.
  */
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import _ from 'lodash';
-import moment from 'moment';
 import { 
   FormattedMessage 
 } from '@kbn/i18n/react';
-import dateMath from '@elastic/datemath';
-import { 
-  EuiButtonIcon 
+import {
+  EuiText,
+  EuiButtonIcon,
+  EuiTabbedContent,
+  EuiTabbedContentTab
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { CoreStart } from '../../../../src/core/public';
-// import { handlePplRequest } from '../requests/ppl';
 import Search from './common/seach/search';
-import { LoadingSpinner } from './common/loading_spinner/loading_spinner';
 import { QueryDataGrid } from './dataGrid';
-import {  Sidebar } from './sidebar/';
+import { Sidebar } from './sidebar/';
+import { NoResults } from './noResults';
 
 interface IExplorerProps {
   http: CoreStart['http'],
@@ -37,24 +37,35 @@ interface IExplorerProps {
 }
 interface IPPLResult {}
 
-const resultState = 'READY';
+/**
+ * When state changing actions are triggered within tab content, the EuiTabbedContent
+ * updates the content UI with new props/state data only when tab is focused. And the 
+ * focus works by comparing the addresses of selectedTab and current tab it iterates 
+ * through. This is to make sure it always uses the same object to calculate new tab
+ * data therefore the EuiTabbedContent will always update the tab content.
+ */
+const TAB_EVENT = {
+  id: _.uniqueId('main-content-events-')
+};
+const TAB_CHART = {
+  id: _.uniqueId('main-content-charts-')
+};
+const TAB_CHART_TITLE = 'Charts';
+const TAB_EVENT_TITLE = 'Events';
 
-export const Explorer: React.FC<any> = (props) => {
+
+export const Explorer = (props) => {
   const {
     tabId,
-    explorerData, 
-    http,
-    plugins,
-    // setQuery
-    setSearchQuery
+    explorerData,
+    explorerFields,
+    setSearchQuery,
+    querySearch,
+    addField,
+    removeField
    } = props;
-  const [query, setQuery] = useState<string>('search source=kibana_sample_data_flights');
-  const [data, setData] = useState<IPPLResult>({});
-  // const columns = data && data.schema ? createQueryColumns(data.schema) : [];
-  // const queryData = data && data.datarows ? getQueryOutputData(data) : [];
-  // const [visibleColumns, setVisibleColumns] = useState<any>(() =>
-  //   columns.map(({ id }) => id)
-  // );
+
+  const [selectedContentTab, setSelectedContentTab] = useState(null);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
@@ -70,72 +81,20 @@ export const Explorer: React.FC<any> = (props) => {
     [setFixedScrollEl]
   );
 
-  // useEffect(() => {
-  //   handleSearch();
-  // }, [startTime, endTime]);
-
-  const getDefaultQuery = (startTime: string, endTime: string) => {
-    if (startTime && endTime && startTime === endTime) {
-      endTime = 'now';
-    }
-    return `search source=kibana_sample_data_flights | where timestamp > timestamp('${moment(dateMath.parse(startTime)).format('yyyy-MM-DD HH:mm:ss')}') and timestamp < timestamp('${moment(dateMath.parse(endTime)).format('yyyy-MM-DD HH:mm:ss')}')`;
-  };
-  
-  const handleSearch = async () => {
-
-    props.handleQuerySearch
-
-    // const res = await handlePplRequest(http, 
-    //   { query: query ? query.trim() : getDefaultQuery(startTime, endTime) }
-    // );
-    // setData(res);
-  };
-
-  // const handleTimeChange = (startTime: string, endTime: string) => {
-  //   handleSearch();
+  // const getDefaultQuery = (startTime: string, endTime: string) => {
+  //   if (startTime && endTime && startTime === endTime) {
+  //     endTime = 'now';
+  //   }
+  //   return `search source=kibana_sample_data_flights | where timestamp > timestamp('${moment(dateMath.parse(startTime)).format('yyyy-MM-DD HH:mm:ss')}') and timestamp < timestamp('${moment(dateMath.parse(endTime)).format('yyyy-MM-DD HH:mm:ss')}')`;
   // };
 
-  function createQueryColumns (jsonColumns: any[]) {
-    let cols = [];
-    _.forEach(jsonColumns, (col) => {
-      cols.push({
-        id: `${_.uniqueId(col.name)}`,
-        displayAsText: col.name,
-        // type: col.type
-      });
-    });
-    // for (let index = 0; index < jsonColumns.length; ++index) {
-    //   const datagridColumnObject = {
-    //     id: jsonColumns[index].name,
-    //     displayAsText: jsonColumns[index].name
-    //   }
-    //   cols.push(datagridColumnObject);
-    // }
-    return cols;
-  }
+  const handleAddField = (field) => {
+    addField(field, tabId);
+  };
 
-  // function getQueryOutputData (queryObject: any) {
-  //   const data = [];
-  //   let index = 0;
-  //   let schemaIndex = 0;
-  //   for (index = 0; index < queryObject.datarows.length; ++index) {
-  //     let datarowValue = {};
-  //     for (schemaIndex = 0; schemaIndex < queryObject.schema.length; ++schemaIndex) {
-  //       const columnName = queryObject.schema[schemaIndex].name;
-  //       if (typeof(queryObject.datarows[index][schemaIndex]) === 'object') {
-  //         datarowValue[columnName] = JSON.stringify(queryObject.datarows[index][schemaIndex]);
-  //       }
-  //       else if (typeof(queryObject.datarows[index][schemaIndex]) === 'boolean') {
-  //         datarowValue[columnName] = queryObject.datarows[index][schemaIndex].toString();
-  //       }
-  //       else {
-  //         datarowValue[columnName] = queryObject.datarows[index][schemaIndex];
-  //       }
-  //     }
-  //     data.push(datarowValue);
-  //   }
-  //   return data;
-  // }
+  const handleRemoveField = (field) => {
+    removeField(field, tabId);
+  };
 
   const handleLiveStreamChecked = (e) => {
     setLiveStreamChecked(!liveStreamChecked);
@@ -150,20 +109,8 @@ export const Explorer: React.FC<any> = (props) => {
     'col-md-12': isSidebarClosed,
   });
 
-  return (
-    <div className="dscAppContainer">
-      <h1 className="euiScreenReaderOnly">testing</h1>
-      <Search 
-        handleQueryChange={ setQuery }
-        handleQuerySearch={ handleSearch }
-        startTime={ startTime }
-        endTime={ endTime }
-        setStartTime={ setStartTime }
-        setEndTime={ setEndTime }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={liveStreamChecked}
-        onLiveStreamChange={ handleLiveStreamChecked }
-      />
+  const getMainContent = () => {
+    return (
       <main className="container-fluid">
         <div className="row">
           <div
@@ -174,26 +121,31 @@ export const Explorer: React.FC<any> = (props) => {
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
                   <Sidebar
-                    // columns={ columns }
-                    fields={data.schema}
-                    queryData={ data.jsonData }
+                    queryData={ explorerData?.jsonData }
+                    explorerFields={ explorerFields }
+                    handleAddField={ (field) => handleAddField(field) }
+                    handleRemoveField={ (field) => handleRemoveField(field) }
                   />
                 </div>
               )}
               <EuiButtonIcon
-                iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+                iconType={ isSidebarClosed ? 'menuRight' : 'menuLeft' }
                 iconSize="m"
                 size="s"
-                onClick={() => setIsSidebarClosed(!isSidebarClosed)}
+                onClick={ () => {
+                  setIsSidebarClosed(staleState => {
+                    return !staleState;
+                  });
+                } }
                 data-test-subj="collapseSideBarButton"
                 aria-controls="discover-sidebar"
-                aria-expanded={isSidebarClosed ? 'false' : 'true'}
+                aria-expanded={ isSidebarClosed ? 'false' : 'true' }
                 aria-label="Toggle sidebar"
                 className="dscCollapsibleSidebar__collapseButton"
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { resultState === 'READY' && (
+          { (explorerData && !_.isEmpty(explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 <section
@@ -207,40 +159,107 @@ export const Explorer: React.FC<any> = (props) => {
                       defaultMessage="Documents"
                     />
                   </h2>
-                  { !_.isEmpty(data) && (
-                    <div className="dscDiscover">
-                      <QueryDataGrid 
-                        // key={key}
-                        rowCount={ data?.datarows?.length || 0 }
-                        queryColumns={ createQueryColumns(data.schema) }
-                        // visibleColumns={ visibleColumns }
-                        // setVisibleColumns={ setVisibleColumns }
-                        dataValues={ data.jsonData }
-                        plugins={ plugins }
-                      />
-                      <a tabIndex={0} id="discoverBottomMarker">
-                        &#8203;
-                      </a>
-                    </div>
-                  )}
+                  <div className="dscDiscover">
+                    <QueryDataGrid 
+                      key={`datagrid-${tabId}`}
+                      tabId={ tabId }
+                      columns={ explorerData['schema'] }
+                      rows={ explorerData['jsonData'] }
+                      explorerFields={ explorerFields }
+                    />
+                    <a tabIndex={0} id="discoverBottomMarker">
+                      &#8203;
+                    </a>
+                  </div>
                 </section>
               </div>
             </div>
-          )}
+          ) : <NoResults />}
           </div>
         </div>
       </main>
-      {/* { 
-        !_.isEmpty(data) ?  <QueryDataGrid 
-        // key={key}
-        rowCount={ data?.datarows?.length || 0 }
-        queryColumns={ createQueryColumns(data.schema) }
-        visibleColumns={ visibleColumns }
-        setVisibleColumns={ setVisibleColumns }
-        dataValues={ queryData }
-      /> : null
-      } */}
+    );
+  };
+
+  function getMainContentTab ({
+    tabTitle,
+    getContent
+  }) {
+    return {
+      name: (<>
+              <EuiText
+                size="s"
+                textAlign="left"
+                color="default"
+              >
+                <span className="tab-title">{ tabTitle }</span>
+              </EuiText>
+            </>),
+      content: (
+        <>
+          { getContent() }
+        </>)
+    };
+  };
+
+  const getMainContentTabs = () => {
+    return [
+      Object.assign(
+        TAB_EVENT,
+        getMainContentTab(
+          {
+            tabTitle: TAB_EVENT_TITLE,
+            getContent: () => getMainContent()
+          }
+        )  
+      ),
+      Object.assign(
+        TAB_CHART,
+        getMainContentTab(
+          {
+            tabTitle: TAB_CHART_TITLE,
+            getContent: () => { return <>Charts Content</> }
+          }
+        )
+      )
+    ];
+  };
+
+  const memorizedMainContentTabs = useMemo(() => {
+    return getMainContentTabs();
+  },
+    [
+      explorerData,
+      explorerFields,
+      isSidebarClosed
+    ]
+  );
+
+  const handleContentTabClick = (selectedTab) => {
+    setSelectedContentTab(selectedTab);
+  };
+
+  return (
+    <div className="dscAppContainer">
+      <h1 className="euiScreenReaderOnly">testing</h1>
+      <Search 
+        handleQueryChange={ (query: string) => { setSearchQuery(query, tabId) } }
+        handleQuerySearch={ () => { querySearch(tabId) } }
+        startTime={ startTime }
+        endTime={ endTime }
+        setStartTime={ setStartTime }
+        setEndTime={ setEndTime }
+        setIsOutputStale={ () => {} }
+        liveStreamChecked={ liveStreamChecked }
+        onLiveStreamChange={ handleLiveStreamChecked }
+      />
+      <EuiTabbedContent
+        className="mainContentTabs"
+        initialSelectedTab={ memorizedMainContentTabs[0] }
+        selectedTab={ selectedContentTab || memorizedMainContentTabs[0] }
+        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
+        tabs={ memorizedMainContentTabs }
+      />
     </div>
-    
   );
 };

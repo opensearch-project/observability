@@ -24,7 +24,13 @@ export const Field = (props) => {
     setIsFieldDetailsOpen(!isFieldDetailsOpen);
   }
 
-  // const memorizedFieldActionDOM = useMemo(() => getFieldActionDOM(), [ props.selected, ]);
+  const toggleField = (field) => {
+    if (props.selected) {
+      props.onRemoveField(field);
+    } else {
+      props.onAddField(field);
+    }
+  };
 
   const getFieldActionDOM = () => {
     return (
@@ -51,7 +57,7 @@ export const Field = (props) => {
             }
             ev.preventDefault();
             ev.stopPropagation();
-            // toggleDisplay(field);
+            toggleField(props.field);
           }}
           data-test-subj={`fieldToggle-${props.field.name}`}
           aria-label={ props.selected ? removeLabelAria : addLabelAria }
