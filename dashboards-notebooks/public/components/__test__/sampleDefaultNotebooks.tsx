@@ -134,14 +134,14 @@ export const sampleNotebook2 = {
       output: [
         {
           result:
-            '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+            '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
           outputType: 'MARKDOWN',
           execution_time: '0s',
         },
       ],
       input: {
         inputText:
-          '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+          '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
         inputType: 'MARKDOWN',
       },
       dateCreated: '2020-08-20T18:00:59.845Z',
@@ -184,12 +184,12 @@ export const sampleParsedParagraghs2 = [
     vizObjectInput: '',
     id: 1,
     inp:
-      '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+      '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
     lang: 'text/x-md',
     editorLanguage: 'md',
     typeOut: ['MARKDOWN'],
     out: [
-      '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+      '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
     ],
   },
   {
@@ -245,7 +245,7 @@ export const sampleNotebook3 = {
       output: [
         {
           result:
-            '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+            '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
           outputType: 'MARKDOWN',
           execution_time: '0s',
         },
@@ -270,7 +270,7 @@ export const sampleNotebook4 = {
       output: [
         {
           result:
-            '# Type no output here\n* Sample link: [link](https://opendistro.github.io/for-elasticsearch/)\n* ~~Strike~~, **Bold**, __Italic__',
+            '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
           outputType: 'MARKDOWN',
           execution_time: '0s',
         },

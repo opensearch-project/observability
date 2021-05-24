@@ -25,14 +25,14 @@
  *
  */
 
-package com.amazon.opendistroforelasticsearch.notebooks.rest
+package org.opensearch.notebooks.rest
 
-import com.amazon.opendistroforelasticsearch.notebooks.PluginRestTestCase
-import com.amazon.opendistroforelasticsearch.notebooks.NotebooksPlugin.Companion.BASE_NOTEBOOKS_URI
-import com.amazon.opendistroforelasticsearch.notebooks.constructNotebookRequest
-import com.amazon.opendistroforelasticsearch.notebooks.jsonify
-import com.amazon.opendistroforelasticsearch.notebooks.validateErrorResponse
-import com.amazon.opendistroforelasticsearch.notebooks.validateTimeRecency
+import org.opensearch.notebooks.PluginRestTestCase
+import org.opensearch.notebooks.NotebooksPlugin.Companion.BASE_NOTEBOOKS_URI
+import org.opensearch.notebooks.constructNotebookRequest
+import org.opensearch.notebooks.jsonify
+import org.opensearch.notebooks.validateErrorResponse
+import org.opensearch.notebooks.validateTimeRecency
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
 import org.junit.Assert

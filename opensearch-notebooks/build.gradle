@@ -29,7 +29,7 @@ import java.util.concurrent.Callable
 
 buildscript {
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "1.0.0-beta1")
+        opensearch_version = System.getProperty("opensearch.version", "1.0.0-rc1")
         kotlin_version = System.getProperty("kotlin.version", "1.4.0")
     }
 
@@ -72,11 +72,11 @@ check.dependsOn jacocoTestReport
 opensearchplugin {
     name 'opensearch-notebooks'
     description 'OpenSearch Plugin for OpenSearch Dashboards Notebooks'
-    classname "com.amazon.opendistroforelasticsearch.notebooks.NotebooksPlugin"
+    classname "org.opensearch.notebooks.NotebooksPlugin"
 }
 
 allOpen {
-    annotation("com.amazon.opendistroforelasticsearch.notebooks.util.OpenForTesting")
+    annotation("org.opensearch.notebooks.util.OpenForTesting")
 }
 
 configurations {
@@ -129,8 +129,8 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
 }
 
 allprojects {
-    group = "com.amazon.opendistroforelasticsearch"
-    version = "${opensearchVersion}.0-beta1"
+    group = "org.opensearch"
+    version = "${opensearchVersion}.0-rc1"
 
     plugins.withId('java') {
         sourceCompatibility = targetCompatibility = "1.8"

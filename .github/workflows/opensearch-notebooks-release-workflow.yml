@@ -1,9 +1,15 @@
 name: Release OpenSearch Notebooks Backend Plugin Artifacts
-# This workflow is triggered on creating tags to master or an opendistro release branch
+# This workflow is triggered on creating tags to main or an opensearch release branch
 on:
   push:
     tags:
       - "v*"
+
+env:
+  PLUGIN_NAME: notebooksDashboards
+  OPENSEARCH_VERSION: 1.x
+  COMMON_UTILS_VERSION: main
+  OPENSEARCH_PLUGIN_VERSION: 1.0.0.0-rc1
 
 jobs:
   build:

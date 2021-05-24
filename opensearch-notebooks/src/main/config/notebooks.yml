@@ -27,7 +27,7 @@
 ##
 
 # configuration file for the notebooks plugin
-opendistro.notebooks:
+opensearch.notebooks:
   general:
     operationTimeoutMs: 60000 # 60 seconds, Minimum 100ms
     defaultItemsQueryCount: 100 # default number of items to query

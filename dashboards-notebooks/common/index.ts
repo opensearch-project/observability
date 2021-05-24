@@ -33,7 +33,7 @@ export const SELECTED_BACKEND = 'DEFAULT'; // ZEPPELIN || DEFAULT
 export const DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
 export const FETCH_SIZE = 1000;
 export const CREATE_NOTE_MESSAGE = 'Enter a name to describe the purpose of this notebook.';
-export const DOCUMENTATION_URL = 'https://opendistro.github.io/for-elasticsearch-docs/docs/notebooks/';
+export const DOCUMENTATION_URL = 'https://docs-beta.opensearch.org/docs/opensearch-dashboards/notebooks/';
 
 export const zeppelinURL = 'http://localhost:8080';
 
@@ -42,7 +42,7 @@ export const wreckOptions = {
   headers: { 'Content-Type': 'application/json' },
 };
 
-const BASE_NOTEBOOKS_URI = '/_opensearch/_notebooks';
+const BASE_NOTEBOOKS_URI = '/_plugins/_notebooks';
 export const OPENSEARCH_NOTEBOOKS_API = {
   GET_NOTEBOOKS: `${BASE_NOTEBOOKS_URI}/notebooks`,
   NOTEBOOK: `${BASE_NOTEBOOKS_URI}/notebook`,

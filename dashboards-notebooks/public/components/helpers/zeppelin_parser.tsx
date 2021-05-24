@@ -37,7 +37,7 @@ const langSupport = {
   '%sh': 'shell',
   '%md': 'md',
   '%python': 'python',
-  '%odfesql': 'sql',
+  '%opensearchsql': 'sql',
   '%elasticsearch': 'json',
 };
 

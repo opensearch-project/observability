@@ -41,7 +41,7 @@ export const MARKDOWN_TEXT = `%md
 #### Code block
 * Explain SQL
 \`\`\`
-POST _opensearch/_sql/_explain
+POST _plugins/_sql/_explain
 {
   "query": "SELECT * FROM my-index LIMIT 50"
 }
