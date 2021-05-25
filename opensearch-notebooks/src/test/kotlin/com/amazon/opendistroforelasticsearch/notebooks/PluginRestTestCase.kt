@@ -25,7 +25,7 @@
  *
  */
 
-package com.amazon.opendistroforelasticsearch.notebooks
+package org.opensearch.notebooks
 
 import com.google.gson.JsonObject
 import org.apache.http.Header
@@ -87,7 +87,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
 
     @Throws(IOException::class)
     @After
-    open fun wipeAllODFEIndices() {
+    open fun wipeAllOpenSearchIndices() {
         val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
         val xContentType = XContentType.fromMediaTypeOrFormat(response.entity.contentType.value)
         xContentType.xContent().createParser(

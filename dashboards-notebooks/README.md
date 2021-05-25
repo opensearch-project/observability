@@ -4,7 +4,7 @@ Dashboards offer a solution for a few selected use cases, and are great tools if
 
 ## Documentation
 
-Please see our technical [documentation](https://opendistro.github.io/for-elasticsearch-docs/docs/kibana/notebooks/) to learn more about its features.
+Please see our technical [documentation](https://docs-beta.opensearch.org/docs/opensearch-dashboards/notebooks/) to learn more about its features.
 
 ## Setup
 
@@ -36,7 +36,7 @@ Ultimately, your directory structure should look like this:
 
 To build the plugin's distributable zip simply run `yarn build`.
 
-Example output: `./build/opendistroNotebooks*.zip`
+Example output: `./build/dashboardsNotebooks*.zip`
 
 
 ## Run

@@ -51,7 +51,6 @@ import { Cells } from '@nteract/presentational-components';
 
 import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-
 import { Paragraphs } from './paragraph_components/paragraphs';
 import { SELECTED_BACKEND, DATE_FORMAT, CREATE_NOTE_MESSAGE } from '../../common';
 import { API_PREFIX, ParaType } from '../../common';
@@ -61,7 +60,12 @@ import moment from 'moment';
 import { PanelWrapper } from './helpers/panel_wrapper';
 import { getDeleteModal, getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
 import CSS from 'csstype';
-
+import { 
+  generateInContextReport,
+  contextMenuViewReports,
+  contextMenuCreateReportDefinition
+} from './helpers/reporting_context_menu_helper';
+import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 const panelStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
@@ -108,6 +112,9 @@ type NotebookState = {
   isAddParaPopoverOpen: boolean;
   isParaActionsPopoverOpen: boolean;
   isNoteActionsPopoverOpen: boolean;
+  isReportingPluginInstalled: boolean;
+  isReportingActionsPopoverOpen: boolean;
+  isReportingLoadingModalOpen: boolean;
   isModalVisible: boolean;
   modalLayout: React.ReactNode;
   showQueryParagraphError: boolean;
@@ -127,11 +134,18 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       isAddParaPopoverOpen: false,
       isParaActionsPopoverOpen: false,
       isNoteActionsPopoverOpen: false,
+      isReportingPluginInstalled: false,
+      isReportingActionsPopoverOpen: false,
+      isReportingLoadingModalOpen: false,
       isModalVisible: false,
       modalLayout: <EuiOverlayMask></EuiOverlayMask>,
       showQueryParagraphError: false,
       queryParagraphErrorMessage: '',
     };
+  }
+
+  toggleReportingLoadingModal = (show: boolean) => {
+    this.setState({isReportingLoadingModalOpen: show});
   }
 
   parseAllParagraphs = () => {
@@ -514,8 +528,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     }
   };
 
+
   // update view mode, scrolls to paragraph and expands input if scrollToIndex is given
   updateView = (selectedViewId: string, scrollToIndex?: number) => {
+    this.configureViewParameter(selectedViewId);
     let parsedPara = [...this.state.parsedPara];
     this.state.parsedPara.map((para: ParaType, index: number) => {
       parsedPara[index].isInputExpanded = selectedViewId === 'input_only';
@@ -586,9 +602,58 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     ]);
   }
 
+  checkIfReportingPluginIsInstalled() {
+    fetch('../api/status', 
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'osd-version': '1.0.0',
+        'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
+        pragma: 'no-cache',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+      },
+      method: 'GET',
+      referrerPolicy: 'strict-origin-when-cross-origin',
+      mode: 'cors',
+      credentials: 'include',
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then((data) => {
+      for (let i = 0; i < data.status.statuses.length; ++i) {
+        if (data.status.statuses[i].id.includes('plugin:reportsDashboards')) {
+          this.setState({ isReportingPluginInstalled: true })
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('error is', error);
+    })
+  }
+
+  configureViewParameter(id: string) {
+    const url = new URL(window.location);
+    url.searchParams.set('view', id);
+    window.history.pushState({}, '', url);
+  }
+
   componentDidMount() {
     this.setBreadcrumbs('');
     this.loadNotebook();
+    this.checkIfReportingPluginIsInstalled();
+    const url = new URL(window.location);
+    if (url.searchParams.get('view') === null) {
+      this.configureViewParameter('view_both');
+    }
+    if (url.searchParams.get('view') === 'output_only') {
+      this.setState({selectedViewId: 'output_only'});
+    }
+    else if (url.searchParams.get('view') === 'input_only') {
+      this.setState({selectedViewId: 'input_only'});
+    }
   }
 
   render() {
@@ -748,12 +813,78 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       },
     ];
 
+    const reportingActionPanels: EuiContextMenuPanelDescriptor[] = [
+      {
+        id: 0,
+        title: 'Reporting',
+        items: [
+          {
+            name: 'Download PDF',
+            icon: <EuiIcon type="download" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              generateInContextReport('pdf', this.props, this.toggleReportingLoadingModal);
+            },
+          },
+          {
+            name: 'Download PNG',
+            icon: <EuiIcon type="download" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              generateInContextReport('png', this.props, this.toggleReportingLoadingModal);
+            }
+          },
+          {
+            name: 'Create report definition',
+            icon: <EuiIcon type="calendar" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              contextMenuCreateReportDefinition(window.location.href)
+            }
+          },
+          {
+            name: 'View reports',
+            icon: <EuiIcon type="document" />,
+            onClick: () => {
+              this.setState({ isReportingActionsPopoverOpen: false });
+              contextMenuViewReports();
+            }
+          }
+        ]
+      }
+    ];
+
+    const showReportingContextMenu = (this.state.isReportingPluginInstalled) ? (
+      <div>
+        <EuiPopover
+          panelPaddingSize="none"
+          withTitle
+          button={
+            <EuiButton
+              iconType='arrowDown'
+              iconSide='right'
+              onClick={() => this.setState({ isReportingActionsPopoverOpen: true })}
+            >
+              Reporting
+            </EuiButton>
+          }
+          isOpen={this.state.isReportingActionsPopoverOpen}
+          closePopover={() => this.setState({ isReportingActionsPopoverOpen: false })}
+        >
+          <EuiContextMenu initialPanelId={0} panels={reportingActionPanels} />
+        </EuiPopover>
+      </div>
+    ) : null;
+
+    const showLoadingModal = (this.state.isReportingLoadingModalOpen) ?
+    <GenerateReportLoadingModal setShowLoading={this.toggleReportingLoadingModal} /> : null;
+
     return (
       <div style={pageStyles}>
         <EuiPage>
           <EuiPageBody component="div">
             <EuiPageHeader>
-              <EuiPageHeaderSection>
+              <EuiPageHeaderSection id="notebookTitle">
                 <EuiTitle size="l">
                   <h1>{this.state.path}</h1>
                 </EuiTitle>
@@ -792,6 +923,9 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
+                    {showReportingContextMenu}
+                  </EuiFlexItem>
+                  <EuiFlexItem>
                     <EuiPopover
                       panelPaddingSize="none"
                       withTitle
@@ -818,7 +952,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             {this.state.parsedPara.length > 0 ? (
               <>
                 <Cells>
-                  <PanelWrapper shouldWrap={this.state.selectedViewId === 'output_only'}>
+                  <PanelWrapper>
                     {this.state.parsedPara.map((para: ParaType, index: number) => (
                       <div ref={this.state.parsedPara[index].paraDivRef} key={`para_div_${para.uniqueId}`} style={panelStyles}>
                         <Paragraphs
@@ -909,6 +1043,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   </EuiPanel>
                 </div>
               )}
+            {showLoadingModal}
           </EuiPageBody>
         </EuiPage>
         {this.state.isModalVisible && this.state.modalLayout}

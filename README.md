@@ -15,7 +15,7 @@ We welcome you to get involved in development, documentation, testing the OpenSe
 
 ## Code of Conduct
 
-This project has adopted an [Open Source Code of Conduct](https://opendistro.github.io/for-elasticsearch/codeofconduct.html).
+This project has adopted an [Open Source Code of Conduct](https://docs-beta.opensearch.org/docs/opensearch-dashboards/notebooks/).
 
 ## Security issue notifications
 

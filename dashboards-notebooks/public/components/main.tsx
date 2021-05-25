@@ -30,13 +30,13 @@ import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
 import { DashboardStart } from '../../../../src/plugins/dashboard/public';
 
 import { Notebook } from './notebook';
-import { onDownload } from './helpers/download_json';
 import { API_PREFIX, DOCUMENTATION_URL } from '../../common';
 import { NoteTable } from './note_table';
 import { HashRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { useHistory } from "react-router-dom";
 
 /*
  * "Main" component renders the whole Notebooks as a single page application

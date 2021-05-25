@@ -31,7 +31,7 @@ index 13bc6d469..bbdde076a 100644
    <dependencies>
 +
      <dependency>
-       <groupId>org.elasticsearch</groupId>
+       <groupId>org.opensearch</groupId>
        <artifactId>elasticsearch</artifactId>
 @@ -58,11 +59,11 @@
        <artifactId>commons-lang3</artifactId>
@@ -59,15 +59,15 @@ index 45b37c4eb..d7987a011 100644
  import com.google.gson.JsonObject;
  
 -import org.apache.commons.lang3.StringUtils;
--import org.elasticsearch.common.xcontent.XContentBuilder;
--import org.elasticsearch.common.xcontent.XContentFactory;
--import org.elasticsearch.common.xcontent.XContentHelper;
--import org.elasticsearch.search.aggregations.Aggregation;
--import org.elasticsearch.search.aggregations.Aggregations;
--import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
--import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
--import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
--import org.elasticsearch.search.aggregations.metrics.InternalMetricsAggregation;
+-import org.opensearch.common.xcontent.XContentBuilder;
+-import org.opensearch.common.xcontent.XContentFactory;
+-import org.opensearch.common.xcontent.XContentHelper;
+-import org.opensearch.search.aggregations.Aggregation;
+-import org.opensearch.search.aggregations.Aggregations;
+-import org.opensearch.search.aggregations.InternalMultiBucketAggregation;
+-import org.opensearch.search.aggregations.bucket.InternalSingleBucketAggregation;
+-import org.opensearch.search.aggregations.bucket.MultiBucketsAggregation;
+-import org.opensearch.search.aggregations.metrics.InternalMetricsAggregation;
 -import org.slf4j.Logger;
 -import org.slf4j.LoggerFactory;
 -
@@ -93,16 +93,16 @@ index 45b37c4eb..d7987a011 100644
  import org.apache.zeppelin.interpreter.thrift.InterpreterCompletion;
  
 +import org.apache.commons.lang3.StringUtils;
-+import org.elasticsearch.common.Strings;
-+import org.elasticsearch.common.xcontent.ToXContent;
-+import org.elasticsearch.common.xcontent.XContentBuilder;
-+import org.elasticsearch.common.xcontent.XContentFactory;
-+import org.elasticsearch.search.aggregations.Aggregation;
-+import org.elasticsearch.search.aggregations.Aggregations;
-+import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
-+import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
-+import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
-+import org.elasticsearch.search.aggregations.metrics.InternalNumericMetricsAggregation;
++import org.opensearch.common.Strings;
++import org.opensearch.common.xcontent.ToXContent;
++import org.opensearch.common.xcontent.XContentBuilder;
++import org.opensearch.common.xcontent.XContentFactory;
++import org.opensearch.search.aggregations.Aggregation;
++import org.opensearch.search.aggregations.Aggregations;
++import org.opensearch.search.aggregations.InternalMultiBucketAggregation;
++import org.opensearch.search.aggregations.bucket.InternalSingleBucketAggregation;
++import org.opensearch.search.aggregations.bucket.MultiBucketsAggregation;
++import org.opensearch.search.aggregations.metrics.InternalNumericMetricsAggregation;
 +import org.slf4j.Logger;
 +import org.slf4j.LoggerFactory;
 +
@@ -633,28 +633,28 @@ index 2af37bd3c..000000000
 -import com.google.gson.JsonSyntaxException;
 -
 -import org.apache.commons.lang3.StringUtils;
--import org.elasticsearch.action.delete.DeleteResponse;
--import org.elasticsearch.action.get.GetResponse;
--import org.elasticsearch.action.index.IndexResponse;
--import org.elasticsearch.action.search.SearchAction;
--import org.elasticsearch.action.search.SearchRequestBuilder;
--import org.elasticsearch.action.search.SearchResponse;
--import org.elasticsearch.client.Client;
--import org.elasticsearch.client.transport.TransportClient;
--import org.elasticsearch.common.settings.Settings;
--import org.elasticsearch.common.transport.InetSocketTransportAddress;
--import org.elasticsearch.common.xcontent.XContentBuilder;
--import org.elasticsearch.common.xcontent.XContentFactory;
--import org.elasticsearch.common.xcontent.XContentHelper;
--import org.elasticsearch.index.query.QueryBuilders;
--import org.elasticsearch.search.SearchHit;
--import org.elasticsearch.search.SearchHitField;
--import org.elasticsearch.search.aggregations.Aggregation;
--import org.elasticsearch.search.aggregations.Aggregations;
--import org.elasticsearch.search.aggregations.InternalMultiBucketAggregation;
--import org.elasticsearch.search.aggregations.bucket.InternalSingleBucketAggregation;
--import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
--import org.elasticsearch.search.aggregations.metrics.InternalMetricsAggregation;
+-import org.opensearch.action.delete.DeleteResponse;
+-import org.opensearch.action.get.GetResponse;
+-import org.opensearch.action.index.IndexResponse;
+-import org.opensearch.action.search.SearchAction;
+-import org.opensearch.action.search.SearchRequestBuilder;
+-import org.opensearch.action.search.SearchResponse;
+-import org.opensearch.client.Client;
+-import org.opensearch.client.transport.TransportClient;
+-import org.opensearch.common.settings.Settings;
+-import org.opensearch.common.transport.InetSocketTransportAddress;
+-import org.opensearch.common.xcontent.XContentBuilder;
+-import org.opensearch.common.xcontent.XContentFactory;
+-import org.opensearch.common.xcontent.XContentHelper;
+-import org.opensearch.index.query.QueryBuilders;
+-import org.opensearch.search.SearchHit;
+-import org.opensearch.search.SearchHitField;
+-import org.opensearch.search.aggregations.Aggregation;
+-import org.opensearch.search.aggregations.Aggregations;
+-import org.opensearch.search.aggregations.InternalMultiBucketAggregation;
+-import org.opensearch.search.aggregations.bucket.InternalSingleBucketAggregation;
+-import org.opensearch.search.aggregations.bucket.MultiBucketsAggregation;
+-import org.opensearch.search.aggregations.metrics.InternalMetricsAggregation;
 -
 -import java.io.IOException;
 -import java.net.InetAddress;
@@ -846,14 +846,14 @@ index a806dc314..4cf42569a 100644
 @@ -23,10 +23,12 @@ import static org.junit.Assert.assertNotNull;
  
  import org.apache.commons.lang3.RandomUtils;
- import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-+import org.elasticsearch.action.support.WriteRequest;
- import org.elasticsearch.client.Client;
- import org.elasticsearch.common.settings.Settings;
-+import org.elasticsearch.env.Environment;
-+import org.elasticsearch.monitor.fs.FsInfo;
- import org.elasticsearch.node.Node;
--import org.elasticsearch.node.NodeBuilder;
+ import org.opensearch.action.admin.indices.delete.DeleteIndexRequest;
++import org.opensearch.action.support.WriteRequest;
+ import org.opensearch.client.Client;
+ import org.opensearch.common.settings.Settings;
++import org.opensearch.env.Environment;
++import org.opensearch.monitor.fs.FsInfo;
+ import org.opensearch.node.Node;
+-import org.opensearch.node.NodeBuilder;
  import org.junit.AfterClass;
  import org.junit.Assert;
  import org.junit.BeforeClass;
@@ -2883,7 +2883,7 @@ index cef5f418d..d9b3e806d 100644
  
      <modules>
          <module>notebookrepo/s3</module>
-+        <module>notebookrepo/odfe</module>
++        <module>notebookrepo/opensearch</module>
          <module>notebookrepo/github</module>
          <module>notebookrepo/azure</module>
          <module>notebookrepo/gcs</module>

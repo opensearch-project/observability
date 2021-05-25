@@ -25,7 +25,7 @@
  *
  */
 
-package com.amazon.opendistroforelasticsearch.notebooks
+package org.opensearch.notebooks
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser

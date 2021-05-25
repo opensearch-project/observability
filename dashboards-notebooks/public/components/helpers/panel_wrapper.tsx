@@ -25,8 +25,7 @@
  */
 
 import React from 'react'
-import { EuiPanel } from '@elastic/eui';
 
-export function PanelWrapper({ shouldWrap, children }: { shouldWrap: boolean; children: React.ReactNode }) {
-  return shouldWrap ? <EuiPanel>{children}</EuiPanel> : <>{children}</>;
+export function PanelWrapper({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

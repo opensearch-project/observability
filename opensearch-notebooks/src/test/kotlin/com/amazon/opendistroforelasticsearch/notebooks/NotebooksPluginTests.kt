@@ -24,7 +24,7 @@
  * permissions and limitations under the License.
  *
  */
-package com.amazon.opendistroforelasticsearch.notebooks
+package org.opensearch.notebooks
 
 import org.opensearch.test.OpenSearchTestCase
 

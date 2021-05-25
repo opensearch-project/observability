@@ -138,7 +138,7 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
   - Zeppelin Backend will provide one stop shop for interpreters, runtime-environments and storage adaptors
 - Cons:
   - Users will not be free to customize Zeppelin Backend runtime-environment/storage adaptors
-  - Need to develop a new storage adaptor for Zeppelin to store notebooks as OpenSearch indices [POC details](../../poc/docs/Zeppelin_ODFE_Storage.md)
+  - Need to develop a new storage adaptor for Zeppelin to store notebooks as OpenSearch indices [POC details](../../poc/docs/Zeppelin_OpenSearch_Storage.md)
   - Difficult to maintain releases, as we have to sync version currency/patches to Zeppelin code repository
 
 **4.4.2 Version 2:** In this architecture, Backends are switchable with two options of Default backend (Markdown, Visualization support) or Apache Zeppelin Backend (25+ interpreter support)
@@ -207,7 +207,7 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
       - [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
       - [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
       - Provides inter-paragraph communication capabilities
-      - Can be setup to provide OpenSearch and ODFE-SQL interpreters
+      - Can be setup to provide OpenSearch and OpenSearch-SQL interpreters
       - Can be connected with python environment to use ML/plot libraries
 
 ### **5.3 Data Model**
@@ -242,7 +242,7 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
 
 ### **7.1** POC: [Embeddable API & Usage](../../poc/docs/OpenSearch Dashboards_Embeddable_Documentation.md)
 
-### **7.2** POC: [Zeppelin ODFE Storage](../../poc/docs/Zeppelin_ODFE_Storage.md)
+### **7.2** POC: [Zeppelin OpenSearch Storage](../../poc/docs/Zeppelin_OpenSearch_Storage.md)
 
 ### **7.3** Screenshots:
 
@@ -263,8 +263,8 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
     ![OpenSearch service UI](images/opensearch_ss.png)
   - **Transmit Data between Interpreters**:
 
-    - Use output of an ODFE Query as save as a Zeppelin Context in a variable
-      ![ODFE Query](images/odfe_ss_zepcontext.png)
+    - Use output of an OpenSearch Query as save as a Zeppelin Context in a variable
+      ![OpenSearch Query](images/opensearch_ss_zepcontext.png)
     - Use the Zeppelin Context vairable and import it in python
       ![Import Context](images/python_ss.png)
 

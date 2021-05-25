@@ -27,7 +27,7 @@
       3. Also, [Notebooks](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/security/notebook_authorization.html) can have access control based on Shiro defined users
 3. **Deployment:**
    1. Recommended way is to use stand alone docker
-   2. Create a **custom docker** with new Shiro & Zeppelin configs and set interpreter config for OpenSearch and ODFE-sql.
+   2. Create a **custom docker** with new Shiro & Zeppelin configs and set interpreter config for OpenSearch and OpenSearch-sql.
    3. Sample scripts available in `scripts/docker/spark-cluster-managers`
 4. **Storage:**
    1. Apache Zeppelin has a pluggable notebook storage mechanism controlled by `zeppelin.notebook.storage` configuration option with multiple implementations.
@@ -54,10 +54,10 @@
 - **[Optional] Setup OpenSearch Interpreter:**
 
   - [Zeppelin OpenSearch interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0-preview2/interpreter/elasticsearch.html)
-  - This interpreter can be used for ODFE:
+  - This interpreter can be used for OpenSearch:
 
     - **Note: current issues with OpenSearch Interpreter in Zeppelin**
-    - User needs to remove ssl flag from the OpenSearch config as Zeppelin doesn’t support ssl request yet: https://issues.apache.org/jira/browse/ZEPPELIN-2031 so run the ODFE service without ssl enabled
+    - User needs to remove ssl flag from the OpenSearch config as Zeppelin doesn’t support ssl request yet: https://issues.apache.org/jira/browse/ZEPPELIN-2031 so run the OpenSearch service without ssl enabled
     - Zeppelin has “no support for ssl” (only uses http) in elastic interpreter:
       - [Code](https://github.com/apache/zeppelin/blob/0b8423c62ae52f3716d4bb63d60762fee6910788/elasticsearch/src/main/java/org/apache/zeppelin/elasticsearch/client/HttpBasedClient.java#L105)
       - [Apache Issues](https://issues.apache.org/jira/browse/ZEPPELIN-2031)
@@ -94,32 +94,32 @@ index movies/default/1 {
 }
 ```
 
-- **[Optional] Setup ODFE-SQL JDBC Interpreter:**
+- **[Optional] Setup OpenSearch-SQL JDBC Interpreter:**
   - [Zeppelin JDBC Interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0-preview2/interpreter/jdbc.html)
-  - Zeppelin has a generic JDBC interpreter, we can use this to add our ODFE-SQL Driver
-  - Download [ODFE-SQL Driver](https://opendistro.github.io/for-elasticsearch/downloads.html) Jar file
+  - Zeppelin has a generic JDBC interpreter, we can use this to add our OpenSearch-SQL Driver
+  - Download [OpenSearch-SQL Driver](https://opensearch.org/) Jar file
   - To Use JDBC interpreter:
-    - **To add the JDBC interpreter settings for ODFE-SQL:**
+    - **To add the JDBC interpreter settings for OpenSearch-SQL:**
       - Open Zeppelin in browser `localhost:8080`
       - Please click the top right menu beside drop down and select interpreter option
       - Click on "+ Create" Button
-      - Add ODFE-SQL interpreter with type JDBC **configure name: “odfesql”**
-      - Note: The name you assign to the interpreter is used later for accessing paragraphs in notebook - “%odfesql”
-      - Edit config for with ODFE-SQL Driver details (Please refer to the [Github README](https://github.com/opensearch-project/sql/tree/main/sql-jdbc))
+      - Add OpenSearch-SQL interpreter with type JDBC **configure name: “opensearchsql”**
+      - Note: The name you assign to the interpreter is used later for accessing paragraphs in notebook - “%opensearchsql”
+      - Edit config for with OpenSearch-SQL Driver details (Please refer to the [Github README](https://github.com/opensearch-project/sql/tree/main/sql-jdbc))
     - **If using the default settings, add below mentioned changes in interpreter config:**
       - Edit the url: `jdbc:elasticsearch://localhost:9200`
-      - Edit the driver class: `com.amazon.opendistroforelasticsearch.jdbc.Driver`
+      - Edit the driver class: `org.opensearch.jdbc.Driver`
       - Edit the username to admin
       - Edit the password to admin
       - Add absolute path to the Jar in the last input box
       - You’ll be prompted to restart the interpreter -> Click on ok
       - Once configured the screen should look like this:
-        ![SQL Interpreter](images/odfe-zeppelin.png)
+        ![SQL Interpreter](images/opensearch-zeppelin-settings.png)
         
     - Open a notebook and run below commands to check if interpreter settings are set correctly
 
 ```
-%odfesql
+%opensearchsql
 SELECT * FROM movies
 ```
 
