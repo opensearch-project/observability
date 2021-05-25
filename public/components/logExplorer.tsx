@@ -40,6 +40,8 @@ interface ILogExplorerProps {
 }
 
 const RAW_QUERY = 'rawQuery';
+const SELECTED_FIELDS = 'selectedFields';
+const UNSELECTED_FIELDS = 'unselectedFields';
 
 export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
 
@@ -57,7 +59,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
     [initialTabId]: {}
   });
   const curQueriesRef = useRef(queries);
-  const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab>(null);
+  const [curSelectedTabId, setCurSelectedTab] = useState<string>(initialTabId);
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -71,7 +73,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-      setCurSelectedTab(selectedTab);
+      setCurSelectedTab(selectedTab.id);
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
@@ -80,17 +82,17 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
       console.log('Have to have at least one tab');
       return;
     }
-    
-    // let tabToBeRemoved: IQueryTab;
-    // const newTabs: Array<IQueryTab> = latestTabs.filter(tab => {
-    //   if (tab.id === TabIdToBeClosed) {
-    //     tabToBeRemoved = tab;
-    //     return false;
-    //   }
-    //   return tab.id != TabIdToBeClosed;
-    // });
 
-    console.log('TabIdToBeClosed: ', TabIdToBeClosed);
+    // Always find the previous tab of the current removing one, if current tab
+    // is the one to be removed, then find the next tab
+    const index = tabIds.indexOf(TabIdToBeClosed);
+    let newIdToFocus = '';
+    if (index === 0) {
+      newIdToFocus = tabIds[index + 1];
+    } else if (index > 0) {
+      newIdToFocus = tabIds[index - 1];
+    }
+    setCurSelectedTab(newIdToFocus);
 
     setTabIds(staleTabIds => {
       return staleTabIds.filter((id) => {
@@ -124,7 +126,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
     });
   };
 
-  function getTabId (prefix: string) { 
+  function getTabId (prefix: string) {
     return _.uniqueId(prefix);
   }
 
@@ -155,8 +157,8 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
       return {
         ...staleFields,
         [tabId]: {
-          'selectedFields': [],
-          'unselectedFields': []
+          [SELECTED_FIELDS]: [],
+          [UNSELECTED_FIELDS]: []
         }
       };
     });
@@ -175,8 +177,8 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
       return {
         ...staleFields,
         [tabId]: {
-          'selectedFields': [],
-          'unselectedFields': res?.schema || []
+          [SELECTED_FIELDS]: [],
+          [UNSELECTED_FIELDS]: res?.schema || []
         }
       };
     });
@@ -200,10 +202,10 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
 
       const nextFields = _.cloneDeep(staleFields);
 
-      const thisUnselectedFields = nextFields[tabId]['unselectedFields'];
+      const thisUnselectedFields = nextFields[tabId][UNSELECTED_FIELDS];
       const nextUnselected = thisUnselectedFields.filter(fd => fd.name !== field.name);
-      nextFields[tabId]['unselectedFields'] = nextUnselected;
-      nextFields[tabId]['selectedFields'].push(field);
+      nextFields[tabId][UNSELECTED_FIELDS] = nextUnselected;
+      nextFields[tabId][SELECTED_FIELDS].push(field);
 
       return nextFields;
     });
@@ -214,10 +216,10 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
 
       const nextFields = _.cloneDeep(staleFields);
 
-      const thisSelectedFields = nextFields[tabId]['selectedFields'];
+      const thisSelectedFields = nextFields[tabId][SELECTED_FIELDS];
       const nextSelected = thisSelectedFields.filter(fd => fd.name !== field.name);
-      nextFields[tabId]['selectedFields'] = nextSelected;
-      nextFields[tabId]['unselectedFields'].push(field);
+      nextFields[tabId][SELECTED_FIELDS] = nextSelected;
+      nextFields[tabId][UNSELECTED_FIELDS].push(field);
 
       return nextFields;
     });
@@ -294,7 +296,7 @@ export const LogExplorer: React.FC<ILogExplorerProps> = (props) => {
         id="queryTabs"
         className="queryTabs"
         tabs={ memorizedTabs }
-        selectedTab={ curSelectedTab || memorizedTabs[0] }
+        selectedTab={ memorizedTabs.find(tab => tab.id === curSelectedTabId) }
         onTabClick={ (selectedTab: EuiTabbedContentTab) => handleTabClick(selectedTab) }
       />
     </>

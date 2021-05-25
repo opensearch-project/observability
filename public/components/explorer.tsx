@@ -52,6 +52,8 @@ const TAB_CHART = {
 };
 const TAB_CHART_TITLE = 'Charts';
 const TAB_EVENT_TITLE = 'Events';
+const TAB_EVENT_ID = _.uniqueId('main-content-events-');
+const TAB_CHART_ID = _.uniqueId('main-content-charts-');
 
 
 export const Explorer = (props) => {
@@ -65,7 +67,7 @@ export const Explorer = (props) => {
     removeField
    } = props;
 
-  const [selectedContentTab, setSelectedContentTab] = useState(null);
+  const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
@@ -182,10 +184,12 @@ export const Explorer = (props) => {
   };
 
   function getMainContentTab ({
+    tabId,
     tabTitle,
     getContent
   }) {
     return {
+      id: tabId,
       name: (<>
               <EuiText
                 size="s"
@@ -204,24 +208,20 @@ export const Explorer = (props) => {
 
   const getMainContentTabs = () => {
     return [
-      Object.assign(
-        TAB_EVENT,
         getMainContentTab(
           {
+            tabId: TAB_EVENT_ID,
             tabTitle: TAB_EVENT_TITLE,
             getContent: () => getMainContent()
           }
-        )  
-      ),
-      Object.assign(
-        TAB_CHART,
+        ),
         getMainContentTab(
           {
+            tabId: TAB_CHART_ID,
             tabTitle: TAB_CHART_TITLE,
             getContent: () => { return <>Charts Content</> }
           }
         )
-      )
     ];
   };
 
@@ -236,7 +236,7 @@ export const Explorer = (props) => {
   );
 
   const handleContentTabClick = (selectedTab) => {
-    setSelectedContentTab(selectedTab);
+    setSelectedContentTab(selectedTab.id);
   };
 
   return (
@@ -256,7 +256,7 @@ export const Explorer = (props) => {
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={ memorizedMainContentTabs[0] }
-        selectedTab={ selectedContentTab || memorizedMainContentTabs[0] }
+        selectedTab={ memorizedMainContentTabs.find(tab => { tab.id === selectedContentTabId }) }
         onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
         tabs={ memorizedMainContentTabs }
       />
