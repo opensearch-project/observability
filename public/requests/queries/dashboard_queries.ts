@@ -38,86 +38,46 @@ export const getDashboardQuery = () => {
     aggs: {
       trace_group_name: {
         terms: {
-          field: 'traceGroup.name',
+          field: 'traceGroup',
           size: 10000,
         },
         aggs: {
-          group_by_hour: {
-            date_histogram: {
-              field: 'endTime',
-              calendar_interval: 'hour',
-            },
-            aggs: {
-              traces: {
-                terms: {
-                  field: 'traceId',
-                  order: {
-                    last_updated: 'desc',
-                  },
-                  size: 10000,
-                },
-                aggs: {
-                  duration: {
-                    max: {
-                      field: 'traceGroup.durationInNanos',
-                    },
-                  },
-                  last_updated: {
-                    max: {
-                      field: 'traceGroup.endTime',
-                    },
-                  },
-                },
-              },
-              average_latency_nanos: {
-                avg_bucket: {
-                  buckets_path: 'traces>duration',
-                },
-              },
-              average_latency: {
-                bucket_script: {
-                  buckets_path: {
-                    count: '_count',
-                    latency: 'average_latency_nanos.value',
-                  },
-                  script: 'Math.round(params.latency / 10000) / 100.0',
-                },
-              },
-            },
-          },
-          traces: {
-            terms: {
-              field: 'traceId',
-              order: {
-                last_updated: 'desc',
-              },
-              size: 10000,
-            },
-            aggs: {
-              duration: {
-                max: {
-                  field: 'traceGroup.durationInNanos',
-                },
-              },
-              last_updated: {
-                max: {
-                  field: 'traceGroup.endTime',
-                },
-              },
-            },
-          },
-          average_latency_nanos: {
-            avg_bucket: {
-              buckets_path: 'traces>duration',
-            },
-          },
           average_latency: {
-            bucket_script: {
-              buckets_path: {
-                count: '_count',
-                latency: 'average_latency_nanos.value',
-              },
-              script: 'Math.round(params.latency / 10000) / 100.0',
+            scripted_metric: {
+              init_script: 'state.traceIdToLatencyMap = [:];',
+              map_script: `
+                if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
+                  def traceId = doc['traceId'].value;
+                  if (!state.traceIdToLatencyMap.containsKey(traceId)) {
+                    state.traceIdToLatencyMap[traceId] = doc['traceGroupFields.durationInNanos'].value;
+                  }
+                }
+              `,
+              combine_script: 'return state.traceIdToLatencyMap',
+              reduce_script: `
+                def seenTraceIdsMap = [:];
+                def totalLatency = 0.0;
+                def traceCount = 0.0;
+
+                for (s in states) {
+                  if (s == null) {
+                    continue;
+                  }
+
+                  for (entry in s.entrySet()) {
+                    def traceId = entry.getKey();
+                    def traceLatency = entry.getValue();
+                    if (!seenTraceIdsMap.containsKey(traceId)) {
+                      seenTraceIdsMap[traceId] = true;
+                      totalLatency += traceLatency;
+                      traceCount++;
+                    }
+                  }
+                }
+
+                def average_latency_nanos = totalLatency / traceCount;
+                return Math.round(average_latency_nanos / 10000) / 100.0;
+              `,
             },
           },
           trace_count: {
@@ -128,7 +88,7 @@ export const getDashboardQuery = () => {
           error_count: {
             filter: {
               term: {
-                'traceGroup.statusCode': '2',
+                'traceGroupFields.statusCode': '2',
               },
             },
             aggs: {
@@ -146,6 +106,77 @@ export const getDashboardQuery = () => {
                 errors: 'error_count>trace_count.value',
               },
               script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+};
+
+export const getLatencyTrendQuery = () => {
+  const query = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      trace_group_name: {
+        terms: {
+          field: 'traceGroup',
+          size: 10000,
+        },
+        aggs: {
+          group_by_hour: {
+            date_histogram: {
+              field: 'endTime',
+              calendar_interval: 'hour',
+            },
+            aggs: {
+              average_latency: {
+                scripted_metric: {
+                  init_script: 'state.traceIdToLatencyMap = [:];',
+                  map_script: `
+                    if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
+                      def traceId = doc['traceId'].value;
+                      if (!state.traceIdToLatencyMap.containsKey(traceId)) {
+                        state.traceIdToLatencyMap[traceId] = doc['traceGroupFields.durationInNanos'].value;
+                      }
+                    }
+                  `,
+                  combine_script: 'return state.traceIdToLatencyMap',
+                  reduce_script: `
+                    def seenTraceIdsMap = [:];
+                    def totalLatency = 0.0;
+                    def traceCount = 0.0;
+
+                    for (s in states) {
+                      if (s == null) {
+                        continue;
+                      }
+
+                      for (entry in s.entrySet()) {
+                        def traceId = entry.getKey();
+                        def traceLatency = entry.getValue();
+                        if (!seenTraceIdsMap.containsKey(traceId)) {
+                          seenTraceIdsMap[traceId] = true;
+                          totalLatency += traceLatency;
+                          traceCount++;
+                        }
+                      }
+                    }
+
+                    def average_latency_nanos = totalLatency / traceCount;
+                    return Math.round(average_latency_nanos / 10000) / 100.0;
+                  `,
+                },
+              },
             },
           },
         },
@@ -177,12 +208,12 @@ export const getDashboardTraceGroupPercentiles = () => {
     aggs: {
       trace_group: {
         terms: {
-          field: 'traceGroup.name',
+          field: 'traceGroup',
         },
         aggs: {
           latency_variance_nanos: {
             percentiles: {
-              field: 'traceGroup.durationInNanos',
+              field: 'traceGroupFields.durationInNanos',
               percents: [0, 95, 100],
             },
           },
@@ -213,7 +244,7 @@ export const getErrorRatePltQuery = (fixedInterval) => {
           error_count: {
             filter: {
               term: {
-                'traceGroup.statusCode': '2',
+                'traceGroupFields.statusCode': '2',
               },
             },
             aggs: {

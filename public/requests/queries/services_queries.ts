@@ -47,6 +47,7 @@ export const getServicesQuery = (serviceName = null, DSL?) => {
       service: {
         terms: {
           field: 'serviceName',
+          size: 10000,
         },
         aggs: {
           trace_count: {
@@ -208,8 +209,8 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
 export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
   const traceGroupFilter = new Set(
     DSL?.query?.bool.must
-      .filter((must) => must.term?.['traceGroup.name'])
-      .map((must) => must.term['traceGroup.name']) || []
+      .filter((must) => must.term?.['traceGroup'])
+      .map((must) => must.term['traceGroup']) || []
   );
 
   const targetResource =

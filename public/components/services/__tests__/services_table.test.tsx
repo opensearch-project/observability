@@ -61,7 +61,7 @@ describe('Services table component', () => {
         error_rate: 3.77,
         throughput: 53,
         traces: 31,
-        connected_services: 'order, inventory',
+        connected_services: ['order', 'inventory'],
         number_of_connected_services: 2,
       },
     ];

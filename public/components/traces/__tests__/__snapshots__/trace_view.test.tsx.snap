@@ -55,7 +55,9 @@ exports[`Trace view component renders trace view 1`] = `
                 <EuiText
                   className="overview-content"
                   size="s"
-                />
+                >
+                  -
+                </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiFlexItem>
@@ -106,7 +108,9 @@ exports[`Trace view component renders trace view 1`] = `
                 <EuiText
                   className="overview-content"
                   size="s"
-                />
+                >
+                  -
+                </EuiText>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiFlexItem>
@@ -125,13 +129,9 @@ exports[`Trace view component renders trace view 1`] = `
           grow={7}
         >
           <SpanDetailPanel
-            data={
-              Object {
-                "gantt": Array [],
-                "ganttMaxX": 0,
-                "table": Array [],
-              }
-            }
+            colorMap={Object {}}
+            http={[MockFunction]}
+            traceId="test"
           />
         </EuiFlexItem>
       </EuiFlexGroup>

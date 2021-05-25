@@ -1,3 +1,167 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+/*
+ *   Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License").
+ *   You may not use this file except in compliance with the License.
+ *   A copy of the License is located at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   or in the "license" file accompanying this file. This file is distributed
+ *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ *   express or implied. See the License for the specific language governing
+ *   permissions and limitations under the License.
+ */
+
+export const TEST_SPAN_RESPONSE = {
+  took: 1,
+  timed_out: false,
+  _shards: {
+    total: 1,
+    successful: 1,
+    skipped: 0,
+    failed: 0,
+  },
+  hits: {
+    total: {
+      value: 3,
+      relation: 'eq',
+    },
+    max_score: 4.4400907,
+    hits: [
+      {
+        _index: 'otel-v1-apm-span-000001',
+        _type: '_doc',
+        _id: '67c279e1100d75c3',
+        _score: 4.4400907,
+        _source: {
+          traceId: '03f9c770db5ee2f1caac0afc36db49ba',
+          spanId: '67c279e1100d75c3',
+          traceState: '',
+          parentSpanId: '',
+          name: 'client_pay_order',
+          kind: 'SPAN_KIND_INTERNAL',
+          startTime: '2021-03-25T17:23:45.724285696Z',
+          endTime: '2021-03-25T17:23:45.949285120Z',
+          durationInNanos: 224999424,
+          serviceName: 'frontend-client',
+          events: [],
+          links: [],
+          droppedAttributesCount: 0,
+          droppedEventsCount: 0,
+          droppedLinksCount: 0,
+          traceGroup: 'client_pay_order',
+          'traceGroupFields.endTime': '2021-03-25T17:23:45.949285120Z',
+          'traceGroupFields.statusCode': 0,
+          'traceGroupFields.durationInNanos': 224999424,
+          'resource.attributes.telemetry@sdk@name': 'opentelemetry',
+          'resource.attributes.telemetry@sdk@language': 'python',
+          'resource.attributes.telemetry@sdk@version': '0.14b0',
+          'resource.attributes.service@name': 'frontend-client',
+          'resource.attributes.host@hostname': 'ip-172-31-10-8.us-west-2.compute.internal',
+          'status.code': 0,
+          'instrumentationLibrary.name': '__main__',
+        },
+      },
+      {
+        _index: 'otel-v1-apm-span-000001',
+        _type: '_doc',
+        _id: '11c4d645b0b6544a',
+        _score: 4.4400907,
+        _source: {
+          traceId: '03f9c770db5ee2f1caac0afc36db49ba',
+          spanId: '11c4d645b0b6544a',
+          traceState: '',
+          parentSpanId: 'e8e61cf518ff0d47',
+          name: 'pay_order',
+          kind: 'SPAN_KIND_SERVER',
+          startTime: '2021-03-25T17:23:45.728619520Z',
+          endTime: '2021-03-25T17:23:45.909096192Z',
+          durationInNanos: 180476672,
+          serviceName: 'order',
+          events: [],
+          links: [],
+          droppedAttributesCount: 0,
+          droppedEventsCount: 0,
+          droppedLinksCount: 0,
+          traceGroup: 'client_pay_order',
+          'traceGroupFields.endTime': '2021-03-25T17:23:45.949285120Z',
+          'traceGroupFields.statusCode': 0,
+          'traceGroupFields.durationInNanos': 224999424,
+          'span.attributes.net@peer@ip': '127.0.0.1',
+          'instrumentationLibrary.version': '0.14b0',
+          'resource.attributes.telemetry@sdk@language': 'python',
+          'span.attributes.host@port': 8088,
+          'span.attributes.http@status_text': 'OK',
+          'resource.attributes.telemetry@sdk@version': '0.14b0',
+          'resource.attributes.service@instance@id': '139858677314952',
+          'resource.attributes.service@name': 'order',
+          'span.attributes.component': 'http',
+          'status.code': 0,
+          'instrumentationLibrary.name': 'opentelemetry.instrumentation.flask',
+          'span.attributes.http@method': 'POST',
+          'span.attributes.http@user_agent': 'python-requests/2.25.1',
+          'span.attributes.net@peer@port': 56894,
+          'resource.attributes.telemetry@sdk@name': 'opentelemetry',
+          'span.attributes.http@server_name': '0.0.0.0',
+          'span.attributes.http@route': '/pay_order',
+          'span.attributes.http@host': 'localhost:8088',
+          'span.attributes.http@target': '/pay_order',
+          'span.attributes.http@scheme': 'http',
+          'resource.attributes.host@hostname': 'ip-172-31-10-8.us-west-2.compute.internal',
+          'span.attributes.http@flavor': '1.1',
+          'span.attributes.http@status_code': 200,
+        },
+      },
+      {
+        _index: 'otel-v1-apm-span-000001',
+        _type: '_doc',
+        _id: '421660af43ed2f96',
+        _score: 4.4400907,
+        _source: {
+          traceId: '03f9c770db5ee2f1caac0afc36db49ba',
+          spanId: '421660af43ed2f96',
+          traceState: '',
+          parentSpanId: 'a4869b984bdcdb69',
+          name: 'cart_sold',
+          kind: 'SPAN_KIND_INTERNAL',
+          startTime: '2021-03-25T17:23:45.745376768Z',
+          endTime: '2021-03-25T17:23:45.819226880Z',
+          durationInNanos: 73850112,
+          serviceName: 'database',
+          events: [],
+          links: [],
+          droppedAttributesCount: 0,
+          droppedEventsCount: 0,
+          droppedLinksCount: 0,
+          traceGroup: 'client_pay_order',
+          'traceGroupFields.endTime': '2021-03-25T17:23:45.949285120Z',
+          'traceGroupFields.statusCode': 0,
+          'traceGroupFields.durationInNanos': 224999424,
+          'resource.attributes.telemetry@sdk@name': 'opentelemetry',
+          'resource.attributes.telemetry@sdk@language': 'python',
+          'resource.attributes.telemetry@sdk@version': '0.14b0',
+          'resource.attributes.service@instance@id': '140307275923408',
+          'resource.attributes.service@name': 'database',
+          'resource.attributes.host@hostname': 'ip-172-31-10-8.us-west-2.compute.internal',
+          'status.code': 0,
+          'instrumentationLibrary.name': '__main__',
+        },
+      },
+    ],
+  },
+};
 export const TEST_SERVICE_MAP_GRAPH = {
   graph: {
     nodes: [

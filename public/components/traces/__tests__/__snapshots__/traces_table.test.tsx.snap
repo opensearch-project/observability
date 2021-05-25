@@ -1334,7 +1334,11 @@ exports[`Traces table component renders traces table 1`] = `
                                             href="#/traces/00079a615e31e61766fcb20b557051c1"
                                             rel="noreferrer"
                                           >
-                                            00079a615e31e61766fcb...
+                                            <div
+                                              title="00079a615e31e61766fcb20b557051c1"
+                                            >
+                                              00079a615e31e61766fcb...
+                                            </div>
                                           </a>
                                         </EuiLink>
                                       </div>
@@ -1577,7 +1581,7 @@ exports[`Traces table component renders traces table 1`] = `
                               <div
                                 className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
                               >
-                                Yes
+                                No
                               </div>
                             </td>
                           </EuiTableRowCell>

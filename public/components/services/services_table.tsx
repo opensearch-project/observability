@@ -70,7 +70,7 @@ export function ServicesTable(props: {
           sortable: true,
           render: (item) => (
             <EuiLink href={`#/services/${encodeURIComponent(item)}`}>
-              {_.truncate(item, { length: 24 })}
+              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>
           ),
         },
@@ -112,8 +112,12 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           truncateText: true,
-          render: (item) =>
-            item ? <EuiText size="s">{_.truncate(item, { length: 50 })}</EuiText> : '-',
+          render: (items) =>
+            items ? (
+              <EuiText size="s">{_.truncate(items.join(', '), { length: 50 })}</EuiText>
+            ) : (
+              '-'
+            ),
         },
         {
           field: 'traces',

@@ -1,176 +1,74 @@
 {
   "properties": {
-    "droppedAttributesCount": { "type": "long" },
-    "droppedEventsCount": { "type": "long" },
-    "droppedLinksCount": { "type": "long" },
-    "durationInNanos": { "type": "long" },
-    "endTime": { "type": "date_nanos" },
+    "traceId": {
+      "ignore_above": 256,
+      "type": "keyword"
+    },
+    "spanId": {
+      "ignore_above": 256,
+      "type": "keyword"
+    },
+    "parentSpanId": {
+      "ignore_above": 256,
+      "type": "keyword"
+    },
+    "name": {
+      "ignore_above": 1024,
+      "type": "keyword"
+    },
+    "traceGroup": {
+      "ignore_above": 1024,
+      "type": "keyword"
+    },
+    "traceGroupFields": {
+      "properties": {
+        "endTime": {
+          "type": "date_nanos"
+        },
+        "durationInNanos": {
+          "type": "long"
+        },
+        "statusCode": {
+          "type": "integer"
+        }
+      }
+    },
+    "kind": {
+      "ignore_above": 128,
+      "type": "keyword"
+    },
+    "startTime": {
+      "type": "date_nanos"
+    },
+    "endTime": {
+      "type": "date_nanos"
+    },
+    "status": {
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "keyword"
+        }
+      }
+    },
+    "serviceName": {
+      "type": "keyword"
+    },
+    "durationInNanos": {
+      "type": "long"
+    },
     "events": {
       "type": "nested",
       "properties": {
-        "attributes": {
-          "properties": {
-            "exception@message": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "exception@stacktrace": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "exception@type": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            }
-          }
-        },
-        "droppedAttributesCount": { "type": "long" },
-        "name": {
-          "type": "text",
-          "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-        },
-        "time": { "type": "date_nanos" }
-      }
-    },
-    "instrumentationLibrary": {
-      "properties": {
-        "name": {
-          "type": "text",
-          "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-        },
-        "version": {
-          "type": "text",
-          "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
+        "time": {
+          "type": "date_nanos"
         }
       }
     },
-    "kind": { "type": "keyword", "ignore_above": 128 },
-    "links": { "type": "nested" },
-    "name": { "type": "keyword", "ignore_above": 1024 },
-    "parentSpanId": { "type": "keyword", "ignore_above": 256 },
-    "resource": {
-      "properties": {
-        "attributes": {
-          "properties": {
-            "host@hostname": { "type": "keyword" },
-            "service@instance@id": { "type": "keyword" },
-            "service@name": { "type": "keyword" },
-            "telemetry@auto@version": { "type": "keyword" },
-            "telemetry@sdk@language": { "type": "keyword" },
-            "telemetry@sdk@name": { "type": "keyword" },
-            "telemetry@sdk@version": { "type": "keyword" }
-          }
-        }
-      }
-    },
-    "serviceName": { "type": "keyword" },
-    "span": {
-      "properties": {
-        "attributes": {
-          "properties": {
-            "component": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "db@instance": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "db@statement": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "db@statement@parameters": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "db@type": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "db@user": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "host@port": { "type": "long" },
-            "http@client_ip": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@flavor": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@host": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@method": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@route": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@scheme": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@server_name": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@status_code": { "type": "long" },
-            "http@status_text": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@target": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@url": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "http@user_agent": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "net@peer@ip": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "net@peer@name": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            },
-            "net@peer@port": { "type": "long" },
-            "thread@id": { "type": "long" },
-            "thread@name": {
-              "type": "text",
-              "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
-            }
-          }
-        }
-      }
-    },
-    "spanId": { "type": "keyword", "ignore_above": 256 },
-    "startTime": { "type": "date_nanos" },
-    "status": { "properties": { "code": { "type": "integer" }, "message": { "type": "keyword" } } },
-    "traceGroup": {
-      "properties": {
-        "durationInNanos": { "type": "long" },
-        "endTime": { "type": "date_nanos" },
-        "name": { "type": "keyword", "ignore_above": 1024 },
-        "statusCode": { "type": "integer" }
-      }
-    },
-    "traceId": { "type": "keyword", "ignore_above": 256 },
-    "traceState": {
-      "type": "text",
-      "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
+    "links": {
+      "type": "nested"
     }
   }
 }

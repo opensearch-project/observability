@@ -24,6 +24,7 @@
  *   permissions and limitations under the License.
  */
 
+import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import {
@@ -88,12 +89,23 @@ export function Dashboard(props: DashboardProps) {
   const refresh = async () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
+    const latencyTrendStartTime = dateMath
+      .parse(props.endTime)
+      ?.subtract(24, 'hours')
+      .toISOString()!;
+    const latencyTrendDSL = filtersToDsl(
+      props.filters,
+      props.query,
+      latencyTrendStartTime,
+      props.endTime
+    );
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
     handleDashboardRequest(
       props.http,
       DSL,
       timeFilterDSL,
+      latencyTrendDSL,
       tableItems,
       setTableItems,
       setPercentileMap
@@ -136,11 +148,11 @@ export function Dashboard(props: DashboardProps) {
         const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
         newFilter.custom.query.bool.should.forEach((should) =>
           should.bool.must.forEach((must) => {
-            const range = must?.range?.['traceGroup.durationInNanos'];
+            const range = must?.range?.['traceGroupFields.durationInNanos'];
             if (range) {
               const duration = range.lt || range.lte || range.gt || range.gte;
               if (duration || duration === 0) {
-                must.range['traceGroup.durationInNanos'] = {
+                must.range['traceGroupFields.durationInNanos'] = {
                   [condition]: duration,
                 };
               }

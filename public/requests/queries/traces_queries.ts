@@ -25,6 +25,7 @@
  */
 
 import { PropertySort } from '@elastic/eui';
+import { SpanSearchParams } from '../../components/traces/span_detail_table';
 import { TRACES_MAX_NUM } from '../../../common';
 
 export const getTraceGroupPercentilesQuery = () => {
@@ -93,8 +94,8 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
             max: {
               script: {
                 source: `
-                if (doc.containsKey('traceGroup.durationInNanos') && !doc['traceGroup.durationInNanos'].empty) {
-                  return Math.round(doc['traceGroup.durationInNanos'].value / 10000) / 100.0
+                if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
+                  return Math.round(doc['traceGroupFields.durationInNanos'].value / 10000) / 100.0
                 }
 
                 return 0
@@ -105,20 +106,20 @@ export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
           },
           trace_group: {
             terms: {
-              field: 'traceGroup.name',
+              field: 'traceGroup',
               size: 1,
             },
           },
           error_count: {
             filter: {
               term: {
-                'traceGroup.statusCode': '2',
+                'traceGroupFields.statusCode': '2',
               },
             },
           },
           last_updated: {
             max: {
-              field: 'traceGroup.endTime',
+              field: 'traceGroupFields.endTime',
             },
           },
         },
@@ -248,6 +249,43 @@ export const getPayloadQuery = (traceId: string, size = 1000) => {
   };
 };
 
+export const getSpanFlyoutQuery = (spanId?: string, size = 1000) => {
+  return {
+    size,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              spanId,
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+  };
+};
+
+export const getSpansQuery = (spanSearchParams: SpanSearchParams) => {
+  const query: any = {
+    size: spanSearchParams.size,
+    from: spanSearchParams.from,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    sort: spanSearchParams.sortingColumns,
+  };
+  return query;
+};
+
 export const getValidTraceIdsQuery = (DSL) => {
   const query: any = {
     size: 0,
@@ -269,7 +307,7 @@ export const getValidTraceIdsQuery = (DSL) => {
     },
   };
   if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  if (DSL.custom?.traceGroup.length > 0) {
+  if (DSL.custom?.traceGroupFields.length > 0) {
     query.query.bool.filter.push({
       terms: {
         traceGroup: DSL.custom.traceGroup,

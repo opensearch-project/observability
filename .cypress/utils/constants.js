@@ -29,11 +29,9 @@ export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';
 export const SPAN_ID = 'a673bc074b438374';
 export const SERVICE_NAME = 'frontend-client';
 
-export const setTimeFilter = (
-  startTime = 'Mar 25, 2021 @ 10:00:00.000',
-  endTime = 'Mar 25, 2021 @ 11:00:00.000',
-  refresh = true
-) => {
+export const setTimeFilter = (setEndTime = false, refresh = true) => {
+  const startTime = 'Mar 25, 2021 @ 10:00:00.000';
+  const endTime = 'Mar 25, 2021 @ 11:00:00.000';
   cy.get('button.euiButtonEmpty[aria-label="Date quick select"]').click();
   cy.get('.euiQuickSelect__applyButton').click();
   cy.get('.euiSuperDatePicker__prettyFormatLink').click();
@@ -44,6 +42,17 @@ export const setTimeFilter = (
   cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
     .focus()
     .type('{selectall}' + startTime);
+  if (setEndTime) {
+    cy.wait(delay);
+    cy.get(
+      'button.euiDatePopoverButton--end[data-test-subj="superDatePickerendDatePopoverButton"]'
+    ).click();
+    cy.wait(delay);
+    cy.get('.euiTab__content').contains('Absolute').click();
+    cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
+      .focus()
+      .type('{selectall}' + endTime);
+  }
   if (refresh) cy.get('.euiButton__text').contains('Refresh').click();
   cy.wait(delay);
 };
