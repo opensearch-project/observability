@@ -139,7 +139,16 @@ export function TracesTable(props: {
           name: 'Errors',
           align: 'right',
           sortable: true,
-          render: (item) => (item === 0 || item ? item : '-'),
+          render: (item) =>
+            item == null ? (
+              '-'
+            ) : item > 0 ? (
+              <EuiText color="danger" size="s">
+                Yes
+              </EuiText>
+            ) : (
+              'No'
+            ),
         },
         {
           field: 'last_updated',

@@ -62,33 +62,33 @@ export const TraceAnalyticsApp = ({
   navigation,
 }: TraceAnalyticsAppDeps) => {
   const [indicesExist, setIndicesExist] = useState(true);
-  const storedFilters = localStorage.getItem('TraceAnalyticsFilters');
-  const [query, setQuery] = useState<string>(localStorage.getItem('TraceAnalyticsQuery') || '');
+  const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
+  const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    localStorage.getItem('TraceAnalyticsStartTime') || 'now-5m'
+    sessionStorage.getItem('TraceAnalyticsStartTime') || 'now-5m'
   );
   const [endTime, setEndTime] = useState<string>(
-    localStorage.getItem('TraceAnalyticsEndTime') || 'now'
+    sessionStorage.getItem('TraceAnalyticsEndTime') || 'now'
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);
-    localStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
+    sessionStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
   };
   const setQueryWithStorage = (newQuery: string) => {
     setQuery(newQuery);
-    localStorage.setItem('TraceAnalyticsQuery', newQuery);
+    sessionStorage.setItem('TraceAnalyticsQuery', newQuery);
   };
   const setStartTimeWithStorage = (newStartTime: string) => {
     setStartTime(newStartTime);
-    localStorage.setItem('TraceAnalyticsStartTime', newStartTime);
+    sessionStorage.setItem('TraceAnalyticsStartTime', newStartTime);
   };
   const setEndTimeWithStorage = (newEndTime: string) => {
     setEndTime(newEndTime);
-    localStorage.setItem('TraceAnalyticsEndTime', newEndTime);
+    sessionStorage.setItem('TraceAnalyticsEndTime', newEndTime);
   };
 
   useEffect(() => {

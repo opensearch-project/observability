@@ -222,6 +222,29 @@ exports[`Service view component renders service view 1`] = `
         serviceMap={Object {}}
         setIdSelected={[Function]}
       />
+      <EuiSpacer />
+      <EuiPanel>
+        <PanelTitle
+          title="Spans"
+          totalItems={0}
+        />
+        <EuiHorizontalRule
+          margin="m"
+        />
+        <div>
+          <SpanDetailTable
+            DSL={Object {}}
+            hiddenColumns={
+              Array [
+                "serviceName",
+              ]
+            }
+            http={[MockFunction]}
+            openFlyout={[Function]}
+            setTotal={[Function]}
+          />
+        </div>
+      </EuiPanel>
     </EuiPageBody>
   </EuiPage>
 </Fragment>

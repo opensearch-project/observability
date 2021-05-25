@@ -25,6 +25,7 @@
  */
 
 import {
+  EuiBadge,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -47,6 +48,8 @@ import { CoreDeps } from '../app';
 import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
+import { SpanDetailFlyout } from '../traces/span_detail_flyout';
+import { SpanDetailTable } from '../traces/span_detail_table';
 
 interface ServiceViewProps extends SearchBarProps, CoreDeps {
   serviceName: string;
@@ -78,7 +81,7 @@ export function ServiceView(props: ServiceViewProps) {
 
   useEffect(() => {
     if (!redirect) refresh();
-  }, [props.startTime, props.endTime]);
+  }, [props.startTime, props.endTime, props.serviceName]);
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
@@ -137,7 +140,7 @@ export function ServiceView(props: ServiceViewProps) {
                   {fields.connected_services
                     ? fields.connected_services
                         .map((service: string) => (
-                          <EuiLink href={`#/services/${service}`} target="_blank" key={service}>
+                          <EuiLink href={`#/services/${service}`} key={service}>
                             {service}
                           </EuiLink>
                         ))
@@ -226,6 +229,86 @@ export function ServiceView(props: ServiceViewProps) {
     [props.filters]
   );
 
+  const [currentSpan, setCurrentSpan] = useState('');
+  const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
+  const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
+    storedFilters ? JSON.parse(storedFilters) : []
+  );
+  const [DSL, setDSL] = useState<any>({});
+
+  const setSpanFiltersWithStorage = (newFilters: Array<{ field: string; value: any }>) => {
+    setSpanFilters(newFilters);
+    sessionStorage.setItem('TraceAnalyticsSpanFilters', JSON.stringify(newFilters));
+  };
+
+  useEffect(() => {
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    DSL.query.bool.must.push({
+      term: {
+        serviceName: props.serviceName,
+      },
+    });
+    spanFilters.map(({ field, value }) => {
+      if (value != null) {
+        DSL.query.bool.must.push({
+          term: {
+            [field]: value,
+          },
+        });
+      }
+    });
+    setDSL(DSL);
+  }, [props.startTime, props.endTime, props.serviceName, spanFilters]);
+
+  const addSpanFilter = (field: string, value: any) => {
+    const newFilters = [...spanFilters];
+    const index = newFilters.findIndex(({ field: filterField }) => field === filterField);
+    if (index === -1) {
+      newFilters.push({ field, value });
+    } else {
+      newFilters.splice(index, 1, { field, value });
+    }
+    setSpanFiltersWithStorage(newFilters);
+  };
+
+  const removeSpanFilter = (field: string) => {
+    const newFilters = [...spanFilters];
+    const index = newFilters.findIndex(({ field: filterField }) => field === filterField);
+    if (index !== -1) {
+      newFilters.splice(index, 1);
+      setSpanFiltersWithStorage(newFilters);
+    }
+  };
+
+  const renderFilters = useMemo(() => {
+    return spanFilters.map(({ field, value }) => (
+      <EuiFlexItem grow={false} key={`span-filter-badge-${field}`}>
+        <EuiBadge
+          iconType="cross"
+          iconSide="right"
+          iconOnClick={() => removeSpanFilter(field)}
+          iconOnClickAriaLabel="remove current filter"
+        >
+          {`${field}: ${value}`}
+        </EuiBadge>
+      </EuiFlexItem>
+    ));
+  }, [spanFilters]);
+
+  const [total, setTotal] = useState(0);
+  const spanDetailTable = useMemo(
+    () => (
+      <SpanDetailTable
+        http={props.http}
+        hiddenColumns={['serviceName']}
+        DSL={DSL}
+        openFlyout={(spanId: string) => setCurrentSpan(spanId)}
+        setTotal={setTotal}
+      />
+    ),
+    [DSL, setCurrentSpan]
+  );
+
   return (
     <>
       <EuiPage>
@@ -247,6 +330,29 @@ export function ServiceView(props: ServiceViewProps) {
             setIdSelected={setServiceMapIdSelected}
             currService={props.serviceName}
           />
+          <EuiSpacer />
+          <EuiPanel>
+            <PanelTitle title="Spans" totalItems={total} />
+            {spanFilters.length > 0 && (
+              <>
+                <EuiSpacer size="s" />
+                <EuiFlexGroup gutterSize="s" wrap>
+                  {renderFilters}
+                </EuiFlexGroup>
+              </>
+            )}
+            <EuiHorizontalRule margin="m" />
+            <div>{spanDetailTable}</div>
+          </EuiPanel>
+          {!!currentSpan && (
+            <SpanDetailFlyout
+              http={props.http}
+              spanId={currentSpan}
+              isFlyoutVisible={!!currentSpan}
+              closeFlyout={() => setCurrentSpan('')}
+              addSpanFilter={addSpanFilter}
+            />
+          )}
         </EuiPageBody>
       </EuiPage>
     </>
