@@ -36,20 +36,6 @@ interface IExplorerProps {
   plugins: any
 }
 interface IPPLResult {}
-
-/**
- * When state changing actions are triggered within tab content, the EuiTabbedContent
- * updates the content UI with new props/state data only when tab is focused. And the 
- * focus works by comparing the addresses of selectedTab and current tab it iterates 
- * through. This is to make sure it always uses the same object to calculate new tab
- * data therefore the EuiTabbedContent will always update the tab content.
- */
-const TAB_EVENT = {
-  id: _.uniqueId('main-content-events-')
-};
-const TAB_CHART = {
-  id: _.uniqueId('main-content-charts-')
-};
 const TAB_CHART_TITLE = 'Charts';
 const TAB_EVENT_TITLE = 'Events';
 const TAB_EVENT_ID = _.uniqueId('main-content-events-');
