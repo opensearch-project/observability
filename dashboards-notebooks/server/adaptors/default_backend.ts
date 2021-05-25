@@ -326,7 +326,7 @@ export class DefaultBackend implements NotebookAdaptor {
       for (index = 0; index < paragraphs.length; ++index) {
         const startTime = now();
         const updatedParagraph = { ...paragraphs[index] };
-        if (paragraphs[index].input.inputType === 'MARKDOWN' && paragraphs[index].id === paragraphId) {
+        if (paragraphs[index].id === paragraphId) {
           updatedParagraph.dateModified = new Date().toISOString();
           if (inputIsQuery(paragraphs[index].input.inputText)) {
             updatedParagraph.output = [
@@ -344,7 +344,7 @@ export class DefaultBackend implements NotebookAdaptor {
                 execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
-          } else if (paragraphs[index].input.inputType === 'VISUALIZATION' && paragraphs[index].id === paragraphId) {
+          } else if (paragraphs[index].input.inputType === 'VISUALIZATION') {
             updatedParagraph.dateModified = new Date().toISOString();
             updatedParagraph.output = [
               {

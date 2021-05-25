@@ -469,7 +469,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         body: JSON.stringify(paraUpdateObject),
       })
       .then(async (res) => {
-        if (res.output[0].outputType === 'QUERY') {
+        if (res.output[0]?.outputType === 'QUERY') {
           await this.loadQueryResultsFromInput(res);
           const checkErrorJSON = JSON.parse(res.output[0].result);
           if (this.checkQueryOutputError(checkErrorJSON)) {
