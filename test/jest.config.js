@@ -24,6 +24,8 @@
  * permissions and limitations under the License.
  */
 
+process.env.TZ = 'UTC';
+
 module.exports = {
   rootDir: '../',
   setupFiles: ['<rootDir>/test/setupTests.ts'],

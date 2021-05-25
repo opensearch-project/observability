@@ -26,11 +26,15 @@
 
 /// <reference types="cypress" />
 
-import { delay, setTimeFilter, TRACE_ID, SPAN_ID } from '../utils/constants';
+import { delay, setTimeFilter, SPAN_ID, TRACE_ID } from '../utils/constants';
 
 describe('Testing traces table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/traces');
+    cy.visit('app/trace-analytics-dashboards#/traces', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     cy.wait(delay * 3);
   });
 
@@ -42,7 +46,11 @@ describe('Testing traces table empty state', () => {
 
 describe('Testing traces table', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/traces');
+    cy.visit('app/trace-analytics-dashboards#/traces', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     setTimeFilter();
   });
 
@@ -69,7 +77,11 @@ describe('Testing traces table', () => {
 
 describe('Testing trace view', () => {
   beforeEach(() => {
-    cy.visit(`app/trace-analytics-dashboards#/traces/${TRACE_ID}`);
+    cy.visit(`app/trace-analytics-dashboards#/traces/${TRACE_ID}`, {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     cy.wait(delay * 3);
   });
 
@@ -82,5 +94,21 @@ describe('Testing trace view', () => {
     cy.get('div.js-plotly-plot').should('have.length', 2);
     cy.get('text[data-unformatted="database <br>mysql.APM "]').should('exist');
     cy.contains(`"${SPAN_ID}"`).should('exist');
+  });
+
+  it('Renders data grid, flyout and filters', () => {
+    cy.get('.euiToggle__input[title="Span list"]').click({ force: true });
+    cy.contains('2 columns hidden').should('exist');
+
+    cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true });
+    cy.wait(delay);
+    cy.contains('Span detail').should('exist');
+    cy.contains('Span attributes').should('exist');
+    cy.get('.euiTextColor').contains('Span ID').trigger('mouseover');
+    cy.get('.euiButtonIcon[aria-label="span-flyout-filter-icon"').click({ force: true });
+    cy.wait(delay);
+
+    cy.get('.euiBadge__text').contains('spanId: ').should('exist');
+    cy.contains('Spans (1)').should('exist');
   });
 });

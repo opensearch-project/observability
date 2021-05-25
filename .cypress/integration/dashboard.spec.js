@@ -30,7 +30,11 @@ import { delay, setTimeFilter } from '../utils/constants';
 
 describe('Testing dashboard table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     cy.wait(delay * 3);
   });
 
@@ -42,7 +46,11 @@ describe('Testing dashboard table empty state', () => {
 
 describe('Testing dashboard table', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     setTimeFilter();
   });
 
@@ -97,7 +105,11 @@ describe('Testing dashboard table', () => {
 
 describe('Testing plots', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard');
+    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     setTimeFilter();
   });
 

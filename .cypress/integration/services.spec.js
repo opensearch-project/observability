@@ -26,11 +26,15 @@
 
 /// <reference types="cypress" />
 
-import { delay, setTimeFilter, SERVICE_NAME } from '../utils/constants';
+import { delay, SERVICE_NAME, setTimeFilter } from '../utils/constants';
 
 describe('Testing services table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/services');
+    cy.visit('app/trace-analytics-dashboards#/services', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     cy.wait(delay * 3);
   });
 
@@ -42,7 +46,11 @@ describe('Testing services table empty state', () => {
 
 describe('Testing services table', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/services');
+    cy.visit('app/trace-analytics-dashboards#/services', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     setTimeFilter();
   });
 
@@ -64,7 +72,16 @@ describe('Testing services table', () => {
 
 describe('Testing service view empty state', () => {
   beforeEach(() => {
-    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`);
+    // exception is thrown on loading EuiDataGrid in cypress only, ignore for now
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes('ResizeObserver loop'))
+        return false;
+    });
+    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`, {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     cy.wait(delay * 3);
   });
 
@@ -77,14 +94,36 @@ describe('Testing service view empty state', () => {
 
 describe('Testing service view', () => {
   beforeEach(() => {
-    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`);
+    // exception is thrown on loading EuiDataGrid in cypress only, ignore for now
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes('ResizeObserver loop'))
+        return false;
+    });
+    cy.visit(`app/trace-analytics-dashboards#/services/${SERVICE_NAME}`, {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
     setTimeFilter(undefined, false);
   });
-  
+
   it('Renders service view', () => {
     cy.get('h2.euiTitle').contains('frontend-client').should('exist');
     cy.contains('178.6').should('exist');
     cy.contains('3.57%').should('exist');
     cy.get('div.vis-network').should('exist');
+  });
+
+  it('Renders spans data grid, flyout, filters', () => {
+    cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true });
+    cy.wait(delay);
+    cy.contains('Span detail').should('exist');
+    cy.contains('Span attributes').should('exist');
+    cy.get('.euiTextColor').contains('Span ID').trigger('mouseover');
+    cy.get('.euiButtonIcon[aria-label="span-flyout-filter-icon"').click({ force: true });
+    cy.wait(delay);
+
+    cy.get('.euiBadge__text').contains('spanId: ').should('exist');
+    cy.contains('Spans (1)').should('exist');
   });
 });
