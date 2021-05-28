@@ -407,8 +407,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiText color='subdued'>
-              {`Last run ${moment(props.dateModified).format(DATE_FORMAT)}. ${para.isOutputStale ?
-                'Output below is stale.' : 'Output reflects the latest input.'}`}
+              {`Last successful run ${moment(props.dateModified).format(DATE_FORMAT)}.`}
             </EuiText>
           </EuiFlexItem>
         </>
@@ -437,7 +436,29 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     }
   };
 
-  const paragraphLabel = "Specify the input language on the first line using %[language type]. Supported languages include markdown, SQL and PPL"
+  const sqlIcon = (
+    <EuiLink href="https://docs-beta.opensearch.org/docs/sql/" target="_blank"> SQL <EuiIcon type="popout" size="s"/> </EuiLink>
+  )
+
+  const pplIcon = (
+    <EuiLink href="https://docs-beta.opensearch.org/docs/ppl/" target="_blank"> PPL <EuiIcon type="popout" size="s"/></EuiLink>
+  )
+
+  const paragraphLabel = (!para.isVizualisation) ?
+    <EuiText size="s">
+      Specify the input language on the first line using %[language type]. Supported languages include markdown, {sqlIcon} and {pplIcon}.
+    </EuiText> 
+    : null;
+
+  const queryErrorMessage = (queryParagraphErrorMessage.includes("SQL")) ? (
+    <EuiText size="s">
+      {queryParagraphErrorMessage}. Learn More <EuiLink href="https://docs-beta.opensearch.org/docs/sql/" target="_blank"><EuiIcon type="popout" size="s"/></EuiLink>
+    </EuiText>
+  ) : (
+    <EuiText size="s">
+    {queryParagraphErrorMessage}. <EuiLink href="https://docs-beta.opensearch.org/docs/ppl/" target="_blank">Learn More <EuiIcon type="popout" size="s"/></EuiLink>
+  </EuiText>
+  )
 
   return (
     <>
@@ -451,7 +472,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
                 fullWidth={true} 
                 helpText={paragraphLabel} 
                 isInvalid={showQueryParagraphError}
-                error={queryParagraphErrorMessage}
+                error={queryErrorMessage}
               >
                 <ParaInput
                   para={para}

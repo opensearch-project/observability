@@ -270,7 +270,7 @@ export function NoteTable(props: NoteTableProps) {
                 </EuiTitle>
                 <EuiSpacer size='s' />
                 <EuiText size="s" color="subdued">
-                  Use Notebooks to interactively and collaboratively develop rich reports backed by live data. A notebook is a document made up of paragraphs that can combine markdown and visualizations with support for multi-timelines so that users can easily tell a story. Notebooks can be developed, shared and refreshed directly from OpenSearch Dashboards to foster data driven exploration and collaboration among OpenSearch users and their stakeholders. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.{' '}
+                  Use Notebooks to interactively and collaboratively develop rich reports backed by live data. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.{' '}
                   <EuiLink external={true} href={DOCUMENTATION_URL} target="blank">Learn more</EuiLink>
                 </EuiText>
               </EuiPageContentHeaderSection>

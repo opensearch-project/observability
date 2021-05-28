@@ -57,7 +57,7 @@ export const ParaOutput = (props: {
     for (index = 0; index < jsonColumns.length; ++index) {
       const datagridColumnObject = {
         id: jsonColumns[index].name,
-        displayAsText: jsonColumns[index].name
+        displayAsText: jsonColumns[index].name,
       }
       datagridColumns.push(datagridColumnObject);
     }

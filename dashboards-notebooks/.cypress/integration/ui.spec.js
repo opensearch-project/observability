@@ -164,15 +164,14 @@ describe('Testing paragraphs', () => {
   it('Shows output message', () => {
     cy.get('button[aria-label="Toggle show input"]').click();
     cy.wait(delay);
-    cy.get('.euiTextColor').contains('Output reflects the latest input').should('exist');
+    cy.get('.euiTextColor').contains('Last successful run').should('exist');
 
     cy.get('pre.input').eq(0).click();
     cy.wait(delay);
     cy.get('.euiTextArea').type('Another text');
     cy.wait(delay);
 
-    cy.get('.euiTextColor').contains('Output below is stale').should('exist');
-    cy.get('div[style*="opacity: 0.5"]').should('exist');
+    cy.get('.euiTextColor').contains('Last successful run').should('exist');
   });
 
   it('Renders input only mode', () => {
@@ -263,7 +262,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Clears outputs', () => {
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Clear all outputs').click();
     cy.wait(delay);
@@ -274,7 +273,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Runs all paragraphs', () => {
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Run all paragraphs').click();
     cy.wait(delay);
@@ -283,13 +282,13 @@ describe('Testing paragraphs', () => {
   });
 
   it('Adds paragraph to top and bottom', () => {
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to top').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Markdown').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to bottom').click();
     cy.wait(delay);
@@ -336,7 +335,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Deletes paragraphs', () => {
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete all paragraphs').click();
     cy.wait(delay);

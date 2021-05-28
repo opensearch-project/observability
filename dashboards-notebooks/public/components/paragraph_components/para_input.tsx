@@ -81,7 +81,7 @@ export const ParaInput = (props: {
 }) => {
   const { para, index, runParaError, textValueEditor, handleKeyPress } = props;
 
-  const inputPlaceholderString = 'Type %md, %sql or %ppl on the first line to define the input type \nCode block starts here'
+  const inputPlaceholderString = 'Type %md, %sql or %ppl on the first line to define the input type. \nCode block starts here.'
 
   const renderParaInput = () => {
     return (
@@ -90,6 +90,7 @@ export const ParaInput = (props: {
         {para.isSelected ? (
           <EuiTextArea
             placeholder={inputPlaceholderString}
+            id="editorArea"
             className="editorArea"
             fullWidth
             isInvalid={runParaError}

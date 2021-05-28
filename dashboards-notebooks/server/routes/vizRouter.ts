@@ -37,7 +37,7 @@ export function vizRouter(router: IRouter) {
     },
     async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
       const params: RequestParams.Search = {
-        index: '.opensearch_dashboards',
+        index: '.kibana',
         size: FETCH_SIZE,
         q: 'type:visualization',
       };

@@ -865,7 +865,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
               iconSide='right'
               onClick={() => this.setState({ isReportingActionsPopoverOpen: true })}
             >
-              Reporting
+              Reporting actions
             </EuiButton>
           }
           isOpen={this.state.isReportingActionsPopoverOpen}
@@ -915,7 +915,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                           iconType='arrowDown'
                           iconSide='right'
                           onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
-                        >Actions</EuiButton>
+                        >Paragraph actions</EuiButton>
                       }
                       isOpen={this.state.isParaActionsPopoverOpen}
                       closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
@@ -1017,10 +1017,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                         <EuiCard
                           icon={<EuiIcon size="xxl" type="editorCodeBlock" />}
                           title="Code block"
-                          description="Write contents directly using markdown, SQL or PPL"
+                          description="Write contents directly using markdown, SQL or PPL."
                           footer={
                             <EuiButton onClick={() => this.addPara(0, '', 'CODE')} style={{ marginBottom: 17 }}>
-                              Add
+                              Add code block
                             </EuiButton>
                           }
                         />
@@ -1029,10 +1029,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                         <EuiCard
                           icon={<EuiIcon size="xxl" type="visArea" />}
                           title="OpenSearch Dashboards visualization"
-                          description="Import OpenSearch Dashboards visualizations to the notes"
+                          description="Import OpenSearch Dashboards visualizations to the notes."
                           footer={
                             <EuiButton onClick={() => this.addPara(0, '', 'VISUALIZATION')} style={{ marginBottom: 17 }}>
-                              Add visualization paragraph
+                              Add visualization
                             </EuiButton>
                           }
                         />

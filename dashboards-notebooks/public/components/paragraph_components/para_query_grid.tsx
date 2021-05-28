@@ -25,14 +25,23 @@
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { EuiDataGrid } from '@elastic/eui';
+import { 
+  EuiDataGrid,
+  EuiLoadingSpinner,
+  EuiSpacer
+} from '@elastic/eui';
 
 type QueryDataGridProps = {
   rowCount: number,
   queryColumns: Array<any>,
   visibleColumns: Array<any>,
-  setVisibleColumns: Function,
-  dataValues: Array<any>
+  setVisibleColumns: (visibleColumns: string[]) => void,
+  dataValues: Array<any>,
+}
+
+type RenderCellValueProps = {
+  rowIndex: number,
+  columnId: string
 }
 
 export function QueryDataGrid(props: QueryDataGridProps) {
@@ -41,12 +50,13 @@ export function QueryDataGrid(props: QueryDataGridProps) {
     queryColumns,
     visibleColumns,
     setVisibleColumns,
-    dataValues
+    dataValues,
   } = props;
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   // ** Sorting config
   const [sortingColumns, setSortingColumns] = useState([]);
-  
+  const [isVisible, setIsVisible] = useState(false);
+
   const onSort = useCallback(
     (sortingColumns) => {
       setSortingColumns(sortingColumns);
@@ -71,18 +81,44 @@ export function QueryDataGrid(props: QueryDataGridProps) {
   );
 
   const renderCellValue = useMemo(() => {
-    return ({ rowIndex, columnId }) => {
+    return ({ rowIndex, columnId }: RenderCellValueProps) => {
       return dataValues.hasOwnProperty(rowIndex)
         ? dataValues[rowIndex][columnId]
         : null;
     };
   }, []);
 
+  const getUpdatedVisibleColumns = (queryColumns: Array<Object>) => {
+    let updatedVisibleColumns = [];
+    for (let index = 0; index < queryColumns.length; ++index) {
+      updatedVisibleColumns.push(queryColumns[index].displayAsText);
+    }
+    return updatedVisibleColumns;
+  }
+
+  
   useEffect(() => {
-  }, [visibleColumns, sortingColumns]);
+    if ($('.euiDataGrid__overflow').is(':visible')) {
+      setIsVisible(true);
+    }
+    setTimeout(() => {
+      if ($('.euiDataGrid__overflow').is(':visible')) {
+        setIsVisible(true);
+      }
+    }, 1000);
+    setVisibleColumns(getUpdatedVisibleColumns(queryColumns));
+  }, []);
+
+  const displayLoadingSpinner = (!isVisible) ? (
+    <>
+      <EuiLoadingSpinner size="xl"/>
+      <EuiSpacer />
+    </>
+  ) : null;
 
   return (
-    <div>
+    <div id="queryDataGrid">
+      {displayLoadingSpinner}
       <EuiDataGrid
         aria-label='Query datagrid'
         columns={queryColumns}
