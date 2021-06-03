@@ -317,8 +317,6 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Duplicate').click();
     cy.wait(delay * 3);
 
-    cy.get('.euiToastHeader__title').contains('success').should('exist');
-
     cy.get('.euiButton__text').contains('Notebook actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Rename notebook').click();
