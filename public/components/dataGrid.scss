@@ -22,11 +22,11 @@
   }
 }
 
-.kbnDocTable__container.loading {
+.osdDocTable__container.loading {
   opacity: 0.5;
 }
 
-.kbnDocTable {
+.osdDocTable {
   font-size: $euiFontSizeXS;
 
   th {
@@ -39,8 +39,8 @@
   }
 }
 
-.kbn-table,
-.kbnDocTable {
+.osd-table,
+.osdDocTable {
   /**
   *  Style ES document _source in table view <dt>key:<dt><dd>value</dd>
   *  Use alpha so this will stand out against non-white backgrounds, e.g. the highlighted
@@ -68,39 +68,39 @@
   }
 }
 
-.kbnDocTable__row {
+.osdDocTable__row {
   td {
     position: relative;
 
     &:hover {
-      .kbnDocTableRowFilterButton {
+      .osdDocTableRowFilterButton {
         opacity: 1;
       }
     }
   }
 }
 
-.kbnDocTable__row--highlight {
+.osdDocTable__row--highlight {
   td,
-  .kbnDocTableRowFilterButton {
+  .osdDocTableRowFilterButton {
     background-color: tintOrShade($euiColorPrimary, 90%, 70%);
   }
 }
 
-.kbnDocTable__bar {
+.osdDocTable__bar {
   margin: $euiSizeXS $euiSizeXS 0;
 }
 
-.kbnDocTable__bar--footer {
+.osdDocTable__bar--footer {
   position: relative;
   margin: -($euiSize * 3) $euiSizeXS 0;
 }
 
-.kbnDocTable__padBottom {
+.osdDocTable__padBottom {
   padding-bottom: $euiSizeXL;
 }
 
-.kbnDocTable__error {
+.osdDocTable__error {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -119,7 +119,7 @@
   }
 }
 
-.kbn-table {
+.osd-table {
   // sub tables should not have a leading border
   .table .table {
     margin-bottom: 0;
@@ -157,15 +157,15 @@ table {
 }
 
 /* ------------- table cell ---------- */
-.kbnDocTableCell__dataField {
+.osdDocTableCell__dataField {
   white-space: pre-wrap;
 }
 
-.kbnDocTableCell__toggleDetails {
+.osdDocTableCell__toggleDetails {
   padding: 4px 0 0 0!important;
 }
 
-.kbnDocTableCell__filter {
+.osdDocTableCell__filter {
   position: absolute;
   white-space: nowrap;
   right: 0;
@@ -177,7 +177,7 @@ table {
  * 3. Show on focus to enable keyboard accessibility.
  */
 
-.kbnDocTableRowFilterButton {
+.osdDocTableRowFilterButton {
   appearance: none;
   background-color: $euiColorEmptyShade;
   border: none;
@@ -233,7 +233,7 @@ discover-app {
   padding-top: $euiSizeXS;
   background-color: $euiColorEmptyShade;
 
-  .kbn-table {
+  .osd-table {
     margin-bottom: 0;
   }
 }
@@ -278,7 +278,7 @@ discover-app {
   overflow: auto;
 
   // SASSTODO: add a monospace modifier to the doc-table component
-  .kbnDocTable__row {
+  .osdDocTable__row {
     font-family: $euiCodeFontFamily;
     font-size: $euiFontSizeXS;
   }
@@ -362,13 +362,13 @@ discover-app {
 /**
  * 1. Visually align the actions with the tabs. We can improve this by using flexbox instead, at a later point.
  */
- .kbnDocTableDetails__actions {
+ .osdDocTableDetails__actions {
   float: right;
   padding-top: $euiSizeS; /* 1 */
 }
 
 // Overwrite the border on the bootstrap table
-.kbnDocTableDetails__row {
+.osdDocTableDetails__row {
 
   > td {
     // Offsets negative margins from an inner flex group
@@ -385,7 +385,7 @@ discover-app {
 }
 
 /* ------------- open -------- */
-.kbnDocTableOpen__button {
+.osdDocTableOpen__button {
   appearance: none;
   background-color: transparent;
   padding: 0;
@@ -395,14 +395,14 @@ discover-app {
 }
 
 /* ------------- table header -------- */
-.kbnDocTableHeader {
+.osdDocTableHeader {
   white-space: nowrap;
 }
-.kbnDocTableHeader button {
+.osdDocTableHeader button {
   margin-left: $euiSizeXS;
 }
-.kbnDocTableHeader__move,
-.kbnDocTableHeader__sortChange {
+.osdDocTableHeader__move,
+.osdDocTableHeader__sortChange {
   opacity: 0;
   th:hover &,
   &:focus {
@@ -411,13 +411,13 @@ discover-app {
 }
 
 /* ------------- doc_viewer -------- */
-.kbnDocViewerTable {
+.osdDocViewerTable {
   margin-top: $euiSizeS;
 }
 
-.kbnDocViewer {
+.osdDocViewer {
   pre,
-  .kbnDocViewer__value {
+  .osdDocViewer__value {
     display: inline-block;
     word-break: break-all;
     word-wrap: break-word;
@@ -426,7 +426,7 @@ discover-app {
     vertical-align: top;
     padding-top: 2px;
   }
-  .kbnDocViewer__field {
+  .osdDocViewer__field {
     padding-top: 8px;
   }
 
@@ -444,33 +444,33 @@ discover-app {
   }
 
   tr:hover {
-    .kbnDocViewer__actionButton {
+    .osdDocViewer__actionButton {
       opacity: 1;
     }
   }
 }
 
-.kbnDocViewer__buttons,
-.kbnDocViewer__field {
+.osdDocViewer__buttons,
+.osdDocViewer__field {
   white-space: nowrap;
 }
-.kbnDocViewer__buttons {
+.osdDocViewer__buttons {
   width: 60px;
 
   // Show all icons if one is focused,
   // IE doesn't support, but the fallback is just the focused button becomes visible
   &:focus-within {
-    .kbnDocViewer__actionButton {
+    .osdDocViewer__actionButton {
       opacity: 1;
     }
   }
 }
 
-.kbnDocViewer__field {
+.osdDocViewer__field {
   width: 160px;
 }
 
-.kbnDocViewer__actionButton {
+.osdDocViewer__actionButton {
   opacity: 0;
 
   &:focus {
@@ -478,7 +478,7 @@ discover-app {
   }
 }
 
-.kbnDocViewer__warning {
+.osdDocViewer__warning {
   margin-right: $euiSizeS;
 }
 

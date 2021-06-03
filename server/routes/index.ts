@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-// import { schema } from '@kbn/config-schema';
+// import { schema } from '@osd/config-schema';
 // import { RequestParams } from '@elastic/elasticsearch';
 import { IRouter } from '../../../../src/core/server';
 import { registerPplRoute } from './api/ppl';

@@ -69,7 +69,7 @@ export function QueryDataGrid(props: any) {
     }
 
     return (
-      <tr className="kbnDocTableHeader">
+      <tr className="osdDocTableHeader">
         { tableHeadContent }
       </tr>
     );
@@ -82,7 +82,7 @@ export function QueryDataGrid(props: any) {
   return (
     <>
       <table 
-        className="kbn-table table"
+        className="osd-table table"
         data-test-subj="docTable">
         <thead>
           { headers }

@@ -20,7 +20,8 @@ import {
   IUiSettingsClient, 
   HttpSetup, 
   AppMountParameters, 
-  PluginInitializerContext
+  PluginInitializerContext,
+  DEFAULT_APP_CATEGORIES
 } from '../../../src/core/public';
 import {
   DiscoverSetup,
@@ -42,14 +43,10 @@ export class ObservabilityPlugin implements Plugin<DiscoverSetup, DiscoverStart,
     public setup(core: CoreSetup<DiscoverStartPlugins, DiscoverStart>, plugins: DiscoverSetupPlugins) {
       console.log('DiscoverSetupPlugins: ', plugins);
       core.application.register({
-        id: 'opensearch-explorer',
-        title: 'Explorer',
-        category: {
-          id: 'opensearchplugins',
-          label: 'OpenSearch Plugins',
-          order: 400,
-        },
-        order: 1000,
+        id: 'opensearchObservability',
+        title: 'Observability',
+        category: DEFAULT_APP_CATEGORIES.opensearchDashboards,
+        order: 500,
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
           const [coreStart, depsStart] = await core.getStartServices();

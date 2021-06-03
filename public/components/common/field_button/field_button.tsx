@@ -68,7 +68,7 @@ export interface FieldButtonProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const sizeToClassNameMap = {
-  s: 'kbnFieldButton--small',
+  s: 'osdFieldButton--small',
   m: null,
 } as const;
 
@@ -91,20 +91,20 @@ export function FieldButton({
   ...rest
 }: FieldButtonProps) {
   const classes = classNames(
-    'kbnFieldButton',
+    'osdFieldButton',
     size ? sizeToClassNameMap[size] : null,
-    { 'kbnFieldButton-isActive': isActive },
-    { 'kbnFieldButton--isDraggable': isDraggable },
+    { 'osdFieldButton-isActive': isActive },
+    { 'osdFieldButton--isDraggable': isDraggable },
     className
   );
 
-  const contentClasses = classNames('kbn-resetFocusState', 'kbnFieldButton__button');
+  const contentClasses = classNames('osd-resetFocusState', 'osdFieldButton__button');
 
   const innerContent = (
     <>
-      {fieldIcon && <span className="kbnFieldButton__fieldIcon">{fieldIcon}</span>}
-      {fieldName && <span className="kbnFieldButton__name">{fieldName}</span>}
-      {fieldInfoIcon && <div className="kbnFieldButton__infoIcon">{fieldInfoIcon}</div>}
+      {fieldIcon && <span className="osdFieldButton__fieldIcon">{fieldIcon}</span>}
+      {fieldName && <span className="osdFieldButton__name">{fieldName}</span>}
+      {fieldInfoIcon && <div className="osdFieldButton__infoIcon">{fieldInfoIcon}</div>}
     </>
   );
 
@@ -130,7 +130,7 @@ export function FieldButton({
         </div>
       )}
 
-      {fieldAction && <div className="kbnFieldButton__fieldAction">{fieldAction}</div>}
+      {fieldAction && <div className="osdFieldButton__fieldAction">{fieldAction}</div>}
     </div>
   );
 }

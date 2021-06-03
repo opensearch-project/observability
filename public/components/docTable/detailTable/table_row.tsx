@@ -75,14 +75,14 @@ export function DocViewTableRow({
 }: Props) {
   const valueClassName = classNames({
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    kbnDocViewer__value: true,
+    osdDocViewer__value: true,
     'truncate-by-height': isCollapsible && isCollapsed,
   });
 
   return (
     <tr key={field} data-test-subj={`tableDocViewRow-${field}`}>
       {typeof onFilter === 'function' && (
-        <td className="kbnDocViewer__buttons">
+        <td className="osdDocViewer__buttons">
           <DocViewTableRowBtnFilterAdd
             disabled={!fieldMapping || !fieldMapping.filterable}
             onClick={() => onFilter(fieldMapping, valueRaw, '+')}
@@ -101,7 +101,7 @@ export function DocViewTableRow({
           />
         </td>
       )}
-      <td className="kbnDocViewer__field">
+      <td className="osdDocViewer__field">
         <FieldName
           fieldName={field}
           fieldType={fieldType}

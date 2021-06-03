@@ -25,4 +25,6 @@ export { ObservabilityPlugin as Plugin };
 // export const plugin: PluginInitializer<CustomObservabilitySetup, CustomObservabilityStart> = (initializerContext: PluginInitializerContext) =>
 //   new ObservabilityPlugin(initializerContext);
 
+console.log('observability...');
+
 export const plugin = (initializerContext: PluginInitializerContext) => new ObservabilityPlugin(initializerContext);

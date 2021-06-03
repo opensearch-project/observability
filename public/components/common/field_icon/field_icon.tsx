@@ -73,7 +73,7 @@ export function FieldIcon({
   return (
     <EuiToken
       {...token}
-      className={classNames('kbnFieldIcon', className)}
+      className={classNames('osdFieldIcon', className)}
       aria-label={label || type}
       title={label || type}
       size={size as EuiTokenProps['size']}

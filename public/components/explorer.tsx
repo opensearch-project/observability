@@ -17,7 +17,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import _ from 'lodash';
 import { 
   FormattedMessage 
-} from '@kbn/i18n/react';
+} from '@osd/i18n/react';
 import {
   EuiText,
   EuiButtonIcon,

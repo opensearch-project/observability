@@ -56,7 +56,7 @@ export function DocViewer(props: any) {
   }
 
   return (
-    <div className="kbnDocViewer">
+    <div className="osdDocViewer">
       <EuiTabbedContent 
         tabs={tabs} 
         selectedTab={ curSelectedTab || tabs[0]}

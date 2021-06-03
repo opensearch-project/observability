@@ -1,4 +1,4 @@
-.kbnFieldButton {
+.osdFieldButton {
   @include euiFontSizeS;
   border-radius: $euiBorderRadius;
   margin-bottom: $euiSizeXS;
@@ -13,7 +13,7 @@
   }
 }
 
-.kbnFieldButton--isDraggable {
+.osdFieldButton--isDraggable {
   background: lightOrDarkTheme($euiColorEmptyShade, $euiColorLightestShade);
 
   &:hover,
@@ -24,7 +24,7 @@
     z-index: 2;
   }
 
-  .kbnFieldButton__button {
+  .osdFieldButton__button {
     &:hover,
     &:focus {
       cursor: grab;
@@ -32,7 +32,7 @@
   }
 }
 
-.kbnFieldButton__button {
+.osdFieldButton__button {
   flex-grow: 1;
   text-align: left;
   padding: $euiSizeS;
@@ -40,36 +40,36 @@
   align-items: flex-start;
 }
 
-.kbnFieldButton__fieldIcon {
+.osdFieldButton__fieldIcon {
   flex-shrink: 0;
   line-height: 0;
   margin-right: $euiSizeS;
 }
 
-.kbnFieldButton__name {
+.osdFieldButton__name {
   flex-grow: 1;
   word-break: break-word;
 }
 
-.kbnFieldButton__infoIcon {
+.osdFieldButton__infoIcon {
   flex-shrink: 0;
   margin-left: $euiSizeXS;
 }
 
-.kbnFieldButton__fieldAction {
+.osdFieldButton__fieldAction {
   margin-right: $euiSizeS;
 }
 
 // Reduce text size and spacing for the small size
-.kbnFieldButton--small {
+.osdFieldButton--small {
   font-size: $euiFontSizeXS;
 
-  .kbnFieldButton__button {
+  .osdFieldButton__button {
     padding: $euiSizeXS;
   }
 
-  .kbnFieldButton__fieldIcon,
-  .kbnFieldButton__fieldAction {
+  .osdFieldButton__fieldIcon,
+  .osdFieldButton__fieldAction {
     margin-right: $euiSizeXS;
   }
 }

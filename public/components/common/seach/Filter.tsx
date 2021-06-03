@@ -77,7 +77,7 @@ export function Filter(props: IFilterProps) {
           setEndTime(e.end);
         }}
         onRefresh={ handleRefresh }
-        className="kbnQueryBar__datePicker"
+        className="osdQueryBar__datePicker"
       />
     </EuiFlexItem>
   );

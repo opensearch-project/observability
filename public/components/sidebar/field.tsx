@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { i18n } from '@kbn/i18n';
+import { i18n } from '@osd/i18n';
 import { EuiPopover, EuiPopoverTitle, EuiButtonIcon, EuiToolTip } from '@elastic/eui';
 import { FieldButton } from '../common/field_button';
 import { FieldIcon } from '../common/field_icon';

@@ -5,8 +5,8 @@ import {
   EuiSpacer,
   EuiButtonIcon
 } from '@elastic/eui';
-import { i18n } from '@kbn/i18n';
-import { FormattedMessage, I18nProvider } from '@kbn/i18n/react';
+import { i18n } from '@osd/i18n';
+import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
 import { Field } from './field';
 
 export const Sidebar = (props: any) => {

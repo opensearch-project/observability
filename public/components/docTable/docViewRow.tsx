@@ -68,7 +68,7 @@ export const DocViewRow = (props: any) => {
   const getExpColapTd = () => {
     return (
       <td
-        className="kbnDocTableCell__toggleDetails"
+        className="osdDocTableCell__toggleDetails"
         key={_.uniqueId('grid-td-')}
       >
         <button
@@ -83,7 +83,7 @@ export const DocViewRow = (props: any) => {
   
   const getTds = (doc, selectedCols) => {
     const cols = [];
-    const fieldClsName = 'kbnDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
+    const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
     // No field is selected
     if (!selectedCols || selectedCols.length === 0) {
@@ -150,11 +150,11 @@ export const DocViewRow = (props: any) => {
   return (
     <>
       <tr
-        className="kbnDocTable__row"
+        className="osdDocTable__row"
       >
         { memorizedTds }
       </tr>
-      { detailsOpen ? <tr className="kbnDocTableDetails__row">
+      { detailsOpen ? <tr className="osdDocTableDetails__row">
         <td 
           key={_.uniqueId('grid-td-detail-')}
           colSpan={3}

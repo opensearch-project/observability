@@ -15,7 +15,7 @@
 
 import { IRouter } from '../../../../../src/core/server';
 import { Client } from '@elastic/elasticsearch';
-import { schema } from '@kbn/config-schema';
+import { schema } from '@osd/config-schema';
 import { PPLDataSource } from '../../datasources/index';
 
 export function registerPplRoute({
