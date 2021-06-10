@@ -28,6 +28,7 @@ import { Filter } from './Filter';
 import './search.scss';
 
 export interface IQueryBarProps {
+  query: any
   handleQueryChange: (query: string) => void
   handleQuerySearch: () => void
 }
@@ -44,6 +45,7 @@ export interface IFilterProps {
 function Search (props: any) {
 
   const {
+    query,
     handleQueryChange,
     handleQuerySearch,
     startTime,
@@ -53,9 +55,10 @@ function Search (props: any) {
     setIsOutputStale
   } = props;
 
-  function renderQueryBar ({ handleQueryChange, handleQuerySearch }: IQueryBarProps) {
+  function renderQueryBar ({ query, handleQueryChange, handleQuerySearch }: IQueryBarProps) {
     return (
-      <QueryBar 
+      <QueryBar
+        query={ query }
         handleQueryChange={ handleQueryChange }
         handleQuerySearch={ handleQuerySearch }
       />
@@ -68,7 +71,7 @@ function Search (props: any) {
           gutterSize="s"
           justifyContent="flexEnd"
         >
-          { renderQueryBar({ handleQueryChange, handleQuerySearch }) }
+          { renderQueryBar({ query, handleQueryChange, handleQuerySearch }) }
           <Filter
             startTime={ startTime }
             endTime={ endTime }

@@ -25,40 +25,31 @@ import {
   EuiTabbedContentTab
 } from '@elastic/eui';
 import classNames from 'classnames';
-import { CoreStart } from '../../../../src/core/public';
-import Search from './common/seach/search';
+import Search from '../common/seach/search';
 import { QueryDataGrid } from './dataGrid';
-import { Sidebar } from './sidebar/';
+import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
+import {
+  IField,
+  IExplorerProps,
+  IQueryTab
+} from '../../common/types/explorer';
+import {
+  TAB_CHART_TITLE,
+  TAB_EVENT_TITLE,
+  TAB_EVENT_ID_TXT_PFX,
+  TAB_CHART_ID_TXT_PFX
+} from '../../common/constants/explorer';
 
-interface IExplorerProps {
-  http: CoreStart['http'],
-  plugins: any
-}
-interface IPPLResult {}
-const TAB_CHART_TITLE = 'Charts';
-const TAB_EVENT_TITLE = 'Events';
-const TAB_EVENT_ID = _.uniqueId('main-content-events-');
-const TAB_CHART_ID = _.uniqueId('main-content-charts-');
+const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
+const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
 
-
-export const Explorer = (props) => {
-  const {
-    tabId,
-    explorerData,
-    explorerFields,
-    setSearchQuery,
-    querySearch,
-    addField,
-    removeField
-   } = props;
-
+export const Explorer = (props: IExplorerProps) => {
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
-
-  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
   const fixedScrollRef = useCallback(
     (node: HTMLElement) => {
@@ -76,17 +67,11 @@ export const Explorer = (props) => {
   //   return `search source=kibana_sample_data_flights | where timestamp > timestamp('${moment(dateMath.parse(startTime)).format('yyyy-MM-DD HH:mm:ss')}') and timestamp < timestamp('${moment(dateMath.parse(endTime)).format('yyyy-MM-DD HH:mm:ss')}')`;
   // };
 
-  const handleAddField = (field) => {
-    addField(field, tabId);
-  };
+  const handleAddField = (field: IField) => props.addField(field, props.tabId);
 
-  const handleRemoveField = (field) => {
-    removeField(field, tabId);
-  };
+  const handleRemoveField = (field: IField) => props.removeField(field, props.tabId);
 
-  const handleLiveStreamChecked = (e) => {
-    setLiveStreamChecked(!liveStreamChecked);
-  };
+  const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);
 
   const sidebarClassName = classNames({
     closed: isSidebarClosed,
@@ -109,10 +94,10 @@ export const Explorer = (props) => {
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
                   <Sidebar
-                    queryData={ explorerData?.jsonData }
-                    explorerFields={ explorerFields }
-                    handleAddField={ (field) => handleAddField(field) }
-                    handleRemoveField={ (field) => handleRemoveField(field) }
+                    queryData={ props.explorerData?.jsonData }
+                    explorerFields={ props.explorerFields }
+                    handleAddField={ (field: IField) => handleAddField(field) }
+                    handleRemoveField={ (field: IField) => handleRemoveField(field) }
                   />
                 </div>
               )}
@@ -133,7 +118,7 @@ export const Explorer = (props) => {
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (explorerData && !_.isEmpty(explorerData)) ? (
+          { (props.explorerData && !_.isEmpty(props.explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 <section
@@ -149,11 +134,11 @@ export const Explorer = (props) => {
                   </h2>
                   <div className="dscDiscover">
                     <QueryDataGrid 
-                      key={`datagrid-${tabId}`}
-                      tabId={ tabId }
-                      columns={ explorerData['schema'] }
-                      rows={ explorerData['jsonData'] }
-                      explorerFields={ explorerFields }
+                      key={`datagrid-${props.tabId}`}
+                      tabId={ props.tabId }
+                      columns={ props.explorerData['schema'] }
+                      rows={ props.explorerData['jsonData'] }
+                      explorerFields={ props.explorerFields }
                     />
                     <a tabIndex={0} id="discoverBottomMarker">
                       &#8203;
@@ -173,6 +158,10 @@ export const Explorer = (props) => {
     tabId,
     tabTitle,
     getContent
+  }: {
+    tabId: string,
+    tabTitle: string,
+    getContent: () => JSX.Element
   }) {
     return {
       id: tabId,
@@ -215,22 +204,21 @@ export const Explorer = (props) => {
     return getMainContentTabs();
   },
     [
-      explorerData,
-      explorerFields,
+      props.explorerData,
+      props.explorerFields,
       isSidebarClosed
     ]
   );
 
-  const handleContentTabClick = (selectedTab) => {
-    setSelectedContentTab(selectedTab.id);
-  };
-
+  const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
+  console.log('props.query: ', props.query);
   return (
     <div className="dscAppContainer">
       <h1 className="euiScreenReaderOnly">testing</h1>
-      <Search 
-        handleQueryChange={ (query: string) => { setSearchQuery(query, tabId) } }
-        handleQuerySearch={ () => { querySearch(tabId) } }
+      <Search
+        query={ props.query }
+        handleQueryChange={ (query: string) => { props.setSearchQuery(query, props.tabId) } }
+        handleQuerySearch={ () => { props.querySearch(props.tabId) } }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }
