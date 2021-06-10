@@ -37,7 +37,7 @@ export function registerPplRoute({
     try {
       const { body, statusCode, headers, warnings } = await client.pplSearch({
         body: reqBody,
-        index: '_opendistro',
+        index: '_plugins',
         plugin: '_ppl'
       }, {});
 
