@@ -21,8 +21,8 @@ import {
  } from '../constants/explorer';
 
 export interface IQueryTab {
-  id: string,
-  name: React.ReactNode | string,
+  id: string;
+  name: React.ReactNode | string;
   content: React.ReactNode
 }
 
@@ -31,7 +31,7 @@ export interface ILogExplorerProps {
 }
 
 export interface IField {
-  name: string, 
+  name: string;
   type: string
 }
 
@@ -52,17 +52,17 @@ export interface IExplorerTabFields {
 }
 
 export interface IExplorerFields {
-  [SELECTED_FIELDS]: Array<IField>,
+  [SELECTED_FIELDS]: Array<IField>;
   [UNSELECTED_FIELDS]: Array<IField>
 }
 
 export interface IExplorerProps {
-  tabId: string,
-  query: any,
-  explorerData: any,
-  explorerFields: any,
-  setSearchQuery: (query: string, tabId: string) => void,
-  querySearch: (tabId: string) => void,
-  addField: (field: IField, tabId: string) => void,
+  tabId: string;
+  query: any;
+  explorerData: any;
+  explorerFields: any;
+  setSearchQuery: (query: string, tabId: string) => void;
+  querySearch: (tabId: string) => void;
+  addField: (field: IField, tabId: string) => void;
   removeField: (field: IField, tabId: string) => void
 }

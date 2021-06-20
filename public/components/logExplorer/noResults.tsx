@@ -17,11 +17,8 @@ import React from 'react';
 import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
 import {
   EuiCallOut,
-  EuiCode,
-  EuiDescriptionList,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiLink,
   EuiSpacer,
   EuiText,
 } from '@elastic/eui';

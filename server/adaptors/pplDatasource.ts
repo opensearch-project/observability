@@ -17,20 +17,21 @@ import _ from 'lodash';
 
 export class PPLDataSource {
   
-  private pplResult : any = {};
+  private pplDataSource : any = {};
 
-  constructor(pplResult) {
-    this.pplResult = pplResult;
+  constructor(source: any) {
+    this.pplDataSource = source;
+    this.addSchemaRowMapping();
   }
 
-  public getJSON = () => {
-    const pplRes = this.pplResult;
-    const res = {
-      ...this.pplResult
-    }
-    const data = [];
+  /**
+   * Add 'schemaName: data' entries for UI rendering
+   */
+  private addSchemaRowMapping = () => {
+    const pplRes = this.pplDataSource;
+    const data: any[] = [];
     _.forEach(pplRes.datarows, (row) => {
-      const record = {};
+      const record: any = {};
       for (let i = 0; i < pplRes.schema.length; i++) { 
         if (typeof(row[i]) === 'object') {
           record[pplRes.schema[i].name] = JSON.stringify(row[i]);
@@ -42,8 +43,8 @@ export class PPLDataSource {
       }
       data.push(record);
     });
-    res['jsonData'] = data;
-    return res;
+    pplRes['jsonData'] = data;
   };
-  
+
+  public getDataSource = () => this.pplDataSource;
 }

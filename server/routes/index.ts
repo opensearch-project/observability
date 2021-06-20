@@ -15,16 +15,20 @@
 
 // import { schema } from '@osd/config-schema';
 // import { RequestParams } from '@elastic/elasticsearch';
-import { IRouter } from '../../../../src/core/server';
+import { 
+  IRouter,
+  ILegacyClusterClient
+ } from '../../../../src/core/server';
 import { registerPplRoute } from './api/ppl';
-import { Client } from '@elastic/elasticsearch';
+import PPLFacet from '../services/facets/pplFacet';
 
 export function setupRoutes({
   router,
   client,
 }: {
   router: IRouter
-  client: Client
+  client: ILegacyClusterClient
 }) {
-  registerPplRoute({ router, client });
+  const pplFacet = new PPLFacet(client);
+  registerPplRoute({ router, facet: pplFacet });
 };

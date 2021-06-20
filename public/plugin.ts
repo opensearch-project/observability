@@ -17,47 +17,43 @@ import {
   Plugin,
   CoreSetup,
   CoreStart,
-  IUiSettingsClient, 
-  HttpSetup, 
   AppMountParameters, 
   PluginInitializerContext,
   DEFAULT_APP_CATEGORIES
 } from '../../../src/core/public';
 import {
-  DiscoverSetup,
-  DiscoverStart,
-  DiscoverSetupPlugins,
-  DiscoverStartPlugins
-} from '../../../src/plugins/discover/public/plugin';
-import { AppPluginStartDependencies } from './types';
+  ObservabilitySetup,
+  ObservabilityStart,
+  AppPluginStartDependencies
+} from './types';
+import {
+  observabilityID,
+  observabilityTitle,
+  observabilityPluginOrder
+} from '../common/index';
 
-export interface ObservabilityDependencies extends Partial<CoreStart> {
-    uiSettings: IUiSettingsClient;
-    http: HttpSetup;
-}
-
-export class ObservabilityPlugin implements Plugin<DiscoverSetup, DiscoverStart, DiscoverSetupPlugins, DiscoverStartPlugins> {
+export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
     
     constructor(initializerContext: PluginInitializerContext) {}
 
-    public setup(core: CoreSetup<DiscoverStartPlugins, DiscoverStart>, plugins: DiscoverSetupPlugins) {
-      console.log('DiscoverSetupPlugins: ', plugins);
+    public setup(core: CoreSetup): ObservabilitySetup {
       core.application.register({
-        id: 'opensearchObservability',
-        title: 'Observability',
+        id: observabilityID,
+        title: observabilityTitle,
         category: DEFAULT_APP_CATEGORIES.opensearchDashboards,
-        order: 500,
+        order: observabilityPluginOrder,
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
           const [coreStart, depsStart] = await core.getStartServices();
-          // const plugins = await this.getPlugin();
-          return Observability(coreStart, params);
+          return Observability(coreStart, depsStart as AppPluginStartDependencies, params);
         },
       });
+
+      // Return methods that should be available to other plugins
+      return {};
     }
-    public start(core: CoreStart, plugins: DiscoverStartPlugins) {}
+    public start(core: CoreStart): ObservabilityStart {
+      return {};
+    }
     public stop() {}
 }
-
-// export type CustomObservabilitySetup = ReturnType<ObservabilityPlugin['setup']>;
-// export type CustomObservabilityStart = ReturnType<ObservabilityPlugin['start']>;

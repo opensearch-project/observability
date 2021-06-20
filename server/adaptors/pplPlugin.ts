@@ -13,7 +13,20 @@
  *   permissions and limitations under the License.
  */
 
-export interface IField {
-  name: string,
-  type: string
+import {
+  PPL_ENDPOINT
+} from '../../common/index';
+
+export const PPLPlugin = function(Client, config, components) {
+  const ca = components.clientAction.factory;
+  Client.prototype.ppl = components.clientAction.namespaceFactory();
+  const ppl = Client.prototype.ppl.prototype;
+
+  ppl.pplQuery = ca({
+    url: {
+      fmt: `${PPL_ENDPOINT}`,
+    },
+    needBody: true,
+    method: 'POST',
+  });
 }

@@ -19,11 +19,12 @@ import {
   CoreStart,
   Plugin,
   Logger,
+  ILegacyClusterClient
 } from '../../../src/core/server';
 
 import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 import { setupRoutes } from './routes/index';
-import { Client } from '@elastic/elasticsearch';
+import { PPLPlugin } from './adaptors/pplPlugin';
 
 export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
   private readonly logger: Logger;
@@ -36,34 +37,21 @@ export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, Obs
     this.logger.debug('Observability: Setup');
     const router = core.http.createRouter();
 
-    const client = new Client({ 
-      node: 'http://localhost:9200'
-    });
-    client.extend('pplSearch', ({ makeRequest, ConfigurationError }) => {
-      return function pplSearch (params: any, options: any) {
-        const { 
-          body, 
-          index,
-          plugin,
-          ...querystring
-        } = params;
-
-        if (body == null) throw new ConfigurationError('Missing body');
-        if (index == null) throw new ConfigurationError('Missing index');
-        
-        const requestParams = {
-          method: 'POST',
-          path: `/${index}/${plugin}`,
-          body: body,
-          ...querystring
-        };
-
-        return makeRequest(requestParams, options);
+    const observabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
+      'opensearch_observability', 
+      {
+        'plugins': [PPLPlugin]
       }
+    );
+    core.http.registerRouteHandlerContext('observability_plugin', (context, request) => {
+      return {
+        logger: this.logger,
+        observabilityClient,
+      };
     });
 
     // Register server side APIs
-    setupRoutes({ router, client });
+    setupRoutes({ router, client: observabilityClient });
 
     return {};
   }

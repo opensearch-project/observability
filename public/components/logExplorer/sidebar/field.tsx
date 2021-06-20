@@ -13,13 +13,24 @@
  *   permissions and limitations under the License.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { i18n } from '@osd/i18n';
-import { EuiPopover, EuiPopoverTitle, EuiButtonIcon, EuiToolTip } from '@elastic/eui';
+import { 
+  EuiPopover,
+  EuiButtonIcon,
+  EuiToolTip
+} from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
 
-export const Field = (props) => {
+interface FieldProps {
+  field: string;
+  selected: boolean;
+  onRemoveField?: () => void;
+  onAddField?: () => void;
+}
+
+export const Field = (props: FieldProps) => {
 
   const [isFieldDetailsOpen, setIsFieldDetailsOpen] = useState(false);
 
@@ -39,7 +50,7 @@ export const Field = (props) => {
     setIsFieldDetailsOpen(!isFieldDetailsOpen);
   }
 
-  const toggleField = (field) => {
+  const toggleField = (field: string) => {
     if (props.selected) {
       props.onRemoveField(field);
     } else {

@@ -13,4 +13,13 @@
  *   permissions and limitations under the License.
  */
 
-export * from './ppl/pplDatasource';
+// Client route
+export const PPL_BASE = '/api/ppl';
+export const PPL_SEARCH = '/search';
+
+// Server route
+export const PPL_ENDPOINT = '/_plugins/_ppl';
+
+export const observabilityID = 'opensearchObservability';
+export const observabilityTitle = 'Observability';
+export const observabilityPluginOrder = 500;

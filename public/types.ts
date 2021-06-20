@@ -20,3 +20,7 @@ export interface AppPluginStartDependencies {
   navigation: NavigationPublicPluginStart;
   dashboard: DashboardStart;
 }
+
+export interface ObservabilitySetup {}
+
+export interface ObservabilityStart {}

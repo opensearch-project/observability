@@ -26,7 +26,7 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import Search from '../common/seach/search';
-import { QueryDataGrid } from './dataGrid';
+import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
 import {
@@ -59,13 +59,6 @@ export const Explorer = (props: IExplorerProps) => {
     },
     [setFixedScrollEl]
   );
-
-  // const getDefaultQuery = (startTime: string, endTime: string) => {
-  //   if (startTime && endTime && startTime === endTime) {
-  //     endTime = 'now';
-  //   }
-  //   return `search source=kibana_sample_data_flights | where timestamp > timestamp('${moment(dateMath.parse(startTime)).format('yyyy-MM-DD HH:mm:ss')}') and timestamp < timestamp('${moment(dateMath.parse(endTime)).format('yyyy-MM-DD HH:mm:ss')}')`;
-  // };
 
   const handleAddField = (field: IField) => props.addField(field, props.tabId);
 
@@ -133,7 +126,7 @@ export const Explorer = (props: IExplorerProps) => {
                     />
                   </h2>
                   <div className="dscDiscover">
-                    <QueryDataGrid 
+                    <DataGrid 
                       key={`datagrid-${props.tabId}`}
                       tabId={ props.tabId }
                       columns={ props.explorerData['schema'] }
@@ -211,7 +204,6 @@ export const Explorer = (props: IExplorerProps) => {
   );
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
-  console.log('props.query: ', props.query);
   return (
     <div className="dscAppContainer">
       <h1 className="euiScreenReaderOnly">testing</h1>

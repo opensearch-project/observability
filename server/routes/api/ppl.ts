@@ -13,53 +13,43 @@
  * permissions and limitations under the License.
  */
 
-import { IRouter } from '../../../../../src/core/server';
-import { Client } from '@elastic/elasticsearch';
+import { 
+  IRouter,
+ } from '../../../../../src/core/server';
 import { schema } from '@osd/config-schema';
-import { PPLDataSource } from '../../datasources/index';
+import PPLFacet from '../../services/facets/pplFacet';
+import {
+  PPL_BASE,
+  PPL_SEARCH
+} from '../../../common/index';
 
 export function registerPplRoute({
   router,
-  client,
+  facet,
 }: {
   router: IRouter
-  client: Client
+  facet: PPLFacet
 }) {
   router.post({
-    path: '/api/ppl/search',
+    path: `${PPL_BASE}${PPL_SEARCH}`,
     validate: { 
       body: schema.object({
         query: schema.string()
     })}
   }, 
-  async (context, req, res) => {
-    const reqBody = req.body;
-    try {
-      const { body, statusCode, headers, warnings } = await client.pplSearch({
-        body: reqBody,
-        index: '_plugins',
-        plugin: '_ppl'
-      }, {});
-
-      if (statusCode === 200) {
-        const pplresult = new PPLDataSource(body);
-        pplresult.getJSON();
-        return res.ok({
-          body: pplresult.getJSON(),
-        });
-      }
-
-      return res.custom({
-        statusCode: statusCode,
-        body: body,
-        headers
-      });
-      
-    } catch (error) {
-      return res.custom({
-        statusCode: error.statusCode || 500,
-        body: error.message,
-      });
+  async (
+    context,
+    req,
+    res
+  ) => {
+    const queryRes = await facet.describeQuery(req);
+    const result: any = {
+      body: queryRes['data']
+    };
+    if (queryRes['success']) {
+      return res.ok(result);
     }
+    result['statusCode'] = 500;
+    return res.custom(result);
   });
 }

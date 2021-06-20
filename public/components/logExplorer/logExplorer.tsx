@@ -82,7 +82,7 @@ export const LogExplorer = (props: ILogExplorerProps) => {
     }
 
     // Always find the first tab on the left side of the current removing one to be the new focused tab, 
-    // if the leftmost (first) tab is the one being removed, then finds the next tab to be the new focus
+    // if the leftmost (first) tab is the one being removed, then it finds the next tab to be the new focus
     const index: number = tabIds.indexOf(TabIdToBeClosed);
     let newIdToFocus = '';
     if (index === 0) {
@@ -92,6 +92,7 @@ export const LogExplorer = (props: ILogExplorerProps) => {
     }
     setCurSelectedTab(newIdToFocus);
 
+    // Clean up state data for this tab
     setTabIds(staleTabIds => {
       return staleTabIds.filter((id) => {
         if (id === TabIdToBeClosed) {

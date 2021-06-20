@@ -19,23 +19,21 @@ import React, { useMemo } from 'react';
 import _ from 'lodash';
 import { DocViewRow } from './docTable/index';
 
-type QueryDataGridProps = {
-  rowCount: number,
-  queryColumns: Array<any>,
-  visibleColumns: Array<any>,
-  setVisibleColumns: Function,
-  dataValues: Array<any>
+interface DataGridProps {
+  rows: Array<any>,
+  explorerFields: Array<any>
 }
 
-export function QueryDataGrid(props: any) {
+export function DataGrid(props: DataGridProps) {
   const {
-    rowCount,
     rows,
-    columns,
     explorerFields
   } = props;
 
-  const getTrs = (docs, explorerFields) => {
+  const getTrs = (
+    docs: Array<any>,
+    explorerFields: Array<any>
+  ) => {
     return docs.map((doc) => {
       return (
         <DocViewRow
@@ -47,8 +45,7 @@ export function QueryDataGrid(props: any) {
     });
   };
 
-  const getHeaders = (fields) => {
-
+  const getHeaders = (fields: Array<any>) => {
     let tableHeadContent = null;
     if (!fields.selectedFields || fields.selectedFields.length === 0) {
       tableHeadContent = (

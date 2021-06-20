@@ -17,7 +17,7 @@ import { CoreStart } from '../../../../src/core/public';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../common/paths';
+} from '../../common/index';
 
 export const handlePplRequest = async (
     http: CoreStart['http'],
