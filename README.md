@@ -50,6 +50,10 @@ Example output: `./build/traceanalyticsDashboards*.zip`
 
 We welcome you to get involved in development, documentation, testing the OpenSearch Dashboards Trace Analytics plugin. See our [CONTRIBUTING.md](./CONTRIBUTING.md) and join in.
 
+## Code of Conduct
+
+This project has adopted the [Amazon Open Source Code of Conduct](CODE_OF_CONDUCT.md). For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq), or contact [opensource-codeofconduct@amazon.com](mailto:opensource-codeofconduct@amazon.com) with any additional questions or comments.
+
 ## Bugs, Enhancements or Questions
 
 Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opensearch-project/trace-analytics/issues).
