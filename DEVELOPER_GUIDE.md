@@ -2,7 +2,7 @@
 
 So you want to contribute code to this project? Excellent! We're glad you're here. Here's what you need to do.
 
-## Setup
+### Setup
 
 1. Download OpenSearch for the version that matches the [OpenSearch Dashboards version specified in package.json](./package.json#L5).
 1. Download the OpenSearch Dashboards source code for the [version specified in package.json](./package.json#L5) you want to set up.
@@ -21,13 +21,13 @@ Ultimately, your directory structure should look like this:
 │       └── trace-analytics
 ```
 
-## Build
+### Build
 
 To build the plugin's distributable zip simply run `yarn build`.
 
-Example output: `./build/traceanalyticsDashboards*.zip`
+Example output: `./build/trace-analytics-dashboards*.zip`
 
-## Run
+### Run
 
 - `yarn start`
 
