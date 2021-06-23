@@ -17,6 +17,8 @@ jobs:
         uses: lycheeverse/lychee-action@master
         with:
           args: --accept=200,403,429  "**/*.html" "**/*.md" "**/*.txt"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Fail if there were link errors
         run: exit ${{ steps.lychee.outputs.exit_code }}
 
