@@ -4,7 +4,7 @@ name: Test and Build Dashboards Notebooks
 on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: notebooksDashboards
+  PLUGIN_NAME: notebooks-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: '1.0'
   OPENSEARCH_PLUGIN_VERSION: 1.0.0.0-rc1
 
