@@ -483,7 +483,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.setState({ paragraphs, parsedPara });
       })
       .catch((err) => {
-        this.props.setToast('Error running paragraph, please make sure you have the correct permission.', 'danger');
+        if (err.body.statusCode === 413)
+          this.props.setToast(`Error running paragraph: ${err.body.message}`, 'danger');
+        else
+          this.props.setToast('Error running paragraph, please make sure you have the correct permission.', 'danger');
         console.error(err.body.message);
       });
   };
