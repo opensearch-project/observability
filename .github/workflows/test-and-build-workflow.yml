@@ -34,7 +34,13 @@ jobs:
           yarn osd bootstrap
       - name: Test
         run: |
-          yarn test
+          yarn test --coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          flags: dashboards-notebooks
+          directory: OpenSearch-Dashboards/plugins/
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Build Artifact
         run: |
           yarn build
