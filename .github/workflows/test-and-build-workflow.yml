@@ -34,7 +34,11 @@ jobs:
           yarn osd bootstrap
       - name: Test
         run: |
-          yarn test
+          yarn test --coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Build Artifact
         run: |
           yarn build
