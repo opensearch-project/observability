@@ -33,7 +33,7 @@ export const SELECTED_BACKEND = 'DEFAULT'; // ZEPPELIN || DEFAULT
 export const DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
 export const FETCH_SIZE = 1000;
 export const CREATE_NOTE_MESSAGE = 'Enter a name to describe the purpose of this notebook.';
-export const DOCUMENTATION_URL = 'https://docs-beta.opensearch.org/docs/opensearch-dashboards/notebooks/';
+export const DOCUMENTATION_URL = 'https://docs-beta.opensearch.org/dashboards/notebooks/';
 
 export const zeppelinURL = 'http://localhost:8080';
 

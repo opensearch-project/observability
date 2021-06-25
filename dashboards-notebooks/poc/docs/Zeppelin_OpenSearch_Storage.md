@@ -39,7 +39,7 @@ git checkout v0.9.0-preview2
 3. Apply patch from dashboards-notebooks
 
 ```
-git apply /path/to/dashboards-notebooks/poc/zeppelin-patch.txt
+git apply /path/to/dashboards-notebooks/poc/zeppelin-patch
 ```
 
 4. Once, in this branch copy "opensearch" storage adaptor to your zeppelin files

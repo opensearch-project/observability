@@ -4,63 +4,30 @@ Dashboards offer a solution for a few selected use cases, and are great tools if
 
 ## Documentation
 
-Please see our technical [documentation](https://docs-beta.opensearch.org/docs/opensearch-dashboards/notebooks/) to learn more about its features.
+Please see our technical [documentation](https://docs-beta.opensearch.org/dashboards/notebooks/) to learn more about its features.
 
-## Setup
+## Contributing
 
-1. Download OpenSearch for the version that matches the [OpenSearch Dashboards version specified in package.json](./package.json#L7).
-1. Download the OpenSearch Dashboards source code for the [version specified in package.json](./package.json#L7) you want to set up.
+See [developer guide](DEVELOPER_GUIDE.md) and [how to contribute to this project](../CONTRIBUTING.md). 
 
-1. Change your node version to the version specified in `.node-version` inside the OpenSearch Dashboards root directory.
-1. Create a `plugins` directory inside the OpenSearch Dashboards source code directory, if `plugins` directory doesn't exist.
-1. Check out this package from version control into the `plugins` directory.
-   ```
-   git clone git@github.com:opensearch-project/dashboards-notebooks.git plugins --no-checkout
-   cd plugins
-   echo 'dashboards-notebooks/*' >> .git/info/sparse-checkout
-   git config core.sparseCheckout true
-   git checkout dev
-   ```
-1. Run `yarn osd bootstrap` inside `OpenSearch-Dashboards/plugins/dashboards-notebooks`.
+## Getting Help
 
-Ultimately, your directory structure should look like this:
+If you find a bug, or have a feature request, please don't hesitate to open an issue in this repository.
 
-```md
-.
-├── OpenSearch Dashboards
-│   └── plugins
-│       └── dashboards-notebooks
-```
+For more information, see [project website](https://opensearch.org/) and [documentation](https://docs-beta.opensearch.org/). If you need help and are unsure where to open an issue, try [forums](https://discuss.opendistrocommunity.dev/).
 
-## Build
+## Code of Conduct
 
-To build the plugin's distributable zip simply run `yarn build`.
+This project has adopted the [Amazon Open Source Code of Conduct](../CODE_OF_CONDUCT.md). For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq), or contact [opensource-codeofconduct@amazon.com](mailto:opensource-codeofconduct@amazon.com) with any additional questions or comments.
 
-Example output: `./build/dashboardsNotebooks*.zip`
+## Security
 
-
-## Run
-
-- `yarn start`
-
-  Starts OpenSearch Dashboards and includes this plugin. OpenSearch Dashboards will be available on `localhost:5601`.
-
-- `yarn test:cypress`
-
-  Runs the plugin cypress tests.
-
-## Contributing to OpenSearch Dashboards Notebooks
-
-We welcome you to get involved in development, documentation, testing the notebooks plugin. See our [CONTRIBUTING.md](./../CONTRIBUTING.md) and join in.
-
-## Bugs, Enhancements or Questions
-
-Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opensearch-project/dashboards-notebooks/issues).
+If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.
 
 ## License
 
-This code is licensed under the Apache 2.0 License.
+This project is licensed under the [Apache v2.0 License](../LICENSE.txt).
 
 ## Copyright
 
-Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
