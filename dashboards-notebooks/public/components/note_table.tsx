@@ -294,7 +294,7 @@ export function NoteTable(props: NoteTableProps) {
             <EuiHorizontalRule margin='m' />
             <EuiFieldSearch
               fullWidth
-              placeholder="Search notebooks"
+              placeholder="Search notebook name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
