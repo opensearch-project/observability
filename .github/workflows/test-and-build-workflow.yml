@@ -4,7 +4,7 @@ name: Test and Build Trace Analytics
 on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: traceAnalyticsDashboards
+  PLUGIN_NAME: trace-analytics-dashboards
   OPENSEARCH_VERSION: '1.0'
   OPENSEARCH_PLUGIN_VERSION: 1.0.0.0-rc1
 
