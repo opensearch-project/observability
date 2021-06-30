@@ -1,5 +1,5 @@
 [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)
-[![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://github.com/opensearch-project/trace-analytics)
+[![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)
 
 # OpenSearch Dashboards Trace Analytics
 
