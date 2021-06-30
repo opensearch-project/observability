@@ -3,9 +3,8 @@ name: Test and Build OpenSearch Notebooks Backend Plugin
 on: [push, pull_request]
 
 env:
-  PLUGIN_NAME: notebooksDashboards
   OPENSEARCH_VERSION: '1.0'
-  COMMON_UTILS_VERSION: main
+  COMMON_UTILS_VERSION: '1.0'
   OPENSEARCH_PLUGIN_VERSION: 1.0.0.0
 
 jobs:

@@ -18,8 +18,7 @@
     "test:jest": "../../node_modules/.bin/jest --config ./test/jest.config.js",
     "test:server": "yarn plugin-helpers test:server",
     "test:browser": "yarn plugin-helpers test:browser",
-    "test:cypress": "cypress run",
-    "postinstall": "yarn run babel node_modules/@nteract/markdown/lib -d node_modules/@nteract/markdown/lib && yarn run babel node_modules/@nteract/mathjax/lib -d node_modules/@nteract/mathjax/lib && yarn run babel node_modules/@nteract/outputs/lib -d node_modules/@nteract/outputs/lib && yarn run babel node_modules/@nteract/presentational-components/lib -d node_modules/@nteract/presentational-components/lib && yarn run babel node_modules/ansi-to-react/lib -d node_modules/ansi-to-react/lib"
+    "test:cypress": "cypress run"
   },
   "devDependencies": {
     "cypress": "^5.0.0",
@@ -27,7 +26,6 @@
     "performance-now": "^2.1.0"
   },
   "dependencies": {
-    "@babel/cli": "^7.10.5",
     "@nteract/outputs": "^3.0.11",
     "@nteract/presentational-components": "^3.4.3"
   },
@@ -37,22 +35,5 @@
     "trim": "^1.0.0",
     "lodash": "^4.17.21",
     "glob-parent": "^5.1.2"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "chrome": "58",
-            "ie": "11"
-          }
-        }
-      ]
-    ]
-  },
-  "engines": {
-    "node": "10.23.1",
-    "yarn": "^1.21.1"
   }
 }
