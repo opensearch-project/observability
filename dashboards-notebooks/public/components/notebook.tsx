@@ -610,7 +610,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     {
       headers: {
         'Content-Type': 'application/json',
-        'osd-version': '1.0.0',
+        'osd-xsrf': 'true',
         'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
         pragma: 'no-cache',
         'sec-fetch-dest': 'empty',

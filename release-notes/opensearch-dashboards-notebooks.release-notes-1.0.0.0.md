@@ -8,6 +8,7 @@ Compatible with OpenSearch 1.0.0
 * Add Query Parameter for Selected View ([#17](https://github.com/opensearch-project/dashboards-notebooks/pull/17))
 
 ### Bug Fixes
+* Remove dependency on dashboards version for requests ([#48](https://github.com/opensearch-project/dashboards-notebooks/pull/48))
 * Bump prismjs from 1.23.0 to 1.24.0 in /dashboards-notebooks ([#44](https://github.com/opensearch-project/dashboards-notebooks/pull/44))
 * Fix error message when paragraph exceeds max_payload ([#40](https://github.com/opensearch-project/dashboards-notebooks/pull/40))
 * Update glob-parent dependency ([#35](https://github.com/opensearch-project/dashboards-notebooks/pull/35))

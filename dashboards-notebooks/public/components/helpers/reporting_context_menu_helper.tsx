@@ -97,10 +97,10 @@ export const generateInContextReport = (
         },
       },
       delivery: {
-        delivery_type: 'OpenSearch Dashboards user',
-        delivery_params: {
-          opensearch_dashboards_recipients: [],
-        },
+        configIds: [],
+        title: '',
+        textDescription: '',
+        htmlDescription: '',
       },
       trigger: {
         trigger_type: 'On demand',
@@ -113,7 +113,7 @@ export const generateInContextReport = (
     {
       headers: {
         'Content-Type': 'application/json',
-        'osd-version': '1.0.0',
+        'osd-xsrf': 'true',
         accept: '*/*',
         'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
         pragma: 'no-cache',
