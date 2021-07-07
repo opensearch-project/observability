@@ -750,14 +750,14 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         title: 'Add to top',
         items: [
           {
-            name: 'Markdown',
+            name: 'Code block',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(0, '', 'CODE');
             },
           },
           {
-            name: 'OpenSearch Dashboards visualization',
+            name: 'Visualization',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(0, '', 'VISUALIZATION');
@@ -770,14 +770,14 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         title: 'Add to bottom',
         items: [
           {
-            name: 'Markdown',
+            name: 'Code block',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'CODE');
             },
           },
           {
-            name: 'OpenSearch Dashboards visualization',
+            name: 'Visualization',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'VISUALIZATION');

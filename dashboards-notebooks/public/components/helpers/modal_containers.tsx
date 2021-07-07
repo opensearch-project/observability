@@ -97,6 +97,28 @@ export const getCloneModal = (
   );
 };
 
+export const getSampleNotebooksModal = (
+  onCancel: (
+    event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void,
+  onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+) => {
+  return (
+    <EuiOverlayMask>
+      <EuiConfirmModal
+        title="Add sample notebooks"
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        cancelButtonText="Cancel"
+        confirmButtonText="Yes"
+        defaultFocusedButton="confirm"
+      >
+        <p>Do you want to add sample notebooks? This will also add Dashboards sample flights and logs data if they have not been added.</p>
+      </EuiConfirmModal>
+    </EuiOverlayMask>
+  );
+};
+
 export const getDeleteModal = (
   onCancel: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>

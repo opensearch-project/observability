@@ -24,19 +24,18 @@
  * permissions and limitations under the License.
  */
 
-import React, { ReactChild } from 'react';
-
-import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
-import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-
-import { Notebook } from './notebook';
-import { API_PREFIX, DOCUMENTATION_URL } from '../../common';
-import { NoteTable } from './note_table';
-import { HashRouter } from 'react-router-dom';
-import { Switch, Route } from 'react-router';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { useHistory } from "react-router-dom";
+import React, { ReactChild } from 'react';
+import { Route, Switch } from 'react-router';
+import { HashRouter } from 'react-router-dom';
+import { ChromeBreadcrumb, CoreStart } from '../../../../src/core/public';
+import { DashboardStart } from '../../../../src/plugins/dashboard/public';
+import { API_PREFIX, DOCUMENTATION_URL } from '../../common';
+import { Notebook } from './notebook';
+import { NoteTable } from './note_table';
+
+
 
 /*
  * "Main" component renders the whole Notebooks as a single page application
@@ -60,6 +59,7 @@ type MainState = {
   data: Array<NotebookType>;
   openedNotebook: NotebookType | undefined;
   toasts: Toast[];
+  loading: boolean;
 };
 
 export type NotebookType = {
@@ -76,6 +76,7 @@ export class Main extends React.Component<MainProps, MainState> {
       data: [],
       openedNotebook: undefined,
       toasts: [],
+      loading: false,
     };
   }
 
@@ -207,6 +208,76 @@ export class Main extends React.Component<MainProps, MainState> {
         console.error(err.body.message);
       });
   };
+  
+  addSampleNotebooks = async () => {
+    try {
+      this.setState({ loading: true });
+      const flights = await this.props.http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_flights',
+          }
+        })
+        .then((resp) => resp.total === 0);
+      const logs = await this.props.http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_logs',
+          }
+        })
+        .then((resp) => resp.total === 0);
+      if (flights || logs)
+        this.setToast('Adding sample data. This can take some time.');
+      await Promise.all([
+        flights ? this.props.http.post('../api/sample_data/flights') : Promise.resolve(),
+        logs ? this.props.http.post('../api/sample_data/logs') : Promise.resolve()
+      ]);
+      const visIds: string[] = [];
+      await this.props.http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'visualization',
+            search_fields: 'title',
+            search: '[Logs] Response Codes Over Time + Annotations',
+          }
+        })
+        .then((resp) => visIds.push(resp.saved_objects[0].id));
+      await this.props.http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'visualization',
+            search_fields: 'title',
+            search: '[Logs] Unique Visitors vs. Average Bytes',
+          }
+        })
+        .then((resp) => visIds.push(resp.saved_objects[0].id));
+      await this.props.http
+        .post(`${API_PREFIX}/note/addSampleNotebooks`, {
+          body: JSON.stringify({ visIds }),
+        })
+        .then((res) => {
+          const newData = res.body.map((notebook) => ({
+              path: notebook.name,
+              id: notebook.id,
+              dateCreated: notebook.dateCreated,
+              dateModified: notebook.dateModified,
+          }))
+          this.setState((prevState) => ({
+            data: [...prevState.data, ...newData],
+          }));
+        });
+        this.setToast(`Sample notebooks successfully added.`);
+    } catch (err) {
+      this.setToast('Error adding sample notebooks.', 'danger');
+      console.error(err.body.message);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
 
   render() {
     return (
@@ -242,7 +313,9 @@ export class Main extends React.Component<MainProps, MainState> {
               path='/'
               render={(props) =>
                 <NoteTable
+                  loading={this.state.loading}
                   fetchNotebooks={this.fetchNotebooks}
+                  addSampleNotebooks={this.addSampleNotebooks}
                   notebooks={this.state.data}
                   createNotebook={this.createNotebook}
                   renameNotebook={this.renameNotebook}

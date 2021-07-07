@@ -286,13 +286,13 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to top').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Markdown').click();
+    cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Paragraph actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to bottom').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Markdown').click();
+    cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
 
     cy.get('.euiText').contains('[4] OpenSearch Dashboards visualization').should('exist');

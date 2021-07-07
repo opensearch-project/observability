@@ -36,6 +36,7 @@ import {
 } from '../helpers/default_notebook_schema';
 import { formatNotRecognized, inputIsQuery } from '../helpers/query_helpers';
 import now from "performance-now";
+import { getSampleNotebooks } from '../helpers/sample_notebooks';
 
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
@@ -153,6 +154,34 @@ export class DefaultBackend implements NotebookAdaptor {
       const newNotebook = this.createNewNotebook(params.name);
       const opensearchClientResponse = await this.indexNote(client, newNotebook.object);
       return { status: 'OK', message: opensearchClientResponse, body: opensearchClientResponse.notebookId };
+    } catch (error) {
+      throw new Error('Creating New Notebook Error:' + error);
+    }
+  };
+
+  /* Adds sample notebooks to storage
+   * Param: name -> name of new notebook
+   */
+  addSampleNotes = async function (
+    client: ILegacyScopedClusterClient,
+    visIds: string[],
+    _wreckOptions: optionsType
+  ) {
+    try {
+      const notebooks = getSampleNotebooks(visIds);
+      const newNotebooks: any[] = [];
+      for (let i = 0; i < notebooks.length; i++) {
+        const notebook = notebooks[i];
+        await this.indexNote(client, notebook.notebook).then((response) => {
+          newNotebooks.push({
+            id: response.notebookId,
+            name: notebook.notebook.name,
+            dateModified: notebook.dateModified,
+            dateCreated: notebook.dateCreated,
+          });
+        });
+      }
+      return { status: 'OK', message: '', body: newNotebooks };
     } catch (error) {
       throw new Error('Creating New Notebook Error:' + error);
     }

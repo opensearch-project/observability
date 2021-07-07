@@ -53,7 +53,7 @@ import moment from 'moment';
 import React, { useEffect, useState, ReactElement } from 'react';
 import { ChromeBreadcrumb } from '../../../../src/core/public';
 import { CREATE_NOTE_MESSAGE, DATE_FORMAT, DOCUMENTATION_URL } from '../../common';
-import { getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
+import { getCustomModal, DeleteNotebookModal, getSampleNotebooksModal } from './helpers/modal_containers';
 import { NotebookType } from './main';
 
 const pageStyles: CSS.Properties = {
@@ -63,7 +63,9 @@ const pageStyles: CSS.Properties = {
 }
 
 type NoteTableProps = {
+  loading: boolean;
   fetchNotebooks: () => void;
+  addSampleNotebooks: () => void;
   notebooks: Array<NotebookType>;
   createNotebook: (newNoteName: string) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
@@ -191,6 +193,14 @@ export function NoteTable(props: NoteTableProps) {
     );
     showModal();
   };
+  
+  const addSampleNotebooks = async () => {
+    setModalLayout(getSampleNotebooksModal(closeModal, async () => {
+      closeModal();
+      await props.addSampleNotebooks();
+    }));
+    showModal();
+  }
 
   const popoverButton = (
     <EuiButton iconType="arrowDown" iconSide="right" onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}>
@@ -225,6 +235,14 @@ export function NoteTable(props: NoteTableProps) {
         deleteNote();
       }}>
       Delete
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="addSample"
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        addSampleNotebooks();
+      }}>
+      Add sample notebooks
     </EuiContextMenuItem>,
   ];
 
@@ -301,6 +319,7 @@ export function NoteTable(props: NoteTableProps) {
             <EuiHorizontalRule margin='m' />
             {notebooks.length > 0 ? (
               <EuiInMemoryTable
+                loading={props.loading}
                 items={searchQuery ?
                   notebooks.filter((notebook) => notebook.path.toLowerCase().includes(searchQuery.toLowerCase())) :
                   notebooks}
@@ -335,10 +354,15 @@ export function NoteTable(props: NoteTableProps) {
                     </EuiText>
                   </EuiText>
                   <EuiSpacer size='m' />
-                  <EuiFlexGroup justifyContent='spaceAround'>
+                  <EuiFlexGroup justifyContent='center'>
                     <EuiFlexItem grow={false}>
                       <EuiButton fullWidth={false} onClick={() => createNote()}>
                         Create notebook
+                      </EuiButton>
+                    </EuiFlexItem>
+                    <EuiFlexItem grow={false}>
+                      <EuiButton fullWidth={false} onClick={() => addSampleNotebooks()}>
+                        Add sample notebooks
                       </EuiButton>
                     </EuiFlexItem>
                   </EuiFlexGroup>

@@ -3,6 +3,8 @@
 Compatible with OpenSearch 1.0.0
 
 ### Enhancements
+* Add sample notebooks ([#50](https://github.com/opensearch-project/dashboards-notebooks/pull/50))
+* Memoize QueryDataGrid to Reduce Re-renders ([#49](https://github.com/opensearch-project/dashboards-notebooks/pull/49))
 * Update placeholder for search bar to "Search notebook name" ([#42](https://github.com/opensearch-project/dashboards-notebooks/pull/42))
 * Add output only parameter to Context Menu Base URL ([#18](https://github.com/opensearch-project/dashboards-notebooks/pull/18))
 * Add Query Parameter for Selected View ([#17](https://github.com/opensearch-project/dashboards-notebooks/pull/17))

@@ -204,4 +204,37 @@ export function NoteRouter(router: IRouter) {
       }
     }
   );
+
+  // Add sample notebooks
+  router.post(
+    {
+      path: `${API_PREFIX}/note/addSampleNotebooks`,
+      validate: {
+        body: schema.object({
+          visIds: schema.arrayOf(schema.string()),
+        }),
+      },
+    },
+    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+        request
+      );
+      try {
+        const addSampleNotesResponse = await BACKEND.addSampleNotes(
+          opensearchNotebooksClient,
+          request.body.visIds,
+          wreckOptions
+        );
+        return response.ok({
+          body: addSampleNotesResponse,
+        });
+      } catch (error) {
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
 }

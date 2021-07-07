@@ -321,7 +321,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
         title: 'Insert paragraph above',
         items: [
           {
-            name: 'Markdown',
+            name: 'Code block',
             onClick: () => {
               setIsPopoverOpen(false);
               props.addPara(index, '', 'CODE');
@@ -341,7 +341,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
         title: 'Insert paragraph below',
         items: [
           {
-            name: 'Markdown',
+            name: 'Code block',
             onClick: () => {
               setIsPopoverOpen(false);
               props.addPara(index + 1, '', 'CODE');
