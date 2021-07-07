@@ -32,7 +32,7 @@ import { EuiText, EuiSpacer, EuiCodeBlock } from '@elastic/eui';
 
 import { DATE_FORMAT, ParaType } from '../../../common';
 import { DashboardContainerInput, DashboardStart } from '../../../../../src/plugins/dashboard/public';
-import { QueryDataGrid } from './para_query_grid';
+import { QueryDataGridMemo } from './para_query_grid';
 import moment from 'moment';
 
 /*
@@ -92,6 +92,7 @@ export const ParaOutput = (props: {
      * Currently supports HTML, TABLE, IMG
      * TODO: add table rendering
      */
+
     if (typeOut !== undefined) {
       switch (typeOut) {
         case 'QUERY':
@@ -114,7 +115,7 @@ export const ParaOutput = (props: {
               <div>
                 <EuiText key={'query-input-key'}><b>{inputQuery}</b></EuiText>
                 <EuiSpacer/>
-                <QueryDataGrid
+                <QueryDataGridMemo
                   key={key}
                   rowCount={queryObject.datarows.length}
                   queryColumns={columns}

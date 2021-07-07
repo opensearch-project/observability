@@ -44,7 +44,7 @@ type RenderCellValueProps = {
   columnId: string
 }
 
-export function QueryDataGrid(props: QueryDataGridProps) {
+function QueryDataGrid(props: QueryDataGridProps) {
   const {
     rowCount,
     queryColumns,
@@ -137,3 +137,12 @@ export function QueryDataGrid(props: QueryDataGridProps) {
     </div>
   )
 }
+
+function queryDataGridPropsAreEqual(prevProps: QueryDataGridProps, nextProps: QueryDataGridProps) {
+  return prevProps.rowCount === nextProps.rowCount
+    && JSON.stringify(prevProps.queryColumns) === JSON.stringify(nextProps.queryColumns)
+    && JSON.stringify(prevProps.visibleColumns) === JSON.stringify(nextProps.visibleColumns)
+    && JSON.stringify(prevProps.dataValues) === JSON.stringify(nextProps.dataValues)
+}
+
+export const QueryDataGridMemo = React.memo(QueryDataGrid, queryDataGridPropsAreEqual);
