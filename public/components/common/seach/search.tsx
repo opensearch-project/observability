@@ -38,7 +38,7 @@ export interface IFilterProps {
   setIsOutputStale: () => void
 }
 
-function Search (props: any) {
+export const Search = (props: any) => {
 
   const {
     query,
@@ -48,7 +48,8 @@ function Search (props: any) {
     endTime,
     setStartTime,
     setEndTime,
-    setIsOutputStale
+    setIsOutputStale,
+    actionItems
   } = props;
 
   function renderQueryBar ({ query, handleQueryChange, handleQuerySearch }: IQueryBarProps) {
@@ -77,7 +78,24 @@ function Search (props: any) {
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
           />
-          <EuiFlexItem
+          { actionItems.length > 0 && (
+            actionItems.map((item) => {
+              return (
+                <EuiFlexItem
+                  className={ item.className ? item.className : "euiFlexItem--flexGrowZero"}
+                >
+                  <EuiButton 
+                    iconType={ item.iconType }
+                    { ...item.attributes }
+                    { ...item.handlers }
+                  >
+                    { item.text }
+                  </EuiButton>
+                </EuiFlexItem>
+              );
+            })
+          ) }
+          {/* <EuiFlexItem
             className="euiFlexItem--flexGrowZero"
           >
             <EuiButton 
@@ -106,7 +124,7 @@ function Search (props: any) {
             >
               Save
             </EuiButton>
-          </EuiFlexItem>
+          </EuiFlexItem> */}
       </EuiFlexGroup>
     </div>
   );
@@ -116,5 +134,3 @@ Search.propTypes = {
   handleQueryChange: PropTypes.func,
   handleQuerySearch: PropTypes.func
 };
-
-export default Search;
