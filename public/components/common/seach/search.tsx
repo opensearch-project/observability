@@ -22,10 +22,11 @@ import { QueryBar } from './queryBar';
 import { Filter } from './Filter';
 
 import './search.scss';
+import { _termValuesToQuery } from '@elastic/eui/src/components/search_bar/query/ast_to_es_query_dsl';
 
 export interface IQueryBarProps {
-  query: any
-  handleQueryChange: (query: string) => void
+  query: string
+  handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void
 }
 
@@ -56,8 +57,8 @@ export const Search = (props: any) => {
     return (
       <QueryBar
         query={ query }
-        handleQueryChange={ handleQueryChange }
-        handleQuerySearch={ handleQuerySearch }
+        handleQueryChange= { handleQueryChange }
+        handleQuerySearch= { handleQuerySearch }
       />
     );
   }
