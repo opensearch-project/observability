@@ -886,67 +886,63 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       <div style={pageStyles}>
         <EuiPage>
           <EuiPageBody component="div">
-            <EuiPageHeader>
-              <EuiPageHeaderSection id="notebookTitle">
-                <EuiTitle size="l">
-                  <h1>{this.state.path}</h1>
-                </EuiTitle>
-              </EuiPageHeaderSection>
-              <EuiPageHeaderSection>
-                <EuiFlexGroup gutterSize='s'>
-                  {this.state.parsedPara.length > 0 &&
-                    <EuiFlexItem>
-                      <EuiButtonGroup
-                        buttonSize='m'
-                        options={viewOptions}
-                        idSelected={this.state.selectedViewId}
-                        onChange={(id) => {
-                          this.updateView(id);
-                        }}
-                      />
-                    </EuiFlexItem>
+            <EuiFlexGroup gutterSize='s' justifyContent="flexEnd">
+              <EuiFlexItem />
+              {this.state.parsedPara.length > 0 &&
+                <EuiFlexItem grow={false}>
+                  <EuiButtonGroup
+                    buttonSize='m'
+                    options={viewOptions}
+                    idSelected={this.state.selectedViewId}
+                    onChange={(id) => {
+                      this.updateView(id);
+                    }}
+                  />
+                </EuiFlexItem>
+              }
+              <EuiFlexItem grow={false} />
+              <EuiFlexItem grow={false} />
+              <EuiFlexItem grow={false}>
+                <EuiPopover
+                  panelPaddingSize="none"
+                  withTitle
+                  button={
+                    <EuiButton
+                      iconType='arrowDown'
+                      iconSide='right'
+                      onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
+                    >Paragraph actions</EuiButton>
                   }
-                  <EuiFlexItem />
-                  <EuiFlexItem />
-                  <EuiFlexItem />
-                  <EuiFlexItem>
-                    <EuiPopover
-                      panelPaddingSize="none"
-                      withTitle
-                      button={
-                        <EuiButton
-                          iconType='arrowDown'
-                          iconSide='right'
-                          onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
-                        >Paragraph actions</EuiButton>
-                      }
-                      isOpen={this.state.isParaActionsPopoverOpen}
-                      closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
-                      <EuiContextMenu initialPanelId={0} panels={paraActionsPanels} />
-                    </EuiPopover>
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    {showReportingContextMenu}
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    <EuiPopover
-                      panelPaddingSize="none"
-                      withTitle
-                      button={
-                        <EuiButton
-                          iconType='arrowDown'
-                          iconSide='right'
-                          onClick={() => this.setState({ isNoteActionsPopoverOpen: true })}
-                        >Notebook actions</EuiButton>
-                      }
-                      isOpen={this.state.isNoteActionsPopoverOpen}
-                      closePopover={() => this.setState({ isNoteActionsPopoverOpen: false })}>
-                      <EuiContextMenu initialPanelId={0} panels={noteActionsPanels} />
-                    </EuiPopover>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPageHeaderSection>
-            </EuiPageHeader>
+                  isOpen={this.state.isParaActionsPopoverOpen}
+                  closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
+                  <EuiContextMenu initialPanelId={0} panels={paraActionsPanels} />
+                </EuiPopover>
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                {showReportingContextMenu}
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiPopover
+                  panelPaddingSize="none"
+                  withTitle
+                  button={
+                    <EuiButton
+                      iconType='arrowDown'
+                      iconSide='right'
+                      onClick={() => this.setState({ isNoteActionsPopoverOpen: true })}
+                    >Notebook actions</EuiButton>
+                  }
+                  isOpen={this.state.isNoteActionsPopoverOpen}
+                  closePopover={() => this.setState({ isNoteActionsPopoverOpen: false })}>
+                  <EuiContextMenu initialPanelId={0} panels={noteActionsPanels} />
+                </EuiPopover>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiSpacer size="s" />
+            <EuiTitle size="l">
+              <h1>{this.state.path}</h1>
+            </EuiTitle>
+            <EuiSpacer size="m" />
             <EuiFlexGroup alignItems={'flexStart'} gutterSize={'l'}>
               <EuiFlexItem grow={false}>
                 <EuiText>{createdText}</EuiText>

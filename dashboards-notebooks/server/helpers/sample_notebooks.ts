@@ -11,9 +11,12 @@
 
 import { v4 as uuid } from 'uuid';
 
-const getDemoNotebook = (dateString: string) => {
+const getDemoNotebook = (dateString: string, visId: string) => {
+  const uuids = [uuid()];
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   return {
-    name: '(Sample) Notebook Demo',
+    name: 'OpenSearch Notebooks Quick Start Guide',
     dateCreated: dateString,
     dateModified: dateString,
     backend: 'Default',
@@ -22,14 +25,34 @@ const getDemoNotebook = (dateString: string) => {
         output: [
           {
             result:
-              'Here is a demo on Dashboards Notebooks. In Notebooks, you can add **code** or **visualization** paragraphs. ',
+              `An OpenSearch Dashboards notebook is an interface that lets you easily combine live visualizations and narrative text in a single notebook interface.
+
+Notebooks let you interactively explore data by running different visualizations that you can share with team members to collaborate on a project.
+
+A notebook is a document composed of two elements: OpenSearch Dashboards visualizations and paragraphs (Markdown). Choose multiple timelines to compare and contrast visualizations.
+
+Common use cases include creating postmortem reports, designing runbooks, building live infrastructure reports, and writing documentation.
+
+There is also integration with [OpenSearch Dashboards Reporting plugin](https://docs-beta.opensearch.org/dashboards/reporting/), allows you to generate reports from notebooks.
+
+For more details, check the documentation [here](https://docs-beta.opensearch.org/dashboards/notebooks/).`,
             outputType: 'MARKDOWN',
             execution_time: '0 ms',
           },
         ],
         input: {
           inputText: `%md
-Here is a demo on Dashboards Notebooks. In Notebooks, you can add **code** or **visualization** paragraphs. `,
+An OpenSearch Dashboards notebook is an interface that lets you easily combine live visualizations and narrative text in a single notebook interface.
+
+Notebooks let you interactively explore data by running different visualizations that you can share with team members to collaborate on a project.
+
+A notebook is a document composed of two elements: OpenSearch Dashboards visualizations and paragraphs (Markdown). Choose multiple timelines to compare and contrast visualizations.
+
+Common use cases include creating postmortem reports, designing runbooks, building live infrastructure reports, and writing documentation.
+
+There is also integration with [OpenSearch Dashboards Reporting plugin](https://docs-beta.opensearch.org/dashboards/reporting/), allows you to generate reports from notebooks.
+
+For more details, check the documentation [here](https://docs-beta.opensearch.org/dashboards/notebooks/).`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,
@@ -39,16 +62,31 @@ Here is a demo on Dashboards Notebooks. In Notebooks, you can add **code** or **
       {
         output: [
           {
-            result:
-              'Code paragraphs support **markdown**, **SQL**, or **PPL**. The language is defined by the first line of paragraph content using `%[language type]`.',
+            result: 'In Notebooks, you can add **code** or **visualization** paragraphs. Code paragraphs support **markdown**, **SQL**, or **PPL**. The language is defined by the first line of paragraph content using `% [language type]`. A sample visualization paragraph is added below.',
             outputType: 'MARKDOWN',
             execution_time: '0 ms',
           },
         ],
         input: {
           inputText: `%md
-Code paragraphs support **markdown**, **SQL**, or **PPL**. The language is defined by the first line of paragraph content using \`% [language type]\`.`,
+In Notebooks, you can add **code** or **visualization** paragraphs. Code paragraphs support **markdown**, **SQL**, or **PPL**. The language is defined by the first line of paragraph content using \`% [language type]\`. A sample visualization paragraph is added below.`,
           inputType: 'MARKDOWN',
+        },
+        dateCreated: dateString,
+        dateModified: dateString,
+        id: 'paragraph_' + uuid(),
+      },
+      {
+        output: [
+          {
+            result: '',
+            outputType: 'VISUALIZATION',
+            execution_time: '0.017 ms',
+          },
+        ],
+        input: {
+          inputText: `{"viewMode":"view","panels":{"1":{"gridData":{"x":0,"y":0,"w":50,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"${visId}"}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"${uuids[0]}","timeRange":{"to":"${dateString}","from":"${oneWeekAgo}"},"title":"embed_viz_${uuids[0]}","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}`,
+          inputType: 'VISUALIZATION',
         },
         dateCreated: dateString,
         dateModified: dateString,
@@ -152,11 +190,11 @@ To go back, click **Notebooks** in breadcrumbs on the top left.`,
 };
 
 const getRootCauseNotebook = (dateString: string, visIds: string[]) => {
-  const uuids = [uuid()];
+  const uuids = [uuid(), uuid()];
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   return {
-    name: '(Sample) Root Cause Event',
+    name: '[Logs] Sample Root Cause Event Analysis',
     dateCreated: dateString,
     dateModified: dateString,
     backend: 'Default',
@@ -221,7 +259,7 @@ First, let's bring up a few visualizations for a quick overview.`,
           },
         ],
         input: {
-          inputText: `{"viewMode":"view","panels":{"1":{"gridData":{"x":0,"y":0,"w":50,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"${visIds[1]}"}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"${uuids[0]}","timeRange":{"to":"${dateString}","from":"${oneWeekAgo}"},"title":"embed_viz_${uuids[0]}","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}`,
+          inputText: `{"viewMode":"view","panels":{"1":{"gridData":{"x":0,"y":0,"w":50,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"${visIds[1]}"}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"${uuids[1]}","timeRange":{"to":"${dateString}","from":"${oneWeekAgo}"},"title":"embed_viz_${uuids[1]}","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}`,
           inputType: 'VISUALIZATION',
         },
         dateCreated: dateString,
@@ -680,7 +718,7 @@ Wait, what do you mean by evaluation, could I really do evaluation?
 
 const getSQLNotebook = (dateString: string) => {
   return {
-    name: '(Sample) SQL Demo',
+    name: '[Flights] OpenSearch SQL Quick Start Guide',
     dateCreated: dateString,
     dateModified: dateString,
     backend: 'Default',
@@ -689,14 +727,18 @@ const getSQLNotebook = (dateString: string) => {
         output: [
           {
             result:
-              '**OpenSearch SQL** enables you to extract insights out of OpenSearch using the familiar SQL query syntax. It supports [JDBC](https://github.com/opensearch-project/sql/tree/main/sql-jdbc) and [ODBC](https://github.com/opensearch-project/sql/tree/main/sql-odbc) drivers, a [CLI client](https://github.com/opensearch-project/sql/tree/main/sql-cli). You can also use SQL in [Dashboards Workbench](https://github.com/opensearch-project/sql/tree/main/workbench) or Notebooks here.',
+              `OpenSearch SQL lets you write queries in SQL rather than the [OpenSearch query domain-specific language (DSL)](https://docs-beta.opensearch.org/opensearch/query-dsl/full-text/). If you’re already familiar with SQL and don’t want to learn the query DSL, this feature is a great option.
+
+For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/sql/index/).`,
             outputType: 'MARKDOWN',
             execution_time: '0.013 ms',
           },
         ],
         input: {
           inputText: `%md
-**OpenSearch SQL** enables you to extract insights out of OpenSearch using the familiar SQL query syntax. It supports [JDBC](https://github.com/opensearch-project/sql/tree/main/sql-jdbc) and [ODBC](https://github.com/opensearch-project/sql/tree/main/sql-odbc) drivers, a [CLI client](https://github.com/opensearch-project/sql/tree/main/sql-cli). You can also use SQL in [Dashboards Workbench](https://github.com/opensearch-project/sql/tree/main/workbench) or Notebooks here.`,
+OpenSearch SQL lets you write queries in SQL rather than the [OpenSearch query domain-specific language (DSL)](https://docs-beta.opensearch.org/opensearch/query-dsl/full-text/). If you’re already familiar with SQL and don’t want to learn the query DSL, this feature is a great option.
+
+For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/sql/index/).`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,
@@ -931,31 +973,13 @@ SELECT abs(-1.234), abs(-1 * abs(-5)), dayofmonth(DATE '2021-07-07');`,
         dateModified: dateString,
         id: 'paragraph_' + uuid(),
       },
-      {
-        output: [
-          {
-            result:
-              'For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/sql/index/).',
-            outputType: 'MARKDOWN',
-            execution_time: '0.007 ms',
-          },
-        ],
-        input: {
-          inputText: `%md
-For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/sql/index/).`,
-          inputType: 'MARKDOWN',
-        },
-        dateCreated: dateString,
-        dateModified: dateString,
-        id: 'paragraph_' + uuid(),
-      },
     ],
   };
 };
 
 const getPPLNotebook = (dateString: string) => {
   return {
-    name: '(Sample) PPL Demo',
+    name: '[Logs] OpenSearch Piped Processing Language (PPL) Quick Start Guide',
     dateCreated: dateString,
     dateModified: dateString,
     backend: 'Default',
@@ -963,15 +987,18 @@ const getPPLNotebook = (dateString: string) => {
       {
         output: [
           {
-            result:
-              'Piped Processing Language (**PPL**) is a query language that lets you use pipe (|) syntax to explore, discover, and query data stored in OpenSearch.',
+            result: `Piped Processing Language (PPL) is a query language that lets you use pipe (|) syntax to explore, discover, and query data stored in OpenSearch.
+
+For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/ppl/index/).`,
             outputType: 'MARKDOWN',
             execution_time: '0.009 ms',
           },
         ],
         input: {
           inputText: `%md
-Piped Processing Language (**PPL**) is a query language that lets you use pipe (|) syntax to explore, discover, and query data stored in OpenSearch.`,
+Piped Processing Language (PPL) is a query language that lets you use pipe (|) syntax to explore, discover, and query data stored in OpenSearch.
+
+For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/ppl/index/).`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,
@@ -1164,7 +1191,7 @@ Currently, OpenSearch users can query data using either Query DSL or SQL. Query 
           {
             result: `For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/ppl/index/).
 
-Also check out the "(Sample) Root Cause Event" notebook for a sample root cause event with PPL and visualizations.`,
+Also check out the next notebook for a sample root cause event analysis with PPL and visualizations.`,
             outputType: 'MARKDOWN',
             execution_time: '0.009 ms',
           },
@@ -1173,7 +1200,7 @@ Also check out the "(Sample) Root Cause Event" notebook for a sample root cause 
           inputText: `%md
 For more information, please refer to the [technical documentation](https://docs-beta.opensearch.org/search-plugins/ppl/index/).
 
-Also check out the "(Sample) Root Cause Event" notebook for a sample root cause event with PPL and visualizations.`,
+Also check out the notebook for a sample root cause event analysis with PPL and visualizations.`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,
@@ -1188,7 +1215,7 @@ export const getSampleNotebooks = (visIds: string[]) => {
   const dateString = new Date().toISOString();
   return [
     {
-      notebook: getDemoNotebook(dateString),
+      notebook: getDemoNotebook(dateString, visIds[2]),
       dateModified: dateString,
       dateCreated: dateString,
     },

@@ -256,6 +256,15 @@ export class Main extends React.Component<MainProps, MainState> {
         })
         .then((resp) => visIds.push(resp.saved_objects[0].id));
       await this.props.http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'visualization',
+            search_fields: 'title',
+            search: '[Flights] Flight Count and Average Ticket Price',
+          }
+        })
+        .then((resp) => visIds.push(resp.saved_objects[0].id));
+      await this.props.http
         .post(`${API_PREFIX}/note/addSampleNotebooks`, {
           body: JSON.stringify({ visIds }),
         })
