@@ -26,6 +26,7 @@
     "performance-now": "^2.1.0"
   },
   "dependencies": {
+    "@cypress/skip-test": "^2.6.1",
     "@nteract/outputs": "^3.0.11",
     "@nteract/presentational-components": "^3.4.3"
   },

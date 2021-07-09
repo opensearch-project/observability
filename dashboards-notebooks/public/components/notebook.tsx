@@ -864,6 +864,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           withTitle
           button={
             <EuiButton
+              id='reportingActionsButton'
               iconType='arrowDown'
               iconSide='right'
               onClick={() => this.setState({ isReportingActionsPopoverOpen: true })}
