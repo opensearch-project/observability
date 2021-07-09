@@ -15,24 +15,18 @@ import {
   AppMountParameters,
   CoreStart
 } from '../../../../src/core/public';
-import { AppPluginStartDependencies } from '../types';
 import { App } from './app';
 
 export const Observability = (
-  { notifications, http, chrome }: CoreStart,
-  { navigation, dashboard }: AppPluginStartDependencies,
-  { appBasePath, element }: AppMountParameters,
+  CoreStart: CoreStart,
+  AppMountParameters: AppMountParameters,
 ) => {
   ReactDOM.render(
     <App
-      basename={ appBasePath }
-      notifications={ notifications }
-      http={ http }
-      chrome={ chrome }
-      navigation={ navigation }
+      CoreStart={ CoreStart }
     />,
-    element
+    AppMountParameters.element
   );
 
-  return () => ReactDOM.unmountComponentAtNode(element);
+  return () => ReactDOM.unmountComponentAtNode(AppMountParameters.element);
 };

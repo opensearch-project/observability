@@ -62,3 +62,7 @@ export interface IExplorerProps {
   addField: (field: IField, tabId: string) => void;
   removeField: (field: IField, tabId: string) => void
 }
+
+export interface LogExplorer {
+  
+}
