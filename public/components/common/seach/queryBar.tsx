@@ -21,16 +21,12 @@ import {
   EuiSuggestItem,
   EuiSuggestItemProps
 } from '@elastic/eui';
-import useDebounce from 'react-use/lib/useDebounce'
 import {
   IQueryBarProps
 } from './search';
 import {
   RAW_QUERY
 } from '../../../common/constants/explorer';
-import { _termValuesToQuery } from '@elastic/eui/src/components/search_bar/query/ast_to_es_query_dsl';
-//import {getQuerySuggestions} from './autocomplete_service'
-
 
 const commands: EuiSuggestItemProps[] =[
   {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup'},
@@ -54,28 +50,25 @@ export function QueryBar(props: IQueryBarProps) {
     handleQuerySearch
   } = props;
 
-  const [value, setValue] = useState('');
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState('');
 
-  const splittedModel = value.split(',');
-  const prefix = splittedModel[Math.max(0, splittedModel.length - 1)]
+  const splittedModel = inputValue.split(' ');
+  const prefix = splittedModel[splittedModel.length - 1];
   const suggestions = commands.filter(
-    ({ label }) => label.startsWith(inputValue) && prefix !== label
-  )
+    ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
+  );
 
   const onItemClick = useCallback(
     ({ label }) => {
-      setInputValue(value.substring(0, value.lastIndexOf(prefix)) + label);
+      setInputValue(inputValue.substring(0, inputValue.lastIndexOf(prefix)) + label);
     },
-    [value, prefix]
+    [inputValue, prefix]
   );
 
   const onInputChange = useCallback((target) => {
     setInputValue(target.value);
     handleQueryChange(target.value);
   }, [])
-
-  const append = <EuiButtonEmpty>PPL</EuiButtonEmpty>
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -104,7 +97,6 @@ export function QueryBar(props: IQueryBarProps) {
     <EuiFlexItem>
       <EuiSuggest
         placeholder="Enter PPL to retrieve log, traces, and metrics"
-        append={append}
         suggestions={suggestions}
         value={inputValue}
         onInputChange={onInputChange}
