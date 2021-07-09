@@ -14,7 +14,6 @@ import _ from 'lodash';
 import { I18nProvider } from '@osd/i18n/react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../src/core/public';
-import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
@@ -23,14 +22,11 @@ import { Home as EventExplorerHome } from './explorer/home';
 import { LogExplorer } from './explorer/logExplorer';
 import { observabilityTitle  } from '../../common';
 import {
-  ILogExplorerProps,
-  IField,
   ITabQueryResults,
   ITabQueries,
   IExplorerTabFields
 } from '../common/types/explorer';
 import {
-  TAB_TITLE,
   TAB_ID_TXT_PFX,
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -38,20 +34,14 @@ import {
 } from '../common/constants/explorer';
 
 interface ObservabilityAppDeps {
-  basename: string;
-  notifications: CoreStart['notifications'];
-  http: CoreStart['http'];
-  chrome: CoreStart['chrome'];
-  navigation: NavigationPublicPluginStart;
+  CoreStart: CoreStart;
 }
 
 export const App = ({
-  basename,
-  notifications,
-  http,
-  chrome,
-  plugins
+  CoreStart
 }: ObservabilityAppDeps) => {
+
+  const { chrome, http } = CoreStart;
 
   // event explorer states
   const initialTabId: string = getTabId(TAB_ID_TXT_PFX);
@@ -95,7 +85,7 @@ export const App = ({
                   parentBreadcrumb,
                   {
                     text: 'Application analytics',
-                    href: 'observability#/application_analytics'
+                    href: '#/application_analytics'
                   },
                 ]);
                 return renderPageWithSidebar(<ApplicationAnalyticsHome />, 1);
@@ -108,7 +98,7 @@ export const App = ({
                   parentBreadcrumb,
                   {
                     text: 'Trace analytics',
-                    href: 'observability#/trace_analytics/home'
+                    href: '#/trace_analytics/home'
                   },
                 ]);
                 return renderPageWithSidebar(<TraceAnalyticsHome />, 2) }
@@ -122,7 +112,7 @@ export const App = ({
                   parentBreadcrumb,
                   {
                     text: 'Event analytics',
-                    href: 'observability#/event/home'
+                    href: '#/event/home'
                   },
                 ]);
                 return renderPageWithSidebar(<EventExplorerHome />, 3);
@@ -135,7 +125,7 @@ export const App = ({
                   parentBreadcrumb,
                   {
                     text: 'Operational panels',
-                    href: 'observability#/operational_panels/home'
+                    href: '#/operational_panels/home'
                   },
                 ]);
                 return renderPageWithSidebar(<OperationalPanelsHome />, 4);
@@ -146,7 +136,6 @@ export const App = ({
               path='/event/explorer'
               render={(props) => <LogExplorer
                 http={ http }
-                plugins={ plugins }
                 tabIds={ tabIds }
                 queries={ queries }
                 queryResults={ queryResults }

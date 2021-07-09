@@ -10,7 +10,7 @@
  */
 
 import './logExplorer.scss';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import {
@@ -22,11 +22,7 @@ import {
 import { Explorer } from './explorer';
 import { handlePplRequest } from '../../requests/ppl';
 import {
-  ILogExplorerProps,
   IField,
-  ITabQueryResults,
-  ITabQueries,
-  IExplorerTabFields
 } from '../../common/types/explorer';
 import {
   TAB_TITLE,
@@ -83,7 +79,7 @@ export const LogExplorer = ({
     setCurSelectedTab(newIdToFocus);
 
     // Clean up state data for this tab
-    setTabIds(staleTabIds => {
+    setTabIds((staleTabIds) => {
       return staleTabIds.filter((id) => {
         if (id === TabIdToBeClosed) {
           return false;

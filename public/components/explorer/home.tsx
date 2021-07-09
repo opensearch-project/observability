@@ -23,7 +23,7 @@ export const Home = (props: any) => {
   }];
 
   const column = [{
-    field: 'historiy',
+    field: 'history',
     name: 'History'
   }];
 
@@ -44,9 +44,7 @@ export const Home = (props: any) => {
       text: 'Live',
       iconType: 'play',
       handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
+        onClick: () => {}
       }
     }
   ];

@@ -95,36 +95,6 @@ export const Search = (props: any) => {
               );
             })
           ) }
-          {/* <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="refresh"
-            >
-              Refresh
-            </EuiButton>
-          </EuiFlexItem>
-          <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="play"
-            >
-              Live
-            </EuiButton>
-          </EuiFlexItem>
-          <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="heart"
-            >
-              Save
-            </EuiButton>
-          </EuiFlexItem> */}
       </EuiFlexGroup>
     </div>
   );
