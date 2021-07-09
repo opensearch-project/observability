@@ -9,6 +9,8 @@
  * GitHub history for details.
  */
 
+import { parse } from "url";
+
 /*
  * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -71,14 +73,89 @@ const readStreamToFile = async (
   document.body.removeChild(link);
 };
 
-export const generateInContextReport = (
+async function getTenantInfoIfExists() {
+  const res = await fetch(`../api/v1/multitenancy/tenant`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'osd-xsrf': 'true',
+      accept: '*/*',
+      'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
+      pragma: 'no-cache',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'same-origin',
+    },
+    method: 'GET',
+    referrerPolicy: 'strict-origin-when-cross-origin',
+    mode: 'cors',
+    credentials: 'include',
+  })
+    .then((response) => {
+      if (response.status === 404) {
+        // endpoint doesn't exist, security plugin is not enabled.
+        return undefined;
+      } else {
+        return response.text();
+      }
+    })
+    .then((tenant) => {
+      if (tenant === '') {
+        tenant = 'global';
+      } else if (tenant === '__user__') {
+        tenant = 'private';
+      }
+      return tenant;
+    });
+
+  return res;
+}
+
+function addTenantToURL(url, userRequestedTenant) {
+  // build fake url from relative url
+  const fakeUrl = `http://opensearch.com${url}`;
+  const tenantKey = 'security_tenant';
+  const tenantKeyAndValue =
+    tenantKey + '=' + encodeURIComponent(userRequestedTenant);
+
+  const { pathname, search } = parse(fakeUrl);
+  const queryDelimiter = !search ? '?' : '&';
+  // The url parser returns null if the search is empty. Change that to an empty
+  // string so that we can use it to build the values later
+  if (search && search.toLowerCase().indexOf(tenantKey) > -1) {
+    // If we for some reason already have a tenant in the URL we skip any updates
+    return url;
+  }
+
+  // A helper for finding the part in the string that we want to extend/replace
+  const valueToReplace = pathname + (search || '');
+  const replaceWith = valueToReplace + queryDelimiter + tenantKeyAndValue;
+
+  return url.replace(valueToReplace, replaceWith);
+}
+
+export const generateInContextReport = async (
   fileFormat: string,
   props: any,
   toggleReportingLoadingModal: any,
   rest = {}
 ) => {
   toggleReportingLoadingModal(true);
-  const baseUrl = location.pathname + '?view=output_only' + location.hash;
+  let baseUrl = location.pathname + '?view=output_only' + location.hash;  
+  // Add selected tenant info to url
+  try {
+    const tenant = await getTenantInfoIfExists();
+    if (tenant) {
+      baseUrl = addTenantToURL(baseUrl, tenant) 
+    }
+  } catch (error) {
+    props.setToast(
+      'Tenant error',
+      'danger',
+      'Failed to get user tenant.'
+    );
+    console.log(`failed to get user tenant: ${error}`);
+  }
+
   const reportSource = 'Notebook';
   const contextMenuOnDemandReport = {
     query_url: baseUrl,
@@ -107,7 +184,6 @@ export const generateInContextReport = (
       },
     },
   };
-
   fetch(
     '../api/reporting/generateReport',
     {
