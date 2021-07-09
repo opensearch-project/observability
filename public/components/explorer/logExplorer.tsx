@@ -10,7 +10,7 @@
  */
 
 import './logExplorer.scss';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import {
@@ -22,11 +22,7 @@ import {
 import { Explorer } from './explorer';
 import { handlePplRequest } from '../../requests/ppl';
 import {
-  ILogExplorerProps,
   IField,
-  ITabQueryResults,
-  ITabQueries,
-  IExplorerTabFields
 } from '../../common/types/explorer';
 import {
   TAB_TITLE,
@@ -36,26 +32,20 @@ import {
   UNSELECTED_FIELDS
 } from '../../common/constants/explorer';
 
-export const LogExplorer = (props: ILogExplorerProps) => {
-
-  const initialTabId: string = getTabId(TAB_ID_TXT_PFX);
-  const [tabIds, setTabIds] = useState<Array<string>>([initialTabId]);
-  const [queries, setQueries] = useState<ITabQueries>({
-    [initialTabId]: {
-      [RAW_QUERY]: ''
-    }
-  });
-  const [queryResults, setQueryResults] = useState<ITabQueryResults>({
-    [initialTabId]: {}
-  });
-  const [fields, setFields] = useState<IExplorerTabFields>({
-    [initialTabId]: {
-      [SELECTED_FIELDS]: [],
-      [UNSELECTED_FIELDS]: []
-    }
-  });
-  const curQueriesRef = useRef(queries);
-  const [curSelectedTabId, setCurSelectedTab] = useState<string>(initialTabId);
+export const LogExplorer = ({
+  http,
+  tabIds,
+  queries,
+  queryResults,
+  fields,
+  curQueriesRef,
+  curSelectedTabId,
+  setTabIds,
+  setQueries,
+  setQueryResults,
+  setFields,
+  setCurSelectedTab
+}: any) => {
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -89,7 +79,7 @@ export const LogExplorer = (props: ILogExplorerProps) => {
     setCurSelectedTab(newIdToFocus);
 
     // Clean up state data for this tab
-    setTabIds(staleTabIds => {
+    setTabIds((staleTabIds) => {
       return staleTabIds.filter((id) => {
         if (id === TabIdToBeClosed) {
           return false;
@@ -160,7 +150,7 @@ export const LogExplorer = (props: ILogExplorerProps) => {
 
   const handleQuerySearch = async (tabId: string) => {
     const latestQueries = curQueriesRef.current;
-    const res = await handlePplRequest(props.http, { query: latestQueries[tabId][RAW_QUERY].trim() });
+    const res = await handlePplRequest(http, { query: latestQueries[tabId][RAW_QUERY].trim() });
     setQueryResults(staleQueryResults => {
       return {
         ...staleQueryResults,

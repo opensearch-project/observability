@@ -39,7 +39,7 @@ export interface IFilterProps {
   setIsOutputStale: () => void
 }
 
-function Search (props: any) {
+export const Search = (props: any) => {
 
   const {
     query,
@@ -49,7 +49,8 @@ function Search (props: any) {
     endTime,
     setStartTime,
     setEndTime,
-    setIsOutputStale
+    setIsOutputStale,
+    actionItems
   } = props;
 
   function renderQueryBar ({ query, handleQueryChange, handleQuerySearch }: IQueryBarProps) {
@@ -78,36 +79,23 @@ function Search (props: any) {
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
           />
-          <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="refresh"
-            >
-              Refresh
-            </EuiButton>
-          </EuiFlexItem>
-          <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="play"
-            >
-              Live
-            </EuiButton>
-          </EuiFlexItem>
-          <EuiFlexItem
-            className="euiFlexItem--flexGrowZero"
-          >
-            <EuiButton 
-              onClick={() => {}} 
-              iconType="heart"
-            >
-              Save
-            </EuiButton>
-          </EuiFlexItem>
+          { actionItems.length > 0 && (
+            actionItems.map((item) => {
+              return (
+                <EuiFlexItem
+                  className={ item.className ? item.className : "euiFlexItem--flexGrowZero"}
+                >
+                  <EuiButton 
+                    iconType={ item.iconType }
+                    { ...item.attributes }
+                    { ...item.handlers }
+                  >
+                    { item.text }
+                  </EuiButton>
+                </EuiFlexItem>
+              );
+            })
+          ) }
       </EuiFlexGroup>
     </div>
   );
@@ -117,5 +105,3 @@ Search.propTypes = {
   handleQueryChange: PropTypes.func,
   handleQuerySearch: PropTypes.func
 };
-
-export default Search;

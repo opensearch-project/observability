@@ -19,8 +19,7 @@ import {
 } from '../../../src/core/public';
 import {
   ObservabilitySetup,
-  ObservabilityStart,
-  AppPluginStartDependencies
+  ObservabilityStart
 } from './types';
 import {
   observabilityID,
@@ -40,8 +39,8 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         order: observabilityPluginOrder,
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
-          const [coreStart, depsStart] = await core.getStartServices();
-          return Observability(coreStart, depsStart as AppPluginStartDependencies, params);
+          const [ coreStart ] = await core.getStartServices();
+          return Observability(coreStart, params);
         },
       });
 

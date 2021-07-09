@@ -21,7 +21,7 @@ import {
   EuiTabbedContentTab
 } from '@elastic/eui';
 import classNames from 'classnames';
-import Search from '../common/seach/search';
+import { Search } from '../common/seach/search';
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
@@ -199,6 +199,36 @@ export const Explorer = (props: IExplorerProps) => {
     ]
   );
 
+  const actionItems = [
+    {
+      text: 'Refresh',
+      iconType: 'refresh',
+      handlers: {
+        onClick: () => {
+          console.log('refresh clicked');
+        }
+      }
+    },
+    {
+      text: 'Live',
+      iconType: 'play',
+      handlers: {
+        onClick: () => {
+          console.log('refresh clicked');
+        }
+      }
+    },
+    {
+      text: 'Save',
+      iconType: 'heart',
+      handlers: {
+        onClick: () => {
+          console.log('refresh clicked');
+        }
+      }
+    }
+  ];
+
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   return (
     <div className="dscAppContainer">
@@ -214,6 +244,7 @@ export const Explorer = (props: IExplorerProps) => {
         setIsOutputStale={ () => {} }
         liveStreamChecked={ liveStreamChecked }
         onLiveStreamChange={ handleLiveStreamChecked }
+        actionItems={ actionItems }
       />
       <EuiTabbedContent
         className="mainContentTabs"
