@@ -22,9 +22,12 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
+import { CountDistribution } from '../visualizations/visualization/countDistribution';
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
+import { HitsCounter } from './hits_counter/hits_counter';
+import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
   IExplorerProps,
@@ -110,6 +113,12 @@ export const Explorer = (props: IExplorerProps) => {
           { (props.explorerData && !_.isEmpty(props.explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
+                <HitsCounter 
+                  hits={ props.explorerData['datarows']?.length }
+                  showResetButton={true}
+                  onResetQuery={ () => {} }
+                />
+                <CountDistribution />
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
@@ -170,6 +179,12 @@ export const Explorer = (props: IExplorerProps) => {
     };
   };
 
+  const getExplorerVis = () => {
+    return (
+      <ExplorerVisualizations />
+    );
+  };
+
   const getMainContentTabs = () => {
     return [
         getMainContentTab(
@@ -183,7 +198,7 @@ export const Explorer = (props: IExplorerProps) => {
           {
             tabId: TAB_CHART_ID,
             tabTitle: TAB_CHART_TITLE,
-            getContent: () => { return <>Charts Content</> }
+            getContent: () => getExplorerVis()
           }
         )
     ];

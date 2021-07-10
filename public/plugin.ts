@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import { 
+import {
   Plugin,
   CoreSetup,
   CoreStart,
