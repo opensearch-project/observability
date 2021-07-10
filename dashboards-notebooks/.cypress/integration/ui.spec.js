@@ -67,7 +67,7 @@ describe('Testing notebooks table', () => {
     cy.get('.euiButton__text').contains(/^Create$/).click();
     cy.wait(delay);
 
-    cy.get('.euiPageHeaderSection').contains(TEST_NOTEBOOK).should('exist');
+    cy.contains(TEST_NOTEBOOK).should('exist');
   });
 
   it('Duplicates and renames a notebook', () => {
