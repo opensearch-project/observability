@@ -27,19 +27,41 @@ import {
 import {
   RAW_QUERY
 } from '../../../common/constants/explorer';
+import { Test } from 'mocha';
 
 const commands: EuiSuggestItemProps[] =[
   {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'eval'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'fields'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'rename'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'search'},
+  //{type: {iconType: 'search', color: 'tint1'} ,label: 'search'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'sort'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'stats'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'where'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'head'},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'top'},
   {type: {iconType: 'search', color: 'tint1'}, label: 'source'}
+]
+const firstCommand: EuiSuggestItemProps[] = [
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'search'},
+  {type: {iconType: 'search', color: 'tint1'}, label: 'source'}
+]
+const pipeCommands: EuiSuggestItemProps[] = [
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'eval'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'fields'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'rename'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'sort'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'stats'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'where'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'head'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'top'},
+]
+
+const indices: EuiSuggestItemProps[] = [
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_ecommerce'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_flights'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_logs'}
 ]
 
 export function QueryBar(props: IQueryBarProps) {
@@ -54,9 +76,48 @@ export function QueryBar(props: IQueryBarProps) {
 
   const splittedModel = inputValue.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
-  const suggestions = commands.filter(
-    ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
-  );
+  // const suggestions = commands.filter(
+  //   ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
+  // );
+
+  // Function to grab suggestions
+  const getSuggestions = () => {
+    let suggest = commands;
+    // if (inputValue === "") {
+    //   console.log('test')
+    //   return suggest;
+    // }
+    if (splittedModel.length ===1) {
+      // if (prefix.startsWith("source=")) {
+      //   let indices = getIndices();
+      //   return indices;
+      // }
+      return firstCommand;
+      // return firstCommand.filter(
+      //   ( { label } ) => label.startsWith(prefix) && prefix !== label 
+      // );
+    }
+    if (splittedModel.length > 1) {
+      // User just inputted a pipe
+      if (splittedModel[splittedModel.length - 2] === "|"){
+        return pipeCommands.filter(
+          ( { label } ) => label.startsWith(prefix) && prefix !== label 
+        );
+      }
+    }
+    return commands.filter(
+      ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
+    );
+  };
+
+  // Function to grab available indices
+  const getIndices = () => {
+    return indices.filter(
+      ( { label } ) => label.startsWith(prefix) && prefix !== label 
+    );
+  }
+
+  const suggestions = getSuggestions();
 
   const onItemClick = useCallback(
     ({ label }) => {
