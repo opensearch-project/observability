@@ -63,7 +63,7 @@ const indices: EuiSuggestItemProps[] = [
   {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_flights'},
   {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_logs'}
 ]
-
+//
 export function QueryBar(props: IQueryBarProps) {
   
   const {
