@@ -27,43 +27,43 @@ import {
 import {
   RAW_QUERY
 } from '../../../common/constants/explorer';
-import { Test } from 'mocha';
+import { item } from './search'
 
-const commands: EuiSuggestItemProps[] =[
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'eval'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'fields'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'rename'},
-  //{type: {iconType: 'search', color: 'tint1'} ,label: 'search'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'sort'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'stats'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'where'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'head'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'top'},
-  {type: {iconType: 'search', color: 'tint1'}, label: 'source'}
-]
 const firstCommand: EuiSuggestItemProps[] = [
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'search'},
-  {type: {iconType: 'search', color: 'tint1'}, label: 'source'}
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'search',
+    description: "Using search command to retrieve document from the index."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'source',
+    description: "source=<index>"}
 ]
 const pipeCommands: EuiSuggestItemProps[] = [
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'eval'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'fields'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'rename'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'sort'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'stats'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'where'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'head'},
-  {type: {iconType: 'search', color: 'tint1'} ,label: 'top'},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup',
+    description: "Using dedup command to remove identical document defined by field from the search result"},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'eval',
+    description: "The eval command evaluate the expression and append the result to the search result."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'fields',
+    description: "Using field command to keep or remove fields from the search result."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'head',
+    description: "The head command returns the first N number of specified results in search order."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'rare',
+      description: "Using rare command to find the least common tuple of values of all fields in the field list."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'rename',
+    description: "Using rename command to rename one or more fields in the search result."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'sort',
+    description: "Using sort command to sorts all the search result by the specified fields."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'stats',
+    description: "Using stats command to calculate the aggregation from search result."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'top',
+    description: "Using top command to find the most common tuple of values of all fields in the field list."},
+  {type: {iconType: 'search', color: 'tint1'} ,label: 'where',
+    description: "The where command bool-expression to filter the search result."},
 ]
 
 const indices: EuiSuggestItemProps[] = [
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_ecommerce'},
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_flights'},
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_logs'}
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_ecommerce'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_flights'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_logs'}
 ]
-//
+
 export function QueryBar(props: IQueryBarProps) {
   
   const {
@@ -72,53 +72,64 @@ export function QueryBar(props: IQueryBarProps) {
     handleQuerySearch
   } = props;
 
-  const [inputValue, setInputValue] = useState('');
+  // State to keep track of current input
+  // Query contains the queries to send to backend, inputValue just keeps track of what's
+  // in the input bar at the time. This ensures that the query doesn't disappear when we
+  // switch tabs or hit enter.
+  const [inputValue, setInputValue] = useState(query[ RAW_QUERY ]);
 
   const splittedModel = inputValue.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
-  // const suggestions = commands.filter(
-  //   ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
-  // );
 
   // Function to grab suggestions
   const getSuggestions = () => {
-    let suggest = commands;
-    // if (inputValue === "") {
-    //   console.log('test')
-    //   return suggest;
-    // }
-    if (splittedModel.length ===1) {
-      // if (prefix.startsWith("source=")) {
-      //   let indices = getIndices();
-      //   return indices;
-      // }
+    // First commands should either be search or source
+    // source should be followed by an available index
+    if (splittedModel.length === 1) {
+      if (prefix.startsWith("source=")) {
+        let str = prefix.replace("source=", "");
+        return getIndices(str);
+      }
       return firstCommand;
-      // return firstCommand.filter(
-      //   ( { label } ) => label.startsWith(prefix) && prefix !== label 
-      // );
     }
+    // TODO: (Grammar implementation) Get commands based on grammar from backend
+    // Contextual suggestions are hardcoded for now
     if (splittedModel.length > 1) {
-      // User just inputted a pipe
+      // Possible pipe commands
       if (splittedModel[splittedModel.length - 2] === "|"){
         return pipeCommands.filter(
           ( { label } ) => label.startsWith(prefix) && prefix !== label 
         );
       }
+      // search should be followed by source and an available index
+      if (splittedModel[splittedModel.length - 2] === "search") {
+        return indices.filter(
+          ( { label } ) => label.startsWith(prefix) && prefix !== label
+        );
+      }
+      // TODO: (Grammar implementation) Catch user typos and fix them based on their previous inputs. 
+      // Ex: First command isn't search or source, user didn't input pipe after command, etc.
+      // For now, just display pipeCommands
+      return pipeCommands.filter(
+        ( { label } ) => label.startsWith(prefix) && prefix !== label && prefix !== ""
+      );
     }
-    return commands.filter(
-      ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
-    );
   };
 
   // Function to grab available indices
-  const getIndices = () => {
+  // TODO: Get indices from backend
+  const getIndices = (str: string) => {
     return indices.filter(
-      ( { label } ) => label.startsWith(prefix) && prefix !== label 
+      ( { label } ) => label.includes(str) && str !== label
     );
   }
 
+  // Suggestion list to be displayed, returned by getSuggestions
+  // Hardcode will be replaced eventually
   const suggestions = getSuggestions();
 
+  // Input change and suggestion clicks only trigger a state change for inputValue
+  // to reduce the number of things that are rerendered after the query is run
   const onItemClick = useCallback(
     ({ label }) => {
       setInputValue(inputValue.substring(0, inputValue.lastIndexOf(prefix)) + label);
@@ -128,33 +139,26 @@ export function QueryBar(props: IQueryBarProps) {
 
   const onInputChange = useCallback((target) => {
     setInputValue(target.value);
-    handleQueryChange(target.value);
   }, [])
 
+  // Save query and search after enter key
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
+      handleQueryChange(inputValue);
       handleQuerySearch();
     }
   }
 
+  // item from ./search.tsx handles adding new tabs
+  // useEffect() uses item dependency to know when a new tab is created/switched
+  // Query must be saved when new tab is loaded otherwise unsent queries disappear
+  // after switching tabs
+  useEffect(() => {
+    handleQueryChange(inputValue);
+  }, [item])
+
   return (
     <Fragment>
-    {/* <EuiFlexItem>
-      <EuiFieldSearch
-        fullWidth
-        isClearable={true}
-        placeholder="Enter PPL to retrieve log, traces and metrics"
-        data-test-subj="search-bar-input-box"
-        value={ query[RAW_QUERY] }
-        onChange={(e) => {
-          console.log('changed value: ', e.target.value);
-          handleQueryChange(e.target.value);
-        }}
-        onSearch={() => {
-          handleQuerySearch();
-        }}
-      />
-    </EuiFlexItem> */}
     <EuiFlexItem>
       <EuiSuggest
         placeholder="Enter PPL to retrieve log, traces, and metrics"
