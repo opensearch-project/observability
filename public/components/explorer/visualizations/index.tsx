@@ -9,86 +9,23 @@
  * GitHub history for details.
  */
 
+import _ from 'lodash';
+
 import React from 'react';
-import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiResizableContainer,
-  EuiListGroup,
-  EuiPage,
-  EuiPanel,
-  EuiTitle,
-  EuiText,
-  EuiSpacer
-} from '@elastic/eui';
+import { FrameLayout } from './frameLayout';
+import { DataPanel } from './datapanel';
+import { WorkspacePanel } from './workspacePanel';
 
 export const ExplorerVisualizations = (props: any) => {
+
   return (
-    <EuiPage paddingSize="none">
-      <EuiResizableContainer style={{ height: '320px' }}>
-        {(EuiResizablePanel, EuiResizableButton) => (
-          <>
-            <EuiResizablePanel
-              mode={[
-                'collapsible',
-                {
-                  className: 'panel-toggle',
-                  'data-test-subj': 'panel-3-toggle',
-                  position: 'bottom',
-                },
-              ]}
-              initialSize={20}
-              minSize="10%">
-              <EuiListGroup flush>test</EuiListGroup>
-            </EuiResizablePanel>
-
-            <EuiResizableButton />
-
-            <EuiResizablePanel mode="main" initialSize={60} minSize="200px">
-              <EuiPanel paddingSize="l" style={{ minHeight: '100%' }}>
-                <EuiTitle>
-                  <p>test label</p>
-                </EuiTitle>
-                <EuiSpacer />
-                <EuiText>test text</EuiText>
-              </EuiPanel>
-            </EuiResizablePanel>
-
-            <EuiResizableButton />
-
-            <EuiResizablePanel
-              mode={[
-                'collapsible',
-                {
-                  className: 'panel-toggle',
-                  'data-test-subj': 'panel-3-toggle',
-                  position: 'bottom',
-                },
-              ]}
-              initialSize={20}
-              minSize="10%">
-              <EuiListGroup flush>test elements</EuiListGroup>
-            </EuiResizablePanel>
-          </>
-        )}
-      </EuiResizableContainer>
-    </EuiPage>
-    // <EuiFlexGroup>
-    //   <EuiFlexItem grow={1}>
-    //     <EuiPanel>
-    //       fields sidebar
-    //     </EuiPanel>
-    //   </EuiFlexItem>
-    //   <EuiFlexItem grow={2}>
-    //     <EuiPanel>
-    //       visualization content
-    //     </EuiPanel>
-    //   </EuiFlexItem>
-    //   <EuiFlexItem grow={1}>
-    //     <EuiPanel>
-    //       edit panel
-    //     </EuiPanel>
-    //   </EuiFlexItem>
-    // </EuiFlexGroup>
+    <FrameLayout 
+      dataPanel={<DataPanel 
+        queryResults={ props.queryResults }
+      />}
+      workspacePanel={
+        <WorkspacePanel />
+      }
+    />
   );
 };

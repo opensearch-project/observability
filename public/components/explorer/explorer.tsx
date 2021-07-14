@@ -181,7 +181,9 @@ export const Explorer = (props: IExplorerProps) => {
 
   const getExplorerVis = () => {
     return (
-      <ExplorerVisualizations />
+      <ExplorerVisualizations
+        queryResults={ props.explorerData }
+      />
     );
   };
 
