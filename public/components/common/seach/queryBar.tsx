@@ -87,7 +87,7 @@ export function QueryBar(props: IQueryBarProps) {
     // source should be followed by an available index
     if (splittedModel.length === 1) {
       if (prefix.startsWith("source=")) {
-        let str = prefix.replace("source=", "");
+        const str = prefix.replace("source=", "");
         return getIndices(str);
       }
       return firstCommand;
