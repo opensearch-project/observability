@@ -31,37 +31,37 @@ import { item } from './search'
 
 const firstCommand: EuiSuggestItemProps[] = [
   {type: {iconType: 'search', color: 'tint1'} ,label: 'search',
-    description: "Using search command to retrieve document from the index."},
+    description: "search source=<index> [boolean-expression]"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'source',
     description: "source=<index>"}
 ]
 const pipeCommands: EuiSuggestItemProps[] = [
   {type: {iconType: 'search', color: 'tint1'} ,label: 'dedup',
-    description: "Using dedup command to remove identical document defined by field from the search result"},
+    description: "dedup [int] <field-list> [keepempty=<bool>] [consecutive=<bool>]"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'eval',
-    description: "The eval command evaluate the expression and append the result to the search result."},
+    description: `eval <field>=<expression> ["," <field>=<expression> ]...`},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'fields',
-    description: "Using field command to keep or remove fields from the search result."},
+    description: "field [+|-] <field-list>"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'head',
-    description: "The head command returns the first N number of specified results in search order."},
+    description: "head [N]"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'rare',
-      description: "Using rare command to find the least common tuple of values of all fields in the field list."},
+      description: "rare <field-list> [by-clause]"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'rename',
-    description: "Using rename command to rename one or more fields in the search result."},
+    description: `rename <source-field> AS <target-field>["," <source-field> AS <target-field>]...`},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'sort',
-    description: "Using sort command to sorts all the search result by the specified fields."},
+    description: "sort <[+|-] sort-field>..."},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'stats',
-    description: "Using stats command to calculate the aggregation from search result."},
+    description: "stats <aggregation>... [by-clause]..."},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'top',
-    description: "Using top command to find the most common tuple of values of all fields in the field list."},
+    description: "top [N] <field-list> [by-clause]"},
   {type: {iconType: 'search', color: 'tint1'} ,label: 'where',
-    description: "The where command bool-expression to filter the search result."},
+    description: "where <boolean-expression>"},
 ]
 
 const indices: EuiSuggestItemProps[] = [
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_ecommerce'},
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_flights'},
-  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'source=opensearch_dashboards_sample_data_logs'}
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_ecommerce'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_flights'},
+  {type: {iconType: 'kqlField', color: 'tint4'} ,label: 'opensearch_dashboards_sample_data_logs'}
 ]
 
 export function QueryBar(props: IQueryBarProps) {
@@ -85,26 +85,36 @@ export function QueryBar(props: IQueryBarProps) {
   const getSuggestions = () => {
     // First commands should either be search or source
     // source should be followed by an available index
+    if (prefix.startsWith("source=")) {
+      return getIndices(prefix.replace("source=",""));
+    }
     if (splittedModel.length === 1) {
-      if (prefix.startsWith("source=")) {
-        const str = prefix.replace("source=", "");
-        return getIndices(str);
-      }
       return firstCommand;
     }
     // TODO: (Grammar implementation) Get commands based on grammar from backend
     // Contextual suggestions are hardcoded for now
-    if (splittedModel.length > 1) {
+    else if (splittedModel.length > 1) {
       // Possible pipe commands
       if (splittedModel[splittedModel.length - 2] === "|"){
         return pipeCommands.filter(
           ( { label } ) => label.startsWith(prefix) && prefix !== label 
         );
       }
+      // If user didn't input any spaces before pipe
+      else if (prefix.includes("|")) {
+        return pipeCommands.filter(
+          ( { label } ) => label.startsWith(prefix.replace(prefix.substring(0, prefix.lastIndexOf("|") + 1), "")) && prefix.replace(prefix.substring(0, prefix.lastIndexOf("|") + 1), "") !== label
+        )
+      }
       // search should be followed by source and an available index
-      if (splittedModel[splittedModel.length - 2] === "search") {
+      else if (splittedModel[splittedModel.length - 2] === "search") {
+        return [  {type: {iconType: 'search', color: 'tint1'} ,label: 'source',
+        description: "source=<index>"} ]
+      }
+      // In case there are no spaces between 'source' and '='
+      else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === "source") {
         return indices.filter(
-          ( { label } ) => label.startsWith(prefix) && prefix !== label
+          ( { label } ) => label.startsWith(prefix) &&  prefix !== label
         );
       }
       // TODO: (Grammar implementation) Catch user typos and fix them based on their previous inputs. 
@@ -132,7 +142,12 @@ export function QueryBar(props: IQueryBarProps) {
   // to reduce the number of things that are rerendered after the query is run
   const onItemClick = useCallback(
     ({ label }) => {
-      setInputValue(inputValue.substring(0, inputValue.lastIndexOf(prefix)) + label);
+      if (label.startsWith('opensearch')) {
+        setInputValue(inputValue + label);
+      }
+      else {
+        setInputValue(inputValue.substring(0, inputValue.lastIndexOf(prefix)) + label);
+      }
     },
     [inputValue, prefix]
   );
