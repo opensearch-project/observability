@@ -23,9 +23,12 @@ import { Filter } from './Filter';
 
 import './search.scss';
 import { _termValuesToQuery } from '@elastic/eui/src/components/search_bar/query/ast_to_es_query_dsl';
+import { getAlgoliaResults } from '@algolia/autocomplete-js'
+import { Autocomplete } from './autosuggest';
+
 
 export interface IQueryBarProps {
-  query: string
+  query: any
   handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void
 }
@@ -39,7 +42,7 @@ export interface IFilterProps {
   setIsOutputStale: () => void
 }
 
-export const Search = (props: any) => {
+function Search (props: any) {
 
   const {
     query,
@@ -49,8 +52,7 @@ export const Search = (props: any) => {
     endTime,
     setStartTime,
     setEndTime,
-    setIsOutputStale,
-    actionItems
+    setIsOutputStale
   } = props;
 
   function renderQueryBar ({ query, handleQueryChange, handleQuerySearch }: IQueryBarProps) {
@@ -60,16 +62,41 @@ export const Search = (props: any) => {
         handleQueryChange= { handleQueryChange }
         handleQuerySearch= { handleQuerySearch }
       />
+      //<div id="autocomplete"></div>
     );
   }
 
   return (
     <div className="globalQueryBar">
+      <div className="app-container">
+        <Autocomplete
+          openOnFocus={true}
+          getSources={({ query }) => [
+            {
+              sourceId: 'products',
+              getItems({ str }) {
+                const items = [
+                  {label: 'Twitter'},
+                  {label: 'Github'}
+                ];
+                return items.filter(
+                  ({ label }) => label.toLowerCase().includes(str.toLowerCase())
+                );
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ]}
+        />
+      </div>
       <EuiFlexGroup
           gutterSize="s"
           justifyContent="flexEnd"
         >
-          { renderQueryBar({ query, handleQueryChange, handleQuerySearch }) }
+          {/* { renderQueryBar({ query, handleQueryChange, handleQuerySearch }) } */}
           <Filter
             startTime={ startTime }
             endTime={ endTime }
@@ -79,23 +106,36 @@ export const Search = (props: any) => {
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
           />
-          { actionItems.length > 0 && (
-            actionItems.map((item) => {
-              return (
-                <EuiFlexItem
-                  className={ item.className ? item.className : "euiFlexItem--flexGrowZero"}
-                >
-                  <EuiButton 
-                    iconType={ item.iconType }
-                    { ...item.attributes }
-                    { ...item.handlers }
-                  >
-                    { item.text }
-                  </EuiButton>
-                </EuiFlexItem>
-              );
-            })
-          ) }
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="refresh"
+            >
+              Refresh
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="play"
+            >
+              Live
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="euiFlexItem--flexGrowZero"
+          >
+            <EuiButton 
+              onClick={() => {}} 
+              iconType="heart"
+            >
+              Save
+            </EuiButton>
+          </EuiFlexItem>
       </EuiFlexGroup>
     </div>
   );
@@ -105,3 +145,5 @@ Search.propTypes = {
   handleQueryChange: PropTypes.func,
   handleQuerySearch: PropTypes.func
 };
+
+export default Search;
