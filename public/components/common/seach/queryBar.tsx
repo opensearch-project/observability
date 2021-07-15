@@ -76,8 +76,9 @@ export function QueryBar(props: IQueryBarProps) {
   // Query contains the queries to send to backend, inputValue just keeps track of what's
   // in the input bar at the time. This ensures that the query doesn't disappear when we
   // switch tabs or hit enter.
-  const [inputValue, setInputValue] = useState(query[ RAW_QUERY ]);
-
+  const [inputValue, setInputValue] = useState(query && query[RAW_QUERY] ? query[RAW_QUERY] : '');
+  //const [inputValue, setInputValue] = useState("");
+  
   const splittedModel = inputValue.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
 
