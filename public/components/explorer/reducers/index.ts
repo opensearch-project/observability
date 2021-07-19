@@ -9,10 +9,6 @@
  * GitHub history for details.
  */
 
-import { combineReducers } from 'redux';
-
-import { explorerReducers } from '../../../components/explorer/reducers';
-
-export const rootReducer = combineReducers({
-  ...explorerReducers,
-});
+export const explorerReducers = {
+  
+};
