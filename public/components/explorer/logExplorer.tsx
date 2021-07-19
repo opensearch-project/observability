@@ -11,6 +11,7 @@
 
 import './logExplorer.scss';
 import React, { useEffect, useMemo } from 'react';
+import Redux from 'redux';
 import _ from 'lodash';
 import $ from 'jquery';
 import {

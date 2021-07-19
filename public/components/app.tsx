@@ -10,9 +10,13 @@
  */
 
 import  React, { useState, useRef } from 'react';
+import { Provider } from 'react-redux';
 import _ from 'lodash';
 import { I18nProvider } from '@osd/i18n/react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+
+import { store } from '../framework/redux/store';
+
 import { CoreStart } from '../../../../src/core/public';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
@@ -73,85 +77,87 @@ export const App = ({
   };
 
   return (
-    <HashRouter>
-      <I18nProvider>
-        <>
-          <Switch>
-            <Route 
-              exact
-              path={['/', '/application_analytics', '/application_analytics/home']}
-              render={(props) => {
-                chrome.setBreadcrumbs([
-                  parentBreadcrumb,
-                  {
-                    text: 'Application analytics',
-                    href: '#/application_analytics'
-                  },
-                ]);
-                return renderPageWithSidebar(<ApplicationAnalyticsHome />, 1);
-              } }
-            />
-            <Route
-              path={['/trace_analytics', '/trace_analytics/home']}
-              render={(props) => {
-                chrome.setBreadcrumbs([
-                  parentBreadcrumb,
-                  {
-                    text: 'Trace analytics',
-                    href: '#/trace_analytics/home'
-                  },
-                ]);
-                return renderPageWithSidebar(<TraceAnalyticsHome />, 2) }
-              }
-            />
-            <Route 
-              exact
-              path={['/event/', '/event/home']}
-              render={(props) => {
-                chrome.setBreadcrumbs([
-                  parentBreadcrumb,
-                  {
-                    text: 'Event analytics',
-                    href: '#/event/home'
-                  },
-                ]);
-                return renderPageWithSidebar(<EventExplorerHome />, 3);
-              } }
-            />
-            <Route
-              path={['/operational_panels', '/operational_panels/home']}
-              render={(props) => {
-                chrome.setBreadcrumbs([
-                  parentBreadcrumb,
-                  {
-                    text: 'Operational panels',
-                    href: '#/operational_panels/home'
-                  },
-                ]);
-                return renderPageWithSidebar(<OperationalPanelsHome />, 4);
-              } }
-            />
-            <Route 
-              exact
-              path='/event/explorer'
-              render={(props) => <LogExplorer
-                http={ http }
-                tabIds={ tabIds }
-                queries={ queries }
-                queryResults={ queryResults }
-                fields={ fields }
-                curQueriesRef={ curQueriesRef }
-                curSelectedTabId={ curSelectedTabId }
-                setTabIds={ setTabIds }
-                setQueries={ setQueries }
-                setQueryResults={ setQueryResults }
-                setFields={ setFields }
-                setCurSelectedTab={ setCurSelectedTab }
-              /> }
-            />
-          </Switch>
-        </>
-      </I18nProvider>
-    </HashRouter>
+    <Provider store={ store }>
+      <HashRouter>
+        <I18nProvider>
+          <>
+            <Switch>
+              <Route 
+                exact
+                path={['/', '/application_analytics', '/application_analytics/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    {
+                      text: 'Application analytics',
+                      href: '#/application_analytics'
+                    },
+                  ]);
+                  return renderPageWithSidebar(<ApplicationAnalyticsHome />, 1);
+                } }
+              />
+              <Route
+                path={['/trace_analytics', '/trace_analytics/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    {
+                      text: 'Trace analytics',
+                      href: '#/trace_analytics/home'
+                    },
+                  ]);
+                  return renderPageWithSidebar(<TraceAnalyticsHome />, 2) }
+                }
+              />
+              <Route 
+                exact
+                path={['/event/', '/event/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    {
+                      text: 'Event analytics',
+                      href: '#/event/home'
+                    },
+                  ]);
+                  return renderPageWithSidebar(<EventExplorerHome />, 3);
+                } }
+              />
+              <Route
+                path={['/operational_panels', '/operational_panels/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    {
+                      text: 'Operational panels',
+                      href: '#/operational_panels/home'
+                    },
+                  ]);
+                  return renderPageWithSidebar(<OperationalPanelsHome />, 4);
+                } }
+              />
+              <Route 
+                exact
+                path='/event/explorer'
+                render={(props) => <LogExplorer
+                  http={ http }
+                  tabIds={ tabIds }
+                  queries={ queries }
+                  queryResults={ queryResults }
+                  fields={ fields }
+                  curQueriesRef={ curQueriesRef }
+                  curSelectedTabId={ curSelectedTabId }
+                  setTabIds={ setTabIds }
+                  setQueries={ setQueries }
+                  setQueryResults={ setQueryResults }
+                  setFields={ setFields }
+                  setCurSelectedTab={ setCurSelectedTab }
+                /> }
+              />
+            </Switch>
+          </>
+        </I18nProvider>
+      </HashRouter>
+    </Provider>
   );
 };
