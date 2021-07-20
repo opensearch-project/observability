@@ -10,7 +10,10 @@
     "node": "10.23.1",
     "yarn": "^1.22.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@algolia/autocomplete-js": "^1.2.1",
+    "@algolia/autocomplete-theme-classic": "^1.2.1"
+  },
   "devDependencies": {
     "cypress": "5.0.0"
   }
