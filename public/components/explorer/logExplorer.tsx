@@ -20,7 +20,7 @@ import {
   EuiTabbedContent
 } from '@elastic/eui';
 import { Explorer } from './explorer';
-import { handlePplRequest } from '../../requests/ppl';
+import { handlePplRequest } from '../../services/requests/ppl';
 import {
   IField,
 } from '../../common/types/explorer';

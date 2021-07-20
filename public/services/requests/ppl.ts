@@ -9,11 +9,11 @@
  * GitHub history for details.
  */
 
-import { CoreStart } from '../../../../src/core/public';
+import { CoreStart } from '../../../../../src/core/public';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../common/index';
+} from '../../../common/index';
 
 export const handlePplRequest = async (
     http: CoreStart['http'],

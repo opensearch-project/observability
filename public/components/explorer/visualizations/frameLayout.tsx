@@ -33,8 +33,7 @@ export function FrameLayout(props: FrameLayoutProps) {
           {/* {props.suggestionsPanel} */}
         </EuiPageBody>
         <EuiPageSideBar className="lnsFrameLayout__sidebar lnsFrameLayout__sidebar--right">
-          {/* {props.configPanel} */}
-          right sidebar
+          {props.configPanel}          
         </EuiPageSideBar>
       </div>
     </EuiPage>

@@ -9,12 +9,30 @@
  * GitHub history for details.
  */
 
+import './app.scss';
+
 import _ from 'lodash';
 
 import React from 'react';
 import { FrameLayout } from './frameLayout';
 import { DataPanel } from './datapanel';
-import { WorkspacePanel } from './workspacePanel';
+import { WorkspacePanel } from './workspace_panel';
+// import {} 
+
+// const VIS_MAPS = {
+//   'lnsXY': {
+//     visualizationTypes: [
+//       {
+//         id: 'bar',
+//         label: 'Bar'
+//       },
+//       {
+//         id: 'line',
+//         label: 'Line'
+//       }
+//     ]
+//   }
+// };
 
 export const ExplorerVisualizations = (props: any) => {
 
@@ -24,7 +42,10 @@ export const ExplorerVisualizations = (props: any) => {
         queryResults={ props.queryResults }
       />}
       workspacePanel={
-        <WorkspacePanel />
+        <WorkspacePanel 
+          dispatch={ () => {} }
+          // visualizationMap={ VIS_MAPS }
+        />
       }
     />
   );

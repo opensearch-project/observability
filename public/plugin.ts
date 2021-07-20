@@ -26,12 +26,24 @@ import {
   observabilityTitle,
   observabilityPluginOrder
 } from '../common/index';
+// import {
+//   XYVisualization
+// } from './services/visualizations'
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
+
+    // private xyVisualization;
     
-    constructor(initializerContext: PluginInitializerContext) {}
+    constructor() {
+      // this.xyVisualization = new XYVisualization();
+    }
 
     public setup(core: CoreSetup): ObservabilitySetup {
+      
+      /** setup all services **/
+      // Visualization setup
+      // this.xyVisualization.setup();
+      
       core.application.register({
         id: observabilityID,
         title: observabilityTitle,

@@ -37,10 +37,10 @@ export function Plt(props: PltProps) {
       layout={{
         autosize: true,
         margin: {
-          l: 30,
-          r: 5,
-          b: 30,
-          t: 5,
+          l: 'auto',
+          r: 'auto',
+          b: 'auto',
+          t: 'auto',
           pad: 4,
         },
         barmode: 'stack',
