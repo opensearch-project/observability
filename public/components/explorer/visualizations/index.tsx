@@ -17,6 +17,7 @@ import React from 'react';
 import { FrameLayout } from './frameLayout';
 import { DataPanel } from './datapanel';
 import { WorkspacePanel } from './workspace_panel';
+import { ConfigPanelWrapper } from './config_panel';
 // import {} 
 
 // const VIS_MAPS = {
@@ -44,7 +45,13 @@ export const ExplorerVisualizations = (props: any) => {
       workspacePanel={
         <WorkspacePanel 
           dispatch={ () => {} }
+          query={ props.query }
           // visualizationMap={ VIS_MAPS }
+        />
+      }
+      configPanel={
+        <ConfigPanelWrapper
+          queryResults={ props.queryResults }
         />
       }
     />

@@ -151,6 +151,7 @@ export const LogExplorer = ({
   const handleQuerySearch = async (tabId: string) => {
     const latestQueries = curQueriesRef.current;
     const res = await handlePplRequest(http, { query: latestQueries[tabId][RAW_QUERY].trim() });
+    console.log('res: ', res);
     setQueryResults(staleQueryResults => {
       return {
         ...staleQueryResults,

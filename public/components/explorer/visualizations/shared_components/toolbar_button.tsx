@@ -40,7 +40,7 @@ export const ToolbarButton: React.FunctionComponent<ToolbarButtonProps> = ({
   children,
   className,
   fontWeight = 'normal',
-  size = 'm',
+  size = 's',
   hasArrow = true,
   groupPosition = 'none',
   dataTestSubj = '',

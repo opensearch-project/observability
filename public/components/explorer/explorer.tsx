@@ -22,7 +22,7 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
-import { CountDistribution } from '../visualizations/visualization/bar';
+import { Bar as CountDistribution } from '../visualizations/visualization/bar';
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
@@ -183,6 +183,7 @@ export const Explorer = (props: IExplorerProps) => {
     return (
       <ExplorerVisualizations
         queryResults={ props.explorerData }
+        query={ props.query }
       />
     );
   };

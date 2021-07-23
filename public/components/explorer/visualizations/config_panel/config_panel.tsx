@@ -6,35 +6,44 @@
 import './config_panel.scss';
 
 import React, { useMemo, memo } from 'react';
-import { EuiFlexItem, EuiToolTip, EuiButton, EuiForm } from '@elastic/eui';
+import { uniqueId} from 'lodash';
+import { 
+  EuiForm,
+  EuiSpacer,
+  EuiTabbedContent
+} from '@elastic/eui';
 import { i18n } from '@osd/i18n';
+import { PanelItem } from './configPanelItem'
 // import { Visualization } from '../../../types';
 // import { LayerPanel } from './layer_panel';
 // import { trackUiEvent } from '../../../lens_ui_telemetry';
 // import { generateId } from '../../../id_generator';
 // import { removeLayer, appendLayer } from './layer_actions';
 import { ConfigPanelWrapperProps } from './types';
+import { ToolbarButton } from '../shared_components/toolbar_button';
 
 export const ConfigPanelWrapper = memo(function ConfigPanelWrapper(props: ConfigPanelWrapperProps) {
-  const activeVisualization = props.visualizationMap[props.activeVisualizationId || ''];
-  const { visualizationState } = props;
+  // const activeVisualization = props.visualizationMap[props.activeVisualizationId || ''];
+  // const { visualizationState } = props;
 
-  return (
-    activeVisualization &&
-    visualizationState && <LayerPanels {...props} activeVisualization={activeVisualization} />
-  );
+  // return (
+  //   activeVisualization &&
+  //   visualizationState && <LayerPanels {...props} activeVisualization={activeVisualization} />
+  // );
+  return <LayerPanels {...props} />;
 });
 
 function LayerPanels(
   props: ConfigPanelWrapperProps & {
     activeDatasourceId: string;
-    activeVisualization: Visualization;
+    // activeVisualization: Visualization;
   }
 ) {
   const {
     // activeVisualization,
     // visualizationState,
     dispatch,
+    queryResults
     // activeDatasourceId,
     // datasourceMap,
   } = props;
@@ -87,77 +96,60 @@ function LayerPanels(
     },
     [dispatch]
   );
-  // const layerIds = activeVisualization.getLayerIds(visualizationState);
+
+  const panelItems = [
+    {
+      paddingTitle: 'X-axis',
+      advancedTitle: 'advanced',
+      dropdownList: queryResults && queryResults.schema ? queryResults.schema : []
+    },
+    {
+      paddingTitle: 'Y-axis',
+      advancedTitle: 'advanced',
+      dropdownList: []
+    }
+  ];
+
+  const ConfigPanelItems = (props) => {
+    const {
+      panelItems
+    } = props;
+    return (
+      <EuiForm className="lnsConfigPanel">
+        { panelItems.map((item) => {
+          return (
+            <>
+              <PanelItem
+                paddingTitle={ item.paddingTitle }
+                advancedTitle={ item.advancedTitle }
+                dropdownList={ item.dropdownList }
+              >
+                here goes advanced setting
+              </PanelItem>
+              <EuiSpacer size="s" />
+            </>
+          );
+        }) }
+      </EuiForm>
+    );
+  }
+
+  const tabs = [
+    {
+      id: 'setting-panel',
+      name: 'Settings',
+      content: <ConfigPanelItems 
+                panelItems={ panelItems }
+              />
+    }
+  ];
 
   return (
-    <EuiForm className="lnsConfigPanel">
-      {/* {layerIds.map((layerId, index) => (
-        <LayerPanel
-          {...props}
-          key={layerId}
-          layerId={layerId}
-          dataTestSubj={`lns-layerPanel-${index}`}
-          visualizationState={visualizationState}
-          updateVisualization={setVisualizationState}
-          updateDatasource={updateDatasource}
-          updateAll={updateAll}
-          isOnlyLayer={layerIds.length === 1}
-          onRemoveLayer={() => {
-            dispatch({
-              type: 'UPDATE_STATE',
-              subType: 'REMOVE_OR_CLEAR_LAYER',
-              updater: (state) =>
-                // removeLayer({
-                //   activeVisualization,
-                //   layerId,
-                //   trackUiEvent,
-                //   datasourceMap,
-                //   state,
-                // }),
-            });
-          }}
-        />
-      ))} */}
-      {true && (
-        <EuiFlexItem grow={true}>
-          <EuiToolTip
-            className="eui-fullWidth"
-            title={i18n.translate('xpack.lens.xyChart.addLayer', {
-              defaultMessage: 'Add a layer',
-            })}
-            content={i18n.translate('xpack.lens.xyChart.addLayerTooltip', {
-              defaultMessage:
-                'Use multiple layers to combine chart types or visualize different index patterns.',
-            })}
-            position="bottom"
-          >
-            <EuiButton
-              className="lnsConfigPanel__addLayerBtn"
-              fullWidth
-              size="s"
-              data-test-subj="lnsLayerAddButton"
-              aria-label={i18n.translate('xpack.lens.xyChart.addLayerButton', {
-                defaultMessage: 'Add layer',
-              })}
-              onClick={() => {
-                dispatch({
-                  type: 'UPDATE_STATE',
-                  subType: 'ADD_LAYER',
-                  updater: (state) =>
-                    // appendLayer({
-                    //   activeVisualization,
-                    //   generateId,
-                    //   trackUiEvent,
-                    //   activeDatasource: datasourceMap[activeDatasourceId],
-                    //   state,
-                    // }),
-                });
-              }}
-              iconType="plusInCircleFilled"
-            />
-          </EuiToolTip>
-        </EuiFlexItem>
-      )}
-    </EuiForm>
+    <EuiTabbedContent
+      id="vis-config-tabs"
+      tabs={ tabs }
+      initialSelectedTab={ tabs[1] }
+      autoFocus="selected"
+    />
   );
 }
