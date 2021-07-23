@@ -18,7 +18,6 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 
-import { QueryBar } from './queryBar';
 import { Filter } from './Filter';
 
 import './search.scss';
