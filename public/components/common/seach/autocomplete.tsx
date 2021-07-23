@@ -17,6 +17,8 @@ import {
     RAW_QUERY
   } from '../../../common/constants/explorer';
 import { IQueryBarProps } from './search';
+import { http } from '../../explorer/logExplorer'
+import { handlePplRequest } from '../../../requests/ppl';
 
 // Possible suggestions (hardcoded)
 const firstCommand = [
@@ -25,16 +27,24 @@ const firstCommand = [
 ]
 
 const pipeCommands = [
-    {label: "dedup"},
-    {label: "eval"},
-    {label: "fields"},
-    {label: "head"},
-    {label: "rare"},
-    {label: "rename"},
-    {label: "sort"},
-    {label: "stats"},
-    {label: "top"},
-    {label: "where"}
+  {label: "dedup"},
+  {label: "eval"},
+  {label: "fields"},
+  {label: "head"},
+  {label: "rare"},
+  {label: "rename"},
+  {label: "sort"},
+  {label: "stats"},
+  {label: "top"},
+  {label: "where"}
+]
+
+const statsCommands = [
+  {label: "count()"},
+  {label: "sum()"},
+  {label: "avg()"},
+  {label: "max()"},
+  {label: "min()"}
 ]
 
 const indices = [
@@ -71,6 +81,9 @@ export function getSuggestions(str: string) {
         else if (splittedModel[splittedModel.length - 2] === "source") {
             return [{label: "="}]
         }
+        else if (splittedModel[splittedModel.length - 2].startsWith("opensearch_dashboards")){
+          return [{label: "|"}]
+        }
         // If user didn't input any spaces before pipe
         else if (prefix.includes("|")) {
             return pipeCommands.filter(
@@ -81,6 +94,11 @@ export function getSuggestions(str: string) {
         else if (splittedModel[splittedModel.length - 2] === "search") {
             return [  {type: {iconType: 'search', color: 'tint1'} ,label: 'source',
                 description: "source=<index>"} ]
+        }
+        else if (splittedModel[splittedModel.length - 2] === "stats") {
+          return statsCommands.filter(
+            ( { label } ) => label.startsWith(prefix) && prefix !== label
+          )
         }
         // In case there are no spaces between 'source' and '='
         else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === "source") {
@@ -118,6 +136,8 @@ export function Autocomplete(props: IQueryBarProps) {
 
         if (item.label.includes('opensearch_dashboards') || pipeCommands.includes(prefix)){
             //setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " | ")
+            console.log("hey")
+            const res = handlePplRequest(http, qry);
         }
         else {
             //setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " ")
