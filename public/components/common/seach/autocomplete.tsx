@@ -101,17 +101,17 @@ export function Autocomplete(props: IQueryBarProps) {
         handleQuerySearch
     } = props;
 
-    const onItemSelect = ({ setIsOpen, setQuery, item, query }) => {
-        const splittedModel = query.split(' ');
+    const onItemSelect = ({ setIsOpen, setQuery, item, qry }) => {
+        const splittedModel = qry.split(' ');
         const prefix = splittedModel[splittedModel.length - 1];
 
         if (item.label.includes('opensearch_dashboards') || pipeCommands.includes(prefix)){
-            setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " | ")
+            //setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " | ")
         }
         else {
-            setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " ")
+            //setQuery(query.substring(0, query.lastIndexOf(prefix)) + item.label + " ")
         }
-        
+        setQuery(qry.substring(0, qry.lastIndexOf(prefix)) + item.label + " ");
         setIsOpen(false);
     }
 
@@ -126,6 +126,9 @@ export function Autocomplete(props: IQueryBarProps) {
               onSubmit: ({ state }) => {
                 handleQueryChange(state.query);
                 handleQuerySearch();
+              },
+              onStateChange: ({ state }) => {
+                handleQueryChange(state.query);
               },
               getSources({ query, setQuery }) {
                   return [
@@ -145,7 +148,7 @@ export function Autocomplete(props: IQueryBarProps) {
                                 setIsOpen,
                                 setQuery,
                                 item,
-                                query: state.query
+                                qry: state.query
                             })
                         },
                     },
@@ -157,7 +160,7 @@ export function Autocomplete(props: IQueryBarProps) {
         return () => {
             search.destroy();
         }
-    }, [props])
+    }, [])
 
     return <div id="autocomplete" />
 }
