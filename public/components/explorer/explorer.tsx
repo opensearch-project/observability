@@ -113,12 +113,12 @@ export const Explorer = (props: IExplorerProps) => {
           { (props.explorerData && !_.isEmpty(props.explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
-                <HitsCounter 
+                {/* <HitsCounter 
                   hits={ props.explorerData['datarows']?.length }
                   showResetButton={true}
                   onResetQuery={ () => {} }
-                />
-                <CountDistribution />
+                /> */}
+                {/* <CountDistribution /> */}
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
