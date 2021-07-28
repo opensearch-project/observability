@@ -20,10 +20,12 @@ import { App } from './app';
 export const Observability = (
   CoreStart: CoreStart,
   AppMountParameters: AppMountParameters,
+  pplService: any
 ) => {
   ReactDOM.render(
     <App
       CoreStart={ CoreStart }
+      pplService={ pplService }
     />,
     AppMountParameters.element
   );

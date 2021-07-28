@@ -9,4 +9,5 @@
  * GitHub history for details.
  */
 
-export * from './fetchReducers';
+export * from './querySlice';
+export * from './queryResultSlice';

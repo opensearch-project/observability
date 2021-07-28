@@ -26,6 +26,7 @@ import {
   observabilityTitle,
   observabilityPluginOrder
 } from '../common/index';
+import PPLService from './services/requests/ppl';
 // import {
 //   XYVisualization
 // } from './services/visualizations'
@@ -52,7 +53,13 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
           const [ coreStart ] = await core.getStartServices();
-          return Observability(coreStart, params);
+          const pplService = new PPLService(coreStart.http);
+          console.log('pplService: ', pplService);
+          return Observability(
+            coreStart,
+            params,
+            pplService
+          );
         },
       });
 

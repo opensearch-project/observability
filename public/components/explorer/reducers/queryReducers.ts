@@ -9,4 +9,8 @@
  * GitHub history for details.
  */
 
-export * from './fetchReducers';
+export const queryChange = (state = {}, action) => {
+  return { 
+    ...action.payload
+  };
+};

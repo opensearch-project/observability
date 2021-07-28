@@ -9,41 +9,25 @@
  * GitHub history for details.
  */
 
-import {
-  createStore,
-  compose,
-  applyMiddleware
-} from 'redux';
-import { rootReducer } from '../reducers';
+import rootReducer from '../reducers';
+import { configureStore } from '@reduxjs/toolkit';
 
-const initialState = {};
+const store = configureStore(
+  {
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    devTools: process.env.NODE_ENV !== 'production',
+    enhancers: [],
+  }
+);
 
-export const configureStore = (initialState: {}) => {
-
-  const middleware: Array<any> = [];
-
-  const composeEnhancers = 
-  typeof window === 'object' &&
-  process.env.NODE_ENV === 'development' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    
-    // add extendsion options here
-    name: 'Observability', 
-    // actionsBlacklist: ['REDUX_STORAGE_SAVE']
-
-  }) : compose;
-
-  const enhancer = composeEnhancers(
-    applyMiddleware(...middleware),
-    // other store enhancers if any
-  );
-
-  return createStore(
-      rootReducer,
-      initialState,
-      enhancer
-  );
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./rootReducer', () => {
+    const newRootReducer = require('./rootReducer').default
+    store.replaceReducer(newRootReducer)
+  })
 }
 
-export const store = configureStore(initialState);
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

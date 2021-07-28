@@ -10,6 +10,7 @@
  */
 
 import React, { useState, useMemo, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { 
   FormattedMessage 
@@ -37,13 +38,44 @@ import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
   TAB_EVENT_ID_TXT_PFX,
-  TAB_CHART_ID_TXT_PFX
+  TAB_CHART_ID_TXT_PFX,
+  RAW_QUERY,
+  SELECTED_FIELDS,
+  UNSELECTED_FIELDS
 } from '../../common/constants/explorer';
+import { useFetchQueryResponse } from './hooks';
+import { 
+  changeQuery,
+  selectQueries
+} from './slices/querySlice';
+import { selectQueryResult } from './slices/queryResultSlice';
+import { selectFields, updateFields } from './slices/fieldSlice';
 
 const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
 
-export const Explorer = (props: IExplorerProps) => {
+export const Explorer = ({
+  pplService,
+  tabId
+}: IExplorerProps) => {
+
+  const dispatch = useDispatch();
+
+  const requestParams = {
+    tabId,
+  };
+  const {
+    isLoading,
+    getQueryResponse
+  } = useFetchQueryResponse({
+    pplService,
+    requestParams
+  });
+
+  const query = useSelector(selectQueries)[tabId][RAW_QUERY];
+  const explorerData = useSelector(selectQueryResult)[tabId];
+  const explorerFields = useSelector(selectFields)[tabId];
+
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
@@ -59,9 +91,39 @@ export const Explorer = (props: IExplorerProps) => {
     [setFixedScrollEl]
   );
 
-  const handleAddField = (field: IField) => props.addField(field, props.tabId);
+  const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
 
-  const handleRemoveField = (field: IField) => props.removeField(field, props.tabId);
+  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, UNSELECTED_FIELDS);
+
+  /**
+   * Toggle fields between selected and unselected sets
+   * @param field field to be toggled
+   * @param FieldSetToRemove set where this field to be removed from
+   * @param FieldSetToAdd set where this field to be added
+  */
+  const toggleFields = (
+    field: IField,
+    FieldSetToRemove: string,
+    FieldSetToAdd: string
+  ) => {
+
+    const nextFields = _.cloneDeep(explorerFields);
+    const thisFieldSet = nextFields[FieldSetToRemove];
+    const nextFieldSet = thisFieldSet.filter((fd: IField) => fd.name !== field.name);
+    nextFields[FieldSetToRemove] = nextFieldSet;
+    nextFields[FieldSetToAdd].push(field);
+
+    dispatch(
+      updateFields(
+        {
+          tabId,
+          data: {
+            ...nextFields
+          }
+        }
+      )
+    );
+  };
 
   const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);
 
@@ -86,8 +148,8 @@ export const Explorer = (props: IExplorerProps) => {
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
                   <Sidebar
-                    queryData={ props.explorerData?.jsonData }
-                    explorerFields={ props.explorerFields }
+                    queryData={ explorerData?.jsonData }
+                    explorerFields={ explorerFields }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
                   />
@@ -110,7 +172,7 @@ export const Explorer = (props: IExplorerProps) => {
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (props.explorerData && !_.isEmpty(props.explorerData)) ? (
+          { (explorerData && !_.isEmpty(explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 {/* <HitsCounter 
@@ -132,11 +194,11 @@ export const Explorer = (props: IExplorerProps) => {
                   </h2>
                   <div className="dscDiscover">
                     <DataGrid 
-                      key={`datagrid-${props.tabId}`}
-                      tabId={ props.tabId }
-                      columns={ props.explorerData['schema'] }
-                      rows={ props.explorerData['jsonData'] }
-                      explorerFields={ props.explorerFields }
+                      key={`datagrid-${tabId}`}
+                      tabId={ tabId }
+                      columns={ explorerData['schema'] }
+                      rows={ explorerData['jsonData'] }
+                      explorerFields={ explorerFields }
                     />
                     <a tabIndex={0} id="discoverBottomMarker">
                       &#8203;
@@ -182,8 +244,8 @@ export const Explorer = (props: IExplorerProps) => {
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
-        queryResults={ props.explorerData }
-        query={ props.query }
+        queryResults={ explorerData }
+        query={ query }
       />
     );
   };
@@ -211,8 +273,8 @@ export const Explorer = (props: IExplorerProps) => {
     return getMainContentTabs();
   },
     [
-      props.explorerData,
-      props.explorerFields,
+      explorerData,
+      explorerFields,
       isSidebarClosed
     ]
   );
@@ -248,13 +310,31 @@ export const Explorer = (props: IExplorerProps) => {
   ];
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
+  
+  const handleQuerySearch = (tabId: string) => {
+    getQueryResponse();
+  }
+
+  const handleQueryChange = (query, tabId) => {
+    dispatch(
+      changeQuery(
+        {
+          tabId,
+          query: {
+            [RAW_QUERY]: query
+          }
+        }
+      )
+    );
+  }
+  
   return (
     <div className="dscAppContainer">
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
-        query={ props.query }
-        handleQueryChange={ (query: string) => { props.setSearchQuery(query, props.tabId) } }
-        handleQuerySearch={ () => { props.querySearch(props.tabId) } }
+        query={ query }
+        handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
+        handleQuerySearch={ () => { handleQuerySearch(tabId) } }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }

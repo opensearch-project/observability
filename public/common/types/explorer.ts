@@ -54,6 +54,7 @@ export interface IExplorerFields {
 
 export interface IExplorerProps {
   tabId: string;
+  pplService: any,
   query: any;
   explorerData: any;
   explorerFields: any;

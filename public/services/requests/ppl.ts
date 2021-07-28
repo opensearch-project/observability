@@ -15,11 +15,15 @@ import {
   PPL_SEARCH
 } from '../../../common/index';
 
-export const handlePplRequest = async (
-    http: CoreStart['http'],
+export default class PPLService {
+  private http;
+  constructor(http: CoreStart['http']) {
+    this.http = http;
+  }
+  fetch = async (
     params: { query: string }
   ) => {
-    return http
+    return this.http
             .post(
               `${PPL_BASE}${PPL_SEARCH}`,
               {
@@ -27,4 +31,5 @@ export const handlePplRequest = async (
               }
             )
             .catch(error => console.log(error));
-};
+  }
+}

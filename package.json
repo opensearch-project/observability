@@ -11,6 +11,7 @@
     "yarn": "^1.22.10"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
     "plotly.js-dist": "^2.2.0",
     "react-plotly.js": "^2.5.1"
   },

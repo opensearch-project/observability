@@ -11,7 +11,7 @@
 
 import './logExplorer.scss';
 import React, { useEffect, useMemo } from 'react';
-import {} from 'react-redux';
+import { useDispatch, useSelector, batch } from 'react-redux';
 import _ from 'lodash';
 import $ from 'jquery';
 import {
@@ -21,32 +21,36 @@ import {
   EuiTabbedContent
 } from '@elastic/eui';
 import { Explorer } from './explorer';
-import { handlePplRequest } from '../../services/requests/ppl';
-import {
-  IField,
-} from '../../common/types/explorer';
 import {
   TAB_TITLE,
-  TAB_ID_TXT_PFX,
-  RAW_QUERY,
-  SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  TAB_ID_TXT_PFX
 } from '../../common/constants/explorer';
+import { 
+  selectQueryTabs,
+  addTab,
+  setSelectedQueryTab,
+  removeTab
+} from './slices/queryTabSlice';
+import { 
+  init as fieldsInit,
+  remove as fieldsRemove
+} from './slices/fieldSlice';
+import {
+  remove as queryRemove,
+  init as queryInit
+} from './slices/querySlice';
+import { 
+  init as queryResultInit,
+  remove as queryResultRemove,
+} from './slices/queryResultSlice';
 
 export const LogExplorer = ({
-  http,
-  tabIds,
-  queries,
-  queryResults,
-  fields,
-  curQueriesRef,
-  curSelectedTabId,
-  setTabIds,
-  setQueries,
-  setQueryResults,
-  setFields,
-  setCurSelectedTab
+  pplService,
 }: any) => {
+
+  const dispatch = useDispatch();
+  const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
+  const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -59,7 +63,15 @@ export const LogExplorer = ({
     }
   }, [tabIds]);
 
-  const handleTabClick = (selectedTab: EuiTabbedContentTab) => setCurSelectedTab(selectedTab.id);
+  const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
+    dispatch(
+      setSelectedQueryTab(
+        {
+          tabId: selectedTab.id
+        }
+      )
+    );
+  };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
     
@@ -77,38 +89,37 @@ export const LogExplorer = ({
     } else if (index > 0) {
       newIdToFocus = tabIds[index - 1];
     }
-    setCurSelectedTab(newIdToFocus);
 
-    // Clean up state data for this tab
-    setTabIds((staleTabIds) => {
-      return staleTabIds.filter((id) => {
-        if (id === TabIdToBeClosed) {
-          return false;
-        }
-        return id !== TabIdToBeClosed;
-      });
-    });
-    setQueries(staleQueries => {
-      const newQueries = {
-        ...staleQueries,
-      };
-      delete newQueries[TabIdToBeClosed];
-      curQueriesRef.current = newQueries;
-      return newQueries;
-    });
-    setQueryResults(staleQueryResults => {
-      const newQueryResults = {
-        ...staleQueryResults
-      };
-      delete newQueryResults[TabIdToBeClosed];
-      return newQueryResults;
-    });
-    setFields(staleFields => {
-      const newFields = {
-        ...staleFields
-      };
-      delete newFields[TabIdToBeClosed];
-      return newFields
+    batch(() => {
+      dispatch(
+        queryRemove(
+          {
+            tabId: TabIdToBeClosed,
+          }
+        )
+      );
+      dispatch(
+        fieldsRemove(
+          {
+            tabId: TabIdToBeClosed,
+          }
+        )
+      );
+      dispatch(
+        queryResultRemove(
+          {
+            tabId: TabIdToBeClosed,
+          }
+        )
+      );
+      dispatch(
+        removeTab(
+          {
+            tabId: TabIdToBeClosed,
+            newSelectedQueryTab: newIdToFocus
+          }
+        )
+      );
     });
   };
 
@@ -117,119 +128,47 @@ export const LogExplorer = ({
   }
 
   function addNewTab () {
-    const tabId: string = getTabId(TAB_ID_TXT_PFX);
-    
-    setTabIds(staleTabIds => {
-      return [...staleTabIds, tabId];
-    });
-    setQueries(staleQueries => {
-      const newQueries = {
-        ...staleQueries,
-        [tabId]: {
-          [RAW_QUERY]: ''
-        }
-      };
-      curQueriesRef.current = newQueries;
-      return newQueries;
-    });
-    setQueryResults(staleQueryResults => {
-      return {
-        ...staleQueryResults,
-        [tabId]: {}
-      };
-    });
-    setFields(staleFields => {
-      return {
-        ...staleFields,
-        [tabId]: {
-          [SELECTED_FIELDS]: [],
-          [UNSELECTED_FIELDS]: []
-        }
-      };
-    });
-  };
-
-  const handleQuerySearch = async (tabId: string) => {
-    const latestQueries = curQueriesRef.current;
-    const res = await handlePplRequest(http, { query: latestQueries[tabId][RAW_QUERY].trim() });
-    console.log('res: ', res);
-    setQueryResults(staleQueryResults => {
-      return {
-        ...staleQueryResults,
-        [tabId]: res
-      };
-    });
-    setFields(staleFields => {
-      return {
-        ...staleFields,
-        [tabId]: {
-          [SELECTED_FIELDS]: [],
-          [UNSELECTED_FIELDS]: res?.schema || []
-        }
-      };
-    });
-  };
-
-  const setSearchQuery = (query: string, tabId: string) => {
-    setQueries(staleQueries => {
-      const newQueries = {
-        ...staleQueries,
-        [tabId]: {
-          [RAW_QUERY]: query
-        }
-      };
-      curQueriesRef.current = newQueries;
-      return newQueries;
-    });
-  };
-
-  const handleAddField = (field: IField, tabId: string) => toggleFields(field, tabId, UNSELECTED_FIELDS, SELECTED_FIELDS);
-
-  const handleRemoveField = (field: IField, tabId: string) => toggleFields(field, tabId, SELECTED_FIELDS, UNSELECTED_FIELDS);
-
-  /**
-   * Toggle fields between selected and unselected sets
-   * @param field field to be toggled
-   * @param tabId id of the tab that triggers fields selecting and removing
-   * @param FieldSetToRemove set where this field to be removed from
-   * @param FieldSetToAdd set where this field to be added
-   */
-  const toggleFields = (
-    field: IField,
-    tabId: string,
-    FieldSetToRemove: string,
-    FieldSetToAdd: string
-  ) => {
-    setFields(staleFields => {
-
-      const nextFields = _.cloneDeep(staleFields);
-
-      const thisFieldSet = nextFields[tabId][FieldSetToRemove];
-      const nextFieldSet = thisFieldSet.filter((fd: IField) => fd.name !== field.name);
-      nextFields[tabId][FieldSetToRemove] = nextFieldSet;
-      nextFields[tabId][FieldSetToAdd].push(field);
-
-      return nextFields;
+    const tabId: string = getTabId(TAB_ID_TXT_PFX); 
+    batch(() => {
+      dispatch(
+        queryInit(
+          {
+            tabId,
+          }
+        )
+      );
+      dispatch(
+        queryResultInit(
+          {
+            tabId,
+          }
+        )
+      );
+      dispatch(
+        fieldsInit(
+          {
+            tabId,
+          }
+        )
+      );
+      dispatch(
+        addTab(
+          {
+            tabId,
+          }
+        )
+      );
     });
   };
 
   function getQueryTab ({
     tabTitle,
     tabId,
-    fields,
-    queryResults,
-    setSearchQuery,
     handleTabClose,
-    handleQuerySearch,
   }: {
     tabTitle: string,
     tabId: string,
-    fields: any,
-    queries: any,
-    queryResults: any,
-    setSearchQuery: (query: string, tabId: string) => void,
     handleTabClose: (TabIdToBeClosed: string) => void,
-    handleQuerySearch: (tabId: string) => void,
   }) {
     return {
       id: tabId,
@@ -253,14 +192,8 @@ export const LogExplorer = ({
         <>
           <Explorer
             key={`explorer_${tabId}`}
+            pplService={ pplService }
             tabId={ tabId }
-            query={ queries[tabId] }
-            explorerFields={ fields[tabId] }
-            explorerData={ queryResults[tabId] }
-            setSearchQuery={ (query: string, tabId: string) => { setSearchQuery(query, tabId) } }
-            querySearch={ (tabId: string) => { handleQuerySearch(tabId) } }
-            addField={ (field: IField, tabId: string) => { handleAddField(field, tabId) } }
-            removeField={ (field: IField, tabId: string) => { handleRemoveField(field, tabId) } }
           />
         </>)
     };
@@ -272,21 +205,13 @@ export const LogExplorer = ({
         {
           tabTitle: TAB_TITLE,
           tabId,
-          queries,
-          fields,
-          queryResults,
-          setSearchQuery,
           handleTabClose,
-          handleQuerySearch,
         }
       );
     });
   }, 
     [
-      queries,
       tabIds,
-      queryResults,
-      fields
     ]
   );
 

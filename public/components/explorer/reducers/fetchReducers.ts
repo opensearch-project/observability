@@ -9,4 +9,6 @@
  * GitHub history for details.
  */
 
-export * from './fetchReducers';
+export const fetchSuccess = (state, { payload }) => {
+  state[payload.tabId] = payload.data;
+};

@@ -11,8 +11,21 @@
 
 import { combineReducers } from 'redux';
 
-import { explorerReducers } from '../../../components/explorer/reducers';
+import queriesReducer from '../../../components/explorer/slices/querySlice';
+import queryResultsReducer from '../../../components/explorer/slices/queryResultSlice';
+import queryTabReducer from '../../../components/explorer/slices/queryTabSlice';
+import FieldsReducer from '../../../components/explorer/slices/fieldSlice';
 
-export const rootReducer = combineReducers({
-  ...explorerReducers,
+const rootReducer = combineReducers({
+
+  // explorer reducers
+  queries: queriesReducer,
+  queryResults: queryResultsReducer,
+  explorerTabs: queryTabReducer,
+  fields: FieldsReducer
+
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default rootReducer;
