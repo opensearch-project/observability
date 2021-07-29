@@ -113,16 +113,12 @@ export const Explorer = ({
     nextFields[FieldSetToRemove] = nextFieldSet;
     nextFields[FieldSetToAdd].push(field);
 
-    dispatch(
-      updateFields(
-        {
-          tabId,
-          data: {
-            ...nextFields
-          }
-        }
-      )
-    );
+    dispatch(updateFields({ 
+      tabId,
+      data: {
+        ...nextFields
+      }
+    }));
   };
 
   const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);

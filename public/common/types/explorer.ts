@@ -49,19 +49,12 @@ export interface IExplorerTabFields {
 
 export interface IExplorerFields {
   [SELECTED_FIELDS]: Array<IField>;
-  [UNSELECTED_FIELDS]: Array<IField>
+  [UNSELECTED_FIELDS]: Array<IField>;
 }
 
 export interface IExplorerProps {
   tabId: string;
-  pplService: any,
-  query: any;
-  explorerData: any;
-  explorerFields: any;
-  setSearchQuery: (query: string, tabId: string) => void;
-  querySearch: (tabId: string) => void;
-  addField: (field: IField, tabId: string) => void;
-  removeField: (field: IField, tabId: string) => void
+  pplService: any;
 }
 
 export interface LogExplorer {

@@ -13,8 +13,7 @@ import {
   Plugin,
   CoreSetup,
   CoreStart,
-  AppMountParameters, 
-  PluginInitializerContext,
+  AppMountParameters,
   DEFAULT_APP_CATEGORIES
 } from '../../../src/core/public';
 import {
@@ -27,23 +26,10 @@ import {
   observabilityPluginOrder
 } from '../common/index';
 import PPLService from './services/requests/ppl';
-// import {
-//   XYVisualization
-// } from './services/visualizations'
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
 
-    // private xyVisualization;
-    
-    constructor() {
-      // this.xyVisualization = new XYVisualization();
-    }
-
     public setup(core: CoreSetup): ObservabilitySetup {
-      
-      /** setup all services **/
-      // Visualization setup
-      // this.xyVisualization.setup();
       
       core.application.register({
         id: observabilityID,

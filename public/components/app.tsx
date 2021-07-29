@@ -14,9 +14,7 @@ import { Provider } from 'react-redux';
 import _ from 'lodash';
 import { I18nProvider } from '@osd/i18n/react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-
 import store from '../framework/redux/store';
-
 import { CoreStart } from '../../../../src/core/public';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
@@ -37,7 +35,6 @@ export const App = ({
 }: ObservabilityAppDeps) => {
 
   const { chrome, http } = CoreStart;
-
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: 'observability#/'

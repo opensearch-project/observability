@@ -12,7 +12,10 @@
 import './logExplorer.scss';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
-import _ from 'lodash';
+import { 
+  uniqueId,
+  map
+} from 'lodash';
 import $ from 'jquery';
 import {
   EuiIcon,
@@ -32,16 +35,16 @@ import {
   removeTab
 } from './slices/queryTabSlice';
 import { 
-  init as fieldsInit,
-  remove as fieldsRemove
+  init as initFields,
+  remove as removefields
 } from './slices/fieldSlice';
 import {
-  remove as queryRemove,
-  init as queryInit
+  init as initQuery,
+  remove as removeQuery
 } from './slices/querySlice';
 import { 
-  init as queryResultInit,
-  remove as queryResultRemove,
+  init as initQueryResult,
+  remove as removeQueryResult,
 } from './slices/queryResultSlice';
 
 export const LogExplorer = ({
@@ -64,13 +67,7 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    dispatch(
-      setSelectedQueryTab(
-        {
-          tabId: selectedTab.id
-        }
-      )
-    );
+    dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
@@ -91,73 +88,23 @@ export const LogExplorer = ({
     }
 
     batch(() => {
-      dispatch(
-        queryRemove(
-          {
-            tabId: TabIdToBeClosed,
-          }
-        )
-      );
-      dispatch(
-        fieldsRemove(
-          {
-            tabId: TabIdToBeClosed,
-          }
-        )
-      );
-      dispatch(
-        queryResultRemove(
-          {
-            tabId: TabIdToBeClosed,
-          }
-        )
-      );
-      dispatch(
-        removeTab(
-          {
-            tabId: TabIdToBeClosed,
-            newSelectedQueryTab: newIdToFocus
-          }
-        )
-      );
+      dispatch(removeQuery({ tabId: TabIdToBeClosed, }));
+      dispatch(removefields({ tabId: TabIdToBeClosed, }));
+      dispatch(removeQueryResult({ tabId: TabIdToBeClosed, }));
+      dispatch(removeTab({ 
+        tabId: TabIdToBeClosed, 
+        newSelectedQueryTab: newIdToFocus
+      }));
     });
   };
 
-  function getTabId (prefix: string) {
-    return _.uniqueId(prefix);
-  }
-
   function addNewTab () {
-    const tabId: string = getTabId(TAB_ID_TXT_PFX); 
+    const tabId: string = uniqueId(TAB_ID_TXT_PFX);
     batch(() => {
-      dispatch(
-        queryInit(
-          {
-            tabId,
-          }
-        )
-      );
-      dispatch(
-        queryResultInit(
-          {
-            tabId,
-          }
-        )
-      );
-      dispatch(
-        fieldsInit(
-          {
-            tabId,
-          }
-        )
-      );
-      dispatch(
-        addTab(
-          {
-            tabId,
-          }
-        )
-      );
+      dispatch(initQuery({ tabId, }));
+      dispatch(initQueryResult({ tabId, }));
+      dispatch(initFields({ tabId, }));
+      dispatch(addTab({ tabId, }));
     });
   };
 
@@ -200,7 +147,7 @@ export const LogExplorer = ({
   }
 
   const memorizedTabs = useMemo(() => {
-    return _.map(tabIds, (tabId) => {
+    return map(tabIds, (tabId) => {
       return getQueryTab(
         {
           tabTitle: TAB_TITLE,
@@ -209,11 +156,7 @@ export const LogExplorer = ({
         }
       );
     });
-  }, 
-    [
-      tabIds,
-    ]
-  );
+  }, [ tabIds ]);
 
   return (
     <>
