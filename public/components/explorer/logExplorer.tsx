@@ -253,6 +253,7 @@ export const LogExplorer = ({
             key={`explorer_${tabId}`}
             tabId={ tabId }
             query={ queries[tabId] }
+            http={http}
             explorerFields={ fields[tabId] }
             explorerData={ queryResults[tabId] }
             setSearchQuery={ (query: string, tabId: string) => { setSearchQuery(query, tabId) } }

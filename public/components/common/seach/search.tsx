@@ -8,6 +8,7 @@
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
  */
+import './search.scss';
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -20,8 +21,6 @@ import _ from 'lodash';
 
 import { Filter } from './Filter';
 
-import './search.scss';
-import { _termValuesToQuery } from '@elastic/eui/src/components/search_bar/query/ast_to_es_query_dsl';
 import {autocomplete} from '@algolia/autocomplete-js'
 import '@algolia/autocomplete-theme-classic'
 import {Autocomplete, getSuggestions} from './autocomplete'
@@ -33,6 +32,7 @@ export interface IQueryBarProps {
   query: string
   handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void
+  http: any
 }
 
 export interface IFilterProps {
@@ -48,6 +48,7 @@ export const Search = (props: any) => {
 
   const {
     query,
+    http,
     handleQueryChange,
     handleQuerySearch,
     startTime,
@@ -58,12 +59,13 @@ export const Search = (props: any) => {
     actionItems
   } = props;
 
-  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch }: IQueryBarProps) {
+  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, http }: IQueryBarProps) {
     return (
       <Autocomplete
         query = { query }
         handleQueryChange = { handleQueryChange }
         handleQuerySearch = { handleQuerySearch }
+        http = { http }
       />
     )
   }
@@ -75,7 +77,7 @@ export const Search = (props: any) => {
           justifyContent="flexEnd"
         >
           <div className="autocomplete">
-          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch }) }
+          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, http }) }
           </div>
           <Filter
             startTime={ startTime }

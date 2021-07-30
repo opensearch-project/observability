@@ -235,6 +235,7 @@ export const Explorer = (props: IExplorerProps) => {
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ props.query }
+        http={props.http}
         handleQueryChange={ (query: string) => { props.setSearchQuery(query, props.tabId) } }
         handleQuerySearch={ () => { props.querySearch(props.tabId) } }
         startTime={ startTime }

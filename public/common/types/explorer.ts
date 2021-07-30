@@ -55,6 +55,7 @@ export interface IExplorerFields {
 export interface IExplorerProps {
   tabId: string;
   query: any;
+  http: any;
   explorerData: any;
   explorerFields: any;
   setSearchQuery: (query: string, tabId: string) => void;
