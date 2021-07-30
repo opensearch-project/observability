@@ -31,22 +31,9 @@ const getQuerySuggestions = () => {
     
     const [searchValue, setSearchValue] = useState('');
     const [isLoading, setLoading] = useState(false);
-    //const [searchRef, setSearchRef] useState<HTMLInputElement | null>(null);
     const searchValueExists = searchValue && searchValue.length;
 
     const recents = commands.slice(0, 5);
-    // const recentsWithIcons: EuiSelectableTemplateSitewideOption[] = recents.map(
-    //     (recent) => {
-    //         return {
-    //             ...recents,
-    //             icon: {
-    //                 type: 'clock',
-    //                 color: 'subdued',
-    //             },
-    //         };
-    //     }
-    // );
-    
 
     const onChange = (updatedOptions: EuiSelectableTemplateSitewideOption[]) => {
         const clickedItem = updatedOptions.find(

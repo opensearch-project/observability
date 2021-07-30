@@ -4,14 +4,6 @@
  * The OpenSearch Contributors require contributions made to
  * this file be licensed under the Apache-2.0 license or a
  * compatible open source license.
- */
-
-/*
- * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
  *
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
@@ -188,8 +180,8 @@ export function getSuggestions(str: string, http) {
       return fullSuggestions;
     } else if (inFieldsCommaLoop) {
       return [
-        { label: ',', input: str, suggestion: str.substring(0, str.length - 1) + ',' },
-        { label: ',', input: str, suggestion: str.substring(0, str.length - 1) + '|' },
+        { label: str.substring(0, str.length - 1) + ',', input: str.substring(0, str.length - 1), suggestion: ',' },
+        { label: str.substring(0, str.length - 1) + '|', input: str.substring(0, str.length - 1), suggestion: '|' },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     }
     // TODO: (Grammar implementation) Catch user typos and fix them based on their previous inputs.
