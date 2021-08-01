@@ -10,8 +10,6 @@
  */
 import './search.scss';
 import React, { createElement, Fragment, useEffect, useRef, useState } from 'react';
-import { render } from 'react-dom';
-import { h } from 'preact';
 
 import { autocomplete } from '@algolia/autocomplete-js';
 import { RAW_QUERY } from '../../../common/constants/explorer';
@@ -140,7 +138,9 @@ export function getSuggestions(str: string, http) {
     else if (splittedModel[splittedModel.length - 2] === 'search') {
       return [
         { label: 'search source', input: str, suggestion: 'search source'.substring(str.length) },
-      ];
+      ].filter(
+        ({ label }) => label.startsWith(prefix) && prefix !== label
+      );
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       itemSuggestions = statsCommands.filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
