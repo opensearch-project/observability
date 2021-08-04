@@ -55,7 +55,7 @@ afterEvaluate {
         url 'https://opensearch.org/'
         summary '''
          OpenSearch Notebooks.
-         Reference documentation can be found at https://docs-beta.opensearch.org/docs.
+         Reference documentation can be found at https://opensearch.org/docs/.
     '''.stripIndent().replace('\n', ' ').trim()
     }
 

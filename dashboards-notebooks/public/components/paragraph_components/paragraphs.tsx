@@ -437,11 +437,11 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   };
 
   const sqlIcon = (
-    <EuiLink href="https://docs-beta.opensearch.org/docs/sql/" target="_blank"> SQL <EuiIcon type="popout" size="s"/> </EuiLink>
+    <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank"> SQL <EuiIcon type="popout" size="s"/> </EuiLink>
   )
 
   const pplIcon = (
-    <EuiLink href="https://docs-beta.opensearch.org/docs/ppl/" target="_blank"> PPL <EuiIcon type="popout" size="s"/></EuiLink>
+    <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank"> PPL <EuiIcon type="popout" size="s"/></EuiLink>
   )
 
   const paragraphLabel = (!para.isVizualisation) ?
@@ -452,11 +452,11 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
 
   const queryErrorMessage = (queryParagraphErrorMessage.includes("SQL")) ? (
     <EuiText size="s">
-      {queryParagraphErrorMessage}. Learn More <EuiLink href="https://docs-beta.opensearch.org/docs/sql/" target="_blank"><EuiIcon type="popout" size="s"/></EuiLink>
+      {queryParagraphErrorMessage}. Learn More <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank"><EuiIcon type="popout" size="s"/></EuiLink>
     </EuiText>
   ) : (
     <EuiText size="s">
-    {queryParagraphErrorMessage}. <EuiLink href="https://docs-beta.opensearch.org/docs/ppl/" target="_blank">Learn More <EuiIcon type="popout" size="s"/></EuiLink>
+    {queryParagraphErrorMessage}. <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank">Learn More <EuiIcon type="popout" size="s"/></EuiLink>
   </EuiText>
   )
 
