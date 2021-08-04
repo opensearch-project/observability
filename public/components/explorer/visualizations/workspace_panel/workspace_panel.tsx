@@ -43,8 +43,8 @@ import {
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 // import { DropIllustration } from '../../../assets/drop_illustration';
 // import { getOriginalRequestErrorMessage } from '../../error_helper';
-import { Bar } from '../../../visualizations/visualization/bar';
-import { Line } from '../../../visualizations/visualization/line';
+import { Bar } from '../../../visualizations/charts/bar';
+import { Line } from '../../../visualizations/charts/line';
 import { LensIconChartBar } from '../assets/chart_bar';
 import { LensIconChartLine } from '../assets/chart_line';
 // import { vis } from 'src/plugins/vis_type_vislib/public/components/options/metrics_axes/mocks';

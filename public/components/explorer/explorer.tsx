@@ -19,15 +19,19 @@ import {
   EuiText,
   EuiButtonIcon,
   EuiTabbedContent,
-  EuiTabbedContentTab
+  EuiTabbedContentTab,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiSpacer 
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
-import { Bar as CountDistribution } from '../visualizations/visualization/bar';
+import { CountDistribution } from './visualizations/countDistribution';
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
 import { HitsCounter } from './hits_counter/hits_counter';
+import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
@@ -133,6 +137,7 @@ export const Explorer = ({
   });
 
   const getMainContent = () => {
+
     return (
       <main className="container-fluid">
         <div className="row">
@@ -171,12 +176,68 @@ export const Explorer = ({
           { (explorerData && !_.isEmpty(explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
-                {/* <HitsCounter 
-                  hits={ props.explorerData['datarows']?.length }
-                  showResetButton={true}
-                  onResetQuery={ () => {} }
-                /> */}
-                {/* <CountDistribution /> */}
+              <EuiFlexGroup
+                justifyContent="center"
+                alignItems="center"
+              >
+                <EuiFlexItem
+                  grow={false}
+                >
+                  <HitsCounter 
+                    hits={ explorerData['datarows']?.length }
+                    showResetButton={true}
+                    onResetQuery={ () => {} }
+                  />
+                </EuiFlexItem>
+                <EuiFlexItem
+                  grow={false}
+                >
+                  <TimechartHeader
+                    dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
+                    options={[
+                      {
+                        display: 'Auto',
+                        val: 'auto'
+                      },
+                      {
+                        display: 'Millisecond',
+                        val: 'ms'
+                      },
+                      {
+                        display: 'Second',
+                        val: 's'
+                      },
+                      {
+                        display: 'Minute',
+                        val: 'm'
+                      },
+                      {
+                        display: 'Hour',
+                        val: 'h'
+                      },
+                      {
+                        display: 'Day',
+                        val: 'd'
+                      },
+                      {
+                        display: 'Week',
+                        val: 'w'
+                      },
+                      {
+                        display: 'Month',
+                        val: 'M'
+                      },
+                      {
+                        display: 'Year',
+                        val: 'y'
+                      },
+                    ]}
+                    onChangeInterval={() => {}}
+                    stateInterval="auto"
+                  />
+                </EuiFlexItem>
+              </EuiFlexGroup>
+                <CountDistribution />
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
@@ -308,6 +369,7 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = (tabId: string) => {
+    if (query.includes('stats')) return;
     getQueryResponse();
   }
 

@@ -64,6 +64,7 @@ export function TimechartHeader({
   onChangeInterval,
   stateInterval,
 }: TimechartHeaderProps) {
+
   const [interval, setInterval] = useState(stateInterval);
   const toMoment = useCallback(
     (datetime: string) => {
@@ -87,9 +88,9 @@ export function TimechartHeader({
     onChangeInterval(e.target.value);
   };
 
-  if (!timeRange || !bucketInterval) {
-    return null;
-  }
+  // if (!timeRange || !bucketInterval) {
+  //   return null;
+  // }
 
   return (
     <I18nProvider>
@@ -102,13 +103,13 @@ export function TimechartHeader({
             delay="long"
           >
             <EuiText data-test-subj="discoverIntervalDateRange" size="s">
-              {`${toMoment(timeRange.from)} - ${toMoment(timeRange.to)} ${
+              {/* {`${toMoment(timeRange.from)} - ${toMoment(timeRange.to)} ${
                 interval !== 'auto'
                   ? i18n.translate('discover.timechartHeader.timeIntervalSelect.per', {
                       defaultMessage: 'per',
                     })
                   : ''
-              }`}
+              }`} */}
             </EuiText>
           </EuiToolTip>
         </EuiFlexItem>
@@ -131,30 +132,30 @@ export function TimechartHeader({
               })}
             value={interval}
             onChange={handleIntervalChange}
-            append={
-              bucketInterval.scaled ? (
-                <EuiIconTip
-                  id="discoverIntervalIconTip"
-                  content={i18n.translate('discover.bucketIntervalTooltip', {
-                    defaultMessage:
-                      'This interval creates {bucketsDescription} to show in the selected time range, so it has been scaled to {bucketIntervalDescription}.',
-                    values: {
-                      bucketsDescription:
-                        bucketInterval!.scale && bucketInterval!.scale > 1
-                          ? i18n.translate('discover.bucketIntervalTooltip.tooLargeBucketsText', {
-                              defaultMessage: 'buckets that are too large',
-                            })
-                          : i18n.translate('discover.bucketIntervalTooltip.tooManyBucketsText', {
-                              defaultMessage: 'too many buckets',
-                            }),
-                      bucketIntervalDescription: bucketInterval.description,
-                    },
-                  })}
-                  color="warning"
-                  size="s"
-                  type="alert"
-                />
-              ) : undefined
+            append={ undefined
+              // bucketInterval.scaled ? (
+              //   <EuiIconTip
+              //     id="discoverIntervalIconTip"
+              //     content={i18n.translate('discover.bucketIntervalTooltip', {
+              //       defaultMessage:
+              //         'This interval creates {bucketsDescription} to show in the selected time range, so it has been scaled to {bucketIntervalDescription}.',
+              //       values: {
+              //         bucketsDescription:
+              //           bucketInterval!.scale && bucketInterval!.scale > 1
+              //             ? i18n.translate('discover.bucketIntervalTooltip.tooLargeBucketsText', {
+              //                 defaultMessage: 'buckets that are too large',
+              //               })
+              //             : i18n.translate('discover.bucketIntervalTooltip.tooManyBucketsText', {
+              //                 defaultMessage: 'too many buckets',
+              //               }),
+              //         bucketIntervalDescription: bucketInterval.description,
+              //       },
+              //     })}
+              //     color="warning"
+              //     size="s"
+              //     type="alert"
+              //   />
+              // ) : undefined
             }
           />
         </EuiFlexItem>
