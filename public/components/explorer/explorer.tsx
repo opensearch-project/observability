@@ -176,68 +176,75 @@ export const Explorer = ({
           { (explorerData && !_.isEmpty(explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
-              <EuiFlexGroup
-                justifyContent="center"
-                alignItems="center"
-              >
-                <EuiFlexItem
-                  grow={false}
-                >
-                  <HitsCounter 
-                    hits={ explorerData['datarows']?.length }
-                    showResetButton={true}
-                    onResetQuery={ () => {} }
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem
-                  grow={false}
-                >
-                  <TimechartHeader
-                    dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
-                    options={[
-                      {
-                        display: 'Auto',
-                        val: 'auto'
-                      },
-                      {
-                        display: 'Millisecond',
-                        val: 'ms'
-                      },
-                      {
-                        display: 'Second',
-                        val: 's'
-                      },
-                      {
-                        display: 'Minute',
-                        val: 'm'
-                      },
-                      {
-                        display: 'Hour',
-                        val: 'h'
-                      },
-                      {
-                        display: 'Day',
-                        val: 'd'
-                      },
-                      {
-                        display: 'Week',
-                        val: 'w'
-                      },
-                      {
-                        display: 'Month',
-                        val: 'M'
-                      },
-                      {
-                        display: 'Year',
-                        val: 'y'
-                      },
-                    ]}
-                    onChangeInterval={() => {}}
-                    stateInterval="auto"
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
-                <CountDistribution />
+                { 
+                  explorerData && explorerData['hasTimestamp'] && (
+                    <>
+                      <EuiFlexGroup
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <HitsCounter 
+                            hits={ explorerData['datarows']?.length }
+                            showResetButton={true}
+                            onResetQuery={ () => {} }
+                          />
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <TimechartHeader
+                            dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
+                            options={[
+                              {
+                                display: 'Auto',
+                                val: 'auto'
+                              },
+                              {
+                                display: 'Millisecond',
+                                val: 'ms'
+                              },
+                              {
+                                display: 'Second',
+                                val: 's'
+                              },
+                              {
+                                display: 'Minute',
+                                val: 'm'
+                              },
+                              {
+                                display: 'Hour',
+                                val: 'h'
+                              },
+                              {
+                                display: 'Day',
+                                val: 'd'
+                              },
+                              {
+                                display: 'Week',
+                                val: 'w'
+                              },
+                              {
+                                display: 'Month',
+                                val: 'M'
+                              },
+                              {
+                                display: 'Year',
+                                val: 'y'
+                              },
+                            ]}
+                            onChangeInterval={() => {}}
+                            stateInterval="auto"
+                          />
+                        </EuiFlexItem>
+                      </EuiFlexGroup>
+                      <CountDistribution />
+                    </>
+                  )
+                }
+                
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
