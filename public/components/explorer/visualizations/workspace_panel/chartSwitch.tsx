@@ -1,9 +1,18 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
 import './chart_switch.scss';
 
 import React, { useState } from 'react';
-import { uniqueId } from 'lodash';
 import { i18n } from '@osd/i18n';
-// import { FormattedMessage } from '@osd/i18n/react';
 import {
   EuiPopover,
   EuiPopoverTitle,
@@ -11,31 +20,13 @@ import {
   EuiFlexItem,
   EuiKeyPadMenu,
   EuiKeyPadMenuItem,
-  EuiIcon,
-  // EuiSelectableMessage
+  EuiIcon
 } from '@elastic/eui';
 import { ToolbarButton } from '../shared_components/toolbar_button';
-// import { LensIconChartBar } from '../assets/chart_bar';
-// import { LensIconChartLine } from '../assets/chart_line';
 
 function VisualizationSummary(vis: any) {
-  // const visualization = props.visualizationMap[props.visualizationId || ''];
-
-  // if (!visualization) {
-  //   return (
-  //     <>
-  //       {i18n.translate('xpack.lens.configPanel.selectVisualization', {
-  //         defaultMessage: 'Select a visualization',
-  //       })}
-  //     </>
-  //   );
-  // }
-
-  // const description = visualization.getDescription(props.visualizationState);
-
   return (
     <>
-      
       <EuiIcon size="l" className="lnsChartSwitch__summaryIcon" type={vis.icon} />
       { vis.label }
     </>
@@ -49,7 +40,6 @@ export const ChartSwitch = ({
 }: any) => {
 
   const [flyoutOpen, setFlyoutOpen] = useState<boolean>(false);
-  // const [vis, setVis] = useState(visualizationTypes[0]);
   
   const popoverWrappedSwitch = (
     <EuiPopover
@@ -78,16 +68,6 @@ export const ChartSwitch = ({
               defaultMessage: 'Chart type',
             })}
           </EuiFlexItem>
-          {/* <EuiFlexItem grow={false}>
-            <EuiFieldSearch
-              compressed
-              fullWidth={false}
-              className="lnsChartSwitch__search"
-              value={searchTerm}
-              data-test-subj="lnsChartSwitchSearch"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </EuiFlexItem> */}
         </EuiFlexGroup>
       </EuiPopoverTitle>
       <EuiKeyPadMenu>
@@ -98,7 +78,6 @@ export const ChartSwitch = ({
             title={v.fullLabel}
             role="menuitem"
             data-test-subj={`lnsChartSwitchPopover_${v.id}`}
-            // onClick={() => commitSelection(v.selection)}
             onClick={() => { 
               setVis(v);
               setFlyoutOpen(false);
@@ -123,17 +102,6 @@ export const ChartSwitch = ({
           </EuiKeyPadMenuItem>
         ))}
       </EuiKeyPadMenu>
-      {/* {searchTerm && (visualizationTypes || []).length === 0 && (
-        <EuiSelectableMessage>
-          <FormattedMessage
-            id="xpack.lens.chartSwitch.noResults"
-            defaultMessage="No results found for {term}."
-            values={{
-              term: <strong>{searchTerm}</strong>,
-            }}
-          />
-        </EuiSelectableMessage>
-      )} */}
     </EuiPopover>
   );
 

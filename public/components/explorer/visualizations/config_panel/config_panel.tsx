@@ -1,9 +1,16 @@
 /*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License;
- * you may not use this file except in compliance with the Elastic License.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
  */
+
 import './config_panel.scss';
+import { uniqueId } from 'lodash';
 
 import React, { memo } from 'react';
 import { 
@@ -12,17 +19,12 @@ import {
   EuiTabbedContent
 } from '@elastic/eui';
 import { PanelItem } from './configPanelItem'
-import { ConfigPanelWrapperProps } from './types';
 
-export const ConfigPanelWrapper = memo(function ConfigPanelWrapper(props: ConfigPanelWrapperProps) {
+export const ConfigPanelWrapper = memo(function ConfigPanelWrapper(props: any) {
   return <LayerPanels {...props} />;
 });
 
-function LayerPanels(
-  props: ConfigPanelWrapperProps & {
-    activeDatasourceId: string;
-  }
-) {
+function LayerPanels(props: any) {
   const {    
     queryResults
   } = props;
@@ -48,7 +50,9 @@ function LayerPanels(
       <EuiForm className="lnsConfigPanel">
         { panelItems.map((item) => {
           return (
-            <>
+            <section
+              key={ uniqueId('vis-conf-panel-') }
+            >
               <PanelItem
                 paddingTitle={ item.paddingTitle }
                 advancedTitle={ item.advancedTitle }
@@ -57,7 +61,7 @@ function LayerPanels(
                 here goes advanced setting
               </PanelItem>
               <EuiSpacer size="s" />
-            </>
+            </section>
           );
         }) }
       </EuiForm>

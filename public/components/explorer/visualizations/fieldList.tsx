@@ -9,20 +9,16 @@
  * GitHub history for details.
  */
 
-// import './field_list.scss';
-import { throttle } from 'lodash';
-import React, { useState, Fragment, useCallback, useMemo, useEffect } from 'react';
-import { EuiSpacer } from '@elastic/eui';
-import { FieldItem } from './field_item';
+import React from 'react';
 import { FieldsAccordion } from './fields_accordion';
 
 export const FieldList = (
   {
     schema,
     id
-  }
+  }: any
 ) => {
-
+  
   return (
     <div
       className="lnsIndexPatternFieldList"
@@ -32,7 +28,7 @@ export const FieldList = (
           <>
             <FieldsAccordion
               id={id}
-              paginatedFields={ schema }
+              paginatedFields={ schema || [] }
               isFiltered={ false }
               label={ "Available fields" }
               showExistenceFetchError={ false }

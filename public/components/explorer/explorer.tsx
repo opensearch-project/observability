@@ -376,7 +376,6 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = (tabId: string) => {
-    if (query.includes('stats')) return;
     getQueryResponse();
   }
 

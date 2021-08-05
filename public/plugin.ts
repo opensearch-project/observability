@@ -40,7 +40,6 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
           const { Observability } = await import('./components/index');
           const [ coreStart ] = await core.getStartServices();
           const pplService = new PPLService(coreStart.http);
-          console.log('pplService: ', pplService);
           return Observability(
             coreStart,
             params,

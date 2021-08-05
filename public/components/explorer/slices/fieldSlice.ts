@@ -15,7 +15,8 @@ import {
 import { initialTabId } from '../../../framework/redux/store/sharedState';
 import {
   SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  UNSELECTED_FIELDS,
+  REDUX_EXPL_SLICE_FIELDS
 } from '../../../common/constants/explorer';
 
 const initialFields = {
@@ -30,7 +31,7 @@ const initialState = {
 };
 
 export const fieldSlice = createSlice({
-  name: 'fields',
+  name: REDUX_EXPL_SLICE_FIELDS,
   initialState,
   reducers: {
     init: (state, { payload }) => {

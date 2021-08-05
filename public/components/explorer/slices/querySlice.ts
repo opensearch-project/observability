@@ -13,7 +13,10 @@ import {
   createSlice
 } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/sharedState';
-import { RAW_QUERY } from '../../../common/constants/explorer';
+import { 
+  RAW_QUERY,
+  REDUX_EXPL_SLICE_QUERIES
+} from '../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {
@@ -22,7 +25,7 @@ const initialState = {
 };
 
 export const queriesSlice = createSlice({
-  name: 'queries',
+  name: REDUX_EXPL_SLICE_QUERIES,
   initialState,
   reducers: {
     changeQuery: (state, { payload }) => {

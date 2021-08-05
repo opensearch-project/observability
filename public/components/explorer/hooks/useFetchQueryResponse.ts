@@ -38,30 +38,24 @@ export const useFetchQueryResponse = ({
 
   const getQueryResponse = async () => {
     setIsLoading(true);
-    await pplService.fetch({ 
+    await pplService.fetch({
       query: rawQuery
     })
     .then((res) => {
       batch(() => {
         dispatch(
-          fetchSuccess(
-            {
-              tabId: requestParams.tabId,
-              data: res
-            }
-          )
-        );
+          fetchSuccess({
+            tabId: requestParams.tabId,
+            data: res
+          }));
         dispatch(
-          updateFields(
-            {
-              tabId: requestParams.tabId,
-              data: {
-                [SELECTED_FIELDS]: [],
-                [UNSELECTED_FIELDS]: res?.schema
-              }
+          updateFields({
+            tabId: requestParams.tabId,
+            data: {
+              [SELECTED_FIELDS]: [],
+              [UNSELECTED_FIELDS]: res?.schema
             }
-          )
-        );
+          }));
       });
     })
     .catch((err) => {

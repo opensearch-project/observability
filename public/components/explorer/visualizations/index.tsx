@@ -18,22 +18,6 @@ import { FrameLayout } from './frameLayout';
 import { DataPanel } from './datapanel';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanelWrapper } from './config_panel';
-// import {} 
-
-// const VIS_MAPS = {
-//   'lnsXY': {
-//     visualizationTypes: [
-//       {
-//         id: 'bar',
-//         label: 'Bar'
-//       },
-//       {
-//         id: 'line',
-//         label: 'Line'
-//       }
-//     ]
-//   }
-// };
 
 export const ExplorerVisualizations = (props: any) => {
 
@@ -43,11 +27,7 @@ export const ExplorerVisualizations = (props: any) => {
         queryResults={ props.queryResults }
       />}
       workspacePanel={
-        <WorkspacePanel 
-          dispatch={ () => {} }
-          query={ props.query }
-          // visualizationMap={ VIS_MAPS }
-        />
+        <WorkspacePanel />
       }
       configPanel={
         <ConfigPanelWrapper

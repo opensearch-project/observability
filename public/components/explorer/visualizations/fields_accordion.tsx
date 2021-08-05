@@ -1,7 +1,12 @@
 /*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License;
- * you may not use this file except in compliance with the Elastic License.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
  */
 
 import './datapanel.scss';
@@ -15,57 +20,15 @@ import {
   EuiLoadingSpinner,
   EuiIconTip,
 } from '@elastic/eui';
-// import { DataPublicPluginStart } from 'src/plugins/data/public';
-// import { IndexPatternField } from './types';
 import { FieldItem } from './field_item';
-// import { Query, Filter } from '../../../../../src/plugins/data/public';
-// import { DatasourceDataPanelProps } from '../types';
-// import { IndexPattern } from './types';
-// import { ChartsPluginSetup } from '../../../../../src/plugins/charts/public';
-// import { schema } from 'packages/osd-config-schema/target/types';
-
-export interface FieldItemSharedProps {
-  // core: DatasourceDataPanelProps['core'];
-  // data: DataPublicPluginStart;
-  // chartsThemeService: ChartsPluginSetup['theme'];
-  // indexPattern: IndexPattern;
-  // highlight?: string;
-  // query: Query;
-  // dateRange: DatasourceDataPanelProps['dateRange'];
-  // filters: Filter[];
-}
-
-export interface FieldsAccordionProps {
-  initialIsOpen: boolean;
-  onToggle: (open: boolean) => void;
-  id: string;
-  label: string;
-  hasLoaded: boolean;
-  fieldsCount: number;
-  isFiltered: boolean;
-  // paginatedFields: IndexPatternField[];
-  fieldProps: FieldItemSharedProps;
-  renderCallout: JSX.Element;
-  // exists: (field: IndexPatternField) => boolean;
-  showExistenceFetchError?: boolean;
-  hideDetails?: boolean;
-}
 
 export const InnerFieldsAccordion = function InnerFieldsAccordion({
-  // initialIsOpen,
-  // onToggle,
   id,
   label,
-  // hasLoaded,
-  // fieldsCount,
   isFiltered,
   paginatedFields,
-  // fieldProps,
-  // renderCallout,
-  // exists,
-  // hideDetails,
   showExistenceFetchError,
-}) {
+}: any) {
   const renderField = useCallback(
     (field) => (
       <FieldItem 
@@ -80,9 +43,6 @@ export const InnerFieldsAccordion = function InnerFieldsAccordion({
 
   return (
     <EuiAccordion
-      // initialIsOpen={initialIsOpen}
-      // onToggle={onToggle}
-      // data-test-subj={id}
       id={id}
       buttonContent={
         <EuiText size="xs">

@@ -18,3 +18,13 @@ export const TAB_CHART_TITLE = 'Visualizations';
 export const TAB_EVENT_TITLE = 'Events';
 export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-charts-';
+
+// redux
+export const SELECTED_QUERY_TAB = 'selectedQueryTab';
+export const QUERY_TAB_IDS = 'queryTabIds';
+export const NEW_SELECTED_QUERY_TAB = 'newSelectedQueryTab';
+export const REDUX_EXPL_SLICE_QUERIES = 'queries';
+export const REDUX_EXPL_SLICE_QUERY_RESULT = 'queryResults';
+export const REDUX_EXPL_SLICE_FIELDS = 'fields';
+export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
+

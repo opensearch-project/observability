@@ -14,13 +14,16 @@ import {
 } from '@reduxjs/toolkit';
 import { fetchSuccess as fetchSuccessReducer } from '../reducers'
 import { initialTabId } from '../../../framework/redux/store/sharedState';
+import { 
+  REDUX_EXPL_SLICE_QUERY_RESULT
+} from '../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {}
 };
 
 export const queryResultSlice = createSlice({
-  name: 'queryResults',
+  name: REDUX_EXPL_SLICE_QUERY_RESULT,
   initialState,
   reducers: {
     fetchSuccess: fetchSuccessReducer,

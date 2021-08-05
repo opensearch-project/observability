@@ -30,7 +30,6 @@ export function FrameLayout(props: FrameLayoutProps) {
         </EuiPageSideBar>
         <EuiPageBody className="lnsFrameLayout__pageBody" restrictWidth={false}>
           {props.workspacePanel}
-          {/* {props.suggestionsPanel} */}
         </EuiPageBody>
         <EuiPageSideBar className="lnsFrameLayout__sidebar lnsFrameLayout__sidebar--right">
           {props.configPanel}          

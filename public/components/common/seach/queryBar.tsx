@@ -38,7 +38,6 @@ export function QueryBar(props: IQueryBarProps) {
         data-test-subj="search-bar-input-box"
         value={ query[RAW_QUERY] }
         onChange={(e) => {
-          console.log('changed value: ', e.target.value);
           handleQueryChange(e.target.value);
         }}
         onSearch={() => {
