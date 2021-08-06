@@ -17,6 +17,7 @@ export const DSL_SEARCH = '/search';
 
 // Server route
 export const PPL_ENDPOINT = '/_plugins/_ppl';
+export const DSL_ENDPOINT = '/_plugins/_dsl';
 
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';

@@ -28,11 +28,7 @@ export function registerDslRoute({
 }) {
   router.post({
     path: `${DSL_BASE}${DSL_SEARCH}`,
-    validate: {
-      body: schema.object({
-        query: schema.string()
-      })
-    }
+    validate: false
   },
   async (
     context,
