@@ -92,6 +92,7 @@ export const Search = (props: any) => {
             actionItems.map((item) => {
               return (
                 <EuiFlexItem
+                  key={_.uniqueId('search-action-')}
                   className={ item.className ? item.className : "euiFlexItem--flexGrowZero"}
                 >
                   <EuiButton 

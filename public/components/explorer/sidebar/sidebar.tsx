@@ -9,6 +9,8 @@
  * GitHub history for details.
  */
 
+import './sidebar.scss';
+
 import React, { useState } from 'react';
 import _ from 'lodash';
 import { 
@@ -56,7 +58,7 @@ export const Sidebar = (props: any) => {
               aria-labelledby="selected_fields"
               data-test-subj={`fieldList-selected`}
             >
-              { explorerFields.selectedFields.map(field => {
+              { explorerFields.selectedFields && explorerFields.selectedFields.map(field => {
                 return (
                   <li
                     key={`field${field.name}`}
@@ -112,7 +114,7 @@ export const Sidebar = (props: any) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                explorerFields.unselectedFields.map((col) => {
+                explorerFields.unselectedFields && explorerFields.unselectedFields.map((col) => {
                   return (
                     <li
                       key={`field${col.name}`}
