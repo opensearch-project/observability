@@ -15,8 +15,9 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { RAW_QUERY } from '../../../common/constants/explorer';
 import { IQueryBarProps } from './search';
 import { handlePplRequest } from '../../../requests/ppl';
-import { getDataValueQuery } from './queries/data_queries';
 import { handleDslRequest } from './request_handler';
+import { getDataValueQuery } from './queries/data_queries';
+//import { getFieldQuery } from './queries/data_queries';
 
 // Possible suggestions (hardcoded)
 const firstCommand = [{ label: 'search' }, { label: 'source' }];
@@ -50,8 +51,6 @@ const indices = [
 
 let inFieldsCommaLoop = false;
 let hasFields = false;
-let inStatsCommaLoop = false;
-let inStatsCommand = false;
 const fieldsFromBackend = [];
 
 // Function to grab suggestions
@@ -65,6 +64,7 @@ export function getSuggestions(str: string, http) {
   // source should be followed by an available index
   if (prefix.startsWith('source=')) {
     const test = handleDslRequest(http, getDataValueQuery());
+    console.log(test);
     return getIndices(prefix.replace('source=', ''));
   }
   if (splittedModel.length === 1) {
@@ -100,7 +100,6 @@ export function getSuggestions(str: string, http) {
         });
       }
       inFieldsCommaLoop = false;
-      inStatsCommaLoop = false;
       return fullSuggestions;
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
       if (inFieldsCommaLoop) {
@@ -112,20 +111,6 @@ export function getSuggestions(str: string, http) {
             suggestion: itemSuggestions[i].label.substring(prefix.length),
           });
         }
-      }
-      if (inStatsCommaLoop) {
-        itemSuggestions = statsCommands.filter(
-          ({ label }) => label.startsWith(prefix) && prefix !== label
-        );
-        for (let i = 0; i < itemSuggestions.length; i++) {
-          fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
-            input: str,
-            suggestion: itemSuggestions[i].label.substring(prefix.length),
-          });
-        }
-        inStatsCommand = true;
-        return fullSuggestions;
       }
       return fullSuggestions;
     } else if (splittedModel[splittedModel.length - 2] === 'source') {
@@ -172,7 +157,6 @@ export function getSuggestions(str: string, http) {
           suggestion: itemSuggestions[i].label.substring(prefix.length),
         });
       }
-      inStatsCommand = true;
       return fullSuggestions;
     } else if (splittedModel[splittedModel.length - 2] === 'fields') {
       itemSuggestions = fieldsFromBackend.filter(
@@ -199,40 +183,10 @@ export function getSuggestions(str: string, http) {
         });
       }
       return fullSuggestions;
-    }
-    else if (inStatsCommand) {
-      if (splittedModel[splittedModel.length - 2] === 'by'){
-        itemSuggestions = fieldsFromBackend;
-        if (splittedModel[splittedModel.length - 3] !== 'count') {
-          itemSuggestions = fieldsFromBackend.filter(
-            ({ label, type }) => type === 'float' && label.startsWith(prefix) && prefix !== label
-          )
-        }
-        else {
-          itemSuggestions = fieldsFromBackend.filter(
-            ({ label }) => label.startsWith(prefix) && prefix !== label
-          );
-        }
-        for (let i = 0; i < itemSuggestions.length; i++) {
-          fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
-            input: str,
-            suggestion: itemSuggestions[i].label.substring(prefix.length),
-          });
-        }
-        inStatsCommaLoop = true;
-        inStatsCommand = false;
-        return fullSuggestions;
-      }
-      else {
-        return [{ label: str + 'by', input: str, suggestion: 'by'}].filter(
-          ({ label }) => label.startsWith(prefix) && prefix !== label
-        );
-      }
-    } else if (inFieldsCommaLoop || inStatsCommaLoop) {
+    } else if (inFieldsCommaLoop) {
       return [
         { label: str.substring(0, str.length - 1) + ',', input: str.substring(0, str.length - 1), suggestion: ',' },
-        { label: str.substring(0, str.length) + '|', input: str, suggestion: '|' },
+        { label: str.substring(0, str.length - 1) + '|', input: str.substring(0, str.length - 1), suggestion: '|' },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     }
     // TODO: (Grammar implementation) Catch user typos and fix them based on their previous inputs.
@@ -254,9 +208,8 @@ const fetchFields = async (str, http) => {
   if (!hasFields && str.includes('opensearch_dashboards')) {
     const res = await handlePplRequest(http, { query: str });
     for (let i = 0; i < res?.schema.length; i++) {
-      fieldsFromBackend.push({ label: res?.schema[i].name, type: res?.schema[i].type });
+      fieldsFromBackend.push({ label: res?.schema[i].name });
     }
-    console.log(fieldsFromBackend);
     hasFields = true;
   }
 };
@@ -280,9 +233,6 @@ export function Autocomplete(props: IQueryBarProps) {
         handleQueryChange(state.query);
         handleQuerySearch();
       },
-      // onStateChange: ({state}) => {
-      //   console.log('hello');
-      // },
       getSources({ query, setQuery }) {
         return [
           {
