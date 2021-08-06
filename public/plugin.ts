@@ -9,12 +9,11 @@
  * GitHub history for details.
  */
 
-import { 
+import {
   Plugin,
   CoreSetup,
   CoreStart,
-  AppMountParameters, 
-  PluginInitializerContext,
+  AppMountParameters,
   DEFAULT_APP_CATEGORIES
 } from '../../../src/core/public';
 import {
@@ -26,12 +25,12 @@ import {
   observabilityTitle,
   observabilityPluginOrder
 } from '../common/index';
+import PPLService from './services/requests/ppl';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
-    
-    constructor(initializerContext: PluginInitializerContext) {}
 
     public setup(core: CoreSetup): ObservabilitySetup {
+      
       core.application.register({
         id: observabilityID,
         title: observabilityTitle,
@@ -40,7 +39,12 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
           const [ coreStart ] = await core.getStartServices();
-          return Observability(coreStart, params);
+          const pplService = new PPLService(coreStart.http);
+          return Observability(
+            coreStart,
+            params,
+            pplService
+          );
         },
       });
 

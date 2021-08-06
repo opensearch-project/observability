@@ -9,17 +9,24 @@
  * GitHub history for details.
  */
 
-import { CoreStart } from '../../../../src/core/public';
+import { CoreStart } from '../../../../../src/core/public';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../common/index';
+} from '../../../common/index';
 
-export const handlePplRequest = async (
-    http: CoreStart['http'],
-    params: { query: string }
+export default class PPLService {
+  private http;
+  constructor(http: CoreStart['http']) {
+    this.http = http;
+  }
+  fetch = async (
+    params: { 
+      query: string,
+      format: ''
+    }
   ) => {
-    return http
+    return this.http
             .post(
               `${PPL_BASE}${PPL_SEARCH}`,
               {
@@ -27,4 +34,5 @@ export const handlePplRequest = async (
               }
             )
             .catch(error => console.log(error));
-};
+  }
+}

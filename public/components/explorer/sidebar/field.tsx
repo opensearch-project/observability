@@ -70,7 +70,7 @@ export const Field = (props: FieldProps) => {
         }
       >
         <EuiButtonIcon
-          color="danger"
+          color={ props.selected ? "danger" : "primary" }
           iconType={ props.selected ? "cross": "plusInCircleFilled" }
           className="dscSidebarItem__action"
           onClick={(ev: React.MouseEvent<HTMLButtonElement>) => {
