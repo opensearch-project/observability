@@ -24,12 +24,8 @@ import {
   EuiFlexItem
 } from '@elastic/eui';
 import classNames from 'classnames';
-<<<<<<< HEAD
 import { Search } from '../common/search/search';
-=======
-import { Search } from '../common/seach/search';
 import { CountDistribution } from './visualizations/countDistribution';
->>>>>>> feature/observability
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';
