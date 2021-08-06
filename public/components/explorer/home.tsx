@@ -12,7 +12,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { EuiBasicTable } from '@elastic/eui';
-import { Search } from '../common/seach/search';
+import { Search } from '../common/search/search';
 
 export const Home = (props: any) => {
 

@@ -21,7 +21,7 @@ import {
   EuiTabbedContentTab
 } from '@elastic/eui';
 import classNames from 'classnames';
-import { Search } from '../common/seach/search';
+import { Search } from '../common/search/search';
 import { DataGrid } from './dataGrid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './noResults';

@@ -16,7 +16,9 @@ import {
   ILegacyClusterClient
  } from '../../../../src/core/server';
 import { registerPplRoute } from './api/ppl';
+import { registerDslRoute } from './api/dsl';
 import PPLFacet from '../services/facets/pplFacet';
+import DSLFacet from '../services/facets/dslFacet';
 
 export function setupRoutes({
   router,
@@ -27,4 +29,6 @@ export function setupRoutes({
 }) {
   const pplFacet = new PPLFacet(client);
   registerPplRoute({ router, facet: pplFacet });
+  const dslFacet = new DSLFacet(client);
+  registerDslRoute({ router, facet: dslFacet})
 };
