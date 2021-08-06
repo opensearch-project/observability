@@ -4,11 +4,11 @@
   "main": "index.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "test:cypress": "cypress run"
-  },
-  "engines": {
-    "node": "10.23.1",
-    "yarn": "^1.22.10"
+    "osd": "node ../../scripts/osd",
+    "build": "yarn plugin_helpers build",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "plugin_helpers": "node ../../scripts/plugin_helpers"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",

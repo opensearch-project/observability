@@ -53,10 +53,5 @@ export interface IExplorerFields {
 }
 
 export interface IExplorerProps {
-  tabId: string;
   pplService: any;
-}
-
-export interface LogExplorer {
-  
 }
