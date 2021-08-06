@@ -43,19 +43,17 @@ export const useFetchQueryResponse = ({
     })
     .then((res) => {
       batch(() => {
-        dispatch(
-          fetchSuccess({
-            tabId: requestParams.tabId,
-            data: res
-          }));
-        dispatch(
-          updateFields({
-            tabId: requestParams.tabId,
-            data: {
-              [SELECTED_FIELDS]: [],
-              [UNSELECTED_FIELDS]: res?.schema
-            }
-          }));
+        dispatch(fetchSuccess({
+          tabId: requestParams.tabId,
+          data: res
+        }));
+        dispatch(updateFields({
+          tabId: requestParams.tabId,
+          data: {
+            [SELECTED_FIELDS]: [],
+            [UNSELECTED_FIELDS]: res?.schema
+          }
+        }));
       });
     })
     .catch((err) => {

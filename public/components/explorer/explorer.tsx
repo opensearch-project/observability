@@ -21,8 +21,7 @@ import {
   EuiTabbedContent,
   EuiTabbedContentTab,
   EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer 
+  EuiFlexItem
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
@@ -380,16 +379,12 @@ export const Explorer = ({
   }
 
   const handleQueryChange = (query, tabId) => {
-    dispatch(
-      changeQuery(
-        {
-          tabId,
-          query: {
-            [RAW_QUERY]: query
-          }
-        }
-      )
-    );
+    dispatch(changeQuery({
+      tabId,
+      query: {
+        [RAW_QUERY]: query
+      }
+    }));
   }
   
   return (
