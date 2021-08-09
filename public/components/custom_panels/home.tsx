@@ -19,7 +19,7 @@ import { DashboardStart } from '../../../../../src/plugins/dashboard/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../common/constants/custom_panels';
+} from '../../../common/constants/custom_panels';
 import { CustomPanelTable } from './custom_panels_table';
 import { CustomPanelView } from './custom_panel_view';
 

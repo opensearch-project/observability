@@ -41,7 +41,7 @@ import {
   CREATE_PANEL_MESSAGE,
   DATE_FORMAT,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../common/constants/custom_panels';
+} from '../../../common/constants/custom_panels';
 import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';

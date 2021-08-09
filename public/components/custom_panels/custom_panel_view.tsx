@@ -5,7 +5,7 @@ import { DashboardStart } from '../../../../../src/plugins/dashboard/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../common/constants/custom_panels';
+} from '../../../common/constants/custom_panels';
 
 // "CustomPanelsView" module used to render saved Custom Operational Panels
 
