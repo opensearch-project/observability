@@ -27,7 +27,7 @@ export const CustomPanelView = ({
 
   useEffect(() => {
     fecthCustomPanel();
-    chrome.setBreadcrumbs([...parentBreadcrumb, {text: openPanelName, href: `/:${panelId}`}]); 
+    chrome.setBreadcrumbs([...parentBreadcrumb, {text: panelId, href: `/:${panelId}`}]); 
   }, []);
 
   return <div></div>;
