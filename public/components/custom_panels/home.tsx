@@ -11,17 +11,14 @@
 
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
-import { Route, Switch } from 'react-router';
-import { HashRouter } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
-import { DashboardStart } from '../../../../../src/plugins/dashboard/public';
+import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
 import { CustomPanelTable } from './custom_panels_table';
-import { CustomPanelView } from './custom_panel_view';
 
 // "Home" module is initial page for Custom Operantional Panels
 
@@ -76,7 +73,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
       })
       .then(async (res) => {
         setToast(`Custom View "${newCustomPanelName}" successfully created!`);
-        window.location.assign(`${parentBreadcrumb}#${res}`);
+        window.location.assign(`${_.last(parentBreadcrumb).href}${res}`);
       })
       .catch((err) => {
         setToast(

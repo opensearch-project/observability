@@ -240,7 +240,7 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/custom_panels/${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
       ),
     },
     {
