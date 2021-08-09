@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import  React from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import _ from 'lodash';
 import { I18nProvider } from '@osd/i18n/react';
@@ -19,34 +19,36 @@ import { CoreStart } from '../../../../src/core/public';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
-import { Home as OperationalPanelsHome} from './operational_panels/home';
+import { Home as CustomPanelsHome } from './custom_panels/home';
+import { CustomPanelView } from './custom_panels/custom_panel_view';
 import { Home as EventExplorerHome } from './explorer/home';
 import { LogExplorer } from './explorer/logExplorer';
-import { observabilityTitle  } from '../../common';
+import { observabilityTitle } from '../../common';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
-  pplService: any
+  pplService: any;
 }
 
-export const App = ({
-  CoreStart,
-  pplService,
-}: ObservabilityAppDeps) => {
-
+export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
   const { chrome, http } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
-    href: 'observability#/'
+    href: 'observability#/',
+  };
+
+  const customPanelBreadcrumb = {
+    text: 'Custom Observability panels',
+    href: '#/custom_panels/',
   };
 
   return (
-    <Provider store={ store }>
+    <Provider store={store}>
       <HashRouter>
         <I18nProvider>
           <>
             <Switch>
-              <Route 
+              <Route
                 exact
                 path={['/', '/application_analytics', '/application_analytics/home']}
                 render={(props) => {
@@ -54,11 +56,11 @@ export const App = ({
                     parentBreadcrumb,
                     {
                       text: 'Application analytics',
-                      href: '#/application_analytics'
+                      href: '#/application_analytics',
                     },
                   ]);
                   return renderPageWithSidebar(<ApplicationAnalyticsHome />, 1);
-                } }
+                }}
               />
               <Route
                 path={['/trace_analytics', '/trace_analytics/home']}
@@ -67,13 +69,13 @@ export const App = ({
                     parentBreadcrumb,
                     {
                       text: 'Trace analytics',
-                      href: '#/trace_analytics/home'
+                      href: '#/trace_analytics/home',
                     },
                   ]);
-                  return renderPageWithSidebar(<TraceAnalyticsHome />, 2) }
-                }
+                  return renderPageWithSidebar(<TraceAnalyticsHome />, 2);
+                }}
               />
-              <Route 
+              <Route
                 exact
                 path={['/event/', '/event/home']}
                 render={(props) => {
@@ -81,32 +83,44 @@ export const App = ({
                     parentBreadcrumb,
                     {
                       text: 'Event analytics',
-                      href: '#/event/home'
+                      href: '#/event/home',
                     },
                   ]);
                   return renderPageWithSidebar(<EventExplorerHome />, 3);
-                } }
+                }}
               />
               <Route
-                path={['/operational_panels', '/operational_panels/home']}
-                render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Operational panels',
-                      href: '#/operational_panels/home'
-                    },
-                  ]);
-                  return renderPageWithSidebar(<OperationalPanelsHome />, 4);
-                } }
-              />
-              <Route 
                 exact
-                path='/event/explorer'
-                render={(props) => <LogExplorer
-                  http={ http }
-                  pplService={ pplService }
-                /> }
+                path={['/custom_panels', '/custom_panels/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
+                  return renderPageWithSidebar(
+                    <CustomPanelsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                    />,
+                    4
+                  );
+                }}
+              />
+              <Route
+                path={'/custom_panels/:id'}
+                render={(props) => {
+                  return (
+                    <CustomPanelView
+                      panelId={props.match.params.id}
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                    />
+                  );
+                }}
+              />
+              <Route
+                exact
+                path="/event/explorer"
+                render={(props) => <LogExplorer pplService={pplService} />}
               />
             </Switch>
           </>
