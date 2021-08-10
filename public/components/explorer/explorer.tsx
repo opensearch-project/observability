@@ -394,6 +394,7 @@ export const Explorer = ({
         query={ query }
         handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
         handleQuerySearch={ () => { handleQuerySearch(tabId) } }
+        pplService = { pplService }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }

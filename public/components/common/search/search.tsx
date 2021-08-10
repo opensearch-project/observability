@@ -23,7 +23,7 @@ import { Filter } from './Filter';
 
 import {autocomplete} from '@algolia/autocomplete-js'
 import '@algolia/autocomplete-theme-classic'
-import {Autocomplete, getSuggestions} from './autocomplete'
+import {Autocomplete} from './autocomplete'
 import {
   RAW_QUERY
 } from '../../../common/constants/explorer';
@@ -32,7 +32,7 @@ export interface IQueryBarProps {
   query: string
   handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void
-  http: any
+  pplService: any
 }
 
 export interface IFilterProps {
@@ -48,9 +48,9 @@ export const Search = (props: any) => {
 
   const {
     query,
-    http,
     handleQueryChange,
     handleQuerySearch,
+    pplService,
     startTime,
     endTime,
     setStartTime,
@@ -59,13 +59,13 @@ export const Search = (props: any) => {
     actionItems
   } = props;
 
-  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, http }: IQueryBarProps) {
+  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, pplService }: IQueryBarProps) {
     return (
       <Autocomplete
         query = { query }
         handleQueryChange = { handleQueryChange }
         handleQuerySearch = { handleQuerySearch }
-        http = { http }
+        pplService = { pplService }
       />
     )
   }
@@ -77,7 +77,7 @@ export const Search = (props: any) => {
           justifyContent="flexEnd"
         >
           <div className="autocomplete">
-          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, http }) }
+          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, pplService }) }
           </div>
           <Filter
             startTime={ startTime }

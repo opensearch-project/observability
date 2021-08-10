@@ -36,6 +36,7 @@ export const useFetchQueryResponse = ({
   const queries = useSelector(selectQueries);
   const rawQuery = queries[requestParams.tabId][RAW_QUERY];
 
+  console.log('rawQuery: ', rawQuery)
   const getQueryResponse = async () => {
     setIsLoading(true);
     await pplService.fetch({
