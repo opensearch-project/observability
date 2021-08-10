@@ -19,13 +19,14 @@ import {
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
 import { CustomPanelTable } from './custom_panels_table';
+import { isNameValid } from './helpers/utils';
 
 // "Home" module is initial page for Custom Operantional Panels
 
 type Props = {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: {text: string, href: string}[];
+  parentBreadcrumb: { text: string; href: string }[];
 };
 
 export type CustomPanelListType = {
@@ -60,7 +61,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
 
   // Creates a new CustomPanel
   const createCustomPanel = (newCustomPanelName: string) => {
-    if (newCustomPanelName.length >= 50 || newCustomPanelName.length === 0) {
+    if (!isNameValid(newCustomPanelName)) {
       setToast('Invalid Custom Panel name', 'danger');
       return;
     }
@@ -89,7 +90,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
 
   // Renames an existing CustomPanel
   const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelID: string) => {
-    if (editedCustomPanelName.length >= 50 || editedCustomPanelName.length === 0) {
+    if (!isNameValid(editedCustomPanelName)) {
       setToast('Invalid Custom Panel name', 'danger');
       return;
     }
@@ -127,7 +128,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
     clonedCustomPanelName: string,
     clonedCustomPanelID: string
   ): Promise<string> => {
-    if (clonedCustomPanelName.length >= 50 || clonedCustomPanelName.length === 0) {
+    if (!isNameValid(clonedCustomPanelName)) {
       setToast('Invalid Custom Panel name', 'danger');
       return Promise.reject();
     }
@@ -185,26 +186,26 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
   };
 
   return (
-        <>
-        <EuiGlobalToastList
-          toasts={toasts}
-          dismissToast={removedToast => {
-            setToasts(toasts.filter(toast => toast.id !== removedToast.id));
-          }}
-          toastLifeTimeMs={6000}
-        />
-        <CustomPanelTable
-                    loading={loading}
-                    fetchCustomPanels={fetchCustomPanels}
-                    customPanels={customPanelData}
-                    createCustomPanel={createCustomPanel}
-                    setBreadcrumbs={chrome.setBreadcrumbs}
-                    parentBreadcrumb={parentBreadcrumb}
-                    renameCustomPanel={renameCustomPanel}
-                    cloneCustomPanel={cloneCustomPanel}
-                    deleteCustomPanel={deleteCustomPanel}
-                    setToast={setToast}
-                  />
+    <>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={(removedToast) => {
+          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+        }}
+        toastLifeTimeMs={6000}
+      />
+      <CustomPanelTable
+        loading={loading}
+        fetchCustomPanels={fetchCustomPanels}
+        customPanels={customPanelData}
+        createCustomPanel={createCustomPanel}
+        setBreadcrumbs={chrome.setBreadcrumbs}
+        parentBreadcrumb={parentBreadcrumb}
+        renameCustomPanel={renameCustomPanel}
+        cloneCustomPanel={cloneCustomPanel}
+        deleteCustomPanel={deleteCustomPanel}
+        setToast={setToast}
+      />
     </>
   );
 };

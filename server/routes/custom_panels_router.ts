@@ -28,7 +28,7 @@ export function CustomPanelsRouter(router: IRouter) {
       validate: {},
     },
     async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      let panelsList = [{
+      const panelsList = [{
           "name": "Dummy Panel 1",
           "id": "2FG6FWGY5",
           "dateCreated": "2021-07-19T21:01:14.871Z",
