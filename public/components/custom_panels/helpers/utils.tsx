@@ -9,8 +9,6 @@
  * GitHub history for details.
  */
 
-import React from 'react';
-
-export const Home = () => {
-  return <h1>Operational panels home</h1>;
-};
+export const isNameValid = (name:string)=>{
+    return (name.length >= 50 || name.length === 0) ? false : true;
+}
