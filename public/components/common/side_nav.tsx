@@ -33,10 +33,12 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
                 items: [
                   {
                     name: 'Traces',
+                    id: 2.1,
                     href: '#/trace_analytics/traces'
                   },
                   {
                     name: 'Services',
+                    id: 2.2, 
                     href: '#/trace_analytics/services'
                   }
                 ]
@@ -47,9 +49,9 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
                 href: '#/event/home',
               },
               {
-                name: 'Operational panels',
+                name: 'Custom operational panels',
                 id: 4,
-                href: '#/operational_panels/home',
+                href: '#/custom_panels/home',
               }
             ].map((item) => {
               return { ...item, isSelected: activeId === item.id };

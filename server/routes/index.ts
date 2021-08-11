@@ -17,6 +17,7 @@ import {
  } from '../../../../src/core/server';
 import { registerPplRoute } from './api/ppl';
 import PPLFacet from '../services/facets/pplFacet';
+import {CustomPanelsRouter} from './custom_panels_router';
 
 export function setupRoutes({
   router,
@@ -25,6 +26,8 @@ export function setupRoutes({
   router: IRouter
   client: ILegacyClusterClient
 }) {
+
+  CustomPanelsRouter(router);
   const pplFacet = new PPLFacet(client);
   registerPplRoute({ router, facet: pplFacet });
 };
