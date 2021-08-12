@@ -12,12 +12,14 @@
 import _ from 'lodash';
 
 export class PPLDataSource {
-  
-  private pplDataSource : any = {};
 
-  constructor(source: any) {
-    this.pplDataSource = source;
-    this.addSchemaRowMapping();
+  constructor(
+    private pplDataSource: any,
+    private dataType: string
+  ) {
+    if (this.dataType === 'default') {
+      this.addSchemaRowMapping();
+    }
   }
 
   /**
@@ -27,7 +29,7 @@ export class PPLDataSource {
     
     const pplRes = this.pplDataSource;
     const data: any[] = [];
-    let hasTimestamp = false;
+    // let hasTimestamp = false;
 
     _.forEach(pplRes.datarows, (row) => {
       const record: any = {};
@@ -44,20 +46,20 @@ export class PPLDataSource {
           record[cur.name] = row[i];
         }
 
-        if (cur.name &&
-            cur.name === 'timestamp' &&
-            cur.type &&
-            cur.type === 'timestamp' &&
-            !hasTimestamp
-          ) {
-            hasTimestamp = true;
-        }
+        // if (cur.name &&
+        //     cur.name === 'timestamp' &&
+        //     cur.type &&
+        //     cur.type === 'timestamp' &&
+        //     !hasTimestamp
+        //   ) {
+        //     hasTimestamp = true;
+        // }
       }
 
       data.push(record);
     });
     pplRes['jsonData'] = data;
-    pplRes['hasTimestamp'] = hasTimestamp;
+    // pplRes['hasTimestamp'] = hasTimestamp;
   };
 
   public getDataSource = () => this.pplDataSource;

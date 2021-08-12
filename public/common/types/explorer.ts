@@ -52,6 +52,6 @@ export interface IExplorerFields {
   [UNSELECTED_FIELDS]: Array<IField>;
 }
 
-export interface IExplorerProps {
+export interface ILogExplorerProps {
   pplService: any;
 }

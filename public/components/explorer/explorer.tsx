@@ -34,7 +34,6 @@ import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
-  IExplorerProps,
   IQueryTab
 } from '../../common/types/explorer';
 import {
@@ -46,16 +45,26 @@ import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
 } from '../../common/constants/explorer';
-import { useFetchQueryResponse } from './hooks';
+import { 
+  useFetchEvents,
+  useFetchVisualizations
+} from './hooks';
 import { 
   changeQuery,
   selectQueries
 } from './slices/querySlice';
 import { selectQueryResult } from './slices/queryResultSlice';
 import { selectFields, updateFields } from './slices/fieldSlice';
+import { selectCountDistribution } from './slices/countDistributionSlice';
+import { selectExplorerVisualization } from './slices/visualizationSlice';
 
 const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
+
+interface IExplorerProps {
+  pplService: any;
+  tabId: string
+}
 
 export const Explorer = ({
   pplService,
@@ -68,9 +77,17 @@ export const Explorer = ({
     tabId,
   };
   const {
-    isLoading,
-    getQueryResponse
-  } = useFetchQueryResponse({
+    isEventsLoading,
+    getEvents
+  } = useFetchEvents({
+    pplService,
+    requestParams
+  });
+  const {
+    isVisLoading,
+    getVisualizations,
+    getCountVisualizations
+  } = useFetchVisualizations({
     pplService,
     requestParams
   });
@@ -78,10 +95,13 @@ export const Explorer = ({
   const query = useSelector(selectQueries)[tabId][RAW_QUERY];
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
-
+  const countDistribution = useSelector(selectCountDistribution)[tabId];
+  const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  console.log('top countDistribution: ', countDistribution);
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
+  const [interval, setInterval] = useState<string>('m');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
@@ -176,7 +196,7 @@ export const Explorer = ({
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 
-                  explorerData && explorerData['hasTimestamp'] && (
+                  explorerData && (
                     <>
                       <EuiFlexGroup
                         justifyContent="center"
@@ -186,7 +206,7 @@ export const Explorer = ({
                           grow={false}
                         >
                           <HitsCounter 
-                            hits={ explorerData['datarows']?.length }
+                            hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
                             showResetButton={true}
                             onResetQuery={ () => {} }
                           />
@@ -234,12 +254,18 @@ export const Explorer = ({
                                 val: 'y'
                               },
                             ]}
-                            onChangeInterval={() => {}}
+                            onChangeInterval={(intrv) => {
+                              console.log('this interval: ', intrv);
+                              setInterval(interval);
+                              getCountVisualizations(interval);
+                            }}
                             stateInterval="auto"
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
-                      <CountDistribution />
+                      <CountDistribution
+                        countDistribution={ countDistribution }
+                      />
                     </>
                   )
                 }
@@ -309,6 +335,7 @@ export const Explorer = ({
       <ExplorerVisualizations
         queryResults={ explorerData }
         query={ query }
+        explorerVis={ explorerVisualizations }
       />
     );
   };
@@ -333,12 +360,15 @@ export const Explorer = ({
   };
 
   const memorizedMainContentTabs = useMemo(() => {
+    console.log('countDistribution: ', countDistribution);
     return getMainContentTabs();
   },
     [
       explorerData,
       explorerFields,
-      isSidebarClosed
+      isSidebarClosed,
+      countDistribution,
+      explorerVisualizations
     ]
   );
 
@@ -375,7 +405,12 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = (tabId: string) => {
-    getQueryResponse();
+    if (query.includes('stats')) {
+      getVisualizations();
+      return;
+    } 
+    getEvents();
+    getCountVisualizations(interval);
   }
 
   const handleQueryChange = (query, tabId) => {

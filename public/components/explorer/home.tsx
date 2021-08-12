@@ -32,7 +32,7 @@ export const Home = (props: any) => {
       text: 'Run',
       iconType: '',
       attributes: {
-        fill: 'fill'
+        fill: true
       },
       handlers: {
         onClick: () => {

@@ -8,6 +8,3 @@
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
  */
-
-export * from './useFetchEvents';
-export * from './useFetchVisualizations';

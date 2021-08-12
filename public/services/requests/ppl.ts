@@ -20,12 +20,14 @@ export default class PPLService {
   constructor(http: CoreStart['http']) {
     this.http = http;
   }
+  
   fetch = async (
     params: { 
       query: string,
-      format: ''
+      format: 'default'
     }
   ) => {
+    console.log('JSON.stringify(params): ', JSON.stringify(params));
     return this.http
             .post(
               `${PPL_BASE}${PPL_SEARCH}`,

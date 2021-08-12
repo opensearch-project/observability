@@ -24,7 +24,7 @@ import {
   EuiTabbedContent
 } from '@elastic/eui';
 import { Explorer } from './explorer';
-import { IExplorerProps } from '../../common/types/explorer';
+import { ILogExplorerProps } from '../../common/types/explorer';
 import {
   TAB_TITLE,
   TAB_ID_TXT_PFX
@@ -50,7 +50,7 @@ import {
 
 export const LogExplorer = ({
   pplService,
-}: IExplorerProps) => {
+}: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs)['queryTabIds'];

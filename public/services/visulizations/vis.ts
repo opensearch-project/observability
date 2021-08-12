@@ -9,5 +9,12 @@
  * GitHub history for details.
  */
 
-export * from './useFetchEvents';
-export * from './useFetchVisualizations';
+export default class Vis {
+
+  constructor(private readonly pplService: any) {}
+
+  public renderVisulization () {}
+
+  public initVisualization () {}
+
+}

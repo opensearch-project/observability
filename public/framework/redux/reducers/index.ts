@@ -15,6 +15,8 @@ import queriesReducer from '../../../components/explorer/slices/querySlice';
 import queryResultsReducer from '../../../components/explorer/slices/queryResultSlice';
 import queryTabReducer from '../../../components/explorer/slices/queryTabSlice';
 import FieldsReducer from '../../../components/explorer/slices/fieldSlice';
+import countDistributionReducer from '../../../components/explorer/slices/countDistributionSlice';
+import explorerVisualizationReducer from '../../../components/explorer/slices/visualizationSlice';
 
 const rootReducer = combineReducers({
 
@@ -22,7 +24,9 @@ const rootReducer = combineReducers({
   queries: queriesReducer,
   queryResults: queryResultsReducer,
   explorerTabs: queryTabReducer,
-  fields: FieldsReducer
+  fields: FieldsReducer,
+  countDistribution: countDistributionReducer,
+  explorerVisualization: explorerVisualizationReducer
 
 });
 

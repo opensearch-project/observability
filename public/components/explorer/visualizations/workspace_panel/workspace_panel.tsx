@@ -9,8 +9,8 @@
  * GitHub history for details.
  */
 
-import React, { useState } from 'react';
-import { uniqueId } from 'lodash';
+import React, { useState, useMemo, useEffect } from 'react';
+import { uniqueId, find } from 'lodash';
 import { DragDrop } from '../drag_drop';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 import { Bar } from '../../../visualizations/charts/bar';
@@ -18,54 +18,86 @@ import { Line } from '../../../visualizations/charts/line';
 import { LensIconChartBar } from '../assets/chart_bar';
 import { LensIconChartLine } from '../assets/chart_line';
 
-const visualizationTypes = [
-  {
-    id: 'bar',
-    label: 'Bar',
-    fullLabel: 'Bar',
-    icon: LensIconChartBar,
-    visualizationId: uniqueId('vis-bar-'),
-    selection: {
-      dataLoss: 'nothing'
-    },
-    chart: <Bar 
-      xvalues={ [] }
-      yvalues={ [] }
-      name="Event counts"
-      layoutConfig={ {} }
-    />
+const layout = {
+  showlegend: true,
+  margin: {
+    l: 60,
+    r: 10,
+    b: 15,
+    t: 30,
+    pad: 0,
   },
-  {
-    id: 'line',
-    label: 'Line',
-    fullLabel: 'Line',
-    icon: LensIconChartLine,
-    visualizationId: uniqueId('vis-line-'), 
-    selection: {
-      dataLoss: 'nothing'
-    },
-    chart: Line
-  }
-];
+  height: 500
+};
 
-// Exported for testing purposes only.
-export function WorkspacePanel({ title }: any) {
+export function WorkspacePanel({
+  visualizations
+}: any) {
 
-  const [vis, setVis] = useState(visualizationTypes[0]);
+  const data = visualizations.data;
+  const meta = visualizations.metadata;
+  const xkey = meta?.xfield?.name;
+  const ykey = meta?.yfield?.name;
+
+  const memorizedVisualizationTypes = useMemo(() => {
+    console.log('memo refresh');
+    return ([
+      {
+        id: 'bar',
+        label: 'Bar',
+        fullLabel: 'Bar',
+        icon: LensIconChartBar,
+        visualizationId: uniqueId('vis-bar-'),
+        selection: {
+          dataLoss: 'nothing'
+        },
+        chart: <Bar 
+          xvalues={ data[xkey] || [] }
+          yvalues={ data[ykey] || [] }
+          name={ ykey }
+          layoutConfig={ layout }
+        />
+      },
+      {
+        id: 'line',
+        label: 'Line',
+        fullLabel: 'Line',
+        icon: LensIconChartLine,
+        visualizationId: uniqueId('vis-line-'), 
+        selection: {
+          dataLoss: 'nothing'
+        },
+        chart: <Line 
+          xvalues={ data[xkey] || [] }
+          yvalues={ data[ykey] || [] }
+          name={ ykey }
+          layoutConfig={ layout }
+        />
+      }
+    ]);
+  }, [visualizations]);
+
+  const [curVisId, setCurVisId] = useState(memorizedVisualizationTypes[0]['id']);
 
   function onDrop() {}
-
+  
+  const findCurChart = () => {
+    return find(memorizedVisualizationTypes, (v) => {
+      return v.id === curVisId;
+    });
+  }
+  
   function renderVisualization() {
-    return vis.chart;
+    return findCurChart()?.chart;
   }
 
   return (
     <WorkspacePanelWrapper
-      title={title}
+      title={''}
       emptyExpression={true}
-      setVis={ setVis }
-      vis={ vis }
-      visualizationTypes={ visualizationTypes }
+      setVis={ setCurVisId }
+      vis={ findCurChart() }
+      visualizationTypes={ memorizedVisualizationTypes }
     >
       <DragDrop
         className="lnsWorkspacePanel__dragDrop"
@@ -75,7 +107,7 @@ export function WorkspacePanel({ title }: any) {
         onDrop={onDrop}
       >
         <div>
-          {renderVisualization()}
+          { renderVisualization() }
         </div>
       </DragDrop>
     </WorkspacePanelWrapper>

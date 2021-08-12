@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
 import { 
   useDispatch,
@@ -26,22 +26,42 @@ import {
   updateFields,
 } from '../slices/fieldSlice';
 
-export const useFetchQueryResponse = ({
+export const useFetchEvents = ({
   pplService,
   requestParams = {}
 }: any) => {
   
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEventsLoading, setIsEventsLoading] = useState<boolean>(false);
   const queries = useSelector(selectQueries);
-  const rawQuery = queries[requestParams.tabId][RAW_QUERY];
+  const queriesRef = useRef();
+  queriesRef.current = queries;
+  // const rawQuery = cur[requestParams.tabId][RAW_QUERY];
 
-  const getQueryResponse = async () => {
-    setIsLoading(true);
+  const fetchEvents = async (
+    { query }: any,
+    format: string,
+    handler: any
+  ) => {
+    setIsEventsLoading(true);
     await pplService.fetch({
-      query: rawQuery
+      query,
+      format,
     })
-    .then((res) => {
+    .then((res: any) => {
+      handler(res);
+    })
+    .catch((err: any) => {
+      console.error(err);
+    })
+    .finally(() => {
+      setIsEventsLoading(false);
+    });
+  };
+  
+  const getEvents = () => {
+    const cur = queriesRef.current;
+    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'default', (res) => {
       batch(() => {
         dispatch(fetchSuccess({
           tabId: requestParams.tabId,
@@ -55,18 +75,12 @@ export const useFetchQueryResponse = ({
           }
         }));
       });
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-    .finally(() => {
-      setIsLoading(false);
     });
   }
 
   return {
-    isLoading,
-    getQueryResponse
+    isEventsLoading,
+    getEvents
   };
 };
 

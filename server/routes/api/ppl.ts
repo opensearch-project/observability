@@ -30,7 +30,8 @@ export function registerPplRoute({
     path: `${PPL_BASE}${PPL_SEARCH}`,
     validate: { 
       body: schema.object({
-        query: schema.string()
+        query: schema.string(),
+        format: schema.string()
     })}
   }, 
   async (

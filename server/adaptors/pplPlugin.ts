@@ -21,6 +21,12 @@ export const PPLPlugin = function(Client, config, components) {
   ppl.pplQuery = ca({
     url: {
       fmt: `${PPL_ENDPOINT}`,
+      params: {
+        format: {
+          type: 'string',
+          required: true
+        }
+      }
     },
     needBody: true,
     method: 'POST',

@@ -19,19 +19,26 @@ import { DataPanel } from './datapanel';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanelWrapper } from './config_panel';
 
-export const ExplorerVisualizations = (props: any) => {
+export const ExplorerVisualizations = ({
+  explorerVis,
+  queryResults
+}: any) => {
 
   return (
     <FrameLayout 
-      dataPanel={<DataPanel 
-        queryResults={ props.queryResults }
-      />}
+      dataPanel={
+        <DataPanel 
+          queryResults={ queryResults }
+        />
+      }
       workspacePanel={
-        <WorkspacePanel />
+        <WorkspacePanel
+          visualizations={ explorerVis }
+        />
       }
       configPanel={
         <ConfigPanelWrapper
-          queryResults={ props.queryResults }
+          queryResults={ queryResults }
         />
       }
     />
