@@ -34,6 +34,8 @@ export function WorkspacePanel({
   visualizations
 }: any) {
 
+  if (!visualizations || !visualizations.data) return null;
+
   const data = visualizations.data;
   const meta = visualizations.metadata;
   const xkey = meta?.xfield?.name;

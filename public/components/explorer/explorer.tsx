@@ -256,8 +256,8 @@ export const Explorer = ({
                             ]}
                             onChangeInterval={(intrv) => {
                               console.log('this interval: ', intrv);
-                              setInterval(interval);
-                              getCountVisualizations(interval);
+                              // setInterval(interval);
+                              getCountVisualizations(intrv);
                             }}
                             stateInterval="auto"
                           />
@@ -410,7 +410,7 @@ export const Explorer = ({
       return;
     } 
     getEvents();
-    getCountVisualizations(interval);
+    getCountVisualizations('m');
   }
 
   const handleQueryChange = (query, tabId) => {

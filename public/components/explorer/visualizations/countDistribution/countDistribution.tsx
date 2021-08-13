@@ -18,7 +18,9 @@ export const CountDistribution = ({
   const data = countDistribution.data;
   const meta = countDistribution.metadata;
 
-  console.log('countDistribution: ', countDistribution);
+  if (!countDistribution) return null;
+
+  console.log('countDistribution inside: ', countDistribution);
   // console.log('meta: ', meta);
   const xkey = meta?.xfield?.name;
   const ykey = meta?.yfield?.name;
@@ -33,6 +35,10 @@ export const CountDistribution = ({
     },
     height: 220
   };
+
+  if (!xkey || !ykey) {
+    return null;
+  }
 
   return (
     <Bar 

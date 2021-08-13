@@ -36,7 +36,6 @@ export const useFetchEvents = ({
   const queries = useSelector(selectQueries);
   const queriesRef = useRef();
   queriesRef.current = queries;
-  // const rawQuery = cur[requestParams.tabId][RAW_QUERY];
 
   const fetchEvents = async (
     { query }: any,
@@ -58,10 +57,11 @@ export const useFetchEvents = ({
       setIsEventsLoading(false);
     });
   };
-  
+
   const getEvents = () => {
     const cur = queriesRef.current;
-    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'default', (res) => {
+    Promise.all([]).then((values) => {});
+    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'jdbc', (res) => {
       batch(() => {
         dispatch(fetchSuccess({
           tabId: requestParams.tabId,
@@ -76,7 +76,7 @@ export const useFetchEvents = ({
         }));
       });
     });
-  }
+  };
 
   return {
     isEventsLoading,

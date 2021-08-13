@@ -17,7 +17,7 @@ export class PPLDataSource {
     private pplDataSource: any,
     private dataType: string
   ) {
-    if (this.dataType === 'default') {
+    if (this.dataType === 'jdbc') {
       this.addSchemaRowMapping();
     }
   }

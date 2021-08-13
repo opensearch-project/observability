@@ -64,7 +64,10 @@ export const useFetchVisualizations = ({
   const getCountVisualizations = (interval: string) => {
     const cur = queriesRef.current;
     const rawQuery = cur[requestParams.tabId][RAW_QUERY];
-    fetchVisualizations({ query: `${rawQuery} | stats count() by span(timestamp, '1${interval}')` }, 'viz', (res) => {
+    fetchVisualizations({
+      query: `${rawQuery} | stats count() by span(timestamp, '1${interval = interval ? interval: 'm' }')` },
+      'viz',
+      (res) => {
       dispatch(renderCountDis({
         tabId: requestParams.tabId,
         data: res
@@ -75,7 +78,10 @@ export const useFetchVisualizations = ({
   const getVisualizations = () => {
     const cur = queriesRef.current;
     const rawQuery = cur[requestParams.tabId][RAW_QUERY];
-    fetchVisualizations({ query: rawQuery }, 'viz', (res) => {
+    fetchVisualizations({ 
+      query: rawQuery },
+      'viz',
+      (res) => {
       dispatch(renderExplorerVis({
         tabId: requestParams.tabId,
         data: res

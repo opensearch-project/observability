@@ -33,7 +33,7 @@ export default class PPLFacet {
           query: request.body.query
         }
       };
-      if (request.body.format !== 'default') {
+      if (request.body.format !== 'jdbc') {
         params['format'] = request.body.format;
       }
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
