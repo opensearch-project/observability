@@ -38,9 +38,10 @@ export type CustomPanelListType = {
 
 export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
   const [customPanelData, setcustomPanelData] = useState<Array<CustomPanelListType>>([]);
-  const [openedCustomPanel, setopenedCustomPanel] = useState<CustomPanelListType | undefined>(
-    undefined
-  );
+  // const [openedCustomPanel, setopenedCustomPanel] = useState<CustomPanelListType | undefined>(
+  //   undefined
+  // );
+  // const [openPanelId, setOpenPanelId] = useState<string | undefined>(undefined)
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [loading, setLoading] = useState(false);
 
