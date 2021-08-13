@@ -105,11 +105,12 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                 }}
               />
               <Route
-                path={'/custom_panels/:id'}
+                path={'/custom_panels/:id/:type?'}
                 render={(props) => {
                   return (
                     <CustomPanelView
                       panelId={props.match.params.id}
+                      panelType={props.match.params.type}
                       http={http}
                       chrome={chrome}
                       parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
