@@ -59,6 +59,7 @@ const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
 
 export const Explorer = ({
   pplService,
+  dslService,
   tabId
 }: IExplorerProps) => {
 
@@ -395,6 +396,7 @@ export const Explorer = ({
         handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
         handleQuerySearch={ () => { handleQuerySearch(tabId) } }
         pplService = { pplService }
+        dslService = { dslService }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }

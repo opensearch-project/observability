@@ -50,6 +50,7 @@ import {
 
 export const LogExplorer = ({
   pplService,
+  dslService
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -141,6 +142,7 @@ export const LogExplorer = ({
           <Explorer
             key={`explorer_${tabId}`}
             pplService={ pplService }
+            dslService={ dslService }
             tabId={ tabId }
           />
         </>)

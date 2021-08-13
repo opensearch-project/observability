@@ -30,7 +30,7 @@ export default class DSLFacet {
       console.log('facet');
       const params = {
         //index: 'opensearch_dashboards_sample_data_flights',
-        body: JSON.stringify(request.body)
+        query: JSON.stringify(request.body)
       };
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       const dslDataSource = queryRes;

@@ -14,16 +14,19 @@ import React, { createElement, Fragment, useEffect, useRef, useState } from 'rea
 import { autocomplete } from '@algolia/autocomplete-js';
 import { RAW_QUERY } from '../../../common/constants/explorer';
 import { IQueryBarProps } from './search';
-import { handleDslRequest } from './request_handler';
 import { getDataValueQuery } from './queries/data_queries';
+import { stripLeadingSlash } from 'history/PathUtils';
 //import { getFieldQuery } from './queries/data_queries';
 
 
 export function Autocomplete(props: IQueryBarProps) {
-  const { query, handleQueryChange, handleQuerySearch, pplService } = props;
+  const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
   // Possible suggestions (hardcoded)
   const firstCommand = [{ label: 'search' }, { label: 'source' }];
   
+  console.log('checking dslService existence: ', dslService);
+  
+
   const pipeCommands = [
     { label: 'dedup' },
     { label: 'eval' },
@@ -54,6 +57,8 @@ export function Autocomplete(props: IQueryBarProps) {
   let inFieldsCommaLoop = false;
   let hasFields = false;
   const fieldsFromBackend = [];
+
+  let inWherePipe = 0;
   
   // Function to grab suggestions
   function getSuggestions(str: string, pplService) {
@@ -68,7 +73,7 @@ export function Autocomplete(props: IQueryBarProps) {
     // source should be followed by an available index
     if (prefix.startsWith('source=')) {
       //const test = handleDslRequest(http, getDataValueQuery());
-      console.log(test);
+      //handleQueryChange(str);
       return getIndices(prefix.replace('source=', ''));
     }
     if (splittedModel.length === 1) {
@@ -121,7 +126,7 @@ export function Autocomplete(props: IQueryBarProps) {
         return [{ label: str + '=', input: str, suggestion: '=' }].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
-      } else if (splittedModel[splittedModel.length - 2].startsWith('opensearch_dashboards')) {
+      } else if (splittedModel[splittedModel.length - 2].includes('opensearch_dashboards')) {
         fetchFields(str, pplService);
         return [{ label: str + '|', input: str, suggestion: '|' }].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
@@ -176,6 +181,32 @@ export function Autocomplete(props: IQueryBarProps) {
         inFieldsCommaLoop = true;
         return fullSuggestions;
       }
+      else if (splittedModel[splittedModel.length - 2] === 'where') {
+        if (inWherePipe === 0) {
+          itemSuggestions = fieldsFromBackend.filter(
+            ({ label }) => label.startsWith(prefix) && prefix !== label
+          );
+          for (let i = 0; i < itemSuggestions.length; i++) {
+            fullSuggestions.push({
+              label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
+              input: str,
+              suggestion: itemSuggestions[i].label.substring(prefix.length)
+            })
+          }
+        }
+        else if (inWherePipe === 1) {
+          fullSuggestions.push({
+            label: str + 'by',
+            input: str,
+            suggestion: 'by'
+          })
+        }
+        else {
+          fullSuggestions.push({label: 'I have to get my QueryDSL backend endpoint working.', input: 'I have to get my QueryDSL backend endpoint working.', suggestions: ''}) 
+        }
+        inWherePipe = (inWherePipe + 1) % 3;
+        return fullSuggestions;
+      }
       // In case there are no spaces between 'source' and '='
       else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
         itemSuggestions = indices.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
@@ -190,7 +221,7 @@ export function Autocomplete(props: IQueryBarProps) {
       } else if (inFieldsCommaLoop) {
         return [
           { label: str.substring(0, str.length - 1) + ',', input: str.substring(0, str.length - 1), suggestion: ',' },
-          { label: str.substring(0, str.length - 1) + '|', input: str.substring(0, str.length - 1), suggestion: '|' },
+          { label: str + '|', input: str, suggestion: '|' },
         ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
       }
       // TODO: (Grammar implementation) Catch user typos and fix them based on their previous inputs.
@@ -205,7 +236,18 @@ export function Autocomplete(props: IQueryBarProps) {
   // Function to grab available indices
   // TODO: Get indices from backend
   const getIndices = (str: string) => {
-    return indices.filter(({ label }) => label.includes(str) && str !== label);
+    const fullSuggestions = []
+    let itemSuggestions = indices.filter(
+      ({ label }) => label.startsWith(str) && str !== label
+    );
+    for (let i = 0; i < itemSuggestions.length; i++) {
+      fullSuggestions.push({
+        label: 'source=' + itemSuggestions[i].label,
+        input: 'source=',
+        suggestion: itemSuggestions[i].label.substring(str.length),
+      });
+    }
+    return fullSuggestions;
   };
   
   const fetchFields = async (str, pplService) => {
@@ -216,25 +258,51 @@ export function Autocomplete(props: IQueryBarProps) {
       }
       hasFields = true;
     }
-  };
+  }
   
   const onItemSelect = async ({ setIsOpen, setQuery, item, qry, pplService }) => {
-    fetchFields(item.label, pplService);
+    if (!hasFields && item.label.includes('opensearch_dashboards')){
+      fetchFields(item.label, pplService);
+    }
     setQuery(item.label + ' ');
   };
+
+  const getDataValues = async (field: string, dslService) => {
+    return [{label: 'DATA VALUE TEST'}];
+  }
+
+  const getValues = async () => {
+    return dslService.fetch(getDataValueQuery());
+  }
+
+  console.log(getValues())
+
+  // ------------------ REFACTORING
+  const getSuggestions2 = (str: string, pplService) => {
+    //const pipes = str.split('|');
+
+  }
+  // ------------------
 
   useEffect(() => {
     const search = autocomplete({
       container: '#autocomplete',
       tagName: '#autocomplete',
+      initialState: {
+        query: query
+      },
       openOnFocus: true,
+      autoFocus: true,
       minLength: 0,
       placeholder: 'Enter PPL query to retrieve log, traces, and metrics',
       onStateChange: ({ state }) => {
-        handleQueryChange(state.query);
+        // if (state.query === 'source') {
+        //   handleQueryChange(state.query)
+        // }
       },
       onSubmit: ({ state }) => {
-        //handleQueryChange(state.query);
+        handleQueryChange(state.query);
+        console.log('just submitted and handled query change')
         handleQuerySearch();
       },
       getSources({ query, setQuery }) {
@@ -273,7 +341,11 @@ export function Autocomplete(props: IQueryBarProps) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  }, [query,
+      handleQueryChange,
+      handleQuerySearch,
+      pplService,
+      ]);
 
   return <div id="autocomplete" />;
 }

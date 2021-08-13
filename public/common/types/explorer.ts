@@ -54,4 +54,5 @@ export interface IExplorerFields {
 
 export interface IExplorerProps {
   pplService: any;
+  dslService: any;
 }

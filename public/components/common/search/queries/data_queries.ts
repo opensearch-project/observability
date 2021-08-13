@@ -22,18 +22,18 @@ export const getDataValueQuery = () => {
           }
         }]
       }
-    },
-    'aggs': {
-      'autocomplete': {
-        'terms': {
-          'field': 'Origin',
-          'order': {
-            '_count': 'desc'
-          },
-          'size': 10
-        }
-      }
     }
+    // 'aggs': {
+    //   'autocomplete': {
+    //     'terms': {
+    //       'field': 'Origin',
+    //       'order': {
+    //         '_count': 'desc'
+    //       },
+    //       'size': 10
+    //     }
+    //   }
+    // }
   }
   return query;
 }

@@ -29,8 +29,8 @@ export function handleDslRequest(http: CoreStart['http'], query) {
   // }
   console.log(JSON.stringify(query));
   return http
-    .post(DSL_ROUTE, {
-      body: JSON.stringify(query),
+    .get(DSL_ROUTE, {
+      query: JSON.stringify(query),
     })
     .catch((error) => console.error(error));
 }

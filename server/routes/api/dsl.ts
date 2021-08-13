@@ -26,7 +26,7 @@ export function registerDslRoute({
   router: IRouter
   facet: DSLFacet
 }) {
-  router.post({
+  router.get({
     path: `${DSL_BASE}${DSL_SEARCH}`,
     validate: false
   },

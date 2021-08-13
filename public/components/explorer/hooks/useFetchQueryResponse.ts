@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
 import { 
   useDispatch,
@@ -34,13 +34,15 @@ export const useFetchQueryResponse = ({
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const queries = useSelector(selectQueries);
-  const rawQuery = queries[requestParams.tabId][RAW_QUERY];
+  const queriesRef = useRef();
+  queriesRef.current = queries;
+  //const rawQuery = queries[requestParams.tabId][RAW_QUERY];
 
-  console.log('rawQuery: ', rawQuery)
   const getQueryResponse = async () => {
     setIsLoading(true);
+    const cur = queriesRef.current;
     await pplService.fetch({
-      query: rawQuery
+      query: cur[requestParams.tabId][RAW_QUERY]
     })
     .then((res) => {
       batch(() => {

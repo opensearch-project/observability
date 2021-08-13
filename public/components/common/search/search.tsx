@@ -33,6 +33,7 @@ export interface IQueryBarProps {
   handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void
   pplService: any
+  dslService: any
 }
 
 export interface IFilterProps {
@@ -51,6 +52,7 @@ export const Search = (props: any) => {
     handleQueryChange,
     handleQuerySearch,
     pplService,
+    dslService,
     startTime,
     endTime,
     setStartTime,
@@ -59,13 +61,14 @@ export const Search = (props: any) => {
     actionItems
   } = props;
 
-  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, pplService }: IQueryBarProps) {
+  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, pplService, dslService }: IQueryBarProps) {
     return (
       <Autocomplete
         query = { query }
         handleQueryChange = { handleQueryChange }
         handleQuerySearch = { handleQuerySearch }
         pplService = { pplService }
+        dslService = { dslService }
       />
     )
   }
@@ -77,7 +80,7 @@ export const Search = (props: any) => {
           justifyContent="flexEnd"
         >
           <div className="autocomplete">
-          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, pplService }) }
+          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, pplService, dslService }) }
           </div>
           <Filter
             startTime={ startTime }

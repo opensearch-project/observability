@@ -27,11 +27,13 @@ import { observabilityTitle  } from '../../common';
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
   pplService: any
+  dslService: any
 }
 
 export const App = ({
   CoreStart,
   pplService,
+  dslService
 }: ObservabilityAppDeps) => {
 
   const { chrome, http } = CoreStart;
@@ -106,6 +108,7 @@ export const App = ({
                 render={(props) => <LogExplorer
                   http={ http }
                   pplService={ pplService }
+                  dslService={ dslService }
                 /> }
               />
             </Switch>
