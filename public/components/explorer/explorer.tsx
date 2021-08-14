@@ -78,7 +78,8 @@ export const Explorer = ({
   };
   const {
     isEventsLoading,
-    getEvents
+    getEvents,
+    getAvailableFields
   } = useFetchEvents({
     pplService,
     requestParams
@@ -97,11 +98,9 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  console.log('top countDistribution: ', countDistribution);
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
-  const [interval, setInterval] = useState<string>('m');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
@@ -255,8 +254,6 @@ export const Explorer = ({
                               },
                             ]}
                             onChangeInterval={(intrv) => {
-                              console.log('this interval: ', intrv);
-                              // setInterval(interval);
                               getCountVisualizations(intrv);
                             }}
                             stateInterval="auto"
@@ -334,6 +331,7 @@ export const Explorer = ({
     return (
       <ExplorerVisualizations
         queryResults={ explorerData }
+        explorerFields={ explorerFields }
         query={ query }
         explorerVis={ explorerVisualizations }
       />
@@ -360,7 +358,6 @@ export const Explorer = ({
   };
 
   const memorizedMainContentTabs = useMemo(() => {
-    console.log('countDistribution: ', countDistribution);
     return getMainContentTabs();
   },
     [
@@ -406,6 +403,13 @@ export const Explorer = ({
   
   const handleQuerySearch = (tabId: string) => {
     if (query.includes('stats')) {
+      // const indexPart = query.split('=')[1];
+      // console.log('indexPart: ', indexPart);
+      // const indexTokens = indexPart.split('|')[0];
+      // console.log('indexTokens: ', indexTokens);
+      // const index = indexTokens[0];
+      // console.log('index: ', index);
+      getAvailableFields(`search source=opensearch_dashboards_sample_data_flights`);
       getVisualizations();
       return;
     } 

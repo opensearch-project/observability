@@ -36,7 +36,7 @@ export const Home = (props: any) => {
       },
       handlers: {
         onClick: () => {
-          history.push('/event/explorer');
+          history.push('/explorer/events');
         }
       }
     },

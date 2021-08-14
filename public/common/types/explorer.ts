@@ -22,9 +22,9 @@ export interface IQueryTab {
   content: React.ReactNode
 }
 
-export interface ILogExplorerProps {
-  http: CoreStart['http']
-}
+// export interface ILogExplorerProps {
+//   http: CoreStart['http']
+// }
 
 export interface IField {
   name: string;

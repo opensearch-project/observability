@@ -24,7 +24,7 @@ import { FieldList } from './fieldList';
 
 export const DataPanel = (props: any) => {
 
-  const { schema } = props.queryResults;
+  const schema = props.explorerFields?.availableFields;
 
   return (
     <EuiFlexGroup

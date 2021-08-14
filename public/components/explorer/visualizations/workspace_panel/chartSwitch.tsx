@@ -25,7 +25,6 @@ import {
 import { ToolbarButton } from '../shared_components/toolbar_button';
 
 function VisualizationSummary(vis: any) {
-  console.log('summary vis: ', vis);
   return (
     <>
       <EuiIcon size="l" className="lnsChartSwitch__summaryIcon" type={vis.icon} />
@@ -55,7 +54,7 @@ export const ChartSwitch = ({
           data-test-subj="lnsChartSwitchPopover"
           fontWeight="bold"
         >
-          <VisualizationSummary vis={vis} />
+          <VisualizationSummary { ...vis } />
         </ToolbarButton>
       }
       isOpen={flyoutOpen}
@@ -80,7 +79,6 @@ export const ChartSwitch = ({
             role="menuitem"
             data-test-subj={`lnsChartSwitchPopover_${v.id}`}
             onClick={() => {
-              console.log('v: ', v);
               setVis(v.id);
               setFlyoutOpen(false);
             }}

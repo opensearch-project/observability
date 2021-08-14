@@ -42,7 +42,6 @@ export function WorkspacePanel({
   const ykey = meta?.yfield?.name;
 
   const memorizedVisualizationTypes = useMemo(() => {
-    console.log('memo refresh');
     return ([
       {
         id: 'bar',

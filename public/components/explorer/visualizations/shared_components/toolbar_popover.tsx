@@ -50,7 +50,7 @@ export const ToolbarPopover: React.FunctionComponent<ToolbarPopoverProps> = ({
   const [open, setOpen] = useState(false);
 
   const iconType: string | IconType = typeof type === 'string' ? typeToIconMap[type] : type;
-
+  console.log('iconType: ', iconType);
   return (
     <EuiFlexItem grow={false}>
       <EuiPopover
@@ -69,7 +69,8 @@ export const ToolbarPopover: React.FunctionComponent<ToolbarPopoverProps> = ({
             groupPosition={groupPosition}
             dataTestSubj={buttonDataTestSubj}
           >
-            <EuiIcon type={iconType} />
+            { title }
+            <EuiIcon type="arrowDown" />
           </ToolbarButton>
         }
         isOpen={open}

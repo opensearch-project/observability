@@ -26,14 +26,14 @@ export const ConfigPanelWrapper = memo(function ConfigPanelWrapper(props: any) {
 
 function LayerPanels(props: any) {
   const {    
-    queryResults
+    explorerFields
   } = props;
 
   const panelItems = [
     {
       paddingTitle: 'X-axis',
       advancedTitle: 'Advanced',
-      dropdownList: queryResults && queryResults.schema ? queryResults.schema : []
+      dropdownList: explorerFields && explorerFields['availableFields'] ? explorerFields['availableFields'] : []
     },
     {
       paddingTitle: 'Y-axis',

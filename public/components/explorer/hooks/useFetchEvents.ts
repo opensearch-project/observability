@@ -20,7 +20,7 @@ import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
 } from '../../../common/constants/explorer';
-import { fetchSuccess } from '../slices/queryResultSlice';
+import { fetchSuccess, reset as queryResultReset } from '../slices/queryResultSlice';
 import { selectQueries } from '../slices/querySlice';
 import {
   updateFields,
@@ -60,7 +60,6 @@ export const useFetchEvents = ({
 
   const getEvents = () => {
     const cur = queriesRef.current;
-    Promise.all([]).then((values) => {});
     fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'jdbc', (res) => {
       batch(() => {
         dispatch(fetchSuccess({
@@ -78,9 +77,28 @@ export const useFetchEvents = ({
     });
   };
 
+  const getAvailableFields = (query: string) => {
+    fetchEvents({ query, }, 'jdbc', (res) => {
+      batch(() => {
+        dispatch(queryResultReset({
+          tabId: requestParams.tabId
+        }));
+        dispatch(updateFields({
+          tabId: requestParams.tabId,
+          data: {
+            [SELECTED_FIELDS]: [],
+            [UNSELECTED_FIELDS]: [],
+            'availableFields': res?.schema
+          }
+        }));
+      });
+    });
+  };
+
   return {
     isEventsLoading,
-    getEvents
+    getEvents,
+    getAvailableFields
   };
 };
 
