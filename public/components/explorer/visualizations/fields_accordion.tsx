@@ -34,7 +34,7 @@ export const InnerFieldsAccordion = function InnerFieldsAccordion({
       <FieldItem 
         exists={ true }
         field={ field }
-        hideDetails={ true }
+        hideDetails={ false }
         key={field.name}
       />
     ),

@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { uniqueId, find } from 'lodash';
 import { DragDrop } from '../drag_drop';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
@@ -27,7 +27,7 @@ const layout = {
     t: 30,
     pad: 0,
   },
-  height: 500
+  height: 300
 };
 
 export function WorkspacePanel({
@@ -82,14 +82,14 @@ export function WorkspacePanel({
 
   function onDrop() {}
   
-  const findCurChart = () => {
+  const getCurChart = () => {
     return find(memorizedVisualizationTypes, (v) => {
       return v.id === curVisId;
     });
   }
   
   function renderVisualization() {
-    return findCurChart()?.chart;
+    return getCurChart()?.chart;
   }
 
   return (
@@ -97,7 +97,7 @@ export function WorkspacePanel({
       title={''}
       emptyExpression={true}
       setVis={ setCurVisId }
-      vis={ findCurChart() }
+      vis={ getCurChart() }
       visualizationTypes={ memorizedVisualizationTypes }
     >
       <DragDrop

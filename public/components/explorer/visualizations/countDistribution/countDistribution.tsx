@@ -15,10 +15,11 @@ import { Bar } from '../../../visualizations/charts/bar';
 export const CountDistribution = ({
   countDistribution
 }: any) => {
-  const data = countDistribution.data;
-  const meta = countDistribution.metadata;
 
   if (!countDistribution) return null;
+
+  const data = countDistribution.data;
+  const meta = countDistribution.metadata;
 
   console.log('countDistribution inside: ', countDistribution);
   // console.log('meta: ', meta);

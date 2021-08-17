@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { 
@@ -112,6 +112,16 @@ export const Explorer = ({
     },
     [setFixedScrollEl]
   );
+
+  useEffect(() => {
+    if (query && query.includes('stats')) {
+      getAvailableFields(`search source=opensearch_dashboards_sample_data_flights`);
+      getVisualizations();
+    } else {
+      getEvents();
+      getCountVisualizations('m');
+    }
+  }, []);
 
   const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
 

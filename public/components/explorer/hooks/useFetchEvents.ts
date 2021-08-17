@@ -98,7 +98,8 @@ export const useFetchEvents = ({
   return {
     isEventsLoading,
     getEvents,
-    getAvailableFields
+    getAvailableFields,
+    fetchEvents
   };
 };
 

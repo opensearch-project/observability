@@ -57,7 +57,6 @@ export const ToolbarButton: React.FunctionComponent<ToolbarButtonProps> = ({
     [`lnsToolbarButton--${fontWeight}`, `lnsToolbarButton--${size}`],
     className
   );
-  console.log('button text: ', children);
   return (
     <EuiButton
       data-test-subj={dataTestSubj}
