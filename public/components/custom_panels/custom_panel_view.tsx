@@ -10,54 +10,29 @@
  */
 
 import {
-  EuiBreadcrumb,
   EuiButton,
-  EuiButtonEmpty,
-  EuiCodeBlock,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiForm,
-  EuiFormRow,
   EuiGlobalToastList,
-  EuiHorizontalRule,
-  EuiLink,
-  EuiModal,
-  EuiModalBody,
-  EuiModalFooter,
-  EuiModalHeader,
-  EuiModalHeaderTitle,
-  EuiOverlayMask,
   EuiPage,
   EuiPageBody,
-  EuiPageContent,
   EuiPageContentBody,
-  EuiPageContentHeaderSection,
   EuiPageHeader,
   EuiPageHeaderSection,
-  EuiPageSideBar,
-  EuiPanel,
-  EuiRadio,
-  EuiRadioGroup,
-  EuiSelect,
   EuiSpacer,
   EuiSuperDatePicker,
-  EuiSwitch,
-  EuiText,
-  EuiTextArea,
   EuiTitle,
-  htmlIdGenerator,
 } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
-import React, { Fragment, ReactChild, useEffect, useState } from 'react';
+import React, { ReactChild, useCallback, useEffect, useState } from 'react';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './sub_components/empty_panel_view';
-import {AddVizView} from './sub_components/add_viz_view'
-import {
-  CUSTOM_PANELS_API_PREFIX,
-  CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../../common/constants/custom_panels';
+import { AddVizView } from './sub_components/add_visualization';
+import { VisualizationPanel } from './sub_components/visualization_panel';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 
 // "CustomPanelsView" module used to render saved Custom Operational Panels
 
@@ -69,10 +44,23 @@ type Props = {
   parentBreadcrumb: { text: string; href: string }[];
 };
 
-// const idPrefix = htmlIdGenerator()();
+type VisualizationType = {
+  id: string;
+  title: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  fromTime?: string;
+  toTime?: string;
+};
+
+// HOC container to provide dynamic width for Grid layout
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadcrumb }: Props) => {
-  const [openPanelName, setOpenPanelName] = useState('Sample Panel');
+  const [openPanelName, setOpenPanelName] = useState('');
+  const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [filterBarValue, setFilterBarValue] = useState('');
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
@@ -83,7 +71,25 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
   const [refreshInterval, setRefreshInterval] = useState();
   const [inputDisabled, setInputDisabled] = useState(true);
   const [showVizPanel, setShowVizPanel] = useState(false);
-  const [isPanelEmpty, setIsPanelEmpty] = useState(true);
+  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([
+    // { id: '1', title: 'Viz 1', x: 0, y: 0, w: 1, h: 2 },
+    // { id: '2', title: 'Viz 2', x: 1, y: 0, w: 3, h: 2 },
+  ]);
+
+  const layout = [
+    { i: '1', x: 0, y: 0, w: 1, h: 2 },
+    { i: '2', x: 1, y: 0, w: 1, h: 2 },
+    // { i: '3', x: 2, y: 0, w: 1, h: 2 },
+    // { i: '4', x: 3, y: 0, w: 1, h: 2 },
+    // { i: '5', x: 4, y: 0, w: 1, h: 2 },
+    // { i: '6', x: 5, y: 0, w: 1, h: 2 },
+    // { i: '7', x: 6, y: 0, w: 1, h: 2 },
+    // { i: '8', x: 7, y: 0, w: 1, h: 2 },
+    // { i: '9', x: 8, y: 0, w: 1, h: 2 },
+    // { i: '10', x: 9, y: 0, w: 1, h: 2 },
+    // { i: '11', x: 10, y: 0, w: 1, h: 2 },
+    // { i: '12', x: 11, y: 0, w: 1, h: 2 },
+  ];
 
   const onTimeChange = ({ start, end }) => {
     const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
@@ -100,22 +106,6 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
     startLoading();
   };
 
-  const onRefresh = ({ start, end, refreshInterval }) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 100);
-    }).then(() => {
-      console.log(start, end, refreshInterval);
-    });
-  };
-
-  const onStartInputChange = (e) => {
-    setStart(e.target.value);
-  };
-
-  const onEndInputChange = (e) => {
-    setEnd(e.target.value);
-  };
-
   const startLoading = () => {
     setTimeout(stopLoading, 1000);
   };
@@ -124,38 +114,51 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
     setIsLoading(false);
   };
 
-  const onRefreshChange = ({ isPaused, refreshInterval }) => {
-    setIsPaused(isPaused);
-    setRefreshInterval(refreshInterval);
+  const fetchCustomPanel = async () => {
+    return http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${panelId}`)
+      .then((res) => {
+        setOpenPanelName(res.panel.name);
+        setPanelCreatedTime(res.panel.dateCreated);
+        setPanelVisualizations(res.panel.visualizations);
+      })
+      .catch((err) => {
+        console.error('Issue in fetching the custom operational panels', err);
+      });
   };
 
-  const setToast = (title: string, color = 'success', text?: ReactChild) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
-  const fecthCustomPanel = async () => {
-    // fetch custom panel by Id from the backend
-  };
-
-
-  const closeVizWindow = () =>{
+  const closeVizWindow = () => {
     setShowVizPanel(false);
-    setIsPanelEmpty(true);
-  }
-  
+    // setIsPanelEmpty(true);
+  };
+
   const addVizWindow = () => {
     setShowVizPanel(true);
-    setIsPanelEmpty(false);
+    // setIsPanelEmpty(false);
   };
 
+
+  const loadVisualizations = () => {
+    return panelVisualizations.map((panelVisualization: VisualizationType, index: number) => {
+      return (<div key={panelVisualization.id}>
+        <VisualizationPanel
+          visualizationId={panelVisualization.id}
+          visualizationTitle={panelVisualization.title}
+        />
+      </div>)
+    });
+  }
+
   useEffect(() => {
-    fecthCustomPanel();
+    fetchCustomPanel();
+  }, []);
+
+  useEffect(()=>{
     chrome.setBreadcrumbs([
       ...parentBreadcrumb,
       { text: openPanelName, href: `${_.last(parentBreadcrumb).href}${panelId}` },
     ]);
-  }, []);
+  }, [openPanelName]);
 
   const onChange = (e) => {
     setFilterBarValue(e.target.value);
@@ -180,7 +183,7 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
               <EuiFlexItem>
                 <EuiSpacer size="s" />
               </EuiFlexItem>
-              Created on 08/20/2020 05:29:29
+              Created on {panelCreatedTime}
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
@@ -215,11 +218,6 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
                   end={end}
                   onTimeChange={onTimeChange}
                   showUpdateButton={false}
-                  // onRefresh={onRefresh}
-                  // isPaused={isPaused}
-                  // refreshInterval={refreshInterval}
-                  // onRefreshChange={onRefreshChange}
-                  // recentlyUsedRanges={recentlyUsedRanges}
                   isDisabled={inputDisabled}
                 />
               </EuiFlexItem>
@@ -231,14 +229,20 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {isPanelEmpty ? (
-              <EmptyPanelView addVizWindow={addVizWindow}/>
+            {panelVisualizations.length == 0 ? (
+              !showVizPanel && <EmptyPanelView addVizWindow={addVizWindow} />
             ) : (
-              <></>
+              <ResponsiveGridLayout
+                layouts={{ lg: layout, md: layout, sm: layout }}
+                style={{ minWidth: '100%', maxWidth: '100%' }}
+                className="layout"
+                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                cols={{ lg: 12, md: 12, sm: 12, xs: 1, xxs: 1 }}
+              >
+                {loadVisualizations()}
+              </ResponsiveGridLayout>
             )}
-            <>
-            {showVizPanel && <AddVizView closeVizWindow={closeVizWindow}/>}
-            </>
+            <>{showVizPanel && <AddVizView closeVizWindow={closeVizWindow} />}</>
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

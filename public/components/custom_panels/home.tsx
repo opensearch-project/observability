@@ -53,7 +53,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
   // Fetches all saved Custom Panels
   const fetchCustomPanels = () => {
     return http
-      .get(`${CUSTOM_PANELS_API_PREFIX}/`)
+      .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
       .then((res) => setcustomPanelData(res.panels))
       .catch((err) => {
         console.error('Issue in fetching the custom operational panels', err.body.message);

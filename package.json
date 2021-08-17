@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
+    "@types/react-plotly.js": "^2.5.0",
     "plotly.js-dist": "^2.2.0",
+    "react-grid-layout": "^1.2.5",
     "react-plotly.js": "^2.5.1"
   },
   "devDependencies": {
+    "@types/react-grid-layout": "^1.1.2",
     "cypress": "^5.0.0"
   }
 }
