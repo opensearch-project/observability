@@ -29,8 +29,9 @@ export function handleDslRequest(http: CoreStart['http'], query) {
   // }
   console.log(JSON.stringify(query));
   return http
-    .get(DSL_ROUTE, {
-      query: JSON.stringify(query),
+    .post(DSL_ROUTE, {
+      //index: 'opensearch_dashboards_sample_data_flights',
+      body: JSON.stringify(query),
     })
     .catch((error) => console.error(error));
 }

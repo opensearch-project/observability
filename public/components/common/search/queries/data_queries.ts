@@ -9,31 +9,33 @@
 * GitHub history for details.
 */
 
-export const getDataValueQuery = () => {
+export const getDataValueQuery = (index: string, field: string) => {
   const query = {
+    index: index,
+    'size': 0,
     'query': {
       'bool': {
         'must': [{
           'wildcard': {
-            'Origin': {
+            [field]: {
               'value': '*',
-              'case_sensitive': 'false'
+              'case_insensitive': 'true'
             }
           }
         }]
       }
+    },
+    'aggs': {
+      'autocomplete': {
+        'terms': {
+          'field': field,
+          'order': {
+            '_count': 'desc'
+          },
+          'size': 10
+        }
+      }
     }
-    // 'aggs': {
-    //   'autocomplete': {
-    //     'terms': {
-    //       'field': 'Origin',
-    //       'order': {
-    //         '_count': 'desc'
-    //       },
-    //       'size': 10
-    //     }
-    //   }
-    // }
   }
   return query;
 }

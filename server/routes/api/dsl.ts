@@ -16,8 +16,11 @@ import { schema } from '@osd/config-schema';
 import DSLFacet from '../../services/facets/dslFacet';
 import {
   DSL_BASE,
-  DSL_SEARCH
+  DSL_SEARCH,
+  DSL_CAT,
+  DSL_MAPPING
 } from '../../../common/index';
+import { RequestParams } from '@elastic/elasticsearch';
 
 export function registerDslRoute({
   router,
@@ -26,24 +29,79 @@ export function registerDslRoute({
   router: IRouter
   facet: DSLFacet
 }) {
-  router.get({
+  router.post({
     path: `${DSL_BASE}${DSL_SEARCH}`,
-    validate: false
+    validate: { body:schema.any() }
   },
-  async (
-    context,
-    req,
-    res
-  ) => {
-    console.log('before queryRes')
-    const queryRes = await facet.describeQuery(req);
-    const result: any = {
-      body: JSON.stringify(queryRes['data'])
+  async (context, request, response) => {
+    const { index, size, ...rest } = request.body;
+    const params: RequestParams.Search = {
+      index: index,
+      size,
+      body: rest,
     };
-    if (queryRes['success']) {
-      return res.ok(result);
+    try {
+      const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
+        'search',
+        params
+      );
+      return response.ok({
+        body: resp,
+      });
+    } catch (error) {
+      if (error.statusCode !== 404) console.error(error);
+      return response.custom({
+        statusCode: error.statusCode || 500,
+        body: error.message,
+      });
     }
-    result['statusCode'] = 500;
-    return res.custom(result);
-  });
+  })
+
+  router.get({
+    path: `${DSL_BASE}${DSL_CAT}`,
+    validate: { query: schema.object({
+      format: schema.string()
+    }) }
+  },
+  async (context, request, response) => {
+    try {
+      const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
+        'cat.indices',
+        //{format: 'json'}
+        request.query
+      );
+      return response.ok({
+        body: resp
+      });
+    } catch (error) {
+      if (error.statusCode !== 404) console.error(error);
+      return response.custom({
+        statusCode: error.statusCode || 500,
+        body: error.message
+      })
+    }
+  })
+  
+  router.get({
+    path: `${DSL_BASE}${DSL_MAPPING}`,
+    validate: { query: schema.any() }
+  },
+  async (context, request, response) => {
+    try {
+      const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
+        'indices.getMapping',
+        { index: request.query.index }
+      );
+      return response.ok({
+        body: resp
+      });
+    } catch (error) {
+      if (error.statusCode !== 404) console.error(error);
+      return response.custom({
+        statusCode: error.statusCode || 500,
+        body: error.message,
+      })
+    }
+  }
+  )
 }

@@ -15,16 +15,13 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { RAW_QUERY } from '../../../common/constants/explorer';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { stripLeadingSlash } from 'history/PathUtils';
-//import { getFieldQuery } from './queries/data_queries';
+import { IndicesGetMappingParams } from 'elasticsearch';
 
 
 export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
-  // Possible suggestions (hardcoded)
+
   const firstCommand = [{ label: 'search' }, { label: 'source' }];
-  
-  console.log('checking dslService existence: ', dslService);
   
 
   const pipeCommands = [
@@ -48,22 +45,23 @@ export function Autocomplete(props: IQueryBarProps) {
     { label: 'min()' },
   ];
   
-  const indices = [
-    { label: 'opensearch_dashboards_sample_data_ecommerce' },
-    { label: 'opensearch_dashboards_sample_data_flights' },
-    { label: 'opensearch_dashboards_sample_data_logs' },
-  ];
   
+  let currIndex = '';
+  let currField = ''
   let inFieldsCommaLoop = false;
+  
+  let hasIndices = false;
   let hasFields = false;
-  const fieldsFromBackend = [];
 
+  const fieldsFromBackend = [];
+  const indicesFromBackend = [];
+  
   let inWherePipe = 0;
+  let nextWhere = ''
   
   // Function to grab suggestions
-  function getSuggestions(str: string, pplService) {
-    const pipes = str.split('|')
-    console.log(pipes);
+  const getSuggestions = async (str: string) => {
+    // const pipes = str.split('|')
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
     let itemSuggestions = [];
@@ -71,11 +69,6 @@ export function Autocomplete(props: IQueryBarProps) {
   
     // First commands should either be search or source
     // source should be followed by an available index
-    if (prefix.startsWith('source=')) {
-      //const test = handleDslRequest(http, getDataValueQuery());
-      //handleQueryChange(str);
-      return getIndices(prefix.replace('source=', ''));
-    }
     if (splittedModel.length === 1) {
       itemSuggestions = firstCommand.filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
@@ -87,6 +80,7 @@ export function Autocomplete(props: IQueryBarProps) {
           suggestion: itemSuggestions[i].label.substring(prefix.length),
         });
       }
+      getIndices();
       return fullSuggestions;
     }
   
@@ -127,7 +121,7 @@ export function Autocomplete(props: IQueryBarProps) {
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
       } else if (splittedModel[splittedModel.length - 2].includes('opensearch_dashboards')) {
-        fetchFields(str, pplService);
+        getFields();
         return [{ label: str + '|', input: str, suggestion: '|' }].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
@@ -181,41 +175,67 @@ export function Autocomplete(props: IQueryBarProps) {
         inFieldsCommaLoop = true;
         return fullSuggestions;
       }
-      else if (splittedModel[splittedModel.length - 2] === 'where') {
-        if (inWherePipe === 0) {
-          itemSuggestions = fieldsFromBackend.filter(
-            ({ label }) => label.startsWith(prefix) && prefix !== label
-          );
-          for (let i = 0; i < itemSuggestions.length; i++) {
-            fullSuggestions.push({
-              label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
-              input: str,
-              suggestion: itemSuggestions[i].label.substring(prefix.length)
-            })
-          }
-        }
-        else if (inWherePipe === 1) {
-          fullSuggestions.push({
-            label: str + 'by',
-            input: str,
-            suggestion: 'by'
-          })
-        }
-        else {
-          fullSuggestions.push({label: 'I have to get my QueryDSL backend endpoint working.', input: 'I have to get my QueryDSL backend endpoint working.', suggestions: ''}) 
-        }
-        inWherePipe = (inWherePipe + 1) % 3;
-        return fullSuggestions;
-      }
-      // In case there are no spaces between 'source' and '='
-      else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
-        itemSuggestions = indices.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
+      else if (splittedModel[splittedModel.length - 2] === 'dedup') {
+        itemSuggestions = fieldsFromBackend.filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        );
         for (let i = 0; i < itemSuggestions.length; i++) {
           fullSuggestions.push({
             label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
             input: str,
             suggestion: itemSuggestions[i].label.substring(prefix.length),
           });
+        }
+        return fullSuggestions;
+      }
+      else if (splittedModel[splittedModel.length - 2] === 'where') {
+        itemSuggestions = fieldsFromBackend.filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        );
+        for (let i = 0; i < itemSuggestions.length; i++) {
+          fullSuggestions.push({
+            label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
+            input: str,
+            suggestion: itemSuggestions[i].label.substring(prefix.length)
+          })
+        }
+        nextWhere = '='
+        return fullSuggestions;
+      }
+      else if (nextWhere === '=') {
+        fullSuggestions.push({
+          label: str + '=', 
+          input: str,
+          suggestion: '='
+        })
+        nextWhere = 'value'
+        currField = splittedModel[splittedModel.length - 2];
+        return fullSuggestions;
+      }
+      else if (nextWhere === 'value') {
+        itemSuggestions = (await getDataValues(currIndex, currField)).filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        );
+        for (let i = 0; i < itemSuggestions.length; i++) {
+          fullSuggestions.push({
+            label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
+            input: str,
+            suggestion: itemSuggestions[i].label.substring(prefix.length)
+          })
+        }
+        return fullSuggestions;
+      }
+      // In case there are no spaces between 'source' and '='
+      else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
+        itemSuggestions = indicesFromBackend.filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        );
+        for (let i = 0; i < itemSuggestions.length; i++) {
+          fullSuggestions.push({
+            label: str.substring(0, str.lastIndexOf(prefix)) + itemSuggestions[i].label,
+            input: str,
+            suggestion: itemSuggestions[i].label.substring(prefix.length)
+          })
         }
         return fullSuggestions;
       } else if (inFieldsCommaLoop) {
@@ -232,53 +252,57 @@ export function Autocomplete(props: IQueryBarProps) {
       );
     }
   }
-  
-  // Function to grab available indices
-  // TODO: Get indices from backend
-  const getIndices = (str: string) => {
-    const fullSuggestions = []
-    let itemSuggestions = indices.filter(
-      ({ label }) => label.startsWith(str) && str !== label
-    );
-    for (let i = 0; i < itemSuggestions.length; i++) {
-      fullSuggestions.push({
-        label: 'source=' + itemSuggestions[i].label,
-        input: 'source=',
-        suggestion: itemSuggestions[i].label.substring(str.length),
-      });
-    }
-    return fullSuggestions;
-  };
-  
-  const fetchFields = async (str, pplService) => {
-    if (!hasFields && str.includes('opensearch_dashboards')) {
-      const res = await pplService.fetch({ query: str });
-      for (let i = 0; i < res?.schema.length; i++) {
-        fieldsFromBackend.push({ label: res?.schema[i].name });
+
+  const getIndices = async () => {
+    if(!hasIndices) {
+      const indices = (await dslService.fetchIndices()).filter(
+        ({ index }) => !index.startsWith('.')
+      )
+      for (let i = 0; i < indices.length; i++) {
+        indicesFromBackend.push({
+          label: indices[i].index
+        })
       }
+      hasIndices = true;
+    }
+  }
+  
+  const getFields = async () => {
+    if (!hasFields && currIndex !== '') {
+      const res = await dslService.fetchFields(currIndex);
+      for (let element in res?.[currIndex].mappings.properties) {
+        if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
+          fieldsFromBackend.push({ label: element, type: 'string' });  
+        }
+        else {
+        fieldsFromBackend.push({ label: element, type: res?.[currIndex].mappings.properties[element].type });
+        }
+      }
+      console.log(fieldsFromBackend)
       hasFields = true;
     }
   }
   
   const onItemSelect = async ({ setIsOpen, setQuery, item, qry, pplService }) => {
     if (!hasFields && item.label.includes('opensearch_dashboards')){
-      fetchFields(item.label, pplService);
+      const splittedModel = item.label.split(' ')
+      currIndex = splittedModel.pop()
+      getFields();
     }
     setQuery(item.label + ' ');
   };
 
-  const getDataValues = async (field: string, dslService) => {
-    return [{label: 'DATA VALUE TEST'}];
+  const getDataValues = async (index: string, field: string) => {
+    const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.autocomplete.buckets;
+    const dataValues = [];
+    res.forEach( (e) => {
+      dataValues.push({label: e.key, doc_count: e.doc_count});
+    })
+    return dataValues;
   }
-
-  const getValues = async () => {
-    return dslService.fetch(getDataValueQuery());
-  }
-
-  console.log(getValues())
 
   // ------------------ REFACTORING
-  const getSuggestions2 = (str: string, pplService) => {
+  const getSuggestions2 = (str: string) => {
     //const pipes = str.split('|');
 
   }
@@ -302,14 +326,13 @@ export function Autocomplete(props: IQueryBarProps) {
       },
       onSubmit: ({ state }) => {
         handleQueryChange(state.query);
-        console.log('just submitted and handled query change')
         handleQuerySearch();
       },
       getSources({ query, setQuery }) {
         return [
           {
             getItems({ query }) {
-              return getSuggestions(query, pplService);
+              return getSuggestions(query);
             },
             tagName: 'test',
             onSelect: ({ setQuery, setIsOpen, item, state }) => {

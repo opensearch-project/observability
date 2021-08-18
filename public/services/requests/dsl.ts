@@ -10,10 +10,12 @@
  */
 
 import { CoreStart } from '../../../../../src/core/public';
-// import {
-//   DSL_BASE,
-//   DSL_SEARCH
-// } from '../../../common/index';
+import {
+  DSL_BASE,
+  DSL_SEARCH,
+  DSL_CAT,
+  DSL_MAPPING
+} from '../../../common/index';
 
 export default class DSLService {
   private http;
@@ -21,15 +23,41 @@ export default class DSLService {
     this.http = http;
   }
   fetch = async (
-    params: {
-      query: string
-      format: ''
-    }
+    request: any
+  ) => {
+    return this.http
+            .post(
+              `${DSL_BASE}${DSL_SEARCH}`,
+              {
+                body: JSON.stringify(request)
+              }
+            )
+            .catch(error => console.log(error));
+  }
+
+  fetchIndices = async () => {
+    return this.http
+            .get(
+              `${DSL_BASE}${DSL_CAT}`,
+              {
+                query: {
+                  format: 'json',
+                }
+              }
+            )
+  }
+
+  fetchFields = async(
+    request: any
   ) => {
     return this.http
             .get(
-              'opensearch_dashboards_sample_data_flights/_cat/indices'
+              `${DSL_BASE}${DSL_MAPPING}`,
+              {
+                query: {
+                  index: request
+                }
+              }
             )
-            .catch(error => console.log(error));
   }
 }
