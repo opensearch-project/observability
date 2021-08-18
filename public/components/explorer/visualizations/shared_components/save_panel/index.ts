@@ -9,5 +9,4 @@
  * GitHub history for details.
  */
 
-export { useFetchEvents } from './useFetchEvents';
-export { useFetchVisualizations } from './useFetchVisualizations';
+export { SavePanel } from './savePanel';

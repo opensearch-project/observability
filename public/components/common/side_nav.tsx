@@ -46,7 +46,7 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
               {
                 name: 'Event analytics',
                 id: 3,
-                href: '#/event/home',
+                href: '#/explorer/home',
               },
               {
                 name: 'Custom operational panels',

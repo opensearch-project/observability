@@ -27,7 +27,7 @@ export function DataGrid(props: DataGridProps) {
   } = props;
 
   const getTrs = (
-    docs: Array<any>,
+    docs: Array<any> = [],
     explorerFields: Array<any>
   ) => {
     return docs.map((doc) => {

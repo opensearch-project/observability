@@ -29,14 +29,19 @@ export default class PPLFacet {
     };
     try {
       const params = {
-        body: request.body
+        body: {
+          query: request.body.query
+        }
       };
+      if (request.body.format !== 'jdbc') {
+        params['format'] = request.body.format; 
+      }
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      const pplDataSource = new PPLDataSource(queryRes);
+      const pplDataSource = new PPLDataSource(queryRes, request.body.format);
       res['success'] = true;
       res['data'] = pplDataSource.getDataSource();
     } catch (err: any) {
-      console.log(err);
+      console.log('pplfacet err: ', err);
       res['data'] = err.body;
     }
     return res

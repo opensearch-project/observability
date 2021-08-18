@@ -20,10 +20,11 @@ export default class PPLService {
   constructor(http: CoreStart['http']) {
     this.http = http;
   }
+  
   fetch = async (
     params: { 
       query: string,
-      format: ''
+      format: 'default'
     }
   ) => {
     return this.http

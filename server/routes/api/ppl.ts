@@ -30,7 +30,8 @@ export function registerPplRoute({
     path: `${PPL_BASE}${PPL_SEARCH}`,
     validate: { 
       body: schema.object({
-        query: schema.string()
+        query: schema.string(),
+        format: schema.string()
     })}
   }, 
   async (
@@ -40,7 +41,9 @@ export function registerPplRoute({
   ) => {
     const queryRes = await facet.describeQuery(req);
     const result: any = {
-      body: queryRes['data']
+      body: {
+        ...queryRes['data']
+      }
     };
     if (queryRes['success']) {
       return res.ok(result);

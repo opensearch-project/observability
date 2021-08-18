@@ -54,7 +54,7 @@ export const ChartSwitch = ({
           data-test-subj="lnsChartSwitchPopover"
           fontWeight="bold"
         >
-          <VisualizationSummary {...vis} />
+          <VisualizationSummary { ...vis } />
         </ToolbarButton>
       }
       isOpen={flyoutOpen}
@@ -78,8 +78,8 @@ export const ChartSwitch = ({
             title={v.fullLabel}
             role="menuitem"
             data-test-subj={`lnsChartSwitchPopover_${v.id}`}
-            onClick={() => { 
-              setVis(v);
+            onClick={() => {
+              setVis(v.id);
               setFlyoutOpen(false);
             }}
             betaBadgeLabel={

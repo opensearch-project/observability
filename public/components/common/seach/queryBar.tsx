@@ -17,9 +17,6 @@ import {
 import {
   IQueryBarProps
 } from './search';
-import {
-  RAW_QUERY
-} from '../../../common/constants/explorer';
 
 export function QueryBar(props: IQueryBarProps) {
 
@@ -36,7 +33,7 @@ export function QueryBar(props: IQueryBarProps) {
         isClearable={true}
         placeholder="Enter PPL to retrieve log, traces and metrics"
         data-test-subj="search-bar-input-box"
-        value={ query[RAW_QUERY] }
+        value={ query }
         onChange={(e) => {
           handleQueryChange(e.target.value);
         }}

@@ -77,13 +77,13 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
               />
               <Route
                 exact
-                path={['/event/', '/event/home']}
+                path={['/explorer', '/explorer/home']}
                 render={(props) => {
                   chrome.setBreadcrumbs([
                     parentBreadcrumb,
                     {
                       text: 'Event analytics',
-                      href: '#/event/home',
+                      href: '#/explorer/home',
                     },
                   ]);
                   return renderPageWithSidebar(<EventExplorerHome />, 3);
@@ -119,7 +119,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
               />
               <Route
                 exact
-                path="/event/explorer"
+                path="/explorer/events"
                 render={(props) => <LogExplorer pplService={pplService} />}
               />
             </Switch>

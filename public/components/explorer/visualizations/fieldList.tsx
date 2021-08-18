@@ -14,7 +14,7 @@ import { FieldsAccordion } from './fields_accordion';
 
 export const FieldList = (
   {
-    schema,
+    fields,
     id
   }: any
 ) => {
@@ -28,7 +28,7 @@ export const FieldList = (
           <>
             <FieldsAccordion
               id={id}
-              paginatedFields={ schema || [] }
+              paginatedFields={ fields || [] }
               isFiltered={ false }
               label={ "Available fields" }
               showExistenceFetchError={ false }

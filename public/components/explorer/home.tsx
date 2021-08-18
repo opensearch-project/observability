@@ -10,33 +10,62 @@
  */
 
 import React from 'react';
+import { uniqueId } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeQuery } from './slices/querySlice';
+import { initialTabId } from '../../framework/redux/store/sharedState';
 import { useHistory } from 'react-router-dom';
-import { EuiBasicTable } from '@elastic/eui';
+import { selectQueries } from './slices/querySlice';
+import {
+  EuiPage,
+  EuiPageBody,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiTitle,
+  EuiPageContent,
+  EuiListGroup,
+  EuiListGroupItem,
+  EuiSpacer,
+  EuiFlexGroup,
+  EuiFlexItem
+} from '@elastic/eui';
 import { Search } from '../common/seach/search';
+import { RAW_QUERY } from '../../common/constants/explorer';
 
 export const Home = (props: any) => {
 
   const history = useHistory();
+  const dispatch = useDispatch();
+  const query = useSelector(selectQueries)[initialTabId][RAW_QUERY];
 
-  const histories = [{
-    historiy: 'sample histories list, all histories will be listed here, showing the last N queries that user has executed'
-  }];
+  const queryHistories = [
+    {
+      query: "source=opensearch_dashboards_sample_data_flights | where timestamp > timestamp('2021-07-01 00:00:00') and timestamp < timestamp('2021-07-02 00:00:00')",
+      iconType: "tokenEnum"
+    },
+    {
+      query: "source=opensearch_dashboards_sample_data_flights",
+      iconType: "tokenEnum"
+    }
+  ];
 
-  const column = [{
-    field: 'history',
-    name: 'History'
-  }];
+  const visHistories = [
+    {
+      query: "source=opensearch_dashboards_sample_data_flights | where timestamp > timestamp('2021-07-01 00:00:00') and timestamp < timestamp('2021-07-08 00:00:00') | stats count(Origin) by span(timestamp, '2h')",
+      iconType: "tokenHistogram"
+    }
+  ];
 
   const actionItems = [
     {
       text: 'Run',
       iconType: '',
       attributes: {
-        fill: 'fill'
+        fill: true
       },
       handlers: {
         onClick: () => {
-          history.push('/event/explorer');
+          history.push('/explorer/events');
         }
       }
     },
@@ -51,36 +80,116 @@ export const Home = (props: any) => {
 
   return (
     <div className="dscAppContainer">
-      <h1>Event Analytics</h1>
-      <Search 
-        query={""}
-        handleQueryChange={ () => {} }
-        handleQuerySearch={ () => {} }
-        startTime={ 'now-15m' }
-        endTime={ 'now' }
-        setStartTime={ () => {} }
-        setEndTime={ () => {} }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={ false }
-        onLiveStreamChange={ () => {} }
-        actionItems={ actionItems }
-      />
-      {/* <Search 
-        query={ props.query }
-        handleQueryChange={ (query: string) => { props.setSearchQuery(query, props.tabId) } }
-        handleQuerySearch={ () => { props.querySearch(props.tabId) } }
-        startTime={ startTime }
-        endTime={ endTime }
-        setStartTime={ setStartTime }
-        setEndTime={ setEndTime }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={ liveStreamChecked }
-        onLiveStreamChange={ handleLiveStreamChecked }
-      /> */}
-      <EuiBasicTable 
-        items={ histories }
-        columns={ column }
-      />
+      <EuiPage>
+        <EuiPageBody>
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>Event Analytics</h1>
+              </EuiTitle>
+            </EuiPageHeaderSection>
+          </EuiPageHeader>
+        </EuiPageBody>
+      </EuiPage>
+      <EuiPageContent>
+        <Search 
+          query={ query }
+          handleQueryChange={ (query) => {
+            dispatch(changeQuery({
+              tabId: initialTabId,
+              query: {
+                [RAW_QUERY]: query
+              }
+            }));
+          } }
+          handleQuerySearch={ () => {
+            history.push('/explorer/events');
+          } }
+          startTime={ 'now-15m' }
+          endTime={ 'now' }
+          setStartTime={ () => {} }
+          setEndTime={ () => {} }
+          setIsOutputStale={ () => {} }
+          liveStreamChecked={ false }
+          onLiveStreamChange={ () => {} }
+          actionItems={ actionItems }
+        />
+        <EuiSpacer />
+        <EuiFlexGroup
+          direction="column"
+        >
+          <EuiFlexItem
+            grow={ true }
+          >
+            <EuiListGroup
+              maxWidth={ false }
+              wrapText={ true }
+            >
+              <EuiTitle size="s">
+                <h1>Query History</h1>
+              </EuiTitle>
+              <EuiSpacer size="s" />
+              {
+                queryHistories.map((h) => {
+                  return (
+                    <EuiListGroupItem
+                      key={ uniqueId('query-his-') }
+                      onClick={(item) => {
+                        dispatch(changeQuery({
+                          tabId: initialTabId,
+                          query: {
+                            [RAW_QUERY]: item.target.outerText
+                          }
+                        }));
+                        history.push('/explorer/events');
+                      }}
+                      label={ h.query }
+                      color="primary"
+                      size="s"
+                      iconType={ h.iconType }
+                  />
+                  );
+                })
+              }
+            </EuiListGroup>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={ true }
+          >
+            <EuiListGroup
+              maxWidth={ false }
+              wrapText={ true }
+            >
+              <EuiTitle size="s">
+                <h1>Visualization History</h1>
+              </EuiTitle>
+              <EuiSpacer size="s" />
+              {
+                visHistories.map((h) => {
+                  return (
+                    <EuiListGroupItem
+                      key={ uniqueId('vis-his-') }
+                      onClick={(item) => {
+                        dispatch(changeQuery({
+                          tabId: initialTabId,
+                          query: {
+                            [RAW_QUERY]: item.target.outerText
+                          }
+                        }));
+                        history.push('/explorer/events');
+                      }}
+                      label={ h.query }
+                      color="primary"
+                      size="s"
+                      iconType={ h.iconType }
+                  />
+                  );
+                })
+              }
+            </EuiListGroup>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiPageContent>
     </div>
   );
 };

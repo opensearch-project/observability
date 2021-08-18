@@ -9,7 +9,6 @@
  * GitHub history for details.
  */
 
-import { CoreStart } from '../../../../../src/core/public';
 import { 
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -20,10 +19,6 @@ export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
   content: React.ReactNode
-}
-
-export interface ILogExplorerProps {
-  http: CoreStart['http']
 }
 
 export interface IField {
@@ -52,6 +47,6 @@ export interface IExplorerFields {
   [UNSELECTED_FIELDS]: Array<IField>;
 }
 
-export interface IExplorerProps {
+export interface ILogExplorerProps {
   pplService: any;
 }

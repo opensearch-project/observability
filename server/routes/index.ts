@@ -9,8 +9,6 @@
  * GitHub history for details.
  */
 
-// import { schema } from '@osd/config-schema';
-// import { RequestParams } from '@elastic/elasticsearch';
 import { 
   IRouter,
   ILegacyClusterClient

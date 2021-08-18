@@ -27,4 +27,6 @@ export const REDUX_EXPL_SLICE_QUERIES = 'queries';
 export const REDUX_EXPL_SLICE_QUERY_RESULT = 'queryResults';
 export const REDUX_EXPL_SLICE_FIELDS = 'fields';
 export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
+export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
+export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization'
 
