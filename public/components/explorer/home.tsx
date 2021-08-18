@@ -14,7 +14,6 @@ import { uniqueId } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeQuery } from './slices/querySlice';
 import { initialTabId } from '../../framework/redux/store/sharedState';
-// import { fetchEvents } from './hooks/useFetchEvents';
 import { useHistory } from 'react-router-dom';
 import { selectQueries } from './slices/querySlice';
 import {
@@ -47,11 +46,7 @@ export const Home = (props: any) => {
     {
       query: "source=opensearch_dashboards_sample_data_flights",
       iconType: "tokenEnum"
-    },
-    {
-      query: "source=opensearch_dashboards_sample_data_flights | where timestamp > timestamp('2021-07-01 00:00:00') and timestamp < timestamp('2021-07-08 00:00:00') | fields Origin, timestamp",
-      iconType: "tokenEnum"
-    },
+    }
   ];
 
   const visHistories = [
@@ -60,11 +55,6 @@ export const Home = (props: any) => {
       iconType: "tokenHistogram"
     }
   ];
-
-  const column = [{
-    field: 'history',
-    name: 'History'
-  }];
 
   const actionItems = [
     {

@@ -13,17 +13,14 @@ import {
   createSlice
 } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/sharedState';
-import { 
-  RAW_QUERY,
-  REDUX_EXPL_SLICE_QUERIES
-} from '../../../common/constants/explorer';
+import { REDUX_EXPL_SLICE_VISUALIZATION } from '../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {}
 };
 
 export const explorerVisualizationSlice = createSlice({
-  name: 'explorerVisualization',
+  name: REDUX_EXPL_SLICE_VISUALIZATION,
   initialState,
   reducers: {
     render: (state, { payload }) => {

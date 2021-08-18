@@ -13,17 +13,14 @@ import {
   createSlice
 } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/sharedState';
-import { 
-  RAW_QUERY,
-  REDUX_EXPL_SLICE_QUERIES
-} from '../../../common/constants/explorer';
+import { REDUX_EXPL_SLICE_COUNT_DISTRIBUTION } from '../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {}
 };
 
 export const countDistributionSlice = createSlice({
-  name: 'countDistributionVisualization',
+  name: REDUX_EXPL_SLICE_COUNT_DISTRIBUTION,
   initialState,
   reducers: {
     render: (state, { payload }) => {

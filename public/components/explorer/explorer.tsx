@@ -113,9 +113,13 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
+  const getIndexFromRawQuery = (rawQuery: string) => rawQuery.split('=')[1].split(' ')[0];
+
   useEffect(() => {
-    if (query && query.includes('stats')) {
-      getAvailableFields(`search source=opensearch_dashboards_sample_data_flights`);
+    if (!query) return;
+    if (query.includes('stats')) {
+      const index = getIndexFromRawQuery(query);
+      getAvailableFields(`search source=${index}`);
       getVisualizations();
     } else {
       getEvents();
@@ -413,13 +417,8 @@ export const Explorer = ({
   
   const handleQuerySearch = (tabId: string) => {
     if (query.includes('stats')) {
-      // const indexPart = query.split('=')[1];
-      // console.log('indexPart: ', indexPart);
-      // const indexTokens = indexPart.split('|')[0];
-      // console.log('indexTokens: ', indexTokens);
-      // const index = indexTokens[0];
-      // console.log('index: ', index);
-      getAvailableFields(`search source=opensearch_dashboards_sample_data_flights`);
+      const index = getIndexFromRawQuery(query); // index
+      getAvailableFields(`search source=${index}`);
       getVisualizations();
       return;
     } 

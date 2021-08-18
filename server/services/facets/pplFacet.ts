@@ -34,7 +34,7 @@ export default class PPLFacet {
         }
       };
       if (request.body.format !== 'jdbc') {
-        params['format'] = request.body.format;
+        params['format'] = request.body.format; 
       }
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       const pplDataSource = new PPLDataSource(queryRes, request.body.format);

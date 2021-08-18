@@ -22,14 +22,12 @@ import {
   EuiFlexItem,
   EuiPopover,
   EuiButton,
-  EuiText,
   EuiButtonEmpty,
   EuiPopoverFooter,
   EuiPopoverTitle
 } from '@elastic/eui';
 import { ChartSwitch } from './chartSwitch';
 import { SavePanel } from '../shared_components/save_panel'
-import { ToolbarPopover } from '../shared_components/toolbar_popover';
 
 export function WorkspacePanelWrapper({
   children,
@@ -75,12 +73,6 @@ export function WorkspacePanelWrapper({
             />
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            {/* <ToolbarPopover
-              title="Save"
-              type="primary"
-            >
-              test
-            </ToolbarPopover> */}
             <EuiPopover
               button={button}
               isOpen={isPopoverOpen}
@@ -94,8 +86,6 @@ export function WorkspacePanelWrapper({
                   <EuiFlexItem grow={false}>
                     <EuiButtonEmpty
                       size="s"
-                      // isDisabled={value === 'disabled' ? true : false}
-                      // color={value !== 'disabled' ? value : 'primary'}
                       onClick={() => {}}>
                       Cancel
                     </EuiButtonEmpty>
@@ -103,8 +93,6 @@ export function WorkspacePanelWrapper({
                   <EuiFlexItem grow={false}>
                     <EuiButton
                       size="s"
-                      // color={value !== 'disabled' ? value : undefined}
-                      // isDisabled={value === 'disabled' ? true : false}
                       fill
                       onClick={() => {}}>
                       Save

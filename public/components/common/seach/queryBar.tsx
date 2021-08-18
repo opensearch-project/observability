@@ -17,9 +17,6 @@ import {
 import {
   IQueryBarProps
 } from './search';
-import {
-  RAW_QUERY
-} from '../../../common/constants/explorer';
 
 export function QueryBar(props: IQueryBarProps) {
 

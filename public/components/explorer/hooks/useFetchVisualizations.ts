@@ -10,22 +10,16 @@
  */
 
 import { useState, useRef } from 'react';
-import { batch } from 'react-redux';
 import { 
   useDispatch,
   useSelector
 } from 'react-redux';
 import { 
-  RAW_QUERY,
-  SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  RAW_QUERY
 } from '../../../common/constants/explorer';
 import { render as renderCountDis } from '../slices/countDistributionSlice';
 import { selectQueries } from '../slices/querySlice';
 import { render as renderExplorerVis } from '../slices/visualizationSlice';
-import {
-  updateFields,
-} from '../slices/fieldSlice';
 
 export const useFetchVisualizations = ({
   pplService,
@@ -37,7 +31,6 @@ export const useFetchVisualizations = ({
   const queries = useSelector(selectQueries);
   const queriesRef = useRef();
   queriesRef.current = queries;
-  // const rawQuery = queries[requestParams.tabId][RAW_QUERY];
 
   const fetchVisualizations = async (
     { query }: any,
@@ -67,7 +60,7 @@ export const useFetchVisualizations = ({
     fetchVisualizations({
       query: `${rawQuery} | stats count() by span(timestamp, '1${interval = interval ? interval: 'm' }')` },
       'viz',
-      (res) => {
+      (res: any) => {
       dispatch(renderCountDis({
         tabId: requestParams.tabId,
         data: res
@@ -81,7 +74,7 @@ export const useFetchVisualizations = ({
     fetchVisualizations({ 
       query: rawQuery },
       'viz',
-      (res) => {
+      (res: any) => {
       dispatch(renderExplorerVis({
         tabId: requestParams.tabId,
         data: res

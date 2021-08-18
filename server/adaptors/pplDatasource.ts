@@ -26,17 +26,14 @@ export class PPLDataSource {
    * Add 'schemaName: data' entries for UI rendering
    */
   private addSchemaRowMapping = () => {
-    
-    const pplRes = this.pplDataSource;
     const data: any[] = [];
-    // let hasTimestamp = false;
 
-    _.forEach(pplRes.datarows, (row) => {
+    _.forEach(this.pplDataSource.datarows, (row) => {
       const record: any = {};
       
-      for (let i = 0; i < pplRes.schema.length; i++) { 
+      for (let i = 0; i < this.pplDataSource.schema.length; i++) { 
         
-        const cur = pplRes.schema[i];
+        const cur = this.pplDataSource.schema[i];
         
         if (typeof(row[i]) === 'object') {
           record[cur.name] = JSON.stringify(row[i]);
@@ -45,21 +42,11 @@ export class PPLDataSource {
         } else {
           record[cur.name] = row[i];
         }
-
-        // if (cur.name &&
-        //     cur.name === 'timestamp' &&
-        //     cur.type &&
-        //     cur.type === 'timestamp' &&
-        //     !hasTimestamp
-        //   ) {
-        //     hasTimestamp = true;
-        // }
       }
 
       data.push(record);
     });
-    pplRes['jsonData'] = data;
-    // pplRes['hasTimestamp'] = hasTimestamp;
+    this.pplDataSource['jsonData'] = data;
   };
 
   public getDataSource = () => this.pplDataSource;

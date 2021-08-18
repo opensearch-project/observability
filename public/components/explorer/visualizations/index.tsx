@@ -21,15 +21,13 @@ import { ConfigPanelWrapper } from './config_panel';
 
 export const ExplorerVisualizations = ({
   explorerVis,
-  queryResults,
   explorerFields
 }: any) => {
 
   return (
     <FrameLayout 
       dataPanel={
-        <DataPanel 
-          // queryResults={ queryResults }
+        <DataPanel
           explorerFields={ explorerFields }
         />
       }
@@ -41,7 +39,6 @@ export const ExplorerVisualizations = ({
       configPanel={
         <ConfigPanelWrapper
           explorerFields={ explorerFields }
-          // queryResults={ queryResults }
         />
       }
     />

@@ -27,7 +27,6 @@ export default class PPLService {
       format: 'default'
     }
   ) => {
-    console.log('JSON.stringify(params): ', JSON.stringify(params));
     return this.http
             .post(
               `${PPL_BASE}${PPL_SEARCH}`,

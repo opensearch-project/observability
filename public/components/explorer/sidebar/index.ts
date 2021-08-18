@@ -9,4 +9,4 @@
  * GitHub history for details.
  */
 
-export * from './sidebar';
+export { Sidebar } from './sidebar';

@@ -20,9 +20,6 @@ export const CountDistribution = ({
 
   const data = countDistribution.data;
   const meta = countDistribution.metadata;
-
-  console.log('countDistribution inside: ', countDistribution);
-  // console.log('meta: ', meta);
   const xkey = meta?.xfield?.name;
   const ykey = meta?.yfield?.name;
   const layout = {

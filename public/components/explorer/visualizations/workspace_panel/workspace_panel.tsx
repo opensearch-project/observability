@@ -64,7 +64,7 @@ export function WorkspacePanel({
         label: 'Line',
         fullLabel: 'Line',
         icon: LensIconChartLine,
-        visualizationId: uniqueId('vis-line-'), 
+        visualizationId: uniqueId('vis-line-'),
         selection: {
           dataLoss: 'nothing'
         },

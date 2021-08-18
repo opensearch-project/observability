@@ -9,5 +9,5 @@
  * GitHub history for details.
  */
 
-export * from './useFetchEvents';
-export * from './useFetchVisualizations';
+export { useFetchEvents } from './useFetchEvents';
+export { useFetchVisualizations } from './useFetchVisualizations';
