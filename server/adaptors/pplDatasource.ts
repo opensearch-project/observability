@@ -10,11 +10,17 @@
  */
 
 import _ from 'lodash';
+import {
+  IPPLEventsDataSource,
+  IPPLVisualizationDataSource
+} from '../common/types';
+
+type PPLResponse = IPPLEventsDataSource & IPPLVisualizationDataSource;
 
 export class PPLDataSource {
 
   constructor(
-    private pplDataSource: any,
+    private pplDataSource: PPLResponse,
     private dataType: string
   ) {
     if (this.dataType === 'jdbc') {
@@ -26,14 +32,17 @@ export class PPLDataSource {
    * Add 'schemaName: data' entries for UI rendering
    */
   private addSchemaRowMapping = () => {
+    
+    const pplRes = this.pplDataSource;
+    
     const data: any[] = [];
 
-    _.forEach(this.pplDataSource.datarows, (row) => {
+    _.forEach(pplRes.datarows, (row) => {
       const record: any = {};
       
-      for (let i = 0; i < this.pplDataSource.schema.length; i++) { 
+      for (let i = 0; i < pplRes.schema.length; i++) { 
         
-        const cur = this.pplDataSource.schema[i];
+        const cur = pplRes.schema[i];
         
         if (typeof(row[i]) === 'object') {
           record[cur.name] = JSON.stringify(row[i]);
@@ -46,7 +55,7 @@ export class PPLDataSource {
 
       data.push(record);
     });
-    this.pplDataSource['jsonData'] = data;
+    pplRes['jsonData'] = data;
   };
 
   public getDataSource = () => this.pplDataSource;
