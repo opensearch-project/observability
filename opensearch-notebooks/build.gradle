@@ -29,7 +29,10 @@ import java.util.concurrent.Callable
 
 buildscript {
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "1.0.0")
+        opensearch_version = System.getProperty("opensearch.version", "1.1.0-SNAPSHOT")
+        // 1.0.0 -> 1.0.0.0, and 1.0.0-SNAPSHOT -> 1.0.0.0-SNAPSHOT
+        opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
+        common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.4.0")
     }
 
@@ -112,12 +115,7 @@ ext {
     projectSubstitutions = [:]
     licenseFile = rootProject.file('LICENSE.txt')
     noticeFile = rootProject.file('NOTICE.txt')
-    opensearchVersion = "${version}"
     isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-}
-
-if (isSnapshot) {
-    version += "-SNAPSHOT"
 }
 
 plugins.withId('java') {
@@ -130,7 +128,11 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
 
 allprojects {
     group = "org.opensearch"
-    version = "${opensearchVersion}.0"
+
+    version = "${opensearch_version}" - "-SNAPSHOT" + ".0"
+    if (isSnapshot) {
+        version += "-SNAPSHOT"
+    }    
 
     plugins.withId('java') {
         sourceCompatibility = targetCompatibility = "1.8"
@@ -142,7 +144,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     compile "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-    compile "${group}:common-utils:${version}"
+    compile "${group}:common-utils:${common_utils_version}"
     compile group: 'com.google.guava', name: 'guava', version: '15.0'
     testImplementation(
             'org.assertj:assertj-core:3.16.1',

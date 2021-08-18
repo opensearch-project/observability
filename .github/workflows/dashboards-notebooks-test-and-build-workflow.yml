@@ -39,7 +39,7 @@ jobs:
       - name: Move Notebooks to Plugins Dir
         run: mv dashboards-notebooks OpenSearch-Dashboards/plugins/dashboards-notebooks
 
-      - name: OpenSearch Dashboards Pluign Bootstrap
+      - name: OpenSearch Dashboards Plugin Bootstrap
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-notebooks
           yarn osd bootstrap
