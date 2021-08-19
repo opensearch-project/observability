@@ -37,7 +37,7 @@ type Props = {
 };
 
 export const AddVizView = ({ closeVizWindow }: Props) => {
-  const [radioIdSelected, setRadioIdSelected] = useState('radio1');
+  const [radioIdSelected, setRadioIdSelected] = useState('tab1');
   const [previewArea, setPreviewArea] = useState(<></>);
   const [pplArea, setPplArea] = useState('');
   const [previewIconType, setPreviewIconType] = useState('arrowRight');
@@ -101,6 +101,10 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
     setPplArea(e.target.value);
   };
 
+  const advancedVisualization = () => {
+    window.location.assign("#/event/explorer");
+  }
+
   const onPreviewClick = () => {
     setPreviewIconType(previewIconType == 'arrowRight' ? 'arrowUp' : 'arrowRight');
 
@@ -108,7 +112,7 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
       setPreviewIconType('arrowUp');
       setPreviewArea(
         <EuiFlexGroup>
-          <EuiFlexItem style={{ minHeight: '300' }}>
+          <EuiFlexItem style={{ minHeight: '200' }}>
             <PlotSample
               data={[
                 {
@@ -158,121 +162,10 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
     }
   };
 
-  const radios = [
-    {
-      id: 'radio1',
-      label: 'Select existing visualization',
-    },
-    {
-      id: 'radio2',
-      label: 'Create new visualization',
-    },
-  ];
-
-  // const formBody = (
-  //   <EuiForm id="modalFormId" component="form">
-  //     <EuiFormRow fullWidth={true}>
-  //       <EuiRadioGroup
-  //         options={radios}
-  //         idSelected={radioIdSelected}
-  //         onChange={(id) => onChangeRadio(id)}
-  //         name="radio group"
-  //         aria-aria-rowcount={1}
-  //       />
-  //     </EuiFormRow>
-  //     {radioIdSelected == 'radio1' ? (
-  //       <>
-  //         <EuiFormRow label="Visualization name">
-  //           <EuiSelect
-  //             hasNoInitialSelection
-  //             onChange={() => {}}
-  //             options={[
-  //               { value: 'option_one', text: 'Option one' },
-  //               { value: 'option_two', text: 'Option two' },
-  //               { value: 'option_three', text: 'Option three' },
-  //             ]}
-  //           />
-  //         </EuiFormRow>
-  //         <EuiFormRow label="Time Range">
-  //           <EuiSuperDatePicker
-  //             isLoading={isLoading}
-  //             start={start}
-  //             end={end}
-  //             onTimeChange={onTimeChange}
-  //             showUpdateButton={false}
-  //           />
-  //         </EuiFormRow>
-  //         <EuiSpacer size="l" />
-  //         <EuiButtonEmpty
-  //           iconSide="left"
-  //           onClick={onPreviewClick}
-  //           iconType={previewIconType}
-  //           size="s"
-  //         >
-  //           Preview
-  //         </EuiButtonEmpty>
-  //         {previewArea}
-  //       </>
-  //     ) : (
-  //       <>
-  //         <EuiFormRow
-  //           label="Visualization name"
-  //           helpText="Enter a unique and descriptive name between 1-50 characters."
-  //         >
-  //           <EuiFieldText name="Name" />
-  //         </EuiFormRow>
-  //         <EuiFormRow
-  //           label="PPL Query"
-  //           helpText={
-  //             <Fragment>
-  //               Use [example commands] to draw visaulizations.{' '}
-  //               <EuiLink
-  //                 href="https://opensearch.org/docs/search-plugins/ppl/index/"
-  //                 target="_blank"
-  //               >
-  //                 Learn More
-  //               </EuiLink>{' '}
-  //             </Fragment>
-  //           }
-  //           fullWidth={true}
-  //         >
-  //           <EuiTextArea
-  //             placeholder="Placeholder text"
-  //             aria-label="Use aria labels when no actual label is in use"
-  //             value={pplArea}
-  //             onChange={(e) => onChangePPLArea(e)}
-  //             fullWidth={true}
-  //             style={{width:'80%'}}
-  //           />
-  //         </EuiFormRow>
-  //         <EuiFormRow label="Time Range">
-  //           <EuiSuperDatePicker
-  //             isLoading={isLoading}
-  //             start={start}
-  //             end={end}
-  //             onTimeChange={onTimeChange}
-  //             showUpdateButton={false}
-  //           />
-  //         </EuiFormRow>
-  //         <EuiSpacer size="l" />
-  //         <EuiButtonEmpty
-  //           iconSide="left"
-  //           onClick={onPreviewClick}
-  //           iconType={previewIconType}
-  //           size="s"
-  //         >
-  //           Preview
-  //         </EuiButtonEmpty>
-  //         {previewArea}
-  //       </>
-  //     )}
-  //   </EuiForm>
-  // );
-
   const tabs = [
     {
-      id: 'radio1',
-      name: 'Select existing visualization',
+      id: 'tab1',
+      name: 'Add existing visualization',
       content: (
         <>
           <EuiSpacer size="l" />
@@ -311,7 +204,7 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
       ),
     },
     {
-      id: 'radio2',
+      id: 'tab2',
       name: 'Create new visualization',
       content: (
         <>
@@ -366,7 +259,7 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
           </EuiButtonEmpty>
           <EuiSpacer size="m" />
           {previewArea}
-          <EuiButtonEmpty iconSide="left" iconType="brush" size="s">
+          <EuiButtonEmpty iconSide="left" iconType="brush" size="s" onClick={advancedVisualization}>
             More advanced edit options in visual editor...
           </EuiButtonEmpty>
         </>

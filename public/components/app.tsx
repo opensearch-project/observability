@@ -38,7 +38,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
   };
 
   const customPanelBreadcrumb = {
-    text: 'Custom Observability panels',
+    text: 'Custom operational panels',
     href: '#/custom_panels/',
   };
 
