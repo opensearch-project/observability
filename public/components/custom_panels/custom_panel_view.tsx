@@ -39,6 +39,7 @@ type Props = {
   panelId: string;
   panelType: string;
   http: CoreStart['http'];
+  pplService: any;
   chrome: CoreStart['chrome'];
   parentBreadcrumb: { text: string; href: string }[];
 };
@@ -54,7 +55,7 @@ type VisualizationType = {
   toTime?: string;
 };
 
-export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadcrumb }: Props) => {
+export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, parentBreadcrumb }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [toasts, setToasts] = useState<Array<Toast>>([]);
@@ -241,7 +242,7 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
             ) : (
               <PanelGrid panelVisualizations={panelVisualizations} editMode={editMode} />
             )}
-            <>{showVizPanel && <AddVizView closeVizWindow={closeVizWindow} />}</>
+            <>{showVizPanel && <AddVizView closeVizWindow={closeVizWindow} pplService={pplService}/>}</>
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>
