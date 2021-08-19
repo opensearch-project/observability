@@ -112,6 +112,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                       panelId={props.match.params.id}
                       panelType={props.match.params.type}
                       http={http}
+                      pplService={pplService}
                       chrome={chrome}
                       parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
                     />

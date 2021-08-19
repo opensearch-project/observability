@@ -34,13 +34,15 @@ import { PlotSample } from './plot_sample';
 
 type Props = {
   closeVizWindow: () => void;
+  pplService: any;
 };
 
-export const AddVizView = ({ closeVizWindow }: Props) => {
+export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
   const [radioIdSelected, setRadioIdSelected] = useState('tab1');
   const [previewArea, setPreviewArea] = useState(<></>);
   const [pplArea, setPplArea] = useState('');
   const [previewIconType, setPreviewIconType] = useState('arrowRight');
+  const [previewLoading, setPreviewLoading] = useState(false);
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState('now-30m');
@@ -100,6 +102,26 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
   const onChangePPLArea = (e) => {
     setPplArea(e.target.value);
   };
+
+  const onRunPPLArea = async (e) => {
+      if (e.key === 'Enter') {
+        console.log("query", pplArea);
+        setPreviewLoading(true);
+        await pplService.fetch({
+          query: pplArea
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setPreviewLoading(false);
+        });
+
+      }
+  }
 
   const advancedVisualization = () => {
     window.location.assign("#/event/explorer");
@@ -235,6 +257,7 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
               aria-label="Use aria labels when no actual label is in use"
               value={pplArea}
               onChange={(e) => onChangePPLArea(e)}
+              onKeyPress={(e) => onRunPPLArea(e)}
               fullWidth={true}
               style={{ width: '80%' }}
             />
@@ -254,9 +277,10 @@ export const AddVizView = ({ closeVizWindow }: Props) => {
             onClick={onPreviewClick}
             iconType={previewIconType}
             size="s"
+            isLoading={previewLoading}
           >
             Preview
-          </EuiButtonEmpty>
+          </EuiButtonEmpty> 
           <EuiSpacer size="m" />
           {previewArea}
           <EuiButtonEmpty iconSide="left" iconType="brush" size="s" onClick={advancedVisualization}>
