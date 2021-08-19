@@ -1,19 +1,20 @@
 /*
-* SPDX-License-Identifier: Apache-2.0
-*
-* The OpenSearch Contributors require contributions made to
-* this file be licensed under the Apache-2.0 license or a
-* compatible open source license.
-*
-* Modifications Copyright OpenSearch Contributors. See
-* GitHub history for details.
-*/
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
 
 import { EuiSpacer, EuiText, EuiFlexGroup, EuiFlexItem, EuiButton } from '@elastic/eui';
 import React from 'react';
 
 type Props = {
   addVizWindow: () => void;
+  addVizDisabled: boolean;
 };
 
 // EmptyPanelView
@@ -21,7 +22,7 @@ type Props = {
 // Props:
 // addVizWindow -> This function shows the add visualization window in Custom panels view
 
-export const EmptyPanelView = ({ addVizWindow }: Props) => {
+export const EmptyPanelView = ({ addVizWindow, addVizDisabled }: Props) => {
   return (
     <div>
       <EuiSpacer size="xxl" />
@@ -35,7 +36,7 @@ export const EmptyPanelView = ({ addVizWindow }: Props) => {
       <EuiSpacer size="m" />
       <EuiFlexGroup justifyContent="center">
         <EuiFlexItem grow={false}>
-          <EuiButton fullWidth={false} fill onClick={addVizWindow}>
+          <EuiButton fullWidth={false} disabled={addVizDisabled} fill onClick={addVizWindow}>
             Add Visualization
           </EuiButton>
         </EuiFlexItem>

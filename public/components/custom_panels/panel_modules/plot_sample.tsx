@@ -28,27 +28,22 @@ export function PlotSample(props: PltProps) {
   return (
     <PlotComponent
       data={props.data}
-      style={{ width: '100%', height: props.height || '100%' }}
+      style={{ width: '100%', height: '100%' }}
       onHover={props.onHoverHandler}
       onUnhover={props.onUnhoverHandler}
       onClick={props.onClickHandler}
-      useResizeHandler
+      useResizeHandler={true}
       config={{ displayModeBar: false }}
       layout={{
-        autosize: true,
         margin: {
-          l: 30,
-          r: 5,
-          b: 30,
-          t: 5,
-          pad: 4,
-        },
-        barmode: 'stack',
-        legend: {
-          orientation: 'h',
-          traceorder: 'normal',
-        },
-        showlegend: false,
+              l: 30,
+              r: 5,
+              b: 30,
+              t: 5,
+              pad: 0,
+            },
+        autosize: true,
+        showlegend: true,
         hovermode: 'closest',
         xaxis: {
           showgrid: true,
@@ -62,6 +57,37 @@ export function PlotSample(props: PltProps) {
         },
         ...props.layout,
       }}
+
+      // useResizeHandler
+      // config={{ displayModeBar: false }}
+      // layout={{
+      //   autosize: true,
+      //   margin: {
+      //     l: 30,
+      //     r: 5,
+      //     b: 30,
+      //     t: 5,
+      //     pad: 0,
+      //   },
+      //   barmode: 'stack',
+      //   legend: {
+      //     orientation: 'h',
+      //     traceorder: 'normal',
+      //   },
+      //   showlegend: false,
+      //   hovermode: 'closest',
+      //   xaxis: {
+      //     showgrid: true,
+      //     zeroline: false,
+      //     rangemode: 'normal',
+      //   },
+      //   yaxis: {
+      //     showgrid: true,
+      //     zeroline: false,
+      //     rangemode: 'normal',
+      //   },
+      //   ...props.layout,
+      // }}
     />
   );
 }

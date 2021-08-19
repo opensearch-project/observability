@@ -34,7 +34,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import { CustomPanelListType } from './home';
 import {
@@ -46,7 +46,7 @@ import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
 
-const pageStyles: CSS.Properties = {
+const pageStyles: CSSProperties = {
   float: 'left',
   width: '100%',
   maxWidth: '1130px',

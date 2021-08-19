@@ -26,13 +26,12 @@ import {
 } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
-import React, { ReactChild, useCallback, useEffect, useState } from 'react';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import React, { useEffect, useState } from 'react';
 import { CoreStart } from '../../../../../src/core/public';
-import { EmptyPanelView } from './sub_components/empty_panel_view';
-import { AddVizView } from './sub_components/add_visualization';
-import { VisualizationPanel } from './sub_components/visualization_panel';
+import { EmptyPanelView } from './panel_modules/empty_panel';
+import { AddVizView } from './panel_modules/add_visualization';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
+import { PanelGrid } from './panel_modules/panel_grid';
 
 // "CustomPanelsView" module used to render saved Custom Operational Panels
 
@@ -55,9 +54,6 @@ type VisualizationType = {
   toTime?: string;
 };
 
-// HOC container to provide dynamic width for Grid layout
-const ResponsiveGridLayout = WidthProvider(Responsive);
-
 export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadcrumb }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -70,26 +66,11 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
   const [isPaused, setIsPaused] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState();
   const [inputDisabled, setInputDisabled] = useState(true);
+  const [addVizDisabled, setAddVizDisabled] = useState(false);
+  const [editDisabled, setEditDisabled] = useState(false);
   const [showVizPanel, setShowVizPanel] = useState(false);
-  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([
-    // { id: '1', title: 'Viz 1', x: 0, y: 0, w: 1, h: 2 },
-    // { id: '2', title: 'Viz 2', x: 1, y: 0, w: 3, h: 2 },
-  ]);
-
-  const layout = [
-    { i: '1', x: 0, y: 0, w: 1, h: 2 },
-    { i: '2', x: 1, y: 0, w: 1, h: 2 },
-    // { i: '3', x: 2, y: 0, w: 1, h: 2 },
-    // { i: '4', x: 3, y: 0, w: 1, h: 2 },
-    // { i: '5', x: 4, y: 0, w: 1, h: 2 },
-    // { i: '6', x: 5, y: 0, w: 1, h: 2 },
-    // { i: '7', x: 6, y: 0, w: 1, h: 2 },
-    // { i: '8', x: 7, y: 0, w: 1, h: 2 },
-    // { i: '9', x: 8, y: 0, w: 1, h: 2 },
-    // { i: '10', x: 9, y: 0, w: 1, h: 2 },
-    // { i: '11', x: 10, y: 0, w: 1, h: 2 },
-    // { i: '12', x: 11, y: 0, w: 1, h: 2 },
-  ];
+  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
+  const [editMode, setEditMode] = useState(false);
 
   const onTimeChange = ({ start, end }) => {
     const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
@@ -114,6 +95,7 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
     setIsLoading(false);
   };
 
+  // Fetch Panel by id
   const fetchCustomPanel = async () => {
     return http
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${panelId}`)
@@ -127,33 +109,46 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
       });
   };
 
+  // toggle between panel edit mode
+  const editPanel = () => {
+    setEditMode(!editMode);
+    setShowVizPanel(false);
+  };
+
   const closeVizWindow = () => {
     setShowVizPanel(false);
-    // setIsPanelEmpty(true);
+    setAddVizDisabled(false);
   };
 
   const addVizWindow = () => {
     setShowVizPanel(true);
-    // setIsPanelEmpty(false);
+    setAddVizDisabled(true);
   };
 
-
-  const loadVisualizations = () => {
-    return panelVisualizations.map((panelVisualization: VisualizationType, index: number) => {
-      return (<div key={panelVisualization.id}>
-        <VisualizationPanel
-          visualizationId={panelVisualization.id}
-          visualizationTitle={panelVisualization.title}
-        />
-      </div>)
-    });
-  }
-
+  // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
   }, []);
 
-  useEffect(()=>{
+  // Toggle input type (disabled or not disabled)
+  // Disabled when there no visualizations in panels or when the panel is in edit mode
+  useEffect(() => {
+    if (panelVisualizations.length == 0) {
+      setEditDisabled(true);
+      setInputDisabled(true);
+    } else {
+      setEditDisabled(false);
+      if (editMode) setInputDisabled(true);
+      else setInputDisabled(false);
+    }
+
+    if (editMode) setAddVizDisabled(true);
+    else setAddVizDisabled(false);
+
+  }, [panelVisualizations, editMode]);
+
+  // Edit the breadcurmb when panel name changes
+  useEffect(() => {
     chrome.setBreadcrumbs([
       ...parentBreadcrumb,
       { text: openPanelName, href: `${_.last(parentBreadcrumb).href}${panelId}` },
@@ -191,15 +186,23 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
                   <EuiButton color="danger">Delete</EuiButton>
                 </EuiFlexItem>
                 <EuiFlexItem>
+                  <EuiButton>Rename</EuiButton>
+                </EuiFlexItem>
+                <EuiFlexItem>
                   <EuiButton>Export</EuiButton>
                 </EuiFlexItem>
                 <EuiFlexItem>
-                  <EuiButton>Edit name</EuiButton>
+                  <EuiButton
+                    iconType={editMode ? 'save' : 'pencil'}
+                    onClick={editPanel}
+                    disabled={editDisabled}
+                  >
+                    {editMode ? 'Save' : 'Edit'}
+                  </EuiButton>
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPageHeaderSection>
           </EuiPageHeader>
-
           <EuiPageContentBody>
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem>
@@ -225,22 +228,18 @@ export const CustomPanelView = ({ panelId, panelType, http, chrome, parentBreadc
                 <EuiButton isDisabled={inputDisabled}>Refresh</EuiButton>
               </EuiFlexItem>
               <EuiFlexItem grow={false} onClick={addVizWindow}>
-                <EuiButton fill>Add visualization</EuiButton>
+                <EuiButton disabled={addVizDisabled} fill>
+                  Add visualization
+                </EuiButton>
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
             {panelVisualizations.length == 0 ? (
-              !showVizPanel && <EmptyPanelView addVizWindow={addVizWindow} />
+              !showVizPanel && (
+                <EmptyPanelView addVizWindow={addVizWindow} addVizDisabled={addVizDisabled} />
+              )
             ) : (
-              <ResponsiveGridLayout
-                layouts={{ lg: layout, md: layout, sm: layout }}
-                style={{ minWidth: '100%', maxWidth: '100%' }}
-                className="layout"
-                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-                cols={{ lg: 12, md: 12, sm: 12, xs: 1, xxs: 1 }}
-              >
-                {loadVisualizations()}
-              </ResponsiveGridLayout>
+              <PanelGrid panelVisualizations={panelVisualizations} editMode={editMode} />
             )}
             <>{showVizPanel && <AddVizView closeVizWindow={closeVizWindow} />}</>
           </EuiPageContentBody>

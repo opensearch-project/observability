@@ -26,7 +26,7 @@ import {
   EuiText,
   EuiSpacer
 } from '@elastic/eui';
-import { CustomInputModal } from './custom_modals/custom_input_modal';
+import { CustomInputModal } from './custom_input_modal';
 
 /* The file contains helper functions for modal layouts
  * getCustomModal - returns modal with input field
