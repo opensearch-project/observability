@@ -1,13 +1,13 @@
 /*
-* SPDX-License-Identifier: Apache-2.0
-*
-* The OpenSearch Contributors require contributions made to
-* this file be licensed under the Apache-2.0 license or a
-* compatible open source license.
-*
-* Modifications Copyright OpenSearch Contributors. See
-* GitHub history for details.
-*/
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
 
 import {
   EuiSpacer,
@@ -28,21 +28,38 @@ import {
   EuiTextArea,
   EuiTabbedContent,
 } from '@elastic/eui';
-import React, { Fragment, useState } from 'react';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import React, { Fragment, ReactChild, useState } from 'react';
 import { start } from 'repl';
+import { isNameValid } from '../helpers/utils';
 import { PlotSample } from './plot_sample';
 
 type Props = {
   closeVizWindow: () => void;
   pplService: any;
+  setPanelVisualizations: any;
+  setVisualizationsData: any;
+  setToasts: any;
+  toasts: any;
 };
 
-export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
+export const AddVizView = ({
+  closeVizWindow,
+  pplService,
+  setPanelVisualizations,
+  setVisualizationsData,
+  setToasts,
+  toasts
+}: Props) => {
   const [radioIdSelected, setRadioIdSelected] = useState('tab1');
   const [previewArea, setPreviewArea] = useState(<></>);
+  const [showPreviewArea, setShowPreviewArea] = useState(false);
   const [pplArea, setPplArea] = useState('');
   const [previewIconType, setPreviewIconType] = useState('arrowRight');
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [newPPLVisualization, setNewPPLVisualization] = useState([]);
+  const [newVisualizationTitle, setNewVisualizationTitle] = useState('');
+
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState('now-30m');
@@ -89,14 +106,18 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
     setIsLoading(false);
   };
 
-  const onRefreshChange = ({ isPaused, refreshInterval }) => {
-    setIsPaused(isPaused);
-    setRefreshInterval(refreshInterval);
-  };
+  // const onRefreshChange = ({ isPaused, refreshInterval }) => {
+  //   setIsPaused(isPaused);
+  //   setRefreshInterval(refreshInterval);
+  // };
 
-  const onChangeRadio = (optionId: string) => {
-    console.log('Radio button click', optionId);
-    setRadioIdSelected(optionId);
+  // const onChangeRadio = (optionId: string) => {
+  //   console.log('Radio button click', optionId);
+  //   setRadioIdSelected(optionId);
+  // };
+
+  const onChangeTitle = (e) => {
+    setNewVisualizationTitle(e.target.value);
   };
 
   const onChangePPLArea = (e) => {
@@ -104,14 +125,41 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
   };
 
   const onRunPPLArea = async (e) => {
-      if (e.key === 'Enter') {
-        console.log("query", pplArea);
-        setPreviewLoading(true);
-        await pplService.fetch({
-          query: pplArea
+    // let newPPLVisualization = {};
+
+    if (e.key === 'Enter') {
+      console.log('query', pplArea);
+      setPreviewLoading(true);
+      await pplService
+        .fetch({
+          query: pplArea,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
+          // const newViz = (
+
+          // );
+          setNewPPLVisualization([
+            {
+              x: res.data[res.metadata.xfield.name],
+              y: res.data[res.metadata.yfield.name],
+              type: 'bar',
+            },
+          ]);
+          setPreviewArea(            <EuiFlexGroup>
+            <EuiFlexItem style={{ minHeight: '200' }}>
+              <PlotSample
+                data={[
+                  {
+                    x: res.data[res.metadata.xfield.name],
+                    y: res.data[res.metadata.yfield.name],
+                    type: 'bar',
+                  },
+                ]}
+                layout={{ showlegend: false }}
+              />
+            </EuiFlexItem>
+          </EuiFlexGroup>);
         })
         .catch((err) => {
           console.error(err);
@@ -119,70 +167,47 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
         .finally(() => {
           setPreviewLoading(false);
         });
-
-      }
-  }
+    }
+  };
 
   const advancedVisualization = () => {
-    window.location.assign("#/event/explorer");
-  }
+    window.location.assign('#/event/explorer');
+  };
 
   const onPreviewClick = () => {
     setPreviewIconType(previewIconType == 'arrowRight' ? 'arrowUp' : 'arrowRight');
 
     if (previewIconType == 'arrowRight') {
       setPreviewIconType('arrowUp');
-      setPreviewArea(
-        <EuiFlexGroup>
-          <EuiFlexItem style={{ minHeight: '200' }}>
-            <PlotSample
-              data={[
-                {
-                  // will move these out of current component
-                  x: [
-                    '13:00:00',
-                    '13:00:30',
-                    '13:01:00',
-                    '13:01:30',
-                    '13:02:00',
-                    '13:02:30',
-                    '13:03:00',
-                    '13:03:30',
-                    '13:04:00',
-                    '13:04:30',
-                    '13:05:00',
-                    '13:05:30',
-                    '13:06:00',
-                    '13:06:30',
-                    '13:07:00',
-                  ],
-                  y: [12, 2, 7, 6, 0, 0, 8, 28, 47, 33, 13, 10, 11, 27, 32],
-                  type: 'lines',
-                },
-              ]}
-              layout={{
-                plot_bgcolor: 'rgba(0, 0, 0, 0)',
-                paper_bgcolor: 'rgba(0, 0, 0, 0)',
-                xaxis: {
-                  fixedrange: true,
-                  showgrid: false,
-                  visible: true,
-                },
-                yaxis: {
-                  fixedrange: true,
-                  showgrid: false,
-                  visible: true,
-                },
-              }}
-            />
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      );
+      setShowPreviewArea(true);
     } else {
       setPreviewIconType('arrowRight');
-      setPreviewArea(<></>);
+      setShowPreviewArea(false);
     }
   };
+
+  const setToast = (title: string, color = 'success', text?: ReactChild) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const addVisualization = () => {
+    if (!isNameValid(newVisualizationTitle)) {
+      setToast('Invalid Visualization Name', 'danger');
+      return;
+    }
+    setPanelVisualizations([{
+      id: '1',
+      title: newVisualizationTitle,
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 3,
+    }]);
+    setVisualizationsData(newPPLVisualization);
+    closeVizWindow();
+  };
+  
 
   const tabs = [
     {
@@ -221,7 +246,8 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
             Preview
           </EuiButtonEmpty>
           <EuiSpacer size="m" />
-          {previewArea}
+          {/* {previewArea} */}
+          <></>
         </>
       ),
     },
@@ -235,7 +261,7 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
             label="Visualization name"
             helpText="Enter a unique and descriptive name between 1-50 characters."
           >
-            <EuiFieldText name="Name" />
+            <EuiFieldText name="Name" value={newVisualizationTitle} onChange={(e) => onChangeTitle(e)}/>
           </EuiFormRow>
           <EuiFormRow
             label="PPL Query"
@@ -280,9 +306,9 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
             isLoading={previewLoading}
           >
             Preview
-          </EuiButtonEmpty> 
+          </EuiButtonEmpty>
           <EuiSpacer size="m" />
-          {previewArea}
+          {showPreviewArea && previewArea}
           <EuiButtonEmpty iconSide="left" iconType="brush" size="s" onClick={advancedVisualization}>
             More advanced edit options in visual editor...
           </EuiButtonEmpty>
@@ -317,7 +343,7 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
         <EuiSpacer size="m" />
         <EuiFlexGroup gutterSize="s">
           <EuiFlexItem grow={false}>
-            <EuiButton onClick={closeVizWindow} fill>
+            <EuiButton onClick={addVisualization} fill>
               Add
             </EuiButton>
           </EuiFlexItem>
@@ -329,3 +355,53 @@ export const AddVizView = ({ closeVizWindow, pplService }: Props) => {
     </div>
   );
 };
+
+// if (previewArea == <></>) {
+
+// setPreviewArea(
+//   <EuiFlexGroup>
+//     <EuiFlexItem style={{ minHeight: '200' }}>
+//       <PlotSample
+//         data={[
+//           {
+//             // will move these out of current component
+//             x: [
+//               '13:00:00',
+//               '13:00:30',
+//               '13:01:00',
+//               '13:01:30',
+//               '13:02:00',
+//               '13:02:30',
+//               '13:03:00',
+//               '13:03:30',
+//               '13:04:00',
+//               '13:04:30',
+//               '13:05:00',
+//               '13:05:30',
+//               '13:06:00',
+//               '13:06:30',
+//               '13:07:00',
+//             ],
+//             y: [12, 2, 7, 6, 0, 0, 8, 28, 47, 33, 13, 10, 11, 27, 32],
+//             type: 'lines',
+//           },
+//         ]}
+//         layout={{
+//           plot_bgcolor: 'rgba(0, 0, 0, 0)',
+//           paper_bgcolor: 'rgba(0, 0, 0, 0)',
+//           xaxis: {
+//             fixedrange: true,
+//             showgrid: false,
+//             visible: true,
+//           },
+//           yaxis: {
+//             fixedrange: true,
+//             showgrid: false,
+//             visible: true,
+//           },
+//         }}
+//       />
+//     </EuiFlexItem>
+//   </EuiFlexGroup>
+// );
+// }
