@@ -55,7 +55,14 @@ type VisualizationType = {
   toTime?: string;
 };
 
-export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, parentBreadcrumb }: Props) => {
+export const CustomPanelView = ({
+  panelId,
+  panelType,
+  http,
+  pplService,
+  chrome,
+  parentBreadcrumb,
+}: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [toasts, setToasts] = useState<Array<Toast>>([]);
@@ -71,6 +78,7 @@ export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, 
   const [editDisabled, setEditDisabled] = useState(false);
   const [showVizPanel, setShowVizPanel] = useState(false);
   const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
+  const [visualizationsData, setVisualizationsData] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
   const onTimeChange = ({ start, end }) => {
@@ -104,6 +112,49 @@ export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, 
         setOpenPanelName(res.panel.name);
         setPanelCreatedTime(res.panel.dateCreated);
         setPanelVisualizations(res.panel.visualizations);
+        setVisualizationsData([
+          {
+            x: [1, 2, 3],
+            y: [2, 6, 3],
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: { color: 'red' },
+          },
+          {
+            values: [19, 26, 55],
+            labels: ['Residential', 'Non-Residential', 'Utility'],
+            type: 'pie',
+          },
+          {
+            x: [1, 2, 3, 4],
+            y: [12, 9, 15, 12],
+            mode: 'lines+markers',
+            marker: {
+              color: 'rgb(128, 0, 128)',
+              size: 8,
+            },
+            line: {
+              color: 'rgb(128, 0, 128)',
+              width: 1,
+            },
+          },
+          { type: 'bar', x: [1, 2, 3], y: [2, 5, 3] },
+          {
+            x: [1, 2, 3, 4],
+            y: [10, 11, 12, 13],
+            text: ['A<br>size: 40', 'B<br>size: 60', 'C<br>size: 80', 'D<br>size: 100'],
+            mode: 'markers',
+            marker: {
+              color: [
+                'rgb(93, 164, 214)',
+                'rgb(255, 144, 14)',
+                'rgb(44, 160, 101)',
+                'rgb(255, 65, 54)',
+              ],
+              size: [40, 60, 80, 100],
+            },
+          },
+        ]);
       })
       .catch((err) => {
         console.error('Issue in fetching the custom operational panels', err);
@@ -145,7 +196,6 @@ export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, 
 
     if (editMode) setAddVizDisabled(true);
     else setAddVizDisabled(false);
-
   }, [panelVisualizations, editMode]);
 
   // Edit the breadcurmb when panel name changes
@@ -240,9 +290,24 @@ export const CustomPanelView = ({ panelId, panelType, http, pplService, chrome, 
                 <EmptyPanelView addVizWindow={addVizWindow} addVizDisabled={addVizDisabled} />
               )
             ) : (
-              <PanelGrid panelVisualizations={panelVisualizations} editMode={editMode} />
+              <PanelGrid
+                panelVisualizations={panelVisualizations}
+                editMode={editMode}
+                visualizationsData={visualizationsData}
+              />
             )}
-            <>{showVizPanel && <AddVizView closeVizWindow={closeVizWindow} pplService={pplService}/>}</>
+            <>
+              {showVizPanel && (
+                <AddVizView
+                  closeVizWindow={closeVizWindow}
+                  pplService={pplService}
+                  setPanelVisualizations={setPanelVisualizations}
+                  setVisualizationsData={setVisualizationsData}
+                  toasts={toasts}
+                  setToasts={setToasts}
+                />
+              )}
+            </>
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

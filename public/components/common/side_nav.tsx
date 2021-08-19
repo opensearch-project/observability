@@ -49,7 +49,7 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
                 href: '#/event/home',
               },
               {
-                name: 'Custom operational panels',
+                name: 'Operational panels',
                 id: 4,
                 href: '#/custom_panels/home',
               }

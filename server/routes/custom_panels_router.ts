@@ -33,13 +33,13 @@ export function CustomPanelsRouter(router: IRouter) {
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
       const panelsList = [
         {
-          name: 'Dummy Panel 1',
+          name: 'Demo Panel 2',
           id: '2FG6FWGY5',
           dateCreated: '2021-07-19T21:01:14.871Z',
           dateModified: '2021-07-19T21:01:14.871Z',
         },
         {
-          name: 'Dummy Panel 2',
+          name: 'Demo Panel 1',
           id: 'AUJFBY234',
           dateCreated: '2021-07-19T21:01:14.871Z',
           dateModified: '2021-07-19T21:01:14.871Z',
@@ -79,49 +79,33 @@ export function CustomPanelsRouter(router: IRouter) {
         request.params.panelId == '2FG6FWGY5'
           ? {
               panel: {
-                name: 'Demo Panel 1',
+                name: 'Demo Panel 2',
                 dateCreated: '2021-07-19T21:01:14.871Z',
                 dateModified: '2021-07-19T21:01:14.871Z',
                 visualizations: [
                   {
                     id: '1',
                     title: 'Demo Viz 1',
-                    x: 0,
-                    y: 0,
-                    w: 1,
-                    h: 2,
+                    x: 0, y: 0, w: 4, h: 2,
                   },
                   {
                     id: '2',
                     title: 'Demo Viz 2',
-                    x: 1,
-                    y: 0,
-                    w: 3,
-                    h: 2,
+                    x: 4, y: 0, w: 4, h: 2,
                   },
                   {
                     id: '3',
-                    title: 'Demo Viz 3',
-                    x: 1,
-                    y: 0,
-                    w: 3,
-                    h: 2,
+                    x: 8, y: 0, w: 4, h: 2,
                   },
                   {
                     id: '4',
                     title: 'Demo Viz 4',
-                    x: 1,
-                    y: 0,
-                    w: 3,
-                    h: 2,
+                    x: 0, y: 2, w: 6, h: 2,
                   },
                   {
                     id: '5',
                     title: 'Demo Viz 5',
-                    x: 1,
-                    y: 0,
-                    w: 3,
-                    h: 2,
+                    x: 7, y: 2, w: 6, h: 2,
                   },
                 ],
                 filters: [],
@@ -141,7 +125,7 @@ export function CustomPanelsRouter(router: IRouter) {
             }
           : {
               panel: {
-                name: 'Demo Panel 2',
+                name: 'Demo Panel 1',
                 dateCreated: '2021-07-19T21:01:14.871Z',
                 dateModified: '2021-07-19T21:01:14.871Z',
                 visualizations: [],
