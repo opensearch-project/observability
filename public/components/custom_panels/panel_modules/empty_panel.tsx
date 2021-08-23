@@ -18,9 +18,9 @@ type Props = {
 };
 
 // EmptyPanelView
-// This Sub-component is shown to the user when a custom panel is empty
+// This Sub-component is shown to the user when a operational panel is empty
 // Props:
-// addVizWindow -> This function shows the add visualization window in Custom panels view
+// addVizWindow -> This function shows the add visualization window in operational panels view
 
 export const EmptyPanelView = ({ addVizWindow, addVizDisabled }: Props) => {
   return (

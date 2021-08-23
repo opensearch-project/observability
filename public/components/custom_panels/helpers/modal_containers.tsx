@@ -69,14 +69,14 @@ export const getCloneModal = (
   return (
     <EuiOverlayMask>
       <EuiConfirmModal
-        title="Clone custom panel"
+        title="Clone operational panel"
         onCancel={onCancel}
         onConfirm={onConfirm}
         cancelButtonText="Cancel"
         confirmButtonText="Yes"
         defaultFocusedButton="confirm"
       >
-        <p>Do you want to clone this custom panel?</p>
+        <p>Do you want to clone this operational panel?</p>
       </EuiConfirmModal>
     </EuiOverlayMask>
   );
