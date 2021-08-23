@@ -37,7 +37,7 @@ import { PanelGrid } from './panel_modules/panel_grid';
 
 type Props = {
   panelId: string;
-  panelType: string;
+  // panelType: string;
   http: CoreStart['http'];
   pplService: any;
   chrome: CoreStart['chrome'];
@@ -57,7 +57,7 @@ type VisualizationType = {
 
 export const CustomPanelView = ({
   panelId,
-  panelType,
+  // panelType,
   http,
   pplService,
   chrome,

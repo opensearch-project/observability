@@ -51,7 +51,7 @@ export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) 
               {
                 name: 'Operational panels',
                 id: 4,
-                href: '#/operational_panels/home',
+                href: '#/operational_panels/',
               }
             ].map((item) => {
               return { ...item, isSelected: activeId === item.id };

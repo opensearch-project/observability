@@ -89,7 +89,22 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                   return renderPageWithSidebar(<EventExplorerHome />, 3);
                 }}
               />
-              <Route
+              <Route 
+                path={['/operational_panels']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
+                  return (
+                    <CustomPanelsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      pplService={pplService}
+                      renderProps={props}
+                    />
+                  );
+                }}
+              />
+              {/* <Route
                 exact
                 path={['/operational_panels', '/operational_panels/home']}
                 render={(props) => {
@@ -99,12 +114,13 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                       http={http}
                       chrome={chrome}
                       parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      renderProps = {props}
                     />,
                     4
                   );
                 }}
-              />
-              <Route
+              /> */}
+              {/* <Route
                 path={'/operational_panels/:id/:type?'}
                 render={(props) => {
                   return (
@@ -118,7 +134,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                     />
                   );
                 }}
-              />
+              /> */}
               <Route
                 exact
                 path="/explorer/events"
