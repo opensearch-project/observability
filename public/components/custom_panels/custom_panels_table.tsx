@@ -121,7 +121,7 @@ export const CustomPanelTable = ({
       .then(() => setToast(toastMessage))
       .catch((err) => {
         setToast(
-          'Error deleting Custom Panels, please make sure you have the correct permission.',
+          'Error deleting Operational Panels, please make sure you have the correct permission.',
           'danger'
         );
         console.error(err.body.message);
@@ -135,7 +135,7 @@ export const CustomPanelTable = ({
         onCreate,
         closeModal,
         'Name',
-        'Create custom panel',
+        'Create operational panel',
         'Cancel',
         'Create',
         undefined,
@@ -178,7 +178,7 @@ export const CustomPanelTable = ({
   };
 
   const deletePanel = () => {
-    const customPanelString = `custom panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
+    const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
     setModalLayout(
       <DeletePanelModal
         onConfirm={onDelete}
@@ -306,7 +306,7 @@ export const CustomPanelTable = ({
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <EuiButton fill onClick={() => createPanel()}>
-                      Create Custom Panel
+                      Create New Panel
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -315,7 +315,7 @@ export const CustomPanelTable = ({
             <EuiHorizontalRule margin="m" />
             <EuiFieldSearch
               fullWidth
-              placeholder="Search custom panel name"
+              placeholder="Search operational panel name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -353,10 +353,10 @@ export const CustomPanelTable = ({
               <>
                 <EuiSpacer size="xxl" />
                 <EuiText textAlign="center">
-                  <h2>No Custom Panels</h2>
+                  <h2>No Operational Panels</h2>
                   <EuiSpacer size="m" />
                   <EuiText color="subdued">
-                    Use custom operational panels to dive deeper into observability
+                    Use operational panels to dive deeper into observability
                     <br />
                     using PPL queries and insightful visualizations
                   </EuiText>
@@ -365,7 +365,7 @@ export const CustomPanelTable = ({
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => createPanel()}>
-                      Create Custom Panel
+                      Create New Panel
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

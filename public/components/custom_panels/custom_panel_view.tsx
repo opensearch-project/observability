@@ -157,7 +157,7 @@ export const CustomPanelView = ({
         ]);
       })
       .catch((err) => {
-        console.error('Issue in fetching the custom operational panels', err);
+        console.error('Issue in fetching the operational panels', err);
       });
   };
 

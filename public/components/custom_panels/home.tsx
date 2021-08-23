@@ -52,14 +52,14 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
       .then((res) => setcustomPanelData(res.panels))
       .catch((err) => {
-        console.error('Issue in fetching the custom operational panels', err.body.message);
+        console.error('Issue in fetching the operational panels', err.body.message);
       });
   };
 
   // Creates a new CustomPanel
   const createCustomPanel = (newCustomPanelName: string) => {
     if (!isNameValid(newCustomPanelName)) {
-      setToast('Invalid Custom Panel name', 'danger');
+      setToast('Invalid Operational Panel name', 'danger');
       return;
     }
 
@@ -70,12 +70,12 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
         }),
       })
       .then(async (res) => {
-        setToast(`Custom View "${newCustomPanelName}" successfully created!`);
+        setToast(`Operational Panel "${newCustomPanelName}" successfully created!`);
         window.location.assign(`${_.last(parentBreadcrumb).href}${res}`);
       })
       .catch((err) => {
         setToast(
-          'Please ask your administrator to enable Custom Panels for you.',
+          'Please ask your administrator to enable Operational Panels for you.',
           'danger',
           <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
             Documentation
@@ -109,11 +109,11 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
           if (renamedCustomPanel) renamedCustomPanel.name = editedCustomPanelName;
           return newCustomPanelData;
         });
-        setToast(`Custom Panel successfully renamed into "${editedCustomPanelName}"`);
+        setToast(`Operational Panel successfully renamed into "${editedCustomPanelName}"`);
       })
       .catch((err) => {
         setToast(
-          'Error renaming Custom Panel, please make sure you have the correct permission.',
+          'Error renaming Operational Panel, please make sure you have the correct permission.',
           'danger'
         );
         console.error(err.body.message);
@@ -126,7 +126,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
     clonedCustomPanelID: string
   ): Promise<string> => {
     if (!isNameValid(clonedCustomPanelName)) {
-      setToast('Invalid Custom Panel name', 'danger');
+      setToast('Invalid Operational Panel name', 'danger');
       return Promise.reject();
     }
     const clonePanelObject = {
@@ -150,19 +150,19 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
             },
           ];
         });
-        setToast(`Custom Panel "${clonedCustomPanelName}" successfully created!`);
+        setToast(`Operational Panel "${clonedCustomPanelName}" successfully created!`);
         return res.body.id;
       })
       .catch((err) => {
         setToast(
-          'Error cloning Custom Panel, please make sure you have the correct permission.',
+          'Error cloning Operational Panel, please make sure you have the correct permission.',
           'danger'
         );
         console.error(err.body.message);
       });
   };
 
-  // Deletes an existing Custom Panel
+  // Deletes an existing Operational Panel
   const deleteCustomPanel = (customPanelId: string, customPanelName?: string, showToast = true) => {
     return http
       .delete(`${CUSTOM_PANELS_API_PREFIX}/panel/` + customPanelId)
@@ -170,12 +170,12 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
         setcustomPanelData((prevCustomPanelData) => {
           return prevCustomPanelData.filter((customPanel) => customPanel.id !== customPanelId);
         });
-        if (showToast) setToast(`Custom Panel "${customPanelName}" successfully deleted!`);
+        if (showToast) setToast(`Operational Panel "${customPanelName}" successfully deleted!`);
         return res;
       })
       .catch((err) => {
         setToast(
-          'Error deleting Custom Panel, please make sure you have the correct permission.',
+          'Error deleting Operational Panel, please make sure you have the correct permission.',
           'danger'
         );
         console.error(err.body.message);

@@ -39,7 +39,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
 
   const customPanelBreadcrumb = {
     text: 'Operational panels',
-    href: '#/custom_panels/',
+    href: '#/operational_panels/',
   };
 
   return (
@@ -91,7 +91,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
               />
               <Route
                 exact
-                path={['/custom_panels', '/custom_panels/home']}
+                path={['/operational_panels', '/operational_panels/home']}
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
                   return renderPageWithSidebar(
@@ -105,7 +105,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                 }}
               />
               <Route
-                path={'/custom_panels/:id/:type?'}
+                path={'/operational_panels/:id/:type?'}
                 render={(props) => {
                   return (
                     <CustomPanelView
