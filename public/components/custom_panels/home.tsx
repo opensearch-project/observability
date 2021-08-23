@@ -13,12 +13,16 @@ import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
+import { StaticContext } from 'react-router';
+import { Route, RouteComponentProps, RouteProps } from 'react-router-dom';
 import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
-import { CustomPanelTable } from './custom_panels_table';
+import { renderPageWithSidebar } from '../common/side_nav';
+import { CustomPanelTable } from './custom_panel_table';
+import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
 
 // "Home" module is initial page for Custom Operantional Panels
@@ -27,6 +31,8 @@ type Props = {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   parentBreadcrumb: { text: string; href: string }[];
+  pplService: any;
+  renderProps: RouteComponentProps<any, StaticContext, any>;
 };
 
 export type CustomPanelListType = {
@@ -36,7 +42,7 @@ export type CustomPanelListType = {
   dateModified: string;
 };
 
-export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
+export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }: Props) => {
   const [customPanelData, setcustomPanelData] = useState<Array<CustomPanelListType>>([]);
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [loading, setLoading] = useState(false);
@@ -183,7 +189,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
   };
 
   return (
-    <>
+    <div>
       <EuiGlobalToastList
         toasts={toasts}
         dismissToast={(removedToast) => {
@@ -191,7 +197,7 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
         }}
         toastLifeTimeMs={6000}
       />
-      <CustomPanelTable
+      {/* <CustomPanelTable
         loading={loading}
         fetchCustomPanels={fetchCustomPanels}
         customPanels={customPanelData}
@@ -202,7 +208,42 @@ export const Home = ({ http, chrome, parentBreadcrumb }: Props) => {
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+      /> */}
+      <Route
+        exact
+        path={renderProps.match.path}
+        render={(props) => {
+          return renderPageWithSidebar(
+            <CustomPanelTable
+              loading={loading}
+              fetchCustomPanels={fetchCustomPanels}
+              customPanels={customPanelData}
+              createCustomPanel={createCustomPanel}
+              setBreadcrumbs={chrome.setBreadcrumbs}
+              parentBreadcrumb={parentBreadcrumb}
+              renameCustomPanel={renameCustomPanel}
+              cloneCustomPanel={cloneCustomPanel}
+              deleteCustomPanel={deleteCustomPanel}
+              setToast={setToast}
+            />,
+            4
+          );
+        }}
       />
-    </>
+      <Route
+        path={`${renderProps.match.path}/:id`}
+        render={(props) => {
+          return (
+            <CustomPanelView
+              panelId={props.match.params.id}
+              http={http}
+              pplService={pplService}
+              chrome={chrome}
+              parentBreadcrumb={parentBreadcrumb}
+            />
+          );
+        }}
+      />
+    </div>
   );
 };
