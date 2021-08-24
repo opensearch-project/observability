@@ -116,7 +116,7 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!query) return;
     if (statsRegx.test(query)) {
       const index = getIndexPatternFromRawQuery(query);
@@ -127,6 +127,10 @@ export const Explorer = ({
       getEvents();
       getCountVisualizations('h');
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
@@ -418,15 +422,7 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = () => {
-    if (statsRegx.test(query)) {
-      const index = getIndexPatternFromRawQuery(query); // index
-      if (!index) return;
-      getAvailableFields(`search source=${index}`);
-      getVisualizations();
-      return;
-    } 
-    getEvents();
-    getCountVisualizations('h');
+    fetchData();
   }
 
   const handleQueryChange = (query: string, tabId: string) => {
