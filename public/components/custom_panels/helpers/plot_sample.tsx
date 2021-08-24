@@ -57,37 +57,6 @@ export function PlotSample(props: PltProps) {
         },
         ...props.layout,
       }}
-
-      // useResizeHandler
-      // config={{ displayModeBar: false }}
-      // layout={{
-      //   autosize: true,
-      //   margin: {
-      //     l: 30,
-      //     r: 5,
-      //     b: 30,
-      //     t: 5,
-      //     pad: 0,
-      //   },
-      //   barmode: 'stack',
-      //   legend: {
-      //     orientation: 'h',
-      //     traceorder: 'normal',
-      //   },
-      //   showlegend: false,
-      //   hovermode: 'closest',
-      //   xaxis: {
-      //     showgrid: true,
-      //     zeroline: false,
-      //     rangemode: 'normal',
-      //   },
-      //   yaxis: {
-      //     showgrid: true,
-      //     zeroline: false,
-      //     rangemode: 'normal',
-      //   },
-      //   ...props.layout,
-      // }}
     />
   );
 }

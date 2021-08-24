@@ -26,7 +26,7 @@ import {
   EuiText,
 } from '@elastic/eui';
 import React, { useEffect, useRef, useState } from 'react';
-import { PlotSample } from './plot_sample';
+import { PlotSample } from '../helpers/plot_sample';
 
 // Visualization Panel module allows view added viz modules.
 

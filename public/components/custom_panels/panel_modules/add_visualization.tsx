@@ -11,36 +11,30 @@
 
 import {
   EuiSpacer,
-  EuiText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiButton,
-  EuiHorizontalRule,
   EuiPanel,
   EuiButtonEmpty,
   EuiFieldText,
   EuiForm,
   EuiFormRow,
   EuiLink,
-  EuiRadioGroup,
   EuiSelect,
   EuiSuperDatePicker,
   EuiTextArea,
   EuiTabbedContent,
 } from '@elastic/eui';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import React, { Fragment, ReactChild, useState } from 'react';
-import { start } from 'repl';
+import React, { Fragment, useState } from 'react';
 import { isNameValid } from '../helpers/utils';
-import { PlotSample } from './plot_sample';
+import { PlotSample } from '../helpers/plot_sample';
 
 type Props = {
   closeVizWindow: () => void;
   pplService: any;
   setPanelVisualizations: any;
   setVisualizationsData: any;
-  setToasts: any;
-  toasts: any;
+  setToast: (title: string, color?: string, text?: string) => void;
 };
 
 export const AddVizView = ({
@@ -48,8 +42,7 @@ export const AddVizView = ({
   pplService,
   setPanelVisualizations,
   setVisualizationsData,
-  setToasts,
-  toasts
+  setToast,
 }: Props) => {
   const [radioIdSelected, setRadioIdSelected] = useState('tab1');
   const [previewArea, setPreviewArea] = useState(<></>);
@@ -105,16 +98,6 @@ export const AddVizView = ({
   const stopLoading = () => {
     setIsLoading(false);
   };
-
-  // const onRefreshChange = ({ isPaused, refreshInterval }) => {
-  //   setIsPaused(isPaused);
-  //   setRefreshInterval(refreshInterval);
-  // };
-
-  // const onChangeRadio = (optionId: string) => {
-  //   console.log('Radio button click', optionId);
-  //   setRadioIdSelected(optionId);
-  // };
 
   const onChangeTitle = (e) => {
     setNewVisualizationTitle(e.target.value);
@@ -185,12 +168,7 @@ export const AddVizView = ({
       setShowPreviewArea(false);
     }
   };
-
-  const setToast = (title: string, color = 'success', text?: ReactChild) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
+  
   const addVisualization = () => {
     if (!isNameValid(newVisualizationTitle)) {
       setToast('Invalid Visualization Name', 'danger');
@@ -323,21 +301,12 @@ export const AddVizView = ({
         tabs={tabs}
         initialSelectedTab={tabs[0]}
         autoFocus="selected"
-        // display="condensed"
-        // onTabClick={(tab) => {
-        //   console.log('clicked tab', tab);
-        // }}
       />
     </EuiForm>
   );
   return (
     <div>
       <EuiPanel style={{ width: '55vw' }}>
-        {/* <EuiText>
-          <h4>Add visualization</h4>
-        </EuiText>
-
-        <EuiHorizontalRule margin="xs" /> */}
         <div>{formBody}</div>
 
         <EuiSpacer size="m" />
