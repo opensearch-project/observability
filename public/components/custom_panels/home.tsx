@@ -197,18 +197,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         }}
         toastLifeTimeMs={6000}
       />
-      {/* <CustomPanelTable
-        loading={loading}
-        fetchCustomPanels={fetchCustomPanels}
-        customPanels={customPanelData}
-        createCustomPanel={createCustomPanel}
-        setBreadcrumbs={chrome.setBreadcrumbs}
-        parentBreadcrumb={parentBreadcrumb}
-        renameCustomPanel={renameCustomPanel}
-        cloneCustomPanel={cloneCustomPanel}
-        deleteCustomPanel={deleteCustomPanel}
-        setToast={setToast}
-      /> */}
       <Route
         exact
         path={renderProps.match.path}
@@ -240,6 +228,9 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               pplService={pplService}
               chrome={chrome}
               parentBreadcrumb={parentBreadcrumb}
+              renameCustomPanel={renameCustomPanel}
+              deleteCustomPanel={deleteCustomPanel}
+              setToast={setToast}
             />
           );
         }}

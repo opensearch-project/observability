@@ -15,6 +15,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiGlobalToastList,
+  EuiOverlayMask,
   EuiPage,
   EuiPageBody,
   EuiPageContentBody,
@@ -30,18 +31,21 @@ import React, { useEffect, useState } from 'react';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import { AddVizView } from './panel_modules/add_visualization';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
+import { CREATE_PANEL_MESSAGE, CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
+import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 
 // "CustomPanelsView" module used to render saved Custom Operational Panels
 
 type Props = {
   panelId: string;
-  // panelType: string;
   http: CoreStart['http'];
   pplService: any;
   chrome: CoreStart['chrome'];
   parentBreadcrumb: { text: string; href: string }[];
+  renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
+  deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
+  setToast: (title: string, color?: string, text?: string) => void;
 };
 
 type VisualizationType = {
@@ -57,22 +61,22 @@ type VisualizationType = {
 
 export const CustomPanelView = ({
   panelId,
-  // panelType,
   http,
   pplService,
   chrome,
   parentBreadcrumb,
+  renameCustomPanel,
+  deleteCustomPanel,
+  setToast
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [filterBarValue, setFilterBarValue] = useState('');
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState('now-30m');
   const [end, setEnd] = useState('now');
-  const [isPaused, setIsPaused] = useState(true);
-  const [refreshInterval, setRefreshInterval] = useState();
+
   const [inputDisabled, setInputDisabled] = useState(true);
   const [addVizDisabled, setAddVizDisabled] = useState(false);
   const [editDisabled, setEditDisabled] = useState(false);
@@ -80,6 +84,8 @@ export const CustomPanelView = ({
   const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
   const [visualizationsData, setVisualizationsData] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
 
   const onTimeChange = ({ start, end }) => {
     const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
@@ -161,6 +167,58 @@ export const CustomPanelView = ({
       });
   };
 
+
+  const onChange = (e) => {
+    setFilterBarValue(e.target.value);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const onDelete = async () => {
+    const toastMessage = `Custom Panels ${openPanelName} successfully deleted!`;
+    deleteCustomPanel(panelId, openPanelName);
+    closeModal();
+  };
+
+  const deletePanel = () => {
+    setModalLayout(
+      <DeletePanelModal
+        onConfirm={onDelete}
+        onCancel={closeModal}
+        title={`Delete ${openPanelName}`}
+        message={`Are you sure you want to delete this Operational Panel?`}
+      />
+    );
+    showModal();
+  };
+
+  const onRename = async (newCustomPanelName: string) => {
+    renameCustomPanel(newCustomPanelName, panelId);
+    closeModal();
+  };
+
+  const renamePanel = () => {
+    setModalLayout(
+      getCustomModal(
+        onRename,
+        closeModal,
+        'Name',
+        'Rename Panel',
+        'Cancel',
+        'Rename',
+        openPanelName,
+        CREATE_PANEL_MESSAGE
+      )
+    );
+    showModal();
+  };
+
   // toggle between panel edit mode
   const editPanel = () => {
     setEditMode(!editMode);
@@ -170,11 +228,13 @@ export const CustomPanelView = ({
   const closeVizWindow = () => {
     setShowVizPanel(false);
     setAddVizDisabled(false);
+    checkDisabledInputs();
   };
 
   const addVizWindow = () => {
     setShowVizPanel(true);
     setAddVizDisabled(true);
+    setInputDisabled(true);
   };
 
   // Fetch the custom panel on Initial Mount
@@ -182,9 +242,7 @@ export const CustomPanelView = ({
     fetchCustomPanel();
   }, []);
 
-  // Toggle input type (disabled or not disabled)
-  // Disabled when there no visualizations in panels or when the panel is in edit mode
-  useEffect(() => {
+  const checkDisabledInputs = () => {
     if (panelVisualizations.length == 0) {
       setEditDisabled(true);
       setInputDisabled(true);
@@ -193,9 +251,14 @@ export const CustomPanelView = ({
       if (editMode) setInputDisabled(true);
       else setInputDisabled(false);
     }
-
     if (editMode) setAddVizDisabled(true);
     else setAddVizDisabled(false);
+  };
+
+  // Toggle input type (disabled or not disabled)
+  // Disabled when there no visualizations in panels or when the panel is in edit mode
+  useEffect(() => {
+    checkDisabledInputs();
   }, [panelVisualizations, editMode]);
 
   // Edit the breadcurmb when panel name changes
@@ -206,19 +269,9 @@ export const CustomPanelView = ({
     ]);
   }, [openPanelName]);
 
-  const onChange = (e) => {
-    setFilterBarValue(e.target.value);
-  };
 
   return (
     <div>
-      <EuiGlobalToastList
-        toasts={toasts}
-        dismissToast={(removedToast) => {
-          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
-        }}
-        toastLifeTimeMs={6000}
-      />
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>
@@ -234,10 +287,10 @@ export const CustomPanelView = ({
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
                 <EuiFlexItem>
-                  <EuiButton color="danger">Delete</EuiButton>
+                  <EuiButton color="danger" onClick={deletePanel}>Delete</EuiButton>
                 </EuiFlexItem>
                 <EuiFlexItem>
-                  <EuiButton>Rename</EuiButton>
+                  <EuiButton onClick={renamePanel}>Rename</EuiButton>
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiButton>Export</EuiButton>
@@ -291,6 +344,7 @@ export const CustomPanelView = ({
               )
             ) : (
               <PanelGrid
+              chrome={chrome}
                 panelVisualizations={panelVisualizations}
                 editMode={editMode}
                 visualizationsData={visualizationsData}
@@ -303,14 +357,14 @@ export const CustomPanelView = ({
                   pplService={pplService}
                   setPanelVisualizations={setPanelVisualizations}
                   setVisualizationsData={setVisualizationsData}
-                  toasts={toasts}
-                  setToasts={setToasts}
+                  setToast={setToast}
                 />
               )}
             </>
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>
+      {isModalVisible && modalLayout}
     </div>
   );
 };
