@@ -23,7 +23,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { CustomPanelView } from './custom_panels/custom_panel_view';
 import { Home as EventExplorerHome } from './explorer/home';
 import { LogExplorer } from './explorer/log_explorer';
-import { observabilityTitle } from '../../common';
+import { observabilityTitle } from '../../common/constants/shared';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;

@@ -116,14 +116,6 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  // const getIndexFromRawQuery = (rawQuery: string) => {
-  //   const indexMatches = rawQuery.match('\=(.*)');
-  //   if (indexMatches) {
-  //     return indexMatches[0]?.slice(1).split('|')[0]?.trim();
-  //   }
-  //   return '';
-  // }
-
   useEffect(() => {
     if (!query) return;
     if (statsRegx.test(query)) {
@@ -425,7 +417,7 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = (tabId: string) => {
+  const handleQuerySearch = () => {
     if (statsRegx.test(query)) {
       const index = getIndexPatternFromRawQuery(query); // index
       if (!index) return;
@@ -437,7 +429,7 @@ export const Explorer = ({
     getCountVisualizations('h');
   }
 
-  const handleQueryChange = (query, tabId) => {
+  const handleQueryChange = (query: string, tabId: string) => {
     dispatch(changeQuery({
       tabId,
       query: {

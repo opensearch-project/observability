@@ -19,8 +19,7 @@ import PPLFacet from '../services/facets/ppl_facet';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../common/index';
-
+} from '../../common/constants/shared';
 
 export function registerPplRoute({
   router,
