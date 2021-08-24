@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import './logExplorer.scss';
+import './log_explorer.scss';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { 
@@ -24,29 +24,29 @@ import {
   EuiTabbedContent
 } from '@elastic/eui';
 import { Explorer } from './explorer';
-import { ILogExplorerProps } from '../../common/types/explorer';
+import { ILogExplorerProps } from '../../../common/types/explorer';
 import {
   TAB_TITLE,
   TAB_ID_TXT_PFX
-} from '../../common/constants/explorer';
+} from '../../../common/constants/explorer';
 import { 
   selectQueryTabs,
   addTab,
   setSelectedQueryTab,
   removeTab
-} from './slices/queryTabSlice';
+} from './slices/query_tab_slice';
 import { 
   init as initFields,
   remove as removefields
-} from './slices/fieldSlice';
+} from './slices/field_slice';
 import {
   init as initQuery,
   remove as removeQuery
-} from './slices/querySlice';
+} from './slices/query_slice';
 import { 
   init as initQueryResult,
   remove as removeQueryResult,
-} from './slices/queryResultSlice';
+} from './slices/query_result_slice';
 
 export const LogExplorer = ({
   pplService,

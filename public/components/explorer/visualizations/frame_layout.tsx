@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import './frameLayout.scss';
+import './frame_layout.scss';
 
 import React from 'react';
 import { EuiPage, EuiPageSideBar, EuiPageBody } from '@elastic/eui';

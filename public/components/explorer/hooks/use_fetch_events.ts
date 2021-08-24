@@ -19,12 +19,12 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
-} from '../../../common/constants/explorer';
-import { fetchSuccess, reset as queryResultReset } from '../slices/queryResultSlice';
-import { selectQueries } from '../slices/querySlice';
+} from '../../../../common/constants/explorer';
+import { fetchSuccess, reset as queryResultReset } from '../slices/query_result_slice';
+import { selectQueries } from '../slices/query_slice';
 import {
   updateFields,
-} from '../slices/fieldSlice';
+} from '../slices/field_slice';
 
 export const useFetchEvents = ({
   pplService,

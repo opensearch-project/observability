@@ -25,10 +25,10 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
-import { CountDistribution } from './visualizations/countDistribution';
-import { DataGrid } from './dataGrid';
+import { CountDistribution } from './visualizations/count_distribution';
+import { DataGrid } from './data_grid';
 import { Sidebar } from './sidebar';
-import { NoResults } from './noResults';
+import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
@@ -53,11 +53,11 @@ import {
 import { 
   changeQuery,
   selectQueries
-} from './slices/querySlice';
-import { selectQueryResult } from './slices/queryResultSlice';
-import { selectFields, updateFields } from './slices/fieldSlice';
-import { selectCountDistribution } from './slices/countDistributionSlice';
-import { selectExplorerVisualization } from './slices/visualizationSlice';
+} from './slices/query_slice';
+import { selectQueryResult } from './slices/query_result_slice';
+import { selectFields, updateFields } from './slices/field_slice';
+import { selectCountDistribution } from './slices/count_distribution_slice';
+import { selectExplorerVisualization } from './slices/visualization_slice';
 
 const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);

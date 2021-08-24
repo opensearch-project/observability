@@ -12,7 +12,7 @@
 import { 
   createSlice
 } from '@reduxjs/toolkit';
-import { initialTabId } from '../../../framework/redux/store/sharedState';
+import { initialTabId } from '../../../framework/redux/store/shared_state';
 import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,

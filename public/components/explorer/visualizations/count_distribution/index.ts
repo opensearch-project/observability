@@ -9,4 +9,4 @@
  * GitHub history for details.
  */
 
-export * from './countDistribution';
+export * from './count_distribution';

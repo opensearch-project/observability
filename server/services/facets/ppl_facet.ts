@@ -10,7 +10,7 @@
  */
 
 import _ from 'lodash';
-import { PPLDataSource } from '../../adaptors/pplDatasource';
+import { PPLDataSource } from '../../adaptors/ppl_datasource';
 
 export default class PPLFacet {
 

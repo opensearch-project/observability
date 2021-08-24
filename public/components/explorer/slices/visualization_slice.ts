@@ -12,8 +12,8 @@
 import { 
   createSlice
 } from '@reduxjs/toolkit';
-import { initialTabId } from '../../../framework/redux/store/sharedState';
-import { REDUX_EXPL_SLICE_VISUALIZATION } from '../../../common/constants/explorer';
+import { initialTabId } from '../../../framework/redux/store/shared_state';
+import { REDUX_EXPL_SLICE_VISUALIZATION } from '../../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {}

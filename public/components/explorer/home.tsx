@@ -12,10 +12,10 @@
 import React from 'react';
 import { uniqueId } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeQuery } from './slices/querySlice';
-import { initialTabId } from '../../framework/redux/store/sharedState';
+import { changeQuery } from './slices/query_slice';
+import { initialTabId } from '../../framework/redux/store/shared_state';
 import { useHistory } from 'react-router-dom';
-import { selectQueries } from './slices/querySlice';
+import { selectQueries } from './slices/query_slice';
 import {
   EuiPage,
   EuiPageBody,
@@ -30,7 +30,7 @@ import {
   EuiFlexItem
 } from '@elastic/eui';
 import { Search } from '../common/seach/search';
-import { RAW_QUERY } from '../../common/constants/explorer';
+import { RAW_QUERY } from '../../../common/constants/explorer';
 
 export const Home = (props: any) => {
 
