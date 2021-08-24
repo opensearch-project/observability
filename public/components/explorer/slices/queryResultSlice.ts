@@ -16,7 +16,7 @@ import { fetchSuccess as fetchSuccessReducer } from '../reducers'
 import { initialTabId } from '../../../framework/redux/store/sharedState';
 import { 
   REDUX_EXPL_SLICE_QUERY_RESULT
-} from '../../../common/constants/explorer';
+} from '../../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {}

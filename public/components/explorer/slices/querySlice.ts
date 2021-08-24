@@ -16,7 +16,7 @@ import { initialTabId } from '../../../framework/redux/store/sharedState';
 import { 
   RAW_QUERY,
   REDUX_EXPL_SLICE_QUERIES
-} from '../../../common/constants/explorer';
+} from '../../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {

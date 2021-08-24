@@ -40,18 +40,14 @@ export const Home = (props: any) => {
 
   const queryHistories = [
     {
-      query: "source=opensearch_dashboards_sample_data_flights | where timestamp > timestamp('2021-07-01 00:00:00') and timestamp < timestamp('2021-07-02 00:00:00')",
-      iconType: "tokenEnum"
-    },
-    {
-      query: "source=opensearch_dashboards_sample_data_flights",
+      query: "search source=opensearch_dashboards_sample_data_logs | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
       iconType: "tokenEnum"
     }
   ];
 
   const visHistories = [
     {
-      query: "source=opensearch_dashboards_sample_data_flights | where timestamp > timestamp('2021-07-01 00:00:00') and timestamp < timestamp('2021-07-08 00:00:00') | stats count(Origin) by span(timestamp, '2h')",
+      query: "search source=opensearch_dashboards_sample_data_logs | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00') | stats count() by span(utc_time, '15m')",
       iconType: "tokenHistogram"
     }
   ];

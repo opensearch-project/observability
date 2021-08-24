@@ -35,7 +35,7 @@ import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
   IQueryTab
-} from '../../common/types/explorer';
+} from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -44,7 +44,8 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
-} from '../../common/constants/explorer';
+} from '../../../common/constants/explorer';
+import { getIndexPatternFromRawQuery } from '../../../common/utils';
 import { 
   useFetchEvents,
   useFetchVisualizations
@@ -65,6 +66,8 @@ interface IExplorerProps {
   pplService: any;
   tabId: string
 }
+
+const statsRegx = new RegExp(/stats/);
 
 export const Explorer = ({
   pplService,
@@ -113,17 +116,24 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  const getIndexFromRawQuery = (rawQuery: string) => rawQuery.split('=')[1].split(' ')[0];
+  // const getIndexFromRawQuery = (rawQuery: string) => {
+  //   const indexMatches = rawQuery.match('\=(.*)');
+  //   if (indexMatches) {
+  //     return indexMatches[0]?.slice(1).split('|')[0]?.trim();
+  //   }
+  //   return '';
+  // }
 
   useEffect(() => {
     if (!query) return;
-    if (query.includes('stats')) {
-      const index = getIndexFromRawQuery(query);
+    if (statsRegx.test(query)) {
+      const index = getIndexPatternFromRawQuery(query);
+      if (!index) return;
       getAvailableFields(`search source=${index}`);
       getVisualizations();
     } else {
       getEvents();
-      getCountVisualizations('m');
+      getCountVisualizations('h');
     }
   }, []);
 
@@ -416,14 +426,15 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = (tabId: string) => {
-    if (query.includes('stats')) {
-      const index = getIndexFromRawQuery(query); // index
+    if (statsRegx.test(query)) {
+      const index = getIndexPatternFromRawQuery(query); // index
+      if (!index) return;
       getAvailableFields(`search source=${index}`);
       getVisualizations();
       return;
     } 
     getEvents();
-    getCountVisualizations('m');
+    getCountVisualizations('h');
   }
 
   const handleQueryChange = (query, tabId) => {
