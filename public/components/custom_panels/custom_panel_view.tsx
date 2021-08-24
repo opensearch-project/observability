@@ -14,7 +14,6 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiGlobalToastList,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -25,7 +24,6 @@ import {
   EuiSuperDatePicker,
   EuiTitle,
 } from '@elastic/eui';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { CoreStart } from '../../../../../src/core/public';

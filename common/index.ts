@@ -14,7 +14,7 @@ export const PPL_BASE = '/api/ppl';
 export const PPL_SEARCH = '/search';
 
 // Server route
-export const PPL_ENDPOINT = '/_plugins/_ppl?format=viz';
+export const PPL_ENDPOINT = '/_plugins/_ppl';
 
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';
