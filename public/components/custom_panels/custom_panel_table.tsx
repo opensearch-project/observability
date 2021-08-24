@@ -9,7 +9,6 @@
  * GitHub history for details.
  */
 
-import CSS from 'csstype';
 import {
   EuiButton,
   EuiContextMenuItem,

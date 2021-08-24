@@ -118,10 +118,6 @@ export const AddVizView = ({
           query: pplArea,
         })
         .then((res) => {
-          // console.log(res);
-          // const newViz = (
-
-          // );
           setNewPPLVisualization([
             {
               x: res.data[res.metadata.xfield.name],
