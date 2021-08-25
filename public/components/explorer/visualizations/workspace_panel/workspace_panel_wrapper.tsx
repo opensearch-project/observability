@@ -26,7 +26,7 @@ import {
   EuiPopoverFooter,
   EuiPopoverTitle
 } from '@elastic/eui';
-import { ChartSwitch } from './chartSwitch';
+import { ChartSwitch } from './chart_switch';
 import { SavePanel } from '../shared_components/save_panel'
 
 export function WorkspacePanelWrapper({

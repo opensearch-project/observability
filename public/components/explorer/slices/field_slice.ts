@@ -12,12 +12,12 @@
 import { 
   createSlice
 } from '@reduxjs/toolkit';
-import { initialTabId } from '../../../framework/redux/store/sharedState';
+import { initialTabId } from '../../../framework/redux/store/shared_state';
 import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
   REDUX_EXPL_SLICE_FIELDS
-} from '../../../common/constants/explorer';
+} from '../../../../common/constants/explorer';
 
 const initialFields = {
   [SELECTED_FIELDS]: [],

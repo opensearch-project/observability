@@ -16,10 +16,10 @@ import {
 } from 'react-redux';
 import { 
   RAW_QUERY
-} from '../../../common/constants/explorer';
-import { render as renderCountDis } from '../slices/countDistributionSlice';
-import { selectQueries } from '../slices/querySlice';
-import { render as renderExplorerVis } from '../slices/visualizationSlice';
+} from '../../../../common/constants/explorer';
+import { render as renderCountDis } from '../slices/count_distribution_slice';
+import { selectQueries } from '../slices/query_slice';
+import { render as renderExplorerVis } from '../slices/visualization_slice';
 
 export const useFetchVisualizations = ({
   pplService,

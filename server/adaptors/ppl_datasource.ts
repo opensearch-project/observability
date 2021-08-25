@@ -58,5 +58,5 @@ export class PPLDataSource {
     pplRes['jsonData'] = data;
   };
 
-  public getDataSource = () => this.pplDataSource;
+  public getDataSource = () : PPLResponse => this.pplDataSource;
 }

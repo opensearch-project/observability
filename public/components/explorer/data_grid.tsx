@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import './dataGrid.scss';
+import './data_grid.scss';
 
 import React, { useMemo } from 'react';
 import _ from 'lodash';

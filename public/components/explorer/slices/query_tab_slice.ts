@@ -12,13 +12,13 @@
 import { 
   createSlice
 } from '@reduxjs/toolkit';
-import { initialTabId } from '../../../framework/redux/store/sharedState';
+import { initialTabId } from '../../../framework/redux/store/shared_state';
 import { 
   SELECTED_QUERY_TAB,
   QUERY_TAB_IDS,
   NEW_SELECTED_QUERY_TAB,
   REDUX_EXPL_SLICE_QUERY_TABS
-} from '../../../common/constants/explorer';
+} from '../../../../common/constants/explorer';
 
 const initialState = {
   queryTabIds: [initialTabId],

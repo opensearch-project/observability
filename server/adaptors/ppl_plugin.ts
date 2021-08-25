@@ -11,7 +11,7 @@
 
 import {
   PPL_ENDPOINT
-} from '../../common/index';
+} from '../../common/constants/shared';
 
 export const PPLPlugin = function(Client, config, components) {
   const ca = components.clientAction.factory;

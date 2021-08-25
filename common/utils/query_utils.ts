@@ -9,9 +9,10 @@
  * GitHub history for details.
  */
 
-import { uniqueId } from 'lodash';
-import { 
-  TAB_ID_TXT_PFX
-} from '../../../common/constants/explorer'
-
-export const initialTabId: string = uniqueId(TAB_ID_TXT_PFX);
+export const getIndexPatternFromRawQuery = (query: string) : string => {
+  const matches = query.match(/(source|index)\s*=\s*([^|\s]+)/i);
+  if (matches) {
+    return matches[2];
+  }
+  return '';
+};

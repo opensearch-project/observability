@@ -25,17 +25,17 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/seach/search';
-import { CountDistribution } from './visualizations/countDistribution';
-import { DataGrid } from './dataGrid';
+import { CountDistribution } from './visualizations/count_distribution';
+import { DataGrid } from './data_grid';
 import { Sidebar } from './sidebar';
-import { NoResults } from './noResults';
+import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
   IQueryTab
-} from '../../common/types/explorer';
+} from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -44,7 +44,8 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
-} from '../../common/constants/explorer';
+} from '../../../common/constants/explorer';
+import { getIndexPatternFromRawQuery } from '../../../common/utils';
 import { 
   useFetchEvents,
   useFetchVisualizations
@@ -52,11 +53,11 @@ import {
 import { 
   changeQuery,
   selectQueries
-} from './slices/querySlice';
-import { selectQueryResult } from './slices/queryResultSlice';
-import { selectFields, updateFields } from './slices/fieldSlice';
-import { selectCountDistribution } from './slices/countDistributionSlice';
-import { selectExplorerVisualization } from './slices/visualizationSlice';
+} from './slices/query_slice';
+import { selectQueryResult } from './slices/query_result_slice';
+import { selectFields, updateFields } from './slices/field_slice';
+import { selectCountDistribution } from './slices/count_distribution_slice';
+import { selectExplorerVisualization } from './slices/visualization_slice';
 
 const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
@@ -113,18 +114,21 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  const getIndexFromRawQuery = (rawQuery: string) => rawQuery.split('=')[1].split(' ')[0];
-
-  useEffect(() => {
+  const fetchData = () => {
     if (!query) return;
-    if (query.includes('stats')) {
-      const index = getIndexFromRawQuery(query);
+    if (query.match(/\|\s*stats/i)) {
+      const index = getIndexPatternFromRawQuery(query);
+      if (!index) return;
       getAvailableFields(`search source=${index}`);
       getVisualizations();
     } else {
       getEvents();
-      getCountVisualizations('m');
+      getCountVisualizations('h');
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
@@ -415,18 +419,11 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = (tabId: string) => {
-    if (query.includes('stats')) {
-      const index = getIndexFromRawQuery(query); // index
-      getAvailableFields(`search source=${index}`);
-      getVisualizations();
-      return;
-    } 
-    getEvents();
-    getCountVisualizations('m');
+  const handleQuerySearch = () => {
+    fetchData();
   }
 
-  const handleQueryChange = (query, tabId) => {
+  const handleQueryChange = (query: string, tabId: string) => {
     dispatch(changeQuery({
       tabId,
       query: {

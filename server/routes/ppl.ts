@@ -11,13 +11,15 @@
 
 import { 
   IRouter,
- } from '../../../../../src/core/server';
+  IOpenSearchDashboardsResponse,
+  ResponseError,
+ } from '../../../../src/core/server';
 import { schema } from '@osd/config-schema';
-import PPLFacet from '../../services/facets/pplFacet';
+import PPLFacet from '../services/facets/ppl_facet';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../../common/index';
+} from '../../common/constants/shared';
 
 export function registerPplRoute({
   router,
@@ -38,7 +40,7 @@ export function registerPplRoute({
     context,
     req,
     res
-  ) => {
+  ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
     const queryRes = await facet.describeQuery(req);
     const result: any = {
       body: {

@@ -22,8 +22,8 @@ import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { CustomPanelView } from './custom_panels/custom_panel_view';
 import { Home as EventExplorerHome } from './explorer/home';
-import { LogExplorer } from './explorer/logExplorer';
-import { observabilityTitle } from '../../common';
+import { LogExplorer } from './explorer/log_explorer';
+import { observabilityTitle } from '../../common/constants/shared';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
