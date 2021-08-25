@@ -86,7 +86,10 @@ export const App = ({
                       href: '#/event/home'
                     },
                   ]);
-                  return renderPageWithSidebar(<EventExplorerHome />, 3);
+                  return renderPageWithSidebar(<EventExplorerHome
+                    pplService = {pplService}
+                    dslService = {dslService} 
+                    />, 3);
                 } }
               />
               <Route
@@ -106,7 +109,6 @@ export const App = ({
                 exact
                 path='/event/explorer'
                 render={(props) => <LogExplorer
-                  http={ http }
                   pplService={ pplService }
                   dslService={ dslService }
                 /> }

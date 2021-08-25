@@ -15,7 +15,7 @@ import { EuiBasicTable } from '@elastic/eui';
 import { Search } from '../common/search/search';
 
 export const Home = (props: any) => {
-
+  const {pplService, dslService} = props;
   const history = useHistory();
 
   const histories = [{
@@ -56,6 +56,8 @@ export const Home = (props: any) => {
         query={""}
         handleQueryChange={ () => {} }
         handleQuerySearch={ () => {} }
+        pplService = { pplService }
+        dslService = { dslService }
         startTime={ 'now-15m' }
         endTime={ 'now' }
         setStartTime={ () => {} }

@@ -39,3 +39,18 @@ export const getDataValueQuery = (index: string, field: string) => {
   }
   return query;
 }
+
+export const getDataValueQuery2 = (index: string, field: string) => {
+  const query ={
+    index: index,
+    'size': 0,
+    'aggs': {
+      'top_tags': {
+        'terms': {
+          'field': field
+        }
+      }
+    }
+  }
+  return query;
+}
