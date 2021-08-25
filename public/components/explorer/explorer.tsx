@@ -67,8 +67,6 @@ interface IExplorerProps {
   tabId: string
 }
 
-const statsRegx = new RegExp(/stats/);
-
 export const Explorer = ({
   pplService,
   tabId
@@ -118,7 +116,7 @@ export const Explorer = ({
 
   const fetchData = () => {
     if (!query) return;
-    if (statsRegx.test(query)) {
+    if (query.match(/\|\s*stats/i)) {
       const index = getIndexPatternFromRawQuery(query);
       if (!index) return;
       getAvailableFields(`search source=${index}`);
