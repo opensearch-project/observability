@@ -9,4 +9,10 @@
  * GitHub history for details.
  */
 
-export const getIndexPatternFromRawQuery = (query: string) : string => query.match(/(source|index)\s*=\s*([^|\s]+)/i)[1];
+export const getIndexPatternFromRawQuery = (query: string) : string => {
+  const matches = query.match(/(source|index)\s*=\s*([^|\s]+)/i);
+  if (matches) {
+    return matches[2];
+  }
+  return '';
+};
