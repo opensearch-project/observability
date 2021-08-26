@@ -172,7 +172,6 @@ export const AddVizView = ({
       setShowPreviewArea(false);
     }
   };
-
   const addVisualization = () => {
     if (!isNameValid(newVisualizationTitle)) {
       setToast('Invalid Visualization Name', 'danger');
