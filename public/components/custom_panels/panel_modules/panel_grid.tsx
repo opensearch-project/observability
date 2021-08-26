@@ -9,56 +9,68 @@
  * GitHub history for details.
  */
 
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import useObservable from 'react-use/lib/useObservable';
 import { CoreStart } from '../../../../../../src/core/public';
-import { VisualizationPanel } from './visualization_container';
+import PPLService from '../../../services/requests/ppl';
+import { VisualizationContainer } from './visualization_container';
+import { VisualizationType } from '../../../../common/constants/custom_panels';
 
 // HOC container to provide dynamic width for Grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
-
-type VisualizationType = {
-  id: string;
-  title: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  fromTime?: string;
-  toTime?: string;
-};
 
 type Props = {
   chrome: CoreStart['chrome'];
   panelVisualizations: VisualizationType[];
   editMode: boolean;
-  visualizationsData: [];
+  pplService: PPLService;
 };
 
-export const PanelGrid = ({ chrome, panelVisualizations, editMode, visualizationsData }: Props) => {
+export const PanelGrid = ({ chrome, panelVisualizations, editMode, pplService }: Props) => {
   const [layout, setLayout] = useState([]);
+  const [editedLayout, setEditedLayout] = useState([]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
- // Reset Size of Visualizations when layout is changed
-  const layoutChanged = () => {
+  // Reset Size of Visualizations when layout is changed
+  const layoutChanged = (currentLayout: Layout[], allLayouts: Layouts) => {
     window.dispatchEvent(new Event('resize'));
+    setEditedLayout(currentLayout);
   };
 
-  useEffect(() => {
-    let newLayout = [];
-    panelVisualizations.map((panelVisualization) => {
-      newLayout.push({
+  // Reload the Layout
+  const reloadLayout = () => {
+    const tempLayout = panelVisualizations.map((panelVisualization) => {
+      return {
         i: panelVisualization.id,
         x: panelVisualization.x,
         y: panelVisualization.y,
         w: panelVisualization.w,
         h: panelVisualization.h,
         static: !editMode,
-      });
+      };
     });
-    setLayout(newLayout);
-  }, [panelVisualizations, editMode]);
+    setLayout(tempLayout);
+  };
+
+  // Update layout whenever user edit gets completed
+  useEffect(() => {
+    if (editMode) {
+      reloadLayout();
+    } else {
+      const newLayout = editedLayout.map((element) => {
+        return { ...element, static: true };
+      });
+      setLayout(newLayout);
+      // NOTE: need to add backend call to change visualization sizes
+    }
+  }, [editMode]);
+
+  // Update layout whenever visualizations are updated
+  useEffect(() => {
+    reloadLayout();
+  }, [panelVisualizations]);
 
   // Reset Size of Panel Grid when Nav Dock is Locked
   useEffect(() => {
@@ -78,11 +90,13 @@ export const PanelGrid = ({ chrome, panelVisualizations, editMode, visualization
     >
       {panelVisualizations.map((panelVisualization: VisualizationType, index: number) => (
         <div key={panelVisualization.id}>
-          <VisualizationPanel
+          <VisualizationContainer
             editMode={editMode}
             visualizationId={panelVisualization.id}
             visualizationTitle={panelVisualization.title}
-            data={[visualizationsData[index]]}
+            query={panelVisualization.query}
+            type={panelVisualization.type}
+            pplService={pplService}
           />
         </div>
       ))}

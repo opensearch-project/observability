@@ -24,16 +24,21 @@ import {
   EuiSuperDatePicker,
   EuiTextArea,
   EuiTabbedContent,
+  EuiText,
+  EuiHorizontalRule,
+  EuiCheckableCard,
 } from '@elastic/eui';
 import React, { Fragment, useState } from 'react';
 import { isNameValid } from '../helpers/utils';
 import { PlotSample } from '../helpers/plot_sample';
+import PPLService from '../../../services/requests/ppl';
+import { VisualizationType } from '../../../../common/constants/custom_panels';
+import { htmlIdGenerator } from '@elastic/eui/lib/services';
 
 type Props = {
   closeVizWindow: () => void;
-  pplService: any;
-  setPanelVisualizations: any;
-  setVisualizationsData: any;
+  pplService: PPLService;
+  setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   setToast: (title: string, color?: string, text?: string) => void;
 };
 
@@ -41,9 +46,11 @@ export const AddVizView = ({
   closeVizWindow,
   pplService,
   setPanelVisualizations,
-  setVisualizationsData,
   setToast,
 }: Props) => {
+  const radioName = htmlIdGenerator()();
+  const [radio, setRadio] = useState('radio1');
+
   const [radioIdSelected, setRadioIdSelected] = useState('tab1');
   const [previewArea, setPreviewArea] = useState(<></>);
   const [showPreviewArea, setShowPreviewArea] = useState(false);
@@ -109,48 +116,49 @@ export const AddVizView = ({
 
   const onRunPPLArea = async (e) => {
     // let newPPLVisualization = {};
-
-    if (e.key === 'Enter') {
-      console.log('query', pplArea);
-      setPreviewLoading(true);
-      await pplService
-        .fetch({
-          query: pplArea,
-        })
-        .then((res) => {
-          setNewPPLVisualization([
-            {
-              x: res.data[res.metadata.xfield.name],
-              y: res.data[res.metadata.yfield.name],
-              type: 'bar',
-            },
-          ]);
-          setPreviewArea(            <EuiFlexGroup>
-            <EuiFlexItem style={{ minHeight: '200' }}>
-              <PlotSample
-                data={[
-                  {
-                    x: res.data[res.metadata.xfield.name],
-                    y: res.data[res.metadata.yfield.name],
-                    type: 'bar',
-                  },
-                ]}
-                layout={{ showlegend: false }}
-              />
-            </EuiFlexItem>
-          </EuiFlexGroup>);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          setPreviewLoading(false);
-        });
-    }
+    // if (e.key === 'Enter') {
+    //   console.log('query', pplArea);
+    //   setPreviewLoading(true);
+    //   await pplService
+    //     .fetch({
+    //       query: pplArea,
+    //     })
+    //     .then((res) => {
+    //       setNewPPLVisualization([
+    //         {
+    //           x: res.data[res.metadata.xfield.name],
+    //           y: res.data[res.metadata.yfield.name],
+    //           type: 'bar',
+    //         },
+    //       ]);
+    //       setPreviewArea(
+    //         <EuiFlexGroup>
+    //           <EuiFlexItem style={{ minHeight: '200' }}>
+    //             <PlotSample
+    //               data={[
+    //                 {
+    //                   x: res.data[res.metadata.xfield.name],
+    //                   y: res.data[res.metadata.yfield.name],
+    //                   type: 'bar',
+    //                 },
+    //               ]}
+    //               layout={{ showlegend: false }}
+    //             />
+    //           </EuiFlexItem>
+    //         </EuiFlexGroup>
+    //       );
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     })
+    //     .finally(() => {
+    //       setPreviewLoading(false);
+    //     });
+    // }
   };
 
   const advancedVisualization = () => {
-    window.location.assign('#/event/explorer');
+    window.location.assign('#/explorer/events');
   };
 
   const onPreviewClick = () => {
@@ -164,30 +172,40 @@ export const AddVizView = ({
       setShowPreviewArea(false);
     }
   };
-  
+
   const addVisualization = () => {
     if (!isNameValid(newVisualizationTitle)) {
       setToast('Invalid Visualization Name', 'danger');
       return;
     }
-    setPanelVisualizations([{
-      id: '1',
-      title: newVisualizationTitle,
-      x: 0,
-      y: 0,
-      w: 6,
-      h: 3,
-    }]);
-    setVisualizationsData(newPPLVisualization);
     closeVizWindow();
   };
-  
 
-  const tabs = [
-    {
-      id: 'tab1',
-      name: 'Add existing visualization',
-      content: (
+  const formBody = (
+    <EuiForm id="modalFormId" component="form">
+      <EuiFlexGroup justifyContent="flexStart">
+        <EuiFlexItem grow={false} style={{ minWidth: '12vw' }}>
+          <EuiCheckableCard
+            id={htmlIdGenerator()()}
+            label="Select existing visualization"
+            name={radioName}
+            value="radio1"
+            checked={radio === 'radio1'}
+            onChange={() => setRadio('radio1')}
+          />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false} style={{ minWidth: '12vw' }}>
+          <EuiCheckableCard
+            id={htmlIdGenerator()()}
+            label="Create new visualization"
+            name={radioName}
+            value="radio2"
+            checked={radio === 'radio2'}
+            onChange={() => setRadio('radio2')}
+          />
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      {radio === 'radio1' ? (
         <>
           <EuiSpacer size="l" />
           <EuiFormRow label="Visualization name">
@@ -223,19 +241,18 @@ export const AddVizView = ({
           {/* {previewArea} */}
           <></>
         </>
-      ),
-    },
-    {
-      id: 'tab2',
-      name: 'Create new visualization',
-      content: (
+      ) : (
         <>
           <EuiSpacer size="l" />
           <EuiFormRow
             label="Visualization name"
             helpText="Enter a unique and descriptive name between 1-50 characters."
           >
-            <EuiFieldText name="Name" value={newVisualizationTitle} onChange={(e) => onChangeTitle(e)}/>
+            <EuiFieldText
+              name="Name"
+              value={newVisualizationTitle}
+              onChange={(e) => onChangeTitle(e)}
+            />
           </EuiFormRow>
           <EuiFormRow
             label="PPL Query"
@@ -287,24 +304,17 @@ export const AddVizView = ({
             More advanced edit options in visual editor...
           </EuiButtonEmpty>
         </>
-      ),
-    },
-  ];
-
-  const formBody = (
-    <EuiForm id="modalFormId" component="form">
-      <EuiTabbedContent
-        tabs={tabs}
-        initialSelectedTab={tabs[0]}
-        autoFocus="selected"
-      />
+      )}
     </EuiForm>
   );
   return (
     <div>
       <EuiPanel style={{ width: '55vw' }}>
+        <EuiText>
+          <h4>Add visualization</h4>
+        </EuiText>
+        <EuiHorizontalRule margin="s" />
         <div>{formBody}</div>
-
         <EuiSpacer size="m" />
         <EuiFlexGroup gutterSize="s">
           <EuiFlexItem grow={false}>

@@ -24,7 +24,7 @@ export default class PPLService {
   fetch = async (
     params: { 
       query: string,
-      format: 'default'
+      format: string,
     }
   ) => {
     return this.http

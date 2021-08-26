@@ -87,25 +87,36 @@ export function CustomPanelsRouter(router: IRouter) {
                     id: '1',
                     title: 'Demo Viz 1',
                     x: 0, y: 0, w: 4, h: 2,
+                    query:"source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin",
+                    type:'line'
                   },
                   {
                     id: '2',
                     title: 'Demo Viz 2',
                     x: 4, y: 0, w: 4, h: 2,
+                    query:"source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin",
+                    type:'bar'
                   },
                   {
                     id: '3',
+                    title: 'Demo Viz 3',
                     x: 8, y: 0, w: 4, h: 2,
+                    query:"source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin",
+                    type:'bar'
                   },
                   {
                     id: '4',
                     title: 'Demo Viz 4',
                     x: 0, y: 2, w: 6, h: 2,
+                    query:"source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin",
+                    type:'bar'
                   },
                   {
                     id: '5',
                     title: 'Demo Viz 5',
-                    x: 7, y: 2, w: 6, h: 2,
+                    x: 6, y: 2, w: 6, h: 2,
+                    query:"source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier",
+                    type:'bar'
                   },
                 ],
                 filters: [],
