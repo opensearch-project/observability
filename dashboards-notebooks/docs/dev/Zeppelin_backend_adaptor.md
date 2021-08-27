@@ -12,33 +12,33 @@
 ![Zeppelin Server](images/zeppelin_architecture.png)
 
 1. **APIs Provided:**
-   1. **[Server:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/zeppelin_server.html)** Get status, version, Log Level
-   2. **[Interpreter:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html)** Get interpreter settings, create/update/restart/delete interpreter setting
-   3. **[Notebook:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html)** Create/update/restart/delete note and paragraph ops
-   4. **[Repository:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook_repository.html)** Get/Update NB repo
-   5. **[Configuration:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/configuration.html)** Get all [Zeppelin config](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/operation/configuration.html) - server port, ssl, S3 bucket, S3.user
-   6. **[Credential:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/credential.html)** List credentials for all users, create/delete
-   7. **[Helium:](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/helium.html)** Contains APIs for all plugin packages (Not needed as of now)
+   1. **[Server:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/zeppelin_server.html)** Get status, version, Log Level
+   2. **[Interpreter:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/interpreter.html)** Get interpreter settings, create/update/restart/delete interpreter setting
+   3. **[Notebook:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/notebook.html)** Create/update/restart/delete note and paragraph ops
+   4. **[Repository:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/notebook_repository.html)** Get/Update NB repo
+   5. **[Configuration:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/configuration.html)** Get all [Zeppelin config](http://zeppelin.apache.org/docs/0.9.0/setup/operation/configuration.html) - server port, ssl, S3 bucket, S3.user
+   6. **[Credential:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/credential.html)** List credentials for all users, create/delete
+   7. **[Helium:](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/helium.html)** Contains APIs for all plugin packages (Not needed as of now)
 2. **Security:**
    1. By default the APIs are exposed to anonymous user
-   2. Recommended way to use **access control**: **[Shiro Auth](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/security/shiro_authentication.html)**
+   2. Recommended way to use **access control**: **[Shiro Auth](http://zeppelin.apache.org/docs/0.9.0/setup/security/shiro_authentication.html)**
       1. Need to change [**Shiro.ini (Apache link)**](http://shiro.apache.org/configuration.html#ini-sections) in conf directory
       2. Ideally should be used with [**Apache KnoxSSO**](https://knox.apache.org/books/knox-0-13-0/dev-guide.html#KnoxSSO+Integration)
-      3. Also, [Notebooks](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/security/notebook_authorization.html) can have access control based on Shiro defined users
+      3. Also, [Notebooks](http://zeppelin.apache.org/docs/0.9.0/setup/security/notebook_authorization.html) can have access control based on Shiro defined users
 3. **Deployment:**
    1. Recommended way is to use stand alone docker
    2. Create a **custom docker** with new Shiro & Zeppelin configs and set interpreter config for OpenSearch and OpenSearch-sql.
    3. Sample scripts available in `scripts/docker/spark-cluster-managers`
 4. **Storage:**
    1. Apache Zeppelin has a pluggable notebook storage mechanism controlled by `zeppelin.notebook.storage` configuration option with multiple implementations.
-   2. Zeppelin has** built-in S3/github connector**. Just provide credentials in [properties or env-sh](http://zeppelin.apache.org/docs/0.9.0-preview1/setup/storage/storage.html#notebook-storage-in-s3)
+   2. Zeppelin has** built-in S3/github connector**. Just provide credentials in [properties or env-sh](http://zeppelin.apache.org/docs/0.9.0/setup/storage/storage.html#notebook-storage-in-s3)
    3. The notebooks are automatically synced by Zeppelin
 
 ## **Apache Zeppelin Setup**
 
 - https://zeppelin.apache.org/
 - Web-based notebook that enables data-driven, interactive data analytics and collaborative documents with SQL, Scala and more.
-- **[Installation Steps](http://zeppelin.apache.org/docs/0.9.0-preview1/quickstart/install.html)**
+- **[Installation Steps](http://zeppelin.apache.org/docs/0.9.0/quickstart/install.html)**
   - http://zeppelin.apache.org/download.html → Install using Binary package with all interpreters.
   - Unpack the downloaded tar
   - To Run the service use `bin/zeppelin-daemon.sh start`
@@ -53,7 +53,7 @@
     - Then restart the service
 - **[Optional] Setup OpenSearch Interpreter:**
 
-  - [Zeppelin OpenSearch interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0-preview2/interpreter/elasticsearch.html)
+  - [Zeppelin OpenSearch interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0/interpreter/elasticsearch.html)
   - This interpreter can be used for OpenSearch:
 
     - **Note: current issues with OpenSearch Interpreter in Zeppelin**
@@ -95,7 +95,7 @@ index movies/default/1 {
 ```
 
 - **[Optional] Setup OpenSearch-SQL JDBC Interpreter:**
-  - [Zeppelin JDBC Interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0-preview2/interpreter/jdbc.html)
+  - [Zeppelin JDBC Interpreter Documentation](https://zeppelin.apache.org/docs/0.9.0/interpreter/jdbc.html)
   - Zeppelin has a generic JDBC interpreter, we can use this to add our OpenSearch-SQL Driver
   - Download [OpenSearch-SQL Driver](https://opensearch.org/) Jar file
   - To Use JDBC interpreter:

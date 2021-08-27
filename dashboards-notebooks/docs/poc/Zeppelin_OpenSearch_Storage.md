@@ -61,7 +61,7 @@ cp -r /path/to/dashboards-notebooks/zeppelin/zeppelin-plugins/notebookrepo/opens
 </property>
 -->
 ```
-5. [Build Zeppelin](https://zeppelin.apache.org/docs/0.9.0-preview2/setup/basics/how_to_build.html) using Open-JDK 8 
+5. [Build Zeppelin](https://zeppelin.apache.org/docs/0.9.0/setup/basics/how_to_build.html) using Open-JDK 8 
 ```
  mvn clean package -DskipTests 
 ```

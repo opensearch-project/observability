@@ -204,8 +204,8 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
       - Open source, provided by [Apache Zeppelin](http://zeppelin.apache.org/)
       - Provides all communication to and from a notebook & supports 25+ interpreters
       - Connects via a HTTP endpoint to the Plugin backend
-      - [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
-      - [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
+      - [Interpreter APIs](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/interpreter.html) Get interpreter settings, create/update/restart/delete interpreter setting
+      - [Notebook APIs](http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/notebook.html) Create/update/restart/delete noteboooks and paragraphs
       - Provides inter-paragraph communication capabilities
       - Can be setup to provide OpenSearch and OpenSearch-SQL interpreters
       - Can be connected with python environment to use ML/plot libraries

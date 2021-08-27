@@ -702,5 +702,5 @@ Does the following backend tasks:
 
 ## References:
 
-1.  Zeppelin APIs : http://zeppelin.apache.org/docs/0.9.0-preview1/usage/rest_api/notebook.html
-2.  More About Zeppelin: https://zeppelin.apache.org/docs/0.9.0-preview2/
+1.  Zeppelin APIs : http://zeppelin.apache.org/docs/0.9.0/usage/rest_api/notebook.html
+2.  More About Zeppelin: https://zeppelin.apache.org/docs/0.9.0/
