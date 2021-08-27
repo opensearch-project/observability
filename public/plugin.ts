@@ -13,8 +13,7 @@ import {
   Plugin,
   CoreSetup,
   CoreStart,
-  AppMountParameters,
-  DEFAULT_APP_CATEGORIES
+  AppMountParameters
 } from '../../../src/core/public';
 import {
   ObservabilitySetup,
@@ -34,7 +33,11 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
       core.application.register({
         id: observabilityID,
         title: observabilityTitle,
-        category: DEFAULT_APP_CATEGORIES.opensearchDashboards,
+        category: {
+          id: 'opensearch',
+          label: 'OpenSearch Plugins',
+          order: 2000,
+        },
         order: observabilityPluginOrder,
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');

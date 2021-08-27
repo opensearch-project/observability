@@ -18,4 +18,4 @@ export const PPL_ENDPOINT = '/_plugins/_ppl';
 
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';
-export const observabilityPluginOrder = 500;
+export const observabilityPluginOrder = 6000;
