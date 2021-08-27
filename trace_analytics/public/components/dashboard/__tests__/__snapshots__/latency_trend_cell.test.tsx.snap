@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Latency trend cell component renders latency trend cell 1`] = `
+<LatencyTrendCell
+  item={
+    Object {
+      "popoverData": Array [
+        Object {
+          "hoverlabel": Object {
+            "bgcolor": "#d7c2ff",
+          },
+          "hovertemplate": "%{x}<br>Average latency: %{y}<extra></extra>",
+          "line": Object {
+            "color": "#987dcb",
+            "size": 2,
+          },
+          "marker": Object {
+            "color": "#987dcb",
+            "size": 8,
+          },
+          "mode": "lines+markers",
+          "type": "scatter",
+          "x": Array [
+            1605027600000,
+          ],
+          "y": Array [
+            154.71,
+          ],
+        },
+      ],
+      "trendData": Array [
+        Object {
+          "hoverinfo": "none",
+          "line": Object {
+            "color": "#000000",
+            "width": 1,
+          },
+          "mode": "lines",
+          "type": "scatter",
+          "x": Array [
+            1605027600000,
+          ],
+          "y": Array [
+            154.71,
+          ],
+        },
+      ],
+    }
+  }
+  traceGroupName="order"
+>
+  <EuiFlexGroup
+    gutterSize="s"
+  >
+    <div
+      className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <EuiFlexItem>
+        <div
+          className="euiFlexItem"
+        />
+      </EuiFlexItem>
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <LinePlt
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "none",
+                  "line": Object {
+                    "color": "#000000",
+                    "width": 1,
+                  },
+                  "mode": "lines",
+                  "type": "scatter",
+                  "x": Array [
+                    1605027600000,
+                  ],
+                  "y": Array [
+                    154.71,
+                  ],
+                },
+              ]
+            }
+          >
+            <div>
+              -
+            </div>
+          </LinePlt>
+        </div>
+      </EuiFlexItem>
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <EuiPopover
+            anchorPosition="downCenter"
+            button={
+              <EuiButtonIcon
+                aria-label="Open popover"
+                iconType="magnifyWithPlus"
+                onClick={[Function]}
+                size="s"
+              />
+            }
+            closePopover={[Function]}
+            display="inlineBlock"
+            hasArrow={true}
+            isOpen={false}
+            ownFocus={true}
+            panelPaddingSize="m"
+          >
+            <EuiOutsideClickDetector
+              isDisabled={true}
+              onOutsideClick={[Function]}
+            >
+              <div
+                className="euiPopover euiPopover--anchorDownCenter"
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchStart={[Function]}
+              >
+                <div
+                  className="euiPopover__anchor"
+                >
+                  <EuiButtonIcon
+                    aria-label="Open popover"
+                    iconType="magnifyWithPlus"
+                    onClick={[Function]}
+                    size="s"
+                  >
+                    <button
+                      aria-label="Open popover"
+                      className="euiButtonIcon euiButtonIcon--primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      size="s"
+                      type="button"
+                    >
+                      <EuiIcon
+                        aria-hidden="true"
+                        className="euiButtonIcon__icon"
+                        size="m"
+                        type="magnifyWithPlus"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                    </button>
+                  </EuiButtonIcon>
+                </div>
+              </div>
+            </EuiOutsideClickDetector>
+          </EuiPopover>
+        </div>
+      </EuiFlexItem>
+    </div>
+  </EuiFlexGroup>
+</LatencyTrendCell>
+`;

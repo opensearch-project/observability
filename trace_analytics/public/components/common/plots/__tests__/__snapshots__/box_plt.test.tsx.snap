@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Box plot component renders box plot 1`] = `
+<Fragment>
+  <EuiToolTip
+    content={
+      <EuiFlexGrid
+        columns={2}
+        gutterSize="s"
+        responsive={false}
+      >
+        <EuiFlexItem>
+          <EuiText
+            size="xs"
+            style={
+              Object {
+                "color": "#c9cbce",
+              }
+            }
+          >
+            <p>
+              Latency &lt;95 percentile
+            </p>
+          </EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText
+            size="xs"
+            style={
+              Object {
+                "color": "#c9cbce",
+              }
+            }
+          >
+            <p>
+              20ms - 50ms
+            </p>
+          </EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText
+            size="xs"
+            style={
+              Object {
+                "color": "#c9cbce",
+              }
+            }
+          >
+            <p>
+              Latency &gt;=95 percentile
+            </p>
+          </EuiText>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiText
+            size="xs"
+            style={
+              Object {
+                "color": "#c9cbce",
+              }
+            }
+          >
+            <p>
+              50ms - 80ms
+            </p>
+          </EuiText>
+        </EuiFlexItem>
+      </EuiFlexGrid>
+    }
+    delay="regular"
+    onMouseOut={[Function]}
+    position="bottom"
+  >
+    <Plt
+      data={
+        Array [
+          Object {
+            "hoverinfo": "none",
+            "marker": Object {
+              "color": "rgba(0, 0, 0, 0)",
+            },
+            "orientation": "h",
+            "showlegend": false,
+            "type": "bar",
+            "width": 1,
+            "x": Array [
+              20,
+            ],
+            "y": Array [
+              0,
+            ],
+          },
+          Object {
+            "marker": Object {
+              "color": "#ffffff",
+              "line": Object {
+                "color": "#957ac9",
+                "width": 1,
+              },
+            },
+            "orientation": "h",
+            "type": "bar",
+            "width": 1,
+            "x": Array [
+              30,
+            ],
+            "y": Array [
+              0,
+            ],
+          },
+          Object {
+            "marker": Object {
+              "color": "#957ac9",
+              "line": Object {
+                "color": "#957ac9",
+                "width": 1,
+              },
+            },
+            "orientation": "h",
+            "type": "bar",
+            "width": 1,
+            "x": Array [
+              30,
+            ],
+            "y": Array [
+              0,
+            ],
+          },
+        ]
+      }
+      layout={
+        Object {
+          "height": 15,
+          "margin": Object {
+            "b": 0,
+            "l": 0,
+            "pad": 0,
+            "r": 0,
+            "t": 0,
+          },
+          "paper_bgcolor": "rgba(0, 0, 0, 0)",
+          "plot_bgcolor": "rgba(0, 0, 0, 0)",
+          "width": 250,
+          "xaxis": Object {
+            "fixedrange": true,
+            "range": Array [
+              0,
+              100,
+            ],
+            "showgrid": false,
+            "visible": false,
+          },
+          "yaxis": Object {
+            "fixedrange": true,
+            "range": Array [
+              -0.6,
+              0.6,
+            ],
+            "showgrid": false,
+            "visible": false,
+          },
+        }
+      }
+      onClickHandler={[Function]}
+      onHoverHandler={[Function]}
+    />
+  </EuiToolTip>
+</Fragment>
+`;

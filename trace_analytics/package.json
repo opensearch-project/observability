@@ -1,0 +1,35 @@
+{
+  "name": "trace-analytics-dashboards",
+  "version": "1.0.0.0",
+  "opensearchDashboards": {
+    "version": "1.0.0",
+    "templateVersion": "1.0.0"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "osd": "node ../../scripts/osd",
+    "opensearch": "node ../../scripts/opensearch",
+    "lint": "eslint .",
+    "test:cypress": "cypress run",
+    "plugin-helpers": "node ../../scripts/plugin_helpers",
+    "test": "../../node_modules/.bin/jest --config ./test/jest.config.js",
+    "build": "yarn plugin-helpers build"
+  },
+  "dependencies": {
+    "plotly.js-dist": "^1.57.1",
+    "react-graph-vis": "^1.0.5",
+    "react-plotly.js": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react-plotly.js": "^2.2.4",
+    "@types/react-test-renderer": "^16.9.1",
+    "cypress": "^5.0.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "jest-dom": "^4.0.0"
+  },
+  "resolutions": {
+    "lodash": "^4.17.21"
+  }
+}
