@@ -63,16 +63,13 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
               />
               <Route
                 path={['/trace_analytics', '/trace_analytics/home']}
-                render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Trace analytics',
-                      href: '#/trace_analytics/home',
-                    },
-                  ]);
-                  return <TraceAnalyticsHome />;
-                }}
+                render={(props) => (
+                  <TraceAnalyticsHome
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                  />
+                )}
               />
               <Route
                 exact
