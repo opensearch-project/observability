@@ -1,7 +1,8 @@
 
 name: Test and Build Trace Analytics
 
-on: [pull_request, push]
+# on: [pull_request, push]
+on: [release]
 
 env:
   PLUGIN_NAME: trace-analytics-dashboards
