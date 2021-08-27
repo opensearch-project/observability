@@ -12,20 +12,20 @@ import './search.scss';
 import React, { createElement, Fragment, useEffect, useRef, useState } from 'react';
 
 import { autocomplete } from '@algolia/autocomplete-js';
-import { RAW_QUERY } from '../../../common/constants/explorer';
 import { IQueryBarProps } from './search';
-import { getDataValueQuery, getDataValueQuery2 } from './queries/data_queries';
+import { getDataValueQuery } from './queries/data_queries';
 
-let currIndex = '';
-
-const fieldsFromBackend = [];
-const indicesFromBackend = [];
 
 
 
 export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
   
+  let currIndex = '';
+  
+  const fieldsFromBackend = [];
+  const indicesFromBackend = [];
+  const dataValuesFromBackend =[];
   let currField = ''
   let currFieldType = '';
   let inFieldsCommaLoop = false;
@@ -94,14 +94,16 @@ export function Autocomplete(props: IQueryBarProps) {
   
   // Function to grab suggestions
   const getSuggestions = async (str: string) => {
-    console.log(indexList);
-    const pipes = str.split('|')
+  
+
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
     let itemSuggestions = [];
     const fullSuggestions = [];
   
     if (splittedModel.length === 1) {
+      currField = ''
+      currIndex = ''
       return getFirstPipe(str);
     }
   
@@ -112,7 +114,8 @@ export function Autocomplete(props: IQueryBarProps) {
     else if (splittedModel.length > 1) {
       if (splittedModel[splittedModel.length - 2] === '|') {
         inFieldsCommaLoop = false;
-        nextWhere = 0
+        nextWhere = 99999;
+        dataValuesFromBackend.length = 0;
         return fillSuggestions(str, prefix, pipeCommands);
       } else if (splittedModel[splittedModel.length - 2].includes(',')) {
         if (inFieldsCommaLoop) {
@@ -124,7 +127,8 @@ export function Autocomplete(props: IQueryBarProps) {
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
       } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-        console.log('getting fields')
+        // console.log('getting fields')
+        currIndex = splittedModel[splittedModel.length - 2]
         getFields();
         return [{ label: str + '|', input: str, suggestion: '|' }].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
@@ -165,6 +169,7 @@ export function Autocomplete(props: IQueryBarProps) {
       }
       else if (splittedModel[splittedModel.length - 2] === 'where') {
         nextWhere = splittedModel.length;
+        dataValuesFromBackend.length = 0;
         return fillSuggestions(str, prefix, fieldsFromBackend);
       }
       else if (nextWhere + 1 === splittedModel.length) {
@@ -175,20 +180,18 @@ export function Autocomplete(props: IQueryBarProps) {
         })
         currField = splittedModel[splittedModel.length - 2];
         currFieldType = fieldsFromBackend.find( field => field.label === currField).type;
-        return fullSuggestions;
+        return fullSuggestions.filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        );
       }
       else if (nextWhere + 2 === splittedModel.length) {
         console.log('in nextWhere === value')
-        if (currFieldType === 'string'){
-          return fillSuggestions(str, prefix, await getDataValues(currIndex, currField))
-        }
-        else {
-          return fillSuggestions(str, prefix,await getDataValues(currIndex, currField))
-          return [{label: str + 'true', input: str, suggestion: 'true'}, {label: str + 'false', input: str, suggestion: 'false'}]
-        }
+        return fillSuggestions(str, prefix, await getDataValues(currIndex, currField, currFieldType, dataValuesFromBackend))
       }
       else if (nextWhere + 3 === splittedModel.length) {
-        return [{label: str + '|', input: str, suggestion: '|'}]
+        return [{label: str + '|', input: str, suggestion: '|'}].filter(
+          ({ label }) => label.startsWith(prefix) && prefix !== label
+        )
       }
       else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source'
         || splittedModel[splittedModel.length - 3] === 'index') {
@@ -207,7 +210,7 @@ export function Autocomplete(props: IQueryBarProps) {
 
   const getIndices = async () => {
     if(indicesFromBackend.length === 0) {
-      console.log('getting indices')
+      // console.log('getting indices')
       const indices = (await dslService.fetchIndices()).filter(
         ({ index }) => !index.startsWith('.')
       )
@@ -221,8 +224,12 @@ export function Autocomplete(props: IQueryBarProps) {
   }
   
   const getFields = async () => {
+    console.log('fieldsFromBackend.length: ', fieldsFromBackend.length)
+    console.log('currIndex: ', currIndex)
     if (fieldsFromBackend.length === 0 && currIndex !== '') {
+      console.log('in getFields()')
       const res = await dslService.fetchFields(currIndex);
+      console.log(res)
       for (let element in res?.[currIndex].mappings.properties) {
         if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
           fieldsFromBackend.push({ label: element, type: 'string' });  
@@ -235,27 +242,26 @@ export function Autocomplete(props: IQueryBarProps) {
   }
   
   const onItemSelect = async ({ setIsOpen, setQuery, item, qry, pplService }) => {
-    if (fieldsFromBackend.length === 0 && item.label.includes('opensearch_dashboards')){
+    if (fieldsFromBackend.length === 0 && indexList.includes(item.label)){
       const splittedModel = item.label.split(' ')
+      console.log(item.label)
       currIndex = splittedModel.pop()
       getFields();
     }
     setQuery(item.label + ' ');
   };
 
-  const getDataValues = async (index: string, field: string) => {
-    console.log('currIndex: ', index)
-    console.log('currField: ', field)
-    //console.log(await dslService.fetch(getDataValueQuery2(index, field)).aggregations.top_tags.buckets);
-    const res = (await dslService.fetch(getDataValueQuery2(index, field))).aggregations.top_tags.buckets;
-    const dataValues = [];
+  const getDataValues = async (index: string, field: string, fieldType: string, dataValues: any) => {
+    const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags.buckets;
     res.forEach( (e) => {
-      dataValues.push({label: '"' + e.key + '"', doc_count: e.doc_count});
+      if (fieldType === 'string'){
+        dataValues.push({label: '"' + e.key + '"', doc_count: e.doc_count});
+      }
+      else if (fieldType !== 'geo_point'){
+        dataValues.push({label: String(e.key), doc_count: e.doc_count});
+      }
     })
-    return dataValues;
   }
-
-  console.log(dslService.fetch(getDataValueQuery2('opensearch_dashboards_sample_data_flights', 'dayOfWeek')))
 
   useEffect(() => {
     const search = autocomplete({
@@ -273,7 +279,10 @@ export function Autocomplete(props: IQueryBarProps) {
         // }
       },
       onSubmit: ({ state }) => {
+        console.log('hit enter')
         handleQueryChange(state.query);
+        console.log('state.query: ', state.query)
+        console.log('query: ', query);
         handleQuerySearch();
       },
       getSources({ query, setQuery }) {

@@ -10,37 +10,6 @@
 */
 
 export const getDataValueQuery = (index: string, field: string) => {
-  const query = {
-    index: index,
-    'size': 0,
-    'query': {
-      'bool': {
-        'must': [{
-          'wildcard': {
-            [field]: {
-              'value': '*',
-              'case_insensitive': 'true'
-            }
-          }
-        }]
-      }
-    },
-    'aggs': {
-      'autocomplete': {
-        'terms': {
-          'field': field,
-          'order': {
-            '_count': 'desc'
-          },
-          'size': 10
-        }
-      }
-    }
-  }
-  return query;
-}
-
-export const getDataValueQuery2 = (index: string, field: string) => {
   const query ={
     index: index,
     'size': 0,
