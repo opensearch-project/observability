@@ -15,7 +15,7 @@ import {
   DSL_SEARCH,
   DSL_CAT,
   DSL_MAPPING
-} from '../../../common/index';
+} from '../../../common/constants/shared';
 
 export default class DSLService {
   private http;

@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { 
@@ -25,18 +25,17 @@ import {
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
-import { CountDistribution } from './visualizations/countDistribution';
-import { DataGrid } from './dataGrid';
+import { CountDistribution } from './visualizations/count_distribution';
+import { DataGrid } from './data_grid';
 import { Sidebar } from './sidebar';
-import { NoResults } from './noResults';
+import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import {
   IField,
-  IExplorerProps,
   IQueryTab
-} from '../../common/types/explorer';
+} from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -45,17 +44,29 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS
-} from '../../common/constants/explorer';
-import { useFetchQueryResponse } from './hooks';
+} from '../../../common/constants/explorer';
+import { getIndexPatternFromRawQuery } from '../../../common/utils';
+import { 
+  useFetchEvents,
+  useFetchVisualizations
+} from './hooks';
 import { 
   changeQuery,
   selectQueries
-} from './slices/querySlice';
-import { selectQueryResult } from './slices/queryResultSlice';
-import { selectFields, updateFields } from './slices/fieldSlice';
+} from './slices/query_slice';
+import { selectQueryResult } from './slices/query_result_slice';
+import { selectFields, updateFields } from './slices/field_slice';
+import { selectCountDistribution } from './slices/count_distribution_slice';
+import { selectExplorerVisualization } from './slices/visualization_slice';
 
 const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
+
+interface IExplorerProps {
+  pplService: any;
+  dslService: any;
+  tabId: string
+}
 
 export const Explorer = ({
   pplService,
@@ -69,17 +80,29 @@ export const Explorer = ({
     tabId,
   };
   const {
-    isLoading,
-    getQueryResponse
-  } = useFetchQueryResponse({
+    isEventsLoading,
+    getEvents,
+    getAvailableFields
+  } = useFetchEvents({
+    pplService,
+    requestParams
+  });
+  const {
+    isVisLoading,
+    getVisualizations,
+    getCountVisualizations
+  } = useFetchVisualizations({
     pplService,
     requestParams
   });
 
   const query = useSelector(selectQueries)[tabId][RAW_QUERY];
+  const queryRef = useRef();
+  queryRef.current = query;
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
-
+  const countDistribution = useSelector(selectCountDistribution)[tabId];
+  const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
@@ -94,6 +117,24 @@ export const Explorer = ({
     },
     [setFixedScrollEl]
   );
+
+  const fetchData = () => {
+    const searchQuery = queryRef.current;
+    if (!searchQuery) return;
+    if (searchQuery.match(/\|\s*stats/i)) {
+      const index = getIndexPatternFromRawQuery(searchQuery);
+      if (!index) return;
+      getAvailableFields(`search source=${index}`);
+      getVisualizations();
+    } else {
+      getEvents();
+      getCountVisualizations('h');
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
 
@@ -177,7 +218,7 @@ export const Explorer = ({
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 
-                  explorerData && explorerData['hasTimestamp'] && (
+                  explorerData && (
                     <>
                       <EuiFlexGroup
                         justifyContent="center"
@@ -187,7 +228,7 @@ export const Explorer = ({
                           grow={false}
                         >
                           <HitsCounter 
-                            hits={ explorerData['datarows']?.length }
+                            hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
                             showResetButton={true}
                             onResetQuery={ () => {} }
                           />
@@ -235,12 +276,16 @@ export const Explorer = ({
                                 val: 'y'
                               },
                             ]}
-                            onChangeInterval={() => {}}
+                            onChangeInterval={(intrv) => {
+                              getCountVisualizations(intrv);
+                            }}
                             stateInterval="auto"
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
-                      <CountDistribution />
+                      <CountDistribution
+                        countDistribution={ countDistribution }
+                      />
                     </>
                   )
                 }
@@ -309,7 +354,9 @@ export const Explorer = ({
     return (
       <ExplorerVisualizations
         queryResults={ explorerData }
+        explorerFields={ explorerFields }
         query={ query }
+        explorerVis={ explorerVisualizations }
       />
     );
   };
@@ -339,7 +386,9 @@ export const Explorer = ({
     [
       explorerData,
       explorerFields,
-      isSidebarClosed
+      isSidebarClosed,
+      countDistribution,
+      explorerVisualizations
     ]
   );
 
@@ -375,11 +424,11 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = (tabId: string) => {
-    getQueryResponse();
+  const handleQuerySearch = () => {
+    fetchData();
   }
 
-  const handleQueryChange = (query, tabId) => {
+  const handleQueryChange = (query: string, tabId: string) => {
     dispatch(changeQuery({
       tabId,
       query: {

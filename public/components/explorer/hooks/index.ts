@@ -9,4 +9,5 @@
  * GitHub history for details.
  */
 
-export * from './useFetchQueryResponse';
+export { useFetchEvents } from './use_fetch_events';
+export { useFetchVisualizations } from './use_fetch_visualizations';

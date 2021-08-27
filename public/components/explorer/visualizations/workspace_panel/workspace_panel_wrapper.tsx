@@ -11,7 +11,7 @@
 
 import './workspace_panel_wrapper.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { i18n } from '@osd/i18n';
 import classNames from 'classnames';
 import {
@@ -20,8 +20,14 @@ import {
   EuiPageContentHeader,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiPopover,
+  EuiButton,
+  EuiButtonEmpty,
+  EuiPopoverFooter,
+  EuiPopoverTitle
 } from '@elastic/eui';
-import { ChartSwitch } from './chartSwitch';
+import { ChartSwitch } from './chart_switch';
+import { SavePanel } from '../shared_components/save_panel'
 
 export function WorkspacePanelWrapper({
   children,
@@ -31,6 +37,22 @@ export function WorkspacePanelWrapper({
   vis,
   visualizationTypes
 }: any) {
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const onButtonClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const closePopover = () => setIsPopoverOpen(false);
+  const button = (
+    <EuiButton 
+      iconType="arrowDown" 
+      iconSide="right" 
+      onClick={onButtonClick}
+      size="s"
+    >
+      Save
+    </EuiButton>
+  );
+
   return (
     <>
       <div>
@@ -40,6 +62,7 @@ export function WorkspacePanelWrapper({
           responsive={false}
           wrap={true}
           className="lnsWorkspacePanelWrapper__toolbar"
+          justifyContent="spaceBetween"
         >
           <EuiFlexItem grow={false}>
             <ChartSwitch
@@ -48,6 +71,36 @@ export function WorkspacePanelWrapper({
               vis={ vis }
               visualizationTypes={ visualizationTypes }
             />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiPopover
+              button={button}
+              isOpen={isPopoverOpen}
+              closePopover={closePopover}>
+              <EuiPopoverTitle>{"Save to..."}</EuiPopoverTitle>
+              <SavePanel />
+              <EuiPopoverFooter>
+                <EuiFlexGroup
+                  justifyContent="flexEnd"
+                >
+                  <EuiFlexItem grow={false}>
+                    <EuiButtonEmpty
+                      size="s"
+                      onClick={() => {}}>
+                      Cancel
+                    </EuiButtonEmpty>
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>
+                    <EuiButton
+                      size="s"
+                      fill
+                      onClick={() => {}}>
+                      Save
+                    </EuiButton>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiPopoverFooter>
+            </EuiPopover>
           </EuiFlexItem>
         </EuiFlexGroup>
       </div>

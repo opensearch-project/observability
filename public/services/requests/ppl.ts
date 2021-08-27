@@ -13,17 +13,18 @@ import { CoreStart } from '../../../../../src/core/public';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../../common/index';
+} from '../../../common/constants/shared';
 
 export default class PPLService {
   private http;
   constructor(http: CoreStart['http']) {
     this.http = http;
   }
+  
   fetch = async (
     params: { 
       query: string,
-      format: ''
+      format: 'default'
     }
   ) => {
     return this.http

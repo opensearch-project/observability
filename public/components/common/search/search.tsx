@@ -24,9 +24,6 @@ import { Filter } from './Filter';
 import {autocomplete} from '@algolia/autocomplete-js'
 import '@algolia/autocomplete-theme-classic'
 import {Autocomplete} from './autocomplete'
-import {
-  RAW_QUERY
-} from '../../../common/constants/explorer';
 
 export interface IQueryBarProps {
   query: string

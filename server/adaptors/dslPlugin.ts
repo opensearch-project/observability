@@ -11,7 +11,7 @@
 
 import {
   DSL_ENDPOINT
-} from '../../common/index';
+} from '../../common/constants/shared';
 
 export const DSLPlugin = function(Client, config, components) {
   const ca = components.clientAction.factory;

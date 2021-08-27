@@ -8,8 +8,7 @@
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
  */
- 
-import { async } from 'globby/node_modules/fast-glob';
+
 import _ from 'lodash';
 
 export default class DSLFacet {

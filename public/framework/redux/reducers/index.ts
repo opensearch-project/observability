@@ -11,10 +11,12 @@
 
 import { combineReducers } from 'redux';
 
-import queriesReducer from '../../../components/explorer/slices/querySlice';
-import queryResultsReducer from '../../../components/explorer/slices/queryResultSlice';
-import queryTabReducer from '../../../components/explorer/slices/queryTabSlice';
-import FieldsReducer from '../../../components/explorer/slices/fieldSlice';
+import queriesReducer from '../../../components/explorer/slices/query_slice';
+import queryResultsReducer from '../../../components/explorer/slices/query_result_slice';
+import queryTabReducer from '../../../components/explorer/slices/query_tab_slice';
+import FieldsReducer from '../../../components/explorer/slices/field_slice';
+import countDistributionReducer from '../../../components/explorer/slices/count_distribution_slice';
+import explorerVisualizationReducer from '../../../components/explorer/slices/visualization_slice';
 
 const rootReducer = combineReducers({
 
@@ -22,7 +24,9 @@ const rootReducer = combineReducers({
   queries: queriesReducer,
   queryResults: queryResultsReducer,
   explorerTabs: queryTabReducer,
-  fields: FieldsReducer
+  fields: FieldsReducer,
+  countDistribution: countDistributionReducer,
+  explorerVisualization: explorerVisualizationReducer
 
 });
 

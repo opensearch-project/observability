@@ -24,7 +24,7 @@ import {
   observabilityID,
   observabilityTitle,
   observabilityPluginOrder
-} from '../common/index';
+} from '../common/constants/shared';
 import PPLService from './services/requests/ppl';
 import DSLService from './services/requests/dsl';
 
