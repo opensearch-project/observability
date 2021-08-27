@@ -24,19 +24,19 @@
  *   permissions and limitations under the License.
  */
 
-import { SQL_ES_ENDPOINT } from "../../utils/constants";
+// export * from './helper_functions';
+// export { SearchBar, SearchBarProps, renderDatePicker } from './search_bar';
+// export { Plt } from './plots/plt';
 
-export default function sqlPlugin(Client: any, config: any, components: any) {
-  const ca = components.clientAction.factory;
+export const RAW_INDEX_NAME = 'otel-v1-apm-span-*';
+export const SERVICE_MAP_INDEX_NAME = 'otel-v1-apm-service-map*';
+export const DATE_FORMAT = 'MM/DD/YYYY HH:mm:ss';
+export const DATE_PICKER_FORMAT = 'MMM D, YYYY HH:mm:ss';
+export const SERVICE_MAP_MAX_NODES = 500;
+// size limit when requesting edge related queries, not necessarily the number of edges
+export const SERVICE_MAP_MAX_EDGES = 1000;
+export const TRACES_MAX_NUM = 3000;
+export const DOCUMENTATION_LINK = 'https://docs-beta.opensearch.org/monitoring-plugins/trace/';
 
-  Client.prototype.sql = components.clientAction.namespaceFactory();
-  const sql = Client.prototype.sql.prototype;
-
-  sql.sqlQuery = ca({
-    url: {
-      fmt: SQL_ES_ENDPOINT,
-    },
-    needBody: true,
-    method: 'POST',
-  });
-}
+export const INDICES_ROUTE = '/api/trace_analytics/indices';
+export const DSL_ROUTE = '/api/trace_analytics/query';

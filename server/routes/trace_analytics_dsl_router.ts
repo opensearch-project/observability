@@ -25,12 +25,16 @@
  */
 
 import { RequestParams } from '@elastic/elasticsearch';
-import { IRouter } from '../../../../src/core/server';
 import { schema } from '@osd/config-schema';
-import { DSL_ROUTE, INDICES_ROUTE } from '../utils/constants';
-import { RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../common';
+import { IRouter } from '../../../../src/core/server';
+import {
+  DSL_ROUTE,
+  INDICES_ROUTE,
+  RAW_INDEX_NAME,
+  SERVICE_MAP_INDEX_NAME,
+} from '../../public/components/trace_analytics/components/common';
 
-export function RegisterDslRouter(router: IRouter) {
+export function registerTraceAnalyticsDslRouter(router: IRouter) {
   router.post(
     {
       path: INDICES_ROUTE,
