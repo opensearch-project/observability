@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
+import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
@@ -26,18 +26,18 @@ import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
 
 /*
-* "Home" module is initial page for Operantional Panels
-* http: http core service;
-* chrome: chrome core service;
-* parentBreadcrumb: parent breadcrumb name and link
-* pplService: ppl requestor service
-* renderProps: Props from router 
-*/
+ * "Home" module is initial page for Operantional Panels
+ * http: http core service;
+ * chrome: chrome core service;
+ * parentBreadcrumb: parent breadcrumb name and link
+ * pplService: ppl requestor service
+ * renderProps: Props from router
+ */
 
 type Props = {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: { text: string; href: string }[];
+  parentBreadcrumb: EuiBreadcrumb[];
   pplService: any;
   renderProps: RouteComponentProps<any, StaticContext, any>;
 };
@@ -220,8 +220,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
-            />,
-            4
+            />
           );
         }}
       />

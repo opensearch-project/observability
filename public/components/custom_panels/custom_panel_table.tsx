@@ -10,6 +10,7 @@
  */
 
 import {
+  EuiBreadcrumb,
   EuiButton,
   EuiContextMenuItem,
   EuiContextMenuPanel,
@@ -38,9 +39,9 @@ import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import { CustomPanelListType } from './home';
 import {
   CREATE_PANEL_MESSAGE,
-  DATE_FORMAT,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
+import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
@@ -52,18 +53,18 @@ const pageStyles: CSSProperties = {
 };
 
 /*
-* "CustomPanelTable" module, used to view all the saved panels 
-* loading: loader bool for the table 
-* fetchCustomPanels: fetch panels function
-* customPanels: List of panels available
-* createCustomPanel: create panel function 
-* setBreadcrumbs: setter for breadcrumbs on top panel
-* parentBreadcrumb: parent breadcrumb 
-* renameCustomPanel: delete function for the panel 
-* cloneCustomPanel: clone function for the panel 
-* deleteCustomPanel: delete function for the panel 
-* setToast: create Toast function 
-*/
+ * "CustomPanelTable" module, used to view all the saved panels
+ * loading: loader bool for the table
+ * fetchCustomPanels: fetch panels function
+ * customPanels: List of panels available
+ * createCustomPanel: create panel function
+ * setBreadcrumbs: setter for breadcrumbs on top panel
+ * parentBreadcrumb: parent breadcrumb
+ * renameCustomPanel: delete function for the panel
+ * cloneCustomPanel: clone function for the panel
+ * deleteCustomPanel: delete function for the panel
+ * setToast: create Toast function
+ */
 
 type Props = {
   loading: boolean;
@@ -71,7 +72,7 @@ type Props = {
   customPanels: Array<CustomPanelListType>;
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  parentBreadcrumb: { text: string; href: string }[];
+  parentBreadcrumb: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
@@ -93,7 +94,7 @@ export const CustomPanelTable = ({
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedCustomPanels, setselectedCustomPanels] = useState([]);
+  const [selectedCustomPanels, setselectedCustomPanels] = useState<CustomPanelListType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -126,7 +127,7 @@ export const CustomPanelTable = ({
 
   const onDelete = async () => {
     const toastMessage = `Custom Panels ${
-      selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].path
+      selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].name
     } successfully deleted!`;
     Promise.all(
       selectedCustomPanels.map((customPanel) => deleteCustomPanel(customPanel.id, undefined, false))
@@ -167,7 +168,7 @@ export const CustomPanelTable = ({
         'Rename Panel',
         'Cancel',
         'Rename',
-        selectedCustomPanels[0].path,
+        selectedCustomPanels[0].name,
         CREATE_PANEL_MESSAGE
       )
     );
@@ -183,7 +184,7 @@ export const CustomPanelTable = ({
         'Duplicate Panel',
         'Cancel',
         'Duplicate',
-        selectedCustomPanels[0].path + ' (copy)',
+        selectedCustomPanels[0].name + ' (copy)',
         CREATE_PANEL_MESSAGE
       )
     );
@@ -253,20 +254,22 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>
+          {_.truncate(value, { length: 100 })}
+        </EuiLink>
       ),
     },
     {
       field: 'dateModified',
       name: 'Last updated',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
     {
       field: 'dateCreated',
       name: 'Created',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
   ] as Array<
     EuiTableFieldDataColumnType<{
@@ -298,8 +301,8 @@ export const CustomPanelTable = ({
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Operational panels provide users with the ability to create and view
-                  different visualizations on ingested observability data, using PPL queries.{' '}
+                  Operational panels provide users with the ability to create and view different
+                  visualizations on ingested observability data, using PPL queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>

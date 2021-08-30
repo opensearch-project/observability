@@ -1,7 +1,21 @@
-import { EuiSpacer, EuiFormRow, EuiSelect, EuiSuperDatePicker, EuiButtonEmpty, EuiButton, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import {
+  EuiSpacer,
+  EuiFormRow,
+  EuiSelect,
+  EuiSuperDatePicker,
+  EuiButtonEmpty,
+  EuiButton,
+  EuiFlexGroup,
+  EuiFlexItem,
+  ShortDate,
+  EuiSuperDatePickerProps,
+} from '@elastic/eui';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { UI_DATE_FORMAT } from '..././../../common/constants/shared';
 import React, { useState } from 'react';
 import { VisualizationType } from '../../../../common/constants/custom_panels';
 import PPLService from '../../../services/requests/ppl';
+import { onTimeChange } from '../helpers/utils';
 
 //NOTE: working this module is TBD after work on storing ppl visualizations in index is complete
 
@@ -9,10 +23,10 @@ import PPLService from '../../../services/requests/ppl';
  * "AddSavedVisualizations" component to add saved visualizations
  *
  * closeVizWindow: function to close "add visualization" window
- * pplService: PPLService Requestor 
- * panelVisualizations: panelVisualizations object 
+ * pplService: PPLService Requestor
+ * panelVisualizations: panelVisualizations object
  * setPanelVisualizations: Setter for panelVisualizations object
- * setToast: Create Toast function 
+ * setToast: Create Toast function
  */
 
 type Props = {
@@ -41,34 +55,10 @@ export const AddSavedVisualizations = ({
   const [isPreviewError, setIsPreviewError] = useState('');
 
   // DateTimePicker States
-  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [start, setStart] = useState('now-30m');
-  const [end, setEnd] = useState('now');
+  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
+  const [start, setStart] = useState<ShortDate>('now-30m');
+  const [end, setEnd] = useState<ShortDate>('now');
 
-  const onTimeChange = ({ start, end }) => {
-    const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
-      const isDuplicate = recentlyUsedRange.start === start && recentlyUsedRange.end === end;
-      return !isDuplicate;
-    });
-    recentlyUsedRange.unshift({ start, end });
-    setStart(start);
-    setEnd(end);
-    setRecentlyUsedRanges(
-      recentlyUsedRange.length > 10 ? recentlyUsedRange.slice(0, 9) : recentlyUsedRange
-    );
-    setIsLoading(true);
-    startLoading();
-    console.log('time change', start, end);
-  };
-
-  const startLoading = () => {
-    setTimeout(stopLoading, 1000);
-  };
-
-  const stopLoading = () => {
-    setIsLoading(false);
-  };
   const onPreviewClick = () => {
     if (previewIconType == 'arrowRight') {
       setPreviewIconType('arrowUp');
@@ -95,11 +85,21 @@ export const AddSavedVisualizations = ({
       </EuiFormRow>
       <EuiFormRow label="Time Range">
         <EuiSuperDatePicker
-          isLoading={isLoading}
+          dateFormat={UI_DATE_FORMAT}
           start={start}
           end={end}
-          onTimeChange={onTimeChange}
+          onTimeChange={(props: Readonly<EuiSuperDatePickerProps>) =>
+            onTimeChange(
+              props.start,
+              props.end,
+              recentlyUsedRanges,
+              setRecentlyUsedRanges,
+              setStart,
+              setEnd
+            )
+          }
           showUpdateButton={false}
+          recentlyUsedRanges={recentlyUsedRanges}
         />
       </EuiFormRow>
       <EuiSpacer size="l" />

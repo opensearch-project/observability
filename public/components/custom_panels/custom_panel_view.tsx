@@ -10,6 +10,7 @@
  */
 
 import {
+  EuiBreadcrumb,
   EuiButton,
   EuiFieldText,
   EuiFlexGroup,
@@ -22,7 +23,9 @@ import {
   EuiPageHeaderSection,
   EuiSpacer,
   EuiSuperDatePicker,
+  EuiSuperDatePickerProps,
   EuiTitle,
+  ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -37,26 +40,28 @@ import {
 import { PanelGrid } from './panel_modules/panel_grid';
 import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
-import { convertDateTime } from './helpers/utils';
+import { convertDateTime, onTimeChange } from './helpers/utils';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 
 /*
-* "CustomPanelsView" module used to render an Operational Panel
-* panelId: Name of the panel opened
-* http: http core service 
-* pplService: ppl requestor service
-* chrome: chrome core service 
-* parentBreadcrumb: parent breadcrumb
-* renameCustomPanel: Rename function for the panel
-* deleteCustomPanel: Delete function for the panel
-* setToast: create Toast function 
-*/
+ * "CustomPanelsView" module used to render an Operational Panel
+ * panelId: Name of the panel opened
+ * http: http core service
+ * pplService: ppl requestor service
+ * chrome: chrome core service
+ * parentBreadcrumb: parent breadcrumb
+ * renameCustomPanel: Rename function for the panel
+ * deleteCustomPanel: Delete function for the panel
+ * setToast: create Toast function
+ */
 
 type Props = {
   panelId: string;
   http: CoreStart['http'];
   pplService: PPLService;
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: { text: string; href: string }[];
+  parentBreadcrumb: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
   setToast: (title: string, color?: string, text?: string) => void;
@@ -87,33 +92,9 @@ export const CustomPanelView = ({
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
 
   // DateTimePicker States
-  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [start, setStart] = useState('now-30m');
-  const [end, setEnd] = useState('now');
-
-  const onTimeChange = ({ start, end }) => {
-    const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
-      const isDuplicate = recentlyUsedRange.start === start && recentlyUsedRange.end === end;
-      return !isDuplicate;
-    });
-    recentlyUsedRange.unshift({ start, end });
-    setStart(start);
-    setEnd(end);
-    setRecentlyUsedRanges(
-      recentlyUsedRange.length > 10 ? recentlyUsedRange.slice(0, 9) : recentlyUsedRange
-    );
-    setIsLoading(true);
-    startLoading();
-  };
-
-  const startLoading = () => {
-    setTimeout(stopLoading, 1000);
-  };
-
-  const stopLoading = () => {
-    setIsLoading(false);
-  };
+  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
+  const [start, setStart] = useState<ShortDate>('now-30m');
+  const [end, setEnd] = useState<ShortDate>('now');
 
   // Fetch Panel by id
   const fetchCustomPanel = async () => {
@@ -294,11 +275,19 @@ export const CustomPanelView = ({
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
-                  isLoading={isLoading}
-                  dateFormat="MM/DD/YYYY hh:mm:ss A"
+                  dateFormat={UI_DATE_FORMAT}
                   start={start}
                   end={end}
-                  onTimeChange={onTimeChange}
+                  onTimeChange={(props: Readonly<EuiSuperDatePickerProps>) =>
+                    onTimeChange(
+                      props.start,
+                      props.end,
+                      recentlyUsedRanges,
+                      setRecentlyUsedRanges,
+                      setStart,
+                      setEnd
+                    )
+                  }
                   showUpdateButton={false}
                   recentlyUsedRanges={recentlyUsedRanges}
                 />
