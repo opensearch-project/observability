@@ -29,12 +29,27 @@ import React, { useEffect, useState } from 'react';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import { AddVizView } from './panel_modules/add_visualization';
-import { CREATE_PANEL_MESSAGE, CUSTOM_PANELS_API_PREFIX, VisualizationType } from '../../../common/constants/custom_panels';
+import {
+  CREATE_PANEL_MESSAGE,
+  CUSTOM_PANELS_API_PREFIX,
+  VisualizationType,
+} from '../../../common/constants/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
 import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
+import { convertDateTime } from './helpers/utils';
 
-// "CustomPanelsView" module used to render saved Custom Operational Panels
+/*
+* "CustomPanelsView" module used to render an Operational Panel
+* panelId: Name of the panel opened
+* http: http core service 
+* pplService: ppl requestor service
+* chrome: chrome core service 
+* parentBreadcrumb: parent breadcrumb
+* renameCustomPanel: Rename function for the panel
+* deleteCustomPanel: Delete function for the panel
+* setToast: create Toast function 
+*/
 
 type Props = {
   panelId: string;
@@ -55,15 +70,12 @@ export const CustomPanelView = ({
   parentBreadcrumb,
   renameCustomPanel,
   deleteCustomPanel,
-  setToast
+  setToast,
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [filterBarValue, setFilterBarValue] = useState('');
-  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [start, setStart] = useState('now-30m');
-  const [end, setEnd] = useState('now');
+  const [onRefresh, setOnRefresh] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [addVizDisabled, setAddVizDisabled] = useState(false);
@@ -73,6 +85,12 @@ export const CustomPanelView = ({
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+
+  // DateTimePicker States
+  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [start, setStart] = useState('now-30m');
+  const [end, setEnd] = useState('now');
 
   const onTimeChange = ({ start, end }) => {
     const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
@@ -110,7 +128,6 @@ export const CustomPanelView = ({
         console.error('Issue in fetching the operational panels', err);
       });
   };
-
 
   const onChange = (e) => {
     setFilterBarValue(e.target.value);
@@ -181,11 +198,6 @@ export const CustomPanelView = ({
     setInputDisabled(true);
   };
 
-  // Fetch the custom panel on Initial Mount
-  useEffect(() => {
-    fetchCustomPanel();
-  }, []);
-
   const checkDisabledInputs = () => {
     if (panelVisualizations.length == 0) {
       setEditDisabled(true);
@@ -198,6 +210,23 @@ export const CustomPanelView = ({
     if (editMode) setAddVizDisabled(true);
     else setAddVizDisabled(false);
   };
+
+  const onRefreshFilters = () => {
+    setOnRefresh(!onRefresh);
+  };
+
+  // Fetch the custom panel on Initial Mount
+  useEffect(() => {
+    fetchCustomPanel();
+  }, []);
+
+  // Check Validity of Time
+  useEffect(() => {
+    if (convertDateTime(end, false) < convertDateTime(start)) {
+      setToast('Invalid Time Interval', 'danger');
+      return;
+    }
+  }, [start, end]);
 
   // Toggle input type (disabled or not disabled)
   // Disabled when there no visualizations in panels or when the panel is in edit mode
@@ -212,7 +241,6 @@ export const CustomPanelView = ({
       { text: openPanelName, href: `${_.last(parentBreadcrumb).href}${panelId}` },
     ]);
   }, [openPanelName]);
-
 
   return (
     <div>
@@ -231,7 +259,9 @@ export const CustomPanelView = ({
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
                 <EuiFlexItem>
-                  <EuiButton color="danger" onClick={deletePanel}>Delete</EuiButton>
+                  <EuiButton color="danger" onClick={deletePanel}>
+                    Delete
+                  </EuiButton>
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiButton onClick={renamePanel}>Rename</EuiButton>
@@ -265,15 +295,18 @@ export const CustomPanelView = ({
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
                   isLoading={isLoading}
+                  dateFormat="MM/DD/YYYY hh:mm:ss A"
                   start={start}
                   end={end}
                   onTimeChange={onTimeChange}
                   showUpdateButton={false}
-                  isDisabled={inputDisabled}
+                  recentlyUsedRanges={recentlyUsedRanges}
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
-                <EuiButton isDisabled={inputDisabled}>Refresh</EuiButton>
+                <EuiButton isDisabled={inputDisabled} onClick={onRefreshFilters}>
+                  Refresh
+                </EuiButton>
               </EuiFlexItem>
               <EuiFlexItem grow={false} onClick={addVizWindow}>
                 <EuiButton disabled={addVizDisabled} fill>
@@ -288,10 +321,13 @@ export const CustomPanelView = ({
               )
             ) : (
               <PanelGrid
-              chrome={chrome}
+                chrome={chrome}
                 panelVisualizations={panelVisualizations}
                 editMode={editMode}
                 pplService={pplService}
+                startTime={start}
+                endTime={end}
+                onRefresh={onRefresh}
               />
             )}
             <>
@@ -299,6 +335,7 @@ export const CustomPanelView = ({
                 <AddVizView
                   closeVizWindow={closeVizWindow}
                   pplService={pplService}
+                  panelVisualizations={panelVisualizations}
                   setPanelVisualizations={setPanelVisualizations}
                   setToast={setToast}
                 />

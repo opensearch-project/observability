@@ -36,6 +36,7 @@ import {
  * btn2txt - string as content to fill "confirm button"
  * openPanelName - Default input value for the field
  */
+
 type CustomInputModalProps = {
   runModal: (value: string) => void;
   closeModal: (
@@ -50,7 +51,16 @@ type CustomInputModalProps = {
 };
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
-  const { runModal, closeModal, labelTxt, titletxt, btn1txt, btn2txt, openPanelName, helpText } = props;
+  const {
+    runModal,
+    closeModal,
+    labelTxt,
+    titletxt,
+    btn1txt,
+    btn2txt,
+    openPanelName,
+    helpText,
+  } = props;
   const [value, setValue] = useState(openPanelName || ''); // sets input value
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

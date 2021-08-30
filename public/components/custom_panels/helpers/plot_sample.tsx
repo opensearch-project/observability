@@ -13,6 +13,17 @@ import React from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-dist';
 
+/*
+ * "PlotSample" component is used to plot PLotly.js graphs as Panel visualizations
+ *
+ * data: define plot data to be rendered
+ * layout?: define layout properties for the plot
+ * onHoverHandler?: on Hover callback function
+ * onUnhoverHandler?: on unhover callback function
+ * onClickHandler?: on click callback function
+ * height?: height of the plot component
+ */
+
 interface PltProps {
   data: Plotly.Data[];
   layout?: Partial<Plotly.Layout>;
@@ -36,12 +47,12 @@ export function PlotSample(props: PltProps) {
       config={{ displayModeBar: false }}
       layout={{
         margin: {
-              l: 30,
-              r: 5,
-              b: 30,
-              t: 5,
-              pad: 0,
-            },
+          l: 30,
+          r: 5,
+          b: 30,
+          t: 5,
+          pad: 0,
+        },
         autosize: true,
         showlegend: true,
         hovermode: 'closest',

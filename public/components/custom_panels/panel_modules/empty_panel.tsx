@@ -12,15 +12,17 @@
 import { EuiSpacer, EuiText, EuiFlexGroup, EuiFlexItem, EuiButton } from '@elastic/eui';
 import React from 'react';
 
+/*
+* EmptyPanelView
+* This Sub-component is shown to the user when a operational panel is empty
+* Props:
+* addVizWindow -> This function shows the add visualization window in operational panels view
+*/
+
 type Props = {
   addVizWindow: () => void;
   addVizDisabled: boolean;
 };
-
-// EmptyPanelView
-// This Sub-component is shown to the user when a operational panel is empty
-// Props:
-// addVizWindow -> This function shows the add visualization window in operational panels view
 
 export const EmptyPanelView = ({ addVizWindow, addVizDisabled }: Props) => {
   return (

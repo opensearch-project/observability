@@ -24,7 +24,7 @@ import {
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiText,
-  EuiSpacer
+  EuiSpacer,
 } from '@elastic/eui';
 import { CustomInputModal } from './custom_input_modal';
 
@@ -44,7 +44,7 @@ export const getCustomModal = (
   btn1txt: string,
   btn2txt: string,
   openPanelName?: string,
-  helpText?: string,
+  helpText?: string
 ) => {
   return (
     <CustomInputModal
@@ -89,7 +89,7 @@ export const getDeleteModal = (
   onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   title: string,
   message: string,
-  confirmMessage?: string,
+  confirmMessage?: string
 ) => {
   return (
     <EuiOverlayMask>
@@ -98,7 +98,7 @@ export const getDeleteModal = (
         onCancel={onCancel}
         onConfirm={onConfirm}
         cancelButtonText="Cancel"
-        confirmButtonText={confirmMessage || "Delete"}
+        confirmButtonText={confirmMessage || 'Delete'}
         buttonColor="danger"
         defaultFocusedButton="confirm"
       >
@@ -133,27 +133,24 @@ export const DeletePanelModal = ({
         </EuiModalHeader>
 
         <EuiModalBody>
-          <EuiText>
-            {message}
-          </EuiText>
-          <EuiText>
-            The action cannot be undone.
-          </EuiText>
+          <EuiText>{message}</EuiText>
+          <EuiText>The action cannot be undone.</EuiText>
           <EuiSpacer />
           <EuiForm>
-            <EuiFormRow label={"To confirm deletion, enter \"delete\" in the text field"}>
-              <EuiFieldText name="input" placeholder="delete" value={value} onChange={(e) => onChange(e)} />
+            <EuiFormRow label={'To confirm deletion, enter "delete" in the text field'}>
+              <EuiFieldText
+                name="input"
+                placeholder="delete"
+                value={value}
+                onChange={(e) => onChange(e)}
+              />
             </EuiFormRow>
           </EuiForm>
         </EuiModalBody>
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={onCancel}>Cancel</EuiButtonEmpty>
-          <EuiButton
-            onClick={() => onConfirm()}
-            color="danger"
-            fill
-            disabled={value !== 'delete'}>
+          <EuiButton onClick={() => onConfirm()} color="danger" fill disabled={value !== 'delete'}>
             Delete
           </EuiButton>
         </EuiModalFooter>

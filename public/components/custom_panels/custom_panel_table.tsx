@@ -51,6 +51,20 @@ const pageStyles: CSSProperties = {
   maxWidth: '1130px',
 };
 
+/*
+* "CustomPanelTable" module, used to view all the saved panels 
+* loading: loader bool for the table 
+* fetchCustomPanels: fetch panels function
+* customPanels: List of panels available
+* createCustomPanel: create panel function 
+* setBreadcrumbs: setter for breadcrumbs on top panel
+* parentBreadcrumb: parent breadcrumb 
+* renameCustomPanel: delete function for the panel 
+* cloneCustomPanel: clone function for the panel 
+* deleteCustomPanel: delete function for the panel 
+* setToast: create Toast function 
+*/
+
 type Props = {
   loading: boolean;
   fetchCustomPanels: () => void;

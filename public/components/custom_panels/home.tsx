@@ -25,7 +25,14 @@ import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
 
-// "Home" module is initial page for Custom Operantional Panels
+/*
+* "Home" module is initial page for Operantional Panels
+* http: http core service;
+* chrome: chrome core service;
+* parentBreadcrumb: parent breadcrumb name and link
+* pplService: ppl requestor service
+* renderProps: Props from router 
+*/
 
 type Props = {
   http: CoreStart['http'];

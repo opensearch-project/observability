@@ -21,14 +21,36 @@ import { VisualizationType } from '../../../../common/constants/custom_panels';
 // HOC container to provide dynamic width for Grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
+/*
+* PanelGrid - This module is places all visualizations in react-grid-layout
+* chrome: CoreStart['chrome'];
+* panelVisualizations: VisualizationType[];
+* editMode: boolean;
+* pplService: PPLService;
+* startTime: string;
+* endTime: string;
+* onRefresh: boolean;
+*/
+
 type Props = {
   chrome: CoreStart['chrome'];
   panelVisualizations: VisualizationType[];
   editMode: boolean;
   pplService: PPLService;
+  startTime: string;
+  endTime: string;
+  onRefresh: boolean;
 };
 
-export const PanelGrid = ({ chrome, panelVisualizations, editMode, pplService }: Props) => {
+export const PanelGrid = ({
+  chrome,
+  panelVisualizations,
+  editMode,
+  pplService,
+  startTime,
+  endTime,
+  onRefresh,
+}: Props) => {
   const [layout, setLayout] = useState([]);
   const [editedLayout, setEditedLayout] = useState([]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
@@ -97,6 +119,9 @@ export const PanelGrid = ({ chrome, panelVisualizations, editMode, pplService }:
             query={panelVisualization.query}
             type={panelVisualization.type}
             pplService={pplService}
+            fromTime={startTime}
+            toTime={endTime}
+            onRefresh={onRefresh}
           />
         </div>
       ))}

@@ -36,8 +36,9 @@ type Props = {
   query: string;
   pplService: PPLService;
   type: string;
-  fromTime?: string;
-  toTime?: string;
+  fromTime: string;
+  toTime: string;
+  onRefresh: boolean;
 };
 
 export const VisualizationContainer = ({
@@ -49,6 +50,7 @@ export const VisualizationContainer = ({
   type,
   fromTime,
   toTime,
+  onRefresh,
 }: Props) => {
   const [isPopoverOpen1, setIsPopoverOpen1] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
@@ -75,8 +77,17 @@ export const VisualizationContainer = ({
   ];
 
   useEffect(() => {
-    getQueryResponse(pplService, query, type, setVisualizationData, setIsLoading, setIsError);
-  }, [query]);
+    getQueryResponse(
+      pplService,
+      query,
+      type,
+      fromTime,
+      toTime,
+      setVisualizationData,
+      setIsLoading,
+      setIsError
+    );
+  }, [query, onRefresh]);
 
   useEffect(() => {
     editMode ? setDisablePopover(true) : setDisablePopover(false);
