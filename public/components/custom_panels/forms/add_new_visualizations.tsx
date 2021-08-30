@@ -22,7 +22,7 @@ import _ from 'lodash';
 import React, { Fragment, useEffect, useState } from 'react';
 import { VisualizationType } from '../../../../common/constants/custom_panels';
 import PPLService from '../../../services/requests/ppl';
-import { PlotSample } from '../helpers/plot_sample';
+import { Plt } from '../../visualizations/plotly/plot';
 import {
   convertDateTime,
   getNewVizDimensions,
@@ -105,7 +105,7 @@ export const AddNewVisualizations = ({
         <>
           <EuiFlexGroup>
             <EuiFlexItem style={{ minHeight: '200' }}>
-              <PlotSample data={previewData} layout={{ showlegend: false }} />
+              <Plt data={previewData} layout={{ showlegend: false }} />
             </EuiFlexItem>
           </EuiFlexGroup>
         </>
@@ -195,8 +195,8 @@ export const AddNewVisualizations = ({
         fullWidth={true}
       >
         <EuiTextArea
-          placeholder="Placeholder text"
-          aria-label="Use aria labels when no actual label is in use"
+          placeholder="Enter a PPL Query to create your visualization"
+          aria-label="PPL query"
           value={pplQuery}
           onChange={(e) => onChangeText(e, setPPLQuery)}
           fullWidth={true}

@@ -22,9 +22,9 @@ import {
   EuiSpacer,
   EuiText,
 } from '@elastic/eui';
+import { Plt } from '../../visualizations/plotly/plot';
 import React, { useEffect, useRef, useState } from 'react';
 import PPLService from '../../../services/requests/ppl';
-import { PlotSample } from '../helpers/plot_sample';
 import { getQueryResponse } from '../helpers/utils';
 
 // Visualization Panel module allows view added viz modules.
@@ -52,14 +52,13 @@ export const VisualizationContainer = ({
   toTime,
   onRefresh,
 }: Props) => {
-  const [isPopoverOpen1, setIsPopoverOpen1] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
   const [visualizationData, setVisualizationData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
-  const onButtonClick1 = () => setIsPopoverOpen1((isPopoverOpen1) => !isPopoverOpen1);
-  const closePopover1 = () => setIsPopoverOpen1(false);
-  const plotRef = useRef(null);
+  const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const closeActionsMenu = () => setIsPopoverOpen(false);
 
   const popoverPanel = [
     <EuiContextMenuItem key="viewEvents" disabled={disablePopover}>
@@ -103,9 +102,9 @@ export const VisualizationContainer = ({
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiPopover
-            button={<EuiButtonIcon iconType="boxesHorizontal" onClick={onButtonClick1} />}
-            isOpen={isPopoverOpen1}
-            closePopover={closePopover1}
+            button={<EuiButtonIcon iconType="boxesHorizontal" onClick={onActionsMenuClick} />}
+            isOpen={isPopoverOpen}
+            closePopover={closeActionsMenu}
             anchorPosition="downLeft"
           >
             <EuiContextMenuPanel items={popoverPanel} />
@@ -144,7 +143,7 @@ export const VisualizationContainer = ({
             </EuiText>
           </div>
         ) : (
-          <PlotSample data={visualizationData} />
+          <Plt data={visualizationData} />
         )}
       </div>
     </EuiPanel>
