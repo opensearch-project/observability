@@ -25,16 +25,20 @@
  */
 
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
-import _ from 'lodash';
 import moment from 'moment';
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
-import { fixedIntervalToMilli, fixedIntervalToTickFormat, NoMatchMessage, PanelTitle } from '..';
-import { Plt } from './plt';
+import React, { useMemo } from 'react';
+import { Plt } from '../../../../visualizations/plotly/plot';
+import {
+  fixedIntervalToMilli,
+  fixedIntervalToTickFormat,
+  NoMatchMessage,
+  PanelTitle,
+} from '../helper_functions';
 
 export function ErrorRatePlt(props: {
   items: { items: Plotly.Data[]; fixedInterval: string };
-  setStartTime: Dispatch<SetStateAction<string>>;
-  setEndTime: Dispatch<SetStateAction<string>>;
+  setStartTime: (startTime: string) => void;
+  setEndTime: (endTime: string) => void;
 }) {
   const getLayout = () =>
     ({
@@ -93,7 +97,7 @@ export function ErrorRatePlt(props: {
 
   const layout = useMemo(() => getLayout(), [props.items]);
 
-  const onClick = (event) => {
+  const onClick = (event: any) => {
     if (!event?.points) return;
     const point = event.points[0];
     const start = point.data.x[point.pointNumber];

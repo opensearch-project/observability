@@ -26,26 +26,28 @@
 
 import { EuiSpacer, EuiTitle, PropertySort } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { TraceAnalyticsComponentDeps } from '../../home';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
-import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
+import { filtersToDsl } from '../common/helper_functions';
+import { SearchBar } from '../common/search_bar';
 import { TracesTable } from './traces_table';
 
-interface TracesProps extends SearchBarProps, CoreDeps {}
+interface TracesProps extends TraceAnalyticsComponentDeps {}
 
 export function Traces(props: TracesProps) {
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   useEffect(() => {
-    props.setBreadcrumbs([
+    props.chrome.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
-        text: 'Trace Analytics',
-        href: '#',
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
       },
       {
         text: 'Traces',
-        href: '#/traces',
+        href: '#/trace_analytics/traces',
       },
     ]);
     const validFilters = getValidFilterFields('traces');

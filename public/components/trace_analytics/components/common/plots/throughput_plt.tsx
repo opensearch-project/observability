@@ -26,19 +26,19 @@
 
 import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import moment from 'moment';
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { Plt } from '../../../../visualizations/plotly/plot';
 import {
   fixedIntervalToMilli,
   fixedIntervalToTickFormat,
   NoMatchMessage,
   PanelTitle,
-} from '..';
-import { Plt } from './plt';
+} from '../helper_functions';
 
 export function ThroughputPlt(props: {
   items: { items: Plotly.Data[]; fixedInterval: string };
-  setStartTime: Dispatch<SetStateAction<string>>;
-  setEndTime: Dispatch<SetStateAction<string>>;
+  setStartTime: (startTime: string) => void;
+  setEndTime: (endTime: string) => void;
 }) {
   const layout = useMemo(
     () =>

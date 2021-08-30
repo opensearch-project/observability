@@ -28,7 +28,7 @@ import dateMath from '@elastic/datemath';
 import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import React from 'react';
-import { DOCUMENTATION_LINK, RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '../../../common';
+import { DOCUMENTATION_LINK, RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '.';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -108,14 +108,17 @@ export function milliToNanoSec(ms: number) {
   return ms * 1000000;
 }
 
-export function getServiceMapScaleColor(percent, idSelected) {
+export function getServiceMapScaleColor(
+  percent: number,
+  idSelected: 'latency' | 'error_rate' | 'throughput'
+) {
   return serviceMapColorPalette[idSelected][Math.min(99, Math.max(0, Math.floor(percent * 100)))];
 }
 
 // construct vis-js graph from ServiceObject
 export function getServiceMapGraph(
   map: ServiceObject,
-  idSelected: string,
+  idSelected: 'latency' | 'error_rate' | 'throughput',
   ticks: number[],
   currService?: string,
   relatedServices?: string[]
@@ -130,7 +133,7 @@ export function getServiceMapGraph(
       const color = getServiceMapScaleColor(percent, idSelected);
       styleOptions = {
         borderWidth: 0,
-        color: relatedServices.indexOf(service) >= 0 ? `rgba(${color}, 1)` : `rgba(${color}, 0.3)`,
+        color: relatedServices!.indexOf(service) >= 0 ? `rgba(${color}, 1)` : `rgba(${color}, 0.3)`,
       };
     } else {
       // service nodes that are not matched under traceGroup filter
@@ -151,7 +154,7 @@ export function getServiceMapGraph(
       { latency: 'Average latency: ', error_rate: 'Error rate: ', throughput: 'Throughput: ' }[
         idSelected
       ] +
-      (value >= 0
+      (value! >= 0
         ? value + (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '')
         : 'N/A');
 
@@ -163,14 +166,14 @@ export function getServiceMapGraph(
       ...styleOptions,
     };
   });
-  const edges = [];
+  const edges: Array<{ from: number; to: number; color: string }> = [];
   Object.keys(map).map((service) => {
     map[service].targetServices.map((target) => {
       edges.push({
         from: map[service].id,
         to: map[target].id,
         color:
-          relatedServices.indexOf(service) >= 0 && relatedServices.indexOf(target) >= 0
+          relatedServices!.indexOf(service) >= 0 && relatedServices!.indexOf(target) >= 0
             ? 'rgba(0, 0, 0, 1)'
             : 'rgba(0, 0, 0, 0.3)',
       });
@@ -181,13 +184,13 @@ export function getServiceMapGraph(
 
 // returns flattened targetResource as an array for all traceGroups
 export function getServiceMapTargetResources(map: ServiceObject, serviceName: string) {
-  return [].concat.apply(
+  return ([] as string[]).concat.apply(
     [],
     [...map[serviceName].traceGroups.map((traceGroup) => [...traceGroup.targetResource])]
   );
 }
 
-export function calculateTicks(min, max, numTicks = 5) {
+export function calculateTicks(min: number, max: number, numTicks = 5): number[] {
   if (min >= max) return calculateTicks(0, Math.max(1, max), numTicks);
   min = Math.floor(min);
   max = Math.ceil(max);
@@ -215,8 +218,8 @@ export function calculateTicks(min, max, numTicks = 5) {
 // calculates the minimum fixed_interval for date_histogram from time filter
 export const minFixedInterval = (startTime: string, endTime: string) => {
   if (startTime?.length === 0 || endTime?.length === 0 || startTime === endTime) return '1d';
-  const momentStart = dateMath.parse(startTime);
-  const momentEnd = dateMath.parse(endTime);
+  const momentStart = dateMath.parse(startTime)!;
+  const momentEnd = dateMath.parse(endTime)!;
   const diffSeconds = momentEnd.unix() - momentStart.unix();
 
   if (diffSeconds <= 1) return '1ms'; // less than 1 second
@@ -251,7 +254,7 @@ export const getPercentileFilter = (
   percentileMaps: Array<{ traceGroupName: string; durationFilter: { gte?: number; lte?: number } }>,
   conditionString: string // >= 95th, < 95th
 ): FilterType => {
-  const DSL = {
+  const DSL: any = {
     query: {
       bool: {
         must: [],
@@ -268,7 +271,7 @@ export const getPercentileFilter = (
         must: [
           {
             term: {
-              'traceGroup': {
+              traceGroup: {
                 value: map.traceGroupName,
               },
             },

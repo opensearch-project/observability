@@ -27,13 +27,13 @@
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiText } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { getServiceMapScaleColor } from '..';
+import { Plt } from '../../../../visualizations/plotly/plot';
 import unmatchedNode from '../../../images/unmatched_node.png';
-import { Plt } from './plt';
+import { getServiceMapScaleColor } from '../helper_functions';
 import { ServiceObject } from './service_map';
 
 export function ServiceMapScale(props: {
-  idSelected: string;
+  idSelected: 'latency' | 'error_rate' | 'throughput';
   serviceMap: ServiceObject;
   ticks: number[];
 }) {

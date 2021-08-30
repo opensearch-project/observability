@@ -26,30 +26,30 @@
 
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { TraceAnalyticsComponentDeps } from '../../home';
 import { handleServicesRequest } from '../../requests/services_request_handler';
-import { CoreDeps } from '../app';
-import { filtersToDsl, SearchBar, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
+import { filtersToDsl } from '../common/helper_functions';
 import { ServiceObject } from '../common/plots/service_map';
+import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends SearchBarProps, CoreDeps {}
+interface ServicesProps extends TraceAnalyticsComponentDeps {}
 
 export function Services(props: ServicesProps) {
-  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   useEffect(() => {
-    props.setBreadcrumbs([
+    props.chrome.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
-        text: 'Trace Analytics',
-        href: '#',
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
       },
       {
         text: 'Services',
-        href: '#/services',
+        href: '#/trace_analytics/services',
       },
     ]);
     const validFilters = getValidFilterFields('services');
@@ -68,7 +68,7 @@ export function Services(props: ServicesProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServicesRequest(props.http, DSL, tableItems, setTableItems, setServiceMap, serviceQuery);
+    handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -104,7 +104,7 @@ export function Services(props: ServicesProps) {
         refresh={refresh}
         page="services"
       />
-      <EuiSpacer />
+      <EuiSpacer size="m" />
       <ServicesTable
         items={tableItems}
         addFilter={addFilter}

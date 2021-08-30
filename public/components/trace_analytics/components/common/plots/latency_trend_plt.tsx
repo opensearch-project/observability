@@ -26,7 +26,7 @@
 
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { Plt } from './plt';
+import { Plt } from '../../../../visualizations/plotly/plot';
 
 export function LinePlt(props: { data: Plotly.Data[] }) {
   const maxY = props.data[0]?.y ? Math.max(...props.data[0].y) : 0;

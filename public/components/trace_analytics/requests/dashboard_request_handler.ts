@@ -26,7 +26,7 @@
 
 import _ from 'lodash';
 import moment from 'moment';
-import { DATE_PICKER_FORMAT } from '../../common';
+import { DATE_PICKER_FORMAT } from '../components/common';
 import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardQuery,
@@ -161,11 +161,11 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
                   color: 'rgb(171, 211, 240)',
                 },
                 type: 'bar',
-                text: texts,
+                customdata: texts,
                 hoverlabel: {
                   align: 'left',
                 },
-                hovertemplate: '%{text}<br>Throughput: %{y:,}<extra></extra>',
+                hovertemplate: '%{customdata}<br>Throughput: %{y:,}<extra></extra>',
               },
             ]
           : [];
@@ -194,11 +194,11 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
                   color: '#fad963',
                 },
                 type: 'bar',
-                text: texts,
+                customdata: texts,
                 hoverlabel: {
                   align: 'left',
                 },
-                hovertemplate: '%{text}<br>Error rate: %{y}<extra></extra>',
+                hovertemplate: '%{customdata}<br>Error rate: %{y}<extra></extra>',
               },
             ]
           : [];

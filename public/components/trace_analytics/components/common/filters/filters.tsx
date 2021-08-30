@@ -53,7 +53,7 @@ export interface FilterType {
 
 export interface FiltersProps {
   filters: FilterType[];
-  setFilters: Dispatch<SetStateAction<FilterType[]>>;
+  setFilters: (filters: FilterType[]) => void;
 }
 
 interface FiltersOwnProps extends FiltersProps {

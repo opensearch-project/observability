@@ -36,20 +36,20 @@ import {
   EuiPanel,
   EuiSpacer,
   EuiText,
-  EuiTitle
+  EuiTitle,
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { TraceAnalyticsCoreDeps } from '../../home';
 import {
   handlePayloadRequest,
   handleServicesPieChartRequest,
-  handleTraceViewRequest
+  handleTraceViewRequest,
 } from '../../requests/traces_request_handler';
-import { CoreDeps } from '../app';
-import { PanelTitle } from '../common';
+import { PanelTitle } from '../common/helper_functions';
 import { ServiceBreakdownPanel } from './service_breakdown_panel';
 import { SpanDetailPanel } from './span_detail_panel';
 
-interface TraceViewProps extends CoreDeps {
+interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
 }
 
@@ -131,7 +131,9 @@ export function TraceView(props: TraceViewProps) {
                   {fields.error_count == null ? (
                     '-'
                   ) : fields.error_count > 0 ? (
-                    <EuiText color="danger" size="s" style={{fontWeight: 430}}>Yes</EuiText>
+                    <EuiText color="danger" size="s" style={{ fontWeight: 430 }}>
+                      Yes
+                    </EuiText>
                   ) : (
                     'No'
                   )}
@@ -150,18 +152,19 @@ export function TraceView(props: TraceViewProps) {
   const [colorMap, setColorMap] = useState({});
 
   useEffect(() => {
-    props.setBreadcrumbs([
+    props.chrome.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
-        text: 'Trace Analytics',
-        href: '#',
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
       },
       {
         text: 'Traces',
-        href: '#/traces',
+        href: '#/trace_analytics/traces',
       },
       {
         text: props.traceId,
-        href: `#/traces/${encodeURIComponent(props.traceId)}`,
+        href: `#/trace_analytics/traces/${encodeURIComponent(props.traceId)}`,
       },
     ]);
     refresh();

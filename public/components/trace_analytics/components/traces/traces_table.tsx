@@ -40,8 +40,8 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { TRACES_MAX_NUM } from '../../../common';
-import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common';
+import { TRACES_MAX_NUM } from '../common';
+import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common/helper_functions';
 
 export function TracesTable(props: {
   items: any[];
@@ -70,7 +70,7 @@ export function TracesTable(props: {
           render: (item) => (
             <EuiFlexGroup gutterSize="s" alignItems="center">
               <EuiFlexItem grow={10}>
-                <EuiLink href={`#/traces/${encodeURIComponent(item)}`}>
+                <EuiLink href={`#/trace_analytics/traces/${encodeURIComponent(item)}`}>
                   {item.length < 24 ? (
                     item
                   ) : (

@@ -25,8 +25,8 @@
  */
 
 import { PropertySort } from '@elastic/eui';
+import { TRACES_MAX_NUM } from '../../components/common';
 import { SpanSearchParams } from '../../components/traces/span_detail_table';
-import { TRACES_MAX_NUM } from '../../../common';
 
 export const getTraceGroupPercentilesQuery = () => {
   const query: any = {

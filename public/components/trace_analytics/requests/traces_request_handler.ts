@@ -26,10 +26,10 @@
 
 import _ from 'lodash';
 import moment from 'moment';
-import { SpanSearchParams } from '../components/traces/span_detail_table';
 import { v1 as uuid } from 'uuid';
-import { DATE_FORMAT } from '../../common';
-import { nanoToMilliSec } from '../components/common';
+import { DATE_FORMAT } from '../components/common';
+import { nanoToMilliSec } from '../components/common/helper_functions';
+import { SpanSearchParams } from '../components/traces/span_detail_table';
 import {
   getPayloadQuery,
   getServiceBreakdownQuery,
@@ -38,7 +38,7 @@ import {
   getSpansQuery,
   getTraceGroupPercentilesQuery,
   getTracesQuery,
-  getValidTraceIdsQuery,
+  getValidTraceIdsQuery
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 

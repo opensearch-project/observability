@@ -35,8 +35,8 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { PanelTitle, renderBenchmark } from '../common';
-import { Plt } from '../common/plots/plt';
+import { Plt } from '../../../visualizations/plotly/plot';
+import { PanelTitle } from '../common/helper_functions';
 
 export function ServiceBreakdownPanel(props: { data: Plotly.Data[] }) {
   const layout = useMemo(

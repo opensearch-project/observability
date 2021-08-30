@@ -39,10 +39,11 @@ import {
   EuiToolTip,
   PropertySort,
 } from '@elastic/eui';
+import { CriteriaWithPagination } from '@elastic/eui/src/components/basic_table/basic_table';
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { calculateTicks, NoMatchMessage, PanelTitle } from '../common';
 import { FilterType } from '../common/filters/filters';
+import { calculateTicks, NoMatchMessage, PanelTitle } from '../common/helper_functions';
 import { BoxPlt } from '../common/plots/box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 
@@ -53,7 +54,7 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
 }) {
-  const getVarianceProps = (items) => {
+  const getVarianceProps = (items: any[]) => {
     if (items.length === 0) {
       return { minRange: 0, maxRange: 0, ticks: [0, 0], scale: '' };
     }
@@ -176,7 +177,7 @@ export function DashboardTable(props: {
           );
           const currPercentileFilter = filter ? filter.value : '';
           return item ? (
-            // expand plot ranges to accomondate scale
+            // expand plot ranges to accommodate scale
             <BoxPlt
               plotParams={{
                 min:
@@ -348,7 +349,7 @@ export function DashboardTable(props: {
                 inverted: false,
                 disabled: false,
               });
-              location.assign('#/traces');
+              location.assign('#/trace_analytics/traces');
             }}
           >
             <EuiI18nNumber value={item} />
@@ -357,7 +358,7 @@ export function DashboardTable(props: {
       },
     ] as Array<EuiTableFieldDataColumnType<any>>;
 
-  const renderTitleBar = (totalItems) => {
+  const renderTitleBar = (totalItems: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
         <EuiFlexItem grow={10}>
@@ -400,9 +401,9 @@ export function DashboardTable(props: {
     },
   });
 
-  const onTableChange = async ({ page, sort }) => {
+  const onTableChange = async ({ page, sort }: CriteriaWithPagination<any>) => {
     if (typeof sort?.field !== 'string') return;
-    setSorting({ sort });
+    setSorting({ sort } as { sort: PropertySort });
   };
 
   return (

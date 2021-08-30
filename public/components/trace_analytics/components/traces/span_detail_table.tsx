@@ -28,13 +28,13 @@ import { EuiDataGrid, EuiDataGridColumn, EuiLink, EuiText } from '@elastic/eui';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CoreStart } from '../../../../../src/core/public';
-import { DATE_FORMAT } from '../../../common';
+import { HttpSetup } from '../../../../../../../src/core/public';
 import { handleSpansRequest } from '../../requests/traces_request_handler';
-import { nanoToMilliSec, NoMatchMessage } from '../common';
+import { DATE_FORMAT } from '../common';
+import { nanoToMilliSec, NoMatchMessage } from '../common/helper_functions';
 
 interface SpanDetailTableProps {
-  http: CoreStart['http'];
+  http: HttpSetup;
   hiddenColumns: string[];
   openFlyout: (spanId: string) => void;
   DSL?: any;

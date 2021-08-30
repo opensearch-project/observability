@@ -35,11 +35,16 @@ import {
   EuiText,
 } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+// @ts-ignore
 import Graph from 'react-graph-vis';
-import _ from 'lodash';
-import { calculateTicks, getServiceMapGraph, NoMatchMessage, PanelTitle } from '..';
-import { ServiceMapScale } from './service_map_scale';
 import { FilterType } from '../filters/filters';
+import {
+  calculateTicks,
+  getServiceMapGraph,
+  NoMatchMessage,
+  PanelTitle,
+} from '../helper_functions';
+import { ServiceMapScale } from './service_map_scale';
 
 export interface ServiceObject {
   [key: string]: {
@@ -63,14 +68,14 @@ export function ServiceMap({
   currService,
 }: {
   serviceMap: ServiceObject;
-  idSelected: string;
-  setIdSelected: (newId: string) => void;
+  idSelected: 'latency' | 'error_rate' | 'throughput';
+  setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
-  const [ticks, setTicks] = useState([]);
+  const [ticks, setTicks] = useState<number[]>([]);
   const [items, setItems] = useState<any>({});
   const [query, setQuery] = useState('');
   const toggleButtons = [
@@ -123,10 +128,10 @@ export function ServiceMap({
   };
 
   const events = {
-    select: (event) => {
+    select: (event: any) => {
       const { nodes, edges } = event;
       if (!addFilter || !nodes) return;
-      const serviceName = items?.graph.nodes.find((node) => node.id === nodes[0])?.label;
+      const serviceName = items?.graph.nodes.find((node: any) => node.id === nodes[0])?.label;
       if (serviceName) {
         addFilter({
           field: 'serviceName',
@@ -138,10 +143,10 @@ export function ServiceMap({
         window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
       }
     },
-    hoverNode: (event) => {},
+    hoverNode: (event: any) => {},
   };
 
-  const onFocus = (service: string, networkInstance?) => {
+  const onFocus = (service: string, networkInstance?: any) => {
     if (service.length === 0) {
       setInvalid(false);
     } else if (serviceMap[service]) {
@@ -156,8 +161,8 @@ export function ServiceMap({
   useEffect(() => {
     if (Object.keys(serviceMap).length === 0) return;
     const values = Object.keys(serviceMap)
-      .map((service) => serviceMap[service][idSelected] || null)
-      .filter((val) => val !== null);
+      .filter((service) => serviceMap[service][idSelected])
+      .map((service) => serviceMap[service][idSelected]!);
     const min = Math.min(...values);
     const max = Math.max(...values);
     const calculatedTicks = calculateTicks(min, max);
@@ -168,7 +173,7 @@ export function ServiceMap({
         idSelected,
         calculatedTicks,
         currService,
-        serviceMap[currService]?.relatedServices
+        serviceMap[currService!]?.relatedServices
       )
     );
   }, [serviceMap, idSelected]);
@@ -181,7 +186,7 @@ export function ServiceMap({
         <EuiButtonGroup
           options={toggleButtons}
           idSelected={idSelected}
-          onChange={(id) => setIdSelected(id)}
+          onChange={(id) => setIdSelected(id as 'latency' | 'error_rate' | 'throughput')}
           buttonSize="s"
           color="text"
         />
@@ -210,7 +215,7 @@ export function ServiceMap({
                   graph={items.graph}
                   options={options}
                   events={events}
-                  getNetwork={(networkInstance) => {
+                  getNetwork={(networkInstance: any) => {
                     setNetwork(networkInstance);
                     if (currService) onFocus(currService, networkInstance);
                   }}

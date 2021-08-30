@@ -38,5 +38,5 @@ export const SERVICE_MAP_MAX_EDGES = 1000;
 export const TRACES_MAX_NUM = 3000;
 export const DOCUMENTATION_LINK = 'https://docs-beta.opensearch.org/monitoring-plugins/trace/';
 
-export const INDICES_ROUTE = '/api/trace_analytics/indices';
-export const DSL_ROUTE = '/api/trace_analytics/query';
+export const INDICES_ROUTE = '/api/observability_trace_analytics/indices';
+export const DSL_ROUTE = '/api/observability_trace_analytics/query';

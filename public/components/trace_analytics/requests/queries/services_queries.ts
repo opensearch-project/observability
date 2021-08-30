@@ -28,8 +28,8 @@ import {
   SERVICE_MAP_INDEX_NAME,
   SERVICE_MAP_MAX_EDGES,
   SERVICE_MAP_MAX_NODES,
-} from '../../../common';
-import { getServiceMapTargetResources } from '../../components/common';
+} from '../../components/common';
+import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
 
 export const getServicesQuery = (serviceName = null, DSL?) => {

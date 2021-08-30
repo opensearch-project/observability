@@ -24,9 +24,8 @@
  *   permissions and limitations under the License.
  */
 
-import _ from 'lodash';
-import { CoreStart } from '../../../../src/core/public';
-import { DSL_ROUTE, INDICES_ROUTE, SQL_ROUTE } from '../../server/utils/constants';
+import { CoreStart } from '../../../../../../src/core/public';
+import { DSL_ROUTE, INDICES_ROUTE } from '../components/common';
 
 export function handleDslRequest(http: CoreStart['http'], DSL, query) {
   if (DSL?.query) {
@@ -50,12 +49,3 @@ export async function handleIndicesExistRequest(http: CoreStart['http'], setIndi
     .then((exists) => setIndicesExist(exists))
     .catch(() => setIndicesExist(false));
 }
-
-// export function handleSqlRequest(http: CoreStart['http'], query: string) {
-//   console.log('SQL:', query);
-//   return http
-//     .post(SQL_ROUTE, {
-//       body: `{ "query": "${query}" }`,
-//     })
-//     .catch((error) => console.error(error));
-// }

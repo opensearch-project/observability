@@ -33,10 +33,15 @@ import {
   EuiSuperDatePicker,
 } from '@elastic/eui';
 import _ from 'lodash';
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { FiltersProps, Filters } from './filters/filters';
+import React, { useState } from 'react';
+import { Filters, FiltersProps } from './filters/filters';
 
-export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) => {
+export const renderDatePicker = (
+  startTime: string,
+  setStartTime: (startTime: string) => void,
+  endTime: string,
+  setEndTime: (endTime: string) => void
+) => {
   return (
     <EuiSuperDatePicker
       start={startTime}
@@ -52,11 +57,11 @@ export const renderDatePicker = (startTime, setStartTime, endTime, setEndTime) =
 
 export interface SearchBarProps extends FiltersProps {
   query: string;
-  setQuery: Dispatch<SetStateAction<string>>;
+  setQuery: (query: string) => void;
   startTime: string;
-  setStartTime: Dispatch<SetStateAction<string>>;
+  setStartTime: (startTime: string) => void;
   endTime: string;
-  setEndTime: Dispatch<SetStateAction<string>>;
+  setEndTime: (endTime: string) => void;
 }
 
 interface SearchBarOwnProps extends SearchBarProps {

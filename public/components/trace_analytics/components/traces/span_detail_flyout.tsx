@@ -41,14 +41,14 @@ import {
 import _ from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { CoreStart } from '../../../../../src/core/public';
-import { DATE_FORMAT } from '../../../common';
+import { HttpSetup } from '../../../../../../../src/core/public';
 import { handleSpansFlyoutRequest } from '../../requests/traces_request_handler';
-import { nanoToMilliSec } from '../common';
+import { DATE_FORMAT } from '../common';
+import { nanoToMilliSec } from '../common/helper_functions';
 import { FlyoutListItem } from './flyout_list_item';
 
 export function SpanDetailFlyout(props: {
-  http: CoreStart['http'];
+  http: HttpSetup;
   spanId: string;
   isFlyoutVisible: boolean;
   closeFlyout: () => void;

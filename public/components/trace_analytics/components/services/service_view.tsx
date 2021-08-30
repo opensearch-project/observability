@@ -40,18 +40,19 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
+import { TraceAnalyticsComponentDeps } from '../../home';
 import {
   handleServiceMapRequest,
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
-import { CoreDeps } from '../app';
-import { filtersToDsl, PanelTitle, renderDatePicker, SearchBarProps } from '../common';
 import { FilterType } from '../common/filters/filters';
+import { filtersToDsl, PanelTitle } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
+import { renderDatePicker, SearchBarProps } from '../common/search_bar';
 import { SpanDetailFlyout } from '../traces/span_detail_flyout';
 import { SpanDetailTable } from '../traces/span_detail_table';
 
-interface ServiceViewProps extends SearchBarProps, CoreDeps {
+interface ServiceViewProps extends TraceAnalyticsComponentDeps {
   serviceName: string;
   addFilter: (filter: FilterType) => void;
 }
@@ -59,22 +60,25 @@ interface ServiceViewProps extends SearchBarProps, CoreDeps {
 export function ServiceView(props: ServiceViewProps) {
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
+    'latency' | 'error_rate' | 'throughput'
+  >('latency');
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    props.setBreadcrumbs([
+    props.chrome.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
-        text: 'Trace Analytics',
-        href: '#',
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
       },
       {
         text: 'Services',
-        href: '#/services',
+        href: '#/trace_analytics/services',
       },
       {
         text: props.serviceName,
-        href: `#/services/${encodeURIComponent(props.serviceName)}`,
+        href: `#/trace_analytics/services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
   }, []);

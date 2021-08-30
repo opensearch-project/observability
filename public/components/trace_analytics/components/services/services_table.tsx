@@ -38,8 +38,8 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common';
 import { FilterType } from '../common/filters/filters';
+import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common/helper_functions';
 
 export function ServicesTable(props: {
   items: any[];
@@ -69,7 +69,7 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           render: (item) => (
-            <EuiLink href={`#/services/${encodeURIComponent(item)}`}>
+            <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
               {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>
           ),
@@ -138,7 +138,7 @@ export function ServicesTable(props: {
                       inverted: false,
                       disabled: false,
                     });
-                    location.assign('#/traces');
+                    location.assign('#/trace_analytics/traces');
                   }}
                 >
                   <EuiI18nNumber value={item} />

@@ -27,49 +27,43 @@
 import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
+import { TraceAnalyticsComponentDeps } from '../../home';
 import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
-  handleDashboardThroughputPltRequest,
+  handleDashboardThroughputPltRequest
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
-import { CoreDeps } from '../app';
-import {
-  filtersToDsl,
-  getPercentileFilter,
-  milliToNanoSec,
-  minFixedInterval,
-  MissingConfigurationMessage,
-  SearchBar,
-  SearchBarProps,
-} from '../common';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
+import { filtersToDsl, getPercentileFilter, milliToNanoSec, minFixedInterval, MissingConfigurationMessage } from '../common/helper_functions';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ThroughputPlt } from '../common/plots/throughput_plt';
+import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
 
-interface DashboardProps extends SearchBarProps, CoreDeps {}
+interface DashboardProps extends TraceAnalyticsComponentDeps {}
 
 export function Dashboard(props: DashboardProps) {
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapIdSelected, setServiceMapIdSelected] = useState('latency');
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
 
   useEffect(() => {
-    props.setBreadcrumbs([
+    props.chrome.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
-        text: 'Trace Analytics',
-        href: '#',
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
       },
       {
-        text: 'Dashboard',
-        href: '#/dashboard',
+        text: 'Dashboards',
+        href: '#/trace_analytics/home',
       },
     ]);
     const validFilters = getValidFilterFields('dashboard');
@@ -141,13 +135,13 @@ export function Dashboard(props: DashboardProps) {
     props.setFilters(newFilters);
   };
 
-  const addPercentileFilter = (condition = 'gte', additionalFilters = []) => {
+  const addPercentileFilter = (condition = 'gte', additionalFilters = [] as FilterType[]) => {
     if (tableItems.length === 0 || Object.keys(percentileMap).length === 0) return;
     for (let i = 0; i < props.filters.length; i++) {
       if (props.filters[i].custom) {
         const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
-        newFilter.custom.query.bool.should.forEach((should) =>
-          should.bool.must.forEach((must) => {
+        newFilter.custom.query.bool.should.forEach((should: any) =>
+          should.bool.must.forEach((must: any) => {
             const range = must?.range?.['traceGroupFields.durationInNanos'];
             if (range) {
               const duration = range.lt || range.lte || range.gt || range.gte;

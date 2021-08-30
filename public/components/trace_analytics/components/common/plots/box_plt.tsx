@@ -26,7 +26,7 @@
 
 import { EuiFlexGrid, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
 import React, { useMemo, useState } from 'react';
-import { Plt } from './plt';
+import { Plt } from '../../../../visualizations/plotly/plot';
 
 interface PlotParamsType {
   min: number;

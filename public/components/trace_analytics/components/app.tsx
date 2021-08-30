@@ -27,8 +27,7 @@
 import { I18nProvider } from '@osd/i18n/react';
 import React, { useEffect, useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
-import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
+import { ChromeBreadcrumb, CoreStart } from '../../../../src/core/public';
 import { handleIndicesExistRequest } from '../requests/request_handler';
 import { SearchBarProps } from './common';
 import { FilterType } from './common/filters/filters';
@@ -38,29 +37,17 @@ import { Services, ServiceView } from './services';
 import { Traces, TraceView } from './traces';
 
 interface TraceAnalyticsAppDeps {
-  basename: string;
-  notifications: CoreStart['notifications'];
   http: CoreStart['http'];
-  uiSettings: IUiSettingsClient;
   chrome: CoreStart['chrome'];
-  navigation: NavigationPublicPluginStart;
 }
 
 export interface CoreDeps {
   http: CoreStart['http'];
-  uiSettings: IUiSettingsClient;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   indicesExist?: boolean;
 }
 
-export const TraceAnalyticsApp = ({
-  basename,
-  notifications,
-  http,
-  uiSettings,
-  chrome,
-  navigation,
-}: TraceAnalyticsAppDeps) => {
+export const TraceAnalyticsApp = ({ http, chrome }: TraceAnalyticsAppDeps) => {
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');

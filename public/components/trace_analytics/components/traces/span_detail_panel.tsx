@@ -35,14 +35,15 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
-import { CoreStart } from '../../../../../src/core/public';
+import { HttpSetup } from '../../../../../../../src/core/public';
+import { Plt } from '../../../visualizations/plotly/plot';
 import { handleSpansGanttRequest } from '../../requests/traces_request_handler';
-import { PanelTitle, Plt } from '../common';
+import { PanelTitle } from '../common/helper_functions';
 import { SpanDetailFlyout } from './span_detail_flyout';
 import { SpanDetailTable } from './span_detail_table';
 
 export function SpanDetailPanel(props: {
-  http: CoreStart['http'];
+  http: HttpSetup;
   traceId: string;
   colorMap: any;
 }) {
