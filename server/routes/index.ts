@@ -13,8 +13,8 @@ import {
   IRouter,
   ILegacyClusterClient
  } from '../../../../src/core/server';
-import { registerPplRoute } from './api/ppl';
-import PPLFacet from '../services/facets/pplFacet';
+import { registerPplRoute } from './ppl';
+import PPLFacet from '../services/facets/ppl_facet';
 import {CustomPanelsRouter} from './custom_panels_router';
 
 export function setupRoutes({

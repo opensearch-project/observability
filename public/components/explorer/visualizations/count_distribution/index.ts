@@ -9,5 +9,4 @@
  * GitHub history for details.
  */
 
-export { useFetchEvents } from './use_fetch_events';
-export { useFetchVisualizations } from './use_fetch_visualizations';
+export * from './count_distribution';

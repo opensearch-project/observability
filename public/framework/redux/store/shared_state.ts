@@ -9,5 +9,9 @@
  * GitHub history for details.
  */
 
-export { useFetchEvents } from './use_fetch_events';
-export { useFetchVisualizations } from './use_fetch_visualizations';
+import { uniqueId } from 'lodash';
+import { 
+  TAB_ID_TXT_PFX
+} from '../../../../common/constants/explorer'
+
+export const initialTabId: string = uniqueId(TAB_ID_TXT_PFX);

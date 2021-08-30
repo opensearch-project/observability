@@ -13,7 +13,7 @@ import { CoreStart } from '../../../../../src/core/public';
 import {
   PPL_BASE,
   PPL_SEARCH
-} from '../../../common/index';
+} from '../../../common/constants/shared';
 
 export default class PPLService {
   private http;

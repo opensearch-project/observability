@@ -9,4 +9,4 @@
  * GitHub history for details.
  */
 
-export { fetchSuccess } from './fetchReducers';
+export { fetchSuccess } from './fetch_reducers';

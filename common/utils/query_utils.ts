@@ -9,5 +9,10 @@
  * GitHub history for details.
  */
 
-export { useFetchEvents } from './use_fetch_events';
-export { useFetchVisualizations } from './use_fetch_visualizations';
+export const getIndexPatternFromRawQuery = (query: string) : string => {
+  const matches = query.match(/(source|index)\s*=\s*([^|\s]+)/i);
+  if (matches) {
+    return matches[2];
+  }
+  return '';
+};
