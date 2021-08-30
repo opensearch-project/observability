@@ -12,6 +12,7 @@
 import { 
   createSlice
 } from '@reduxjs/toolkit';
+import { forEach } from 'lodash';
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import {
   SELECTED_FIELDS,
@@ -51,6 +52,11 @@ export const fieldSlice = createSlice({
     },
     remove: (state, { payload }) => {
       delete state[payload.tabId];
+    },
+    sortFields: (state, { payload }) => {
+      forEach(payload.data, (toSort) => {
+        state[payload.tabId][toSort].sort((prev, cur) =>  prev.name.localeCompare(cur.name));
+      });
     }
   },
   extraReducers: (builder) => {}
@@ -60,7 +66,8 @@ export const {
   init,
   reset,
   remove,
-  updateFields
+  updateFields,
+  sortFields
 } = fieldSlice.actions;
 
 export const selectFields = (state) => state.fields;

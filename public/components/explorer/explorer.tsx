@@ -10,8 +10,13 @@
  */
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import _ from 'lodash';
+import { batch, useDispatch, useSelector } from 'react-redux';
+import { 
+  uniqueId,
+  isEmpty,
+  cloneDeep,
+  sortBy
+} from 'lodash';
 import { 
   FormattedMessage 
 } from '@osd/i18n/react';
@@ -55,12 +60,16 @@ import {
   selectQueries
 } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
-import { selectFields, updateFields } from './slices/field_slice';
+import { 
+  selectFields,
+  updateFields,
+  sortFields
+} from './slices/field_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 
-const TAB_EVENT_ID = _.uniqueId(TAB_EVENT_ID_TXT_PFX);
-const TAB_CHART_ID = _.uniqueId(TAB_CHART_ID_TXT_PFX);
+const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
+const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 
 interface IExplorerProps {
   pplService: any;
@@ -147,18 +156,23 @@ export const Explorer = ({
     FieldSetToAdd: string
   ) => {
 
-    const nextFields = _.cloneDeep(explorerFields);
+    const nextFields = cloneDeep(explorerFields);
     const thisFieldSet = nextFields[FieldSetToRemove];
     const nextFieldSet = thisFieldSet.filter((fd: IField) => fd.name !== field.name);
     nextFields[FieldSetToRemove] = nextFieldSet;
     nextFields[FieldSetToAdd].push(field);
-
-    dispatch(updateFields({ 
-      tabId,
-      data: {
-        ...nextFields
-      }
-    }));
+    batch(() => {
+      dispatch(updateFields({ 
+        tabId,
+        data: {
+          ...nextFields
+        }
+      }));
+      dispatch(sortFields({
+        tabId,
+        data: [FieldSetToAdd]
+      }));
+    });
   };
 
   const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);
@@ -209,7 +223,7 @@ export const Explorer = ({
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (explorerData && !_.isEmpty(explorerData)) ? (
+          { (explorerData && !isEmpty(explorerData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 

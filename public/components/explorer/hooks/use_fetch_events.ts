@@ -24,6 +24,7 @@ import { fetchSuccess, reset as queryResultReset } from '../slices/query_result_
 import { selectQueries } from '../slices/query_slice';
 import {
   updateFields,
+  sortFields
 } from '../slices/field_slice';
 
 export const useFetchEvents = ({
@@ -72,6 +73,10 @@ export const useFetchEvents = ({
             [SELECTED_FIELDS]: [],
             [UNSELECTED_FIELDS]: res?.schema
           }
+        }));
+        dispatch(sortFields({
+          tabId: requestParams.tabId,
+          data: [UNSELECTED_FIELDS]
         }));
       });
     });
