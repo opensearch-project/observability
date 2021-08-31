@@ -14,24 +14,26 @@ import React, { createElement, Fragment, useEffect, useRef, useState } from 'rea
 import { autocomplete } from '@algolia/autocomplete-js';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-
-
-
+import { RAW_QUERY } from '../../../../common/constants/explorer';
 
 export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
+
+  // console.log('autocomplete loaded')
+  // console.log('query: ', query)
   
   let currIndex = '';
-  
-  const fieldsFromBackend = [];
-  const indicesFromBackend = [];
-  const dataValuesFromBackend =[];
   let currField = ''
   let currFieldType = '';
+  
   let inFieldsCommaLoop = false;
   let nextWhere = 99999;
   let nextStats = '';
   let indexList = [];
+ 
+  const fieldsFromBackend = [];
+  const indicesFromBackend = [];
+  const dataValuesFromBackend =[];
   
   const firstCommand = [
     { label: 'index' },
@@ -39,7 +41,6 @@ export function Autocomplete(props: IQueryBarProps) {
     { label: 'source' }
   ];
   
-
   const pipeCommands = [
     { label: 'dedup' },
     { label: 'eval' },
@@ -94,7 +95,13 @@ export function Autocomplete(props: IQueryBarProps) {
   
   // Function to grab suggestions
   const getSuggestions = async (str: string) => {
-  
+    
+    console.log('currIndex: ', currIndex);
+    console.log('fieldsFromBackend', fieldsFromBackend)
+
+    if (str === 'testing') {
+      handleQueryChange(str);
+    }
 
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
@@ -115,6 +122,7 @@ export function Autocomplete(props: IQueryBarProps) {
       if (splittedModel[splittedModel.length - 2] === '|') {
         inFieldsCommaLoop = false;
         nextWhere = 99999;
+        currField = '';
         dataValuesFromBackend.length = 0;
         return fillSuggestions(str, prefix, pipeCommands);
       } else if (splittedModel[splittedModel.length - 2].includes(',')) {
@@ -127,7 +135,6 @@ export function Autocomplete(props: IQueryBarProps) {
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
       } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-        // console.log('getting fields')
         currIndex = splittedModel[splittedModel.length - 2]
         getFields();
         return [{ label: str + '|', input: str, suggestion: '|' }].filter(
@@ -136,7 +143,7 @@ export function Autocomplete(props: IQueryBarProps) {
       }
       else if (splittedModel[splittedModel.length - 2] === 'search') {
         return [
-          { label: 'search source', input: str, suggestion: 'search source'.substring(str.length) },
+          { label: str + 'source', input: str, suggestion: 'search source'.substring(str.length) },
         ].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
@@ -186,7 +193,10 @@ export function Autocomplete(props: IQueryBarProps) {
       }
       else if (nextWhere + 2 === splittedModel.length) {
         console.log('in nextWhere === value')
-        return fillSuggestions(str, prefix, await getDataValues(currIndex, currField, currFieldType, dataValuesFromBackend))
+        console.log('currField: ', currField)
+        console.log('currFieldType: ', currFieldType)
+        await getDataValues(currIndex, currField, currFieldType);
+        return fillSuggestions(str, prefix, dataValuesFromBackend)
       }
       else if (nextWhere + 3 === splittedModel.length) {
         return [{label: str + '|', input: str, suggestion: '|'}].filter(
@@ -241,24 +251,35 @@ export function Autocomplete(props: IQueryBarProps) {
     }
   }
   
-  const onItemSelect = async ({ setIsOpen, setQuery, item, qry, pplService }) => {
+  const onItemSelect = async ({ setIsOpen, setQuery, item, qry, setStatus }) => {
     if (fieldsFromBackend.length === 0 && indexList.includes(item.label)){
       const splittedModel = item.label.split(' ')
       console.log(item.label)
       currIndex = splittedModel.pop()
       getFields();
     }
+    // setIsOpen(false);
     setQuery(item.label + ' ');
+    console.log('onItemSelect() item.label: ', item.label)
+    setStatus('loading')
   };
 
-  const getDataValues = async (index: string, field: string, fieldType: string, dataValues: any) => {
+  const getDataValues = async (index: string, field: string, fieldType: string) => {
     const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags.buckets;
     res.forEach( (e) => {
       if (fieldType === 'string'){
-        dataValues.push({label: '"' + e.key + '"', doc_count: e.doc_count});
+        dataValuesFromBackend.push({label: '"' + e.key + '"', doc_count: e.doc_count});
+      }
+      else if (fieldType === 'boolean') {
+        if (e.key === 1) {
+          dataValuesFromBackend.push({label: 'True', doc_count: e.doc_count});
+        }
+        else {
+          dataValuesFromBackend.push({label: 'False', doc_count: e.doc_count});
+        }
       }
       else if (fieldType !== 'geo_point'){
-        dataValues.push({label: String(e.key), doc_count: e.doc_count});
+        dataValuesFromBackend.push({label: String(e.key), doc_count: e.doc_count});
       }
     })
   }
@@ -277,28 +298,35 @@ export function Autocomplete(props: IQueryBarProps) {
         // if (state.query === 'source') {
         //   handleQueryChange(state.query)
         // }
+        if (state.status === 'loading') {
+          console.log('state.status === loading')
+        }
       },
       onSubmit: ({ state }) => {
+        console.log('-----------------------------------------------------------')
         console.log('hit enter')
         handleQueryChange(state.query);
         console.log('state.query: ', state.query)
         console.log('query: ', query);
         handleQuerySearch();
+        console.log('-----------------------------------------------------------')
       },
-      getSources({ query, setQuery }) {
+      getSources({ query }) {
         return [
           {
-            getItems({ query }) {
+            getItems({ query, setIsOpen }) {
+              console.log('getItems is called')
+              setIsOpen(true);
               return getSuggestions(query);
             },
             tagName: 'test',
-            onSelect: ({ setQuery, setIsOpen, item, state }) => {
+            onSelect: ({ setQuery, setIsOpen, item, state, setStatus }) => {
               onItemSelect({
                 setIsOpen,
                 setQuery,
                 item,
                 qry: state.query,
-                pplService,
+                setStatus
               });
             },
             templates: {
