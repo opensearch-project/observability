@@ -58,10 +58,10 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
           href: '#/explorer/home',
         },
         {
-          name: 'Custom operational panels',
+          name: 'Operational panels',
           id: 4,
-          href: '#/custom_panels/home',
-        },
+          href: '#/operational_panels/',
+        }
       ],
     },
   ];

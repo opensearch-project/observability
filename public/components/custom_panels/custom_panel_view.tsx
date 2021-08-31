@@ -9,37 +9,331 @@
  * GitHub history for details.
  */
 
-import { EuiBreadcrumb } from '@elastic/eui';
-import React, { useEffect, useState } from 'react';
-import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
-import { DashboardStart } from '../../../../../src/plugins/dashboard/public';
 import {
+  EuiBreadcrumb,
+  EuiButton,
+  EuiFieldText,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiOverlayMask,
+  EuiPage,
+  EuiPageBody,
+  EuiPageContentBody,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiSpacer,
+  EuiSuperDatePicker,
+  EuiSuperDatePickerProps,
+  EuiTitle,
+  ShortDate,
+} from '@elastic/eui';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { CoreStart } from '../../../../../src/core/public';
+import { EmptyPanelView } from './panel_modules/empty_panel';
+import { AddVizView } from './panel_modules/add_visualization';
+import {
+  CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
-  CUSTOM_PANELS_DOCUMENTATION_URL,
+  VisualizationType,
 } from '../../../common/constants/custom_panels';
+import { PanelGrid } from './panel_modules/panel_grid';
+import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
+import PPLService from '../../services/requests/ppl';
+import { convertDateTime, onTimeChange } from './helpers/utils';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 
-// "CustomPanelsView" module used to render saved Custom Operational Panels
+/*
+ * "CustomPanelsView" module used to render an Operational Panel
+ * panelId: Name of the panel opened
+ * http: http core service
+ * pplService: ppl requestor service
+ * chrome: chrome core service
+ * parentBreadcrumb: parent breadcrumb
+ * renameCustomPanel: Rename function for the panel
+ * deleteCustomPanel: Delete function for the panel
+ * setToast: create Toast function
+ */
 
 type Props = {
   panelId: string;
   http: CoreStart['http'];
+  pplService: PPLService;
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: {text: string, href: string}[];
+  parentBreadcrumb: EuiBreadcrumb[];
+  renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
+  deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
+  setToast: (title: string, color?: string, text?: string) => void;
 };
 
 export const CustomPanelView = ({
-  panelId, http, chrome, parentBreadcrumb
+  panelId,
+  http,
+  pplService,
+  chrome,
+  parentBreadcrumb,
+  renameCustomPanel,
+  deleteCustomPanel,
+  setToast,
 }: Props) => {
-  const [openPanelName, setOpenPanelName] = useState("")
+  const [openPanelName, setOpenPanelName] = useState('');
+  const [panelCreatedTime, setPanelCreatedTime] = useState('');
+  const [filterBarValue, setFilterBarValue] = useState('');
+  const [onRefresh, setOnRefresh] = useState(false);
 
-  const fecthCustomPanel = () => {
+  const [inputDisabled, setInputDisabled] = useState(true);
+  const [addVizDisabled, setAddVizDisabled] = useState(false);
+  const [editDisabled, setEditDisabled] = useState(false);
+  const [showVizPanel, setShowVizPanel] = useState(false);
+  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
+  const [editMode, setEditMode] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
 
-  }
+  // DateTimePicker States
+  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
+  const [start, setStart] = useState<ShortDate>('now-30m');
+  const [end, setEnd] = useState<ShortDate>('now');
 
+  // Fetch Panel by id
+  const fetchCustomPanel = async () => {
+    return http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${panelId}`)
+      .then((res) => {
+        setOpenPanelName(res.panel.name);
+        setPanelCreatedTime(res.panel.dateCreated);
+        setPanelVisualizations(res.panel.visualizations);
+      })
+      .catch((err) => {
+        console.error('Issue in fetching the operational panels', err);
+      });
+  };
+
+  const onChange = (e) => {
+    setFilterBarValue(e.target.value);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const onDelete = async () => {
+    const toastMessage = `Operational Panel ${openPanelName} successfully deleted!`;
+    deleteCustomPanel(panelId, openPanelName);
+    closeModal();
+  };
+
+  const deletePanel = () => {
+    setModalLayout(
+      <DeletePanelModal
+        onConfirm={onDelete}
+        onCancel={closeModal}
+        title={`Delete ${openPanelName}`}
+        message={`Are you sure you want to delete this Operational Panel?`}
+      />
+    );
+    showModal();
+  };
+
+  const onRename = async (newCustomPanelName: string) => {
+    renameCustomPanel(newCustomPanelName, panelId);
+    closeModal();
+  };
+
+  const renamePanel = () => {
+    setModalLayout(
+      getCustomModal(
+        onRename,
+        closeModal,
+        'Name',
+        'Rename Panel',
+        'Cancel',
+        'Rename',
+        openPanelName,
+        CREATE_PANEL_MESSAGE
+      )
+    );
+    showModal();
+  };
+
+  // toggle between panel edit mode
+  const editPanel = () => {
+    setEditMode(!editMode);
+    setShowVizPanel(false);
+  };
+
+  const closeVizWindow = () => {
+    setShowVizPanel(false);
+    setAddVizDisabled(false);
+    checkDisabledInputs();
+  };
+
+  const addVizWindow = () => {
+    setShowVizPanel(true);
+    setAddVizDisabled(true);
+    setInputDisabled(true);
+  };
+
+  const checkDisabledInputs = () => {
+    if (panelVisualizations.length == 0) {
+      setEditDisabled(true);
+      setInputDisabled(true);
+    } else {
+      setEditDisabled(false);
+      if (editMode) setInputDisabled(true);
+      else setInputDisabled(false);
+    }
+    if (editMode) setAddVizDisabled(true);
+    else setAddVizDisabled(false);
+  };
+
+  const onRefreshFilters = () => {
+    setOnRefresh(!onRefresh);
+  };
+
+  // Fetch the custom panel on Initial Mount
   useEffect(() => {
-    fecthCustomPanel();
-    chrome.setBreadcrumbs([...parentBreadcrumb, {text: panelId, href: `/:${panelId}`}]); 
+    fetchCustomPanel();
   }, []);
 
-  return <div></div>;
+  // Check Validity of Time
+  useEffect(() => {
+    if (convertDateTime(end, false) < convertDateTime(start)) {
+      setToast('Invalid Time Interval', 'danger');
+      return;
+    }
+  }, [start, end]);
+
+  // Toggle input type (disabled or not disabled)
+  // Disabled when there no visualizations in panels or when the panel is in edit mode
+  useEffect(() => {
+    checkDisabledInputs();
+  }, [panelVisualizations, editMode]);
+
+  // Edit the breadcurmb when panel name changes
+  useEffect(() => {
+    chrome.setBreadcrumbs([
+      ...parentBreadcrumb,
+      { text: openPanelName, href: `${_.last(parentBreadcrumb).href}${panelId}` },
+    ]);
+  }, [openPanelName]);
+
+  return (
+    <div>
+      <EuiPage>
+        <EuiPageBody component="div">
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>{openPanelName}</h1>
+              </EuiTitle>
+              <EuiFlexItem>
+                <EuiSpacer size="s" />
+              </EuiFlexItem>
+              Created on {panelCreatedTime}
+            </EuiPageHeaderSection>
+            <EuiPageHeaderSection>
+              <EuiFlexGroup gutterSize="s">
+                <EuiFlexItem>
+                  <EuiButton color="danger" onClick={deletePanel}>
+                    Delete
+                  </EuiButton>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiButton onClick={renamePanel}>Rename</EuiButton>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiButton>Export</EuiButton>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiButton
+                    iconType={editMode ? 'save' : 'pencil'}
+                    onClick={editPanel}
+                    disabled={editDisabled}
+                  >
+                    {editMode ? 'Save' : 'Edit'}
+                  </EuiButton>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPageHeaderSection>
+          </EuiPageHeader>
+          <EuiPageContentBody>
+            <EuiFlexGroup gutterSize="s">
+              <EuiFlexItem>
+                <EuiFieldText
+                  placeholder="Use PPL to query log indices below. Use “source=” to quickly switch to a different index."
+                  value={filterBarValue}
+                  fullWidth={true}
+                  onChange={(e) => onChange(e)}
+                  disabled={inputDisabled}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiSuperDatePicker
+                  dateFormat={UI_DATE_FORMAT}
+                  start={start}
+                  end={end}
+                  onTimeChange={(props: Readonly<EuiSuperDatePickerProps>) =>
+                    onTimeChange(
+                      props.start,
+                      props.end,
+                      recentlyUsedRanges,
+                      setRecentlyUsedRanges,
+                      setStart,
+                      setEnd
+                    )
+                  }
+                  showUpdateButton={false}
+                  recentlyUsedRanges={recentlyUsedRanges}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiButton isDisabled={inputDisabled} onClick={onRefreshFilters}>
+                  Refresh
+                </EuiButton>
+              </EuiFlexItem>
+              <EuiFlexItem grow={false} onClick={addVizWindow}>
+                <EuiButton disabled={addVizDisabled} fill>
+                  Add visualization
+                </EuiButton>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiSpacer size="l" />
+            {panelVisualizations.length == 0 ? (
+              !showVizPanel && (
+                <EmptyPanelView addVizWindow={addVizWindow} addVizDisabled={addVizDisabled} />
+              )
+            ) : (
+              <PanelGrid
+                chrome={chrome}
+                panelVisualizations={panelVisualizations}
+                editMode={editMode}
+                pplService={pplService}
+                startTime={start}
+                endTime={end}
+                onRefresh={onRefresh}
+              />
+            )}
+            <>
+              {showVizPanel && (
+                <AddVizView
+                  closeVizWindow={closeVizWindow}
+                  pplService={pplService}
+                  panelVisualizations={panelVisualizations}
+                  setPanelVisualizations={setPanelVisualizations}
+                  setToast={setToast}
+                />
+              )}
+            </>
+          </EuiPageContentBody>
+        </EuiPageBody>
+      </EuiPage>
+      {isModalVisible && modalLayout}
+    </div>
+  );
 };
