@@ -26,7 +26,7 @@
 
 import _ from 'lodash';
 import moment from 'moment';
-import { DATE_PICKER_FORMAT } from '../components/common';
+import { TRACE_ANALYTICS_PLOTS_DATE_FORMAT } from '../../../../common/constants/trace_analytics';
 import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardQuery,
@@ -147,9 +147,9 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
       const buckets = response.aggregations.throughput.buckets;
       const texts = buckets.map(
         (bucket) =>
-          `${moment(bucket.key).format(DATE_PICKER_FORMAT)} - ${moment(
+          `${moment(bucket.key).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)} - ${moment(
             bucket.key + fixedIntervalToMilli(fixedInterval)
-          ).format(DATE_PICKER_FORMAT)}`
+          ).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)}`
       );
       const newItems =
         buckets.length > 0
@@ -180,9 +180,9 @@ export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, ite
       const buckets = response.aggregations.error_rate.buckets;
       const texts = buckets.map(
         (bucket) =>
-          `${moment(bucket.key).format(DATE_PICKER_FORMAT)} - ${moment(
+          `${moment(bucket.key).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)} - ${moment(
             bucket.key + fixedIntervalToMilli(fixedInterval)
-          ).format(DATE_PICKER_FORMAT)}`
+          ).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)}`
       );
       const newItems =
         buckets.length > 0

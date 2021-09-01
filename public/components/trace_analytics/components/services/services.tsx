@@ -31,7 +31,6 @@ import { handleServicesRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { filtersToDsl } from '../common/helper_functions';
-import { ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 

@@ -40,7 +40,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { TRACES_MAX_NUM } from '../common';
+import { TRACES_MAX_NUM } from '../../../../../common/constants/trace_analytics';
 import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common/helper_functions';
 
 export function TracesTable(props: {

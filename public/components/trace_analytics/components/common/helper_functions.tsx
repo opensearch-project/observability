@@ -28,7 +28,11 @@ import dateMath from '@elastic/datemath';
 import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import React from 'react';
-import { DOCUMENTATION_LINK, RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME } from '.';
+import {
+  DATA_PREPPER_INDEX_NAME,
+  DATA_PREPPER_SERVICE_INDEX_NAME,
+  TRACE_ANALYTICS_DOCUMENTATION_LINK,
+} from '../../../../../common/constants/trace_analytics';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -69,7 +73,7 @@ export function MissingConfigurationMessage() {
         title={<h2>Trace Analytics not set up</h2>}
         body={
           <EuiText>
-            {`The indices required for trace analytics (${RAW_INDEX_NAME} and ${SERVICE_MAP_INDEX_NAME}) do not exist or you do not have permission to access them.`}
+            {`The indices required for trace analytics (${DATA_PREPPER_INDEX_NAME} and ${DATA_PREPPER_SERVICE_INDEX_NAME}) do not exist or you do not have permission to access them.`}
           </EuiText>
         }
         actions={
@@ -77,7 +81,7 @@ export function MissingConfigurationMessage() {
             color="primary"
             iconSide="right"
             iconType="popout"
-            onClick={() => window.open(DOCUMENTATION_LINK, '_blank')}
+            onClick={() => window.open(TRACE_ANALYTICS_DOCUMENTATION_LINK, '_blank')}
           >
             Learn more
           </EuiButton>

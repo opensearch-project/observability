@@ -42,8 +42,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
+import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
 import { handleSpansFlyoutRequest } from '../../requests/traces_request_handler';
-import { DATE_FORMAT } from '../common';
 import { nanoToMilliSec } from '../common/helper_functions';
 import { FlyoutListItem } from './flyout_list_item';
 
@@ -125,8 +125,8 @@ export function SpanDetailFlyout(props: {
         'Duration',
         `${_.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2)} ms`
       ),
-      getListItem('startTime', 'Start time', moment(span.startTime).format(DATE_FORMAT)),
-      getListItem('endTime', 'End time', moment(span.endTime).format(DATE_FORMAT)),
+      getListItem('startTime', 'Start time', moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT)),
+      getListItem('endTime', 'End time', moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT)),
       getListItem(
         'status.code',
         'Errors',

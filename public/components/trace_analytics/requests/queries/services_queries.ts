@@ -25,10 +25,10 @@
  */
 
 import {
-  SERVICE_MAP_INDEX_NAME,
+  DATA_PREPPER_SERVICE_INDEX_NAME,
   SERVICE_MAP_MAX_EDGES,
   SERVICE_MAP_MAX_NODES,
-} from '../../components/common';
+} from '../../../../../common/constants/trace_analytics';
 import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
 
@@ -130,7 +130,7 @@ export const getRelatedServicesQuery = (serviceName) => {
 
 export const getServiceNodesQuery = () => {
   return {
-    index: SERVICE_MAP_INDEX_NAME,
+    index: DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {
@@ -169,7 +169,7 @@ export const getServiceNodesQuery = () => {
 
 export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   return {
-    index: SERVICE_MAP_INDEX_NAME,
+    index: DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {

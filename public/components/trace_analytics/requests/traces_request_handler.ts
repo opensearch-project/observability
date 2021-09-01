@@ -27,7 +27,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { v1 as uuid } from 'uuid';
-import { DATE_FORMAT } from '../components/common';
+import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../common/constants/trace_analytics';
 import { nanoToMilliSec } from '../components/common/helper_functions';
 import { SpanSearchParams } from '../components/traces/span_detail_table';
 import {
@@ -85,7 +85,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
             trace_id: bucket.key,
             trace_group: bucket.trace_group.buckets[0]?.key,
             latency: bucket.latency.value,
-            last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
+            last_updated: moment(bucket.last_updated.value).format(TRACE_ANALYTICS_DATE_FORMAT),
             error_count: bucket.error_count.doc_count,
             percentile_in_trace_group: binarySearch(
               percentileRanges[bucket.trace_group.buckets[0]?.key],
@@ -109,7 +109,7 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
       return {
         trace_id: bucket.key,
         trace_group: bucket.trace_group.buckets[0]?.key,
-        last_updated: moment(bucket.last_updated.value).format(DATE_FORMAT),
+        last_updated: moment(bucket.last_updated.value).format(TRACE_ANALYTICS_DATE_FORMAT),
         user_id: 'N/A',
         latency: bucket.latency.value,
         latency_vs_benchmark: 'N/A',

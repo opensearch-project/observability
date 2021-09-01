@@ -29,8 +29,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
+import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
 import { handleSpansRequest } from '../../requests/traces_request_handler';
-import { DATE_FORMAT } from '../common';
 import { nanoToMilliSec, NoMatchMessage } from '../common/helper_functions';
 
 interface SpanDetailTableProps {
@@ -136,7 +136,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
           return `${_.round(nanoToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
         case 'endTime':
-          return moment(value).format(DATE_FORMAT);
+          return moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'status.code':
           return value === 2 ? (
             <EuiText color="danger" size="s">

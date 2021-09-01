@@ -25,7 +25,10 @@
  */
 
 import { CoreStart } from '../../../../../../src/core/public';
-import { DSL_ROUTE, INDICES_ROUTE } from '../components/common';
+import {
+  TRACE_ANALYTICS_DSL_ROUTE,
+  TRACE_ANALYTICS_INDICES_ROUTE,
+} from '../../../../common/constants/trace_analytics';
 
 export function handleDslRequest(http: CoreStart['http'], DSL, query) {
   if (DSL?.query) {
@@ -37,7 +40,7 @@ export function handleDslRequest(http: CoreStart['http'], DSL, query) {
       query.query.bool.minimum_should_match = DSL.query.bool.minimum_should_match;
   }
   return http
-    .post(DSL_ROUTE, {
+    .post(TRACE_ANALYTICS_DSL_ROUTE, {
       body: JSON.stringify(query),
     })
     .catch((error) => console.error(error));
@@ -45,7 +48,7 @@ export function handleDslRequest(http: CoreStart['http'], DSL, query) {
 
 export async function handleIndicesExistRequest(http: CoreStart['http'], setIndicesExist) {
   http
-    .post(INDICES_ROUTE)
+    .post(TRACE_ANALYTICS_INDICES_ROUTE)
     .then((exists) => setIndicesExist(exists))
     .catch(() => setIndicesExist(false));
 }

@@ -27,22 +27,17 @@
 import { RequestParams } from '@elastic/elasticsearch';
 import { schema } from '@osd/config-schema';
 import { IRouter } from '../../../../src/core/server';
-import {
-  DSL_ROUTE,
-  INDICES_ROUTE,
-  RAW_INDEX_NAME,
-  SERVICE_MAP_INDEX_NAME,
-} from '../../public/components/trace_analytics/components/common';
+import { TRACE_ANALYTICS_DSL_ROUTE, TRACE_ANALYTICS_INDICES_ROUTE, DATA_PREPPER_INDEX_NAME, DATA_PREPPER_SERVICE_INDEX_NAME } from '../../common/constants/trace_analytics';
 
 export function registerTraceAnalyticsDslRouter(router: IRouter) {
   router.post(
     {
-      path: INDICES_ROUTE,
+      path: TRACE_ANALYTICS_INDICES_ROUTE,
       validate: false,
     },
     async (context, request, response) => {
       const params: RequestParams.IndicesExists = {
-        index: [RAW_INDEX_NAME, SERVICE_MAP_INDEX_NAME],
+        index: [DATA_PREPPER_INDEX_NAME, DATA_PREPPER_SERVICE_INDEX_NAME],
         allow_no_indices: false,
       };
       try {
@@ -64,7 +59,7 @@ export function registerTraceAnalyticsDslRouter(router: IRouter) {
   );
   router.post(
     {
-      path: DSL_ROUTE,
+      path: TRACE_ANALYTICS_DSL_ROUTE,
       validate: {
         body: schema.object({
           index: schema.maybe(schema.string()),
@@ -98,7 +93,7 @@ export function registerTraceAnalyticsDslRouter(router: IRouter) {
     async (context, request, response) => {
       const { index, size, ...rest } = request.body;
       const params: RequestParams.Search = {
-        index: index || RAW_INDEX_NAME,
+        index: index || DATA_PREPPER_INDEX_NAME,
         size,
         body: rest,
       };
