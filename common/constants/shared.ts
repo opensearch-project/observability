@@ -24,3 +24,8 @@ export const DSL_ENDPOINT = '/_plugins/_dsl';
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';
 export const observabilityPluginOrder = 500;
+
+// Shared Constants 
+export const UI_DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
+export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+export const PPL_INDEX_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)/i;

@@ -30,7 +30,7 @@ import {
   EuiFlexItem
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import { RAW_QUERY } from '../../../common/constants/explorer';
+import { INDEX, RAW_QUERY } from '../../../common/constants/explorer';
 
 export const Home = (props: any) => {
   const {pplService, dslService} = props;
@@ -90,11 +90,12 @@ export const Home = (props: any) => {
       <EuiPageContent>
         <Search 
           query={ query }
-          handleQueryChange={ (query) => {
+          handleQueryChange={ (query: string, index: string) => {
             dispatch(changeQuery({
               tabId: initialTabId,
               query: {
-                [RAW_QUERY]: query
+                [RAW_QUERY]: query,
+                [INDEX]: index
               }
             }));
           } }

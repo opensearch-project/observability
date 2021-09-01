@@ -43,7 +43,8 @@ import {
   TAB_CHART_ID_TXT_PFX,
   RAW_QUERY,
   SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  UNSELECTED_FIELDS,
+  INDEX
 } from '../../../common/constants/explorer';
 import { getIndexPatternFromRawQuery } from '../../../common/utils';
 import { 
@@ -96,7 +97,7 @@ export const Explorer = ({
     requestParams
   });
 
-  const query = useSelector(selectQueries)[tabId][RAW_QUERY];
+  const query = useSelector(selectQueries)[tabId];
   const queryRef = useRef();
   queryRef.current = query;
   const explorerData = useSelector(selectQueryResult)[tabId];
@@ -119,7 +120,7 @@ export const Explorer = ({
   );
 
   const fetchData = () => {
-    const searchQuery = queryRef.current;
+    const searchQuery = queryRef.current[RAW_QUERY];
     if (!searchQuery) return;
     if (searchQuery.match(/\|\s*stats/i)) {
       const index = getIndexPatternFromRawQuery(searchQuery);
@@ -428,12 +429,13 @@ export const Explorer = ({
     fetchData();
   }
 
-  const handleQueryChange = (query: string, tabId: string) => {
+  const handleQueryChange = (query: string, index: string, tabId: string) => {
     dispatch(changeQuery({
       tabId,
       query: {
-        [RAW_QUERY]: query
-      }
+        [RAW_QUERY]: query,
+        [INDEX]: index
+      },
     }));
   }
   
@@ -442,7 +444,7 @@ export const Explorer = ({
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ query }
-        handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
+        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index, tabId) } }
         handleQuerySearch={ () => { handleQuerySearch(tabId) } }
         pplService = { pplService }
         dslService = { dslService }

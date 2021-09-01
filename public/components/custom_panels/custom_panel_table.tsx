@@ -9,8 +9,8 @@
  * GitHub history for details.
  */
 
-import CSS from 'csstype';
 import {
+  EuiBreadcrumb,
   EuiButton,
   EuiContextMenuItem,
   EuiContextMenuPanel,
@@ -34,23 +34,37 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import { CustomPanelListType } from './home';
 import {
   CREATE_PANEL_MESSAGE,
-  DATE_FORMAT,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
+import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
 
-const pageStyles: CSS.Properties = {
+const pageStyles: CSSProperties = {
   float: 'left',
   width: '100%',
   maxWidth: '1130px',
 };
+
+/*
+ * "CustomPanelTable" module, used to view all the saved panels
+ * loading: loader bool for the table
+ * fetchCustomPanels: fetch panels function
+ * customPanels: List of panels available
+ * createCustomPanel: create panel function
+ * setBreadcrumbs: setter for breadcrumbs on top panel
+ * parentBreadcrumb: parent breadcrumb
+ * renameCustomPanel: delete function for the panel
+ * cloneCustomPanel: clone function for the panel
+ * deleteCustomPanel: delete function for the panel
+ * setToast: create Toast function
+ */
 
 type Props = {
   loading: boolean;
@@ -58,7 +72,7 @@ type Props = {
   customPanels: Array<CustomPanelListType>;
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  parentBreadcrumb: { text: string; href: string }[];
+  parentBreadcrumb: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
@@ -80,7 +94,7 @@ export const CustomPanelTable = ({
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedCustomPanels, setselectedCustomPanels] = useState([]);
+  const [selectedCustomPanels, setselectedCustomPanels] = useState<CustomPanelListType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -113,7 +127,7 @@ export const CustomPanelTable = ({
 
   const onDelete = async () => {
     const toastMessage = `Custom Panels ${
-      selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].path
+      selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].name
     } successfully deleted!`;
     Promise.all(
       selectedCustomPanels.map((customPanel) => deleteCustomPanel(customPanel.id, undefined, false))
@@ -121,7 +135,7 @@ export const CustomPanelTable = ({
       .then(() => setToast(toastMessage))
       .catch((err) => {
         setToast(
-          'Error deleting Custom Panels, please make sure you have the correct permission.',
+          'Error deleting Operational Panels, please make sure you have the correct permission.',
           'danger'
         );
         console.error(err.body.message);
@@ -135,7 +149,7 @@ export const CustomPanelTable = ({
         onCreate,
         closeModal,
         'Name',
-        'Create custom panel',
+        'Create operational panel',
         'Cancel',
         'Create',
         undefined,
@@ -154,7 +168,7 @@ export const CustomPanelTable = ({
         'Rename Panel',
         'Cancel',
         'Rename',
-        selectedCustomPanels[0].path,
+        selectedCustomPanels[0].name,
         CREATE_PANEL_MESSAGE
       )
     );
@@ -170,7 +184,7 @@ export const CustomPanelTable = ({
         'Duplicate Panel',
         'Cancel',
         'Duplicate',
-        selectedCustomPanels[0].path + ' (copy)',
+        selectedCustomPanels[0].name + ' (copy)',
         CREATE_PANEL_MESSAGE
       )
     );
@@ -178,7 +192,7 @@ export const CustomPanelTable = ({
   };
 
   const deletePanel = () => {
-    const customPanelString = `custom panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
+    const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
     setModalLayout(
       <DeletePanelModal
         onConfirm={onDelete}
@@ -240,20 +254,22 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>
+          {_.truncate(value, { length: 100 })}
+        </EuiLink>
       ),
     },
     {
       field: 'dateModified',
       name: 'Last updated',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
     {
       field: 'dateCreated',
       name: 'Created',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
   ] as Array<
     EuiTableFieldDataColumnType<{
@@ -271,7 +287,7 @@ export const CustomPanelTable = ({
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>Custom operational panels</h1>
+                <h1>Operational panels</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -285,8 +301,8 @@ export const CustomPanelTable = ({
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Custom operational panels provide users with the ability to create and view
-                  different visualizations on ingested observability data, using PPL queries.{' '}
+                  Operational panels provide users with the ability to create and view different
+                  visualizations on ingested observability data, using PPL queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>
@@ -306,7 +322,7 @@ export const CustomPanelTable = ({
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <EuiButton fill onClick={() => createPanel()}>
-                      Create Custom Panel
+                      Create New Panel
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -315,7 +331,7 @@ export const CustomPanelTable = ({
             <EuiHorizontalRule margin="m" />
             <EuiFieldSearch
               fullWidth
-              placeholder="Search custom panel name"
+              placeholder="Search operational panel name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -353,10 +369,10 @@ export const CustomPanelTable = ({
               <>
                 <EuiSpacer size="xxl" />
                 <EuiText textAlign="center">
-                  <h2>No Custom Panels</h2>
+                  <h2>No Operational Panels</h2>
                   <EuiSpacer size="m" />
                   <EuiText color="subdued">
-                    Use custom operational panels to dive deeper into observability
+                    Use operational panels to dive deeper into observability
                     <br />
                     using PPL queries and insightful visualizations
                   </EuiText>
@@ -365,7 +381,7 @@ export const CustomPanelTable = ({
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => createPanel()}>
-                      Create Custom Panel
+                      Create New Panel
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

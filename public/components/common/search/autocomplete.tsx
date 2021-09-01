@@ -19,21 +19,21 @@ import { RAW_QUERY } from '../../../../common/constants/explorer';
 export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
 
-  // console.log('autocomplete loaded')
-  // console.log('query: ', query)
+  console.log('autocomplete loaded')
   
   let currIndex = '';
+  
   let currField = ''
   let currFieldType = '';
   
   let inFieldsCommaLoop = false;
   let nextWhere = 99999;
   let nextStats = '';
-  let indexList = [];
+  let indexList: string[] = [];
  
-  const fieldsFromBackend = [];
-  const indicesFromBackend = [];
-  const dataValuesFromBackend =[];
+  const fieldsFromBackend: [] = [];
+  const indicesFromBackend: [] = [];
+  const dataValuesFromBackend: [] = [];
   
   const firstCommand = [
     { label: 'index' },
@@ -62,7 +62,7 @@ export function Autocomplete(props: IQueryBarProps) {
     { label: 'min(' },
   ];
   
-  const fillSuggestions = ( str: string, word: string, items ) => {
+  const fillSuggestions = ( str: string, word: string, items: any ) => {
     const filteredList = items.filter(
       ({ label }) => label.startsWith(word) && word !== label
     )
@@ -96,17 +96,18 @@ export function Autocomplete(props: IQueryBarProps) {
   // Function to grab suggestions
   const getSuggestions = async (str: string) => {
     
-    console.log('currIndex: ', currIndex);
-    console.log('fieldsFromBackend', fieldsFromBackend)
+    // console.log('query in getSuggestions(): ', query)
+    // console.log('currIndex: ', currIndex);
+    // console.log('fieldsFromBackend', fieldsFromBackend)
 
     if (str === 'testing') {
-      handleQueryChange(str);
+      handleQueryChange(str, currIndex);
     }
 
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
-    let itemSuggestions = [];
-    const fullSuggestions = [];
+    let itemSuggestions: any = [];
+    const fullSuggestions: any = [];
   
     if (splittedModel.length === 1) {
       currField = ''
@@ -251,7 +252,7 @@ export function Autocomplete(props: IQueryBarProps) {
     }
   }
   
-  const onItemSelect = async ({ setIsOpen, setQuery, item, qry, setStatus }) => {
+  const onItemSelect = async ({ setIsOpen, setQuery, item, setStatus }) => {
     if (fieldsFromBackend.length === 0 && indexList.includes(item.label)){
       const splittedModel = item.label.split(' ')
       console.log(item.label)
@@ -289,7 +290,7 @@ export function Autocomplete(props: IQueryBarProps) {
       container: '#autocomplete',
       tagName: '#autocomplete',
       initialState: {
-        query: query
+        query: query[RAW_QUERY]
       },
       openOnFocus: true,
       minLength: 0,
@@ -298,15 +299,16 @@ export function Autocomplete(props: IQueryBarProps) {
         // if (state.query === 'source') {
         //   handleQueryChange(state.query)
         // }
-        if (state.status === 'loading') {
-          console.log('state.status === loading')
-        }
+        // if (state.status === 'loading') {
+        //   console.log('state.status === loading')
+        // }
       },
       onSubmit: ({ state }) => {
         console.log('-----------------------------------------------------------')
         console.log('hit enter')
-        handleQueryChange(state.query);
         console.log('state.query: ', state.query)
+        console.log('currIndex: ', currIndex)
+        handleQueryChange(state.query, currIndex);
         console.log('query: ', query);
         handleQuerySearch();
         console.log('-----------------------------------------------------------')
@@ -325,7 +327,6 @@ export function Autocomplete(props: IQueryBarProps) {
                 setIsOpen,
                 setQuery,
                 item,
-                qry: state.query,
                 setStatus
               });
             },

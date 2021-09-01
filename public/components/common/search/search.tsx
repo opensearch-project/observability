@@ -26,8 +26,8 @@ import '@algolia/autocomplete-theme-classic'
 import {Autocomplete} from './autocomplete'
 
 export interface IQueryBarProps {
-  query: string
-  handleQueryChange: (query: string) => void;
+  query: any
+  handleQueryChange: (query: string, index: string) => void;
   handleQuerySearch: () => void
   pplService: any
   dslService: any

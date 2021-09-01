@@ -15,9 +15,16 @@
     "plotly.js-dist": "^2.2.0",
     "react-plotly.js": "^2.5.1",
     "@algolia/autocomplete-js": "^1.2.1",
-    "@algolia/autocomplete-theme-classic": "^1.2.1"
+    "@algolia/autocomplete-theme-classic": "^1.2.1",
+    "react-graph-vis": "^1.0.5"
   },
   "devDependencies": {
-    "cypress": "^5.0.0"
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react-plotly.js": "^2.5.0",
+    "@types/react-test-renderer": "^16.9.1",
+    "cypress": "^5.0.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "jest-dom": "^4.0.0"
   }
 }
