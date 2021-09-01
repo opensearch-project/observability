@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plotly component renders plot 1`] = `
+<Plt
+  data={
+    Array [
+      Object {
+        "hoverlabel": Object {
+          "align": "left",
+        },
+        "hovertemplate": "%{text}<br>Throughput: %{y:,}<extra></extra>",
+        "marker": Object {
+          "color": "rgb(171, 211, 240)",
+        },
+        "text": Array [
+          "Dec 19, 2019 16:00:00 - Dec 18, 2020 16:00:00",
+        ],
+        "type": "bar",
+        "x": Array [
+          1576800000000,
+        ],
+        "y": Array [
+          36,
+        ],
+      },
+    ]
+  }
+  layout={Object {}}
+>
+  <PlotlyComponent
+    config={
+      Object {
+        "displayModeBar": false,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "hoverlabel": Object {
+            "align": "left",
+          },
+          "hovertemplate": "%{text}<br>Throughput: %{y:,}<extra></extra>",
+          "marker": Object {
+            "color": "rgb(171, 211, 240)",
+          },
+          "text": Array [
+            "Dec 19, 2019 16:00:00 - Dec 18, 2020 16:00:00",
+          ],
+          "type": "bar",
+          "x": Array [
+            1576800000000,
+          ],
+          "y": Array [
+            36,
+          ],
+        },
+      ]
+    }
+    debug={false}
+    layout={
+      Object {
+        "autosize": true,
+        "barmode": "stack",
+        "hovermode": "closest",
+        "legend": Object {
+          "orientation": "h",
+          "traceorder": "normal",
+        },
+        "margin": Object {
+          "b": 30,
+          "l": 30,
+          "pad": 4,
+          "r": 5,
+          "t": 5,
+        },
+        "showlegend": false,
+        "xaxis": Object {
+          "rangemode": "normal",
+          "showgrid": true,
+          "zeroline": false,
+        },
+        "yaxis": Object {
+          "rangemode": "normal",
+          "showgrid": true,
+          "zeroline": false,
+        },
+      }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+    useResizeHandler={true}
+  >
+    <div
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </PlotlyComponent>
+</Plt>
+`;

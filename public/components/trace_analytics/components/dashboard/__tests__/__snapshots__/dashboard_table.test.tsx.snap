@@ -1,0 +1,3468 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard table component renders dashboard table 1`] = `
+<DashboardTable
+  addFilter={[MockFunction]}
+  addPercentileFilter={[MockFunction]}
+  filters={
+    Array [
+      Object {
+        "disabled": false,
+        "field": "traceGroup",
+        "inverted": false,
+        "operator": "exists",
+        "value": "exists",
+      },
+    ]
+  }
+  items={
+    Array [
+      Object {
+        "24_hour_latency_trend": null,
+        "dashboard_average_latency": 187.27,
+        "dashboard_error_rate": 14.285714285714285,
+        "dashboard_latency_variance": Array [
+          26.43,
+          325.4,
+          325.4,
+        ],
+        "dashboard_trace_group_name": "client_create_order",
+        "dashboard_traces": 7,
+      },
+    ]
+  }
+  setRedirect={[MockFunction]}
+>
+  <EuiPanel>
+    <div
+      className="euiPanel euiPanel--paddingMedium"
+    >
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="s"
+      >
+        <div
+          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <EuiFlexItem
+            grow={10}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow10"
+            >
+              <PanelTitle
+                title="Latency by trace group"
+                totalItems={1}
+              >
+                <EuiText
+                  size="m"
+                >
+                  <div
+                    className="euiText euiText--medium"
+                  >
+                    <span
+                      className="panel-title"
+                    >
+                      Latency by trace group
+                    </span>
+                    <span
+                      className="panel-title-count"
+                    >
+                       (1)
+                    </span>
+                  </div>
+                </EuiText>
+              </PanelTitle>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <EuiLink
+                data-test-subj="dashboard-table-percentile-button-1"
+                onClick={[Function]}
+              >
+                <button
+                  className="euiLink euiLink--primary"
+                  data-test-subj="dashboard-table-percentile-button-1"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiText
+                    size="xs"
+                  >
+                    <div
+                      className="euiText euiText--extraSmall"
+                    >
+                      <span
+                        style={
+                          Object {
+                            "color": "#957ac9",
+                          }
+                        }
+                      >
+                        □
+                      </span>
+                       &lt; 95 percentile
+                    </div>
+                  </EuiText>
+                </button>
+              </EuiLink>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={1}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow1"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <EuiLink
+                data-test-subj="dashboard-table-percentile-button-2"
+                onClick={[Function]}
+              >
+                <button
+                  className="euiLink euiLink--primary"
+                  data-test-subj="dashboard-table-percentile-button-2"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiText
+                    size="xs"
+                  >
+                    <div
+                      className="euiText euiText--extraSmall"
+                    >
+                      <span
+                        style={
+                          Object {
+                            "color": "#957ac9",
+                          }
+                        }
+                      >
+                        ■
+                      </span>
+                       &gt;= 95 percentile
+                    </div>
+                  </EuiText>
+                </button>
+              </EuiLink>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={1}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow1"
+            />
+          </EuiFlexItem>
+        </div>
+      </EuiFlexGroup>
+      <EuiSpacer
+        size="m"
+      >
+        <div
+          className="euiSpacer euiSpacer--m"
+        />
+      </EuiSpacer>
+      <EuiHorizontalRule
+        margin="none"
+      >
+        <hr
+          className="euiHorizontalRule euiHorizontalRule--full"
+        />
+      </EuiHorizontalRule>
+      <EuiInMemoryTable
+        columns={
+          Array [
+            Object {
+              "align": "left",
+              "field": "dashboard_trace_group_name",
+              "name": <EuiToolTip
+                content={
+                  <EuiText
+                    size="xs"
+                  >
+                    Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                  </EuiText>
+                }
+                delay="regular"
+                position="top"
+              >
+                <React.Fragment>
+                  <div>
+                    Trace group name
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </div>
+                  <div>
+                     
+                  </div>
+                </React.Fragment>
+              </EuiToolTip>,
+              "render": [Function],
+              "sortable": true,
+            },
+            Object {
+              "align": "center",
+              "field": "dashboard_latency_variance",
+              "name": <React.Fragment>
+                <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      Range of latencies for traces within a trace group in the selected time range.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <span>
+                    Latency variance (ms)
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </span>
+                </EuiToolTip>
+                <EuiText
+                  color="subdued"
+                  size="xs"
+                >
+                  0                100            200            300            400
+                </EuiText>
+              </React.Fragment>,
+              "render": [Function],
+              "sortable": [Function],
+              "width": "300px",
+            },
+            Object {
+              "align": "right",
+              "dataType": "number",
+              "field": "dashboard_average_latency",
+              "name": <EuiToolTip
+                content={
+                  <EuiText
+                    size="xs"
+                  >
+                    Average latency of traces within a trace group in the selected time range.
+                  </EuiText>
+                }
+                delay="regular"
+                position="top"
+              >
+                <React.Fragment>
+                  <div>
+                    Average latency (ms)
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </div>
+                  <div>
+                     
+                  </div>
+                </React.Fragment>
+              </EuiToolTip>,
+              "render": [Function],
+              "sortable": true,
+            },
+            Object {
+              "align": "right",
+              "field": "24_hour_latency_trend",
+              "name": <EuiToolTip
+                content={
+                  <EuiText
+                    size="xs"
+                  >
+                    24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.
+                  </EuiText>
+                }
+                delay="regular"
+                position="top"
+              >
+                <React.Fragment>
+                  <div>
+                    24-hour latency trend
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </div>
+                  <div>
+                     
+                  </div>
+                </React.Fragment>
+              </EuiToolTip>,
+              "render": [Function],
+              "sortable": false,
+            },
+            Object {
+              "align": "right",
+              "field": "dashboard_error_rate",
+              "name": <EuiToolTip
+                content={
+                  <EuiText
+                    size="xs"
+                  >
+                    Error rate based on count of trace errors within a trace group in the selected time range.
+                  </EuiText>
+                }
+                delay="regular"
+                position="top"
+              >
+                <React.Fragment>
+                  <div>
+                    Error rate
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </div>
+                  <div>
+                     
+                  </div>
+                </React.Fragment>
+              </EuiToolTip>,
+              "render": [Function],
+              "sortable": true,
+            },
+            Object {
+              "align": "right",
+              "field": "dashboard_traces",
+              "name": <EuiToolTip
+                content={
+                  <EuiText
+                    size="xs"
+                  >
+                    Count of traces with unique trace identifiers in the selected time range.
+                  </EuiText>
+                }
+                delay="regular"
+                position="top"
+              >
+                <React.Fragment>
+                  <div>
+                    Traces
+                     
+                    <EuiIcon
+                      className="eui-alignTop"
+                      color="subdued"
+                      size="s"
+                      type="questionInCircle"
+                    />
+                  </div>
+                  <div>
+                     
+                  </div>
+                </React.Fragment>
+              </EuiToolTip>,
+              "render": [Function],
+              "sortable": true,
+            },
+          ]
+        }
+        items={
+          Array [
+            Object {
+              "24_hour_latency_trend": null,
+              "dashboard_average_latency": 187.27,
+              "dashboard_error_rate": 14.285714285714285,
+              "dashboard_latency_variance": Array [
+                26.43,
+                325.4,
+                325.4,
+              ],
+              "dashboard_trace_group_name": "client_create_order",
+              "dashboard_traces": 7,
+            },
+          ]
+        }
+        onTableChange={[Function]}
+        pagination={
+          Object {
+            "initialPageSize": 10,
+            "pageSizeOptions": Array [
+              5,
+              10,
+              15,
+            ],
+          }
+        }
+        responsive={true}
+        sorting={
+          Object {
+            "sort": Object {
+              "direction": "desc",
+              "field": "dashboard_latency_variance",
+            },
+          }
+        }
+        tableLayout="auto"
+      >
+        <EuiBasicTable
+          columns={
+            Array [
+              Object {
+                "align": "left",
+                "field": "dashboard_trace_group_name",
+                "name": <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <React.Fragment>
+                    <div>
+                      Trace group name
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </div>
+                    <div>
+                       
+                    </div>
+                  </React.Fragment>
+                </EuiToolTip>,
+                "render": [Function],
+                "sortable": true,
+              },
+              Object {
+                "align": "center",
+                "field": "dashboard_latency_variance",
+                "name": <React.Fragment>
+                  <EuiToolTip
+                    content={
+                      <EuiText
+                        size="xs"
+                      >
+                        Range of latencies for traces within a trace group in the selected time range.
+                      </EuiText>
+                    }
+                    delay="regular"
+                    position="top"
+                  >
+                    <span>
+                      Latency variance (ms)
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </span>
+                  </EuiToolTip>
+                  <EuiText
+                    color="subdued"
+                    size="xs"
+                  >
+                    0                100            200            300            400
+                  </EuiText>
+                </React.Fragment>,
+                "render": [Function],
+                "sortable": [Function],
+                "width": "300px",
+              },
+              Object {
+                "align": "right",
+                "dataType": "number",
+                "field": "dashboard_average_latency",
+                "name": <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      Average latency of traces within a trace group in the selected time range.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <React.Fragment>
+                    <div>
+                      Average latency (ms)
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </div>
+                    <div>
+                       
+                    </div>
+                  </React.Fragment>
+                </EuiToolTip>,
+                "render": [Function],
+                "sortable": true,
+              },
+              Object {
+                "align": "right",
+                "field": "24_hour_latency_trend",
+                "name": <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <React.Fragment>
+                    <div>
+                      24-hour latency trend
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </div>
+                    <div>
+                       
+                    </div>
+                  </React.Fragment>
+                </EuiToolTip>,
+                "render": [Function],
+                "sortable": false,
+              },
+              Object {
+                "align": "right",
+                "field": "dashboard_error_rate",
+                "name": <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      Error rate based on count of trace errors within a trace group in the selected time range.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <React.Fragment>
+                    <div>
+                      Error rate
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </div>
+                    <div>
+                       
+                    </div>
+                  </React.Fragment>
+                </EuiToolTip>,
+                "render": [Function],
+                "sortable": true,
+              },
+              Object {
+                "align": "right",
+                "field": "dashboard_traces",
+                "name": <EuiToolTip
+                  content={
+                    <EuiText
+                      size="xs"
+                    >
+                      Count of traces with unique trace identifiers in the selected time range.
+                    </EuiText>
+                  }
+                  delay="regular"
+                  position="top"
+                >
+                  <React.Fragment>
+                    <div>
+                      Traces
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </div>
+                    <div>
+                       
+                    </div>
+                  </React.Fragment>
+                </EuiToolTip>,
+                "render": [Function],
+                "sortable": true,
+              },
+            ]
+          }
+          items={
+            Array [
+              Object {
+                "24_hour_latency_trend": null,
+                "dashboard_average_latency": 187.27,
+                "dashboard_error_rate": 14.285714285714285,
+                "dashboard_latency_variance": Array [
+                  26.43,
+                  325.4,
+                  325.4,
+                ],
+                "dashboard_trace_group_name": "client_create_order",
+                "dashboard_traces": 7,
+              },
+            ]
+          }
+          noItemsMessage="No items found"
+          onChange={[Function]}
+          pagination={
+            Object {
+              "hidePerPageOptions": undefined,
+              "pageIndex": 0,
+              "pageSize": 10,
+              "pageSizeOptions": Array [
+                5,
+                10,
+                15,
+              ],
+              "totalItemCount": 1,
+            }
+          }
+          responsive={true}
+          sorting={
+            Object {
+              "allowNeutralSort": true,
+              "sort": Object {
+                "direction": "desc",
+                "field": <React.Fragment>
+                  <EuiToolTip
+                    content={
+                      <EuiText
+                        size="xs"
+                      >
+                        Range of latencies for traces within a trace group in the selected time range.
+                      </EuiText>
+                    }
+                    delay="regular"
+                    position="top"
+                  >
+                    <span>
+                      Latency variance (ms)
+                       
+                      <EuiIcon
+                        className="eui-alignTop"
+                        color="subdued"
+                        size="s"
+                        type="questionInCircle"
+                      />
+                    </span>
+                  </EuiToolTip>
+                  <EuiText
+                    color="subdued"
+                    size="xs"
+                  >
+                    0                100            200            300            400
+                  </EuiText>
+                </React.Fragment>,
+              },
+            }
+          }
+          tableLayout="auto"
+        >
+          <div
+            className="euiBasicTable"
+          >
+            <div>
+              <EuiTableHeaderMobile>
+                <div
+                  className="euiTableHeaderMobile"
+                >
+                  <EuiFlexGroup
+                    alignItems="baseline"
+                    justifyContent="spaceBetween"
+                    responsive={false}
+                  >
+                    <div
+                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                    >
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        />
+                      </EuiFlexItem>
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiTableSortMobile
+                            items={
+                              Array [
+                                Object {
+                                  "isSortAscending": undefined,
+                                  "isSorted": false,
+                                  "key": "_data_s_dashboard_trace_group_name_0",
+                                  "name": <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <React.Fragment>
+                                      <div>
+                                        Trace group name
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        />
+                                      </div>
+                                      <div>
+                                         
+                                      </div>
+                                    </React.Fragment>
+                                  </EuiToolTip>,
+                                  "onSort": [Function],
+                                },
+                                Object {
+                                  "isSortAscending": false,
+                                  "isSorted": true,
+                                  "key": "_data_s_dashboard_latency_variance_1",
+                                  "name": <React.Fragment>
+                                    <EuiToolTip
+                                      content={
+                                        <EuiText
+                                          size="xs"
+                                        >
+                                          Range of latencies for traces within a trace group in the selected time range.
+                                        </EuiText>
+                                      }
+                                      delay="regular"
+                                      position="top"
+                                    >
+                                      <span>
+                                        Latency variance (ms)
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        />
+                                      </span>
+                                    </EuiToolTip>
+                                    <EuiText
+                                      color="subdued"
+                                      size="xs"
+                                    >
+                                      0                100            200            300            400
+                                    </EuiText>
+                                  </React.Fragment>,
+                                  "onSort": [Function],
+                                },
+                                Object {
+                                  "isSortAscending": undefined,
+                                  "isSorted": false,
+                                  "key": "_data_s_dashboard_average_latency_2",
+                                  "name": <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        Average latency of traces within a trace group in the selected time range.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <React.Fragment>
+                                      <div>
+                                        Average latency (ms)
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        />
+                                      </div>
+                                      <div>
+                                         
+                                      </div>
+                                    </React.Fragment>
+                                  </EuiToolTip>,
+                                  "onSort": [Function],
+                                },
+                                Object {
+                                  "isSortAscending": undefined,
+                                  "isSorted": false,
+                                  "key": "_data_s_dashboard_error_rate_4",
+                                  "name": <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        Error rate based on count of trace errors within a trace group in the selected time range.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <React.Fragment>
+                                      <div>
+                                        Error rate
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        />
+                                      </div>
+                                      <div>
+                                         
+                                      </div>
+                                    </React.Fragment>
+                                  </EuiToolTip>,
+                                  "onSort": [Function],
+                                },
+                                Object {
+                                  "isSortAscending": undefined,
+                                  "isSorted": false,
+                                  "key": "_data_s_dashboard_traces_5",
+                                  "name": <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        Count of traces with unique trace identifiers in the selected time range.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <React.Fragment>
+                                      <div>
+                                        Traces
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        />
+                                      </div>
+                                      <div>
+                                         
+                                      </div>
+                                    </React.Fragment>
+                                  </EuiToolTip>,
+                                  "onSort": [Function],
+                                },
+                              ]
+                            }
+                          >
+                            <div
+                              className="euiTableSortMobile"
+                            >
+                              <EuiPopover
+                                anchorPosition="downRight"
+                                button={
+                                  <EuiButtonEmpty
+                                    flush="right"
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                    size="xs"
+                                  >
+                                    <EuiI18n
+                                      default="Sorting"
+                                      token="euiTableSortMobile.sorting"
+                                    />
+                                  </EuiButtonEmpty>
+                                }
+                                closePopover={[Function]}
+                                display="inlineBlock"
+                                hasArrow={true}
+                                isOpen={false}
+                                ownFocus={true}
+                                panelPaddingSize="none"
+                              >
+                                <EuiOutsideClickDetector
+                                  isDisabled={true}
+                                  onOutsideClick={[Function]}
+                                >
+                                  <div
+                                    className="euiPopover euiPopover--anchorDownRight"
+                                    onKeyDown={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchStart={[Function]}
+                                  >
+                                    <div
+                                      className="euiPopover__anchor"
+                                    >
+                                      <EuiButtonEmpty
+                                        flush="right"
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        onClick={[Function]}
+                                        size="xs"
+                                      >
+                                        <button
+                                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                                          disabled={false}
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <EuiButtonContent
+                                            className="euiButtonEmpty__content"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            textProps={
+                                              Object {
+                                                "className": "euiButtonEmpty__text",
+                                              }
+                                            }
+                                          >
+                                            <span
+                                              className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                            >
+                                              <EuiIcon
+                                                className="euiButtonContent__icon"
+                                                size="m"
+                                                type="arrowDown"
+                                              >
+                                                <EuiIconEmpty
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                  focusable="false"
+                                                  role="img"
+                                                  style={null}
+                                                >
+                                                  <svg
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                    focusable="false"
+                                                    height={16}
+                                                    role="img"
+                                                    style={null}
+                                                    viewBox="0 0 16 16"
+                                                    width={16}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                </EuiIconEmpty>
+                                              </EuiIcon>
+                                              <span
+                                                className="euiButtonEmpty__text"
+                                              >
+                                                <EuiI18n
+                                                  default="Sorting"
+                                                  token="euiTableSortMobile.sorting"
+                                                >
+                                                  Sorting
+                                                </EuiI18n>
+                                              </span>
+                                            </span>
+                                          </EuiButtonContent>
+                                        </button>
+                                      </EuiButtonEmpty>
+                                    </div>
+                                  </div>
+                                </EuiOutsideClickDetector>
+                              </EuiPopover>
+                            </div>
+                          </EuiTableSortMobile>
+                        </div>
+                      </EuiFlexItem>
+                    </div>
+                  </EuiFlexGroup>
+                </div>
+              </EuiTableHeaderMobile>
+              <EuiTable
+                id="random_html_id"
+                responsive={true}
+                tableLayout="auto"
+              >
+                <table
+                  className="euiTable euiTable--responsive euiTable--auto"
+                  id="random_html_id"
+                  tabIndex={-1}
+                >
+                  <EuiScreenReaderOnly>
+                    <caption
+                      className="euiScreenReaderOnly euiTableCaption"
+                    >
+                      <EuiDelayRender
+                        delay={500}
+                      />
+                    </caption>
+                  </EuiScreenReaderOnly>
+                  <EuiTableHeader>
+                    <thead>
+                      <tr>
+                        <EuiTableHeaderCell
+                          align="left"
+                          allowNeutralSort={true}
+                          data-test-subj="tableHeaderCell_dashboard_trace_group_name_0"
+                          isSorted={false}
+                          key="_data_h_dashboard_trace_group_name_0"
+                          onSort={[Function]}
+                        >
+                          <th
+                            aria-live="polite"
+                            aria-sort="none"
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_dashboard_trace_group_name_0"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          >
+                            <button
+                              className="euiTableHeaderButton"
+                              data-test-subj="tableHeaderSortButton"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="euiTableCellContent"
+                              >
+                                <EuiInnerText>
+                                  <EuiI18n
+                                    default="{innerText}; Sorted in {ariaSortValue} order"
+                                    token="euiTableHeaderCell.titleTextWithSort"
+                                    values={
+                                      Object {
+                                        "ariaSortValue": "none",
+                                        "innerText": "Trace group name  ",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiTableCellContent__text"
+                                      title="Trace group name  "
+                                    >
+                                      <EuiToolTip
+                                        content={
+                                          <EuiText
+                                            size="xs"
+                                          >
+                                            Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                                          </EuiText>
+                                        }
+                                        delay="regular"
+                                        position="top"
+                                      >
+                                        <span
+                                          className="euiToolTipAnchor"
+                                          onKeyUp={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <div>
+                                            Trace group name
+                                             
+                                            <EuiIcon
+                                              className="eui-alignTop"
+                                              color="subdued"
+                                              size="s"
+                                              type="questionInCircle"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </div>
+                                          <div>
+                                             
+                                          </div>
+                                        </span>
+                                      </EuiToolTip>
+                                    </span>
+                                  </EuiI18n>
+                                </EuiInnerText>
+                                <EuiScreenReaderOnly>
+                                  <span
+                                    className="euiScreenReaderOnly"
+                                  >
+                                    <EuiI18n
+                                      default="Click to sort in ascending order"
+                                      token="euiTableHeaderCell.clickForAscending"
+                                    >
+                                      Click to sort in ascending order
+                                    </EuiI18n>
+                                  </span>
+                                </EuiScreenReaderOnly>
+                              </span>
+                            </button>
+                          </th>
+                        </EuiTableHeaderCell>
+                        <EuiTableHeaderCell
+                          align="center"
+                          allowNeutralSort={true}
+                          data-test-subj="tableHeaderCell_dashboard_latency_variance_1"
+                          isSortAscending={false}
+                          isSorted={true}
+                          key="_data_h_dashboard_latency_variance_1"
+                          onSort={[Function]}
+                          width="300px"
+                        >
+                          <th
+                            aria-live="polite"
+                            aria-sort="descending"
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_dashboard_latency_variance_1"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": "300px",
+                              }
+                            }
+                          >
+                            <button
+                              className="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                              data-test-subj="tableHeaderSortButton"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="euiTableCellContent euiTableCellContent--alignCenter"
+                              >
+                                <EuiInnerText>
+                                  <EuiI18n
+                                    default="{innerText}; Sorted in {ariaSortValue} order"
+                                    token="euiTableHeaderCell.titleTextWithSort"
+                                    values={
+                                      Object {
+                                        "ariaSortValue": "descending",
+                                        "innerText": "Latency variance (ms) 0                100            200            300            400",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiTableCellContent__text"
+                                      title="Latency variance (ms) 0                100            200            300            400; Sorted in descending order"
+                                    >
+                                      <EuiToolTip
+                                        content={
+                                          <EuiText
+                                            size="xs"
+                                          >
+                                            Range of latencies for traces within a trace group in the selected time range.
+                                          </EuiText>
+                                        }
+                                        delay="regular"
+                                        position="top"
+                                      >
+                                        <span
+                                          className="euiToolTipAnchor"
+                                          onKeyUp={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <span
+                                            onBlur={[Function]}
+                                            onFocus={[Function]}
+                                          >
+                                            Latency variance (ms)
+                                             
+                                            <EuiIcon
+                                              className="eui-alignTop"
+                                              color="subdued"
+                                              size="s"
+                                              type="questionInCircle"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </span>
+                                        </span>
+                                      </EuiToolTip>
+                                      <EuiText
+                                        color="subdued"
+                                        size="xs"
+                                      >
+                                        <div
+                                          className="euiText euiText--extraSmall"
+                                        >
+                                          <EuiTextColor
+                                            color="subdued"
+                                            component="div"
+                                          >
+                                            <div
+                                              className="euiTextColor euiTextColor--subdued"
+                                            >
+                                              0                100            200            300            400
+                                            </div>
+                                          </EuiTextColor>
+                                        </div>
+                                      </EuiText>
+                                    </span>
+                                  </EuiI18n>
+                                </EuiInnerText>
+                                <EuiI18n
+                                  default="Sorted in {ariaSortValue} order"
+                                  token="euiTableHeaderCell.sortedAriaLabel"
+                                  values={
+                                    Object {
+                                      "ariaSortValue": "descending",
+                                    }
+                                  }
+                                >
+                                  <EuiIcon
+                                    aria-label="Sorted in descending order"
+                                    className="euiTableSortIcon"
+                                    size="m"
+                                    type="sortDown"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      aria-label="Sorted in descending order"
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        aria-label="Sorted in descending order"
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </EuiI18n>
+                                <EuiScreenReaderOnly>
+                                  <span
+                                    className="euiScreenReaderOnly"
+                                  >
+                                    <EuiI18n
+                                      default="Click to unsort"
+                                      token="euiTableHeaderCell.clickForUnsort"
+                                    >
+                                      Click to unsort
+                                    </EuiI18n>
+                                  </span>
+                                </EuiScreenReaderOnly>
+                              </span>
+                            </button>
+                          </th>
+                        </EuiTableHeaderCell>
+                        <EuiTableHeaderCell
+                          align="right"
+                          allowNeutralSort={true}
+                          data-test-subj="tableHeaderCell_dashboard_average_latency_2"
+                          isSorted={false}
+                          key="_data_h_dashboard_average_latency_2"
+                          onSort={[Function]}
+                        >
+                          <th
+                            aria-live="polite"
+                            aria-sort="none"
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_dashboard_average_latency_2"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          >
+                            <button
+                              className="euiTableHeaderButton"
+                              data-test-subj="tableHeaderSortButton"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="euiTableCellContent euiTableCellContent--alignRight"
+                              >
+                                <EuiInnerText>
+                                  <EuiI18n
+                                    default="{innerText}; Sorted in {ariaSortValue} order"
+                                    token="euiTableHeaderCell.titleTextWithSort"
+                                    values={
+                                      Object {
+                                        "ariaSortValue": "none",
+                                        "innerText": "Average latency (ms)  ",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiTableCellContent__text"
+                                      title="Average latency (ms)  "
+                                    >
+                                      <EuiToolTip
+                                        content={
+                                          <EuiText
+                                            size="xs"
+                                          >
+                                            Average latency of traces within a trace group in the selected time range.
+                                          </EuiText>
+                                        }
+                                        delay="regular"
+                                        position="top"
+                                      >
+                                        <span
+                                          className="euiToolTipAnchor"
+                                          onKeyUp={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <div>
+                                            Average latency (ms)
+                                             
+                                            <EuiIcon
+                                              className="eui-alignTop"
+                                              color="subdued"
+                                              size="s"
+                                              type="questionInCircle"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </div>
+                                          <div>
+                                             
+                                          </div>
+                                        </span>
+                                      </EuiToolTip>
+                                    </span>
+                                  </EuiI18n>
+                                </EuiInnerText>
+                                <EuiScreenReaderOnly>
+                                  <span
+                                    className="euiScreenReaderOnly"
+                                  >
+                                    <EuiI18n
+                                      default="Click to sort in ascending order"
+                                      token="euiTableHeaderCell.clickForAscending"
+                                    >
+                                      Click to sort in ascending order
+                                    </EuiI18n>
+                                  </span>
+                                </EuiScreenReaderOnly>
+                              </span>
+                            </button>
+                          </th>
+                        </EuiTableHeaderCell>
+                        <EuiTableHeaderCell
+                          align="right"
+                          data-test-subj="tableHeaderCell_24_hour_latency_trend_3"
+                          key="_data_h_24_hour_latency_trend_3"
+                        >
+                          <th
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_24_hour_latency_trend_3"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          >
+                            <div
+                              className="euiTableCellContent euiTableCellContent--alignRight"
+                            >
+                              <EuiInnerText>
+                                <span
+                                  className="euiTableCellContent__text"
+                                  title="24-hour latency trend  "
+                                >
+                                  <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <span
+                                      className="euiToolTipAnchor"
+                                      onKeyUp={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                    >
+                                      <div>
+                                        24-hour latency trend
+                                         
+                                        <EuiIcon
+                                          className="eui-alignTop"
+                                          color="subdued"
+                                          size="s"
+                                          type="questionInCircle"
+                                        >
+                                          <EuiIconEmpty
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                          </EuiIconEmpty>
+                                        </EuiIcon>
+                                      </div>
+                                      <div>
+                                         
+                                      </div>
+                                    </span>
+                                  </EuiToolTip>
+                                </span>
+                              </EuiInnerText>
+                            </div>
+                          </th>
+                        </EuiTableHeaderCell>
+                        <EuiTableHeaderCell
+                          align="right"
+                          allowNeutralSort={true}
+                          data-test-subj="tableHeaderCell_dashboard_error_rate_4"
+                          isSorted={false}
+                          key="_data_h_dashboard_error_rate_4"
+                          onSort={[Function]}
+                        >
+                          <th
+                            aria-live="polite"
+                            aria-sort="none"
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_dashboard_error_rate_4"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          >
+                            <button
+                              className="euiTableHeaderButton"
+                              data-test-subj="tableHeaderSortButton"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="euiTableCellContent euiTableCellContent--alignRight"
+                              >
+                                <EuiInnerText>
+                                  <EuiI18n
+                                    default="{innerText}; Sorted in {ariaSortValue} order"
+                                    token="euiTableHeaderCell.titleTextWithSort"
+                                    values={
+                                      Object {
+                                        "ariaSortValue": "none",
+                                        "innerText": "Error rate  ",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiTableCellContent__text"
+                                      title="Error rate  "
+                                    >
+                                      <EuiToolTip
+                                        content={
+                                          <EuiText
+                                            size="xs"
+                                          >
+                                            Error rate based on count of trace errors within a trace group in the selected time range.
+                                          </EuiText>
+                                        }
+                                        delay="regular"
+                                        position="top"
+                                      >
+                                        <span
+                                          className="euiToolTipAnchor"
+                                          onKeyUp={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <div>
+                                            Error rate
+                                             
+                                            <EuiIcon
+                                              className="eui-alignTop"
+                                              color="subdued"
+                                              size="s"
+                                              type="questionInCircle"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </div>
+                                          <div>
+                                             
+                                          </div>
+                                        </span>
+                                      </EuiToolTip>
+                                    </span>
+                                  </EuiI18n>
+                                </EuiInnerText>
+                                <EuiScreenReaderOnly>
+                                  <span
+                                    className="euiScreenReaderOnly"
+                                  >
+                                    <EuiI18n
+                                      default="Click to sort in ascending order"
+                                      token="euiTableHeaderCell.clickForAscending"
+                                    >
+                                      Click to sort in ascending order
+                                    </EuiI18n>
+                                  </span>
+                                </EuiScreenReaderOnly>
+                              </span>
+                            </button>
+                          </th>
+                        </EuiTableHeaderCell>
+                        <EuiTableHeaderCell
+                          align="right"
+                          allowNeutralSort={true}
+                          data-test-subj="tableHeaderCell_dashboard_traces_5"
+                          isSorted={false}
+                          key="_data_h_dashboard_traces_5"
+                          onSort={[Function]}
+                        >
+                          <th
+                            aria-live="polite"
+                            aria-sort="none"
+                            className="euiTableHeaderCell"
+                            data-test-subj="tableHeaderCell_dashboard_traces_5"
+                            role="columnheader"
+                            scope="col"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          >
+                            <button
+                              className="euiTableHeaderButton"
+                              data-test-subj="tableHeaderSortButton"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="euiTableCellContent euiTableCellContent--alignRight"
+                              >
+                                <EuiInnerText>
+                                  <EuiI18n
+                                    default="{innerText}; Sorted in {ariaSortValue} order"
+                                    token="euiTableHeaderCell.titleTextWithSort"
+                                    values={
+                                      Object {
+                                        "ariaSortValue": "none",
+                                        "innerText": "Traces  ",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className="euiTableCellContent__text"
+                                      title="Traces  "
+                                    >
+                                      <EuiToolTip
+                                        content={
+                                          <EuiText
+                                            size="xs"
+                                          >
+                                            Count of traces with unique trace identifiers in the selected time range.
+                                          </EuiText>
+                                        }
+                                        delay="regular"
+                                        position="top"
+                                      >
+                                        <span
+                                          className="euiToolTipAnchor"
+                                          onKeyUp={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <div>
+                                            Traces
+                                             
+                                            <EuiIcon
+                                              className="eui-alignTop"
+                                              color="subdued"
+                                              size="s"
+                                              type="questionInCircle"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </div>
+                                          <div>
+                                             
+                                          </div>
+                                        </span>
+                                      </EuiToolTip>
+                                    </span>
+                                  </EuiI18n>
+                                </EuiInnerText>
+                                <EuiScreenReaderOnly>
+                                  <span
+                                    className="euiScreenReaderOnly"
+                                  >
+                                    <EuiI18n
+                                      default="Click to sort in ascending order"
+                                      token="euiTableHeaderCell.clickForAscending"
+                                    >
+                                      Click to sort in ascending order
+                                    </EuiI18n>
+                                  </span>
+                                </EuiScreenReaderOnly>
+                              </span>
+                            </button>
+                          </th>
+                        </EuiTableHeaderCell>
+                      </tr>
+                    </thead>
+                  </EuiTableHeader>
+                  <EuiTableBody
+                    bodyRef={[Function]}
+                  >
+                    <tbody>
+                      <EuiTableRow
+                        isSelected={false}
+                      >
+                        <tr
+                          className="euiTableRow"
+                        >
+                          <EuiTableRowCell
+                            align="left"
+                            key="_data_column_dashboard_trace_group_name_0_0"
+                            mobileOptions={
+                              Object {
+                                "header": <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <React.Fragment>
+                                    <div>
+                                      Trace group name
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </React.Fragment>
+                                </EuiToolTip>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <div>
+                                      Trace group name
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </span>
+                                </EuiToolTip>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--overflowingContent"
+                              >
+                                <EuiLink
+                                  className=""
+                                  data-test-subj="dashboard-table-trace-group-name-button"
+                                  key=".0"
+                                  onClick={[Function]}
+                                >
+                                  <button
+                                    className="euiLink euiLink--primary"
+                                    data-test-subj="dashboard-table-trace-group-name-button"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    client_create_order
+                                  </button>
+                                </EuiLink>
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                          <EuiTableRowCell
+                            align="center"
+                            key="_data_column_dashboard_latency_variance_0_1"
+                            mobileOptions={
+                              Object {
+                                "header": <React.Fragment>
+                                  <EuiToolTip
+                                    content={
+                                      <EuiText
+                                        size="xs"
+                                      >
+                                        Range of latencies for traces within a trace group in the selected time range.
+                                      </EuiText>
+                                    }
+                                    delay="regular"
+                                    position="top"
+                                  >
+                                    <span>
+                                      Latency variance (ms)
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </span>
+                                  </EuiToolTip>
+                                  <EuiText
+                                    color="subdued"
+                                    size="xs"
+                                  >
+                                    0                100            200            300            400
+                                  </EuiText>
+                                </React.Fragment>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                            width="300px"
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": "300px",
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Range of latencies for traces within a trace group in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <span
+                                      onBlur={[Function]}
+                                      onFocus={[Function]}
+                                    >
+                                      Latency variance (ms)
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </span>
+                                  </span>
+                                </EuiToolTip>
+                                <EuiText
+                                  color="subdued"
+                                  size="xs"
+                                >
+                                  <div
+                                    className="euiText euiText--extraSmall"
+                                  >
+                                    <EuiTextColor
+                                      color="subdued"
+                                      component="div"
+                                    >
+                                      <div
+                                        className="euiTextColor euiTextColor--subdued"
+                                      >
+                                        0                100            200            300            400
+                                      </div>
+                                    </EuiTextColor>
+                                  </div>
+                                </EuiText>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--alignCenter euiTableCellContent--overflowingContent"
+                              >
+                                <BoxPlt
+                                  className=""
+                                  key=".0"
+                                  plotParams={
+                                    Object {
+                                      "addFilter": [Function],
+                                      "currPercentileFilter": "",
+                                      "left": 26.43,
+                                      "max": 412,
+                                      "mid": 325.4,
+                                      "min": 0,
+                                      "right": 325.4,
+                                    }
+                                  }
+                                >
+                                  <EuiToolTip
+                                    content={
+                                      <EuiFlexGrid
+                                        columns={2}
+                                        gutterSize="s"
+                                        responsive={false}
+                                      >
+                                        <EuiFlexItem>
+                                          <EuiText
+                                            size="xs"
+                                            style={
+                                              Object {
+                                                "color": "#c9cbce",
+                                              }
+                                            }
+                                          >
+                                            <p>
+                                              Latency &lt;95 percentile
+                                            </p>
+                                          </EuiText>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem>
+                                          <EuiText
+                                            size="xs"
+                                            style={
+                                              Object {
+                                                "color": "#c9cbce",
+                                              }
+                                            }
+                                          >
+                                            <p>
+                                              26ms - 325ms
+                                            </p>
+                                          </EuiText>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem>
+                                          <EuiText
+                                            size="xs"
+                                            style={
+                                              Object {
+                                                "color": "#c9cbce",
+                                              }
+                                            }
+                                          >
+                                            <p>
+                                              Latency &gt;=95 percentile
+                                            </p>
+                                          </EuiText>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem>
+                                          <EuiText
+                                            size="xs"
+                                            style={
+                                              Object {
+                                                "color": "#c9cbce",
+                                              }
+                                            }
+                                          >
+                                            <p>
+                                              325ms - 325ms
+                                            </p>
+                                          </EuiText>
+                                        </EuiFlexItem>
+                                      </EuiFlexGrid>
+                                    }
+                                    delay="regular"
+                                    onMouseOut={[Function]}
+                                    position="bottom"
+                                  >
+                                    <span
+                                      className="euiToolTipAnchor"
+                                      onKeyUp={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                    >
+                                      <Plt
+                                        data={
+                                          Array [
+                                            Object {
+                                              "hoverinfo": "none",
+                                              "marker": Object {
+                                                "color": "rgba(0, 0, 0, 0)",
+                                              },
+                                              "orientation": "h",
+                                              "showlegend": false,
+                                              "type": "bar",
+                                              "width": 1,
+                                              "x": Array [
+                                                26.43,
+                                              ],
+                                              "y": Array [
+                                                0,
+                                              ],
+                                            },
+                                            Object {
+                                              "marker": Object {
+                                                "color": "#ffffff",
+                                                "line": Object {
+                                                  "color": "#957ac9",
+                                                  "width": 1,
+                                                },
+                                              },
+                                              "orientation": "h",
+                                              "type": "bar",
+                                              "width": 1,
+                                              "x": Array [
+                                                298.96999999999997,
+                                              ],
+                                              "y": Array [
+                                                0,
+                                              ],
+                                            },
+                                            Object {
+                                              "marker": Object {
+                                                "color": "#957ac9",
+                                                "line": Object {
+                                                  "color": "#957ac9",
+                                                  "width": 1,
+                                                },
+                                              },
+                                              "orientation": "h",
+                                              "type": "bar",
+                                              "width": 1,
+                                              "x": Array [
+                                                0,
+                                              ],
+                                              "y": Array [
+                                                0,
+                                              ],
+                                            },
+                                          ]
+                                        }
+                                        layout={
+                                          Object {
+                                            "height": 15,
+                                            "margin": Object {
+                                              "b": 0,
+                                              "l": 0,
+                                              "pad": 0,
+                                              "r": 0,
+                                              "t": 0,
+                                            },
+                                            "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                                            "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                                            "width": 250,
+                                            "xaxis": Object {
+                                              "fixedrange": true,
+                                              "range": Array [
+                                                0,
+                                                412,
+                                              ],
+                                              "showgrid": false,
+                                              "visible": false,
+                                            },
+                                            "yaxis": Object {
+                                              "fixedrange": true,
+                                              "range": Array [
+                                                -0.6,
+                                                0.6,
+                                              ],
+                                              "showgrid": false,
+                                              "visible": false,
+                                            },
+                                          }
+                                        }
+                                        onBlur={[Function]}
+                                        onClickHandler={[Function]}
+                                        onFocus={[Function]}
+                                        onHoverHandler={[Function]}
+                                      >
+                                        <PlotlyComponent
+                                          config={
+                                            Object {
+                                              "displayModeBar": false,
+                                            }
+                                          }
+                                          data={
+                                            Array [
+                                              Object {
+                                                "hoverinfo": "none",
+                                                "marker": Object {
+                                                  "color": "rgba(0, 0, 0, 0)",
+                                                },
+                                                "orientation": "h",
+                                                "showlegend": false,
+                                                "type": "bar",
+                                                "width": 1,
+                                                "x": Array [
+                                                  26.43,
+                                                ],
+                                                "y": Array [
+                                                  0,
+                                                ],
+                                              },
+                                              Object {
+                                                "marker": Object {
+                                                  "color": "#ffffff",
+                                                  "line": Object {
+                                                    "color": "#957ac9",
+                                                    "width": 1,
+                                                  },
+                                                },
+                                                "orientation": "h",
+                                                "type": "bar",
+                                                "width": 1,
+                                                "x": Array [
+                                                  298.96999999999997,
+                                                ],
+                                                "y": Array [
+                                                  0,
+                                                ],
+                                              },
+                                              Object {
+                                                "marker": Object {
+                                                  "color": "#957ac9",
+                                                  "line": Object {
+                                                    "color": "#957ac9",
+                                                    "width": 1,
+                                                  },
+                                                },
+                                                "orientation": "h",
+                                                "type": "bar",
+                                                "width": 1,
+                                                "x": Array [
+                                                  0,
+                                                ],
+                                                "y": Array [
+                                                  0,
+                                                ],
+                                              },
+                                            ]
+                                          }
+                                          debug={false}
+                                          layout={
+                                            Object {
+                                              "autosize": true,
+                                              "barmode": "stack",
+                                              "height": 15,
+                                              "hovermode": "closest",
+                                              "legend": Object {
+                                                "orientation": "h",
+                                                "traceorder": "normal",
+                                              },
+                                              "margin": Object {
+                                                "b": 0,
+                                                "l": 0,
+                                                "pad": 0,
+                                                "r": 0,
+                                                "t": 0,
+                                              },
+                                              "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                                              "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                                              "showlegend": false,
+                                              "width": 250,
+                                              "xaxis": Object {
+                                                "fixedrange": true,
+                                                "range": Array [
+                                                  0,
+                                                  412,
+                                                ],
+                                                "showgrid": false,
+                                                "visible": false,
+                                              },
+                                              "yaxis": Object {
+                                                "fixedrange": true,
+                                                "range": Array [
+                                                  -0.6,
+                                                  0.6,
+                                                ],
+                                                "showgrid": false,
+                                                "visible": false,
+                                              },
+                                            }
+                                          }
+                                          onClick={[Function]}
+                                          onHover={[Function]}
+                                          style={
+                                            Object {
+                                              "height": "100%",
+                                              "width": "100%",
+                                            }
+                                          }
+                                          useResizeHandler={true}
+                                        >
+                                          <div
+                                            style={
+                                              Object {
+                                                "height": "100%",
+                                                "width": "100%",
+                                              }
+                                            }
+                                          />
+                                        </PlotlyComponent>
+                                      </Plt>
+                                    </span>
+                                  </EuiToolTip>
+                                </BoxPlt>
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                          <EuiTableRowCell
+                            align="right"
+                            key="_data_column_dashboard_average_latency_0_2"
+                            mobileOptions={
+                              Object {
+                                "header": <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Average latency of traces within a trace group in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <React.Fragment>
+                                    <div>
+                                      Average latency (ms)
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </React.Fragment>
+                                </EuiToolTip>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Average latency of traces within a trace group in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <div>
+                                      Average latency (ms)
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </span>
+                                </EuiToolTip>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
+                              >
+                                187.27
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                          <EuiTableRowCell
+                            align="right"
+                            key="_data_column_24_hour_latency_trend_0_3"
+                            mobileOptions={
+                              Object {
+                                "header": <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <React.Fragment>
+                                    <div>
+                                      24-hour latency trend
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </React.Fragment>
+                                </EuiToolTip>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <div>
+                                      24-hour latency trend
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </span>
+                                </EuiToolTip>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
+                              >
+                                -
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                          <EuiTableRowCell
+                            align="right"
+                            key="_data_column_dashboard_error_rate_0_4"
+                            mobileOptions={
+                              Object {
+                                "header": <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Error rate based on count of trace errors within a trace group in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <React.Fragment>
+                                    <div>
+                                      Error rate
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </React.Fragment>
+                                </EuiToolTip>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Error rate based on count of trace errors within a trace group in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <div>
+                                      Error rate
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </span>
+                                </EuiToolTip>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
+                              >
+                                <EuiText
+                                  className=""
+                                  key=".0"
+                                  size="s"
+                                >
+                                  <div
+                                    className="euiText euiText--small"
+                                  >
+                                    14.29%
+                                  </div>
+                                </EuiText>
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                          <EuiTableRowCell
+                            align="right"
+                            key="_data_column_dashboard_traces_0_5"
+                            mobileOptions={
+                              Object {
+                                "header": <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Count of traces with unique trace identifiers in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <React.Fragment>
+                                    <div>
+                                      Traces
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      />
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </React.Fragment>
+                                </EuiToolTip>,
+                                "render": undefined,
+                              }
+                            }
+                            setScopeRow={false}
+                            textOnly={false}
+                          >
+                            <td
+                              className="euiTableRowCell"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <div
+                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                              >
+                                <EuiToolTip
+                                  content={
+                                    <EuiText
+                                      size="xs"
+                                    >
+                                      Count of traces with unique trace identifiers in the selected time range.
+                                    </EuiText>
+                                  }
+                                  delay="regular"
+                                  position="top"
+                                >
+                                  <span
+                                    className="euiToolTipAnchor"
+                                    onKeyUp={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                  >
+                                    <div>
+                                      Traces
+                                       
+                                      <EuiIcon
+                                        className="eui-alignTop"
+                                        color="subdued"
+                                        size="s"
+                                        type="questionInCircle"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading eui-alignTop"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                  </span>
+                                </EuiToolTip>
+                              </div>
+                              <div
+                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
+                              >
+                                <EuiLink
+                                  className=""
+                                  data-test-subj="dashboard-table-traces-button"
+                                  key=".0"
+                                  onClick={[Function]}
+                                >
+                                  <button
+                                    className="euiLink euiLink--primary"
+                                    data-test-subj="dashboard-table-traces-button"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    <EuiI18nNumber
+                                      value={7}
+                                    >
+                                      7
+                                    </EuiI18nNumber>
+                                  </button>
+                                </EuiLink>
+                              </div>
+                            </td>
+                          </EuiTableRowCell>
+                        </tr>
+                      </EuiTableRow>
+                    </tbody>
+                  </EuiTableBody>
+                </table>
+              </EuiTable>
+            </div>
+            <PaginationBar
+              aria-controls="random_html_id"
+              onPageChange={[Function]}
+              onPageSizeChange={[Function]}
+              pagination={
+                Object {
+                  "hidePerPageOptions": undefined,
+                  "pageIndex": 0,
+                  "pageSize": 10,
+                  "pageSizeOptions": Array [
+                    5,
+                    10,
+                    15,
+                  ],
+                  "totalItemCount": 1,
+                }
+              }
+            >
+              <div>
+                <EuiSpacer
+                  size="m"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--m"
+                  />
+                </EuiSpacer>
+                <EuiTablePagination
+                  activePage={0}
+                  aria-controls="random_html_id"
+                  itemsPerPage={10}
+                  itemsPerPageOptions={
+                    Array [
+                      5,
+                      10,
+                      15,
+                    ]
+                  }
+                  onChangeItemsPerPage={[Function]}
+                  onChangePage={[Function]}
+                  pageCount={1}
+                >
+                  <EuiFlexGroup
+                    alignItems="center"
+                    justifyContent="spaceBetween"
+                    responsive={false}
+                  >
+                    <div
+                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                    >
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiPopover
+                            anchorPosition="upRight"
+                            button={
+                              <EuiButtonEmpty
+                                color="text"
+                                data-test-subj="tablePaginationPopoverButton"
+                                iconSide="right"
+                                iconType="arrowDown"
+                                onClick={[Function]}
+                                size="xs"
+                              >
+                                <EuiI18n
+                                  default="Rows per page"
+                                  token="euiTablePagination.rowsPerPage"
+                                />
+                                : 
+                                10
+                              </EuiButtonEmpty>
+                            }
+                            closePopover={[Function]}
+                            display="inlineBlock"
+                            hasArrow={true}
+                            isOpen={false}
+                            ownFocus={false}
+                            panelPaddingSize="none"
+                            withTitle={true}
+                          >
+                            <EuiOutsideClickDetector
+                              isDisabled={true}
+                              onOutsideClick={[Function]}
+                            >
+                              <div
+                                className="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
+                                onKeyDown={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseUp={[Function]}
+                                onTouchEnd={[Function]}
+                                onTouchStart={[Function]}
+                              >
+                                <div
+                                  className="euiPopover__anchor"
+                                >
+                                  <EuiButtonEmpty
+                                    color="text"
+                                    data-test-subj="tablePaginationPopoverButton"
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                    size="xs"
+                                  >
+                                    <button
+                                      className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
+                                      data-test-subj="tablePaginationPopoverButton"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <EuiButtonContent
+                                        className="euiButtonEmpty__content"
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        textProps={
+                                          Object {
+                                            "className": "euiButtonEmpty__text",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                        >
+                                          <EuiIcon
+                                            className="euiButtonContent__icon"
+                                            size="m"
+                                            type="arrowDown"
+                                          >
+                                            <EuiIconEmpty
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                              focusable="false"
+                                              role="img"
+                                              style={null}
+                                            >
+                                              <svg
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                height={16}
+                                                role="img"
+                                                style={null}
+                                                viewBox="0 0 16 16"
+                                                width={16}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                            </EuiIconEmpty>
+                                          </EuiIcon>
+                                          <span
+                                            className="euiButtonEmpty__text"
+                                          >
+                                            <EuiI18n
+                                              default="Rows per page"
+                                              token="euiTablePagination.rowsPerPage"
+                                            >
+                                              Rows per page
+                                            </EuiI18n>
+                                            : 
+                                            10
+                                          </span>
+                                        </span>
+                                      </EuiButtonContent>
+                                    </button>
+                                  </EuiButtonEmpty>
+                                </div>
+                              </div>
+                            </EuiOutsideClickDetector>
+                          </EuiPopover>
+                        </div>
+                      </EuiFlexItem>
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiPagination
+                            activePage={0}
+                            aria-controls="random_html_id"
+                            onPageClick={[Function]}
+                            pageCount={1}
+                          >
+                            <nav
+                              className="euiPagination"
+                            >
+                              <EuiI18n
+                                default="Previous page, {page}"
+                                token="euiPagination.previousPage"
+                                values={
+                                  Object {
+                                    "page": 0,
+                                  }
+                                }
+                              >
+                                <EuiI18n
+                                  default="Previous page"
+                                  token="euiPagination.disabledPreviousPage"
+                                >
+                                  <EuiButtonIcon
+                                    aria-label="Previous page"
+                                    color="text"
+                                    data-test-subj="pagination-button-previous"
+                                    disabled={true}
+                                    iconType="arrowLeft"
+                                    onClick={[Function]}
+                                  >
+                                    <button
+                                      aria-label="Previous page"
+                                      className="euiButtonIcon euiButtonIcon--text"
+                                      data-test-subj="pagination-button-previous"
+                                      disabled={true}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <EuiIcon
+                                        aria-hidden="true"
+                                        className="euiButtonIcon__icon"
+                                        size="m"
+                                        type="arrowLeft"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </button>
+                                  </EuiButtonIcon>
+                                </EuiI18n>
+                              </EuiI18n>
+                              <ul
+                                className="euiPagination__list"
+                              >
+                                <PaginationButton
+                                  key="0"
+                                  pageIndex={0}
+                                >
+                                  <li
+                                    className="euiPagination__item"
+                                  >
+                                    <EuiPaginationButton
+                                      aria-controls="random_html_id"
+                                      hideOnMobile={true}
+                                      isActive={true}
+                                      onClick={[Function]}
+                                      pageIndex={0}
+                                      totalPages={1}
+                                    >
+                                      <EuiI18n
+                                        default="Page {page} of {totalPages}"
+                                        token="euiPaginationButton.longPageString"
+                                        values={
+                                          Object {
+                                            "page": 1,
+                                            "totalPages": 1,
+                                          }
+                                        }
+                                      >
+                                        <EuiI18n
+                                          default="Page {page}"
+                                          token="euiPaginationButton.shortPageString"
+                                          values={
+                                            Object {
+                                              "page": 1,
+                                            }
+                                          }
+                                        >
+                                          <EuiButtonEmpty
+                                            aria-controls="random_html_id"
+                                            aria-current={true}
+                                            aria-label="Page 1 of 1"
+                                            className="euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                            color="text"
+                                            data-test-subj="pagination-button-0"
+                                            href="#random_html_id"
+                                            isDisabled={true}
+                                            onClick={[Function]}
+                                            size="xs"
+                                          >
+                                            <button
+                                              aria-controls="random_html_id"
+                                              aria-current={true}
+                                              aria-label="Page 1 of 1"
+                                              className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                              data-test-subj="pagination-button-0"
+                                              disabled={true}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButtonEmpty__content"
+                                                iconSide="left"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButtonEmpty__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButtonEmpty__content"
+                                                >
+                                                  <span
+                                                    className="euiButtonEmpty__text"
+                                                  >
+                                                    1
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonEmpty>
+                                        </EuiI18n>
+                                      </EuiI18n>
+                                    </EuiPaginationButton>
+                                  </li>
+                                </PaginationButton>
+                              </ul>
+                              <EuiI18n
+                                default="Next page, {page}"
+                                token="euiPagination.nextPage"
+                                values={
+                                  Object {
+                                    "page": 2,
+                                  }
+                                }
+                              >
+                                <EuiI18n
+                                  default="Next page"
+                                  token="euiPagination.disabledNextPage"
+                                >
+                                  <EuiButtonIcon
+                                    aria-label="Next page"
+                                    color="text"
+                                    data-test-subj="pagination-button-next"
+                                    disabled={true}
+                                    iconType="arrowRight"
+                                    onClick={[Function]}
+                                  >
+                                    <button
+                                      aria-label="Next page"
+                                      className="euiButtonIcon euiButtonIcon--text"
+                                      data-test-subj="pagination-button-next"
+                                      disabled={true}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <EuiIcon
+                                        aria-hidden="true"
+                                        className="euiButtonIcon__icon"
+                                        size="m"
+                                        type="arrowRight"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </button>
+                                  </EuiButtonIcon>
+                                </EuiI18n>
+                              </EuiI18n>
+                            </nav>
+                          </EuiPagination>
+                        </div>
+                      </EuiFlexItem>
+                    </div>
+                  </EuiFlexGroup>
+                </EuiTablePagination>
+              </div>
+            </PaginationBar>
+          </div>
+        </EuiBasicTable>
+      </EuiInMemoryTable>
+    </div>
+  </EuiPanel>
+</DashboardTable>
+`;
+
+exports[`Dashboard table component renders empty dashboard table message 1`] = `
+<DashboardTable
+  addFilter={[MockFunction]}
+  addPercentileFilter={[MockFunction]}
+  filters={Array []}
+  items={Array []}
+  setRedirect={[MockFunction]}
+>
+  <EuiPanel>
+    <div
+      className="euiPanel euiPanel--paddingMedium"
+    >
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="s"
+      >
+        <div
+          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <EuiFlexItem
+            grow={10}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow10"
+            >
+              <PanelTitle
+                title="Latency by trace group"
+                totalItems={0}
+              >
+                <EuiText
+                  size="m"
+                >
+                  <div
+                    className="euiText euiText--medium"
+                  >
+                    <span
+                      className="panel-title"
+                    >
+                      Latency by trace group
+                    </span>
+                    <span
+                      className="panel-title-count"
+                    >
+                       (0)
+                    </span>
+                  </div>
+                </EuiText>
+              </PanelTitle>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <EuiLink
+                data-test-subj="dashboard-table-percentile-button-1"
+                onClick={[Function]}
+              >
+                <button
+                  className="euiLink euiLink--primary"
+                  data-test-subj="dashboard-table-percentile-button-1"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiText
+                    size="xs"
+                  >
+                    <div
+                      className="euiText euiText--extraSmall"
+                    >
+                      <span
+                        style={
+                          Object {
+                            "color": "#957ac9",
+                          }
+                        }
+                      >
+                        □
+                      </span>
+                       &lt; 95 percentile
+                    </div>
+                  </EuiText>
+                </button>
+              </EuiLink>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={1}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow1"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <EuiLink
+                data-test-subj="dashboard-table-percentile-button-2"
+                onClick={[Function]}
+              >
+                <button
+                  className="euiLink euiLink--primary"
+                  data-test-subj="dashboard-table-percentile-button-2"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiText
+                    size="xs"
+                  >
+                    <div
+                      className="euiText euiText--extraSmall"
+                    >
+                      <span
+                        style={
+                          Object {
+                            "color": "#957ac9",
+                          }
+                        }
+                      >
+                        ■
+                      </span>
+                       &gt;= 95 percentile
+                    </div>
+                  </EuiText>
+                </button>
+              </EuiLink>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={1}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrow1"
+            />
+          </EuiFlexItem>
+        </div>
+      </EuiFlexGroup>
+      <EuiSpacer
+        size="m"
+      >
+        <div
+          className="euiSpacer euiSpacer--m"
+        />
+      </EuiSpacer>
+      <EuiHorizontalRule
+        margin="none"
+      >
+        <hr
+          className="euiHorizontalRule euiHorizontalRule--full"
+        />
+      </EuiHorizontalRule>
+      <NoMatchMessage
+        size="xl"
+      >
+        <EuiSpacer
+          size="xl"
+        >
+          <div
+            className="euiSpacer euiSpacer--xl"
+          />
+        </EuiSpacer>
+        <EuiEmptyPrompt
+          body={
+            <EuiText>
+              No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+            </EuiText>
+          }
+          title={
+            <h2>
+              No matches
+            </h2>
+          }
+        >
+          <div
+            className="euiEmptyPrompt"
+          >
+            <EuiTextColor
+              color="subdued"
+            >
+              <span
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiTitle
+                  size="m"
+                >
+                  <h2
+                    className="euiTitle euiTitle--medium"
+                  >
+                    No matches
+                  </h2>
+                </EuiTitle>
+                <EuiSpacer
+                  size="m"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--m"
+                  />
+                </EuiSpacer>
+                <EuiText>
+                  <div
+                    className="euiText euiText--medium"
+                  >
+                    <EuiText>
+                      <div
+                        className="euiText euiText--medium"
+                      >
+                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                      </div>
+                    </EuiText>
+                  </div>
+                </EuiText>
+              </span>
+            </EuiTextColor>
+          </div>
+        </EuiEmptyPrompt>
+        <EuiSpacer
+          size="xl"
+        >
+          <div
+            className="euiSpacer euiSpacer--xl"
+          />
+        </EuiSpacer>
+      </NoMatchMessage>
+    </div>
+  </EuiPanel>
+</DashboardTable>
+`;
