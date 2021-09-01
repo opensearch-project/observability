@@ -26,6 +26,7 @@ import { Plt } from '../../visualizations/plotly/plot';
 import React, { useEffect, useRef, useState } from 'react';
 import PPLService from '../../../services/requests/ppl';
 import { getQueryResponse } from '../helpers/utils';
+import Plotly from 'plotly.js-dist';
 
 // Visualization Panel module allows view added viz modules.
 
@@ -39,6 +40,12 @@ type Props = {
   fromTime: string;
   toTime: string;
   onRefresh: boolean;
+  cloneVisualization: (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => void;
+  deleteVisualization: (visualizationId: string, visualizationName: string) => void;
 };
 
 export const VisualizationContainer = ({
@@ -51,10 +58,12 @@ export const VisualizationContainer = ({
   fromTime,
   toTime,
   onRefresh,
+  cloneVisualization,
+  deleteVisualization,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
-  const [visualizationData, setVisualizationData] = useState([]);
+  const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
   const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
@@ -67,16 +76,24 @@ export const VisualizationContainer = ({
     <EuiContextMenuItem key="Edit" disabled={disablePopover}>
       Edit
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="Duplicate" disabled={disablePopover}>
+    <EuiContextMenuItem
+      key="Duplicate"
+      disabled={disablePopover}
+      onClick={() => cloneVisualization(visualizationTitle, query, type)}
+    >
       Duplicate
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="Remove" disabled={disablePopover}>
+    <EuiContextMenuItem
+      key="Remove"
+      disabled={disablePopover}
+      onClick={() => deleteVisualization(visualizationId, visualizationTitle)}
+    >
       Remove
     </EuiContextMenuItem>,
   ];
 
-  useEffect(() => {
-    getQueryResponse(
+  const loadVisaulization = async () => {
+    await getQueryResponse(
       pplService,
       query,
       type,
@@ -86,6 +103,10 @@ export const VisualizationContainer = ({
       setIsLoading,
       setIsError
     );
+  };
+
+  useEffect(() => {
+    loadVisaulization();
   }, [query, onRefresh]);
 
   useEffect(() => {

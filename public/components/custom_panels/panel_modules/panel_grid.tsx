@@ -40,6 +40,8 @@ type Props = {
   startTime: string;
   endTime: string;
   onRefresh: boolean;
+  cloneVisualization: (newVisualizationTitle: string, pplQuery: string, newVisualizationType: string) => void;
+  deleteVisualization: (visualizationId: string, visualizationName: string)=> void;
 };
 
 export const PanelGrid = ({
@@ -50,6 +52,8 @@ export const PanelGrid = ({
   startTime,
   endTime,
   onRefresh,
+  cloneVisualization,
+  deleteVisualization,
 }: Props) => {
   const [layout, setLayout] = useState([]);
   const [editedLayout, setEditedLayout] = useState([]);
@@ -122,6 +126,8 @@ export const PanelGrid = ({
             fromTime={startTime}
             toTime={endTime}
             onRefresh={onRefresh}
+            cloneVisualization={cloneVisualization}
+            deleteVisualization={deleteVisualization}
           />
         </div>
       ))}

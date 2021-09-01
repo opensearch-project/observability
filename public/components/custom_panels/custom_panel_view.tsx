@@ -25,6 +25,7 @@ import {
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
   EuiTitle,
+  htmlIdGenerator,
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -33,16 +34,22 @@ import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import { AddVizView } from './panel_modules/add_visualization';
 import {
+  RENAME_VISUALIZATION_MESSAGE,
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
   VisualizationType,
 } from '../../../common/constants/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
-import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
+import {
+  DeletePanelModal,
+  DeleteVisualizationModal,
+  getCustomModal,
+} from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
-import { convertDateTime, onTimeChange } from './helpers/utils';
+import { convertDateTime, getNewVizDimensions, onTimeChange } from './helpers/utils';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
+import { ChangeEvent } from 'react';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -110,7 +117,7 @@ export const CustomPanelView = ({
       });
   };
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterBarValue(e.target.value);
   };
 
@@ -194,6 +201,72 @@ export const CustomPanelView = ({
 
   const onRefreshFilters = () => {
     setOnRefresh(!onRefresh);
+  };
+
+  const cloneVisualization = (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => {
+    setModalLayout(
+      getCustomModal(
+        onCloneVisualization,
+        closeModal,
+        'Name',
+        'Duplicate Panel',
+        'Cancel',
+        'Duplicate',
+        newVisualizationTitle + ' (copy)',
+        RENAME_VISUALIZATION_MESSAGE,
+        pplQuery,
+        newVisualizationType
+      )
+    );
+    showModal();
+  };
+
+  const onCloneVisualization = (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => {
+    const newDimensions = getNewVizDimensions(panelVisualizations);
+    setPanelVisualizations([
+      ...panelVisualizations,
+      {
+        id: htmlIdGenerator()(),
+        title: newVisualizationTitle,
+        query: pplQuery,
+        type: newVisualizationType,
+        ...newDimensions,
+      },
+    ]);
+
+    //NOTE: Make a backend call to Clone Visualization
+    closeModal();
+  };
+
+  const deleteVisualization = (visualizationId: string, visualizationName: string) => {
+    setModalLayout(
+      <DeleteVisualizationModal
+        onConfirm={onDeleteVisualization}
+        onCancel={closeModal}
+        visualizationId={visualizationId}
+        visualizationName={visualizationName}
+        panelName={openPanelName}
+      />
+    );
+    showModal();
+  };
+
+  const onDeleteVisualization = (visualizationId: string) => {
+    const filteredPanelVisualizations = panelVisualizations.filter(
+      (panelVisualization) => panelVisualization.id != visualizationId
+    );
+    setPanelVisualizations([...filteredPanelVisualizations]);
+
+    //NOTE: Make a backend call to Delete Visualization
+    closeModal();
   };
 
   // Fetch the custom panel on Initial Mount
@@ -317,6 +390,8 @@ export const CustomPanelView = ({
                 startTime={start}
                 endTime={end}
                 onRefresh={onRefresh}
+                cloneVisualization={cloneVisualization}
+                deleteVisualization={deleteVisualization}
               />
             )}
             <>
