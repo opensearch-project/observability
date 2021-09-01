@@ -26,7 +26,6 @@ import { Plt } from '../../visualizations/plotly/plot';
 import React, { useEffect, useRef, useState } from 'react';
 import PPLService from '../../../services/requests/ppl';
 import { getQueryResponse } from '../helpers/utils';
-import Plotly from 'plotly.js-dist';
 
 // Visualization Panel module allows view added viz modules.
 
@@ -46,6 +45,7 @@ type Props = {
     newVisualizationType: string
   ) => void;
   deleteVisualization: (visualizationId: string, visualizationName: string) => void;
+  pplFilterValue: string;
 };
 
 export const VisualizationContainer = ({
@@ -60,6 +60,7 @@ export const VisualizationContainer = ({
   onRefresh,
   cloneVisualization,
   deleteVisualization,
+  pplFilterValue,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
@@ -101,7 +102,8 @@ export const VisualizationContainer = ({
       toTime,
       setVisualizationData,
       setIsLoading,
-      setIsError
+      setIsError,
+      pplFilterValue,
     );
   };
 

@@ -86,7 +86,7 @@ export const CustomPanelView = ({
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
-  const [filterBarValue, setFilterBarValue] = useState('');
+  const [pplFilterValue, setPPLFilterValue] = useState('');
   const [onRefresh, setOnRefresh] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(true);
@@ -118,7 +118,7 @@ export const CustomPanelView = ({
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilterBarValue(e.target.value);
+    setPPLFilterValue(e.target.value);
   };
 
   const closeModal = () => {
@@ -213,7 +213,7 @@ export const CustomPanelView = ({
         onCloneVisualization,
         closeModal,
         'Name',
-        'Duplicate Panel',
+        'Duplicate Visualization',
         'Cancel',
         'Duplicate',
         newVisualizationTitle + ' (copy)',
@@ -340,7 +340,7 @@ export const CustomPanelView = ({
               <EuiFlexItem>
                 <EuiFieldText
                   placeholder="Use PPL to query log indices below. Use “source=” to quickly switch to a different index."
-                  value={filterBarValue}
+                  value={pplFilterValue}
                   fullWidth={true}
                   onChange={(e) => onChange(e)}
                   disabled={inputDisabled}
@@ -392,6 +392,7 @@ export const CustomPanelView = ({
                 onRefresh={onRefresh}
                 cloneVisualization={cloneVisualization}
                 deleteVisualization={deleteVisualization}
+                pplFilterValue={pplFilterValue}
               />
             )}
             <>

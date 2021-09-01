@@ -42,6 +42,7 @@ type Props = {
   onRefresh: boolean;
   cloneVisualization: (newVisualizationTitle: string, pplQuery: string, newVisualizationType: string) => void;
   deleteVisualization: (visualizationId: string, visualizationName: string)=> void;
+  pplFilterValue: string;
 };
 
 export const PanelGrid = ({
@@ -54,9 +55,10 @@ export const PanelGrid = ({
   onRefresh,
   cloneVisualization,
   deleteVisualization,
+  pplFilterValue,
 }: Props) => {
-  const [layout, setLayout] = useState([]);
-  const [editedLayout, setEditedLayout] = useState([]);
+  const [layout, setLayout] = useState([] as Layout[]);
+  const [editedLayout, setEditedLayout] = useState([] as Layout[]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
@@ -67,7 +69,7 @@ export const PanelGrid = ({
 
   // Reload the Layout
   const reloadLayout = () => {
-    const tempLayout = panelVisualizations.map((panelVisualization) => {
+    const tempLayout:Layout[] = panelVisualizations.map((panelVisualization) => {
       return {
         i: panelVisualization.id,
         x: panelVisualization.x,
@@ -75,7 +77,7 @@ export const PanelGrid = ({
         w: panelVisualization.w,
         h: panelVisualization.h,
         static: !editMode,
-      };
+      } as Layout;
     });
     setLayout(tempLayout);
   };
@@ -128,6 +130,7 @@ export const PanelGrid = ({
             onRefresh={onRefresh}
             cloneVisualization={cloneVisualization}
             deleteVisualization={deleteVisualization}
+            pplFilterValue={pplFilterValue}
           />
         </div>
       ))}
