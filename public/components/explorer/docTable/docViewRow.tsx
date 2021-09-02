@@ -19,8 +19,18 @@ import {
 import { EuiIcon } from '@elastic/eui';
 import { DocViewer } from './docViewer';
 import { DocDetailTitle } from './detailTable/docDetailTitle';
+import { IField } from '../../../../common/types/explorer';
 
-export const DocViewRow = (props: any) => {
+export interface IDocType { 
+  [key: string] : string; 
+}
+
+interface IDocViewRowProps {
+  doc: IDocType;
+  selectedCols: Array<IField>;
+}
+
+export const DocViewRow = (props: IDocViewRowProps) => {
 
   const {
     doc,
@@ -36,14 +46,14 @@ export const DocViewRow = (props: any) => {
     } = conf;
     return (
       <td
-        key={ uniqueId('grid-td-') }
+        key={ uniqueId('datagrid-cell-') }
         className={ clsName }
       >
         { content }
       </td>);
   };
 
-  const getDlTmpl = (conf) => {
+  const getDlTmpl = (conf: { doc: IDocType }) => {
     const {
       doc
     } = conf;
@@ -52,7 +62,7 @@ export const DocViewRow = (props: any) => {
       <div className="truncate-by-height">
         <span>
           <dl className="source truncate-by-height">
-            { toPairs(doc).map((entry) => {
+            { toPairs(doc).map((entry: Array<string>) => {
               return (
                 <span
                   key={ uniqueId('grid-desc') }
@@ -72,7 +82,7 @@ export const DocViewRow = (props: any) => {
     );
   };
 
-  const getDiscoverSourceLikeDOM = (doc) => {
+  const getDiscoverSourceLikeDOM = (doc: IDocType) => {
     return getDlTmpl({ doc, });
   };
 
@@ -97,7 +107,10 @@ export const DocViewRow = (props: any) => {
     );
   };
   
-  const getTds = (doc, selectedCols) => {
+  const getTds = (
+    doc: IDocType, 
+    selectedCols: Array<IField>
+  ) => {
     const cols = [];
     const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';

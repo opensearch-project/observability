@@ -9,13 +9,12 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
   isEmpty,
-  cloneDeep,
-  sortBy
+  cloneDeep
 } from 'lodash';
 import { 
   FormattedMessage 
@@ -67,12 +66,13 @@ import {
 } from './slices/field_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
+import PPLService from '../../services/requests/ppl';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 
 interface IExplorerProps {
-  pplService: any;
+  pplService: PPLService;
   tabId: string
 }
 
@@ -82,10 +82,7 @@ export const Explorer = ({
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
-
-  const requestParams = {
-    tabId,
-  };
+  const requestParams = { tabId, };
   const {
     isEventsLoading,
     getEvents,
@@ -114,6 +111,9 @@ export const Explorer = ({
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
+  const queryRef = useRef();
+  queryRef.current = query;
+  
   const fixedScrollRef = useCallback(
     (node: HTMLElement) => {
       if (node !== null) {
@@ -124,9 +124,10 @@ export const Explorer = ({
   );
 
   const fetchData = () => {
-    if (!query) return;
-    if (query.match(/\|\s*stats/i)) {
-      const index = getIndexPatternFromRawQuery(query);
+    const searchQuery = queryRef.current;
+    if (!searchQuery) return;
+    if (searchQuery.match(/\|\s*stats/i)) {
+      const index = getIndexPatternFromRawQuery(searchQuery);
       if (!index) return;
       getAvailableFields(`search source=${index}`);
       getVisualizations();
@@ -199,7 +200,6 @@ export const Explorer = ({
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
                   <Sidebar
-                    queryData={ explorerData?.jsonData }
                     explorerFields={ explorerFields }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
@@ -311,10 +311,7 @@ export const Explorer = ({
                     />
                   </h2>
                   <div className="dscDiscover">
-                    <DataGrid 
-                      key={`datagrid-${tabId}`}
-                      tabId={ tabId }
-                      columns={ explorerData['schema'] }
+                    <DataGrid
                       rows={ explorerData['jsonData'] }
                       explorerFields={ explorerFields }
                     />
@@ -362,9 +359,7 @@ export const Explorer = ({
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
-        queryResults={ explorerData }
         explorerFields={ explorerFields }
-        query={ query }
         explorerVis={ explorerVisualizations }
       />
     );
@@ -452,7 +447,7 @@ export const Explorer = ({
       <Search
         query={ query }
         handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
-        handleQuerySearch={ () => { handleQuerySearch(tabId) } }
+        handleQuerySearch={ () => { handleQuerySearch() } }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }

@@ -19,6 +19,7 @@ import {
   UNSELECTED_FIELDS,
   REDUX_EXPL_SLICE_FIELDS
 } from '../../../../common/constants/explorer';
+import { IField } from '../../../../common/types/explorer';
 
 const initialFields = {
   [SELECTED_FIELDS]: [],
@@ -54,8 +55,8 @@ export const fieldSlice = createSlice({
       delete state[payload.tabId];
     },
     sortFields: (state, { payload }) => {
-      forEach(payload.data, (toSort) => {
-        state[payload.tabId][toSort].sort((prev, cur) =>  prev.name.localeCompare(cur.name));
+      forEach(payload.data, (toSort: string) => {
+        state[payload.tabId][toSort].sort((prev: IField, cur: IField) =>  prev.name.localeCompare(cur.name));
       });
     }
   },

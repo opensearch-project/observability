@@ -18,7 +18,8 @@ import {
 import { 
   RAW_QUERY,
   SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  UNSELECTED_FIELDS,
+  AVAILABLE_FIELDS
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../slices/query_result_slice';
 import { selectQueries } from '../slices/query_slice';
@@ -26,11 +27,17 @@ import {
   updateFields,
   sortFields
 } from '../slices/field_slice';
+import PPLService from '../../../services/requests/ppl';
+
+interface IFetchEventsParams {
+  pplService: PPLService;
+  requestParams: { tabId: string };
+}
 
 export const useFetchEvents = ({
   pplService,
-  requestParams = {}
-}: any) => {
+  requestParams
+}: IFetchEventsParams) => {
   
   const dispatch = useDispatch();
   const [isEventsLoading, setIsEventsLoading] = useState<boolean>(false);
@@ -39,9 +46,9 @@ export const useFetchEvents = ({
   queriesRef.current = queries;
 
   const fetchEvents = async (
-    { query }: any,
+    { query }: { query: string },
     format: string,
-    handler: any
+    handler: (res: any) => void
   ) => {
     setIsEventsLoading(true);
     await pplService.fetch({
@@ -61,17 +68,19 @@ export const useFetchEvents = ({
 
   const getEvents = () => {
     const cur = queriesRef.current;
-    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'jdbc', (res) => {
+    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'jdbc', (res: any) => {
       batch(() => {
         dispatch(fetchSuccess({
           tabId: requestParams.tabId,
-          data: res
+          data: {
+            ...res
+          }
         }));
         dispatch(updateFields({
           tabId: requestParams.tabId,
           data: {
             [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res?.schema
+            [UNSELECTED_FIELDS]: res.schema ? [ ...res.schema ] : []
           }
         }));
         dispatch(sortFields({
@@ -83,7 +92,7 @@ export const useFetchEvents = ({
   };
 
   const getAvailableFields = (query: string) => {
-    fetchEvents({ query, }, 'jdbc', (res) => {
+    fetchEvents({ query, }, 'jdbc', (res: any) => {
       batch(() => {
         dispatch(queryResultReset({
           tabId: requestParams.tabId
@@ -93,8 +102,12 @@ export const useFetchEvents = ({
           data: {
             [SELECTED_FIELDS]: [],
             [UNSELECTED_FIELDS]: [],
-            'availableFields': res?.schema
+            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
+        }));
+        dispatch(sortFields({
+          tabId: requestParams.tabId,
+          data: [AVAILABLE_FIELDS]
         }));
       });
     });
