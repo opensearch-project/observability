@@ -26,7 +26,65 @@
 
 /// <reference types="cypress" />
 
-import { delay, setTimeFilter } from '../utils/constants';
+import { testDataSet, delay, setTimeFilter } from '../utils/constants';
+
+describe('Dump test data', () => {
+  it('Indexes test data', () => {
+    const dumpDataSet = (mapping_url, data_url, index) => {
+      cy.request({
+        method: 'POST',
+        failOnStatusCode: false,
+        url: 'api/console/proxy',
+        headers: {
+          'content-type': 'application/json;charset=UTF-8',
+          'osd-xsrf': true,
+        },
+        qs: {
+          path: `${index}`,
+          method: 'PUT',
+        },
+      });
+
+      cy.request(mapping_url).then((response) => {
+        cy.request({
+          method: 'POST',
+          form: true,
+          url: 'api/console/proxy',
+          headers: {
+            'content-type': 'application/json;charset=UTF-8',
+            'osd-xsrf': true,
+          },
+          qs: {
+            path: `${index}/_mapping`,
+            method: 'POST',
+          },
+          body: response.body,
+        });
+      });
+
+      cy.request(data_url).then((response) => {
+        cy.request({
+          method: 'POST',
+          form: true,
+          url: 'api/console/proxy',
+          headers: {
+            'content-type': 'application/json;charset=UTF-8',
+            'osd-xsrf': true,
+          },
+          qs: {
+            path: `${index}/_bulk`,
+            method: 'POST',
+          },
+          body: response.body,
+        });
+      });
+    };
+
+    testDataSet.forEach(({ mapping_url, data_url, index }) =>
+      dumpDataSet(mapping_url, data_url, index)
+    );
+  });
+});
 
 describe('Testing dashboard table empty state', () => {
   beforeEach(() => {
