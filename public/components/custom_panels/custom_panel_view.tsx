@@ -50,6 +50,7 @@ import { convertDateTime, getNewVizDimensions, onTimeChange } from './helpers/ut
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { ChangeEvent } from 'react';
+import moment from 'moment';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -308,7 +309,7 @@ export const CustomPanelView = ({
               <EuiFlexItem>
                 <EuiSpacer size="s" />
               </EuiFlexItem>
-              Created on {panelCreatedTime}
+              Created on {moment(panelCreatedTime).format(UI_DATE_FORMAT)}
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
