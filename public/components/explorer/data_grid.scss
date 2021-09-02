@@ -18,11 +18,6 @@
   flex: 1 1 100%;
   flex-direction: column; /* 1 */
 
-  th {
-    text-align: left;
-    font-weight: bold;
-  }
-
   .spinner {
     position: absolute;
     top: 40%;
@@ -142,6 +137,11 @@
     td.field-name {
       font-weight: $euiFontWeightBold;
     }
+  }
+
+  th {
+    text-align: left;
+    font-weight: bold;
   }
 }
 
