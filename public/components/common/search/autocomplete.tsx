@@ -33,7 +33,6 @@ export function Autocomplete(props: IQueryBarProps) {
  
   const fieldsFromBackend: [] = [];
   const indicesFromBackend: [] = [];
-  const dataValuesFromBackend: [] = [];
   
   const firstCommand = [
     { label: 'index' },
@@ -71,7 +70,8 @@ export function Autocomplete(props: IQueryBarProps) {
       suggestionList.push({
         label: str.substring(0, str.lastIndexOf(word)) + filteredList[i].label,
         input: str,
-        suggestion: filteredList[i].label.substring(word.length)
+        suggestion: filteredList[i].label.substring(word.length),
+        itemName: filteredList[i].label
       })
     }
     return suggestionList;
@@ -95,7 +95,7 @@ export function Autocomplete(props: IQueryBarProps) {
   
   // Function to grab suggestions
   const getSuggestions = async (str: string) => {
-    
+    // handleQueryChange(str, currIndex)
     // console.log('query in getSuggestions(): ', query)
     // console.log('currIndex: ', currIndex);
     // console.log('fieldsFromBackend', fieldsFromBackend)
@@ -114,17 +114,12 @@ export function Autocomplete(props: IQueryBarProps) {
       currIndex = ''
       return getFirstPipe(str);
     }
-  
-    if (prefix.includes(';')) {
-      return [];
-    }
 
     else if (splittedModel.length > 1) {
       if (splittedModel[splittedModel.length - 2] === '|') {
         inFieldsCommaLoop = false;
         nextWhere = 99999;
         currField = '';
-        dataValuesFromBackend.length = 0;
         return fillSuggestions(str, prefix, pipeCommands);
       } else if (splittedModel[splittedModel.length - 2].includes(',')) {
         if (inFieldsCommaLoop) {
@@ -136,13 +131,12 @@ export function Autocomplete(props: IQueryBarProps) {
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
       } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-        currIndex = splittedModel[splittedModel.length - 2]
+        currIndex = splittedModel[splittedModel.length - 2];
         getFields();
         return [{ label: str + '|', input: str, suggestion: '|' }].filter(
           ({ label }) => label.startsWith(prefix) && prefix !== label
         );
-      }
-      else if (splittedModel[splittedModel.length - 2] === 'search') {
+      } else if (splittedModel[splittedModel.length - 2] === 'search') {
         return [
           { label: str + 'source', input: str, suggestion: 'search source'.substring(str.length) },
         ].filter(
@@ -162,6 +156,7 @@ export function Autocomplete(props: IQueryBarProps) {
               label: str.substring(0, str.lastIndexOf(prefix) - 1) + itemSuggestions[i].label + ')',
               input: str.substring(0, str.length - 1),
               suggestion: itemSuggestions[i].label.substring(prefix.length) + ')',
+              itemName: itemSuggestions[i].label
             });
           }
           return fillSuggestions(str, prefix, itemSuggestions);
@@ -177,14 +172,14 @@ export function Autocomplete(props: IQueryBarProps) {
       }
       else if (splittedModel[splittedModel.length - 2] === 'where') {
         nextWhere = splittedModel.length;
-        dataValuesFromBackend.length = 0;
         return fillSuggestions(str, prefix, fieldsFromBackend);
       }
       else if (nextWhere + 1 === splittedModel.length) {
         fullSuggestions.push({
           label: str + '=', 
           input: str,
-          suggestion: '='
+          suggestion: '=',
+          item: '='
         })
         currField = splittedModel[splittedModel.length - 2];
         currFieldType = fieldsFromBackend.find( field => field.label === currField).type;
@@ -196,8 +191,8 @@ export function Autocomplete(props: IQueryBarProps) {
         console.log('in nextWhere === value')
         console.log('currField: ', currField)
         console.log('currFieldType: ', currFieldType)
-        await getDataValues(currIndex, currField, currFieldType);
-        return fillSuggestions(str, prefix, dataValuesFromBackend)
+        // await getDataValues(currIndex, currField, currFieldType);
+        return fillSuggestions(str, prefix, await getDataValues(currIndex, currField, currFieldType))
       }
       else if (nextWhere + 3 === splittedModel.length) {
         return [{label: str + '|', input: str, suggestion: '|'}].filter(
@@ -209,8 +204,8 @@ export function Autocomplete(props: IQueryBarProps) {
         return fillSuggestions(str, prefix, indicesFromBackend);
       } else if (inFieldsCommaLoop) {
         return [
-          { label: str.substring(0, str.length - 1) + ',', input: str.substring(0, str.length - 1), suggestion: ',' },
-          { label: str + '|', input: str, suggestion: '|' },
+          { label: str.substring(0, str.length - 1) + ',', input: str.substring(0, str.length - 1), suggestion: ',', item: ',' },
+          { label: str + '|', input: str, suggestion: '|', item: ',' },
         ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
       }
       return pipeCommands.filter(
@@ -253,10 +248,9 @@ export function Autocomplete(props: IQueryBarProps) {
   }
   
   const onItemSelect = async ({ setIsOpen, setQuery, item, setStatus }) => {
-    if (fieldsFromBackend.length === 0 && indexList.includes(item.label)){
-      const splittedModel = item.label.split(' ')
-      console.log(item.label)
-      currIndex = splittedModel.pop()
+    console.log('onItemSelect() item: ', item);
+    if (fieldsFromBackend.length === 0 && indexList.includes(item.itemName)){
+      currIndex = item.itemName
       getFields();
     }
     // setIsOpen(false);
@@ -267,6 +261,7 @@ export function Autocomplete(props: IQueryBarProps) {
 
   const getDataValues = async (index: string, field: string, fieldType: string) => {
     const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags.buckets;
+    const dataValuesFromBackend: [] = [];
     res.forEach( (e) => {
       if (fieldType === 'string'){
         dataValuesFromBackend.push({label: '"' + e.key + '"', doc_count: e.doc_count});
@@ -283,6 +278,7 @@ export function Autocomplete(props: IQueryBarProps) {
         dataValuesFromBackend.push({label: String(e.key), doc_count: e.doc_count});
       }
     })
+    return dataValuesFromBackend;
   }
 
   useEffect(() => {
@@ -290,7 +286,7 @@ export function Autocomplete(props: IQueryBarProps) {
       container: '#autocomplete',
       tagName: '#autocomplete',
       initialState: {
-        query: query[RAW_QUERY]
+        query: props.query[RAW_QUERY]
       },
       openOnFocus: true,
       minLength: 0,
@@ -302,23 +298,27 @@ export function Autocomplete(props: IQueryBarProps) {
         // if (state.status === 'loading') {
         //   console.log('state.status === loading')
         // }
+        // handleQueryChange(state.query, 'opensearch_dashboards_sample_data_flights');
+        console.log('onStateChange() state: ', state)
+        console.log('onStateChange() query:', state.query)
+        handleQueryChange(state.query, 'opensearch_dashboards_sample_data_flights')
       },
       onSubmit: ({ state }) => {
-        console.log('-----------------------------------------------------------')
+        console.log('=========================================================================================')
         console.log('hit enter')
         console.log('state.query: ', state.query)
         console.log('currIndex: ', currIndex)
         handleQueryChange(state.query, currIndex);
         console.log('query: ', query);
+        console.log('props.query: ', props.query)
         handleQuerySearch();
-        console.log('-----------------------------------------------------------')
+        console.log('=========================================================================================')
       },
       getSources({ query }) {
         return [
           {
             getItems({ query, setIsOpen }) {
-              console.log('getItems is called')
-              setIsOpen(true);
+              console.log(query.split(' '))
               return getSuggestions(query);
             },
             tagName: 'test',
@@ -331,7 +331,7 @@ export function Autocomplete(props: IQueryBarProps) {
               });
             },
             templates: {
-              item({ item, createElement, Fragment }) {
+              item({ item, createElement }) {
                 return createElement('div', {
                   dangerouslySetInnerHTML: {
                     __html: `<div>
@@ -350,11 +350,7 @@ export function Autocomplete(props: IQueryBarProps) {
     return () => {
       search.destroy();
     };
-  }, [query,
-      handleQueryChange,
-      handleQuerySearch,
-      pplService,
-      ]);
+  }, []);
 
   return <div id="autocomplete" />;
 }

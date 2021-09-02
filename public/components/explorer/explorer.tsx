@@ -429,7 +429,7 @@ export const Explorer = ({
     fetchData();
   }
 
-  const handleQueryChange = (query: string, index: string, tabId: string) => {
+  const handleQueryChange = (query: string, index: string) => {
     dispatch(changeQuery({
       tabId,
       query: {
@@ -444,7 +444,7 @@ export const Explorer = ({
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ query }
-        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index, tabId) } }
+        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch(tabId) } }
         pplService = { pplService }
         dslService = { dslService }
