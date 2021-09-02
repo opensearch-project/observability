@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FlyoutListItem /> spec renders the component 1`] = `
+<div>
+  <dl
+    class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+  >
+    <dt
+      class="euiDescriptionList__title"
+    >
+      <div
+        class="euiText euiText--small"
+        style="word-break: break-all; word-wrap: break-word;"
+      >
+        <div
+          class="euiTextColor euiTextColor--subdued"
+        >
+          Span ID
+        </div>
+      </div>
+    </dt>
+    <dd
+      class="euiDescriptionList__description"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--small"
+            style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
+          >
+            <b>
+              test-span-id
+            </b>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+      </div>
+    </dd>
+  </dl>
+</div>
+`;

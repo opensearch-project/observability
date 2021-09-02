@@ -12,12 +12,13 @@
 import './data_grid.scss';
 
 import React, { useMemo } from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import { DocViewRow } from './docTable/index';
+import { IExplorerFields } from '../../../common/types/explorer';
 
 interface DataGridProps {
-  rows: Array<any>,
-  explorerFields: Array<any>
+  rows: Array<any>;
+  explorerFields: IExplorerFields;
 }
 
 export function DataGrid(props: DataGridProps) {
@@ -28,12 +29,12 @@ export function DataGrid(props: DataGridProps) {
 
   const getTrs = (
     docs: Array<any> = [],
-    explorerFields: Array<any>
+    explorerFields: IExplorerFields
   ) => {
     return docs.map((doc) => {
       return (
         <DocViewRow
-          key={ _.uniqueId('doc_view') } 
+          key={ uniqueId('doc_view') } 
           doc={ doc }
           selectedCols={ explorerFields?.selectedFields }
         />
@@ -41,24 +42,34 @@ export function DataGrid(props: DataGridProps) {
     });
   };
 
-  const getHeaders = (fields: Array<any>) => {
+  const defaultCols = [
+    '',
+    'Time',
+    '_source'
+  ];
+
+  const getHeaders = (fields: IExplorerFields) => {
     let tableHeadContent = null;
     if (!fields.selectedFields || fields.selectedFields.length === 0) {
       tableHeadContent = (
           <>
-            <th></th>
-            <th>Time</th>
-            <th>_source</th>
+            { defaultCols.map((colName: string) => {
+              return (
+                <th key={ uniqueId('datagrid-header-') }>
+                  { colName }
+                </th>
+              );
+            }) }
           </>
       );
     } else {
       tableHeadContent = fields.selectedFields.map(selField => {
         return (
-          <th>{ selField.name }</th>
+          <th key={ uniqueId('datagrid-header-')}>{ selField.name }</th>
         );
       });
-      tableHeadContent.unshift(<th>Time</th>);
-      tableHeadContent.unshift(<th></th>);
+      tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}>Time</th>);
+      tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}></th>);
     }
 
     return (

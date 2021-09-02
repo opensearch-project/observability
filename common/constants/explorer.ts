@@ -13,6 +13,7 @@ export const RAW_QUERY = 'rawQuery';
 export const INDEX = 'index';
 export const SELECTED_FIELDS = 'selectedFields';
 export const UNSELECTED_FIELDS = 'unselectedFields';
+export const AVAILABLE_FIELDS = 'availableFields';
 export const TAB_ID_TXT_PFX = 'query-panel-';
 export const TAB_TITLE = 'New query';
 export const TAB_CHART_TITLE = 'Visualizations';

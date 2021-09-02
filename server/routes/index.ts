@@ -18,6 +18,7 @@ import DSLFacet from '../services/facets/dslFacet';
 import { registerPplRoute } from './ppl';
 import PPLFacet from '../services/facets/ppl_facet';
 import {CustomPanelsRouter} from './custom_panels_router';
+import { registerTraceAnalyticsDslRouter } from './trace_analytics_dsl_router';
 
 export function setupRoutes({
   router,
@@ -32,4 +33,6 @@ export function setupRoutes({
   registerPplRoute({ router, facet: pplFacet });
   const dslFacet = new DSLFacet(client);
   registerDslRoute({ router, facet: dslFacet})
+  // TODO remove trace analytics route when DSL route for autocomplete is added
+  registerTraceAnalyticsDslRouter(router);
 };

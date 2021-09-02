@@ -11,7 +11,7 @@
 
 import './datapanel.scss';
 import './field_item.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import {
   EuiFlexGroup,
@@ -25,6 +25,8 @@ import { FieldList } from './fieldList';
 export const DataPanel = (props: any) => {
 
   const fields = props.explorerFields?.availableFields;
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <EuiFlexGroup
@@ -54,19 +56,21 @@ export const DataPanel = (props: any) => {
               defaultMessage: 'Search field names',
               description: 'Search the list of fields in the index pattern for the provided text',
             })}
-            value={''}
-            onChange={(e) => {}}
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
             aria-label={i18n.translate('xpack.lens.indexPatterns.filterByNameAriaLabel', {
               defaultMessage: 'Search fields',
             })}
           />
         </EuiFormControlLayout>
-        <EuiSpacer size="xs" />
+        <EuiSpacer size="m" />
       </EuiFlexItem>
       <EuiFlexItem>
         <FieldList
           id={_.uniqueId()}
-          fields={ fields }
+          fields={ fields?.filter((field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1) }
         />
       </EuiFlexItem>
     </EuiFlexGroup>

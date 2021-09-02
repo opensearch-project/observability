@@ -1,0 +1,266 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Side nav component renders side nav 1`] = `
+<EuiPage>
+  <div
+    className="euiPage"
+  >
+    <EuiPageSideBar>
+      <div
+        className="euiPageSideBar"
+      >
+        <SideNav
+          activeId={1}
+        >
+          <EuiSideNav
+            items={
+              Array [
+                Object {
+                  "id": 0,
+                  "items": Array [
+                    Object {
+                      "href": "#/dashboard",
+                      "id": 1,
+                      "isSelected": true,
+                      "name": "Dashboard",
+                    },
+                    Object {
+                      "href": "#/traces",
+                      "id": 2,
+                      "isSelected": false,
+                      "name": "Traces",
+                    },
+                    Object {
+                      "href": "#/services",
+                      "id": 3,
+                      "isSelected": false,
+                      "name": "Services",
+                    },
+                  ],
+                  "name": "Trace Analytics",
+                },
+              ]
+            }
+          >
+            <nav
+              className="euiSideNav"
+            >
+              <button
+                className="euiSideNav__mobileToggle euiLink"
+                type="button"
+              >
+                <span
+                  className="euiSideNav__mobileWrap"
+                >
+                  <span
+                    className="euiSideNav__mobileTitle"
+                  />
+                  <EuiIcon
+                    aria-hidden="true"
+                    className="euiSideNav__mobileIcon"
+                    size="m"
+                    type="apps"
+                  >
+                    <EuiIconEmpty
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading euiSideNav__mobileIcon"
+                      focusable="false"
+                      role="img"
+                      style={null}
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="euiIcon euiIcon--medium euiIcon-isLoading euiSideNav__mobileIcon"
+                        focusable="false"
+                        height={16}
+                        role="img"
+                        style={null}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </EuiIconEmpty>
+                  </EuiIcon>
+                </span>
+              </button>
+              <div
+                className="euiSideNav__content"
+              >
+                <EuiSideNavItem
+                  depth={0}
+                  isOpen={true}
+                  isParent={true}
+                  items={
+                    Array [
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/dashboard"
+                        isOpen={true}
+                        isParent={false}
+                        isSelected={true}
+                      >
+                        Dashboard
+                      </EuiSideNavItem>,
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/traces"
+                        isOpen={false}
+                        isParent={false}
+                        isSelected={false}
+                      >
+                        Traces
+                      </EuiSideNavItem>,
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/services"
+                        isOpen={false}
+                        isParent={false}
+                        isSelected={false}
+                      >
+                        Services
+                      </EuiSideNavItem>,
+                    ]
+                  }
+                  key="0"
+                >
+                  <div
+                    className="euiSideNavItem euiSideNavItem--root euiSideNavItem--hasChildItems"
+                  >
+                    <DefaultRenderItem
+                      className="euiSideNavItemButton"
+                    >
+                      <div
+                        className="euiSideNavItemButton"
+                      >
+                        <span
+                          className="euiSideNavItemButton__content"
+                        >
+                          <span
+                            className="euiSideNavItemButton__label"
+                          >
+                            Trace Analytics
+                          </span>
+                        </span>
+                      </div>
+                    </DefaultRenderItem>
+                    <div
+                      className="euiSideNavItem__items"
+                    >
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/dashboard"
+                        isOpen={true}
+                        isParent={false}
+                        isSelected={true}
+                        key="1"
+                      >
+                        <div
+                          className="euiSideNavItem euiSideNavItem--trunk"
+                        >
+                          <DefaultRenderItem
+                            className="euiSideNavItemButton euiSideNavItemButton--isClickable euiSideNavItemButton-isSelected"
+                            href="#/dashboard"
+                          >
+                            <a
+                              className="euiSideNavItemButton euiSideNavItemButton--isClickable euiSideNavItemButton-isSelected"
+                              href="#/dashboard"
+                              rel="noreferrer"
+                            >
+                              <span
+                                className="euiSideNavItemButton__content"
+                              >
+                                <span
+                                  className="euiSideNavItemButton__label"
+                                >
+                                  Dashboard
+                                </span>
+                              </span>
+                            </a>
+                          </DefaultRenderItem>
+                        </div>
+                      </EuiSideNavItem>
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/traces"
+                        isOpen={false}
+                        isParent={false}
+                        isSelected={false}
+                        key="2"
+                      >
+                        <div
+                          className="euiSideNavItem euiSideNavItem--trunk"
+                        >
+                          <DefaultRenderItem
+                            className="euiSideNavItemButton euiSideNavItemButton--isClickable"
+                            href="#/traces"
+                          >
+                            <a
+                              className="euiSideNavItemButton euiSideNavItemButton--isClickable"
+                              href="#/traces"
+                              rel="noreferrer"
+                            >
+                              <span
+                                className="euiSideNavItemButton__content"
+                              >
+                                <span
+                                  className="euiSideNavItemButton__label"
+                                >
+                                  Traces
+                                </span>
+                              </span>
+                            </a>
+                          </DefaultRenderItem>
+                        </div>
+                      </EuiSideNavItem>
+                      <EuiSideNavItem
+                        depth={1}
+                        href="#/services"
+                        isOpen={false}
+                        isParent={false}
+                        isSelected={false}
+                        key="3"
+                      >
+                        <div
+                          className="euiSideNavItem euiSideNavItem--trunk"
+                        >
+                          <DefaultRenderItem
+                            className="euiSideNavItemButton euiSideNavItemButton--isClickable"
+                            href="#/services"
+                          >
+                            <a
+                              className="euiSideNavItemButton euiSideNavItemButton--isClickable"
+                              href="#/services"
+                              rel="noreferrer"
+                            >
+                              <span
+                                className="euiSideNavItemButton__content"
+                              >
+                                <span
+                                  className="euiSideNavItemButton__label"
+                                >
+                                  Services
+                                </span>
+                              </span>
+                            </a>
+                          </DefaultRenderItem>
+                        </div>
+                      </EuiSideNavItem>
+                    </div>
+                  </div>
+                </EuiSideNavItem>
+              </div>
+            </nav>
+          </EuiSideNav>
+        </SideNav>
+      </div>
+    </EuiPageSideBar>
+    <EuiPageBody>
+      <main
+        className="euiPageBody"
+      >
+        <div />
+      </main>
+    </EuiPageBody>
+  </div>
+</EuiPage>
+`;

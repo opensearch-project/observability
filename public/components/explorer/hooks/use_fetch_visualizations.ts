@@ -20,11 +20,17 @@ import {
 import { render as renderCountDis } from '../slices/count_distribution_slice';
 import { selectQueries } from '../slices/query_slice';
 import { render as renderExplorerVis } from '../slices/visualization_slice';
+import PPLService from '../../../services/requests/ppl';
+
+interface IFetchVisualizationsParams {
+  pplService: PPLService;
+  requestParams: { tabId: string };
+}
 
 export const useFetchVisualizations = ({
   pplService,
-  requestParams = {}
-}: any) => {
+  requestParams
+}: IFetchVisualizationsParams) => {
   
   const dispatch = useDispatch();
   const [isVisLoading, setIsVisLoading] = useState<boolean>(false);
@@ -33,9 +39,9 @@ export const useFetchVisualizations = ({
   queriesRef.current = queries;
 
   const fetchVisualizations = async (
-    { query }: any,
+    { query }: { query: string },
     format: string,
-    handler: any
+    handler: (res: any) => void
   ) => {
     setIsVisLoading(true);
     

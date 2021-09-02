@@ -1,0 +1,2134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services component renders empty services page 1`] = `
+<Services
+  endTime="now"
+  filters={Array []}
+  http={[MockFunction]}
+  indicesExist={false}
+  query=""
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#",
+              "text": "Trace Analytics",
+            },
+            Object {
+              "href": "#/services",
+              "text": "Services",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setEndTime={[MockFunction]}
+  setFilters={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setQuery={[MockFunction]}
+  setStartTime={[MockFunction]}
+  startTime="now-5m"
+  uiSettings={null}
+>
+  <EuiTitle
+    size="l"
+  >
+    <h2
+      className="euiTitle euiTitle--large"
+      style={
+        Object {
+          "fontWeight": 430,
+        }
+      }
+    >
+      Services
+    </h2>
+  </EuiTitle>
+  <SearchBar
+    endTime="now"
+    filters={Array []}
+    page="services"
+    query=""
+    refresh={[Function]}
+    setEndTime={[MockFunction]}
+    setFilters={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    setQuery={[MockFunction]}
+    setStartTime={[MockFunction]}
+    startTime="now-5m"
+  >
+    <EuiFlexGroup
+      gutterSize="s"
+    >
+      <div
+        className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <EuiFlexItem>
+          <div
+            className="euiFlexItem"
+          >
+            <EuiFieldSearch
+              compressed={false}
+              data-test-subj="search-bar-input-box"
+              fullWidth={true}
+              incremental={false}
+              isClearable={false}
+              isLoading={false}
+              onChange={[Function]}
+              onSearch={[Function]}
+              placeholder="Trace ID, trace group name, service name"
+              value=""
+            >
+              <EuiFormControlLayout
+                compressed={false}
+                fullWidth={true}
+                icon="search"
+                isLoading={false}
+              >
+                <div
+                  className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                >
+                  <div
+                    className="euiFormControlLayout__childrenWrapper"
+                  >
+                    <EuiValidatableControl>
+                      <input
+                        className="euiFieldSearch euiFieldSearch--fullWidth"
+                        data-test-subj="search-bar-input-box"
+                        onChange={[Function]}
+                        onKeyUp={[Function]}
+                        placeholder="Trace ID, trace group name, service name"
+                        type="search"
+                        value=""
+                      />
+                    </EuiValidatableControl>
+                    <EuiFormControlLayoutIcons
+                      icon="search"
+                      isLoading={false}
+                    >
+                      <div
+                        className="euiFormControlLayoutIcons"
+                      >
+                        <EuiFormControlLayoutCustomIcon
+                          type="search"
+                        >
+                          <span
+                            className="euiFormControlLayoutCustomIcon"
+                          >
+                            <EuiIcon
+                              aria-hidden="true"
+                              className="euiFormControlLayoutCustomIcon__icon"
+                              type="search"
+                            >
+                              <EuiIconEmpty
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </EuiIconEmpty>
+                            </EuiIcon>
+                          </span>
+                        </EuiFormControlLayoutCustomIcon>
+                      </div>
+                    </EuiFormControlLayoutIcons>
+                  </div>
+                </div>
+              </EuiFormControlLayout>
+            </EuiFieldSearch>
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <EuiSuperDatePicker
+              commonlyUsedRanges={
+                Array [
+                  Object {
+                    "end": "now/d",
+                    "label": "Today",
+                    "start": "now/d",
+                  },
+                  Object {
+                    "end": "now/w",
+                    "label": "This week",
+                    "start": "now/w",
+                  },
+                  Object {
+                    "end": "now/M",
+                    "label": "This month",
+                    "start": "now/M",
+                  },
+                  Object {
+                    "end": "now/y",
+                    "label": "This year",
+                    "start": "now/y",
+                  },
+                  Object {
+                    "end": "now-1d/d",
+                    "label": "Yesterday",
+                    "start": "now-1d/d",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Week to date",
+                    "start": "now/w",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Month to date",
+                    "start": "now/M",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Year to date",
+                    "start": "now/y",
+                  },
+                ]
+              }
+              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              end="now"
+              isAutoRefreshOnly={false}
+              isDisabled={false}
+              isPaused={true}
+              onTimeChange={[Function]}
+              recentlyUsedRanges={Array []}
+              refreshInterval={0}
+              showUpdateButton={false}
+              start="now-5m"
+              timeFormat="HH:mm"
+            >
+              <EuiFlexGroup
+                className="euiSuperDatePicker__flexWrapper euiSuperDatePicker__flexWrapper--noUpdateButton"
+                gutterSize="s"
+                responsive={false}
+              >
+                <div
+                  className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper euiSuperDatePicker__flexWrapper--noUpdateButton"
+                >
+                  <EuiFlexItem>
+                    <div
+                      className="euiFlexItem"
+                    >
+                      <EuiFormControlLayout
+                        className="euiSuperDatePicker"
+                        isDisabled={false}
+                        prepend={
+                          <EuiQuickSelectPopover
+                            applyTime={[Function]}
+                            commonlyUsedRanges={
+                              Array [
+                                Object {
+                                  "end": "now/d",
+                                  "label": "Today",
+                                  "start": "now/d",
+                                },
+                                Object {
+                                  "end": "now/w",
+                                  "label": "This week",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now/M",
+                                  "label": "This month",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now/y",
+                                  "label": "This year",
+                                  "start": "now/y",
+                                },
+                                Object {
+                                  "end": "now-1d/d",
+                                  "label": "Yesterday",
+                                  "start": "now-1d/d",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Week to date",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Month to date",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Year to date",
+                                  "start": "now/y",
+                                },
+                              ]
+                            }
+                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            end="now"
+                            isAutoRefreshOnly={false}
+                            isDisabled={false}
+                            isPaused={true}
+                            recentlyUsedRanges={Array []}
+                            refreshInterval={0}
+                            start="now-5m"
+                          />
+                        }
+                      >
+                        <div
+                          className="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+                        >
+                          <EuiQuickSelectPopover
+                            applyTime={[Function]}
+                            className="euiFormControlLayout__prepend"
+                            commonlyUsedRanges={
+                              Array [
+                                Object {
+                                  "end": "now/d",
+                                  "label": "Today",
+                                  "start": "now/d",
+                                },
+                                Object {
+                                  "end": "now/w",
+                                  "label": "This week",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now/M",
+                                  "label": "This month",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now/y",
+                                  "label": "This year",
+                                  "start": "now/y",
+                                },
+                                Object {
+                                  "end": "now-1d/d",
+                                  "label": "Yesterday",
+                                  "start": "now-1d/d",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Week to date",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Month to date",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Year to date",
+                                  "start": "now/y",
+                                },
+                              ]
+                            }
+                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            end="now"
+                            isAutoRefreshOnly={false}
+                            isDisabled={false}
+                            isPaused={true}
+                            key="0/.0"
+                            recentlyUsedRanges={Array []}
+                            refreshInterval={0}
+                            start="now-5m"
+                          >
+                            <EuiPopover
+                              anchorClassName="euiQuickSelectPopover__anchor"
+                              anchorPosition="downLeft"
+                              button={
+                                <EuiButtonEmpty
+                                  aria-label="Date quick select"
+                                  className="euiFormControlLayout__prepend"
+                                  data-test-subj="superDatePickerToggleQuickMenuButton"
+                                  iconSide="right"
+                                  iconType="arrowDown"
+                                  isDisabled={false}
+                                  onClick={[Function]}
+                                  size="xs"
+                                  textProps={
+                                    Object {
+                                      "className": "euiQuickSelectPopover__buttonText",
+                                    }
+                                  }
+                                >
+                                  <EuiIcon
+                                    type="calendar"
+                                  />
+                                </EuiButtonEmpty>
+                              }
+                              closePopover={[Function]}
+                              display="inlineBlock"
+                              hasArrow={true}
+                              id="QuickSelectPopover"
+                              isOpen={false}
+                              ownFocus={true}
+                              panelPaddingSize="m"
+                            >
+                              <EuiOutsideClickDetector
+                                isDisabled={true}
+                                onOutsideClick={[Function]}
+                              >
+                                <div
+                                  className="euiPopover euiPopover--anchorDownLeft"
+                                  id="QuickSelectPopover"
+                                  onKeyDown={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchStart={[Function]}
+                                >
+                                  <div
+                                    className="euiPopover__anchor euiQuickSelectPopover__anchor"
+                                  >
+                                    <EuiButtonEmpty
+                                      aria-label="Date quick select"
+                                      className="euiFormControlLayout__prepend"
+                                      data-test-subj="superDatePickerToggleQuickMenuButton"
+                                      iconSide="right"
+                                      iconType="arrowDown"
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      size="xs"
+                                      textProps={
+                                        Object {
+                                          "className": "euiQuickSelectPopover__buttonText",
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        aria-label="Date quick select"
+                                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                        data-test-subj="superDatePickerToggleQuickMenuButton"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButtonEmpty__content"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                          >
+                                            <EuiIcon
+                                              className="euiButtonContent__icon"
+                                              size="m"
+                                              type="arrowDown"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                            >
+                                              <EuiIcon
+                                                type="calendar"
+                                              >
+                                                <EuiIconEmpty
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                  focusable="false"
+                                                  role="img"
+                                                  style={null}
+                                                >
+                                                  <svg
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                    focusable="false"
+                                                    height={16}
+                                                    role="img"
+                                                    style={null}
+                                                    viewBox="0 0 16 16"
+                                                    width={16}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                </EuiIconEmpty>
+                                              </EuiIcon>
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonEmpty>
+                                  </div>
+                                </div>
+                              </EuiOutsideClickDetector>
+                            </EuiPopover>
+                          </EuiQuickSelectPopover>
+                          <div
+                            className="euiFormControlLayout__childrenWrapper"
+                          >
+                            <EuiDatePickerRange
+                              className="euiDatePickerRange--inGroup"
+                              endDateControl={<div />}
+                              iconType={false}
+                              isCustom={true}
+                              startDateControl={<div />}
+                            >
+                              <div
+                                className="euiDatePickerRange euiDatePickerRange--inGroup"
+                              >
+                                <button
+                                  className="euiSuperDatePicker__prettyFormat"
+                                  data-test-subj="superDatePickerShowDatesButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                >
+                                  Last 5 minutes
+                                  <span
+                                    className="euiSuperDatePicker__prettyFormatLink"
+                                  >
+                                    <EuiI18n
+                                      default="Show dates"
+                                      token="euiSuperDatePicker.showDatesButtonLabel"
+                                    >
+                                      Show dates
+                                    </EuiI18n>
+                                  </span>
+                                </button>
+                              </div>
+                            </EuiDatePickerRange>
+                            <EuiFormControlLayoutIcons />
+                          </div>
+                        </div>
+                      </EuiFormControlLayout>
+                    </div>
+                  </EuiFlexItem>
+                </div>
+              </EuiFlexGroup>
+            </EuiSuperDatePicker>
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <EuiButton
+              data-test-subj="search-bar-refresh-button"
+              fill={true}
+              iconType="refresh"
+              onClick={[Function]}
+            >
+              <EuiButtonDisplay
+                data-test-subj="search-bar-refresh-button"
+                disabled={false}
+                element="button"
+                fill={true}
+                iconType="refresh"
+                isDisabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--fill"
+                  data-test-subj="search-bar-refresh-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    iconType="refresh"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <EuiIcon
+                        className="euiButtonContent__icon"
+                        size="m"
+                        type="refresh"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <span
+                        className="euiButton__text"
+                      >
+                        Refresh
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </EuiFlexItem>
+      </div>
+    </EuiFlexGroup>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+    <Filters
+      filters={Array []}
+      page="services"
+      setFilters={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              Array [],
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
+    >
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="xs"
+        responsive={false}
+        style={
+          Object {
+            "minHeight": 32,
+          }
+        }
+      >
+        <div
+          className="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+          style={
+            Object {
+              "minHeight": 32,
+            }
+          }
+        >
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <GlobalFilterButton>
+                <EuiPopover
+                  anchorPosition="rightUp"
+                  button={
+                    <EuiButtonIcon
+                      aria-label="Change all filters"
+                      iconType="filter"
+                      onClick={[Function]}
+                      title="Change all filters"
+                    />
+                  }
+                  closePopover={[Function]}
+                  display="inlineBlock"
+                  hasArrow={true}
+                  isOpen={false}
+                  ownFocus={false}
+                  panelPaddingSize="none"
+                  withTitle={true}
+                >
+                  <EuiOutsideClickDetector
+                    isDisabled={true}
+                    onOutsideClick={[Function]}
+                  >
+                    <div
+                      className="euiPopover euiPopover--anchorRightUp euiPopover--withTitle"
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseUp={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <div
+                        className="euiPopover__anchor"
+                      >
+                        <EuiButtonIcon
+                          aria-label="Change all filters"
+                          iconType="filter"
+                          onClick={[Function]}
+                          title="Change all filters"
+                        >
+                          <button
+                            aria-label="Change all filters"
+                            className="euiButtonIcon euiButtonIcon--primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            title="Change all filters"
+                            type="button"
+                          >
+                            <EuiIcon
+                              aria-hidden="true"
+                              className="euiButtonIcon__icon"
+                              size="m"
+                              type="filter"
+                            >
+                              <EuiIconEmpty
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </EuiIconEmpty>
+                            </EuiIcon>
+                          </button>
+                        </EuiButtonIcon>
+                      </div>
+                    </div>
+                  </EuiOutsideClickDetector>
+                </EuiPopover>
+              </GlobalFilterButton>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <AddFilterButton>
+                <EuiPopover
+                  anchorPosition="downLeft"
+                  button={
+                    <EuiButtonEmpty
+                      onClick={[Function]}
+                      size="xs"
+                    >
+                      + Add filter
+                    </EuiButtonEmpty>
+                  }
+                  closePopover={[Function]}
+                  display="inlineBlock"
+                  hasArrow={true}
+                  isOpen={false}
+                  ownFocus={false}
+                  panelPaddingSize="m"
+                  withTitle={true}
+                >
+                  <EuiOutsideClickDetector
+                    isDisabled={true}
+                    onOutsideClick={[Function]}
+                  >
+                    <div
+                      className="euiPopover euiPopover--anchorDownLeft euiPopover--withTitle"
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseUp={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <div
+                        className="euiPopover__anchor"
+                      >
+                        <EuiButtonEmpty
+                          onClick={[Function]}
+                          size="xs"
+                        >
+                          <button
+                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <EuiButtonContent
+                              className="euiButtonEmpty__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButtonEmpty__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButtonEmpty__content"
+                              >
+                                <span
+                                  className="euiButtonEmpty__text"
+                                >
+                                  + Add filter
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonEmpty>
+                      </div>
+                    </div>
+                  </EuiOutsideClickDetector>
+                </EuiPopover>
+              </AddFilterButton>
+            </div>
+          </EuiFlexItem>
+        </div>
+      </EuiFlexGroup>
+    </Filters>
+  </SearchBar>
+  <EuiSpacer>
+    <div
+      className="euiSpacer euiSpacer--l"
+    />
+  </EuiSpacer>
+  <ServicesTable
+    addFilter={[Function]}
+    indicesExist={false}
+    items={Array []}
+    refresh={[Function]}
+    serviceQuery=""
+    setRedirect={[Function]}
+    setServiceQuery={[Function]}
+  >
+    <EuiPanel>
+      <div
+        className="euiPanel euiPanel--paddingMedium"
+      >
+        <EuiFlexGroup
+          alignItems="center"
+          gutterSize="s"
+        >
+          <div
+            className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <EuiFlexItem
+              grow={10}
+            >
+              <div
+                className="euiFlexItem euiFlexItem--flexGrow10"
+              >
+                <PanelTitle
+                  title="Services"
+                  totalItems={0}
+                >
+                  <EuiText
+                    size="m"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <span
+                        className="panel-title"
+                      >
+                        Services
+                      </span>
+                      <span
+                        className="panel-title-count"
+                      >
+                         (0)
+                      </span>
+                    </div>
+                  </EuiText>
+                </PanelTitle>
+              </div>
+            </EuiFlexItem>
+          </div>
+        </EuiFlexGroup>
+        <EuiSpacer
+          size="m"
+        >
+          <div
+            className="euiSpacer euiSpacer--m"
+          />
+        </EuiSpacer>
+        <EuiHorizontalRule
+          margin="none"
+        >
+          <hr
+            className="euiHorizontalRule euiHorizontalRule--full"
+          />
+        </EuiHorizontalRule>
+        <MissingConfigurationMessage>
+          <EuiEmptyPrompt
+            actions={
+              <EuiButton
+                color="primary"
+                iconSide="right"
+                iconType="popout"
+                onClick={[Function]}
+              >
+                Learn more
+              </EuiButton>
+            }
+            body={
+              <EuiText>
+                The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+              </EuiText>
+            }
+            title={
+              <h2>
+                Trace Analytics not set up
+              </h2>
+            }
+          >
+            <div
+              className="euiEmptyPrompt"
+            >
+              <EuiTextColor
+                color="subdued"
+              >
+                <span
+                  className="euiTextColor euiTextColor--subdued"
+                >
+                  <EuiTitle
+                    size="m"
+                  >
+                    <h2
+                      className="euiTitle euiTitle--medium"
+                    >
+                      Trace Analytics not set up
+                    </h2>
+                  </EuiTitle>
+                  <EuiSpacer
+                    size="m"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--m"
+                    />
+                  </EuiSpacer>
+                  <EuiText>
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <EuiText>
+                        <div
+                          className="euiText euiText--medium"
+                        >
+                          The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+                        </div>
+                      </EuiText>
+                    </div>
+                  </EuiText>
+                </span>
+              </EuiTextColor>
+              <EuiSpacer
+                size="l"
+              >
+                <div
+                  className="euiSpacer euiSpacer--l"
+                />
+              </EuiSpacer>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiButton
+                color="primary"
+                iconSide="right"
+                iconType="popout"
+                onClick={[Function]}
+              >
+                <EuiButtonDisplay
+                  color="primary"
+                  disabled={false}
+                  element="button"
+                  iconSide="right"
+                  iconType="popout"
+                  isDisabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <button
+                    className="euiButton euiButton--primary"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <EuiButtonContent
+                      className="euiButton__content"
+                      iconSide="right"
+                      iconType="popout"
+                      textProps={
+                        Object {
+                          "className": "euiButton__text",
+                        }
+                      }
+                    >
+                      <span
+                        className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                      >
+                        <EuiIcon
+                          className="euiButtonContent__icon"
+                          size="m"
+                          type="popout"
+                        >
+                          <EuiIconEmpty
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                            focusable="false"
+                            role="img"
+                            style={null}
+                          >
+                            <svg
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                              focusable="false"
+                              height={16}
+                              role="img"
+                              style={null}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                        <span
+                          className="euiButton__text"
+                        >
+                          Learn more
+                        </span>
+                      </span>
+                    </EuiButtonContent>
+                  </button>
+                </EuiButtonDisplay>
+              </EuiButton>
+            </div>
+          </EuiEmptyPrompt>
+        </MissingConfigurationMessage>
+      </div>
+    </EuiPanel>
+  </ServicesTable>
+</Services>
+`;
+
+exports[`Services component renders services page 1`] = `
+<Services
+  endTime="now"
+  filters={Array []}
+  http={[MockFunction]}
+  indicesExist={true}
+  query=""
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#",
+              "text": "Trace Analytics",
+            },
+            Object {
+              "href": "#/services",
+              "text": "Services",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setEndTime={[MockFunction]}
+  setFilters={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setQuery={[MockFunction]}
+  setStartTime={[MockFunction]}
+  startTime="now-5m"
+  uiSettings={null}
+>
+  <EuiTitle
+    size="l"
+  >
+    <h2
+      className="euiTitle euiTitle--large"
+      style={
+        Object {
+          "fontWeight": 430,
+        }
+      }
+    >
+      Services
+    </h2>
+  </EuiTitle>
+  <SearchBar
+    endTime="now"
+    filters={Array []}
+    page="services"
+    query=""
+    refresh={[Function]}
+    setEndTime={[MockFunction]}
+    setFilters={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    setQuery={[MockFunction]}
+    setStartTime={[MockFunction]}
+    startTime="now-5m"
+  >
+    <EuiFlexGroup
+      gutterSize="s"
+    >
+      <div
+        className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <EuiFlexItem>
+          <div
+            className="euiFlexItem"
+          >
+            <EuiFieldSearch
+              compressed={false}
+              data-test-subj="search-bar-input-box"
+              fullWidth={true}
+              incremental={false}
+              isClearable={false}
+              isLoading={false}
+              onChange={[Function]}
+              onSearch={[Function]}
+              placeholder="Trace ID, trace group name, service name"
+              value=""
+            >
+              <EuiFormControlLayout
+                compressed={false}
+                fullWidth={true}
+                icon="search"
+                isLoading={false}
+              >
+                <div
+                  className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                >
+                  <div
+                    className="euiFormControlLayout__childrenWrapper"
+                  >
+                    <EuiValidatableControl>
+                      <input
+                        className="euiFieldSearch euiFieldSearch--fullWidth"
+                        data-test-subj="search-bar-input-box"
+                        onChange={[Function]}
+                        onKeyUp={[Function]}
+                        placeholder="Trace ID, trace group name, service name"
+                        type="search"
+                        value=""
+                      />
+                    </EuiValidatableControl>
+                    <EuiFormControlLayoutIcons
+                      icon="search"
+                      isLoading={false}
+                    >
+                      <div
+                        className="euiFormControlLayoutIcons"
+                      >
+                        <EuiFormControlLayoutCustomIcon
+                          type="search"
+                        >
+                          <span
+                            className="euiFormControlLayoutCustomIcon"
+                          >
+                            <EuiIcon
+                              aria-hidden="true"
+                              className="euiFormControlLayoutCustomIcon__icon"
+                              type="search"
+                            >
+                              <EuiIconSearch
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M11.271 11.978l3.872 3.873a.502.502 0 00.708 0 .502.502 0 000-.708l-3.565-3.564c2.38-2.747 2.267-6.923-.342-9.532-2.73-2.73-7.17-2.73-9.898 0-2.728 2.729-2.728 7.17 0 9.9a6.955 6.955 0 004.949 2.05.5.5 0 000-1 5.96 5.96 0 01-4.242-1.757 6.01 6.01 0 010-8.486c2.337-2.34 6.143-2.34 8.484 0a6.01 6.01 0 010 8.486.5.5 0 00.034.738z"
+                                  />
+                                </svg>
+                              </EuiIconSearch>
+                            </EuiIcon>
+                          </span>
+                        </EuiFormControlLayoutCustomIcon>
+                      </div>
+                    </EuiFormControlLayoutIcons>
+                  </div>
+                </div>
+              </EuiFormControlLayout>
+            </EuiFieldSearch>
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <EuiSuperDatePicker
+              commonlyUsedRanges={
+                Array [
+                  Object {
+                    "end": "now/d",
+                    "label": "Today",
+                    "start": "now/d",
+                  },
+                  Object {
+                    "end": "now/w",
+                    "label": "This week",
+                    "start": "now/w",
+                  },
+                  Object {
+                    "end": "now/M",
+                    "label": "This month",
+                    "start": "now/M",
+                  },
+                  Object {
+                    "end": "now/y",
+                    "label": "This year",
+                    "start": "now/y",
+                  },
+                  Object {
+                    "end": "now-1d/d",
+                    "label": "Yesterday",
+                    "start": "now-1d/d",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Week to date",
+                    "start": "now/w",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Month to date",
+                    "start": "now/M",
+                  },
+                  Object {
+                    "end": "now",
+                    "label": "Year to date",
+                    "start": "now/y",
+                  },
+                ]
+              }
+              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              end="now"
+              isAutoRefreshOnly={false}
+              isDisabled={false}
+              isPaused={true}
+              onTimeChange={[Function]}
+              recentlyUsedRanges={Array []}
+              refreshInterval={0}
+              showUpdateButton={false}
+              start="now-5m"
+              timeFormat="HH:mm"
+            >
+              <EuiFlexGroup
+                className="euiSuperDatePicker__flexWrapper euiSuperDatePicker__flexWrapper--noUpdateButton"
+                gutterSize="s"
+                responsive={false}
+              >
+                <div
+                  className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper euiSuperDatePicker__flexWrapper--noUpdateButton"
+                >
+                  <EuiFlexItem>
+                    <div
+                      className="euiFlexItem"
+                    >
+                      <EuiFormControlLayout
+                        className="euiSuperDatePicker"
+                        isDisabled={false}
+                        prepend={
+                          <EuiQuickSelectPopover
+                            applyTime={[Function]}
+                            commonlyUsedRanges={
+                              Array [
+                                Object {
+                                  "end": "now/d",
+                                  "label": "Today",
+                                  "start": "now/d",
+                                },
+                                Object {
+                                  "end": "now/w",
+                                  "label": "This week",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now/M",
+                                  "label": "This month",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now/y",
+                                  "label": "This year",
+                                  "start": "now/y",
+                                },
+                                Object {
+                                  "end": "now-1d/d",
+                                  "label": "Yesterday",
+                                  "start": "now-1d/d",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Week to date",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Month to date",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Year to date",
+                                  "start": "now/y",
+                                },
+                              ]
+                            }
+                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            end="now"
+                            isAutoRefreshOnly={false}
+                            isDisabled={false}
+                            isPaused={true}
+                            recentlyUsedRanges={Array []}
+                            refreshInterval={0}
+                            start="now-5m"
+                          />
+                        }
+                      >
+                        <div
+                          className="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+                        >
+                          <EuiQuickSelectPopover
+                            applyTime={[Function]}
+                            className="euiFormControlLayout__prepend"
+                            commonlyUsedRanges={
+                              Array [
+                                Object {
+                                  "end": "now/d",
+                                  "label": "Today",
+                                  "start": "now/d",
+                                },
+                                Object {
+                                  "end": "now/w",
+                                  "label": "This week",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now/M",
+                                  "label": "This month",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now/y",
+                                  "label": "This year",
+                                  "start": "now/y",
+                                },
+                                Object {
+                                  "end": "now-1d/d",
+                                  "label": "Yesterday",
+                                  "start": "now-1d/d",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Week to date",
+                                  "start": "now/w",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Month to date",
+                                  "start": "now/M",
+                                },
+                                Object {
+                                  "end": "now",
+                                  "label": "Year to date",
+                                  "start": "now/y",
+                                },
+                              ]
+                            }
+                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            end="now"
+                            isAutoRefreshOnly={false}
+                            isDisabled={false}
+                            isPaused={true}
+                            key="0/.0"
+                            recentlyUsedRanges={Array []}
+                            refreshInterval={0}
+                            start="now-5m"
+                          >
+                            <EuiPopover
+                              anchorClassName="euiQuickSelectPopover__anchor"
+                              anchorPosition="downLeft"
+                              button={
+                                <EuiButtonEmpty
+                                  aria-label="Date quick select"
+                                  className="euiFormControlLayout__prepend"
+                                  data-test-subj="superDatePickerToggleQuickMenuButton"
+                                  iconSide="right"
+                                  iconType="arrowDown"
+                                  isDisabled={false}
+                                  onClick={[Function]}
+                                  size="xs"
+                                  textProps={
+                                    Object {
+                                      "className": "euiQuickSelectPopover__buttonText",
+                                    }
+                                  }
+                                >
+                                  <EuiIcon
+                                    type="calendar"
+                                  />
+                                </EuiButtonEmpty>
+                              }
+                              closePopover={[Function]}
+                              display="inlineBlock"
+                              hasArrow={true}
+                              id="QuickSelectPopover"
+                              isOpen={false}
+                              ownFocus={true}
+                              panelPaddingSize="m"
+                            >
+                              <EuiOutsideClickDetector
+                                isDisabled={true}
+                                onOutsideClick={[Function]}
+                              >
+                                <div
+                                  className="euiPopover euiPopover--anchorDownLeft"
+                                  id="QuickSelectPopover"
+                                  onKeyDown={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchStart={[Function]}
+                                >
+                                  <div
+                                    className="euiPopover__anchor euiQuickSelectPopover__anchor"
+                                  >
+                                    <EuiButtonEmpty
+                                      aria-label="Date quick select"
+                                      className="euiFormControlLayout__prepend"
+                                      data-test-subj="superDatePickerToggleQuickMenuButton"
+                                      iconSide="right"
+                                      iconType="arrowDown"
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      size="xs"
+                                      textProps={
+                                        Object {
+                                          "className": "euiQuickSelectPopover__buttonText",
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        aria-label="Date quick select"
+                                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                        data-test-subj="superDatePickerToggleQuickMenuButton"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButtonEmpty__content"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                          >
+                                            <EuiIcon
+                                              className="euiButtonContent__icon"
+                                              size="m"
+                                              type="arrowDown"
+                                            >
+                                              <EuiIconArrowDown
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                    fillRule="non-zero"
+                                                  />
+                                                </svg>
+                                              </EuiIconArrowDown>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                            >
+                                              <EuiIcon
+                                                type="calendar"
+                                              >
+                                                <EuiIconCalendar
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium"
+                                                  focusable="false"
+                                                  role="img"
+                                                  style={null}
+                                                >
+                                                  <svg
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium"
+                                                    focusable="false"
+                                                    height={16}
+                                                    role="img"
+                                                    style={null}
+                                                    viewBox="0 0 16 16"
+                                                    width={16}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  >
+                                                    <path
+                                                      d="M14 4v-.994C14 2.45 13.55 2 12.994 2H11v1h-1V2H6v1H5V2H3.006C2.45 2 2 2.45 2 3.006v9.988C2 13.55 2.45 14 3.006 14h9.988C13.55 14 14 13.55 14 12.994V5H2V4h12zm-3-3h1.994C14.102 1 15 1.897 15 3.006v9.988A2.005 2.005 0 0112.994 15H3.006A2.005 2.005 0 011 12.994V3.006C1 1.898 1.897 1 3.006 1H5V0h1v1h4V0h1v1zM4 7h2v1H4V7zm3 0h2v1H7V7zm3 0h2v1h-2V7zM4 9h2v1H4V9zm3 0h2v1H7V9zm3 0h2v1h-2V9zm-6 2h2v1H4v-1zm3 0h2v1H7v-1zm3 0h2v1h-2v-1z"
+                                                      fillRule="evenodd"
+                                                    />
+                                                  </svg>
+                                                </EuiIconCalendar>
+                                              </EuiIcon>
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonEmpty>
+                                  </div>
+                                </div>
+                              </EuiOutsideClickDetector>
+                            </EuiPopover>
+                          </EuiQuickSelectPopover>
+                          <div
+                            className="euiFormControlLayout__childrenWrapper"
+                          >
+                            <EuiDatePickerRange
+                              className="euiDatePickerRange--inGroup"
+                              endDateControl={<div />}
+                              iconType={false}
+                              isCustom={true}
+                              startDateControl={<div />}
+                            >
+                              <div
+                                className="euiDatePickerRange euiDatePickerRange--inGroup"
+                              >
+                                <button
+                                  className="euiSuperDatePicker__prettyFormat"
+                                  data-test-subj="superDatePickerShowDatesButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                >
+                                  Last 5 minutes
+                                  <span
+                                    className="euiSuperDatePicker__prettyFormatLink"
+                                  >
+                                    <EuiI18n
+                                      default="Show dates"
+                                      token="euiSuperDatePicker.showDatesButtonLabel"
+                                    >
+                                      Show dates
+                                    </EuiI18n>
+                                  </span>
+                                </button>
+                              </div>
+                            </EuiDatePickerRange>
+                            <EuiFormControlLayoutIcons />
+                          </div>
+                        </div>
+                      </EuiFormControlLayout>
+                    </div>
+                  </EuiFlexItem>
+                </div>
+              </EuiFlexGroup>
+            </EuiSuperDatePicker>
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <EuiButton
+              data-test-subj="search-bar-refresh-button"
+              fill={true}
+              iconType="refresh"
+              onClick={[Function]}
+            >
+              <EuiButtonDisplay
+                data-test-subj="search-bar-refresh-button"
+                disabled={false}
+                element="button"
+                fill={true}
+                iconType="refresh"
+                isDisabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--fill"
+                  data-test-subj="search-bar-refresh-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    iconType="refresh"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <EuiIcon
+                        className="euiButtonContent__icon"
+                        size="m"
+                        type="refresh"
+                      >
+                        <EuiIconRefresh
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--medium euiButtonContent__icon"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiButtonContent__icon"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M11.228 2.942a.5.5 0 11-.538.842A5 5 0 1013 8a.5.5 0 111 0 6 6 0 11-2.772-5.058zM14 1.5v3A1.5 1.5 0 0112.5 6h-3a.5.5 0 010-1h3a.5.5 0 00.5-.5v-3a.5.5 0 111 0z"
+                            />
+                          </svg>
+                        </EuiIconRefresh>
+                      </EuiIcon>
+                      <span
+                        className="euiButton__text"
+                      >
+                        Refresh
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </EuiFlexItem>
+      </div>
+    </EuiFlexGroup>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+    <Filters
+      filters={Array []}
+      page="services"
+      setFilters={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              Array [],
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
+    >
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="xs"
+        responsive={false}
+        style={
+          Object {
+            "minHeight": 32,
+          }
+        }
+      >
+        <div
+          className="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+          style={
+            Object {
+              "minHeight": 32,
+            }
+          }
+        >
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <GlobalFilterButton>
+                <EuiPopover
+                  anchorPosition="rightUp"
+                  button={
+                    <EuiButtonIcon
+                      aria-label="Change all filters"
+                      iconType="filter"
+                      onClick={[Function]}
+                      title="Change all filters"
+                    />
+                  }
+                  closePopover={[Function]}
+                  display="inlineBlock"
+                  hasArrow={true}
+                  isOpen={false}
+                  ownFocus={false}
+                  panelPaddingSize="none"
+                  withTitle={true}
+                >
+                  <EuiOutsideClickDetector
+                    isDisabled={true}
+                    onOutsideClick={[Function]}
+                  >
+                    <div
+                      className="euiPopover euiPopover--anchorRightUp euiPopover--withTitle"
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseUp={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <div
+                        className="euiPopover__anchor"
+                      >
+                        <EuiButtonIcon
+                          aria-label="Change all filters"
+                          iconType="filter"
+                          onClick={[Function]}
+                          title="Change all filters"
+                        >
+                          <button
+                            aria-label="Change all filters"
+                            className="euiButtonIcon euiButtonIcon--primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            title="Change all filters"
+                            type="button"
+                          >
+                            <EuiIcon
+                              aria-hidden="true"
+                              className="euiButtonIcon__icon"
+                              size="m"
+                              type="filter"
+                            >
+                              <EuiIconFilter
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M7.999 15.999a8 8 0 110-16 8 8 0 010 16zM8 15A7 7 0 108 1a7 7 0 000 14zM3.5 5h9a.5.5 0 110 1h-9a.5.5 0 010-1zm2 3h5a.5.5 0 110 1h-5a.5.5 0 010-1zm2 3h1a.5.5 0 110 1h-1a.5.5 0 110-1z"
+                                    fillRule="evenodd"
+                                  />
+                                </svg>
+                              </EuiIconFilter>
+                            </EuiIcon>
+                          </button>
+                        </EuiButtonIcon>
+                      </div>
+                    </div>
+                  </EuiOutsideClickDetector>
+                </EuiPopover>
+              </GlobalFilterButton>
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <div
+              className="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <AddFilterButton>
+                <EuiPopover
+                  anchorPosition="downLeft"
+                  button={
+                    <EuiButtonEmpty
+                      onClick={[Function]}
+                      size="xs"
+                    >
+                      + Add filter
+                    </EuiButtonEmpty>
+                  }
+                  closePopover={[Function]}
+                  display="inlineBlock"
+                  hasArrow={true}
+                  isOpen={false}
+                  ownFocus={false}
+                  panelPaddingSize="m"
+                  withTitle={true}
+                >
+                  <EuiOutsideClickDetector
+                    isDisabled={true}
+                    onOutsideClick={[Function]}
+                  >
+                    <div
+                      className="euiPopover euiPopover--anchorDownLeft euiPopover--withTitle"
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseUp={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <div
+                        className="euiPopover__anchor"
+                      >
+                        <EuiButtonEmpty
+                          onClick={[Function]}
+                          size="xs"
+                        >
+                          <button
+                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <EuiButtonContent
+                              className="euiButtonEmpty__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButtonEmpty__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButtonEmpty__content"
+                              >
+                                <span
+                                  className="euiButtonEmpty__text"
+                                >
+                                  + Add filter
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonEmpty>
+                      </div>
+                    </div>
+                  </EuiOutsideClickDetector>
+                </EuiPopover>
+              </AddFilterButton>
+            </div>
+          </EuiFlexItem>
+        </div>
+      </EuiFlexGroup>
+    </Filters>
+  </SearchBar>
+  <EuiSpacer>
+    <div
+      className="euiSpacer euiSpacer--l"
+    />
+  </EuiSpacer>
+  <ServicesTable
+    addFilter={[Function]}
+    indicesExist={true}
+    items={Array []}
+    refresh={[Function]}
+    serviceQuery=""
+    setRedirect={[Function]}
+    setServiceQuery={[Function]}
+  >
+    <EuiPanel>
+      <div
+        className="euiPanel euiPanel--paddingMedium"
+      >
+        <EuiFlexGroup
+          alignItems="center"
+          gutterSize="s"
+        >
+          <div
+            className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <EuiFlexItem
+              grow={10}
+            >
+              <div
+                className="euiFlexItem euiFlexItem--flexGrow10"
+              >
+                <PanelTitle
+                  title="Services"
+                  totalItems={0}
+                >
+                  <EuiText
+                    size="m"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <span
+                        className="panel-title"
+                      >
+                        Services
+                      </span>
+                      <span
+                        className="panel-title-count"
+                      >
+                         (0)
+                      </span>
+                    </div>
+                  </EuiText>
+                </PanelTitle>
+              </div>
+            </EuiFlexItem>
+          </div>
+        </EuiFlexGroup>
+        <EuiSpacer
+          size="m"
+        >
+          <div
+            className="euiSpacer euiSpacer--m"
+          />
+        </EuiSpacer>
+        <EuiHorizontalRule
+          margin="none"
+        >
+          <hr
+            className="euiHorizontalRule euiHorizontalRule--full"
+          />
+        </EuiHorizontalRule>
+        <NoMatchMessage
+          size="xl"
+        >
+          <EuiSpacer
+            size="xl"
+          >
+            <div
+              className="euiSpacer euiSpacer--xl"
+            />
+          </EuiSpacer>
+          <EuiEmptyPrompt
+            body={
+              <EuiText>
+                No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+              </EuiText>
+            }
+            title={
+              <h2>
+                No matches
+              </h2>
+            }
+          >
+            <div
+              className="euiEmptyPrompt"
+            >
+              <EuiTextColor
+                color="subdued"
+              >
+                <span
+                  className="euiTextColor euiTextColor--subdued"
+                >
+                  <EuiTitle
+                    size="m"
+                  >
+                    <h2
+                      className="euiTitle euiTitle--medium"
+                    >
+                      No matches
+                    </h2>
+                  </EuiTitle>
+                  <EuiSpacer
+                    size="m"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--m"
+                    />
+                  </EuiSpacer>
+                  <EuiText>
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <EuiText>
+                        <div
+                          className="euiText euiText--medium"
+                        >
+                          No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                        </div>
+                      </EuiText>
+                    </div>
+                  </EuiText>
+                </span>
+              </EuiTextColor>
+            </div>
+          </EuiEmptyPrompt>
+          <EuiSpacer
+            size="xl"
+          >
+            <div
+              className="euiSpacer euiSpacer--xl"
+            />
+          </EuiSpacer>
+        </NoMatchMessage>
+      </div>
+    </EuiPanel>
+  </ServicesTable>
+</Services>
+`;
