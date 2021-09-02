@@ -450,15 +450,10 @@ export const Explorer = ({
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ query }
-<<<<<<< HEAD
         handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
-        handleQuerySearch={ () => { handleQuerySearch(tabId) } }
+        handleQuerySearch={ () => { handleQuerySearch() } }
         pplService = { pplService }
         dslService = { dslService }
-=======
-        handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
-        handleQuerySearch={ () => { handleQuerySearch() } }
->>>>>>> feature/observability
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }
