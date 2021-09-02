@@ -1,8 +1,8 @@
 {
   "name": "trace-analytics-dashboards",
-  "version": "1.0.0.0",
+  "version": "1.1.0.0",
   "opensearchDashboards": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "templateVersion": "1.0.0"
   },
   "license": "Apache-2.0",
