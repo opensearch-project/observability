@@ -24,10 +24,9 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { LatencyTrendCell } from '../latency_trend_cell';
 
 describe('Latency trend cell component', () => {
@@ -40,7 +39,7 @@ describe('Latency trend cell component', () => {
     const wrapper = mount(<LatencyTrendCell item={item} traceGroupName="order" />);
     expect(wrapper).toMatchSnapshot();
 
-    wrapper.find('button[aria-label="Open popover"]').simulate('click')
-    wrapper.find('button[aria-label="Close popover"]').simulate('click')
+    wrapper.find('button[aria-label="Open popover"]').simulate('click');
+    wrapper.find('button[aria-label="Close popover"]').simulate('click');
   });
 });

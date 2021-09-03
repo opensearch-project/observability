@@ -24,13 +24,11 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import renderer from 'react-test-renderer';
+import React from 'react';
+import { TEST_SERVICE_MAP } from '../../../../../../../test/constants';
 import { ServiceMap } from '../service_map';
-import { TEST_SERVICE_MAP } from '../../../../../test/constants';
 
 describe('Service map component', () => {
   configure({ adapter: new Adapter() });

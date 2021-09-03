@@ -24,27 +24,30 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { Dashboard } from '..';
+import { CoreStart } from '../../../../../../../../src/core/public';
+import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
 
 describe('Dashboard component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders empty dashboard', () => {
-    const http = jest.fn();
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const wrapper = mount(
       <Dashboard
-        http={http}
-        uiSettings={null}
-        setBreadcrumbs={setBreadcrumbs}
+        http={core.http}
+        chrome={core.chrome}
+        parentBreadcrumb={{
+          text: 'test',
+          href: 'test#/',
+        }}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -61,17 +64,16 @@ describe('Dashboard component', () => {
   });
 
   it('renders dashboard', () => {
-    const http = jest.fn();
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const wrapper = mount(
       <Dashboard
-        http={http}
-        uiSettings={null}
-        setBreadcrumbs={setBreadcrumbs}
+        http={core.http}
+        chrome={core.chrome}
+        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
         query=""
         setQuery={setQuery}
         filters={[]}

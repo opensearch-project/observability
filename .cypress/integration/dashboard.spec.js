@@ -88,7 +88,7 @@ describe('Dump test data', () => {
 
 describe('Testing dashboard table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+    cy.visit('app/observability#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -104,7 +104,7 @@ describe('Testing dashboard table empty state', () => {
 
 describe('Testing dashboard table', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+    cy.visit('app/observability#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -154,7 +154,7 @@ describe('Testing dashboard table', () => {
     cy.contains(' (13)').should('exist');
     cy.contains('client_create_order').should('exist');
 
-    cy.get('.euiSideNavItemButton__label').contains('Dashboard').click();
+    cy.get('.euiSideNavItemButton__label').contains('Trace analytics').click();
     cy.wait(delay);
 
     cy.contains('client_create_order').should('exist');
@@ -163,7 +163,7 @@ describe('Testing dashboard table', () => {
 
 describe('Testing plots', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/dashboard', {
+    cy.visit('app/observability#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },

@@ -31,6 +31,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
       },
     ]
   }
+  loading={false}
   setRedirect={[MockFunction]}
 >
   <EuiPanel>
@@ -407,6 +408,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
             },
           ]
         }
+        loading={false}
         onTableChange={[Function]}
         pagination={
           Object {
@@ -653,6 +655,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
               },
             ]
           }
+          loading={false}
           noItemsMessage="No items found"
           onChange={[Function]}
           pagination={
@@ -3238,6 +3241,7 @@ exports[`Dashboard table component renders empty dashboard table message 1`] = `
   addPercentileFilter={[MockFunction]}
   filters={Array []}
   items={Array []}
+  loading={false}
   setRedirect={[MockFunction]}
 >
   <EuiPanel>

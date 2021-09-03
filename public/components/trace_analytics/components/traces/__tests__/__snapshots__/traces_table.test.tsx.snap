@@ -4,6 +4,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
 <TracesTable
   indicesExist={false}
   items={Array []}
+  loading={false}
   refresh={[MockFunction]}
 >
   <EuiPanel>
@@ -223,6 +224,7 @@ exports[`Traces table component renders empty traces table message 2`] = `
 <TracesTable
   indicesExist={true}
   items={Array []}
+  loading={false}
   refresh={[MockFunction]}
 >
   <EuiPanel>
@@ -376,6 +378,7 @@ exports[`Traces table component renders traces table 1`] = `
       },
     ]
   }
+  loading={false}
   refresh={[MockFunction]}
 >
   <EuiPanel>
@@ -502,6 +505,7 @@ exports[`Traces table component renders traces table 1`] = `
             },
           ]
         }
+        loading={false}
         onTableChange={[Function]}
         pagination={
           Object {
@@ -590,6 +594,7 @@ exports[`Traces table component renders traces table 1`] = `
               },
             ]
           }
+          loading={false}
           noItemsMessage="No items found"
           onChange={[Function]}
           pagination={
@@ -1327,11 +1332,11 @@ exports[`Traces table component renders traces table 1`] = `
                                         className="euiFlexItem euiFlexItem--flexGrow10"
                                       >
                                         <EuiLink
-                                          href="#/traces/00079a615e31e61766fcb20b557051c1"
+                                          href="#/trace_analytics/traces/00079a615e31e61766fcb20b557051c1"
                                         >
                                           <a
                                             className="euiLink euiLink--primary"
-                                            href="#/traces/00079a615e31e61766fcb20b557051c1"
+                                            href="#/trace_analytics/traces/00079a615e31e61766fcb20b557051c1"
                                             rel="noreferrer"
                                           >
                                             <div

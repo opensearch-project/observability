@@ -24,11 +24,10 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { NoMatchMessage, PanelTitle } from '..';
+import React from 'react';
+import { TEST_SERVICE_MAP, TEST_SERVICE_MAP_GRAPH } from '../../../../../../test/constants';
 import {
   calculateTicks,
   filtersToDsl,
@@ -42,9 +41,10 @@ import {
   minFixedInterval,
   MissingConfigurationMessage,
   nanoToMilliSec,
+  NoMatchMessage,
+  PanelTitle,
   renderBenchmark,
 } from '../helper_functions';
-import { TEST_SERVICE_MAP, TEST_SERVICE_MAP_GRAPH } from '../../../../test/constants';
 
 describe('Helper functions', () => {
   configure({ adapter: new Adapter() });
@@ -64,8 +64,11 @@ describe('Helper functions', () => {
   });
 
   it('renders benchmark', () => {
+    // @ts-ignore
     const benchmarkPositive = mount(renderBenchmark(50));
+    // @ts-ignore
     const benchmarkNegative = mount(renderBenchmark(-50));
+    // @ts-ignore
     const benchmarkZero = mount(renderBenchmark(0));
     expect(benchmarkPositive).toMatchSnapshot();
     expect(benchmarkNegative).toMatchSnapshot();
@@ -77,8 +80,10 @@ describe('Helper functions', () => {
     expect(ms).toEqual(123.456789);
     const ns = milliToNanoSec(123.456789);
     expect(ns).toEqual(123456789);
+    // @ts-ignore
     const invalidMs = nanoToMilliSec('abc');
     expect(invalidMs).toEqual(0);
+    // @ts-ignore
     const invalidNs = milliToNanoSec('abc');
     expect(invalidNs).toEqual(0);
   });
@@ -134,30 +139,31 @@ describe('Helper functions', () => {
   });
 
   it('converts filters to DSL', () => {
-    const getTestFilters = (field = 'traceGroup', operator = 'exists') => [
-      [
-        {
-          field,
-          operator,
-          value: { from: '100', to: '\u221E' },
-          inverted: false,
-          disabled: false,
-        },
-      ],
-      'order',
-      'now-5m',
-      'now',
-    ];
-    const existsDSL = filtersToDsl(...getTestFilters());
+    const getTestDslFromFilters = (field = 'traceGroup', operator = 'exists') =>
+      filtersToDsl(
+        [
+          {
+            field,
+            operator,
+            value: { from: '100', to: '\u221E' },
+            inverted: false,
+            disabled: false,
+          },
+        ],
+        'order',
+        'now-5m',
+        'now'
+      );
+    const existsDSL = getTestDslFromFilters();
     expect(JSON.stringify(existsDSL)).toEqual(
-      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"exists\":{\"field\":\"traceGroup\"}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
+      '{"query":{"bool":{"must":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}},{"query_string":{"query":"order"}},{"exists":{"field":"traceGroup"}}],"filter":[],"should":[],"must_not":[]}},"custom":{"timeFilter":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}}],"serviceNames":[],"serviceNamesExclude":[],"traceGroup":[],"traceGroupExclude":[],"percentiles":{"query":{"bool":{"should":[]}}}}}'
     );
 
-    const isDSL = filtersToDsl(...getTestFilters('traceGroup', 'is'));
+    const isDSL = getTestDslFromFilters('traceGroup', 'is');
     expect(JSON.stringify(isDSL)).toEqual(
-      "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}},{\"query_string\":{\"query\":\"order\"}},{\"term\":{\"traceGroup\":{\"from\":\"100\",\"to\":\"∞\"}}}],\"filter\":[],\"should\":[],\"must_not\":[]}},\"custom\":{\"timeFilter\":[{\"range\":{\"startTime\":{\"gte\":\"now-5m\",\"lte\":\"now\"}}}],\"serviceNames\":[],\"serviceNamesExclude\":[],\"traceGroup\":[],\"traceGroupExclude\":[],\"percentiles\":{\"query\":{\"bool\":{\"should\":[]}}}}}"
+      '{"query":{"bool":{"must":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}},{"query_string":{"query":"order"}},{"term":{"traceGroup":{"from":"100","to":"∞"}}}],"filter":[],"should":[],"must_not":[]}},"custom":{"timeFilter":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}}],"serviceNames":[],"serviceNamesExclude":[],"traceGroup":[],"traceGroupExclude":[],"percentiles":{"query":{"bool":{"should":[]}}}}}'
     );
-    const isBetweenDSL = filtersToDsl(...getTestFilters('durationInNanos', 'is between'));
+    const isBetweenDSL = getTestDslFromFilters('durationInNanos', 'is between');
     expect(JSON.stringify(isBetweenDSL)).toEqual(
       `{"query":{"bool":{"must":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}},{"query_string":{"query":"order"}},{"range":{"durationInNanos":{"gte":"100"}}}],"filter":[],"should":[],"must_not":[]}},"custom":{"timeFilter":[{"range":{"startTime":{"gte":"now-5m","lte":"now"}}}],"serviceNames":[],"serviceNamesExclude":[],"traceGroup":[],"traceGroupExclude":[],"percentiles":{"query":{"bool":{"should":[]}}}}}`
     );
