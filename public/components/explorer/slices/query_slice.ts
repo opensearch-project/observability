@@ -31,16 +31,9 @@ export const queriesSlice = createSlice({
   initialState,
   reducers: {
     changeQuery: (state, { payload }) => {
-      console.log('payload.query[RAW_QUERY]: ', payload.query[RAW_QUERY])
-      console.log('payload.query[INDEX]: ', payload.query[INDEX])
-      // state[payload.tabId] = { 
-      //   [RAW_QUERY]: payload.query[RAW_QUERY],
-      //   [INDEX]: payload.query[INDEX]
-      // };
       state[payload.tabId] = {
         ...payload.query
       }
-      console.log('state[payload.tabId]: ', state[payload.tabId])
     },
     init: (state, { payload }) => {
       state[payload.tabId] = {

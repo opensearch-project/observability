@@ -11,24 +11,27 @@
 import './search.scss';
 import React, { createElement, Fragment, useEffect, useRef, useState } from 'react';
 
-import { autocomplete } from '@algolia/autocomplete-js';
+import { autocomplete, AutocompletePlugin } from '@algolia/autocomplete-js';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
+import { createPPLSuggestionsPlugin } from './autocomplete_plugin';
 
 export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, pplService, dslService } = props;
 
-  console.log('autocomplete loaded')
+  const PPLSuggestionPlugin = createPPLSuggestionsPlugin({
+    dslService: props.dslService
+  });
   
-  let currIndex = '';
+  let currIndex: string = '';
   
-  let currField = ''
-  let currFieldType = '';
+  let currField: string = ''
+  let currFieldType: string = '';
   
-  let inFieldsCommaLoop = false;
-  let nextWhere = 99999;
-  let nextStats = '';
+  let inFieldsCommaLoop: boolean = false;
+  let nextWhere: number = 99999;
+  let nextStats: string = '';
   let indexList: string[] = [];
  
   const fieldsFromBackend: [] = [];
@@ -63,7 +66,7 @@ export function Autocomplete(props: IQueryBarProps) {
   
   const fillSuggestions = ( str: string, word: string, items: any ) => {
     const filteredList = items.filter(
-      ({ label }) => label.startsWith(word) && word !== label
+      (item: { label: string }) => item.label.startsWith(word) && word !== item.label
     )
     const suggestionList = []
     for (let i = 0; i < filteredList.length; i++ ) {
@@ -93,16 +96,7 @@ export function Autocomplete(props: IQueryBarProps) {
     return fillSuggestions(str, prefix, itemSuggestions)
   }
   
-  // Function to grab suggestions
   const getSuggestions = async (str: string) => {
-    // handleQueryChange(str, currIndex)
-    // console.log('query in getSuggestions(): ', query)
-    // console.log('currIndex: ', currIndex);
-    // console.log('fieldsFromBackend', fieldsFromBackend)
-
-    if (str === 'testing') {
-      handleQueryChange(str, currIndex);
-    }
 
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
@@ -188,10 +182,6 @@ export function Autocomplete(props: IQueryBarProps) {
         );
       }
       else if (nextWhere + 2 === splittedModel.length) {
-        console.log('in nextWhere === value')
-        console.log('currField: ', currField)
-        console.log('currFieldType: ', currFieldType)
-        // await getDataValues(currIndex, currField, currFieldType);
         return fillSuggestions(str, prefix, await getDataValues(currIndex, currField, currFieldType))
       }
       else if (nextWhere + 3 === splittedModel.length) {
@@ -216,7 +206,6 @@ export function Autocomplete(props: IQueryBarProps) {
 
   const getIndices = async () => {
     if(indicesFromBackend.length === 0) {
-      // console.log('getting indices')
       const indices = (await dslService.fetchIndices()).filter(
         ({ index }) => !index.startsWith('.')
       )
@@ -230,12 +219,8 @@ export function Autocomplete(props: IQueryBarProps) {
   }
   
   const getFields = async () => {
-    console.log('fieldsFromBackend.length: ', fieldsFromBackend.length)
-    console.log('currIndex: ', currIndex)
     if (fieldsFromBackend.length === 0 && currIndex !== '') {
-      console.log('in getFields()')
       const res = await dslService.fetchFields(currIndex);
-      console.log(res)
       for (let element in res?.[currIndex].mappings.properties) {
         if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
           fieldsFromBackend.push({ label: element, type: 'string' });  
@@ -248,14 +233,11 @@ export function Autocomplete(props: IQueryBarProps) {
   }
   
   const onItemSelect = async ({ setIsOpen, setQuery, item, setStatus }) => {
-    console.log('onItemSelect() item: ', item);
     if (fieldsFromBackend.length === 0 && indexList.includes(item.itemName)){
       currIndex = item.itemName
       getFields();
     }
-    // setIsOpen(false);
     setQuery(item.label + ' ');
-    console.log('onItemSelect() item.label: ', item.label)
     setStatus('loading')
   };
 
@@ -284,66 +266,47 @@ export function Autocomplete(props: IQueryBarProps) {
   useEffect(() => {
     const search = autocomplete({
       container: '#autocomplete',
-      tagName: '#autocomplete',
-      initialState: {
-        query: props.query[RAW_QUERY]
-      },
+      // tagName: '#autocomplete',
+      initialState: { query: props.query[RAW_QUERY] },
       openOnFocus: true,
-      minLength: 0,
       placeholder: 'Enter PPL query to retrieve log, traces, and metrics',
-      onStateChange: ({ state }) => {
-        // if (state.query === 'source') {
-        //   handleQueryChange(state.query)
-        // }
-        // if (state.status === 'loading') {
-        //   console.log('state.status === loading')
-        // }
-        // handleQueryChange(state.query, 'opensearch_dashboards_sample_data_flights');
-        console.log('onStateChange() state: ', state)
-        console.log('onStateChange() query:', state.query)
-        handleQueryChange(state.query, 'opensearch_dashboards_sample_data_flights')
+      onStateChange: ({ state, setIsOpen }) => {
+        // console.log('onStateChange() state: ', state)
+        handleQueryChange(state.query, currIndex)
       },
       onSubmit: ({ state }) => {
-        console.log('=========================================================================================')
-        console.log('hit enter')
-        console.log('state.query: ', state.query)
-        console.log('currIndex: ', currIndex)
-        handleQueryChange(state.query, currIndex);
-        console.log('query: ', query);
-        console.log('props.query: ', props.query)
         handleQuerySearch();
-        console.log('=========================================================================================')
       },
-      getSources({ query }) {
-        return [
-          {
-            getItems({ query, setIsOpen }) {
-              console.log(query.split(' '))
-              return getSuggestions(query);
-            },
-            tagName: 'test',
-            onSelect: ({ setQuery, setIsOpen, item, state, setStatus }) => {
-              onItemSelect({
-                setIsOpen,
-                setQuery,
-                item,
-                setStatus
-              });
-            },
-            templates: {
-              item({ item, createElement }) {
-                return createElement('div', {
-                  dangerouslySetInnerHTML: {
-                    __html: `<div>
-                      ${item.input}<span class=styling>${item.suggestion}</span>
-                    </div>`,
-                  },
-                });
-              },
-            },
-          },
-        ];
-      },
+      // getSources({ query }) {
+      //   return [
+      //     {
+      //       getItems({ query, setIsOpen }) {
+      //         return getSuggestions(query);
+      //       },
+      //       tagName: 'test',
+      //       onSelect: ({ setQuery, setIsOpen, item, state, setStatus }) => {
+      //         onItemSelect({
+      //           setIsOpen,
+      //           setQuery,
+      //           item,
+      //           setStatus
+      //         });
+      //       },
+      //       templates: {
+      //         item({ item, createElement }) {
+      //           return createElement('div', {
+      //             dangerouslySetInnerHTML: {
+      //               __html: `<div>
+      //                 ${item.input}<span class=styling>${item.suggestion}</span>
+      //               </div>`,
+      //             },
+      //           });
+      //         },
+      //       },
+      //     },
+      //   ];
+      // },
+      plugins: [PPLSuggestionPlugin],
       ...props,
     });
 

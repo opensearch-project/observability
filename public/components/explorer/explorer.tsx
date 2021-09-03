@@ -68,13 +68,14 @@ import {
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
+import DSLService from '../../services/requests/dsl';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 
 interface IExplorerProps {
   pplService: PPLService;
-  dslService: any;
+  dslService: DSLService;
   tabId: string
 }
 
