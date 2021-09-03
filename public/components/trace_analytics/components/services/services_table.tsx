@@ -49,6 +49,7 @@ export function ServicesTable(props: {
   setServiceQuery: (query: string) => void;
   refresh: () => void;
   indicesExist: boolean;
+  loading: boolean;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -176,6 +177,7 @@ export function ServicesTable(props: {
                 direction: 'asc',
               },
             }}
+            loading={props.loading}
           />
         ) : props.indicesExist ? (
           <NoMatchMessage size="xl" />

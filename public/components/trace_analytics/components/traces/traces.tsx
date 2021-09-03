@@ -38,6 +38,8 @@ interface TracesProps extends TraceAnalyticsComponentDeps {}
 export function Traces(props: TracesProps) {
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     props.chrome.setBreadcrumbs([
       props.parentBreadcrumb,
@@ -65,9 +67,11 @@ export function Traces(props: TracesProps) {
   }, [props.filters]);
 
   const refresh = async (sort?: PropertySort) => {
+    setLoading(true);
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     await handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
+    setLoading(false);
   };
 
   return (
@@ -88,7 +92,7 @@ export function Traces(props: TracesProps) {
         page="traces"
       />
       <EuiSpacer size="m" />
-      <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} />
+      <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} />
     </>
   );
 }

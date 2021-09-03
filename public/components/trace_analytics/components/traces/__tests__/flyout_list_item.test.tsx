@@ -24,8 +24,8 @@
  * permissions and limitations under the License.
  */
 
-import { fireEvent, render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { FlyoutListItem } from '../flyout_list_item';
@@ -36,11 +36,7 @@ describe('<FlyoutListItem /> spec', () => {
   it('renders the component', () => {
     const addSpanFilter = jest.fn();
     const utils = render(
-      <FlyoutListItem
-        title="Span ID"
-        description="test-span-id"
-        addSpanFilter={addSpanFilter}
-      />
+      <FlyoutListItem title="Span ID" description="test-span-id" addSpanFilter={addSpanFilter} />
     );
     expect(utils.container.firstChild).toMatchSnapshot();
   });
@@ -48,12 +44,7 @@ describe('<FlyoutListItem /> spec', () => {
   it('renders the component', () => {
     const addSpanFilter = jest.fn();
     const utils = render(
-      <FlyoutListItem
-        title="Span ID"
-        description="test-span-id"
-        addSpanFilter={addSpanFilter}
-      />
+      <FlyoutListItem title="Span ID" description="test-span-id" addSpanFilter={addSpanFilter} />
     );
   });
-
 });

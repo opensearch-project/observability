@@ -1,13 +1,12 @@
 
 name: Test and Build Trace Analytics
 
-# on: [pull_request, push]
-on: [release]
+on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: trace-analytics-dashboards
-  OPENSEARCH_VERSION: '1.0'
-  OPENSEARCH_PLUGIN_VERSION: 1.0.0.0
+  PLUGIN_NAME: observability
+  OPENSEARCH_VERSION: '1.x'
+  OPENSEARCH_PLUGIN_VERSION: 1.1.0.0
 
 jobs:
 
@@ -44,33 +43,35 @@ jobs:
       - name: Checkout Plugin
         uses: actions/checkout@v2
         with:
-          path: OpenSearch-Dashboards/plugins/trace-analytics
+          path: OpenSearch-Dashboards/plugins/observability
 
       - name: Plugin Bootstrap
         run: |
-          cd OpenSearch-Dashboards/plugins/trace-analytics
+          cd OpenSearch-Dashboards/plugins/observability
           yarn osd bootstrap
 
-      - name: Test
-        run: |
-          cd OpenSearch-Dashboards/plugins/trace-analytics
-          yarn test --coverage
+      # TODO enable unit tests when ready
+      # - name: Test
+      #   run: |
+      #     cd OpenSearch-Dashboards/plugins/observability
+      #     yarn test --coverage
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          direcotry: ./OpenSearch-Dashboards/plugins/trace-analytics
+          direcotry: ./OpenSearch-Dashboards/plugins/observability
 
+      # TODO remove hard coded version when observability is ready
       - name: Build Artifact
         run: |
-          cd OpenSearch-Dashboards/plugins/trace-analytics
-          yarn build
+          cd OpenSearch-Dashboards/plugins/observability
+          yarn build --opensearch-dashboards-version 1.1.0
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OPENSEARCH_PLUGIN_VERSION }}.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: trace-analytics
-          path: ./OpenSearch-Dashboards/plugins/trace-analytics/build
+          name: observability
+          path: ./OpenSearch-Dashboards/plugins/observability/build
 

@@ -24,10 +24,9 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { TracesTable } from '../traces_table';
 
 describe('Traces table component', () => {
@@ -35,15 +34,19 @@ describe('Traces table component', () => {
 
   it('renders empty traces table message', () => {
     const refresh = jest.fn();
-    const noIndicesTable = mount(<TracesTable items={[]} refresh={refresh} indicesExist={false} />);
+    const noIndicesTable = mount(
+      <TracesTable items={[]} refresh={refresh} indicesExist={false} loading={false} />
+    );
     expect(noIndicesTable).toMatchSnapshot();
 
-    const emptyTable = mount(<TracesTable items={[]} refresh={refresh} indicesExist={true} />);
+    const emptyTable = mount(
+      <TracesTable items={[]} refresh={refresh} indicesExist={true} loading={false} />
+    );
     expect(emptyTable).toMatchSnapshot();
   });
 
   it('renders traces table', () => {
-    jest.mock('../../../../common', () => ({ TRACES_MAX_NUM: 1 }));
+    jest.mock('../../../../../../common/constants/trace_analytics', () => ({ TRACES_MAX_NUM: 1 }));
     const tableItems = [
       {
         trace_id: '00079a615e31e61766fcb20b557051c1',
@@ -56,7 +59,9 @@ describe('Traces table component', () => {
       },
     ];
     const refresh = jest.fn();
-    const wrapper = mount(<TracesTable items={tableItems} refresh={refresh} indicesExist={true} />);
+    const wrapper = mount(
+      <TracesTable items={tableItems} refresh={refresh} indicesExist={true} loading={false} />
+    );
     expect(wrapper).toMatchSnapshot();
 
     wrapper.find('button[data-test-subj="tableHeaderSortButton"]').at(0).simulate('click');

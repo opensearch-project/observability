@@ -39,6 +39,8 @@ interface ServicesProps extends TraceAnalyticsComponentDeps {}
 export function Services(props: ServicesProps) {
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     props.chrome.setBreadcrumbs([
       props.parentBreadcrumb,
@@ -65,9 +67,11 @@ export function Services(props: ServicesProps) {
     if (!redirect && props.indicesExist) refresh();
   }, [props.filters]);
 
-  const refresh = () => {
+  const refresh = async () => {
+    setLoading(true);
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
+    await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
+    setLoading(false);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -112,6 +116,7 @@ export function Services(props: ServicesProps) {
         setServiceQuery={setServiceQuery}
         refresh={refresh}
         indicesExist={props.indicesExist}
+        loading={loading}
       />
     </>
   );

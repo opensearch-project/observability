@@ -24,18 +24,17 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { ServiceView } from '..';
-import httpClientMock from '../../../../test/httpClientMock';
+import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
 
 describe('Service view component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders service view', () => {
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
@@ -43,10 +42,10 @@ describe('Service view component', () => {
     const addFilter = jest.fn();
     const wrapper = shallow(
       <ServiceView
-        serviceName='order'
-        http={httpClientMock}
-        uiSettings={null}
-        setBreadcrumbs={setBreadcrumbs}
+        serviceName="order"
+        chrome={core.chrome}
+        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        http={core.http}
         query=""
         setQuery={setQuery}
         filters={[]}

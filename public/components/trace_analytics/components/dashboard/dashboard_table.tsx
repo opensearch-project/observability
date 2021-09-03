@@ -53,6 +53,7 @@ export function DashboardTable(props: {
   addFilter: (filter: FilterType) => void;
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
+  loading: boolean;
 }) {
   const getVarianceProps = (items: any[]) => {
     if (items.length === 0) {
@@ -423,6 +424,7 @@ export function DashboardTable(props: {
             }}
             sorting={sorting}
             onTableChange={onTableChange}
+            loading={props.loading}
           />
         ) : (
           <NoMatchMessage size="xl" />

@@ -29,23 +29,22 @@ import { render } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Traces } from '..';
-import httpClientMock from '../../../../test/httpClientMock';
+import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
 
 describe('Traces component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders empty traces page', () => {
-    const http = jest.fn();
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const wrapper = mount(
       <Traces
-        http={http}
-        uiSettings={null}
-        setBreadcrumbs={setBreadcrumbs}
+        http={core.http}
+        chrome={core.chrome}
+        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -62,16 +61,16 @@ describe('Traces component', () => {
   });
 
   it('renders traces page', () => {
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const wrapper = mount(
       <Traces
-        http={httpClientMock}
-        uiSettings={null}
-        setBreadcrumbs={setBreadcrumbs}
+        http={core.http}
+        chrome={core.chrome}
+        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
         query=""
         setQuery={setQuery}
         filters={[]}
