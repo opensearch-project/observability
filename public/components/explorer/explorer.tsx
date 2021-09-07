@@ -453,7 +453,6 @@ export const Explorer = ({
         query={ query }
         handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
-        pplService = { pplService }
         dslService = { dslService }
         startTime={ startTime }
         endTime={ endTime }

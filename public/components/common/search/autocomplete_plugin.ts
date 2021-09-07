@@ -1,3 +1,14 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
 import {
   AutocompletePlugin,
 } from '@algolia/autocomplete-js';
@@ -12,6 +23,8 @@ type PPLSuggestion = {
 }
 
 type CreatePPLSuggestionsPluginProps = {
+  handleQueryChange: (query: string, index: string) => void;
+  handleQuerySearch: () => void
   dslService: DSLService;
 }
 
@@ -22,7 +35,7 @@ let currFieldType: string = '';
 
 let inFieldsCommaLoop: boolean = false;
 let nextWhere: number = 99999;
-let nextStats: string = '';
+let nextStats: number = 99999;
 let indexList: string[] = [];
 
 const fieldsFromBackend: [] = [];
@@ -104,6 +117,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     if (splittedModel[splittedModel.length - 2] === '|') {
       inFieldsCommaLoop = false;
       nextWhere = 99999;
+      nextStats = 99999;
       currField = '';
       return fillSuggestions(str, prefix, pipeCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
@@ -122,31 +136,28 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
-      return [
-        { label: str + 'source', input: str, suggestion: 'search source'.substring(str.length) },
-      ].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
-      );
+      return fillSuggestions(str, prefix, [{label: 'source'}]);
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
-      nextStats = 'fields';
+      nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
+
     }
-    else if (nextStats === 'fields') {
+    else if (nextStats === splittedModel.length - 1) {
       if (splittedModel[splittedModel.length - 2] !== 'count()'){
         itemSuggestions = fieldsFromBackend.filter(
           ({ label, type }) => label.startsWith(prefix) && prefix !== label && (type === 'float' || type === 'integer')
         );
         for (let i = 0; i < itemSuggestions.length; i++) {
           fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix) - 1) + itemSuggestions[i].label + ')',
+            label: str.substring(0, str.length - 1) + itemSuggestions[i].label + ')',
             input: str.substring(0, str.length - 1),
             suggestion: itemSuggestions[i].label.substring(prefix.length) + ')',
             itemName: itemSuggestions[i].label
           });
         }
-        return fillSuggestions(str, prefix, itemSuggestions);
+        nextStats = nextStats - 1;
+        return fullSuggestions;
       }
-      nextStats = 'by';
     }
     else if (splittedModel[splittedModel.length - 2] === 'fields') {
       inFieldsCommaLoop = true;
@@ -175,7 +186,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     else if (nextWhere + 2 === splittedModel.length) {
       return fillSuggestions(str, prefix, await getDataValues(currIndex, currField, currFieldType, dslService))
     }
-    else if (nextWhere + 3 === splittedModel.length) {
+    else if (nextWhere + 3 === splittedModel.length || nextStats === splittedModel.length - 2) {
       return [{label: str + '|', input: str, suggestion: '|'}].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       )
@@ -189,9 +200,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         { label: str + '|', input: str, suggestion: '|', item: ',' },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     }
-    return pipeCommands.filter(
-      ({ label }) => label.startsWith(prefix) && prefix !== label && prefix !== ''
-    );
+    return []
   }
 }
 
@@ -251,13 +260,18 @@ const onItemSelect = async ({ setIsOpen, setQuery, item, setStatus }, dslService
     getFields(dslService);
   }
   setQuery(item.label + ' ');
-  setStatus('loading')
 };
 
 export function createPPLSuggestionsPlugin(
   options: CreatePPLSuggestionsPluginProps
 ): AutocompletePlugin<PPLSuggestion, undefined> {
   return {
+    onStateChange: ({ state }) => {
+      options.handleQueryChange(state.query, currIndex);
+    },
+    onSubmit: () => {
+      options.handleQuerySearch();
+    },
     getSources({ query }) {
       return [
         {

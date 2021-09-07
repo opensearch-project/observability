@@ -8,6 +8,7 @@
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
  */
+
 import './search.scss';
 
 import React, { useState, useEffect } from 'react';
@@ -18,10 +19,7 @@ import {
   EuiFlexItem,
 } from '@elastic/eui';
 import _ from 'lodash';
-
 import { Filter } from './Filter';
-
-import {autocomplete} from '@algolia/autocomplete-js'
 import '@algolia/autocomplete-theme-classic'
 import {Autocomplete} from './autocomplete'
 
@@ -29,7 +27,6 @@ export interface IQueryBarProps {
   query: any
   handleQueryChange: (query: string, index: string) => void;
   handleQuerySearch: () => void
-  pplService: any
   dslService: any
 }
 
@@ -48,7 +45,6 @@ export const Search = (props: any) => {
     query,
     handleQueryChange,
     handleQuerySearch,
-    pplService,
     dslService,
     startTime,
     endTime,
@@ -58,13 +54,12 @@ export const Search = (props: any) => {
     actionItems
   } = props;
 
-  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, pplService, dslService }: IQueryBarProps) {
+  function renderAutocomplete ({ query, handleQueryChange, handleQuerySearch, dslService }: IQueryBarProps) {
     return (
       <Autocomplete
         query = { query }
         handleQueryChange = { handleQueryChange }
         handleQuerySearch = { handleQuerySearch }
-        pplService = { pplService }
         dslService = { dslService }
       />
     )
@@ -77,7 +72,7 @@ export const Search = (props: any) => {
           justifyContent="flexEnd"
         >
           <div className="autocomplete">
-          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, pplService, dslService }) }
+          { renderAutocomplete({ query, handleQueryChange, handleQuerySearch, dslService }) }
           </div>
           <Filter
             startTime={ startTime }
@@ -89,7 +84,7 @@ export const Search = (props: any) => {
             onLiveStreamChange={props.onLiveStreamChange}
           />
           { actionItems.length > 0 && (
-            actionItems.map((item) => {
+            actionItems.map((item: any) => {
               return (
                 <EuiFlexItem
                   key={_.uniqueId('search-action-')}
