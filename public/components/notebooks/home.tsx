@@ -9,7 +9,6 @@
  * GitHub history for details.
  */
 
-import { I18nProvider } from '@osd/i18n/target/types/react';
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import {
@@ -31,17 +30,13 @@ interface HomeProps extends RouteComponentProps {
 
 export const Home = (props: HomeProps) => {
   return (
-    <I18nProvider>
-      <>
-        <NotebooksMain
-          basename={''}
-          DashboardContainerByValueRenderer={
-            props.DepsStart.dashboard.DashboardContainerByValueRenderer
-          }
-          http={props.http}
-          setBreadcrumbs={props.chrome.setBreadcrumbs}
-        />
-      </>
-    </I18nProvider>
+    <NotebooksMain
+      basename={''}
+      DashboardContainerByValueRenderer={
+        props.DepsStart.dashboard.DashboardContainerByValueRenderer
+      }
+      http={props.http}
+      setBreadcrumbs={props.chrome.setBreadcrumbs}
+    />
   );
 };

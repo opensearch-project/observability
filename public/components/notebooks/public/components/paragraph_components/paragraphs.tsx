@@ -24,39 +24,36 @@
  * permissions and limitations under the License.
  */
 
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import moment from 'moment';
-import { Cell } from '@nteract/presentational-components';
 import {
-  EuiPanel,
+  EuiButton,
+  EuiButtonIcon,
+  EuiContextMenu,
+  EuiContextMenuPanelDescriptor,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiText,
+  EuiFormRow,
   EuiHorizontalRule,
-  EuiButtonIcon,
-  EuiSpacer,
-  EuiPopover,
-  EuiContextMenu,
-  EuiButton,
-  EuiContextMenuPanelDescriptor,
   EuiIcon,
   EuiLink,
-  EuiFormRow,
+  EuiPanel,
+  EuiPopover,
+  EuiSpacer,
+  EuiText,
+  htmlIdGenerator,
 } from '@elastic/eui';
-import { htmlIdGenerator } from '@elastic/eui/lib/services';
-import _ from 'lodash';
-
+import { Cell } from '@nteract/presentational-components';
+import moment from 'moment';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { CoreStart } from '../../../../../../../../src/core/public';
 import {
-  DashboardStart,
   DashboardContainerInput,
-} from '../../../../../src/plugins/dashboard/public';
-import { ViewMode } from '../../../../../src/plugins/embeddable/public';
-import { CoreStart } from '../../../../../src/core/public';
-
-import { ParaOutput } from './para_output';
+  DashboardStart,
+} from '../../../../../../../../src/plugins/dashboard/public';
+import { ViewMode } from '../../../../../../../../src/plugins/embeddable/public';
+import { API_PREFIX, DATE_FORMAT } from '../../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../../common/types/notebooks';
 import { ParaInput } from './para_input';
-import { API_PREFIX, ParaType, DATE_FORMAT } from '../../../common';
-
+import { ParaOutput } from './para_output';
 
 /*
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs
@@ -117,7 +114,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     deleteVizualization,
     showQueryParagraphError,
     queryParagraphErrorMessage,
-    http
+    http,
   } = props;
 
   const [visOptions, setVisOptions] = useState([]); // options for loading saved visualizations
@@ -128,19 +125,19 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   const [toggleVisEdit, setToggleVisEdit] = useState(false);
 
   // output is available if it's not cleared and vis paragraph has a selected visualization
-  const isOutputAvailable = (para.out.length > 0 && para.out[0] !== '') ||
+  const isOutputAvailable =
+    (para.out.length > 0 && para.out[0] !== '') ||
     (para.isVizualisation && para.typeOut.length > 0 && visInput !== undefined);
 
   useImperativeHandle(ref, () => ({
     runParagraph() {
       return onRunPara();
-    }
+    },
   }));
 
   useEffect(() => {
     if (para.isVizualisation) {
-      if (para.visSavedObjId !== '')
-        setVisInput(JSON.parse(para.vizObjectInput));
+      if (para.visSavedObjId !== '') setVisInput(JSON.parse(para.vizObjectInput));
 
       http
         .get(`${API_PREFIX}/visualizations`)
@@ -154,7 +151,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
         })
         .catch((err) => console.error('Fetching visualization issue', err.body.message));
     }
-  }, [])
+  }, []);
 
   const createNewVizObject = (objectId: string) => {
     const vizUniqueId = htmlIdGenerator()();
@@ -200,8 +197,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   };
 
   const onRunPara = () => {
-    if ((!para.isVizualisation && !para.inp) ||
-      (para.isVizualisation && selectedVisOption.length === 0)) {
+    if (
+      (!para.isVizualisation && !para.inp) ||
+      (para.isVizualisation && selectedVisOption.length === 0)
+    ) {
       setRunParaError(true);
       return;
     }
@@ -213,7 +212,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
       newVisObjectInput = JSON.stringify(inputTemp);
     }
     setRunParaError(false);
-    return props.runPara(para, index, newVisObjectInput)
+    return props.runPara(para, index, newVisObjectInput);
   };
 
   const setStartTime = (time: string) => {
@@ -240,7 +239,8 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
       visInput={visInput}
       setVisInput={setVisInput}
       DashboardContainerByValueRenderer={DashboardContainerByValueRenderer}
-    />);
+    />
+  );
 
   // do not show input and EuiPanel if view mode is output_only
   if (props.selectedViewId === 'output_only') {
@@ -314,7 +314,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
               props.deletePara(para, index);
             },
           },
-        ]
+        ],
       },
       {
         id: 1,
@@ -362,11 +362,11 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
       <>
         <EuiFlexGroup>
           <EuiFlexItem>
-            <EuiText style={{ fontSize: 17 }} >
+            <EuiText style={{ fontSize: 17 }}>
               {`[${index + 1}] ${type} `}
               <EuiButtonIcon
                 aria-label="Toggle show input"
-                iconType={para.isInputExpanded ? "arrowUp" : "arrowDown"}
+                iconType={para.isInputExpanded ? 'arrowUp' : 'arrowDown'}
                 onClick={() => {
                   const newPara = props.para;
                   newPara.isInputExpanded = !newPara.isInputExpanded;
@@ -379,18 +379,21 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
             <EuiPopover
               panelPaddingSize="none"
               withTitle
-              button={(<EuiButtonIcon
-                aria-label="Open paragraph menu"
-                iconType="boxesHorizontal"
-                onClick={() => setIsPopoverOpen(true)}
-              />)}
+              button={
+                <EuiButtonIcon
+                  aria-label="Open paragraph menu"
+                  iconType="boxesHorizontal"
+                  onClick={() => setIsPopoverOpen(true)}
+                />
+              }
               isOpen={isPopoverOpen}
-              closePopover={() => setIsPopoverOpen(false)}>
+              closePopover={() => setIsPopoverOpen(false)}
+            >
               <EuiContextMenu initialPanelId={0} panels={panels} />
             </EuiPopover>
           </EuiFlexItem>
         </EuiFlexGroup>
-        <EuiSpacer size='s' />
+        <EuiSpacer size="s" />
       </>
     );
   };
@@ -401,18 +404,21 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
         <>
           <EuiFlexItem grow={false} />
           <EuiFlexItem grow={false}>
-            {para.isOutputStale ?
-              <EuiIcon type="questionInCircle" color="primary" /> :
-              <EuiIcon type="check" color="secondary" />}
+            {para.isOutputStale ? (
+              <EuiIcon type="questionInCircle" color="primary" />
+            ) : (
+              <EuiIcon type="check" color="secondary" />
+            )}
           </EuiFlexItem>
           <EuiFlexItem>
-            <EuiText color='subdued'>
+            <EuiText color="subdued">
               {`Last successful run ${moment(props.dateModified).format(DATE_FORMAT)}.`}
             </EuiText>
           </EuiFlexItem>
         </>
-      )
-    } else {  // render message when view mode is input_only
+      );
+    } else {
+      // render message when view mode is input_only
       return (
         <>
           <EuiFlexItem grow={false} />
@@ -420,57 +426,73 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
             <EuiIcon type="questionInCircle" color="primary" />
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            <EuiText color='subdued'>
+            <EuiText color="subdued">
               {`Output available from ${moment(props.dateModified).format(DATE_FORMAT)}`}
             </EuiText>
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiText>
-              <EuiLink
-                onClick={() => props.setSelectedViewId('view_both', index)}
-              >View both</EuiLink>
+              <EuiLink onClick={() => props.setSelectedViewId('view_both', index)}>
+                View both
+              </EuiLink>
             </EuiText>
           </EuiFlexItem>
         </>
-      )
+      );
     }
   };
 
   const sqlIcon = (
-    <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank"> SQL <EuiIcon type="popout" size="s"/> </EuiLink>
-  )
+    <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank">
+      {' '}
+      SQL <EuiIcon type="popout" size="s" />{' '}
+    </EuiLink>
+  );
 
   const pplIcon = (
-    <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank"> PPL <EuiIcon type="popout" size="s"/></EuiLink>
-  )
+    <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank">
+      {' '}
+      PPL <EuiIcon type="popout" size="s" />
+    </EuiLink>
+  );
 
-  const paragraphLabel = (!para.isVizualisation) ?
+  const paragraphLabel = !para.isVizualisation ? (
     <EuiText size="s">
-      Specify the input language on the first line using %[language type]. Supported languages include markdown, {sqlIcon} and {pplIcon}.
-    </EuiText> 
-    : null;
+      Specify the input language on the first line using %[language type]. Supported languages
+      include markdown, {sqlIcon} and {pplIcon}.
+    </EuiText>
+  ) : null;
 
-  const queryErrorMessage = (queryParagraphErrorMessage.includes("SQL")) ? (
+  const queryErrorMessage = queryParagraphErrorMessage.includes('SQL') ? (
     <EuiText size="s">
-      {queryParagraphErrorMessage}. Learn More <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank"><EuiIcon type="popout" size="s"/></EuiLink>
+      {queryParagraphErrorMessage}. Learn More{' '}
+      <EuiLink href="https://opensearch.org/docs/search-plugins/sql/index/" target="_blank">
+        <EuiIcon type="popout" size="s" />
+      </EuiLink>
     </EuiText>
   ) : (
     <EuiText size="s">
-    {queryParagraphErrorMessage}. <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank">Learn More <EuiIcon type="popout" size="s"/></EuiLink>
-  </EuiText>
-  )
+      {queryParagraphErrorMessage}.{' '}
+      <EuiLink href="https://opensearch.org/docs/search-plugins/ppl/index/" target="_blank">
+        Learn More <EuiIcon type="popout" size="s" />
+      </EuiLink>
+    </EuiText>
+  );
 
   return (
     <>
       <EuiPanel>
-        {renderParaHeader(para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block', index)}
+        {renderParaHeader(
+          para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
+          index
+        )}
         <Cell key={index} onClick={() => paragraphSelector(index)}>
-          {para.isInputExpanded &&
+          {para.isInputExpanded && (
             <>
-              <EuiSpacer size='s' />
-              <EuiFormRow 
-                fullWidth={true} 
-                helpText={paragraphLabel} 
+              <EuiSpacer size="s" />
+              <EuiFormRow
+                fullWidth={true}
+                helpText={paragraphLabel}
                 isInvalid={showQueryParagraphError}
                 error={queryErrorMessage}
               >
@@ -490,11 +512,13 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
                   setSelectedVisOption={setSelectedVisOption}
                 />
               </EuiFormRow>
-              {runParaError &&
-                <EuiText color="danger" size="s">{`${para.isVizualisation ? 'Visualization' : 'Input'} is required.`}</EuiText>
-              }
-              <EuiSpacer size='m' />
-              <EuiFlexGroup alignItems='center' gutterSize='s'>
+              {runParaError && (
+                <EuiText color="danger" size="s">{`${
+                  para.isVizualisation ? 'Visualization' : 'Input'
+                } is required.`}</EuiText>
+              )}
+              <EuiSpacer size="m" />
+              <EuiFlexGroup alignItems="center" gutterSize="s">
                 <EuiFlexItem grow={false}>
                   <EuiButton onClick={() => onRunPara()} fill>
                     {isOutputAvailable ? 'Refresh' : 'Run'}
@@ -502,17 +526,15 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
                 </EuiFlexItem>
                 {isOutputAvailable && renderOutputTimestampMessage()}
               </EuiFlexGroup>
-              <EuiSpacer size='m' />
+              <EuiSpacer size="m" />
             </>
-          }
-          {props.selectedViewId !== 'input_only' && isOutputAvailable &&
+          )}
+          {props.selectedViewId !== 'input_only' && isOutputAvailable && (
             <>
-              <EuiHorizontalRule margin='none' />
-              <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>
-                {paraOutput}
-              </div>
+              <EuiHorizontalRule margin="none" />
+              <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>{paraOutput}</div>
             </>
-          }
+          )}
         </Cell>
       </EuiPanel>
     </>

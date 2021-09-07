@@ -24,61 +24,61 @@
  * permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
 import {
-  EuiTitle,
-  EuiPage,
-  EuiPageBody,
-  EuiPageHeader,
-  EuiPageHeaderSection,
-  EuiButtonGroup,
   EuiButton,
+  EuiButtonGroup,
+  EuiButtonGroupOption,
+  EuiCard,
+  EuiContextMenu,
+  EuiContextMenuPanelDescriptor,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiIcon,
+  EuiOverlayMask,
+  EuiPage,
+  EuiPageBody,
+  EuiPanel,
+  EuiPopover,
   EuiSpacer,
   EuiText,
-  EuiPopover,
-  EuiContextMenu,
-  EuiOverlayMask,
-  EuiContextMenuPanelDescriptor,
-  EuiButtonGroupOption,
-  EuiIcon,
-  EuiPanel,
-  EuiCard,
+  EuiTitle,
 } from '@elastic/eui';
-import _ from 'lodash';
 import { Cells } from '@nteract/presentational-components';
-
-import { CoreStart, ChromeBreadcrumb } from '../../../../src/core/public';
-import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-import { Paragraphs } from './paragraph_components/paragraphs';
-import { SELECTED_BACKEND, DATE_FORMAT, CREATE_NOTE_MESSAGE } from '../../common';
-import { API_PREFIX, ParaType } from '../../common';
-import { zeppelinParagraphParser } from './helpers/zeppelin_parser';
-import { defaultParagraphParser } from './helpers/default_parser';
-import moment from 'moment';
-import { PanelWrapper } from './helpers/panel_wrapper';
-import { getDeleteModal, getCustomModal, DeleteNotebookModal } from './helpers/modal_containers';
 import CSS from 'csstype';
-import { 
-  generateInContextReport,
-  contextMenuViewReports,
-  contextMenuCreateReportDefinition
-} from './helpers/reporting_context_menu_helper';
+import moment from 'moment';
+import React, { Component } from 'react';
+import { ChromeBreadcrumb, CoreStart } from '../../../../../../../src/core/public';
+import { DashboardStart } from '../../../../../../../src/plugins/dashboard/public';
+import {
+  API_PREFIX,
+  CREATE_NOTE_MESSAGE,
+  DATE_FORMAT,
+  SELECTED_BACKEND,
+} from '../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../common/types/notebooks';
 import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
+import { defaultParagraphParser } from './helpers/default_parser';
+import { DeleteNotebookModal, getCustomModal, getDeleteModal } from './helpers/modal_containers';
+import { PanelWrapper } from './helpers/panel_wrapper';
+import {
+  contextMenuCreateReportDefinition,
+  contextMenuViewReports,
+  generateInContextReport,
+} from './helpers/reporting_context_menu_helper';
+import { zeppelinParagraphParser } from './helpers/zeppelin_parser';
+import { Paragraphs } from './paragraph_components/paragraphs';
 const panelStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
   maxWidth: '1130px',
-  marginTop: '20px'
+  marginTop: '20px',
 };
 
 const pageStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
   maxWidth: '1500px',
-}
-
+};
 
 /*
  * "Notebook" component is used to display an open notebook
@@ -145,8 +145,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   }
 
   toggleReportingLoadingModal = (show: boolean) => {
-    this.setState({isReportingLoadingModalOpen: show});
-  }
+    this.setState({ isReportingLoadingModalOpen: show });
+  };
 
   parseAllParagraphs = () => {
     let parsedPara = this.parseParagraphs(this.state.paragraphs);
@@ -170,7 +170,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       });
       return parsedPara;
     } catch (err) {
-      this.props.setToast('Error parsing paragraphs, please make sure you have the correct permission.', 'danger');
+      this.props.setToast(
+        'Error parsing paragraphs, please make sure you have the correct permission.',
+        'danger'
+      );
       console.error(err);
       this.setState({ parsedPara: [] });
     }
@@ -216,10 +219,13 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           parsedPara.splice(index, 1);
           this.setState({ paragraphs, parsedPara });
         })
-      .catch((err) => {
-        this.props.setToast('Error deleting paragraph, please make sure you have the correct permission.', 'danger');
-        console.error(err.body.message);
-      });
+        .catch((err) => {
+          this.props.setToast(
+            'Error deleting paragraph, please make sure you have the correct permission.',
+            'danger'
+          );
+          console.error(err.body.message);
+        });
     }
   };
 
@@ -232,7 +238,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           this.setState({ isModalVisible: false });
         },
         'Delete paragraph',
-        'Are you sure you want to delete the paragraph? The action cannot be undone.')
+        'Are you sure you want to delete the paragraph? The action cannot be undone.'
+      ),
     });
     this.setState({ isModalVisible: true });
   };
@@ -251,14 +258,18 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                 this.parseAllParagraphs();
               })
               .catch((err) => {
-                this.props.setToast('Error deleting paragraph, please make sure you have the correct permission.', 'danger');
+                this.props.setToast(
+                  'Error deleting paragraph, please make sure you have the correct permission.',
+                  'danger'
+                );
                 console.error(err.body.message);
               });
           });
           this.props.setToast('Paragraphs successfully deleted!');
         },
         'Delete all paragraphs',
-        'Are you sure you want to delete all paragraphs? The action cannot be undone.')
+        'Are you sure you want to delete all paragraphs? The action cannot be undone.'
+      ),
     });
     this.setState({ isModalVisible: true });
   };
@@ -273,7 +284,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         },
         'Clear all outputs',
         'Are you sure you want to clear all outputs? The action cannot be undone.',
-        'Clear')
+        'Clear'
+      ),
     });
     this.setState({ isModalVisible: true });
   };
@@ -292,22 +304,22 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         'Cancel',
         'Rename',
         this.state.path,
-        CREATE_NOTE_MESSAGE)
+        CREATE_NOTE_MESSAGE
+      ),
     });
     this.setState({ isModalVisible: true });
-  }
+  };
 
   showCloneModal = () => {
     this.setState({
       modalLayout: getCustomModal(
         (newName: string) => {
-          this.props.cloneNotebook(newName, this.props.openedNoteId)
-            .then((id: string) => {
-              window.location.assign(`${this.props.basename}#${id}`);
-              setTimeout(() => {
-                this.loadNotebook()
-              }, 300);
-            });
+          this.props.cloneNotebook(newName, this.props.openedNoteId).then((id: string) => {
+            window.location.assign(`${this.props.basename}#${id}`);
+            setTimeout(() => {
+              this.loadNotebook();
+            }, 300);
+          });
           this.setState({ isModalVisible: false });
         },
         () => this.setState({ isModalVisible: false }),
@@ -316,10 +328,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         'Cancel',
         'Duplicate',
         this.state.path + ' (copy)',
-        CREATE_NOTE_MESSAGE)
+        CREATE_NOTE_MESSAGE
+      ),
     });
     this.setState({ isModalVisible: true });
-  }
+  };
 
   showDeleteNotebookModal = () => {
     this.setState({
@@ -337,10 +350,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           title={`Delete notebook "${this.state.path}"`}
           message="Delete notebook will remove all contents in the paragraphs."
         />
-      )
+      ),
     });
     this.setState({ isModalVisible: true });
-  }
+  };
 
   // Function for delete Visualization from notebook
   deleteVizualization = (uniqueId: string) => {
@@ -351,7 +364,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.parseAllParagraphs();
       })
       .catch((err) => {
-        this.props.setToast('Error deleting visualization, please make sure you have the correct permission.', 'danger');
+        this.props.setToast(
+          'Error deleting visualization, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -364,7 +380,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       paragraphInput: newParaContent,
       inputType: inpType,
     };
-    
+
     return this.props.http
       .post(`${API_PREFIX}/paragraph/`, {
         body: JSON.stringify(addParaObj),
@@ -381,7 +397,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.paragraphSelector(index);
       })
       .catch((err) => {
-        this.props.setToast('Error adding paragraph, please make sure you have the correct permission.', 'danger');
+        this.props.setToast(
+          'Error adding paragraph, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -416,7 +435,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       .then((res) => this.setState({ paragraphs, parsedPara }))
       .then((res) => this.scrollToPara(targetIndex))
       .catch((err) => {
-        this.props.setToast('Error moving paragraphs, please make sure you have the correct permission.', 'danger');
+        this.props.setToast(
+          'Error moving paragraphs, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -426,8 +448,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       window.scrollTo({
         left: 0,
         top: this.state.parsedPara[index].paraDivRef.current.offsetTop,
-        behavior: 'smooth'
-      })
+        behavior: 'smooth',
+      });
     }, 0);
   }
 
@@ -446,7 +468,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         this.parseAllParagraphs();
       })
       .catch((err) => {
-        this.props.setToast('Error clearing paragraphs, please make sure you have the correct permission.', 'danger');
+        this.props.setToast(
+          'Error clearing paragraphs, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -486,7 +511,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         if (err.body.statusCode === 413)
           this.props.setToast(`Error running paragraph: ${err.body.message}`, 'danger');
         else
-          this.props.setToast('Error running paragraph, please make sure you have the correct permission.', 'danger');
+          this.props.setToast(
+            'Error running paragraph, please make sure you have the correct permission.',
+            'danger'
+          );
         console.error(err.body.message);
       });
   };
@@ -496,7 +524,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     if (checkErrorJSON.hasOwnProperty('error')) {
       this.setState({
         showQueryParagraphError: true,
-        queryParagraphErrorMessage: checkErrorJSON.error.reason
+        queryParagraphErrorMessage: checkErrorJSON.error.reason,
       });
       return true;
     }
@@ -504,14 +532,15 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     else if (this.state.showQueryParagraphError) {
       this.setState({
         showQueryParagraphError: false,
-        queryParagraphErrorMessage: ''
+        queryParagraphErrorMessage: '',
       });
       return false;
     }
-  }
+  };
 
   runForAllParagraphs = (reducer: (para: ParaType, index: number) => Promise<any>) => {
-    return this.state.parsedPara.map((para: ParaType, index: number) => () => reducer(para, index))
+    return this.state.parsedPara
+      .map((para: ParaType, index: number) => () => reducer(para, index))
       .reduce((chain, func) => chain.then(func), Promise.resolve());
   };
 
@@ -530,7 +559,6 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       this.updateRunParagraph(para, index);
     }
   };
-
 
   // update view mode, scrolls to paragraph and expands input if scrollToIndex is given
   updateView = (selectedViewId: string, scrollToIndex?: number) => {
@@ -563,34 +591,37 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         }
         this.setState(res, this.parseAllParagraphs);
       })
-    .catch((err) => {
-      this.props.setToast('Error fetching notebooks, please make sure you have the correct permission.', 'danger');
-      console.error(err.body.message);
-    });
+      .catch((err) => {
+        this.props.setToast(
+          'Error fetching notebooks, please make sure you have the correct permission.',
+          'danger'
+        );
+        console.error(err.body.message);
+      });
   };
 
   loadQueryResultsFromInput = async (paragraph: any) => {
-    const queryType = (paragraph.input.inputText.substring(0, 4) === '%sql') 
-    ? 'sqlquery' : 'pplquery';
-      await this.props.http.post(
-        `/api/sql/${queryType}`, {
-          body: JSON.stringify(paragraph.output[0].result)
-        })
-        .then((response) => {
-          paragraph.output[0].result = response.data.resp;
-          return paragraph;
-        })
-        .catch((err) => {
-          this.props.setToast('Error getting query output', 'danger');
-          console.error(err);
-        });      
-  }
+    const queryType =
+      paragraph.input.inputText.substring(0, 4) === '%sql' ? 'sqlquery' : 'pplquery';
+    await this.props.http
+      .post(`/api/sql/${queryType}`, {
+        body: JSON.stringify(paragraph.output[0].result),
+      })
+      .then((response) => {
+        paragraph.output[0].result = response.data.resp;
+        return paragraph;
+      })
+      .catch((err) => {
+        this.props.setToast('Error getting query output', 'danger');
+        console.error(err);
+      });
+  };
 
   setPara = (para: ParaType, index: number) => {
     const parsedPara = [...this.state.parsedPara];
     parsedPara.splice(index, 1, para);
     this.setState({ parsedPara });
-  }
+  };
 
   setBreadcrumbs(path: string) {
     this.props.setBreadcrumbs([
@@ -606,8 +637,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   }
 
   checkIfReportingPluginIsInstalled() {
-    fetch('../api/status', 
-    {
+    fetch('../api/status', {
       headers: {
         'Content-Type': 'application/json',
         'osd-xsrf': 'true',
@@ -622,19 +652,19 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       mode: 'cors',
       credentials: 'include',
     })
-    .then(function(response) {
-      return response.json();
-    })
-    .then((data) => {
-      for (let i = 0; i < data.status.statuses.length; ++i) {
-        if (data.status.statuses[i].id.includes('plugin:reportsDashboards')) {
-          this.setState({ isReportingPluginInstalled: true })
+      .then(function (response) {
+        return response.json();
+      })
+      .then((data) => {
+        for (let i = 0; i < data.status.statuses.length; ++i) {
+          if (data.status.statuses[i].id.includes('plugin:reportsDashboards')) {
+            this.setState({ isReportingPluginInstalled: true });
+          }
         }
-      }
-    })
-    .catch((error) => {
-      console.log('error is', error);
-    })
+      })
+      .catch((error) => {
+        console.log('error is', error);
+      });
   }
 
   configureViewParameter(id: string) {
@@ -652,17 +682,18 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       this.configureViewParameter('view_both');
     }
     if (url.searchParams.get('view') === 'output_only') {
-      this.setState({selectedViewId: 'output_only'});
-    }
-    else if (url.searchParams.get('view') === 'input_only') {
-      this.setState({selectedViewId: 'input_only'});
+      this.setState({ selectedViewId: 'output_only' });
+    } else if (url.searchParams.get('view') === 'input_only') {
+      this.setState({ selectedViewId: 'input_only' });
     }
   }
 
   render() {
     const createdText = (
       <div>
-        <p>Created <br/> {moment(this.state.dateCreated).format(DATE_FORMAT)}</p>
+        <p>
+          Created <br /> {moment(this.state.dateCreated).format(DATE_FORMAT)}
+        </p>
       </div>
     );
     const viewOptions: EuiButtonGroupOption[] = [
@@ -762,7 +793,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(0, '', 'VISUALIZATION');
             },
-          }
+          },
         ],
       },
       {
@@ -782,9 +813,9 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'VISUALIZATION');
             },
-          }
+          },
         ],
-      }
+      },
     ];
     const noteActionsPanels: EuiContextMenuPanelDescriptor[] = [
       {
@@ -835,15 +866,15 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             onClick: () => {
               this.setState({ isReportingActionsPopoverOpen: false });
               generateInContextReport('png', this.props, this.toggleReportingLoadingModal);
-            }
+            },
           },
           {
             name: 'Create report definition',
             icon: <EuiIcon type="calendar" />,
             onClick: () => {
               this.setState({ isReportingActionsPopoverOpen: false });
-              contextMenuCreateReportDefinition(window.location.href)
-            }
+              contextMenuCreateReportDefinition(window.location.href);
+            },
           },
           {
             name: 'View reports',
@@ -851,22 +882,22 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             onClick: () => {
               this.setState({ isReportingActionsPopoverOpen: false });
               contextMenuViewReports();
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ];
 
-    const showReportingContextMenu = (this.state.isReportingPluginInstalled) ? (
+    const showReportingContextMenu = this.state.isReportingPluginInstalled ? (
       <div>
         <EuiPopover
           panelPaddingSize="none"
           withTitle
           button={
             <EuiButton
-              id='reportingActionsButton'
-              iconType='arrowDown'
-              iconSide='right'
+              id="reportingActionsButton"
+              iconType="arrowDown"
+              iconSide="right"
               onClick={() => this.setState({ isReportingActionsPopoverOpen: true })}
             >
               Reporting actions
@@ -880,19 +911,20 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       </div>
     ) : null;
 
-    const showLoadingModal = (this.state.isReportingLoadingModalOpen) ?
-    <GenerateReportLoadingModal setShowLoading={this.toggleReportingLoadingModal} /> : null;
+    const showLoadingModal = this.state.isReportingLoadingModalOpen ? (
+      <GenerateReportLoadingModal setShowLoading={this.toggleReportingLoadingModal} />
+    ) : null;
 
     return (
       <div style={pageStyles}>
         <EuiPage>
           <EuiPageBody component="div">
-            <EuiFlexGroup gutterSize='s' justifyContent="flexEnd">
+            <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
               <EuiFlexItem />
-              {this.state.parsedPara.length > 0 &&
+              {this.state.parsedPara.length > 0 && (
                 <EuiFlexItem grow={false}>
                   <EuiButtonGroup
-                    buttonSize='m'
+                    buttonSize="m"
                     options={viewOptions}
                     idSelected={this.state.selectedViewId}
                     onChange={(id) => {
@@ -900,7 +932,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                     }}
                   />
                 </EuiFlexItem>
-              }
+              )}
               <EuiFlexItem grow={false} />
               <EuiFlexItem grow={false} />
               <EuiFlexItem grow={false}>
@@ -909,32 +941,36 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   withTitle
                   button={
                     <EuiButton
-                      iconType='arrowDown'
-                      iconSide='right'
+                      iconType="arrowDown"
+                      iconSide="right"
                       onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
-                    >Paragraph actions</EuiButton>
+                    >
+                      Paragraph actions
+                    </EuiButton>
                   }
                   isOpen={this.state.isParaActionsPopoverOpen}
-                  closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}>
+                  closePopover={() => this.setState({ isParaActionsPopoverOpen: false })}
+                >
                   <EuiContextMenu initialPanelId={0} panels={paraActionsPanels} />
                 </EuiPopover>
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                {showReportingContextMenu}
-              </EuiFlexItem>
+              <EuiFlexItem grow={false}>{showReportingContextMenu}</EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiPopover
                   panelPaddingSize="none"
                   withTitle
                   button={
                     <EuiButton
-                      iconType='arrowDown'
-                      iconSide='right'
+                      iconType="arrowDown"
+                      iconSide="right"
                       onClick={() => this.setState({ isNoteActionsPopoverOpen: true })}
-                    >Notebook actions</EuiButton>
+                    >
+                      Notebook actions
+                    </EuiButton>
                   }
                   isOpen={this.state.isNoteActionsPopoverOpen}
-                  closePopover={() => this.setState({ isNoteActionsPopoverOpen: false })}>
+                  closePopover={() => this.setState({ isNoteActionsPopoverOpen: false })}
+                >
                   <EuiContextMenu initialPanelId={0} panels={noteActionsPanels} />
                 </EuiPopover>
               </EuiFlexItem>
@@ -954,7 +990,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                 <Cells>
                   <PanelWrapper>
                     {this.state.parsedPara.map((para: ParaType, index: number) => (
-                      <div ref={this.state.parsedPara[index].paraDivRef} key={`para_div_${para.uniqueId}`} style={panelStyles}>
+                      <div
+                        ref={this.state.parsedPara[index].paraDivRef}
+                        key={`para_div_${para.uniqueId}`}
+                        style={panelStyles}
+                      >
                         <Paragraphs
                           ref={this.state.parsedPara[index].paraRef}
                           para={para}
@@ -966,7 +1006,9 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                           textValueEditor={this.textValueEditor}
                           handleKeyPress={this.handleKeyPress}
                           addPara={this.addPara}
-                          DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
+                          DashboardContainerByValueRenderer={
+                            this.props.DashboardContainerByValueRenderer
+                          }
                           deleteVizualization={this.deleteVizualization}
                           http={this.props.http}
                           selectedViewId={this.state.selectedViewId}
@@ -982,67 +1024,77 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                     ))}
                   </PanelWrapper>
                 </Cells>
-                {this.state.selectedViewId !== 'output_only' &&
+                {this.state.selectedViewId !== 'output_only' && (
                   <EuiPopover
                     panelPaddingSize="none"
                     withTitle
                     button={
                       <EuiButton
-                        iconType='arrowDown'
-                        iconSide='right'
+                        iconType="arrowDown"
+                        iconSide="right"
                         onClick={() => this.setState({ isAddParaPopoverOpen: true })}
-                      >Add paragraph</EuiButton>
+                      >
+                        Add paragraph
+                      </EuiButton>
                     }
                     isOpen={this.state.isAddParaPopoverOpen}
-                    closePopover={() => this.setState({ isAddParaPopoverOpen: false })}>
+                    closePopover={() => this.setState({ isAddParaPopoverOpen: false })}
+                  >
                     <EuiContextMenu initialPanelId={0} panels={addParaPanels} />
                   </EuiPopover>
-                }
+                )}
               </>
             ) : (
-                // show default paragraph if no paragraphs in this notebook
-                <div style={panelStyles}>
-                  <EuiPanel>
-                    <EuiSpacer size='xxl' />
-                    <EuiText textAlign='center'>
-                      <h2>No paragraphs</h2>
-                      <EuiText>
-                        Add a paragraph to compose your document or story. Notebooks now support two types of input:
-                      </EuiText>
+              // show default paragraph if no paragraphs in this notebook
+              <div style={panelStyles}>
+                <EuiPanel>
+                  <EuiSpacer size="xxl" />
+                  <EuiText textAlign="center">
+                    <h2>No paragraphs</h2>
+                    <EuiText>
+                      Add a paragraph to compose your document or story. Notebooks now support two
+                      types of input:
                     </EuiText>
-                    <EuiSpacer size='xl' />
-                    <EuiFlexGroup justifyContent='spaceEvenly'>
-                      <EuiFlexItem grow={2} />
-                      <EuiFlexItem grow={3}>
-                        <EuiCard
-                          icon={<EuiIcon size="xxl" type="editorCodeBlock" />}
-                          title="Code block"
-                          description="Write contents directly using markdown, SQL or PPL."
-                          footer={
-                            <EuiButton onClick={() => this.addPara(0, '', 'CODE')} style={{ marginBottom: 17 }}>
-                              Add code block
-                            </EuiButton>
-                          }
-                        />
-                      </EuiFlexItem>
-                      <EuiFlexItem grow={3}>
-                        <EuiCard
-                          icon={<EuiIcon size="xxl" type="visArea" />}
-                          title="OpenSearch Dashboards visualization"
-                          description="Import OpenSearch Dashboards visualizations to the notes."
-                          footer={
-                            <EuiButton onClick={() => this.addPara(0, '', 'VISUALIZATION')} style={{ marginBottom: 17 }}>
-                              Add visualization
-                            </EuiButton>
-                          }
-                        />
-                      </EuiFlexItem>
-                      <EuiFlexItem grow={2} />
-                    </EuiFlexGroup>
-                    <EuiSpacer size='xxl' />
-                  </EuiPanel>
-                </div>
-              )}
+                  </EuiText>
+                  <EuiSpacer size="xl" />
+                  <EuiFlexGroup justifyContent="spaceEvenly">
+                    <EuiFlexItem grow={2} />
+                    <EuiFlexItem grow={3}>
+                      <EuiCard
+                        icon={<EuiIcon size="xxl" type="editorCodeBlock" />}
+                        title="Code block"
+                        description="Write contents directly using markdown, SQL or PPL."
+                        footer={
+                          <EuiButton
+                            onClick={() => this.addPara(0, '', 'CODE')}
+                            style={{ marginBottom: 17 }}
+                          >
+                            Add code block
+                          </EuiButton>
+                        }
+                      />
+                    </EuiFlexItem>
+                    <EuiFlexItem grow={3}>
+                      <EuiCard
+                        icon={<EuiIcon size="xxl" type="visArea" />}
+                        title="OpenSearch Dashboards visualization"
+                        description="Import OpenSearch Dashboards visualizations to the notes."
+                        footer={
+                          <EuiButton
+                            onClick={() => this.addPara(0, '', 'VISUALIZATION')}
+                            style={{ marginBottom: 17 }}
+                          >
+                            Add visualization
+                          </EuiButton>
+                        }
+                      />
+                    </EuiFlexItem>
+                    <EuiFlexItem grow={2} />
+                  </EuiFlexGroup>
+                  <EuiSpacer size="xxl" />
+                </EuiPanel>
+              </div>
+            )}
             {showLoadingModal}
           </EuiPageBody>
         </EuiPage>

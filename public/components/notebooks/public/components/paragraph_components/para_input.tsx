@@ -24,32 +24,32 @@
  * permissions and limitations under the License.
  */
 
-import React, { useState } from 'react';
-import { Input, Prompt, Source } from '@nteract/presentational-components';
-
-import { ParaType, PLUGIN_ID } from '../../../common';
 import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiComboBox,
+  EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
   EuiFormRow,
-  EuiSuperDatePicker,
-  EuiTextArea,
-  EuiComboBox,
-  EuiComboBoxOptionOption,
-  EuiButton,
-  EuiButtonEmpty,
+  EuiHighlight,
+  EuiLink,
   EuiModal,
   EuiModalBody,
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiOverlayMask,
-  EuiLink,
   EuiSelectable,
-  EuiText,
   EuiSpacer,
-  EuiHighlight,
+  EuiSuperDatePicker,
+  EuiText,
+  EuiTextArea,
 } from '@elastic/eui';
+import { Input, Prompt, Source } from '@nteract/presentational-components';
+import React, { useState } from 'react';
+import { PLUGIN_ID } from '../../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../../common/types/notebooks';
 
 /*
  * "ParaInput" component is used by notebook to populate paragraph inputs for an open notebook.
@@ -81,7 +81,8 @@ export const ParaInput = (props: {
 }) => {
   const { para, index, runParaError, textValueEditor, handleKeyPress } = props;
 
-  const inputPlaceholderString = 'Type %md, %sql or %ppl on the first line to define the input type. \nCode block starts here.'
+  const inputPlaceholderString =
+    'Type %md, %sql or %ppl on the first line to define the input type. \nCode block starts here.';
 
   const renderParaInput = () => {
     return (
@@ -103,8 +104,8 @@ export const ParaInput = (props: {
             autoFocus
           />
         ) : (
-            para.inp
-          )}
+          para.inp
+        )}
       </Source>
     );
   };
@@ -127,8 +128,9 @@ export const ParaInput = (props: {
 
     const renderOption = (option, searchValue) => {
       const href = window.location.href;
-      const visURL = `${href.substring(0, href.indexOf(PLUGIN_ID))}visualize#/edit/${option.key}`
-        + `?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+      const visURL =
+        `${href.substring(0, href.indexOf(PLUGIN_ID))}visualize#/edit/${option.key}` +
+        `?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
       return (
         <EuiLink href={visURL} target="_blank">
           <EuiHighlight search={searchValue}>{option.label}</EuiHighlight>
@@ -159,7 +161,8 @@ export const ParaInput = (props: {
                 setSelectableOptions(props.visOptions);
                 setSelectableError(false);
                 setIsModalOpen(true);
-              }}>
+              }}
+            >
               Browse
             </EuiButton>
           </EuiFlexItem>
@@ -182,7 +185,7 @@ export const ParaInput = (props: {
           <EuiFlexItem />
         </EuiFlexGroup>
 
-        {isModalOpen &&
+        {isModalOpen && (
           <EuiOverlayMask>
             <EuiModal onClose={() => setIsModalOpen(false)} style={{ width: 500 }}>
               <EuiModalHeader>
@@ -208,21 +211,25 @@ export const ParaInput = (props: {
                     </>
                   )}
                 </EuiSelectable>
-                {selectableError &&
+                {selectableError && (
                   <>
                     <EuiSpacer size="s" />
-                    <EuiText color="danger" size="s">{'Visualization is required.'}</EuiText>
+                    <EuiText color="danger" size="s">
+                      {'Visualization is required.'}
+                    </EuiText>
                   </>
-                }
+                )}
               </EuiModalBody>
 
               <EuiModalFooter>
                 <EuiButtonEmpty onClick={() => setIsModalOpen(false)}>Cancel</EuiButtonEmpty>
-                <EuiButton onClick={() => onSelect()} fill>Select</EuiButton>
+                <EuiButton onClick={() => onSelect()} fill>
+                  Select
+                </EuiButton>
               </EuiModalFooter>
             </EuiModal>
           </EuiOverlayMask>
-        }
+        )}
       </>
     );
   };

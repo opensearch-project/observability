@@ -24,16 +24,19 @@
  * permissions and limitations under the License.
  */
 
-import React, { useState } from 'react';
-import { Outputs } from '@nteract/presentational-components';
-import { Media } from '@nteract/outputs';
+import { EuiCodeBlock, EuiSpacer, EuiText } from '@elastic/eui';
 import MarkdownRender from '@nteract/markdown';
-import { EuiText, EuiSpacer, EuiCodeBlock } from '@elastic/eui';
-
-import { DATE_FORMAT, ParaType } from '../../../common';
-import { DashboardContainerInput, DashboardStart } from '../../../../../src/plugins/dashboard/public';
-import { QueryDataGridMemo } from './para_query_grid';
+import { Media } from '@nteract/outputs';
+import { Outputs } from '@nteract/presentational-components';
 import moment from 'moment';
+import React, { useState } from 'react';
+import {
+  DashboardContainerInput,
+  DashboardStart,
+} from '../../../../../../../../src/plugins/dashboard/public';
+import { DATE_FORMAT } from '../../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../../common/types/notebooks';
+import { QueryDataGridMemo } from './para_query_grid';
 
 /*
  * "ParaOutput" component is used by notebook to populate paragraph outputs for an open notebook.
@@ -50,7 +53,6 @@ export const ParaOutput = (props: {
   setVisInput: (input: DashboardContainerInput) => void;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
 }) => {
-
   const createQueryColumns = (jsonColumns: any[]) => {
     let index = 0;
     let datagridColumns = [];
@@ -58,11 +60,11 @@ export const ParaOutput = (props: {
       const datagridColumnObject = {
         id: jsonColumns[index].name,
         displayAsText: jsonColumns[index].name,
-      }
+      };
       datagridColumns.push(datagridColumnObject);
     }
     return datagridColumns;
-  }
+  };
 
   const getQueryOutputData = (queryObject: any) => {
     const data = [];
@@ -72,20 +74,18 @@ export const ParaOutput = (props: {
       let datarowValue = {};
       for (schemaIndex = 0; schemaIndex < queryObject.schema.length; ++schemaIndex) {
         const columnName = queryObject.schema[schemaIndex].name;
-        if (typeof(queryObject.datarows[index][schemaIndex]) === 'object') {
+        if (typeof queryObject.datarows[index][schemaIndex] === 'object') {
           datarowValue[columnName] = JSON.stringify(queryObject.datarows[index][schemaIndex]);
-        }
-        else if (typeof(queryObject.datarows[index][schemaIndex]) === 'boolean') {
+        } else if (typeof queryObject.datarows[index][schemaIndex] === 'boolean') {
           datarowValue[columnName] = queryObject.datarows[index][schemaIndex].toString();
-        }
-        else {
+        } else {
           datarowValue[columnName] = queryObject.datarows[index][schemaIndex];
         }
       }
       data.push(datarowValue);
     }
     return data;
-  }
+  };
 
   const outputBody = (key: string, typeOut: string, val: string) => {
     /* Returns a component to render paragraph outputs using the para.typeOut property
@@ -99,22 +99,17 @@ export const ParaOutput = (props: {
           const inputQuery = para.inp.substring(4, para.inp.length);
           const queryObject = JSON.parse(val);
           if (queryObject.hasOwnProperty('error')) {
-            return (
-              <EuiCodeBlock key={key}>
-                {val}
-              </EuiCodeBlock>
-            )
-          }
-          else {
+            return <EuiCodeBlock key={key}>{val}</EuiCodeBlock>;
+          } else {
             const columns = createQueryColumns(queryObject.schema);
             const data = getQueryOutputData(queryObject);
-            const [visibleColumns, setVisibleColumns] = useState(() =>
-              columns.map(({ id }) => id)
-            );
+            const [visibleColumns, setVisibleColumns] = useState(() => columns.map(({ id }) => id));
             return (
               <div>
-                <EuiText key={'query-input-key'}><b>{inputQuery}</b></EuiText>
-                <EuiSpacer/>
+                <EuiText key={'query-input-key'}>
+                  <b>{inputQuery}</b>
+                </EuiText>
+                <EuiSpacer />
                 <QueryDataGridMemo
                   key={key}
                   rowCount={queryObject.datarows.length}
@@ -122,13 +117,13 @@ export const ParaOutput = (props: {
                   visibleColumns={visibleColumns}
                   setVisibleColumns={setVisibleColumns}
                   dataValues={data}
-                /> 
+                />
               </div>
-            );            
+            );
           }
         case 'MARKDOWN':
           return (
-            <EuiText key={key} className='markdown-output-text'>
+            <EuiText key={key} className="markdown-output-text">
               <MarkdownRender source={val} />
             </EuiText>
           );
@@ -139,10 +134,14 @@ export const ParaOutput = (props: {
           to = to === 'Invalid date' ? visInput.timeRange.to : to;
           return (
             <>
-              <EuiText size='s' style={{ marginLeft: 9 }}>
+              <EuiText size="s" style={{ marginLeft: 9 }}>
                 {`${from} - ${to}`}
               </EuiText>
-              <DashboardContainerByValueRenderer key={key} input={visInput} onInputUpdated={setVisInput} />
+              <DashboardContainerByValueRenderer
+                key={key}
+                input={visInput}
+                onInputUpdated={setVisInput}
+              />
             </>
           );
         case 'HTML':

@@ -29,13 +29,11 @@ import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React, { ReactChild } from 'react';
 import { Route, Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart } from '../../../../src/core/public';
-import { DashboardStart } from '../../../../src/plugins/dashboard/public';
-import { API_PREFIX, DOCUMENTATION_URL } from '../../common';
+import { ChromeBreadcrumb, CoreStart } from '../../../../../../../src/core/public';
+import { DashboardStart } from '../../../../../../../src/plugins/dashboard/public';
+import { API_PREFIX, DOCUMENTATION_URL } from '../../../../../common/constants/notebooks';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
-
-
 
 /*
  * "Main" component renders the whole Notebooks as a single page application
@@ -67,7 +65,7 @@ export type NotebookType = {
   id: string;
   dateCreated: string;
   dateModified: string;
-}
+};
 
 export class Main extends React.Component<MainProps, MainState> {
   constructor(props: Readonly<MainProps>) {
@@ -83,14 +81,17 @@ export class Main extends React.Component<MainProps, MainState> {
   setToast = (title: string, color = 'success', text?: ReactChild) => {
     if (!text) text = '';
     this.setState((prevState) => ({
-      toasts: [...prevState.toasts, {
-        id: new Date().toISOString(),
-        title,
-        text,
-        color,
-      } as Toast]
+      toasts: [
+        ...prevState.toasts,
+        {
+          id: new Date().toISOString(),
+          title,
+          text,
+          color,
+        } as Toast,
+      ],
     }));
-  }
+  };
 
   // Fetches path and id for all stored notebooks
   fetchNotebooks = () => {
@@ -121,8 +122,13 @@ export class Main extends React.Component<MainProps, MainState> {
         window.location.assign(`${this.props.basename}#${res}`);
       })
       .catch((err) => {
-        this.setToast('Please ask your administrator to enable Notebooks for you.', 'danger',
-          <EuiLink href={DOCUMENTATION_URL} target="_blank">Documentation</EuiLink>);
+        this.setToast(
+          'Please ask your administrator to enable Notebooks for you.',
+          'danger',
+          <EuiLink href={DOCUMENTATION_URL} target="_blank">
+            Documentation
+          </EuiLink>
+        );
         console.error(err);
       });
   };
@@ -146,14 +152,16 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setState((prevState) => {
           const newData = [...prevState.data];
           const renamedNotebook = newData.find((notebook) => notebook.id === editedNoteID);
-          if (renamedNotebook)
-            renamedNotebook.path = editedNoteName;
+          if (renamedNotebook) renamedNotebook.path = editedNoteName;
           return { data: newData };
         });
         this.setToast(`Notebook successfully renamed into "${editedNoteName}"`);
       })
       .catch((err) => {
-        this.setToast('Error renaming notebook, please make sure you have the correct permission.', 'danger');
+        this.setToast(
+          'Error renaming notebook, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -175,18 +183,24 @@ export class Main extends React.Component<MainProps, MainState> {
       })
       .then((res) => {
         this.setState((prevState) => ({
-          data: [...prevState.data, {
-            path: clonedNoteName,
-            id: res.body.id,
-            dateCreated: res.body.dateCreated,
-            dateModified: res.body.dateModified,
-          }],
+          data: [
+            ...prevState.data,
+            {
+              path: clonedNoteName,
+              id: res.body.id,
+              dateCreated: res.body.dateCreated,
+              dateModified: res.body.dateModified,
+            },
+          ],
         }));
         this.setToast(`Notebook "${clonedNoteName}" successfully created!`);
         return res.body.id;
       })
       .catch((err) => {
-        this.setToast('Error cloning notebook, please make sure you have the correct permission.', 'danger');
+        this.setToast(
+          'Error cloning notebook, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
@@ -197,18 +211,20 @@ export class Main extends React.Component<MainProps, MainState> {
       .delete(`${API_PREFIX}/note/` + notebookId)
       .then((res) => {
         this.setState((prevState) => ({
-          data: prevState.data.filter((notebook) => notebook.id !== notebookId)
+          data: prevState.data.filter((notebook) => notebook.id !== notebookId),
         }));
-        if (showToast)
-          this.setToast(`Notebook "${notebookName}" successfully deleted!`);
+        if (showToast) this.setToast(`Notebook "${notebookName}" successfully deleted!`);
         return res;
       })
       .catch((err) => {
-        this.setToast('Error deleting notebook, please make sure you have the correct permission.', 'danger');
+        this.setToast(
+          'Error deleting notebook, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
   };
-  
+
   addSampleNotebooks = async () => {
     try {
       this.setState({ loading: true });
@@ -218,7 +234,7 @@ export class Main extends React.Component<MainProps, MainState> {
             type: 'index-pattern',
             search_fields: 'title',
             search: 'opensearch_dashboards_sample_data_flights',
-          }
+          },
         })
         .then((resp) => resp.total === 0);
       const logs = await this.props.http
@@ -227,14 +243,13 @@ export class Main extends React.Component<MainProps, MainState> {
             type: 'index-pattern',
             search_fields: 'title',
             search: 'opensearch_dashboards_sample_data_logs',
-          }
+          },
         })
         .then((resp) => resp.total === 0);
-      if (flights || logs)
-        this.setToast('Adding sample data. This can take some time.');
+      if (flights || logs) this.setToast('Adding sample data. This can take some time.');
       await Promise.all([
         flights ? this.props.http.post('../api/sample_data/flights') : Promise.resolve(),
-        logs ? this.props.http.post('../api/sample_data/logs') : Promise.resolve()
+        logs ? this.props.http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
       const visIds: string[] = [];
       await this.props.http
@@ -243,7 +258,7 @@ export class Main extends React.Component<MainProps, MainState> {
             type: 'visualization',
             search_fields: 'title',
             search: '[Logs] Response Codes Over Time + Annotations',
-          }
+          },
         })
         .then((resp) => visIds.push(resp.saved_objects[0].id));
       await this.props.http
@@ -252,7 +267,7 @@ export class Main extends React.Component<MainProps, MainState> {
             type: 'visualization',
             search_fields: 'title',
             search: '[Logs] Unique Visitors vs. Average Bytes',
-          }
+          },
         })
         .then((resp) => visIds.push(resp.saved_objects[0].id));
       await this.props.http
@@ -261,7 +276,7 @@ export class Main extends React.Component<MainProps, MainState> {
             type: 'visualization',
             search_fields: 'title',
             search: '[Flights] Flight Count and Average Ticket Price',
-          }
+          },
         })
         .then((resp) => visIds.push(resp.saved_objects[0].id));
       await this.props.http
@@ -270,16 +285,16 @@ export class Main extends React.Component<MainProps, MainState> {
         })
         .then((res) => {
           const newData = res.body.map((notebook) => ({
-              path: notebook.name,
-              id: notebook.id,
-              dateCreated: notebook.dateCreated,
-              dateModified: notebook.dateModified,
-          }))
+            path: notebook.name,
+            id: notebook.id,
+            dateCreated: notebook.dateCreated,
+            dateModified: notebook.dateModified,
+          }));
           this.setState((prevState) => ({
             data: [...prevState.data, ...newData],
           }));
         });
-        this.setToast(`Sample notebooks successfully added.`);
+      this.setToast(`Sample notebooks successfully added.`);
     } catch (err) {
       this.setToast('Error adding sample notebooks.', 'danger');
       console.error(err.body.message);
@@ -294,17 +309,17 @@ export class Main extends React.Component<MainProps, MainState> {
         <>
           <EuiGlobalToastList
             toasts={this.state.toasts}
-            dismissToast={removedToast => {
+            dismissToast={(removedToast) => {
               this.setState({
-                toasts: this.state.toasts.filter(toast => toast.id !== removedToast.id)
-              })
+                toasts: this.state.toasts.filter((toast) => toast.id !== removedToast.id),
+              });
             }}
             toastLifeTimeMs={6000}
           />
           <Switch>
             <Route
-              path='/:id'
-              render={(props) =>
+              path="/notebooks/:id"
+              render={(props) => (
                 <Notebook
                   basename={this.props.basename}
                   openedNoteId={props.match.params.id}
@@ -316,11 +331,11 @@ export class Main extends React.Component<MainProps, MainState> {
                   deleteNotebook={this.deleteNotebook}
                   setToast={this.setToast}
                 />
-              }
+              )}
             />
             <Route
-              path='/'
-              render={(props) =>
+              path="/notebooks"
+              render={(props) => (
                 <NoteTable
                   loading={this.state.loading}
                   fetchNotebooks={this.fetchNotebooks}
@@ -333,11 +348,11 @@ export class Main extends React.Component<MainProps, MainState> {
                   setBreadcrumbs={this.props.setBreadcrumbs}
                   setToast={this.setToast}
                 />
-              }
+              )}
             />
           </Switch>
         </>
       </HashRouter>
-    )
+    );
   }
 }

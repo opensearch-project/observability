@@ -48,19 +48,28 @@ import {
   EuiText,
   EuiTitle
 } from '@elastic/eui';
+import CSS from 'csstype';
 import _ from 'lodash';
 import moment from 'moment';
-import React, { useEffect, useState, ReactElement } from 'react';
-import { ChromeBreadcrumb } from '../../../../src/core/public';
-import { CREATE_NOTE_MESSAGE, DATE_FORMAT, DOCUMENTATION_URL } from '../../common';
-import { getCustomModal, DeleteNotebookModal, getSampleNotebooksModal } from './helpers/modal_containers';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { ChromeBreadcrumb } from '../../../../../../../src/core/public';
+import {
+  CREATE_NOTE_MESSAGE,
+  DATE_FORMAT,
+  DOCUMENTATION_URL
+} from '../../../../../common/constants/notebooks';
+import {
+  DeleteNotebookModal,
+  getCustomModal,
+  getSampleNotebooksModal
+} from './helpers/modal_containers';
 import { NotebookType } from './main';
 
 const pageStyles: CSS.Properties = {
   float: 'left',
   width: '100%',
   maxWidth: '1130px',
-}
+};
 
 type NoteTableProps = {
   loading: boolean;
@@ -81,13 +90,7 @@ export function NoteTable(props: NoteTableProps) {
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [selectedNotebooks, setSelectedNotebooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const {
-    notebooks,
-    createNotebook,
-    renameNotebook,
-    cloneNotebook,
-    deleteNotebook,
-  } = props;
+  const { notebooks, createNotebook, renameNotebook, cloneNotebook, deleteNotebook } = props;
 
   useEffect(() => {
     props.setBreadcrumbs([
@@ -122,12 +125,16 @@ export function NoteTable(props: NoteTableProps) {
   };
 
   const onDelete = async () => {
-    const toastMessage = `Notebook${selectedNotebooks.length > 1 ?
-      's' : ' ' + selectedNotebooks[0].path} successfully deleted!`;
+    const toastMessage = `Notebook${
+      selectedNotebooks.length > 1 ? 's' : ' ' + selectedNotebooks[0].path
+    } successfully deleted!`;
     Promise.all(selectedNotebooks.map((notebook) => deleteNotebook(notebook.id, undefined, false)))
       .then(() => props.setToast(toastMessage))
       .catch((err) => {
-        props.setToast('Error deleting notebooks, please make sure you have the correct permission.', 'danger');
+        props.setToast(
+          'Error deleting notebooks, please make sure you have the correct permission.',
+          'danger'
+        );
         console.error(err.body.message);
       });
     closeModal();
@@ -143,7 +150,7 @@ export function NoteTable(props: NoteTableProps) {
         'Cancel',
         'Create',
         undefined,
-        CREATE_NOTE_MESSAGE,
+        CREATE_NOTE_MESSAGE
       )
     );
     showModal();
@@ -159,7 +166,7 @@ export function NoteTable(props: NoteTableProps) {
         'Cancel',
         'Rename',
         selectedNotebooks[0].path,
-        CREATE_NOTE_MESSAGE,
+        CREATE_NOTE_MESSAGE
       )
     );
     showModal();
@@ -175,7 +182,7 @@ export function NoteTable(props: NoteTableProps) {
         'Cancel',
         'Duplicate',
         selectedNotebooks[0].path + ' (copy)',
-        CREATE_NOTE_MESSAGE,
+        CREATE_NOTE_MESSAGE
       )
     );
     showModal();
@@ -193,17 +200,23 @@ export function NoteTable(props: NoteTableProps) {
     );
     showModal();
   };
-  
+
   const addSampleNotebooks = async () => {
-    setModalLayout(getSampleNotebooksModal(closeModal, async () => {
-      closeModal();
-      await props.addSampleNotebooks();
-    }));
+    setModalLayout(
+      getSampleNotebooksModal(closeModal, async () => {
+        closeModal();
+        await props.addSampleNotebooks();
+      })
+    );
     showModal();
-  }
+  };
 
   const popoverButton = (
-    <EuiButton iconType="arrowDown" iconSide="right" onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}>
+    <EuiButton
+      iconType="arrowDown"
+      iconSide="right"
+      onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
+    >
       Actions
     </EuiButton>
   );
@@ -215,7 +228,8 @@ export function NoteTable(props: NoteTableProps) {
       onClick={() => {
         setIsActionsPopoverOpen(false);
         renameNote();
-      }}>
+      }}
+    >
       Rename
     </EuiContextMenuItem>,
     <EuiContextMenuItem
@@ -224,7 +238,8 @@ export function NoteTable(props: NoteTableProps) {
       onClick={() => {
         setIsActionsPopoverOpen(false);
         cloneNote();
-      }}>
+      }}
+    >
       Duplicate
     </EuiContextMenuItem>,
     <EuiContextMenuItem
@@ -233,7 +248,8 @@ export function NoteTable(props: NoteTableProps) {
       onClick={() => {
         setIsActionsPopoverOpen(false);
         deleteNote();
-      }}>
+      }}
+    >
       Delete
     </EuiContextMenuItem>,
     <EuiContextMenuItem
@@ -241,7 +257,8 @@ export function NoteTable(props: NoteTableProps) {
       onClick={() => {
         setIsActionsPopoverOpen(false);
         addSampleNotebooks();
-      }}>
+      }}
+    >
       Add sample notebooks
     </EuiContextMenuItem>,
   ];
@@ -252,8 +269,9 @@ export function NoteTable(props: NoteTableProps) {
       name: 'Name',
       sortable: true,
       truncateText: true,
-      render: (value, record) =>
-        <EuiLink href={`#${record.id}`}>{_.truncate(value, { 'length': 100 })}</EuiLink>,
+      render: (value, record) => (
+        <EuiLink href={`#${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+      ),
     },
     {
       field: 'dateModified',
@@ -267,7 +285,14 @@ export function NoteTable(props: NoteTableProps) {
       sortable: true,
       render: (value) => moment(value).format(DATE_FORMAT),
     },
-  ] as Array<EuiTableFieldDataColumnType<{ path: string; id: string; dateCreated: string; dateModified: string; }>>;
+  ] as Array<
+    EuiTableFieldDataColumnType<{
+      path: string;
+      id: string;
+      dateCreated: string;
+      dateModified: string;
+    }>
+  >;
 
   return (
     <div style={pageStyles}>
@@ -284,48 +309,61 @@ export function NoteTable(props: NoteTableProps) {
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
                 <EuiTitle size="s">
-                  <h3>Notebooks<span className="panel-header-count"> ({notebooks.length})</span></h3>
+                  <h3>
+                    Notebooks<span className="panel-header-count"> ({notebooks.length})</span>
+                  </h3>
                 </EuiTitle>
-                <EuiSpacer size='s' />
+                <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Use Notebooks to interactively and collaboratively develop rich reports backed by live data. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.{' '}
-                  <EuiLink external={true} href={DOCUMENTATION_URL} target="blank">Learn more</EuiLink>
+                  Use Notebooks to interactively and collaboratively develop rich reports backed by
+                  live data. Common use cases for notebooks includes creating postmortem reports,
+                  designing run books, building live infrastructure reports, or even documentation.{' '}
+                  <EuiLink external={true} href={DOCUMENTATION_URL} target="blank">
+                    Learn more
+                  </EuiLink>
                 </EuiText>
               </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
-                <EuiFlexGroup gutterSize='s'>
+                <EuiFlexGroup gutterSize="s">
                   <EuiFlexItem>
                     <EuiPopover
                       panelPaddingSize="none"
                       button={popoverButton}
                       isOpen={isActionsPopoverOpen}
-                      closePopover={() => setIsActionsPopoverOpen(false)}>
+                      closePopover={() => setIsActionsPopoverOpen(false)}
+                    >
                       <EuiContextMenuPanel items={popoverItems} />
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => createNote()}>Create notebook</EuiButton>
+                    <EuiButton fill onClick={() => createNote()}>
+                      Create notebook
+                    </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
-            <EuiHorizontalRule margin='m' />
+            <EuiHorizontalRule margin="m" />
             <EuiFieldSearch
               fullWidth
               placeholder="Search notebook name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <EuiHorizontalRule margin='m' />
+            <EuiHorizontalRule margin="m" />
             {notebooks.length > 0 ? (
               <EuiInMemoryTable
                 loading={props.loading}
-                items={searchQuery ?
-                  notebooks.filter((notebook) => notebook.path.toLowerCase().includes(searchQuery.toLowerCase())) :
-                  notebooks}
-                itemId='id'
+                items={
+                  searchQuery
+                    ? notebooks.filter((notebook) =>
+                        notebook.path.toLowerCase().includes(searchQuery.toLowerCase())
+                      )
+                    : notebooks
+                }
+                itemId="id"
                 columns={tableColumns}
-                tableLayout='auto'
+                tableLayout="auto"
                 pagination={{
                   initialPageSize: 10,
                   pageSizeOptions: [8, 10, 13],
@@ -334,7 +372,7 @@ export function NoteTable(props: NoteTableProps) {
                   sort: {
                     field: 'dateModified',
                     direction: 'desc',
-                  }
+                  },
                 }}
                 allowNeutralSort={false}
                 isSelectable={true}
@@ -343,36 +381,37 @@ export function NoteTable(props: NoteTableProps) {
                 }}
               />
             ) : (
-                <>
-                  <EuiSpacer size='xxl' />
-                  <EuiText textAlign='center'>
-                    <h2>No notebooks</h2>
-                    <EuiSpacer size='m' />
-                    <EuiText color="subdued">
-                      Use notebooks to create post-mortem reports, build live infrastructure<br />
-                      reports, or foster explorative collaborations with data.
-                    </EuiText>
+              <>
+                <EuiSpacer size="xxl" />
+                <EuiText textAlign="center">
+                  <h2>No notebooks</h2>
+                  <EuiSpacer size="m" />
+                  <EuiText color="subdued">
+                    Use notebooks to create post-mortem reports, build live infrastructure
+                    <br />
+                    reports, or foster explorative collaborations with data.
                   </EuiText>
-                  <EuiSpacer size='m' />
-                  <EuiFlexGroup justifyContent='center'>
-                    <EuiFlexItem grow={false}>
-                      <EuiButton fullWidth={false} onClick={() => createNote()}>
-                        Create notebook
-                      </EuiButton>
-                    </EuiFlexItem>
-                    <EuiFlexItem grow={false}>
-                      <EuiButton fullWidth={false} onClick={() => addSampleNotebooks()}>
-                        Add sample notebooks
-                      </EuiButton>
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                  <EuiSpacer size='xxl' />
-                </>
-              )}
+                </EuiText>
+                <EuiSpacer size="m" />
+                <EuiFlexGroup justifyContent="center">
+                  <EuiFlexItem grow={false}>
+                    <EuiButton fullWidth={false} onClick={() => createNote()}>
+                      Create notebook
+                    </EuiButton>
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>
+                    <EuiButton fullWidth={false} onClick={() => addSampleNotebooks()}>
+                      Add sample notebooks
+                    </EuiButton>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+                <EuiSpacer size="xxl" />
+              </>
+            )}
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
       {isModalVisible && modalLayout}
     </div>
   );
-};
+}
