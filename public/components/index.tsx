@@ -11,22 +11,18 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { 
-  AppMountParameters,
-  CoreStart
-} from '../../../../src/core/public';
+import { AppMountParameters, CoreStart } from '../../../../src/core/public';
+import { AppPluginStartDependencies } from '../types';
 import { App } from './app';
 
 export const Observability = (
   CoreStart: CoreStart,
+  DepsStart: AppPluginStartDependencies,
   AppMountParameters: AppMountParameters,
   pplService: any
 ) => {
   ReactDOM.render(
-    <App
-      CoreStart={ CoreStart }
-      pplService={ pplService }
-    />,
+    <App CoreStart={CoreStart} DepsStart={DepsStart} pplService={pplService} />,
     AppMountParameters.element
   );
 

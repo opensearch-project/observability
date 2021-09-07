@@ -9,53 +9,44 @@
  * GitHub history for details.
  */
 
-import {
-  Plugin,
-  CoreSetup,
-  CoreStart,
-  AppMountParameters
-} from '../../../src/core/public';
-import {
-  ObservabilitySetup,
-  ObservabilityStart
-} from './types';
+import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
 import {
   observabilityID,
+  observabilityPluginOrder,
   observabilityTitle,
-  observabilityPluginOrder
 } from '../common/constants/shared';
 import PPLService from './services/requests/ppl';
+import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } from './types';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
+  public setup(core: CoreSetup): ObservabilitySetup {
+    core.application.register({
+      id: observabilityID,
+      title: observabilityTitle,
+      category: {
+        id: 'opensearch',
+        label: 'OpenSearch Plugins',
+        order: 2000,
+      },
+      order: observabilityPluginOrder,
+      async mount(params: AppMountParameters) {
+        const { Observability } = await import('./components/index');
+        const [coreStart, depsStart] = await core.getStartServices();
+        const pplService = new PPLService(coreStart.http);
+        return Observability(
+          coreStart,
+          depsStart as AppPluginStartDependencies,
+          params,
+          pplService
+        );
+      },
+    });
 
-    public setup(core: CoreSetup): ObservabilitySetup {
-      
-      core.application.register({
-        id: observabilityID,
-        title: observabilityTitle,
-        category: {
-          id: 'opensearch',
-          label: 'OpenSearch Plugins',
-          order: 2000,
-        },
-        order: observabilityPluginOrder,
-        async mount(params: AppMountParameters) {
-          const { Observability } = await import('./components/index');
-          const [ coreStart ] = await core.getStartServices();
-          const pplService = new PPLService(coreStart.http);
-          return Observability(
-            coreStart,
-            params,
-            pplService
-          );
-        },
-      });
-
-      // Return methods that should be available to other plugins
-      return {};
-    }
-    public start(core: CoreStart): ObservabilityStart {
-      return {};
-    }
-    public stop() {}
+    // Return methods that should be available to other plugins
+    return {};
+  }
+  public start(core: CoreStart): ObservabilityStart {
+    return {};
+  }
+  public stop() {}
 }

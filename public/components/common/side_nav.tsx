@@ -69,6 +69,11 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
           name: 'Operational panels',
           id: 4,
           href: '#/operational_panels/',
+        },
+        {
+          name: 'Notebooks',
+          id: 5,
+          href: '#/notebooks',
         }
       ],
     },
