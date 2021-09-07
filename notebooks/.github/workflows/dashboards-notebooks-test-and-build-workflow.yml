@@ -1,0 +1,57 @@
+
+name: Test and Build Dashboards Notebooks
+
+on: [pull_request, push]
+
+env:
+  PLUGIN_NAME: notebooks-dashboards
+  OPENSEARCH_DASHBOARDS_VERSION: '1.x'
+  OPENSEARCH_PLUGIN_VERSION: 1.1.0.0
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Plugin
+        uses: actions/checkout@v1
+
+      - name: Checkout OpenSearch Dashboards
+        uses: actions/checkout@v1
+        with:
+          repository: opensearch-project/Opensearch-Dashboards
+          ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
+          path: dashboards-notebooks/OpenSearch-Dashboards
+
+      - name: Get node and yarn versions
+        id: versions_step
+        run: |
+          echo "::set-output name=node_version::$(node -p "(require('./OpenSearch-Dashboards/package.json').engines.node).match(/[.0-9]+/)[0]")"
+          echo "::set-output name=yarn_version::$(node -p "(require('./OpenSearch-Dashboards/package.json').engines.yarn).match(/[.0-9]+/)[0]")"
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ steps.versions_step.outputs.node_version }}
+
+      - name: Move Notebooks to Plugins Dir
+        run: mv dashboards-notebooks OpenSearch-Dashboards/plugins/dashboards-notebooks
+
+      - name: OpenSearch Dashboards Plugin Bootstrap
+        run: |
+          cd OpenSearch-Dashboards/plugins/dashboards-notebooks
+          yarn osd bootstrap
+
+      - name: Build Artifact
+        run: |
+          cd OpenSearch-Dashboards/plugins/dashboards-notebooks
+          yarn build
+          mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OPENSEARCH_PLUGIN_VERSION }}.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dashboards-notebooks
+          path: OpenSearch-Dashboards/plugins/dashboards-notebooks/build

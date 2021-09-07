@@ -1,0 +1,19 @@
+{
+  "video": true,
+  "fixturesFolder": ".cypress/fixtures",
+  "integrationFolder": ".cypress/integration",
+  "pluginsFile": ".cypress/plugins/index.js",
+  "screenshotsFolder": ".cypress/screenshots",
+  "supportFile": ".cypress/support/index.js",
+  "videosFolder": ".cypress/videos",
+  "viewportWidth": 1000,
+  "viewportHeight": 1600,
+  "requestTimeout": 60000,
+  "responseTimeout": 60000,
+  "defaultCommandTimeout": 60000,
+  "env": {
+    "opensearch": "localhost:9200",
+    "opensearchDashboards": "localhost:5601",
+    "security_enabled": true
+  }
+}
