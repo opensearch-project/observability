@@ -24,3 +24,10 @@ export const observabilityPluginOrder = 500;
 export const UI_DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
 export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const PPL_INDEX_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)/i;
+
+// Observability plugin URI 
+const BASE_OBSERVABILITY_URI = '/_plugins/_observability';
+export const OPENSEARCH_PANELS_API = {
+  GET_PANELS: `${BASE_OBSERVABILITY_URI}/panels`,
+  PANEL: `${BASE_OBSERVABILITY_URI}/panel`,
+};

@@ -187,7 +187,7 @@ export const DeleteVisualizationModal = ({
         title="Remove visualization from this dashboard"
         onCancel={onCancel}
         onConfirm={() => onConfirm(visualizationId)}
-        cancelButtonText="Cenal"
+        cancelButtonText="Cancel"
         confirmButtonText="Remove"
         buttonColor="danger"
         defaultFocusedButton="confirm"

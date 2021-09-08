@@ -112,6 +112,9 @@ export const CustomPanelView = ({
         setOpenPanelName(res.panel.name);
         setPanelCreatedTime(res.panel.dateCreated);
         setPanelVisualizations(res.panel.visualizations);
+        setPPLFilterValue(_.unescape(res.panel.queryFilter.query));
+        setStart(res.panel.timeRange.from);
+        setEnd(res.panel.timeRange.to);
       })
       .catch((err) => {
         console.error('Issue in fetching the operational panels', err);
