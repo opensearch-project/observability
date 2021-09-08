@@ -24,7 +24,9 @@
  *   permissions and limitations under the License.
  */
 
-const httpClientMock = jest.fn();
+import { HttpSetup } from "../../../../src/core/public";
+
+const httpClientMock = jest.fn() as any;
 
 httpClientMock.delete = jest.fn(() => ({
   then: jest.fn(() => ({
@@ -48,4 +50,4 @@ httpClientMock.put = jest.fn(() => ({
   })),
 }));
 
-export default httpClientMock;
+export default httpClientMock as HttpSetup;

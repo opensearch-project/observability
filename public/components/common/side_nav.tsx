@@ -13,16 +13,24 @@ import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiSideNavItemType } 
 import React from 'react';
 
 export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
-  function setIsSelected(items: EuiSideNavItemType<React.ReactNode>[], hash: string) {
+  // set items.isSelected based on location.hash passed in
+  // tries to find an item where href is a prefix of the hash
+  // if none will try to find an item where the hash is a prefix of href
+  function setIsSelected(
+    items: EuiSideNavItemType<React.ReactNode>[],
+    hash: string,
+    initial = true,
+    reverse = false
+  ): boolean {
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.href === hash) {
+      if (item.href && ((reverse && item.href.startsWith(hash)) || hash.startsWith(item.href))) {
         item.isSelected = true;
         return true;
       }
-      if (item.items?.length && setIsSelected(item.items, hash)) return true;
+      if (item.items?.length && setIsSelected(item.items, hash, false, reverse)) return true;
     }
-    return false;
+    return initial && setIsSelected(items, hash, false, !reverse);
   }
 
   const items = [

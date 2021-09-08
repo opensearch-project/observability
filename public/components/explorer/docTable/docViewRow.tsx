@@ -10,12 +10,27 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import _ from 'lodash';
+import { 
+  toPairs,
+  uniqueId,
+  has,
+  forEach
+} from 'lodash';
 import { EuiIcon } from '@elastic/eui';
 import { DocViewer } from './docViewer';
 import { DocDetailTitle } from './detailTable/docDetailTitle';
+import { IField } from '../../../../common/types/explorer';
 
-export const DocViewRow = (props: any) => {
+export interface IDocType { 
+  [key: string] : string; 
+}
+
+interface IDocViewRowProps {
+  doc: IDocType;
+  selectedCols: Array<IField>;
+}
+
+export const DocViewRow = (props: IDocViewRowProps) => {
 
   const {
     doc,
@@ -31,14 +46,14 @@ export const DocViewRow = (props: any) => {
     } = conf;
     return (
       <td
-        key={_.uniqueId('grid-td-')}
+        key={ uniqueId('datagrid-cell-') }
         className={ clsName }
       >
         { content }
       </td>);
   };
 
-  const getDlTmpl = (conf) => {
+  const getDlTmpl = (conf: { doc: IDocType }) => {
     const {
       doc
     } = conf;
@@ -47,10 +62,10 @@ export const DocViewRow = (props: any) => {
       <div className="truncate-by-height">
         <span>
           <dl className="source truncate-by-height">
-            { _.toPairs(doc).map((entry) => {
+            { toPairs(doc).map((entry: Array<string>) => {
               return (
                 <span
-                  key={ _.uniqueId('grid-desc') }
+                  key={ uniqueId('grid-desc') }
                 >
                   <dt>{ entry[0] }:</dt>
                   <dd>
@@ -67,7 +82,7 @@ export const DocViewRow = (props: any) => {
     );
   };
 
-  const getDiscoverSourceLikeDOM = (doc) => {
+  const getDiscoverSourceLikeDOM = (doc: IDocType) => {
     return getDlTmpl({ doc, });
   };
 
@@ -80,7 +95,7 @@ export const DocViewRow = (props: any) => {
     return (
       <td
         className="osdDocTableCell__toggleDetails"
-        key={_.uniqueId('grid-td-')}
+        key={ uniqueId('grid-td-') }
       >
         <button
           className="euiButtonIcon euiButtonIcon--text"
@@ -92,13 +107,16 @@ export const DocViewRow = (props: any) => {
     );
   };
   
-  const getTds = (doc, selectedCols) => {
+  const getTds = (
+    doc: IDocType, 
+    selectedCols: Array<IField>
+  ) => {
     const cols = [];
     const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
     // No field is selected
     if (!selectedCols || selectedCols.length === 0) {
-      if (_.has(doc, 'timestamp')) {
+      if (has(doc, 'timestamp')) {
         cols.push(
           getTdTmpl({ 
             clsName: timestampClsName,
@@ -117,12 +135,12 @@ export const DocViewRow = (props: any) => {
       
       // Has at least one field selected
       const filteredDoc = {};
-      _.forEach(selectedCols, selCol => {
-        if (_.has(doc, selCol.name)) {
+      forEach(selectedCols, selCol => {
+        if (has(doc, selCol.name)) {
           filteredDoc[selCol.name] = doc[selCol.name];
         }
       })
-      _.forEach(filteredDoc, (val, key) => {
+      forEach(filteredDoc, (val, key) => {
         cols.push(
           getTdTmpl({ 
             clsName: fieldClsName,
@@ -131,13 +149,13 @@ export const DocViewRow = (props: any) => {
         );
       });
 
-      if (_.has(doc, 'timestamp')) {
+      if (has(doc, 'timestamp')) {
         cols.unshift(
-              getTdTmpl({ 
-                clsName: timestampClsName,
-                content: doc['timestamp']
-              })
-            );
+          getTdTmpl({ 
+            clsName: timestampClsName,
+            content: doc['timestamp']
+          })
+        );
       }
     }
 
@@ -167,8 +185,8 @@ export const DocViewRow = (props: any) => {
       </tr>
       { detailsOpen ? <tr className="osdDocTableDetails__row">
         <td 
-          key={_.uniqueId('grid-td-detail-')}
-          colSpan={3}
+          key={ uniqueId('grid-td-detail-') }
+          colSpan={ selectedCols.length ?  selectedCols.length + 2 : 3 }
         >
           <DocDetailTitle />
           <DocViewer

@@ -12,9 +12,9 @@
 import React from 'react';
 import { EuiCodeBlock } from '@elastic/eui';
 import { i18n } from '@osd/i18n';
-// import { DocViewRenderProps } from '../../doc_views/doc_views_types';
+import { IDocType } from '../docViewRow';
 
-export function JsonCodeBlock({ hit }: any) {
+export function JsonCodeBlock({ hit }: { hit: IDocType }) {
   const label = i18n.translate('discover.docViews.json.codeEditorAriaLabel', {
     defaultMessage: 'Read only JSON view of an elasticsearch document',
   });

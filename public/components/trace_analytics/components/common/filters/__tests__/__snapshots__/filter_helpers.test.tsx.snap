@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter helper functions renders range field filter 1`] = `
+Array [
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>,
+  <EuiFormRow
+    describedByIds={Array []}
+    display="row"
+    fullWidth={false}
+    hasChildLabel={true}
+    hasEmptyLabelSpace={false}
+    label="Value"
+    labelType="label"
+  >
+    <div
+      className="euiFormRow"
+      id="random_html_id-row"
+    >
+      <div
+        className="euiFormRow__labelWrapper"
+      >
+        <EuiFormLabel
+          className="euiFormRow__label"
+          htmlFor="random_html_id"
+          isFocused={false}
+          type="label"
+        >
+          <label
+            className="euiFormLabel euiFormRow__label"
+            htmlFor="random_html_id"
+          >
+            Value
+          </label>
+        </EuiFormLabel>
+      </div>
+      <div
+        className="euiFormRow__fieldWrapper"
+      >
+        <EuiFormControlLayoutDelimited
+          endControl={
+            <input
+              className="euiFieldText"
+              onChange={[Function]}
+              placeholder="End of range"
+              type="string"
+              value="100"
+            />
+          }
+          id="random_html_id"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          startControl={
+            <input
+              className="euiFieldText"
+              onChange={[Function]}
+              placeholder="Start of range"
+              type="string"
+              value="0"
+            />
+          }
+        >
+          <EuiFormControlLayout
+            className="euiFormControlLayoutDelimited"
+            id="random_html_id"
+            onBlur={[Function]}
+            onFocus={[Function]}
+          >
+            <div
+              className="euiFormControlLayout euiFormControlLayoutDelimited"
+              id="random_html_id"
+              onBlur={[Function]}
+              onFocus={[Function]}
+            >
+              <div
+                className="euiFormControlLayout__childrenWrapper"
+              >
+                <input
+                  className="euiFieldText euiFormControlLayoutDelimited__input"
+                  onChange={[Function]}
+                  placeholder="Start of range"
+                  type="string"
+                  value="0"
+                />
+                <EuiText
+                  className="euiFormControlLayoutDelimited__delimeter"
+                  color="subdued"
+                  size="s"
+                >
+                  <div
+                    className="euiText euiText--small euiFormControlLayoutDelimited__delimeter"
+                  >
+                    <EuiTextColor
+                      color="subdued"
+                      component="div"
+                    >
+                      <div
+                        className="euiTextColor euiTextColor--subdued"
+                      >
+                        →
+                      </div>
+                    </EuiTextColor>
+                  </div>
+                </EuiText>
+                <input
+                  className="euiFieldText euiFormControlLayoutDelimited__input"
+                  onChange={[Function]}
+                  placeholder="End of range"
+                  type="string"
+                  value="100"
+                />
+                <EuiFormControlLayoutIcons />
+              </div>
+            </div>
+          </EuiFormControlLayout>
+        </EuiFormControlLayoutDelimited>
+      </div>
+    </div>
+  </EuiFormRow>,
+]
+`;
+
+exports[`Filter helper functions renders textfield filter 1`] = `
+Array [
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>,
+  <EuiFormRow
+    describedByIds={Array []}
+    display="row"
+    fullWidth={false}
+    hasChildLabel={true}
+    hasEmptyLabelSpace={false}
+    label="Value"
+    labelType="label"
+  >
+    <div
+      className="euiFormRow"
+      id="random_html_id-row"
+    >
+      <div
+        className="euiFormRow__labelWrapper"
+      >
+        <EuiFormLabel
+          className="euiFormRow__label"
+          htmlFor="random_html_id"
+          isFocused={false}
+          type="label"
+        >
+          <label
+            className="euiFormLabel euiFormRow__label"
+            htmlFor="random_html_id"
+          >
+            Value
+          </label>
+        </EuiFormLabel>
+      </div>
+      <div
+        className="euiFormRow__fieldWrapper"
+      >
+        <EuiFieldText
+          id="random_html_id"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Enter a value"
+          value={0}
+        >
+          <EuiFormControlLayout
+            fullWidth={false}
+            inputId="random_html_id"
+          >
+            <div
+              className="euiFormControlLayout"
+            >
+              <div
+                className="euiFormControlLayout__childrenWrapper"
+              >
+                <EuiValidatableControl>
+                  <input
+                    className="euiFieldText"
+                    id="random_html_id"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder="Enter a value"
+                    type="text"
+                    value={0}
+                  />
+                </EuiValidatableControl>
+                <EuiFormControlLayoutIcons />
+              </div>
+            </div>
+          </EuiFormControlLayout>
+        </EuiFieldText>
+      </div>
+    </div>
+  </EuiFormRow>,
+]
+`;

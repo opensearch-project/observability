@@ -17,20 +17,25 @@ import {
 } from '@elastic/eui';
 import { DocViewTable } from './detailTable/docDetailTable';
 import { JsonCodeBlock } from './json_code_block/json_code_block';
+import { IDocType } from './docViewRow';
 
 const TABS = ['Table', 'JSON'];
 
-export function DocViewer(props: any) {
+interface IDocViewerProps {
+  hit: IDocType
+}
 
-  const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab>(null);
+export function DocViewer(props: IDocViewerProps) {
+
+  const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab | null>(null);
 
   // can be passed in later
-  const getTabList = (props = null) => {
+  const getTabList = () => {
     return [
       {
         id: _.uniqueId('doc_viewer_tab_'),
         name: 'Table',
-        component: (tabProps) => <DocViewTable
+        component: (tabProps: any) => <DocViewTable
                                     filter={ () => {} }
                                     onAddColumn={ () => {} }
                                     onRemoveColumn={ () => {} }
@@ -41,7 +46,7 @@ export function DocViewer(props: any) {
       {
         id: _.uniqueId('doc_viewer_tab_'),
         name: 'JSON',
-        component: (tabProps) => <JsonCodeBlock { ...tabProps }/>,
+        component: (tabProps: any) => <JsonCodeBlock { ...tabProps }/>,
         otherProps: {}
       }
     ];
@@ -49,7 +54,6 @@ export function DocViewer(props: any) {
 
   const tabs = useMemo(() => {
     return getTabList().map((tab) => {
-      const tid = new Date().valueOf()
       const Component = tab.component;
       return {
         id: tab.id,
