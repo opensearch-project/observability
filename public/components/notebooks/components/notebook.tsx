@@ -94,6 +94,7 @@ type NotebookProps = {
   openedNoteId: string;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
+  parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => Promise<string>;
@@ -627,13 +628,14 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
 
   setBreadcrumbs(path: string) {
     this.props.setBreadcrumbs([
+      this.props.parentBreadcrumb,
       {
         text: 'Notebooks',
-        href: '#',
+        href: '#/notebooks',
       },
       {
         text: path,
-        href: `#${this.props.openedNoteId}`,
+        href: `#/notebooks/${this.props.openedNoteId}`,
       },
     ]);
   }

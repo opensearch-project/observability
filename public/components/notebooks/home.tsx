@@ -37,6 +37,7 @@ export const Home = (props: HomeProps) => {
       }
       http={props.http}
       setBreadcrumbs={props.chrome.setBreadcrumbs}
+      parentBreadcrumb={props.parentBreadcrumb}
     />
   );
 };

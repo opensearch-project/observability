@@ -46,7 +46,7 @@ import {
   EuiSpacer,
   EuiTableFieldDataColumnType,
   EuiText,
-  EuiTitle
+  EuiTitle,
 } from '@elastic/eui';
 import CSS from 'csstype';
 import _ from 'lodash';
@@ -56,12 +56,12 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
 import {
   CREATE_NOTE_MESSAGE,
   DATE_FORMAT,
-  DOCUMENTATION_URL
+  DOCUMENTATION_URL,
 } from '../../../../common/constants/notebooks';
 import {
   DeleteNotebookModal,
   getCustomModal,
-  getSampleNotebooksModal
+  getSampleNotebooksModal,
 } from './helpers/modal_containers';
 import { NotebookType } from './main';
 
@@ -80,6 +80,7 @@ type NoteTableProps = {
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => void;
   deleteNotebook: (noteId: string, noteName?: string, showToast?: boolean) => void;
+  parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   setToast: (title: string, color?: string, text?: string) => void;
 };
@@ -94,9 +95,10 @@ export function NoteTable(props: NoteTableProps) {
 
   useEffect(() => {
     props.setBreadcrumbs([
+      props.parentBreadcrumb,
       {
         text: 'Notebooks',
-        href: '#',
+        href: '#/notebooks',
       },
     ]);
     props.fetchNotebooks();
@@ -270,7 +272,7 @@ export function NoteTable(props: NoteTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`#/notebooks/${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
       ),
     },
     {

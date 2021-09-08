@@ -32,6 +32,7 @@ import { HashRouter } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
 import { API_PREFIX, DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
+import { renderPageWithSidebar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
 
@@ -50,6 +51,7 @@ type MainProps = {
   basename: string;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
+  parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
 };
 
@@ -325,6 +327,7 @@ export class Main extends React.Component<MainProps, MainState> {
                   openedNoteId={props.match.params.id}
                   DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
                   http={this.props.http}
+                  parentBreadcrumb={this.props.parentBreadcrumb}
                   setBreadcrumbs={this.props.setBreadcrumbs}
                   renameNotebook={this.renameNotebook}
                   cloneNotebook={this.cloneNotebook}
@@ -335,20 +338,23 @@ export class Main extends React.Component<MainProps, MainState> {
             />
             <Route
               path="/notebooks"
-              render={(props) => (
-                <NoteTable
-                  loading={this.state.loading}
-                  fetchNotebooks={this.fetchNotebooks}
-                  addSampleNotebooks={this.addSampleNotebooks}
-                  notebooks={this.state.data}
-                  createNotebook={this.createNotebook}
-                  renameNotebook={this.renameNotebook}
-                  cloneNotebook={this.cloneNotebook}
-                  deleteNotebook={this.deleteNotebook}
-                  setBreadcrumbs={this.props.setBreadcrumbs}
-                  setToast={this.setToast}
-                />
-              )}
+              render={(props) =>
+                renderPageWithSidebar(
+                  <NoteTable
+                    loading={this.state.loading}
+                    fetchNotebooks={this.fetchNotebooks}
+                    addSampleNotebooks={this.addSampleNotebooks}
+                    notebooks={this.state.data}
+                    createNotebook={this.createNotebook}
+                    renameNotebook={this.renameNotebook}
+                    cloneNotebook={this.cloneNotebook}
+                    deleteNotebook={this.deleteNotebook}
+                    parentBreadcrumb={this.props.parentBreadcrumb}
+                    setBreadcrumbs={this.props.setBreadcrumbs}
+                    setToast={this.setToast}
+                  />
+                )
+              }
             />
           </Switch>
         </>

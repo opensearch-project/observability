@@ -76,18 +76,16 @@ export const App = ({ CoreStart, DepsStart, pplService }: ObservabilityAppDeps) 
               />
               <Route
                 path="/notebooks"
-                render={(props) =>
-                  renderPageWithSidebar(
-                    <NotebooksHome
-                      {...props}
-                      chrome={chrome}
-                      http={http}
-                      parentBreadcrumb={parentBreadcrumb}
-                      notifications={notifications}
-                      DepsStart={DepsStart}
-                    />
-                  )
-                }
+                render={(props) => (
+                  <NotebooksHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                    notifications={notifications}
+                    DepsStart={DepsStart}
+                  />
+                )}
               />
               <Route
                 exact
