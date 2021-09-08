@@ -28,7 +28,7 @@ import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React, { ReactChild } from 'react';
 import { Route, Switch } from 'react-router';
-import { HashRouter } from 'react-router-dom';
+import { HashRouter, RouteComponentProps } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
 import { API_PREFIX, DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
@@ -47,10 +47,10 @@ import { NoteTable } from './note_table';
  * https://components.nteract.io/#cell
  */
 
-type MainProps = {
-  basename: string;
+type MainProps = RouteComponentProps & {
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
+  notifications: CoreStart['notifications'];
   parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
 };
@@ -121,7 +121,7 @@ export class Main extends React.Component<MainProps, MainState> {
       })
       .then(async (res) => {
         this.setToast(`Notebook "${newNoteName}" successfully created!`);
-        window.location.assign(`${this.props.basename}#${res}`);
+        window.location.assign(`#/notebooks/${res}`);
       })
       .catch((err) => {
         this.setToast(
@@ -323,7 +323,6 @@ export class Main extends React.Component<MainProps, MainState> {
               path="/notebooks/:id"
               render={(props) => (
                 <Notebook
-                  basename={this.props.basename}
                   openedNoteId={props.match.params.id}
                   DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
                   http={this.props.http}
@@ -333,6 +332,8 @@ export class Main extends React.Component<MainProps, MainState> {
                   cloneNotebook={this.cloneNotebook}
                   deleteNotebook={this.deleteNotebook}
                   setToast={this.setToast}
+                  location={this.props.location}
+                  history={this.props.history}
                 />
               )}
             />

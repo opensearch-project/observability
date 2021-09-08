@@ -46,7 +46,9 @@ import {
 import { Cells } from '@nteract/presentational-components';
 import CSS from 'csstype';
 import moment from 'moment';
+import queryString from 'query-string';
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
 import {
@@ -84,13 +86,11 @@ const pageStyles: CSS.Properties = {
  * "Notebook" component is used to display an open notebook
  *
  * Props taken in as params are:
- * basename - base url for OpenSearch Dashboards notebooks
  * DashboardContainerByValueRenderer - Dashboard container renderer for visualization
  * http object - for making API requests
  * setBreadcrumbs - sets breadcrumbs on top
  */
 type NotebookProps = {
-  basename: string;
   openedNoteId: string;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
@@ -100,6 +100,8 @@ type NotebookProps = {
   cloneNotebook: (newNoteName: string, noteId: string) => Promise<string>;
   deleteNotebook: (noteId: string, noteName?: string, showToast?: boolean) => void;
   setToast: (title: string, color?: string, text?: string) => void;
+  location: RouteComponentProps['location'];
+  history: RouteComponentProps['history'];
 };
 
 type NotebookState = {
@@ -318,7 +320,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       modalLayout: getCustomModal(
         (newName: string) => {
           this.props.cloneNotebook(newName, this.props.openedNoteId).then((id: string) => {
-            window.location.assign(`${this.props.basename}#${id}`);
+            window.location.assign(`#/notebooks/${id}`);
             setTimeout(() => {
               this.loadNotebook();
             }, 300);
@@ -345,8 +347,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             await this.props.deleteNotebook(this.props.openedNoteId, this.state.path);
             this.setState({ isModalVisible: false }, () =>
               setTimeout(() => {
-                window.location.replace(`${this.props.basename}#`);
-              }, 300)
+                this.props.history.push('.');
+              }, 1000)
             );
           }}
           onCancel={() => this.setState({ isModalVisible: false })}
@@ -672,22 +674,21 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   }
 
   configureViewParameter(id: string) {
-    const url = new URL(window.location);
-    url.searchParams.set('view', id);
-    window.history.pushState({}, '', url);
+    this.props.history.replace({ ...this.props.location, search: `view=${id}` });
   }
 
   componentDidMount() {
     this.setBreadcrumbs('');
     this.loadNotebook();
     this.checkIfReportingPluginIsInstalled();
-    const url = new URL(window.location);
-    if (url.searchParams.get('view') === null) {
+    const searchParams = queryString.parse(this.props.location.search);
+    const view = searchParams['view'];
+    if (!view) {
       this.configureViewParameter('view_both');
     }
-    if (url.searchParams.get('view') === 'output_only') {
+    if (view === 'output_only') {
       this.setState({ selectedViewId: 'output_only' });
-    } else if (url.searchParams.get('view') === 'input_only') {
+    } else if (view === 'input_only') {
       this.setState({ selectedViewId: 'input_only' });
     }
   }

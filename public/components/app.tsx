@@ -22,7 +22,7 @@ import { renderPageWithSidebar } from './common/side_nav';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { Home as EventExplorerHome } from './explorer/home';
 import { LogExplorer } from './explorer/log_explorer';
-import { Home as NotebooksHome } from './notebooks/home';
+import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
 interface ObservabilityAppDeps {
@@ -79,11 +79,13 @@ export const App = ({ CoreStart, DepsStart, pplService }: ObservabilityAppDeps) 
                 render={(props) => (
                   <NotebooksHome
                     {...props}
-                    chrome={chrome}
+                    DashboardContainerByValueRenderer={
+                      DepsStart.dashboard.DashboardContainerByValueRenderer
+                    }
                     http={http}
+                    setBreadcrumbs={chrome.setBreadcrumbs}
                     parentBreadcrumb={parentBreadcrumb}
                     notifications={notifications}
-                    DepsStart={DepsStart}
                   />
                 )}
               />
