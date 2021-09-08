@@ -47,7 +47,7 @@ describe('Adding sample data and visualization', () => {
 
 describe('Testing notebooks table', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/notebooks-dashboards#`);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
     cy.wait(delay * 3);
   });
 
@@ -134,7 +134,7 @@ describe('Testing notebooks table', () => {
 
 describe('Test reporting integration if plugin installed', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/notebooks-dashboards#`);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
     cy.wait(delay * 3);
     cy.get('body').then($body => {
@@ -184,7 +184,7 @@ describe('Test reporting integration if plugin installed', () => {
 
 describe('Testing paragraphs', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/notebooks-dashboards#`);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
     cy.wait(delay * 3);
   });
