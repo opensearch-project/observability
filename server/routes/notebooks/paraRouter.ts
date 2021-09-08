@@ -31,7 +31,7 @@ import {
   IRouter,
   ResponseError,
 } from '../../../../../src/core/server';
-import { API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
+import { NOTEBOOKS_API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
 import BACKEND from '../../adaptors/notebooks';
 import {
   DefaultNotebooks,
@@ -45,7 +45,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.post(
     {
-      path: `${API_PREFIX}/paragraph/update/run/`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph/update/run/`,
       validate: {
         body: schema.object({
           noteId: schema.string(),
@@ -85,7 +85,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.put(
     {
-      path: `${API_PREFIX}/paragraph/`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph/`,
       validate: {
         body: schema.object({
           noteId: schema.string(),
@@ -125,7 +125,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.post(
     {
-      path: `${API_PREFIX}/paragraph/`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph/`,
       validate: {
         body: schema.object({
           noteId: schema.string(),
@@ -166,7 +166,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.post(
     {
-      path: `${API_PREFIX}/set_paragraphs/`,
+      path: `${NOTEBOOKS_API_PREFIX}/set_paragraphs/`,
       validate: {
         body: schema.object({
           noteId: schema.string(),
@@ -220,7 +220,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.delete(
     {
-      path: `${API_PREFIX}/paragraph/{ids*2}`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph/{ids*2}`,
       validate: {
         params: schema.object({
           ids: schema.string(),
@@ -262,7 +262,7 @@ export function registerParaRoute(router: IRouter) {
    */
   router.put(
     {
-      path: `${API_PREFIX}/paragraph/clearall/`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph/clearall/`,
       validate: {
         body: schema.object({
           noteId: schema.string(),

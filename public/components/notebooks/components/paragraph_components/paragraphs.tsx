@@ -50,7 +50,8 @@ import {
   DashboardStart,
 } from '../../../../../../../src/plugins/dashboard/public';
 import { ViewMode } from '../../../../../../../src/plugins/embeddable/public';
-import { API_PREFIX, DATE_FORMAT } from '../../../../../common/constants/notebooks';
+import { NOTEBOOKS_API_PREFIX } from '../../../../../common/constants/notebooks';
+import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { ParaType } from '../../../../../common/types/notebooks';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
@@ -140,7 +141,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
       if (para.visSavedObjId !== '') setVisInput(JSON.parse(para.vizObjectInput));
 
       http
-        .get(`${API_PREFIX}/visualizations`)
+        .get(`${NOTEBOOKS_API_PREFIX}/visualizations`)
         .then((res) => {
           const opt = res.savedVisualizations.map((vizObject) => ({
             label: vizObject.label,
@@ -412,7 +413,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiText color="subdued">
-              {`Last successful run ${moment(props.dateModified).format(DATE_FORMAT)}.`}
+              {`Last successful run ${moment(props.dateModified).format(UI_DATE_FORMAT)}.`}
             </EuiText>
           </EuiFlexItem>
         </>
@@ -427,7 +428,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiText color="subdued">
-              {`Output available from ${moment(props.dateModified).format(DATE_FORMAT)}`}
+              {`Output available from ${moment(props.dateModified).format(UI_DATE_FORMAT)}`}
             </EuiText>
           </EuiFlexItem>
           <EuiFlexItem>

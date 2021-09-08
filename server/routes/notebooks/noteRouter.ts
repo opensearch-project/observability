@@ -31,14 +31,14 @@ import {
   IRouter,
   ResponseError,
 } from '../../../../../src/core/server';
-import { API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
+import { NOTEBOOKS_API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
 import BACKEND from '../../adaptors/notebooks';
 
 export function registerNoteRoute(router: IRouter) {
   // Fetch all the notebooks available
   router.get(
     {
-      path: `${API_PREFIX}/`,
+      path: `${NOTEBOOKS_API_PREFIX}/`,
       validate: {},
     },
     async (
@@ -70,7 +70,7 @@ export function registerNoteRoute(router: IRouter) {
   // Get all paragraphs of notebooks
   router.get(
     {
-      path: `${API_PREFIX}/note/{noteId}`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/{noteId}`,
       validate: {
         params: schema.object({
           noteId: schema.string(),
@@ -106,7 +106,7 @@ export function registerNoteRoute(router: IRouter) {
   // Add a Notebook
   router.post(
     {
-      path: `${API_PREFIX}/note`,
+      path: `${NOTEBOOKS_API_PREFIX}/note`,
       validate: {
         body: schema.object({
           name: schema.string(),
@@ -142,7 +142,7 @@ export function registerNoteRoute(router: IRouter) {
   // Rename a notebook
   router.put(
     {
-      path: `${API_PREFIX}/note/rename`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/rename`,
       validate: {
         body: schema.object({
           name: schema.string(),
@@ -179,7 +179,7 @@ export function registerNoteRoute(router: IRouter) {
   // Clone a notebook
   router.post(
     {
-      path: `${API_PREFIX}/note/clone`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/clone`,
       validate: {
         body: schema.object({
           name: schema.string(),
@@ -216,7 +216,7 @@ export function registerNoteRoute(router: IRouter) {
   // Delete a notebook
   router.delete(
     {
-      path: `${API_PREFIX}/note/{noteid}`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/{noteid}`,
       validate: {
         params: schema.object({
           noteid: schema.string(),
@@ -252,7 +252,7 @@ export function registerNoteRoute(router: IRouter) {
   // Add sample notebooks
   router.post(
     {
-      path: `${API_PREFIX}/note/addSampleNotebooks`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/addSampleNotebooks`,
       validate: {
         body: schema.object({
           visIds: schema.arrayOf(schema.string()),

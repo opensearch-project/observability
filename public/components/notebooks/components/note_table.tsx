@@ -53,11 +53,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../../src/core/public';
-import {
-  CREATE_NOTE_MESSAGE,
-  DATE_FORMAT,
-  DOCUMENTATION_URL,
-} from '../../../../common/constants/notebooks';
+import { CREATE_NOTE_MESSAGE, NOTEBOOKS_DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
+import { UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import {
   DeleteNotebookModal,
   getCustomModal,
@@ -279,13 +276,13 @@ export function NoteTable(props: NoteTableProps) {
       field: 'dateModified',
       name: 'Last updated',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
     {
       field: 'dateCreated',
       name: 'Created',
       sortable: true,
-      render: (value) => moment(value).format(DATE_FORMAT),
+      render: (value) => moment(value).format(UI_DATE_FORMAT),
     },
   ] as Array<
     EuiTableFieldDataColumnType<{
@@ -320,7 +317,7 @@ export function NoteTable(props: NoteTableProps) {
                   Use Notebooks to interactively and collaboratively develop rich reports backed by
                   live data. Common use cases for notebooks includes creating postmortem reports,
                   designing run books, building live infrastructure reports, or even documentation.{' '}
-                  <EuiLink external={true} href={DOCUMENTATION_URL} target="blank">
+                  <EuiLink external={true} href={NOTEBOOKS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>
                 </EuiText>

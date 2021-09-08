@@ -48,7 +48,6 @@ import {
 } from '@elastic/eui';
 import { Input, Prompt, Source } from '@nteract/presentational-components';
 import React, { useState } from 'react';
-import { PLUGIN_ID } from '../../../../../common/constants/notebooks';
 import { ParaType } from '../../../../../common/types/notebooks';
 
 /*
@@ -127,10 +126,7 @@ export const ParaInput = (props: {
     };
 
     const renderOption = (option, searchValue) => {
-      const href = window.location.href;
-      const visURL =
-        `${href.substring(0, href.indexOf(PLUGIN_ID))}visualize#/edit/${option.key}` +
-        `?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+      const visURL = `visualize#/edit/${option.key}?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
       return (
         <EuiLink href={visURL} target="_blank">
           <EuiHighlight search={searchValue}>{option.label}</EuiHighlight>

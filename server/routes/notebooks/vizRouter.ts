@@ -30,13 +30,13 @@ import {
   IRouter,
   ResponseError,
 } from '../../../../../src/core/server';
-import { API_PREFIX, FETCH_SIZE } from '../../../common/constants/notebooks';
+import { NOTEBOOKS_API_PREFIX, NOTEBOOKS_FETCH_SIZE } from '../../../common/constants/notebooks';
 
 export function registerVizRoute(router: IRouter) {
   // Fetches available saved visualizations for current user
   router.get(
     {
-      path: `${API_PREFIX}/visualizations`,
+      path: `${NOTEBOOKS_API_PREFIX}/visualizations`,
       validate: {},
     },
     async (
@@ -46,7 +46,7 @@ export function registerVizRoute(router: IRouter) {
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
       const params: RequestParams.Search = {
         index: '.kibana',
-        size: FETCH_SIZE,
+        size: NOTEBOOKS_FETCH_SIZE,
         q: 'type:visualization',
       };
       try {

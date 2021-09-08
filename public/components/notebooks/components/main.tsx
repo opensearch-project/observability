@@ -31,7 +31,7 @@ import { Route, Switch } from 'react-router';
 import { HashRouter, RouteComponentProps } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
-import { API_PREFIX, DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
+import { NOTEBOOKS_API_PREFIX, NOTEBOOKS_DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
 import { renderPageWithSidebar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
@@ -98,7 +98,7 @@ export class Main extends React.Component<MainProps, MainState> {
   // Fetches path and id for all stored notebooks
   fetchNotebooks = () => {
     return this.props.http
-      .get(`${API_PREFIX}/`)
+      .get(`${NOTEBOOKS_API_PREFIX}/`)
       .then((res) => this.setState(res))
       .catch((err) => {
         console.error('Issue in fetching the notebooks', err.body.message);
@@ -116,7 +116,7 @@ export class Main extends React.Component<MainProps, MainState> {
     };
 
     return this.props.http
-      .post(`${API_PREFIX}/note`, {
+      .post(`${NOTEBOOKS_API_PREFIX}/note`, {
         body: JSON.stringify(newNoteObject),
       })
       .then(async (res) => {
@@ -127,7 +127,7 @@ export class Main extends React.Component<MainProps, MainState> {
         this.setToast(
           'Please ask your administrator to enable Notebooks for you.',
           'danger',
-          <EuiLink href={DOCUMENTATION_URL} target="_blank">
+          <EuiLink href={NOTEBOOKS_DOCUMENTATION_URL} target="_blank">
             Documentation
           </EuiLink>
         );
@@ -147,7 +147,7 @@ export class Main extends React.Component<MainProps, MainState> {
     };
 
     return this.props.http
-      .put(`${API_PREFIX}/note/rename`, {
+      .put(`${NOTEBOOKS_API_PREFIX}/note/rename`, {
         body: JSON.stringify(renameNoteObject),
       })
       .then((res) => {
@@ -180,7 +180,7 @@ export class Main extends React.Component<MainProps, MainState> {
     };
 
     return this.props.http
-      .post(`${API_PREFIX}/note/clone`, {
+      .post(`${NOTEBOOKS_API_PREFIX}/note/clone`, {
         body: JSON.stringify(cloneNoteObject),
       })
       .then((res) => {
@@ -210,7 +210,7 @@ export class Main extends React.Component<MainProps, MainState> {
   // Deletes an existing notebook
   deleteNotebook = (notebookId: string, notebookName?: string, showToast = true) => {
     return this.props.http
-      .delete(`${API_PREFIX}/note/` + notebookId)
+      .delete(`${NOTEBOOKS_API_PREFIX}/note/` + notebookId)
       .then((res) => {
         this.setState((prevState) => ({
           data: prevState.data.filter((notebook) => notebook.id !== notebookId),
@@ -282,7 +282,7 @@ export class Main extends React.Component<MainProps, MainState> {
         })
         .then((resp) => visIds.push(resp.saved_objects[0].id));
       await this.props.http
-        .post(`${API_PREFIX}/note/addSampleNotebooks`, {
+        .post(`${NOTEBOOKS_API_PREFIX}/note/addSampleNotebooks`, {
           body: JSON.stringify({ visIds }),
         })
         .then((res) => {
