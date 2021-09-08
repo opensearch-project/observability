@@ -48,8 +48,8 @@ import {
 } from '@elastic/eui';
 import { Input, Prompt, Source } from '@nteract/presentational-components';
 import React, { useState } from 'react';
-import { PLUGIN_ID } from '../../../../../../common/constants/notebooks';
-import { ParaType } from '../../../../../../common/types/notebooks';
+import { PLUGIN_ID } from '../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../common/types/notebooks';
 
 /*
  * "ParaInput" component is used by notebook to populate paragraph inputs for an open notebook.

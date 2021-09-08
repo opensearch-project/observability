@@ -47,15 +47,15 @@ import { Cells } from '@nteract/presentational-components';
 import CSS from 'csstype';
 import moment from 'moment';
 import React, { Component } from 'react';
-import { ChromeBreadcrumb, CoreStart } from '../../../../../../../src/core/public';
-import { DashboardStart } from '../../../../../../../src/plugins/dashboard/public';
+import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
+import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
 import {
   API_PREFIX,
   CREATE_NOTE_MESSAGE,
   DATE_FORMAT,
   SELECTED_BACKEND,
-} from '../../../../../common/constants/notebooks';
-import { ParaType } from '../../../../../common/types/notebooks';
+} from '../../../../common/constants/notebooks';
+import { ParaType } from '../../../../common/types/notebooks';
 import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 import { defaultParagraphParser } from './helpers/default_parser';
 import { DeleteNotebookModal, getCustomModal, getDeleteModal } from './helpers/modal_containers';
@@ -157,6 +157,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   parseParagraphs = (paragraphs: any[]): ParaType[] => {
     try {
       let parsedPara;
+      // @ts-ignore
       if (SELECTED_BACKEND === 'ZEPPELIN') {
         parsedPara = zeppelinParagraphParser(paragraphs);
         this.setState({ vizPrefix: '%sh #vizobject:' });
@@ -176,6 +177,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       );
       console.error(err);
       this.setState({ parsedPara: [] });
+      return [];
     }
   };
 
@@ -447,7 +449,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     setTimeout(() => {
       window.scrollTo({
         left: 0,
-        top: this.state.parsedPara[index].paraDivRef.current.offsetTop,
+        top: this.state.parsedPara[index].paraDivRef.current?.offsetTop,
         behavior: 'smooth',
       });
     }, 0);
@@ -751,7 +753,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.runForAllParagraphs((para: ParaType, index: number) => {
-                return para.paraRef.current.runParagraph();
+                return para.paraRef.current?.runParagraph();
               });
               if (this.state.selectedViewId === 'input_only') {
                 this.updateView('view_both');

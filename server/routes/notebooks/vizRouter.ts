@@ -24,18 +24,26 @@
  * permissions and limitations under the License.
  */
 
-import { IRouter, IOpenSearchDashboardsResponse, ResponseError } from '../../../../src/core/server';
-import { API_PREFIX, FETCH_SIZE } from '../../common';
 import { RequestParams } from '@elastic/elasticsearch';
+import {
+  IOpenSearchDashboardsResponse,
+  IRouter,
+  ResponseError,
+} from '../../../../../src/core/server';
+import { API_PREFIX, FETCH_SIZE } from '../../../common/constants/notebooks';
 
-export function vizRouter(router: IRouter) {
+export function registerVizRoute(router: IRouter) {
   // Fetches available saved visualizations for current user
   router.get(
     {
       path: `${API_PREFIX}/visualizations`,
       validate: {},
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
       const params: RequestParams.Search = {
         index: '.kibana',
         size: FETCH_SIZE,

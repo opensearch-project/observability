@@ -18,7 +18,7 @@ import {
   NotificationsStart,
 } from '../../../../../src/core/public';
 import { AppPluginStartDependencies } from '../../types';
-import { Main as NotebooksMain } from './public/components/main';
+import { Main as NotebooksMain } from './components/main';
 
 interface HomeProps extends RouteComponentProps {
   parentBreadcrumb: ChromeBreadcrumb;

@@ -24,8 +24,8 @@
  * permissions and limitations under the License.
  */
 
-import { ILegacyClusterClient, ILegacyScopedClusterClient, RequestHandlerContext } from '../../../../src/core/server';
-import { optionsType } from '../../common';
+import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { optionsType } from '../../../common/types/notebooks';
 
 export interface NotebookAdaptor {
   backend: string;

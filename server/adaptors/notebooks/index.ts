@@ -24,16 +24,15 @@
  * permissions and limitations under the License.
  */
 
-import Wreck from '@hapi/wreck';
-import { optionsType } from '../../common';
+import { ZeppelinBackend } from './zeppelin_backend';
+import { DefaultBackend } from './default_backend';
+import { SELECTED_BACKEND } from '../../../common/constants/notebooks';
 
-export const requestor = async function (
-  requestType: string,
-  url: string,
-  wreckOptions: optionsType
-) {
-  const promise = Wreck.request(requestType, url, wreckOptions);
-  const res = await promise;
-  const body = await Wreck.read(res, wreckOptions);
-  return body;
-};
+// Selects backend based on config
+let BACKEND = new DefaultBackend();
+
+if (SELECTED_BACKEND == 'ZEPPELIN') {
+  BACKEND = new ZeppelinBackend();
+}
+
+export default BACKEND;

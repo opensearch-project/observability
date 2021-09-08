@@ -9,11 +9,9 @@
  * GitHub history for details.
  */
 
-import {
-  PPL_ENDPOINT
-} from '../../common/constants/shared';
+import { PPL_ENDPOINT, SQL_ENDPOINT } from '../../common/constants/shared';
 
-export const PPLPlugin = function(Client, config, components) {
+export const PPLPlugin = function (Client, config, components) {
   const ca = components.clientAction.factory;
   Client.prototype.ppl = components.clientAction.namespaceFactory();
   const ppl = Client.prototype.ppl.prototype;
@@ -24,11 +22,25 @@ export const PPLPlugin = function(Client, config, components) {
       params: {
         format: {
           type: 'string',
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     },
     needBody: true,
     method: 'POST',
   });
-}
+
+  ppl.sqlQuery = ca({
+    url: {
+      fmt: `${SQL_ENDPOINT}`,
+      params: {
+        format: {
+          type: 'string',
+          required: true,
+        },
+      },
+    },
+    needBody: true,
+    method: 'POST',
+  });
+};

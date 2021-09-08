@@ -25,12 +25,20 @@
  */
 
 import { schema } from '@osd/config-schema';
-import { IRouter, IOpenSearchDashboardsResponse, ResponseError, ILegacyScopedClusterClient } from '../../../../src/core/server';
-import { API_PREFIX, wreckOptions } from '../../common';
-import BACKEND from '../adaptors';
-import { DefaultNotebooks, DefaultParagraph } from '../helpers/default_notebook_schema';
+import {
+  ILegacyScopedClusterClient,
+  IOpenSearchDashboardsResponse,
+  IRouter,
+  ResponseError,
+} from '../../../../../src/core/server';
+import { API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
+import BACKEND from '../../adaptors/notebooks';
+import {
+  DefaultNotebooks,
+  DefaultParagraph,
+} from '../../common/helpers/notebooks/default_notebook_schema';
 
-export function ParaRouter(router: IRouter) {
+export function registerParaRoute(router: IRouter) {
   /* --> Updates the input content in a paragraph
    * --> Runs the paragraph
    * --> Fetches the updated Paragraph (with new input content)
@@ -46,13 +54,17 @@ export function ParaRouter(router: IRouter) {
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {
         const runResponse = await BACKEND.updateRunFetchParagraph(
-          context.notebooks_plugin.opensearchNotebooksClient,
+          context.observability_plugin.observabilityClient,
           request,
           wreckOptions
         );
@@ -82,8 +94,12 @@ export function ParaRouter(router: IRouter) {
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {
@@ -119,12 +135,20 @@ export function ParaRouter(router: IRouter) {
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {
-        const addResponse = await BACKEND.addFetchNewParagraph(opensearchNotebooksClient, request.body, wreckOptions);
+        const addResponse = await BACKEND.addFetchNewParagraph(
+          opensearchNotebooksClient,
+          request.body,
+          wreckOptions
+        );
         return response.ok({
           body: addResponse,
         });
@@ -146,21 +170,27 @@ export function ParaRouter(router: IRouter) {
       validate: {
         body: schema.object({
           noteId: schema.string(),
-          paragraphs: schema.arrayOf(schema.object({
-            output: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
-            input: schema.object({
-              inputText: schema.string(),
-              inputType: schema.string(),
-            }),
-            dateCreated: schema.string(),
-            dateModified: schema.string(),
-            id: schema.string(),
-          })),
+          paragraphs: schema.arrayOf(
+            schema.object({
+              output: schema.maybe(schema.arrayOf(schema.object({}, { unknowns: 'allow' }))),
+              input: schema.object({
+                inputText: schema.string(),
+                inputType: schema.string(),
+              }),
+              dateCreated: schema.string(),
+              dateModified: schema.string(),
+              id: schema.string(),
+            })
+          ),
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {
@@ -168,7 +198,11 @@ export function ParaRouter(router: IRouter) {
           paragraphs: request.body.paragraphs as Array<DefaultParagraph>,
           dateModified: new Date().toISOString(),
         };
-        const updateResponse = await BACKEND.updateNote(opensearchNotebooksClient, request.body.noteId, updateNotebook);
+        const updateResponse = await BACKEND.updateNote(
+          opensearchNotebooksClient,
+          request.body.noteId,
+          updateNotebook
+        );
         return response.ok({
           body: updateResponse,
         });
@@ -193,8 +227,12 @@ export function ParaRouter(router: IRouter) {
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       const params = {
@@ -202,7 +240,11 @@ export function ParaRouter(router: IRouter) {
         paragraphId: request.params.ids.split('/')[1],
       };
       try {
-        const deleteResponse = await BACKEND.deleteFetchParagraphs(opensearchNotebooksClient, params, wreckOptions);
+        const deleteResponse = await BACKEND.deleteFetchParagraphs(
+          opensearchNotebooksClient,
+          params,
+          wreckOptions
+        );
         return response.ok({
           body: deleteResponse,
         });
@@ -227,8 +269,12 @@ export function ParaRouter(router: IRouter) {
         }),
       },
     },
-    async (context, request, response): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.notebooks_plugin.opensearchNotebooksClient.asScoped(
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {

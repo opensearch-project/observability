@@ -21,6 +21,7 @@ import {
 import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 import { setupRoutes } from './routes/index';
 import { PPLPlugin } from './adaptors/ppl_plugin';
+import { OpenSearchNotebooksPlugin } from './adaptors/notebooks/opensearch_notebooks_plugin';
 
 export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
   private readonly logger: Logger;
@@ -35,7 +36,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, Obs
     const observabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
       'opensearch_observability', 
       {
-        'plugins': [PPLPlugin]
+        'plugins': [PPLPlugin, OpenSearchNotebooksPlugin]
       }
     );
 

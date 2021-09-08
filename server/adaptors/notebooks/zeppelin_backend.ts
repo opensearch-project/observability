@@ -24,10 +24,10 @@
  * permissions and limitations under the License.
  */
 
+import { RequestHandlerContext } from '../../../../../src/core/server';
+import { optionsType } from '../../../common/types/notebooks';
+import { requestor } from '../../common/helpers/notebooks/wreck_requests';
 import { NotebookAdaptor } from './notebook_adaptor';
-import { RequestHandlerContext } from '../../../../src/core/server';
-import { optionsType } from '../../common';
-import { requestor } from '../helpers/wreck_requests';
 
 export class ZeppelinBackend implements NotebookAdaptor {
   backend = 'Zeppelin Backend';

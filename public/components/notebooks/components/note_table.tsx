@@ -52,12 +52,12 @@ import CSS from 'csstype';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { ChromeBreadcrumb } from '../../../../../../../src/core/public';
+import { ChromeBreadcrumb } from '../../../../../../src/core/public';
 import {
   CREATE_NOTE_MESSAGE,
   DATE_FORMAT,
   DOCUMENTATION_URL
-} from '../../../../../common/constants/notebooks';
+} from '../../../../common/constants/notebooks';
 import {
   DeleteNotebookModal,
   getCustomModal,

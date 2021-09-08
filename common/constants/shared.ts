@@ -15,6 +15,7 @@ export const PPL_SEARCH = '/search';
 
 // Server route
 export const PPL_ENDPOINT = '/_plugins/_ppl';
+export const SQL_ENDPOINT = '/_plugins/_sql';
 
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';

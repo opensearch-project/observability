@@ -33,9 +33,9 @@ import React, { useState } from 'react';
 import {
   DashboardContainerInput,
   DashboardStart,
-} from '../../../../../../../../src/plugins/dashboard/public';
-import { DATE_FORMAT } from '../../../../../../common/constants/notebooks';
-import { ParaType } from '../../../../../../common/types/notebooks';
+} from '../../../../../../../src/plugins/dashboard/public';
+import { DATE_FORMAT } from '../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../common/types/notebooks';
 import { QueryDataGridMemo } from './para_query_grid';
 
 /*

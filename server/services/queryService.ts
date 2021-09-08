@@ -62,10 +62,10 @@ export default class QueryService {
   };
 
   describeSQLQuery = async (request: any) => {
-    return this.describeQueryInternal(request, 'sql.sqlQuery', 'json');
+    return this.describeQueryInternal(request, 'ppl.sqlQuery', 'json');
   }
 
   describePPLQuery = async (request: any) => {
-    return this.describeQueryInternal(request, 'sql.pplQuery', 'json');
+    return this.describeQueryInternal(request, 'ppl.pplQuery', 'json');
   }
 }

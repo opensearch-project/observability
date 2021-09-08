@@ -29,9 +29,9 @@ import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React, { ReactChild } from 'react';
 import { Route, Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart } from '../../../../../../../src/core/public';
-import { DashboardStart } from '../../../../../../../src/plugins/dashboard/public';
-import { API_PREFIX, DOCUMENTATION_URL } from '../../../../../common/constants/notebooks';
+import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
+import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
+import { API_PREFIX, DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
 

@@ -25,10 +25,14 @@
  */
 
 import { schema } from '@osd/config-schema';
-import { IOpenSearchDashboardsResponse, IRouter, ResponseError } from '../../../../src/core/server';
-import QueryService from '../services/queryService';
+import {
+  IOpenSearchDashboardsResponse,
+  IRouter,
+  ResponseError,
+} from '../../../../../src/core/server';
+import QueryService from '../../services/queryService';
 
-export function sqlRouter(server: IRouter, service: QueryService) {
+export function registerSqlRoute(server: IRouter, service: QueryService) {
   server.post(
     {
       path: '/api/sql/sqlquery',

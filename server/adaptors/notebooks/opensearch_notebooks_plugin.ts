@@ -24,7 +24,7 @@
  * permissions and limitations under the License.
  */
 
-import { OPENSEARCH_NOTEBOOKS_API } from "../../common";
+import { OPENSEARCH_NOTEBOOKS_API } from '../../../common/constants/notebooks';
 
 export function OpenSearchNotebooksPlugin(Client: any, config: any, components: any) {
   const clientAction = components.clientAction.factory;
@@ -94,5 +94,4 @@ export function OpenSearchNotebooksPlugin(Client: any, config: any, components: 
     },
     method: 'DELETE',
   });
-
 }

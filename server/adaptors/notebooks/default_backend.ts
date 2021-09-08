@@ -24,19 +24,18 @@
  * permissions and limitations under the License.
  */
 
+import now from 'performance-now';
 import { v4 as uuid } from 'uuid';
-import { NotebookAdaptor } from './notebook_adaptor';
-import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../src/core/server';
-import { optionsType } from '../../common';
+import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { optionsType } from '../../../common/types/notebooks';
 import {
   DefaultNotebooks,
-  DefaultParagraph,
-  DefaultInput,
   DefaultOutput,
-} from '../helpers/default_notebook_schema';
-import { formatNotRecognized, inputIsQuery } from '../helpers/query_helpers';
-import now from "performance-now";
-import { getSampleNotebooks } from '../helpers/sample_notebooks';
+  DefaultParagraph,
+} from '../../common/helpers/notebooks/default_notebook_schema';
+import { formatNotRecognized, inputIsQuery } from '../../common/helpers/notebooks/query_helpers';
+import { getSampleNotebooks } from '../../common/helpers/notebooks/sample_notebooks';
+import { NotebookAdaptor } from './notebook_adaptor';
 
 export class DefaultBackend implements NotebookAdaptor {
   backend = 'Default Backend';
@@ -153,7 +152,11 @@ export class DefaultBackend implements NotebookAdaptor {
     try {
       const newNotebook = this.createNewNotebook(params.name);
       const opensearchClientResponse = await this.indexNote(client, newNotebook.object);
-      return { status: 'OK', message: opensearchClientResponse, body: opensearchClientResponse.notebookId };
+      return {
+        status: 'OK',
+        message: opensearchClientResponse,
+        body: opensearchClientResponse.notebookId,
+      };
     } catch (error) {
       throw new Error('Creating New Notebook Error:' + error);
     }
@@ -223,7 +226,10 @@ export class DefaultBackend implements NotebookAdaptor {
       const cloneNotebook = { ...newNotebook.object };
       cloneNotebook.paragraphs = noteObject.notebook.paragraphs;
       const opensearchClientIndexResponse = await this.indexNote(client, cloneNotebook);
-      return { status: 'OK', body: { ...cloneNotebook, id: opensearchClientIndexResponse.notebookId } };
+      return {
+        status: 'OK',
+        body: { ...cloneNotebook, id: opensearchClientIndexResponse.notebookId },
+      };
     } catch (error) {
       throw new Error('Cloning Notebook Error:' + error);
     }
@@ -277,7 +283,11 @@ export class DefaultBackend implements NotebookAdaptor {
       newNoteObject.dateCreated = new Date().toISOString();
       newNoteObject.dateModified = new Date().toISOString();
       const opensearchClientIndexResponse = await this.indexNote(client, newNoteObject);
-      return { status: 'OK', message: opensearchClientIndexResponse, body: opensearchClientIndexResponse.notebookId };
+      return {
+        status: 'OK',
+        message: opensearchClientIndexResponse,
+        body: opensearchClientIndexResponse.notebookId,
+      };
     } catch (error) {
       throw new Error('Import Notebook Error:' + error);
     }
@@ -348,7 +358,11 @@ export class DefaultBackend implements NotebookAdaptor {
    * Currently only runs markdown by copying input.inputText to result
    * UI renders Markdown
    */
-  runParagraph = async function (paragraphs: Array<DefaultParagraph>, paragraphId: string, client: ILegacyScopedClusterClient) {
+  runParagraph = async function (
+    paragraphs: Array<DefaultParagraph>,
+    paragraphId: string,
+    client: ILegacyScopedClusterClient
+  ) {
     try {
       const updatedParagraphs = [];
       let index = 0;
@@ -361,7 +375,10 @@ export class DefaultBackend implements NotebookAdaptor {
             updatedParagraph.output = [
               {
                 outputType: 'QUERY',
-                result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
+                result: paragraphs[index].input.inputText.substring(
+                  4,
+                  paragraphs[index].input.inputText.length
+                ),
                 execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
@@ -369,7 +386,10 @@ export class DefaultBackend implements NotebookAdaptor {
             updatedParagraph.output = [
               {
                 outputType: 'MARKDOWN',
-                result: paragraphs[index].input.inputText.substring(4, paragraphs[index].input.inputText.length),
+                result: paragraphs[index].input.inputText.substring(
+                  4,
+                  paragraphs[index].input.inputText.length
+                ),
                 execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
@@ -431,7 +451,11 @@ export class DefaultBackend implements NotebookAdaptor {
         paragraphs: updatedOutputParagraphs,
         dateModified: new Date().toISOString(),
       };
-      const opensearchClientResponse = await this.updateNote(scopedClient, params.noteId, updateNotebook);
+      const opensearchClientResponse = await this.updateNote(
+        scopedClient,
+        params.noteId,
+        updateNotebook
+      );
       let resultParagraph = {};
       let index = 0;
 
@@ -439,7 +463,7 @@ export class DefaultBackend implements NotebookAdaptor {
         if (params.paragraphId === updatedOutputParagraphs[index].id) {
           resultParagraph = updatedOutputParagraphs[index];
         }
-      };
+      }
       return resultParagraph;
     } catch (error) {
       throw new Error('Update/Run Paragraph Error:' + error);
@@ -526,11 +550,13 @@ export class DefaultBackend implements NotebookAdaptor {
     try {
       const opensearchClientGetResponse = await this.getNote(client, params.noteId);
       const updatedparagraphs: DefaultParagraph[] = [];
-      opensearchClientGetResponse.notebook.paragraphs.map((paragraph: DefaultParagraph, index: number) => {
-        if (paragraph.id !== params.paragraphId) {
-          updatedparagraphs.push(paragraph);
+      opensearchClientGetResponse.notebook.paragraphs.map(
+        (paragraph: DefaultParagraph, index: number) => {
+          if (paragraph.id !== params.paragraphId) {
+            updatedparagraphs.push(paragraph);
+          }
         }
-      });
+      );
 
       const updateNotebook = {
         paragraphs: updatedparagraphs,
@@ -558,11 +584,13 @@ export class DefaultBackend implements NotebookAdaptor {
     try {
       const opensearchClientGetResponse = await this.getNote(client, params.noteId);
       let updatedparagraphs: DefaultParagraph[] = [];
-      opensearchClientGetResponse.notebook.paragraphs.map((paragraph: DefaultParagraph, index: number) => {
-        let updatedParagraph = { ...paragraph };
-        updatedParagraph.output = [];
-        updatedparagraphs.push(updatedParagraph);
-      });
+      opensearchClientGetResponse.notebook.paragraphs.map(
+        (paragraph: DefaultParagraph, index: number) => {
+          let updatedParagraph = { ...paragraph };
+          updatedParagraph.output = [];
+          updatedparagraphs.push(updatedParagraph);
+        }
+      );
 
       const updateNotebook = {
         paragraphs: updatedparagraphs,

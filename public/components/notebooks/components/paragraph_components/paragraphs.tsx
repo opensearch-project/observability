@@ -44,14 +44,14 @@ import {
 import { Cell } from '@nteract/presentational-components';
 import moment from 'moment';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { CoreStart } from '../../../../../../../../src/core/public';
+import { CoreStart } from '../../../../../../../src/core/public';
 import {
   DashboardContainerInput,
   DashboardStart,
-} from '../../../../../../../../src/plugins/dashboard/public';
-import { ViewMode } from '../../../../../../../../src/plugins/embeddable/public';
-import { API_PREFIX, DATE_FORMAT } from '../../../../../../common/constants/notebooks';
-import { ParaType } from '../../../../../../common/types/notebooks';
+} from '../../../../../../../src/plugins/dashboard/public';
+import { ViewMode } from '../../../../../../../src/plugins/embeddable/public';
+import { API_PREFIX, DATE_FORMAT } from '../../../../../common/constants/notebooks';
+import { ParaType } from '../../../../../common/types/notebooks';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
 
