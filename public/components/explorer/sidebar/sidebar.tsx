@@ -12,17 +12,25 @@
 import './sidebar.scss';
 
 import React, { useState } from 'react';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import { 
   EuiTitle,
   EuiSpacer,
-  EuiButtonIcon
+  EuiButtonIcon,
+  EuiFieldSearch
 } from '@elastic/eui';
 import { i18n } from '@osd/i18n';
 import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
 import { Field } from './field';
+import { IExplorerFields, IField } from '../../../../common/types/explorer';
 
-export const Sidebar = (props: any) => {
+interface ISidebarProps {
+  explorerFields: IExplorerFields;
+  handleAddField: (field: IField) => void;
+  handleRemoveField: (field: IField) => void;
+}
+
+export const Sidebar = (props: ISidebarProps) => {
 
   const {
     explorerFields,
@@ -31,18 +39,28 @@ export const Sidebar = (props: any) => {
   } = props;
 
   const [showFields, setShowFields] = useState<Boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <I18nProvider>
       <section
         className="sidebar-list"
       >
-        {/* index dropdown */}
+        <EuiSpacer size="m"/>
         <div className="dscSidebar__item">
-          {/* field search */}
+          <EuiFieldSearch 
+            compressed
+            fullWidth
+            onChange={(e) => { 
+              setSearchTerm(e.target.value) 
+            }}
+            placeholder="Search field names"
+            value={searchTerm}
+          />
         </div>
+        <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { explorerFields && !_.isEmpty(explorerFields) && (
+          { explorerFields && !isEmpty(explorerFields) && (
             <>
             <EuiTitle size="xxxs" id="selected_fields">
               <h3>
@@ -68,7 +86,7 @@ export const Sidebar = (props: any) => {
                     <Field 
                       field={ field }
                       selected={ true }
-                      onRemoveField={ handleRemoveField }
+                      onToggleField={ handleRemoveField }
                     />
                   </li>
                 )})
@@ -114,16 +132,19 @@ export const Sidebar = (props: any) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                explorerFields.unselectedFields && explorerFields.unselectedFields.map((col) => {
+                explorerFields.unselectedFields &&
+                explorerFields.unselectedFields.filter(
+                  (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
+                  .map((field) => {
                   return (
                     <li
-                      key={`field${col.name}`}
-                      data-attr-field={col.name}
+                      key={`field${field.name}`}
+                      data-attr-field={field.name}
                       className="dscSidebar__item"
                     >
                       <Field 
-                        field={ col }
-                        onAddField={ handleAddField }
+                        field={ field }
+                        onToggleField={ handleAddField }
                         selected={ false }
                       />
                     </li>

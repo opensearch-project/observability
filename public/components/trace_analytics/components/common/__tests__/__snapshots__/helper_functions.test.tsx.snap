@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Helper functions renders benchmark 1`] = `
+<EuiText
+  size="s"
+  style={
+    Object {
+      "color": "#c23f25",
+    }
+  }
+>
+  <div
+    className="euiText euiText--small"
+    style={
+      Object {
+        "color": "#c23f25",
+      }
+    }
+  >
+    50% ▴
+  </div>
+</EuiText>
+`;
+
+exports[`Helper functions renders benchmark 2`] = `
+<EuiText
+  size="s"
+  style={
+    Object {
+      "color": "#3f7e23",
+    }
+  }
+>
+  <div
+    className="euiText euiText--small"
+    style={
+      Object {
+        "color": "#3f7e23",
+      }
+    }
+  >
+    50% ▾
+  </div>
+</EuiText>
+`;
+
+exports[`Helper functions renders benchmark 3`] = `
+<EuiText
+  size="s"
+  style={
+    Object {
+      "color": "#9ea8a9",
+    }
+  }
+>
+  <div
+    className="euiText euiText--small"
+    style={
+      Object {
+        "color": "#9ea8a9",
+      }
+    }
+  >
+    0% -
+  </div>
+</EuiText>
+`;
+
+exports[`Helper functions renders no match and missing configuration messages 1`] = `
+<Fragment>
+  <EuiSpacer
+    size="s"
+  />
+  <EuiEmptyPrompt
+    body={
+      <EuiText>
+        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+      </EuiText>
+    }
+    title={
+      <h2>
+        No matches
+      </h2>
+    }
+  />
+  <EuiSpacer
+    size="s"
+  />
+</Fragment>
+`;
+
+exports[`Helper functions renders no match and missing configuration messages 2`] = `
+<Fragment>
+  <EuiEmptyPrompt
+    actions={
+      <EuiButton
+        color="primary"
+        iconSide="right"
+        iconType="popout"
+        onClick={[Function]}
+      >
+        Learn more
+      </EuiButton>
+    }
+    body={
+      <EuiText>
+        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+      </EuiText>
+    }
+    title={
+      <h2>
+        Trace Analytics not set up
+      </h2>
+    }
+  />
+</Fragment>
+`;
+
+exports[`Helper functions renders panel title 1`] = `
+<EuiText
+  size="m"
+>
+  <span
+    className="panel-title"
+  >
+    test
+  </span>
+  <span
+    className="panel-title-count"
+  >
+     (10)
+  </span>
+</EuiText>
+`;
+
+exports[`Helper functions renders panel title 2`] = `
+<EuiText
+  size="m"
+>
+  <span
+    className="panel-title"
+  >
+    test
+  </span>
+</EuiText>
+`;

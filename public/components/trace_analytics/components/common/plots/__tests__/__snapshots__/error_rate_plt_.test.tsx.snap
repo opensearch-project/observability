@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error rate plot component renders error rate plot 1`] = `
+<Fragment>
+  <EuiPanel
+    style={
+      Object {
+        "minHeight": 308,
+        "minWidth": 433,
+      }
+    }
+  >
+    <PanelTitle
+      title="Trace error rate over time"
+    />
+    <EuiHorizontalRule
+      margin="m"
+    />
+    <Plt
+      data={
+        Array [
+          Object {
+            "hoverlabel": Object {
+              "align": "left",
+            },
+            "hovertemplate": "%{text}<br>Error rate: %{y}<extra></extra>",
+            "marker": Object {
+              "color": "#fad963",
+            },
+            "text": Array [
+              "Dec 19, 2019 16:00:00 - Dec 18, 2020 16:00:00",
+            ],
+            "type": "bar",
+            "x": Array [
+              1576800000000,
+            ],
+            "y": Array [
+              22.22,
+            ],
+          },
+        ]
+      }
+      layout={
+        Object {
+          "annotations": Array [
+            Object {
+              "arrowhead": 0,
+              "arrowwidth": 0.7,
+              "ax": 0,
+              "ay": -160,
+              "borderpad": 10,
+              "showarrow": true,
+              "text": "Now: 22.22%",
+              "x": 1576800000000,
+              "xref": "x",
+              "y": 0,
+              "yref": "y",
+            },
+          ],
+          "height": 217,
+          "margin": Object {
+            "b": 50,
+            "l": 57,
+            "pad": 4,
+            "r": 5,
+            "t": 30,
+          },
+          "showlegend": false,
+          "xaxis": Object {
+            "color": "#899195",
+            "fixedrange": true,
+            "showgrid": false,
+            "tickformat": "%Y",
+            "type": "date",
+            "visible": true,
+          },
+          "yaxis": Object {
+            "color": "#899195",
+            "fixedrange": true,
+            "gridcolor": "#d9d9d9",
+            "range": Array [
+              0,
+              26.663999999999998,
+            ],
+            "showgrid": true,
+            "ticksuffix": "%",
+            "title": Object {
+              "font": Object {
+                "size": 12,
+              },
+              "standoff": 10,
+              "text": "Error rate (%)",
+            },
+            "visible": true,
+          },
+        }
+      }
+      onClickHandler={[Function]}
+    />
+  </EuiPanel>
+</Fragment>
+`;
