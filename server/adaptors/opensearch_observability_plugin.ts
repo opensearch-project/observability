@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import { OPENSEARCH_PANELS_API } from 'common/constants/shared';
+import { OPENSEARCH_PANELS_API } from '../../common/constants/shared';
 
 export function OpenSearchObservabilityPlugin(Client: any, config: any, components: any) {
   const clientAction = components.clientAction.factory;
