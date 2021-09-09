@@ -62,7 +62,7 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  // gets first `FETCH_SIZE` of panels available
+  // gets list of panels stored in index
   viewPanels = async function (client: ILegacyScopedClusterClient) {
     try {
       const response = await client.callAsCurrentUser('observability.getPanels');

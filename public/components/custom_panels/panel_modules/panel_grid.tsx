@@ -57,8 +57,8 @@ export const PanelGrid = ({
   deleteVisualization,
   pplFilterValue,
 }: Props) => {
-  const [layout, setLayout] = useState([] as Layout[]);
-  const [editedLayout, setEditedLayout] = useState([] as Layout[]);
+  const [layout, setLayout] = useState<Layout[]>([]);
+  const [editedLayout, setEditedLayout] = useState<Layout[]>([]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
