@@ -38,7 +38,7 @@ import {
  */
 
 type CustomInputModalProps = {
-  runModal: (value: string) => void;
+  runModal: (value: string, value2?: string, value3?: string) => void;
   closeModal: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
@@ -46,8 +46,10 @@ type CustomInputModalProps = {
   titletxt: string;
   btn1txt: string;
   btn2txt: string;
-  openPanelName: string;
-  helpText: string;
+  openPanelName?: string;
+  helpText?: string;
+  optionalArg1?: string;
+  optionalArg2?: string;
 };
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
@@ -60,6 +62,8 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
     btn2txt,
     openPanelName,
     helpText,
+    optionalArg1,
+    optionalArg2,
   } = props;
   const [value, setValue] = useState(openPanelName || ''); // sets input value
 
@@ -84,9 +88,15 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={closeModal}>{btn1txt}</EuiButtonEmpty>
-          <EuiButton onClick={() => runModal(value)} fill>
-            {btn2txt}
-          </EuiButton>
+          {optionalArg1 === undefined ? (
+            <EuiButton onClick={() => runModal(value)} fill>
+              {btn2txt}
+            </EuiButton>
+          ) : (
+            <EuiButton onClick={() => runModal(value, optionalArg1, optionalArg2)} fill>
+              {btn2txt}
+            </EuiButton>
+          )}
         </EuiModalFooter>
       </EuiModal>
     </EuiOverlayMask>
