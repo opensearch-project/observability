@@ -22,7 +22,7 @@ export function Autocomplete(props: IQueryBarProps) {
   const PPLSuggestionPlugin = createPPLSuggestionsPlugin({
     handleQueryChange: props.handleQueryChange,
     handleQuerySearch: props.handleQuerySearch,
-    dslService: props.dslService
+    dslService: props.dslService,
   });
 
   useEffect(() => {
@@ -30,9 +30,6 @@ export function Autocomplete(props: IQueryBarProps) {
       container: '#autocomplete',
       initialState: { query: props.query[RAW_QUERY] },
       openOnFocus: true,
-      onStateChange: ({state}) => {
-        // console.log(state);
-      },
       placeholder: 'Enter PPL query to retrieve log, traces, and metrics',
       plugins: [PPLSuggestionPlugin],
       ...props,
