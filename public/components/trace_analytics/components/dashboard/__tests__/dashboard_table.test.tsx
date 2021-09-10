@@ -24,10 +24,9 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { DashboardTable } from '../dashboard_table';
 
 describe('Dashboard table component', () => {
@@ -44,6 +43,7 @@ describe('Dashboard table component', () => {
         addFilter={addFilter}
         addPercentileFilter={addPercentileFilter}
         setRedirect={setRedirect}
+        loading={false}
       />
     );
 
@@ -79,6 +79,7 @@ describe('Dashboard table component', () => {
         addFilter={addFilter}
         addPercentileFilter={addPercentileFilter}
         setRedirect={setRedirect}
+        loading={false}
       />
     );
 
@@ -87,7 +88,9 @@ describe('Dashboard table component', () => {
     wrapper.find('button[data-test-subj="dashboard-table-percentile-button-1"]').simulate('click');
     wrapper.find('button[data-test-subj="dashboard-table-percentile-button-2"]').simulate('click');
     expect(addPercentileFilter).toBeCalledTimes(2);
-    wrapper.find('button[data-test-subj="dashboard-table-trace-group-name-button"]').simulate('click');
+    wrapper
+      .find('button[data-test-subj="dashboard-table-trace-group-name-button"]')
+      .simulate('click');
     expect(addFilter).toBeCalled();
     wrapper.find('button[data-test-subj="dashboard-table-traces-button"]').simulate('click');
     expect(setRedirect).toBeCalledWith(true);

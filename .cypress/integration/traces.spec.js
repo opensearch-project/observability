@@ -30,7 +30,7 @@ import { delay, setTimeFilter, SPAN_ID, TRACE_ID } from '../utils/constants';
 
 describe('Testing traces table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/traces', {
+    cy.visit('app/observability#/trace_analytics/traces', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -46,7 +46,7 @@ describe('Testing traces table empty state', () => {
 
 describe('Testing traces table', () => {
   beforeEach(() => {
-    cy.visit('app/trace-analytics-dashboards#/traces', {
+    cy.visit('app/observability#/trace_analytics/traces', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -77,7 +77,7 @@ describe('Testing traces table', () => {
 
 describe('Testing trace view', () => {
   beforeEach(() => {
-    cy.visit(`app/trace-analytics-dashboards#/traces/${TRACE_ID}`, {
+    cy.visit(`app/observability#/trace_analytics/traces/${TRACE_ID}`, {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },

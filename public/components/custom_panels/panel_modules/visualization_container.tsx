@@ -39,6 +39,13 @@ type Props = {
   fromTime: string;
   toTime: string;
   onRefresh: boolean;
+  cloneVisualization: (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => void;
+  deleteVisualization: (visualizationId: string, visualizationName: string) => void;
+  pplFilterValue: string;
 };
 
 export const VisualizationContainer = ({
@@ -51,10 +58,13 @@ export const VisualizationContainer = ({
   fromTime,
   toTime,
   onRefresh,
+  cloneVisualization,
+  deleteVisualization,
+  pplFilterValue,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
-  const [visualizationData, setVisualizationData] = useState([]);
+  const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
   const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
@@ -67,16 +77,24 @@ export const VisualizationContainer = ({
     <EuiContextMenuItem key="Edit" disabled={disablePopover}>
       Edit
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="Duplicate" disabled={disablePopover}>
+    <EuiContextMenuItem
+      key="Duplicate"
+      disabled={disablePopover}
+      onClick={() => cloneVisualization(visualizationTitle, query, type)}
+    >
       Duplicate
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="Remove" disabled={disablePopover}>
+    <EuiContextMenuItem
+      key="Remove"
+      disabled={disablePopover}
+      onClick={() => deleteVisualization(visualizationId, visualizationTitle)}
+    >
       Remove
     </EuiContextMenuItem>,
   ];
 
-  useEffect(() => {
-    getQueryResponse(
+  const loadVisaulization = async () => {
+    await getQueryResponse(
       pplService,
       query,
       type,
@@ -84,8 +102,13 @@ export const VisualizationContainer = ({
       toTime,
       setVisualizationData,
       setIsLoading,
-      setIsError
+      setIsError,
+      pplFilterValue,
     );
+  };
+
+  useEffect(() => {
+    loadVisaulization();
   }, [query, onRefresh]);
 
   useEffect(() => {

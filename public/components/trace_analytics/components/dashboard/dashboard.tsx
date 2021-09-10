@@ -53,6 +53,7 @@ export function Dashboard(props: DashboardProps) {
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([
@@ -81,6 +82,7 @@ export function Dashboard(props: DashboardProps) {
   }, [props.filters, props.startTime, props.endTime]);
 
   const refresh = async () => {
+    setLoading(true);
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const latencyTrendStartTime = dateMath
@@ -103,7 +105,7 @@ export function Dashboard(props: DashboardProps) {
       tableItems,
       setTableItems,
       setPercentileMap
-    );
+    ).then(() => setLoading(false));
     handleDashboardThroughputPltRequest(
       props.http,
       DSL,
@@ -199,6 +201,7 @@ export function Dashboard(props: DashboardProps) {
             addFilter={addFilter}
             addPercentileFilter={addPercentileFilter}
             setRedirect={setRedirect}
+            loading={loading}
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">

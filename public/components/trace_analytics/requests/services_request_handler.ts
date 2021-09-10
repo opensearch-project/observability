@@ -43,7 +43,7 @@ export const handleServicesRequest = async (
   setServiceMap?,
   serviceNameFilter?
 ) => {
-  handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL))
+  return handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL))
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL);
       if (setServiceMap) setServiceMap(serviceObject);

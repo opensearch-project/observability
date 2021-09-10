@@ -24,10 +24,9 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { ServiceBreakdownPanel } from '../service_breakdown_panel';
 
 describe('Service breakdown panel component', () => {

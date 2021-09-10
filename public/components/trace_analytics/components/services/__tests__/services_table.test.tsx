@@ -47,6 +47,7 @@ describe('Services table component', () => {
         setServiceQuery={setServiceQuery}
         refresh={refresh}
         indicesExist={true}
+        loading={false}
       />
     );
 
@@ -78,6 +79,7 @@ describe('Services table component', () => {
         setServiceQuery={setServiceQuery}
         refresh={refresh}
         indicesExist={true}
+        loading={false}
       />
     );
 

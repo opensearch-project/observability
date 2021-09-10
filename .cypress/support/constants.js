@@ -9,12 +9,8 @@
  * GitHub history for details.
  */
 
-import { PPL_INDEX_REGEX } from "../constants/shared";
-
-export const getIndexPatternFromRawQuery = (query: string) : string => {
-  const matches = query.match(PPL_INDEX_REGEX);
-  if (matches) {
-    return matches[2];
-  }
-  return '';
+export const ADMIN_AUTH = {
+  username: 'admin',
+  password: 'admin',
 };
+
