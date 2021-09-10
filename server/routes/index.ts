@@ -14,7 +14,7 @@ import {
   ILegacyClusterClient
  } from '../../../../src/core/server';
 import { registerDslRoute } from './dsl';
-import DSLFacet from '../services/facets/dslFacet';
+import DSLFacet from '../services/facets/dsl_facet';
 import { registerPplRoute } from './ppl';
 import PPLFacet from '../services/facets/ppl_facet';
 import {CustomPanelsRouter} from './custom_panels_router';

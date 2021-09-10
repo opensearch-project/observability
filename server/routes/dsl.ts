@@ -13,7 +13,7 @@ import {
   IRouter,
 } from '../../../../src/core/server';
 import { schema } from '@osd/config-schema';
-import DSLFacet from '../services/facets/dslFacet';
+import DSLFacet from '../services/facets/dsl_facet';
 import {
   DSL_BASE,
   DSL_SEARCH,
