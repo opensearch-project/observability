@@ -55,9 +55,8 @@ const queryAccumulator = (
   const timeQueryFilter = ` | where ${timestampField} >= timestamp('${convertDateTime(
     startTime
   )}') and ${timestampField} <= timestamp('${convertDateTime(endTime, false)}')`;
-  const finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery;
-
-  return finalQuery;
+  const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
+  return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
 
 // Get PPL Query Response
@@ -70,10 +69,11 @@ export const getQueryResponse = async (
   setVisualizationData: React.Dispatch<React.SetStateAction<any[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>,
-  timestampField = 'timestamp',
-  filterQuery = ''
+  filterQuery = '',
+  timestampField = 'timestamp'
 ) => {
   setIsLoading(true);
+  setIsError('');
 
   let finalQuery = '';
   try {

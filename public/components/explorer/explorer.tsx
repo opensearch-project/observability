@@ -28,7 +28,7 @@ import {
   EuiFlexItem
 } from '@elastic/eui';
 import classNames from 'classnames';
-import { Search } from '../common/seach/search';
+import { Search } from '../common/search/search';
 import { CountDistribution } from './visualizations/count_distribution';
 import { DataGrid } from './data_grid';
 import { Sidebar } from './sidebar';
@@ -47,7 +47,8 @@ import {
   TAB_CHART_ID_TXT_PFX,
   RAW_QUERY,
   SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  UNSELECTED_FIELDS,
+  INDEX
 } from '../../../common/constants/explorer';
 import { getIndexPatternFromRawQuery } from '../../../common/utils';
 import { 
@@ -67,17 +68,20 @@ import {
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
+import DSLService from '../../services/requests/dsl';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 
 interface IExplorerProps {
   pplService: PPLService;
+  dslService: DSLService;
   tabId: string
 }
 
 export const Explorer = ({
   pplService,
+  dslService,
   tabId
 }: IExplorerProps) => {
 
@@ -100,7 +104,7 @@ export const Explorer = ({
     requestParams
   });
 
-  const query = useSelector(selectQueries)[tabId][RAW_QUERY];
+  const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
@@ -124,7 +128,7 @@ export const Explorer = ({
   );
 
   const fetchData = () => {
-    const searchQuery = queryRef.current;
+    const searchQuery = queryRef.current[RAW_QUERY];
     if (!searchQuery) return;
     if (searchQuery.match(/\|\s*stats/i)) {
       const index = getIndexPatternFromRawQuery(searchQuery);
@@ -432,12 +436,13 @@ export const Explorer = ({
     fetchData();
   }
 
-  const handleQueryChange = (query: string, tabId: string) => {
+  const handleQueryChange = (query: string, index: string) => {
     dispatch(changeQuery({
       tabId,
       query: {
-        [RAW_QUERY]: query
-      }
+        [RAW_QUERY]: query,
+        [INDEX]: index
+      },
     }));
   }
   
@@ -446,8 +451,9 @@ export const Explorer = ({
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ query }
-        handleQueryChange={ (query: string) => { handleQueryChange(query, tabId) } }
+        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
+        dslService = { dslService }
         startTime={ startTime }
         endTime={ endTime }
         setStartTime={ setStartTime }

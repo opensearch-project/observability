@@ -10,6 +10,7 @@
  */
  
 export const RAW_QUERY = 'rawQuery';
+export const INDEX = 'index';
 export const SELECTED_FIELDS = 'selectedFields';
 export const UNSELECTED_FIELDS = 'unselectedFields';
 export const AVAILABLE_FIELDS = 'availableFields';

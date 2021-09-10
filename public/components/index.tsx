@@ -19,10 +19,16 @@ export const Observability = (
   CoreStart: CoreStart,
   DepsStart: AppPluginStartDependencies,
   AppMountParameters: AppMountParameters,
-  pplService: any
+  pplService: any,
+  dslService: any
 ) => {
   ReactDOM.render(
-    <App CoreStart={CoreStart} DepsStart={DepsStart} pplService={pplService} />,
+    <App
+      CoreStart={ CoreStart }
+      DepsStart={DepsStart} 
+      pplService={ pplService }
+      dslService ={ dslService }
+    />,
     AppMountParameters.element
   );
 

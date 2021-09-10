@@ -18,7 +18,9 @@
     "react-graph-vis": "^1.0.5",
     "@cypress/skip-test": "^2.6.1",
     "@nteract/outputs": "^3.0.11",
-    "@nteract/presentational-components": "^3.4.3"
+    "@nteract/presentational-components": "^3.4.3",
+    "@algolia/autocomplete-js": "^1.2.1",
+    "@algolia/autocomplete-theme-classic": "^1.2.1"
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",

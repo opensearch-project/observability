@@ -29,10 +29,17 @@ interface ObservabilityAppDeps {
   CoreStart: CoreStart;
   DepsStart: AppPluginStartDependencies;
   pplService: any;
+  dslService: any;
 }
 
-export const App = ({ CoreStart, DepsStart, pplService }: ObservabilityAppDeps) => {
-  const { chrome, http, notifications } = CoreStart;
+export const App = ({
+  CoreStart,
+  DepsStart,
+  pplService,
+  dslService
+}: ObservabilityAppDeps) => {
+
+  const { chrome, http } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: 'observability#/',
@@ -97,7 +104,7 @@ export const App = ({ CoreStart, DepsStart, pplService }: ObservabilityAppDeps) 
                     parentBreadcrumb,
                     {
                       text: 'Event analytics',
-                      href: '#/explorer/home',
+                      href: '/explorer/events',
                     },
                   ]);
                   return renderPageWithSidebar(<EventExplorerHome />);
@@ -120,8 +127,11 @@ export const App = ({ CoreStart, DepsStart, pplService }: ObservabilityAppDeps) 
               />
               <Route
                 exact
-                path="/explorer/events"
-                render={(props) => <LogExplorer pplService={pplService} />}
+                path='/explorer/events'
+                render={(props) => <LogExplorer
+                  pplService={ pplService }
+                  dslService={ dslService }
+                /> }
               />
             </Switch>
           </>

@@ -25,6 +25,7 @@ import {
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
   EuiTitle,
+  htmlIdGenerator,
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -33,16 +34,23 @@ import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import { AddVizView } from './panel_modules/add_visualization';
 import {
+  RENAME_VISUALIZATION_MESSAGE,
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
   VisualizationType,
 } from '../../../common/constants/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
-import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
+import {
+  DeletePanelModal,
+  DeleteVisualizationModal,
+  getCustomModal,
+} from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
-import { convertDateTime, onTimeChange } from './helpers/utils';
+import { convertDateTime, getNewVizDimensions, onTimeChange } from './helpers/utils';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
+import { ChangeEvent } from 'react';
+import moment from 'moment';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -79,7 +87,7 @@ export const CustomPanelView = ({
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
-  const [filterBarValue, setFilterBarValue] = useState('');
+  const [pplFilterValue, setPPLFilterValue] = useState('');
   const [onRefresh, setOnRefresh] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(true);
@@ -104,14 +112,17 @@ export const CustomPanelView = ({
         setOpenPanelName(res.panel.name);
         setPanelCreatedTime(res.panel.dateCreated);
         setPanelVisualizations(res.panel.visualizations);
+        setPPLFilterValue(_.unescape(res.panel.queryFilter.query));
+        setStart(res.panel.timeRange.from);
+        setEnd(res.panel.timeRange.to);
       })
       .catch((err) => {
         console.error('Issue in fetching the operational panels', err);
       });
   };
 
-  const onChange = (e) => {
-    setFilterBarValue(e.target.value);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPPLFilterValue(e.target.value);
   };
 
   const closeModal = () => {
@@ -196,6 +207,72 @@ export const CustomPanelView = ({
     setOnRefresh(!onRefresh);
   };
 
+  const cloneVisualization = (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => {
+    setModalLayout(
+      getCustomModal(
+        onCloneVisualization,
+        closeModal,
+        'Name',
+        'Duplicate Visualization',
+        'Cancel',
+        'Duplicate',
+        newVisualizationTitle + ' (copy)',
+        RENAME_VISUALIZATION_MESSAGE,
+        pplQuery,
+        newVisualizationType
+      )
+    );
+    showModal();
+  };
+
+  const onCloneVisualization = (
+    newVisualizationTitle: string,
+    pplQuery: string,
+    newVisualizationType: string
+  ) => {
+    const newDimensions = getNewVizDimensions(panelVisualizations);
+    setPanelVisualizations([
+      ...panelVisualizations,
+      {
+        id: htmlIdGenerator()(),
+        title: newVisualizationTitle,
+        query: pplQuery,
+        type: newVisualizationType,
+        ...newDimensions,
+      },
+    ]);
+
+    //NOTE: Make a backend call to Clone Visualization
+    closeModal();
+  };
+
+  const deleteVisualization = (visualizationId: string, visualizationName: string) => {
+    setModalLayout(
+      <DeleteVisualizationModal
+        onConfirm={onDeleteVisualization}
+        onCancel={closeModal}
+        visualizationId={visualizationId}
+        visualizationName={visualizationName}
+        panelName={openPanelName}
+      />
+    );
+    showModal();
+  };
+
+  const onDeleteVisualization = (visualizationId: string) => {
+    const filteredPanelVisualizations = panelVisualizations.filter(
+      (panelVisualization) => panelVisualization.id != visualizationId
+    );
+    setPanelVisualizations([...filteredPanelVisualizations]);
+
+    //NOTE: Make a backend call to Delete Visualization
+    closeModal();
+  };
+
   // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
@@ -235,7 +312,7 @@ export const CustomPanelView = ({
               <EuiFlexItem>
                 <EuiSpacer size="s" />
               </EuiFlexItem>
-              Created on {panelCreatedTime}
+              Created on {moment(panelCreatedTime).format(UI_DATE_FORMAT)}
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
@@ -267,7 +344,7 @@ export const CustomPanelView = ({
               <EuiFlexItem>
                 <EuiFieldText
                   placeholder="Use PPL to query log indices below. Use “source=” to quickly switch to a different index."
-                  value={filterBarValue}
+                  value={pplFilterValue}
                   fullWidth={true}
                   onChange={(e) => onChange(e)}
                   disabled={inputDisabled}
@@ -317,6 +394,9 @@ export const CustomPanelView = ({
                 startTime={start}
                 endTime={end}
                 onRefresh={onRefresh}
+                cloneVisualization={cloneVisualization}
+                deleteVisualization={deleteVisualization}
+                pplFilterValue={pplFilterValue}
               />
             )}
             <>

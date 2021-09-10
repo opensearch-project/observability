@@ -35,7 +35,7 @@ import { CustomInputModal } from './custom_input_modal';
  */
 
 export const getCustomModal = (
-  runModal: (value: string) => void,
+  runModal: ((value: string, value2: string, value3: string) => void) | ((value: string) => void),
   closeModal: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void,
@@ -44,7 +44,9 @@ export const getCustomModal = (
   btn1txt: string,
   btn2txt: string,
   openPanelName?: string,
-  helpText?: string
+  helpText?: string,
+  optionalArg1?: string,
+  optionalArg2?: string
 ) => {
   return (
     <CustomInputModal
@@ -56,6 +58,8 @@ export const getCustomModal = (
       btn2txt={btn2txt}
       openPanelName={openPanelName}
       helpText={helpText}
+      optionalArg1={optionalArg1}
+      optionalArg2={optionalArg2}
     />
   );
 };
@@ -155,6 +159,44 @@ export const DeletePanelModal = ({
           </EuiButton>
         </EuiModalFooter>
       </EuiModal>
+    </EuiOverlayMask>
+  );
+};
+
+export const DeleteVisualizationModal = ({
+  onConfirm,
+  onCancel,
+  visualizationId,
+  visualizationName,
+  panelName,
+}: {
+  onConfirm: (value: string) => void;
+  onCancel: (
+    event?:
+      | React.KeyboardEvent<HTMLDivElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | undefined
+  ) => void;
+  visualizationId: string;
+  visualizationName: string;
+  panelName: string;
+}) => {
+  return (
+    <EuiOverlayMask>
+      <EuiConfirmModal
+        title="Remove visualization from this dashboard"
+        onCancel={onCancel}
+        onConfirm={() => onConfirm(visualizationId)}
+        cancelButtonText="Cancel"
+        confirmButtonText="Remove"
+        buttonColor="danger"
+        defaultFocusedButton="confirm"
+      >
+        <p>
+          Remove “{visualizationName}” from “{panelName}”? You can still retrieve the visualization
+          by name.
+        </p>
+      </EuiConfirmModal>
     </EuiOverlayMask>
   );
 };
