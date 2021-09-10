@@ -39,7 +39,7 @@ export const App = ({
   dslService
 }: ObservabilityAppDeps) => {
 
-  const { chrome, http } = CoreStart;
+  const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: 'observability#/',
