@@ -49,4 +49,5 @@ export interface IExplorerFields {
 
 export interface ILogExplorerProps {
   pplService: any;
+  dslService: any;
 }

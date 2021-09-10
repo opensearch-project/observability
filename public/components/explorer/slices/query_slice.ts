@@ -15,12 +15,14 @@ import {
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import { 
   RAW_QUERY,
-  REDUX_EXPL_SLICE_QUERIES
+  REDUX_EXPL_SLICE_QUERIES,
+  INDEX
 } from '../../../../common/constants/explorer';
 
 const initialState = {
   [initialTabId]: {
-    [RAW_QUERY]: ''
+    [RAW_QUERY]: '',
+    [INDEX]: ''
   }
 };
 
@@ -29,11 +31,14 @@ export const queriesSlice = createSlice({
   initialState,
   reducers: {
     changeQuery: (state, { payload }) => {
-      state[payload.tabId] = payload.query;
+      state[payload.tabId] = {
+        ...payload.query
+      }
     },
     init: (state, { payload }) => {
       state[payload.tabId] = {
-        [RAW_QUERY]: ''
+        [RAW_QUERY]: '',
+        [INDEX]: ''
       };
     },
     remove: (state, { payload }) => {

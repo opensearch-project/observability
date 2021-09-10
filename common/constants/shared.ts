@@ -12,9 +12,14 @@
 // Client route
 export const PPL_BASE = '/api/ppl';
 export const PPL_SEARCH = '/search';
+export const DSL_BASE = '/api/dsl';
+export const DSL_SEARCH = '/search';
+export const DSL_CAT = '/cat.indices';
+export const DSL_MAPPING = '/indices.getFieldMapping';
 
 // Server route
 export const PPL_ENDPOINT = '/_plugins/_ppl';
+export const DSL_ENDPOINT = '/_plugins/_dsl';
 
 export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';

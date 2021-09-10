@@ -26,10 +26,16 @@ import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
-  pplService: any;
+  pplService: any
+  dslService: any
 }
 
-export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
+export const App = ({
+  CoreStart,
+  pplService,
+  dslService
+}: ObservabilityAppDeps) => {
+
   const { chrome, http } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
@@ -80,7 +86,7 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
                     parentBreadcrumb,
                     {
                       text: 'Event analytics',
-                      href: '#/explorer/home',
+                      href: '/explorer/events',
                     },
                   ]);
                   return renderPageWithSidebar(<EventExplorerHome />);
@@ -103,8 +109,11 @@ export const App = ({ CoreStart, pplService }: ObservabilityAppDeps) => {
               />
               <Route
                 exact
-                path="/explorer/events"
-                render={(props) => <LogExplorer pplService={pplService} />}
+                path='/explorer/events'
+                render={(props) => <LogExplorer
+                  pplService={ pplService }
+                  dslService={ dslService }
+                /> }
               />
             </Switch>
           </>

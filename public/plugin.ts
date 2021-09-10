@@ -25,6 +25,7 @@ import {
   observabilityPluginOrder
 } from '../common/constants/shared';
 import PPLService from './services/requests/ppl';
+import DSLService from './services/requests/dsl';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
 
@@ -43,10 +44,12 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
           const { Observability } = await import('./components/index');
           const [ coreStart ] = await core.getStartServices();
           const pplService = new PPLService(coreStart.http);
+          const dslService = new DSLService(coreStart.http);
           return Observability(
             coreStart,
             params,
-            pplService
+            pplService,
+            dslService
           );
         },
       });
