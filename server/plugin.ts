@@ -10,21 +10,20 @@
  */
 
 import {
-  PluginInitializerContext,
   CoreSetup,
   CoreStart,
-  Plugin,
-  Logger,
   ILegacyClusterClient,
+  Logger,
+  Plugin,
+  PluginInitializerContext,
 } from '../../../src/core/server';
-
-import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
-import { setupRoutes } from './routes/index';
-import { PPLPlugin } from './adaptors/ppl_plugin';
-import { OpenSearchNotebooksPlugin } from './adaptors/notebooks/opensearch_notebooks_plugin';
 import { OpenSearchObservabilityPlugin } from './adaptors/opensearch_observability_plugin';
+import { PPLPlugin } from './adaptors/ppl_plugin';
+import { setupRoutes } from './routes/index';
+import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 
-export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
+export class ObservabilityPlugin
+  implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
   private readonly logger: Logger;
 
   constructor(initializerContext: PluginInitializerContext) {
@@ -34,22 +33,23 @@ export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, Obs
   public setup(core: CoreSetup) {
     this.logger.debug('Observability: Setup');
     const router = core.http.createRouter();
-    const observabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
-      'opensearch_observability', 
+    const openSearchObservabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
+      'opensearch_observability',
       {
-        'plugins': [PPLPlugin, OpenSearchNotebooksPlugin]
+        plugins: [PPLPlugin, OpenSearchObservabilityPlugin],
       }
     );
 
+    // @ts-ignore
     core.http.registerRouteHandlerContext('observability_plugin', (context, request) => {
       return {
         logger: this.logger,
-        observabilityClient,
+        observabilityClient: openSearchObservabilityClient,
       };
     });
 
     // Register server side APIs
-    setupRoutes({ router, client: observabilityClient });
+    setupRoutes({ router, client: openSearchObservabilityClient });
 
     return {};
   }

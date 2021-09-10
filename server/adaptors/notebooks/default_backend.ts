@@ -61,7 +61,7 @@ export class DefaultBackend implements NotebookAdaptor {
     body: any
   ): Promise<{ notebookId: string }> {
     try {
-      const response = await client.callAsCurrentUser('notebooks.createNotebook', {
+      const response = await client.callAsCurrentUser('observability.createNotebook', {
         body: {
           notebook: body,
         },
@@ -79,7 +79,7 @@ export class DefaultBackend implements NotebookAdaptor {
     updateBody: Partial<DefaultNotebooks>
   ) {
     try {
-      const response = await client.callAsCurrentUser('notebooks.updateNotebookById', {
+      const response = await client.callAsCurrentUser('observability.updateNotebookById', {
         notebookId: noteId,
         body: {
           notebook: updateBody,
@@ -94,7 +94,7 @@ export class DefaultBackend implements NotebookAdaptor {
   // fetched a notebook by Id
   getNote = async function (client: ILegacyScopedClusterClient, noteId: string) {
     try {
-      const response = await client.callAsCurrentUser('notebooks.getNotebookById', {
+      const response = await client.callAsCurrentUser('observability.getNotebookById', {
         notebookId: noteId,
       });
       return response.notebookDetails;
@@ -106,7 +106,7 @@ export class DefaultBackend implements NotebookAdaptor {
   // gets first `FETCH_SIZE` notebooks available
   viewNotes = async function (client: ILegacyScopedClusterClient, _wreckOptions: optionsType) {
     try {
-      const response = await client.callAsCurrentUser('notebooks.getNotebooks');
+      const response = await client.callAsCurrentUser('observability.getNotebooks');
       return response.notebookDetailsList.map((notebook) => ({
         path: notebook.notebook.name,
         id: notebook.id,
@@ -244,7 +244,7 @@ export class DefaultBackend implements NotebookAdaptor {
     _wreckOptions: optionsType
   ) {
     try {
-      const response = await client.callAsCurrentUser('notebooks.deleteNotebookById', {
+      const response = await client.callAsCurrentUser('observability.deleteNotebookById', {
         notebookId: noteId,
       });
       return { status: 'OK', message: response };
