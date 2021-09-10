@@ -26,9 +26,7 @@ export default class DSLFacet {
       data: {}
     };
     try {
-      console.log('facet');
       const params = {
-        //index: 'opensearch_dashboards_sample_data_flights',
         query: JSON.stringify(request.body)
       };
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);

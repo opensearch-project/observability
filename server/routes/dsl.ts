@@ -67,7 +67,6 @@ export function registerDslRoute({
     try {
       const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
         'cat.indices',
-        //{format: 'json'}
         request.query
       );
       return response.ok({

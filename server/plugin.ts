@@ -20,7 +20,6 @@ import {
 
 import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 import { setupRoutes } from './routes/index';
-import { DSLPlugin } from './adaptors/dslPlugin';
 import { PPLPlugin } from './adaptors/ppl_plugin';
 
 export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
@@ -36,7 +35,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilityPluginSetup, Obs
     const observabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
       'opensearch_observability', 
       {
-        'plugins': [PPLPlugin, DSLPlugin]
+        'plugins': [PPLPlugin]
       }
     );
 
