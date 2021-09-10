@@ -47,6 +47,7 @@ export function TracesTable(props: {
   items: any[];
   refresh: (sort?: PropertySort) => void;
   indicesExist: boolean;
+  loading: boolean;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -215,6 +216,7 @@ export function TracesTable(props: {
             }}
             sorting={sorting}
             onTableChange={onTableChange}
+            loading={props.loading}
           />
         ) : props.indicesExist ? (
           <NoMatchMessage size="xl" />

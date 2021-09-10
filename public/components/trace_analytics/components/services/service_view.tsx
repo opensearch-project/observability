@@ -81,7 +81,7 @@ export function ServiceView(props: ServiceViewProps) {
         href: `#/trace_analytics/services/${encodeURIComponent(props.serviceName)}`,
       },
     ]);
-  }, []);
+  }, [props.serviceName]);
 
   useEffect(() => {
     if (!redirect) refresh();
@@ -188,6 +188,7 @@ export function ServiceView(props: ServiceViewProps) {
                   {fields.traces === 0 || fields.traces ? (
                     <EuiLink
                       onClick={() => {
+                        setRedirect(true);
                         props.addFilter({
                           field: 'serviceName',
                           operator: 'is',

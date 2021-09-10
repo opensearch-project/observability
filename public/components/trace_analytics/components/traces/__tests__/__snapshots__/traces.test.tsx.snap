@@ -2,35 +2,47 @@
 
 exports[`Traces component renders empty traces page 1`] = `
 <Traces
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/traces",
+                "text": "Traces",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/traces",
-              "text": "Traces",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -50,7 +62,6 @@ exports[`Traces component renders empty traces page 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"
@@ -876,6 +887,7 @@ exports[`Traces component renders empty traces page 1`] = `
   <TracesTable
     indicesExist={false}
     items={Array []}
+    loading={false}
     refresh={[Function]}
   >
     <EuiPanel>
@@ -1094,35 +1106,47 @@ exports[`Traces component renders empty traces page 1`] = `
 
 exports[`Traces component renders traces page 1`] = `
 <Traces
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/traces",
+                "text": "Traces",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/traces",
-              "text": "Traces",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -1142,7 +1166,6 @@ exports[`Traces component renders traces page 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"
@@ -1991,6 +2014,7 @@ exports[`Traces component renders traces page 1`] = `
   <TracesTable
     indicesExist={true}
     items={Array []}
+    loading={false}
     refresh={[Function]}
   >
     <EuiPanel>

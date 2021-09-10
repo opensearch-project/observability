@@ -24,6 +24,24 @@
  *   permissions and limitations under the License.
  */
 
+export const testDataSet = [
+  {
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-service-map-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-service-map.json',
+    index: 'otel-v1-apm-service-map',
+  },
+  {
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001.json',
+    index: 'otel-v1-apm-span-000001',
+  },
+  {
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000002.json',
+    index: 'otel-v1-apm-span-000002',
+  },
+]
+
 export const delay = 1500;
 export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';
 export const SPAN_ID = 'a673bc074b438374';

@@ -24,12 +24,11 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { renderDatePicker, SearchBar } from '..';
+import React from 'react';
 import sinon from 'sinon';
+import { renderDatePicker, SearchBar } from '../search_bar';
 
 describe('Search bar components', () => {
   configure({ adapter: new Adapter() });

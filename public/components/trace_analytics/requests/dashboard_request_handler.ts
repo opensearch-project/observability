@@ -119,7 +119,7 @@ export const handleDashboardRequest = async (
     })
     .catch((error) => console.error(error));
 
-  handleDslRequest(http, DSL, getDashboardQuery())
+  await handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets.map((bucket) => {
@@ -142,7 +142,7 @@ export const handleDashboardRequest = async (
 };
 
 export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
-  handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
+  return handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
       const texts = buckets.map(
@@ -175,7 +175,7 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
 };
 
 export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems) => {
-  handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
+  return handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
       const texts = buckets.map(

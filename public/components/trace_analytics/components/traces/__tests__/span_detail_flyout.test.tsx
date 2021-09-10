@@ -30,8 +30,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { TEST_SPAN_RESPONSE } from '../../../../test/constants';
-import httpClientMock from '../../../../test/httpClientMock';
+import { HttpResponse } from '../../../../../../../../src/core/public';
+import { TEST_SPAN_RESPONSE } from '../../../../../../test/constants';
+import httpClientMock from '../../../../../../test/__mocks__/httpClientMock';
 import { SpanDetailFlyout } from '../span_detail_flyout';
 
 describe('<SpanDetailFlyout /> spec', () => {
@@ -39,7 +40,7 @@ describe('<SpanDetailFlyout /> spec', () => {
 
   it('renders the empty component', async () => {
     httpClientMock.post = jest.fn(() =>
-      Promise.resolve({ hits: { hits: [], total: { value: 0 } } })
+      Promise.resolve(({ hits: { hits: [], total: { value: 0 } } } as unknown) as HttpResponse)
     );
     const closeFlyout = jest.fn();
     const addSpanFilter = jest.fn();
@@ -59,7 +60,9 @@ describe('<SpanDetailFlyout /> spec', () => {
   });
 
   it('renders the component with data', async () => {
-    httpClientMock.post = jest.fn(() => Promise.resolve(TEST_SPAN_RESPONSE));
+    httpClientMock.post = jest.fn(() =>
+      Promise.resolve((TEST_SPAN_RESPONSE as unknown) as HttpResponse)
+    );
     let container = document.createElement('div');
     const closeFlyout = jest.fn();
     const addSpanFilter = jest.fn();

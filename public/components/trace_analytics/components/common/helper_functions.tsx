@@ -27,6 +27,7 @@
 import dateMath from '@elastic/datemath';
 import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
+import _ from 'lodash';
 import React from 'react';
 import {
   DATA_PREPPER_INDEX_NAME,
@@ -212,7 +213,7 @@ export function calculateTicks(min: number, max: number, numTicks = 5): number[]
   let curr = Math.max(0, Math.floor((min - 1) / tick) * tick);
   const ticks = [curr];
   while (curr < max) {
-    curr += tick;
+    curr = _.round(curr + tick, 1);
     ticks.push(curr);
   }
 

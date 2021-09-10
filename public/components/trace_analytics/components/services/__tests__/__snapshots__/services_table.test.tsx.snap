@@ -5,6 +5,7 @@ exports[`Services table component renders empty services table message 1`] = `
   addFilter={[MockFunction]}
   indicesExist={true}
   items={Array []}
+  loading={false}
   refresh={[MockFunction]}
   serviceQuery="test"
   setRedirect={[MockFunction]}
@@ -165,6 +166,7 @@ exports[`Services table component renders services table 1`] = `
       },
     ]
   }
+  loading={false}
   refresh={[MockFunction]}
   serviceQuery="test"
   setRedirect={[MockFunction]}
@@ -303,6 +305,7 @@ exports[`Services table component renders services table 1`] = `
             },
           ]
         }
+        loading={false}
         pagination={
           Object {
             "initialPageSize": 10,
@@ -399,6 +402,7 @@ exports[`Services table component renders services table 1`] = `
               },
             ]
           }
+          loading={false}
           noItemsMessage="No items found"
           onChange={[Function]}
           pagination={
@@ -1188,12 +1192,12 @@ exports[`Services table component renders services table 1`] = `
                               >
                                 <EuiLink
                                   className=""
-                                  href="#/services/database"
+                                  href="#/trace_analytics/services/database"
                                   key=".0"
                                 >
                                   <a
                                     className="euiLink euiLink--primary"
-                                    href="#/services/database"
+                                    href="#/trace_analytics/services/database"
                                     rel="noreferrer"
                                   >
                                     database

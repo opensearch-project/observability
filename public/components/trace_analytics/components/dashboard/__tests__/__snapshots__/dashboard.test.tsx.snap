@@ -2,35 +2,47 @@
 
 exports[`Dashboard component renders dashboard 1`] = `
 <Dashboard
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Dashboards",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/dashboard",
-              "text": "Dashboard",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -50,7 +62,6 @@ exports[`Dashboard component renders dashboard 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"
@@ -901,6 +912,7 @@ exports[`Dashboard component renders dashboard 1`] = `
     addPercentileFilter={[Function]}
     filters={Array []}
     items={Array []}
+    loading={false}
     setRedirect={[Function]}
   >
     <EuiPanel>
@@ -1963,35 +1975,47 @@ exports[`Dashboard component renders dashboard 1`] = `
 
 exports[`Dashboard component renders empty dashboard 1`] = `
 <Dashboard
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Dashboards",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/dashboard",
-              "text": "Dashboard",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -2011,7 +2035,6 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"

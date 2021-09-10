@@ -2,35 +2,47 @@
 
 exports[`Services component renders empty services page 1`] = `
 <Services
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/services",
+                "text": "Services",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/services",
-              "text": "Services",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -50,7 +62,6 @@ exports[`Services component renders empty services page 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"
@@ -866,15 +877,18 @@ exports[`Services component renders empty services page 1`] = `
       </EuiFlexGroup>
     </Filters>
   </SearchBar>
-  <EuiSpacer>
+  <EuiSpacer
+    size="m"
+  >
     <div
-      className="euiSpacer euiSpacer--l"
+      className="euiSpacer euiSpacer--m"
     />
   </EuiSpacer>
   <ServicesTable
     addFilter={[Function]}
     indicesExist={false}
     items={Array []}
+    loading={false}
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}
@@ -1096,35 +1110,47 @@ exports[`Services component renders empty services page 1`] = `
 
 exports[`Services component renders services page 1`] = `
 <Services
+  chrome={
+    Object {
+      "setBreadcrumbs": [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [
+              Object {
+                "href": "test#/",
+                "text": "test",
+              },
+              Object {
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
+              },
+              Object {
+                "href": "#/trace_analytics/services",
+                "text": "Services",
+              },
+            ],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
-  query=""
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#",
-              "text": "Trace Analytics",
-            },
-            Object {
-              "href": "#/services",
-              "text": "Services",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
     }
   }
+  query=""
   setEndTime={[MockFunction]}
   setFilters={
     [MockFunction] {
@@ -1144,7 +1170,6 @@ exports[`Services component renders services page 1`] = `
   setQuery={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
-  uiSettings={null}
 >
   <EuiTitle
     size="l"
@@ -1983,15 +2008,18 @@ exports[`Services component renders services page 1`] = `
       </EuiFlexGroup>
     </Filters>
   </SearchBar>
-  <EuiSpacer>
+  <EuiSpacer
+    size="m"
+  >
     <div
-      className="euiSpacer euiSpacer--l"
+      className="euiSpacer euiSpacer--m"
     />
   </EuiSpacer>
   <ServicesTable
     addFilter={[Function]}
     indicesExist={true}
     items={Array []}
+    loading={false}
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}

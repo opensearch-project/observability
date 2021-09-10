@@ -24,24 +24,23 @@
  * permissions and limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { TraceView } from '..';
-import httpClientMock from '../../../../test/httpClientMock';
+import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
 
 describe('Trace view component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders trace view', () => {
-    const setBreadcrumbs = jest.fn();
+    const core = coreStartMock;
     const wrapper = shallow(
       <TraceView
-        setBreadcrumbs={setBreadcrumbs}
-        http={httpClientMock}
-        uiSettings={null}
-        traceId='test'
+        http={core.http}
+        chrome={core.chrome}
+        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        traceId="test"
       />
     );
     expect(wrapper).toMatchSnapshot();
