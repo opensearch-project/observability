@@ -62,6 +62,7 @@ const statsCommands = [
   { label: 'min(' },
 ];
 
+// Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any) => {
   const filteredList = items.filter(
     (item: { label: string }) => item.label.startsWith(word) && word !== item.label
@@ -78,6 +79,7 @@ const fillSuggestions = (str: string, word: string, items: any) => {
   return suggestionList;
 };
 
+// Function for the first command in query, also needs to get available indices
 const getFirstPipe = async (str: string, dslService: DSLService) => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
@@ -85,11 +87,13 @@ const getFirstPipe = async (str: string, dslService: DSLService) => {
   return fillSuggestions(str, prefix, firstCommand);
 };
 
+// Main logic behind autocomplete (Based on most recent inputs)
 const getSuggestions = async (str: string, dslService: DSLService) => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
   const fullSuggestions: any = [];
 
+  // Check the last full word in the query, then suggest inputs based off that
   if (splittedModel.length === 1) {
     currField = '';
     currIndex = '';
@@ -257,6 +261,7 @@ const onItemSelect = async ({ setQuery, item }, dslService: DSLService) => {
   setQuery(item.label + ' ');
 };
 
+// Plugin for Algolia Autocomplete
 export function createPPLSuggestionsPlugin(
   options: CreatePPLSuggestionsPluginProps
 ): AutocompletePlugin<PPLSuggestion, undefined> {
