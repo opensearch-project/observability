@@ -17,6 +17,11 @@ import DSLFacet from '../services/facets/dsl_facet';
 import { PanelsRouter } from './custom_panels/panels_router';
 import { VisualizationsRouter } from './custom_panels/visualizations_router';
 import { registerTraceAnalyticsDslRouter } from './trace_analytics_dsl_router';
+import { registerParaRoute } from './notebooks/paraRouter';
+import { registerNoteRoute } from './notebooks/noteRouter';
+import { registerVizRoute } from './notebooks/vizRouter';
+import QueryService from '../services/queryService';
+import { registerSqlRoute } from './notebooks/sqlRouter';
 
 
 export function setupRoutes({ router, client }: { router: IRouter; client: ILegacyClusterClient }) {
@@ -28,4 +33,11 @@ export function setupRoutes({ router, client }: { router: IRouter; client: ILega
   registerDslRoute({ router, facet: dslFacet})
   // TODO remove trace analytics route when DSL route for autocomplete is added
   registerTraceAnalyticsDslRouter(router);
+
+  // notebooks routes
+  registerParaRoute(router);
+  registerNoteRoute(router);
+  registerVizRoute(router);
+  const queryService = new QueryService(client);
+  registerSqlRoute(router, queryService);
 };

@@ -19,6 +19,7 @@ export const DSL_MAPPING = '/indices.getFieldMapping';
 
 // Server route
 export const PPL_ENDPOINT = '/_plugins/_ppl';
+export const SQL_ENDPOINT = '/_plugins/_sql';
 export const DSL_ENDPOINT = '/_plugins/_dsl';
 
 export const observabilityID = 'observability';

@@ -9,23 +9,15 @@
  * GitHub history for details.
  */
 
-import {
-  Plugin,
-  CoreSetup,
-  CoreStart,
-  AppMountParameters
-} from '../../../src/core/public';
-import {
-  ObservabilitySetup,
-  ObservabilityStart
-} from './types';
+import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
 import {
   observabilityID,
+  observabilityPluginOrder,
   observabilityTitle,
-  observabilityPluginOrder
 } from '../common/constants/shared';
 import PPLService from './services/requests/ppl';
 import DSLService from './services/requests/dsl';
+import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } from './types';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
 
@@ -42,11 +34,12 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         order: observabilityPluginOrder,
         async mount(params: AppMountParameters) {
           const { Observability } = await import('./components/index');
-          const [ coreStart ] = await core.getStartServices();
+          const [ coreStart, depsStart ] = await core.getStartServices();
           const pplService = new PPLService(coreStart.http);
           const dslService = new DSLService(coreStart.http);
           return Observability(
             coreStart,
+            depsStart as AppPluginStartDependencies,
             params,
             pplService,
             dslService

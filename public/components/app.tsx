@@ -16,27 +16,30 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../src/core/public';
 import { observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
+import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { renderPageWithSidebar } from './common/side_nav';
-import { CustomPanelView } from './custom_panels/custom_panel_view';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { Home as EventExplorerHome } from './explorer/home';
 import { LogExplorer } from './explorer/log_explorer';
+import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
-  pplService: any
-  dslService: any
+  DepsStart: AppPluginStartDependencies;
+  pplService: any;
+  dslService: any;
 }
 
 export const App = ({
   CoreStart,
+  DepsStart,
   pplService,
   dslService
 }: ObservabilityAppDeps) => {
 
-  const { chrome, http } = CoreStart;
+  const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: 'observability#/',
@@ -79,6 +82,21 @@ export const App = ({
                 )}
               />
               <Route
+                path="/notebooks"
+                render={(props) => (
+                  <NotebooksHome
+                    {...props}
+                    DashboardContainerByValueRenderer={
+                      DepsStart.dashboard.DashboardContainerByValueRenderer
+                    }
+                    http={http}
+                    setBreadcrumbs={chrome.setBreadcrumbs}
+                    parentBreadcrumb={parentBreadcrumb}
+                    notifications={notifications}
+                  />
+                )}
+              />
+              <Route
                 exact
                 path={['/explorer', '/explorer/home']}
                 render={(props) => {
@@ -92,7 +110,7 @@ export const App = ({
                   return renderPageWithSidebar(<EventExplorerHome />);
                 }}
               />
-              <Route 
+              <Route
                 path={['/operational_panels']}
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
