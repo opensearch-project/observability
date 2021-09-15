@@ -411,15 +411,6 @@ export const Explorer = ({
       }
     },
     {
-      text: 'Live',
-      iconType: 'play',
-      handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
-      }
-    },
-    {
       text: 'Save',
       iconType: 'heart',
       handlers: {
