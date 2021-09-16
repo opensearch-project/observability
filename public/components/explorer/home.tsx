@@ -64,13 +64,6 @@ export const Home = (props: any) => {
           history.push('/explorer/events');
         }
       }
-    },
-    {
-      text: 'Live',
-      iconType: 'play',
-      handlers: {
-        onClick: () => {}
-      }
     }
   ];
 
