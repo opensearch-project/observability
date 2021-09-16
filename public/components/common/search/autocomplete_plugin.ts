@@ -21,6 +21,7 @@ interface PPLSuggestion {
 }
 
 interface CreatePPLSuggestionsPluginProps {
+  query: any;
   handleQueryChange: (query: string, index: string) => void;
   handleQuerySearch: () => void;
   dslService: DSLService;
@@ -267,9 +268,8 @@ export function createPPLSuggestionsPlugin(
 ): AutocompletePlugin<PPLSuggestion, undefined> {
   return {
     onStateChange: ({ state }) => {
-      if (state.query.length > queryLength) {
+      if (options.query.rawQuery !== state.query) {
         options.handleQueryChange(state.query, currIndex);
-        queryLength++;
       }
     },
     onSubmit: () => {

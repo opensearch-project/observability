@@ -405,8 +405,8 @@ export const Explorer = ({
       text: 'Refresh',
       iconType: 'refresh',
       handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
+        onMouseDown: () => {
+          handleQuerySearch();
         }
       }
     },
@@ -424,6 +424,7 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const handleQuerySearch = () => {
+    console.log('handle query change');
     fetchData();
   }
 

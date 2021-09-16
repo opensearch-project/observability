@@ -20,6 +20,7 @@ export function Autocomplete(props: IQueryBarProps) {
   const { query, handleQueryChange, handleQuerySearch, dslService } = props;
 
   const PPLSuggestionPlugin = createPPLSuggestionsPlugin({
+    query,
     handleQueryChange: props.handleQueryChange,
     handleQuerySearch: props.handleQuerySearch,
     dslService: props.dslService,
