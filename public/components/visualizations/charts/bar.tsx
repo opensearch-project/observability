@@ -15,8 +15,11 @@ import { Plt } from '../plotly/plot';
 export const Bar = ({
   xvalues,
   yvalues,
+  xaxisConf,
+  yaxisConf,
   name,
   layoutConfig,
+  ...rest
 }: any) => {
   return (
     <Plt 
@@ -33,17 +36,18 @@ export const Bar = ({
       ]}
       layout={{ 
         xaxis: {
-          fixedrange: true,
           showgrid: false,
-          visible: true
+          visible: true,
+          ...xaxisConf
         },
         yaxis: {
-          fixedrange: true,
           showgrid: false,
-          visible: true
+          visible: true,
+          ...yaxisConf,
         },
         ...layoutConfig
       }}
+      { ...rest }
     />  
   );
 };

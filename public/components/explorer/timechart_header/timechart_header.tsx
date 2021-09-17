@@ -117,8 +117,8 @@ export function TimechartHeader({
                   label: display,
                 };
               })}
-            value={interval}
-            onChange={handleIntervalChange}
+            value={ interval }
+            onChange={ handleIntervalChange }
             append={ undefined }
           />
         </EuiFlexItem>

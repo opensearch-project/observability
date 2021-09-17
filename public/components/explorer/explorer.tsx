@@ -48,7 +48,8 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
-  INDEX
+  INDEX,
+  TIME_INTERVAL_OPTIONS
 } from '../../../common/constants/explorer';
 import { getIndexPatternFromRawQuery } from '../../../common/utils';
 import { 
@@ -251,44 +252,7 @@ export const Explorer = ({
                         >
                           <TimechartHeader
                             dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
-                            options={[
-                              {
-                                display: 'Auto',
-                                val: 'auto'
-                              },
-                              {
-                                display: 'Millisecond',
-                                val: 'ms'
-                              },
-                              {
-                                display: 'Second',
-                                val: 's'
-                              },
-                              {
-                                display: 'Minute',
-                                val: 'm'
-                              },
-                              {
-                                display: 'Hour',
-                                val: 'h'
-                              },
-                              {
-                                display: 'Day',
-                                val: 'd'
-                              },
-                              {
-                                display: 'Week',
-                                val: 'w'
-                              },
-                              {
-                                display: 'Month',
-                                val: 'M'
-                              },
-                              {
-                                display: 'Year',
-                                val: 'y'
-                              },
-                            ]}
+                            options={ TIME_INTERVAL_OPTIONS }
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
                             }}

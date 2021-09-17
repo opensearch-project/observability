@@ -33,6 +33,13 @@ export const CountDistribution = ({
     },
     height: 220
   };
+  const config = {};
+  const xaxis = {
+    autorange: true
+  };
+  const yaxis = {
+    fixedrange: true
+  };
 
   if (!xkey || !ykey) {
     return null;
@@ -44,6 +51,10 @@ export const CountDistribution = ({
       yvalues={ data[ykey] || [] }
       name="Event counts"
       layoutConfig={ layout }
+      config={ config }
+      xaxis={ xaxis }
+      yaxis={ yaxis }
+      showlegend={ true }
     />
   );
 };
