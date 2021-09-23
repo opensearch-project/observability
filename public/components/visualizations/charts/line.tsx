@@ -10,25 +10,40 @@
  */
 
 import React from 'react';
+import {
+  take,
+  merge
+} from 'lodash';
 import { Plt } from '../plotly/plot';
 
 export const Line = ({
-  xvalues,
-  yvalues,
-  name,
-  layoutConfig,
+  visualizations,
+  lineConfig = {},
+  layoutConfig = {},
 }: any) => {
+
+  const { data, metadata: { fields, } } = visualizations;
+  const lineLength = fields.length - 1;
+  const lineValues = take(fields, lineLength).map((field: any) => {
+    return {
+      x: data[fields[lineLength].name],
+      y: data[field.name],
+      type: 'line',
+      name: field.name
+    };
+  });
+
+  const config = {
+    barmode: 'line',
+    xaxis: {
+      automargin: true
+    }
+  };
+  const lineLayoutConfig = merge(config, layoutConfig);
   
   return (
     <Plt 
-      data={[
-        {
-          x: xvalues,
-          y: yvalues,
-          type: 'lines',
-          name,
-        }
-      ]}
+      data={ lineValues }
       layout={{
         plot_bgcolor: 'rgba(0, 0, 0, 0)',
         paper_bgcolor: 'rgba(0, 0, 0, 0)',
@@ -42,8 +57,9 @@ export const Line = ({
           showgrid: false,
           visible: true
         },
-        ...layoutConfig
+        ...lineLayoutConfig
       }}
+      config={ lineConfig }
     />  
   );
 };

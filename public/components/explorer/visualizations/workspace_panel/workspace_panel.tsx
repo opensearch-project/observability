@@ -15,31 +15,38 @@ import { DragDrop } from '../drag_drop';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 import { Bar } from '../../../visualizations/charts/bar';
 import { Line } from '../../../visualizations/charts/line';
+import { HorizontalBar } from '../../../visualizations/charts/horizontal_bar';
 import { LensIconChartBar } from '../assets/chart_bar';
 import { LensIconChartLine } from '../assets/chart_line';
+import { LensIconChartBarHorizontal } from '../assets/chart_bar_horizontal';
+import { EmptyPlaceholder } from '../shared_components/empty_placeholder';
 
-const layout = {
+const plotlySharedlayout = {
   showlegend: true,
   margin: {
-    l: 60,
+    l: 50,
     r: 10,
-    b: 15,
+    b: 30,
     t: 30,
     pad: 0,
   },
-  height: 300
+  height: 500,
+  legend: {
+    orientation: 'v',
+    traceorder: 'normal',
+  }
+};
+
+const plotlySharedConfig = {
+  displayModeBar: true,
+  displaylogo: false,
+  responsive: true,
+  editable: true
 };
 
 export function WorkspacePanel({
   visualizations
 }: any) {
-
-  if (!visualizations || !visualizations.data) return null;
-
-  const data = visualizations.data;
-  const meta = visualizations.metadata;
-  const xkey = meta?.xfield?.name;
-  const ykey = meta?.yfield?.name;
 
   const memorizedVisualizationTypes = useMemo(() => {
     return ([
@@ -52,11 +59,31 @@ export function WorkspacePanel({
         selection: {
           dataLoss: 'nothing'
         },
-        chart: <Bar 
-          xvalues={ data[xkey] || [] }
-          yvalues={ data[ykey] || [] }
-          name={ ykey }
-          layoutConfig={ layout }
+        chart: (!visualizations || !visualizations.data) ? 
+        <EmptyPlaceholder
+          icon={ LensIconChartBar }
+        /> : <Bar 
+          visualizations={ visualizations }
+          barConfig={ plotlySharedConfig }
+          layoutConfig={ plotlySharedlayout }
+        />
+      },
+      {
+        id: 'horizontal_bar',
+        label: 'H. Bar',
+        fullLabel: 'H. Bar',
+        icon: LensIconChartBarHorizontal,
+        visualizationId: uniqueId('vis-horizontal-bar-'),
+        selection: {
+          dataLoss: 'nothing'
+        },
+        chart: (!visualizations || !visualizations.data) ? 
+        <EmptyPlaceholder
+          icon={ LensIconChartBarHorizontal }
+        /> : <HorizontalBar
+          visualizations={ visualizations }
+          layoutConfig={ plotlySharedlayout }
+          horizontalConfig={ plotlySharedConfig }
         />
       },
       {
@@ -68,11 +95,13 @@ export function WorkspacePanel({
         selection: {
           dataLoss: 'nothing'
         },
-        chart: <Line 
-          xvalues={ data[xkey] || [] }
-          yvalues={ data[ykey] || [] }
-          name={ ykey }
-          layoutConfig={ layout }
+        chart: (!visualizations || !visualizations.data) ? 
+        <EmptyPlaceholder
+          icon={ LensIconChartLine }
+        /> : <Line
+          visualizations={ visualizations }
+          layoutConfig={ plotlySharedlayout }
+          lineConfig={ plotlySharedConfig }
         />
       }
     ]);
@@ -104,7 +133,7 @@ export function WorkspacePanel({
         className="lnsWorkspacePanel__dragDrop"
         data-test-subj="lnsWorkspace"
         draggable={false}
-        droppable={true}
+        droppable={false}
         onDrop={onDrop}
       >
         <div>

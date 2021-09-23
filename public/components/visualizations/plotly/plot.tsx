@@ -24,7 +24,6 @@ interface PltProps {
 
 export function Plt(props: PltProps) {
   const PlotComponent = plotComponentFactory(Plotly);
-
   return (
     <PlotComponent
       data={props.data}
@@ -55,7 +54,8 @@ export function Plt(props: PltProps) {
         xaxis: {
           showgrid: true,
           zeroline: false,
-          rangemode: 'normal'
+          rangemode: 'normal',
+          automargin: true
         },
         yaxis: {
           showgrid: true,

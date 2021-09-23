@@ -10,44 +10,51 @@
  */
 
 import React from 'react';
+import {
+  take,
+  merge
+} from 'lodash';
 import { Plt } from '../plotly/plot';
 
 export const Bar = ({
-  xvalues,
-  yvalues,
-  xaxisConf,
-  yaxisConf,
-  name,
-  layoutConfig,
-  ...rest
+  visualizations,
+  barConfig = {},
+  layoutConfig = {},
 }: any) => {
+
+  const { data, metadata: { fields, } } = visualizations;
+  const stackLength = fields.length - 1;
+  const barValues = take(fields, stackLength).map((field: any) => {
+    return {
+      x: barConfig.orientation !== 'h' ? data[fields[stackLength].name] : data[field.name],
+      y: barConfig.orientation !== 'h' ? data[field.name] : data[fields[stackLength].name],
+      type: 'bar',
+      name: field.name,
+      ...barConfig
+    };
+  });
+
+  const barLayoutConfig = merge({
+    xaxis: {
+      automargin: true
+    },
+  }, layoutConfig);
+
   return (
     <Plt 
-      data={[
-        {
-          marker: {
-            color: '#006BB4'
-          },
-          x: xvalues,
-          y: yvalues,
-          type: 'bar',
-          name,
-        }
-      ]}
+      data={ barValues }
       layout={{ 
         xaxis: {
           showgrid: false,
           visible: true,
-          ...xaxisConf
         },
         yaxis: {
           showgrid: false,
           visible: true,
-          ...yaxisConf,
         },
-        ...layoutConfig
+        ...barLayoutConfig
       }}
-      { ...rest }
+      config={ barConfig }
     />  
   );
 };
