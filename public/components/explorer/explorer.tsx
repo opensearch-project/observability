@@ -368,8 +368,11 @@ export const Explorer = ({
 
   const actionItems = [
     {
-      text: 'Refresh',
-      iconType: 'refresh',
+      text: isEmpty(explorerData) ? 'Run' : 'Refresh',
+      iconType: isEmpty(explorerData) ? 'play': 'refresh',
+      attributes: {
+        fill: isEmpty(explorerData) ? true : false
+      },
       handlers: {
         onMouseDown: () => {
           handleQuerySearch();

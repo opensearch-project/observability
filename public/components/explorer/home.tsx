@@ -55,7 +55,7 @@ export const Home = (props: any) => {
   const actionItems = [
     {
       text: 'Run',
-      iconType: '',
+      iconType: 'play',
       attributes: {
         fill: true
       },
