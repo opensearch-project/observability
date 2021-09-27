@@ -24,7 +24,7 @@ export const Bar = ({
 
   const { data, metadata: { fields, } } = visualizations;
   const stackLength = fields.length - 1;
-  const barValues = take(fields, stackLength).map((field: any) => {
+  const barValues = take(fields, stackLength > 0 ? stackLength : 1).map((field: any) => {
     return {
       x: barConfig.orientation !== 'h' ? data[fields[stackLength].name] : data[field.name],
       y: barConfig.orientation !== 'h' ? data[field.name] : data[fields[stackLength].name],
