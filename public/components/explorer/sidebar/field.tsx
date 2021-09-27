@@ -92,7 +92,7 @@ export const Field = (props: IFieldProps) => {
       ownFocus
       display="block"
       isOpen={ isFieldDetailsOpen }
-      closePopover={ () => setIsFieldDetailsOpen(false) }
+      closePopover={ () => {} }
       anchorPosition="rightUp"
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
@@ -113,7 +113,7 @@ export const Field = (props: IFieldProps) => {
                       </span> 
                     }
           fieldAction={ getFieldActionDOM() }
-          onClick={() => togglePopover()}
+          onClick={() => {}}
         />
       }
     >
