@@ -188,7 +188,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           key={ uniqueId('grid-td-detail-') }
           colSpan={ selectedCols.length ?  selectedCols.length + 2 : 3 }
         >
-          <DocDetailTitle />
+          {/* <DocDetailTitle /> */}
           <DocViewer
             hit={ doc }
           />
