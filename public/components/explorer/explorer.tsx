@@ -329,6 +329,8 @@ export const Explorer = ({
       <ExplorerVisualizations
         explorerFields={ explorerFields }
         explorerVis={ explorerVisualizations }
+        handleAddField={ handleAddField }
+        handleRemoveField={ handleRemoveField }
       />
     );
   };

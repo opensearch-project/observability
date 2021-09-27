@@ -41,6 +41,8 @@ export const Sidebar = (props: ISidebarProps) => {
   const [showFields, setShowFields] = useState<Boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  console.log('sidebar explorerFields: ', explorerFields);
+
   return (
     <I18nProvider>
       <section
@@ -66,7 +68,7 @@ export const Sidebar = (props: ISidebarProps) => {
               <h3>
                 <FormattedMessage
                   id="discover.fieldChooser.filter.selectedFieldsTitle"
-                  defaultMessage="Selected fields"
+                  defaultMessage="Queried fields"
                 />
               </h3>
             </EuiTitle>

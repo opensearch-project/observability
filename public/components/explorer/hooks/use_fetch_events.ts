@@ -80,12 +80,13 @@ export const useFetchEvents = ({
           tabId: requestParams.tabId,
           data: {
             [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res.schema ? [ ...res.schema ] : []
+            [UNSELECTED_FIELDS]: res.schema ? [ ...res.schema ] : [],
+            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
         }));
         dispatch(sortFields({
           tabId: requestParams.tabId,
-          data: [UNSELECTED_FIELDS]
+          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
         }));
       });
     });
@@ -101,13 +102,13 @@ export const useFetchEvents = ({
           tabId: requestParams.tabId,
           data: {
             [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: [],
+            [UNSELECTED_FIELDS]: res?.schema ? [...res.schema] : [],
             [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
         }));
         dispatch(sortFields({
           tabId: requestParams.tabId,
-          data: [AVAILABLE_FIELDS]
+          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
         }));
       });
     });
