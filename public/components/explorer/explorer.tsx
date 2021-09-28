@@ -243,7 +243,7 @@ export const Explorer = ({
                         >
                           <HitsCounter 
                             hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
-                            showResetButton={true}
+                            showResetButton={false}
                             onResetQuery={ () => {} }
                           />
                         </EuiFlexItem>

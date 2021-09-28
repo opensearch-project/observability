@@ -27,14 +27,6 @@ export const TIME_INTERVAL_OPTIONS = [
     val: 'h' // same as value of Hour for now
   },
   {
-    display: 'Millisecond',
-    val: 'ms'
-  },
-  {
-    display: 'Second',
-    val: 's'
-  },
-  {
     display: 'Minute',
     val: 'm'
   },
