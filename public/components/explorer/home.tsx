@@ -93,7 +93,7 @@ export const Home = (props: any) => {
             }));
           } }
           handleQuerySearch={ () => {
-            history.push('/explorer/events');
+            history.push('/event_analytics/explorer');
           } }
           pplService={ pplService }
           dslService={ dslService }
@@ -133,7 +133,7 @@ export const Home = (props: any) => {
                             [RAW_QUERY]: item.target.outerText
                           }
                         }));
-                        history.push('/explorer/events');
+                        history.push('/event_analytics/explorer');
                       }}
                       label={ h.query }
                       color="primary"
@@ -168,7 +168,7 @@ export const Home = (props: any) => {
                             [RAW_QUERY]: item.target.outerText
                           }
                         }));
-                        history.push('/explorer/events');
+                        history.push('/event_analytics/explorer');
                       }}
                       label={ h.query }
                       color="primary"
