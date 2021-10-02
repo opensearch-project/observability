@@ -10,10 +10,13 @@
  */
  
 export const RAW_QUERY = 'rawQuery';
-export const INDEX = 'index';
+export const FINAL_QUERY = 'finalQuery';
+export const SELECTED_DATE_RANGE = 'selectedDateRange';
+export const INDEX = 'indexPattern';
 export const SELECTED_FIELDS = 'selectedFields';
 export const UNSELECTED_FIELDS = 'unselectedFields';
 export const AVAILABLE_FIELDS = 'availableFields';
+export const QUERIED_FIELDS = 'queriedFields';
 export const TAB_ID_TXT_PFX = 'query-panel-';
 export const TAB_TITLE = 'New query';
 export const TAB_CHART_TITLE = 'Visualizations';
@@ -21,6 +24,7 @@ export const TAB_EVENT_TITLE = 'Events';
 export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-charts-';
 
+export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
   {
     display: 'Auto',

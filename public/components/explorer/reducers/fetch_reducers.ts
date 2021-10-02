@@ -10,5 +10,8 @@
  */
 
 export const fetchSuccess = (state, { payload }) => {
-  state[payload.tabId] = payload.data;
+  state[payload.tabId] = { 
+    ...state[payload.tabId],
+    ...payload.data 
+  };
 };

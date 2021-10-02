@@ -15,7 +15,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { EuiFlexGroup, EuiButton, EuiFlexItem } from '@elastic/eui';
 import _ from 'lodash';
-import { Filter } from './Filter';
+import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 
@@ -26,13 +26,14 @@ export interface IQueryBarProps {
   dslService: any;
 }
 
-export interface IFilterProps {
+export interface IDatePickerProps {
   startTime: string;
   endTime: string;
   setStartTime: () => void;
   setEndTime: () => void;
   setTimeRange: () => void;
   setIsOutputStale: () => void;
+  handleTimePickerChange: (timeRange: Array<string>) => any;
 }
 
 export const Search = (props: any) => {
@@ -40,6 +41,7 @@ export const Search = (props: any) => {
     query,
     handleQueryChange,
     handleQuerySearch,
+    handleTimePickerChange,
     dslService,
     startTime,
     endTime,
@@ -71,7 +73,7 @@ export const Search = (props: any) => {
         <div className="autocomplete">
           {renderAutocomplete({ query, handleQueryChange, handleQuerySearch, dslService })}
         </div>
-        <Filter
+        <DatePicker
           startTime={startTime}
           endTime={endTime}
           setStartTime={setStartTime}
@@ -79,6 +81,7 @@ export const Search = (props: any) => {
           setIsOutputStale={setIsOutputStale}
           liveStreamChecked={props.liveStreamChecked}
           onLiveStreamChange={props.onLiveStreamChange}
+          handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
         />
         {actionItems.length > 0 &&
           actionItems.map((item: any) => {

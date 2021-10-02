@@ -60,13 +60,49 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { explorerFields && !isEmpty(explorerFields) && (
+          { !isEmpty(explorerFields) && (
             <>
+              {
+                explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
+                  <>
+                    <EuiTitle size="xxxs" id="selected_fields">
+                      <h3>
+                        <FormattedMessage
+                          id="discover.fieldChooser.filter.selectedFieldsTitle"
+                          defaultMessage="Queried Fields"
+                        />
+                      </h3>
+                    </EuiTitle>
+                    <EuiSpacer size="xs" />
+                    <ul
+                      className="dscSidebarList dscFieldList--selected"
+                      aria-labelledby="selected_fields"
+                      data-test-subj={`fieldList-selected`}
+                    >
+                      { explorerFields.queriedFields && explorerFields.queriedFields.map(field => {
+                        return (
+                          <li
+                            key={`field${field.name}`}
+                            data-attr-field={field.name}
+                            className="dscSidebar__item"
+                          >
+                            <Field 
+                              field={ field }
+                              selected={ true }
+                              onToggleField={ handleRemoveField }
+                            />
+                          </li>
+                        )})
+                      }
+                    </ul>
+                  </>
+                )
+              }
             <EuiTitle size="xxxs" id="selected_fields">
               <h3>
                 <FormattedMessage
                   id="discover.fieldChooser.filter.selectedFieldsTitle"
-                  defaultMessage="Queried fields"
+                  defaultMessage="Selected Fields"
                 />
               </h3>
             </EuiTitle>
@@ -97,7 +133,7 @@ export const Sidebar = (props: ISidebarProps) => {
                 <h3>
                   <FormattedMessage
                     id="discover.fieldChooser.filter.availableFieldsTitle"
-                    defaultMessage="Available fields"
+                    defaultMessage="Available Fields"
                   />
                 </h3>
               </EuiTitle>
@@ -132,8 +168,8 @@ export const Sidebar = (props: ISidebarProps) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                explorerFields.unselectedFields &&
-                explorerFields.unselectedFields.filter(
+                explorerFields.availableFields &&
+                explorerFields.availableFields.filter(
                   (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
                   .map((field) => {
                   return (

@@ -25,6 +25,42 @@ export class PPLDataSource {
   ) {
     if (this.dataType === 'jdbc') {
       this.addSchemaRowMapping();
+    } else if (this.dataType === 'viz') {
+      this.addStatsMapping();
+    }
+  }
+
+  private addStatsMapping = () => {
+    const visData = this.pplDataSource;
+
+    /**
+     * Add vis mapping for runtime fields
+     * [{
+     *  agent: "mozilla",
+     *  avg(bytes): 5756
+     *  ...
+     * }, {
+     *  agent: "MSIE",
+     *  avg(bytes): 5605
+     *  ...
+     * }, {
+     *  agent: "chrome",
+     *  avg(bytes): 5648
+     *  ...
+     * }] 
+     */
+    let res = [];
+    if (visData?.metadata?.fields) {
+      const queriedFields = visData.metadata.fields;
+      for (let i = 0; i < visData.size; i++) {
+        const entry: any = {};
+        queriedFields.map((field: any) => {
+          const statsDataSet = visData?.data;
+          entry[field.name] = statsDataSet[field.name][i];
+        });
+        res.push(entry);
+      }
+      visData['jsonData'] = res;
     }
   }
 

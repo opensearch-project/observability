@@ -14,7 +14,8 @@ import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
   isEmpty,
-  cloneDeep
+  cloneDeep,
+  concat
 } from 'lodash';
 import { 
   FormattedMessage 
@@ -46,18 +47,25 @@ import {
   TAB_EVENT_ID_TXT_PFX,
   TAB_CHART_ID_TXT_PFX,
   RAW_QUERY,
+  SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
+  AVAILABLE_FIELDS,
   INDEX,
   TIME_INTERVAL_OPTIONS
 } from '../../../common/constants/explorer';
-import { getIndexPatternFromRawQuery } from '../../../common/utils';
+import { PPL_STATS_REGEX } from '../../../common/constants/shared';
+import { 
+  getIndexPatternFromRawQuery,
+  insertDateRangeToQuery
+} from '../../../common/utils';
 import { 
   useFetchEvents,
   useFetchVisualizations
 } from './hooks';
 import { 
   changeQuery,
+  changeDateRange,
   selectQueries
 } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
@@ -111,8 +119,6 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
-  const [startTime, setStartTime] = useState<string>('now-15m');
-  const [endTime, setEndTime] = useState<string>('now');
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
@@ -128,13 +134,38 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
+  const composeFinalQuery = (curQuery: any) => {
+    if (isEmpty(curQuery![RAW_QUERY])) return '';
+    return insertDateRangeToQuery({
+      rawQuery: curQuery![RAW_QUERY],
+      startTime: curQuery!['selectedDateRange'][0],
+      endTime: curQuery!['selectedDateRange'][1]
+    });
+  };
+
   const fetchData = () => {
-    const searchQuery = queryRef.current[RAW_QUERY];
-    if (!searchQuery) return;
-    if (searchQuery.match(/\|\s*stats/i)) {
-      const index = getIndexPatternFromRawQuery(searchQuery);
-      if (!index) return;
-      getAvailableFields(`search source=${index}`);
+    const curQuery = queryRef.current;
+    const rawQueryStr = curQuery![RAW_QUERY];
+    if (isEmpty(rawQueryStr)) return;
+    /**
+     * get index pattern -> compose final query -> 
+     * get all available fields for an index - >
+     * get  
+     */
+    
+    const index = getIndexPatternFromRawQuery(rawQueryStr);
+    if (!isEmpty(index)) getAvailableFields(`search source=${index}`);
+
+    const finalQuery = composeFinalQuery(curQuery);
+    
+    dispatch(changeQuery({
+      tabId,
+      query: {
+        finalQuery,
+      }
+    }));
+    
+    if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
     } else {
       getEvents();
@@ -146,9 +177,19 @@ export const Explorer = ({
     fetchData();
   }, []);
 
-  const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
+  const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
-  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, UNSELECTED_FIELDS);
+  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
+
+  const handleTimePickerChange = async (timeRange: Array<string>) => {
+    await dispatch(changeDateRange({
+      tabId: requestParams.tabId,
+      data: {
+        [SELECTED_DATE_RANGE]: timeRange
+      }
+    }));
+    fetchData();
+  }
 
   /**
    * Toggle fields between selected and unselected sets
@@ -281,6 +322,7 @@ export const Explorer = ({
                   <div className="dscDiscover">
                     <DataGrid
                       rows={ explorerData['jsonData'] }
+                      rowsAll={ explorerData['jsonDataAll'] }
                       explorerFields={ explorerFields }
                     />
                     <a tabIndex={0} id="discoverBottomMarker">
@@ -392,10 +434,7 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = () => {
-    console.log('handle query change');
-    fetchData();
-  }
+  const handleQuerySearch = () => fetchData();
 
   const handleQueryChange = (query: string, index: string) => {
     dispatch(changeQuery({
@@ -406,19 +445,20 @@ export const Explorer = ({
       },
     }));
   }
-  
+
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
+   [query['selectedDateRange'][0], query['selectedDateRange'][1]];
+
   return (
     <div className="dscAppContainer">
-      <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
         query={ query }
-        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
+        handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
         dslService = { dslService }
-        startTime={ startTime }
-        endTime={ endTime }
-        setStartTime={ setStartTime }
-        setEndTime={ setEndTime }
+        startTime={ dateRange[0] }
+        endTime={ dateRange[1] }
+        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
         setIsOutputStale={ () => {} }
         liveStreamChecked={ liveStreamChecked }
         onLiveStreamChange={ handleLiveStreamChecked }

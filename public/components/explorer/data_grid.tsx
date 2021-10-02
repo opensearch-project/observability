@@ -14,29 +14,31 @@ import './data_grid.scss';
 import React, { useMemo } from 'react';
 import { uniqueId } from 'lodash';
 import { DocViewRow } from './docTable/index';
-import { IExplorerFields } from '../../../common/types/explorer';
+import { IExplorerFields, IField } from '../../../common/types/explorer';
 
 interface DataGridProps {
   rows: Array<any>;
+  rowsAll: Array<any>;
   explorerFields: IExplorerFields;
 }
 
 export function DataGrid(props: DataGridProps) {
   const {
     rows,
+    rowsAll,
     explorerFields
   } = props;
 
   const getTrs = (
     docs: Array<any> = [],
-    explorerFields: IExplorerFields
+    explorerFields: Array<IField>
   ) => {
     return docs.map((doc) => {
       return (
         <DocViewRow
           key={ uniqueId('doc_view') } 
           doc={ doc }
-          selectedCols={ explorerFields?.selectedFields }
+          selectedCols={ explorerFields }
         />
       );
     });
@@ -48,9 +50,9 @@ export function DataGrid(props: DataGridProps) {
     '_source'
   ];
 
-  const getHeaders = (fields: IExplorerFields) => {
+  const getHeaders = (fields: any) => {
     let tableHeadContent = null;
-    if (!fields.selectedFields || fields.selectedFields.length === 0) {
+    if (!fields || fields.length === 0) {
       tableHeadContent = (
           <>
             { defaultCols.map((colName: string) => {
@@ -63,12 +65,12 @@ export function DataGrid(props: DataGridProps) {
           </>
       );
     } else {
-      tableHeadContent = fields.selectedFields.map(selField => {
+      tableHeadContent = fields.map(selField => {
         return (
           <th key={ uniqueId('datagrid-header-')}>{ selField.name }</th>
         );
       });
-      tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}>Time</th>);
+      // tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}>Time</th>);
       tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}></th>);
     }
 
@@ -80,21 +82,63 @@ export function DataGrid(props: DataGridProps) {
     
   };
 
-  const headers = useMemo(() => getHeaders(explorerFields), [ explorerFields ]);
-  const tableRows = useMemo(() => getTrs(rows, explorerFields), [ rows, explorerFields ]);
+  const Queriedheaders = useMemo(
+    () => getHeaders(explorerFields.queriedFields), 
+    [ explorerFields.queriedFields ]
+  );
+  const QueriedtableRows = useMemo(
+    () => getTrs(rows, explorerFields.queriedFields),
+    [ rows, explorerFields.queriedFields ]
+  );
+  const headers = useMemo(
+    () => getHeaders(explorerFields.selectedFields),
+    [ explorerFields.selectedFields ]
+  );
+  const tableRows = useMemo(
+    () => {
+      const dataToRender = explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 ? rowsAll : rows
+      return getTrs(dataToRender, explorerFields.selectedFields);
+    },
+    [ rows, explorerFields.selectedFields ]
+  );
+
 
   return (
     <>
-      <table 
-        className="osd-table table"
-        data-test-subj="docTable">
-        <thead>
-          { headers }
-        </thead>
-        <tbody>
-          { tableRows }
-        </tbody>
-      </table>
+      {
+        explorerFields?.queriedFields &&
+        explorerFields.queriedFields.length > 0 &&
+        (
+          <table 
+            className="osd-table table"
+            data-test-subj="docTable">
+            <thead>
+              { Queriedheaders }
+            </thead>
+            <tbody>
+              { QueriedtableRows }
+            </tbody>
+          </table>
+        )
+      }
+      {
+        (
+          explorerFields?.queriedFields &&
+          explorerFields?.queriedFields?.length > 0 &&
+          explorerFields.selectedFields?.length === 0
+        ) ? null : (
+          <table 
+            className="osd-table table"
+            data-test-subj="docTable">
+            <thead>
+              { headers }
+            </thead>
+            <tbody>
+              { tableRows }
+            </tbody>
+          </table>
+        )
+      }
     </>
   )
 }

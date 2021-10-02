@@ -12,7 +12,9 @@
 import { 
   RAW_QUERY,
   SELECTED_FIELDS,
-  UNSELECTED_FIELDS
+  UNSELECTED_FIELDS,
+  AVAILABLE_FIELDS,
+  QUERIED_FIELDS
  } from '../constants/explorer';
 
 export interface IQueryTab {
@@ -45,6 +47,8 @@ export interface IExplorerTabFields {
 export interface IExplorerFields {
   [SELECTED_FIELDS]: Array<IField>;
   [UNSELECTED_FIELDS]: Array<IField>;
+  [AVAILABLE_FIELDS]: Array<IField>;
+  [QUERIED_FIELDS]: Array<IField>;
 }
 
 export interface ILogExplorerProps {

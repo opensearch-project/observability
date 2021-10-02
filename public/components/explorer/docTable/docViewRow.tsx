@@ -149,14 +149,14 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         );
       });
 
-      if (has(doc, 'timestamp')) {
-        cols.unshift(
-          getTdTmpl({ 
-            clsName: timestampClsName,
-            content: doc['timestamp']
-          })
-        );
-      }
+      // if (has(doc, 'timestamp')) {
+      //   cols.unshift(
+      //     getTdTmpl({ 
+      //       clsName: timestampClsName,
+      //       content: doc['timestamp']
+      //     })
+      //   );
+      // }
     }
 
     // Add detail toggling column
