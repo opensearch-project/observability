@@ -23,6 +23,7 @@ import { IField } from '../../../../common/types/explorer';
 interface IFieldProps {
   field: IField;
   selected: boolean;
+  showToggleButton: boolean;
   onToggleField: (field: IField) => void;
 }
 
@@ -31,6 +32,7 @@ export const Field = (props: IFieldProps) => {
   const {
     field,
     selected,
+    showToggleButton = true,
     onToggleField
   } = props;
 
@@ -68,21 +70,25 @@ export const Field = (props: IFieldProps) => {
           )
         }
       >
-        <EuiButtonIcon
-          color={ selected ? "danger" : "primary" }
-          iconType={ selected ? "cross": "plusInCircleFilled" }
-          className="dscSidebarItem__action"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            if (e.type === 'click') {
-              e.currentTarget.focus();
-            }
-            e.preventDefault();
-            e.stopPropagation();
-            toggleField(field);
-          }}
-          data-test-subj={`fieldToggle-${field.name}`}
-          aria-label={ selected ? removeLabelAria : addLabelAria }
-        />
+        {
+          showToggleButton ? (
+            <EuiButtonIcon
+              color={ selected ? "danger" : "primary" }
+              iconType={ selected ? "cross": "plusInCircleFilled" }
+              className="dscSidebarItem__action"
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                if (e.type === 'click') {
+                  e.currentTarget.focus();
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                toggleField(field);
+              }}
+              data-test-subj={`fieldToggle-${field.name}`}
+              aria-label={ selected ? removeLabelAria : addLabelAria }
+            />
+          ) : <></>
+        }
       </EuiToolTip>
     );
   };

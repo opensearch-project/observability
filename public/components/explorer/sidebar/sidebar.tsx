@@ -89,6 +89,7 @@ export const Sidebar = (props: ISidebarProps) => {
                             <Field 
                               field={ field }
                               selected={ true }
+                              showToggleButton={ false }
                               onToggleField={ handleRemoveField }
                             />
                           </li>
