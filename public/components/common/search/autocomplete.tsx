@@ -10,13 +10,20 @@
  */
 
 import './search.scss';
-import React, { useEffect } from 'react';
+import React, { 
+  createElement,
+  Fragment,
+  useEffect,
+  useRef 
+} from 'react';
+import { render } from 'react-dom';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { IQueryBarProps } from './search';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { createPPLSuggestionsPlugin } from './autocomplete_plugin';
 
 export function Autocomplete(props: IQueryBarProps) {
+  const containerRef = useRef(null);
   const { query, handleQueryChange, handleQuerySearch, dslService } = props;
 
   const PPLSuggestionPlugin = createPPLSuggestionsPlugin({
@@ -27,9 +34,18 @@ export function Autocomplete(props: IQueryBarProps) {
   });
 
   useEffect(() => {
+
+    if (!containerRef.current) {
+      return undefined;
+    }
+
     const search = autocomplete({
-      container: '#autocomplete',
-      initialState: { query: props.query[RAW_QUERY] },
+      container: containerRef.current,
+      renderer: { createElement, Fragment },
+      render({ children }, root) {
+        render(children, root);
+      },
+      initialState: { query: query[RAW_QUERY] },
       openOnFocus: true,
       placeholder: 'Enter PPL query to retrieve log, traces, and metrics',
       plugins: [PPLSuggestionPlugin],
@@ -41,5 +57,5 @@ export function Autocomplete(props: IQueryBarProps) {
     };
   }, []);
 
-  return <div id="autocomplete" />;
+  return <div ref={containerRef} />;
 }
