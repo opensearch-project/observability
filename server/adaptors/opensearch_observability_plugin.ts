@@ -9,101 +9,108 @@
  * GitHub history for details.
  */
 
-import { OPENSEARCH_PANELS_API } from '../../common/constants/shared';
+import { OPENSEARCH_PANELS_API } from "../../common/constants/shared";
 
-export function OpenSearchObservabilityPlugin(Client: any, config: any, components: any) {
+export function OpenSearchObservabilityPlugin(
+  Client: any,
+  config: any,
+  components: any
+) {
   const clientAction = components.clientAction.factory;
 
   Client.prototype.observability = components.clientAction.namespaceFactory();
   const observability = Client.prototype.observability.prototype;
 
-  // Get Object 
+  // Get Object
   observability.getObject = clientAction({
     url: {
       fmt: OPENSEARCH_PANELS_API.OBJECT,
       params: {
         objectId: {
-          type: 'string',
+          type: "string",
         },
         objectIdList: {
-          type: 'string',
+          type: "string",
         },
         objectType: {
-          type: 'string',
+          type: "string",
         },
         sortField: {
-          type: 'string',
+          type: "string",
         },
         sortOrder: {
-          type: 'string',
+          type: "string",
         },
-        fromIndex:{
-          type: 'string',
+        fromIndex: {
+          type: "number",
         },
         maxItems: {
-          type: 'number',
+          type: "number",
         },
         name: {
-          type: 'string',
+          type: "string",
         },
         lastUpdatedTimeMs: {
-          type: 'string',
+          type: "string",
+        },
+        createdTimeMs: {
+          type: "string",
         },
       },
     },
-    method: 'GET',
+    method: "GET",
   });
 
-  // Get Object by Id 
+  // Get Object by Id
   observability.getObjectById = clientAction({
     url: {
       fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
       req: {
         objectId: {
-          type: 'string',
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'GET',
+    method: "GET",
   });
 
-  // Create new Object 
+  // Create new Object
   observability.createObject = clientAction({
     url: {
       fmt: OPENSEARCH_PANELS_API.OBJECT,
     },
-    method: 'POST',
+    method: "POST",
     needBody: true,
   });
 
-  // Update Object by Id 
+  // Update Object by Id
   observability.updateObjectById = clientAction({
     url: {
       fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
       req: {
         objectId: {
-          type: 'string',
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'PUT',
+    method: "PUT",
     needBody: true,
   });
 
-  // Delete Object by Id 
+  // Delete Object by Id
   observability.deleteObjectById = clientAction({
     url: {
       fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
       req: {
         objectId: {
-          type: 'string',
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'DELETE',
+    method: "DELETE",
   });
 
   // Delete Object by Id List
@@ -112,11 +119,11 @@ export function OpenSearchObservabilityPlugin(Client: any, config: any, componen
       fmt: OPENSEARCH_PANELS_API.OBJECT,
       params: {
         objectIdList: {
-          type: 'string',
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
