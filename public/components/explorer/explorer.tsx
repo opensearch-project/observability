@@ -11,24 +11,19 @@
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { 
-  uniqueId,
-  isEmpty,
-  cloneDeep
-} from 'lodash';
-import { 
-  FormattedMessage 
-} from '@osd/i18n/react';
+import { uniqueId, isEmpty, cloneDeep } from 'lodash';
+import { FormattedMessage } from '@osd/i18n/react';
 import {
   EuiText,
   EuiButtonIcon,
   EuiTabbedContent,
   EuiTabbedContentTab,
   EuiFlexGroup,
-  EuiFlexItem
+  EuiFlexItem,
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
+import { IndexPicker } from '../common/search/searchindex';
 import { CountDistribution } from './visualizations/count_distribution';
 import { DataGrid } from './data_grid';
 import { Sidebar } from './sidebar';
@@ -36,10 +31,7 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import {
-  IField,
-  IQueryTab
-} from '../../../common/types/explorer';
+import { IField, IQueryTab } from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -48,23 +40,13 @@ import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
-  INDEX
+  INDEX,
 } from '../../../common/constants/explorer';
 import { getIndexPatternFromRawQuery } from '../../../common/utils';
-import { 
-  useFetchEvents,
-  useFetchVisualizations
-} from './hooks';
-import { 
-  changeQuery,
-  selectQueries
-} from './slices/query_slice';
+import { useFetchEvents, useFetchVisualizations } from './hooks';
+import { changeQuery, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
-import { 
-  selectFields,
-  updateFields,
-  sortFields
-} from './slices/field_slice';
+import { selectFields, updateFields, sortFields } from './slices/field_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
@@ -76,32 +58,19 @@ const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 interface IExplorerProps {
   pplService: PPLService;
   dslService: DSLService;
-  tabId: string
+  tabId: string;
 }
 
-export const Explorer = ({
-  pplService,
-  dslService,
-  tabId
-}: IExplorerProps) => {
-
+export const Explorer = ({ pplService, dslService, tabId }: IExplorerProps) => {
   const dispatch = useDispatch();
-  const requestParams = { tabId, };
-  const {
-    isEventsLoading,
-    getEvents,
-    getAvailableFields
-  } = useFetchEvents({
+  const requestParams = { tabId };
+  const { isEventsLoading, getEvents, getAvailableFields } = useFetchEvents({
     pplService,
-    requestParams
+    requestParams,
   });
-  const {
-    isVisLoading,
-    getVisualizations,
-    getCountVisualizations
-  } = useFetchVisualizations({
+  const { isVisLoading, getVisualizations, getCountVisualizations } = useFetchVisualizations({
     pplService,
-    requestParams
+    requestParams,
   });
 
   const query = useSelector(selectQueries)[tabId];
@@ -112,12 +81,12 @@ export const Explorer = ({
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [startTime, setStartTime] = useState<string>('now-15m');
   const [endTime, setEndTime] = useState<string>('now');
-  const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
-  const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
+  const [liveStreamChecked, setLiveStreamChecked] = useState<boolean>(false);
+  const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
   const queryRef = useRef();
   queryRef.current = query;
-  
+
   const fixedScrollRef = useCallback(
     (node: HTMLElement) => {
       if (node !== null) {
@@ -145,38 +114,39 @@ export const Explorer = ({
     fetchData();
   }, []);
 
+
   const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
 
-  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, UNSELECTED_FIELDS);
+  const handleRemoveField = (field: IField) =>
+    toggleFields(field, SELECTED_FIELDS, UNSELECTED_FIELDS);
 
   /**
    * Toggle fields between selected and unselected sets
    * @param field field to be toggled
    * @param FieldSetToRemove set where this field to be removed from
    * @param FieldSetToAdd set where this field to be added
-  */
-  const toggleFields = (
-    field: IField,
-    FieldSetToRemove: string,
-    FieldSetToAdd: string
-  ) => {
-
+   */
+  const toggleFields = (field: IField, FieldSetToRemove: string, FieldSetToAdd: string) => {
     const nextFields = cloneDeep(explorerFields);
     const thisFieldSet = nextFields[FieldSetToRemove];
     const nextFieldSet = thisFieldSet.filter((fd: IField) => fd.name !== field.name);
     nextFields[FieldSetToRemove] = nextFieldSet;
     nextFields[FieldSetToAdd].push(field);
     batch(() => {
-      dispatch(updateFields({ 
-        tabId,
-        data: {
-          ...nextFields
-        }
-      }));
-      dispatch(sortFields({
-        tabId,
-        data: [FieldSetToAdd]
-      }));
+      dispatch(
+        updateFields({
+          tabId,
+          data: {
+            ...nextFields,
+          },
+        })
+      );
+      dispatch(
+        sortFields({
+          tabId,
+          data: [FieldSetToAdd],
+        })
+      );
     });
   };
 
@@ -192,101 +162,92 @@ export const Explorer = ({
   });
 
   const getMainContent = () => {
-
     return (
       <main className="container-fluid">
         <div className="row">
           <div
-              className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
-              id="discover-sidebar"
-              data-test-subj="discover-sidebar"
-            >
-              {!isSidebarClosed && (
-                <div className="dscFieldChooser">
-                  <Sidebar
-                    explorerFields={ explorerFields }
-                    handleAddField={ (field: IField) => handleAddField(field) }
-                    handleRemoveField={ (field: IField) => handleRemoveField(field) }
-                  />
-                </div>
-              )}
-              <EuiButtonIcon
-                iconType={ isSidebarClosed ? 'menuRight' : 'menuLeft' }
-                iconSize="m"
-                size="s"
-                onClick={ () => {
-                  setIsSidebarClosed(staleState => {
-                    return !staleState;
-                  });
-                } }
-                data-test-subj="collapseSideBarButton"
-                aria-controls="discover-sidebar"
-                aria-expanded={ isSidebarClosed ? 'false' : 'true' }
-                aria-label="Toggle sidebar"
-                className="dscCollapsibleSidebar__collapseButton"
-              />
+            className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
+            id="discover-sidebar"
+            data-test-subj="discover-sidebar"
+          >
+            {!isSidebarClosed && (
+              <div className="dscFieldChooser">
+                <Sidebar
+                  explorerFields={explorerFields}
+                  handleAddField={(field: IField) => handleAddField(field)}
+                  handleRemoveField={(field: IField) => handleRemoveField(field)}
+                />
+              </div>
+            )}
+            <EuiButtonIcon
+              iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+              iconSize="m"
+              size="s"
+              onClick={() => {
+                setIsSidebarClosed((staleState) => {
+                  return !staleState;
+                });
+              }}
+              data-test-subj="collapseSideBarButton"
+              aria-controls="discover-sidebar"
+              aria-expanded={isSidebarClosed ? 'false' : 'true'}
+              aria-label="Toggle sidebar"
+              className="dscCollapsibleSidebar__collapseButton"
+            />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (explorerData && !isEmpty(explorerData)) ? (
-            <div className="dscWrapper__content">
-              <div className="dscResults">
-                { 
-                  explorerData && (
+            {explorerData && !isEmpty(explorerData) ? (
+              <div className="dscWrapper__content">
+                <div className="dscResults">
+                  {explorerData && (
                     <>
-                      <EuiFlexGroup
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <EuiFlexItem
-                          grow={false}
-                        >
-                          <HitsCounter 
-                            hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
+                      <EuiFlexGroup justifyContent="center" alignItems="center">
+                        <EuiFlexItem grow={false}>
+                          <HitsCounter
+                            hits={explorerData.datarows?.length || countDistribution?.size || 0}
                             showResetButton={true}
-                            onResetQuery={ () => {} }
+                            onResetQuery={() => {}}
                           />
                         </EuiFlexItem>
-                        <EuiFlexItem
-                          grow={false}
-                        >
+                        <EuiFlexItem grow={false}>
                           <TimechartHeader
-                            dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
+                            dateFormat={'MMM D, YYYY @ HH:mm:ss.SSS'}
                             options={[
                               {
                                 display: 'Auto',
-                                val: 'auto'
+                                val: 'auto',
                               },
                               {
                                 display: 'Millisecond',
-                                val: 'ms'
+                                val: 'ms',
                               },
                               {
                                 display: 'Second',
-                                val: 's'
+                                val: 's',
                               },
                               {
                                 display: 'Minute',
-                                val: 'm'
+                                val: 'm',
                               },
                               {
                                 display: 'Hour',
-                                val: 'h'
+                                val: 'h',
                               },
                               {
                                 display: 'Day',
-                                val: 'd'
+                                val: 'd',
                               },
                               {
                                 display: 'Week',
-                                val: 'w'
+                                val: 'w',
                               },
                               {
                                 display: 'Month',
-                                val: 'M'
+                                val: 'M',
                               },
                               {
                                 display: 'Year',
-                                val: 'y'
+                                val: 'y',
                               },
                             ]}
                             onChangeInterval={(intrv) => {
@@ -296,109 +257,88 @@ export const Explorer = ({
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
-                      <CountDistribution
-                        countDistribution={ countDistribution }
-                      />
+                      <CountDistribution countDistribution={countDistribution} />
                     </>
-                  )
-                }
-                
-                <section
-                  className="dscTable dscTableFixedScroll"
-                  aria-labelledby="documentsAriaLabel"
-                  ref={fixedScrollRef}
-                >
-                  <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
-                    <FormattedMessage
-                      id="discover.documentsAriaLabel"
-                      defaultMessage="Documents"
-                    />
-                  </h2>
-                  <div className="dscDiscover">
-                    <DataGrid
-                      rows={ explorerData['jsonData'] }
-                      explorerFields={ explorerFields }
-                    />
-                    <a tabIndex={0} id="discoverBottomMarker">
-                      &#8203;
-                    </a>
-                  </div>
-                </section>
+                  )}
+
+                  <section
+                    className="dscTable dscTableFixedScroll"
+                    aria-labelledby="documentsAriaLabel"
+                    ref={fixedScrollRef}
+                  >
+                    <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
+                      <FormattedMessage
+                        id="discover.documentsAriaLabel"
+                        defaultMessage="Documents"
+                      />
+                    </h2>
+                    <div className="dscDiscover">
+                      <DataGrid rows={explorerData.jsonData} explorerFields={explorerFields} />
+                      <a tabIndex={0} id="discoverBottomMarker">
+                        &#8203;
+                      </a>
+                    </div>
+                  </section>
+                </div>
               </div>
-            </div>
-          ) : <NoResults />}
+            ) : (
+              <NoResults />
+            )}
           </div>
         </div>
       </main>
     );
   };
 
-  function getMainContentTab ({
+  function getMainContentTab({
     tabId,
     tabTitle,
-    getContent
+    getContent,
   }: {
-    tabId: string,
-    tabTitle: string,
-    getContent: () => JSX.Element
+    tabId: string;
+    tabTitle: string;
+    getContent: () => JSX.Element;
   }) {
     return {
       id: tabId,
-      name: (<>
-              <EuiText
-                size="s"
-                textAlign="left"
-                color="default"
-              >
-                <span className="tab-title">{ tabTitle }</span>
-              </EuiText>
-            </>),
-      content: (
+      name: (
         <>
-          { getContent() }
-        </>)
+          <EuiText size="s" textAlign="left" color="default">
+            <span className="tab-title">{tabTitle}</span>
+          </EuiText>
+        </>
+      ),
+      content: <>{getContent()}</>,
     };
-  };
+  }
 
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
-        explorerFields={ explorerFields }
-        explorerVis={ explorerVisualizations }
+        explorerFields={explorerFields}
+        explorerVis={explorerVisualizations}
       />
     );
   };
 
   const getMainContentTabs = () => {
     return [
-        getMainContentTab(
-          {
-            tabId: TAB_EVENT_ID,
-            tabTitle: TAB_EVENT_TITLE,
-            getContent: () => getMainContent()
-          }
-        ),
-        getMainContentTab(
-          {
-            tabId: TAB_CHART_ID,
-            tabTitle: TAB_CHART_TITLE,
-            getContent: () => getExplorerVis()
-          }
-        )
+      getMainContentTab({
+        tabId: TAB_EVENT_ID,
+        tabTitle: TAB_EVENT_TITLE,
+        getContent: () => getMainContent(),
+      }),
+      getMainContentTab({
+        tabId: TAB_CHART_ID,
+        tabTitle: TAB_CHART_TITLE,
+        getContent: () => getExplorerVis(),
+      }),
     ];
   };
 
   const memorizedMainContentTabs = useMemo(() => {
     return getMainContentTabs();
-  },
-    [
-      explorerData,
-      explorerFields,
-      isSidebarClosed,
-      countDistribution,
-      explorerVisualizations
-    ]
-  );
+  }, [explorerData, explorerFields, isSidebarClosed, countDistribution, explorerVisualizations]);
 
   const actionItems = [
     {
@@ -407,8 +347,8 @@ export const Explorer = ({
       handlers: {
         onClick: () => {
           console.log('refresh clicked');
-        }
-      }
+        },
+      },
     },
     {
       text: 'Live',
@@ -416,8 +356,8 @@ export const Explorer = ({
       handlers: {
         onClick: () => {
           console.log('refresh clicked');
-        }
-      }
+        },
+      },
     },
     {
       text: 'Save',
@@ -425,50 +365,66 @@ export const Explorer = ({
       handlers: {
         onClick: () => {
           console.log('refresh clicked');
-        }
-      }
-    }
+        },
+      },
+    },
   ];
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
-  
+
   const handleQuerySearch = () => {
     fetchData();
-  }
+  };
 
   const handleQueryChange = (query: string, index: string) => {
-    dispatch(changeQuery({
-      tabId,
-      query: {
-        [RAW_QUERY]: query,
-        [INDEX]: index
-      },
-    }));
-  }
-  
+    dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [RAW_QUERY]: query,
+          [INDEX]: index,
+        },
+      })
+    );
+  };
+
+
   return (
     <div className="dscAppContainer">
       <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
-        query={ query }
-        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
-        handleQuerySearch={ () => { handleQuerySearch() } }
-        dslService = { dslService }
-        startTime={ startTime }
-        endTime={ endTime }
-        setStartTime={ setStartTime }
-        setEndTime={ setEndTime }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={ liveStreamChecked }
-        onLiveStreamChange={ handleLiveStreamChecked }
-        actionItems={ actionItems }
+        query={query}
+        handleQueryChange={(query: string, index: string) => {
+          handleQueryChange(query, index);
+        }}
+        handleQuerySearch={() => {
+          handleQuerySearch();
+        }}
+        dslService={dslService}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
+        setEndTime={setEndTime}
+        setIsOutputStale={() => {}}
+        liveStreamChecked={liveStreamChecked}
+        onLiveStreamChange={handleLiveStreamChecked}
+        actionItems={actionItems}
+      />
+      <IndexPicker
+        dslService={dslService}
+        query = { query }
+        handleQueryChange={(query: string, index: string) => {
+          handleQueryChange(query, index);
+        }}
       />
       <EuiTabbedContent
         className="mainContentTabs"
-        initialSelectedTab={ memorizedMainContentTabs[0] }
-        selectedTab={ memorizedMainContentTabs.find(tab => { tab.id === selectedContentTabId }) }
-        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-        tabs={ memorizedMainContentTabs }
+        initialSelectedTab={memorizedMainContentTabs[0]}
+        selectedTab={memorizedMainContentTabs.find((tab) => {
+          tab.id === selectedContentTabId;
+        })}
+        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+        tabs={memorizedMainContentTabs}
       />
     </div>
   );
