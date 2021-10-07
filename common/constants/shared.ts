@@ -33,9 +33,8 @@ export const PPL_STATS_REGEX = /\|\s*stats/i;
 export const PPL_INDEX_INSERT_POINT_REGEX = /search (source|index)\s*=\s*([^\s]+)(.*)/i;
 export const PPL_INDEX_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)/i;
 
-// Observability plugin URI 
+// Observability plugin URI
 const BASE_OBSERVABILITY_URI = '/_plugins/_observability';
 export const OPENSEARCH_PANELS_API = {
-  GET_PANELS: `${BASE_OBSERVABILITY_URI}/panels`,
-  PANEL: `${BASE_OBSERVABILITY_URI}/panel`,
+  OBJECT: `${BASE_OBSERVABILITY_URI}/object`,
 };

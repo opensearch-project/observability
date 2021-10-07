@@ -9,138 +9,121 @@
  * GitHub history for details.
  */
 
-import { OPENSEARCH_NOTEBOOKS_API } from '../../common/constants/notebooks';
-import { OPENSEARCH_PANELS_API } from '../../common/constants/shared';
+import { OPENSEARCH_PANELS_API } from "../../common/constants/shared";
 
-export function OpenSearchObservabilityPlugin(Client: any, config: any, components: any) {
+export function OpenSearchObservabilityPlugin(
+  Client: any,
+  config: any,
+  components: any
+) {
   const clientAction = components.clientAction.factory;
 
   Client.prototype.observability = components.clientAction.namespaceFactory();
   const observability = Client.prototype.observability.prototype;
 
-  observability.getPanels = clientAction({
+  // Get Object
+  observability.getObject = clientAction({
     url: {
-      fmt: OPENSEARCH_PANELS_API.GET_PANELS,
+      fmt: OPENSEARCH_PANELS_API.OBJECT,
       params: {
+        objectId: {
+          type: "string",
+        },
+        objectIdList: {
+          type: "string",
+        },
+        objectType: {
+          type: "string",
+        },
+        sortField: {
+          type: "string",
+        },
+        sortOrder: {
+          type: "string",
+        },
         fromIndex: {
-          type: 'number',
+          type: "number",
         },
         maxItems: {
-          type: 'number',
+          type: "number",
+        },
+        name: {
+          type: "string",
+        },
+        lastUpdatedTimeMs: {
+          type: "string",
+        },
+        createdTimeMs: {
+          type: "string",
         },
       },
     },
-    method: 'GET',
+    method: "GET",
   });
 
-  observability.createPanel = clientAction({
+  // Get Object by Id
+  observability.getObjectById = clientAction({
     url: {
-      fmt: OPENSEARCH_PANELS_API.PANEL,
+      fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
+      req: {
+        objectId: {
+          type: "string",
+          required: true,
+        },
+      },
     },
-    method: 'POST',
+    method: "GET",
+  });
+
+  // Create new Object
+  observability.createObject = clientAction({
+    url: {
+      fmt: OPENSEARCH_PANELS_API.OBJECT,
+    },
+    method: "POST",
     needBody: true,
   });
 
-  observability.getPanelById = clientAction({
+  // Update Object by Id
+  observability.updateObjectById = clientAction({
     url: {
-      fmt: `${OPENSEARCH_PANELS_API.PANEL}/<%=panelId%>`,
+      fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
       req: {
-        panelId: {
-          type: 'string',
+        objectId: {
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'GET',
-  });
-
-  observability.updatePanelById = clientAction({
-    url: {
-      fmt: `${OPENSEARCH_PANELS_API.PANEL}/<%=panelId%>`,
-      req: {
-        panelId: {
-          type: 'string',
-          required: true,
-        },
-      },
-    },
-    method: 'PUT',
+    method: "PUT",
     needBody: true,
   });
 
-  observability.deletePanelById = clientAction({
+  // Delete Object by Id
+  observability.deleteObjectById = clientAction({
     url: {
-      fmt: `${OPENSEARCH_PANELS_API.PANEL}/<%=panelId%>`,
+      fmt: `${OPENSEARCH_PANELS_API.OBJECT}/<%=objectId%>`,
       req: {
-        panelId: {
-          type: 'string',
+        objectId: {
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'DELETE',
+    method: "DELETE",
   });
 
-  observability.getNotebooks = clientAction({
+  // Delete Object by Id List
+  observability.deleteObjectByIdList = clientAction({
     url: {
-      fmt: OPENSEARCH_NOTEBOOKS_API.GET_NOTEBOOKS,
+      fmt: OPENSEARCH_PANELS_API.OBJECT,
       params: {
-        fromIndex: {
-          type: 'number',
-        },
-        maxItems: {
-          type: 'number',
-        },
-      },
-    },
-    method: 'GET',
-  });
-
-  observability.createNotebook = clientAction({
-    url: {
-      fmt: OPENSEARCH_NOTEBOOKS_API.NOTEBOOK,
-    },
-    method: 'POST',
-    needBody: true,
-  });
-
-  observability.getNotebookById = clientAction({
-    url: {
-      fmt: `${OPENSEARCH_NOTEBOOKS_API.NOTEBOOK}/<%=notebookId%>`,
-      req: {
-        notebookId: {
-          type: 'string',
+        objectIdList: {
+          type: "string",
           required: true,
         },
       },
     },
-    method: 'GET',
-  });
-
-  observability.updateNotebookById = clientAction({
-    url: {
-      fmt: `${OPENSEARCH_NOTEBOOKS_API.NOTEBOOK}/<%=notebookId%>`,
-      req: {
-        notebookId: {
-          type: 'string',
-          required: true,
-        },
-      },
-    },
-    method: 'PUT',
-    needBody: true,
-  });
-
-  observability.deleteNotebookById = clientAction({
-    url: {
-      fmt: `${OPENSEARCH_NOTEBOOKS_API.NOTEBOOK}/<%=notebookId%>`,
-      req: {
-        notebookId: {
-          type: 'string',
-          required: true,
-        },
-      },
-    },
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
