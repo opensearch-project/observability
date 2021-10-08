@@ -140,7 +140,10 @@ export const generateInContextReport = async (
   rest = {}
 ) => {
   toggleReportingLoadingModal(true);
-  let baseUrl = location.pathname + location.hash + '?view=output_only';  
+  let baseUrl =
+    location.pathname +
+    location.hash.replace(/\?view=(view_both|input_only|output_only)/, '') +
+    '?view=output_only';
   // Add selected tenant info to url
   try {
     const tenant = await getTenantInfoIfExists();

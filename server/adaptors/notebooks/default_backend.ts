@@ -59,9 +59,9 @@ export class DefaultBackend implements NotebookAdaptor {
   indexNote = async function (
     client: ILegacyScopedClusterClient,
     body: any
-  ): Promise<{ notebookId: string }> {
+  ): Promise<{ objectId: string }> {
     try {
-      const response = await client.callAsCurrentUser('observability.createNotebook', {
+      const response = await client.callAsCurrentUser('observability.createObject', {
         body: {
           notebook: body,
         },
@@ -79,8 +79,8 @@ export class DefaultBackend implements NotebookAdaptor {
     updateBody: Partial<DefaultNotebooks>
   ) {
     try {
-      const response = await client.callAsCurrentUser('observability.updateNotebookById', {
-        notebookId: noteId,
+      const response = await client.callAsCurrentUser('observability.updateObjectById', {
+        objectId: noteId,
         body: {
           notebook: updateBody,
         },
@@ -94,10 +94,13 @@ export class DefaultBackend implements NotebookAdaptor {
   // fetched a notebook by Id
   getNote = async function (client: ILegacyScopedClusterClient, noteId: string) {
     try {
-      const response = await client.callAsCurrentUser('observability.getNotebookById', {
-        notebookId: noteId,
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: noteId,
       });
-      return response.notebookDetails;
+      if (response.observabilityObjectList.length === 0) {
+        throw 'notebook id not found'
+      }
+      return response.observabilityObjectList[0];
     } catch (error) {
       throw new Error('Get Doc Error:' + error);
     }
@@ -106,10 +109,12 @@ export class DefaultBackend implements NotebookAdaptor {
   // gets first `FETCH_SIZE` notebooks available
   viewNotes = async function (client: ILegacyScopedClusterClient, _wreckOptions: optionsType) {
     try {
-      const response = await client.callAsCurrentUser('observability.getNotebooks');
-      return response.notebookDetailsList.map((notebook) => ({
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'notebook'
+      });
+      return response.observabilityObjectList.map((notebook) => ({
         path: notebook.notebook.name,
-        id: notebook.id,
+        id: notebook.objectId,
         dateCreated: notebook.notebook.dateCreated,
         dateModified: notebook.notebook.dateModified,
       }));
@@ -155,7 +160,7 @@ export class DefaultBackend implements NotebookAdaptor {
       return {
         status: 'OK',
         message: opensearchClientResponse,
-        body: opensearchClientResponse.notebookId,
+        body: opensearchClientResponse.objectId,
       };
     } catch (error) {
       throw new Error('Creating New Notebook Error:' + error);
@@ -177,7 +182,7 @@ export class DefaultBackend implements NotebookAdaptor {
         const notebook = notebooks[i];
         await this.indexNote(client, notebook.notebook).then((response) => {
           newNotebooks.push({
-            id: response.notebookId,
+            id: response.objectId,
             name: notebook.notebook.name,
             dateModified: notebook.dateModified,
             dateCreated: notebook.dateCreated,
@@ -228,7 +233,7 @@ export class DefaultBackend implements NotebookAdaptor {
       const opensearchClientIndexResponse = await this.indexNote(client, cloneNotebook);
       return {
         status: 'OK',
-        body: { ...cloneNotebook, id: opensearchClientIndexResponse.notebookId },
+        body: { ...cloneNotebook, id: opensearchClientIndexResponse.objectId },
       };
     } catch (error) {
       throw new Error('Cloning Notebook Error:' + error);
@@ -244,8 +249,8 @@ export class DefaultBackend implements NotebookAdaptor {
     _wreckOptions: optionsType
   ) {
     try {
-      const response = await client.callAsCurrentUser('observability.deleteNotebookById', {
-        notebookId: noteId,
+      const response = await client.callAsCurrentUser('observability.deleteObjectById', {
+        objectId: noteId,
       });
       return { status: 'OK', message: response };
     } catch (error) {
@@ -286,7 +291,7 @@ export class DefaultBackend implements NotebookAdaptor {
       return {
         status: 'OK',
         message: opensearchClientIndexResponse,
-        body: opensearchClientIndexResponse.notebookId,
+        body: opensearchClientIndexResponse.objectId,
       };
     } catch (error) {
       throw new Error('Import Notebook Error:' + error);
