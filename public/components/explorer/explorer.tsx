@@ -36,6 +36,7 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
+import { IndexPicker } from '../common/search/searchindex';
 import {
   IField,
   IQueryTab
@@ -462,6 +463,11 @@ export const Explorer = ({
         liveStreamChecked={ liveStreamChecked }
         onLiveStreamChange={ handleLiveStreamChecked }
         actionItems={ actionItems }
+      />
+      <IndexPicker
+        dslService={ dslService }
+        query = { query }
+        handleQueryChange={(query: string, index: string) => { handleQueryChange(query, index) } }
       />
       <EuiTabbedContent
         className="mainContentTabs"
