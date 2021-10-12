@@ -44,7 +44,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in fetching panel list:', error);
+        console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -81,7 +81,7 @@ export function PanelsRouter(router: IRouter) {
           body: panelObject,
         });
       } catch (error) {
-        console.log('Issue in fetching panel:', error);
+        console.error('Issue in fetching panel:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -121,7 +121,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in creating new panel', error);
+        console.error('Issue in creating new panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -162,7 +162,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in renaming panel', error);
+        console.error('Issue in renaming panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -207,7 +207,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in cloning panel', error);
+        console.error('Issue in cloning panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -247,7 +247,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in deleting panel', error);
+        console.error('Issue in deleting panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -294,7 +294,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in adding query filter', error);
+        console.error('Issue in adding query filter', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,

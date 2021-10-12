@@ -45,7 +45,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in fetching saved visualizations:', error);
+        console.error('Issue in fetching saved visualizations:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -93,7 +93,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in adding visualization:', error);
+        console.error('Issue in adding visualization:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -143,7 +143,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in adding visualization:', error);
+        console.error('Issue in adding visualization:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -193,7 +193,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in replacing visualization:', error);
+        console.error('Issue in replacing visualization:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -235,7 +235,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in deleting visualization:', error);
+        console.error('Issue in deleting visualization:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -286,7 +286,7 @@ export function VisualizationsRouter(router: IRouter) {
           },
         });
       } catch (error) {
-        console.log('Issue in Editing visualizations:', error);
+        console.error('Issue in Editing visualizations:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
