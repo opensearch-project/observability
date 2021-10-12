@@ -9,20 +9,20 @@
  * GitHub history for details.
  */
 
-import { PanelType } from '../../../common/constants/custom_panels';
+import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { PPL_CONTAINS_TIMESTAMP_REGEX } from '../../../common/constants/shared';
 
-// NOTE: Need to add more functions for using panel APIs 
 export class CustomPanelsAdaptor {
   // index a panel
   indexPanel = async function (
     client: ILegacyScopedClusterClient,
-    body: any
-  ): Promise<{ panelId: string }> {
+    panelBody: PanelType
+  ): Promise<{ objectId: string }> {
     try {
-      const response = await client.callAsCurrentUser('observability.createPanel', {
+      const response = await client.callAsCurrentUser('observability.createObject', {
         body: {
-          panel: body,
+          operationalPanel: panelBody,
         },
       });
       return response;
@@ -35,13 +35,13 @@ export class CustomPanelsAdaptor {
   updatePanel = async function (
     client: ILegacyScopedClusterClient,
     panelId: string,
-    updateBody: Partial<PanelType>
+    updatePanelBody: Partial<PanelType>
   ) {
     try {
-      const response = await client.callAsCurrentUser('observability.updatePanelById', {
-        panelId: panelId,
+      const response = await client.callAsCurrentUser('observability.updateObjectById', {
+        objectId: panelId,
         body: {
-          panel: updateBody,
+          operationalPanel: updatePanelBody,
         },
       });
       return response;
@@ -50,44 +50,336 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //fetch a panel by id
+  // fetch a panel by id
   getPanel = async function (client: ILegacyScopedClusterClient, panelId: string) {
     try {
-      const response = await client.callAsCurrentUser('observability.getPanelById', {
-        panelId: panelId,
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: panelId,
       });
-      return response.panelDetails;
+      return response.observabilityObjectList[0];
     } catch (error) {
       throw new Error('Get Panel Error:' + error);
     }
   };
 
   // gets list of panels stored in index
-  viewPanels = async function (client: ILegacyScopedClusterClient) {
+  viewPanelList = async function (client: ILegacyScopedClusterClient) {
     try {
-      const response = await client.callAsCurrentUser('observability.getPanels');
-      return response.panelsDetailsList.map((panel) => ({
-        path: panel.panel.name,
-        id: panel.id,
-        dateCreated: panel.panel.dateCreated,
-        dateModified: panel.panel.dateModified,
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'operationalPanel',
+      });
+      return response.observabilityObjectList.map((panel: any) => ({
+        name: panel.operationalPanel.name,
+        id: panel.objectId,
+        dateCreated: panel.createdTimeMs,
+        dateModified: panel.lastUpdatedTimeMs,
       }));
     } catch (error) {
       if (error.body.error.type === 'index_not_found_exception') {
         return [];
-      } else throw new Error('View Panels Error:' + error);
+      } else throw new Error('View Panel List Error:' + error);
     }
   };
 
   // Delete a panel by Id
-  deleteNote = async function (client: ILegacyScopedClusterClient, panelId: string) {
+  deletePanel = async function (client: ILegacyScopedClusterClient, panelId: string) {
     try {
-      const response = await client.callAsCurrentUser('observability.deletePanelById', {
-        panelId: panelId,
+      const response = await client.callAsCurrentUser('observability.deleteObjectById', {
+        objectId: panelId,
       });
       return { status: 'OK', message: response };
     } catch (error) {
       throw new Error('Delete Panel Error:' + error);
+    }
+  };
+
+  // Delete a panel by Id
+  deletePanelList = async function (client: ILegacyScopedClusterClient, panelIdList: string) {
+    try {
+      const response = await client.callAsCurrentUser('observability.deleteObjectByIdList', {
+        objectIdList: panelIdList,
+      });
+      return { status: 'OK', message: response };
+    } catch (error) {
+      throw new Error('Delete Panel List Error:' + error);
+    }
+  };
+
+  // Create a new Panel
+  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string) => {
+    const panelBody = {
+      name: panelName,
+      visualizations: [],
+      timeRange: {
+        to: 'now',
+        from: 'now-1d',
+      },
+      queryFilter: {
+        query: '',
+        language: 'ppl',
+      },
+    };
+
+    try {
+      const response = await this.indexPanel(client, panelBody);
+      return response.objectId;
+    } catch (error) {
+      throw new Error('Create New Panel Error:' + error);
+    }
+  };
+
+  // Rename an existing panel
+  renamePanel = async (client: ILegacyScopedClusterClient, panelId: string, panelName: string) => {
+    const updatePanelBody = {
+      name: panelName,
+    };
+    try {
+      const response = await this.updatePanel(client, panelId, updatePanelBody);
+      return response.objectId;
+    } catch (error) {
+      throw new Error('Rename Panel Error:' + error);
+    }
+  };
+
+  // Clone an existing panel
+  clonePanel = async (client: ILegacyScopedClusterClient, panelId: string, panelName: string) => {
+    const updatePanelBody = {
+      name: panelName,
+    };
+    try {
+      const getPanel = await this.getPanel(client, panelId);
+      const clonePanelBody = {
+        name: panelName,
+        visualizations: getPanel.operationalPanel.visualizations,
+        timeRange: getPanel.operationalPanel.timeRange,
+        queryFilter: getPanel.operationalPanel.queryFilter,
+      };
+      const indexResponse = await this.indexPanel(client, clonePanelBody);
+      const getClonedPanel = await this.getPanel(client, indexResponse.objectId);
+      return {
+        clonePanelId: getClonedPanel.objectId,
+        dateCreated: getClonedPanel.createdTimeMs,
+        dateModified: getClonedPanel.lastUpdatedTimeMs,
+      };
+    } catch (error) {
+      throw new Error('Clone Panel Error:' + error);
+    }
+  };
+
+  // Add filters to an existing panel
+  addPanelFilter = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    query: string,
+    language: string,
+    to: string,
+    from: string
+  ) => {
+    const updatePanelBody = {
+      timeRange: {
+        to: to,
+        from: from,
+      },
+      queryFilter: {
+        query: query,
+        language: language,
+      },
+    };
+    try {
+      const response = await this.updatePanel(client, panelId, updatePanelBody);
+      return response.objectId;
+    } catch (error) {
+      throw new Error('Add Panel Filter Error:' + error);
+    }
+  };
+
+  // Check for time filter in query
+  checkTimeRangeExists = (query: string) => {
+    return PPL_CONTAINS_TIMESTAMP_REGEX.test(query);
+  };
+
+  // savedObjects Visualzation Query Builder
+  // removes time filter from query
+  // NOTE: this is a separate function to add more fields for future releases
+  savedVisualizationsQueryBuilder = (query: string) => {
+    return this.checkTimeRangeExists(query)
+      ? query.replace(PPL_CONTAINS_TIMESTAMP_REGEX, '')
+      : query;
+  };
+
+  // gets list of panels stored in index
+  viewSavedVisualiationList = async (client: ILegacyScopedClusterClient) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'savedVisualization',
+      });
+      return response.observabilityObjectList.map((visualization: any) => ({
+        id: visualization.objectId,
+        name: visualization.savedVisualization.name,
+        query: this.savedVisualizationsQueryBuilder(visualization.savedVisualization.query),
+        type: visualization.savedVisualization.type,
+        timeField: visualization.savedVisualization.selected_timestamp.name,
+      }));
+    } catch (error) {
+      if (error.body.error.type === 'index_not_found_exception') {
+        return [];
+      } else throw new Error('View Saved Visualizations Error:' + error);
+    }
+  };
+
+  //Get All Visualizations from a Panel
+  //Add Visualization
+  getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: panelId,
+      });
+      return response.observabilityObjectList[0].operationalPanel.visualizations;
+    } catch (error) {
+      throw new Error('Get Visualizations Error:' + error);
+    }
+  };
+
+  // Calculate new visualization dimensions
+  // New visualization always joins to the end of the panel
+  getNewVizDimensions = (panelVisualizations: VisualizationType[]) => {
+    let maxY: number = 0;
+    let maxYH: number = 0;
+
+    panelVisualizations.map((panelVisualization: VisualizationType) => {
+      if (panelVisualization.y >= maxY) {
+        maxY = panelVisualization.y;
+        maxYH = panelVisualization.h;
+      }
+    });
+
+    return { x: 0, y: maxY + maxYH, w: 6, h: 4 };
+  };
+
+  //Add Visualization in the  Panel
+  addVisualization = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    newVisualization: { id: string; title: string; query: string; type: string; timeField: string },
+    oldVisualizationId?: string
+  ) => {
+    try {
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
+
+      let newDimensions;
+      let visualizationsList = <VisualizationType[]>[];
+      if (oldVisualizationId === undefined) {
+        newDimensions = this.getNewVizDimensions(allPanelVisualizations);
+        visualizationsList = allPanelVisualizations;
+      } else {
+        allPanelVisualizations.map((visualization: VisualizationType) => {
+          if (visualization.id != oldVisualizationId) {
+            visualizationsList.push(visualization);
+          } else {
+            newDimensions = {
+              x: visualization.x,
+              y: visualization.y,
+              w: visualization.w,
+              h: visualization.h,
+            };
+          }
+        });
+      }
+      const newPanelVisualizations = [
+        ...visualizationsList,
+        { ...newVisualization, ...newDimensions },
+      ];
+      const updatePanelResponse = await this.updatePanel(client, panelId, {
+        visualizations: newPanelVisualizations,
+      });
+      return newPanelVisualizations;
+    } catch (error) {
+      throw new Error('Add/Replace Visualization Error:' + error);
+    }
+  };
+
+  //Add Visualization in the Panel from Event Explorer
+  addVisualizationFromEvents = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    paramVisualization: {
+      id: string;
+      title: string;
+      query: string;
+      type: string;
+      timeField: string;
+    }
+  ) => {
+    try {
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
+      const newVisualization = {
+        ...paramVisualization,
+        query: this.savedVisualizationsQueryBuilder(paramVisualization.query),
+      };
+      let newDimensions;
+      newDimensions = this.getNewVizDimensions(allPanelVisualizations);
+      const newPanelVisualizations = [
+        ...allPanelVisualizations,
+        { ...newVisualization, ...newDimensions },
+      ];
+      const updatePanelResponse = await this.updatePanel(client, panelId, {
+        visualizations: newPanelVisualizations,
+      });
+      return newPanelVisualizations;
+    } catch (error) {
+      throw new Error('Add/Replace Visualization Error:' + error);
+    }
+  };
+
+  //Delete a Visualization in the Panel
+  deleteVisualization = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    visualizationId: string
+  ) => {
+    try {
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
+      const filteredPanelVisualizations = allPanelVisualizations.filter(
+        (panelVisualization: VisualizationType) => panelVisualization.id != visualizationId
+      );
+      const updatePanelResponse = await this.updatePanel(client, panelId, {
+        visualizations: filteredPanelVisualizations,
+      });
+      return filteredPanelVisualizations;
+    } catch (error) {
+      throw new Error('Delete Visualization Error:' + error);
+    }
+  };
+
+  //Edits all Visualizations in the Panel
+  editVisualization = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    visualizationParams: { i: string; x: number; y: number; w: number; h: number }[]
+  ) => {
+    try {
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
+      let filteredPanelVisualizations = <Array<VisualizationType>>[];
+
+      for (let i = 0; i < allPanelVisualizations.length; i++) {
+        for (let j = 0; j < visualizationParams.length; j++) {
+          if (allPanelVisualizations[i].id === visualizationParams[j].i) {
+            filteredPanelVisualizations.push({
+              ...allPanelVisualizations[i],
+              x: visualizationParams[j].x,
+              y: visualizationParams[j].y,
+              w: visualizationParams[j].w,
+              h: visualizationParams[j].h,
+            });
+          }
+        }
+      }
+      const updatePanelResponse = await this.updatePanel(client, panelId, {
+        visualizations: filteredPanelVisualizations,
+      });
+      return filteredPanelVisualizations;
+    } catch (error) {
+      throw new Error('Edit Visualizations Error:' + error);
     }
   };
 }

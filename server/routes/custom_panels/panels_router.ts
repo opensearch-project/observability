@@ -10,16 +10,17 @@
  */
 
 import { schema } from '@osd/config-schema';
+import { CustomPanelsAdaptor } from '../../adaptors/custom_panels/custom_panel_adaptor';
 import {
   IRouter,
   IOpenSearchDashboardsResponse,
   ResponseError,
-  IScopedClusterClient,
+  ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
 import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from '../../../common/constants/custom_panels';
 
 export function PanelsRouter(router: IRouter) {
-  // NOTE: Currently the API calls are dummy and are not connected to esclient.
+  const customPanelBackend = new CustomPanelsAdaptor();
   // Fetch all the custom panels available
   router.get(
     {
@@ -31,34 +32,20 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const panelsList = [
-        {
-          name: 'Demo Panel 2',
-          id: '2FG6FWGY5',
-          dateCreated: '2021-07-19T21:01:14.871Z',
-          dateModified: '2021-07-19T21:01:14.871Z',
-        },
-        {
-          name: 'Demo Panel 1',
-          id: 'AUJFBY234',
-          dateCreated: '2021-07-19T21:01:14.871Z',
-          dateModified: '2021-07-19T21:01:14.871Z',
-        },
-        {
-          name: 'Demo Panel 3',
-          id: 'AUJFBY674',
-          dateCreated: '2021-07-19T21:01:14.871Z',
-          dateModified: '2021-07-19T21:01:14.871Z',
-        },
-      ];
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      let panelsList;
       try {
+        panelsList = await customPanelBackend.viewPanelList(opensearchNotebooksClient);
         return response.ok({
           body: {
             panels: panelsList,
           },
         });
       } catch (error) {
-        console.log('Issue in fetching panels:', error);
+        console.log('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -67,8 +54,7 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  // Fetch the required panel by id 
-  // returns a panel object
+  // Fetch the required panel by id
   router.get(
     {
       path: `${API_PREFIX}/panels/{panelId}`,
@@ -84,134 +70,15 @@ export function PanelsRouter(router: IRouter) {
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
       let panelObject;
-      if (request.params.panelId == '2FG6FWGY5') {
-        panelObject = {
-          panel: {
-            name: 'Demo Panel 2',
-            dateCreated: '2021-07-19T21:01:14.871Z',
-            dateModified: '2021-07-19T21:01:14.871Z',
-            visualizations: [
-              {
-                id: '1',
-                title: 'Demo Viz 1',
-                x: 0,
-                y: 0,
-                w: 4,
-                h: 2,
-                query:
-                  'source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin',
-                type: 'line',
-              },
-              {
-                id: '2',
-                title: 'Demo Viz 2',
-                x: 4,
-                y: 0,
-                w: 4,
-                h: 2,
-                query:
-                  'source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin',
-                type: 'bar',
-              },
-              {
-                id: '3',
-                title: 'Demo Viz 3',
-                x: 8,
-                y: 0,
-                w: 4,
-                h: 2,
-                query:
-                  'source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin',
-                type: 'bar',
-              },
-              {
-                id: '4',
-                title: 'Demo Viz 4',
-                x: 0,
-                y: 2,
-                w: 6,
-                h: 2,
-                query:
-                  'source=opensearch_dashboards_sample_data_flights | fields Carrier,Origin | where Carrier=&#39;OpenSearch-Air&#39; | stats count() by Origin',
-                type: 'bar',
-              },
-              {
-                id: '5',
-                title: 'Demo Viz 5',
-                x: 6,
-                y: 2,
-                w: 6,
-                h: 2,
-                query:
-                  'source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier',
-                type: 'bar',
-              },
-            ],
-            filters: [],
-            timeRange: {
-              to: 'now',
-              from: 'now-1d',
-            },
-            queryFilter: {
-              query: '',
-              language: 'ppl',
-            },
-            refreshConfig: {
-              pause: true,
-              value: 15,
-            },
-          },
-        };
-      }
-      if (request.params.panelId == 'AUJFBY234') {
-        panelObject = {
-          panel: {
-            name: 'Demo Panel 1',
-            dateCreated: '2021-07-19T21:01:14.871Z',
-            dateModified: '2021-07-19T21:01:14.871Z',
-            visualizations: [],
-            filters: [],
-            timeRange: {
-              to: 'now',
-              from: 'now-1d',
-            },
-            queryFilter: {
-              query: '',
-              language: 'ppl',
-            },
-            refreshConfig: {
-              pause: true,
-              value: 15,
-            },
-          },
-        };
-      }
-
-      if (request.params.panelId == 'AUJFBY674') {
-        panelObject = {
-          panel: {
-            name: 'Demo Panel 3',
-            dateCreated: '2021-07-19T21:01:14.871Z',
-            dateModified: '2021-07-19T21:01:14.871Z',
-            visualizations: [],
-            filters: [],
-            timeRange: {
-              to: 'now',
-              from: 'now-1d',
-            },
-            queryFilter: {
-              query: 'where Carrier=&#39;OpenSearch-Air&#39;',
-              language: 'ppl',
-            },
-            refreshConfig: {
-              pause: true,
-              value: 15,
-            },
-          },
-        };
-      }
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
 
       try {
+        panelObject = await customPanelBackend.getPanel(
+          opensearchNotebooksClient,
+          request.params.panelId
+        );
         return response.ok({
           body: panelObject,
         });
@@ -225,13 +92,12 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  // create a new panel
-  // returns new Panel Id
+  //Create a new panel
   router.post(
     {
       path: `${API_PREFIX}/panels`,
       validate: {
-        params: schema.object({
+        body: schema.object({
           panelName: schema.string(),
         }),
       },
@@ -241,9 +107,16 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const newPanelId = '';
+      let newPanelId: string;
 
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
       try {
+        newPanelId = await customPanelBackend.createNewPanel(
+          opensearchNotebooksClient,
+          request.body.panelName
+        );
         return response.ok({
           body: {
             message: 'Panel Created',
@@ -260,12 +133,12 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  // rename an existing panel 
+  // rename an existing panel
   router.patch(
     {
       path: `${API_PREFIX}/panels/rename`,
       validate: {
-        params: schema.object({
+        body: schema.object({
           panelId: schema.string(),
           panelName: schema.string(),
         }),
@@ -276,9 +149,16 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const newPanelId = '';
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
 
       try {
+        const responseBody = await customPanelBackend.renamePanel(
+          opensearchNotebooksClient,
+          request.body.panelId,
+          request.body.panelName
+        );
         return response.ok({
           body: {
             message: 'Panel Renamed',
@@ -294,13 +174,13 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  // clones an existing panel 
+  // clones an existing panel
   // returns new panel Id
   router.post(
     {
       path: `${API_PREFIX}/panels/clone`,
       validate: {
-        params: schema.object({
+        body: schema.object({
           panelId: schema.string(),
           panelName: schema.string(),
         }),
@@ -311,17 +191,26 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const newPanelId = '';
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
 
       try {
+        const cloneResponse = await customPanelBackend.clonePanel(
+          opensearchNotebooksClient,
+          request.body.panelId,
+          request.body.panelName
+        );
         return response.ok({
           body: {
             message: 'Panel Cloned',
-            newPanelId: newPanelId,
+            clonePanelId: cloneResponse.clonePanelId,
+            dateCreated: cloneResponse.dateCreated,
+            dateModified: cloneResponse.dateModified,
           },
         });
       } catch (error) {
-        console.log('Issue in renaming panel', error);
+        console.log('Issue in cloning panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -330,7 +219,7 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  // delete an existing panel 
+  // delete an existing panel
   router.delete(
     {
       path: `${API_PREFIX}/panels/{panelId}`,
@@ -345,9 +234,16 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
       const panelId = request.params.panelId;
 
       try {
+        const deleteResponse = await customPanelBackend.deletePanel(
+          opensearchNotebooksClient,
+          panelId
+        );
         return response.noContent({
           body: {
             message: 'Panel Deleted',
@@ -366,45 +262,12 @@ export function PanelsRouter(router: IRouter) {
   // replaces the ppl query filter in panel
   router.patch(
     {
-      path: `${API_PREFIX}/panels/query`,
+      path: `${API_PREFIX}/panels/filter`,
       validate: {
-        params: schema.object({
+        body: schema.object({
           panelId: schema.string(),
           query: schema.string(),
           language: schema.string(),
-        }),
-      },
-    },
-    async (
-      context,
-      request,
-      response
-    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const panelId = request.params.panelId;
-
-      try {
-        return response.ok({
-          body: {
-            message: 'Panel PPL Filter Changed',
-          },
-        });
-      } catch (error) {
-        console.log('Issue in adding query filter', error);
-        return response.custom({
-          statusCode: error.statusCode || 500,
-          body: error.message,
-        });
-      }
-    }
-  );
-
-  // replaces the datetime filter in panel
-  router.patch(
-    {
-      path: `${API_PREFIX}/panels/datetime`,
-      validate: {
-        params: schema.object({
-          panelId: schema.string(),
           to: schema.string(),
           from: schema.string(),
         }),
@@ -415,16 +278,26 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const panelId = request.params.panelId;
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
 
       try {
+        const panelFilterResponse = await customPanelBackend.addPanelFilter(
+          opensearchNotebooksClient,
+          request.body.panelId,
+          request.body.query,
+          request.body.language,
+          request.body.to,
+          request.body.from
+        );
         return response.ok({
           body: {
-            message: 'Panel DateTime Filter Changed',
+            message: 'Panel PPL Filter Changed',
           },
         });
       } catch (error) {
-        console.log('Issue in adding datetime filter', error);
+        console.log('Issue in adding query filter', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
