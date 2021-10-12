@@ -316,8 +316,7 @@ export class CustomPanelsAdaptor {
         ...paramVisualization,
         query: this.savedVisualizationsQueryBuilder(paramVisualization.query),
       };
-      let newDimensions;
-      newDimensions = this.getNewVizDimensions(allPanelVisualizations);
+      const newDimensions = this.getNewVizDimensions(allPanelVisualizations);
       const newPanelVisualizations = [
         ...allPanelVisualizations,
         { ...newVisualization, ...newDimensions },
