@@ -33,23 +33,23 @@ import {
   EuiTableFieldDataColumnType,
   EuiText,
   EuiTitle,
-} from '@elastic/eui';
-import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
-import { ChromeBreadcrumb } from '../../../../../src/core/public';
-import { CustomPanelListType } from './home';
+} from "@elastic/eui";
+import React, { CSSProperties, ReactElement, useEffect, useState } from "react";
+import { ChromeBreadcrumb } from "../../../../../src/core/public";
+import { CustomPanelListType } from "./home";
 import {
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../../common/constants/custom_panels';
-import { UI_DATE_FORMAT } from '../../../common/constants/shared';
-import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
-import moment from 'moment';
-import _ from 'lodash';
+} from "../../../common/constants/custom_panels";
+import { UI_DATE_FORMAT } from "../../../common/constants/shared";
+import { getCustomModal, DeletePanelModal } from "./helpers/modal_containers";
+import moment from "moment";
+import _ from "lodash";
 
 const pageStyles: CSSProperties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
+  float: "left",
+  width: "100%",
+  maxWidth: "1130px",
 };
 
 /*
@@ -60,7 +60,7 @@ const pageStyles: CSSProperties = {
  * createCustomPanel: create panel function
  * setBreadcrumbs: setter for breadcrumbs on top panel
  * parentBreadcrumb: parent breadcrumb
- * renameCustomPanel: delete function for the panel
+ * renameCustomPanel: rename function for the panel
  * cloneCustomPanel: clone function for the panel
  * deleteCustomPanel: delete function for the panel
  * setToast: create Toast function
@@ -68,15 +68,27 @@ const pageStyles: CSSProperties = {
 
 type Props = {
   loading: boolean;
-  fetchCustomPanels: () => void;
+  fetchCustomPanels: () => Promise<void>;
   customPanels: Array<CustomPanelListType>;
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   parentBreadcrumb: EuiBreadcrumb[];
-  renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
+  renameCustomPanel: (
+    newCustomPanelName: string,
+    customPanelId: string
+  ) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
-  deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
-  setToast: (title: string, color?: string, text?: string) => void;
+  deleteCustomPanel: (
+    customPanelId: string,
+    customPanelName?: string,
+    showToast?: boolean
+  ) => void;
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void;
 };
 
 export const CustomPanelTable = ({
@@ -92,10 +104,14 @@ export const CustomPanelTable = ({
   setToast,
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(
+    <EuiOverlayMask></EuiOverlayMask>
+  ); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedCustomPanels, setselectedCustomPanels] = useState<CustomPanelListType[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCustomPanels, setselectedCustomPanels] = useState<
+    CustomPanelListType[]
+  >([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setBreadcrumbs(parentBreadcrumb);
@@ -127,16 +143,18 @@ export const CustomPanelTable = ({
 
   const onDelete = async () => {
     const toastMessage = `Custom Panels ${
-      selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].name
+      selectedCustomPanels.length > 1 ? "s" : " " + selectedCustomPanels[0].name
     } successfully deleted!`;
     Promise.all(
-      selectedCustomPanels.map((customPanel) => deleteCustomPanel(customPanel.id, undefined, false))
+      selectedCustomPanels.map((customPanel) =>
+        deleteCustomPanel(customPanel.id, undefined, false)
+      )
     )
       .then(() => setToast(toastMessage))
       .catch((err) => {
         setToast(
-          'Error deleting Operational Panels, please make sure you have the correct permission.',
-          'danger'
+          "Error deleting Operational Panels, please make sure you have the correct permission.",
+          "danger"
         );
         console.error(err.body.message);
       });
@@ -148,10 +166,10 @@ export const CustomPanelTable = ({
       getCustomModal(
         onCreate,
         closeModal,
-        'Name',
-        'Create operational panel',
-        'Cancel',
-        'Create',
+        "Name",
+        "Create operational panel",
+        "Cancel",
+        "Create",
         undefined,
         CREATE_PANEL_MESSAGE
       )
@@ -164,10 +182,10 @@ export const CustomPanelTable = ({
       getCustomModal(
         onRename,
         closeModal,
-        'Name',
-        'Rename Panel',
-        'Cancel',
-        'Rename',
+        "Name",
+        "Rename Panel",
+        "Cancel",
+        "Rename",
         selectedCustomPanels[0].name,
         CREATE_PANEL_MESSAGE
       )
@@ -180,11 +198,11 @@ export const CustomPanelTable = ({
       getCustomModal(
         onClone,
         closeModal,
-        'Name',
-        'Duplicate Panel',
-        'Cancel',
-        'Duplicate',
-        selectedCustomPanels[0].name + ' (copy)',
+        "Name",
+        "Duplicate Panel",
+        "Cancel",
+        "Duplicate",
+        selectedCustomPanels[0].name + " (copy)",
         CREATE_PANEL_MESSAGE
       )
     );
@@ -192,7 +210,9 @@ export const CustomPanelTable = ({
   };
 
   const deletePanel = () => {
-    const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
+    const customPanelString = `operational panel${
+      selectedCustomPanels.length > 1 ? "s" : ""
+    }`;
     setModalLayout(
       <DeletePanelModal
         onConfirm={onDelete}
@@ -249,8 +269,8 @@ export const CustomPanelTable = ({
 
   const tableColumns = [
     {
-      field: 'name',
-      name: 'Name',
+      field: "name",
+      name: "Name",
       sortable: true,
       truncateText: true,
       render: (value, record) => (
@@ -260,16 +280,16 @@ export const CustomPanelTable = ({
       ),
     },
     {
-      field: 'dateModified',
-      name: 'Last updated',
+      field: "dateModified",
+      name: "Last updated",
       sortable: true,
-      render: (value) => moment(value).format(UI_DATE_FORMAT),
+      render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
     {
-      field: 'dateCreated',
-      name: 'Created',
+      field: "dateCreated",
+      name: "Created",
       sortable: true,
-      render: (value) => moment(value).format(UI_DATE_FORMAT),
+      render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
   ] as Array<
     EuiTableFieldDataColumnType<{
@@ -296,14 +316,23 @@ export const CustomPanelTable = ({
               <EuiPageContentHeaderSection>
                 <EuiTitle size="s">
                   <h3>
-                    Panels<span className="panel-header-count"> ({customPanels.length})</span>
+                    Panels
+                    <span className="panel-header-count">
+                      {" "}
+                      ({customPanels.length})
+                    </span>
                   </h3>
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Operational panels provide users with the ability to create and view different
-                  visualizations on ingested observability data, using PPL queries.{' '}
-                  <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
+                  Operational panels provide users with the ability to create
+                  and view different visualizations on ingested observability
+                  data, using PPL queries.{" "}
+                  <EuiLink
+                    external={true}
+                    href={CUSTOM_PANELS_DOCUMENTATION_URL}
+                    target="blank"
+                  >
                     Learn more
                   </EuiLink>
                 </EuiText>
@@ -342,7 +371,9 @@ export const CustomPanelTable = ({
                 items={
                   searchQuery
                     ? customPanels.filter((customPanel) =>
-                        customPanel.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        customPanel.name
+                          .toLowerCase()
+                          .includes(searchQuery.toLowerCase())
                       )
                     : customPanels
                 }
@@ -355,8 +386,8 @@ export const CustomPanelTable = ({
                 }}
                 sorting={{
                   sort: {
-                    field: 'dateModified',
-                    direction: 'desc',
+                    field: "dateModified",
+                    direction: "desc",
                   },
                 }}
                 allowNeutralSort={false}
