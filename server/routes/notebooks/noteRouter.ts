@@ -128,7 +128,7 @@ export function registerNoteRoute(router: IRouter) {
           wreckOptions
         );
         return response.ok({
-          body: addResponse.message.notebookId,
+          body: addResponse.message.objectId,
         });
       } catch (error) {
         return response.custom({
