@@ -36,9 +36,8 @@ export function PanelsRouter(router: IRouter) {
         request
       );
 
-      let panelsList;
       try {
-        panelsList = await customPanelBackend.viewPanelList(opensearchNotebooksClient);
+        const panelsList = await customPanelBackend.viewPanelList(opensearchNotebooksClient);
         return response.ok({
           body: {
             panels: panelsList,
@@ -69,13 +68,12 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      let panelObject;
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
 
       try {
-        panelObject = await customPanelBackend.getPanel(
+        const panelObject = await customPanelBackend.getPanel(
           opensearchNotebooksClient,
           request.params.panelId
         );
@@ -107,13 +105,12 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      let newPanelId: string;
 
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
       try {
-        newPanelId = await customPanelBackend.createNewPanel(
+        const newPanelId = await customPanelBackend.createNewPanel(
           opensearchNotebooksClient,
           request.body.panelName
         );
