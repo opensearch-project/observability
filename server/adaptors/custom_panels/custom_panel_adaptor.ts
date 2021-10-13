@@ -246,9 +246,7 @@ export class CustomPanelsAdaptor {
       return response.observabilityObjectList.map((visualization: any) => ({
         id: visualization.objectId,
         name: visualization.savedVisualization.name,
-        query: this.savedVisualizationsQueryBuilder(
-          visualization.savedVisualization.query
-        ),
+        query: visualization.savedVisualization.query,
         type: visualization.savedVisualization.type,
         timeField: visualization.savedVisualization.selected_timestamp.name,
       }));

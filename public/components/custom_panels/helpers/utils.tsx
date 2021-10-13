@@ -15,9 +15,7 @@ import { DurationRange } from "@elastic/eui/src/components/date_picker/types";
 import _ from "lodash";
 import { Moment } from "moment-timezone";
 import {
-  PPL_CONTAINS_TIMESTAMP_REGEX,
   PPL_DATE_FORMAT,
-  PPL_FIELDS_REGEX,
   PPL_INDEX_REGEX,
 } from "../../../../common/constants/shared";
 import PPLService from "../../../services/requests/ppl";
@@ -200,16 +198,6 @@ export const isDateValid = (
   } else return true;
 };
 
-// Check for filed filter in query
-const checkFieldsExists = (query: string) => {
-  return PPL_FIELDS_REGEX.test(query);
-};
-
-// Check for time filter in query
-const checkTimeRangeExists = (query: string) => {
-  return PPL_CONTAINS_TIMESTAMP_REGEX.test(query);
-};
-
 // Check for time filter in query
 const checkIndexExists = (query: string) => {
   return PPL_INDEX_REGEX.test(query);
@@ -230,17 +218,6 @@ export const isPPLFilterValid = (
     setToast("Please remove index from PPL Filter", "danger", undefined);
     return false;
   }
-
-  if (checkTimeRangeExists(query)) {
-    setToast("Please remove time filter from PPL Filter", "danger", undefined);
-    return false;
-  }
-
-  if (checkFieldsExists(query)) {
-    setToast("Please remove fields from PPL Filter", "danger", undefined);
-    return false;
-  }
-
   return true;
 };
 
