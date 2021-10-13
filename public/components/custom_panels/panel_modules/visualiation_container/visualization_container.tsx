@@ -143,11 +143,7 @@ export const VisualizationContainer = ({
     () => (
       <div className="visualization-div">
         {isLoading ? (
-          <EuiLoadingChart
-            size="xl"
-            mono
-            className="visualization-loading-chart"
-          />
+          <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
         ) : isError != "" ? (
           <div className="visualization-error-div">
             <EuiSpacer size="l" />

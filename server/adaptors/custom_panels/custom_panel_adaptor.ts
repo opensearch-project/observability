@@ -14,7 +14,6 @@ import {
   VisualizationType,
 } from "../../../common/types/custom_panels";
 import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
-import { PPL_CONTAINS_TIMESTAMP_REGEX } from "../../../common/constants/shared";
 
 export class CustomPanelsAdaptor {
   // index a panel
@@ -235,20 +234,6 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  // Check for time filter in query
-  checkTimeRangeExists = (query: string) => {
-    return PPL_CONTAINS_TIMESTAMP_REGEX.test(query);
-  };
-
-  // savedObjects Visualzation Query Builder
-  // removes time filter from query
-  // NOTE: this is a separate function to add more fields for future releases
-  savedVisualizationsQueryBuilder = (query: string) => {
-    return this.checkTimeRangeExists(query)
-      ? query.replace(PPL_CONTAINS_TIMESTAMP_REGEX, "")
-      : query;
-  };
-
   // gets list of panels stored in index
   viewSavedVisualiationList = async (client: ILegacyScopedClusterClient) => {
     try {
@@ -376,14 +361,10 @@ export class CustomPanelsAdaptor {
         client,
         panelId
       );
-      const newVisualization = {
-        ...paramVisualization,
-        query: this.savedVisualizationsQueryBuilder(paramVisualization.query),
-      };
       const newDimensions = this.getNewVizDimensions(allPanelVisualizations);
       const newPanelVisualizations = [
         ...allPanelVisualizations,
-        { ...newVisualization, ...newDimensions },
+        { ...paramVisualization, ...newDimensions },
       ];
       const updatePanelResponse = await this.updatePanel(client, panelId, {
         visualizations: newPanelVisualizations,

@@ -15,17 +15,20 @@
 
 .visualization-loading-chart {
   margin: 0;
-  position: "absolute";
+  position: absolute;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 .visualization-error-div {
-  overflow: "scroll";
+  overflow: scroll;
 }
 
 .date-picker-height {
-  height: "3vh";
+  height: 3vh;
 }
