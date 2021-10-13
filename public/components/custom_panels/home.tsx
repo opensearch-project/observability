@@ -9,22 +9,22 @@
  * GitHub history for details.
  */
 
-import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from "@elastic/eui";
-import { Toast } from "@elastic/eui/src/components/toast/global_toast_list";
-import { CustomPanelListType } from "../../../common/types/custom_panels";
-import _ from "lodash";
-import React, { ReactChild, useState } from "react";
-import { StaticContext } from "react-router";
-import { Route, RouteComponentProps } from "react-router-dom";
-import { CoreStart } from "../../../../../src/core/public";
+import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { CustomPanelListType } from '../../../common/types/custom_panels';
+import _ from 'lodash';
+import React, { ReactChild, useState } from 'react';
+import { StaticContext } from 'react-router';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from "../../../common/constants/custom_panels";
-import { renderPageWithSidebar } from "../common/side_nav";
-import { CustomPanelTable } from "./custom_panel_table";
-import { CustomPanelView } from "./custom_panel_view";
-import { isNameValid } from "./helpers/utils";
+} from '../../../common/constants/custom_panels';
+import { renderPageWithSidebar } from '../common/side_nav';
+import { CustomPanelTable } from './custom_panel_table';
+import { CustomPanelView } from './custom_panel_view';
+import { isNameValid } from './helpers/utils';
 
 /*
  * "Home" module is initial page for Operantional Panels
@@ -38,39 +38,23 @@ import { isNameValid } from "./helpers/utils";
  */
 
 type Props = {
-  http: CoreStart["http"];
-  chrome: CoreStart["chrome"];
+  http: CoreStart['http'];
+  chrome: CoreStart['chrome'];
   parentBreadcrumb: EuiBreadcrumb[];
   pplService: any;
   renderProps: RouteComponentProps<any, StaticContext, any>;
 };
 
-export const Home = ({
-  http,
-  chrome,
-  parentBreadcrumb,
-  pplService,
-  renderProps,
-}: Props) => {
-  const [customPanelData, setcustomPanelData] = useState<
-    Array<CustomPanelListType>
-  >([]);
+export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }: Props) => {
+  const [customPanelData, setcustomPanelData] = useState<Array<CustomPanelListType>>([]);
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [loading, setLoading] = useState(false);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
 
-  const setToast = (
-    title: string,
-    color = "success",
-    text?: ReactChild,
-    side?: string
-  ) => {
-    if (!text) text = "";
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
     setToastRightSide(!side ? true : false);
-    setToasts([
-      ...toasts,
-      { id: new Date().toISOString(), title, text, color } as Toast,
-    ]);
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
   // Fetches all saved Custom Panels
@@ -81,17 +65,14 @@ export const Home = ({
         setcustomPanelData(res.panels);
       })
       .catch((err) => {
-        console.error(
-          "Issue in fetching the operational panels",
-          err.body.message
-        );
+        console.error('Issue in fetching the operational panels', err.body.message);
       });
   };
 
   // Creates a new CustomPanel
   const createCustomPanel = (newCustomPanelName: string) => {
     if (!isNameValid(newCustomPanelName)) {
-      setToast("Invalid Operational Panel name", "danger");
+      setToast('Invalid Operational Panel name', 'danger');
       return;
     }
 
@@ -102,17 +83,13 @@ export const Home = ({
         }),
       })
       .then(async (res) => {
-        setToast(
-          `Operational Panel "${newCustomPanelName}" successfully created!`
-        );
-        window.location.assign(
-          `${_.last(parentBreadcrumb).href}${res.newPanelId}`
-        );
+        setToast(`Operational Panel "${newCustomPanelName}" successfully created!`);
+        window.location.assign(`${_.last(parentBreadcrumb).href}${res.newPanelId}`);
       })
       .catch((err) => {
         setToast(
-          "Please ask your administrator to enable Operational Panels for you.",
-          "danger",
+          'Please ask your administrator to enable Operational Panels for you.',
+          'danger',
           <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
             Documentation
           </EuiLink>
@@ -122,12 +99,9 @@ export const Home = ({
   };
 
   // Renames an existing CustomPanel
-  const renameCustomPanel = (
-    editedCustomPanelName: string,
-    editedCustomPanelId: string
-  ) => {
+  const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelId: string) => {
     if (!isNameValid(editedCustomPanelName)) {
-      setToast("Invalid Custom Panel name", "danger");
+      setToast('Invalid Custom Panel name', 'danger');
       return;
     }
     const renamePanelObject = {
@@ -145,30 +119,24 @@ export const Home = ({
           const renamedCustomPanel = newCustomPanelData.find(
             (customPanel) => customPanel.id === editedCustomPanelId
           );
-          if (renamedCustomPanel)
-            renamedCustomPanel.name = editedCustomPanelName;
+          if (renamedCustomPanel) renamedCustomPanel.name = editedCustomPanelName;
           return newCustomPanelData;
         });
-        setToast(
-          `Operational Panel successfully renamed into "${editedCustomPanelName}"`
-        );
+        setToast(`Operational Panel successfully renamed into "${editedCustomPanelName}"`);
       })
       .catch((err) => {
         setToast(
-          "Error renaming Operational Panel, please make sure you have the correct permission.",
-          "danger"
+          'Error renaming Operational Panel, please make sure you have the correct permission.',
+          'danger'
         );
         console.error(err.body.message);
       });
   };
 
   // Clones an existing Custom Panel, return new Custom Panel id
-  const cloneCustomPanel = (
-    clonedCustomPanelName: string,
-    clonedCustomPanelId: string
-  ) => {
+  const cloneCustomPanel = (clonedCustomPanelName: string, clonedCustomPanelId: string) => {
     if (!isNameValid(clonedCustomPanelName)) {
-      setToast("Invalid Operational Panel name", "danger");
+      setToast('Invalid Operational Panel name', 'danger');
       return Promise.reject();
     }
     const clonePanelObject = {
@@ -192,24 +160,19 @@ export const Home = ({
             },
           ];
         });
-        setToast(
-          `Operational Panel "${clonedCustomPanelName}" successfully created!`
-        );
+        setToast(`Operational Panel "${clonedCustomPanelName}" successfully created!`);
       })
       .catch((err) => {
         setToast(
-          "Error cloning Operational Panel, please make sure you have the correct permission.",
-          "danger"
+          'Error cloning Operational Panel, please make sure you have the correct permission.',
+          'danger'
         );
         console.error(err.body.message);
       });
   };
 
   // Deletes an existing Operational Panel
-  const deleteCustomPanelList = (
-    customPanelIdList: string[],
-    toastMessage: string
-  ) => {
+  const deleteCustomPanelList = (customPanelIdList: string[], toastMessage: string) => {
     const concatList = customPanelIdList.toString();
     return http
       .delete(`${CUSTOM_PANELS_API_PREFIX}/panelList/` + concatList)
@@ -224,37 +187,28 @@ export const Home = ({
       })
       .catch((err) => {
         setToast(
-          "Error deleting Operational Panels, please make sure you have the correct permission.",
-          "danger"
+          'Error deleting Operational Panels, please make sure you have the correct permission.',
+          'danger'
         );
         console.error(err.body.message);
       });
   };
 
   // Deletes an existing Operational Panel
-  const deleteCustomPanel = (
-    customPanelId: string,
-    customPanelName?: string,
-    showToast = true
-  ) => {
+  const deleteCustomPanel = (customPanelId: string, customPanelName: string) => {
     return http
       .delete(`${CUSTOM_PANELS_API_PREFIX}/panels/` + customPanelId)
       .then((res) => {
         setcustomPanelData((prevCustomPanelData) => {
-          return prevCustomPanelData.filter(
-            (customPanel) => customPanel.id !== customPanelId
-          );
+          return prevCustomPanelData.filter((customPanel) => customPanel.id !== customPanelId);
         });
-        if (showToast)
-          setToast(
-            `Operational Panel "${customPanelName}" successfully deleted!`
-          );
+        setToast(`Operational Panel "${customPanelName}" successfully deleted!`);
         return res;
       })
       .catch((err) => {
         setToast(
-          "Error deleting Operational Panel, please make sure you have the correct permission.",
-          "danger"
+          'Error deleting Operational Panel, please make sure you have the correct permission.',
+          'danger'
         );
         console.error(err.body.message);
       });
@@ -267,7 +221,7 @@ export const Home = ({
         dismissToast={(removedToast) => {
           setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
         }}
-        side={toastRightSide ? "right" : "left"}
+        side={toastRightSide ? 'right' : 'left'}
         toastLifeTimeMs={6000}
       />
       <Route

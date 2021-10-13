@@ -74,11 +74,7 @@ type Props = {
     editedCustomPanelName: string,
     editedCustomPanelId: string
   ) => Promise<void> | undefined;
-  deleteCustomPanel: (
-    customPanelId: string,
-    customPanelName?: string,
-    showToast?: boolean
-  ) => Promise<any>;
+  deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
   setToast: (
     title: string,
     color?: string,
