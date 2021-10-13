@@ -19,7 +19,6 @@ import {
 } from '../../../src/core/server';
 import { OpenSearchObservabilityPlugin } from './adaptors/opensearch_observability_plugin';
 import { PPLPlugin } from './adaptors/ppl_plugin';
-import { SavedObjectsPlugin } from './adaptors/saved_objects_plugin';
 import { setupRoutes } from './routes/index';
 import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 
@@ -40,7 +39,6 @@ export class ObservabilityPlugin
         plugins: [
           PPLPlugin,
           OpenSearchObservabilityPlugin,
-          // SavedObjectsPlugin
         ],
       }
     );

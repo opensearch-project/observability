@@ -89,7 +89,7 @@ export default class SavedObjectFacet {
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
-      console.log('Event analytics update error: ', err);
+      console.error('Event analytics update error: ', err);
       res['data'] = err;
     }
     return res;
@@ -118,7 +118,7 @@ export default class SavedObjectFacet {
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
-      console.log('Event analytics delete error: ', err);
+      console.error('Event analytics delete error: ', err);
       res['data'] = err;
     }
     return res;
