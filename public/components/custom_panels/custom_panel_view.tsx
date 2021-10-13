@@ -501,7 +501,7 @@ export const CustomPanelView = ({
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem>
                 <EuiFieldText
-                  placeholder="Use PPL 'where' clauses to add filters on all the visualizations in this panel"
+                  placeholder="Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   value={pplFilterValue}
                   fullWidth={true}
                   onChange={(e) => onChange(e)}

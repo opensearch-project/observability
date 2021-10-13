@@ -27,10 +27,8 @@ import PPLService from "../../../../services/requests/ppl";
 import { displayVisualization, getQueryResponse } from "../../helpers/utils";
 import "./visualization_container.scss";
 
-// Visualization Panel module allows view added viz modules.
-
 /*
- * Visualization container - This module is places all visualizations in react-grid-layout
+ * Visualization container - This module is a placeholder to add visualizations in react-grid-layout
  *
  * Props taken in as params are:
  * editMode: boolean to check if the panel is in edit mode
@@ -143,7 +141,11 @@ export const VisualizationContainer = ({
     () => (
       <div className="visualization-div">
         {isLoading ? (
-          <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+          <EuiLoadingChart
+            size="xl"
+            mono
+            className="visualization-loading-chart"
+          />
         ) : isError != "" ? (
           <div className="visualization-error-div">
             <EuiSpacer size="l" />

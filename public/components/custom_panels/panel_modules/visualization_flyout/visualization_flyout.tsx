@@ -51,6 +51,7 @@ import {
   VisualizationType,
 } from "../../../../common/types/custom_panels";
 import "./visualization_flyout.scss";
+
 /*
  * VisaulizationFlyout - This module create a flyout to add visualization
  *
