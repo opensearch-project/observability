@@ -9,13 +9,13 @@
  * GitHub history for details.
  */
 
-.mouseGrabber {
-  & :hover {
-    cursor: -webkit-grab;
-    cursor: grab;
+.react-grid-layout {
+  & .react-grid-placeholder {
+    background: $euiColorWarning;
   }
-  & :active {
-    cursor: -webkit-grabbing;
-    cursor: grabbing;
-  }
+}
+
+.full-width {
+  min-width: 100%;
+  max-width: 100%;
 }

@@ -1,0 +1,31 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+.visualization-div {
+  min-height: 200;
+}
+
+.visualization-loading-chart {
+  margin: 0;
+  position: "absolute";
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.visualization-error-div {
+  overflow: "scroll";
+}
+
+.date-picker-height {
+  height: "3vh";
+}

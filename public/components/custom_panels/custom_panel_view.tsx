@@ -41,16 +41,11 @@ import {
 } from "../../../common/constants/custom_panels";
 import { VisualizationType } from "../../../common/types/custom_panels";
 import { PanelGrid } from "./panel_modules/panel_grid";
-import {
-  DeletePanelModal,
-  DeleteVisualizationModal,
-  getCustomModal,
-} from "./helpers/modal_containers";
+import { DeletePanelModal, getCustomModal } from "./helpers/modal_containers";
 import PPLService from "../../services/requests/ppl";
 import {
   isDateValid,
   convertDateTime,
-  getNewVizDimensions,
   onTimeChange,
   isPPLFilterValid,
 } from "./helpers/utils";
@@ -62,6 +57,8 @@ import { VisaulizationFlyout } from "./panel_modules/visualization_flyout";
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
+ *
+ * Props taken in as params are:
  * panelId: Name of the panel opened
  * http: http core service
  * pplService: ppl requestor service
@@ -165,7 +162,6 @@ export const CustomPanelView = ({
 
   const advancedVisualization = () => {
     closeVizPopover();
-    //NOTE: Add Redux functions to pass pplquery and time filters to events page
     window.location.assign("#/event_analytics/explorer");
   };
 
@@ -351,20 +347,6 @@ export const CustomPanelView = ({
     newVisualizationType: string,
     newVisualizationTimeField: string
   ) => {
-    const newDimensions = getNewVizDimensions(panelVisualizations);
-    // setPanelVisualizations([
-    //   ...panelVisualizations,
-    //   {
-    //     id: 'panelViz_' + htmlIdGenerator()(),
-    //     title: newVisualizationTitle,
-    //     query: pplQuery,
-    //     type: newVisualizationType,
-    //     timeField: newVisualizationTimeFiled,
-    //     ...newDimensions,
-    //   },
-    // ]);
-
-    //NOTE: Make a backend call to Clone Visualization
     http
       .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
         body: JSON.stringify({
@@ -379,7 +361,6 @@ export const CustomPanelView = ({
         }),
       })
       .then(async (res) => {
-        // console.log('here it is', res);
         setPanelVisualizations(res.visualizations);
         setToast(
           `Visualization ${newVisualizationTitle} successfully added!`,
@@ -414,54 +395,12 @@ export const CustomPanelView = ({
         })
         .then(async (res) => {
           setPanelVisualizations(res.visualizations);
-          console.log("edit successful");
-          // setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
         })
         .catch((err) => {
-          // setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
           console.error(err);
         });
     }
     setPanelVisualizations(newVisualizationList);
-  };
-
-  const deleteVisualization = (
-    visualizationId: string,
-    visualizationName: string
-  ) => {
-    setModalLayout(
-      <DeleteVisualizationModal
-        onConfirm={onDeleteVisualization}
-        onCancel={closeModal}
-        visualizationId={visualizationId}
-        visualizationName={visualizationName}
-        panelName={openPanelName}
-      />
-    );
-    showModal();
-  };
-
-  const onDeleteVisualization = (visualizationId: string) => {
-    // const filteredPanelVisualizations = panelVisualizations.filter(
-    //   (panelVisualization) => panelVisualization.id != visualizationId
-    // );
-    // setPanelVisualizations([...filteredPanelVisualizations]);
-
-    http
-      .delete(
-        `${CUSTOM_PANELS_API_PREFIX}/visualizations/${panelId}/${visualizationId}`
-      )
-      .then(async (res) => {
-        // console.log('here it is', res);
-        setPanelVisualizations(res.visualizations);
-        setToast(`Visualization successfully deleted!`, "success");
-      })
-      .catch((err) => {
-        setToast(`Error in deleting visualization to the panel`, "danger");
-        console.error(err);
-      });
-    //NOTE: Make a backend call to Delete Visualization
-    closeModal();
   };
 
   //Add Visualization Button
@@ -488,7 +427,6 @@ export const CustomPanelView = ({
         setToast={setToast}
         http={http}
         pplService={pplService}
-        panelVisualizations={panelVisualizations}
         setPanelVisualizations={setPanelVisualizations}
         isFlyoutReplacement={isFlyoutReplacement}
         replaceVisualizationId={replaceVisualizationId}
@@ -499,9 +437,6 @@ export const CustomPanelView = ({
   // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
-    // return () => {
-    //   onRefreshFilters();
-    // };
   }, []);
 
   // Check Validity of Time
@@ -635,7 +570,6 @@ export const CustomPanelView = ({
                 endTime={end}
                 onRefresh={onRefresh}
                 cloneVisualization={cloneVisualization}
-                deleteVisualization={deleteVisualization}
                 pplFilterValue={pplFilterValue}
                 showFlyout={showFlyout}
                 removeVisualization={removeVisualization}

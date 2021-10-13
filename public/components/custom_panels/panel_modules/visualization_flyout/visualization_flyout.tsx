@@ -38,11 +38,8 @@ import React, { useEffect, useState } from "react";
 import { FlyoutContainers } from "../helpers/flyout_containers";
 import {
   displayVisualization,
-  getNewVizDimensions,
   getQueryResponse,
   isDateValid,
-  onTimeChange,
-  savedVisualizationsQueryBuilder,
 } from "../helpers/utils";
 import { convertDateTime } from "../helpers/utils";
 import PPLService from "../../../services/requests/ppl";
@@ -53,6 +50,22 @@ import {
   SavedVisualizationType,
   VisualizationType,
 } from "../../../../common/types/custom_panels";
+import "./visualization_flyout.scss";
+/*
+ * VisaulizationFlyout - This module create a flyout to add visualization
+ *
+ * Props taken in as params are:
+ * panelId: panel Id of current operational panel
+ * closeFlyout: function to close the flyout
+ * start: start time in date filter
+ * end: end time in date filter
+ * setToast: function to set toast in the panel
+ * http: http core service
+ * pplService: ppl requestor service
+ * setPanelVisualizations: function set the visualization list in panel
+ * isFlyoutReplacement: boolean to see if the flyout is trigger for add or replace visualization
+ * replaceVisualizationId: string id of the visualization to be replaced
+ */
 
 type Props = {
   panelId: string;
@@ -67,7 +80,6 @@ type Props = {
   ) => void;
   http: CoreStart["http"];
   pplService: PPLService;
-  panelVisualizations: VisualizationType[];
   setPanelVisualizations: React.Dispatch<
     React.SetStateAction<VisualizationType[]>
   >;
@@ -83,7 +95,6 @@ export const VisaulizationFlyout = ({
   setToast,
   http,
   pplService,
-  panelVisualizations,
   setPanelVisualizations,
   isFlyoutReplacement,
   replaceVisualizationId,
@@ -176,7 +187,6 @@ export const VisaulizationFlyout = ({
           console.error(err);
         });
     } else {
-      console.log("added time", newVisualizationTimeField);
       http
         .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify({
@@ -228,7 +238,7 @@ export const VisaulizationFlyout = ({
   const timeRange = (
     <EuiFormRow label="Panel Time Range">
       <EuiDatePickerRange
-        style={{ height: "3vh" }}
+        className="date-picker-height"
         readOnly
         startDateControl={
           <EuiDatePicker
@@ -368,21 +378,10 @@ export const VisaulizationFlyout = ({
           <EuiLoadingChart
             size="xl"
             mono
-            style={{
-              margin: 0,
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              msTransform: "translate(-50%, -50%)",
-              transform: "translate(-50%, -50%)",
-            }}
+            className="visualization-loading-chart"
           />
         ) : isPreviewError != "" ? (
-          <div
-            style={{
-              overflow: "scroll",
-            }}
-          >
+          <div className="visualization-error-div">
             <EuiSpacer size="l" />
             <EuiIcon type="alert" color="danger" size="l" />
             <EuiSpacer size="l" />
@@ -396,7 +395,7 @@ export const VisaulizationFlyout = ({
           </div>
         ) : (
           <EuiFlexGroup>
-            <EuiFlexItem style={{ minHeight: "200" }}>
+            <EuiFlexItem className="visualization-div">
               {displayVisualization(previewData, newVisualizationType)}
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -414,7 +413,6 @@ export const VisaulizationFlyout = ({
         setPPLQuery(visualization.query);
         setNewVisualizationTitle(visualization.name);
         setNewVisualizationType(visualization.type);
-        console.log("selected time", visualization.timeField);
         setNewVisualizationTimeField(visualization.timeField);
         break;
       }

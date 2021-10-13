@@ -9,6 +9,13 @@
  * GitHub history for details.
  */
 
+export type CustomPanelListType = {
+  name: string;
+  id: string;
+  dateCreated: string;
+  dateModified: string;
+};
+
 export type VisualizationType = {
   id: string;
   title: string;

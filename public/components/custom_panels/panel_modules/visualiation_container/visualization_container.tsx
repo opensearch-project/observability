@@ -21,13 +21,32 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiText,
-} from '@elastic/eui';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import PPLService from '../../../services/requests/ppl';
-import { displayVisualization, getQueryResponse } from '../helpers/utils';
-import './visualization_container.scss';
+} from "@elastic/eui";
+import React, { useEffect, useMemo, useState } from "react";
+import PPLService from "../../../../services/requests/ppl";
+import { displayVisualization, getQueryResponse } from "../../helpers/utils";
+import "./visualization_container.scss";
 
 // Visualization Panel module allows view added viz modules.
+
+/*
+ * Visualization container - This module is places all visualizations in react-grid-layout
+ *
+ * Props taken in as params are:
+ * editMode: boolean to check if the panel is in edit mode
+ * visualizationId: unique visualization id
+ * visualizationTitle: visualization name
+ * query: ppl query to load the visualization
+ * pplService: ppl requestor service
+ * type: type of visualization [bar, horizontal_bar, line]
+ * fromTime: start time in date filter
+ * toTime: end time in date filter
+ * onRefresh: boolean value to trigger refresh of visualizations
+ * cloneVisualization: function to clone a visualization in panel
+ * pplFilterValue: string with panel PPL filter value
+ * showFlyout: function to show the flyout
+ * removeVisualization: function to remove all the visualizations
+ */
 
 type Props = {
   editMode: boolean;
@@ -46,10 +65,15 @@ type Props = {
     newVisualizationType: string,
     newVisualizationTimeField: string
   ) => void;
-  deleteVisualization: (visualizationId: string, visualizationName: string) => void;
   pplFilterValue: string;
-  showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
-  removeVisualization: (visualizationId: string, visualizationName: string) => void;
+  showFlyout: (
+    isReplacement?: boolean | undefined,
+    replaceVizId?: string | undefined
+  ) => void;
+  removeVisualization: (
+    visualizationId: string,
+    visualizationName: string
+  ) => void;
 };
 
 export const VisualizationContainer = ({
@@ -64,7 +88,6 @@ export const VisualizationContainer = ({
   toTime,
   onRefresh,
   cloneVisualization,
-  deleteVisualization,
   pplFilterValue,
   showFlyout,
   removeVisualization,
@@ -73,8 +96,9 @@ export const VisualizationContainer = ({
   const [disablePopover, setDisablePopover] = useState(false);
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState('');
-  const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const [isError, setIsError] = useState("");
+  const onActionsMenuClick = () =>
+    setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
   const popoverPanel = [
@@ -117,31 +141,15 @@ export const VisualizationContainer = ({
 
   const memoisedVisualizationBox = useMemo(
     () => (
-      <div style={{ width: '100%', height: '90%', overflow: 'scroll', textAlign: 'center' }}>
+      <div className="visualization-div">
         {isLoading ? (
           <EuiLoadingChart
             size="xl"
             mono
-            style={{
-              margin: 0,
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              msTransform: 'translate(-50%, -50%)',
-              transform: 'translate(-50%, -50%)',
-            }}
+            className="visualization-loading-chart"
           />
-        ) : isError != '' ? (
-          <div
-            style={{
-              overflow: 'scroll',
-              position: 'relative',
-              top: '50%',
-              left: '50%',
-              msTransform: 'translate(-50%, -50%)',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
+        ) : isError != "" ? (
+          <div className="visualization-error-div">
             <EuiSpacer size="l" />
             <EuiIcon type="alert" color="danger" size="l" />
             <EuiSpacer size="l" />
@@ -170,8 +178,8 @@ export const VisualizationContainer = ({
   }, [editMode]);
 
   return (
-    <EuiPanel style={{ width: '100%', height: '100%' }} grow={false}>
-      <div className={editMode ? 'mouseGrabber' : ''}>
+    <EuiPanel className="panel-full-width" grow={false}>
+      <div className={editMode ? "mouseGrabber" : ""}>
         <EuiFlexGroup justifyContent="spaceBetween">
           <EuiFlexItem grow={false}>
             <EuiText grow={false}>

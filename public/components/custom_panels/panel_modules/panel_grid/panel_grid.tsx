@@ -10,28 +10,36 @@
  */
 
 import _ from "lodash";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import useObservable from "react-use/lib/useObservable";
 import { CoreStart } from "../../../../../../src/core/public";
-import PPLService from "../../../services/requests/ppl";
-import { VisualizationContainer } from "./visualization_container";
-import { VisualizationType } from "../../../../common/types/custom_panels";
+import PPLService from "../../../../services/requests/ppl";
+import { VisualizationContainer } from "../visualiation_container";
+import { VisualizationType } from "../../../../../common/types/custom_panels";
+import { CUSTOM_PANELS_API_PREFIX } from "../../../../../common/constants/custom_panels";
 import "./panel_grid.scss";
-import { CUSTOM_PANELS_API_PREFIX } from "../../../../common/constants/custom_panels";
 
 // HOC container to provide dynamic width for Grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 /*
  * PanelGrid - This module is places all visualizations in react-grid-layout
- * chrome: CoreStart['chrome'];
- * panelVisualizations: VisualizationType[];
- * editMode: boolean;
- * pplService: PPLService;
- * startTime: string;
- * endTime: string;
- * onRefresh: boolean;
+ *
+ * Props taken in as params are:
+ * http: http core service;
+ * chrome: chrome core service;
+ * panelVisualizations: list of panel visualizations
+ * setPanelVisualizations: function to set panel visualizations
+ * editMode: boolean to check if the panel is in edit mode
+ * pplService: ppl requestor service
+ * startTime: start time in date filter
+ * endTime: end time in date filter
+ * onRefresh: boolean value to trigger refresh of visualizations
+ * cloneVisualization: function to clone a visualization in panel
+ * pplFilterValue: string with panel PPL filter value
+ * showFlyout: function to show the flyout
+ * removeVisualization: function to remove all the visualizations
  */
 
 type Props = {
@@ -52,10 +60,6 @@ type Props = {
     pplQuery: string,
     newVisualizationType: string,
     newVisualizationTimeField: string
-  ) => void;
-  deleteVisualization: (
-    visualizationId: string,
-    visualizationName: string
   ) => void;
   pplFilterValue: string;
   showFlyout: (
@@ -80,7 +84,6 @@ export const PanelGrid = ({
   endTime,
   onRefresh,
   cloneVisualization,
-  deleteVisualization,
   pplFilterValue,
   showFlyout,
   removeVisualization,
@@ -163,35 +166,31 @@ export const PanelGrid = ({
   return (
     <ResponsiveGridLayout
       layouts={{ lg: layout, md: layout, sm: layout }}
-      style={{ minWidth: "100%", maxWidth: "100%" }}
-      className="layout"
+      className="layout full-width"
       breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
       cols={{ lg: 12, md: 12, sm: 12, xs: 1, xxs: 1 }}
       onLayoutChange={layoutChanged}
     >
-      {panelVisualizations.map(
-        (panelVisualization: VisualizationType, index: number) => (
-          <div key={panelVisualization.id}>
-            <VisualizationContainer
-              editMode={editMode}
-              visualizationId={panelVisualization.id}
-              visualizationTitle={panelVisualization.title}
-              query={panelVisualization.query}
-              type={panelVisualization.type}
-              timeField={panelVisualization.timeField}
-              pplService={pplService}
-              fromTime={startTime}
-              toTime={endTime}
-              onRefresh={onRefresh}
-              cloneVisualization={cloneVisualization}
-              deleteVisualization={deleteVisualization}
-              pplFilterValue={pplFilterValue}
-              showFlyout={showFlyout}
-              removeVisualization={removeVisualization}
-            />
-          </div>
-        )
-      )}
+      {panelVisualizations.map((panelVisualization: VisualizationType) => (
+        <div key={panelVisualization.id}>
+          <VisualizationContainer
+            editMode={editMode}
+            visualizationId={panelVisualization.id}
+            visualizationTitle={panelVisualization.title}
+            query={panelVisualization.query}
+            type={panelVisualization.type}
+            timeField={panelVisualization.timeField}
+            pplService={pplService}
+            fromTime={startTime}
+            toTime={endTime}
+            onRefresh={onRefresh}
+            cloneVisualization={cloneVisualization}
+            pplFilterValue={pplFilterValue}
+            showFlyout={showFlyout}
+            removeVisualization={removeVisualization}
+          />
+        </div>
+      ))}
     </ResponsiveGridLayout>
   );
 };

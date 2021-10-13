@@ -15,17 +15,17 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiButton,
-  EuiContextMenuPanelDescriptor,
   EuiPopover,
   EuiContextMenu,
 } from "@elastic/eui";
 import React, { useState } from "react";
 
 /*
- * EmptyPanelView
- * This Sub-component is shown to the user when a operational panel is empty
- * Props:
- * showFlyout -> This function shows the add visualization window in operational panels view
+ * EmptyPanelView - This Sub-component is shown to the user when a operational panel is empty
+ *
+ * Props taken in as params are:
+ * addVizDisabled -> Boolean to enable/disable the add visualization button
+ * getVizContextPanels -> Function to populate the add visualization popover
  */
 
 type Props = {

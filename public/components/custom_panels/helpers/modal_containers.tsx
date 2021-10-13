@@ -35,7 +35,9 @@ import { CustomInputModal } from './custom_input_modal';
  */
 
 export const getCustomModal = (
-  runModal: ((value: string, value2: string, value3: string) => void) | ((value: string) => void),
+  runModal:
+    | ((value: string, value2: string, value3: string, value4: string) => void)
+    | ((value: string) => void),
   closeModal: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void,
@@ -46,7 +48,8 @@ export const getCustomModal = (
   openPanelName?: string,
   helpText?: string,
   optionalArg1?: string,
-  optionalArg2?: string
+  optionalArg2?: string,
+  optionalArg3?: string
 ) => {
   return (
     <CustomInputModal
@@ -60,6 +63,7 @@ export const getCustomModal = (
       helpText={helpText}
       optionalArg1={optionalArg1}
       optionalArg2={optionalArg2}
+      optionalArg3={optionalArg3}
     />
   );
 };

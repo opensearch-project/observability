@@ -11,6 +11,7 @@
 
 import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from "@elastic/eui";
 import { Toast } from "@elastic/eui/src/components/toast/global_toast_list";
+import { CustomPanelListType } from "../../../common/types/custom_panels";
 import _ from "lodash";
 import React, { ReactChild, useState } from "react";
 import { StaticContext } from "react-router";
@@ -27,6 +28,8 @@ import { isNameValid } from "./helpers/utils";
 
 /*
  * "Home" module is initial page for Operantional Panels
+ *
+ * Props taken in as params are:
  * http: http core service;
  * chrome: chrome core service;
  * parentBreadcrumb: parent breadcrumb name and link
@@ -40,13 +43,6 @@ type Props = {
   parentBreadcrumb: EuiBreadcrumb[];
   pplService: any;
   renderProps: RouteComponentProps<any, StaticContext, any>;
-};
-
-export type CustomPanelListType = {
-  name: string;
-  id: string;
-  dateCreated: string;
-  dateModified: string;
 };
 
 export const Home = ({
@@ -199,7 +195,6 @@ export const Home = ({
         setToast(
           `Operational Panel "${clonedCustomPanelName}" successfully created!`
         );
-        // return res.body.id;
       })
       .catch((err) => {
         setToast(

@@ -9,8 +9,4 @@
  * GitHub history for details.
  */
 
-.react-grid-layout {
-  & .react-grid-placeholder {
-    background: $euiColorWarning;
-  }
-}
+export { PanelGrid } from "./panel_grid";

@@ -54,6 +54,8 @@ const pageStyles: CSSProperties = {
 
 /*
  * "CustomPanelTable" module, used to view all the saved panels
+ *
+ * Props taken in as params are:
  * loading: loader bool for the table
  * fetchCustomPanels: fetch panels function
  * customPanels: List of panels available
