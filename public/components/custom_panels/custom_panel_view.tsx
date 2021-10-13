@@ -29,31 +29,26 @@ import {
   EuiTitle,
   htmlIdGenerator,
   ShortDate,
-} from "@elastic/eui";
-import _ from "lodash";
-import React, { useEffect, useState } from "react";
-import { CoreStart } from "../../../../../src/core/public";
-import { EmptyPanelView } from "./panel_modules/empty_panel";
+} from '@elastic/eui';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { CoreStart } from '../../../../../src/core/public';
+import { EmptyPanelView } from './panel_modules/empty_panel';
 import {
   RENAME_VISUALIZATION_MESSAGE,
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
-} from "../../../common/constants/custom_panels";
-import { VisualizationType } from "../../../common/types/custom_panels";
-import { PanelGrid } from "./panel_modules/panel_grid";
-import { DeletePanelModal, getCustomModal } from "./helpers/modal_containers";
-import PPLService from "../../services/requests/ppl";
-import {
-  isDateValid,
-  convertDateTime,
-  onTimeChange,
-  isPPLFilterValid,
-} from "./helpers/utils";
-import { DurationRange } from "@elastic/eui/src/components/date_picker/types";
-import { UI_DATE_FORMAT } from "../../../common/constants/shared";
-import { ChangeEvent } from "react";
-import moment from "moment";
-import { VisaulizationFlyout } from "./panel_modules/visualization_flyout";
+} from '../../../common/constants/custom_panels';
+import { VisualizationType } from '../../../common/types/custom_panels';
+import { PanelGrid } from './panel_modules/panel_grid';
+import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
+import PPLService from '../../services/requests/ppl';
+import { isDateValid, convertDateTime, onTimeChange, isPPLFilterValid } from './helpers/utils';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { UI_DATE_FORMAT } from '../../../common/constants/shared';
+import { ChangeEvent } from 'react';
+import moment from 'moment';
+import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -71,14 +66,14 @@ import { VisaulizationFlyout } from "./panel_modules/visualization_flyout";
 
 type Props = {
   panelId: string;
-  http: CoreStart["http"];
+  http: CoreStart['http'];
   pplService: PPLService;
-  chrome: CoreStart["chrome"];
+  chrome: CoreStart['chrome'];
   parentBreadcrumb: EuiBreadcrumb[];
   renameCustomPanel: (
-    newCustomPanelName: string,
-    customPanelId: string
-  ) => Promise<void>;
+    editedCustomPanelName: string,
+    editedCustomPanelId: string
+  ) => Promise<void> | undefined;
   deleteCustomPanel: (
     customPanelId: string,
     customPanelName?: string,
@@ -102,46 +97,36 @@ export const CustomPanelView = ({
   deleteCustomPanel,
   setToast,
 }: Props) => {
-  const [openPanelName, setOpenPanelName] = useState("");
-  const [panelCreatedTime, setPanelCreatedTime] = useState("");
-  const [pplFilterValue, setPPLFilterValue] = useState("");
+  const [openPanelName, setOpenPanelName] = useState('');
+  const [panelCreatedTime, setPanelCreatedTime] = useState('');
+  const [pplFilterValue, setPPLFilterValue] = useState('');
   const [onRefresh, setOnRefresh] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [addVizDisabled, setAddVizDisabled] = useState(false);
   const [editDisabled, setEditDisabled] = useState(false);
-  const [panelVisualizations, setPanelVisualizations] = useState<
-    Array<VisualizationType>
-  >([]);
+  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(
-    <EuiOverlayMask></EuiOverlayMask>
-  ); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false); // Add Visualization Popover
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false); // Add Visualization Flyout
-  const [isFlyoutReplacement, setisFlyoutReplacement] = useState<
-    boolean | undefined
-  >(false);
-  const [replaceVisualizationId, setReplaceVisualizationId] = useState<
-    string | undefined
-  >("");
+  const [isFlyoutReplacement, setisFlyoutReplacement] = useState<boolean | undefined>(false);
+  const [replaceVisualizationId, setReplaceVisualizationId] = useState<string | undefined>('');
 
   // DateTimePicker States
-  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>(
-    []
-  );
-  const [start, setStart] = useState<ShortDate>("now-30m");
-  const [end, setEnd] = useState<ShortDate>("now");
+  const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
+  const [start, setStart] = useState<ShortDate>('now-30m');
+  const [end, setEnd] = useState<ShortDate>('now');
 
   const getVizContextPanels = (closeVizPopover?: () => void) => {
     return [
       {
         id: 0,
-        title: "Add Visualization",
+        title: 'Add Visualization',
         items: [
           {
-            name: "Select Existing Visualization",
+            name: 'Select Existing Visualization',
             onClick: () => {
               if (closeVizPopover != null) {
                 closeVizPopover();
@@ -150,7 +135,7 @@ export const CustomPanelView = ({
             },
           },
           {
-            name: "Create New Visualization",
+            name: 'Create New Visualization',
             onClick: () => {
               advancedVisualization();
             },
@@ -162,7 +147,7 @@ export const CustomPanelView = ({
 
   const advancedVisualization = () => {
     closeVizPopover();
-    window.location.assign("#/event_analytics/explorer");
+    window.location.assign('#/event_analytics/explorer');
   };
 
   // Fetch Panel by id
@@ -178,7 +163,7 @@ export const CustomPanelView = ({
         setPanelVisualizations(res.operationalPanel.visualizations);
       })
       .catch((err) => {
-        console.error("Issue in fetching the operational panels", err);
+        console.error('Issue in fetching the operational panels', err);
       });
   };
 
@@ -233,10 +218,10 @@ export const CustomPanelView = ({
       getCustomModal(
         onRename,
         closeModal,
-        "Name",
-        "Rename Panel",
-        "Cancel",
-        "Rename",
+        'Name',
+        'Rename Panel',
+        'Cancel',
+        'Rename',
         openPanelName,
         CREATE_PANEL_MESSAGE
       )
@@ -282,13 +267,7 @@ export const CustomPanelView = ({
   };
 
   const onRefreshFilters = () => {
-    if (
-      !isDateValid(
-        convertDateTime(start),
-        convertDateTime(end, false),
-        setToast
-      )
-    ) {
+    if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast)) {
       return;
     }
 
@@ -299,7 +278,7 @@ export const CustomPanelView = ({
     const panelFilterBody = {
       panelId: panelId,
       query: pplFilterValue,
-      language: "ppl",
+      language: 'ppl',
       to: end,
       from: start,
     };
@@ -312,7 +291,7 @@ export const CustomPanelView = ({
         setOnRefresh(!onRefresh);
       })
       .catch((err) => {
-        setToast("Error is adding filters to the operational panel", "danger");
+        setToast('Error is adding filters to the operational panel', 'danger');
         console.error(err.body.message);
       });
   };
@@ -327,11 +306,11 @@ export const CustomPanelView = ({
       getCustomModal(
         onCloneVisualization,
         closeModal,
-        "Name",
-        "Duplicate Visualization",
-        "Cancel",
-        "Duplicate",
-        newVisualizationTitle + " (copy)",
+        'Name',
+        'Duplicate Visualization',
+        'Cancel',
+        'Duplicate',
+        newVisualizationTitle + ' (copy)',
         RENAME_VISUALIZATION_MESSAGE,
         pplQuery,
         newVisualizationType,
@@ -352,7 +331,7 @@ export const CustomPanelView = ({
         body: JSON.stringify({
           panelId: panelId,
           newVisualization: {
-            id: "panelViz_" + htmlIdGenerator()(),
+            id: 'panelViz_' + htmlIdGenerator()(),
             title: newVisualizationTitle,
             query: pplQuery,
             type: newVisualizationType,
@@ -362,25 +341,16 @@ export const CustomPanelView = ({
       })
       .then(async (res) => {
         setPanelVisualizations(res.visualizations);
-        setToast(
-          `Visualization ${newVisualizationTitle} successfully added!`,
-          "success"
-        );
+        setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
       })
       .catch((err) => {
-        setToast(
-          `Error in adding ${newVisualizationTitle} visualization to the panel`,
-          "danger"
-        );
+        setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
         console.error(err);
       });
     closeModal();
   };
 
-  const removeVisualization = (
-    visualizationId: string,
-    visualizationName: string
-  ) => {
+  const removeVisualization = (visualizationId: string) => {
     const newVisualizationList = _.reject(panelVisualizations, {
       id: visualizationId,
     });
@@ -487,11 +457,11 @@ export const CustomPanelView = ({
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiButton
-                    iconType={editMode ? "save" : "pencil"}
+                    iconType={editMode ? 'save' : 'pencil'}
                     onClick={editPanel}
                     disabled={editDisabled}
                   >
-                    {editMode ? "Save" : "Edit"}
+                    {editMode ? 'Save' : 'Edit'}
                   </EuiButton>
                 </EuiFlexItem>
               </EuiFlexGroup>
@@ -528,10 +498,7 @@ export const CustomPanelView = ({
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
-                <EuiButton
-                  isDisabled={inputDisabled}
-                  onClick={onRefreshFilters}
-                >
+                <EuiButton isDisabled={inputDisabled} onClick={onRefreshFilters}>
                   Refresh
                 </EuiButton>
               </EuiFlexItem>

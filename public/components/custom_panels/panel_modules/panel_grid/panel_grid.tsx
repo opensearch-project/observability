@@ -13,7 +13,7 @@ import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { Layout, Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import useObservable from "react-use/lib/useObservable";
-import { CoreStart } from "../../../../../../src/core/public";
+import { CoreStart } from "../../../../../../../src/core/public";
 import PPLService from "../../../../services/requests/ppl";
 import { VisualizationContainer } from "../visualiation_container";
 import { VisualizationType } from "../../../../../common/types/custom_panels";
@@ -66,10 +66,7 @@ type Props = {
     isReplacement?: boolean | undefined,
     replaceVizId?: string | undefined
   ) => void;
-  removeVisualization: (
-    visualizationId: string,
-    visualizationName: string
-  ) => void;
+  removeVisualization: (visualizationId: string) => void;
 };
 
 export const PanelGrid = ({

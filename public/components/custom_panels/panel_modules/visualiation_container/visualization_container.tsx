@@ -68,10 +68,7 @@ type Props = {
     isReplacement?: boolean | undefined,
     replaceVizId?: string | undefined
   ) => void;
-  removeVisualization: (
-    visualizationId: string,
-    visualizationName: string
-  ) => void;
+  removeVisualization: (visualizationId: string) => void;
 };
 
 export const VisualizationContainer = ({
@@ -189,7 +186,7 @@ export const VisualizationContainer = ({
               <EuiIcon
                 type="crossInACircleFilled"
                 onClick={() => {
-                  removeVisualization(visualizationId, visualizationTitle);
+                  removeVisualization(visualizationId);
                 }}
               />
             ) : (

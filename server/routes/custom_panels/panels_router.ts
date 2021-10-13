@@ -9,15 +9,15 @@
  * GitHub history for details.
  */
 
-import { schema } from '@osd/config-schema';
-import { CustomPanelsAdaptor } from '../../adaptors/custom_panels/custom_panel_adaptor';
+import { schema } from "@osd/config-schema";
+import { CustomPanelsAdaptor } from "../../adaptors/custom_panels/custom_panel_adaptor";
 import {
   IRouter,
   IOpenSearchDashboardsResponse,
   ResponseError,
   ILegacyScopedClusterClient,
-} from '../../../../../src/core/server';
-import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from '../../../common/constants/custom_panels';
+} from "../../../../../src/core/server";
+import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from "../../../common/constants/custom_panels";
 
 export function PanelsRouter(router: IRouter) {
   const customPanelBackend = new CustomPanelsAdaptor();
@@ -32,19 +32,20 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
-        const panelsList = await customPanelBackend.viewPanelList(opensearchNotebooksClient);
+        const panelsList = await customPanelBackend.viewPanelList(
+          opensearchNotebooksClient
+        );
         return response.ok({
           body: {
             panels: panelsList,
           },
         });
       } catch (error) {
-        console.error('Issue in fetching panel list:', error);
+        console.error("Issue in fetching panel list:", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -68,9 +69,8 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
         const panelObject = await customPanelBackend.getPanel(
@@ -81,7 +81,7 @@ export function PanelsRouter(router: IRouter) {
           body: panelObject,
         });
       } catch (error) {
-        console.error('Issue in fetching panel:', error);
+        console.error("Issue in fetching panel:", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -105,10 +105,8 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
       try {
         const newPanelId = await customPanelBackend.createNewPanel(
           opensearchNotebooksClient,
@@ -116,12 +114,12 @@ export function PanelsRouter(router: IRouter) {
         );
         return response.ok({
           body: {
-            message: 'Panel Created',
+            message: "Panel Created",
             newPanelId: newPanelId,
           },
         });
       } catch (error) {
-        console.error('Issue in creating new panel', error);
+        console.error("Issue in creating new panel", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -146,9 +144,8 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
         const responseBody = await customPanelBackend.renamePanel(
@@ -158,11 +155,11 @@ export function PanelsRouter(router: IRouter) {
         );
         return response.ok({
           body: {
-            message: 'Panel Renamed',
+            message: "Panel Renamed",
           },
         });
       } catch (error) {
-        console.error('Issue in renaming panel', error);
+        console.error("Issue in renaming panel", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -188,9 +185,8 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
         const cloneResponse = await customPanelBackend.clonePanel(
@@ -200,14 +196,14 @@ export function PanelsRouter(router: IRouter) {
         );
         return response.ok({
           body: {
-            message: 'Panel Cloned',
+            message: "Panel Cloned",
             clonePanelId: cloneResponse.clonePanelId,
             dateCreated: cloneResponse.dateCreated,
             dateModified: cloneResponse.dateModified,
           },
         });
       } catch (error) {
-        console.error('Issue in cloning panel', error);
+        console.error("Issue in cloning panel", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -231,23 +227,59 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
-      const panelId = request.params.panelId;
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
         const deleteResponse = await customPanelBackend.deletePanel(
           opensearchNotebooksClient,
-          panelId
+          request.params.panelId
         );
         return response.noContent({
           body: {
-            message: 'Panel Deleted',
+            message: "Panel Deleted",
           },
         });
       } catch (error) {
-        console.error('Issue in deleting panel', error);
+        console.error("Issue in deleting panel", error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
+  // delete an existing panel(s)
+  router.delete(
+    {
+      path: `${API_PREFIX}/panelList/{panelIdList}`,
+      validate: {
+        params: schema.object({
+          panelIdList: schema.string(),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
+
+      try {
+        const deleteResponse = await customPanelBackend.deletePanelList(
+          opensearchNotebooksClient,
+          request.params.panelIdList
+        );
+        return response.noContent({
+          body: {
+            message: "Panel Deleted",
+          },
+        });
+      } catch (error) {
+        console.error("Issue in deleting panel", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -275,9 +307,8 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
+      const opensearchNotebooksClient: ILegacyScopedClusterClient =
+        context.observability_plugin.observabilityClient.asScoped(request);
 
       try {
         const panelFilterResponse = await customPanelBackend.addPanelFilter(
@@ -290,11 +321,11 @@ export function PanelsRouter(router: IRouter) {
         );
         return response.ok({
           body: {
-            message: 'Panel PPL Filter Changed',
+            message: "Panel PPL Filter Changed",
           },
         });
       } catch (error) {
-        console.error('Issue in adding query filter', error);
+        console.error("Issue in adding query filter", error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,

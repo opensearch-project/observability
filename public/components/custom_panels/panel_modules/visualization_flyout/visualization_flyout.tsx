@@ -33,23 +33,23 @@ import {
   ShortDate,
 } from "@elastic/eui";
 import _ from "lodash";
-import { UI_DATE_FORMAT } from "../../../../common/constants/shared";
+import { UI_DATE_FORMAT } from "../../../../../common/constants/shared";
 import React, { useEffect, useState } from "react";
-import { FlyoutContainers } from "../helpers/flyout_containers";
+import { FlyoutContainers } from "../../helpers/flyout_containers";
 import {
   displayVisualization,
   getQueryResponse,
   isDateValid,
-} from "../helpers/utils";
-import { convertDateTime } from "../helpers/utils";
-import PPLService from "../../../services/requests/ppl";
-import { CoreStart } from "../../../../../../src/core/public";
-import { CUSTOM_PANELS_API_PREFIX } from "../../../../common/constants/custom_panels";
+} from "../../helpers/utils";
+import { convertDateTime } from "../../helpers/utils";
+import PPLService from "../../../../services/requests/ppl";
+import { CoreStart } from "../../../../../../../src/core/public";
+import { CUSTOM_PANELS_API_PREFIX } from "../../../../../common/constants/custom_panels";
 import {
   pplResponse,
   SavedVisualizationType,
   VisualizationType,
-} from "../../../../common/types/custom_panels";
+} from "../../../../../common/types/custom_panels";
 import "./visualization_flyout.scss";
 
 /*

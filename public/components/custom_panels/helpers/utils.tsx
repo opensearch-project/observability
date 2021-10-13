@@ -204,7 +204,7 @@ const checkIndexExists = (query: string) => {
 };
 
 // Check PPL Query in Panel UI
-// Validate if the query doesn't contain any Index/Time/Field filters
+// Validate if the query doesn't contain any Index
 export const isPPLFilterValid = (
   query: string,
   setToast: (
