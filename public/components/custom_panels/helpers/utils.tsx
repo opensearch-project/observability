@@ -141,7 +141,7 @@ export const getQueryResponse = (
       filterQuery
     );
   } catch (error) {
-    console.log("Issue in building final query", error.stack);
+    console.error("Issue in building final query", error.stack);
     setIsLoading(false);
     return;
   }
