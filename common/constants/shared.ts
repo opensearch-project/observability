@@ -16,6 +16,11 @@ export const DSL_BASE = '/api/dsl';
 export const DSL_SEARCH = '/search';
 export const DSL_CAT = '/cat.indices';
 export const DSL_MAPPING = '/indices.getFieldMapping';
+export const OBSERVABILITY_BASE = '/api/observability';
+export const EVENT_ANALYTICS = '/event_analytics';
+export const SAVED_OBJECTS = '/saved_objects';
+export const SAVED_QUERY = '/query';
+export const SAVED_VISUALIZATION = '/vis';
 
 // Server route
 export const PPL_ENDPOINT = '/_plugins/_ppl';
@@ -39,3 +44,6 @@ const BASE_OBSERVABILITY_URI = '/_plugins/_observability';
 export const OPENSEARCH_PANELS_API = {
   OBJECT: `${BASE_OBSERVABILITY_URI}/object`,
 };
+
+// Saved Objects
+export const SAVED_OBJECT = '/object';

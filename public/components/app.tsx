@@ -29,13 +29,15 @@ interface ObservabilityAppDeps {
   DepsStart: AppPluginStartDependencies;
   pplService: any;
   dslService: any;
+  savedObjects: any;
 }
 
 export const App = ({
   CoreStart,
   DepsStart,
   pplService,
-  dslService
+  dslService,
+  savedObjects
 }: ObservabilityAppDeps) => {
 
   const { chrome, http, notifications } = CoreStart;
@@ -104,6 +106,8 @@ export const App = ({
                       parentBreadcrumb={ parentBreadcrumb }
                       pplService={ pplService }
                       dslService={ dslService }
+                      savedObjects={ savedObjects }
+                      http={ http }
                       { ...props }
                     />
                   );

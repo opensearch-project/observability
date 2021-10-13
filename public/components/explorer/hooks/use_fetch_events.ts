@@ -26,6 +26,7 @@ import {
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../slices/query_result_slice';
 import { selectQueries } from '../slices/query_slice';
+import { reset as visualizationReset } from '../slices/visualization_slice';
 import {
   updateFields,
   sortFields
@@ -87,7 +88,7 @@ export const useFetchEvents = ({
           tabId: requestParams.tabId,
           data: {
             [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res.schema ? [ ...res.schema ] : [],
+            [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
             [QUERIED_FIELDS]: [],
             [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
@@ -95,6 +96,9 @@ export const useFetchEvents = ({
         dispatch(sortFields({
           tabId: requestParams.tabId,
           data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
+        }));
+        dispatch(visualizationReset({
+          tabId: requestParams.tabId,
         }));
       });
     });

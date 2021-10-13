@@ -20,6 +20,8 @@ export const EventAnalytics = ({
   parentBreadcrumb,
   pplService,
   dslService,
+  savedObjects,
+  http,
   ...props
 }: any) => {
 
@@ -46,6 +48,8 @@ export const EventAnalytics = ({
               <LogExplorer
                 pplService={ pplService }
                 dslService={ dslService }
+                savedObjects={ savedObjects }
+                http={ http }
               />
             );
           }}
@@ -61,7 +65,7 @@ export const EventAnalytics = ({
                 href: '#/event_analytics',
               }
             ]);
-            return renderPageWithSidebar(<EventExplorerHome />);
+            return renderPageWithSidebar(<EventExplorerHome http={ http } savedObjects={ savedObjects } />);
           }}
         />
       </Switch>

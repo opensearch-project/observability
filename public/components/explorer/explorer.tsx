@@ -15,6 +15,7 @@ import {
   uniqueId,
   isEmpty,
   cloneDeep,
+  isEqual,
   concat
 } from 'lodash';
 import { 
@@ -22,11 +23,17 @@ import {
 } from '@osd/i18n/react';
 import {
   EuiText,
+  EuiButton,
   EuiButtonIcon,
   EuiTabbedContent,
   EuiTabbedContentTab,
   EuiFlexGroup,
-  EuiFlexItem
+  EuiFlexItem,
+  EuiPopover,
+  EuiPopoverTitle,
+  EuiPopoverFooter,
+  EuiButtonEmpty,
+  htmlIdGenerator
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
@@ -62,7 +69,7 @@ import {
 } from '../../../common/utils';
 import { 
   useFetchEvents,
-  useFetchVisualizations
+  useFetchVisualizations,
 } from './hooks';
 import { 
   changeQuery,
@@ -79,6 +86,7 @@ import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
 import DSLService from '../../services/requests/dsl';
+import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
@@ -86,13 +94,16 @@ const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 interface IExplorerProps {
   pplService: PPLService;
   dslService: DSLService;
-  tabId: string
+  tabId: string;
+  savedObjects: SavedObjects;
 }
 
 export const Explorer = ({
   pplService,
   dslService,
-  tabId
+  http,
+  tabId,
+  savedObjects
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -120,11 +131,19 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
+  const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
+  const [selectedPanelName, setSelectedPanelName] = useState('');
+  const [curVisId, setCurVisId] = useState<string>('bar');
+  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
   const queryRef = useRef();
+  const selectedPanelNameRef = useRef();
+  const explorerFieldsRef = useRef();
   queryRef.current = query;
+  selectedPanelNameRef.current = selectedPanelName;
+  explorerFieldsRef.current = explorerFields;
   
   const fixedScrollRef = useCallback(
     (node: HTMLElement) => {
@@ -144,22 +163,16 @@ export const Explorer = ({
     });
   };
 
-  const fetchData = () => {
+  const fetchData = async () => {
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
     if (isEmpty(rawQueryStr)) return;
-    /**
-     * get index pattern -> compose final query -> 
-     * get all available fields for an index - >
-     * get  
-     */
-    
     const index = getIndexPatternFromRawQuery(rawQueryStr);
     if (!isEmpty(index)) getAvailableFields(`search source=${index}`);
 
     const finalQuery = composeFinalQuery(curQuery);
     
-    dispatch(changeQuery({
+    await dispatch(changeQuery({
       tabId,
       query: {
         finalQuery,
@@ -223,8 +236,6 @@ export const Explorer = ({
     });
   };
 
-  const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);
-
   const sidebarClassName = classNames({
     closed: isSidebarClosed,
   });
@@ -248,6 +259,7 @@ export const Explorer = ({
                 <div className="dscFieldChooser">
                   <Sidebar
                     explorerFields={ explorerFields }
+                    explorerData={ explorerData }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
                   />
@@ -270,7 +282,7 @@ export const Explorer = ({
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (explorerData && !isEmpty(explorerData)) ? (
+          { (explorerData && !isEmpty(explorerData.jsonData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 
@@ -370,6 +382,8 @@ export const Explorer = ({
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
+        curVisId={ curVisId }
+        setCurVisId={ setCurVisId }
         explorerFields={ explorerFields }
         explorerVis={ explorerVisualizations }
         handleAddField={ handleAddField }
@@ -401,6 +415,8 @@ export const Explorer = ({
     return getMainContentTabs();
   },
     [
+      curVisId,
+      isPanelTextFieldInvalid,
       explorerData,
       explorerFields,
       isSidebarClosed,
@@ -408,30 +424,6 @@ export const Explorer = ({
       explorerVisualizations
     ]
   );
-
-  const actionItems = [
-    {
-      text: isEmpty(explorerData) ? 'Run' : 'Refresh',
-      iconType: isEmpty(explorerData) ? 'play': 'refresh',
-      attributes: {
-        fill: isEmpty(explorerData) ? true : false
-      },
-      handlers: {
-        onMouseDown: () => {
-          handleQuerySearch();
-        }
-      }
-    },
-    {
-      text: 'Save',
-      iconType: 'heart',
-      handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
-      }
-    }
-  ];
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
@@ -447,12 +439,66 @@ export const Explorer = ({
     }));
   }
 
+  const handleSavingObject = () => {
+
+    const currQuery = queryRef.current;
+    const currFields = explorerFieldsRef.current;
+    if (isEmpty(currQuery![RAW_QUERY])) return;
+
+    if (isEmpty(selectedPanelNameRef.current)) {
+      setIsPanelTextFieldInvalid(true);
+      return;
+    } else {
+      setIsPanelTextFieldInvalid(false);
+    }
+
+    if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
+      
+      // create new saved query
+      savedObjects.createSavedQuery({
+        query: currQuery![RAW_QUERY],
+        fields: currFields![SELECTED_FIELDS],
+        dateRange: currQuery![SELECTED_DATE_RANGE],
+        name: selectedPanelNameRef.current
+      });
+
+      // to-dos - update selected custom panel
+      if (!isEmpty(selectedCustomPanelOptions)) {
+        // update custom panel - query
+      }
+
+    } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+      
+      // create new saved visualization
+      savedObjects.createSavedVisualization({
+        query: currQuery![RAW_QUERY],
+        fields: currFields![SELECTED_FIELDS],
+        dateRange: currQuery![SELECTED_DATE_RANGE],
+        type: curVisId,
+        name: selectedPanelNameRef.current
+      });
+
+      // update custom panel - visualization
+      if (!isEmpty(selectedCustomPanelOptions)) {
+        
+        savedObjects.bulkUpdateCustomPanel({
+          selectedCustomPanels: selectedCustomPanelOptions,
+          query: currQuery![RAW_QUERY],
+          type: curVisId,
+          timeField: !isEmpty(currQuery!['selectedTimestamp']) ? currQuery!['selectedTimestamp'] : 'utc_time', // temprary
+          name: selectedPanelNameRef.current
+        });
+      }
+    }
+  };
+
   const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];
 
   return (
     <div className="dscAppContainer">
       <Search
+        key="search-component"
         query={ query }
         handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
@@ -460,16 +506,20 @@ export const Explorer = ({
         startTime={ dateRange[0] }
         endTime={ dateRange[1] }
         handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={ liveStreamChecked }
-        onLiveStreamChange={ handleLiveStreamChecked }
-        actionItems={ actionItems }
+        selectedPanelName={ selectedPanelNameRef.current }
+        selectedCustomPanelOptions={ selectedCustomPanelOptions }
+        setSelectedPanelName={ setSelectedPanelName }
+        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
+        handleSavingObject={ handleSavingObject }
+        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
+        savedObjects={ savedObjects }
+        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
       />
-      <IndexPicker
+      {/* <IndexPicker
         dslService={ dslService }
         query = { query }
         handleQueryChange={(query: string, index: string) => { handleQueryChange(query, index) } }
-      />
+      /> */}
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={ memorizedMainContentTabs[0] }

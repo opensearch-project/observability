@@ -26,6 +26,7 @@ import { IExplorerFields, IField } from '../../../../common/types/explorer';
 
 interface ISidebarProps {
   explorerFields: IExplorerFields;
+  explorerData: any;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
 }
@@ -34,6 +35,7 @@ export const Sidebar = (props: ISidebarProps) => {
 
   const {
     explorerFields,
+    explorerData,
     handleAddField,
     handleRemoveField
   } = props;
@@ -60,7 +62,7 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { !isEmpty(explorerFields) && (
+          { explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) && (
             <>
               {
                 explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
@@ -113,7 +115,10 @@ export const Sidebar = (props: ISidebarProps) => {
               aria-labelledby="selected_fields"
               data-test-subj={`fieldList-selected`}
             >
-              { explorerFields.selectedFields && explorerFields.selectedFields.map(field => {
+              { explorerData && 
+                !isEmpty(explorerData.jsonData) && 
+                explorerFields.selectedFields && 
+                explorerFields.selectedFields.map(field => {
                 return (
                   <li
                     key={`field${field.name}`}
@@ -169,6 +174,8 @@ export const Sidebar = (props: ISidebarProps) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
+                explorerData &&
+                !isEmpty(explorerData.jsonData) &&
                 explorerFields.availableFields &&
                 explorerFields.availableFields.filter(
                   (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)

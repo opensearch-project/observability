@@ -20,6 +20,7 @@ import { LensIconChartBar } from '../assets/chart_bar';
 import { LensIconChartLine } from '../assets/chart_line';
 import { LensIconChartBarHorizontal } from '../assets/chart_bar_horizontal';
 import { EmptyPlaceholder } from '../shared_components/empty_placeholder';
+import SavedObjects from '../../../../services/saved_objects/event_analytics/saved_objects';
 
 const plotlySharedlayout = {
   showlegend: true,
@@ -44,9 +45,20 @@ const plotlySharedConfig = {
   editable: true
 };
 
+interface IWorkSpacePanel {
+  curVisId: string;
+  setCurVisId: any;
+  visualizations: any;
+  savedObjects: SavedObjects;
+  onSaveVisualization: any;
+  getSavedObjects: any;
+}
+
 export function WorkspacePanel({
+  curVisId,
+  setCurVisId,
   visualizations
-}: any) {
+}: IWorkSpacePanel) {
 
   const memorizedVisualizationTypes = useMemo(() => {
     return ([
@@ -105,9 +117,12 @@ export function WorkspacePanel({
         />
       }
     ]);
-  }, [visualizations]);
+  }, [
+    curVisId,
+    visualizations
+  ]);
 
-  const [curVisId, setCurVisId] = useState(memorizedVisualizationTypes[0]['id']);
+  const [savePanelName, setSavePanelName] = useState<string>('');
 
   function onDrop() {}
   
@@ -128,6 +143,11 @@ export function WorkspacePanel({
       setVis={ setCurVisId }
       vis={ getCurChart() }
       visualizationTypes={ memorizedVisualizationTypes }
+      handleSavePanelNameChange={ (name: string) => { 
+        console.log('vis updating state name: ', name);
+        setSavePanelName(name) 
+      } }
+      savePanelName={ savePanelName }
     >
       <DragDrop
         className="lnsWorkspacePanel__dragDrop"

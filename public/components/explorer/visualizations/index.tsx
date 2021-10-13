@@ -21,10 +21,15 @@ import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanelWrapper } from './config_panel';
 
 export const ExplorerVisualizations = ({
+  curVisId,
+  setCurVisId,
   explorerVis,
   explorerFields,
   handleAddField,
-  handleRemoveField
+  handleRemoveField,
+  savedObjects,
+  onSaveVisualization,
+  getSavedVisualization
 }: any) => {
 
   return (
@@ -43,7 +48,12 @@ export const ExplorerVisualizations = ({
       }
       workspacePanel={
         <WorkspacePanel
+          curVisId={ curVisId }
+          setCurVisId={ setCurVisId }
           visualizations={ explorerVis }
+          savedObjects={ savedObjects }
+          onSaveVisualization={ onSaveVisualization }
+          getSavedObjects={ getSavedVisualization }
         />
       }
       configPanel={

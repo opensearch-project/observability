@@ -41,16 +41,18 @@ export function registerPplRoute({
     req,
     res
   ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-    const queryRes = await facet.describeQuery(req);
-    const result: any = {
-      body: {
-        ...queryRes['data']
-      }
-    };
+    const queryRes: any = await facet.describeQuery(req);
     if (queryRes['success']) {
+      const result: any = {
+        body: {
+          ...queryRes['data']
+        }
+      };
       return res.ok(result);
     }
-    result['statusCode'] = 500;
-    return res.custom(result);
+    return res.custom({
+      statusCode: queryRes.data.statusCode || queryRes.data.status || 500,
+      body: queryRes.data.body || queryRes.data.message || '',
+    });
   });
 }

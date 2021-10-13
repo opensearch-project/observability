@@ -35,6 +35,7 @@ export class PPLDataSource {
 
     /**
      * Add vis mapping for runtime fields
+     * json data structure added to response will be
      * [{
      *  agent: "mozilla",
      *  avg(bytes): 5756
@@ -76,7 +77,7 @@ export class PPLDataSource {
     _.forEach(pplRes.datarows, (row) => {
       const record: any = {};
       
-      for (let i = 0; i < pplRes.schema.length; i++) { 
+      for (let i = 0; i < pplRes.schema.length; i++) {
         
         const cur = pplRes.schema[i];
         

@@ -174,7 +174,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         item: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField).type;
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
       return fullSuggestions.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     } else if (nextWhere === splittedModel.length - 2) {
       return fillSuggestions(

@@ -104,7 +104,8 @@ export const useFetchVisualizations = ({
           dispatch(updateFields({
             tabId: requestParams.tabId,
             data: {
-              [QUERIED_FIELDS]: res?.metadata.fields
+              [QUERIED_FIELDS]: res?.metadata.fields,
+              [SELECTED_FIELDS]: []
             }
           }));
           dispatch(sortFields({

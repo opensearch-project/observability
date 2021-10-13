@@ -50,7 +50,9 @@ import {
 
 export const LogExplorer = ({
   pplService,
-  dslService
+  dslService,
+  savedObjects,
+  http
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -143,7 +145,9 @@ export const LogExplorer = ({
             key={`explorer_${tabId}`}
             pplService={ pplService }
             dslService={ dslService }
+            http={ http }
             tabId={ tabId }
+            savedObjects={ savedObjects }
           />
         </>)
     };
