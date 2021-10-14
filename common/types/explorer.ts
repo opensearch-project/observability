@@ -16,6 +16,7 @@ import {
   AVAILABLE_FIELDS,
   QUERIED_FIELDS
  } from '../constants/explorer';
+ import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 
 export interface IQueryTab {
   id: string;
@@ -54,4 +55,5 @@ export interface IExplorerFields {
 export interface ILogExplorerProps {
   pplService: any;
   dslService: any;
+  savedObjects: SavedObjects;
 }

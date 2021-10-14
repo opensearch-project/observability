@@ -16,9 +16,7 @@ export default class SavedObjectFacet {
 
   fetch = async (
     request: any,
-    format: string,
-    responseFormat: string,
-    objectType: string
+    format: string
   ) => {
     const res = {
       success: false,
@@ -41,7 +39,6 @@ export default class SavedObjectFacet {
   create = async (
     request: any,
     format: string,
-    responseFormat: string,
     objectType: string
   ) => {
     const res = {
@@ -69,7 +66,6 @@ export default class SavedObjectFacet {
   update = async (
     request: any,
     format: string,
-    responseFormat: string,
     objectType: string
   ) => {
     const res = {
@@ -98,7 +94,6 @@ export default class SavedObjectFacet {
   delete = async (
     request: any,
     format: string,
-    responseFormat: string,
     objectType: string
   ) => {
     const res = {
@@ -125,30 +120,30 @@ export default class SavedObjectFacet {
   };
 
   getSavedQuery = async (request: any) => {
-    return this.fetch(request, 'observability.getObject', 'json', 'savedQuery');
+    return this.fetch(request, 'observability.getObject');
   };
 
   getSavedVisualization = async (request: any) => {
-    return this.fetch(request, 'observability.getObject', 'json', 'savedVisualization');
+    return this.fetch(request, 'observability.getObject');
   };
 
   createSavedQuery = async (request: any) => {
-    return this.create(request, 'observability.createObject', 'json', 'savedQuery');
+    return this.create(request, 'observability.createObject', 'savedQuery');
   };
 
   createSavedVisualization = (request: any) => {
-    return this.create(request, 'observability.createObject', 'json', 'savedVisualization');
+    return this.create(request, 'observability.createObject', 'savedVisualization');
   };
 
   updateSavedQuery = (request: any) => {
-    return this.update(request, 'observability.updateObjectById', 'json', 'savedQuery');
+    return this.update(request, 'observability.updateObjectById', 'savedQuery');
   };
   
   updateSavedVisualization = (request: any) => {
-    return this.update(request, 'observability.updateObjectById', 'json', 'savedVisualization');
+    return this.update(request, 'observability.updateObjectById', 'savedVisualization');
   };
 
   deleteSavedQuery = async (request: any) => {
-    return this.delete(request, 'observability.deleteObjectByIdList', 'json', 'savedQuery');
+    return this.delete(request, 'observability.deleteObjectByIdList', 'savedQuery');
   };
 }

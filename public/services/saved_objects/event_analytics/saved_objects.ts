@@ -191,21 +191,6 @@ export default class SavedObjects {
 
   }
 
-  // async updateSavedQueryById(updateQueryRequest: any) {
-  //   const finalParams = this.buildRequestBody({
-  //     query: updateQueryRequest['query'],
-  //     fields: updateQueryRequest['fields'],
-  //     dateRange: updateQueryRequest['dateRange'],
-  //     name: "get all"
-  //   });
-
-  //   finalParams['object_id'] = updateQueryRequest['objectId'];
-
-  //   return await this.http.put(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`, {
-  //     body: JSON.stringify(finalParams)
-  //   }).catch((error: any) => console.log(error));
-  // }
-
   async createSavedQuery(createQueryRequest: any) {
     
     const finalParams = this.buildRequestBody({

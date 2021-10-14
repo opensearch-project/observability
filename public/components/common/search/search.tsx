@@ -11,34 +11,22 @@
 
 import './search.scss';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { 
   EuiFlexGroup,
   EuiButton,
   EuiFlexItem,
-  EuiTitle,
-  EuiComboBox,
-  EuiFormRow,
-  EuiSpacer,
-  EuiFieldText,
-  EuiPageContent,
-  EuiPageContentBody,
-  EuiPageContentHeader,
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiPopoverTitle,
-  EuiTextArea
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
-import { PPL_STATS_REGEX } from '../../../../common/constants/shared';
-import { SaveQueryForm } from '../../../../../../src/plugins/data/public/ui/saved_query_form';
 import { useCallback } from 'react';
 
 export interface IQueryBarProps {
@@ -164,7 +152,6 @@ export const Search = (props: any) => {
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
-                {/* <EuiPopoverTitle>{"Save to..."}</EuiPopoverTitle> */}
                 <SavePanel
                   selectedOptions={ selectedCustomPanelOptions }
                   handleNameChange={ setSelectedPanelName }
@@ -189,7 +176,6 @@ export const Search = (props: any) => {
                       <EuiButton
                         size="s"
                         fill
-                        // onClick={() => handleSaveVisualization()}>
                         onClick={() => handleSavingObject()}>
                         { "Save" }
                       </EuiButton>
