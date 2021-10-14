@@ -386,6 +386,7 @@ export const Explorer = ({
         setCurVisId={ setCurVisId }
         explorerFields={ explorerFields }
         explorerVis={ explorerVisualizations }
+        explorerData={ explorerData }
         handleAddField={ handleAddField }
         handleRemoveField={ handleRemoveField }
       />

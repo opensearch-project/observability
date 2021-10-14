@@ -38,6 +38,9 @@ export const Bar = ({
     xaxis: {
       automargin: true
     },
+    yaxis: {
+      automargin: true
+    },
   }, layoutConfig);
 
   return (

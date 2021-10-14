@@ -70,7 +70,6 @@ export function DataGrid(props: DataGridProps) {
           <th key={ uniqueId('datagrid-header-')}>{ selField.name }</th>
         );
       });
-      // tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}>Time</th>);
       tableHeadContent.unshift(<th key={ uniqueId('datagrid-header-')}></th>);
     }
 

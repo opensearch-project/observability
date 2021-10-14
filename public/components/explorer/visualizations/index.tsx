@@ -25,6 +25,7 @@ export const ExplorerVisualizations = ({
   setCurVisId,
   explorerVis,
   explorerFields,
+  explorerData,
   handleAddField,
   handleRemoveField,
   savedObjects,
@@ -34,14 +35,10 @@ export const ExplorerVisualizations = ({
 
   return (
     <FrameLayout 
-      // dataPanel={
-      //   <DataPanel
-      //     explorerFields={ explorerFields }
-      //   />
-      // }
       dataPanel={ 
         <Sidebar 
           explorerFields={ explorerFields }
+          explorerData={ explorerData }
           handleAddField={ handleAddField }
           handleRemoveField={ handleRemoveField }
         />

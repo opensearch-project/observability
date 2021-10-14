@@ -37,9 +37,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     selectedCols
   } = props;
 
-  console.log('doc view row doc: ', doc);
-  console.log('doc view selectedCols: ', selectedCols);
-
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
 
   const getTdTmpl = (conf: { clsName: string, content: React.ReactDOM | string }) => {
@@ -143,7 +140,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           filteredDoc[selCol.name] = doc[selCol.name];
         }
       })
-      console.log('filteredDoc: ', filteredDoc);
       forEach(filteredDoc, (val, key) => {
         cols.push(
           getTdTmpl({ 
@@ -152,15 +148,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           })
         );
       });
-
-      // if (has(doc, 'timestamp')) {
-      //   cols.unshift(
-      //     getTdTmpl({ 
-      //       clsName: timestampClsName,
-      //       content: doc['timestamp']
-      //     })
-      //   );
-      // }
     }
 
     // Add detail toggling column
@@ -192,7 +179,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           key={ uniqueId('grid-td-detail-') }
           colSpan={ selectedCols.length ?  selectedCols.length + 2 : 3 }
         >
-          {/* <DocDetailTitle /> */}
           <DocViewer
             hit={ doc }
           />

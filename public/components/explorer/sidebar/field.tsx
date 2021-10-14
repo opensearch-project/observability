@@ -98,7 +98,7 @@ export const Field = (props: IFieldProps) => {
       ownFocus
       display="block"
       isOpen={ isFieldDetailsOpen }
-      closePopover={ () => {} }
+      closePopover={ () => togglePopover }
       anchorPosition="rightUp"
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
