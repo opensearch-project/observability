@@ -54,29 +54,30 @@ const pageStyles: CSSProperties = {
 
 /*
  * "CustomPanelTable" module, used to view all the saved panels
+ *
+ * Props taken in as params are:
  * loading: loader bool for the table
  * fetchCustomPanels: fetch panels function
  * customPanels: List of panels available
  * createCustomPanel: create panel function
  * setBreadcrumbs: setter for breadcrumbs on top panel
  * parentBreadcrumb: parent breadcrumb
- * renameCustomPanel: delete function for the panel
+ * renameCustomPanel: rename function for the panel
  * cloneCustomPanel: clone function for the panel
- * deleteCustomPanel: delete function for the panel
+ * deleteCustomPanelList: delete function for the panels
  * setToast: create Toast function
  */
 
 type Props = {
   loading: boolean;
-  fetchCustomPanels: () => void;
+  fetchCustomPanels: () => Promise<void>;
   customPanels: Array<CustomPanelListType>;
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   parentBreadcrumb: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
-  deleteCustomPanel: (customPanelId: string, customPanelName?: string, showToast?: boolean) => void;
-  setToast: (title: string, color?: string, text?: string) => void;
+  deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
 };
 
 export const CustomPanelTable = ({
@@ -88,8 +89,7 @@ export const CustomPanelTable = ({
   parentBreadcrumb,
   renameCustomPanel,
   cloneCustomPanel,
-  deleteCustomPanel,
-  setToast,
+  deleteCustomPanelList,
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
@@ -129,17 +129,8 @@ export const CustomPanelTable = ({
     const toastMessage = `Custom Panels ${
       selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].name
     } successfully deleted!`;
-    Promise.all(
-      selectedCustomPanels.map((customPanel) => deleteCustomPanel(customPanel.id, undefined, false))
-    )
-      .then(() => setToast(toastMessage))
-      .catch((err) => {
-        setToast(
-          'Error deleting Operational Panels, please make sure you have the correct permission.',
-          'danger'
-        );
-        console.error(err.body.message);
-      });
+    const PanelList = selectedCustomPanels.map((panel) => panel.id);
+    deleteCustomPanelList(PanelList, toastMessage);
     closeModal();
   };
 
@@ -263,13 +254,13 @@ export const CustomPanelTable = ({
       field: 'dateModified',
       name: 'Last updated',
       sortable: true,
-      render: (value) => moment(value).format(UI_DATE_FORMAT),
+      render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
     {
       field: 'dateCreated',
       name: 'Created',
       sortable: true,
-      render: (value) => moment(value).format(UI_DATE_FORMAT),
+      render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
   ] as Array<
     EuiTableFieldDataColumnType<{
@@ -296,7 +287,8 @@ export const CustomPanelTable = ({
               <EuiPageContentHeaderSection>
                 <EuiTitle size="s">
                   <h3>
-                    Panels<span className="panel-header-count"> ({customPanels.length})</span>
+                    Panels
+                    <span className="panel-header-count"> ({customPanels.length})</span>
                   </h3>
                 </EuiTitle>
                 <EuiSpacer size="s" />

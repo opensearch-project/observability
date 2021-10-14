@@ -13,12 +13,23 @@ import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
-import { VisualizationType } from '../../../../common/constants/custom_panels';
+import { Moment } from 'moment-timezone';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
+import React from 'react';
+import { Bar } from '../../visualizations/charts/bar';
+import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
+import { Line } from '../../visualizations/charts/line';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
+ * isNameValid - Validates string to length > 0 and < 50
+ * convertDateTime - Converts input datetime string to required format
+ * getQueryResponse - Get response of PPL query to load visualizations
+ * onTimeChange - Function to store recently used time filters and set start and end time.
+ * isDateValid - Function to check date validity
+ * isPPLFilterValid - Validate if the panel PPL query doesn't contain any Index/Time/Field filters
+ * displayVisualization - This function renders the visualzation based of its type
  */
 
 // Name validation 0>Name<=50
@@ -27,18 +38,26 @@ export const isNameValid = (name: string) => {
 };
 
 // DateTime convertor to required format
-export const convertDateTime = (datetime: string, isStart = true) => {
-  if (isStart) return dateMath.parse(datetime).format(PPL_DATE_FORMAT);
-  return dateMath.parse(datetime, { roundUp: true }).format(PPL_DATE_FORMAT);
+export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
+  let returnTime: undefined | Moment;
+  if (isStart) {
+    returnTime = dateMath.parse(datetime);
+  } else {
+    returnTime = dateMath.parse(datetime, { roundUp: true });
+  }
+
+  if (formatted) return returnTime.format(PPL_DATE_FORMAT);
+  return returnTime;
 };
 
-// Builds Final Query by adding time and query filters to the original visualization query
-// -> Final Query is as follows:
-// -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
-// -> finalQuery = source=opensearch_dashboards_sample_data_flights
-//                  + | where utc_time > timestamp(‘2021-07-01 00:00:00’) and utc_time < timestamp(‘2021-07-02 00:00:00’)
-//                  + | where Carrier='OpenSearch-Air'
-//                  + | stats sum(FlightDelayMin) as delays by Carrier
+/* Builds Final Query by adding time and query filters(From panel UI) to the original visualization query
+ * -> Final Query is as follows:
+ * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
+ * -> finalQuery = source=opensearch_dashboards_sample_data_flights
+ *                  + | where utc_time > timestamp(‘2021-07-01 00:00:00’) and utc_time < timestamp(‘2021-07-02 00:00:00’)
+ *                  + | where Carrier='OpenSearch-Air'
+ *                  + | stats sum(FlightDelayMin) as delays by Carrier
+ */
 const queryAccumulator = (
   originalQuery: string,
   timestampField: string,
@@ -59,8 +78,32 @@ const queryAccumulator = (
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
 
+//PPL Service requestor
+const pplServiceRequestor = async (
+  pplService: PPLService,
+  finalQuery: string,
+  type: string,
+  setVisualizationData: React.Dispatch<React.SetStateAction<any[]>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  await pplService
+    .fetch({ query: finalQuery, format: 'viz' })
+    .then((res) => {
+      if (res === undefined) setIsError('Please check the PPL Filter Value');
+      setVisualizationData(res);
+    })
+    .catch((error: Error) => {
+      setIsError(error.stack);
+      console.error(error);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+};
+
 // Get PPL Query Response
-export const getQueryResponse = async (
+export const getQueryResponse = (
   pplService: PPLService,
   query: string,
   type: string,
@@ -77,53 +120,14 @@ export const getQueryResponse = async (
 
   let finalQuery = '';
   try {
-    finalQuery = queryAccumulator(
-      _.unescape(query),
-      timestampField,
-      startTime,
-      endTime,
-      filterQuery
-    );
+    finalQuery = queryAccumulator(query, timestampField, startTime, endTime, filterQuery);
   } catch (error) {
-    console.log('Issue in building final query', error.stack);
+    console.error('Issue in building final query', error.stack);
     setIsLoading(false);
     return;
   }
 
-  await pplService
-    .fetch({ query: finalQuery, format: 'viz' })
-    .then((res) => {
-      setVisualizationData([
-        {
-          x: res.data[res.metadata.xfield.name],
-          y: res.data[res.metadata.yfield.name],
-          type: type,
-        },
-      ]);
-    })
-    .catch((error: Error) => {
-      setIsError(error.stack);
-      console.error(err);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-};
-
-// Calculate new visualization dimensions
-// New visualization always joins to the end of the panel
-export const getNewVizDimensions = (panelVisualizations: VisualizationType[]) => {
-  let maxY: number = 0,
-    maxYH: number = 0;
-
-  panelVisualizations.map((panelVisualization: VisualizationType) => {
-    if (maxY < panelVisualization.y) {
-      maxY = panelVisualization.y;
-      maxYH = panelVisualization.h;
-    }
-  });
-
-  return { x: 0, y: maxY + maxYH, w: 6, h: 4 };
+  pplServiceRequestor(pplService, finalQuery, type, setVisualizationData, setIsLoading, setIsError);
 };
 
 // Function to store recently used time filters and set start and end time.
@@ -142,7 +146,99 @@ export const onTimeChange = (
   recentlyUsedRange.unshift({ start, end });
   setStart(start);
   setEnd(end);
-  setRecentlyUsedRanges(
-    recentlyUsedRange.length > 10 ? recentlyUsedRange.slice(0, 9) : recentlyUsedRange
-  );
+  setRecentlyUsedRanges(recentlyUsedRange.slice(0, 9));
+};
+
+// Function to check date validity
+export const isDateValid = (
+  start: string | Moment | undefined,
+  end: string | Moment | undefined,
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void,
+  side?: string | undefined
+) => {
+  if (end! < start!) {
+    setToast('Time range entered is invalid', 'danger', undefined, side);
+    return false;
+  } else return true;
+};
+
+// Check for time filter in query
+const checkIndexExists = (query: string) => {
+  return PPL_INDEX_REGEX.test(query);
+};
+
+// Check PPL Query in Panel UI
+// Validate if the query doesn't contain any Index
+export const isPPLFilterValid = (
+  query: string,
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void
+) => {
+  if (checkIndexExists(query)) {
+    setToast('Please remove index from PPL Filter', 'danger', undefined);
+    return false;
+  }
+  return true;
+};
+
+// This function renders the visualzation based of its type
+export const displayVisualization = (data: any, type: string) => {
+  if (data === undefined) return;
+
+  let vizComponent!: JSX.Element;
+  switch (type) {
+    case 'bar': {
+      vizComponent = (
+        <Bar
+          visualizations={data}
+          layoutConfig={{
+            yaxis: {
+              automargin: true,
+            },
+          }}
+        />
+      );
+      break;
+    }
+    case 'horizontal_bar': {
+      vizComponent = (
+        <HorizontalBar
+          visualizations={data}
+          layoutConfig={{
+            yaxis: {
+              automargin: true,
+            },
+          }}
+        />
+      );
+      break;
+    }
+    case 'line': {
+      vizComponent = (
+        <Line
+          visualizations={data}
+          layoutConfig={{
+            yaxis: {
+              automargin: true,
+            },
+          }}
+        />
+      );
+      break;
+    }
+    default: {
+      vizComponent = <></>;
+      break;
+    }
+  }
+  return vizComponent;
 };

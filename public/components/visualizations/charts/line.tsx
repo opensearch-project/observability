@@ -55,7 +55,7 @@ export const Line = ({
         yaxis: {
           fixedrange: true,
           showgrid: false,
-          visible: true
+          visible: true,
         },
         ...lineLayoutConfig
       }}

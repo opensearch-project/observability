@@ -105,7 +105,6 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -234,12 +233,50 @@ export function PanelsRouter(router: IRouter) {
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
-      const panelId = request.params.panelId;
 
       try {
         const deleteResponse = await customPanelBackend.deletePanel(
           opensearchNotebooksClient,
-          panelId
+          request.params.panelId
+        );
+        return response.noContent({
+          body: {
+            message: 'Panel Deleted',
+          },
+        });
+      } catch (error) {
+        console.error('Issue in deleting panel', error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
+  // delete an existing panel(s)
+  router.delete(
+    {
+      path: `${API_PREFIX}/panelList/{panelIdList}`,
+      validate: {
+        params: schema.object({
+          panelIdList: schema.string(),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        const deleteResponse = await customPanelBackend.deletePanelList(
+          opensearchNotebooksClient,
+          request.params.panelIdList
         );
         return response.noContent({
           body: {

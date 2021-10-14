@@ -1,0 +1,55 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+ .mouseGrabber {
+  & :hover {
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+  & :active {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+  }
+}
+
+.visualization-div {
+  width: 100%;
+  height: 90%;
+  overflow: scroll;
+  text-align: center;
+}
+
+%center-div {
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.visualization-loading-chart {
+  margin: 0;
+  position: absolute;
+  @extend %center-div;
+}
+
+.visualization-error-div {
+  overflow: scroll;
+  position: relative;
+  @extend %center-div;
+}
+
+.panel-full-width {
+  width: 100%;
+  height: 100%;
+}

@@ -35,10 +35,14 @@ import {
  * btn1txt - string as content to fill "close button"
  * btn2txt - string as content to fill "confirm button"
  * openPanelName - Default input value for the field
+ * helpText - string help for the input field
+ * optionalArgs - Arguments needed to pass them to runModal function
  */
 
 type CustomInputModalProps = {
-  runModal: (value: string, value2?: string, value3?: string) => void;
+  runModal:
+    | ((value: string, value2: string, value3: string, value4: string) => void)
+    | ((value: string) => void);
   closeModal: (
     event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
@@ -48,8 +52,7 @@ type CustomInputModalProps = {
   btn2txt: string;
   openPanelName?: string;
   helpText?: string;
-  optionalArg1?: string;
-  optionalArg2?: string;
+  optionalArgs?: string[];
 };
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
@@ -62,8 +65,7 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
     btn2txt,
     openPanelName,
     helpText,
-    optionalArg1,
-    optionalArg2,
+    optionalArgs,
   } = props;
   const [value, setValue] = useState(openPanelName || ''); // sets input value
 
@@ -88,12 +90,12 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={closeModal}>{btn1txt}</EuiButtonEmpty>
-          {optionalArg1 === undefined ? (
+          {optionalArgs === undefined ? (
             <EuiButton onClick={() => runModal(value)} fill>
               {btn2txt}
             </EuiButton>
           ) : (
-            <EuiButton onClick={() => runModal(value, optionalArg1, optionalArg2)} fill>
+            <EuiButton onClick={() => runModal(value, ...optionalArgs)} fill>
               {btn2txt}
             </EuiButton>
           )}
