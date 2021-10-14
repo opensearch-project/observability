@@ -21,11 +21,11 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiText,
-} from "@elastic/eui";
-import React, { useEffect, useMemo, useState } from "react";
-import PPLService from "../../../../services/requests/ppl";
-import { displayVisualization, getQueryResponse } from "../../helpers/utils";
-import "./visualization_container.scss";
+} from '@elastic/eui';
+import React, { useEffect, useMemo, useState } from 'react';
+import PPLService from '../../../../services/requests/ppl';
+import { displayVisualization, getQueryResponse } from '../../helpers/utils';
+import './visualization_container.scss';
 
 /*
  * Visualization container - This module is a placeholder to add visualizations in react-grid-layout
@@ -64,10 +64,7 @@ type Props = {
     newVisualizationTimeField: string
   ) => void;
   pplFilterValue: string;
-  showFlyout: (
-    isReplacement?: boolean | undefined,
-    replaceVizId?: string | undefined
-  ) => void;
+  showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization: (visualizationId: string) => void;
 };
 
@@ -91,9 +88,8 @@ export const VisualizationContainer = ({
   const [disablePopover, setDisablePopover] = useState(false);
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState("");
-  const onActionsMenuClick = () =>
-    setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const [isError, setIsError] = useState('');
+  const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
   const popoverPanel = [
@@ -138,12 +134,8 @@ export const VisualizationContainer = ({
     () => (
       <div className="visualization-div">
         {isLoading ? (
-          <EuiLoadingChart
-            size="xl"
-            mono
-            className="visualization-loading-chart"
-          />
-        ) : isError != "" ? (
+          <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+        ) : isError != '' ? (
           <div className="visualization-error-div">
             <EuiSpacer size="l" />
             <EuiIcon type="alert" color="danger" size="l" />
@@ -174,7 +166,7 @@ export const VisualizationContainer = ({
 
   return (
     <EuiPanel className="panel-full-width" grow={false}>
-      <div className={editMode ? "mouseGrabber" : ""}>
+      <div className={editMode ? 'mouseGrabber' : ''}>
         <EuiFlexGroup justifyContent="spaceBetween">
           <EuiFlexItem grow={false}>
             <EuiText grow={false}>

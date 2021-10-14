@@ -47,9 +47,7 @@ export const getCustomModal = (
   btn2txt: string,
   openPanelName?: string,
   helpText?: string,
-  optionalArg1?: string,
-  optionalArg2?: string,
-  optionalArg3?: string
+  optionalArgs?: string[]
 ) => {
   return (
     <CustomInputModal
@@ -61,9 +59,7 @@ export const getCustomModal = (
       btn2txt={btn2txt}
       openPanelName={openPanelName}
       helpText={helpText}
-      optionalArg1={optionalArg1}
-      optionalArg2={optionalArg2}
-      optionalArg3={optionalArg3}
+      optionalArgs={optionalArgs}
     />
   );
 };

@@ -9,11 +9,8 @@
  * GitHub history for details.
  */
 
-import {
-  PanelType,
-  VisualizationType,
-} from "../../../common/types/custom_panels";
-import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
+import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 
 export class CustomPanelsAdaptor {
   // index a panel
@@ -22,17 +19,14 @@ export class CustomPanelsAdaptor {
     panelBody: PanelType
   ): Promise<{ objectId: string }> {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.createObject",
-        {
-          body: {
-            operationalPanel: panelBody,
-          },
-        }
-      );
+      const response = await client.callAsCurrentUser('observability.createObject', {
+        body: {
+          operationalPanel: panelBody,
+        },
+      });
       return response;
     } catch (error) {
-      throw new Error("Index Panel Error:" + error);
+      throw new Error('Index Panel Error:' + error);
     }
   };
 
@@ -43,48 +37,36 @@ export class CustomPanelsAdaptor {
     updatePanelBody: Partial<PanelType>
   ) {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.updateObjectById",
-        {
-          objectId: panelId,
-          body: {
-            operationalPanel: updatePanelBody,
-          },
-        }
-      );
+      const response = await client.callAsCurrentUser('observability.updateObjectById', {
+        objectId: panelId,
+        body: {
+          operationalPanel: updatePanelBody,
+        },
+      });
       return response;
     } catch (error) {
-      throw new Error("Update Panel Error:" + error);
+      throw new Error('Update Panel Error:' + error);
     }
   };
 
   // fetch a panel by id
-  getPanel = async function (
-    client: ILegacyScopedClusterClient,
-    panelId: string
-  ) {
+  getPanel = async function (client: ILegacyScopedClusterClient, panelId: string) {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.getObjectById",
-        {
-          objectId: panelId,
-        }
-      );
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: panelId,
+      });
       return response.observabilityObjectList[0];
     } catch (error) {
-      throw new Error("Get Panel Error:" + error);
+      throw new Error('Get Panel Error:' + error);
     }
   };
 
   // gets list of panels stored in index
   viewPanelList = async function (client: ILegacyScopedClusterClient) {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.getObject",
-        {
-          objectType: "operationalPanel",
-        }
-      );
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'operationalPanel',
+      });
       return response.observabilityObjectList.map((panel: any) => ({
         name: panel.operationalPanel.name,
         id: panel.objectId,
@@ -92,61 +74,46 @@ export class CustomPanelsAdaptor {
         dateModified: panel.lastUpdatedTimeMs,
       }));
     } catch (error) {
-      throw new Error("View Panel List Error:" + error);
+      throw new Error('View Panel List Error:' + error);
     }
   };
 
   // Delete a panel by Id
-  deletePanel = async function (
-    client: ILegacyScopedClusterClient,
-    panelId: string
-  ) {
+  deletePanel = async function (client: ILegacyScopedClusterClient, panelId: string) {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.deleteObjectById",
-        {
-          objectId: panelId,
-        }
-      );
-      return { status: "OK", message: response };
+      const response = await client.callAsCurrentUser('observability.deleteObjectById', {
+        objectId: panelId,
+      });
+      return { status: 'OK', message: response };
     } catch (error) {
-      throw new Error("Delete Panel Error:" + error);
+      throw new Error('Delete Panel Error:' + error);
     }
   };
 
   // Delete a panel by Id
-  deletePanelList = async function (
-    client: ILegacyScopedClusterClient,
-    panelIdList: string
-  ) {
+  deletePanelList = async function (client: ILegacyScopedClusterClient, panelIdList: string) {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.deleteObjectByIdList",
-        {
-          objectIdList: panelIdList,
-        }
-      );
-      return { status: "OK", message: response };
+      const response = await client.callAsCurrentUser('observability.deleteObjectByIdList', {
+        objectIdList: panelIdList,
+      });
+      return { status: 'OK', message: response };
     } catch (error) {
-      throw new Error("Delete Panel List Error:" + error);
+      throw new Error('Delete Panel List Error:' + error);
     }
   };
 
   // Create a new Panel
-  createNewPanel = async (
-    client: ILegacyScopedClusterClient,
-    panelName: string
-  ) => {
+  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string) => {
     const panelBody = {
       name: panelName,
       visualizations: [],
       timeRange: {
-        to: "now",
-        from: "now-1d",
+        to: 'now',
+        from: 'now-1d',
       },
       queryFilter: {
-        query: "",
-        language: "ppl",
+        query: '',
+        language: 'ppl',
       },
     };
 
@@ -154,16 +121,12 @@ export class CustomPanelsAdaptor {
       const response = await this.indexPanel(client, panelBody);
       return response.objectId;
     } catch (error) {
-      throw new Error("Create New Panel Error:" + error);
+      throw new Error('Create New Panel Error:' + error);
     }
   };
 
   // Rename an existing panel
-  renamePanel = async (
-    client: ILegacyScopedClusterClient,
-    panelId: string,
-    panelName: string
-  ) => {
+  renamePanel = async (client: ILegacyScopedClusterClient, panelId: string, panelName: string) => {
     const updatePanelBody = {
       name: panelName,
     };
@@ -171,16 +134,12 @@ export class CustomPanelsAdaptor {
       const response = await this.updatePanel(client, panelId, updatePanelBody);
       return response.objectId;
     } catch (error) {
-      throw new Error("Rename Panel Error:" + error);
+      throw new Error('Rename Panel Error:' + error);
     }
   };
 
   // Clone an existing panel
-  clonePanel = async (
-    client: ILegacyScopedClusterClient,
-    panelId: string,
-    panelName: string
-  ) => {
+  clonePanel = async (client: ILegacyScopedClusterClient, panelId: string, panelName: string) => {
     const updatePanelBody = {
       name: panelName,
     };
@@ -193,17 +152,14 @@ export class CustomPanelsAdaptor {
         queryFilter: getPanel.operationalPanel.queryFilter,
       };
       const indexResponse = await this.indexPanel(client, clonePanelBody);
-      const getClonedPanel = await this.getPanel(
-        client,
-        indexResponse.objectId
-      );
+      const getClonedPanel = await this.getPanel(client, indexResponse.objectId);
       return {
         clonePanelId: getClonedPanel.objectId,
         dateCreated: getClonedPanel.createdTimeMs,
         dateModified: getClonedPanel.lastUpdatedTimeMs,
       };
     } catch (error) {
-      throw new Error("Clone Panel Error:" + error);
+      throw new Error('Clone Panel Error:' + error);
     }
   };
 
@@ -230,19 +186,16 @@ export class CustomPanelsAdaptor {
       const response = await this.updatePanel(client, panelId, updatePanelBody);
       return response.objectId;
     } catch (error) {
-      throw new Error("Add Panel Filter Error:" + error);
+      throw new Error('Add Panel Filter Error:' + error);
     }
   };
 
   // gets list of panels stored in index
   viewSavedVisualiationList = async (client: ILegacyScopedClusterClient) => {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.getObject",
-        {
-          objectType: "savedVisualization",
-        }
-      );
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'savedVisualization',
+      });
       return response.observabilityObjectList.map((visualization: any) => ({
         id: visualization.objectId,
         name: visualization.savedVisualization.name,
@@ -251,27 +204,20 @@ export class CustomPanelsAdaptor {
         timeField: visualization.savedVisualization.selected_timestamp.name,
       }));
     } catch (error) {
-      throw new Error("View Saved Visualizations Error:" + error);
+      throw new Error('View Saved Visualizations Error:' + error);
     }
   };
 
   //Get All Visualizations from a Panel
   //Add Visualization
-  getVisualizations = async (
-    client: ILegacyScopedClusterClient,
-    panelId: string
-  ) => {
+  getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
     try {
-      const response = await client.callAsCurrentUser(
-        "observability.getObjectById",
-        {
-          objectId: panelId,
-        }
-      );
-      return response.observabilityObjectList[0].operationalPanel
-        .visualizations;
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: panelId,
+      });
+      return response.observabilityObjectList[0].operationalPanel.visualizations;
     } catch (error) {
-      throw new Error("Get Visualizations Error:" + error);
+      throw new Error('Get Visualizations Error:' + error);
     }
   };
 
@@ -305,10 +251,7 @@ export class CustomPanelsAdaptor {
     oldVisualizationId?: string
   ) => {
     try {
-      const allPanelVisualizations = await this.getVisualizations(
-        client,
-        panelId
-      );
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
 
       let newDimensions;
       let visualizationsList = <VisualizationType[]>[];
@@ -338,7 +281,7 @@ export class CustomPanelsAdaptor {
       });
       return newPanelVisualizations;
     } catch (error) {
-      throw new Error("Add/Replace Visualization Error:" + error);
+      throw new Error('Add/Replace Visualization Error:' + error);
     }
   };
 
@@ -355,10 +298,7 @@ export class CustomPanelsAdaptor {
     }
   ) => {
     try {
-      const allPanelVisualizations = await this.getVisualizations(
-        client,
-        panelId
-      );
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
       const newDimensions = this.getNewVizDimensions(allPanelVisualizations);
       const newPanelVisualizations = [
         ...allPanelVisualizations,
@@ -369,7 +309,7 @@ export class CustomPanelsAdaptor {
       });
       return newPanelVisualizations;
     } catch (error) {
-      throw new Error("Add/Replace Visualization Error:" + error);
+      throw new Error('Add/Replace Visualization Error:' + error);
     }
   };
 
@@ -380,20 +320,16 @@ export class CustomPanelsAdaptor {
     visualizationId: string
   ) => {
     try {
-      const allPanelVisualizations = await this.getVisualizations(
-        client,
-        panelId
-      );
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
       const filteredPanelVisualizations = allPanelVisualizations.filter(
-        (panelVisualization: VisualizationType) =>
-          panelVisualization.id != visualizationId
+        (panelVisualization: VisualizationType) => panelVisualization.id != visualizationId
       );
       const updatePanelResponse = await this.updatePanel(client, panelId, {
         visualizations: filteredPanelVisualizations,
       });
       return filteredPanelVisualizations;
     } catch (error) {
-      throw new Error("Delete Visualization Error:" + error);
+      throw new Error('Delete Visualization Error:' + error);
     }
   };
 
@@ -410,10 +346,7 @@ export class CustomPanelsAdaptor {
     }[]
   ) => {
     try {
-      const allPanelVisualizations = await this.getVisualizations(
-        client,
-        panelId
-      );
+      const allPanelVisualizations = await this.getVisualizations(client, panelId);
       let filteredPanelVisualizations = <Array<VisualizationType>>[];
 
       for (let i = 0; i < allPanelVisualizations.length; i++) {
@@ -434,7 +367,7 @@ export class CustomPanelsAdaptor {
       });
       return filteredPanelVisualizations;
     } catch (error) {
-      throw new Error("Edit Visualizations Error:" + error);
+      throw new Error('Edit Visualizations Error:' + error);
     }
   };
 }

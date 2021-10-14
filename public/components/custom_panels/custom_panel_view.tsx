@@ -308,9 +308,7 @@ export const CustomPanelView = ({
         'Duplicate',
         newVisualizationTitle + ' (copy)',
         RENAME_VISUALIZATION_MESSAGE,
-        pplQuery,
-        newVisualizationType,
-        newVisualizationTimeField
+        [pplQuery, newVisualizationType, newVisualizationTimeField]
       )
     );
     showModal();

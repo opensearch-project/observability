@@ -9,16 +9,16 @@
  * GitHub history for details.
  */
 
-import _ from "lodash";
-import React, { useEffect, useState } from "react";
-import { Layout, Layouts, Responsive, WidthProvider } from "react-grid-layout";
-import useObservable from "react-use/lib/useObservable";
-import { CoreStart } from "../../../../../../../src/core/public";
-import PPLService from "../../../../services/requests/ppl";
-import { VisualizationContainer } from "../visualiation_container";
-import { VisualizationType } from "../../../../../common/types/custom_panels";
-import { CUSTOM_PANELS_API_PREFIX } from "../../../../../common/constants/custom_panels";
-import "./panel_grid.scss";
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import useObservable from 'react-use/lib/useObservable';
+import { CoreStart } from '../../../../../../../src/core/public';
+import PPLService from '../../../../services/requests/ppl';
+import { VisualizationContainer } from '../visualiation_container';
+import { VisualizationType } from '../../../../../common/types/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
+import './panel_grid.scss';
 
 // HOC container to provide dynamic width for Grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -43,13 +43,11 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  */
 
 type Props = {
-  http: CoreStart["http"];
-  chrome: CoreStart["chrome"];
+  http: CoreStart['http'];
+  chrome: CoreStart['chrome'];
   panelId: string;
   panelVisualizations: VisualizationType[];
-  setPanelVisualizations: React.Dispatch<
-    React.SetStateAction<VisualizationType[]>
-  >;
+  setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   editMode: boolean;
   pplService: PPLService;
   startTime: string;
@@ -62,10 +60,7 @@ type Props = {
     newVisualizationTimeField: string
   ) => void;
   pplFilterValue: string;
-  showFlyout: (
-    isReplacement?: boolean | undefined,
-    replaceVizId?: string | undefined
-  ) => void;
+  showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization: (visualizationId: string) => void;
 };
 
@@ -91,31 +86,26 @@ export const PanelGrid = ({
 
   // Reset Size of Visualizations when layout is changed
   const layoutChanged = (currentLayout: Layout[], allLayouts: Layouts) => {
-    window.dispatchEvent(new Event("resize"));
+    window.dispatchEvent(new Event('resize'));
     setEditedLayout(currentLayout);
   };
 
   // Reload the Layout
   const reloadLayout = () => {
-    const tempLayout: Layout[] = panelVisualizations.map(
-      (panelVisualization) => {
-        return {
-          i: panelVisualization.id,
-          x: panelVisualization.x,
-          y: panelVisualization.y,
-          w: panelVisualization.w,
-          h: panelVisualization.h,
-          static: !editMode,
-        } as Layout;
-      }
-    );
+    const tempLayout: Layout[] = panelVisualizations.map((panelVisualization) => {
+      return {
+        i: panelVisualization.id,
+        x: panelVisualization.x,
+        y: panelVisualization.y,
+        w: panelVisualization.w,
+        h: panelVisualization.h,
+        static: !editMode,
+      } as Layout;
+    });
     setLayout(tempLayout);
   };
 
-  const saveVisualizationLayouts = async (
-    panelId: string,
-    visualizationParams: any
-  ) => {
+  const saveVisualizationLayouts = async (panelId: string, visualizationParams: any) => {
     return http
       .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
         body: JSON.stringify({
@@ -139,12 +129,9 @@ export const PanelGrid = ({
       const newLayout = editedLayout.map((element) => {
         return { ...element, static: true };
       });
-      const visualizationParams = newLayout.map((layout) =>
-        _.omit(layout, ["static", "moved"])
-      );
+      const visualizationParams = newLayout.map((layout) => _.omit(layout, ['static', 'moved']));
       setLayout(newLayout);
-      if (visualizationParams.length !== 0)
-        saveVisualizationLayouts(panelId, visualizationParams);
+      if (visualizationParams.length !== 0) saveVisualizationLayouts(panelId, visualizationParams);
     }
   }, [editMode]);
 
@@ -156,7 +143,7 @@ export const PanelGrid = ({
   // Reset Size of Panel Grid when Nav Dock is Locked
   useEffect(() => {
     setTimeout(function () {
-      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event('resize'));
     }, 300);
   }, [isLocked]);
 

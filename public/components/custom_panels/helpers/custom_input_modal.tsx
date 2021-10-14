@@ -52,9 +52,7 @@ type CustomInputModalProps = {
   btn2txt: string;
   openPanelName?: string;
   helpText?: string;
-  optionalArg1?: string;
-  optionalArg2?: string;
-  optionalArg3?: string;
+  optionalArgs?: string[];
 };
 
 export const CustomInputModal = (props: CustomInputModalProps) => {
@@ -67,9 +65,7 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
     btn2txt,
     openPanelName,
     helpText,
-    optionalArg1,
-    optionalArg2,
-    optionalArg3,
+    optionalArgs,
   } = props;
   const [value, setValue] = useState(openPanelName || ''); // sets input value
 
@@ -94,15 +90,12 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={closeModal}>{btn1txt}</EuiButtonEmpty>
-          {optionalArg1 === undefined ? (
+          {optionalArgs === undefined ? (
             <EuiButton onClick={() => runModal(value)} fill>
               {btn2txt}
             </EuiButton>
           ) : (
-            <EuiButton
-              onClick={() => runModal(value, optionalArg1, optionalArg2, optionalArg3)}
-              fill
-            >
+            <EuiButton onClick={() => runModal(value, ...optionalArgs)} fill>
               {btn2txt}
             </EuiButton>
           )}

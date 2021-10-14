@@ -9,9 +9,7 @@
  * GitHub history for details.
  */
 
-import {
-  EuiFlyout,
-} from '@elastic/eui';
+import { EuiFlyout } from '@elastic/eui';
 import React from 'react';
 
 /*

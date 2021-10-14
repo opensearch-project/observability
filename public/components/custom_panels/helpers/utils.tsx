@@ -9,20 +9,17 @@
  * GitHub history for details.
  */
 
-import dateMath from "@elastic/datemath";
-import { ShortDate } from "@elastic/eui";
-import { DurationRange } from "@elastic/eui/src/components/date_picker/types";
-import _ from "lodash";
-import { Moment } from "moment-timezone";
-import {
-  PPL_DATE_FORMAT,
-  PPL_INDEX_REGEX,
-} from "../../../../common/constants/shared";
-import PPLService from "../../../services/requests/ppl";
-import React from "react";
-import { Bar } from "../../visualizations/charts/bar";
-import { HorizontalBar } from "../../visualizations/charts/horizontal_bar";
-import { Line } from "../../visualizations/charts/line";
+import dateMath from '@elastic/datemath';
+import { ShortDate } from '@elastic/eui';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import _ from 'lodash';
+import { Moment } from 'moment-timezone';
+import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
+import PPLService from '../../../services/requests/ppl';
+import React from 'react';
+import { Bar } from '../../visualizations/charts/bar';
+import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
+import { Line } from '../../visualizations/charts/line';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -41,11 +38,7 @@ export const isNameValid = (name: string) => {
 };
 
 // DateTime convertor to required format
-export const convertDateTime = (
-  datetime: string,
-  isStart = true,
-  formatted = true
-) => {
+export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
   let returnTime: undefined | Moment;
   if (isStart) {
     returnTime = dateMath.parse(datetime);
@@ -74,21 +67,15 @@ const queryAccumulator = (
 ) => {
   const indexMatchArray = originalQuery.match(PPL_INDEX_REGEX);
   if (indexMatchArray == null) {
-    throw Error("index not found in Query");
+    throw Error('index not found in Query');
   }
   const indexPartOfQuery = indexMatchArray[0];
-  const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, "");
+  const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, '');
   const timeQueryFilter = ` | where ${timestampField} >= timestamp('${convertDateTime(
     startTime
-  )}') and ${timestampField} <= timestamp('${convertDateTime(
-    endTime,
-    false
-  )}')`;
-  const pplFilterQuery =
-    panelFilterQuery === "" ? "" : ` | ${panelFilterQuery}`;
-  return (
-    indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery
-  );
+  )}') and ${timestampField} <= timestamp('${convertDateTime(endTime, false)}')`;
+  const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
+  return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
 
 //PPL Service requestor
@@ -101,9 +88,9 @@ const pplServiceRequestor = async (
   setIsError: React.Dispatch<React.SetStateAction<string>>
 ) => {
   await pplService
-    .fetch({ query: finalQuery, format: "viz" })
+    .fetch({ query: finalQuery, format: 'viz' })
     .then((res) => {
-      if (res === undefined) setIsError("Please check the PPL Filter Value");
+      if (res === undefined) setIsError('Please check the PPL Filter Value');
       setVisualizationData(res);
     })
     .catch((error: Error) => {
@@ -125,35 +112,22 @@ export const getQueryResponse = (
   setVisualizationData: React.Dispatch<React.SetStateAction<any[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>,
-  filterQuery = "",
-  timestampField = "timestamp"
+  filterQuery = '',
+  timestampField = 'timestamp'
 ) => {
   setIsLoading(true);
-  setIsError("");
+  setIsError('');
 
-  let finalQuery = "";
+  let finalQuery = '';
   try {
-    finalQuery = queryAccumulator(
-      query,
-      timestampField,
-      startTime,
-      endTime,
-      filterQuery
-    );
+    finalQuery = queryAccumulator(query, timestampField, startTime, endTime, filterQuery);
   } catch (error) {
-    console.error("Issue in building final query", error.stack);
+    console.error('Issue in building final query', error.stack);
     setIsLoading(false);
     return;
   }
 
-  pplServiceRequestor(
-    pplService,
-    finalQuery,
-    type,
-    setVisualizationData,
-    setIsLoading,
-    setIsError
-  );
+  pplServiceRequestor(pplService, finalQuery, type, setVisualizationData, setIsLoading, setIsError);
 };
 
 // Function to store recently used time filters and set start and end time.
@@ -166,18 +140,13 @@ export const onTimeChange = (
   setEnd: React.Dispatch<React.SetStateAction<string>>
 ) => {
   const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
-    const isDuplicate =
-      recentlyUsedRange.start === start && recentlyUsedRange.end === end;
+    const isDuplicate = recentlyUsedRange.start === start && recentlyUsedRange.end === end;
     return !isDuplicate;
   });
   recentlyUsedRange.unshift({ start, end });
   setStart(start);
   setEnd(end);
-  setRecentlyUsedRanges(
-    recentlyUsedRange.length > 10
-      ? recentlyUsedRange.slice(0, 9)
-      : recentlyUsedRange
-  );
+  setRecentlyUsedRanges(recentlyUsedRange.slice(0, 9));
 };
 
 // Function to check date validity
@@ -193,7 +162,7 @@ export const isDateValid = (
   side?: string | undefined
 ) => {
   if (end! < start!) {
-    setToast("Time range entered is invalid", "danger", undefined, side);
+    setToast('Time range entered is invalid', 'danger', undefined, side);
     return false;
   } else return true;
 };
@@ -215,7 +184,7 @@ export const isPPLFilterValid = (
   ) => void
 ) => {
   if (checkIndexExists(query)) {
-    setToast("Please remove index from PPL Filter", "danger", undefined);
+    setToast('Please remove index from PPL Filter', 'danger', undefined);
     return false;
   }
   return true;
@@ -227,7 +196,7 @@ export const displayVisualization = (data: any, type: string) => {
 
   let vizComponent!: JSX.Element;
   switch (type) {
-    case "bar": {
+    case 'bar': {
       vizComponent = (
         <Bar
           visualizations={data}
@@ -240,7 +209,7 @@ export const displayVisualization = (data: any, type: string) => {
       );
       break;
     }
-    case "horizontal_bar": {
+    case 'horizontal_bar': {
       vizComponent = (
         <HorizontalBar
           visualizations={data}
@@ -253,7 +222,7 @@ export const displayVisualization = (data: any, type: string) => {
       );
       break;
     }
-    case "line": {
+    case 'line': {
       vizComponent = (
         <Line
           visualizations={data}

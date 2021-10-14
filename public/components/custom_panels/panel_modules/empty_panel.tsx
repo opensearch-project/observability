@@ -17,8 +17,8 @@ import {
   EuiButton,
   EuiPopover,
   EuiContextMenu,
-} from "@elastic/eui";
-import React, { useState } from "react";
+} from '@elastic/eui';
+import React, { useState } from 'react';
 
 /*
  * EmptyPanelView - This Sub-component is shown to the user when a operational panel is empty
@@ -30,7 +30,9 @@ import React, { useState } from "react";
 
 type Props = {
   addVizDisabled: boolean;
-  getVizContextPanels: (closeVizPopover?: (() => void) | undefined) => {
+  getVizContextPanels: (
+    closeVizPopover?: (() => void) | undefined
+  ) => {
     id: number;
     title: string;
     items: {
@@ -40,10 +42,7 @@ type Props = {
   }[];
 };
 
-export const EmptyPanelView = ({
-  addVizDisabled,
-  getVizContextPanels,
-}: Props) => {
+export const EmptyPanelView = ({ addVizDisabled, getVizContextPanels }: Props) => {
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false);
 
   const onPopoverClick = () => {
@@ -73,8 +72,7 @@ export const EmptyPanelView = ({
         <h2>Start by adding your first visualization</h2>
         <EuiSpacer size="m" />
         <EuiText color="subdued" size="m">
-          Use PPL Queries to fetch and filter Observability Data to Create
-          Visualizations
+          Use PPL Queries to fetch and filter Observability Data to Create Visualizations
         </EuiText>
       </EuiText>
       <EuiSpacer size="m" />
@@ -88,10 +86,7 @@ export const EmptyPanelView = ({
             panelPaddingSize="none"
             anchorPosition="downLeft"
           >
-            <EuiContextMenu
-              initialPanelId={0}
-              panels={getVizContextPanels(closeVizPopover)}
-            />
+            <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
           </EuiPopover>
         </EuiFlexItem>
       </EuiFlexGroup>

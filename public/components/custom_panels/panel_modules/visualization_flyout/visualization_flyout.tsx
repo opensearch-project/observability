@@ -31,26 +31,22 @@ import {
   EuiTitle,
   htmlIdGenerator,
   ShortDate,
-} from "@elastic/eui";
-import _ from "lodash";
-import { UI_DATE_FORMAT } from "../../../../../common/constants/shared";
-import React, { useEffect, useState } from "react";
-import { FlyoutContainers } from "../../helpers/flyout_containers";
-import {
-  displayVisualization,
-  getQueryResponse,
-  isDateValid,
-} from "../../helpers/utils";
-import { convertDateTime } from "../../helpers/utils";
-import PPLService from "../../../../services/requests/ppl";
-import { CoreStart } from "../../../../../../../src/core/public";
-import { CUSTOM_PANELS_API_PREFIX } from "../../../../../common/constants/custom_panels";
+} from '@elastic/eui';
+import _ from 'lodash';
+import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
+import React, { useEffect, useState } from 'react';
+import { FlyoutContainers } from '../../helpers/flyout_containers';
+import { displayVisualization, getQueryResponse, isDateValid } from '../../helpers/utils';
+import { convertDateTime } from '../../helpers/utils';
+import PPLService from '../../../../services/requests/ppl';
+import { CoreStart } from '../../../../../../../src/core/public';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
 import {
   pplResponse,
   SavedVisualizationType,
   VisualizationType,
-} from "../../../../../common/types/custom_panels";
-import "./visualization_flyout.scss";
+} from '../../../../../common/types/custom_panels';
+import './visualization_flyout.scss';
 
 /*
  * VisaulizationFlyout - This module create a flyout to add visualization
@@ -79,11 +75,9 @@ type Props = {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
-  http: CoreStart["http"];
+  http: CoreStart['http'];
   pplService: PPLService;
-  setPanelVisualizations: React.Dispatch<
-    React.SetStateAction<VisualizationType[]>
-  >;
+  setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   isFlyoutReplacement?: boolean | undefined;
   replaceVisualizationId?: string | undefined;
 };
@@ -100,55 +94,41 @@ export const VisaulizationFlyout = ({
   isFlyoutReplacement,
   replaceVisualizationId,
 }: Props) => {
-  const [newVisualizationTitle, setNewVisualizationTitle] = useState("");
-  const [newVisualizationType, setNewVisualizationType] = useState("");
-  const [newVisualizationTimeField, setNewVisualizationTimeField] =
-    useState("");
-  const [pplQuery, setPPLQuery] = useState("");
-  const [previewData, setPreviewData] = useState<pplResponse>(
-    {} as pplResponse
-  );
+  const [newVisualizationTitle, setNewVisualizationTitle] = useState('');
+  const [newVisualizationType, setNewVisualizationType] = useState('');
+  const [newVisualizationTimeField, setNewVisualizationTimeField] = useState('');
+  const [pplQuery, setPPLQuery] = useState('');
+  const [previewData, setPreviewData] = useState<pplResponse>({} as pplResponse);
   const [previewArea, setPreviewArea] = useState(<></>);
   const [showPreviewArea, setShowPreviewArea] = useState(false);
-  const [previewIconType, setPreviewIconType] = useState("arrowRight");
+  const [previewIconType, setPreviewIconType] = useState('arrowRight');
   const [previewLoading, setPreviewLoading] = useState(false);
-  const [isPreviewError, setIsPreviewError] = useState("");
-  const [savedVisualizations, setSavedVisualizations] = useState<
-    SavedVisualizationType[]
-  >([]);
-  const [visualizationOptions, setVisualizationOptions] = useState<
-    EuiSelectOption[]
-  >([]);
-  const [selectValue, setSelectValue] = useState("");
+  const [isPreviewError, setIsPreviewError] = useState('');
+  const [savedVisualizations, setSavedVisualizations] = useState<SavedVisualizationType[]>([]);
+  const [visualizationOptions, setVisualizationOptions] = useState<EuiSelectOption[]>([]);
+  const [selectValue, setSelectValue] = useState('');
 
   // DateTimePicker States
   const startDate = convertDateTime(start, true, false);
   const endDate = convertDateTime(end, false, false);
 
   const onPreviewClick = () => {
-    if (previewIconType == "arrowRight") {
-      setPreviewIconType("arrowUp");
+    if (previewIconType == 'arrowRight') {
+      setPreviewIconType('arrowUp');
       setShowPreviewArea(true);
     } else {
-      setPreviewIconType("arrowRight");
+      setPreviewIconType('arrowRight');
       setShowPreviewArea(false);
     }
   };
 
   const isInputValid = () => {
-    if (
-      !isDateValid(
-        convertDateTime(start),
-        convertDateTime(end, false),
-        setToast,
-        "left"
-      )
-    ) {
+    if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast, 'left')) {
       return false;
     }
 
-    if (selectValue === "") {
-      setToast("Please make a valid selection", "danger", undefined, "left");
+    if (selectValue === '') {
+      setToast('Please make a valid selection', 'danger', undefined, 'left');
       return false;
     }
 
@@ -165,7 +145,7 @@ export const VisaulizationFlyout = ({
             panelId: panelId,
             oldVisualizationId: replaceVisualizationId,
             newVisualization: {
-              id: "panelViz_" + htmlIdGenerator()(),
+              id: 'panelViz_' + htmlIdGenerator()(),
               title: newVisualizationTitle,
               query: pplQuery,
               type: newVisualizationType,
@@ -175,16 +155,10 @@ export const VisaulizationFlyout = ({
         })
         .then(async (res) => {
           setPanelVisualizations(res.visualizations);
-          setToast(
-            `Visualization ${newVisualizationTitle} successfully added!`,
-            "success"
-          );
+          setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
         })
         .catch((err) => {
-          setToast(
-            `Error in adding ${newVisualizationTitle} visualization to the panel`,
-            "danger"
-          );
+          setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
           console.error(err);
         });
     } else {
@@ -193,7 +167,7 @@ export const VisaulizationFlyout = ({
           body: JSON.stringify({
             panelId: panelId,
             newVisualization: {
-              id: "panelViz_" + htmlIdGenerator()(),
+              id: 'panelViz_' + htmlIdGenerator()(),
               title: newVisualizationTitle,
               query: pplQuery,
               type: newVisualizationType,
@@ -203,16 +177,10 @@ export const VisaulizationFlyout = ({
         })
         .then(async (res) => {
           setPanelVisualizations(res.visualizations);
-          setToast(
-            `Visualization ${newVisualizationTitle} successfully added!`,
-            "success"
-          );
+          setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
         })
         .catch((err) => {
-          setToast(
-            `Error in adding ${newVisualizationTitle} visualization to the panel`,
-            "danger"
-          );
+          setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
           console.error(err);
         });
     }
@@ -231,7 +199,7 @@ export const VisaulizationFlyout = ({
       setPreviewData,
       setPreviewLoading,
       setIsPreviewError,
-      "",
+      '',
       newVisualizationTimeField
     );
   };
@@ -269,9 +237,7 @@ export const VisaulizationFlyout = ({
     <EuiFlyoutHeader hasBorder>
       <EuiTitle size="m">
         <h2 id="addVisualizationFlyout">
-          {isFlyoutReplacement
-            ? "Replace Visualization"
-            : "Select Existing Visualization"}
+          {isFlyoutReplacement ? 'Replace Visualization' : 'Select Existing Visualization'}
         </h2>
       </EuiTitle>
     </EuiFlyoutHeader>
@@ -330,8 +296,8 @@ export const VisaulizationFlyout = ({
       <EuiFlyoutBody banner={emptySavedVisualizations}>
         <>
           <div>
-            You don't have any saved visualizations. Please use the "create new
-            visualization" option in add visualization menu.
+            You don't have any saved visualizations. Please use the "create new visualization"
+            option in add visualization menu.
           </div>
         </>
       </EuiFlyoutBody>
@@ -367,7 +333,7 @@ export const VisaulizationFlyout = ({
         }
       })
       .catch((err) => {
-        console.error("Issue in fetching the operational panels", err);
+        console.error('Issue in fetching the operational panels', err);
       });
   };
 
@@ -376,12 +342,8 @@ export const VisaulizationFlyout = ({
       <>
         {timeRange}
         {previewLoading ? (
-          <EuiLoadingChart
-            size="xl"
-            mono
-            className="visualization-loading-chart"
-          />
-        ) : isPreviewError != "" ? (
+          <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+        ) : isPreviewError != '' ? (
           <div className="visualization-error-div">
             <EuiSpacer size="l" />
             <EuiIcon type="alert" color="danger" size="l" />
