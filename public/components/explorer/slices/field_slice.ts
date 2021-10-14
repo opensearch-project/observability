@@ -17,13 +17,17 @@ import { initialTabId } from '../../../framework/redux/store/shared_state';
 import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
+  AVAILABLE_FIELDS,
+  QUERIED_FIELDS,
   REDUX_EXPL_SLICE_FIELDS
 } from '../../../../common/constants/explorer';
 import { IField } from '../../../../common/types/explorer';
 
 const initialFields = {
   [SELECTED_FIELDS]: [],
-  [UNSELECTED_FIELDS]: []
+  [UNSELECTED_FIELDS]: [],
+  [AVAILABLE_FIELDS]: [],
+  [QUERIED_FIELDS]: [],
 };
 
 const initialState = {
@@ -43,6 +47,7 @@ export const fieldSlice = createSlice({
     },
     updateFields: (state, { payload }) => {
       state[payload.tabId] = {
+        ...state[payload.tabId],
         ...payload.data
       };
     },

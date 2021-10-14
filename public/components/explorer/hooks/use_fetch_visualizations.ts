@@ -11,16 +11,25 @@
 
 import { useState, useRef } from 'react';
 import { 
+  batch,
   useDispatch,
   useSelector
 } from 'react-redux';
 import { 
-  RAW_QUERY
+  FINAL_QUERY,
+  QUERIED_FIELDS,
+  RAW_QUERY,
+  SELECTED_FIELDS
 } from '../../../../common/constants/explorer';
 import { render as renderCountDis } from '../slices/count_distribution_slice';
 import { selectQueries } from '../slices/query_slice';
 import { render as renderExplorerVis } from '../slices/visualization_slice';
+import { 
+  updateFields,
+  sortFields
+} from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
+import { fetchSuccess } from '../slices/query_result_slice';
 
 interface IFetchVisualizationsParams {
   pplService: PPLService;
@@ -62,7 +71,7 @@ export const useFetchVisualizations = ({
   
   const getCountVisualizations = (interval: string) => {
     const cur = queriesRef.current;
-    const rawQuery = cur[requestParams.tabId][RAW_QUERY];
+    const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     fetchVisualizations({
       query: `${rawQuery} | stats count() by span(timestamp, '1${interval = interval ? interval: 'm' }')` },
       'viz',
@@ -76,15 +85,34 @@ export const useFetchVisualizations = ({
   
   const getVisualizations = () => {
     const cur = queriesRef.current;
-    const rawQuery = cur[requestParams.tabId][RAW_QUERY];
+    const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     fetchVisualizations({ 
       query: rawQuery },
       'viz',
       (res: any) => {
-      dispatch(renderExplorerVis({
-        tabId: requestParams.tabId,
-        data: res
-      }));
+        batch(() => {
+          dispatch(renderExplorerVis({
+            tabId: requestParams.tabId,
+            data: res
+          }));
+          dispatch(fetchSuccess({
+            tabId: requestParams.tabId,
+            data: {
+              jsonData: res.jsonData
+            }
+          }));
+          dispatch(updateFields({
+            tabId: requestParams.tabId,
+            data: {
+              [QUERIED_FIELDS]: res?.metadata.fields,
+              [SELECTED_FIELDS]: []
+            }
+          }));
+          dispatch(sortFields({
+            tabId: requestParams.tabId,
+            data: [QUERIED_FIELDS]
+          }));
+        });
     });
   }
 

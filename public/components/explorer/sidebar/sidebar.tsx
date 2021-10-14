@@ -26,6 +26,7 @@ import { IExplorerFields, IField } from '../../../../common/types/explorer';
 
 interface ISidebarProps {
   explorerFields: IExplorerFields;
+  explorerData: any;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
 }
@@ -34,6 +35,7 @@ export const Sidebar = (props: ISidebarProps) => {
 
   const {
     explorerFields,
+    explorerData,
     handleAddField,
     handleRemoveField
   } = props;
@@ -60,13 +62,50 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { explorerFields && !isEmpty(explorerFields) && (
+          { explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) && (
             <>
+              {
+                explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
+                  <>
+                    <EuiTitle size="xxxs" id="selected_fields">
+                      <h3>
+                        <FormattedMessage
+                          id="discover.fieldChooser.filter.selectedFieldsTitle"
+                          defaultMessage="Queried Fields"
+                        />
+                      </h3>
+                    </EuiTitle>
+                    <EuiSpacer size="xs" />
+                    <ul
+                      className="dscSidebarList dscFieldList--selected"
+                      aria-labelledby="selected_fields"
+                      data-test-subj={`fieldList-selected`}
+                    >
+                      { explorerFields.queriedFields && explorerFields.queriedFields.map(field => {
+                        return (
+                          <li
+                            key={`field${field.name}`}
+                            data-attr-field={field.name}
+                            className="dscSidebar__item"
+                          >
+                            <Field 
+                              field={ field }
+                              selected={ true }
+                              showToggleButton={ false }
+                              onToggleField={ handleRemoveField }
+                            />
+                          </li>
+                        )})
+                      }
+                    </ul>
+                  </>
+                )
+              }
             <EuiTitle size="xxxs" id="selected_fields">
               <h3>
                 <FormattedMessage
                   id="discover.fieldChooser.filter.selectedFieldsTitle"
-                  defaultMessage="Selected fields"
+                  defaultMessage="Selected Fields"
                 />
               </h3>
             </EuiTitle>
@@ -76,7 +115,10 @@ export const Sidebar = (props: ISidebarProps) => {
               aria-labelledby="selected_fields"
               data-test-subj={`fieldList-selected`}
             >
-              { explorerFields.selectedFields && explorerFields.selectedFields.map(field => {
+              { explorerData && 
+                !isEmpty(explorerData.jsonData) && 
+                explorerFields.selectedFields && 
+                explorerFields.selectedFields.map(field => {
                 return (
                   <li
                     key={`field${field.name}`}
@@ -97,7 +139,7 @@ export const Sidebar = (props: ISidebarProps) => {
                 <h3>
                   <FormattedMessage
                     id="discover.fieldChooser.filter.availableFieldsTitle"
-                    defaultMessage="Available fields"
+                    defaultMessage="Available Fields"
                   />
                 </h3>
               </EuiTitle>
@@ -132,8 +174,10 @@ export const Sidebar = (props: ISidebarProps) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                explorerFields.unselectedFields &&
-                explorerFields.unselectedFields.filter(
+                explorerData &&
+                !isEmpty(explorerData.jsonData) &&
+                explorerFields.availableFields &&
+                explorerFields.availableFields.filter(
                   (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
                   .map((field) => {
                   return (

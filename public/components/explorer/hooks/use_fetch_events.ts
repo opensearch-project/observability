@@ -11,18 +11,22 @@
 
 import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
+import { isEmpty } from 'lodash';
 import { 
   useDispatch,
   useSelector
 } from 'react-redux';
 import { 
   RAW_QUERY,
+  FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
-  AVAILABLE_FIELDS
+  AVAILABLE_FIELDS,
+  QUERIED_FIELDS
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../slices/query_result_slice';
 import { selectQueries } from '../slices/query_slice';
+import { reset as visualizationReset } from '../slices/visualization_slice';
 import {
   updateFields,
   sortFields
@@ -66,10 +70,14 @@ export const useFetchEvents = ({
     });
   };
 
-  const getEvents = () => {
+  const getEvents = (query: string = '') => {
     const cur = queriesRef.current;
-    fetchEvents({ query: cur[requestParams.tabId][RAW_QUERY] }, 'jdbc', (res: any) => {
+    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
+    fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
       batch(() => {
+        dispatch(queryResultReset({
+          tabId: requestParams.tabId
+        }));
         dispatch(fetchSuccess({
           tabId: requestParams.tabId,
           data: {
@@ -80,12 +88,17 @@ export const useFetchEvents = ({
           tabId: requestParams.tabId,
           data: {
             [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res.schema ? [ ...res.schema ] : []
+            [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
+            [QUERIED_FIELDS]: [],
+            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
         }));
         dispatch(sortFields({
           tabId: requestParams.tabId,
-          data: [UNSELECTED_FIELDS]
+          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
+        }));
+        dispatch(visualizationReset({
+          tabId: requestParams.tabId,
         }));
       });
     });
@@ -94,20 +107,21 @@ export const useFetchEvents = ({
   const getAvailableFields = (query: string) => {
     fetchEvents({ query, }, 'jdbc', (res: any) => {
       batch(() => {
-        dispatch(queryResultReset({
-          tabId: requestParams.tabId
+        dispatch(fetchSuccess({
+          tabId: requestParams.tabId,
+          data: {
+            jsonDataAll: res['jsonData']
+          }
         }));
         dispatch(updateFields({
           tabId: requestParams.tabId,
           data: {
-            [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: [],
             [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
           }
         }));
         dispatch(sortFields({
           tabId: requestParams.tabId,
-          data: [AVAILABLE_FIELDS]
+          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
         }));
       });
     });

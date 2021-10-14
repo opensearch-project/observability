@@ -44,16 +44,14 @@ export const NoResults = () => {
               <h2 data-test-subj="discoverNoResultsTimefilter">
                 <FormattedMessage
                   id="discover.noResults.expandYourTimeRangeTitle"
-                  defaultMessage="Try expand your time range"
+                  defaultMessage="Expand your time range or modify your query"
                 />
               </h2>
-
               <p>
                 <FormattedMessage
                   id="discover.noResults.queryMayNotMatchTitle"
-                  defaultMessage="One or more of the indices you&rsquo;re looking at contains a date field. Your query may
-                    not match anything in the current time range, or there may not be any data at all in
-                    the currently selected time range. You can try changing the time range to one which contains data."
+                  defaultMessage="Your query may not match anything in the current time range, or there may not be any data at all in
+                    the currently selected time range. You can try changing the time range or query filters."
                 />
               </p>
             </EuiText>

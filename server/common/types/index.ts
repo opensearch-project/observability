@@ -17,6 +17,7 @@ export interface ISchema {
 export interface IPPLVisualizationDataSource {
   data: any;
   metadata: any;
+  jsonData?: Array<any>;
   size: Number;
   status: Number;
 }

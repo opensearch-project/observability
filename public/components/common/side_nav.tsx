@@ -63,7 +63,7 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
         {
           name: 'Event analytics',
           id: 3,
-          href: '#/explorer/home',
+          href: '#/event_analytics',
         },
         {
           name: 'Operational panels',

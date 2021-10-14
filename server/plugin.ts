@@ -36,7 +36,10 @@ export class ObservabilityPlugin
     const openSearchObservabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
       'opensearch_observability',
       {
-        plugins: [PPLPlugin, OpenSearchObservabilityPlugin],
+        plugins: [
+          PPLPlugin,
+          OpenSearchObservabilityPlugin,
+        ],
       }
     );
 

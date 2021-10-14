@@ -11,13 +11,23 @@
 
 import './search.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { EuiFlexGroup, EuiButton, EuiFlexItem } from '@elastic/eui';
+import { isEmpty } from 'lodash';
+import { 
+  EuiFlexGroup,
+  EuiButton,
+  EuiFlexItem,
+  EuiPopover,
+  EuiButtonEmpty,
+  EuiPopoverFooter,
+} from '@elastic/eui';
 import _ from 'lodash';
-import { Filter } from './Filter';
+import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
+import { SavePanel } from '../../explorer/save_panel';
+import { useCallback } from 'react';
 
 export interface IQueryBarProps {
   query: any;
@@ -26,13 +36,14 @@ export interface IQueryBarProps {
   dslService: any;
 }
 
-export interface IFilterProps {
+export interface IDatePickerProps {
   startTime: string;
   endTime: string;
   setStartTime: () => void;
   setEndTime: () => void;
   setTimeRange: () => void;
   setIsOutputStale: () => void;
+  handleTimePickerChange: (timeRange: Array<string>) => any;
 }
 
 export const Search = (props: any) => {
@@ -40,14 +51,34 @@ export const Search = (props: any) => {
     query,
     handleQueryChange,
     handleQuerySearch,
+    handleTimePickerChange,
     dslService,
     startTime,
     endTime,
     setStartTime,
     setEndTime,
     setIsOutputStale,
-    actionItems,
+    explorerData,
+    selectedPanelName,
+    selectedCustomPanelOptions,
+    setSelectedPanelName,
+    setSelectedCustomPanelOptions,
+    handleSavingObject,
+    isPanelTextFieldInvalid,
+    savedObjects,
+    showSavePanelOptionsList,
+    showSaveButton = true
   } = props;
+
+  const [isSavePanelOpen, setIsSavePanelOpen] = useState<boolean>(false);
+
+  const memorizedHandleQuerySearch = useCallback(() => {
+    handleQuerySearch();
+  }, [
+    query,
+    startTime,
+    endTime
+  ]);
 
   function renderAutocomplete({
     query,
@@ -65,13 +96,28 @@ export const Search = (props: any) => {
     );
   }
 
+  const button = (
+    <EuiButton 
+      iconType='heart'
+      onClick={
+        () => {
+          setIsSavePanelOpen((staleState) => {
+            return !staleState;
+          })
+        }
+      }
+    >
+      { "Save" }
+    </EuiButton>
+  );
+
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         <div className="autocomplete">
           {renderAutocomplete({ query, handleQueryChange, handleQuerySearch, dslService })}
         </div>
-        <Filter
+        <DatePicker
           startTime={startTime}
           endTime={endTime}
           setStartTime={setStartTime}
@@ -79,20 +125,67 @@ export const Search = (props: any) => {
           setIsOutputStale={setIsOutputStale}
           liveStreamChecked={props.liveStreamChecked}
           onLiveStreamChange={props.onLiveStreamChange}
+          handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
         />
-        {actionItems.length > 0 &&
-          actionItems.map((item: any) => {
-            return (
-              <EuiFlexItem
-                key={_.uniqueId('search-action-')}
-                className={item.className ? item.className : 'euiFlexItem--flexGrowZero'}
+        <EuiFlexItem
+          key={"search-run"}
+          className="euiFlexItem--flexGrowZero"
+        >
+          <EuiButton 
+            iconType={ isEmpty(explorerData) ? 'play': 'refresh' }
+            fill={ isEmpty(explorerData) ? true : false }
+            onClick={() => {
+              memorizedHandleQuerySearch();
+            }}
+          >
+            { isEmpty(explorerData) ? 'Run' : 'Refresh' }
+          </EuiButton>
+        </EuiFlexItem>
+        { showSaveButton && (
+          <>
+            <EuiFlexItem
+              key={"search-save-"}
+              className="euiFlexItem--flexGrowZero"
+            >
+              <EuiPopover
+                button={ button }
+                isOpen={isSavePanelOpen}
+                closePopover={() => setIsSavePanelOpen(false)}
               >
-                <EuiButton iconType={item.iconType} {...item.attributes} {...item.handlers}>
-                  {item.text}
-                </EuiButton>
-              </EuiFlexItem>
-            );
-          })}
+                <SavePanel
+                  selectedOptions={ selectedCustomPanelOptions }
+                  handleNameChange={ setSelectedPanelName }
+                  handleOptionChange={ setSelectedCustomPanelOptions }
+                  savedObjects={ savedObjects }
+                  isTextFieldInvalid={ isPanelTextFieldInvalid }
+                  savePanelName={ selectedPanelName }
+                  showOptionList={ showSavePanelOptionsList }
+                />
+                <EuiPopoverFooter>
+                  <EuiFlexGroup
+                    justifyContent="flexEnd"
+                  >
+                    <EuiFlexItem grow={false}>
+                      <EuiButtonEmpty
+                        size="s"
+                        onClick={() => setIsSavePanelOpen(false)}>
+                        { "Cancel" }
+                      </EuiButtonEmpty>
+                    </EuiFlexItem>
+                    <EuiFlexItem grow={false}>
+                      <EuiButton
+                        size="s"
+                        fill
+                        onClick={() => handleSavingObject()}>
+                        { "Save" }
+                      </EuiButton>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                </EuiPopoverFooter>
+              </EuiPopover>
+            </EuiFlexItem>
+          </>
+        )}
       </EuiFlexGroup>
     </div>
   );
