@@ -9,163 +9,129 @@
  * GitHub history for details.
  */
 
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
- */
-
 import { I18nProvider } from '@osd/i18n/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart, IUiSettingsClient } from '../../../../src/core/public';
-import { NavigationPublicPluginStart } from '../../../../src/plugins/navigation/public';
-import { handleIndicesExistRequest } from '../requests/request_handler';
-import { SearchBarProps } from './common';
-import { FilterType } from './common/filters/filters';
+import { CoreStart } from '../../../../src/core/public';
+import { observabilityTitle } from '../../common/constants/shared';
+import store from '../framework/redux/store';
+import { AppPluginStartDependencies } from '../types';
+import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { renderPageWithSidebar } from './common/side_nav';
-import { Dashboard } from './dashboard';
-import { Services, ServiceView } from './services';
-import { Traces, TraceView } from './traces';
+import { Home as CustomPanelsHome } from './custom_panels/home';
+import { EventAnalytics } from './explorer/event_analytics';
+import { Main as NotebooksHome } from './notebooks/components/main';
+import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
-interface TraceAnalyticsAppDeps {
-  basename: string;
-  notifications: CoreStart['notifications'];
-  http: CoreStart['http'];
-  uiSettings: IUiSettingsClient;
-  chrome: CoreStart['chrome'];
-  navigation: NavigationPublicPluginStart;
+interface ObservabilityAppDeps {
+  CoreStart: CoreStart;
+  DepsStart: AppPluginStartDependencies;
+  pplService: any;
+  dslService: any;
+  savedObjects: any;
 }
 
-export interface CoreDeps {
-  http: CoreStart['http'];
-  uiSettings: IUiSettingsClient;
-  setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  indicesExist?: boolean;
-}
+export const App = ({
+  CoreStart,
+  DepsStart,
+  pplService,
+  dslService,
+  savedObjects
+}: ObservabilityAppDeps) => {
 
-export const TraceAnalyticsApp = ({
-  basename,
-  notifications,
-  http,
-  uiSettings,
-  chrome,
-  navigation,
-}: TraceAnalyticsAppDeps) => {
-  const [indicesExist, setIndicesExist] = useState(true);
-  const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
-  const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
-  const [filters, setFilters] = useState<FilterType[]>(
-    storedFilters ? JSON.parse(storedFilters) : []
-  );
-  const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('TraceAnalyticsStartTime') || 'now-5m'
-  );
-  const [endTime, setEndTime] = useState<string>(
-    sessionStorage.getItem('TraceAnalyticsEndTime') || 'now'
-  );
-
-  const setFiltersWithStorage = (newFilters: FilterType[]) => {
-    setFilters(newFilters);
-    sessionStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
-  };
-  const setQueryWithStorage = (newQuery: string) => {
-    setQuery(newQuery);
-    sessionStorage.setItem('TraceAnalyticsQuery', newQuery);
-  };
-  const setStartTimeWithStorage = (newStartTime: string) => {
-    setStartTime(newStartTime);
-    sessionStorage.setItem('TraceAnalyticsStartTime', newStartTime);
-  };
-  const setEndTimeWithStorage = (newEndTime: string) => {
-    setEndTime(newEndTime);
-    sessionStorage.setItem('TraceAnalyticsEndTime', newEndTime);
+  const { chrome, http, notifications } = CoreStart;
+  const parentBreadcrumb = {
+    text: observabilityTitle,
+    href: 'observability#/',
   };
 
-  useEffect(() => {
-    handleIndicesExistRequest(http, setIndicesExist);
-  }, []);
-
-  const commonProps: SearchBarProps & CoreDeps = {
-    http,
-    uiSettings,
-    setBreadcrumbs: chrome.setBreadcrumbs,
-    query,
-    setQuery: setQueryWithStorage,
-    filters,
-    setFilters: setFiltersWithStorage,
-    startTime,
-    setStartTime: setStartTimeWithStorage,
-    endTime,
-    setEndTime: setEndTimeWithStorage,
-    indicesExist,
+  const customPanelBreadcrumb = {
+    text: 'Operational panels',
+    href: '#/operational_panels/',
   };
 
   return (
-    <HashRouter>
-      <I18nProvider>
-        <>
-          <Switch>
-            <Route
-              exact
-              path={['/dashboard', '/']}
-              render={(props) => renderPageWithSidebar(<Dashboard {...commonProps} />, 1)}
-            />
-            <Route
-              exact
-              path="/traces"
-              render={(props) => renderPageWithSidebar(<Traces {...commonProps} />, 2)}
-            />
-            <Route
-              path="/traces/:id+"
-              render={(props) => (
-                <TraceView
-                  setBreadcrumbs={chrome.setBreadcrumbs}
-                  http={http}
-                  uiSettings={uiSettings}
-                  traceId={decodeURIComponent(props.match.params.id)}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/services"
-              render={(props) => renderPageWithSidebar(<Services {...commonProps} />, 3)}
-            />
-            <Route
-              path="/services/:id+"
-              render={(props) => (
-                <ServiceView
-                  serviceName={decodeURIComponent(props.match.params.id)}
-                  {...commonProps}
-                  addFilter={(filter: FilterType) => {
-                    for (const addedFilter of filters) {
-                      if (
-                        addedFilter.field === filter.field &&
-                        addedFilter.operator === filter.operator &&
-                        addedFilter.value === filter.value
-                      ) {
-                        return;
-                      }
+    <Provider store={store}>
+      <HashRouter>
+        <I18nProvider>
+          <>
+            <Switch>
+              <Route
+                exact
+                path={['/', '/application_analytics', '/application_analytics/home']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    {
+                      text: 'Application analytics',
+                      href: '#/application_analytics',
+                    },
+                  ]);
+                  return renderPageWithSidebar(<ApplicationAnalyticsHome />);
+                }}
+              />
+              <Route
+                path={['/trace_analytics', '/trace_analytics/home']}
+                render={(props) => (
+                  <TraceAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                  />
+                )}
+              />
+              <Route
+                path="/notebooks"
+                render={(props) => (
+                  <NotebooksHome
+                    {...props}
+                    DashboardContainerByValueRenderer={
+                      DepsStart.dashboard.DashboardContainerByValueRenderer
                     }
-                    const newFilters = [...filters, filter];
-                    setFiltersWithStorage(newFilters);
-                  }}
-                />
-              )}
-            />
-          </Switch>
-        </>
-      </I18nProvider>
-    </HashRouter>
+                    http={http}
+                    setBreadcrumbs={chrome.setBreadcrumbs}
+                    parentBreadcrumb={parentBreadcrumb}
+                    notifications={notifications}
+                  />
+                )}
+              />
+              <Route
+                path="/event_analytics"
+                render={(props) => {
+                  return (
+                    <EventAnalytics
+                      chrome={ chrome }
+                      parentBreadcrumb={ parentBreadcrumb }
+                      pplService={ pplService }
+                      dslService={ dslService }
+                      savedObjects={ savedObjects }
+                      http={ http }
+                      { ...props }
+                    />
+                  );
+                }}
+              />
+              <Route
+                path={['/operational_panels']}
+                render={(props) => {
+                  chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
+                  return (
+                    <CustomPanelsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      pplService={pplService}
+                      renderProps={props}
+                    />
+                  );
+                }}
+              />
+            </Switch>
+          </>
+        </I18nProvider>
+      </HashRouter>
+    </Provider>
   );
 };

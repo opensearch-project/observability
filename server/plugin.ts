@@ -9,36 +9,21 @@
  * GitHub history for details.
  */
 
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
- */
-
 import {
-  PluginInitializerContext,
   CoreSetup,
   CoreStart,
-  Plugin,
-  Logger,
   ILegacyClusterClient,
+  Logger,
+  Plugin,
+  PluginInitializerContext,
 } from '../../../src/core/server';
+import { OpenSearchObservabilityPlugin } from './adaptors/opensearch_observability_plugin';
+import { PPLPlugin } from './adaptors/ppl_plugin';
+import { setupRoutes } from './routes/index';
+import { ObservabilityPluginSetup, ObservabilityPluginStart } from './types';
 
-import { TraceAnalyticsPluginSetup, TraceAnalyticsPluginStart } from './types';
-import { defineRoutes } from './routes';
-import sqlPlugin from './clusters/sql/sqlPlugin';
-
-export class TraceAnalyticsPlugin
-  implements Plugin<TraceAnalyticsPluginSetup, TraceAnalyticsPluginStart> {
+export class ObservabilityPlugin
+  implements Plugin<ObservabilityPluginSetup, ObservabilityPluginStart> {
   private readonly logger: Logger;
 
   constructor(initializerContext: PluginInitializerContext) {
@@ -46,24 +31,34 @@ export class TraceAnalyticsPlugin
   }
 
   public setup(core: CoreSetup) {
-    this.logger.debug('trace_analytics: Setup');
+    this.logger.debug('Observability: Setup');
     const router = core.http.createRouter();
+    const openSearchObservabilityClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
+      'opensearch_observability',
+      {
+        plugins: [
+          PPLPlugin,
+          OpenSearchObservabilityPlugin,
+        ],
+      }
+    );
 
-    // const sqlClient: ILegacyClusterClient = core.opensearch.legacy.createClient(
-    //   'trace_analytics_sql',
-    //   {
-    //     plugins: [sqlPlugin],
-    //   }
-    // );
+    // @ts-ignore
+    core.http.registerRouteHandlerContext('observability_plugin', (context, request) => {
+      return {
+        logger: this.logger,
+        observabilityClient: openSearchObservabilityClient,
+      };
+    });
 
     // Register server side APIs
-    defineRoutes(router);
+    setupRoutes({ router, client: openSearchObservabilityClient });
 
     return {};
   }
 
   public start(core: CoreStart) {
-    this.logger.debug('trace_analytics: Started');
+    this.logger.debug('Observability: Started');
     return {};
   }
 

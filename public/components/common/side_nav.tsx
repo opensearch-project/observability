@@ -9,61 +9,81 @@
  * GitHub history for details.
  */
 
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
- */
-
-import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiText } from '@elastic/eui';
+import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiSideNavItemType } from '@elastic/eui';
 import React from 'react';
 
-export const renderPageWithSidebar = (BodyComponent: JSX.Element, activeId = 1) => {
-  function SideNav({ activeId }: { activeId: number }) {
-    return (
-      <EuiSideNav
-        items={[
-          {
-            name: 'Trace Analytics',
-            id: 0,
-            items: [
-              {
-                name: 'Dashboard',
-                id: 1,
-                href: '#/dashboard',
-              },
-              {
-                name: 'Traces',
-                id: 2,
-                href: '#/traces',
-              },
-              {
-                name: 'Services',
-                id: 3,
-                href: '#/services',
-              },
-            ].map((item) => {
-              return { ...item, isSelected: activeId === item.id };
-            }),
-          },
-        ]}
-      />
-    );
+export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
+  // set items.isSelected based on location.hash passed in
+  // tries to find an item where href is a prefix of the hash
+  // if none will try to find an item where the hash is a prefix of href
+  function setIsSelected(
+    items: EuiSideNavItemType<React.ReactNode>[],
+    hash: string,
+    initial = true,
+    reverse = false
+  ): boolean {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.href && ((reverse && item.href.startsWith(hash)) || hash.startsWith(item.href))) {
+        item.isSelected = true;
+        return true;
+      }
+      if (item.items?.length && setIsSelected(item.items, hash, false, reverse)) return true;
+    }
+    return initial && setIsSelected(items, hash, false, !reverse);
   }
+
+  const items = [
+    {
+      name: 'Observability',
+      id: 0,
+      items: [
+        {
+          name: 'Application analytics',
+          id: 1,
+          href: '#/application_analytics/home',
+        },
+        {
+          name: 'Trace analytics',
+          id: 2,
+          href: '#/trace_analytics/home',
+          items: [
+            {
+              name: 'Traces',
+              id: 2.1,
+              href: '#/trace_analytics/traces',
+            },
+            {
+              name: 'Services',
+              id: 2.2,
+              href: '#/trace_analytics/services',
+            },
+          ],
+        },
+        {
+          name: 'Event analytics',
+          id: 3,
+          href: '#/event_analytics',
+        },
+        {
+          name: 'Operational panels',
+          id: 4,
+          href: '#/operational_panels/',
+        },
+        {
+          name: 'Notebooks',
+          id: 5,
+          href: '#/notebooks',
+        }
+      ],
+    },
+  ];
+  setIsSelected(items, location.hash);
 
   return (
     <EuiPage>
       <EuiPageSideBar>
-        <SideNav activeId={activeId} />
+        <EuiSideNav items={items} />
       </EuiPageSideBar>
       <EuiPageBody>{BodyComponent}</EuiPageBody>
     </EuiPage>

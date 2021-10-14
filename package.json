@@ -1,35 +1,42 @@
 {
-  "name": "trace-analytics-dashboards",
-  "version": "1.1.0.0",
-  "opensearchDashboards": {
-    "version": "1.1.0",
-    "templateVersion": "1.0.0"
-  },
+  "name": "observability",
+  "version": "0.0.1",
+  "main": "index.ts",
   "license": "Apache-2.0",
   "scripts": {
     "osd": "node ../../scripts/osd",
-    "opensearch": "node ../../scripts/opensearch",
-    "lint": "eslint .",
-    "test:cypress": "cypress run",
-    "plugin-helpers": "node ../../scripts/plugin_helpers",
+    "build": "yarn plugin_helpers build",
     "test": "../../node_modules/.bin/jest --config ./test/jest.config.js",
-    "build": "yarn plugin-helpers build"
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "plugin_helpers": "node ../../scripts/plugin_helpers"
   },
   "dependencies": {
-    "plotly.js-dist": "^1.57.1",
+    "@reduxjs/toolkit": "^1.6.1",
+    "plotly.js-dist": "^2.2.0",
+    "react-plotly.js": "^2.5.1",
     "react-graph-vis": "^1.0.5",
-    "react-plotly.js": "^2.4.0"
+    "@cypress/skip-test": "^2.6.1",
+    "@nteract/outputs": "^3.0.11",
+    "@nteract/presentational-components": "^3.4.3",
+    "@algolia/autocomplete-js": "^1.2.1",
+    "@algolia/autocomplete-theme-classic": "^1.2.1"
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/react-plotly.js": "^2.2.4",
+    "@types/react-plotly.js": "^2.5.0",
     "@types/react-test-renderer": "^16.9.1",
     "cypress": "^5.0.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",
-    "jest-dom": "^4.0.0"
+    "jest-dom": "^4.0.0",
+    "performance-now": "^2.1.0"
   },
   "resolutions": {
-    "lodash": "^4.17.21"
+    "react-syntax-highlighter": "^15.4.3",
+    "prismjs": "^1.22.0",
+    "trim": "^1.0.0",
+    "lodash": "^4.17.21",
+    "glob-parent": "^5.1.2"
   }
 }
