@@ -148,15 +148,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           })
         );
       });
-
-      if (has(doc, 'timestamp')) {
-        cols.unshift(
-          getTdTmpl({ 
-            clsName: timestampClsName,
-            content: doc['timestamp']
-          })
-        );
-      }
     }
 
     // Add detail toggling column
@@ -188,7 +179,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           key={ uniqueId('grid-td-detail-') }
           colSpan={ selectedCols.length ?  selectedCols.length + 2 : 3 }
         >
-          <DocDetailTitle />
           <DocViewer
             hit={ doc }
           />

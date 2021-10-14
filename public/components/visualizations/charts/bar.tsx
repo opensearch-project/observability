@@ -10,14 +10,20 @@
  */
 
 import React from 'react';
-import { take, merge } from 'lodash';
+
+import {
+  take,
+  merge
+} from 'lodash';
 import { Plt } from '../plotly/plot';
 
-export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {} }: any) => {
-  const {
-    data,
-    metadata: { fields },
-  } = visualizations;
+export const Bar = ({
+  visualizations,
+  barConfig = {},
+  layoutConfig = {},
+}: any) => {
+
+  const { data, metadata: { fields, } } = visualizations;
   const stackLength = fields.length - 1;
   const barValues = take(fields, stackLength > 0 ? stackLength : 1).map((field: any) => {
     return {
@@ -25,23 +31,23 @@ export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {} }: any) 
       y: barConfig.orientation !== 'h' ? data[field.name] : data[fields[stackLength].name],
       type: 'bar',
       name: field.name,
-      ...barConfig,
+      ...barConfig
     };
   });
 
-  const barLayoutConfig = merge(
-    {
-      xaxis: {
-        automargin: true,
-      },
+  const barLayoutConfig = merge({
+    xaxis: {
+      automargin: true
     },
-    layoutConfig
-  );
+    yaxis: {
+      automargin: true
+    },
+  }, layoutConfig);
 
   return (
-    <Plt
-      data={barValues}
-      layout={{
+    <Plt 
+      data={ barValues }
+      layout={{ 
         xaxis: {
           showgrid: false,
           visible: true,
@@ -50,9 +56,9 @@ export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {} }: any) 
           showgrid: false,
           visible: true,
         },
-        ...barLayoutConfig,
+        ...barLayoutConfig
       }}
-      config={barConfig}
-    />
+      config={ barConfig }
+    />  
   );
 };

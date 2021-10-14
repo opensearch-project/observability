@@ -25,13 +25,19 @@ export const explorerVisualizationSlice = createSlice({
   reducers: {
     render: (state, { payload }) => {
       state[payload.tabId] = payload.data;
-    }
+    },
+    reset: (state, { payload }) => {
+      state[payload.tabId] = {
+        ...initialState
+      }
+    },
   },
   extraReducers: (builder) => {}
 });
 
 export const {
-  render
+  render,
+  reset
 } = explorerVisualizationSlice.actions;
 
 export const selectExplorerVisualization = (state) => state.explorerVisualization;

@@ -12,21 +12,20 @@
 import React from 'react';
 import {
   EuiFlexItem,
-  EuiSwitch,
-  EuiSuperDatePicker,
+  EuiSuperDatePicker
 } from '@elastic/eui';
 import {
-  IFilterProps
+  IDatePickerProps
 } from './search';
 
-export function Filter(props: IFilterProps) {
+export function DatePicker(props: IDatePickerProps) {
 
   const {
     startTime,
     endTime,
     setStartTime,
     setEndTime,
-    setIsOutputStale
+    handleTimePickerChange
   } = props;
 
   function handleTimeChange({
@@ -69,8 +68,9 @@ export function Filter(props: IFilterProps) {
         showUpdateButton={ false }
         dateFormat="MM/DD/YYYY hh:mm:ss A"
         onTimeChange={(e) => {
-          setStartTime(e.start);
-          setEndTime(e.end);
+          const start = e.start;
+          const end = e.start === e.end ? 'now' : e.end;
+          handleTimePickerChange([start, end]);
         }}
         onRefresh={ handleRefresh }
         className="osdQueryBar__datePicker"

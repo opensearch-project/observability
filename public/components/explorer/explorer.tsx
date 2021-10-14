@@ -14,18 +14,26 @@ import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
   isEmpty,
-  cloneDeep
+  cloneDeep,
+  isEqual,
+  concat
 } from 'lodash';
 import { 
   FormattedMessage 
 } from '@osd/i18n/react';
 import {
   EuiText,
+  EuiButton,
   EuiButtonIcon,
   EuiTabbedContent,
   EuiTabbedContentTab,
   EuiFlexGroup,
-  EuiFlexItem
+  EuiFlexItem,
+  EuiPopover,
+  EuiPopoverTitle,
+  EuiPopoverFooter,
+  EuiButtonEmpty,
+  htmlIdGenerator
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
@@ -47,17 +55,25 @@ import {
   TAB_EVENT_ID_TXT_PFX,
   TAB_CHART_ID_TXT_PFX,
   RAW_QUERY,
+  SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
-  INDEX
+  AVAILABLE_FIELDS,
+  INDEX,
+  TIME_INTERVAL_OPTIONS
 } from '../../../common/constants/explorer';
-import { getIndexPatternFromRawQuery } from '../../../common/utils';
+import { PPL_STATS_REGEX } from '../../../common/constants/shared';
+import { 
+  getIndexPatternFromRawQuery,
+  insertDateRangeToQuery
+} from '../../../common/utils';
 import { 
   useFetchEvents,
-  useFetchVisualizations
+  useFetchVisualizations,
 } from './hooks';
 import { 
   changeQuery,
+  changeDateRange,
   selectQueries
 } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
@@ -70,6 +86,7 @@ import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
 import DSLService from '../../services/requests/dsl';
+import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
@@ -77,13 +94,16 @@ const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
 interface IExplorerProps {
   pplService: PPLService;
   dslService: DSLService;
-  tabId: string
+  tabId: string;
+  savedObjects: SavedObjects;
 }
 
 export const Explorer = ({
   pplService,
   dslService,
-  tabId
+  http,
+  tabId,
+  savedObjects
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -111,13 +131,19 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
-  const [startTime, setStartTime] = useState<string>('now-15m');
-  const [endTime, setEndTime] = useState<string>('now');
+  const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
+  const [selectedPanelName, setSelectedPanelName] = useState('');
+  const [curVisId, setCurVisId] = useState<string>('bar');
+  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
   const queryRef = useRef();
+  const selectedPanelNameRef = useRef();
+  const explorerFieldsRef = useRef();
   queryRef.current = query;
+  selectedPanelNameRef.current = selectedPanelName;
+  explorerFieldsRef.current = explorerFields;
   
   const fixedScrollRef = useCallback(
     (node: HTMLElement) => {
@@ -128,13 +154,32 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  const fetchData = () => {
-    const searchQuery = queryRef.current[RAW_QUERY];
-    if (!searchQuery) return;
-    if (searchQuery.match(/\|\s*stats/i)) {
-      const index = getIndexPatternFromRawQuery(searchQuery);
-      if (!index) return;
-      getAvailableFields(`search source=${index}`);
+  const composeFinalQuery = (curQuery: any) => {
+    if (isEmpty(curQuery![RAW_QUERY])) return '';
+    return insertDateRangeToQuery({
+      rawQuery: curQuery![RAW_QUERY],
+      startTime: curQuery!['selectedDateRange'][0],
+      endTime: curQuery!['selectedDateRange'][1]
+    });
+  };
+
+  const fetchData = async () => {
+    const curQuery = queryRef.current;
+    const rawQueryStr = curQuery![RAW_QUERY];
+    if (isEmpty(rawQueryStr)) return;
+    const index = getIndexPatternFromRawQuery(rawQueryStr);
+    if (!isEmpty(index)) getAvailableFields(`search source=${index}`);
+
+    const finalQuery = composeFinalQuery(curQuery);
+    
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        finalQuery,
+      }
+    }));
+    
+    if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
     } else {
       getEvents();
@@ -146,9 +191,19 @@ export const Explorer = ({
     fetchData();
   }, []);
 
-  const handleAddField = (field: IField) => toggleFields(field, UNSELECTED_FIELDS, SELECTED_FIELDS);
+  const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
-  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, UNSELECTED_FIELDS);
+  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
+
+  const handleTimePickerChange = async (timeRange: Array<string>) => {
+    await dispatch(changeDateRange({
+      tabId: requestParams.tabId,
+      data: {
+        [SELECTED_DATE_RANGE]: timeRange
+      }
+    }));
+    fetchData();
+  }
 
   /**
    * Toggle fields between selected and unselected sets
@@ -181,8 +236,6 @@ export const Explorer = ({
     });
   };
 
-  const handleLiveStreamChecked = () => setLiveStreamChecked(!liveStreamChecked);
-
   const sidebarClassName = classNames({
     closed: isSidebarClosed,
   });
@@ -206,6 +259,7 @@ export const Explorer = ({
                 <div className="dscFieldChooser">
                   <Sidebar
                     explorerFields={ explorerFields }
+                    explorerData={ explorerData }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
                   />
@@ -228,7 +282,7 @@ export const Explorer = ({
               />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-          { (explorerData && !isEmpty(explorerData)) ? (
+          { (explorerData && !isEmpty(explorerData.jsonData)) ? (
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 
@@ -243,7 +297,7 @@ export const Explorer = ({
                         >
                           <HitsCounter 
                             hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
-                            showResetButton={true}
+                            showResetButton={false}
                             onResetQuery={ () => {} }
                           />
                         </EuiFlexItem>
@@ -252,44 +306,7 @@ export const Explorer = ({
                         >
                           <TimechartHeader
                             dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
-                            options={[
-                              {
-                                display: 'Auto',
-                                val: 'auto'
-                              },
-                              {
-                                display: 'Millisecond',
-                                val: 'ms'
-                              },
-                              {
-                                display: 'Second',
-                                val: 's'
-                              },
-                              {
-                                display: 'Minute',
-                                val: 'm'
-                              },
-                              {
-                                display: 'Hour',
-                                val: 'h'
-                              },
-                              {
-                                display: 'Day',
-                                val: 'd'
-                              },
-                              {
-                                display: 'Week',
-                                val: 'w'
-                              },
-                              {
-                                display: 'Month',
-                                val: 'M'
-                              },
-                              {
-                                display: 'Year',
-                                val: 'y'
-                              },
-                            ]}
+                            options={ TIME_INTERVAL_OPTIONS }
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
                             }}
@@ -318,6 +335,7 @@ export const Explorer = ({
                   <div className="dscDiscover">
                     <DataGrid
                       rows={ explorerData['jsonData'] }
+                      rowsAll={ explorerData['jsonDataAll'] }
                       explorerFields={ explorerFields }
                     />
                     <a tabIndex={0} id="discoverBottomMarker">
@@ -364,8 +382,13 @@ export const Explorer = ({
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
+        curVisId={ curVisId }
+        setCurVisId={ setCurVisId }
         explorerFields={ explorerFields }
         explorerVis={ explorerVisualizations }
+        explorerData={ explorerData }
+        handleAddField={ handleAddField }
+        handleRemoveField={ handleRemoveField }
       />
     );
   };
@@ -393,6 +416,8 @@ export const Explorer = ({
     return getMainContentTabs();
   },
     [
+      curVisId,
+      isPanelTextFieldInvalid,
       explorerData,
       explorerFields,
       isSidebarClosed,
@@ -401,41 +426,9 @@ export const Explorer = ({
     ]
   );
 
-  const actionItems = [
-    {
-      text: 'Refresh',
-      iconType: 'refresh',
-      handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
-      }
-    },
-    {
-      text: 'Live',
-      iconType: 'play',
-      handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
-      }
-    },
-    {
-      text: 'Save',
-      iconType: 'heart',
-      handlers: {
-        onClick: () => {
-          console.log('refresh clicked');
-        }
-      }
-    }
-  ];
-
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = () => {
-    fetchData();
-  }
+  const handleQuerySearch = () => fetchData();
 
   const handleQueryChange = (query: string, index: string) => {
     dispatch(changeQuery({
@@ -446,29 +439,88 @@ export const Explorer = ({
       },
     }));
   }
-  
+
+  const handleSavingObject = () => {
+
+    const currQuery = queryRef.current;
+    const currFields = explorerFieldsRef.current;
+    if (isEmpty(currQuery![RAW_QUERY])) return;
+
+    if (isEmpty(selectedPanelNameRef.current)) {
+      setIsPanelTextFieldInvalid(true);
+      return;
+    } else {
+      setIsPanelTextFieldInvalid(false);
+    }
+
+    if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
+      
+      // create new saved query
+      savedObjects.createSavedQuery({
+        query: currQuery![RAW_QUERY],
+        fields: currFields![SELECTED_FIELDS],
+        dateRange: currQuery![SELECTED_DATE_RANGE],
+        name: selectedPanelNameRef.current
+      });
+
+      // to-dos - update selected custom panel
+      if (!isEmpty(selectedCustomPanelOptions)) {
+        // update custom panel - query
+      }
+
+    } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+      
+      // create new saved visualization
+      savedObjects.createSavedVisualization({
+        query: currQuery![RAW_QUERY],
+        fields: currFields![SELECTED_FIELDS],
+        dateRange: currQuery![SELECTED_DATE_RANGE],
+        type: curVisId,
+        name: selectedPanelNameRef.current
+      });
+
+      // update custom panel - visualization
+      if (!isEmpty(selectedCustomPanelOptions)) {
+        
+        savedObjects.bulkUpdateCustomPanel({
+          selectedCustomPanels: selectedCustomPanelOptions,
+          query: currQuery![RAW_QUERY],
+          type: curVisId,
+          timeField: !isEmpty(currQuery!['selectedTimestamp']) ? currQuery!['selectedTimestamp'] : 'utc_time', // temprary
+          name: selectedPanelNameRef.current
+        });
+      }
+    }
+  };
+
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
+   [query['selectedDateRange'][0], query['selectedDateRange'][1]];
+
   return (
     <div className="dscAppContainer">
-      <h1 className="euiScreenReaderOnly">testing</h1>
       <Search
+        key="search-component"
         query={ query }
-        handleQueryChange={ (query: string, index: string) => { handleQueryChange(query, index) } }
+        handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
         dslService = { dslService }
-        startTime={ startTime }
-        endTime={ endTime }
-        setStartTime={ setStartTime }
-        setEndTime={ setEndTime }
-        setIsOutputStale={ () => {} }
-        liveStreamChecked={ liveStreamChecked }
-        onLiveStreamChange={ handleLiveStreamChecked }
-        actionItems={ actionItems }
+        startTime={ dateRange[0] }
+        endTime={ dateRange[1] }
+        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
+        selectedPanelName={ selectedPanelNameRef.current }
+        selectedCustomPanelOptions={ selectedCustomPanelOptions }
+        setSelectedPanelName={ setSelectedPanelName }
+        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
+        handleSavingObject={ handleSavingObject }
+        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
+        savedObjects={ savedObjects }
+        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
       />
-      <IndexPicker
+      {/* <IndexPicker
         dslService={ dslService }
         query = { query }
         handleQueryChange={(query: string, index: string) => { handleQueryChange(query, index) } }
-      />
+      /> */}
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={ memorizedMainContentTabs[0] }

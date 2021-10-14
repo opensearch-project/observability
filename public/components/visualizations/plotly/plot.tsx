@@ -16,24 +16,25 @@ import Plotly from 'plotly.js-dist';
 interface PltProps {
   data: Plotly.Data[];
   layout?: Partial<Plotly.Layout>;
+  config?: Partial<Plotly.Config>;
   onHoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   onUnhoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
-  onClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   height?: string;
 }
 
 export function Plt(props: PltProps) {
   const PlotComponent = plotComponentFactory(Plotly);
-
   return (
     <PlotComponent
       data={props.data}
       style={{ width: '100%', height: props.height || '100%' }}
       onHover={props.onHoverHandler}
       onUnhover={props.onUnhoverHandler}
-      onClick={props.onClickHandler}
       useResizeHandler
-      config={{ displayModeBar: false }}
+      config={{ 
+        displayModeBar: false,
+        ...props.config
+      }}
       layout={{
         autosize: true,
         margin: {
@@ -54,11 +55,12 @@ export function Plt(props: PltProps) {
           showgrid: true,
           zeroline: false,
           rangemode: 'normal',
+          automargin: true
         },
         yaxis: {
           showgrid: true,
           zeroline: false,
-          rangemode: 'normal',
+          rangemode: 'normal'
         },
         ...props.layout,
       }}

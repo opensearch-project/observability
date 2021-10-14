@@ -17,6 +17,7 @@ import {
 } from '../common/constants/shared';
 import PPLService from './services/requests/ppl';
 import DSLService from './services/requests/dsl';
+import SavedObjects from './services/saved_objects/event_analytics/saved_objects';
 import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } from './types';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
@@ -37,12 +38,14 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
           const [ coreStart, depsStart ] = await core.getStartServices();
           const pplService = new PPLService(coreStart.http);
           const dslService = new DSLService(coreStart.http);
+          const savedObjects = new SavedObjects(coreStart.http);
           return Observability(
             coreStart,
             depsStart as AppPluginStartDependencies,
             params,
             pplService,
-            dslService
+            dslService,
+            savedObjects
           );
         },
       });

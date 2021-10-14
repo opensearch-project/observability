@@ -16,9 +16,8 @@ export const CountDistribution = ({
   countDistribution
 }: any) => {
 
-  if (!countDistribution) return null;
-
-  const data = countDistribution.data;
+  if (!countDistribution || !countDistribution.data) return null;
+  
   const meta = countDistribution.metadata;
   const xkey = meta?.xfield?.name;
   const ykey = meta?.yfield?.name;
@@ -33,17 +32,24 @@ export const CountDistribution = ({
     },
     height: 220
   };
+  const config = {};
+  const xaxis = {
+    autorange: true
+  };
+  const yaxis = {
+    fixedrange: true
+  };
 
   if (!xkey || !ykey) {
     return null;
   }
 
   return (
-    <Bar 
-      xvalues={ data[xkey] || [] }
-      yvalues={ data[ykey] || [] }
+    <Bar
+      visualizations={ countDistribution }
       name="Event counts"
       layoutConfig={ layout }
+      config={ config }
     />
   );
 };

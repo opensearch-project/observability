@@ -9,4 +9,4 @@
  * GitHub history for details.
  */
 
-export { getIndexPatternFromRawQuery } from './query_utils';
+export { getIndexPatternFromRawQuery, insertDateRangeToQuery } from './query_utils';

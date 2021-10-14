@@ -15,14 +15,22 @@ import {
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import { 
   RAW_QUERY,
+  FINAL_QUERY,
+  SELECTED_DATE_RANGE,
   REDUX_EXPL_SLICE_QUERIES,
   INDEX
 } from '../../../../common/constants/explorer';
 
+const initialQueryState = {
+  [RAW_QUERY]: '',
+  [FINAL_QUERY]: '',
+  [INDEX]: '',
+  [SELECTED_DATE_RANGE]: ['now-15m', 'now']
+};
+
 const initialState = {
   [initialTabId]: {
-    [RAW_QUERY]: '',
-    [INDEX]: ''
+    ...initialQueryState
   }
 };
 
@@ -32,13 +40,19 @@ export const queriesSlice = createSlice({
   reducers: {
     changeQuery: (state, { payload }) => {
       state[payload.tabId] = {
+        ...state[payload.tabId],
         ...payload.query
+      }
+    },
+    changeDateRange: (state, { payload }) => {
+      state[payload.tabId] = {
+        ...state[payload.tabId],
+        ...payload.data
       }
     },
     init: (state, { payload }) => {
       state[payload.tabId] = {
-        [RAW_QUERY]: '',
-        [INDEX]: ''
+        ...initialQueryState
       };
     },
     remove: (state, { payload }) => {
@@ -50,6 +64,7 @@ export const queriesSlice = createSlice({
 
 export const {
   changeQuery,
+  changeDateRange,
   remove,
   init
 } = queriesSlice.actions;

@@ -34,15 +34,15 @@ export default class PPLFacet {
         }
       };
       if (request.body.format !== 'jdbc') {
-        params['format'] = request.body.format; 
+        params['format'] = request.body.format;
       }
       const queryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       const pplDataSource = new PPLDataSource(queryRes, request.body.format);
       res['success'] = true;
       res['data'] = pplDataSource.getDataSource();
     } catch (err: any) {
-      console.log('pplfacet err: ', err);
-      res['data'] = err.body;
+      console.error('PPL query fetch err: ', err);
+      res['data'] = err;
     }
     return res
   };

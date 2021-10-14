@@ -20,8 +20,7 @@ import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as CustomPanelsHome } from './custom_panels/home';
-import { Home as EventExplorerHome } from './explorer/home';
-import { LogExplorer } from './explorer/log_explorer';
+import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
@@ -30,13 +29,15 @@ interface ObservabilityAppDeps {
   DepsStart: AppPluginStartDependencies;
   pplService: any;
   dslService: any;
+  savedObjects: any;
 }
 
 export const App = ({
   CoreStart,
   DepsStart,
   pplService,
-  dslService
+  dslService,
+  savedObjects
 }: ObservabilityAppDeps) => {
 
   const { chrome, http, notifications } = CoreStart;
@@ -97,17 +98,19 @@ export const App = ({
                 )}
               />
               <Route
-                exact
-                path={['/explorer', '/explorer/home']}
+                path="/event_analytics"
                 render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Event analytics',
-                      href: '/explorer/events',
-                    },
-                  ]);
-                  return renderPageWithSidebar(<EventExplorerHome />);
+                  return (
+                    <EventAnalytics
+                      chrome={ chrome }
+                      parentBreadcrumb={ parentBreadcrumb }
+                      pplService={ pplService }
+                      dslService={ dslService }
+                      savedObjects={ savedObjects }
+                      http={ http }
+                      { ...props }
+                    />
+                  );
                 }}
               />
               <Route
@@ -124,14 +127,6 @@ export const App = ({
                     />
                   );
                 }}
-              />
-              <Route
-                exact
-                path='/explorer/events'
-                render={(props) => <LogExplorer
-                  pplService={ pplService }
-                  dslService={ dslService }
-                /> }
               />
             </Switch>
           </>
