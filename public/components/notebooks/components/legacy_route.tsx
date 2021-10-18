@@ -13,20 +13,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import { AppMountParameters } from '../../../../../../src/core/public';
+import { convertLegacyNotebooksUrl } from './helpers/legacy_route_helpers';
 
 export const LegacyRoute = (AppMountParameters: AppMountParameters) => {
   ReactDOM.render(
     <BrowserRouter forceRefresh={true}>
       <Switch>
-        <Redirect
-          from="/"
-          to={{
-            pathname: location.pathname.replace('notebooks-dashboards', 'observability'),
-            hash: `#/notebooks${location.hash.replace(/^#/, '')}${
-              location.hash.includes('?') ? location.search.replace(/^\?/, '&') : location.search
-            }`,
-          }}
-        />
+        <Redirect from="/" to={convertLegacyNotebooksUrl(window.location)} />
       </Switch>
     </BrowserRouter>,
     AppMountParameters.element
