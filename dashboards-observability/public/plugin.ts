@@ -50,6 +50,16 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         },
       });
 
+      // redirect legacy notebooks URL to current URL under observability
+      core.application.register({
+        id: "notebooks-dashboards",
+        title: "",
+        async mount(params: AppMountParameters) {
+          const { LegacyRoute } = await import('./components/notebooks/components/legacy_route');
+          return LegacyRoute(params)
+        }
+      });
+
       // Return methods that should be available to other plugins
       return {};
     }
