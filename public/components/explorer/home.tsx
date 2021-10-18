@@ -32,6 +32,7 @@ import { Search } from '../common/search/search';
 import { INDEX, RAW_QUERY } from '../../../common/constants/explorer';
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
+import { Table } from './home_table/history_table';
 
 interface IHomeProps {
   pplService: any;
@@ -51,6 +52,8 @@ export const Home = (props: IHomeProps) => {
   const dispatch = useDispatch();
   const query = useSelector(selectQueries)[initialTabId][RAW_QUERY];
   const [savedHistories, setSavedHistories] = useState([]);
+  const hisRef = useRef();
+  hisRef.current = savedHistories;
 
   const fetchHistories = async () => {
     const res = await savedObjects.fetchSavedObjects({
@@ -121,6 +124,7 @@ export const Home = (props: IHomeProps) => {
               </EuiTitle>
               <EuiSpacer size="s" />
             </EuiListGroup>
+            <Table savedHistory={savedHistories} test="stringtest"/>
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPageContent>
