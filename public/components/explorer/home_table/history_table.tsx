@@ -90,7 +90,7 @@ export function Table(options: TableData) {
     pageIndex,
     pageSize,
     totalItemCount: 10,
-    pageSizeOptions: [3, 5, 10],
+    pageSizeOptions: [3, 5, 8],
     hidePerPageOptions: !showPerPageOptions,
   };
 
