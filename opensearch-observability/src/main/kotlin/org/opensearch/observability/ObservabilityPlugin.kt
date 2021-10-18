@@ -41,6 +41,12 @@ import org.opensearch.common.settings.SettingsFilter
 import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
+import org.opensearch.observability.action.CreateObservabilityObjectAction
+import org.opensearch.observability.action.DeleteObservabilityObjectAction
+import org.opensearch.observability.action.GetObservabilityObjectAction
+import org.opensearch.observability.action.UpdateObservabilityObjectAction
+import org.opensearch.observability.index.ObservabilityIndex
+import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.Plugin
@@ -88,6 +94,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin {
         repositoriesServiceSupplier: Supplier<RepositoriesService>
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
+        ObservabilityIndex.initialize(client, clusterService)
         return emptyList()
     }
 
@@ -103,13 +110,32 @@ class ObservabilityPlugin : Plugin(), ActionPlugin {
         indexNameExpressionResolver: IndexNameExpressionResolver,
         nodesInCluster: Supplier<DiscoveryNodes>
     ): List<RestHandler> {
-        return listOf()
+        return listOf(
+            ObservabilityRestHandler()
+        )
     }
 
     /**
      * {@inheritDoc}
      */
     override fun getActions(): List<ActionPlugin.ActionHandler<out ActionRequest, out ActionResponse>> {
-        return listOf()
+        return listOf(
+            ActionPlugin.ActionHandler(
+                CreateObservabilityObjectAction.ACTION_TYPE,
+                CreateObservabilityObjectAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                DeleteObservabilityObjectAction.ACTION_TYPE,
+                DeleteObservabilityObjectAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                GetObservabilityObjectAction.ACTION_TYPE,
+                GetObservabilityObjectAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                UpdateObservabilityObjectAction.ACTION_TYPE,
+                UpdateObservabilityObjectAction::class.java
+            )
+        )
     }
 }
