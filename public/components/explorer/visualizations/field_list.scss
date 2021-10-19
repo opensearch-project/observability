@@ -1,0 +1,31 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+/**
+ * 1. Don't cut off the shadow of the field items
+ */
+
+.lnsIndexPatternFieldList {
+  @include euiOverflowShadow;
+  @include euiScrollBar;
+  margin-left: -$euiSize; /* 1 */
+  position: relative;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.lnsIndexPatternFieldList__accordionContainer {
+  padding-top: $euiSizeS;
+  position: absolute;
+  top: 0;
+  left: $euiSize; /* 1 */
+  right: $euiSizeXS; /* 1 */
+}

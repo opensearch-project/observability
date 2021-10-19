@@ -1,0 +1,17 @@
+{
+  "id": "opensearchObservability",
+  "version": "opensearchDashboards",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": [
+    "charts",
+    "data",
+    "embeddable",
+    "inspector",
+    "urlForwarding",
+    "navigation",
+    "uiActions",
+    "dashboard",
+    "visualizations"
+  ]
+}

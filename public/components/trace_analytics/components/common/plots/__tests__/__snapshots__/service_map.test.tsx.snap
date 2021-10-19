@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Service map component renders service map 1`] = `
+<Fragment>
+  <EuiPanel>
+    <PanelTitle
+      title="Service map"
+    />
+    <EuiSpacer
+      size="m"
+    />
+    <EuiButtonGroup
+      buttonSize="s"
+      color="text"
+      idSelected="latency"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "latency",
+            "label": "Latency",
+          },
+          Object {
+            "id": "error_rate",
+            "label": "Error rate",
+          },
+          Object {
+            "id": "throughput",
+            "label": "Throughput",
+          },
+        ]
+      }
+    />
+    <EuiHorizontalRule
+      margin="m"
+    />
+    <EuiFlexGroup
+      alignItems="center"
+      gutterSize="s"
+    >
+      <EuiFlexItem
+        grow={false}
+      >
+        <EuiText>
+          Focus on
+        </EuiText>
+      </EuiFlexItem>
+      <EuiFlexItem>
+        <EuiFieldSearch
+          compressed={false}
+          fullWidth={false}
+          incremental={false}
+          isClearable={true}
+          isInvalid={false}
+          isLoading={false}
+          onChange={[Function]}
+          onSearch={[Function]}
+          placeholder="Service name"
+          value=""
+        />
+      </EuiFlexItem>
+    </EuiFlexGroup>
+    <EuiSpacer />
+    <EuiFlexGroup
+      gutterSize="none"
+      responsive={false}
+    >
+      <EuiFlexItem />
+      <EuiFlexItem
+        grow={false}
+      >
+        <ServiceMapScale
+          idSelected="latency"
+          serviceMap={
+            Object {
+              "analytics-service": Object {
+                "destServices": Array [
+                  "order",
+                  "inventory",
+                  "authentication",
+                  "payment",
+                  "recommendation",
+                ],
+                "error_rate": 0,
+                "id": 2,
+                "latency": 12.99,
+                "serviceName": "analytics-service",
+                "targetServices": Array [],
+                "throughput": 37,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "client_cancel_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "client_checkout",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "client_create_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "client_delivery_status",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "client_pay_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "/logs",
+                    ],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+              "authentication": Object {
+                "destServices": Array [
+                  "frontend-client",
+                ],
+                "error_rate": 8.33,
+                "id": 6,
+                "latency": 139.09,
+                "serviceName": "authentication",
+                "targetServices": Array [
+                  "analytics-service",
+                  "recommendation",
+                ],
+                "throughput": 12,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "server_request_login",
+                    ],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+              "database": Object {
+                "destServices": Array [
+                  "order",
+                  "inventory",
+                ],
+                "error_rate": 3.77,
+                "id": 3,
+                "latency": 49.54,
+                "serviceName": "database",
+                "targetServices": Array [],
+                "throughput": 53,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "cartEmpty",
+                    ],
+                    "traceGroup": "client_cancel_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "updateItem",
+                    ],
+                    "traceGroup": "client_checkout",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "addItemToCart",
+                    ],
+                    "traceGroup": "client_create_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "getCart",
+                    ],
+                    "traceGroup": "client_delivery_status",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "cartSold",
+                    ],
+                    "traceGroup": "client_pay_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "getIntentory",
+                    ],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+              "frontend-client": Object {
+                "destServices": Array [],
+                "error_rate": 7.41,
+                "id": 4,
+                "latency": 207.71,
+                "serviceName": "frontend-client",
+                "targetServices": Array [
+                  "order",
+                  "payment",
+                  "authentication",
+                ],
+                "throughput": 27,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "client_cancel_order",
+                  },
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "client_checkout",
+                  },
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "client_create_order",
+                  },
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "client_delivery_status",
+                  },
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "client_pay_order",
+                  },
+                  Object {
+                    "targetResource": Array [],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+              "inventory": Object {
+                "destServices": Array [
+                  "payment",
+                  "recommendation",
+                ],
+                "error_rate": 3.23,
+                "id": 5,
+                "latency": 183.52,
+                "serviceName": "inventory",
+                "targetServices": Array [
+                  "analytics-service",
+                  "database",
+                ],
+                "throughput": 31,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "update_inventory",
+                    ],
+                    "traceGroup": "client_checkout",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "read_inventory",
+                    ],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+              "order": Object {
+                "destServices": Array [
+                  "frontend-client",
+                ],
+                "error_rate": 4.17,
+                "id": 1,
+                "latency": 90.1,
+                "serviceName": "order",
+                "targetServices": Array [
+                  "analytics-service",
+                  "database",
+                ],
+                "throughput": 48,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "clear_order",
+                    ],
+                    "traceGroup": "client_cancel_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "update_order",
+                    ],
+                    "traceGroup": "client_create_order",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "get_order",
+                    ],
+                    "traceGroup": "client_delivery_status",
+                  },
+                  Object {
+                    "targetResource": Array [
+                      "pay_order",
+                    ],
+                    "traceGroup": "client_pay_order",
+                  },
+                ],
+              },
+              "payment": Object {
+                "destServices": Array [
+                  "frontend-client",
+                ],
+                "error_rate": 9.09,
+                "id": 7,
+                "latency": 134.36,
+                "serviceName": "payment",
+                "targetServices": Array [
+                  "analytics-service",
+                  "inventory",
+                ],
+                "throughput": 11,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "payment",
+                    ],
+                    "traceGroup": "client_checkout",
+                  },
+                ],
+              },
+              "recommendation": Object {
+                "destServices": Array [
+                  "authentication",
+                ],
+                "error_rate": 6.25,
+                "id": 8,
+                "latency": 176.97,
+                "serviceName": "recommendation",
+                "targetServices": Array [
+                  "analytics-service",
+                  "inventory",
+                ],
+                "throughput": 16,
+                "traceGroups": Array [
+                  Object {
+                    "targetResource": Array [
+                      "recommend",
+                    ],
+                    "traceGroup": "load_main_screen",
+                  },
+                ],
+              },
+            }
+          }
+          ticks={Array []}
+        />
+      </EuiFlexItem>
+    </EuiFlexGroup>
+  </EuiPanel>
+</Fragment>
+`;

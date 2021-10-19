@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Latency trend plot component renders dash 1`] = `
+<div>
+  -
+</div>
+`;
+
+exports[`Latency trend plot component renders latency plot 1`] = `
+<Fragment>
+  <Plt
+    data={
+      Array [
+        Object {
+          "hoverlabel": Object {
+            "bgcolor": "#d7c2ff",
+          },
+          "hovertemplate": "%{x}<br>Average latency: %{y}<extra></extra>",
+          "line": Object {
+            "color": "#987dcb",
+          },
+          "marker": Object {
+            "color": "#987dcb",
+            "size": 8,
+          },
+          "mode": "lines+markers",
+          "type": "scatter",
+          "x": Array [
+            1605027600000,
+          ],
+          "y": Array [
+            284.47,
+          ],
+        },
+      ]
+    }
+    layout={
+      Object {
+        "annotations": Array [
+          Object {
+            "arrowhead": 0,
+            "arrowwidth": 0.7,
+            "ax": 0,
+            "ay": -140,
+            "borderpad": 10,
+            "showarrow": true,
+            "text": "Now: 284.47ms",
+            "x": 1605027600000,
+            "xref": "x",
+            "y": 0,
+            "yref": "y",
+          },
+        ],
+        "height": 200,
+        "margin": Object {
+          "b": 50,
+          "l": 50,
+          "pad": 0,
+          "r": 30,
+          "t": 30,
+        },
+        "width": 400,
+        "xaxis": Object {
+          "color": "#899195",
+          "showgrid": false,
+          "tickmode": "auto",
+          "type": "date",
+        },
+        "yaxis": Object {
+          "color": "#899195",
+          "gridcolor": "#d9d9d9",
+          "title": Object {
+            "font": Object {
+              "size": 12,
+            },
+            "text": "Hourly latency (ms)",
+          },
+        },
+      }
+    }
+  />
+</Fragment>
+`;
+
+exports[`Latency trend plot component renders line plot 1`] = `
+<Plt
+  data={
+    Array [
+      Object {
+        "hoverinfo": "none",
+        "line": Object {
+          "color": "#000000",
+          "width": 1,
+        },
+        "mode": "lines",
+        "type": "scatter",
+        "x": Array [
+          1605027600000,
+          1605027700000,
+        ],
+        "y": Array [
+          78.16,
+          100,
+        ],
+      },
+    ]
+  }
+  layout={
+    Object {
+      "height": 20,
+      "margin": Object {
+        "b": 0,
+        "l": 0,
+        "pad": 0,
+        "r": 0,
+        "t": 0,
+      },
+      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+      "width": 60,
+      "xaxis": Object {
+        "fixedrange": true,
+        "showgrid": false,
+        "visible": false,
+      },
+      "yaxis": Object {
+        "fixedrange": true,
+        "range": Array [
+          0,
+          110.00000000000001,
+        ],
+        "showgrid": false,
+        "visible": false,
+      },
+    }
+  }
+/>
+`;
