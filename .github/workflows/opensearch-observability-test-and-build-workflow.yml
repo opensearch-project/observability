@@ -1,7 +1,6 @@
 name: Test and Build OpenSearch Observability Backend Plugin
 
-# TODO enable on pull and PR when backend is ready
-on: [release]
+on: [pull_request, push]
 
 env:
   OPENSEARCH_VERSION: '1.1.0-SNAPSHOT'
