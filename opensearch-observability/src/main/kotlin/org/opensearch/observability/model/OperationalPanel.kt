@@ -46,30 +46,22 @@ import org.opensearch.observability.util.logger
  * {
  *   "operationalPanel": {
  *     "name": "Demo Panel 1",
- *     "dateCreated": "2021-07-19T21:01:14.871Z",
- *     "dateModified": "2021-07-19T21:01:14.871Z",
  *     "visualizations": [
  *       {
  *         "id": "panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17",
- *         "title": "Demo Viz 1",
+ *         "savedVisualizationId": "oyuecXwBYVazWqOOde0o",
  *         "x": 0,
  *         "y": 0,
  *         "w": 10,
- *         "h": 10,
- *         "query": "source=index | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier",
- *         "timeField": "timestamp",
- *         "type": "bar"
+ *         "h": 10
  *       },
  *       {
  *         "id": "panelViz_7ba28e34-6fd8-489d-9b9f-165fdv6wd611",
- *         "title": "Demo Viz 2",
+ *         "savedVisualizationId": "oiuccXwBYVazWqOO1e06",
  *         "x": 20,
  *         "y": 20,
  *         "w": 30,
- *         "h": 20,
- *         "query": "source=index | fields Carrier,Origin | stats count() by Origin",
- *         "timeField": "utc_time",
- *         "type": "bar"
+ *         "h": 20
  *       }
  *     ],
  *     "timeRange": {
@@ -87,8 +79,6 @@ import org.opensearch.observability.util.logger
 
 internal data class OperationalPanel(
     val name: String?,
-    val dateCreated: String?,
-    val dateModified: String?,
     val visualizations: List<Visualization>?,
     val timeRange: TimeRange?,
     val queryFilter: QueryFilter?,
@@ -97,8 +87,6 @@ internal data class OperationalPanel(
     internal companion object {
         private val log by logger(OperationalPanel::class.java)
         private const val NAME_TAG = "name"
-        private const val DATE_CREATED_TAG = "dateCreated"
-        private const val DATE_MODIFIED_TAG = "dateModified"
         private const val VISUALIZATIONS_TAG = "visualizations"
         private const val TIME_RANGE_TAG = "timeRange"
         private const val QUERY_FILTER_TAG = "queryFilter"
@@ -134,8 +122,6 @@ internal data class OperationalPanel(
          */
         fun parse(parser: XContentParser): OperationalPanel {
             var name: String? = null
-            var dateCreated: String? = null
-            var dateModified: String? = null
             var visualizations: List<Visualization>? = null
             var timeRange: TimeRange? = null
             var queryFilter: QueryFilter? = null
@@ -145,8 +131,6 @@ internal data class OperationalPanel(
                 parser.nextToken()
                 when (fieldName) {
                     NAME_TAG -> name = parser.text()
-                    DATE_CREATED_TAG -> dateCreated = parser.text()
-                    DATE_MODIFIED_TAG -> dateModified = parser.text()
                     VISUALIZATIONS_TAG -> visualizations = parseItemList(parser)
                     TIME_RANGE_TAG -> timeRange = TimeRange.parse(parser)
                     QUERY_FILTER_TAG -> queryFilter = QueryFilter.parse(parser)
@@ -156,14 +140,7 @@ internal data class OperationalPanel(
                     }
                 }
             }
-            return OperationalPanel(
-                name,
-                dateCreated,
-                dateModified,
-                visualizations,
-                timeRange,
-                queryFilter
-            )
+            return OperationalPanel(name, visualizations, timeRange, queryFilter)
         }
     }
 
@@ -182,8 +159,6 @@ internal data class OperationalPanel(
      */
     constructor(input: StreamInput) : this(
         name = input.readString(),
-        dateCreated = input.readString(),
-        dateModified = input.readString(),
         visualizations = input.readList(Visualization.reader),
         timeRange = input.readOptionalWriteable(TimeRange.reader),
         queryFilter = input.readOptionalWriteable(QueryFilter.reader),
@@ -194,8 +169,6 @@ internal data class OperationalPanel(
      */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
-        output.writeString(dateCreated)
-        output.writeString(dateModified)
         output.writeCollection(visualizations)
         output.writeOptionalWriteable(timeRange)
         output.writeOptionalWriteable(queryFilter)
@@ -209,8 +182,6 @@ internal data class OperationalPanel(
         builder!!
         builder.startObject()
             .fieldIfNotNull(NAME_TAG, name)
-            .fieldIfNotNull(DATE_CREATED_TAG, dateCreated)
-            .fieldIfNotNull(DATE_MODIFIED_TAG, dateModified)
         if (visualizations != null) {
             builder.startArray(VISUALIZATIONS_TAG)
             visualizations.forEach { it.toXContent(builder, xContentParams) }
@@ -226,25 +197,19 @@ internal data class OperationalPanel(
      */
     internal data class Visualization(
         val id: String,
-        val title: String,
+        val savedVisualizationId: String,
         val x: Int,
         val y: Int,
         val w: Int,
-        val h: Int,
-        val query: String,
-        val timeField: String,
-        val type: String
+        val h: Int
     ) : BaseModel {
         internal companion object {
             private const val ID_TAG = "id"
-            private const val TITLE_TAG = "title"
+            private const val SAVED_VISUALIZATION_ID_TAG = "savedVisualizationId"
             private const val X_TAG = "x"
             private const val Y_TAG = "y"
             private const val W_TAG = "w"
             private const val H_TAG = "h"
-            private const val QUERY_TAG = "query"
-            private const val TIME_FIELD_TAG = "timeField"
-            private const val TYPE_TAG = "type"
 
             /**
              * reader to create instance of class from writable.
@@ -264,14 +229,11 @@ internal data class OperationalPanel(
             @Suppress("ComplexMethod")
             fun parse(parser: XContentParser): Visualization {
                 var id: String? = null
-                var title: String? = null
+                var savedVisualizationId: String? = null
                 var x: Int? = null
                 var y: Int? = null
                 var w: Int? = null
                 var h: Int? = null
-                var query: String? = null
-                var timeField: String? = null
-                var type: String? = null
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
@@ -282,14 +244,11 @@ internal data class OperationalPanel(
                     parser.nextToken()
                     when (fieldName) {
                         ID_TAG -> id = parser.text()
-                        TITLE_TAG -> title = parser.text()
+                        SAVED_VISUALIZATION_ID_TAG -> savedVisualizationId = parser.text()
                         X_TAG -> x = parser.intValue()
                         Y_TAG -> y = parser.intValue()
                         W_TAG -> w = parser.intValue()
                         H_TAG -> h = parser.intValue()
-                        QUERY_TAG -> query = parser.text()
-                        TIME_FIELD_TAG -> timeField = parser.text()
-                        TYPE_TAG -> type = parser.text()
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Source Skipping Unknown field $fieldName")
@@ -297,40 +256,31 @@ internal data class OperationalPanel(
                     }
                 }
                 id ?: throw IllegalArgumentException("$ID_TAG field absent")
-                title ?: throw IllegalArgumentException("$TITLE_TAG field absent")
+                savedVisualizationId ?: throw IllegalArgumentException("$SAVED_VISUALIZATION_ID_TAG field absent")
                 x ?: throw IllegalArgumentException("$X_TAG field absent")
                 y ?: throw IllegalArgumentException("$Y_TAG field absent")
                 w ?: throw IllegalArgumentException("$W_TAG field absent")
                 h ?: throw IllegalArgumentException("$H_TAG field absent")
-                query ?: throw IllegalArgumentException("$QUERY_TAG field absent")
-                timeField ?: throw IllegalArgumentException("$TIME_FIELD_TAG field absent")
-                type ?: throw IllegalArgumentException("$TYPE_TAG field absent")
-                return Visualization(id, title, x, y, w, h, query, timeField, type)
+                return Visualization(id, savedVisualizationId, x, y, w, h)
             }
         }
 
         constructor(streamInput: StreamInput) : this(
             id = streamInput.readString(),
-            title = streamInput.readString(),
+            savedVisualizationId = streamInput.readString(),
             x = streamInput.readInt(),
             y = streamInput.readInt(),
             w = streamInput.readInt(),
-            h = streamInput.readInt(),
-            query = streamInput.readString(),
-            timeField = streamInput.readString(),
-            type = streamInput.readString()
+            h = streamInput.readInt()
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
             streamOutput.writeString(id)
-            streamOutput.writeString(title)
+            streamOutput.writeString(savedVisualizationId)
             streamOutput.writeInt(x)
             streamOutput.writeInt(y)
             streamOutput.writeInt(w)
             streamOutput.writeInt(h)
-            streamOutput.writeString(query)
-            streamOutput.writeString(timeField)
-            streamOutput.writeString(type)
         }
 
         /**
@@ -340,14 +290,11 @@ internal data class OperationalPanel(
             builder!!
             builder.startObject()
                 .field(ID_TAG, id)
-                .field(TITLE_TAG, title)
+                .field(SAVED_VISUALIZATION_ID_TAG, savedVisualizationId)
                 .field(X_TAG, x)
                 .field(Y_TAG, y)
                 .field(W_TAG, w)
                 .field(H_TAG, h)
-                .field(QUERY_TAG, query)
-                .field(TIME_FIELD_TAG, timeField)
-                .field(TYPE_TAG, type)
             return builder.endObject()
         }
     }
