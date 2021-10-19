@@ -108,7 +108,7 @@ internal object ObservabilityIndex {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
-        if (!isIndexExists()) {
+        if (!isIndexExists(INDEX_NAME)) {
             val classLoader = ObservabilityIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
             val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
@@ -171,14 +171,6 @@ internal object ObservabilityIndex {
     private fun isIndexExists(index: String): Boolean {
         val clusterState = clusterService.state()
         return clusterState.routingTable.hasIndex(index)
-    }
-
-    /**
-     * Check if the index is created and available.
-     * @return true if index is available, false otherwise
-     */
-    private fun isIndexExists(): Boolean {
-        return isIndexExists(INDEX_NAME)
     }
 
     /**
