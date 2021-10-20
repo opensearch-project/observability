@@ -9,6 +9,7 @@
  * GitHub history for details.
  */
 
+import { v4 as uuidv4 } from 'uuid';
 import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 
@@ -190,8 +191,8 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  // gets list of panels stored in index
-  viewSavedVisualiationList = async (client: ILegacyScopedClusterClient) => {
+  // gets all saved visualizations
+  getAllSavedVisualizations = async (client: ILegacyScopedClusterClient) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'savedVisualization',
@@ -205,6 +206,28 @@ export class CustomPanelsAdaptor {
       }));
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
+    }
+  };
+
+  // gets list of savedVisualizations by Id
+  getSavedVisualizationById = async (
+    client: ILegacyScopedClusterClient,
+    savedVisualizationId: string
+  ) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: savedVisualizationId,
+      });
+      const visualization = response.observabilityObjectList[0];
+      return {
+        id: visualization.objectId,
+        name: visualization.savedVisualization.name,
+        query: visualization.savedVisualization.query,
+        type: visualization.savedVisualization.type,
+        timeField: visualization.savedVisualization.selected_timestamp.name,
+      };
+    } catch (error) {
+      throw new Error('Fetch Saved Visualizations By Id Error:' + error);
     }
   };
 
@@ -241,13 +264,7 @@ export class CustomPanelsAdaptor {
   addVisualization = async (
     client: ILegacyScopedClusterClient,
     panelId: string,
-    newVisualization: {
-      id: string;
-      title: string;
-      query: string;
-      type: string;
-      timeField: string;
-    },
+    savedVisualizationId: string,
     oldVisualizationId?: string
   ) => {
     try {
@@ -274,7 +291,11 @@ export class CustomPanelsAdaptor {
       }
       const newPanelVisualizations = [
         ...visualizationsList,
-        { ...newVisualization, ...newDimensions },
+        {
+          id: 'panel_viz_' + uuidv4(),
+          savedVisualizationId: savedVisualizationId,
+          ...newDimensions,
+        },
       ];
       const updatePanelResponse = await this.updatePanel(client, panelId, {
         visualizations: newPanelVisualizations,
@@ -282,54 +303,6 @@ export class CustomPanelsAdaptor {
       return newPanelVisualizations;
     } catch (error) {
       throw new Error('Add/Replace Visualization Error:' + error);
-    }
-  };
-
-  //Add Visualization in the Panel from Event Explorer
-  addVisualizationFromEvents = async (
-    client: ILegacyScopedClusterClient,
-    panelId: string,
-    paramVisualization: {
-      id: string;
-      title: string;
-      query: string;
-      type: string;
-      timeField: string;
-    }
-  ) => {
-    try {
-      const allPanelVisualizations = await this.getVisualizations(client, panelId);
-      const newDimensions = this.getNewVizDimensions(allPanelVisualizations);
-      const newPanelVisualizations = [
-        ...allPanelVisualizations,
-        { ...paramVisualization, ...newDimensions },
-      ];
-      const updatePanelResponse = await this.updatePanel(client, panelId, {
-        visualizations: newPanelVisualizations,
-      });
-      return newPanelVisualizations;
-    } catch (error) {
-      throw new Error('Add/Replace Visualization Error:' + error);
-    }
-  };
-
-  //Delete a Visualization in the Panel
-  deleteVisualization = async (
-    client: ILegacyScopedClusterClient,
-    panelId: string,
-    visualizationId: string
-  ) => {
-    try {
-      const allPanelVisualizations = await this.getVisualizations(client, panelId);
-      const filteredPanelVisualizations = allPanelVisualizations.filter(
-        (panelVisualization: VisualizationType) => panelVisualization.id != visualizationId
-      );
-      const updatePanelResponse = await this.updatePanel(client, panelId, {
-        visualizations: filteredPanelVisualizations,
-      });
-      return filteredPanelVisualizations;
-    } catch (error) {
-      throw new Error('Delete Visualization Error:' + error);
     }
   };
 

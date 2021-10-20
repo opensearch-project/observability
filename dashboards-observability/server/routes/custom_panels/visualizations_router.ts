@@ -36,7 +36,7 @@ export function VisualizationsRouter(router: IRouter) {
         request
       );
       try {
-        const visualizationList = await customPanelBackend.viewSavedVisualiationList(
+        const visualizationList = await customPanelBackend.getAllSavedVisualizations(
           opensearchNotebooksClient
         );
         return response.ok({
@@ -54,6 +54,44 @@ export function VisualizationsRouter(router: IRouter) {
     }
   );
 
+  // get all saved visualizations by Id
+  router.get(
+    {
+      path: `${API_PREFIX}/visualizations/{savedVisualizationId}`,
+      validate: {
+        params: schema.object({
+          savedVisualizationId: schema.string(),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+      try {
+        const savedVisualization = await customPanelBackend.getSavedVisualizationById(
+          opensearchNotebooksClient,
+          request.params.savedVisualizationId
+        );
+        return response.ok({
+          body: {
+            visualization: savedVisualization,
+          },
+        });
+      } catch (error) {
+        console.error('Issue in fetching saved visualizations by ids:', error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
   // Add a new visualization to the panel
   router.post(
     {
@@ -61,13 +99,7 @@ export function VisualizationsRouter(router: IRouter) {
       validate: {
         body: schema.object({
           panelId: schema.string(),
-          newVisualization: schema.object({
-            id: schema.string(),
-            title: schema.string(),
-            query: schema.string(),
-            type: schema.string(),
-            timeField: schema.string(),
-          }),
+          savedVisualizationId: schema.string(),
         }),
       },
     },
@@ -84,57 +116,7 @@ export function VisualizationsRouter(router: IRouter) {
         const newVisualizations = await customPanelBackend.addVisualization(
           opensearchNotebooksClient,
           request.body.panelId,
-          request.body.newVisualization
-        );
-        return response.ok({
-          body: {
-            message: 'Visualization Added',
-            visualizations: newVisualizations,
-          },
-        });
-      } catch (error) {
-        console.error('Issue in adding visualization:', error);
-        return response.custom({
-          statusCode: error.statusCode || 500,
-          body: error.message,
-        });
-      }
-    }
-  );
-
-  // Add a new visualization to panel from event explorer
-  // NOTE: This is a separate endpoint for adding event explorer visualizations to Operational Panels
-  // Please use `id = 'panelViz_' + htmlIdGenerator()()` to create unique visualization Id
-  router.post(
-    {
-      path: `${API_PREFIX}/visualizations/event_explorer`,
-      validate: {
-        body: schema.object({
-          panelId: schema.string(),
-          newVisualization: schema.object({
-            id: schema.string(),
-            title: schema.string(),
-            query: schema.string(),
-            type: schema.string(),
-            timeField: schema.string(),
-          }),
-        }),
-      },
-    },
-    async (
-      context,
-      request,
-      response
-    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
-
-      try {
-        const newVisualizations = await customPanelBackend.addVisualizationFromEvents(
-          opensearchNotebooksClient,
-          request.body.panelId,
-          request.body.newVisualization
+          request.body.savedVisualizationId
         );
         return response.ok({
           body: {
@@ -159,14 +141,8 @@ export function VisualizationsRouter(router: IRouter) {
       validate: {
         body: schema.object({
           panelId: schema.string(),
+          savedVisualizationId: schema.string(),
           oldVisualizationId: schema.string(),
-          newVisualization: schema.object({
-            id: schema.string(),
-            title: schema.string(),
-            query: schema.string(),
-            type: schema.string(),
-            timeField: schema.string(),
-          }),
         }),
       },
     },
@@ -183,7 +159,7 @@ export function VisualizationsRouter(router: IRouter) {
         const newVisualizations = await customPanelBackend.addVisualization(
           opensearchNotebooksClient,
           request.body.panelId,
-          request.body.newVisualization,
+          request.body.savedVisualizationId,
           request.body.oldVisualizationId
         );
         return response.ok({
@@ -194,48 +170,6 @@ export function VisualizationsRouter(router: IRouter) {
         });
       } catch (error) {
         console.error('Issue in replacing visualization:', error);
-        return response.custom({
-          statusCode: error.statusCode || 500,
-          body: error.message,
-        });
-      }
-    }
-  );
-
-  // Delete an existing visualization
-  router.delete(
-    {
-      path: `${API_PREFIX}/visualizations/{panelId}/{visualizationId}`,
-      validate: {
-        params: schema.object({
-          panelId: schema.string(),
-          visualizationId: schema.string(),
-        }),
-      },
-    },
-    async (
-      context,
-      request,
-      response
-    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-        request
-      );
-
-      try {
-        const newVisualizations = await customPanelBackend.deleteVisualization(
-          opensearchNotebooksClient,
-          request.params.panelId,
-          request.params.visualizationId
-        );
-        return response.ok({
-          body: {
-            message: 'Visualization Deleted',
-            visualizations: newVisualizations,
-          },
-        });
-      } catch (error) {
-        console.error('Issue in deleting visualization:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
