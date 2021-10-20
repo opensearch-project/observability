@@ -36,7 +36,6 @@ import {
 } from '@elastic/eui';
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
-import { CustomPanelListType } from './home';
 import {
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_DOCUMENTATION_URL,
@@ -45,6 +44,7 @@ import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
+import { CustomPanelListType } from '../../../common/types/custom_panels';
 
 const pageStyles: CSSProperties = {
   float: 'left',
@@ -65,7 +65,6 @@ const pageStyles: CSSProperties = {
  * renameCustomPanel: rename function for the panel
  * cloneCustomPanel: clone function for the panel
  * deleteCustomPanelList: delete function for the panels
- * setToast: create Toast function
  */
 
 type Props = {

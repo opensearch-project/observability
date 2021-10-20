@@ -19,6 +19,7 @@ import { VisualizationContainer } from '../visualiation_container';
 import { VisualizationType } from '../../../../../common/types/custom_panels';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
 import './panel_grid.scss';
+import { mergeLayoutAndVisualizations } from '../../helpers/utils';
 
 // HOC container to provide dynamic width for Grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -29,6 +30,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * Props taken in as params are:
  * http: http core service;
  * chrome: chrome core service;
+ * panelId: OpenPanel Id 
  * panelVisualizations: list of panel visualizations
  * setPanelVisualizations: function to set panel visualizations
  * editMode: boolean to check if the panel is in edit mode
@@ -39,7 +41,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * cloneVisualization: function to clone a visualization in panel
  * pplFilterValue: string with panel PPL filter value
  * showFlyout: function to show the flyout
- * removeVisualization: function to remove all the visualizations
+ * setEditMode: function to set edit mode in panel
  */
 
 type Props = {
@@ -53,15 +55,10 @@ type Props = {
   startTime: string;
   endTime: string;
   onRefresh: boolean;
-  cloneVisualization: (
-    newVisualizationTitle: string,
-    pplQuery: string,
-    newVisualizationType: string,
-    newVisualizationTimeField: string
-  ) => void;
+  cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
   showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
-  removeVisualization: (visualizationId: string) => void;
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PanelGrid = ({
@@ -78,7 +75,7 @@ export const PanelGrid = ({
   cloneVisualization,
   pplFilterValue,
   showFlyout,
-  removeVisualization,
+  setEditMode,
 }: Props) => {
   const [layout, setLayout] = useState<Layout[]>([]);
   const [editedLayout, setEditedLayout] = useState<Layout[]>([]);
@@ -105,6 +102,33 @@ export const PanelGrid = ({
     setLayout(tempLayout);
   };
 
+  // remove visualization from panel in edit mode
+  const removeVisualization = (visualizationId: string) => {
+    const newVisualizationList = _.reject(panelVisualizations, {
+      id: visualizationId,
+    });
+
+    if (newVisualizationList.length === 0) {
+      setEditMode(false);
+      http
+        .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
+          body: JSON.stringify({
+            panelId: panelId,
+            visualizationParams: [],
+          }),
+        })
+        .then(async (res) => {
+          setPanelVisualizations(res.visualizations);
+          return;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+    mergeLayoutAndVisualizations(editedLayout, newVisualizationList, setPanelVisualizations);
+  };
+
+  // Save Visualization Layouts when not in edit mode anymore (after users saves the panel)
   const saveVisualizationLayouts = async (panelId: string, visualizationParams: any) => {
     return http
       .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
@@ -158,12 +182,10 @@ export const PanelGrid = ({
       {panelVisualizations.map((panelVisualization: VisualizationType) => (
         <div key={panelVisualization.id}>
           <VisualizationContainer
+            http={http}
             editMode={editMode}
             visualizationId={panelVisualization.id}
-            visualizationTitle={panelVisualization.title}
-            query={panelVisualization.query}
-            type={panelVisualization.type}
-            timeField={panelVisualization.timeField}
+            savedVisualizationId={panelVisualization.savedVisualizationId}
             pplService={pplService}
             fromTime={startTime}
             toTime={endTime}

@@ -27,7 +27,6 @@ import {
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
   EuiTitle,
-  htmlIdGenerator,
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -35,7 +34,6 @@ import React, { useEffect, useState } from 'react';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import {
-  RENAME_VISUALIZATION_MESSAGE,
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
 } from '../../../common/constants/custom_panels';
@@ -292,79 +290,22 @@ export const CustomPanelView = ({
       });
   };
 
-  const cloneVisualization = (
-    newVisualizationTitle: string,
-    pplQuery: string,
-    newVisualizationType: string,
-    newVisualizationTimeField: string
-  ) => {
-    setModalLayout(
-      getCustomModal(
-        onCloneVisualization,
-        closeModal,
-        'Name',
-        'Duplicate Visualization',
-        'Cancel',
-        'Duplicate',
-        newVisualizationTitle + ' (copy)',
-        RENAME_VISUALIZATION_MESSAGE,
-        [pplQuery, newVisualizationType, newVisualizationTimeField]
-      )
-    );
-    showModal();
-  };
-
-  const onCloneVisualization = (
-    newVisualizationTitle: string,
-    pplQuery: string,
-    newVisualizationType: string,
-    newVisualizationTimeField: string
-  ) => {
+  const cloneVisualization = (visualzationTitle: string, savedVisualizationId: string) => {
     http
       .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
         body: JSON.stringify({
           panelId: panelId,
-          newVisualization: {
-            id: 'panelViz_' + htmlIdGenerator()(),
-            title: newVisualizationTitle,
-            query: pplQuery,
-            type: newVisualizationType,
-            timeField: newVisualizationTimeField,
-          },
+          savedVisualizationId: savedVisualizationId,
         }),
       })
       .then(async (res) => {
         setPanelVisualizations(res.visualizations);
-        setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
+        setToast(`Visualization ${visualzationTitle} successfully added!`, 'success');
       })
       .catch((err) => {
-        setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
+        setToast(`Error in adding ${visualzationTitle} visualization to the panel`, 'danger');
         console.error(err);
       });
-    closeModal();
-  };
-
-  const removeVisualization = (visualizationId: string) => {
-    const newVisualizationList = _.reject(panelVisualizations, {
-      id: visualizationId,
-    });
-    if (newVisualizationList.length === 0) {
-      setEditMode(false);
-      http
-        .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
-          body: JSON.stringify({
-            panelId: panelId,
-            visualizationParams: [],
-          }),
-        })
-        .then(async (res) => {
-          setPanelVisualizations(res.visualizations);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-    setPanelVisualizations(newVisualizationList);
   };
 
   //Add Visualization Button
@@ -533,7 +474,7 @@ export const CustomPanelView = ({
                 cloneVisualization={cloneVisualization}
                 pplFilterValue={pplFilterValue}
                 showFlyout={showFlyout}
-                removeVisualization={removeVisualization}
+                setEditMode={setEditMode}
               />
             )}
             <></>
