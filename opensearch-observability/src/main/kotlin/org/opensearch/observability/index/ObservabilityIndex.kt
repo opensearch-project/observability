@@ -104,7 +104,6 @@ internal object ObservabilityIndex {
 
     /**
      * Create index using the mapping and settings defined in resource
-     * If .opensearch-notebooks index exists, reindex it to .opensearch-observability index and remove it
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
@@ -120,6 +119,7 @@ internal object ObservabilityIndex {
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
                 if (response.isAcknowledged) {
                     log.info("$LOG_PREFIX:Index $INDEX_NAME creation Acknowledged")
+                    reindexNotebooks()
                 } else {
                     throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
                 }
@@ -129,6 +129,12 @@ internal object ObservabilityIndex {
                 }
             }
         }
+    }
+
+    /**
+     * Reindex .opensearch-notebooks to .opensearch-observability index, remove .opensearch-notebooks
+     */
+    private fun reindexNotebooks() {
         if (isIndexExists(NOTEBOOKS_INDEX_NAME)) {
             try {
                 log.info("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME to $INDEX_NAME")
