@@ -59,7 +59,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
 
   // Fetches all saved Custom Panels
   const fetchCustomPanels = () => {
-    return http
+    setLoading(true);
+    http
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
       .then((res) => {
         setcustomPanelData(res.panels);
@@ -67,6 +68,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       .catch((err) => {
         console.error('Issue in fetching the operational panels', err.body.message);
       });
+    setLoading(false);
   };
 
   // Creates a new CustomPanel

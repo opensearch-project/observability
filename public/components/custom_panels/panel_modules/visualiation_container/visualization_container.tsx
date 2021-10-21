@@ -23,8 +23,12 @@ import {
   EuiText,
 } from '@elastic/eui';
 import React, { useEffect, useMemo, useState } from 'react';
+import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import { displayVisualization, getQueryResponse } from '../../helpers/utils';
+import {
+  displayVisualization,
+  renderSavedVisualization,
+} from '../../helpers/utils';
 import './visualization_container.scss';
 
 /*
@@ -47,35 +51,26 @@ import './visualization_container.scss';
  */
 
 type Props = {
+  http: CoreStart['http'];
   editMode: boolean;
   visualizationId: string;
-  visualizationTitle: string;
-  query: string;
+  savedVisualizationId: string;
   pplService: PPLService;
-  type: string;
-  timeField: string;
   fromTime: string;
   toTime: string;
   onRefresh: boolean;
-  cloneVisualization: (
-    newVisualizationTitle: string,
-    pplQuery: string,
-    newVisualizationType: string,
-    newVisualizationTimeField: string
-  ) => void;
+  cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
   showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization: (visualizationId: string) => void;
 };
 
 export const VisualizationContainer = ({
+  http,
   editMode,
   visualizationId,
-  visualizationTitle,
+  savedVisualizationId,
   pplService,
-  query,
-  type,
-  timeField,
   fromTime,
   toTime,
   onRefresh,
@@ -86,6 +81,8 @@ export const VisualizationContainer = ({
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
+  const [visualizationTitle, setVisualizationTitle] = useState('');
+  const [visualizationType, setVisualizationType] = useState('');
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
@@ -108,7 +105,7 @@ export const VisualizationContainer = ({
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();
-        cloneVisualization(visualizationTitle, query, type, timeField);
+        cloneVisualization(visualizationTitle, savedVisualizationId);
       }}
     >
       Duplicate
@@ -116,17 +113,18 @@ export const VisualizationContainer = ({
   ];
 
   const loadVisaulization = async () => {
-    await getQueryResponse(
+    await renderSavedVisualization(
+      http,
       pplService,
-      query,
-      type,
+      savedVisualizationId,
       fromTime,
       toTime,
+      pplFilterValue,
+      setVisualizationTitle,
+      setVisualizationType,
       setVisualizationData,
       setIsLoading,
-      setIsError,
-      pplFilterValue,
-      timeField
+      setIsError
     );
   };
 
@@ -149,11 +147,11 @@ export const VisualizationContainer = ({
             </EuiText>
           </div>
         ) : (
-          displayVisualization(visualizationData, type)
+          displayVisualization(visualizationData, visualizationType)
         )}
       </div>
     ),
-    [onRefresh, isLoading, isError, visualizationData, type]
+    [onRefresh, isLoading, isError, visualizationData, visualizationType]
   );
 
   useEffect(() => {

@@ -18,14 +18,11 @@ export type CustomPanelListType = {
 
 export type VisualizationType = {
   id: string;
-  title: string;
+  savedVisualizationId: string;
   x: number;
   y: number;
   w: number;
   h: number;
-  query: string;
-  type: string;
-  timeField: string;
 };
 
 export type PanelType = {

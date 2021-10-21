@@ -20,16 +20,23 @@ import React from 'react';
 import { Bar } from '../../visualizations/charts/bar';
 import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
 import { Line } from '../../visualizations/charts/line';
+import { CoreStart } from '../../../../../../src/core/public';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
+import { Layout } from 'react-grid-layout';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
+ *
  * isNameValid - Validates string to length > 0 and < 50
  * convertDateTime - Converts input datetime string to required format
+ * mergeLayoutAndVisualizations - Function to merge current panel layout into the visualizations list
  * getQueryResponse - Get response of PPL query to load visualizations
+ * renderSavedVisualization - Fetches savedVisualization by Id and runs getQueryResponse
  * onTimeChange - Function to store recently used time filters and set start and end time.
  * isDateValid - Function to check date validity
  * isPPLFilterValid - Validate if the panel PPL query doesn't contain any Index/Time/Field filters
- * displayVisualization - This function renders the visualzation based of its type
+ * displayVisualization - Function to render the visualzation based of its type
  */
 
 // Name validation 0>Name<=50
@@ -48,6 +55,30 @@ export const convertDateTime = (datetime: string, isStart = true, formatted = tr
 
   if (formatted) return returnTime.format(PPL_DATE_FORMAT);
   return returnTime;
+};
+
+// Merges new layout into visualizations
+export const mergeLayoutAndVisualizations = (
+  layout: Layout[],
+  newVisualizationList: VisualizationType[],
+  setPanelVisualizations: (value: React.SetStateAction<VisualizationType[]>) => void
+) => {
+  let newPanelVisualizations: VisualizationType[] = [];
+
+  for (var i = 0; i < newVisualizationList.length; i++) {
+    for (var j = 0; j < layout.length; j++) {
+      if (newVisualizationList[i].id == layout[j].i) {
+        newPanelVisualizations.push({
+          ...newVisualizationList[i],
+          x: layout[j].x,
+          y: layout[j].y,
+          w: layout[j].w,
+          h: layout[j].h,
+        });
+      }
+    }
+  }
+  setPanelVisualizations(newPanelVisualizations);
 };
 
 /* Builds Final Query by adding time and query filters(From panel UI) to the original visualization query
@@ -102,6 +133,27 @@ const pplServiceRequestor = async (
     });
 };
 
+//Fetched Saved Visualization By Id
+const fetchVisualizationById = async (
+  http: CoreStart['http'],
+  savedVisualizationId: string,
+  setIsError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  let savedVisualization = {} as SavedVisualizationType;
+  await http
+    .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/${savedVisualizationId}`)
+    .then((res) => {
+      savedVisualization = res.visualization;
+    })
+    .catch((err) => {
+      const errorMessage = 'Issue in fetching the saved Visualization by Id';
+      setIsError(errorMessage);
+      console.error(errorMessage, err);
+    });
+
+  return savedVisualization;
+};
+
 // Get PPL Query Response
 export const getQueryResponse = (
   pplService: PPLService,
@@ -122,12 +174,56 @@ export const getQueryResponse = (
   try {
     finalQuery = queryAccumulator(query, timestampField, startTime, endTime, filterQuery);
   } catch (error) {
-    console.error('Issue in building final query', error.stack);
+    const errorMessage = 'Issue in building final query';
+    setIsError(errorMessage);
+    console.error(errorMessage, error);
     setIsLoading(false);
     return;
   }
 
   pplServiceRequestor(pplService, finalQuery, type, setVisualizationData, setIsLoading, setIsError);
+};
+
+// Fetches savedVisualization by Id and runs getQueryResponse
+export const renderSavedVisualization = async (
+  http: CoreStart['http'],
+  pplService: PPLService,
+  savedVisualizationId: string,
+  startTime: string,
+  endTime: string,
+  filterQuery: string,
+  setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  setIsLoading(true);
+  setIsError('');
+
+  let visualization = {} as SavedVisualizationType;
+  visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
+
+  if (visualization.name) {
+    setVisualizationTitle(visualization.name);
+  }
+
+  if (visualization.type) {
+    setVisualizationType(visualization.type);
+  }
+
+  getQueryResponse(
+    pplService,
+    visualization.query,
+    visualization.type,
+    startTime,
+    endTime,
+    setVisualizationData,
+    setIsLoading,
+    setIsError,
+    filterQuery,
+    visualization.timeField
+  );
 };
 
 // Function to store recently used time filters and set start and end time.

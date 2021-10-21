@@ -29,7 +29,6 @@ import {
   EuiSpacer,
   EuiText,
   EuiTitle,
-  htmlIdGenerator,
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -143,14 +142,8 @@ export const VisaulizationFlyout = ({
         .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations/replace`, {
           body: JSON.stringify({
             panelId: panelId,
+            savedVisualizationId: selectValue,
             oldVisualizationId: replaceVisualizationId,
-            newVisualization: {
-              id: 'panelViz_' + htmlIdGenerator()(),
-              title: newVisualizationTitle,
-              query: pplQuery,
-              type: newVisualizationType,
-              timeField: newVisualizationTimeField,
-            },
           }),
         })
         .then(async (res) => {
@@ -166,13 +159,7 @@ export const VisaulizationFlyout = ({
         .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify({
             panelId: panelId,
-            newVisualization: {
-              id: 'panelViz_' + htmlIdGenerator()(),
-              title: newVisualizationTitle,
-              query: pplQuery,
-              type: newVisualizationType,
-              timeField: newVisualizationTimeField,
-            },
+            savedVisualizationId: selectValue,
           }),
         })
         .then(async (res) => {
