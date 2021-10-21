@@ -51,6 +51,4 @@ export default class TimestampUtils {
   async getIndexMappings(index: string) {
     return await this.dslService.fetchFields(index);
   }
-
-  async savedTimestamp(index: string) {}
 }

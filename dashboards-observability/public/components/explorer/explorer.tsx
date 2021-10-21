@@ -88,6 +88,7 @@ import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
 import DSLService from '../../services/requests/dsl';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
+import TimestampUtils from 'public/services/timestamp/timestamp';
 
 const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
 const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
@@ -97,12 +98,12 @@ interface IExplorerProps {
   dslService: DSLService;
   tabId: string;
   savedObjects: SavedObjects;
+  timestampUtils: TimestampUtils;
 }
 
 export const Explorer = ({
   pplService,
   dslService,
-  http,
   tabId,
   savedObjects,
   timestampUtils
@@ -138,7 +139,6 @@ export const Explorer = ({
   const [selectedPanelName, setSelectedPanelName] = useState('');
   const [curVisId, setCurVisId] = useState<string>('bar');
   const [prevIndex, setPrevIndex] = useState<string>('');
-  // const [hasSavedTimeStamp, setHasSavedTimestamp] = useState<boolean>(false);
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
@@ -556,7 +556,7 @@ export const Explorer = ({
         
         savedObjects.bulkUpdateCustomPanel({
           selectedCustomPanels: selectedCustomPanelOptions,
-          savedVisualizationId: savingVisRes['objectId']
+          savedVisualizationId: savingVisRes?.objectId
         });
       }
     }

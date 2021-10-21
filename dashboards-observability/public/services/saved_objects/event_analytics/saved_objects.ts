@@ -144,7 +144,7 @@ export default class SavedObjects {
     const responses = await Promise.all(
       params['selectedCustomPanels'].map((panel) => {
         finalParams['panelId'] = panel['panel']['id'];
-        return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations/event_explorer`, {
+        return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify(finalParams)
         });
       })
@@ -154,11 +154,11 @@ export default class SavedObjects {
   async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
 
     const finalParams = this.buildRequestBody({
-      query: params['query'],
-      fields: params['fields'],
-      dateRange: params['dateRange'],
-      chartType: params['type'],
-      name: params['name']
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name
     });
 
     const responses = await Promise.all(
@@ -176,12 +176,12 @@ export default class SavedObjects {
 
   async updateSavedVisualizationById(params: any) {
     const finalParams = this.buildRequestBody({
-      query: params['query'],
-      fields: params['fields'],
-      dateRange: params['dateRange'],
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
     });
 
-    finalParams['object_id'] = params['objectId'];
+    finalParams['object_id'] = params.objectId;
 
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
@@ -194,11 +194,11 @@ export default class SavedObjects {
   async createSavedQuery(params: any) {
     
     const finalParams = this.buildRequestBody({
-      query: params['query'],
-      fields: params['fields'],
-      dateRange: params['dateRange'],
-      name: params['name'],
-      timestamp: params['timestamp'],
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      name: params.name,
+      timestamp: params.timestamp,
     });
 
     return await this.http.post(
@@ -212,12 +212,12 @@ export default class SavedObjects {
   async createSavedVisualization(params: any) {
 
     const finalParams = this.buildRequestBody({
-      query: params['query'],
-      fields: params['fields'],
-      dateRange: params['dateRange'],
-      chartType: params['type'],
-      name: params['name'],
-      timestamp: params['timestamp']
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
     });
 
     return await this.http.post(
