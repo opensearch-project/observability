@@ -69,7 +69,7 @@ const pageStyles: CSSProperties = {
 
 type Props = {
   loading: boolean;
-  fetchCustomPanels: () => Promise<void>;
+  fetchCustomPanels: () => void;
   customPanels: Array<CustomPanelListType>;
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
