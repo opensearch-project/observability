@@ -9,20 +9,13 @@
  * GitHub history for details.
  */
 
-import { EuiListGroupItem, formatDate } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import {
   EuiBasicTable,
-  EuiCode,
-  EuiLink,
-  EuiHealth,
-  EuiFlexGroup,
-  EuiFlexItem,
   EuiSpacer,
-  EuiSwitch,
 } from '@elastic/eui';
-import { uniqueId } from 'lodash';
+import { uniqueId, get } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { changeQuery } from '../slices/query_slice';
@@ -35,10 +28,14 @@ interface TableData {
 
 export function Table(options: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
-  const [showPerPageOptions, setShowPerPageOptions] = useState(true);
+  const [pageSize, setPageSize] = useState(3);
   const dispatch = useDispatch();
   const history = useHistory();
+  const hisRef = useRef();
+  hisRef.current = pageIndex;
+  const thisRef = useRef();
+  thisRef.current = pageSize;
+
   // const query= "search source=opensearch_dashboards_sample_data_logs | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')";
 
   const onTableChange = ({ page = {} }) => {
@@ -48,66 +45,53 @@ export function Table(options: TableData) {
     setPageSize(pageSize);
   };
 
-  const togglePerPageOptions = () => setShowPerPageOptions(!showPerPageOptions);
-
-  // const { pageOfItems, totalItemCount } = store.findUsers(pageIndex, pageSize);
-  const pageOfItems = [10];
-  console.log('history table: ', options);
+  // console.log('history table: ', options.savedHistory);
   const columns = [
     {
-      field: 'queryHistory',
-      name: 'Query History',
-      mobileOptions: {
-        header: true,
-        only: true,
-        enlarge: true,
-        fullWidth: true,
+      field: 'name',
+      name: 'Name',
+      onClick: (item) => {
+        dispatch(
+          changeQuery({
+            tabId: initialTabId,
+            query: {
+              [RAW_QUERY]: queries.query,
+            },
+          })
+        );
+        history.push('/event_analytics/explorer');
       },
-      render: (options) => (
-        <EuiListGroupItem
-          key={uniqueId('query-his-')}
-          onClick={(item) => {
-            dispatch(
-              changeQuery({
-                tabId: initialTabId,
-                query: {
-                  [RAW_QUERY]: item.target.outerText,
-                },
-              })
-            );
-            history.push('/explorer/events');
-          }}
-          label={options.savedHistory.savedQuery.query}
-          color="primary"
-          size="s"
-          // iconType={tokenEnum}
-        />
-      ),
+      // render: query => {return (<EuiLink {query.toString()}/>)}
+    },
+    {
+      field: 'description',
+      name: 'Description',
     },
   ];
+
+  const queries = options.savedHistory.map((h) => {
+    return {
+      query: h?.savedVisualization?.query || h?.savedQuery?.query || '',
+      name: h?.savedVisualization?.name || h?.savedQuery?.name || '',
+      description: h?.savedVisualization?.description || h?.savedQuery?.description || '',
+      object: h,
+    };
+  });
+  console.log('queries: ', queries);
+  const totalItemCount = queries.length;
 
   const pagination = {
     pageIndex,
     pageSize,
-    totalItemCount: 10,
-    pageSizeOptions: [3, 5, 8],
-    hidePerPageOptions: !showPerPageOptions,
+    totalItemCount,
+    pageSizeOptions: [3, 5, 10],
   };
 
   return (
     <div>
-      <EuiSwitch
-        checked={!showPerPageOptions}
-        label={
-          <span>
-            Hide per page options with <EuiCode>pagination.hidePerPageOptions = true</EuiCode>
-          </span>
-        }
-        onChange={togglePerPageOptions}
-      />
       <EuiSpacer size="xl" />
       <EuiBasicTable
-        items={pageOfItems}
+        items={queries.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize)}
         columns={columns}
         pagination={pagination}
         onChange={onTableChange}
