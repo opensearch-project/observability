@@ -10,7 +10,14 @@ So you want to contribute code to this project? Excellent! We're glad you're her
 1. Change your node version to the version specified in `.node-version` inside the OpenSearch Dashboards root directory.
 1. cd into `plugins` directory in the OpenSearch Dashboards source code directory.
 1. Check out this package from version control into the `plugins` directory.
-1. Run `yarn osd bootstrap` inside `OpenSearch-Dashboards/plugins/trace-analytics`.
+```bash
+git clone git@github.com:opensearch-project/trace-analytics.git plugins --no-checkout
+cd plugins
+echo 'dashboards-observability/*' >> .git/info/sparse-checkout
+git config core.sparseCheckout true
+git checkout main
+```
+6. Run `yarn osd bootstrap` inside `OpenSearch-Dashboards/plugins/dashboards-observability`.
 
 Ultimately, your directory structure should look like this:
 
@@ -18,14 +25,14 @@ Ultimately, your directory structure should look like this:
 .
 ├── OpenSearch-Dashboards
 │   └── plugins
-│       └── trace-analytics
+│       └── dashboards-observability
 ```
 
 ### Build
 
 To build the plugin's distributable zip simply run `yarn build`.
 
-Example output: `./build/trace-analytics-dashboards*.zip`
+Example output: `./build/observability*.zip`
 
 ### Run
 

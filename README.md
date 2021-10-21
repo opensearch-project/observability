@@ -15,7 +15,7 @@ Additionally the fields can be sorted and filtered.
 
 ## Documentation
 
-Please see our technical [documentation](https://opensearch.org/docs/monitoring-plugins/trace/index/) to learn more about its features.
+Please see our technical [documentation](https://opensearch.org/docs/latest/monitoring-plugins/trace/index/) to learn more about its features.
 
 ## Contributing
 
