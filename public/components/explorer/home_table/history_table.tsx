@@ -36,7 +36,6 @@ export function Table(options: TableData) {
   const thisRef = useRef();
   thisRef.current = pageSize;
 
-  // const query= "search source=opensearch_dashboards_sample_data_logs | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')";
 
   const onTableChange = ({ page = {} }) => {
     const { index: pageIndex, size: pageSize } = page;
@@ -61,7 +60,6 @@ export function Table(options: TableData) {
         );
         history.push('/event_analytics/explorer');
       },
-      // render: query => {return (<EuiLink {query.toString()}/>)}
     },
     {
       field: 'description',
