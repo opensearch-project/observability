@@ -202,6 +202,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
 };
 
 const getIndices = async (dslService: DSLService) => {
+  console.log('dslService: ', dslService);
   if (indicesFromBackend.length === 0) {
     const indices = (await dslService.fetchIndices()).filter(({ index }) => !index.startsWith('.'));
     for (let i = 0; i < indices.length; i++) {
@@ -268,7 +269,7 @@ export function createPPLSuggestionsPlugin(
 ): AutocompletePlugin<PPLSuggestion, undefined> {
   return {
     onStateChange: ({ state }) => {
-      if (options.query.rawQuery !== state.query) {
+      if (options.query !== state.query) {
         options.handleQueryChange(state.query, currIndex);
       }
     },

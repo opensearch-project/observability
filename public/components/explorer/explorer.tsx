@@ -57,6 +57,7 @@ import {
   RAW_QUERY,
   SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
+  SELECTED_TIMESTAMP,
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   INDEX,
@@ -103,7 +104,8 @@ export const Explorer = ({
   dslService,
   http,
   tabId,
-  savedObjects
+  savedObjects,
+  timestampUtils
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -130,14 +132,18 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  
   const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
   const [curVisId, setCurVisId] = useState<string>('bar');
+  const [prevIndex, setPrevIndex] = useState<string>('');
+  // const [hasSavedTimeStamp, setHasSavedTimestamp] = useState<boolean>(false);
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
   const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
   const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
+  
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
   const explorerFieldsRef = useRef();
@@ -154,42 +160,77 @@ export const Explorer = ({
     [setFixedScrollEl]
   );
 
-  const composeFinalQuery = (curQuery: any) => {
+  const composeFinalQuery = (curQuery: any, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
     return insertDateRangeToQuery({
       rawQuery: curQuery![RAW_QUERY],
-      startTime: curQuery!['selectedDateRange'][0],
-      endTime: curQuery!['selectedDateRange'][1]
+      startTime: curQuery![SELECTED_DATE_RANGE][0],
+      endTime: curQuery![SELECTED_DATE_RANGE][1],
+      timeField,
     });
   };
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    
     if (isEmpty(rawQueryStr)) return;
-    const index = getIndexPatternFromRawQuery(rawQueryStr);
-    if (!isEmpty(index)) getAvailableFields(`search source=${index}`);
+    if (isEmpty(curIndex)) return;
+    
+    let curTimestamp = '';
+    let hasSavedTimestamp = false;
 
-    const finalQuery = composeFinalQuery(curQuery);
+    // determines timestamp for search
+    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
+      const savedTimestamps = await savedObjects.fetchSavedObjects({
+        objectId: curIndex
+      });
+      if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
+        // from saved objects
+        hasSavedTimestamp = true;
+        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
+      } else {
+        // from index mappings
+        hasSavedTimestamp = false;
+        const timestamps = await timestampUtils.getTimestamp(curIndex);
+        curTimestamp = timestamps!.default_timestamp
+      }
+    }
+
+    // compose final query
+    const finalQuery = composeFinalQuery(curQuery, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
     
     await dispatch(changeQuery({
       tabId,
       query: {
         finalQuery,
+        [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+        'hasSavedTimestamp': hasSavedTimestamp
       }
     }));
+
     
+    // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
+      getAvailableFields(`search source=${curIndex}`);
     } else {
       getEvents();
       getCountVisualizations('h');
     }
+
+    // for comparing usage if for the same tab, user changed index from one to another
+    setPrevIndex(curTimestamp || curQuery![SELECTED_TIMESTAMP]);
   };
 
+  // should run in two usecases 
+  // 1. load explorer for the first time
+  // 2. when overrides default timestamp
   useEffect(() => {
+    console.log('may called twice');
     fetchData();
-  }, []);
+  }, [query[SELECTED_TIMESTAMP]]);
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
@@ -245,6 +286,34 @@ export const Explorer = ({
     'col-md-12': isSidebarClosed,
   });
 
+  const handleOverrideTimestamp = async (timestamp: IField) => {
+    const curQuery = queryRef.current;
+    const rawQueryStr = curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    const requests = {
+      index: curIndex,
+      name: timestamp.name,
+      type: timestamp.type,
+      dsl_type: 'date'
+    };
+    if (isEmpty(rawQueryStr) || isEmpty(curIndex)) return;
+    if (curQuery!['hasSavedTimestamp']) {
+      await savedObjects.updateTimestamp({
+        ...requests
+      });
+    } else {
+      await savedObjects.createSavedTimestamp({
+        ...requests
+      });
+    }
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        [SELECTED_TIMESTAMP]: ''
+      }
+    }));
+  };
+
   const getMainContent = () => {
 
     return (
@@ -260,6 +329,8 @@ export const Explorer = ({
                   <Sidebar
                     explorerFields={ explorerFields }
                     explorerData={ explorerData }
+                    selectedTimestamp={ query[SELECTED_TIMESTAMP] }
+                    handleOverrideTimestamp={ handleOverrideTimestamp }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
                   />
@@ -440,7 +511,7 @@ export const Explorer = ({
     }));
   }
 
-  const handleSavingObject = () => {
+  const handleSavingObject = async () => {
 
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
@@ -449,9 +520,8 @@ export const Explorer = ({
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
       return;
-    } else {
-      setIsPanelTextFieldInvalid(false);
     }
+    setIsPanelTextFieldInvalid(false);
 
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       
@@ -460,7 +530,8 @@ export const Explorer = ({
         query: currQuery![RAW_QUERY],
         fields: currFields![SELECTED_FIELDS],
         dateRange: currQuery![SELECTED_DATE_RANGE],
-        name: selectedPanelNameRef.current
+        name: selectedPanelNameRef.current,
+        timestamp: currQuery![SELECTED_TIMESTAMP]
       });
 
       // to-dos - update selected custom panel
@@ -471,12 +542,13 @@ export const Explorer = ({
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
       
       // create new saved visualization
-      savedObjects.createSavedVisualization({
+      const savingVisRes = await savedObjects.createSavedVisualization({
         query: currQuery![RAW_QUERY],
         fields: currFields![SELECTED_FIELDS],
         dateRange: currQuery![SELECTED_DATE_RANGE],
         type: curVisId,
-        name: selectedPanelNameRef.current
+        name: selectedPanelNameRef.current,
+        timestamp: currQuery![SELECTED_TIMESTAMP]
       });
 
       // update custom panel - visualization
@@ -484,10 +556,7 @@ export const Explorer = ({
         
         savedObjects.bulkUpdateCustomPanel({
           selectedCustomPanels: selectedCustomPanelOptions,
-          query: currQuery![RAW_QUERY],
-          type: curVisId,
-          timeField: !isEmpty(currQuery!['selectedTimestamp']) ? currQuery!['selectedTimestamp'] : 'utc_time', // temprary
-          name: selectedPanelNameRef.current
+          savedVisualizationId: savingVisRes['objectId']
         });
       }
     }
@@ -500,7 +569,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={ query }
+        query={ query[RAW_QUERY] }
         handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
         handleQuerySearch={ () => { handleQuerySearch() } }
         dslService = { dslService }

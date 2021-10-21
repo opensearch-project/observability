@@ -48,14 +48,14 @@ export default class DSLService {
   }
 
   fetchFields = async(
-    request: any
+    index: string
   ) => {
     return this.http
             .get(
               `${DSL_BASE}${DSL_MAPPING}`,
               {
                 query: {
-                  index: request
+                  index: index
                 }
               }
             )

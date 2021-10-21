@@ -18,13 +18,15 @@ import {
   FINAL_QUERY,
   SELECTED_DATE_RANGE,
   REDUX_EXPL_SLICE_QUERIES,
-  INDEX
+  INDEX,
+  SELECTED_TIMESTAMP
 } from '../../../../common/constants/explorer';
 
 const initialQueryState = {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
+  [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-15m', 'now']
 };
 
