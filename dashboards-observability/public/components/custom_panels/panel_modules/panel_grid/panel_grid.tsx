@@ -30,7 +30,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * Props taken in as params are:
  * http: http core service;
  * chrome: chrome core service;
- * panelId: OpenPanel Id 
+ * panelId: OpenPanel Id
  * panelVisualizations: list of panel visualizations
  * setPanelVisualizations: function to set panel visualizations
  * editMode: boolean to check if the panel is in edit mode
@@ -41,7 +41,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * cloneVisualization: function to clone a visualization in panel
  * pplFilterValue: string with panel PPL filter value
  * showFlyout: function to show the flyout
- * setEditMode: function to set edit mode in panel
+ * editActionType: Type of action done while clicking the edit button
  */
 
 type Props = {
@@ -58,7 +58,7 @@ type Props = {
   cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
   showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  editActionType: string;
 };
 
 export const PanelGrid = ({
@@ -75,16 +75,16 @@ export const PanelGrid = ({
   cloneVisualization,
   pplFilterValue,
   showFlyout,
-  setEditMode,
+  editActionType,
 }: Props) => {
-  const [layout, setLayout] = useState<Layout[]>([]);
-  const [editedLayout, setEditedLayout] = useState<Layout[]>([]);
+  const [currentLayout, setCurrentLayout] = useState<Layout[]>([]);
+  const [postEditLayout, setPostEditLayout] = useState<Layout[]>([]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
   const layoutChanged = (currentLayout: Layout[], allLayouts: Layouts) => {
     window.dispatchEvent(new Event('resize'));
-    setEditedLayout(currentLayout);
+    setPostEditLayout(currentLayout);
   };
 
   // Reload the Layout
@@ -99,7 +99,7 @@ export const PanelGrid = ({
         static: !editMode,
       } as Layout;
     });
-    setLayout(tempLayout);
+    setCurrentLayout(tempLayout);
   };
 
   // remove visualization from panel in edit mode
@@ -107,25 +107,7 @@ export const PanelGrid = ({
     const newVisualizationList = _.reject(panelVisualizations, {
       id: visualizationId,
     });
-
-    if (newVisualizationList.length === 0) {
-      setEditMode(false);
-      http
-        .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
-          body: JSON.stringify({
-            panelId: panelId,
-            visualizationParams: [],
-          }),
-        })
-        .then(async (res) => {
-          setPanelVisualizations(res.visualizations);
-          return;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-    mergeLayoutAndVisualizations(editedLayout, newVisualizationList, setPanelVisualizations);
+    mergeLayoutAndVisualizations(postEditLayout, newVisualizationList, setPanelVisualizations);
   };
 
   // Save Visualization Layouts when not in edit mode anymore (after users saves the panel)
@@ -150,12 +132,12 @@ export const PanelGrid = ({
     if (editMode) {
       reloadLayout();
     } else {
-      const newLayout = editedLayout.map((element) => {
-        return { ...element, static: true };
-      });
-      const visualizationParams = newLayout.map((layout) => _.omit(layout, ['static', 'moved']));
-      setLayout(newLayout);
-      if (visualizationParams.length !== 0) saveVisualizationLayouts(panelId, visualizationParams);
+      if (editActionType === 'save') {
+        const visualizationParams = postEditLayout.map((layout) =>
+          _.omit(layout, ['static', 'moved'])
+        );
+        saveVisualizationLayouts(panelId, visualizationParams);
+      }
     }
   }, [editMode]);
 
@@ -173,7 +155,7 @@ export const PanelGrid = ({
 
   return (
     <ResponsiveGridLayout
-      layouts={{ lg: layout, md: layout, sm: layout }}
+      layouts={{ lg: currentLayout, md: currentLayout, sm: currentLayout }}
       className="layout full-width"
       breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
       cols={{ lg: 12, md: 12, sm: 12, xs: 1, xxs: 1 }}
