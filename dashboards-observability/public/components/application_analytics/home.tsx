@@ -10,7 +10,39 @@
  */
 
 import React from 'react';
+import { AppTable } from './components/app_table';
+import { Application } from './components/application';
+
+export type ApplicationType = {
+  name: string;
+  id: string;
+  composition: string;
+  currentAvailability: string;
+  availabilityMetrics: string;
+  dateCreated: string;
+  dateModified: string;
+};
+
+const dateString = new Date().toISOString();
+
+const dummyApplication: ApplicationType[] = [{
+  name: "Cool Application", 
+  id: "id", 
+  composition: "Payment, user_db",
+  currentAvailability: "Available",
+  availabilityMetrics: "Error rate: 0.80%, Throughput: 0.94%, Latency: 600ms",
+  dateCreated: dateString, 
+  dateModified: dateString
+}];
 
 export const Home = () => {
-  return <h1>Application analytics home</h1>;
+  return (
+    // <AppTable 
+    //   loading={false}
+    //   applications={dummyApplication}
+    // />
+    <Application 
+      disabled={false}
+    />
+  );
 };
