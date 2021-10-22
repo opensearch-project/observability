@@ -17,8 +17,6 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
-import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
-import { renderPageWithSidebar } from './common/side_nav';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
@@ -37,9 +35,8 @@ export const App = ({
   DepsStart,
   pplService,
   dslService,
-  savedObjects
+  savedObjects,
 }: ObservabilityAppDeps) => {
-
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
@@ -88,19 +85,19 @@ export const App = ({
                 render={(props) => {
                   return (
                     <EventAnalytics
-                      chrome={ chrome }
-                      parentBreadcrumb={ parentBreadcrumb }
-                      pplService={ pplService }
-                      dslService={ dslService }
-                      savedObjects={ savedObjects }
-                      http={ http }
-                      { ...props }
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      pplService={pplService}
+                      dslService={dslService}
+                      savedObjects={savedObjects}
+                      http={http}
+                      {...props}
                     />
                   );
                 }}
               />
               <Route
-                path={['/operational_panels']}
+                path="/operational_panels"
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
                   return (
