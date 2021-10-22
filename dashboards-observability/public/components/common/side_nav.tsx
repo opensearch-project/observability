@@ -39,40 +39,35 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
       id: 0,
       items: [
         {
-          name: 'Application analytics',
-          id: 1,
-          href: '#/application_analytics/home',
-        },
-        {
           name: 'Trace analytics',
-          id: 2,
+          id: 1,
           href: '#/trace_analytics/home',
           items: [
             {
               name: 'Traces',
-              id: 2.1,
+              id: 1.1,
               href: '#/trace_analytics/traces',
             },
             {
               name: 'Services',
-              id: 2.2,
+              id: 1.2,
               href: '#/trace_analytics/services',
             },
           ],
         },
         {
           name: 'Event analytics',
-          id: 3,
+          id: 2,
           href: '#/event_analytics',
         },
         {
           name: 'Operational panels',
-          id: 4,
+          id: 3,
           href: '#/operational_panels/',
         },
         {
           name: 'Notebooks',
-          id: 5,
+          id: 4,
           href: '#/notebooks',
         }
       ],

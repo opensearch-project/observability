@@ -58,20 +58,6 @@ export const App = ({
           <>
             <Switch>
               <Route
-                exact
-                path={['/', '/application_analytics', '/application_analytics/home']}
-                render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Application analytics',
-                      href: '#/application_analytics',
-                    },
-                  ]);
-                  return renderPageWithSidebar(<ApplicationAnalyticsHome />);
-                }}
-              />
-              <Route
                 path={['/trace_analytics', '/trace_analytics/home']}
                 render={(props) => (
                   <TraceAnalyticsHome
