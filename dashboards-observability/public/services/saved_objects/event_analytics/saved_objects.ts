@@ -42,10 +42,7 @@ interface ISavedObjectRequestParams {
 
 interface ISelectedPanelsParams {
   selectedCustomPanels: Array<any>
-  name: string;
-  query: string;
-  type: string;
-  timeField: string;
+  savedVisualizationId: string
 }
 
 interface IBulkUpdateSavedVisualizationRquest {
@@ -65,6 +62,7 @@ export default class SavedObjects {
     query,
     fields,
     dateRange,
+    timestamp,
     name = '',
     chartType = '',
     description = ''
@@ -77,6 +75,10 @@ export default class SavedObjects {
           start: dateRange[0] || 'now/15m',
           end: dateRange[1] || 'now',
           text: ''
+        },
+        selected_timestamp: {
+          'name': timestamp || '',
+          'type': 'timestamp'
         },
         selected_fields: {
           tokens: fields,
@@ -105,13 +107,13 @@ export default class SavedObjects {
     return targetObj;
   }
   
-  async fetchSavedObjects(savedObjectRequestParams: ISavedObjectRequestParams) {
+  async fetchSavedObjects(params: ISavedObjectRequestParams) {
 
     // turn array into string. exmaple objectType ['savedQuery', 'savedVisualization'] =>
     // 'savedQuery,savedVisualization'
     CONCAT_FIELDS.map((arrayField) => {
       this.stringifyList(
-        savedObjectRequestParams,
+        params,
         arrayField,
         ','
       );
@@ -121,103 +123,143 @@ export default class SavedObjects {
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, 
       {
         query: {
-          ...savedObjectRequestParams
+          ...params
         },
       }
-    ).catch((error: any) => console.log(error));
+    ).catch((error: any) => console.error(error));
 
     return res;
   }
 
   async fetchCustomPanels() {
-    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.log(error));
+    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.error(error));
   }
 
-  async bulkUpdateCustomPanel (selectedPanelsParams: ISelectedPanelsParams) {
+  async bulkUpdateCustomPanel (params: ISelectedPanelsParams) {
     const finalParams = {
       panelId: '',
-      newVisualization: {
-        id: `panelViz_'${htmlIdGenerator()()}`,
-        title: selectedPanelsParams['name'],
-        query: selectedPanelsParams['query'],
-        type: selectedPanelsParams['type'],
-        timeField: selectedPanelsParams['timeField']
-      }
+      savedVisualizationId: params.savedVisualizationId,
     };
 
     const responses = await Promise.all(
-      selectedPanelsParams['selectedCustomPanels'].map((panel) => {
+      params['selectedCustomPanels'].map((panel) => {
         finalParams['panelId'] = panel['panel']['id'];
-        return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations/event_explorer`, {
+        return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify(finalParams)
         });
       })
-    ).catch((error) => {});
-
+    ).catch((error) => console.error(error));
   };
 
-  async bulkUpdateSavedVisualization(bulkUpdateSavedVisualizationRquest: IBulkUpdateSavedVisualizationRquest) {
+  async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
 
     const finalParams = this.buildRequestBody({
-      query: bulkUpdateSavedVisualizationRquest['query'],
-      fields: bulkUpdateSavedVisualizationRquest['fields'],
-      dateRange: bulkUpdateSavedVisualizationRquest['dateRange'],
-      chartType: bulkUpdateSavedVisualizationRquest['type'],
-      name: bulkUpdateSavedVisualizationRquest['name']
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name
     });
 
     const responses = await Promise.all(
-      bulkUpdateSavedVisualizationRquest.savedObjectList.map((objectToUpdate) => {
+      params.savedObjectList.map((objectToUpdate) => {
         finalParams['object_id'] = objectToUpdate['saved_object']['objectId'];
-        return this.http.put(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`, {
-          body: JSON.stringify(finalParams)
-        });
+        return this.http.put(
+          `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
+          {
+            body: JSON.stringify(finalParams)
+          }
+        );
       })
-    ).catch((error) => {});
+    ).catch((error) => console.error(error));
   }
 
-  async updateSavedVisualizationById(updateVisualizationRequest: any) {
+  async updateSavedVisualizationById(params: any) {
     const finalParams = this.buildRequestBody({
-      query: updateVisualizationRequest['query'],
-      fields: updateVisualizationRequest['fields'],
-      dateRange: updateVisualizationRequest['dateRange'],
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
     });
 
-    finalParams['object_id'] = updateVisualizationRequest['objectId'];
+    finalParams['object_id'] = params.objectId;
 
-    return await this.http.post(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`, {
-      body: JSON.stringify(finalParams)
-    }).catch((error: any) => console.log(error));
-
+    return await this.http.post(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    ).catch((error: any) => console.error(error));
   }
 
-  async createSavedQuery(createQueryRequest: any) {
+  async createSavedQuery(params: any) {
     
     const finalParams = this.buildRequestBody({
-      query: createQueryRequest['query'],
-      fields: createQueryRequest['fields'],
-      dateRange: createQueryRequest['dateRange'],
-      name: createQueryRequest['name']
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      name: params.name,
+      timestamp: params.timestamp,
     });
 
-    return await this.http.post(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`, {
-      body: JSON.stringify(finalParams)
-    }).catch((error: any) => console.log(error));
+    return await this.http.post(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    ).catch((error: any) => console.log(error));
   }
 
-  async createSavedVisualization(createVisualizationRequest: any) {
+  async createSavedVisualization(params: any) {
 
     const finalParams = this.buildRequestBody({
-      query: createVisualizationRequest['query'],
-      fields: createVisualizationRequest['fields'],
-      dateRange: createVisualizationRequest['dateRange'],
-      chartType: createVisualizationRequest['type'],
-      name: createVisualizationRequest['name']
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
     });
 
-    return await this.http.post(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`, {
-      body: JSON.stringify(finalParams)
-    }).catch((error: any) => console.log(error));
+    return await this.http.post(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    ).catch((error: any) => console.log(error));
+  }
+
+  async createSavedTimestamp(params: any) {
+    const finalParams = {
+      index: params.index,
+      name: params.name,
+      type: params.type,
+      dsl_type: params.dsl_type,
+    };
+
+    return await this.http.post(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    ).catch((error: any) => console.log(error));
+  }
+
+  async updateTimestamp(params: any) {
+    const finalParams = {
+      objectId: params.index,
+      timestamp: {
+        name: params.name,
+        index: params.index,
+        type: params.type,
+        dsl_type: params.dsl_type
+      }
+    }
+    return await this.http.put(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    ).catch((error: any) => console.log(error));
   }
 
   deleteSavedObjectsById(deleteObjectRequest: any) {}

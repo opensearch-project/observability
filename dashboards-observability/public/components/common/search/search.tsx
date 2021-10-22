@@ -23,6 +23,7 @@ import {
   EuiPopoverFooter,
 } from '@elastic/eui';
 import _ from 'lodash';
+import { IQuery } from '../../../../common/types/explorer';
 import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
@@ -30,7 +31,7 @@ import { SavePanel } from '../../explorer/save_panel';
 import { useCallback } from 'react';
 
 export interface IQueryBarProps {
-  query: any;
+  query: IQuery;
   handleQueryChange: (query: string, index: string) => void;
   handleQuerySearch: () => void;
   dslService: any;
@@ -90,7 +91,7 @@ export const Search = (props: any) => {
       <Autocomplete
         query={query}
         handleQueryChange={handleQueryChange}
-        handleQuerySearch={handleQuerySearch}
+        handleQuerySearch={memorizedHandleQuerySearch}
         dslService={dslService}
       />
     );
@@ -115,7 +116,14 @@ export const Search = (props: any) => {
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         <div className="autocomplete">
-          {renderAutocomplete({ query, handleQueryChange, handleQuerySearch, dslService })}
+          {
+            renderAutocomplete({ 
+              query, 
+              handleQueryChange, 
+              handleQuerySearch: memorizedHandleQuerySearch,
+              dslService
+            })
+          }
         </div>
         <DatePicker
           startTime={startTime}

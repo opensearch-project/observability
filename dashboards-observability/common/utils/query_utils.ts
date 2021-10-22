@@ -29,7 +29,7 @@ export const insertDateRangeToQuery = ({
   rawQuery,
   startTime,
   endTime,
-  timeField = 'utc_time',
+  timeField,
 }: {
   rawQuery: string;
   startTime: string;

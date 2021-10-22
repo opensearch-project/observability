@@ -27,6 +27,8 @@ import { IExplorerFields, IField } from '../../../../common/types/explorer';
 interface ISidebarProps {
   explorerFields: IExplorerFields;
   explorerData: any;
+  selectedTimestamp: string;
+  handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
 }
@@ -36,6 +38,8 @@ export const Sidebar = (props: ISidebarProps) => {
   const {
     explorerFields,
     explorerData,
+    selectedTimestamp,
+    handleOverrideTimestamp,
     handleAddField,
     handleRemoveField
   } = props;
@@ -90,6 +94,8 @@ export const Sidebar = (props: ISidebarProps) => {
                           >
                             <Field 
                               field={ field }
+                              selectedTimestamp={ selectedTimestamp }
+                              handleOverrideTimestamp={ handleOverrideTimestamp }
                               selected={ true }
                               showToggleButton={ false }
                               onToggleField={ handleRemoveField }
@@ -127,6 +133,8 @@ export const Sidebar = (props: ISidebarProps) => {
                   >
                     <Field 
                       field={ field }
+                      selectedTimestamp={ selectedTimestamp }
+                      handleOverrideTimestamp={ handleOverrideTimestamp }
                       selected={ true }
                       onToggleField={ handleRemoveField }
                     />
@@ -188,6 +196,8 @@ export const Sidebar = (props: ISidebarProps) => {
                     >
                       <Field 
                         field={ field }
+                        selectedTimestamp={ selectedTimestamp }
+                        handleOverrideTimestamp={ handleOverrideTimestamp }
                         onToggleField={ handleAddField }
                         selected={ false }
                       />

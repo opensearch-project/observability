@@ -53,11 +53,63 @@ export default class SavedObjectFacet {
           }
         }
       };    
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      res['success'] = true;
+      res['data'] = savedRes;
+    } catch (err: any) {
+      console.error('Event analytics create error: ', err);
+      res['data'] = err;
+    }
+    return res;
+  };
+
+  createTimestamp = async (
+    request: any,
+    format: string,
+  ) => {
+    const res = {
+      success: false,
+      data: {}
+    };
+    try {
+      const params = {
+        body: {
+          objectId: request.body.index,
+          'timestamp': {
+            ...request.body
+          }
+        }
+      };    
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      res['success'] = true;
+      res['data'] = savedRes;
+    } catch (err: any) {
+      console.error('Event analytics create timestamp error: ', err);
+      res['data'] = err;
+    }
+    return res;
+  }
+
+  updateTimestamp = async (
+    request: any,
+    format: string,
+  ) => {
+    const res = {
+      success: false,
+      data: {}
+    };
+    try {
+      const params = {
+        objectId: request.body.objectId,
+        body: {
+          ...request.body
+        }
+      };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
-      console.error('Event analytics create error: ', err);
+      console.error('Event analytics update error: ', err);
       res['data'] = err;
     }
     return res;
@@ -133,6 +185,14 @@ export default class SavedObjectFacet {
 
   createSavedVisualization = (request: any) => {
     return this.create(request, 'observability.createObject', 'savedVisualization');
+  };
+
+  createSavedTimestamp = (request: any) => {
+    return this.createTimestamp(request, 'observability.createObject');
+  };
+
+  updateSavedTimestamp = (request: any) => {
+    return this.updateTimestamp(request, 'observability.updateObjectById');
   };
 
   updateSavedQuery = (request: any) => {
