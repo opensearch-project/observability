@@ -143,8 +143,7 @@ export function WorkspacePanel({
       setVis={ setCurVisId }
       vis={ getCurChart() }
       visualizationTypes={ memorizedVisualizationTypes }
-      handleSavePanelNameChange={ (name: string) => { 
-        console.log('vis updating state name: ', name);
+      handleSavePanelNameChange={ (name: string) => {
         setSavePanelName(name) 
       } }
       savePanelName={ savePanelName }

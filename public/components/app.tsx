@@ -30,6 +30,7 @@ interface ObservabilityAppDeps {
   pplService: any;
   dslService: any;
   savedObjects: any;
+  timestampUtils: any;
 }
 
 export const App = ({
@@ -37,7 +38,8 @@ export const App = ({
   DepsStart,
   pplService,
   dslService,
-  savedObjects
+  savedObjects,
+  timestampUtils
 }: ObservabilityAppDeps) => {
 
   const { chrome, http, notifications } = CoreStart;
@@ -107,6 +109,7 @@ export const App = ({
                       pplService={ pplService }
                       dslService={ dslService }
                       savedObjects={ savedObjects }
+                      timestampUtils={ timestampUtils }
                       http={ http }
                       { ...props }
                     />

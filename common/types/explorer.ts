@@ -14,7 +14,11 @@ import {
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
-  QUERIED_FIELDS
+  QUERIED_FIELDS,
+  INDEX,
+  FINAL_QUERY,
+  SELECTED_TIMESTAMP,
+  SELECTED_DATE_RANGE
  } from '../constants/explorer';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 
@@ -38,7 +42,11 @@ export interface ITabQueries {
 }
 
 export interface IQuery {
-  [RAW_QUERY]: string
+  [RAW_QUERY]: string;
+  [FINAL_QUERY]: string;
+  [INDEX]: string;
+  [SELECTED_DATE_RANGE]: Array<string>;
+  [SELECTED_TIMESTAMP]: string;
 }
 
 export interface IExplorerTabFields {

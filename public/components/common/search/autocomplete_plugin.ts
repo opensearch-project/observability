@@ -268,7 +268,7 @@ export function createPPLSuggestionsPlugin(
 ): AutocompletePlugin<PPLSuggestion, undefined> {
   return {
     onStateChange: ({ state }) => {
-      if (options.query.rawQuery !== state.query) {
+      if (options.query !== state.query) {
         options.handleQueryChange(state.query, currIndex);
       }
     },

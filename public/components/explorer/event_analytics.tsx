@@ -21,6 +21,7 @@ export const EventAnalytics = ({
   pplService,
   dslService,
   savedObjects,
+  timestampUtils,
   http,
   ...props
 }: any) => {
@@ -49,6 +50,7 @@ export const EventAnalytics = ({
                 pplService={ pplService }
                 dslService={ dslService }
                 savedObjects={ savedObjects }
+                timestampUtils={ timestampUtils }
                 http={ http }
               />
             );
@@ -65,7 +67,14 @@ export const EventAnalytics = ({
                 href: '#/event_analytics',
               }
             ]);
-            return renderPageWithSidebar(<EventExplorerHome http={ http } savedObjects={ savedObjects } />);
+            return renderPageWithSidebar(
+              <EventExplorerHome 
+                http={ http } 
+                savedObjects={ savedObjects }
+                dslService={ dslService }
+                timestampUtils={ timestampUtils }
+              />
+            );
           }}
         />
       </Switch>
