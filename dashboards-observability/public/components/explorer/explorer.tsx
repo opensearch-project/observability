@@ -92,7 +92,10 @@ interface IExplorerProps {
   tabId: string;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+<<<<<<< HEAD
   setToast: any;
+=======
+>>>>>>> main
 }
 
 export const Explorer = ({
@@ -100,8 +103,12 @@ export const Explorer = ({
   dslService,
   tabId,
   savedObjects,
+<<<<<<< HEAD
   timestampUtils,
   setToast
+=======
+  timestampUtils
+>>>>>>> main
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -136,6 +143,10 @@ export const Explorer = ({
   const [prevIndex, setPrevIndex] = useState<string>('');
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
+<<<<<<< HEAD
+=======
+  const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
+>>>>>>> main
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -201,6 +212,7 @@ export const Explorer = ({
         [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp
       }
     }));
+
     
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
