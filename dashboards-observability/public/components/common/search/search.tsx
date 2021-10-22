@@ -68,7 +68,8 @@ export const Search = (props: any) => {
     isPanelTextFieldInvalid,
     savedObjects,
     showSavePanelOptionsList,
-    showSaveButton = true
+    showSaveButton = true,
+    setToast
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState<boolean>(false);
@@ -184,7 +185,10 @@ export const Search = (props: any) => {
                       <EuiButton
                         size="s"
                         fill
-                        onClick={() => handleSavingObject()}>
+                        onClick={() => { 
+                          handleSavingObject();
+                          setIsSavePanelOpen(false);
+                        }}>
                         { "Save" }
                       </EuiButton>
                     </EuiFlexItem>

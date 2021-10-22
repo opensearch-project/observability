@@ -148,7 +148,7 @@ export default class SavedObjects {
           body: JSON.stringify(finalParams)
         });
       })
-    ).catch((error) => console.error(error));
+    );
   };
 
   async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
@@ -206,7 +206,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   async createSavedVisualization(params: any) {
@@ -225,7 +225,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   async createSavedTimestamp(params: any) {
@@ -241,7 +241,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    ).catch((error: any) => console.error(error));
   }
 
   async updateTimestamp(params: any) {
@@ -259,7 +259,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   deleteSavedObjectsById(deleteObjectRequest: any) {}

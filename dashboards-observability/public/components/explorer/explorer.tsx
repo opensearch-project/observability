@@ -9,31 +9,24 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
   isEmpty,
   cloneDeep,
-  isEqual,
-  concat
+  isEqual
 } from 'lodash';
 import { 
   FormattedMessage 
 } from '@osd/i18n/react';
 import {
   EuiText,
-  EuiButton,
   EuiButtonIcon,
   EuiTabbedContent,
   EuiTabbedContentTab,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiPopover,
-  EuiPopoverTitle,
-  EuiPopoverFooter,
-  EuiButtonEmpty,
-  htmlIdGenerator
 } from '@elastic/eui';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
@@ -44,7 +37,6 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IndexPicker } from '../common/search/searchindex';
 import {
   IField,
   IQueryTab
@@ -61,7 +53,8 @@ import {
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   INDEX,
-  TIME_INTERVAL_OPTIONS
+  TIME_INTERVAL_OPTIONS,
+  HAS_SAVED_TIMESTAMP
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX } from '../../../common/constants/shared';
 import { 
@@ -99,6 +92,7 @@ interface IExplorerProps {
   tabId: string;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+  setToast: any;
 }
 
 export const Explorer = ({
@@ -106,7 +100,8 @@ export const Explorer = ({
   dslService,
   tabId,
   savedObjects,
-  timestampUtils
+  timestampUtils,
+  setToast
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -140,9 +135,7 @@ export const Explorer = ({
   const [curVisId, setCurVisId] = useState<string>('bar');
   const [prevIndex, setPrevIndex] = useState<string>('');
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
-  const [liveStreamChecked, setLiveStreamChecked] = useState<Boolean>(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
-  const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -150,15 +143,6 @@ export const Explorer = ({
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
-  
-  const fixedScrollRef = useCallback(
-    (node: HTMLElement) => {
-      if (node !== null) {
-        setFixedScrollEl(node);
-      }
-    },
-    [setFixedScrollEl]
-  );
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
@@ -176,7 +160,10 @@ export const Explorer = ({
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     
     if (isEmpty(rawQueryStr)) return;
-    if (isEmpty(curIndex)) return;
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include vaild index.', 'danger');
+      return;
+    } 
     
     let curTimestamp = '';
     let hasSavedTimestamp = false;
@@ -198,6 +185,11 @@ export const Explorer = ({
       }
     }
 
+    if (isEmpty(curTimestamp)) {
+      setToast('Index does not contain time field.', 'danger');
+      return;
+    }
+
     // compose final query
     const finalQuery = composeFinalQuery(curQuery, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
     
@@ -206,10 +198,9 @@ export const Explorer = ({
       query: {
         finalQuery,
         [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
-        'hasSavedTimestamp': hasSavedTimestamp
+        [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp
       }
     }));
-
     
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
@@ -295,15 +286,24 @@ export const Explorer = ({
       type: timestamp.type,
       dsl_type: 'date'
     };
-    if (isEmpty(rawQueryStr) || isEmpty(curIndex)) return;
-    if (curQuery!['hasSavedTimestamp']) {
+    if (isEmpty(rawQueryStr) || isEmpty(curIndex)) { 
+      setToast('Cannot override timestamp because there was no valid index found.', 'danger');
+      return;
+    }
+    if (curQuery![HAS_SAVED_TIMESTAMP]) {
       await savedObjects.updateTimestamp({
         ...requests
+      }).catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`);
+        return;
       });
     } else {
       await savedObjects.createSavedTimestamp({
         ...requests
-      });
+      }).catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`);
+        return;
+      })
     }
     await dispatch(changeQuery({
       tabId,
@@ -394,7 +394,6 @@ export const Explorer = ({
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
-                  ref={fixedScrollRef}
                 >
                   <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
                     <FormattedMessage
@@ -514,10 +513,14 @@ export const Explorer = ({
 
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
-    if (isEmpty(currQuery![RAW_QUERY])) return;
+    if (isEmpty(currQuery![RAW_QUERY])) { 
+      setToast('No query to save.', 'danger');
+      return; 
+    };
 
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
+      setToast('Name field cannot be empty.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
@@ -531,6 +534,9 @@ export const Explorer = ({
         dateRange: currQuery![SELECTED_DATE_RANGE],
         name: selectedPanelNameRef.current,
         timestamp: currQuery![SELECTED_TIMESTAMP]
+      }).catch((error: any) => { 
+        setToast(`Cannot save query, error: ${error.message}`, 'danger');
+        return;
       });
 
       // to-dos - update selected custom panel
@@ -548,6 +554,9 @@ export const Explorer = ({
         type: curVisId,
         name: selectedPanelNameRef.current,
         timestamp: currQuery![SELECTED_TIMESTAMP]
+      }).catch((error: any) => {
+        setToast(`Cannot save Visualization, error: ${error.message}`, 'danger');
+        return;
       });
 
       // update custom panel - visualization
@@ -556,6 +565,8 @@ export const Explorer = ({
         savedObjects.bulkUpdateCustomPanel({
           selectedCustomPanels: selectedCustomPanelOptions,
           savedVisualizationId: savingVisRes?.objectId
+        }).catch((error: any) => {
+          setToast(`Cannot add to operation panels, error: ${error.message}`, 'danger');
         });
       }
     }
@@ -584,11 +595,6 @@ export const Explorer = ({
         savedObjects={ savedObjects }
         showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
       />
-      {/* <IndexPicker
-        dslService={ dslService }
-        query = { query }
-        handleQueryChange={(query: string, index: string) => { handleQueryChange(query, index) } }
-      /> */}
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={ memorizedMainContentTabs[0] }
