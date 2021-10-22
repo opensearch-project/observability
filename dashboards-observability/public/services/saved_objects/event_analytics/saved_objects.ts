@@ -126,13 +126,13 @@ export default class SavedObjects {
           ...params
         },
       }
-    ).catch((error: any) => console.log(error));
+    ).catch((error: any) => console.error(error));
 
     return res;
   }
 
   async fetchCustomPanels() {
-    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.log(error));
+    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.error(error));
   }
 
   async bulkUpdateCustomPanel (params: ISelectedPanelsParams) {
@@ -148,7 +148,7 @@ export default class SavedObjects {
           body: JSON.stringify(finalParams)
         });
       })
-    ).catch((error) => {});
+    ).catch((error) => console.error(error));
   };
 
   async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
@@ -171,7 +171,7 @@ export default class SavedObjects {
           }
         );
       })
-    ).catch((error) => {});
+    ).catch((error) => console.error(error));
   }
 
   async updateSavedVisualizationById(params: any) {
@@ -188,7 +188,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    ).catch((error: any) => console.error(error));
   }
 
   async createSavedQuery(params: any) {

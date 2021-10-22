@@ -32,7 +32,7 @@ export default class DSLService {
                 body: JSON.stringify(request)
               }
             )
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
   }
 
   fetchIndices = async () => {

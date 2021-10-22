@@ -228,7 +228,6 @@ export const Explorer = ({
   // 1. load explorer for the first time
   // 2. when overrides default timestamp
   useEffect(() => {
-    console.log('may called twice');
     fetchData();
   }, [query[SELECTED_TIMESTAMP]]);
 

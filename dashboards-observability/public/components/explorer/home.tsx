@@ -9,12 +9,10 @@
  * GitHub history for details.
  */
 
-import React, { useState, useRef } from 'react';
-import { useDispatch, useSelector, batch } from 'react-redux';
-import { isEmpty, uniqueId, isEqual } from 'lodash';
-import { initialTabId } from '../../framework/redux/store/shared_state';
+import React, { useState } from 'react';
+import { useDispatch, batch } from 'react-redux';
+import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { selectQueries } from './slices/query_slice';
 import {
   EuiPage,
   EuiPageBody,
@@ -23,7 +21,6 @@ import {
   EuiTitle,
   EuiPageContent,
   EuiListGroup,
-  EuiListGroupItem,
   EuiSpacer,
   EuiFlexGroup,
   EuiFlexItem
@@ -36,38 +33,20 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE
 } from '../../../common/constants/explorer';
-import {
-  IQuery
-} from '../../../common/types/explorer';
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
-import { 
-  selectQueryTabs,
-  addTab,
-  setSelectedQueryTab,
-  removeTab
-} from './slices/query_tab_slice';
-import { 
-  init as initFields,
-  remove as removefields
-} from './slices/field_slice';
+import { addTab } from './slices/query_tab_slice';
+import { init as initFields } from './slices/field_slice';
 import {
   init as initQuery,
-  remove as removeQuery,
   changeQuery
 } from './slices/query_slice';
-import { 
-  init as initQueryResult,
-  remove as removeQueryResult,
-} from './slices/query_result_slice';
-import timestampUtils from '../../services/timestamp/timestamp';
+import { init as initQueryResult } from './slices/query_result_slice';
 
 interface IHomeProps {
   pplService: any;
   dslService: any;
   savedObjects: SavedObjects;
-  timestampUtils: timestampUtils;
-  http: any;
 }
 
 export const Home = (props: IHomeProps) => {
@@ -75,8 +54,6 @@ export const Home = (props: IHomeProps) => {
     pplService, 
     dslService,
     savedObjects,
-    timestampUtils,
-    http
   } = props;
   const history = useHistory();
   const dispatch = useDispatch();
