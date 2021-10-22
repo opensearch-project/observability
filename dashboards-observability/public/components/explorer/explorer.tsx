@@ -92,10 +92,7 @@ interface IExplorerProps {
   tabId: string;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
-<<<<<<< HEAD
   setToast: any;
-=======
->>>>>>> main
 }
 
 export const Explorer = ({
@@ -103,12 +100,8 @@ export const Explorer = ({
   dslService,
   tabId,
   savedObjects,
-<<<<<<< HEAD
   timestampUtils,
   setToast
-=======
-  timestampUtils
->>>>>>> main
 }: IExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -136,17 +129,13 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   
-  const [selectedContentTabId, setSelectedContentTab] = useState<string>(TAB_EVENT_ID);
+  const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
-  const [curVisId, setCurVisId] = useState<string>('bar');
-  const [prevIndex, setPrevIndex] = useState<string>('');
-  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState<boolean>(false);
-  const [isSidebarClosed, setIsSidebarClosed] = useState<Boolean>(false);
-<<<<<<< HEAD
-=======
-  const [fixedScrollEl, setFixedScrollEl] = useState<HTMLElement | undefined>();
->>>>>>> main
+  const [curVisId, setCurVisId] = useState('bar');
+  const [prevIndex, setPrevIndex] = useState('');
+  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState(false);
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
