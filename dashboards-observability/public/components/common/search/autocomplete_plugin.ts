@@ -10,7 +10,6 @@
  */
 
 import { AutocompletePlugin } from '@algolia/autocomplete-js';
-import { CUSTOM_PANELS_API_PREFIX } from 'common/constants/custom_panels';
 import DSLService from 'public/services/requests/dsl';
 import { getDataValueQuery } from './queries/data_queries';
 
