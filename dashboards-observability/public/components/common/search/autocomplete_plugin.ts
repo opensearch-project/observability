@@ -275,8 +275,6 @@ export function createPPLSuggestionsPlugin(
     onStateChange: ({ state }) => {
       if (options.query !== state.query) {
         options.handleQueryChange(state.query, currIndex);
-      } else {
-        console.log("Doesn't handle query change")
       }
     },
     onSubmit: () => {
