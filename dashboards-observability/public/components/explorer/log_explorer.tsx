@@ -147,7 +147,6 @@ export const LogExplorer = ({
             key={`explorer_${tabId}`}
             pplService={ pplService }
             dslService={ dslService }
-            http={ http }
             tabId={ tabId }
             savedObjects={ savedObjects }
             timestampUtils={ timestampUtils }
