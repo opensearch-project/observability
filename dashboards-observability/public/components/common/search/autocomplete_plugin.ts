@@ -10,6 +10,7 @@
  */
 
 import { AutocompletePlugin } from '@algolia/autocomplete-js';
+import { CUSTOM_PANELS_API_PREFIX } from 'common/constants/custom_panels';
 import DSLService from 'public/services/requests/dsl';
 import { getDataValueQuery } from './queries/data_queries';
 
@@ -115,7 +116,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       splittedModel[splittedModel.length - 2] === 'source' ||
       splittedModel[splittedModel.length - 2] === 'index'
     ) {
-      return [{ label: str + '=', input: str, suggestion: '=', }].filter(
+      return [{ label: str + '=', input: str, suggestion: '=' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (
@@ -126,7 +127,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
-      return [{ label: str + '|', input: str, suggestion: '|', }].filter(
+      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
@@ -152,7 +153,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         return fullSuggestions;
       }
     } else if (nextStats === splittedModel.length - 2) {
-      return [{ label: str + 'by', input: str, suggestion: 'by', }].filter(
+      return [{ label: str + 'by', input: str, suggestion: 'by' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (nextStats === splittedModel.length - 3) {
@@ -183,7 +184,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         await getDataValues(currIndex, currField, currFieldType, dslService)
       );
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
-      return [{ label: str + '|', input: str, suggestion: '|', }].filter(
+      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (inFieldsCommaLoop) {
@@ -194,7 +195,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           suggestion: ',',
           item: ',',
         },
-        { label: str + '|', input: str, suggestion: '|', item: ',', },
+        { label: str + '|', input: str, suggestion: '|', item: ',' },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     }
     return [];
