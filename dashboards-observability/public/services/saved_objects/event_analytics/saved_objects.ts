@@ -14,7 +14,6 @@ import {
   isEmpty,
   isArray
 } from 'lodash';
-import { htmlIdGenerator } from '@elastic/eui';
 import { 
   OBSERVABILITY_BASE,
   EVENT_ANALYTICS,
@@ -119,20 +118,18 @@ export default class SavedObjects {
       );
     });
 
-    const res = await this.http.get(
+    return await this.http.get(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, 
       {
         query: {
           ...params
         },
       }
-    ).catch((error: any) => console.error(error));
-
-    return res;
+    );
   }
 
   async fetchCustomPanels() {
-    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.error(error));
+    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`);
   }
 
   async bulkUpdateCustomPanel (params: ISelectedPanelsParams) {
@@ -141,7 +138,7 @@ export default class SavedObjects {
       savedVisualizationId: params.savedVisualizationId,
     };
 
-    const responses = await Promise.all(
+    return await Promise.all(
       params['selectedCustomPanels'].map((panel) => {
         finalParams['panelId'] = panel['panel']['id'];
         return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
@@ -161,7 +158,7 @@ export default class SavedObjects {
       name: params.name
     });
 
-    const responses = await Promise.all(
+    return await Promise.all(
       params.savedObjectList.map((objectToUpdate) => {
         finalParams['object_id'] = objectToUpdate['saved_object']['objectId'];
         return this.http.put(
@@ -171,7 +168,7 @@ export default class SavedObjects {
           }
         );
       })
-    ).catch((error) => console.error(error));
+    );
   }
 
   async updateSavedVisualizationById(params: any) {
@@ -188,7 +185,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.error(error));
+    );
   }
 
   async createSavedQuery(params: any) {
@@ -241,7 +238,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.error(error));
+    );
   }
 
   async updateTimestamp(params: any) {

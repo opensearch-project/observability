@@ -15,7 +15,8 @@ import {
   uniqueId,
   isEmpty,
   cloneDeep,
-  isEqual
+  isEqual,
+  has
 } from 'lodash';
 import { 
   FormattedMessage 
@@ -172,6 +173,8 @@ export const Explorer = ({
     if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
       const savedTimestamps = await savedObjects.fetchSavedObjects({
         objectId: curIndex
+      }).catch((error: any) => {
+        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
       if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
         // from saved objects
@@ -202,7 +205,6 @@ export const Explorer = ({
       }
     }));
 
-    
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
@@ -291,21 +293,34 @@ export const Explorer = ({
       setToast('Cannot override timestamp because there was no valid index found.', 'danger');
       return;
     }
+    
+    let saveTimestampRes;
     if (curQuery![HAS_SAVED_TIMESTAMP]) {
-      await savedObjects.updateTimestamp({
+      saveTimestampRes = await savedObjects.updateTimestamp({
         ...requests
-      }).catch((error: any) => { 
-        setToast(`Cannot override timestamp, error: ${error.message}`);
-        return;
+      })
+      .then((res: any) => {
+        setToast(`Timestamp has been overridden successfully.`, 'success');
+        return res;
+      })
+      .catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
       });
     } else {
-      await savedObjects.createSavedTimestamp({
+      saveTimestampRes = await savedObjects.createSavedTimestamp({
         ...requests
-      }).catch((error: any) => { 
-        setToast(`Cannot override timestamp, error: ${error.message}`);
-        return;
       })
+      .then((res: any) => {
+        setToast(`Timestamp has been overridden successfully.`, 'success');
+        return res;
+      })
+      .catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      });
     }
+
+    if (!has(saveTimestampRes, 'objectId')) return;
+
     await dispatch(changeQuery({
       tabId,
       query: {
@@ -535,9 +550,12 @@ export const Explorer = ({
         dateRange: currQuery![SELECTED_DATE_RANGE],
         name: selectedPanelNameRef.current,
         timestamp: currQuery![SELECTED_TIMESTAMP]
-      }).catch((error: any) => { 
-        setToast(`Cannot save query, error: ${error.message}`, 'danger');
-        return;
+      })
+      .then((res: any) => {
+        setToast(`Query '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
+      })
+      .catch((error: any) => { 
+        setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
       });
 
       // to-dos - update selected custom panel
@@ -555,10 +573,16 @@ export const Explorer = ({
         type: curVisId,
         name: selectedPanelNameRef.current,
         timestamp: currQuery![SELECTED_TIMESTAMP]
-      }).catch((error: any) => {
-        setToast(`Cannot save Visualization, error: ${error.message}`, 'danger');
-        return;
+      })
+      .then((res: any) => {
+        setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
+        return res;
+      })
+      .catch((error: any) => {
+        setToast(`Cannot save Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
       });
+
+      if (!has(savingVisRes, 'objectId')) return;
 
       // update custom panel - visualization
       if (!isEmpty(selectedCustomPanelOptions)) {
@@ -566,8 +590,12 @@ export const Explorer = ({
         savedObjects.bulkUpdateCustomPanel({
           selectedCustomPanels: selectedCustomPanelOptions,
           savedVisualizationId: savingVisRes?.objectId
-        }).catch((error: any) => {
-          setToast(`Cannot add to operation panels, error: ${error.message}`, 'danger');
+        })
+        .then((res: any) => {
+          setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved to operation panels.`, 'success');
+        })
+        .catch((error: any) => {
+          setToast(`Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels, error: ${error.message}`, 'danger');
         });
       }
     }
