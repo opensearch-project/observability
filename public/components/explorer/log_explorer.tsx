@@ -53,7 +53,8 @@ export const LogExplorer = ({
   dslService,
   savedObjects,
   timestampUtils,
-  http
+  http,
+  setToast
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -78,7 +79,7 @@ export const LogExplorer = ({
   const handleTabClose = (TabIdToBeClosed: string) => {
     
     if (tabIds.length === 1) {
-      console.log('Have to have at least one tab');
+      setToast('Have to have at least one tab', 'danger');
       return;
     }
 
@@ -146,10 +147,10 @@ export const LogExplorer = ({
             key={`explorer_${tabId}`}
             pplService={ pplService }
             dslService={ dslService }
-            http={ http }
             tabId={ tabId }
             savedObjects={ savedObjects }
             timestampUtils={ timestampUtils }
+            setToast={ setToast }
           />
         </>)
     };

@@ -24,6 +24,7 @@ export const TAB_CHART_TITLE = 'Visualizations';
 export const TAB_EVENT_TITLE = 'Events';
 export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-vis-';
+export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
 
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
