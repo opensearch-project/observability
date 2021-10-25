@@ -139,7 +139,9 @@ export function Application(props: AppDetailProps) {
         })}
         </EuiTabs>
         {selectedTab === 'overview' && 
-          <h1>Overview</h1>
+          <AppOverview
+            loading={false}
+          />
         }
         {selectedTab === 'services' && 
           <h1>Services</h1>

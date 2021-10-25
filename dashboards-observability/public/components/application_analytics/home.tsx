@@ -37,12 +37,12 @@ const dummyApplication: ApplicationType[] = [{
 
 export const Home = () => {
   return (
-    // <AppTable 
-    //   loading={false}
-    //   applications={dummyApplication}
-    // />
-    <Application 
-      disabled={false}
+    <AppTable 
+      loading={false}
+      applications={dummyApplication}
     />
+    // <Application 
+    //   disabled={false}
+    // />
   );
 };
