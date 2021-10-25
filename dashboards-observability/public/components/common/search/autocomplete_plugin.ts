@@ -18,7 +18,6 @@ interface PPLSuggestion {
   input: string;
   suggestion: string;
   item: string;
-  currCommand: string;
 }
 
 interface CreatePPLSuggestionsPluginProps {
@@ -76,7 +75,6 @@ const fillSuggestions = (str: string, word: string, items: any) => {
       input: str,
       suggestion: filteredList[i].label.substring(word.length),
       itemName: filteredList[i].label,
-      currCommand: str.substring(str.lastIndexOf("|")),
     });
   }
   return suggestionList;
@@ -117,7 +115,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       splittedModel[splittedModel.length - 2] === 'source' ||
       splittedModel[splittedModel.length - 2] === 'index'
     ) {
-      return [{ label: str + '=', input: str, suggestion: '=', currCommand: str.substring(str.lastIndexOf("|")) }].filter(
+      return [{ label: str + '=', input: str, suggestion: '=', }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (
@@ -128,7 +126,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
-      return [{ label: str + '|', input: str, suggestion: '|', currCommand: str.substring(str.lastIndexOf("|")) }].filter(
+      return [{ label: str + '|', input: str, suggestion: '|', }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
@@ -148,14 +146,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
             input: str.substring(0, str.length - 1),
             suggestion: numberFields[i].label.substring(prefix.length) + ')',
             itemName: numberFields[i].label,
-            currCommand: str.substring(str.lastIndexOf("|")),
           });
         }
         nextStats = nextStats - 1;
         return fullSuggestions;
       }
     } else if (nextStats === splittedModel.length - 2) {
-      return [{ label: str + 'by', input: str, suggestion: 'by', currCommand: str.substring(str.lastIndexOf("|")) }].filter(
+      return [{ label: str + 'by', input: str, suggestion: 'by', }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (nextStats === splittedModel.length - 3) {
@@ -175,7 +172,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         input: str,
         suggestion: '=',
         item: '=',
-        currCommand: str.substring(str.lastIndexOf("|")),
       });
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
@@ -187,7 +183,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         await getDataValues(currIndex, currField, currFieldType, dslService)
       );
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
-      return [{ label: str + '|', input: str, suggestion: '|', currCommand: str.substring(str.lastIndexOf("|")) }].filter(
+      return [{ label: str + '|', input: str, suggestion: '|', }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
     } else if (inFieldsCommaLoop) {
@@ -197,9 +193,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           input: str.substring(0, str.length - 1),
           suggestion: ',',
           item: ',',
-          currCommand: str.substring(str.lastIndexOf("|")),
         },
-        { label: str + '|', input: str, suggestion: '|', item: ',', currCommand: str.substring(str.lastIndexOf("|")) },
+        { label: str + '|', input: str, suggestion: '|', item: ',', },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     }
     return [];
@@ -298,10 +293,11 @@ export function createPPLSuggestionsPlugin(
           },
           templates: {
             item({ item, createElement }) {
+              const prefix = item.input.split(' ');
               return createElement('div', {
                 dangerouslySetInnerHTML: {
                   __html: `<div>
-                    ${item.currCommand}<span class=styling>${item.suggestion}</span>
+                    ${prefix[prefix.length-1]}<span class=styling>${item.suggestion}</span>
                   </div>`,
                 },
               });
