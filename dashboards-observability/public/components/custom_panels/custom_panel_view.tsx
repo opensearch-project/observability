@@ -13,6 +13,7 @@ import {
   EuiBreadcrumb,
   EuiButton,
   EuiContextMenu,
+  EuiContextMenuPanelDescriptor,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
@@ -58,6 +59,7 @@ import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
  * chrome: chrome core service
  * parentBreadcrumb: parent breadcrumb
  * renameCustomPanel: Rename function for the panel
+ * cloneCustomPanel: Clone function for the panel
  * deleteCustomPanel: Delete function for the panel
  * setToast: create Toast function
  */
@@ -73,6 +75,7 @@ type Props = {
     editedCustomPanelId: string
   ) => Promise<void> | undefined;
   deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
+  cloneCustomPanel: (clonedCustomPanelName: string, clonedCustomPanelId: string) => Promise<string>;
   setToast: (
     title: string,
     color?: string,
@@ -89,6 +92,7 @@ export const CustomPanelView = ({
   parentBreadcrumb,
   renameCustomPanel,
   deleteCustomPanel,
+  cloneCustomPanel,
   setToast,
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
@@ -107,6 +111,8 @@ export const CustomPanelView = ({
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false); // Add Visualization Flyout
   const [isFlyoutReplacement, setisFlyoutReplacement] = useState<boolean | undefined>(false);
   const [replaceVisualizationId, setReplaceVisualizationId] = useState<string | undefined>('');
+  const [panelsMenuPopover, setPanelsMenuPopover] = useState(false);
+  const [editActionType, setEditActionType] = useState('');
 
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
@@ -183,7 +189,9 @@ export const CustomPanelView = ({
 
   const onDelete = async () => {
     deleteCustomPanel(panelId, openPanelName).then((res) => {
-      window.location.assign(`${_.last(parentBreadcrumb).href}`);
+      setTimeout(() => {
+        window.location.assign(`${_.last(parentBreadcrumb).href}`);
+      }, 1000);
     });
     closeModal();
   };
@@ -223,14 +231,36 @@ export const CustomPanelView = ({
     showModal();
   };
 
+  const onClone = async (newCustomPanelName: string) => {
+    cloneCustomPanel(newCustomPanelName, panelId).then((id: string) => {
+      setTimeout(() => {
+        window.location.assign(`${_.last(parentBreadcrumb).href}${id}`);
+      }, 1000);
+    });
+    closeModal();
+  };
+
+  const clonePanel = () => {
+    setModalLayout(
+      getCustomModal(
+        onClone,
+        closeModal,
+        'Name',
+        'Duplicate Panel',
+        'Cancel',
+        'Duplicate',
+        openPanelName + ' (copy)',
+        CREATE_PANEL_MESSAGE
+      )
+    );
+    showModal();
+  };
+
   // toggle between panel edit mode
-  const editPanel = () => {
-    if (editMode) {
-      // Save layout
-      setEditMode(false);
-    } else {
-      setEditMode(true);
-    }
+  const editPanel = (editType: string) => {
+    editMode ? setEditMode(false) : setEditMode(true);
+    if (editType === 'cancel') fetchCustomPanel();
+    setEditActionType(editType);
   };
 
   const closeFlyout = () => {
@@ -248,16 +278,26 @@ export const CustomPanelView = ({
   };
 
   const checkDisabledInputs = () => {
-    if (panelVisualizations.length == 0) {
+    // When not in edit mode and panel has no visualizations
+    if (panelVisualizations.length === 0 && !editMode) {
       setEditDisabled(true);
       setInputDisabled(true);
-    } else {
-      setEditDisabled(false);
-      if (editMode) setInputDisabled(true);
-      else setInputDisabled(false);
+      setAddVizDisabled(false);
     }
-    if (editMode) setAddVizDisabled(true);
-    else setAddVizDisabled(false);
+
+    // When in edit mode
+    if (editMode) {
+      setEditDisabled(false);
+      setInputDisabled(true);
+      setAddVizDisabled(true);
+    }
+
+    // When panel has visualizations
+    if (panelVisualizations.length > 0) {
+      setEditDisabled(false);
+      setInputDisabled(false);
+      setAddVizDisabled(false);
+    }
   };
 
   const onRefreshFilters = () => {
@@ -339,10 +379,40 @@ export const CustomPanelView = ({
     );
   }
 
+  const panelActionsMenu: EuiContextMenuPanelDescriptor[] = [
+    {
+      id: 0,
+      title: 'Panel actions',
+      items: [
+        {
+          name: 'Rename panel',
+          onClick: () => {
+            setPanelsMenuPopover(false);
+            renamePanel();
+          },
+        },
+        {
+          name: 'Duplicate panel',
+          onClick: () => {
+            setPanelsMenuPopover(false);
+            clonePanel();
+          },
+        },
+        {
+          name: 'Delete panel',
+          onClick: () => {
+            setPanelsMenuPopover(false);
+            deletePanel();
+          },
+        },
+      ],
+    },
+  ];
+
   // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
-  }, []);
+  }, [panelId]);
 
   // Check Validity of Time
   useEffect(() => {
@@ -364,7 +434,7 @@ export const CustomPanelView = ({
         href: `${_.last(parentBreadcrumb).href}${panelId}`,
       },
     ]);
-  }, [openPanelName]);
+  }, [panelId, openPanelName]);
 
   return (
     <div>
@@ -382,22 +452,52 @@ export const CustomPanelView = ({
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
               <EuiFlexGroup gutterSize="s">
-                <EuiFlexItem>
-                  <EuiButton color="danger" onClick={deletePanel}>
-                    Delete
-                  </EuiButton>
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <EuiButton onClick={renamePanel}>Rename</EuiButton>
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <EuiButton
-                    iconType={editMode ? 'save' : 'pencil'}
-                    onClick={editPanel}
-                    disabled={editDisabled}
+                {editMode ? (
+                  <>
+                    <EuiFlexItem>
+                      <EuiButton
+                        iconType="cross"
+                        color="danger"
+                        onClick={() => editPanel('cancel')}
+                      >
+                        Cancel
+                      </EuiButton>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <EuiButton iconType="save" onClick={() => editPanel('save')}>
+                        Save
+                      </EuiButton>
+                    </EuiFlexItem>
+                  </>
+                ) : (
+                  <EuiFlexItem>
+                    <EuiButton
+                      iconType="pencil"
+                      onClick={() => editPanel('edit')}
+                      disabled={editDisabled}
+                    >
+                      Edit
+                    </EuiButton>
+                  </EuiFlexItem>
+                )}
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    panelPaddingSize="none"
+                    withTitle
+                    button={
+                      <EuiButton
+                        iconType="arrowDown"
+                        iconSide="right"
+                        onClick={() => setPanelsMenuPopover(true)}
+                      >
+                        Panel actions
+                      </EuiButton>
+                    }
+                    isOpen={panelsMenuPopover}
+                    closePopover={() => setPanelsMenuPopover(false)}
                   >
-                    {editMode ? 'Save' : 'Edit'}
-                  </EuiButton>
+                    <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                  </EuiPopover>
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPageHeaderSection>
@@ -460,24 +560,24 @@ export const CustomPanelView = ({
                 getVizContextPanels={getVizContextPanels}
               />
             ) : (
-              <PanelGrid
-                http={http}
-                panelId={panelId}
-                chrome={chrome}
-                panelVisualizations={panelVisualizations}
-                setPanelVisualizations={setPanelVisualizations}
-                editMode={editMode}
-                pplService={pplService}
-                startTime={start}
-                endTime={end}
-                onRefresh={onRefresh}
-                cloneVisualization={cloneVisualization}
-                pplFilterValue={pplFilterValue}
-                showFlyout={showFlyout}
-                setEditMode={setEditMode}
-              />
+              <></>
             )}
-            <></>
+            <PanelGrid
+              http={http}
+              panelId={panelId}
+              chrome={chrome}
+              panelVisualizations={panelVisualizations}
+              setPanelVisualizations={setPanelVisualizations}
+              editMode={editMode}
+              pplService={pplService}
+              startTime={start}
+              endTime={end}
+              onRefresh={onRefresh}
+              cloneVisualization={cloneVisualization}
+              pplFilterValue={pplFilterValue}
+              showFlyout={showFlyout}
+              editActionType={editActionType}
+            />
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

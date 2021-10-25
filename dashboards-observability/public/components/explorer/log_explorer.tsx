@@ -52,6 +52,7 @@ export const LogExplorer = ({
   pplService,
   dslService,
   savedObjects,
+  timestampUtils,
   http
 }: ILogExplorerProps) => {
 
@@ -148,6 +149,7 @@ export const LogExplorer = ({
             http={ http }
             tabId={ tabId }
             savedObjects={ savedObjects }
+            timestampUtils={ timestampUtils }
           />
         </>)
     };
