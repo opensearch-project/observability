@@ -26,7 +26,6 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiSuperDatePicker,
-  EuiSuperDatePickerProps,
   EuiTitle,
   OnTimeChangeProps,
   ShortDate,
