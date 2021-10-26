@@ -20,7 +20,11 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE
  } from '../constants/explorer';
+ import { HttpStart } from '../../../../src/core/public';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
+ import TimestampUtils from '../../public/services/timestamp/timestamp';
+ import PPLService from '../../public/services/requests/ppl';
+ import DSLService from '../../public/services/requests/dsl';
 
 export interface IQueryTab {
   id: string;
@@ -61,7 +65,15 @@ export interface IExplorerFields {
 }
 
 export interface ILogExplorerProps {
-  pplService: any;
-  dslService: any;
+  pplService: PPLService;
+  dslService: DSLService;
   savedObjects: SavedObjects;
+  http: HttpStart;
+  timestampUtils: TimestampUtils;
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void;
 }
