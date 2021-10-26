@@ -65,6 +65,7 @@ import './visualization_flyout.scss';
 
 type Props = {
   panelId: string;
+  pplFilterValue: string;
   closeFlyout: () => void;
   start: ShortDate;
   end: ShortDate;
@@ -83,6 +84,7 @@ type Props = {
 
 export const VisaulizationFlyout = ({
   panelId,
+  pplFilterValue,
   closeFlyout,
   start,
   end,
@@ -186,7 +188,7 @@ export const VisaulizationFlyout = ({
       setPreviewData,
       setPreviewLoading,
       setIsPreviewError,
-      '',
+      pplFilterValue,
       newVisualizationTimeField
     );
   };
@@ -328,28 +330,30 @@ export const VisaulizationFlyout = ({
     const previewTemplate = (
       <>
         {timeRange}
-        {previewLoading ? (
-          <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
-        ) : isPreviewError != '' ? (
-          <div className="visualization-error-div">
-            <EuiSpacer size="l" />
-            <EuiIcon type="alert" color="danger" size="l" />
-            <EuiSpacer size="l" />
-            <EuiText>
-              <h2>Error in rendering the visualizaiton</h2>
-            </EuiText>
-            <EuiSpacer size="l" />
-            <EuiText>
-              <p>{isPreviewError}</p>
-            </EuiText>
-          </div>
-        ) : (
-          <EuiFlexGroup>
-            <EuiFlexItem className="visualization-div">
-              {displayVisualization(previewData, newVisualizationType)}
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        )}
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            {previewLoading ? (
+              <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+            ) : isPreviewError != '' ? (
+              <div className="visualization-error-div">
+                <EuiSpacer size="l" />
+                <EuiIcon type="alert" color="danger" size="l" />
+                <EuiSpacer size="l" />
+                <EuiText>
+                  <h2>Error in rendering the visualizaiton</h2>
+                </EuiText>
+                <EuiSpacer size="l" />
+                <EuiText>
+                  <p>{isPreviewError}</p>
+                </EuiText>
+              </div>
+            ) : (
+              <div className="visualization-div">
+                {displayVisualization(previewData, newVisualizationType)}
+              </div>
+            )}
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </>
     );
     setPreviewArea(previewTemplate);
