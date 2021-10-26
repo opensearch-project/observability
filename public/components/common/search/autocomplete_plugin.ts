@@ -293,10 +293,11 @@ export function createPPLSuggestionsPlugin(
           },
           templates: {
             item({ item, createElement }) {
+              const prefix = item.input.split(' ');
               return createElement('div', {
                 dangerouslySetInnerHTML: {
                   __html: `<div>
-                    ${item.input}<span class=styling>${item.suggestion}</span>
+                    ${prefix[prefix.length-1]}<span class=styling>${item.suggestion}</span>
                   </div>`,
                 },
               });
