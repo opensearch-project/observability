@@ -9,8 +9,10 @@
  * GitHub history for details.
  */
 
-import React from 'react';
+import React, { useState, ReactChild } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { EuiGlobalToastList } from '@elastic/eui';
 import { LogExplorer } from './log_explorer';
 import { Home as EventExplorerHome } from './home';
 import { renderPageWithSidebar } from '../common/side_nav';
@@ -21,17 +23,33 @@ export const EventAnalytics = ({
   pplService,
   dslService,
   savedObjects,
+  timestampUtils,
   http,
   ...props
 }: any) => {
+
+  const [toasts, setToasts] = useState<Array<Toast>>([]);
 
   const eventAnalyticsBreadcrumb = {
     text: 'Event analytics',
     href: '#/event_analytics',
   };
 
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
   return (
-    <HashRouter>
+    <>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={(removedToast) => {
+          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+        }}
+        toastLifeTimeMs={6000}
+      />
+      <HashRouter>
       <Switch>
         <Route
           path={`${props.match.path}/explorer`}
@@ -49,7 +67,9 @@ export const EventAnalytics = ({
                 pplService={ pplService }
                 dslService={ dslService }
                 savedObjects={ savedObjects }
+                timestampUtils={ timestampUtils }
                 http={ http }
+                setToast={ setToast }
               />
             );
           }}
@@ -65,10 +85,18 @@ export const EventAnalytics = ({
                 href: '#/event_analytics',
               }
             ]);
-            return renderPageWithSidebar(<EventExplorerHome http={ http } savedObjects={ savedObjects } />);
+            return renderPageWithSidebar(
+              <EventExplorerHome 
+                http={ http } 
+                savedObjects={ savedObjects }
+                dslService={ dslService }
+                timestampUtils={ timestampUtils }
+              />
+            );
           }}
         />
       </Switch>
     </HashRouter>
+    </>
   );
 }

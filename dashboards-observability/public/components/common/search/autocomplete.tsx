@@ -45,7 +45,7 @@ export function Autocomplete(props: IQueryBarProps) {
       render({ children }, root) {
         render(children, root);
       },
-      initialState: { query: query[RAW_QUERY] },
+      initialState: { query: query },
       openOnFocus: true,
       placeholder: 'Enter PPL query to retrieve log, traces, and metrics',
       plugins: [PPLSuggestionPlugin],

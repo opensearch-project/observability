@@ -11,10 +11,13 @@
 
 import React, { useState } from 'react';
 import { i18n } from '@osd/i18n';
+import { isEqual } from 'lodash';
 import { 
   EuiPopover,
   EuiButtonIcon,
-  EuiToolTip
+  EuiToolTip,
+  EuiButton,
+  EuiMark
 } from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
@@ -22,6 +25,8 @@ import { IField } from '../../../../common/types/explorer';
 
 interface IFieldProps {
   field: IField;
+  selectedTimestamp: string;
+  handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   selected: boolean;
   showToggleButton: boolean;
   onToggleField: (field: IField) => void;
@@ -31,6 +36,8 @@ export const Field = (props: IFieldProps) => {
 
   const {
     field,
+    selectedTimestamp,
+    handleOverrideTimestamp,
     selected,
     showToggleButton = true,
     onToggleField
@@ -70,6 +77,19 @@ export const Field = (props: IFieldProps) => {
           )
         }
       >
+        <>
+        { isEqual(field.type, 'timestamp') ?
+          isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
+          <EuiButton
+            className="timestamp_override"
+            size="s"
+            color={'secondary'}
+            fill
+            onClick={() => handleOverrideTimestamp(field)}
+          >
+            { 'Override' }
+          </EuiButton> : null
+        }
         {
           showToggleButton ? (
             <EuiButtonIcon
@@ -87,8 +107,9 @@ export const Field = (props: IFieldProps) => {
               data-test-subj={`fieldToggle-${field.name}`}
               aria-label={ selected ? removeLabelAria : addLabelAria }
             />
-          ) : <></>
+          ) : null
         }
+        </>
       </EuiToolTip>
     );
   };
@@ -108,7 +129,7 @@ export const Field = (props: IFieldProps) => {
           isActive={ isFieldDetailsOpen }
           dataTestSubj={`field-${field.name}-showDetails`}
           fieldIcon={<FieldIcon
-                      type={field.type}
+                      type={isEqual(field.type, 'timestamp') ? 'date' : field.type}
                     />}
           fieldName={ <span
                         data-test-subj={`field-${field.name}`}

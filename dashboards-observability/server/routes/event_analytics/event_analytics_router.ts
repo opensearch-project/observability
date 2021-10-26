@@ -65,6 +65,10 @@ export const registerEventAnalyticsRouter = ({
             end: schema.string(),
             text: schema.string(),
           }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
+          }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
             text: schema.string(),
@@ -103,6 +107,10 @@ export const registerEventAnalyticsRouter = ({
             start: schema.string(),
             end: schema.string(),
             text: schema.string(),
+          }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
           }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
@@ -205,6 +213,69 @@ export const registerEventAnalyticsRouter = ({
       }
     };   
     if (savedRes['success']) return res.ok(result);
+    result['statusCode'] = 500;
+    result['message'] = savedRes['data'];
+    return res.custom(result);
+  });
+
+  router.post({
+    path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
+    validate: {
+      body: schema.object({
+        name: schema.string(),
+        index: schema.string(),
+        type: schema.string(),
+        dsl_type: schema.string()
+      })
+    }
+  },
+  async (
+    context,
+    req,
+    res
+  ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+    const savedRes = await savedObjectFacet.createSavedTimestamp(req);
+    const result: any = {
+      body: {
+        ...savedRes['data']
+      }
+    };
+    
+    if (savedRes['success']) return res.ok(result);
+
+    result['statusCode'] = 500;
+    result['message'] = savedRes['data'];
+    return res.custom(result);
+  });
+
+  router.put({
+    path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
+    validate: {
+      body: schema.object({
+        objectId: schema.string(),
+        timestamp: schema.object({
+          name: schema.string(),
+          index: schema.string(),
+          type: schema.string(),
+          dsl_type: schema.string()
+        }),
+      })
+    }
+  },
+  async (
+    context,
+    req,
+    res
+  ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+    const savedRes = await savedObjectFacet.updateSavedTimestamp(req);
+    const result: any = {
+      body: {
+        ...savedRes['data']
+      }
+    };
+    
+    if (savedRes['success']) return res.ok(result);
+
     result['statusCode'] = 500;
     result['message'] = savedRes['data'];
     return res.custom(result);

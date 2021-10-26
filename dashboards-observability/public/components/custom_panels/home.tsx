@@ -136,7 +136,10 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
   };
 
   // Clones an existing Custom Panel, return new Custom Panel id
-  const cloneCustomPanel = (clonedCustomPanelName: string, clonedCustomPanelId: string) => {
+  const cloneCustomPanel = (
+    clonedCustomPanelName: string,
+    clonedCustomPanelId: string
+  ): Promise<string> => {
     if (!isNameValid(clonedCustomPanelName)) {
       setToast('Invalid Operational Panel name', 'danger');
       return Promise.reject();
@@ -163,6 +166,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
           ];
         });
         setToast(`Operational Panel "${clonedCustomPanelName}" successfully created!`);
+        return res.clonePanelId;
       })
       .catch((err) => {
         setToast(
@@ -256,6 +260,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               chrome={chrome}
               parentBreadcrumb={parentBreadcrumb}
               renameCustomPanel={renameCustomPanel}
+              cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
             />

@@ -52,8 +52,12 @@ export const SavePanel = ({
   const [options, setOptions] = useState([]);
 
   const getCustomPabnelList = async (savedObjects: SavedObjects) => {
-    const optionRes = await savedObjects.fetchCustomPanels();
-    setOptions(optionRes['panels']);
+    const optionRes = await savedObjects.fetchCustomPanels()
+    .then((res: any) => {
+      return res;
+    })
+    .catch((error: any) => console.error(error));
+    setOptions(optionRes?.panels || []);
   };
 
   useEffect(() => {

@@ -268,7 +268,7 @@ export function createPPLSuggestionsPlugin(
 ): AutocompletePlugin<PPLSuggestion, undefined> {
   return {
     onStateChange: ({ state }) => {
-      if (options.query.rawQuery !== state.query) {
+      if (options.query !== state.query) {
         options.handleQueryChange(state.query, currIndex);
       }
     },
@@ -293,10 +293,11 @@ export function createPPLSuggestionsPlugin(
           },
           templates: {
             item({ item, createElement }) {
+              const prefix = item.input.split(' ');
               return createElement('div', {
                 dangerouslySetInnerHTML: {
                   __html: `<div>
-                    ${item.input}<span class=styling>${item.suggestion}</span>
+                    ${prefix[prefix.length-1]}<span class=styling>${item.suggestion}</span>
                   </div>`,
                 },
               });

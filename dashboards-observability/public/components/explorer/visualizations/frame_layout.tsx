@@ -25,9 +25,6 @@ export function FrameLayout(props: FrameLayoutProps) {
   return (
     <EuiPage className="lnsFrameLayout">
       <div className="lnsFrameLayout__pageContent">
-        <EuiPageSideBar className="lnsFrameLayout__sidebar">
-          {props.dataPanel}
-        </EuiPageSideBar>
         <EuiPageBody className="lnsFrameLayout__pageBody" restrictWidth={false}>
           {props.workspacePanel}
         </EuiPageBody>

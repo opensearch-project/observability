@@ -29,6 +29,7 @@ interface ObservabilityAppDeps {
   pplService: any;
   dslService: any;
   savedObjects: any;
+  timestampUtils: any;
 }
 
 export const App = ({
@@ -37,6 +38,7 @@ export const App = ({
   pplService,
   dslService,
   savedObjects,
+  timestampUtils
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
@@ -75,13 +77,14 @@ export const App = ({
                 render={(props) => {
                   return (
                     <EventAnalytics
-                      chrome={chrome}
-                      parentBreadcrumb={parentBreadcrumb}
-                      pplService={pplService}
-                      dslService={dslService}
-                      savedObjects={savedObjects}
-                      http={http}
-                      {...props}
+                      chrome={ chrome }
+                      parentBreadcrumb={ parentBreadcrumb }
+                      pplService={ pplService }
+                      dslService={ dslService }
+                      savedObjects={ savedObjects }
+                      timestampUtils={ timestampUtils }
+                      http={ http }
+                      { ...props }
                     />
                   );
                 }}

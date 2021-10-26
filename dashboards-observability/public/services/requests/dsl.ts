@@ -32,7 +32,7 @@ export default class DSLService {
                 body: JSON.stringify(request)
               }
             )
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
   }
 
   fetchIndices = async () => {
@@ -48,14 +48,14 @@ export default class DSLService {
   }
 
   fetchFields = async(
-    request: any
+    index: string
   ) => {
     return this.http
             .get(
               `${DSL_BASE}${DSL_MAPPING}`,
               {
                 query: {
-                  index: request
+                  index: index
                 }
               }
             )
