@@ -17,6 +17,7 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
+import { renderPageWithSidebar } from './common/side_nav';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
@@ -54,17 +55,6 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
-              <Route
-                path={['/trace_analytics', '/trace_analytics/home']}
-                render={(props) => (
-                  <TraceAnalyticsHome
-                    {...props}
-                    chrome={chrome}
-                    http={http}
-                    parentBreadcrumb={parentBreadcrumb}
-                  />
-                )}
-              />
               <Route
                 path="/notebooks"
                 render={(props) => (
@@ -110,6 +100,17 @@ export const App = ({
                     />
                   );
                 }}
+              />
+              <Route
+                path={['/', '/trace_analytics', '/trace_analytics/home']}
+                render={(props) => (
+                  <TraceAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                  />
+                )}
               />
             </Switch>
           </>

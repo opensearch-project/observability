@@ -69,7 +69,7 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
           name: 'Notebooks',
           id: 4,
           href: '#/notebooks',
-        }
+        },
       ],
     },
   ];
