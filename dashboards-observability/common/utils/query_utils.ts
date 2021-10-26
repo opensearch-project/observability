@@ -47,7 +47,7 @@ export const insertDateRangeToQuery = ({
   const tokens = rawQuery.match(PPL_INDEX_INSERT_POINT_REGEX);
   
   if (isEmpty(tokens)) return finalQuery;
-  finalQuery = `search ${tokens![1]}=${tokens![2]} | where ${timeField} >= timestamp('${start}') and ${timeField} <= timestamp('${end}')${tokens![3]}`;
+  finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= timestamp('${start}') and ${timeField} <= timestamp('${end}')${tokens![3]}`;
 
   return finalQuery;
 };
