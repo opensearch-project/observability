@@ -31,7 +31,6 @@ import org.opensearch.ResourceAlreadyExistsException
 import org.opensearch.ResourceNotFoundException
 import org.opensearch.action.DocWriteResponse
 import org.opensearch.action.admin.indices.create.CreateIndexRequest
-import org.opensearch.action.admin.indices.delete.DeleteIndexRequest
 import org.opensearch.action.bulk.BulkRequest
 import org.opensearch.action.delete.DeleteRequest
 import org.opensearch.action.get.GetRequest
@@ -134,6 +133,7 @@ internal object ObservabilityIndex {
     /**
      * Reindex .opensearch-notebooks to .opensearch-observability index
      */
+    @Suppress("TooGenericExceptionCaught")
     private fun reindexNotebooks() {
         if (isIndexExists(NOTEBOOKS_INDEX_NAME)) {
             try {
@@ -151,9 +151,15 @@ internal object ObservabilityIndex {
                 } else if (reindexResponse.bulkFailures.isNotEmpty()) {
                     throw IllegalStateException("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME failed with bulkFailures")
                 } else if (reindexResponse.total != reindexResponse.created + reindexResponse.updated) {
-                    throw IllegalStateException("$LOG_PREFIX:Index - reindex number of docs created:${reindexResponse.created} + updated:${reindexResponse.updated} does not equal requested:${reindexResponse.total}")
+                    throw IllegalStateException(
+                        "$LOG_PREFIX:Index - reindex number of docs created:${reindexResponse.created} + " +
+                            "updated:${reindexResponse.updated} does not equal requested:${reindexResponse.total}"
+                    )
                 }
-                log.info("$LOG_PREFIX:Index - reindex ${reindexResponse.created} docs created and ${reindexResponse.updated} docs updated in $INDEX_NAME")
+                log.info(
+                    "$LOG_PREFIX:Index - reindex ${reindexResponse.created} docs created " +
+                        "and ${reindexResponse.updated} docs updated in $INDEX_NAME"
+                )
             } catch (exception: Exception) {
                 if (exception !is ResourceNotFoundException && exception.cause !is ResourceNotFoundException) {
                     throw exception
