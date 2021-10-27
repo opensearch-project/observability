@@ -20,10 +20,15 @@ import DSLService from './services/requests/dsl';
 import TimestampUtils from './services/timestamp/timestamp';
 import SavedObjects from './services/saved_objects/event_analytics/saved_objects';
 import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } from './types';
+import { convertLegacyNotebooksUrl } from './components/notebooks/components/helpers/legacy_route_helpers';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
 
     public setup(core: CoreSetup): ObservabilitySetup {
+      // redirect legacy notebooks URL to current URL under observability
+      if (window.location.pathname.includes('notebooks-dashboards')) {
+        window.location.assign(convertLegacyNotebooksUrl(window.location));
+      }
       
       core.application.register({
         id: observabilityID,
@@ -51,16 +56,6 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
             timestampUtils
           );
         },
-      });
-
-      // redirect legacy notebooks URL to current URL under observability
-      core.application.register({
-        id: "notebooks-dashboards",
-        title: "",
-        async mount(params: AppMountParameters) {
-          const { LegacyRoute } = await import('./components/notebooks/components/legacy_route');
-          return LegacyRoute(params)
-        }
       });
 
       // Return methods that should be available to other plugins

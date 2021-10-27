@@ -9,12 +9,10 @@
  * GitHub history for details.
  */
 
-import { RedirectProps } from 'react-router-dom';
-
-export const convertLegacyNotebooksUrl = (location: Location): RedirectProps['to'] => {
+export const convertLegacyNotebooksUrl = (location: Location)=> {
   const pathname = location.pathname.replace('notebooks-dashboards', 'observability');
   const hash = `#/notebooks${location.hash.replace(/^#/, '')}${
     location.hash.includes('?') ? location.search.replace(/^\?/, '&') : location.search
   }`;
-  return { pathname, hash };
+  return pathname + hash;
 };
