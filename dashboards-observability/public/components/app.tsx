@@ -17,7 +17,6 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
-import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { renderPageWithSidebar } from './common/side_nav';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
@@ -41,7 +40,6 @@ export const App = ({
   savedObjects,
   timestampUtils
 }: ObservabilityAppDeps) => {
-
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
@@ -59,31 +57,6 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
-              <Route
-                exact
-                path={['/', '/application_analytics', '/application_analytics/home']}
-                render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Application analytics',
-                      href: '#/application_analytics',
-                    },
-                  ]);
-                  return renderPageWithSidebar(<ApplicationAnalyticsHome />);
-                }}
-              />
-              <Route
-                path={['/trace_analytics', '/trace_analytics/home']}
-                render={(props) => (
-                  <TraceAnalyticsHome
-                    {...props}
-                    chrome={chrome}
-                    http={http}
-                    parentBreadcrumb={parentBreadcrumb}
-                  />
-                )}
-              />
               <Route
                 path="/notebooks"
                 render={(props) => (
@@ -117,7 +90,7 @@ export const App = ({
                 }}
               />
               <Route
-                path={['/operational_panels']}
+                path="/operational_panels"
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
                   return (
@@ -130,6 +103,17 @@ export const App = ({
                     />
                   );
                 }}
+              />
+              <Route
+                path={['/', '/trace_analytics', '/trace_analytics/home']}
+                render={(props) => (
+                  <TraceAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                  />
+                )}
               />
             </Switch>
           </>

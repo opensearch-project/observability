@@ -86,7 +86,7 @@ export const Home = (props: HomeProps) => {
     <>
       <Route
         exact
-        path={['/trace_analytics', '/trace_analytics/home']}
+        path={['/', '/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => renderPageWithSidebar(<Dashboard {...commonProps} />)}
       />
       <Route
