@@ -13,24 +13,44 @@ import { filtersToDsl } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends TraceAnalyticsComponentDeps {}
+interface ServicesProps extends TraceAnalyticsComponentDeps {
+  hasTitle: boolean;
+  breadCrumbOwner: string;
+  appId?: string;
+  appName?: string;
+}
 
 export function Services(props: ServicesProps) {
+  const { hasTitle, appId, appName, breadCrumbOwner, parentBreadcrumb } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
+  const breadCrumbs = breadCrumbOwner === 'trace' ? 
+  [
+    {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',
       },
       {
-        text: 'Services',
-        href: '#/trace_analytics/services',
+        text: 'Dashboards',
+        href: '#/trace_analytics/home',
       },
+  ] : [
+    {
+      text: 'Application analytics',
+      href: '#/application_analytics',
+    },
+    {
+      text: `${appName}`,
+      href: `#/application_analytics/${appId}`,
+    },
+  ]
+
+  useEffect(() => {
+    props.chrome.setBreadcrumbs([
+      parentBreadcrumb,
+      ...breadCrumbs
     ]);
     const validFilters = getValidFilterFields('services');
     props.setFilters([
@@ -71,9 +91,13 @@ export function Services(props: ServicesProps) {
 
   return (
     <>
+    {hasTitle ?
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Services</h2>
       </EuiTitle>
+      :
+      <EuiSpacer size="m" />
+      }
       <SearchBar
         query={props.query}
         filters={props.filters}

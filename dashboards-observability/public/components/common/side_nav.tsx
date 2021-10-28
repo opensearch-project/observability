@@ -52,6 +52,11 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
       id: 0,
       items: [
         {
+          name: 'Application analytics',
+          id: 1,
+          href: '#/application_analytics',
+        },
+        {
           name: 'Trace analytics',
           id: 1,
           href: '#/trace_analytics/home',

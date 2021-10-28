@@ -14,7 +14,7 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE
  } from '../constants/explorer';
- import { HttpStart, NotificationsStart } from '../../../../src/core/public';
+ import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
  import TimestampUtils from '../../public/services/timestamp/timestamp';
  import PPLService from '../../public/services/requests/ppl';
@@ -98,4 +98,5 @@ export interface IExplorerProps {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
+  http: CoreStart['http'];
 }

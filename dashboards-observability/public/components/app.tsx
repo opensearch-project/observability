@@ -44,12 +44,34 @@ export const App = ({
     href: '#/operational_panels/',
   };
 
+  const appAnalyticsBreadcrumb = {
+    text: 'Application analytics',
+    href: '#/application_analytics/',
+  };
+
   return (
     <Provider store={store}>
       <HashRouter>
         <I18nProvider>
           <>
             <Switch>
+              <Route
+                path={'/application_analytics'}
+                render={(props) => {
+                  return (
+                    <ApplicationAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                    pplService={ pplService }
+                    dslService={ dslService }
+                    savedObjects={ savedObjects }
+                    timestampUtils={ timestampUtils }
+                  />
+                  )
+                }}
+              />
               <Route
                 path="/notebooks"
                 render={(props) => (
@@ -108,7 +130,7 @@ export const App = ({
                     />
                   );
                 }}
-              />
+              />  
             </Switch>
           </>
         </I18nProvider>
