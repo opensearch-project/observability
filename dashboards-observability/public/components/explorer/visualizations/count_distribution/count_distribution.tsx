@@ -16,11 +16,13 @@ export const CountDistribution = ({
   countDistribution
 }: any) => {
 
-  if (!countDistribution || !countDistribution.data) return null;
+  if (
+    !countDistribution ||
+    !countDistribution?.data ||
+    !countDistribution?.metadata ||
+    !countDistribution?.metadata?.fields
+  ) return null;
   
-  const meta = countDistribution.metadata;
-  const xkey = meta?.xfield?.name;
-  const ykey = meta?.yfield?.name;
   const layout = {
     showlegend: true,
     margin: {
@@ -32,24 +34,12 @@ export const CountDistribution = ({
     },
     height: 220
   };
-  const config = {};
-  const xaxis = {
-    autorange: true
-  };
-  const yaxis = {
-    fixedrange: true
-  };
-
-  if (!xkey || !ykey) {
-    return null;
-  }
 
   return (
     <Bar
       visualizations={ countDistribution }
       name="Event counts"
       layoutConfig={ layout }
-      config={ config }
     />
   );
 };
