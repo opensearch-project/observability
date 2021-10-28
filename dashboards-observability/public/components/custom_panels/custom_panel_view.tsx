@@ -48,6 +48,7 @@ import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { ChangeEvent } from 'react';
 import moment from 'moment';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
+import { uiSettingsService } from '../../../common/utils';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -537,7 +538,7 @@ export const CustomPanelView = ({
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
-                  dateFormat={UI_DATE_FORMAT}
+                  dateFormat={uiSettingsService.get('dateFormat')}
                   start={start}
                   end={end}
                   onTimeChange={onDatePickerChange}

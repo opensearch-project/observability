@@ -17,6 +17,7 @@ import {
 import {
   IDatePickerProps
 } from './search';
+import { uiSettingsService } from '../../../../common/utils';
 
 export function DatePicker(props: IDatePickerProps) {
 
@@ -66,7 +67,7 @@ export function DatePicker(props: IDatePickerProps) {
         start={ startTime }
         end={ endTime }
         showUpdateButton={ false }
-        dateFormat="MM/DD/YYYY hh:mm:ss A"
+        dateFormat={uiSettingsService.get('dateFormat')}
         onTimeChange={(e) => {
           const start = e.start;
           const end = e.start === e.end ? 'now' : e.end;
