@@ -27,20 +27,14 @@
 
 #autocomplete-root {
   width: 100%;
-  .aa-Form {
-    width: 100%;
-    min-height: 39px;
-    line-height: 30px;
-    height: 39px;
-    border: none;
-  }
   #autocomplete-textarea {
     width: 100%;
     outline: none;
-    min-height: 39px;
-    line-height: 30px;
-    height: 39px;
+    min-height: 40px;
+    max-width: unset;
+    height: 40px;
     resize: vertical;
+    font-size: 16px;
   }
   .aa-Panel {
     width: 100%;
