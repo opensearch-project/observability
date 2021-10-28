@@ -41,7 +41,7 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
         {
           name: 'Application analytics',
           id: 1,
-          href: '#/application_analytics/home',
+          href: '#/application_analytics',
         },
         {
           name: 'Trace analytics',

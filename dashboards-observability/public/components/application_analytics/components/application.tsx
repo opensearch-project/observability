@@ -25,38 +25,49 @@
  */
 
 import {
-    EuiButton,
-    EuiButtonGroup,
-    EuiButtonGroupOption,
-    EuiCard,
-    EuiContextMenu,
-    EuiContextMenuPanelDescriptor,
-    EuiFlexGroup,
-    EuiFlexItem,
-    EuiIcon,
-    EuiOverlayMask,
     EuiPage,
     EuiPageBody,
     EuiPageHeader,
     EuiPageHeaderSection,
-    EuiPanel,
-    EuiPopover,
     EuiSpacer,
-    EuiTab,
-    EuiTabs,
+    EuiTabbedContent,
+    EuiTabbedContentTab,
     EuiText,
     EuiTitle,
   } from '@elastic/eui';
-import CSS from 'csstype';
-import React, { useState } from 'react';
-import { AppOverview } from './overview';
+import { LogExplorer } from '../../explorer/log_explorer';
+import { Dashboard } from '../../trace_analytics/components/dashboard';
+import { Services } from '../../trace_analytics/components/services';
+import { Traces } from '../../trace_analytics/components/traces';
+import { SpanDetailPanel } from '../../trace_analytics/components/traces/span_detail_panel';
+import { Configuration } from './configuration';
+import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
+import DSLService from 'public/services/requests/dsl';
+import PPLService from 'public/services/requests/ppl';
+import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
+import TimestampUtils from 'public/services/timestamp/timestamp';
+import React, { useMemo, useState } from 'react';
+import { uniqueId } from 'lodash';
+import { 
+  TAB_CONFIG_ID_TXT_PFX, 
+  TAB_CONFIG_TITLE, 
+  TAB_LOG_ID_TXT_PFX, 
+  TAB_LOG_TITLE, 
+  TAB_OVERVIEW_ID_TXT_PFX, 
+  TAB_OVERVIEW_TITLE, 
+  TAB_SERVICE_ID_TXT_PFX, 
+  TAB_SERVICE_TITLE, 
+  TAB_TRACE_ID_TXT_PFX, 
+  TAB_TRACE_TITLE 
+} from '../../../../common/constants/application_analytics';
+import { IQueryTab } from 'common/types/explorer';
 
 
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1500px',
-};
+const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
+const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
+const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
+const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
+const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 
 export interface DetailTab {
   id: string;
@@ -66,54 +77,140 @@ export interface DetailTab {
   testId: string;
 }
 
-interface AppDetailProps {
+interface AppDetailProps extends TraceAnalyticsComponentDeps {
   disabled?: boolean;
+  appId: string;
+  pplService: PPLService;
+  dslService: DSLService;
+  savedObjects: SavedObjects;
+  timestampUtils: TimestampUtils;
 }
 
-export function Application(props: AppDetailProps) {
-  const { disabled } = props;
-  const [selectedTab, setSelectedTab] = useState('overview');
 
-  const detailTabs = [
-    {
-      id: 'overview',
-      label: 'Overview',
-      description: 'Displays overview of app health',
-      onClick: () => {setSelectedTab('overview')},
-      testId: 'overview'
-    },
-    {
-        id: 'services',
-        label: 'Services',
-        description: 'Displays services',
-        onClick: () => {setSelectedTab('services')},
-        testId: 'service'
-    },
-    {
-        id: 'traceSpans',
-        label: 'Traces & Spans',
-        description: 'Displays traces & spans',
-        onClick: () => {setSelectedTab('traceSpans')},
-        testId: 'tracesSpans'
-    },
-    {
-        id: 'logEvents',
-        label: 'Log Events',
-        description: 'Displays log events',
-        onClick: () => {setSelectedTab('logEvents')},
-        testId: 'logEvents'
-    },
-    {
-        id: 'config',
-        label: 'Configuration',
-        description: 'Displays configuration',
-        onClick: () => {setSelectedTab('config')},
-        testId: 'config'
-    },
-]
+export function Application(props: AppDetailProps) {
+  const { pplService, dslService, timestampUtils, savedObjects, http } = props;
+  const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
+  const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
+
+  const getOverview = () => {
+    return (
+      <Dashboard {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+    );
+  };
+
+  const getService = () => {
+    return (
+      <Services {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+    );
+  };
+
+  const getTrace = () => {
+    return (
+      <>
+      <Traces {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+      <EuiSpacer size='m'/>
+      <SpanDetailPanel
+        {...props}
+        traceId="id"
+        colorMap="color" 
+      />
+    </>
+    );
+  };
+
+  const getLog = () => {
+    return (
+      <LogExplorer 
+            pplService={pplService}
+            dslService={dslService}
+            savedObjects={savedObjects}
+            timestampUtils={timestampUtils}
+            http={http}
+          />
+    );
+  };
+
+  const getConfig = () => {
+    return (
+      <Configuration />
+    );
+  };
+
+  function getAppAnalyticsTab ({
+    tabId,
+    tabTitle,
+    getContent
+  }: {
+    tabId: string,
+    tabTitle: string,
+    getContent: () => JSX.Element
+  }) {
+    return {
+      id: tabId,
+      name: (<>
+              <EuiText
+                size="s"
+                textAlign="left"
+                color="default"
+              >
+                <span className="tab-title">{ tabTitle }</span>
+              </EuiText>
+            </>),
+      content: (
+        <>
+          { getContent() }
+        </>)
+    };
+  };
+
+  const getAppAnalyticsTabs = () => {
+    return [
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_OVERVIEW_ID,
+            tabTitle: TAB_OVERVIEW_TITLE,
+            getContent: () => getOverview()
+          }
+        ),
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_SERVICE_ID,
+            tabTitle: TAB_SERVICE_TITLE,
+            getContent: () => getService()
+          }
+        ),
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_TRACE_ID,
+            tabTitle: TAB_TRACE_TITLE,
+            getContent: () => getTrace()
+          }
+        ),
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_LOG_ID,
+            tabTitle: TAB_LOG_TITLE,
+            getContent: () => getLog()
+          }
+        ),
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_CONFIG_ID,
+            tabTitle: TAB_CONFIG_TITLE,
+            getContent: () => getConfig()
+          }
+        )
+    ];
+  };
+  
+
+  const memorizedAppAnalyticsTabs = useMemo(() => {
+    return getAppAnalyticsTabs();
+  },
+  []);
 
   return (
-    <div style={pageStyles}>
+    <div>
     <EuiPage>
       <EuiPageBody component="div">
         <EuiPageHeader>
@@ -123,38 +220,13 @@ export function Application(props: AppDetailProps) {
             </EuiTitle>
           </EuiPageHeaderSection>
         </EuiPageHeader>
-        <EuiTabs size="m">
-        {detailTabs.map((item) => {
-          return (
-            <EuiTab
-              key={item.id}
-              disabled={disabled}
-              onClick={item.onClick}
-              title={item.label}
-              data-test-subj={item.testId}
-            >
-              {item.label}
-            </EuiTab>
-          );
-        })}
-        </EuiTabs>
-        {selectedTab === 'overview' && 
-          <AppOverview
-            loading={false}
-          />
-        }
-        {selectedTab === 'services' && 
-          <h1>Services</h1>
-        }
-        {selectedTab === 'traceSpans' && 
-          <h1>Traces & Spans</h1>
-        }
-        {selectedTab === 'logEvents' && 
-          <h1>Log Events</h1>
-        }
-        {selectedTab === 'config' && 
-          <h1>Configuration</h1>
-        }
+        <EuiTabbedContent
+          className="appAnalyticsTabs"
+          initialSelectedTab={ memorizedAppAnalyticsTabs[0] }
+          selectedTab={ memorizedAppAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
+          onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
+          tabs={ memorizedAppAnalyticsTabs }
+      />
       </EuiPageBody>
     </EuiPage>
     </div>

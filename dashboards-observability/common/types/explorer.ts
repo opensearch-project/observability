@@ -21,6 +21,8 @@ import {
   SELECTED_DATE_RANGE
  } from '../constants/explorer';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
+import TimestampUtils from 'public/services/timestamp/timestamp';
+import { CoreStart } from '../../../../src/core/public';
 
 export interface IQueryTab {
   id: string;
@@ -64,4 +66,6 @@ export interface ILogExplorerProps {
   pplService: any;
   dslService: any;
   savedObjects: SavedObjects;
+  timestampUtils: TimestampUtils;
+  http: CoreStart['http'];
 }

@@ -53,6 +53,11 @@ export const App = ({
     href: '#/operational_panels/',
   };
 
+  const appAnalyticsBreadcrumb = {
+    text: 'Application analytics',
+    href: '#/application_analytics/',
+  };
+
   return (
     <Provider store={store}>
       <HashRouter>
@@ -60,17 +65,20 @@ export const App = ({
           <>
             <Switch>
               <Route
-                exact
-                path={['/', '/application_analytics', '/application_analytics/home']}
+                path={'/application_analytics'}
                 render={(props) => {
-                  chrome.setBreadcrumbs([
-                    parentBreadcrumb,
-                    {
-                      text: 'Application analytics',
-                      href: '#/application_analytics',
-                    },
-                  ]);
-                  return renderPageWithSidebar(<ApplicationAnalyticsHome />);
+                  return (
+                    <ApplicationAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                    pplService={ pplService }
+                    dslService={ dslService }
+                    savedObjects={ savedObjects }
+                    timestampUtils={ timestampUtils }
+                  />
+                  )
                 }}
               />
               <Route
@@ -130,7 +138,7 @@ export const App = ({
                     />
                   );
                 }}
-              />
+              />  
             </Switch>
           </>
         </I18nProvider>
