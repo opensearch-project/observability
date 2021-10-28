@@ -32,6 +32,7 @@ import {
   EuiSpacer,
   EuiSuperDatePicker,
 } from '@elastic/eui';
+import { uiSettingsService } from '../../../../../common/utils';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { Filters, FiltersProps } from './filters/filters';
@@ -46,6 +47,7 @@ export const renderDatePicker = (
     <EuiSuperDatePicker
       start={startTime}
       end={endTime}
+      dateFormat={uiSettingsService.get('dateFormat')}
       showUpdateButton={false}
       onTimeChange={(e) => {
         setStartTime(e.start);

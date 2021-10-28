@@ -10,3 +10,4 @@
  */
 
 export { getIndexPatternFromRawQuery, insertDateRangeToQuery } from './query_utils';
+export { uiSettingsService } from './settings_service';

@@ -205,7 +205,7 @@ export const VisaulizationFlyout = ({
             endDate={endDate}
             isInvalid={startDate > endDate}
             aria-label="Start date"
-            dateFormat={UI_DATE_FORMAT}
+            dateFormat={uiSettingsService.get('dateFormat')}
           />
         }
         endDateControl={
@@ -215,7 +215,7 @@ export const VisaulizationFlyout = ({
             endDate={endDate}
             isInvalid={startDate > endDate}
             aria-label="End date"
-            dateFormat={UI_DATE_FORMAT}
+            dateFormat={uiSettingsService.get('dateFormat')}
           />
         }
       />

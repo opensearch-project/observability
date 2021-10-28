@@ -46,7 +46,7 @@ exports[`Search bar components renders date picker 1`] = `
       },
     ]
   }
-  dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+  dateFormat=""
   end="now"
   isAutoRefreshOnly={false}
   isDisabled={false}
@@ -120,7 +120,7 @@ exports[`Search bar components renders date picker 1`] = `
                     },
                   ]
                 }
-                dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                dateFormat=""
                 end="now"
                 isAutoRefreshOnly={false}
                 isDisabled={false}
@@ -181,7 +181,7 @@ exports[`Search bar components renders date picker 1`] = `
                     },
                   ]
                 }
-                dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                dateFormat=""
                 end="now"
                 isAutoRefreshOnly={false}
                 isDisabled={false}
@@ -537,7 +537,7 @@ exports[`Search bar components renders search bar 1`] = `
                 },
               ]
             }
-            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+            dateFormat=""
             end="now"
             isAutoRefreshOnly={false}
             isDisabled={false}
@@ -611,7 +611,7 @@ exports[`Search bar components renders search bar 1`] = `
                               },
                             ]
                           }
-                          dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                          dateFormat=""
                           end="now"
                           isAutoRefreshOnly={false}
                           isDisabled={false}
@@ -672,7 +672,7 @@ exports[`Search bar components renders search bar 1`] = `
                               },
                             ]
                           }
-                          dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                          dateFormat=""
                           end="now"
                           isAutoRefreshOnly={false}
                           isDisabled={false}
