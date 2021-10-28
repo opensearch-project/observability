@@ -47,6 +47,7 @@ import {
   EuiTextArea,
 } from '@elastic/eui';
 import { Input, Prompt, Source } from '@nteract/presentational-components';
+import { uiSettingsService } from '../../../../../common/utils';
 import React, { useState } from 'react';
 import { ParaType } from '../../../../../common/types/notebooks';
 
@@ -169,7 +170,7 @@ export const ParaInput = (props: {
                 start={props.startTime}
                 end={props.endTime}
                 showUpdateButton={false}
-                dateFormat="MM/DD/YYYY hh:mm:ss A"
+                dateFormat={uiSettingsService.get('dateFormat')}
                 onTimeChange={(e) => {
                   props.setStartTime(e.start);
                   props.setEndTime(e.end);
