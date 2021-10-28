@@ -15,7 +15,7 @@ import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import useObservable from 'react-use/lib/useObservable';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import { VisualizationContainer } from '../visualiation_container';
+import { VisualizationContainer } from '../visualization_container';
 import { VisualizationType } from '../../../../../common/types/custom_panels';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
 import './panel_grid.scss';
