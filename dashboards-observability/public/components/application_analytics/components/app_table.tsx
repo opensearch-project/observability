@@ -47,23 +47,29 @@ import {
   } from '@elastic/eui';
 import CSS from 'csstype';
 import _ from 'lodash';
-import React, { ReactElement, useState } from 'react';
+import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { ApplicationType } from '../home';
 
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
-
-type AppTableProps = {
+interface AppTableProps extends TraceAnalyticsComponentDeps {
     loading: boolean;
     applications: Array<ApplicationType>;
   };
 
 export function AppTable(props: AppTableProps) {
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const { applications } = props;
+  const { applications, parentBreadcrumb } = props;
+
+  useEffect(() => {
+    props.chrome.setBreadcrumbs(
+      [
+      parentBreadcrumb,
+      {
+        text: 'Application analytics',
+        href: '#/application_analytics',
+      }
+    ]);
+  })
 
   const popoverButton = (
     <EuiButton
@@ -109,7 +115,8 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/applications/${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        // <EuiLink href={`#/application_analytics/${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`#/application_analytics/id`}>{_.truncate(value, { length: 100 })}</EuiLink>
       ),
     },
     {
@@ -144,7 +151,7 @@ export function AppTable(props: AppTableProps) {
   >;
 
   return (
-    <div style={pageStyles}>
+    <div>
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>

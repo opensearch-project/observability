@@ -12,24 +12,44 @@ import { filtersToDsl } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesTable } from './traces_table';
 
-interface TracesProps extends TraceAnalyticsComponentDeps {}
+interface TracesProps extends TraceAnalyticsComponentDeps {
+  hasTitle: boolean;
+  breadCrumbOwner: string;
+  appId?: string;
+  appName?: string;
+}
 
 export function Traces(props: TracesProps) {
+  const { hasTitle, appId, appName, breadCrumbOwner, parentBreadcrumb } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
+  const breadCrumbs = breadCrumbOwner === 'trace' ? 
+  [
+    {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',
       },
       {
-        text: 'Traces',
-        href: '#/trace_analytics/traces',
+        text: 'Dashboards',
+        href: '#/trace_analytics/home',
       },
+  ] : [
+    {
+      text: 'Application analytics',
+      href: '#/application_analytics',
+    },
+    {
+      text: `${appName}`,
+      href: `#/application_analytics/${appId}`,
+    },
+  ]
+
+  useEffect(() => {
+    props.chrome.setBreadcrumbs([
+      parentBreadcrumb,
+      ...breadCrumbs
     ]);
     const validFilters = getValidFilterFields('traces');
     props.setFilters([
@@ -55,9 +75,13 @@ export function Traces(props: TracesProps) {
 
   return (
     <>
+    {hasTitle ?
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Traces</h2>
       </EuiTitle>
+      :
+      <EuiSpacer size="m" />
+      }
       <SearchBar
         query={props.query}
         filters={props.filters}
