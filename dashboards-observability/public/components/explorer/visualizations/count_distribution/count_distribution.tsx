@@ -18,9 +18,9 @@ export const CountDistribution = ({
 
   if (
     !countDistribution ||
-    !countDistribution?.data ||
-    !countDistribution?.metadata ||
-    !countDistribution?.metadata?.fields
+    !countDistribution.data ||
+    !countDistribution.metadata ||
+    !countDistribution.metadata.fields
   ) return null;
   
   const layout = {
