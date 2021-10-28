@@ -11,12 +11,14 @@
 
 import './search.scss';
 import React, {
-  useEffect,
   useMemo,
-  useRef, 
   useState
 } from 'react';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { 
+  AutocompleteState,
+  createAutocomplete
+} from '@algolia/autocomplete-core';
+import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
@@ -258,15 +260,37 @@ const onItemSelect = async ({ setQuery, item }, dslService: DSLService) => {
   setQuery(item.label + ' ');
 };
 
-export function Autocomplete(props: IQueryBarProps) {
-  
-  const { query, handleQueryChange, handleQuerySearch, dslService } = props;
-  const [autocompleteState, setAutocompleteState] = useState({});
-  const textareaRef = React.useRef(null);
+type AutocompleteItem = {
+  input: string;
+  itemName: string;
+  label: string;
+  suggestion: string;
+};
 
+export function Autocomplete({
+  query,
+  handleQueryChange,
+  dslService
+}: IQueryBarProps) {
+
+  const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
+    collections: [],
+    completion: null,
+    context: {},
+    isOpen: false,
+    query: '',
+    activeItemId: null,
+    status: 'idle',
+  });
+  const textareaRef = React.useRef(null);
   const autocomplete = useMemo(
     () => {
-      return createAutocomplete(
+      return createAutocomplete<
+        AutocompleteItem,
+        React.BaseSyntheticEvent,
+        React.MouseEvent,
+        React.KeyboardEvent
+      >(
         {
           onStateChange: async ({ state }) => {
             if (
@@ -279,6 +303,10 @@ export function Autocomplete(props: IQueryBarProps) {
               await handleQueryChange(state.query, currIndex);
             }
           },
+          initialState: { 
+            ...autocompleteState,
+            query, 
+          },
           getSources() {
             return [
               {
@@ -286,7 +314,6 @@ export function Autocomplete(props: IQueryBarProps) {
                   const suggestions = await getSuggestions(query, dslService);
                   return suggestions;
                 },
-                // tagName: 'test',
                 onSelect: ({ setQuery, item }) => {
                   onItemSelect(
                     {
@@ -295,19 +322,7 @@ export function Autocomplete(props: IQueryBarProps) {
                     },
                     dslService
                   );
-                },
-                templates: {
-                  item({ item, createElement }) {
-                    const prefix = item.input.split(' ');
-                    return createElement('div', {
-                      dangerouslySetInnerHTML: {
-                        __html: `<div>
-                          ${prefix[prefix.length-1]}<span class=styling>${item.suggestion}</span>
-                        </div>`,
-                      },
-                    });
-                  },
-                },
+                }
               },
             ];
           },
@@ -315,65 +330,71 @@ export function Autocomplete(props: IQueryBarProps) {
       );
   }, []);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const { getEnvironmentProps } = autocomplete;
-
-  useEffect(() => {
-    if (!formRef.current || !panelRef.current || !inputRef.current) {
-      return undefined;
-    }
-
-    const { onTouchStart, onTouchMove } = getEnvironmentProps({
-      formElement: formRef.current,
-      inputElement: inputRef.current,
-      panelElement: panelRef.current,
-    });
-
-    window.addEventListener('touchstart', onTouchStart);
-    window.addEventListener('touchmove', onTouchMove);
-
-    return () => {
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-    };
-  }, [getEnvironmentProps, formRef, inputRef, panelRef]);
-
   return (
-    <div className="aa-Autocomplete" {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}>
-      <textarea
+    <div 
+      className="aa-Autocomplete"
+      {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
+    >
+      <EuiTextArea
         ref={textareaRef}
         {...autocomplete.getInputProps({ 
           'id': 'autocomplete-textarea',
           'placeholder': 'Enter PPL query to retrieve log, traces, and metrics'
         })}
       />
-      <div className="aa-Panel" {...autocomplete.getPanelProps({})}>
-        {autocompleteState.isOpen &&
-          autocompleteState.collections.map((collection, index) => {
-            const { source, items } = collection;
-            return (
-              <div key={`source-${index}`} className="aa-Source">
-                {items.length > 0 && (
-                  <ul className="aa-List" {...autocomplete.getListProps()}>
-                    {items.map((item, index) => (
-                      <li
-                        key={index}
-                        className="aa-Item"
-                        {...autocomplete.getItemProps({
-                          item,
-                          source,
+      <div
+        className={[
+          'aa-Panel',
+          'aa-Panel--desktop',
+          autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
+        ]
+        .filter(Boolean)
+        .join(' ')}
+        {...autocomplete.getPanelProps({})}
+      >
+        
+          {autocompleteState.isOpen &&
+            autocompleteState.collections.map((collection, index) => {
+              const { source, items } = collection;
+              return (
+                <div className="aa-PanelLayout aa-Panel--scrollable">
+                  <div key={`source-${index}`} className="aa-Source">
+                    {items.length > 0 && (
+                      <ul className="aa-List" {...autocomplete.getListProps()}>
+                        {items.map((item, index) => {
+                          const prefix = item.input.split(' ');
+                          return (
+                            <li
+                              key={index}
+                              className="aa-Item"
+                              {...autocomplete.getItemProps({
+                                item,
+                                source,
+                              })}
+                            >
+                              <div className="aa-ItemWrapper">
+                                <div className="aa-ItemContent">
+                                  <div className="aa-ItemContentBody">
+                                    <div
+                                      className="aa-ItemContentTitle"
+                                      dangerouslySetInnerHTML={{
+                                        __html: `<div>
+                                        <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
+                                      </div>`
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          );
                         })}
-                      >
-                        { item.itemName }
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            );
-          })}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
       </div>
     </div>
   );
