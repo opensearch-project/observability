@@ -26,8 +26,8 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiSuperDatePicker,
-  EuiSuperDatePickerProps,
   EuiTitle,
+  OnTimeChangeProps,
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -103,6 +103,7 @@ export const CustomPanelView = ({
   const [inputDisabled, setInputDisabled] = useState(true);
   const [addVizDisabled, setAddVizDisabled] = useState(false);
   const [editDisabled, setEditDisabled] = useState(false);
+  const [dateDisabled, setDateDisabled] = useState(false);
   const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
@@ -185,6 +186,22 @@ export const CustomPanelView = ({
 
   const showModal = () => {
     setIsModalVisible(true);
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') onRefreshFilters();
+  };
+
+  const onDatePickerChange = (props: OnTimeChangeProps) => {
+    onTimeChange(
+      props.start,
+      props.end,
+      recentlyUsedRanges,
+      setRecentlyUsedRanges,
+      setStart,
+      setEnd
+    );
+    onRefreshFilters();
   };
 
   const onDelete = async () => {
@@ -283,13 +300,7 @@ export const CustomPanelView = ({
       setEditDisabled(true);
       setInputDisabled(true);
       setAddVizDisabled(false);
-    }
-
-    // When in edit mode
-    if (editMode) {
-      setEditDisabled(false);
-      setInputDisabled(true);
-      setAddVizDisabled(true);
+      setDateDisabled(false);
     }
 
     // When panel has visualizations
@@ -297,6 +308,15 @@ export const CustomPanelView = ({
       setEditDisabled(false);
       setInputDisabled(false);
       setAddVizDisabled(false);
+      setDateDisabled(false);
+    }
+
+    // When in edit mode
+    if (editMode) {
+      setEditDisabled(false);
+      setInputDisabled(true);
+      setAddVizDisabled(true);
+      setDateDisabled(true);
     }
   };
 
@@ -367,6 +387,7 @@ export const CustomPanelView = ({
       <VisaulizationFlyout
         panelId={panelId}
         closeFlyout={closeFlyout}
+        pplFilterValue={pplFilterValue}
         start={start}
         end={end}
         setToast={setToast}
@@ -509,7 +530,8 @@ export const CustomPanelView = ({
                   placeholder="Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   value={pplFilterValue}
                   fullWidth={true}
-                  onChange={(e) => onChange(e)}
+                  onChange={onChange}
+                  onKeyPress={onKeyPress}
                   disabled={inputDisabled}
                 />
               </EuiFlexItem>
@@ -518,18 +540,10 @@ export const CustomPanelView = ({
                   dateFormat={UI_DATE_FORMAT}
                   start={start}
                   end={end}
-                  onTimeChange={(props: Readonly<EuiSuperDatePickerProps>) =>
-                    onTimeChange(
-                      props.start,
-                      props.end,
-                      recentlyUsedRanges,
-                      setRecentlyUsedRanges,
-                      setStart,
-                      setEnd
-                    )
-                  }
+                  onTimeChange={onDatePickerChange}
                   showUpdateButton={false}
                   recentlyUsedRanges={recentlyUsedRanges}
+                  isDisabled={dateDisabled}
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>

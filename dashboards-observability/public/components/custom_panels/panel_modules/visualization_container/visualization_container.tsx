@@ -147,7 +147,7 @@ export const VisualizationContainer = ({
             </EuiText>
           </div>
         ) : (
-          displayVisualization(visualizationData, visualizationType)
+          displayVisualization(visualizationData, visualizationType, editMode)
         )}
       </div>
     ),

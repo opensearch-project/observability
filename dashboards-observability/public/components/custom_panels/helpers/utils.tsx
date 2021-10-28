@@ -287,48 +287,32 @@ export const isPPLFilterValid = (
 };
 
 // This function renders the visualzation based of its type
-export const displayVisualization = (data: any, type: string) => {
+export const displayVisualization = (data: any, type: string, editMode?: boolean) => {
   if (data === undefined) return;
+
+  const layoutObject = {
+    xaxis: {
+      automargin: true,
+      fixedrange: editMode ? true : false,
+    },
+    yaxis: {
+      automargin: true,
+      fixedrange: editMode ? true : false,
+    },
+  };
 
   let vizComponent!: JSX.Element;
   switch (type) {
     case 'bar': {
-      vizComponent = (
-        <Bar
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <Bar visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     case 'horizontal_bar': {
-      vizComponent = (
-        <HorizontalBar
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <HorizontalBar visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     case 'line': {
-      vizComponent = (
-        <Line
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <Line visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     default: {
