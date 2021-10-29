@@ -520,8 +520,8 @@ export const Explorer = ({
   
   const handleQuerySearch = () => fetchData();
 
-  const handleQueryChange = (query: string, index: string) => {
-    dispatch(changeQuery({
+  const handleQueryChange = async (query: string, index: string) => {
+    await dispatch(changeQuery({
       tabId,
       query: {
         [RAW_QUERY]: query,
@@ -608,13 +608,13 @@ export const Explorer = ({
 
   const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];
-
-  return (
+  
+   return (
     <div className="dscAppContainer">
       <Search
         key="search-component"
         query={ query[RAW_QUERY] }
-        handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
+        handleQueryChange={ handleQueryChange }
         handleQuerySearch={ () => { handleQuerySearch() } }
         dslService = { dslService }
         startTime={ dateRange[0] }

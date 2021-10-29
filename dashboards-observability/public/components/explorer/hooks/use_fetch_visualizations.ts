@@ -98,13 +98,13 @@ export const useFetchVisualizations = ({
           dispatch(fetchSuccess({
             tabId: requestParams.tabId,
             data: {
-              jsonData: res.jsonData
+              jsonData: res?.jsonData || {}
             }
           }));
           dispatch(updateFields({
             tabId: requestParams.tabId,
             data: {
-              [QUERIED_FIELDS]: res?.metadata.fields,
+              [QUERIED_FIELDS]: res?.metadata?.fields || [],
               [SELECTED_FIELDS]: []
             }
           }));
