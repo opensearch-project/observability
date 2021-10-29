@@ -10,9 +10,7 @@
  */
 
 import './search.scss';
-import $ from 'jquery';
 import React, {
-  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -24,8 +22,6 @@ import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
-
-declare type BaseItem = Record<string, unknown>;
 
 let queryLength: number = 0;
 let currIndex: string = '';
