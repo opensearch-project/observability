@@ -10,7 +10,9 @@
  */
 
 import './search.scss';
+import $ from 'jquery';
 import React, {
+  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -265,6 +267,7 @@ type AutocompleteItem = {
   itemName: string;
   label: string;
   suggestion: string;
+  __autocomplete_id: number;
 };
 
 export function Autocomplete({
@@ -282,7 +285,7 @@ export function Autocomplete({
     activeItemId: null,
     status: 'idle',
   });
-  const textareaRef = React.useRef(null);
+
   const autocomplete = useMemo(
     () => {
       return createAutocomplete<
@@ -336,8 +339,7 @@ export function Autocomplete({
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >
       <EuiTextArea
-        ref={textareaRef}
-        {...autocomplete.getInputProps({ 
+        {...autocomplete.getInputProps({
           'id': 'autocomplete-textarea',
           'placeholder': 'Enter PPL query to retrieve log, traces, and metrics'
         })}
@@ -352,49 +354,48 @@ export function Autocomplete({
         .join(' ')}
         {...autocomplete.getPanelProps({})}
       >
-        
-          {autocompleteState.isOpen &&
-            autocompleteState.collections.map((collection, index) => {
-              const { source, items } = collection;
-              return (
-                <div className="aa-PanelLayout aa-Panel--scrollable">
-                  <div key={`source-${index}`} className="aa-Source">
-                    {items.length > 0 && (
-                      <ul className="aa-List" {...autocomplete.getListProps()}>
-                        {items.map((item, index) => {
-                          const prefix = item.input.split(' ');
-                          return (
-                            <li
-                              key={index}
-                              className="aa-Item"
-                              {...autocomplete.getItemProps({
-                                item,
-                                source,
-                              })}
-                            >
-                              <div className="aa-ItemWrapper">
-                                <div className="aa-ItemContent">
-                                  <div className="aa-ItemContentBody">
-                                    <div
-                                      className="aa-ItemContentTitle"
-                                      dangerouslySetInnerHTML={{
-                                        __html: `<div>
-                                        <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
-                                      </div>`
-                                      }}
-                                    />
-                                  </div>
+        {autocompleteState.isOpen &&
+          autocompleteState.collections.map((collection, index) => {
+            const { source, items } = collection;
+            return (
+              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
+                <div key={`source-${index}`} className="aa-Source">
+                  {items.length > 0 && (
+                    <ul className="aa-List" {...autocomplete.getListProps()}>
+                      {items.map((item, index) => {
+                        const prefix = item.input.split(' ');
+                        return (
+                          <li
+                            key={item.__autocomplete_id}
+                            className="aa-Item"
+                            {...autocomplete.getItemProps({
+                              item,
+                              source,
+                            })}
+                          >
+                            <div className="aa-ItemWrapper">
+                              <div className="aa-ItemContent">
+                                <div className="aa-ItemContentBody">
+                                  <div
+                                    className="aa-ItemContentTitle"
+                                    dangerouslySetInnerHTML={{
+                                      __html: `<div>
+                                      <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
+                                    </div>`
+                                    }}
+                                  />
                                 </div>
                               </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  </div>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

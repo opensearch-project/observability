@@ -37,7 +37,7 @@ export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const PPL_STATS_REGEX = /\|\s*stats/i;
 export const PPL_INDEX_INSERT_POINT_REGEX = /(search source|source|index)\s*=\s*([^\s]+)(.*)/i;
 export const PPL_INDEX_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)/i;
-export const PPL_NEWLINE_REGEX = /[\n\r]+/gi;
+export const PPL_NEWLINE_REGEX = /[\n\r]+/g;
 
 // Observability plugin URI
 const BASE_OBSERVABILITY_URI = '/_plugins/_observability';
