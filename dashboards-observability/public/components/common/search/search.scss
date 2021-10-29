@@ -13,7 +13,7 @@
   margin: .5rem 0;
   padding: .5rem;
 }
-.autocomplete {
+.aa-Autocomplete {
   width: 100%;
   margin: 4px;
   margin-left: 8px;
@@ -23,4 +23,21 @@
 }
 .styling {
   font-weight: bold;
+}
+
+#autocomplete-root {
+  width: 100%;
+  #autocomplete-textarea {
+    width: 100%;
+    outline: none;
+    min-height: 40px;
+    max-width: unset;
+    height: 40px;
+    resize: vertical;
+    font-size: 16px;
+  }
+  .aa-Panel {
+    width: 100%;
+    z-index: 2500;
+  }
 }
