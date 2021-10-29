@@ -9,10 +9,10 @@
  * GitHub history for details.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
-import { Route, RouteComponentProps } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router';
 import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
 import { FilterType } from '../trace_analytics/components/common/filters/filters';
 import { renderPageWithSidebar } from '../common/side_nav';
@@ -20,7 +20,6 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
-import { HashRouter, Switch } from 'react-router-dom';
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
   pplService: PPLService;
@@ -101,6 +100,7 @@ export const Home = (props: HomeProps) => {
 
   return (
     <div>
+      <Switch>
         <Route
           exact
           path={props.match.path}
@@ -108,6 +108,13 @@ export const Home = (props: HomeProps) => {
             renderPageWithSidebar(
               <AppTable loading={false} applications={dummyApplication} {...commonProps} />
             )
+          }
+        />
+        <Route
+          exact
+          path={`${props.match.path}/create`}
+          render={(routerProps) => 
+            <h1>Create Application</h1>
           }
         />
         <Route
@@ -126,6 +133,7 @@ export const Home = (props: HomeProps) => {
             />
           }
         />
+      </Switch>
     </div>
   )
 };

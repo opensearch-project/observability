@@ -11,6 +11,7 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
+import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
@@ -42,11 +43,6 @@ export const App = ({
   const customPanelBreadcrumb = {
     text: 'Operational panels',
     href: '#/operational_panels/',
-  };
-
-  const appAnalyticsBreadcrumb = {
-    text: 'Application analytics',
-    href: '#/application_analytics/',
   };
 
   return (
