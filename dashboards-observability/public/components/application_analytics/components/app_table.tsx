@@ -45,7 +45,6 @@ import {
     EuiText,
     EuiTitle,
   } from '@elastic/eui';
-import CSS from 'csstype';
 import _ from 'lodash';
 import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -169,13 +168,6 @@ export function AppTable(props: AppTableProps) {
                     Applications<span className="panel-header-count"> ({applications.length})</span>
                   </h3>
                 </EuiTitle>
-                <EuiSpacer size="s" />
-                <EuiText size="s" color="subdued">
-                  Use Applications to monitor the health of your applications. {' '}
-                  <EuiLink >
-                    Learn more (Empty Link for now)
-                  </EuiLink>
-                </EuiText>
               </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
                 <EuiFlexGroup gutterSize="s">
@@ -190,7 +182,12 @@ export function AppTable(props: AppTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton>
+                    <EuiButton
+                      fill
+                      iconSide="left"
+                      iconType="heart"
+                      href={`#/application_analytics/create`}
+                      >
                       Create application
                     </EuiButton>
                   </EuiFlexItem>
@@ -222,10 +219,6 @@ export function AppTable(props: AppTableProps) {
                 <EuiSpacer size="xxl" />
                 <EuiText textAlign="center">
                   <h2>No applications</h2>
-                  <EuiSpacer size="m" />
-                  <EuiText color="subdued">
-                    Use applications to monitor health of application.
-                  </EuiText>
                 </EuiText>
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
