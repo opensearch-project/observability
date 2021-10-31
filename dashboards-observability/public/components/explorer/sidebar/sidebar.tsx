@@ -28,6 +28,7 @@ interface ISidebarProps {
   explorerFields: IExplorerFields;
   explorerData: any;
   selectedTimestamp: string;
+  isOverridingTimestamp: boolean;
   handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
@@ -39,6 +40,7 @@ export const Sidebar = (props: ISidebarProps) => {
     explorerFields,
     explorerData,
     selectedTimestamp,
+    isOverridingTimestamp,
     handleOverrideTimestamp,
     handleAddField,
     handleRemoveField
@@ -98,6 +100,7 @@ export const Sidebar = (props: ISidebarProps) => {
                               handleOverrideTimestamp={ handleOverrideTimestamp }
                               selected={ true }
                               showToggleButton={ false }
+                              showTimestampOverrideButton={ false }
                               onToggleField={ handleRemoveField }
                             />
                           </li>
@@ -134,8 +137,11 @@ export const Sidebar = (props: ISidebarProps) => {
                     <Field 
                       field={ field }
                       selectedTimestamp={ selectedTimestamp }
+                      isOverridingTimestamp={ isOverridingTimestamp }
                       handleOverrideTimestamp={ handleOverrideTimestamp }
                       selected={ true }
+                      showToggleButton={ true }
+                      showTimestampOverrideButton={ true }
                       onToggleField={ handleRemoveField }
                     />
                   </li>
@@ -197,9 +203,12 @@ export const Sidebar = (props: ISidebarProps) => {
                       <Field 
                         field={ field }
                         selectedTimestamp={ selectedTimestamp }
+                        isOverridingTimestamp={ isOverridingTimestamp }
                         handleOverrideTimestamp={ handleOverrideTimestamp }
                         onToggleField={ handleAddField }
                         selected={ false }
+                        showToggleButton={ true }
+                        showTimestampOverrideButton={ true }
                       />
                     </li>
                   )})

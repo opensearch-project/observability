@@ -26,9 +26,11 @@ import { IField } from '../../../../common/types/explorer';
 interface IFieldProps {
   field: IField;
   selectedTimestamp: string;
+  isOverridingTimestamp: boolean;
   handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   selected: boolean;
   showToggleButton: boolean;
+  showTimestampOverrideButton: boolean;
   onToggleField: (field: IField) => void;
 }
 
@@ -37,9 +39,11 @@ export const Field = (props: IFieldProps) => {
   const {
     field,
     selectedTimestamp,
+    isOverridingTimestamp,
     handleOverrideTimestamp,
     selected,
     showToggleButton = true,
+    showTimestampOverrideButton = true,
     onToggleField
   } = props;
 
@@ -78,13 +82,14 @@ export const Field = (props: IFieldProps) => {
         }
       >
         <>
-        { isEqual(field.type, 'timestamp') ?
+        { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
           isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
           <EuiButton
-            className="timestamp_override"
+            className="timestamp-override"
             size="s"
-            color={'secondary'}
+            color="secondary"
             fill
+            isLoading={ isOverridingTimestamp }
             onClick={() => handleOverrideTimestamp(field)}
           >
             { 'Override' }

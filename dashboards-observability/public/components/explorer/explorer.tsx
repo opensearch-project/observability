@@ -143,6 +143,7 @@ export const Explorer = ({
   const [prevIndex, setPrevIndex] = useState('');
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -300,6 +301,8 @@ export const Explorer = ({
       return;
     }
     
+    setIsOverridingTimestamp(true);
+    
     let saveTimestampRes;
     if (curQuery![HAS_SAVED_TIMESTAMP]) {
       saveTimestampRes = await savedObjects.updateTimestamp({
@@ -311,6 +314,9 @@ export const Explorer = ({
       })
       .catch((error: any) => { 
         setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
       });
     } else {
       saveTimestampRes = await savedObjects.createSavedTimestamp({
@@ -322,6 +328,9 @@ export const Explorer = ({
       })
       .catch((error: any) => { 
         setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
       });
     }
 
@@ -351,6 +360,7 @@ export const Explorer = ({
                     explorerFields={ explorerFields }
                     explorerData={ explorerData }
                     selectedTimestamp={ query[SELECTED_TIMESTAMP] }
+                    isOverridingTimestamp={ isOverridingTimestamp }
                     handleOverrideTimestamp={ handleOverrideTimestamp }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
@@ -514,7 +524,8 @@ export const Explorer = ({
       explorerFields,
       isSidebarClosed,
       countDistribution,
-      explorerVisualizations
+      explorerVisualizations,
+      isOverridingTimestamp
     ]
   );
 
