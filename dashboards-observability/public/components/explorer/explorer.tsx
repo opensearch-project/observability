@@ -414,7 +414,6 @@ export const Explorer = ({
                     </>
                   )
                 }
-                
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
@@ -572,6 +571,11 @@ export const Explorer = ({
       }
 
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+
+      if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
+        setToast(`There is no query or(and) visualization to save`, 'danger');
+        return;
+      }
       
       // create new saved visualization
       const savingVisRes = await savedObjects.createSavedVisualization({
