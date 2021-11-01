@@ -183,7 +183,7 @@ export const VisaulizationFlyout = ({
   const timeRange = (
     <EuiFormRow label="Panel Time Range" fullWidth>
       <EuiDatePickerRange
-        className="date-picker-height"
+        className="date-picker-preview"
         fullWidth
         readOnly
         startDateControl={
@@ -313,9 +313,9 @@ export const VisaulizationFlyout = ({
         <EuiFlexGroup>
           <EuiFlexItem>
             {previewLoading ? (
-              <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+              <EuiLoadingChart size="xl" mono className="visualization-loading-chart-preview" />
             ) : isPreviewError != '' ? (
-              <div className="visualization-error-div">
+              <div className="visualization-error-div-preview">
                 <EuiSpacer size="l" />
                 <EuiIcon type="alert" color="danger" size="l" />
                 <EuiSpacer size="l" />
@@ -328,7 +328,7 @@ export const VisaulizationFlyout = ({
                 </EuiText>
               </div>
             ) : (
-              <div className="visualization-div">
+              <div className="visualization-div-preview">
                 {displayVisualization(previewData, newVisualizationType)}
               </div>
             )}
