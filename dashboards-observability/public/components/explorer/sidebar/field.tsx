@@ -72,50 +72,61 @@ export const Field = (props: IFieldProps) => {
 
   const getFieldActionDOM = () => {
     return (
-      <EuiToolTip
-        delay="long"
-        content={
-          i18n.translate(
-            selected ? 'removeFieldTooltip' : 'addFieldTooltip', 
-            { defaultMessage: selected ? 'Remove field from table' : 'Add field as column' }
-          )
-        }
-      >
-        <>
-        { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
-          isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
-          <EuiButton
-            className="timestamp-override"
-            size="s"
-            color="secondary"
-            fill
-            isLoading={ isOverridingTimestamp }
-            onClick={() => handleOverrideTimestamp(field)}
-          >
-            { 'Override' }
-          </EuiButton> : null
-        }
-        {
-          showToggleButton ? (
-            <EuiButtonIcon
-              color={ selected ? "danger" : "primary" }
-              iconType={ selected ? "cross": "plusInCircleFilled" }
-              className="dscSidebarItem__action"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                if (e.type === 'click') {
-                  e.currentTarget.focus();
-                }
-                e.preventDefault();
-                e.stopPropagation();
-                toggleField(field);
-              }}
-              data-test-subj={`fieldToggle-${field.name}`}
-              aria-label={ selected ? removeLabelAria : addLabelAria }
-            />
-          ) : null
-        }
-        </>
+      <>
+        <EuiToolTip
+          delay="long"
+          content={
+            'Override default timestamp'
+          }
+        >
+          <>
+            { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
+              isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
+              <EuiButtonIcon
+                className="dscSidebarItem__action"
+                size="s"
+                color="text"
+                iconType="push"
+                // isLoading={ isOverridingTimestamp }
+                onClick={() => handleOverrideTimestamp(field)}
+              >
+                { 'Override' }
+              </EuiButtonIcon> : null
+            }
+          </>
+        </EuiToolTip>
+        <EuiToolTip
+          delay="long"
+          content={
+            i18n.translate(
+              selected ? 'removeFieldTooltip' : 'addFieldTooltip', 
+              { defaultMessage: selected ? 'Remove field from table' : 'Add field as column' }
+            )
+          }
+        >
+          <>
+          {
+            showToggleButton ? (
+              <EuiButtonIcon
+                color={ selected ? "danger" : "primary" }
+                iconType={ selected ? "cross": "plusInCircleFilled" }
+                className="dscSidebarItem__action"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  if (e.type === 'click') {
+                    e.currentTarget.focus();
+                  }
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleField(field);
+                }}
+                data-test-subj={`fieldToggle-${field.name}`}
+                aria-label={ selected ? removeLabelAria : addLabelAria }
+              />
+            ) : null
+          }
+          </>
       </EuiToolTip>
+      </>
     );
   };
 
