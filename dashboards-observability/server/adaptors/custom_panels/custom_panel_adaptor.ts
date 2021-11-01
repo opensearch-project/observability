@@ -67,6 +67,7 @@ export class CustomPanelsAdaptor {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'operationalPanel',
+        maxItems: 10000,
       });
       return response.observabilityObjectList.map((panel: any) => ({
         name: panel.operationalPanel.name,

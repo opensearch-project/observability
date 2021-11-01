@@ -11,7 +11,6 @@
 
 import {
   EuiButton,
-  EuiButtonEmpty,
   EuiButtonIcon,
   EuiCallOut,
   EuiDatePicker,
@@ -32,7 +31,6 @@ import {
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
-import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import React, { useEffect, useState } from 'react';
 import { FlyoutContainers } from '../../helpers/flyout_containers';
 import { displayVisualization, getQueryResponse, isDateValid } from '../../helpers/utils';

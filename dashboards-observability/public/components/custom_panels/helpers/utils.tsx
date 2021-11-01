@@ -290,29 +290,30 @@ export const isPPLFilterValid = (
 export const displayVisualization = (data: any, type: string, editMode?: boolean) => {
   if (data === undefined) return;
 
-  const layoutObject = {
-    xaxis: {
-      automargin: true,
-      fixedrange: editMode ? true : false,
-    },
-    yaxis: {
-      automargin: true,
-      fixedrange: editMode ? true : false,
-    },
-  };
+  // const layoutObject = {
+  //   xaxis: {
+  //     automargin: true,
+  //     fixedrange: editMode ? true : false,
+  //   },
+  //   yaxis: {
+  //     automargin: true,
+  //     fixedrange: editMode ? true : false,
+  //   },
+  // };
+  // layoutConfig={layoutObject}
 
   let vizComponent!: JSX.Element;
   switch (type) {
     case 'bar': {
-      vizComponent = <Bar visualizations={data} layoutConfig={layoutObject} />;
+      vizComponent = <Bar visualizations={data} />;
       break;
     }
     case 'horizontal_bar': {
-      vizComponent = <HorizontalBar visualizations={data} layoutConfig={layoutObject} />;
+      vizComponent = <HorizontalBar visualizations={data} />;
       break;
     }
     case 'line': {
-      vizComponent = <Line visualizations={data} layoutConfig={layoutObject} />;
+      vizComponent = <Line visualizations={data} />;
       break;
     }
     default: {
