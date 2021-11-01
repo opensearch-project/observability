@@ -505,17 +505,15 @@ export const Explorer = ({
 
   const handleQuerySearch = () => fetchData();
 
-  const handleQueryChange = (query: string, index: string) => {
-    dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          [RAW_QUERY]: query,
-          [INDEX]: index,
-        },
-      })
-    );
-  };
+  const handleQueryChange = async (query: string, index: string) => {
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        [RAW_QUERY]: query,
+        [INDEX]: index
+      },
+    }));
+  }
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
@@ -609,33 +607,28 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query['selectedDateRange'])
-    ? ['now/15m', 'now']
-    : [query['selectedDateRange'][0], query['selectedDateRange'][1]];
-
-  return (
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
+   [query['selectedDateRange'][0], query['selectedDateRange'][1]];
+  
+   return (
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={query[RAW_QUERY]}
-        handleQueryChange={(query: string, index: string = '') => {
-          handleQueryChange(query, index);
-        }}
-        handleQuerySearch={() => {
-          handleQuerySearch();
-        }}
-        dslService={dslService}
-        startTime={dateRange[0]}
-        endTime={dateRange[1]}
-        handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
-        selectedPanelName={selectedPanelNameRef.current}
-        selectedCustomPanelOptions={selectedCustomPanelOptions}
-        setSelectedPanelName={setSelectedPanelName}
-        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
-        handleSavingObject={handleSavingObject}
-        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
-        savedObjects={savedObjects}
-        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
+        query={ query[RAW_QUERY] }
+        handleQueryChange={ handleQueryChange }
+        handleQuerySearch={ () => { handleQuerySearch() } }
+        dslService = { dslService }
+        startTime={ dateRange[0] }
+        endTime={ dateRange[1] }
+        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
+        selectedPanelName={ selectedPanelNameRef.current }
+        selectedCustomPanelOptions={ selectedCustomPanelOptions }
+        setSelectedPanelName={ setSelectedPanelName }
+        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
+        handleSavingObject={ handleSavingObject }
+        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
+        savedObjects={ savedObjects }
+        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
       />
       <EuiTabbedContent
         className="mainContentTabs"
