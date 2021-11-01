@@ -69,7 +69,7 @@ export const Home = (props: IHomeProps) => {
       objectType: ['savedQuery', 'savedVisualization'],
       sortOrder: 'desc',
       fromIndex: 0,
-      maxItems: 10
+//       maxItems: 10
     });
     setSavedHistories(res['observabilityObjectList'] || []);
   };
