@@ -32,7 +32,7 @@ interface TableData {
 
 export function Table(options: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(10);
   const dispatch = useDispatch();
   const history = useHistory();
   const hisRef = useRef();
@@ -96,7 +96,7 @@ export function Table(options: TableData) {
     pageIndex,
     pageSize,
     totalItemCount,
-    pageSizeOptions: [3, 5, 10],
+    pageSizeOptions: [5, 10, 20, 50],
   };
 
   return (
