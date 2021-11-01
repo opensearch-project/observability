@@ -102,8 +102,6 @@ export const VisaulizationFlyout = ({
   const [pplQuery, setPPLQuery] = useState('');
   const [previewData, setPreviewData] = useState<pplResponse>({} as pplResponse);
   const [previewArea, setPreviewArea] = useState(<></>);
-  const [showPreviewArea, setShowPreviewArea] = useState(false);
-  const [previewIconType, setPreviewIconType] = useState('arrowRight');
   const [previewLoading, setPreviewLoading] = useState(false);
   const [isPreviewError, setIsPreviewError] = useState('');
   const [savedVisualizations, setSavedVisualizations] = useState<SavedVisualizationType[]>([]);
@@ -113,16 +111,6 @@ export const VisaulizationFlyout = ({
   // DateTimePicker States
   const startDate = convertDateTime(start, true, false);
   const endDate = convertDateTime(end, false, false);
-
-  const onPreviewClick = () => {
-    if (previewIconType == 'arrowRight') {
-      setPreviewIconType('arrowUp');
-      setShowPreviewArea(true);
-    } else {
-      setPreviewIconType('arrowRight');
-      setShowPreviewArea(false);
-    }
-  };
 
   const isInputValid = () => {
     if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast, 'left')) {
@@ -248,7 +236,7 @@ export const VisaulizationFlyout = ({
     savedVisualizations.length > 0 ? (
       <EuiFlyoutBody>
         <>
-          <EuiSpacer size="l" />
+          <EuiSpacer size="s" />
           <EuiFormRow label="Visualization name">
             <EuiSelect
               hasNoInitialSelection
@@ -257,18 +245,11 @@ export const VisaulizationFlyout = ({
             />
           </EuiFormRow>
           <EuiSpacer size="l" />
-          <EuiSpacer size="l" />
           <EuiFlexGroup alignItems="center">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty
-                iconSide="left"
-                onClick={onPreviewClick}
-                iconType={previewIconType}
-                size="s"
-                isLoading={previewLoading}
-              >
-                Preview
-              </EuiButtonEmpty>
+              <EuiText grow={false}>
+                <h4>Preview</h4>
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButtonIcon
@@ -278,9 +259,8 @@ export const VisaulizationFlyout = ({
               />
             </EuiFlexItem>
           </EuiFlexGroup>
-          <EuiSpacer size="m" />
-          {showPreviewArea && previewArea}
-          <EuiSpacer size="m" />
+          <EuiSpacer size="s" />
+          {previewArea}
         </>
       </EuiFlyoutBody>
     ) : (
