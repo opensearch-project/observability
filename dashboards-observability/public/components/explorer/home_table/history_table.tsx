@@ -16,31 +16,21 @@ import {
   EuiSpacer,
   EuiLink,
 } from '@elastic/eui';
-import { uniqueId, get } from 'lodash';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { changeQuery } from '../slices/query_slice';
-import { initialTabId } from '../../../framework/redux/store/shared_state';
-import { RAW_QUERY } from '../../../../common/constants/explorer';
+
 
 interface TableData {
   savedHistory: any;
   savedQuerySearch: (searchQuery: string, selectedDateRange: [], selectedTimeStamp, selectedFields: []) => void;
-  // savedQueryChange: (query: string, index: string) => void;
-  // savedTimeChange: (timeRange: Array<string>) => void;
 }
 
 export function Table(options: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const dispatch = useDispatch();
-  const history = useHistory();
   const hisRef = useRef();
   hisRef.current = pageIndex;
   const thisRef = useRef();
   thisRef.current = pageSize;
 
-  // const query= "search source=opensearch_dashboards_sample_data_logs | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')";
 
   const onTableChange = ({ page = {} }) => {
     const { index: pageIndex, size: pageSize } = page;
@@ -49,13 +39,12 @@ export function Table(options: TableData) {
     setPageSize(pageSize);
   };
 
-  console.log('history table: ', options.savedHistory);
   const columns = [
     {
-      field: 'query',
+      field: 'data',
       name: 'Name',
       render: (item)=>{return <EuiLink onClick={() =>
-      {options.savedQuerySearch(item.queryy, [item.date_start, item.date_end], item.timestamp, item.fields)}}>
+      {options.savedQuerySearch(item.query, [item.date_start, item.date_end], item.timestamp, item.fields)}}>
         {item.name}
       </EuiLink>},
     },
@@ -67,11 +56,11 @@ export function Table(options: TableData) {
 
 
 
-  let queries = options.savedHistory.map((h) => {
+  const queries = options.savedHistory.map((h) => {
     return {
-      query: {
+      data: {
         name: h?.savedVisualization?.name || h?.savedQuery?.name || '',
-        queryy: h?.savedVisualization?.query || h?.savedQuery?.query || '',
+        query: h?.savedVisualization?.query || h?.savedQuery?.query || '',
         date_start: h?.savedVisualization?.selected_date_range?.start || h?.savedQuery?.selected_date_range.start || '',
         date_end : h?.savedVisualization?.selected_date_range?.end || h?.savedQuery?.selected_date_range.end ||'',
         timestamp: h?.savedVisualization?.selected_timestamp?.name || h?.savedQuery?.selected_timestamp?.name || '',
@@ -82,14 +71,7 @@ export function Table(options: TableData) {
     };
   });
 
-  let date = options.savedHistory.map((h) => {
-    return {
-      date: h?.savedVisualization?.selected_date_range?.start || h?.savedQuery?.selected_date_range.start || ''
-    };
-  });
-  console.log('date: ', date);
-
-  console.log('queries: ', queries);
+ 
   const totalItemCount = queries.length;
 
   const pagination = {
