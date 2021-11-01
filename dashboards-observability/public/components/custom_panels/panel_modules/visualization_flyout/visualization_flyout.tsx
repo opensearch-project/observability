@@ -46,6 +46,7 @@ import {
   VisualizationType,
 } from '../../../../../common/types/custom_panels';
 import './visualization_flyout.scss';
+import { uiSettingsService } from '../../../../../common/utils';
 
 /*
  * VisaulizationFlyout - This module create a flyout to add visualization
@@ -194,9 +195,10 @@ export const VisaulizationFlyout = ({
   };
 
   const timeRange = (
-    <EuiFormRow label="Panel Time Range">
+    <EuiFormRow label="Panel Time Range" fullWidth>
       <EuiDatePickerRange
         className="date-picker-height"
+        fullWidth
         readOnly
         startDateControl={
           <EuiDatePicker
