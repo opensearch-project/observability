@@ -26,22 +26,25 @@ import {
   EuiFlexItem
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import { 
+import {
   INDEX,
   RAW_QUERY,
   TAB_ID_TXT_PFX,
   SELECTED_TIMESTAMP,
-  SELECTED_DATE_RANGE
+  SELECTED_DATE_RANGE,
+  SELECTED_FIELDS
 } from '../../../common/constants/explorer';
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab } from './slices/query_tab_slice';
-import { init as initFields } from './slices/field_slice';
+import { init as initFields, updateFields } from './slices/field_slice';
 import {
   init as initQuery,
   changeQuery
 } from './slices/query_slice';
 import { init as initQueryResult } from './slices/query_result_slice';
+import { Table } from './home_table/history_table';
+
 
 interface IHomeProps {
   pplService: any;
@@ -50,8 +53,8 @@ interface IHomeProps {
 }
 
 export const Home = (props: IHomeProps) => {
-  const { 
-    pplService, 
+  const {
+    pplService,
     dslService,
     savedObjects,
   } = props;
@@ -74,7 +77,7 @@ export const Home = (props: IHomeProps) => {
   const addNewTab = async () => {
     //get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
-    
+
     // create a new tab
     await batch(() => {
       dispatch(initQuery({ tabId, }));
@@ -96,7 +99,7 @@ export const Home = (props: IHomeProps) => {
       query: {
         [RAW_QUERY]: searchQuery,
         [SELECTED_DATE_RANGE]: selectedDateRange
-      } 
+      }
     }));
   }
 
@@ -114,6 +117,55 @@ export const Home = (props: IHomeProps) => {
   const handleQueryChange = async (query: string, index: string) => setSearchQuery(query);
 
   const handleTimePickerChange = async (timeRange: Array<string>) => setSelectedDateRange(timeRange);
+
+  const addSavedQueryInput = async (
+    tabId: string,
+    searchQuery: string,
+    selectedDateRange: [],
+    selectedTimeStamp: string
+  ) => {
+    console.log("tabID: ", tabId);
+    console.log("search query: ", searchQuery);
+    console.log("time range: ", selectedDateRange);
+    dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [RAW_QUERY]: searchQuery,
+          [SELECTED_DATE_RANGE]: selectedDateRange,
+          [SELECTED_TIMESTAMP]: selectedTimeStamp,
+        },
+      })
+    );
+  };
+
+  const addSavedFields = async (
+    tabId: string,
+    selectedFields: []
+  ) => {
+    console.log("SELECTED_FIELDS: ", selectedFields)
+    dispatch(
+      updateFields({
+        tabId,
+        data: {
+          [SELECTED_FIELDS]: selectedFields,
+        },
+      })
+    );
+  };
+
+  const savedQuerySearch = async (searchQuery: string, selectedDateRange: [], selectedTimeStamp: string, selectedFields: []) => {
+    // create new tab
+    const newTabId = await addNewTab();
+
+    // update this new tab with data
+    await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);
+    await addSavedFields(newTabId, selectedFields);
+    // redirect to explorer
+    history.push('/event_analytics/explorer');
+  };
+
+
   return (
     <div className="dscAppContainer">
       <EuiPage>
@@ -128,7 +180,7 @@ export const Home = (props: IHomeProps) => {
         </EuiPageBody>
       </EuiPage>
       <EuiPageContent>
-        <Search 
+        <Search
           query={ searchQuery }
           handleQueryChange={ handleQueryChange }
           handleQuerySearch={ handleQuerySearch }
@@ -156,9 +208,13 @@ export const Home = (props: IHomeProps) => {
               wrapText={ true }
             >
               <EuiTitle size="s">
-                <h1>{ "Histories" }</h1>
+                <h1>{ "Saved Queries and Visualizations" }</h1>
               </EuiTitle>
               <EuiSpacer size="s" />
+              <Table savedHistory={savedHistories}
+                     savedQuerySearch={( searchQuery: string, selectedDateRange: [], selectedTimeStamp: string,  selectedFields: []) => 
+            { savedQuerySearch(searchQuery, selectedDateRange, selectedTimeStamp, selectedFields) } }
+              />
             </EuiListGroup>
           </EuiFlexItem>
         </EuiFlexGroup>
