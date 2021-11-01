@@ -68,8 +68,7 @@ export const Home = (props: IHomeProps) => {
     const res = await savedObjects.fetchSavedObjects({
       objectType: ['savedQuery', 'savedVisualization'],
       sortOrder: 'desc',
-      fromIndex: 0,
-//       maxItems: 10
+      fromIndex: 0
     });
     setSavedHistories(res['observabilityObjectList'] || []);
   };
@@ -124,9 +123,6 @@ export const Home = (props: IHomeProps) => {
     selectedDateRange: [],
     selectedTimeStamp: string
   ) => {
-    console.log("tabID: ", tabId);
-    console.log("search query: ", searchQuery);
-    console.log("time range: ", selectedDateRange);
     dispatch(
       changeQuery({
         tabId,
@@ -143,7 +139,6 @@ export const Home = (props: IHomeProps) => {
     tabId: string,
     selectedFields: []
   ) => {
-    console.log("SELECTED_FIELDS: ", selectedFields)
     dispatch(
       updateFields({
         tabId,
@@ -161,6 +156,7 @@ export const Home = (props: IHomeProps) => {
     // update this new tab with data
     await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);
     await addSavedFields(newTabId, selectedFields);
+    
     // redirect to explorer
     history.push('/event_analytics/explorer');
   };
