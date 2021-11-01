@@ -11,8 +11,17 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { uniqueId, isEmpty, cloneDeep, isEqual, has } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
+import { 
+  uniqueId,
+  isEmpty,
+  cloneDeep,
+  isEqual,
+  has,
+  reduce
+} from 'lodash';
+import { 
+  FormattedMessage 
+} from '@osd/i18n/react';
 import {
   EuiText,
   EuiButtonIcon,
@@ -379,15 +388,23 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {explorerData && !isEmpty(explorerData.jsonData) ? (
-              <div className="dscWrapper__content">
-                <div className="dscResults">
-                  {explorerData && (
+          { (explorerData && !isEmpty(explorerData.jsonData)) ? (
+            <div className="dscWrapper__content">
+              <div className="dscResults">
+                { 
+                  countDistribution?.data && (
                     <>
-                      <EuiFlexGroup justifyContent="center" alignItems="center">
-                        <EuiFlexItem grow={false}>
-                          <HitsCounter
-                            hits={explorerData['datarows']?.length || countDistribution?.size || 0}
+                      <EuiFlexGroup
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <HitsCounter 
+                            hits={ reduce(countDistribution['data']['count()'], (sum, n) => {
+                              return sum + n;
+                            }, 0)}
                             showResetButton={false}
                             onResetQuery={() => {}}
                           />
@@ -607,7 +624,7 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now-15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];
   
    return (
