@@ -31,9 +31,9 @@ export function Plt(props: PltProps) {
       onHover={props.onHoverHandler}
       onUnhover={props.onUnhoverHandler}
       useResizeHandler
-      config={{ 
+      config={{
         displayModeBar: false,
-        ...props.config
+        ...props.config,
       }}
       layout={{
         autosize: true,
@@ -55,12 +55,12 @@ export function Plt(props: PltProps) {
           showgrid: true,
           zeroline: false,
           rangemode: 'normal',
-          automargin: true
+          automargin: true,
         },
         yaxis: {
           showgrid: true,
           zeroline: false,
-          rangemode: 'normal'
+          rangemode: 'normal',
         },
         ...props.layout,
       }}
