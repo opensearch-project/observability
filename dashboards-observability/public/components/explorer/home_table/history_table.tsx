@@ -19,7 +19,7 @@ import {
 
 
 interface TableData {
-  savedHistory: any;
+  savedHistory: [];
   savedQuerySearch: (searchQuery: string, selectedDateRange: [], selectedTimeStamp, selectedFields: []) => void;
 }
 
@@ -57,17 +57,21 @@ export function Table(options: TableData) {
 
 
   const queries = options.savedHistory.map((h) => {
+    const savedObject = h.hasOwnProperty('savedVisualization')
+      ? h.savedVisualization
+      : h.savedQuery;
     return {
       data: {
-        name: h?.savedVisualization?.name || h?.savedQuery?.name || '',
-        query: h?.savedVisualization?.query || h?.savedQuery?.query || '',
-        date_start: h?.savedVisualization?.selected_date_range?.start || h?.savedQuery?.selected_date_range.start || '',
-        date_end : h?.savedVisualization?.selected_date_range?.end || h?.savedQuery?.selected_date_range.end ||'',
-        timestamp: h?.savedVisualization?.selected_timestamp?.name || h?.savedQuery?.selected_timestamp?.name || '',
-        fields: h?.savedQuery?.selected_fields?.tokens || h?.savedVisualization?.selected_fields?.tokens || []
+        name: savedObject.name,
+        query: savedObject.query,
+        date_start: savedObject.selected_date_range.start,
+        date_end : savedObject.selected_date_range.end,
+        timestamp: savedObject.selected_timestamp?.name || '',
+        fields: savedObject.selected_fields?.tokens || []
       },
-      name: h?.savedVisualization?.name || h?.savedQuery?.name || '',
-      description: h?.savedVisualization?.description || h?.savedQuery?.description || '',
+      name: savedObject.name || '',
+      description: savedObject.description || '',
+
     };
   });
 
