@@ -293,9 +293,11 @@ export const displayVisualization = (data: any, type: string, editMode?: boolean
   const layoutObject = {
     xaxis: {
       fixedrange: editMode ? true : false,
+      showgrid: false,
     },
     yaxis: {
       fixedrange: editMode ? true : false,
+      showgrid: false,
     },
   };
 
