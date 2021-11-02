@@ -21,7 +21,8 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiIcon
+  EuiIcon,
+  EuiButtonIcon
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -98,7 +99,7 @@ export const Search = (props: any) => {
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexStart">
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems='center'>
         <EuiFlexItem
           key="search-bar"
         >
@@ -109,6 +110,9 @@ export const Search = (props: any) => {
             handleQuerySearch={memorizedHandleQuerySearch}
             dslService={dslService}
           />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+        <EuiButtonIcon iconType='documents' href='https://opensearch.org/docs/latest/search-plugins/ppl/commands/'/>
         </EuiFlexItem>
         <EuiFlexItem
           className="euiFlexItem--flexGrowZero"
