@@ -27,8 +27,8 @@ export function Plt(props: PltProps) {
   const PlotComponent = plotComponentFactory(Plotly);
   const darkLayout = uiSettingsService.get('theme:darkMode')
     ? {
-        paper_bgcolor: '#1a1b20',
-        plot_bgcolor: '#1a1b20',
+        paper_bgcolor: '#1D1E24',
+        plot_bgcolor: '#1D1E24',
         font: {
           color: '#DFE5EF',
         },
