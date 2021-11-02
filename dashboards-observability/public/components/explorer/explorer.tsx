@@ -11,8 +11,17 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { uniqueId, isEmpty, cloneDeep, isEqual, has } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
+import { 
+  uniqueId,
+  isEmpty,
+  cloneDeep,
+  isEqual,
+  has,
+  reduce
+} from 'lodash';
+import { 
+  FormattedMessage 
+} from '@osd/i18n/react';
 import {
   EuiText,
   EuiButtonIcon,
@@ -379,15 +388,23 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {explorerData && !isEmpty(explorerData.jsonData) ? (
-              <div className="dscWrapper__content">
-                <div className="dscResults">
-                  {explorerData && (
+          { (explorerData && !isEmpty(explorerData.jsonData)) ? (
+            <div className="dscWrapper__content">
+              <div className="dscResults">
+                { 
+                  countDistribution?.data && (
                     <>
-                      <EuiFlexGroup justifyContent="center" alignItems="center">
-                        <EuiFlexItem grow={false}>
-                          <HitsCounter
-                            hits={explorerData['datarows']?.length || countDistribution?.size || 0}
+                      <EuiFlexGroup
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <HitsCounter 
+                            hits={ reduce(countDistribution['data']['count()'], (sum, n) => {
+                              return sum + n;
+                            }, 0)}
                             showResetButton={false}
                             onResetQuery={() => {}}
                           />
@@ -505,17 +522,15 @@ export const Explorer = ({
 
   const handleQuerySearch = () => fetchData();
 
-  const handleQueryChange = (query: string, index: string) => {
-    dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          [RAW_QUERY]: query,
-          [INDEX]: index,
-        },
-      })
-    );
-  };
+  const handleQueryChange = async (query: string, index: string) => {
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        [RAW_QUERY]: query,
+        [INDEX]: index
+      },
+    }));
+  }
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
@@ -609,33 +624,28 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query['selectedDateRange'])
-    ? ['now/15m', 'now']
-    : [query['selectedDateRange'][0], query['selectedDateRange'][1]];
-
-  return (
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now-15m', 'now'] :
+   [query['selectedDateRange'][0], query['selectedDateRange'][1]];
+  
+   return (
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={query[RAW_QUERY]}
-        handleQueryChange={(query: string, index: string = '') => {
-          handleQueryChange(query, index);
-        }}
-        handleQuerySearch={() => {
-          handleQuerySearch();
-        }}
-        dslService={dslService}
-        startTime={dateRange[0]}
-        endTime={dateRange[1]}
-        handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
-        selectedPanelName={selectedPanelNameRef.current}
-        selectedCustomPanelOptions={selectedCustomPanelOptions}
-        setSelectedPanelName={setSelectedPanelName}
-        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
-        handleSavingObject={handleSavingObject}
-        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
-        savedObjects={savedObjects}
-        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
+        query={ query[RAW_QUERY] }
+        handleQueryChange={ handleQueryChange }
+        handleQuerySearch={ () => { handleQuerySearch() } }
+        dslService = { dslService }
+        startTime={ dateRange[0] }
+        endTime={ dateRange[1] }
+        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
+        selectedPanelName={ selectedPanelNameRef.current }
+        selectedCustomPanelOptions={ selectedCustomPanelOptions }
+        setSelectedPanelName={ setSelectedPanelName }
+        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
+        handleSavingObject={ handleSavingObject }
+        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
+        savedObjects={ savedObjects }
+        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
       />
       <EuiTabbedContent
         className="mainContentTabs"

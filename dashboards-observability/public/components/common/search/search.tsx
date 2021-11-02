@@ -21,9 +21,9 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
+  EuiIcon
 } from '@elastic/eui';
 import _ from 'lodash';
-import { IQuery } from '../../../../common/types/explorer';
 import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
@@ -31,7 +31,7 @@ import { SavePanel } from '../../explorer/save_panel';
 import { useCallback } from 'react';
 
 export interface IQueryBarProps {
-  query: IQuery;
+  query: string;
   handleQueryChange: (query: string, index: string) => void;
   handleQuerySearch: () => void;
   dslService: any;
@@ -72,7 +72,7 @@ export const Search = (props: any) => {
     setToast
   } = props;
 
-  const [isSavePanelOpen, setIsSavePanelOpen] = useState<boolean>(false);
+  const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
 
   const memorizedHandleQuerySearch = useCallback(() => {
     handleQuerySearch();
@@ -82,65 +82,54 @@ export const Search = (props: any) => {
     endTime
   ]);
 
-  function renderAutocomplete({
-    query,
-    handleQueryChange,
-    handleQuerySearch,
-    dslService,
-  }: IQueryBarProps) {
-    return (
-      <Autocomplete
-        query={query}
-        handleQueryChange={handleQueryChange}
-        handleQuerySearch={memorizedHandleQuerySearch}
-        dslService={dslService}
-      />
-    );
-  }
-
-  const button = (
-    <EuiButton 
-      iconType='heart'
-      onClick={
-        () => {
-          setIsSavePanelOpen((staleState) => {
-            return !staleState;
-          })
-        }
-      }
+  const saveButton = (
+    <EuiButton
+      onClick={() => {
+                setIsSavePanelOpen((staleState) => {
+                  return !staleState;
+                })
+              }}
+      data-test-subj="saved-query-management-popover-button"
     >
-      { "Save" }
+      <EuiIcon size="m" type="save" className="euiQuickSelectPopover__buttonText" />
+      <EuiIcon type="arrowDown" />
     </EuiButton>
   );
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
-        <div className="autocomplete">
-          {
-            renderAutocomplete({ 
-              query, 
-              handleQueryChange, 
-              handleQuerySearch: memorizedHandleQuerySearch,
-              dslService
-            })
-          }
-        </div>
-        <DatePicker
-          startTime={startTime}
-          endTime={endTime}
-          setStartTime={setStartTime}
-          setEndTime={setEndTime}
-          setIsOutputStale={setIsOutputStale}
-          liveStreamChecked={props.liveStreamChecked}
-          onLiveStreamChange={props.onLiveStreamChange}
-          handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
-        />
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart">
+        <EuiFlexItem
+          key="search-bar"
+        >
+          <Autocomplete
+            key={"autocomplete-search-bar"}
+            query={query}
+            handleQueryChange={ handleQueryChange }
+            handleQuerySearch={memorizedHandleQuerySearch}
+            dslService={dslService}
+          />
+        </EuiFlexItem>
+        <EuiFlexItem
+          className="euiFlexItem--flexGrowZero"
+        >
+          <DatePicker
+            startTime={startTime}
+            endTime={endTime}
+            setStartTime={setStartTime}
+            setEndTime={setEndTime}
+            setIsOutputStale={setIsOutputStale}
+            liveStreamChecked={props.liveStreamChecked}
+            onLiveStreamChange={props.onLiveStreamChange}
+            handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
+          />
+        </EuiFlexItem>
         <EuiFlexItem
           key={"search-run"}
           className="euiFlexItem--flexGrowZero"
         >
-          <EuiButton 
+          <EuiButton
+            size='m'
             iconType={ isEmpty(explorerData) ? 'play': 'refresh' }
             fill={ isEmpty(explorerData) ? true : false }
             onClick={() => {
@@ -157,7 +146,7 @@ export const Search = (props: any) => {
               className="euiFlexItem--flexGrowZero"
             >
               <EuiPopover
-                button={ button }
+                button={ saveButton }
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
