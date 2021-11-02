@@ -32,7 +32,6 @@ import {
   sortFields
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
-import { getIndexPatternFromRawQuery } from '../../../../common/utils/query_utils'
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -132,7 +131,6 @@ export const useFetchEvents = ({
       if (!isEmpty(res.jsonData)) {
         return dispatchOnGettingHis(res);
       }
-      console.log('getting available hits');
       // when no hits and needs to get available fields to override default timestamp
       dispatchOnNoHis(res);
     });
