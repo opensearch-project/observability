@@ -292,12 +292,10 @@ export const displayVisualization = (data: any, type: string, editMode?: boolean
 
   const layoutObject = {
     xaxis: {
-      automargin: true,
       fixedrange: editMode ? true : false,
       showgrid: false,
     },
     yaxis: {
-      automargin: true,
       fixedrange: editMode ? true : false,
       showgrid: false,
     },

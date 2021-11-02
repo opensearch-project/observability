@@ -12,15 +12,15 @@
     "plugin_helpers": "node ../../scripts/plugin_helpers"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.1",
-    "plotly.js-dist": "^2.2.0",
-    "react-plotly.js": "^2.5.1",
-    "react-graph-vis": "^1.0.5",
+    "@algolia/autocomplete-core": "^1.4.1",
+    "@algolia/autocomplete-theme-classic": "^1.2.1",
     "@cypress/skip-test": "^2.6.1",
     "@nteract/outputs": "^3.0.11",
     "@nteract/presentational-components": "^3.4.3",
-    "@algolia/autocomplete-js": "^1.2.1",
-    "@algolia/autocomplete-theme-classic": "^1.2.1"
+    "@reduxjs/toolkit": "^1.6.1",
+    "plotly.js-dist": "^2.2.0",
+    "react-graph-vis": "^1.0.5",
+    "react-plotly.js": "^2.5.1"
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",

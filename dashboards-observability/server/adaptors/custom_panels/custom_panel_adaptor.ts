@@ -13,6 +13,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 
+interface boxType {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
 export class CustomPanelsAdaptor {
   // index a panel
   indexPanel = async function (
@@ -67,6 +74,7 @@ export class CustomPanelsAdaptor {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'operationalPanel',
+        maxItems: 10000,
       });
       return response.observabilityObjectList.map((panel: any) => ({
         name: panel.operationalPanel.name,
@@ -244,12 +252,48 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  // Calculate new visualization dimensions
-  // New visualization always joins to the end of the panel
+  calculatOverlapArea = (bb1: boxType, bb2: boxType) => {
+    const x_left = Math.max(bb1.x1, bb2.x1);
+    const y_top = Math.max(bb1.y1, bb2.y1);
+    const x_right = Math.min(bb1.x2, bb2.x2);
+    const y_bottom = Math.min(bb1.y2, bb2.y2);
+
+    if (x_right < x_left || y_bottom < y_top) return 0;
+    return (x_right - x_left) * (y_bottom - y_top);
+  };
+
+  getTotalOverlapArea = (panelVisualizations: VisualizationType[]) => {
+    const newVizBox = { x1: 0, y1: 0, x2: 6, y2: 4 };
+    const currentVizBoxes = panelVisualizations.map((visualization) => {
+      return {
+        x1: visualization.x,
+        y1: visualization.y,
+        x2: visualization.x + visualization.w,
+        y2: visualization.y + visualization.h,
+      };
+    });
+
+    let isOverlapping = 0;
+    currentVizBoxes.map((viz) => {
+      isOverlapping += this.calculatOverlapArea(viz, newVizBox);
+    });
+    return isOverlapping;
+  };
+
+  // We want to check if the new visualization being added, can be placed at { x: 0, y: 0, w: 6, h: 4 };
+  // To check this we try to calculate overlap between all the current visualizations and new visualization
+  // if there is no overalap (i.e Total Overlap Area is 0), we place the new viz. in default position
+  // else, we add it to the bottom of the panel
   getNewVizDimensions = (panelVisualizations: VisualizationType[]) => {
     let maxY: number = 0;
     let maxYH: number = 0;
 
+    // check if we can place the new visualization at default location
+    if (this.getTotalOverlapArea(panelVisualizations) === 0) {
+      return { x: 0, y: 0, w: 6, h: 4 };
+    }
+
+    // else place the new visualization at the bottom of the panel
     panelVisualizations.map((panelVisualization: VisualizationType) => {
       if (panelVisualization.y >= maxY) {
         maxY = panelVisualization.y;

@@ -34,6 +34,9 @@ export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any
     xaxis: {
       automargin: true,
     },
+    yaxis: {
+      automargin: true,
+    },
   };
   const lineLayoutConfig = merge(config, layoutConfig);
 

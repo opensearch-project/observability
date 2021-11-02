@@ -407,6 +407,13 @@ export const CustomPanelView = ({
       title: 'Panel actions',
       items: [
         {
+          name: 'Refresh panel',
+          onClick: () => {
+            setPanelsMenuPopover(false);
+            fetchCustomPanel();
+          },
+        },
+        {
           name: 'Rename panel',
           onClick: () => {
             setPanelsMenuPopover(false);

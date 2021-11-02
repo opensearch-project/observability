@@ -16,7 +16,8 @@ import {
   isEmpty,
   cloneDeep,
   isEqual,
-  has
+  has,
+  reduce
 } from 'lodash';
 import { 
   FormattedMessage 
@@ -377,7 +378,7 @@ export const Explorer = ({
             <div className="dscWrapper__content">
               <div className="dscResults">
                 { 
-                  explorerData && (
+                  countDistribution?.data && (
                     <>
                       <EuiFlexGroup
                         justifyContent="center"
@@ -387,7 +388,9 @@ export const Explorer = ({
                           grow={false}
                         >
                           <HitsCounter 
-                            hits={ explorerData['datarows']?.length || countDistribution?.size || 0 }
+                            hits={ reduce(countDistribution['data']['count()'], (sum, n) => {
+                              return sum + n;
+                            }, 0)}
                             showResetButton={false}
                             onResetQuery={ () => {} }
                           />
@@ -520,8 +523,8 @@ export const Explorer = ({
   
   const handleQuerySearch = () => fetchData();
 
-  const handleQueryChange = (query: string, index: string) => {
-    dispatch(changeQuery({
+  const handleQueryChange = async (query: string, index: string) => {
+    await dispatch(changeQuery({
       tabId,
       query: {
         [RAW_QUERY]: query,
@@ -606,15 +609,15 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query['selectedDateRange']) ? ['now/15m', 'now'] :
+  const dateRange = isEmpty(query['selectedDateRange']) ? ['now-15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];
-
-  return (
+  
+   return (
     <div className="dscAppContainer">
       <Search
         key="search-component"
         query={ query[RAW_QUERY] }
-        handleQueryChange={ (query: string, index: string = '') => { handleQueryChange(query, index) } }
+        handleQueryChange={ handleQueryChange }
         handleQuerySearch={ () => { handleQuerySearch() } }
         dslService = { dslService }
         startTime={ dateRange[0] }
