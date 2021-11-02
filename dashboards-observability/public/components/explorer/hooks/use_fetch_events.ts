@@ -32,6 +32,7 @@ import {
   sortFields
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
+import { getIndexPatternFromRawQuery } from '../../../../common/utils/query_utils'
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -70,37 +71,70 @@ export const useFetchEvents = ({
     });
   };
 
+  const dispatchOnGettingHis = (res: any) => {
+    batch(() => {
+      dispatch(queryResultReset({
+        tabId: requestParams.tabId
+      }));
+      dispatch(fetchSuccess({
+        tabId: requestParams.tabId,
+        data: {
+          ...res
+        }
+      }));
+      dispatch(updateFields({
+        tabId: requestParams.tabId,
+        data: {
+          [SELECTED_FIELDS]: [],
+          [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
+          [QUERIED_FIELDS]: [],
+          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
+        }
+      }));
+      dispatch(sortFields({
+        tabId: requestParams.tabId,
+        data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
+      }));
+      dispatch(visualizationReset({
+        tabId: requestParams.tabId,
+      }));
+    });
+  };
+
+  const dispatchOnNoHis = (res: any) => {
+    batch(() => {
+      dispatch(queryResultReset({
+        tabId: requestParams.tabId
+      }));
+      dispatch(updateFields({
+        tabId: requestParams.tabId,
+        data: {
+          [SELECTED_FIELDS]: [],
+          [UNSELECTED_FIELDS]: [],
+          [QUERIED_FIELDS]: [],
+          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
+        }
+      }));
+      dispatch(sortFields({
+        tabId: requestParams.tabId,
+        data: [AVAILABLE_FIELDS]
+      }));
+      dispatch(visualizationReset({
+        tabId: requestParams.tabId,
+      }));
+    });
+  };
+
   const getEvents = (query: string = '') => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
-      batch(() => {
-        dispatch(queryResultReset({
-          tabId: requestParams.tabId
-        }));
-        dispatch(fetchSuccess({
-          tabId: requestParams.tabId,
-          data: {
-            ...res
-          }
-        }));
-        dispatch(updateFields({
-          tabId: requestParams.tabId,
-          data: {
-            [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
-            [QUERIED_FIELDS]: [],
-            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
-          }
-        }));
-        dispatch(sortFields({
-          tabId: requestParams.tabId,
-          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
-        }));
-        dispatch(visualizationReset({
-          tabId: requestParams.tabId,
-        }));
-      });
+      if (!isEmpty(res.jsonData)) {
+        return dispatchOnGettingHis(res);
+      }
+      console.log('getting available hits');
+      // when no hits and needs to get available fields to override default timestamp
+      dispatchOnNoHis(res);
     });
   };
 
