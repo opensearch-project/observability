@@ -12,6 +12,7 @@
 import React, { useState, useRef } from 'react';
 
 import { EuiSpacer, EuiLink, EuiInMemoryTable, EuiIcon, EuiLoadingChart } from '@elastic/eui';
+import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
 interface TableData {
   savedHistory: [];
@@ -87,16 +88,16 @@ export function Table(options: TableData) {
     },
   ];
 
-  let objectName = '';
+  let queryType = '';
   const queries = options.savedHistory.map((h) => {
     const savedObject = h.hasOwnProperty('savedVisualization')
       ? h.savedVisualization
       : h.savedQuery;
-    const object = h.hasOwnProperty('savedVisualization');
-    if (object) {
-      objectName = 'Visualization';
+    const isSavedVisualization = h.hasOwnProperty('savedVisualization');
+    if (isSavedVisualization) {
+      queryType = 'Visualization';
     } else {
-      objectName = 'Query';
+      queryType = 'Query';
     }
     return {
       data: {
@@ -108,12 +109,11 @@ export function Table(options: TableData) {
         fields: savedObject.selected_fields?.tokens || [],
       },
       name: savedObject.name || '',
-      type: objectName,
+      type: queryType,
     };
   });
 
   const totalItemCount = queries.length;
-  const filterOptions = ['Visualization', 'Query'];
 
   const search = {
     box: {
@@ -125,7 +125,7 @@ export function Table(options: TableData) {
         field: 'type',
         name: 'Type',
         multiSelect: false,
-        options: filterOptions.map((i) => ({
+        options: FILTER_OPTIONS.map((i) => ({
           value: i,
           name: i,
           view: `${i}`,
