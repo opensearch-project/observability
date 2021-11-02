@@ -12,17 +12,15 @@
 import React from 'react';
 import { Bar } from '../../../visualizations/charts/bar';
 
-export const CountDistribution = ({
-  countDistribution
-}: any) => {
-
+export const CountDistribution = ({ countDistribution }: any) => {
   if (
     !countDistribution ||
     !countDistribution.data ||
     !countDistribution.metadata ||
     !countDistribution.metadata.fields
-  ) return null;
-  
+  )
+    return null;
+
   const layout = {
     showlegend: true,
     margin: {
@@ -32,14 +30,16 @@ export const CountDistribution = ({
       t: 30,
       pad: 0,
     },
-    height: 220
+    height: 220,
+    colorway: ['#127871'],
   };
 
   return (
     <Bar
-      visualizations={ countDistribution }
+      visualizations={countDistribution}
       name="Event counts"
-      layoutConfig={ layout }
+      layoutConfig={layout}
+      isUniColor={true}
     />
   );
 };
