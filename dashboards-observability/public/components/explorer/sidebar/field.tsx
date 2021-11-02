@@ -17,7 +17,8 @@ import {
   EuiButtonIcon,
   EuiToolTip,
   EuiButton,
-  EuiMark
+  EuiMark,
+  EuiLoadingSpinner
 } from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
@@ -74,23 +75,25 @@ export const Field = (props: IFieldProps) => {
     return (
       <>
         <EuiToolTip
+          id="override-timestamp"
           delay="long"
-          content={
-            'Override default timestamp'
-          }
+          content="Override default timestamp"
         >
           <>
             { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
-              isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
+              isEqual(selectedTimestamp, field.name) ? 
+              <EuiMark>Default Timestamp</EuiMark> :
+              isOverridingTimestamp ? 
+              <EuiLoadingSpinner className="override_timestamp_loading" size='m' /> :
               <EuiButtonIcon
+                aria-labelledby="override_timestamp"
                 className="dscSidebarItem__action"
                 size="s"
                 color="text"
-                iconType="push"
-                // isLoading={ isOverridingTimestamp }
+                iconType="inputOutput"
                 onClick={() => handleOverrideTimestamp(field)}
               >
-                { 'Override' }
+                Override
               </EuiButtonIcon> : null
             }
           </>
