@@ -27,9 +27,7 @@ export const explorerVisualizationSlice = createSlice({
       state[payload.tabId] = payload.data;
     },
     reset: (state, { payload }) => {
-      state[payload.tabId] = {
-        ...initialState
-      }
+      state[payload.tabId] = {};
     },
   },
   extraReducers: (builder) => {}
