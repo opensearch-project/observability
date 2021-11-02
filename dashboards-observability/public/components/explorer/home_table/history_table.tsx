@@ -26,10 +26,10 @@ interface TableData {
 export function Table(options: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const hisRef = useRef();
-  hisRef.current = pageIndex;
-  const thisRef = useRef();
-  thisRef.current = pageSize;
+  const pageIndexRef = useRef();
+  pageIndexRef.current = pageIndex;
+  const pageSizeRef = useRef();
+  pageSizeRef.current = pageSize;
 
 
   const onTableChange = ({ page = {} }) => {
