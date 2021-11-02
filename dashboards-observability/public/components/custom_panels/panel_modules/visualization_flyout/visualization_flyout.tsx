@@ -11,7 +11,6 @@
 
 import {
   EuiButton,
-  EuiButtonEmpty,
   EuiButtonIcon,
   EuiCallOut,
   EuiDatePicker,
@@ -32,7 +31,6 @@ import {
   ShortDate,
 } from '@elastic/eui';
 import _ from 'lodash';
-import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import React, { useEffect, useState } from 'react';
 import { FlyoutContainers } from '../../helpers/flyout_containers';
 import { displayVisualization, getQueryResponse, isDateValid } from '../../helpers/utils';
@@ -46,6 +44,7 @@ import {
   VisualizationType,
 } from '../../../../../common/types/custom_panels';
 import './visualization_flyout.scss';
+import { uiSettingsService } from '../../../../../common/utils';
 
 /*
  * VisaulizationFlyout - This module create a flyout to add visualization
@@ -101,8 +100,6 @@ export const VisaulizationFlyout = ({
   const [pplQuery, setPPLQuery] = useState('');
   const [previewData, setPreviewData] = useState<pplResponse>({} as pplResponse);
   const [previewArea, setPreviewArea] = useState(<></>);
-  const [showPreviewArea, setShowPreviewArea] = useState(false);
-  const [previewIconType, setPreviewIconType] = useState('arrowRight');
   const [previewLoading, setPreviewLoading] = useState(false);
   const [isPreviewError, setIsPreviewError] = useState('');
   const [savedVisualizations, setSavedVisualizations] = useState<SavedVisualizationType[]>([]);
@@ -112,16 +109,6 @@ export const VisaulizationFlyout = ({
   // DateTimePicker States
   const startDate = convertDateTime(start, true, false);
   const endDate = convertDateTime(end, false, false);
-
-  const onPreviewClick = () => {
-    if (previewIconType == 'arrowRight') {
-      setPreviewIconType('arrowUp');
-      setShowPreviewArea(true);
-    } else {
-      setPreviewIconType('arrowRight');
-      setShowPreviewArea(false);
-    }
-  };
 
   const isInputValid = () => {
     if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast, 'left')) {
@@ -194,9 +181,10 @@ export const VisaulizationFlyout = ({
   };
 
   const timeRange = (
-    <EuiFormRow label="Panel Time Range">
+    <EuiFormRow label="Panel Time Range" fullWidth>
       <EuiDatePickerRange
-        className="date-picker-height"
+        className="date-picker-preview"
+        fullWidth
         readOnly
         startDateControl={
           <EuiDatePicker
@@ -246,7 +234,7 @@ export const VisaulizationFlyout = ({
     savedVisualizations.length > 0 ? (
       <EuiFlyoutBody>
         <>
-          <EuiSpacer size="l" />
+          <EuiSpacer size="s" />
           <EuiFormRow label="Visualization name">
             <EuiSelect
               hasNoInitialSelection
@@ -255,18 +243,11 @@ export const VisaulizationFlyout = ({
             />
           </EuiFormRow>
           <EuiSpacer size="l" />
-          <EuiSpacer size="l" />
           <EuiFlexGroup alignItems="center">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty
-                iconSide="left"
-                onClick={onPreviewClick}
-                iconType={previewIconType}
-                size="s"
-                isLoading={previewLoading}
-              >
-                Preview
-              </EuiButtonEmpty>
+              <EuiText grow={false}>
+                <h4>Preview</h4>
+              </EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButtonIcon
@@ -276,9 +257,8 @@ export const VisaulizationFlyout = ({
               />
             </EuiFlexItem>
           </EuiFlexGroup>
-          <EuiSpacer size="m" />
-          {showPreviewArea && previewArea}
-          <EuiSpacer size="m" />
+          <EuiSpacer size="s" />
+          {previewArea}
         </>
       </EuiFlyoutBody>
     ) : (
@@ -333,9 +313,9 @@ export const VisaulizationFlyout = ({
         <EuiFlexGroup>
           <EuiFlexItem>
             {previewLoading ? (
-              <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
+              <EuiLoadingChart size="xl" mono className="visualization-loading-chart-preview" />
             ) : isPreviewError != '' ? (
-              <div className="visualization-error-div">
+              <div className="visualization-error-div-preview">
                 <EuiSpacer size="l" />
                 <EuiIcon type="alert" color="danger" size="l" />
                 <EuiSpacer size="l" />
@@ -348,7 +328,7 @@ export const VisaulizationFlyout = ({
                 </EuiText>
               </div>
             ) : (
-              <div className="visualization-div">
+              <div className="visualization-div-preview">
                 {displayVisualization(previewData, newVisualizationType)}
               </div>
             )}

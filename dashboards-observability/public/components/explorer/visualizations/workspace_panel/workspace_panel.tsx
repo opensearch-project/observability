@@ -39,10 +39,8 @@ const plotlySharedlayout = {
 };
 
 const plotlySharedConfig = {
-  displayModeBar: true,
   displaylogo: false,
-  responsive: true,
-  editable: true
+  responsive: true
 };
 
 interface IWorkSpacePanel {

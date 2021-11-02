@@ -24,7 +24,9 @@ export const countDistributionSlice = createSlice({
   initialState,
   reducers: {
     render: (state, { payload }) => {
-      state[payload.tabId] = payload.data;
+      state[payload.tabId] = {
+        ...payload.data
+      };
     }
   },
   extraReducers: (builder) => {}
