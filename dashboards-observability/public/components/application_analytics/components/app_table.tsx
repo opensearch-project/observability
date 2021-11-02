@@ -30,6 +30,7 @@ import {
     EuiContextMenuPanel,
     EuiFlexGroup,
     EuiFlexItem,
+    EuiHorizontalRule,
     EuiInMemoryTable,
     EuiLink,
     EuiPage,
@@ -194,6 +195,7 @@ export function AppTable(props: AppTableProps) {
                 </EuiFlexGroup>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
+            <EuiHorizontalRule />
             {applications.length > 0 ? (
               <EuiInMemoryTable
                 loading={props.loading}

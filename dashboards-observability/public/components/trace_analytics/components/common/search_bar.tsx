@@ -66,7 +66,7 @@ export interface SearchBarProps extends FiltersProps {
 
 interface SearchBarOwnProps extends SearchBarProps {
   refresh: () => void;
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
   datepickerOnly?: boolean;
 }
 

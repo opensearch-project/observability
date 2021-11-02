@@ -46,7 +46,7 @@ import { DashboardTable } from './dashboard_table';
 
 interface DashboardProps extends TraceAnalyticsComponentDeps {
   hasTitle: boolean;
-  breadCrumbOwner: string;
+  breadCrumbOwner: 'dashboard' | 'app';
   appId?: string;
   appName?: string;
 }
@@ -62,17 +62,8 @@ export function Dashboard(props: DashboardProps) {
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const breadCrumbs = breadCrumbOwner === 'trace' ? 
+  const breadCrumbs = breadCrumbOwner === 'app' ? 
     [
-      {
-          text: 'Trace analytics',
-          href: '#/trace_analytics/home',
-        },
-        {
-          text: 'Dashboards',
-          href: '#/trace_analytics/home',
-        },
-    ] : [
       {
         text: 'Application analytics',
         href: '#/application_analytics',
@@ -81,7 +72,17 @@ export function Dashboard(props: DashboardProps) {
         text: `${appName}`,
         href: `#/application_analytics/${appId}`,
       },
+    ] : [
+      {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Dashboards',
+          href: '#/trace_analytics/home',
+        },
     ]
+
 
   useEffect(() => {
     props.chrome.setBreadcrumbs(
@@ -89,7 +90,7 @@ export function Dashboard(props: DashboardProps) {
       parentBreadcrumb,
       ...breadCrumbs
     ]);
-    const validFilters = getValidFilterFields('dashboard');
+    const validFilters = getValidFilterFields(breadCrumbOwner);
     props.setFilters([
       ...props.filters.map((filter) => ({
         ...filter,
