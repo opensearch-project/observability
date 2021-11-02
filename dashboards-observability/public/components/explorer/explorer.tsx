@@ -177,7 +177,7 @@ export const Explorer = ({
           objectId: curIndex,
         })
         .catch((error: any) => {
-          console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
         });
       if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
         // from saved objects
