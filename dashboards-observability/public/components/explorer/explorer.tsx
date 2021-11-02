@@ -358,6 +358,7 @@ export const Explorer = ({
   };
 
   const getMainContent = () => {
+
     return (
       <main className="container-fluid">
         <div className="row">
@@ -414,20 +415,25 @@ export const Explorer = ({
                               return sum + n;
                             }, 0)}
                             showResetButton={false}
-                            onResetQuery={() => {}}
+                            onResetQuery={ () => {} }
                           />
                         </EuiFlexItem>
-                        <EuiFlexItem grow={false}>
+                        <EuiFlexItem
+                          grow={false}
+                        >
                           <TimechartHeader
-                            dateFormat={'MMM D, YYYY @ HH:mm:ss.SSS'}
-                            options={timeIntervalOptions}
+                            dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
+                            options={ timeIntervalOptions }
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
                             }}
+                            stateInterval="auto"
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
-                      <CountDistribution countDistribution={countDistribution} />
+                      <CountDistribution
+                        countDistribution={ countDistribution }
+                      />
                     </>
                   )
                 }
@@ -453,9 +459,8 @@ export const Explorer = ({
                   </div>
                 </section>
               </div>
-            ) : (
-              <NoResults />
-            )}
+            </div>
+          ) : <NoResults />}
           </div>
         </div>
       </main>
