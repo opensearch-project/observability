@@ -10,13 +10,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiToolTip,
-  EuiText,
-  EuiSelect,
-} from '@elastic/eui';
+import { EuiFlexGroup, EuiFlexItem, EuiToolTip, EuiText, EuiSelect } from '@elastic/eui';
 import { I18nProvider } from '@osd/i18n/react';
 import { i18n } from '@osd/i18n';
 import moment from 'moment';
@@ -44,7 +38,7 @@ export interface TimechartHeaderProps {
   /**
    * Interval Options
    */
-  options: Array<{ display: string; val: string }>;
+  options: Array<{ text: string; value: string }>;
   /**
    * changes the interval
    */
@@ -63,8 +57,7 @@ export function TimechartHeader({
   onChangeInterval,
   stateInterval,
 }: TimechartHeaderProps) {
-
-  const [interval, setInterval] = useState(stateInterval);
+  const [interval, setInterval] = useState(options[0].value);
   const toMoment = useCallback(
     (datetime: string) => {
       if (!datetime) {
@@ -78,13 +71,9 @@ export function TimechartHeader({
     [dateFormat]
   );
 
-  useEffect(() => {
-    setInterval(stateInterval);
-  }, [stateInterval]);
-
   const handleIntervalChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setInterval(e.target.value);
-    onChangeInterval(e.target.value);
+    onChangeInterval(e.target.value.length > 2 ? e.target.value.slice(5) : e.target.value);
   };
 
   return (
@@ -108,18 +97,10 @@ export function TimechartHeader({
             compressed
             id="dscResultsIntervalSelector"
             data-test-subj="discoverIntervalSelect"
-            options={options
-              .filter(({ val }) => val !== 'custom')
-              .map(({ display, val }) => {
-                return {
-                  text: display,
-                  value: val,
-                  label: display,
-                };
-              })}
-            value={ interval }
-            onChange={ handleIntervalChange }
-            append={ undefined }
+            options={options}
+            value={interval}
+            onChange={handleIntervalChange}
+            append={undefined}
           />
         </EuiFlexItem>
       </EuiFlexGroup>
