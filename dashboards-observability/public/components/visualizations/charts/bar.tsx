@@ -15,20 +15,24 @@ import { take, merge } from 'lodash';
 import { Plt } from '../plotly/plot';
 import { PlotlyColorWay } from '../../../../common/constants/shared';
 
-export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {} }: any) => {
+export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniColor = false }: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations;
   const stackLength = fields.length - 1;
+
+  // Individual bars have different colors when stackLength = 1 and chart is not unicolor
+  // Else each stacked bar has its own color using colorway
   let marker = {};
-  if (stackLength == 1) {
+  if (stackLength == 1 && !isUniColor) {
     marker = {
       color: data[fields[stackLength].name].map((_: string, index: number) => {
         return PlotlyColorWay[index % PlotlyColorWay.length];
       }),
     };
   }
+
   const barValues = take(fields, stackLength > 0 ? stackLength : 1).map((field: any) => {
     return {
       x: barConfig.orientation !== 'h' ? data[fields[stackLength].name] : data[field.name],

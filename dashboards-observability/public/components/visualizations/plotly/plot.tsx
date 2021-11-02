@@ -12,6 +12,7 @@
 import React from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-dist';
+import { uiSettingsService } from '../../../../common/utils';
 
 interface PltProps {
   data: Plotly.Data[];
@@ -24,6 +25,16 @@ interface PltProps {
 
 export function Plt(props: PltProps) {
   const PlotComponent = plotComponentFactory(Plotly);
+  const darkLayout = uiSettingsService.get('theme:darkMode')
+    ? {
+        paper_bgcolor: '#1a1b20',
+        plot_bgcolor: '#1a1b20',
+        font: {
+          color: '#DFE5EF',
+        },
+      }
+    : {};
+
   return (
     <PlotComponent
       data={props.data}
@@ -63,6 +74,7 @@ export function Plt(props: PltProps) {
           rangemode: 'normal',
         },
         ...props.layout,
+        ...darkLayout,
       }}
     />
   );
