@@ -31,6 +31,10 @@ import org.junit.Assert
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.observability.constructNotebookRequest
+import org.opensearch.observability.constructOperationalPanelRequest
+import org.opensearch.observability.constructSavedQueryRequest
+import org.opensearch.observability.constructSavedVisualizationRequest
+import org.opensearch.observability.constructTimestampRequest
 import org.opensearch.observability.jsonify
 import org.opensearch.observability.validateErrorResponse
 import org.opensearch.observability.validateTimeRecency
@@ -102,20 +106,87 @@ class GetObjectIT : PluginRestTestCase() {
         )
         Assert.assertEquals(0, emptyResponse.get("totalHits").asInt)
 
-        val ids = Array(5) { createObject(constructNotebookRequest()) }
+        val startTime = Instant.now().toEpochMilli()
+        val notebookIds = Array(4) { createObject(constructNotebookRequest("notebook-$it")) }
+        val savedQueryIds = Array(6) { createObject(constructSavedQueryRequest("saved-query-$it")) }
+        val savedVisualizationIds =
+            Array(3) { createObject(constructSavedVisualizationRequest("saved-visualization-$it")) }
+        val operationalPanelIds = Array(7) { createObject(constructOperationalPanelRequest("operational-panel-$it")) }
+        val timestampIds = Array(5) { createObject(constructTimestampRequest("timestamp-$it")) }
+        val endTime = Instant.now().toEpochMilli()
         Thread.sleep(1000)
 
         val getAllResponse = executeRequest(
             RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object",
+            "$BASE_OBSERVABILITY_URI/object?maxItems=1000",
             "",
             RestStatus.OK.status
         )
-        Assert.assertEquals(5, getAllResponse.get("totalHits").asInt)
-        val notebooksList = getAllResponse.get("observabilityObjectList").asJsonArray
+        Assert.assertEquals(25, getAllResponse.get("totalHits").asInt)
+
+        val getNotebooksResponse = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertEquals(4, getNotebooksResponse.get("totalHits").asInt)
+        val notebooksList = getNotebooksResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
-            ids,
+            notebookIds,
             notebooksList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+        )
+
+        val getMultipleTypesResponse = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery,savedVisualization",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
+        val multipleTypesList = getMultipleTypesResponse.get("observabilityObjectList").asJsonArray
+        Assert.assertArrayEquals(
+            savedQueryIds.plus(savedVisualizationIds),
+            multipleTypesList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+        )
+
+        val getMultipleIdsResponse = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectIdList=${operationalPanelIds.joinToString(",")}",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertEquals(7, getMultipleIdsResponse.get("totalHits").asInt)
+        val multipleIdsList = getMultipleIdsResponse.get("observabilityObjectList").asJsonArray
+        Assert.assertArrayEquals(
+            operationalPanelIds,
+            multipleIdsList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+        )
+
+        val getNameResponse = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?name=timestamp",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertEquals(5, getNameResponse.get("totalHits").asInt)
+        val timestampList = getNameResponse.get("observabilityObjectList").asJsonArray
+        Assert.assertArrayEquals(
+            timestampIds,
+            timestampList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+        )
+
+        val getTimeResponse = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?createdTimeMs=$startTime..$endTime",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertEquals(25, getTimeResponse.get("totalHits").asInt)
+        val objectList = getTimeResponse.get("observabilityObjectList").asJsonArray
+        Assert.assertArrayEquals(
+            notebookIds.plus(savedQueryIds).plus(savedVisualizationIds).plus(operationalPanelIds).plus(timestampIds),
+            objectList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
         )
     }
 }
