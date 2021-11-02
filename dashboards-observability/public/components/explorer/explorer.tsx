@@ -119,7 +119,8 @@ export const Explorer = ({
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid] = useState(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
-
+  const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
   const explorerFieldsRef = useRef();
@@ -310,32 +311,38 @@ export const Explorer = ({
       setToast('Cannot override timestamp because there was no valid index found.', 'danger');
       return;
     }
-
+    
+    setIsOverridingTimestamp(true);
+    
     let saveTimestampRes;
     if (curQuery![HAS_SAVED_TIMESTAMP]) {
-      saveTimestampRes = await savedObjects
-        .updateTimestamp({
-          ...requests,
-        })
-        .then((res: any) => {
-          setToast(`Timestamp has been overridden successfully.`, 'success');
-          return res;
-        })
-        .catch((error: any) => {
-          setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
-        });
+      saveTimestampRes = await savedObjects.updateTimestamp({
+        ...requests
+      })
+      .then((res: any) => {
+        setToast(`Timestamp has been overridden successfully.`, 'success');
+        return res;
+      })
+      .catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
+      });
     } else {
-      saveTimestampRes = await savedObjects
-        .createSavedTimestamp({
-          ...requests,
-        })
-        .then((res: any) => {
-          setToast(`Timestamp has been overridden successfully.`, 'success');
-          return res;
-        })
-        .catch((error: any) => {
-          setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
-        });
+      saveTimestampRes = await savedObjects.createSavedTimestamp({
+        ...requests
+      })
+      .then((res: any) => {
+        setToast(`Timestamp has been overridden successfully.`, 'success');
+        return res;
+      })
+      .catch((error: any) => { 
+        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
+      });
     }
 
     if (!has(saveTimestampRes, 'objectId')) return;
@@ -355,37 +362,38 @@ export const Explorer = ({
       <main className="container-fluid">
         <div className="row">
           <div
-            className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
-            id="discover-sidebar"
-            data-test-subj="discover-sidebar"
-          >
-            {!isSidebarClosed && (
-              <div className="dscFieldChooser">
-                <Sidebar
-                  explorerFields={explorerFields}
-                  explorerData={explorerData}
-                  selectedTimestamp={query[SELECTED_TIMESTAMP]}
-                  handleOverrideTimestamp={handleOverrideTimestamp}
-                  handleAddField={(field: IField) => handleAddField(field)}
-                  handleRemoveField={(field: IField) => handleRemoveField(field)}
-                />
-              </div>
-            )}
-            <EuiButtonIcon
-              iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
-              iconSize="m"
-              size="s"
-              onClick={() => {
-                setIsSidebarClosed((staleState) => {
-                  return !staleState;
-                });
-              }}
-              data-test-subj="collapseSideBarButton"
-              aria-controls="discover-sidebar"
-              aria-expanded={isSidebarClosed ? 'false' : 'true'}
-              aria-label="Toggle sidebar"
-              className="dscCollapsibleSidebar__collapseButton"
-            />
+              className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
+              id="discover-sidebar"
+              data-test-subj="discover-sidebar"
+            >
+              {!isSidebarClosed && (
+                <div className="dscFieldChooser">
+                  <Sidebar
+                    explorerFields={ explorerFields }
+                    explorerData={ explorerData }
+                    selectedTimestamp={ query[SELECTED_TIMESTAMP] }
+                    isOverridingTimestamp={ isOverridingTimestamp }
+                    handleOverrideTimestamp={ handleOverrideTimestamp }
+                    handleAddField={ (field: IField) => handleAddField(field) }
+                    handleRemoveField={ (field: IField) => handleRemoveField(field) }
+                  />
+                </div>
+              )}
+              <EuiButtonIcon
+                iconType={ isSidebarClosed ? 'menuRight' : 'menuLeft' }
+                iconSize="m"
+                size="s"
+                onClick={ () => {
+                  setIsSidebarClosed(staleState => {
+                    return !staleState;
+                  });
+                } }
+                data-test-subj="collapseSideBarButton"
+                aria-controls="discover-sidebar"
+                aria-expanded={ isSidebarClosed ? 'false' : 'true' }
+                aria-label="Toggle sidebar"
+                className="dscCollapsibleSidebar__collapseButton"
+              />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
           { (explorerData && !isEmpty(explorerData.jsonData)) ? (
@@ -421,30 +429,29 @@ export const Explorer = ({
                       </EuiFlexGroup>
                       <CountDistribution countDistribution={countDistribution} />
                     </>
-                  )}
-
-                  <section
-                    className="dscTable dscTableFixedScroll"
-                    aria-labelledby="documentsAriaLabel"
-                  >
-                    <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
-                      <FormattedMessage
-                        id="discover.documentsAriaLabel"
-                        defaultMessage="Documents"
-                      />
-                    </h2>
-                    <div className="dscDiscover">
-                      <DataGrid
-                        rows={explorerData['jsonData']}
-                        rowsAll={explorerData['jsonDataAll']}
-                        explorerFields={explorerFields}
-                      />
-                      <a tabIndex={0} id="discoverBottomMarker">
-                        &#8203;
-                      </a>
-                    </div>
-                  </section>
-                </div>
+                  )
+                }
+                <section
+                  className="dscTable dscTableFixedScroll"
+                  aria-labelledby="documentsAriaLabel"
+                >
+                  <h2 className="euiScreenReaderOnly" id="documentsAriaLabel">
+                    <FormattedMessage
+                      id="discover.documentsAriaLabel"
+                      defaultMessage="Documents"
+                    />
+                  </h2>
+                  <div className="dscDiscover">
+                    <DataGrid
+                      rows={ explorerData['jsonData'] }
+                      rowsAll={ explorerData['jsonDataAll'] }
+                      explorerFields={ explorerFields }
+                    />
+                    <a tabIndex={0} id="discoverBottomMarker">
+                      &#8203;
+                    </a>
+                  </div>
+                </section>
               </div>
             ) : (
               <NoResults />
@@ -508,15 +515,18 @@ export const Explorer = ({
 
   const memorizedMainContentTabs = useMemo(() => {
     return getMainContentTabs();
-  }, [
-    curVisId,
-    isPanelTextFieldInvalid,
-    explorerData,
-    explorerFields,
-    isSidebarClosed,
-    countDistribution,
-    explorerVisualizations,
-  ]);
+  },
+    [
+      curVisId,
+      isPanelTextFieldInvalid,
+      explorerData,
+      explorerFields,
+      isSidebarClosed,
+      countDistribution,
+      explorerVisualizations,
+      isOverridingTimestamp
+    ]
+  );
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
@@ -575,6 +585,11 @@ export const Explorer = ({
         // update custom panel - query
       }
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+      if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
+        setToast(`There is no query or(and) visualization to save`, 'danger');
+        return;
+      }
+      
       // create new saved visualization
       const savingVisRes = await savedObjects
         .createSavedVisualization({
