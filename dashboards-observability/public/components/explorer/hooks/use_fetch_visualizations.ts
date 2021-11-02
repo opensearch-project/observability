@@ -19,7 +19,8 @@ import {
   FINAL_QUERY,
   QUERIED_FIELDS,
   RAW_QUERY,
-  SELECTED_FIELDS
+  SELECTED_FIELDS,
+  SELECTED_TIMESTAMP
 } from '../../../../common/constants/explorer';
 import { render as renderCountDis } from '../slices/count_distribution_slice';
 import { selectQueries } from '../slices/query_slice';
@@ -73,7 +74,7 @@ export const useFetchVisualizations = ({
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     fetchVisualizations({
-      query: `${rawQuery} | stats count() by span(timestamp, 1${interval = interval ? interval: 'm' })` },
+      query: `${rawQuery} | stats count() by span(${cur![requestParams.tabId][SELECTED_TIMESTAMP]}, 1${interval = interval ? interval: 'm' })` },
       'viz',
       (res: any) => {
       dispatch(renderCountDis({
