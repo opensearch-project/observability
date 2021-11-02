@@ -29,34 +29,30 @@ export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
   {
-    display: 'Auto',
-    val: 'h' // same as value of Hour for now
+    text: 'Minute', 
+    value: 'm',
   },
   {
-    display: 'Minute',
-    val: 'm'
+    text: 'Hour',
+    value: 'h',
   },
   {
-    display: 'Hour',
-    val: 'h'
+    text: 'Day',
+    value: 'd',
   },
   {
-    display: 'Day',
-    val: 'd'
+    text: 'Week',
+    value: 'w',
   },
   {
-    display: 'Week',
-    val: 'w'
+    text: 'Month',
+    value: 'M',
   },
   {
-    display: 'Month',
-    val: 'M'
+    text: 'Year',
+    value: 'y',
   },
-  {
-    display: 'Year',
-    val: 'y'
-  },
-]
+];
 
 // redux
 export const SELECTED_QUERY_TAB = 'selectedQueryTab';

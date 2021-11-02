@@ -31,7 +31,7 @@ export const observabilityID = 'observability';
 export const observabilityTitle = 'Observability';
 export const observabilityPluginOrder = 6000;
 
-// Shared Constants 
+// Shared Constants
 export const UI_DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
 export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const PPL_STATS_REGEX = /\|\s*stats/i;
@@ -47,3 +47,17 @@ export const OPENSEARCH_PANELS_API = {
 
 // Saved Objects
 export const SAVED_OBJECT = '/object';
+
+// Color Constants
+export const PlotlyColorWay = [
+  '#00A3E0',
+  '#963CBD',
+  '#F65275',
+  '#FFB81C',
+  '#2CD5C4',
+  '#127871',
+  '#5F1084',
+  '#005EB8',
+  '#BD800F',
+  '#4C636F',
+];
