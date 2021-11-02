@@ -9,9 +9,10 @@
  * GitHub history for details.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
+import { CreateApp } from './components/create'
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
 import { FilterType } from '../trace_analytics/components/common/filters/filters';
@@ -20,6 +21,7 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
+import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
   pplService: PPLService;
@@ -52,41 +54,45 @@ const dummyApplication: ApplicationType[] = [{
 }];
 
 export const Home = (props: HomeProps) => {
-  const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, match } = props;
   const [indicesExist, setIndicesExist] = useState(true);
-  const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
-  const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
+  const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
+  const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('TraceAnalyticsStartTime') || 'now-5m'
+    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-5m'
   );
   const [endTime, setEndTime] = useState<string>(
-    sessionStorage.getItem('TraceAnalyticsEndTime') || 'now'
+    sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);
-    sessionStorage.setItem('TraceAnalyticsFilters', JSON.stringify(newFilters));
+    sessionStorage.setItem('AppAnalyticsFilters', JSON.stringify(newFilters));
   };
   const setQueryWithStorage = (newQuery: string) => {
     setQuery(newQuery);
-    sessionStorage.setItem('TraceAnalyticsQuery', newQuery);
+    sessionStorage.setItem('AppAnalyticsQuery', newQuery);
   };
   const setStartTimeWithStorage = (newStartTime: string) => {
     setStartTime(newStartTime);
-    sessionStorage.setItem('TraceAnalyticsStartTime', newStartTime);
+    sessionStorage.setItem('AppAnalyticsStartTime', newStartTime);
   };
   const setEndTimeWithStorage = (newEndTime: string) => {
     setEndTime(newEndTime);
-    sessionStorage.setItem('TraceAnalyticsEndTime', newEndTime);
+    sessionStorage.setItem('AppAnalyticsEndTime', newEndTime);
   };
+  
+  useEffect(() => {
+    handleIndicesExistRequest(http, setIndicesExist);
+  }, []);
 
   const commonProps: TraceAnalyticsComponentDeps = {
-    parentBreadcrumb: props.parentBreadcrumb,
-    http: props.http,
-    chrome: props.chrome,
+    parentBreadcrumb: parentBreadcrumb,
+    http: http,
+    chrome: chrome,
     query,
     setQuery: setQueryWithStorage,
     filters,
@@ -103,8 +109,8 @@ export const Home = (props: HomeProps) => {
       <Switch>
         <Route
           exact
-          path={props.match.path}
-          render={(routerProps) => 
+          path={match.path}
+          render={() => 
             renderPageWithSidebar(
               <AppTable loading={false} applications={dummyApplication} {...commonProps} />
             )
@@ -112,15 +118,17 @@ export const Home = (props: HomeProps) => {
         />
         <Route
           exact
-          path={`${props.match.path}/create`}
-          render={(routerProps) => 
-            <h1>Create Application</h1>
+          path={`${match.path}/create`}
+          render={() => 
+            <CreateApp 
+            {...commonProps}
+            />
           }
         />
         <Route
           exact
           // path="/application_analytics/:id+"
-          path={`${props.match.path}/:id`}
+          path={`${match.path}/:id`}
           render={(routerProps) => 
             <Application
               disabled={false}

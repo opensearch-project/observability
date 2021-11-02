@@ -9,15 +9,22 @@
  * GitHub history for details.
  */
 
-import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiInMemoryTable, EuiPage, EuiPageBody, EuiPageContent, EuiPageContentHeader, EuiPageContentHeaderSection, EuiTableFieldDataColumnType, EuiText, EuiTitle } from '@elastic/eui';
-import CSS from 'csstype';
+import { 
+    EuiButton, 
+    EuiFlexGroup, 
+    EuiFlexItem, 
+    EuiHorizontalRule, 
+    EuiInMemoryTable, 
+    EuiPage, 
+    EuiPageBody, 
+    EuiPageContent, 
+    EuiPageContentHeader, 
+    EuiPageContentHeaderSection, 
+    EuiTableFieldDataColumnType, 
+    EuiText, 
+    EuiTitle 
+} from '@elastic/eui';
 import React from 'react';
-
-const pageStyles: CSS.Properties = {
-    float: 'left',
-    width: '100%',
-    maxWidth: '1130px',
-  };
 
 const dummy = [{
     level: "Available",

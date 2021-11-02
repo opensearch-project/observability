@@ -45,6 +45,8 @@ export const App = ({
     href: '#/operational_panels/',
   };
 
+  console.log("here")
+
   return (
     <Provider store={store}>
       <HashRouter>
