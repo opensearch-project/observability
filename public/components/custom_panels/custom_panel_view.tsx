@@ -549,15 +549,9 @@ export const CustomPanelView = ({
                   start={start}
                   end={end}
                   onTimeChange={onDatePickerChange}
-                  showUpdateButton={false}
                   recentlyUsedRanges={recentlyUsedRanges}
                   isDisabled={dateDisabled}
                 />
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiButton isDisabled={inputDisabled} onClick={onRefreshFilters}>
-                  Refresh
-                </EuiButton>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiPopover
