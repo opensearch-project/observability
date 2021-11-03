@@ -172,7 +172,7 @@ internal object PluginSettings {
     /**
      * Default admin access method.
      */
-    private const val DEFAULT_ADMIN_ACCESS_METHOD = "AllNotebooks"
+    private const val DEFAULT_ADMIN_ACCESS_METHOD = "AllObservabilityObjects"
 
     /**
      * Default filter-by method.
@@ -246,9 +246,9 @@ internal object PluginSettings {
     /**
      * Enum for types of admin access
      * "Standard" -> Admin user access follows standard user
-     * "AllNotebooks" -> Admin user with "all_access" role can see all notebooks of all users.
+     * "AllObservabilityObjects" -> Admin user with "all_access" role can see all observability objects of all users.
      */
-    internal enum class AdminAccess { Standard, AllNotebooks }
+    internal enum class AdminAccess { Standard, AllObservabilityObjects }
 
     /**
      * Enum for types of filterBy options
