@@ -105,10 +105,10 @@ export function Table(options: TableData) {
         query: savedObject.query,
         date_start: savedObject.selected_date_range.start,
         date_end: savedObject.selected_date_range.end,
-        timestamp: savedObject.selected_timestamp?.name || '',
+        timestamp: savedObject.selected_timestamp?.name,
         fields: savedObject.selected_fields?.tokens || [],
       },
-      name: savedObject.name || '',
+      name: savedObject.name,
       type: queryType,
     };
   });
@@ -128,7 +128,7 @@ export function Table(options: TableData) {
         options: FILTER_OPTIONS.map((i) => ({
           value: i,
           name: i,
-          view: `${i}`,
+          view: i,
         })),
       },
     ],
