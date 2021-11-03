@@ -22,8 +22,8 @@ import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
+import DSLService from 'public/services/requests/dsl';
 
-let queryLength: number = 0;
 let currIndex: string = '';
 let currField: string = '';
 let currFieldType: string = '';
@@ -210,8 +210,9 @@ const getIndices = async (dslService: DSLService) => {
 };
 
 const getFields = async (dslService: DSLService) => {
-  if (fieldsFromBackend.length === 0 && currIndex !== '') {
+  if (currIndex !== '') {
     const res = await dslService.fetchFields(currIndex);
+    fieldsFromBackend.length = 0;
     for (const element in res?.[currIndex].mappings.properties) {
       if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
