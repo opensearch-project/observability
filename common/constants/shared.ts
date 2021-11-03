@@ -50,11 +50,11 @@ export const SAVED_OBJECT = '/object';
 
 // Color Constants
 export const PlotlyColorWay = [
-  '#00A3E0',
-  '#963CBD',
-  '#F65275',
-  '#FFB81C',
-  '#2CD5C4',
+  '#3CA1C7',
+  '#8C55A3',
+  '#DB748A',
+  '#F2BE4B',
+  '#68CCC2',
   '#127871',
   '#5F1084',
   '#005EB8',
