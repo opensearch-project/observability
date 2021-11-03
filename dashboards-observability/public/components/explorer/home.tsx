@@ -117,48 +117,61 @@ export const Home = (props: IHomeProps) => {
 
   const handleTimePickerChange = async (timeRange: Array<string>) => setSelectedDateRange(timeRange);
 
-  const addSavedQueryInput = async (
-    tabId: string,
+  // const addSavedQueryInput = async (
+  //   tabId: string,
+  //   searchQuery: string,
+  //   selectedDateRange: [],
+  //   selectedTimeStamp: string
+  // ) => {
+  //   dispatch(
+  //     changeQuery({
+  //       tabId,
+  //       query: {
+  //         [RAW_QUERY]: searchQuery,
+  //         [SELECTED_DATE_RANGE]: selectedDateRange,
+  //         [SELECTED_TIMESTAMP]: selectedTimeStamp,
+  //       },
+  //     })
+  //   );
+  // };
+
+  // const addSavedFields = async (
+  //   tabId: string,
+  //   selectedFields: []
+  // ) => {
+  //   dispatch(
+  //     updateFields({
+  //       tabId,
+  //       data: {
+  //         [SELECTED_FIELDS]: selectedFields,
+  //       },
+  //     })
+  //   );
+  // };
+
+  const savedQuerySearch = async (
     searchQuery: string,
     selectedDateRange: [],
-    selectedTimeStamp: string
+    selectedTimeStamp: string,
+    selectedFields: [],
+    objectId: string
   ) => {
-    dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          [RAW_QUERY]: searchQuery,
-          [SELECTED_DATE_RANGE]: selectedDateRange,
-          [SELECTED_TIMESTAMP]: selectedTimeStamp,
-        },
-      })
-    );
-  };
-
-  const addSavedFields = async (
-    tabId: string,
-    selectedFields: []
-  ) => {
-    dispatch(
-      updateFields({
-        tabId,
-        data: {
-          [SELECTED_FIELDS]: selectedFields,
-        },
-      })
-    );
-  };
-
-  const savedQuerySearch = async (searchQuery: string, selectedDateRange: [], selectedTimeStamp: string, selectedFields: []) => {
     // create new tab
     const newTabId = await addNewTab();
 
+    await dispatch(changeQuery({
+      tabId: newTabId,
+      query: {
+        'savedObjectId': objectId
+      }
+    }));
+
     // update this new tab with data
-    await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);
-    await addSavedFields(newTabId, selectedFields);
+    // await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);
+    // await addSavedFields(newTabId, selectedFields);
     
     // redirect to explorer
-    history.push('/event_analytics/explorer');
+    history.push(`/event_analytics/explorer/${objectId}`);
   };
 
 
@@ -207,9 +220,14 @@ export const Home = (props: IHomeProps) => {
                 <h1>{ "Saved Queries and Visualizations" }</h1>
               </EuiTitle>
               <EuiSpacer size="s" />
-              <Table savedHistory={savedHistories}
-                     savedQuerySearch={( searchQuery: string, selectedDateRange: [], selectedTimeStamp: string,  selectedFields: []) => 
-            { savedQuerySearch(searchQuery, selectedDateRange, selectedTimeStamp, selectedFields) } }
+              <Table 
+                savedHistory={savedHistories}
+                savedQuerySearch={
+                  (searchQuery: string, selectedDateRange: [], selectedTimeStamp: string,  selectedFields: [], objectId: string) => 
+                  {
+                    savedQuerySearch(searchQuery, selectedDateRange, selectedTimeStamp, selectedFields, objectId) 
+                  }
+                }
               />
             </EuiListGroup>
           </EuiFlexItem>

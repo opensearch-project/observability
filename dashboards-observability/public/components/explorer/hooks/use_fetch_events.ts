@@ -87,7 +87,7 @@ export const useFetchEvents = ({
         dispatch(updateFields({
           tabId: requestParams.tabId,
           data: {
-            [SELECTED_FIELDS]: [],
+            // [SELECTED_FIELDS]: [],
             [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
             [QUERIED_FIELDS]: [],
             [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []

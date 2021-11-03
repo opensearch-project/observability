@@ -176,11 +176,34 @@ export default class SavedObjects {
       query: params.query,
       fields: params.fields,
       dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
     });
 
     finalParams['object_id'] = params.objectId;
 
-    return await this.http.post(
+    return await this.http.put(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    );
+  }
+
+  async updateSavedQueryById(params: any) {
+    const finalParams = this.buildRequestBody({
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
+    });
+
+    finalParams['object_id'] = params.objectId;
+
+    return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
       {
         body: JSON.stringify(finalParams)

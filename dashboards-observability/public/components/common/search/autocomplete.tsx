@@ -327,7 +327,7 @@ export function Autocomplete({
           },
         }
       );
-  }, []);
+  }, [query]);
 
   return (
     <div 

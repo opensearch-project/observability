@@ -43,10 +43,16 @@ export function Table(options: TableData) {
     {
       field: 'data',
       name: 'Name',
-      render: (item)=>{return <EuiLink onClick={() =>
-      {options.savedQuerySearch(item.query, [item.date_start, item.date_end], item.timestamp, item.fields)}}>
-        {item.name}
-      </EuiLink>},
+      render: (item)=>{
+        return ( 
+          <EuiLink 
+            onClick={() => {
+            console.log('item: ', item);
+            options.savedQuerySearch(item.query, [item.date_start, item.date_end], item.timestamp, item.fields, item.objectId)}}
+          >
+            {item.name}
+          </EuiLink>)
+      },
     },
     {
       field: 'description',
@@ -62,6 +68,7 @@ export function Table(options: TableData) {
       : h.savedQuery;
     return {
       data: {
+        objectId: h.objectId,
         name: savedObject.name,
         query: savedObject.query,
         date_start: savedObject.selected_date_range.start,

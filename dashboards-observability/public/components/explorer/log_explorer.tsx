@@ -10,11 +10,12 @@
  */
 
 import './log_explorer.scss';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { 
   uniqueId,
-  map
+  map,
+  isEmpty
 } from 'lodash';
 import $ from 'jquery';
 import {
@@ -35,13 +36,15 @@ import {
   setSelectedQueryTab,
   removeTab
 } from './slices/query_tab_slice';
+import { selectQueries } from './slices/query_slice';
 import { 
   init as initFields,
   remove as removefields
 } from './slices/field_slice';
 import {
   init as initQuery,
-  remove as removeQuery
+  remove as removeQuery,
+  changeQuery
 } from './slices/query_slice';
 import { 
   init as initQueryResult,
@@ -54,12 +57,16 @@ export const LogExplorer = ({
   savedObjects,
   timestampUtils,
   http,
-  setToast
+  setToast,
+  savedObjectId
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
+  const queries = useSelector(selectQueries);
   const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
+  const queryRef = useRef();
+  queryRef.current = queries;
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -73,6 +80,7 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
+    const curQuery = queryRef.current![selectedTab.id];
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
@@ -104,15 +112,37 @@ export const LogExplorer = ({
     });
   };
 
-  function addNewTab () {
-    const tabId: string = uniqueId(TAB_ID_TXT_PFX);
-    batch(() => {
+  const addNewTab = async () => {
+    //get a new tabId
+    const tabId = uniqueId(TAB_ID_TXT_PFX);
+
+    // create a new tab
+    await batch(() => {
       dispatch(initQuery({ tabId, }));
       dispatch(initQueryResult({ tabId, }));
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
     });
+
+    return tabId;
   };
+
+  const dispatchSavedObjectId = async () => {
+    const newTabId = await addNewTab();
+
+    await dispatch(changeQuery({
+      tabId: newTabId,
+      query: {
+        'savedObjectId': savedObjectId
+      }
+    }));
+  };
+
+  useEffect(() => {
+    if (!isEmpty(savedObjectId)) {
+      dispatchSavedObjectId();
+    }
+  }, []);
 
   function getQueryTab ({
     tabTitle,
