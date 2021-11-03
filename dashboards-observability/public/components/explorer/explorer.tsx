@@ -85,8 +85,12 @@ import DSLService from '../../services/requests/dsl';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 
-const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
-const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
+const TAB_EVENT_ID = 'main-content-events';
+const TAB_CHART_ID = 'main-content-vis';
+const TYPE_TAB_MAPPING = {
+  'savedQuery': TAB_EVENT_ID,
+  'savedVisualization': TAB_CHART_ID
+};
 
 interface IExplorerProps {
   pplService: PPLService;
@@ -168,7 +172,8 @@ export const Explorer = ({
     })
     .then((res) => {
       const savedData = res['observabilityObjectList'][0];
-      const objectData = has(savedData, 'savedQuery') ? savedData.savedQuery : savedData.savedVisualization;
+      const isSavedQuery = has(savedData, 'savedQuery');
+      const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
       batch(async () => {
         await dispatch(changeQuery({
           tabId,
@@ -191,6 +196,8 @@ export const Explorer = ({
 
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
+      const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING['savedQuery'] : TYPE_TAB_MAPPING['savedVisualization']
+      setSelectedContentTab(tabToBeFocused);
     })
     .catch((error) => {
       setToast(`Cannot get saved data for object id: ${objectId}, error: ${error.message}`, 'danger');
@@ -566,7 +573,8 @@ export const Explorer = ({
       explorerFields,
       isSidebarClosed,
       countDistribution,
-      explorerVisualizations
+      explorerVisualizations,
+      selectedContentTabId
     ]
   );
 
@@ -714,7 +722,7 @@ export const Explorer = ({
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={ memorizedMainContentTabs[0] }
-        selectedTab={ memorizedMainContentTabs.find(tab => { tab.id === selectedContentTabId }) }
+        selectedTab={ memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId) }
         onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
         tabs={ memorizedMainContentTabs }
       />
