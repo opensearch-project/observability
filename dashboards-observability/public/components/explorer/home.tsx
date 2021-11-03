@@ -204,7 +204,7 @@ export const Home = (props: IHomeProps) => {
               wrapText={ true }
             >
               <EuiTitle size="s">
-                <h1>{ "Saved Queries and Visualizations" }</h1>
+                <h1>{ "Queries and Visualizations" }</h1>
               </EuiTitle>
               <EuiSpacer size="s" />
               <Table savedHistory={savedHistories}
