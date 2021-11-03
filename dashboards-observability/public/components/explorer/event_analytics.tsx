@@ -50,63 +50,63 @@ export const EventAnalytics = ({
         toastLifeTimeMs={6000}
       />
       <HashRouter>
-      <Switch>
-        <Route
-          path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
-          render={(props) => {
-            const breadcrumbPath = [
-              parentBreadcrumb,
-              eventAnalyticsBreadcrumb,
-              {
-                text: 'Explorer',
-                href: `#/event_analytics/explorer`,
+        <Switch>
+          <Route
+            path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
+            render={(props) => {
+              const breadcrumbPath = [
+                parentBreadcrumb,
+                eventAnalyticsBreadcrumb,
+                {
+                  text: 'Explorer',
+                  href: `#/event_analytics/explorer`,
+                }
+              ];
+              if (props.match.params.id) {
+                breadcrumbPath.push({
+                  text: `${props.match.params.id}`,
+                  href: `#/event_analytics/explorer/${props.match.params.id}`
+                });
               }
-            ];
-            if (props.match.params.id) {
-              breadcrumbPath.push({
-                text: `${props.match.params.id}`,
-                href: `#/event_analytics/explorer/${props.match.params.id}`
-              });
-            }
-            chrome.setBreadcrumbs(breadcrumbPath);
-            return (
-              <LogExplorer
-                savedObjectId={props.match.params.id}
-                pplService={ pplService }
-                dslService={ dslService }
-                savedObjects={ savedObjects }
-                timestampUtils={ timestampUtils }
-                http={ http }
-                setToast={ setToast }
-                chrome={chrome}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path={props.match.path}
-          render={(props) => {
-            chrome.setBreadcrumbs([
-              parentBreadcrumb,
-              eventAnalyticsBreadcrumb,
-              {
-                text: 'Home',
-                href: '#/event_analytics',
-              }
-            ]);
-            return renderPageWithSidebar(
-              <EventExplorerHome 
-                http={ http } 
-                savedObjects={ savedObjects }
-                dslService={ dslService }
-                timestampUtils={ timestampUtils }
-              />
-            );
-          }}
-        />
-      </Switch>
-    </HashRouter>
+              chrome.setBreadcrumbs(breadcrumbPath);
+              return (
+                <LogExplorer
+                  savedObjectId={props.match.params.id}
+                  pplService={ pplService }
+                  dslService={ dslService }
+                  savedObjects={ savedObjects }
+                  timestampUtils={ timestampUtils }
+                  http={ http }
+                  setToast={ setToast }
+                  chrome={chrome}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path={props.match.path}
+            render={(props) => {
+              chrome.setBreadcrumbs([
+                parentBreadcrumb,
+                eventAnalyticsBreadcrumb,
+                {
+                  text: 'Home',
+                  href: '#/event_analytics',
+                }
+              ]);
+              return renderPageWithSidebar(
+                <EventExplorerHome 
+                  http={ http } 
+                  savedObjects={ savedObjects }
+                  dslService={ dslService }
+                  timestampUtils={ timestampUtils }
+                />
+              );
+            }}
+          />
+        </Switch>
+      </HashRouter>
     </>
   );
 }

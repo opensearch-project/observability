@@ -404,6 +404,7 @@ export const Explorer = ({
                     handleOverrideTimestamp={ handleOverrideTimestamp }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
+                    isFieldToggleButtonDisabled={isEmpty(explorerData.jsonData) || !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))}
                   />
                 </div>
               )}

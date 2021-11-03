@@ -32,6 +32,7 @@ interface IFieldProps {
   selected: boolean;
   showToggleButton: boolean;
   showTimestampOverrideButton: boolean;
+  isFieldToggleButtonDisabled: boolean;
   onToggleField: (field: IField) => void;
 }
 
@@ -43,7 +44,7 @@ export const Field = (props: IFieldProps) => {
     isOverridingTimestamp,
     handleOverrideTimestamp,
     selected,
-    showToggleButton = true,
+    isFieldToggleButtonDisabled = false,
     showTimestampOverrideButton = true,
     onToggleField
   } = props;
@@ -101,15 +102,23 @@ export const Field = (props: IFieldProps) => {
         <EuiToolTip
           delay="long"
           content={
-            i18n.translate(
-              selected ? 'removeFieldTooltip' : 'addFieldTooltip', 
-              { defaultMessage: selected ? 'Remove field from table' : 'Add field as column' }
-            )
+            isFieldToggleButtonDisabled ? "Toggle button is disabled on query contains 'stats' or no hits for the search" :
+            selected ? "Remove field from table" : "Add field as column"
           }
         >
           <>
           {
-            showToggleButton ? (
+            isFieldToggleButtonDisabled ? (
+              <EuiButtonIcon
+                className="dscSidebarItem__action"
+                color="ghost"
+                display="fill"
+                isDisabled
+                iconType={ selected ? "cross": "plusInCircleFilled" }
+                data-test-subj={`fieldToggle-${field.name}`}
+                aria-label={ selected ? removeLabelAria : addLabelAria }
+              />
+            ) : (
               <EuiButtonIcon
                 color={ selected ? "danger" : "primary" }
                 iconType={ selected ? "cross": "plusInCircleFilled" }
@@ -125,7 +134,7 @@ export const Field = (props: IFieldProps) => {
                 data-test-subj={`fieldToggle-${field.name}`}
                 aria-label={ selected ? removeLabelAria : addLabelAria }
               />
-            ) : null
+            )
           }
           </>
       </EuiToolTip>
