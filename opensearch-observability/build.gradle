@@ -29,7 +29,7 @@ import java.util.concurrent.Callable
 
 buildscript {
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "1.1.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "1.2.0-SNAPSHOT")
         // 1.0.0 -> 1.0.0.0, and 1.0.0-SNAPSHOT -> 1.0.0.0-SNAPSHOT
         opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
@@ -154,7 +154,7 @@ dependencies {
     testCompile "org.opensearch.test:framework:${opensearch_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    testCompile "org.mockito:mockito-core:2.23.0"
+    testCompile "org.mockito:mockito-core:3.12.4"
     testCompile "com.google.code.gson:gson:2.8.6"
 
     ktlint "com.pinterest:ktlint:0.41.0"
