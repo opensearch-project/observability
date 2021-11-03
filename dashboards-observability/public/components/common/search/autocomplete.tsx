@@ -23,6 +23,7 @@ import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
+import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
@@ -355,7 +356,7 @@ export function Autocomplete({
           autocompleteState.collections.map((collection, index) => {
             const { source, items } = collection;
             return (
-              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
+              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
                 <div key={`source-${index}`} className="aa-Source">
                   {items.length > 0 && (
                     <ul className="aa-List" {...autocomplete.getListProps()}>
@@ -369,6 +370,7 @@ export function Autocomplete({
                               item,
                               source,
                             })}
+                            style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
                           >
                             <div className="aa-ItemWrapper">
                               <div className="aa-ItemContent">
