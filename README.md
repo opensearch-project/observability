@@ -1,9 +1,13 @@
 [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)
 [![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)
 
-# OpenSearch Dashboards Trace Analytics
+# OpenSearch Dashboards Observability
 
-The OpenSearch Dashboards Trace Analytics plugin provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
+The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks. Event analytics allows user to use [PPL](https://opensearch.org/docs/latest/search-plugins/ppl/index/) to query indices stored in OpenSearch. Users can also aggregate on their indices to automatically create visualizations, which can be added as operational panels similar to dashboards.
+
+#### Trace Analytics
+
+Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
 
 1. Dashboard: an overview of the trace groups and three charts: error rate, throughput, service map.
 
@@ -13,13 +17,17 @@ The OpenSearch Dashboards Trace Analytics plugin provides instant on dashboards 
 
 Additionally the fields can be sorted and filtered.
 
+#### Notebooks
+
+Dashboards offer a solution for a few selected use cases, and are great tools if you’re focused on monitoring a known set of metrics over time. Notebooks enables contextual use of data with detailed explanations by allowing a user to combine saved visualizations, text, graphs and decorate data with other reference data sources.
+
 ## Documentation
 
 Please see our technical [documentation](https://opensearch.org/docs/latest/monitoring-plugins/trace/index/) to learn more about its features.
 
 ## Contributing
 
-See [developer guide](DEVELOPER_GUIDE.md) and [how to contribute to this project](CONTRIBUTING.md). 
+See [developer guide](DEVELOPER_GUIDE.md) and [how to contribute to this project](CONTRIBUTING.md).
 
 ## Getting Help
 
@@ -37,8 +45,8 @@ If you discover a potential security issue in this project we ask that you notif
 
 ## License
 
-This project is licensed under the [Apache v2.0 License](LICENSE.txt).
+This project is licensed under the [Apache v2.0 License](LICENSE).
 
 ## Copyright
 
-Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Copyright OpenSearch Contributors. See [NOTICE](NOTICE) for details.
