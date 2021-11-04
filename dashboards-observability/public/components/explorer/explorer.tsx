@@ -58,7 +58,7 @@ import {
   TIME_INTERVAL_OPTIONS,
   HAS_SAVED_TIMESTAMP
 } from '../../../common/constants/explorer';
-import { PPL_STATS_REGEX } from '../../../common/constants/shared';
+import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { 
   getIndexPatternFromRawQuery,
   insertDateRangeToQuery
@@ -78,6 +78,7 @@ import {
   updateFields,
   sortFields
 } from './slices/field_slice';
+import { updateTabName, selectQueryTabs } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
@@ -139,6 +140,8 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  // const queryTabs = useSelector(selectQueryTabs);
+  const queryTabName = useSelector(selectQueryTabs)['tabNames'][tabId];
   
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -151,9 +154,11 @@ export const Explorer = ({
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
   const explorerFieldsRef = useRef();
+  const queryTabsRef = useRef();
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
+  // queryTabsRef.current = queryTabs;
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
@@ -192,10 +197,15 @@ export const Explorer = ({
             [SELECTED_FIELDS]: [...objectData?.selected_fields?.tokens]
           }
         }));
+        await dispatch(updateTabName({
+          tabId,
+          tabName: objectData['name']
+        }));
       });
 
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
+      
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING['savedQuery'] : TYPE_TAB_MAPPING['savedVisualization']
       setSelectedContentTab(tabToBeFocused);
     })
@@ -215,12 +225,15 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    
-    if (isEmpty(rawQueryStr)) return;
+
+    if (
+      isEmpty(rawQueryStr) ||
+      (!isEmpty(curQuery!['savedObjectId']) && isEmpty(queryTabName))
+    ) return;
     if (isEmpty(curIndex)) {
       setToast('Query does not include vaild index.', 'danger');
       return;
-    } 
+    }
     
     let curTimestamp = '';
     let hasSavedTimestamp = false;
@@ -276,17 +289,27 @@ export const Explorer = ({
 
   useEffect(
     () => {
-      fetchSavedResult();
+      if (
+        (isEmpty(query.savedObjectId) && !isEmpty(query[RAW_QUERY])) ||
+        query.savedObjectId
+      ) {
+        fetchSavedResult();
+        fetchData();
+      }
     },
-    [query['savedObjectId']]
+    [
+      query.savedObjectId,
+      // queryTabs.tabNames.tabId
+      queryTabName
+    ]
   );
 
-  useEffect(
-    () => {
-      fetchData();
-    }, 
-    [query[SELECTED_TIMESTAMP]]
-  );
+  // useEffect(
+  //   () => {
+  //     fetchData();
+  //   }, 
+  //   [query[SELECTED_TIMESTAMP]]
+  // );
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
@@ -390,6 +413,8 @@ export const Explorer = ({
         [SELECTED_TIMESTAMP]: ''
       }
     }));
+
+    fetchData();
   };
 
   const getMainContent = () => {
@@ -586,7 +611,7 @@ export const Explorer = ({
     await dispatch(changeQuery({
       tabId,
       query: {
-        [RAW_QUERY]: query,
+        [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
         [INDEX]: index
       },
     }));

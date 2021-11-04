@@ -45,7 +45,6 @@ import {
 import { init as initQueryResult } from './slices/query_result_slice';
 import { Table } from './home_table/history_table';
 
-
 interface IHomeProps {
   pplService: any;
   dslService: any;
@@ -157,14 +156,14 @@ export const Home = (props: IHomeProps) => {
     objectId: string
   ) => {
     // create new tab
-    const newTabId = await addNewTab();
+    // const newTabId = await addNewTab();
 
-    await dispatch(changeQuery({
-      tabId: newTabId,
-      query: {
-        'savedObjectId': objectId
-      }
-    }));
+    // await dispatch(changeQuery({
+    //   tabId: newTabId,
+    //   query: {
+    //     'savedObjectId': objectId
+    //   }
+    // }));
 
     // update this new tab with data
     // await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);

@@ -62,12 +62,6 @@ export const EventAnalytics = ({
                   href: `#/event_analytics/explorer`,
                 }
               ];
-              if (props.match.params.id) {
-                breadcrumbPath.push({
-                  text: `${props.match.params.id}`,
-                  href: `#/event_analytics/explorer/${props.match.params.id}`
-                });
-              }
               chrome.setBreadcrumbs(breadcrumbPath);
               return (
                 <LogExplorer

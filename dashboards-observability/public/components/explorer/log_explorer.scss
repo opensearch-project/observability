@@ -11,10 +11,19 @@
 
 .queryTabs {
   .euiTabs {
+    .tab-title {
+      max-width: 8rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    svg {
+      vertical-align: inherit;
+    }
     .linkNewTag{
       display: inline-block;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       line-height: 3.5;
       padding: 0.5rem;
     }

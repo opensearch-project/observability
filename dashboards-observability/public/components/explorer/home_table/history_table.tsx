@@ -47,7 +47,6 @@ export function Table(options: TableData) {
         return ( 
           <EuiLink 
             onClick={() => {
-            console.log('item: ', item);
             options.savedQuerySearch(item.query, [item.date_start, item.date_end], item.timestamp, item.fields, item.objectId)}}
           >
             {item.name}

@@ -15,7 +15,8 @@ import { useDispatch, useSelector, batch } from 'react-redux';
 import { 
   uniqueId,
   map,
-  isEmpty
+  isEmpty,
+  forEach
 } from 'lodash';
 import $ from 'jquery';
 import {
@@ -28,7 +29,8 @@ import { Explorer } from './explorer';
 import { ILogExplorerProps } from '../../../common/types/explorer';
 import {
   TAB_TITLE,
-  TAB_ID_TXT_PFX
+  TAB_ID_TXT_PFX,
+  RAW_QUERY
 } from '../../../common/constants/explorer';
 import { 
   selectQueryTabs,
@@ -49,6 +51,7 @@ import {
 import { 
   init as initQueryResult,
   remove as removeQueryResult,
+  selectQueryResult,
 } from './slices/query_result_slice';
 
 export const LogExplorer = ({
@@ -56,15 +59,16 @@ export const LogExplorer = ({
   dslService,
   savedObjects,
   timestampUtils,
-  http,
   setToast,
   savedObjectId
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
+  const tabNames = useSelector(selectQueryTabs)['tabNames'];
   const queries = useSelector(selectQueries);
   const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
+  const explorerData = useSelector(selectQueryResult);
   const queryRef = useRef();
   queryRef.current = queries;
 
@@ -80,7 +84,6 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    const curQuery = queryRef.current![selectedTab.id];
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
@@ -112,8 +115,24 @@ export const LogExplorer = ({
     });
   };
 
+  const getExistingEmptyTab = () => {
+    let emptyTabId = '';
+    for (let i = 0; i < tabIds.length; i++) {
+      const tid = tabIds[i];
+      if (
+        isEmpty(queries[tid][RAW_QUERY]) &&
+        isEmpty(explorerData[tid])
+      ) {
+        emptyTabId = tid;
+        break;
+      }
+    }
+    return emptyTabId;
+  };
+
   const addNewTab = async () => {
-    //get a new tabId
+
+    // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
     // create a new tab
@@ -128,7 +147,9 @@ export const LogExplorer = ({
   };
 
   const dispatchSavedObjectId = async () => {
-    const newTabId = await addNewTab();
+
+    const emptyTabId = getExistingEmptyTab();
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
 
     await dispatch(changeQuery({
       tabId: newTabId,
@@ -187,16 +208,21 @@ export const LogExplorer = ({
   }
 
   const memorizedTabs = useMemo(() => {
-    return map(tabIds, (tabId) => {
+    const res = map(tabIds, (tabId) => {
       return getQueryTab(
         {
-          tabTitle: TAB_TITLE,
+          tabTitle: tabNames[tabId] || TAB_TITLE,
           tabId,
           handleTabClose,
         }
       );
     });
-  }, [ tabIds ]);
+
+    return res;
+  }, [ 
+    tabIds,
+    tabNames
+  ]);
 
   return (
     <>
