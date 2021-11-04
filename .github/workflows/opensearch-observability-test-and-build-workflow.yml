@@ -19,28 +19,6 @@ jobs:
         with:
           java-version: 1.14
 
-      # dependencies: OpenSearch
-      - name: Checkout OpenSearch
-        uses: actions/checkout@v2
-        with:
-          repository: 'opensearch-project/OpenSearch'
-          path: OpenSearch
-          ref: ${{ env.OPENSEARCH_BRANCH }}
-      - name: Build OpenSearch
-        working-directory: ./OpenSearch
-        run: ./gradlew publishToMavenLocal
-
-      # dependencies: common-utils
-      - name: Checkout common-utils
-        uses: actions/checkout@v2
-        with:
-          repository: 'opensearch-project/common-utils'
-          path: common-utils
-          ref: ${{ env.COMMON_UTILS_BRANCH }}
-      - name: Build common-utils
-        working-directory: ./common-utils
-        run: ./gradlew publishToMavenLocal -Dopensearch.version=${{ env.OPENSEARCH_VERSION }}
-
       - name: Build with Gradle
         run: |
           cd opensearch-observability
