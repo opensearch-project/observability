@@ -9,7 +9,9 @@
  * GitHub history for details.
  */
 
-import React, { useState } from 'react';
+import './home.scss';
+
+import React, { useState, ReactElement } from 'react';
 import { useDispatch, batch } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -20,10 +22,13 @@ import {
   EuiPageHeaderSection,
   EuiTitle,
   EuiPageContent,
-  EuiListGroup,
   EuiSpacer,
   EuiFlexGroup,
-  EuiFlexItem
+  EuiFlexItem,
+  EuiButton,
+  EuiPopover,
+  EuiContextMenuPanel,
+  EuiContextMenuItem,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
 import {
@@ -37,18 +42,24 @@ import {
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab } from './slices/query_tab_slice';
-import { init as initFields, updateFields } from './slices/field_slice';
+import { init as initFields } from './slices/field_slice';
 import {
   init as initQuery,
   changeQuery
 } from './slices/query_slice';
 import { init as initQueryResult } from './slices/query_result_slice';
-import { Table } from './home_table/history_table';
+import { Histories as EventHomeHistories } from './home_table/history_table';
 
 interface IHomeProps {
   pplService: any;
   dslService: any;
   savedObjects: SavedObjects;
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void;
 }
 
 export const Home = (props: IHomeProps) => {
@@ -56,12 +67,14 @@ export const Home = (props: IHomeProps) => {
     pplService,
     dslService,
     savedObjects,
+    setToast,
   } = props;
   const history = useHistory();
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
   const [savedHistories, setSavedHistories] = useState([]);
+  const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
 
   const fetchHistories = async () => {
     const res = await savedObjects.fetchSavedObjects({
@@ -69,7 +82,24 @@ export const Home = (props: IHomeProps) => {
       sortOrder: 'desc',
       fromIndex: 0
     });
-    setSavedHistories(res['observabilityObjectList'] || []);
+    setSavedHistories(res['observabilityObjectList']);
+  };
+
+  const deleteHistoryById = async(objectId: string, name: string) => {
+    await savedObjects
+          .deleteSavedObjectsById({ objectId })
+          .then(async (res) => {
+            setSavedHistories((staleHistories) => {
+              return staleHistories.filter((his) => {
+                return his.objectId !== objectId;
+              });
+            });
+            setToast(`History '${name}' has been successfully deleted.`, 'success');
+          })
+          .catch((error) => { 
+            console.log('delete error: ', error); 
+            setToast(`Cannot delete history '${name}', error: ${error.message}`, 'danger');
+          });
   };
 
   const addNewTab = async () => {
@@ -116,66 +146,34 @@ export const Home = (props: IHomeProps) => {
 
   const handleTimePickerChange = async (timeRange: Array<string>) => setSelectedDateRange(timeRange);
 
-  // const addSavedQueryInput = async (
-  //   tabId: string,
-  //   searchQuery: string,
-  //   selectedDateRange: [],
-  //   selectedTimeStamp: string
-  // ) => {
-  //   dispatch(
-  //     changeQuery({
-  //       tabId,
-  //       query: {
-  //         [RAW_QUERY]: searchQuery,
-  //         [SELECTED_DATE_RANGE]: selectedDateRange,
-  //         [SELECTED_TIMESTAMP]: selectedTimeStamp,
-  //       },
-  //     })
-  //   );
-  // };
-
-  // const addSavedFields = async (
-  //   tabId: string,
-  //   selectedFields: []
-  // ) => {
-  //   dispatch(
-  //     updateFields({
-  //       tabId,
-  //       data: {
-  //         [SELECTED_FIELDS]: selectedFields,
-  //       },
-  //     })
-  //   );
-  // };
-
-  const savedQuerySearch = async (
-    searchQuery: string,
-    selectedDateRange: [],
-    selectedTimeStamp: string,
-    selectedFields: [],
-    objectId: string
-  ) => {
-    // create new tab
-    // const newTabId = await addNewTab();
-
-    // await dispatch(changeQuery({
-    //   tabId: newTabId,
-    //   query: {
-    //     'savedObjectId': objectId
-    //   }
-    // }));
-
-    // update this new tab with data
-    // await addSavedQueryInput(newTabId, searchQuery, selectedDateRange, selectedTimeStamp);
-    // await addSavedFields(newTabId, selectedFields);
-    
+  const handleHistoryClick = async (objectId: string) => {
     // redirect to explorer
     history.push(`/event_analytics/explorer/${objectId}`);
   };
 
+  const popoverButton = (
+    <EuiButton
+      iconType="arrowDown"
+      iconSide="right"
+      onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
+    >
+      Actions
+    </EuiButton>
+  );
+
+  const popoverItems: ReactElement[] = [
+    <EuiContextMenuItem
+      key="rename"
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        history.push(`/event_analytics/explorer`);
+      }}
+    >
+      Event Explorer
+    </EuiContextMenuItem>
+  ];
 
   return (
-    <div className="dscAppContainer">
       <EuiPage>
         <EuiPageBody>
           <EuiPageHeader>
@@ -185,53 +183,63 @@ export const Home = (props: IHomeProps) => {
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
+          <EuiPageContent id="event-home">
+            <EuiFlexGroup gutterSize="s">
+              <EuiFlexItem>
+                <Search
+                  query={ searchQuery }
+                  handleQueryChange={ handleQueryChange }
+                  handleQuerySearch={ handleQuerySearch }
+                  handleTimePickerChange={ handleTimePickerChange }
+                  pplService={ pplService }
+                  dslService={ dslService }
+                  startTime={ selectedDateRange[0] }
+                  endTime={ selectedDateRange[1] }
+                  setStartTime={ () => {} }
+                  setEndTime={ () => {} }
+                  setIsOutputStale={ () => {} }
+                  liveStreamChecked={ false }
+                  onLiveStreamChange={ () => {} }
+                  showSaveButton={ false }
+                  runButtonText="New Query"
+                />
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiSpacer size='m' />
+            <EuiPageHeaderSection>
+              <EuiFlexGroup 
+                gutterSize="s"
+                justifyContent="spaceBetween"
+              >
+                <EuiFlexItem grow={false}>
+                  <EuiTitle size="s">
+                    <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
+                  </EuiTitle>
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    panelPaddingSize="none"
+                    button={popoverButton}
+                    isOpen={isActionsPopoverOpen}
+                    closePopover={() => setIsActionsPopoverOpen(false)}
+                  >
+                    <EuiContextMenuPanel items={popoverItems} />
+                  </EuiPopover>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPageHeaderSection>
+            <EuiSpacer size="m" />
+            <EuiFlexGroup>
+              <EuiFlexItem grow={ true }>
+                <EventHomeHistories
+                  handleDeleteHistory={deleteHistoryById}
+                  savedHistories={savedHistories}
+                  handleHistoryClick={handleHistoryClick}
+                />
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
-      <EuiPageContent>
-        <Search
-          query={ searchQuery }
-          handleQueryChange={ handleQueryChange }
-          handleQuerySearch={ handleQuerySearch }
-          handleTimePickerChange={ handleTimePickerChange }
-          pplService={ pplService }
-          dslService={ dslService }
-          startTime={ selectedDateRange[0] }
-          endTime={ selectedDateRange[1] }
-          setStartTime={ () => {} }
-          setEndTime={ () => {} }
-          setIsOutputStale={ () => {} }
-          liveStreamChecked={ false }
-          onLiveStreamChange={ () => {} }
-          showSaveButton={ false }
-        />
-        <EuiSpacer />
-        <EuiFlexGroup
-          direction="column"
-        >
-          <EuiFlexItem
-            grow={ true }
-          >
-            <EuiListGroup
-              maxWidth={ false }
-              wrapText={ true }
-            >
-              <EuiTitle size="s">
-                <h1>{ "Saved Queries and Visualizations" }</h1>
-              </EuiTitle>
-              <EuiSpacer size="s" />
-              <Table 
-                savedHistory={savedHistories}
-                savedQuerySearch={
-                  (searchQuery: string, selectedDateRange: [], selectedTimeStamp: string,  selectedFields: [], objectId: string) => 
-                  {
-                    savedQuerySearch(searchQuery, selectedDateRange, selectedTimeStamp, selectedFields, objectId) 
-                  }
-                }
-              />
-            </EuiListGroup>
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiPageContent>
-    </div>
   );
 };

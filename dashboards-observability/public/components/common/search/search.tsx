@@ -69,7 +69,8 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast
+    setToast,
+    runButtonText
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -136,7 +137,7 @@ export const Search = (props: any) => {
               memorizedHandleQuerySearch();
             }}
           >
-            { isEmpty(explorerData) ? 'Run' : 'Refresh' }
+            { runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh' }
           </EuiButton>
         </EuiFlexItem>
         { showSaveButton && (

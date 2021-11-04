@@ -9,21 +9,27 @@
  * GitHub history for details.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
-
+import React, { useState, useRef } from 'react';
 import {
-  EuiBasicTable,
-  EuiSpacer,
   EuiLink,
+  EuiInMemoryTable,
+  EuiIcon,
+  EuiLoadingChart, 
+  EuiButtonIcon
 } from '@elastic/eui';
 
 
 interface TableData {
-  savedHistory: [];
-  savedQuerySearch: (searchQuery: string, selectedDateRange: [], selectedTimeStamp, selectedFields: []) => void;
+  savedHistories: Array<any>;
+  handleHistoryClick: (objectId: string) => void;
+  handleDeleteHistory: (objectId: string, type: string) => void;
 }
 
-export function Table(options: TableData) {
+export function Histories({
+  savedHistories,
+  handleHistoryClick,
+  handleDeleteHistory
+}: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const pageIndexRef = useRef();
@@ -41,48 +47,110 @@ export function Table(options: TableData) {
 
   const columns = [
     {
-      field: 'data',
-      name: 'Name',
-      render: (item)=>{
-        return ( 
-          <EuiLink 
-            onClick={() => {
-            options.savedQuerySearch(item.query, [item.date_start, item.date_end], item.timestamp, item.fields, item.objectId)}}
-          >
-            {item.name}
-          </EuiLink>)
+      field: 'type',
+      name: '',
+      sortable: true,
+      width: '40px',
+      render: (item) => {
+        if (item == 'Visualization') {
+          return (
+            <div>
+              <EuiLoadingChart size="m" />
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <EuiIcon type="discoverApp" size="m" />
+            </div>
+          );
+        }
       },
     },
     {
-      field: 'description',
-      name: 'Description',
+      field: 'data',
+      name: 'Name',
+      width: '70%',
+      sortable: true,
+      truncateText: true,
+      render: (item) => {
+        return (
+          <EuiLink
+            onClick={() => {
+              handleHistoryClick(item.objectId);
+            }}
+          >
+            {item.name}
+          </EuiLink>
+        );
+      },
     },
+    {
+      field: 'type',
+      name: 'Type',
+    },
+    {
+      field: 'delete',
+      width: '40px',
+      align: 'right',
+      name: '',
+      render: (item) => <EuiButtonIcon 
+                          iconType="trash"
+                          size='s'
+                          color="danger"
+                          aria-label="trash"
+                          onClick={() => {
+                            handleDeleteHistory(
+                              item.objectId,
+                              item.name
+                            );
+                          }}
+                        />
+    }
   ];
 
-
-
-  const queries = options.savedHistory.map((h) => {
-    const savedObject = h.hasOwnProperty('savedVisualization')
-      ? h.savedVisualization
-      : h.savedQuery;
+  const queries = savedHistories.map((h) => {
+    const isSavedVisualization = h.hasOwnProperty('savedVisualization');
+    const savedObject = isSavedVisualization ? h.savedVisualization : h.savedQuery;
+    const curType = isSavedVisualization ? 'savedVisualization' : 'savedQuery';
+    const record = {
+      objectId: h.objectId,
+      objectType: curType,
+      name: savedObject.name,
+      query: savedObject.query,
+      date_start: savedObject.selected_date_range.start,
+      date_end: savedObject.selected_date_range.end,
+      timestamp: savedObject.selected_timestamp?.name,
+      fields: savedObject.selected_fields?.tokens || []
+    };
     return {
-      data: {
-        objectId: h.objectId,
-        name: savedObject.name,
-        query: savedObject.query,
-        date_start: savedObject.selected_date_range.start,
-        date_end : savedObject.selected_date_range.end,
-        timestamp: savedObject.selected_timestamp?.name || '',
-        fields: savedObject.selected_fields?.tokens || []
-      },
-      name: savedObject.name || '',
-      description: savedObject.description || '',
-
+      data: record,
+      name: savedObject.name,
+      type: isSavedVisualization ? 'Visualization' : 'Query',
+      delete: record,
     };
   });
 
- 
   const totalItemCount = queries.length;
+
+  const search = {
+    box: {
+      incremental: true,
+    },
+    filters: [
+      {
+        type: 'field_value_selection',
+        field: 'type',
+        name: 'Type',
+        multiSelect: false,
+        options: ['Visualization', 'Query'].map((i) => ({
+          value: i,
+          name: i,
+          view: i,
+        })),
+      },
+    ],
+  };
 
   const pagination = {
     pageIndex,
@@ -92,15 +160,13 @@ export function Table(options: TableData) {
   };
 
   return (
-    <div>
-      <EuiSpacer size="xl" />
-      <EuiBasicTable
-        items={queries.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize)}
-        columns={columns}
-        pagination={pagination}
-        onChange={onTableChange}
-      />
-    </div>
+    <EuiInMemoryTable
+      items={queries}
+      columns={columns}
+      pagination={pagination}
+      onChange={onTableChange}
+      search={search}
+    />
   );
 }
 

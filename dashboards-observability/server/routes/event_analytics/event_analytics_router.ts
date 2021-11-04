@@ -288,4 +288,32 @@ export const registerEventAnalyticsRouter = ({
     result['message'] = savedRes['data'];
     return res.custom(result);
   });
+
+  router.delete(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      validate: {
+        body: schema.object({
+          objectId: schema.string()
+        }),
+      },
+    },
+    async (
+      context,
+      req,
+      res
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+
+      const deleteResponse = await savedObjectFacet.deleteSavedObject(req);
+      const result: any = {
+        body: {
+          ...deleteResponse['data']
+        }
+      };
+      if (deleteResponse['success']) return res.ok(result);
+      result['statusCode'] = 500;
+      result['message'] = deleteResponse['data'];
+      return res.custom(result);
+    }
+  );
 }

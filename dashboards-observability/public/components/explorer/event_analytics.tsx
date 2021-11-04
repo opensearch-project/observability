@@ -91,10 +91,11 @@ export const EventAnalytics = ({
               ]);
               return renderPageWithSidebar(
                 <EventExplorerHome 
-                  http={ http } 
-                  savedObjects={ savedObjects }
-                  dslService={ dslService }
-                  timestampUtils={ timestampUtils }
+                  http={http} 
+                  savedObjects={savedObjects}
+                  dslService={dslService}
+                  timestampUtils={timestampUtils}
+                  setToast={ setToast }
                 />
               );
             }}
