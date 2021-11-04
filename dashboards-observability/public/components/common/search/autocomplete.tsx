@@ -57,6 +57,10 @@ const statsCommands = [
   { label: 'avg(' },
   { label: 'max(' },
   { label: 'min(' },
+  { label: 'var_samp(' },
+  { label: 'var_pop(' },
+  { label: 'stddev_samp(' },
+  { label: 'stddev_pop(' },
 ];
 
 // Function to create the array of objects to be suggested
