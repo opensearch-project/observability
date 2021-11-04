@@ -13,9 +13,14 @@ import React from 'react';
 
 import { take, merge } from 'lodash';
 import { Plt } from '../plotly/plot';
-import { PlotlyColorWay } from '../../../../common/constants/shared';
+import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../common/constants/shared';
 
-export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniColor = false }: any) => {
+export const Bar = ({
+  visualizations,
+  barConfig = {},
+  layoutConfig = {},
+  isUniColor = false,
+}: any) => {
   const {
     data,
     metadata: { fields },
@@ -25,10 +30,10 @@ export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniCo
   // Individual bars have different colors when stackLength = 1 and chart is not unicolor
   // Else each stacked bar has its own color using colorway
   let marker = {};
-  if (stackLength == 1 && !isUniColor) {
+  if (stackLength == 1 && data[fields[stackLength].name].length < 16 && !isUniColor) {
     marker = {
       color: data[fields[stackLength].name].map((_: string, index: number) => {
-        return PlotlyColorWay[index % PlotlyColorWay.length];
+        return PLOTLY_COLOR[index % PLOTLY_COLOR.length];
       }),
     };
   }
@@ -56,11 +61,15 @@ export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniCo
     layoutConfig
   );
 
+  // If chart is long use the LONG_CHART_COLOR for all the bars in the chart
+  const plotlyColorway =
+    data[fields[stackLength].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
+
   return (
     <Plt
       data={barValues}
       layout={{
-        colorway: PlotlyColorWay,
+        colorway: plotlyColorway,
         xaxis: {
           showgrid: false,
           visible: true,

@@ -49,7 +49,7 @@ export const OPENSEARCH_PANELS_API = {
 export const SAVED_OBJECT = '/object';
 
 // Color Constants
-export const PlotlyColorWay = [
+export const PLOTLY_COLOR = [
   '#3CA1C7',
   '#8C55A3',
   '#DB748A',
@@ -61,3 +61,5 @@ export const PlotlyColorWay = [
   '#BD6F26',
   '#4C636F',
 ];
+
+export const LONG_CHART_COLOR = PLOTLY_COLOR[1];
