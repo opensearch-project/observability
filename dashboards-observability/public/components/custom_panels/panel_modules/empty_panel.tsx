@@ -72,7 +72,7 @@ export const EmptyPanelView = ({ addVizDisabled, getVizContextPanels }: Props) =
         <h2>Start by adding your first visualization</h2>
         <EuiSpacer size="m" />
         <EuiText color="subdued" size="m">
-          Use PPL Queries to fetch and filter Observability Data to Create Visualizations
+          Use PPL Queries to fetch &amp; filter Observability Data and Create Visualizations
         </EuiText>
       </EuiText>
       <EuiSpacer size="m" />
