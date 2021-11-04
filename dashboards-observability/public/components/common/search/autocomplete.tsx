@@ -354,6 +354,7 @@ export function Autocomplete({
         {autocompleteState.isOpen &&
           autocompleteState.collections.map((collection, index) => {
             const { source, items } = collection;
+            items.filter((item, index) => { return items.indexOf(item) === index })
             return (
               <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
                 <div key={`source-${index}`} className="aa-Source">
