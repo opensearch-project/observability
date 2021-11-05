@@ -26,7 +26,6 @@
 }
 
 #autocomplete-root {
-  width: 100%;
   #autocomplete-textarea {
     width: 100%;
     outline: none;
@@ -37,7 +36,10 @@
     font-size: 16px;
   }
   .aa-Panel {
-    width: 100%;
     z-index: 2500;
   }
+}
+
+.event-date-picker {
+  max-width: 380px;
 }

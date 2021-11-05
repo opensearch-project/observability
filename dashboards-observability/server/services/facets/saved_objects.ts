@@ -110,7 +110,7 @@ export default class SavedObjectFacet {
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err;
+      res['data'] = err.message;
     }
     return res;
   };
@@ -138,35 +138,29 @@ export default class SavedObjectFacet {
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err;
+      res['data'] = err.message;
     }
     return res;
   };
 
   delete = async (
     request: any,
-    format: string,
-    objectType: string
+    format: string
   ) => {
     const res = {
       success: false,
       data: {}
     };
     try {
-      const params = {
-        objectId: request.body.object_id,
-        body: {              
-          [objectType]: {
-            ...request.body.object
-          }
-        }
+      const params = {    
+        objectId: request.body.objectId
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics delete error: ', err);
-      res['data'] = err;
+      res['data'] = err.message;
     }
     return res;
   };
@@ -203,7 +197,7 @@ export default class SavedObjectFacet {
     return this.update(request, 'observability.updateObjectById', 'savedVisualization');
   };
 
-  deleteSavedQuery = async (request: any) => {
-    return this.delete(request, 'observability.deleteObjectByIdList', 'savedQuery');
+  deleteSavedObject = async (request: any) => {
+    return this.delete(request, 'observability.deleteObjectById', 'savedQuery');
   };
 }
