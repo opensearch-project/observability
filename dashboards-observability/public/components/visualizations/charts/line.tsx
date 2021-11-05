@@ -12,7 +12,7 @@
 import React from 'react';
 import { take, merge } from 'lodash';
 import { Plt } from '../plotly/plot';
-import { PlotlyColorWay } from '../../../../common/constants/shared';
+import { PLOTLY_COLOR } from '../../../../common/constants/shared';
 
 export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any) => {
   const {
@@ -44,7 +44,7 @@ export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any
     <Plt
       data={lineValues}
       layout={{
-        colorway: PlotlyColorWay,
+        colorway: PLOTLY_COLOR,
         plot_bgcolor: 'rgba(0, 0, 0, 0)',
         paper_bgcolor: 'rgba(0, 0, 0, 0)',
         xaxis: {
