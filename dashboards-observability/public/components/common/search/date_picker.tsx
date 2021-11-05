@@ -62,6 +62,7 @@ export function DatePicker(props: IDatePickerProps) {
   return (
     <EuiFlexItem
       className="euiFlexItem--flexGrowZero"
+      style={{maxWidth: '40vw'}}
     >
       <EuiSuperDatePicker
         start={ startTime }
