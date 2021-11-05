@@ -77,6 +77,7 @@ type Props = {
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
+  addSamplePanels: () => void;
 };
 
 export const CustomPanelTable = ({
@@ -89,6 +90,7 @@ export const CustomPanelTable = ({
   renameCustomPanel,
   cloneCustomPanel,
   deleteCustomPanelList,
+  addSamplePanels
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
@@ -234,6 +236,15 @@ export const CustomPanelTable = ({
       }}
     >
       Delete
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="addSample"
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        addSamplePanels();
+      }}
+    >
+      Add sample panels
     </EuiContextMenuItem>,
   ];
 
