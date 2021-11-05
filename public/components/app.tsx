@@ -14,7 +14,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../src/core/public';
-import { observabilityTitle } from '../../common/constants/shared';
+import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
 import { renderPageWithSidebar } from './common/side_nav';
@@ -43,7 +43,7 @@ export const App = ({
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
-    href: 'observability#/',
+    href: `${observabilityID}#/`,
   };
 
   const customPanelBreadcrumb = {

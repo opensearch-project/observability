@@ -96,7 +96,7 @@ export function SearchBar(props: SearchBarOwnProps) {
             />
           </EuiFlexItem>
         )}
-        <EuiFlexItem grow={false}>
+        <EuiFlexItem grow={false} style={{maxWidth: '40vw'}}>
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
