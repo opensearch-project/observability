@@ -30,7 +30,7 @@ import { delay, SERVICE_NAME, setTimeFilter } from '../utils/constants';
 
 describe('Testing services table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/services', {
+    cy.visit('app/observability-dashboards#/trace_analytics/services', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -46,7 +46,7 @@ describe('Testing services table empty state', () => {
 
 describe('Testing services table', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/services', {
+    cy.visit('app/observability-dashboards#/trace_analytics/services', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -77,7 +77,7 @@ describe('Testing service view empty state', () => {
       if (err.message.includes('ResizeObserver loop'))
         return false;
     });
-    cy.visit(`app/observability#/trace_analytics/services/${SERVICE_NAME}`, {
+    cy.visit(`app/observability-dashboards#/trace_analytics/services/${SERVICE_NAME}`, {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -99,7 +99,7 @@ describe('Testing service view', () => {
       if (err.message.includes('ResizeObserver loop'))
         return false;
     });
-    cy.visit(`app/observability#/trace_analytics/services/${SERVICE_NAME}`, {
+    cy.visit(`app/observability-dashboards#/trace_analytics/services/${SERVICE_NAME}`, {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },

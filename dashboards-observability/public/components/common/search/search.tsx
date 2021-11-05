@@ -70,7 +70,8 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast
+    setToast,
+    runButtonText
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -112,7 +113,7 @@ export const Search = (props: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-        <EuiButtonIcon iconType='iInCircle' iconSize='l' href='https://opensearch.org/docs/latest/search-plugins/ppl/commands/'/>
+        <EuiButtonIcon iconType="iInCircle" iconSize="l" target="_blank" href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"/>
         </EuiFlexItem>
         <EuiFlexItem
           className="euiFlexItem--flexGrowZero"
@@ -140,7 +141,7 @@ export const Search = (props: any) => {
               memorizedHandleQuerySearch();
             }}
           >
-            { isEmpty(explorerData) ? 'Run' : 'Refresh' }
+            { runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh' }
           </EuiButton>
         </EuiFlexItem>
         { showSaveButton && (

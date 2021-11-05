@@ -333,7 +333,7 @@ export function Autocomplete({
           },
         }
       );
-  }, []);
+  }, [query]);
 
   return (
     <div 
@@ -343,63 +343,64 @@ export function Autocomplete({
       <EuiTextArea
         {...autocomplete.getInputProps({
           'id': 'autocomplete-textarea',
-          'placeholder': 'Enter PPL query to retrieve log, traces, and metrics'
+          'placeholder': 'Enter PPL query to retrieve logs'
         })}
       />
-      <div
-        className={[
-          'aa-Panel',
-          'aa-Panel--desktop',
-          autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
-        ]
-        .filter(Boolean)
-        .join(' ')}
-        {...autocomplete.getPanelProps({})}
-      >
-        {autocompleteState.isOpen &&
-          autocompleteState.collections.map((collection, index) => {
-            const { source, items } = collection;
-            return (
-              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
-                <div key={`source-${index}`} className="aa-Source">
-                  {items.length > 0 && (
-                    <ul className="aa-List" {...autocomplete.getListProps()}>
-                      {items.map((item, index) => {
-                        const prefix = item.input.split(' ');
-                        return (
-                          <li
-                            key={item.__autocomplete_id}
-                            className="aa-Item"
-                            {...autocomplete.getItemProps({
-                              item,
-                              source,
-                            })}
-                            style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
-                          >
-                            <div className="aa-ItemWrapper">
-                              <div className="aa-ItemContent">
-                                <div className="aa-ItemContentBody">
-                                  <div
-                                    className="aa-ItemContentTitle"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `<div>
-                                      <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
-                                    </div>`
-                                    }}
-                                  />
+      {autocompleteState.isOpen && (
+        <div
+          className={[
+            'aa-Panel',
+            'aa-Panel--desktop',
+            autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
+          ]
+          .filter(Boolean)
+          .join(' ')}
+          {...autocomplete.getPanelProps({})}
+        >
+          {autocompleteState.collections.map((collection, index) => {
+              const { source, items } = collection;
+              return (
+                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
+                  <div key={`source-${index}`} className="aa-Source">
+                    {items.length > 0 && (
+                      <ul className="aa-List" {...autocomplete.getListProps()}>
+                        {items.map((item, index) => {
+                          const prefix = item.input.split(' ');
+                          return (
+                            <li
+                              key={item.__autocomplete_id}
+                              className="aa-Item"
+                              {...autocomplete.getItemProps({
+                                item,
+                                source,
+                              })}
+                              style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
+                            >
+                              <div className="aa-ItemWrapper">
+                                <div className="aa-ItemContent">
+                                  <div className="aa-ItemContentBody">
+                                    <div
+                                      className="aa-ItemContentTitle"
+                                      dangerouslySetInnerHTML={{
+                                        __html: `<div>
+                                        <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
+                                      </div>`
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-      </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 }
