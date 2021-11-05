@@ -60,7 +60,8 @@ export const LogExplorer = ({
   savedObjects,
   timestampUtils,
   setToast,
-  savedObjectId
+  savedObjectId,
+  getExistingEmptyTab
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -70,7 +71,12 @@ export const LogExplorer = ({
   const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
   const explorerData = useSelector(selectQueryResult);
   const queryRef = useRef();
+  const tabIdsRef = useRef();
+  const explorerDataRef = useRef();
   queryRef.current = queries;
+  tabIdsRef.current = tabIds;
+  explorerDataRef.current = explorerData;
+
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -115,21 +121,6 @@ export const LogExplorer = ({
     });
   };
 
-  const getExistingEmptyTab = () => {
-    let emptyTabId = '';
-    for (let i = 0; i < tabIds.length; i++) {
-      const tid = tabIds[i];
-      if (
-        isEmpty(queries[tid][RAW_QUERY]) &&
-        isEmpty(explorerData[tid])
-      ) {
-        emptyTabId = tid;
-        break;
-      }
-    }
-    return emptyTabId;
-  };
-
   const addNewTab = async () => {
 
     // get a new tabId
@@ -148,7 +139,11 @@ export const LogExplorer = ({
 
   const dispatchSavedObjectId = async () => {
 
-    const emptyTabId = getExistingEmptyTab();
+    const emptyTabId = getExistingEmptyTab({
+      tabIds: tabIdsRef.current,
+      queries: queryRef.current,
+      explorerData: explorerDataRef.current
+    });
     const newTabId = emptyTabId ? emptyTabId : await addNewTab();
 
     await dispatch(changeQuery({

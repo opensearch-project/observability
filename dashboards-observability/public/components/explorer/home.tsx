@@ -11,8 +11,8 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement } from 'react';
-import { useDispatch, batch } from 'react-redux';
+import React, { useState, ReactElement, useRef } from 'react';
+import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import {
@@ -41,14 +41,15 @@ import {
 } from '../../../common/constants/explorer';
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
-import { addTab } from './slices/query_tab_slice';
+import { addTab, selectQueryTabs } from './slices/query_tab_slice';
 import { init as initFields } from './slices/field_slice';
 import {
   init as initQuery,
   changeQuery
 } from './slices/query_slice';
-import { init as initQueryResult } from './slices/query_result_slice';
+import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
 import { Histories as EventHomeHistories } from './home_table/history_table';
+import { selectQueries } from './slices/query_slice';
 
 interface IHomeProps {
   pplService: any;
@@ -68,9 +69,21 @@ export const Home = (props: IHomeProps) => {
     dslService,
     savedObjects,
     setToast,
+    getExistingEmptyTab
   } = props;
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const queries = useSelector(selectQueries);
+  const explorerData = useSelector(selectQueryResult);
+  const tabIds = useSelector(selectQueryTabs)['queryTabIds']
+  const queryRef = useRef();
+  const tabIdsRef = useRef();
+  const explorerDataRef = useRef();
+  queryRef.current = queries;
+  tabIdsRef.current = tabIds;
+  explorerDataRef.current = explorerData;
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
   const [savedHistories, setSavedHistories] = useState([]);
@@ -132,8 +145,13 @@ export const Home = (props: IHomeProps) => {
   }
 
   const handleQuerySearch = async () => {
-    // create new tab
-    const newTabId = await addNewTab();
+
+    const emptyTabId = getExistingEmptyTab({
+      tabIds: tabIdsRef.current,
+      queries: queryRef.current,
+      explorerData: explorerDataRef.current
+    });
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
 
     // update this new tab with data
     await addSearchInput(newTabId);

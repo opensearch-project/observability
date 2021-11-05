@@ -10,12 +10,14 @@
  */
 
 import React, { useState, ReactChild } from 'react';
+import { isEmpty } from 'lodash';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { EuiGlobalToastList } from '@elastic/eui';
 import { LogExplorer } from './log_explorer';
 import { Home as EventExplorerHome } from './home';
 import { renderPageWithSidebar } from '../common/side_nav';
+import { RAW_QUERY } from '../../../common/constants/explorer';
 
 export const EventAnalytics = ({
   chrome,
@@ -38,6 +40,21 @@ export const EventAnalytics = ({
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }) => {
+    let emptyTabId = '';
+    for (let i = 0; i < tabIds.length; i++) {
+      const tid = tabIds[i];
+      if (
+        isEmpty(queries[tid][RAW_QUERY]) &&
+        isEmpty(explorerData[tid])
+      ) {
+        emptyTabId = tid;
+        break;
+      }
+    }
+    return emptyTabId;
   };
 
   return (
@@ -73,6 +90,7 @@ export const EventAnalytics = ({
                   http={ http }
                   setToast={ setToast }
                   chrome={chrome}
+                  getExistingEmptyTab={getExistingEmptyTab}
                 />
               );
             }}
@@ -96,6 +114,7 @@ export const EventAnalytics = ({
                   dslService={dslService}
                   timestampUtils={timestampUtils}
                   setToast={ setToast }
+                  getExistingEmptyTab={getExistingEmptyTab}
                 />
               );
             }}

@@ -205,7 +205,7 @@ export const Explorer = ({
 
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
-      
+      setCurVisId(objectData?.type || 'bar');
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING['savedQuery'] : TYPE_TAB_MAPPING['savedVisualization']
       setSelectedContentTab(tabToBeFocused);
     })
@@ -303,13 +303,6 @@ export const Explorer = ({
       queryTabName
     ]
   );
-
-  // useEffect(
-  //   () => {
-  //     fetchData();
-  //   }, 
-  //   [query[SELECTED_TIMESTAMP]]
-  // );
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
