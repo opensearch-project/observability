@@ -70,69 +70,37 @@ export const useFetchEvents = ({
     });
   };
 
-  const dispatchOnGettingHis = (res: any) => {
-    batch(() => {
-      dispatch(queryResultReset({
-        tabId: requestParams.tabId
-      }));
-      dispatch(fetchSuccess({
-        tabId: requestParams.tabId,
-        data: {
-          ...res
-        }
-      }));
-      dispatch(updateFields({
-        tabId: requestParams.tabId,
-        data: {
-          [SELECTED_FIELDS]: [],
-          [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
-          [QUERIED_FIELDS]: [],
-          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
-        }
-      }));
-      dispatch(sortFields({
-        tabId: requestParams.tabId,
-        data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
-      }));
-      dispatch(visualizationReset({
-        tabId: requestParams.tabId,
-      }));
-    });
-  };
-
-  const dispatchOnNoHis = (res: any) => {
-    batch(() => {
-      dispatch(queryResultReset({
-        tabId: requestParams.tabId
-      }));
-      dispatch(updateFields({
-        tabId: requestParams.tabId,
-        data: {
-          [SELECTED_FIELDS]: [],
-          [UNSELECTED_FIELDS]: [],
-          [QUERIED_FIELDS]: [],
-          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
-        }
-      }));
-      dispatch(sortFields({
-        tabId: requestParams.tabId,
-        data: [AVAILABLE_FIELDS]
-      }));
-      dispatch(visualizationReset({
-        tabId: requestParams.tabId,
-      }));
-    });
-  };
-
   const getEvents = (query: string = '') => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
-      if (!isEmpty(res.jsonData)) {
-        return dispatchOnGettingHis(res);
-      }
-      // when no hits and needs to get available fields to override default timestamp
-      dispatchOnNoHis(res);
+      batch(() => {
+        dispatch(queryResultReset({
+          tabId: requestParams.tabId
+        }));
+        dispatch(fetchSuccess({
+          tabId: requestParams.tabId,
+          data: {
+            ...res
+          }
+        }));
+        dispatch(updateFields({
+          tabId: requestParams.tabId,
+          data: {
+            [SELECTED_FIELDS]: [],
+            [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
+            [QUERIED_FIELDS]: [],
+            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
+          }
+        }));
+        dispatch(sortFields({
+          tabId: requestParams.tabId,
+          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
+        }));
+        dispatch(visualizationReset({
+          tabId: requestParams.tabId,
+        }));
+      });
     });
   };
 

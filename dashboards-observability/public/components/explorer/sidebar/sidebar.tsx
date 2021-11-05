@@ -68,7 +68,7 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { (explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) || !isEmpty(explorerFields.availableFields))  && (
+          { explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) && (
             <>
               {
                 explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
@@ -188,6 +188,8 @@ export const Sidebar = (props: ISidebarProps) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
+                explorerData &&
+                !isEmpty(explorerData.jsonData) &&
                 explorerFields.availableFields &&
                 explorerFields.availableFields.filter(
                   (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)

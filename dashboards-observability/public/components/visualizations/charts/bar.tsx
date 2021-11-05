@@ -27,7 +27,8 @@ export const Bar = ({
   } = visualizations;
   const stackLength = fields.length - 1;
 
-  // Individual bars have different colors when stackLength = 1 and chart is not unicolor
+  // Individual bars have different colors
+  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor 
   // Else each stacked bar has its own color using colorway
   let marker = {};
   if (stackLength == 1 && data[fields[stackLength].name].length < 16 && !isUniColor) {
@@ -61,7 +62,8 @@ export const Bar = ({
     layoutConfig
   );
 
-  // If chart is long use the LONG_CHART_COLOR for all the bars in the chart
+  // If chart has length of result buckets < 16
+  // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
     data[fields[stackLength].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
 

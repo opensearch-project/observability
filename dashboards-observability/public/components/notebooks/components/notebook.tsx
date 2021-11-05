@@ -257,22 +257,23 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         () => this.setState({ isModalVisible: false }),
         async () => {
           this.setState({ isModalVisible: false });
-          await this.runForAllParagraphs((para: ParaType, index: number) =>
-            this.props.http.delete(
-              `${NOTEBOOKS_API_PREFIX}/paragraph/${this.props.openedNoteId}/${para.uniqueId}`
-            )
-          )
-            .then((res) => {
-              this.setState({ paragraphs: res.paragraphs });
-              this.parseAllParagraphs();
-            })
-            .catch((err) => {
-              this.props.setToast(
-                'Error deleting paragraph, please make sure you have the correct permission.',
-                'danger'
-              );
-              console.error(err.body.message);
-            });
+          await this.runForAllParagraphs((para: ParaType, index: number) => {
+            return this.props.http
+              .delete(
+                `${NOTEBOOKS_API_PREFIX}/paragraph/${this.props.openedNoteId}/${para.uniqueId}`
+              )
+              .then((res) => {
+                this.setState({ paragraphs: res.paragraphs });
+                this.parseAllParagraphs();
+              })
+              .catch((err) => {
+                this.props.setToast(
+                  'Error deleting paragraph, please make sure you have the correct permission.',
+                  'danger'
+                );
+                console.error(err.body.message);
+              });
+          });
           this.props.setToast('Paragraphs successfully deleted!');
         },
         'Delete all paragraphs',

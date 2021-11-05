@@ -2,7 +2,7 @@
 
 ## Setup OpenSearch & OpenSearch Dashboards dev environment and use the plugin with Zeppelin
 
-- Please follow [README.md](../../../../../../DEVELOPER_GUIDE.md) for build instructions.
+- Please follow [README.md](../../README.md) for build instructions.
 
 - **[Optional] If using Zeppelin Backend Adaptor:**
   - Setup Zeppelin as mentioned in [Apache Zeppelin Setup: Zeppelin Backend Adaptor](./Zeppelin_backend_adaptor.md#apache-zeppelin-setup)

@@ -23,7 +23,6 @@ import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
-import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
@@ -58,10 +57,6 @@ const statsCommands = [
   { label: 'avg(' },
   { label: 'max(' },
   { label: 'min(' },
-  { label: 'var_samp(' },
-  { label: 'var_pop(' },
-  { label: 'stddev_samp(' },
-  { label: 'stddev_pop(' },
 ];
 
 // Function to create the array of objects to be suggested
@@ -360,7 +355,7 @@ export function Autocomplete({
           autocompleteState.collections.map((collection, index) => {
             const { source, items } = collection;
             return (
-              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
+              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
                 <div key={`source-${index}`} className="aa-Source">
                   {items.length > 0 && (
                     <ul className="aa-List" {...autocomplete.getListProps()}>
@@ -374,7 +369,6 @@ export function Autocomplete({
                               item,
                               source,
                             })}
-                            style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
                           >
                             <div className="aa-ItemWrapper">
                               <div className="aa-ItemContent">
