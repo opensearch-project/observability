@@ -85,7 +85,7 @@ export const mergeLayoutAndVisualizations = (
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
  * -> finalQuery = source=opensearch_dashboards_sample_data_flights
- *                  + | where utc_time > timestamp(‘2021-07-01 00:00:00’) and utc_time < timestamp(‘2021-07-02 00:00:00’)
+ *                  + | where utc_time > ‘2021-07-01 00:00:00’ and utc_time < ‘2021-07-02 00:00:00’
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
  */
@@ -102,9 +102,9 @@ const queryAccumulator = (
   }
   const indexPartOfQuery = indexMatchArray[0];
   const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, '');
-  const timeQueryFilter = ` | where ${timestampField} >= timestamp('${convertDateTime(
+  const timeQueryFilter = ` | where ${timestampField} >= '${convertDateTime(
     startTime
-  )}') and ${timestampField} <= timestamp('${convertDateTime(endTime, false)}')`;
+  )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
