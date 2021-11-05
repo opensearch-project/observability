@@ -153,6 +153,10 @@ export const registerEventAnalyticsRouter = ({
             end: schema.string(),
             text: schema.string(),
           }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
+          }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
             text: schema.string(),
@@ -191,6 +195,10 @@ export const registerEventAnalyticsRouter = ({
             end: schema.string(),
             text: schema.string(),
           }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
+          }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
             text: schema.string(),
@@ -206,15 +214,15 @@ export const registerEventAnalyticsRouter = ({
     req,
     res
   ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-    const savedRes = await savedObjectFacet.updateSavedVisualization(req);
+    const updateRes = await savedObjectFacet.updateSavedVisualization(req);
     const result: any = {
       body: {
-        ...savedRes['data']
+        ...updateRes['data']
       }
     };   
-    if (savedRes['success']) return res.ok(result);
+    if (updateRes['success']) return res.ok(result);
     result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['message'] = updateRes['data'];
     return res.custom(result);
   });
 
@@ -280,4 +288,32 @@ export const registerEventAnalyticsRouter = ({
     result['message'] = savedRes['data'];
     return res.custom(result);
   });
+
+  router.delete(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      validate: {
+        body: schema.object({
+          objectId: schema.string()
+        }),
+      },
+    },
+    async (
+      context,
+      req,
+      res
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+
+      const deleteResponse = await savedObjectFacet.deleteSavedObject(req);
+      const result: any = {
+        body: {
+          ...deleteResponse['data']
+        }
+      };
+      if (deleteResponse['success']) return res.ok(result);
+      result['statusCode'] = 500;
+      result['message'] = deleteResponse['data'];
+      return res.custom(result);
+    }
+  );
 }

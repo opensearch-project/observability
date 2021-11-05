@@ -376,9 +376,20 @@ export const CustomPanelView = ({
       iconSide="right"
       disabled={addVizDisabled}
       onClick={onPopoverClick}
-      fill
     >
       Add Visualization
+    </EuiButton>
+  );
+
+  // Panel Actions Button
+  const panelActionsButton = (
+    <EuiButton
+      iconType="arrowDown"
+      iconSide="right"
+      onClick={() => setPanelsMenuPopover(true)}
+      disabled={addVizDisabled}
+    >
+      Panel actions
     </EuiButton>
   );
 
@@ -407,7 +418,7 @@ export const CustomPanelView = ({
       title: 'Panel actions',
       items: [
         {
-          name: 'Refresh panel',
+          name: 'Reload panel',
           onClick: () => {
             setPanelsMenuPopover(false);
             fetchCustomPanel();
@@ -513,19 +524,26 @@ export const CustomPanelView = ({
                   <EuiPopover
                     panelPaddingSize="none"
                     withTitle
-                    button={
-                      <EuiButton
-                        iconType="arrowDown"
-                        iconSide="right"
-                        onClick={() => setPanelsMenuPopover(true)}
-                      >
-                        Panel actions
-                      </EuiButton>
-                    }
+                    button={panelActionsButton}
                     isOpen={panelsMenuPopover}
                     closePopover={() => setPanelsMenuPopover(false)}
                   >
                     <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                  </EuiPopover>
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    id="addVisualizationContextMenu"
+                    button={addVisualizationButton}
+                    isOpen={isVizPopoverOpen}
+                    closePopover={closeVizPopover}
+                    panelPaddingSize="none"
+                    anchorPosition="downLeft"
+                  >
+                    <EuiContextMenu
+                      initialPanelId={0}
+                      panels={getVizContextPanels(closeVizPopover)}
+                    />
                   </EuiPopover>
                 </EuiFlexItem>
               </EuiFlexGroup>
@@ -549,40 +567,17 @@ export const CustomPanelView = ({
                   start={start}
                   end={end}
                   onTimeChange={onDatePickerChange}
-                  showUpdateButton={false}
                   recentlyUsedRanges={recentlyUsedRanges}
                   isDisabled={dateDisabled}
                 />
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiButton isDisabled={inputDisabled} onClick={onRefreshFilters}>
-                  Refresh
-                </EuiButton>
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiPopover
-                  id="addVisualizationContextMenu"
-                  button={addVisualizationButton}
-                  isOpen={isVizPopoverOpen}
-                  closePopover={closeVizPopover}
-                  panelPaddingSize="none"
-                  anchorPosition="downLeft"
-                >
-                  <EuiContextMenu
-                    initialPanelId={0}
-                    panels={getVizContextPanels(closeVizPopover)}
-                  />
-                </EuiPopover>
-              </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {panelVisualizations.length === 0 ? (
+            {panelVisualizations.length === 0 && (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
                 getVizContextPanels={getVizContextPanels}
               />
-            ) : (
-              <></>
             )}
             <PanelGrid
               http={http}

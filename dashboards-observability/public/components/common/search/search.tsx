@@ -21,7 +21,8 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiIcon
+  EuiIcon,
+  EuiButtonIcon
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -69,7 +70,8 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast
+    setToast,
+    runButtonText
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -98,7 +100,7 @@ export const Search = (props: any) => {
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexStart">
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems='center'>
         <EuiFlexItem
           key="search-bar"
         >
@@ -109,6 +111,9 @@ export const Search = (props: any) => {
             handleQuerySearch={memorizedHandleQuerySearch}
             dslService={dslService}
           />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+        <EuiButtonIcon iconType='iInCircle' iconSize='l' href='https://opensearch.org/docs/latest/search-plugins/ppl/commands/'/>
         </EuiFlexItem>
         <EuiFlexItem
           className="euiFlexItem--flexGrowZero"
@@ -136,7 +141,7 @@ export const Search = (props: any) => {
               memorizedHandleQuerySearch();
             }}
           >
-            { isEmpty(explorerData) ? 'Run' : 'Refresh' }
+            { runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh' }
           </EuiButton>
         </EuiFlexItem>
         { showSaveButton && (

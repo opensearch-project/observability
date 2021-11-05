@@ -40,7 +40,10 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab } from '../../../common/types/explorer';
+import {
+  IField,
+  IQueryTab
+} from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -54,14 +57,29 @@ import {
   AVAILABLE_FIELDS,
   INDEX,
   TIME_INTERVAL_OPTIONS,
-  HAS_SAVED_TIMESTAMP,
+  HAS_SAVED_TIMESTAMP
 } from '../../../common/constants/explorer';
-import { PPL_STATS_REGEX } from '../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
-import { useFetchEvents, useFetchVisualizations } from './hooks';
-import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
+import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
+import { 
+  getIndexPatternFromRawQuery,
+  insertDateRangeToQuery
+} from '../../../common/utils';
+import { 
+  useFetchEvents,
+  useFetchVisualizations,
+} from './hooks';
+import { 
+  changeQuery,
+  changeDateRange,
+  selectQueries
+} from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
-import { selectFields, updateFields, sortFields } from './slices/field_slice';
+import { 
+  selectFields,
+  updateFields,
+  sortFields
+} from './slices/field_slice';
+import { updateTabName, selectQueryTabs } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
@@ -69,8 +87,12 @@ import DSLService from '../../services/requests/dsl';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 
-const TAB_EVENT_ID = uniqueId(TAB_EVENT_ID_TXT_PFX);
-const TAB_CHART_ID = uniqueId(TAB_CHART_ID_TXT_PFX);
+const TAB_EVENT_ID = 'main-content-events';
+const TAB_CHART_ID = 'main-content-vis';
+const TYPE_TAB_MAPPING = {
+  'savedQuery': TAB_EVENT_ID,
+  'savedVisualization': TAB_CHART_ID
+};
 
 interface IExplorerProps {
   pplService: PPLService;
@@ -92,17 +114,25 @@ export const Explorer = ({
   tabId,
   savedObjects,
   timestampUtils,
-  setToast,
+  setToast
 }: IExplorerProps) => {
   const dispatch = useDispatch();
-  const requestParams = { tabId };
-  const { isEventsLoading, getEvents, getAvailableFields } = useFetchEvents({
+  const requestParams = { tabId, };
+  const {
+    isEventsLoading,
+    getEvents,
+    getAvailableFields
+  } = useFetchEvents({
     pplService,
-    requestParams,
+    requestParams
   });
-  const { isVisLoading, getVisualizations, getCountVisualizations } = useFetchVisualizations({
+  const {
+    isVisLoading,
+    getVisualizations,
+    getCountVisualizations
+  } = useFetchVisualizations({
     pplService,
-    requestParams,
+    requestParams
   });
 
   const query = useSelector(selectQueries)[tabId];
@@ -110,13 +140,14 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-
+  const queryTabName = useSelector(selectQueryTabs)['tabNames'][tabId];
+  
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
   const [curVisId, setCurVisId] = useState('bar');
   const [prevIndex, setPrevIndex] = useState('');
-  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid] = useState(false);
+  const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
@@ -124,9 +155,11 @@ export const Explorer = ({
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
   const explorerFieldsRef = useRef();
+  const queryTabsRef = useRef();
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
+  // queryTabsRef.current = queryTabs;
 
   let minInterval = 'y';
   const findAutoInterval = (startTime: string, endTime: string) => {
@@ -166,29 +199,81 @@ export const Explorer = ({
     });
   };
 
+  const getSavedDataById = async (objectId: string) => {
+    // load saved query/visualization if object id exists
+    await savedObjects.fetchSavedObjects({
+      objectId,
+    })
+    .then((res) => {
+      const savedData = res['observabilityObjectList'][0];
+      const isSavedQuery = has(savedData, 'savedQuery');
+      const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
+      batch(async () => {
+        await dispatch(changeQuery({
+          tabId,
+          query: {
+            [RAW_QUERY]: objectData?.query || '',
+            [SELECTED_TIMESTAMP]: objectData?.selected_timestamp?.name || 'timestamp',
+            [SELECTED_DATE_RANGE]: objectData?.selected_date_range?.start &&
+            objectData?.selected_date_range?.end ? 
+            [objectData.selected_date_range.start, objectData.selected_date_range.end] : 
+            ['now-15m', 'now'],
+          }
+        }));
+        await dispatch(updateFields({
+          tabId,
+          data: {
+            [SELECTED_FIELDS]: [...objectData?.selected_fields?.tokens]
+          }
+        }));
+        await dispatch(updateTabName({
+          tabId,
+          tabName: objectData['name']
+        }));
+      });
+
+      // populate name field in save panel for default name
+      setSelectedPanelName(objectData?.name || '');
+      setCurVisId(objectData?.type || 'bar');
+      const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING['savedQuery'] : TYPE_TAB_MAPPING['savedVisualization']
+      setSelectedContentTab(tabToBeFocused);
+    })
+    .catch((error) => {
+      setToast(`Cannot get saved data for object id: ${objectId}, error: ${error.message}`, 'danger');
+    });
+  };
+
+  const fetchSavedResult = async () => {
+    const curQuery = queryRef.current;
+    if (!isEmpty(curQuery!['savedObjectId'])) {
+      await getSavedDataById(curQuery!['savedObjectId']);
+    }
+  };
+
   const fetchData = async () => {
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
-    if (isEmpty(rawQueryStr)) return;
+    if (
+      isEmpty(rawQueryStr) ||
+      (!isEmpty(curQuery!['savedObjectId']) && isEmpty(queryTabName))
+    ) return;
     if (isEmpty(curIndex)) {
       setToast('Query does not include vaild index.', 'danger');
       return;
     }
-
+    
     let curTimestamp = '';
     let hasSavedTimestamp = false;
 
     // determines timestamp for search
     if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
-      const savedTimestamps = await savedObjects
-        .fetchSavedObjects({
-          objectId: curIndex,
-        })
-        .catch((error: any) => {
-          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
-        });
+      const savedTimestamps = await savedObjects.fetchSavedObjects({
+        objectId: curIndex
+      }).catch((error: any) => {
+        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+      });
       if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
         // from saved objects
         hasSavedTimestamp = true;
@@ -208,24 +293,22 @@ export const Explorer = ({
 
     // compose final query
     const finalQuery = composeFinalQuery(curQuery, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
-
-    await dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          finalQuery,
-          [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
-          [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
-        },
-      })
-    );
+    
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        finalQuery,
+        [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+        [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp
+      }
+    }));
 
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
     } else {
-      findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1]);
+      findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
       getEvents();
       getCountVisualizations(minInterval);
     }
@@ -234,57 +317,64 @@ export const Explorer = ({
     setPrevIndex(curTimestamp || curQuery![SELECTED_TIMESTAMP]);
   };
 
-  // should run in two usecases
-  // 1. load explorer for the first time
-  // 2. when overrides default timestamp
-  useEffect(() => {
-    fetchData();
-  }, [query[SELECTED_TIMESTAMP]]);
+  useEffect(
+    () => {
+      if (
+        (isEmpty(query.savedObjectId) && !isEmpty(query[RAW_QUERY])) ||
+        query.savedObjectId
+      ) {
+        fetchSavedResult();
+        fetchData();
+      }
+    },
+    [
+      query.savedObjectId,
+      queryTabName
+    ]
+  );
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
-  const handleRemoveField = (field: IField) =>
-    toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
+  const handleRemoveField = (field: IField) => toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
   const handleTimePickerChange = async (timeRange: Array<string>) => {
-    await dispatch(
-      changeDateRange({
-        tabId: requestParams.tabId,
-        data: {
-          [SELECTED_DATE_RANGE]: timeRange,
-        },
-      })
-    );
+    await dispatch(changeDateRange({
+      tabId: requestParams.tabId,
+      data: {
+        [SELECTED_DATE_RANGE]: timeRange
+      }
+    }));
     fetchData();
-  };
+  }
 
   /**
    * Toggle fields between selected and unselected sets
    * @param field field to be toggled
    * @param FieldSetToRemove set where this field to be removed from
    * @param FieldSetToAdd set where this field to be added
-   */
-  const toggleFields = (field: IField, FieldSetToRemove: string, FieldSetToAdd: string) => {
+  */
+  const toggleFields = (
+    field: IField,
+    FieldSetToRemove: string,
+    FieldSetToAdd: string
+  ) => {
+
     const nextFields = cloneDeep(explorerFields);
     const thisFieldSet = nextFields[FieldSetToRemove];
     const nextFieldSet = thisFieldSet.filter((fd: IField) => fd.name !== field.name);
     nextFields[FieldSetToRemove] = nextFieldSet;
     nextFields[FieldSetToAdd].push(field);
     batch(() => {
-      dispatch(
-        updateFields({
-          tabId,
-          data: {
-            ...nextFields,
-          },
-        })
-      );
-      dispatch(
-        sortFields({
-          tabId,
-          data: [FieldSetToAdd],
-        })
-      );
+      dispatch(updateFields({ 
+        tabId,
+        data: {
+          ...nextFields
+        }
+      }));
+      dispatch(sortFields({
+        tabId,
+        data: [FieldSetToAdd]
+      }));
     });
   };
 
@@ -305,13 +395,13 @@ export const Explorer = ({
       index: curIndex,
       name: timestamp.name,
       type: timestamp.type,
-      dsl_type: 'date',
+      dsl_type: 'date'
     };
-    if (isEmpty(rawQueryStr) || isEmpty(curIndex)) {
+    if (isEmpty(rawQueryStr) || isEmpty(curIndex)) { 
       setToast('Cannot override timestamp because there was no valid index found.', 'danger');
       return;
     }
-    
+
     setIsOverridingTimestamp(true);
     
     let saveTimestampRes;
@@ -347,14 +437,14 @@ export const Explorer = ({
 
     if (!has(saveTimestampRes, 'objectId')) return;
 
-    await dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          [SELECTED_TIMESTAMP]: '',
-        },
-      })
-    );
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        [SELECTED_TIMESTAMP]: ''
+      }
+    }));
+
+    fetchData();
   };
 
   const getMainContent = () => {
@@ -373,10 +463,10 @@ export const Explorer = ({
                     explorerFields={ explorerFields }
                     explorerData={ explorerData }
                     selectedTimestamp={ query[SELECTED_TIMESTAMP] }
-                    isOverridingTimestamp={ isOverridingTimestamp }
                     handleOverrideTimestamp={ handleOverrideTimestamp }
                     handleAddField={ (field: IField) => handleAddField(field) }
                     handleRemoveField={ (field: IField) => handleRemoveField(field) }
+                    isFieldToggleButtonDisabled={isEmpty(explorerData.jsonData) || !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))}
                   />
                 </div>
               )}
@@ -437,6 +527,7 @@ export const Explorer = ({
                     </>
                   )
                 }
+                
                 <section
                   className="dscTable dscTableFixedScroll"
                   aria-labelledby="documentsAriaLabel"
@@ -467,54 +558,63 @@ export const Explorer = ({
     );
   };
 
-  function getMainContentTab({
+  function getMainContentTab ({
     tabId,
     tabTitle,
-    getContent,
+    getContent
   }: {
-    tabId: string;
-    tabTitle: string;
-    getContent: () => JSX.Element;
+    tabId: string,
+    tabTitle: string,
+    getContent: () => JSX.Element
   }) {
     return {
       id: tabId,
-      name: (
+      name: (<>
+              <EuiText
+                size="s"
+                textAlign="left"
+                color="default"
+              >
+                <span className="tab-title">{ tabTitle }</span>
+              </EuiText>
+            </>),
+      content: (
         <>
-          <EuiText size="s" textAlign="left" color="default">
-            <span className="tab-title">{tabTitle}</span>
-          </EuiText>
-        </>
-      ),
-      content: <>{getContent()}</>,
+          { getContent() }
+        </>)
     };
-  }
+  };
 
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
-        curVisId={curVisId}
-        setCurVisId={setCurVisId}
-        explorerFields={explorerFields}
-        explorerVis={explorerVisualizations}
-        explorerData={explorerData}
-        handleAddField={handleAddField}
-        handleRemoveField={handleRemoveField}
+        curVisId={ curVisId }
+        setCurVisId={ setCurVisId }
+        explorerFields={ explorerFields }
+        explorerVis={ explorerVisualizations }
+        explorerData={ explorerData }
+        handleAddField={ handleAddField }
+        handleRemoveField={ handleRemoveField }
       />
     );
   };
 
   const getMainContentTabs = () => {
     return [
-      getMainContentTab({
-        tabId: TAB_EVENT_ID,
-        tabTitle: TAB_EVENT_TITLE,
-        getContent: () => getMainContent(),
-      }),
-      getMainContentTab({
-        tabId: TAB_CHART_ID,
-        tabTitle: TAB_CHART_TITLE,
-        getContent: () => getExplorerVis(),
-      }),
+        getMainContentTab(
+          {
+            tabId: TAB_EVENT_ID,
+            tabTitle: TAB_EVENT_TITLE,
+            getContent: () => getMainContent()
+          }
+        ),
+        getMainContentTab(
+          {
+            tabId: TAB_CHART_ID,
+            tabTitle: TAB_CHART_TITLE,
+            getContent: () => getExplorerVis()
+          }
+        )
     ];
   };
 
@@ -529,31 +629,33 @@ export const Explorer = ({
       isSidebarClosed,
       countDistribution,
       explorerVisualizations,
+      selectedContentTabId,
       isOverridingTimestamp
     ]
   );
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
-
+  
   const handleQuerySearch = () => fetchData();
 
   const handleQueryChange = async (query: string, index: string) => {
     await dispatch(changeQuery({
       tabId,
       query: {
-        [RAW_QUERY]: query,
+        [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
         [INDEX]: index
       },
     }));
   }
 
   const handleSavingObject = async () => {
+
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
-    if (isEmpty(currQuery![RAW_QUERY])) {
+    if (isEmpty(currQuery![RAW_QUERY])) { 
       setToast('No query to save.', 'danger');
-      return;
-    }
+      return; 
+    };
 
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
@@ -562,84 +664,95 @@ export const Explorer = ({
     }
     setIsPanelTextFieldInvalid(false);
 
+    const params = {
+      query: currQuery![RAW_QUERY],
+      fields: currFields![SELECTED_FIELDS],
+      dateRange: currQuery![SELECTED_DATE_RANGE],
+      name: selectedPanelNameRef.current,
+      timestamp: currQuery![SELECTED_TIMESTAMP]
+    };
+
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
-      // create new saved query
-      savedObjects
-        .createSavedQuery({
-          query: currQuery![RAW_QUERY],
-          fields: currFields![SELECTED_FIELDS],
-          dateRange: currQuery![SELECTED_DATE_RANGE],
-          name: selectedPanelNameRef.current,
-          timestamp: currQuery![SELECTED_TIMESTAMP],
-        })
+      if (!isEmpty(currQuery!['savedObjectId'])) {
+        params['objectId'] = currQuery!['savedObjectId'];
+        await savedObjects.updateSavedQueryById(params)
         .then((res: any) => {
-          setToast(
-            `Query '${selectedPanelNameRef.current}' has been successfully saved.`,
-            'success'
-          );
+          setToast(`Query '${selectedPanelNameRef.current}' has been successfully updated.`, 'success');
+          return res;
         })
         .catch((error: any) => {
-          setToast(
-            `Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`,
-            'danger'
-          );
+          setToast(`Cannot update query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
         });
+      } else {
+        // create new saved query
+        savedObjects.createSavedQuery(params)
+        .then((res: any) => {
+          setToast(`Query '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
+        })
+        .catch((error: any) => { 
+          setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+        });
+      }
 
       // to-dos - update selected custom panel
       if (!isEmpty(selectedCustomPanelOptions)) {
         // update custom panel - query
       }
+
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+
       if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
         setToast(`There is no query or(and) visualization to save`, 'danger');
         return;
       }
-      
-      // create new saved visualization
-      const savingVisRes = await savedObjects
-        .createSavedVisualization({
+
+      let savingVisRes;
+
+      if (!isEmpty(currQuery!['savedObjectId'])) {
+        params['objectId'] = currQuery!['savedObjectId'];
+        params['type'] = curVisId;
+        savingVisRes = await savedObjects.updateSavedVisualizationById(params)
+        .then((res: any) => {
+          setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully updated.`, 'success');
+          return res;
+        })
+        .catch((error: any) => {
+          setToast(`Cannot update Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+        });
+      } else {
+        // create new saved visualization
+        savingVisRes = await savedObjects.createSavedVisualization({
           query: currQuery![RAW_QUERY],
           fields: currFields![SELECTED_FIELDS],
           dateRange: currQuery![SELECTED_DATE_RANGE],
           type: curVisId,
           name: selectedPanelNameRef.current,
-          timestamp: currQuery![SELECTED_TIMESTAMP],
+          timestamp: currQuery![SELECTED_TIMESTAMP]
         })
         .then((res: any) => {
-          setToast(
-            `Visualization '${selectedPanelNameRef.current}' has been successfully saved.`,
-            'success'
-          );
+          setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
           return res;
         })
         .catch((error: any) => {
-          setToast(
-            `Cannot save Visualization '${selectedPanelNameRef.current}', error: ${error.message}`,
-            'danger'
-          );
+          setToast(`Cannot save Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
         });
+      }
 
       if (!has(savingVisRes, 'objectId')) return;
 
       // update custom panel - visualization
       if (!isEmpty(selectedCustomPanelOptions)) {
-        savedObjects
-          .bulkUpdateCustomPanel({
-            selectedCustomPanels: selectedCustomPanelOptions,
-            savedVisualizationId: savingVisRes?.objectId,
-          })
-          .then((res: any) => {
-            setToast(
-              `Visualization '${selectedPanelNameRef.current}' has been successfully saved to operation panels.`,
-              'success'
-            );
-          })
-          .catch((error: any) => {
-            setToast(
-              `Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels, error: ${error.message}`,
-              'danger'
-            );
-          });
+        
+        savedObjects.bulkUpdateCustomPanel({
+          selectedCustomPanels: selectedCustomPanelOptions,
+          savedVisualizationId: savingVisRes.objectId
+        })
+        .then((res: any) => {
+          setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved to operation panels.`, 'success');
+        })
+        .catch((error: any) => {
+          setToast(`Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels, error: ${error.message}`, 'danger');
+        });
       }
     }
   };
@@ -669,12 +782,10 @@ export const Explorer = ({
       />
       <EuiTabbedContent
         className="mainContentTabs"
-        initialSelectedTab={memorizedMainContentTabs[0]}
-        selectedTab={memorizedMainContentTabs.find((tab) => {
-          tab.id === selectedContentTabId;
-        })}
-        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
-        tabs={memorizedMainContentTabs}
+        initialSelectedTab={ memorizedMainContentTabs[0] }
+        selectedTab={ memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId) }
+        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
+        tabs={ memorizedMainContentTabs }
       />
     </div>
   );

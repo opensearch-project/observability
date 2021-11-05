@@ -22,8 +22,9 @@ import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
+import DSLService from 'public/services/requests/dsl';
+import { uiSettingsService } from '../../../../common/utils';
 
-let queryLength: number = 0;
 let currIndex: string = '';
 let currField: string = '';
 let currFieldType: string = '';
@@ -57,6 +58,10 @@ const statsCommands = [
   { label: 'avg(' },
   { label: 'max(' },
   { label: 'min(' },
+  { label: 'var_samp(' },
+  { label: 'var_pop(' },
+  { label: 'stddev_samp(' },
+  { label: 'stddev_pop(' },
 ];
 
 // Function to create the array of objects to be suggested
@@ -210,8 +215,9 @@ const getIndices = async (dslService: DSLService) => {
 };
 
 const getFields = async (dslService: DSLService) => {
-  if (fieldsFromBackend.length === 0 && currIndex !== '') {
+  if (currIndex !== '') {
     const res = await dslService.fetchFields(currIndex);
+    fieldsFromBackend.length = 0;
     for (const element in res?.[currIndex].mappings.properties) {
       if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
@@ -327,7 +333,7 @@ export function Autocomplete({
           },
         }
       );
-  }, []);
+  }, [query]);
 
   return (
     <div 
@@ -337,62 +343,64 @@ export function Autocomplete({
       <EuiTextArea
         {...autocomplete.getInputProps({
           'id': 'autocomplete-textarea',
-          'placeholder': 'Enter PPL query to retrieve log, traces, and metrics'
+          'placeholder': 'Enter PPL query to retrieve logs'
         })}
       />
-      <div
-        className={[
-          'aa-Panel',
-          'aa-Panel--desktop',
-          autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
-        ]
-        .filter(Boolean)
-        .join(' ')}
-        {...autocomplete.getPanelProps({})}
-      >
-        {autocompleteState.isOpen &&
-          autocompleteState.collections.map((collection, index) => {
-            const { source, items } = collection;
-            return (
-              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
-                <div key={`source-${index}`} className="aa-Source">
-                  {items.length > 0 && (
-                    <ul className="aa-List" {...autocomplete.getListProps()}>
-                      {items.map((item, index) => {
-                        const prefix = item.input.split(' ');
-                        return (
-                          <li
-                            key={item.__autocomplete_id}
-                            className="aa-Item"
-                            {...autocomplete.getItemProps({
-                              item,
-                              source,
-                            })}
-                          >
-                            <div className="aa-ItemWrapper">
-                              <div className="aa-ItemContent">
-                                <div className="aa-ItemContentBody">
-                                  <div
-                                    className="aa-ItemContentTitle"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `<div>
-                                      <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
-                                    </div>`
-                                    }}
-                                  />
+      {autocompleteState.isOpen && (
+        <div
+          className={[
+            'aa-Panel',
+            'aa-Panel--desktop',
+            autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
+          ]
+          .filter(Boolean)
+          .join(' ')}
+          {...autocomplete.getPanelProps({})}
+        >
+          {autocompleteState.collections.map((collection, index) => {
+              const { source, items } = collection;
+              return (
+                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable">
+                  <div key={`source-${index}`} className="aa-Source">
+                    {items.length > 0 && (
+                      <ul className="aa-List" {...autocomplete.getListProps()}>
+                        {items.map((item, index) => {
+                          const prefix = item.input.split(' ');
+                          return (
+                            <li
+                              key={item.__autocomplete_id}
+                              className="aa-Item"
+                              {...autocomplete.getItemProps({
+                                item,
+                                source,
+                              })}
+                              style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
+                            >
+                              <div className="aa-ItemWrapper">
+                                <div className="aa-ItemContent">
+                                  <div className="aa-ItemContentBody">
+                                    <div
+                                      className="aa-ItemContentTitle"
+                                      dangerouslySetInnerHTML={{
+                                        __html: `<div>
+                                        <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
+                                      </div>`
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-      </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 }

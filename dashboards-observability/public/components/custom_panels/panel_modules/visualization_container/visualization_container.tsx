@@ -25,10 +25,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import {
-  displayVisualization,
-  renderSavedVisualization,
-} from '../../helpers/utils';
+import { displayVisualization, renderSavedVisualization } from '../../helpers/utils';
 import './visualization_container.scss';
 
 /*
@@ -92,6 +89,16 @@ export const VisualizationContainer = ({
   const popoverPanel = [
     <EuiContextMenuItem
       key="Edit"
+      disabled={disablePopover}
+      onClick={() => {
+        closeActionsMenu();
+        window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+      }}
+    >
+      Edit
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="Replace"
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();

@@ -27,7 +27,7 @@ export const PPL_ENDPOINT = '/_plugins/_ppl';
 export const SQL_ENDPOINT = '/_plugins/_sql';
 export const DSL_ENDPOINT = '/_plugins/_dsl';
 
-export const observabilityID = 'observability';
+export const observabilityID = 'observability-dashboards';
 export const observabilityTitle = 'Observability';
 export const observabilityPluginOrder = 6000;
 
@@ -49,15 +49,17 @@ export const OPENSEARCH_PANELS_API = {
 export const SAVED_OBJECT = '/object';
 
 // Color Constants
-export const PlotlyColorWay = [
-  '#00A3E0',
-  '#963CBD',
-  '#F65275',
-  '#FFB81C',
-  '#2CD5C4',
-  '#127871',
-  '#5F1084',
-  '#005EB8',
-  '#BD800F',
+export const PLOTLY_COLOR = [
+  '#3CA1C7',
+  '#8C55A3',
+  '#DB748A',
+  '#F2BE4B',
+  '#68CCC2',
+  '#2A7866',
+  '#843769',
+  '#374FB8',
+  '#BD6F26',
   '#4C636F',
 ];
+
+export const LONG_CHART_COLOR = PLOTLY_COLOR[1];

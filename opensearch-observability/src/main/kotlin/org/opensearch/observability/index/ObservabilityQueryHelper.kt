@@ -94,7 +94,6 @@ internal class ObservabilityQueryHelper(private val types: EnumSet<Observability
 
     private fun getQueryAllBuilder(queryValue: String): QueryBuilder {
         val allQuery = QueryBuilders.queryStringQuery(queryValue)
-        // Searching on metadata field is not supported. skip adding METADATA_FIELDS
         OBSERVABILITY_OBJECT_FIELDS.forEach {
             prefixes.forEach { type -> allQuery.field("$type.$it") }
         }

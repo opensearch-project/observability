@@ -37,14 +37,14 @@ opensearch.notebooks:
     maxPollingDurationSeconds: 900 # 15 Minutes, Minimum 5 Minutes
     maxLockRetries: 1 # Max number of retries to retry locking
   access:
-    adminAccess: "AllNotebooks"
+    adminAccess: "AllObservabilityObjects"
     # adminAccess values:
     ## Standard -> Admin user access follows standard user
-    ## AllNotebooks -> Admin user with "all_access" role can see all observability objects of all users.
+    ## AllObservabilityObjects -> Admin user with "all_access" role can see all observability objects of all users.
     filterBy: "NoFilter" # Applied when tenant != __user__
     # filterBy values:
     ## NoFilter -> everyone see each other's observability objects
     ## User -> observability objects are visible to only themselves
     ## Roles -> observability objects are visible to users having any one of the role of creator
     ## BackendRoles -> observability objects are visible to users having any one of the backend role of creator
-    ignoreRoles: ["own_index", "kibana_user", "notebooks_full_access", "notebooks_read_access"]
+    ignoreRoles: ["own_index", "kibana_user", "observability_full_access", "observability_read_access"]

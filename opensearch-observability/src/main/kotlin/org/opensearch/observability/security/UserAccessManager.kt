@@ -194,7 +194,7 @@ internal object UserAccessManager {
     }
 
     private fun canAdminViewAllItems(user: User): Boolean {
-        return PluginSettings.adminAccess == PluginSettings.AdminAccess.AllNotebooks && isAdminUser(user)
+        return PluginSettings.adminAccess == PluginSettings.AdminAccess.AllObservabilityObjects && isAdminUser(user)
     }
 
     private fun isAdminUser(user: User): Boolean {
