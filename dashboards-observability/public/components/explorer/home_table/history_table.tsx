@@ -86,7 +86,7 @@ export function Histories({
     },
     {
       field: 'type',
-      name: 'Type',
+      name: 'Type'
     },
     {
       field: 'delete',
@@ -126,7 +126,7 @@ export function Histories({
       data: record,
       name: savedObject.name,
       type: isSavedVisualization ? 'Visualization' : 'Query',
-      delete: record,
+      delete: record
     };
   });
 
