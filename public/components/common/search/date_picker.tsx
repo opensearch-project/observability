@@ -61,7 +61,7 @@ export function DatePicker(props: IDatePickerProps) {
 
   return (
     <EuiFlexItem
-      className="euiFlexItem--flexGrowZero"
+      className="euiFlexItem--flexGrowZero event-date-picker"
       style={{maxWidth: '40vw'}}
     >
       <EuiSuperDatePicker

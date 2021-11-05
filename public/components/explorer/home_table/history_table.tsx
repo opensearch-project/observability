@@ -10,21 +10,26 @@
  */
 
 import React, { useState, useRef } from 'react';
-
-import { EuiSpacer, EuiLink, EuiInMemoryTable, EuiIcon, EuiLoadingChart } from '@elastic/eui';
+import {
+  EuiLink,
+  EuiInMemoryTable,
+  EuiIcon,
+  EuiLoadingChart, 
+  EuiButtonIcon
+} from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
 interface TableData {
-  savedHistory: [];
-  savedQuerySearch: (
-    searchQuery: string,
-    selectedDateRange: [],
-    selectedTimeStamp,
-    selectedFields: []
-  ) => void;
+  savedHistories: Array<any>;
+  handleHistoryClick: (objectId: string) => void;
+  handleDeleteHistory: (objectId: string, type: string) => void;
 }
 
-export function Table(options: TableData) {
+export function Histories({
+  savedHistories,
+  handleHistoryClick,
+  handleDeleteHistory
+}: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const pageIndexRef = useRef();
@@ -43,7 +48,8 @@ export function Table(options: TableData) {
     {
       field: 'type',
       name: '',
-      width: '3%',
+      sortable: true,
+      width: '40px',
       render: (item) => {
         if (item == 'Visualization') {
           return (
@@ -63,17 +69,14 @@ export function Table(options: TableData) {
     {
       field: 'data',
       name: 'Name',
-      align: 'left',
+      width: '70%',
+      sortable: true,
+      truncateText: true,
       render: (item) => {
         return (
           <EuiLink
             onClick={() => {
-              options.savedQuerySearch(
-                item.query,
-                [item.date_start, item.date_end],
-                item.timestamp,
-                item.fields
-              );
+              handleHistoryClick(item.objectId);
             }}
           >
             {item.name}
@@ -83,33 +86,47 @@ export function Table(options: TableData) {
     },
     {
       field: 'type',
-      name: 'Type',
-      align: 'right',
+      name: 'Type'
     },
+    {
+      field: 'delete',
+      width: '40px',
+      align: 'right',
+      name: '',
+      render: (item) => <EuiButtonIcon 
+                          iconType="trash"
+                          size='s'
+                          color="danger"
+                          aria-label="trash"
+                          onClick={() => {
+                            handleDeleteHistory(
+                              item.objectId,
+                              item.name
+                            );
+                          }}
+                        />
+    }
   ];
 
-  let queryType = '';
-  const queries = options.savedHistory.map((h) => {
-    const savedObject = h.hasOwnProperty('savedVisualization')
-      ? h.savedVisualization
-      : h.savedQuery;
+  const queries = savedHistories.map((h) => {
     const isSavedVisualization = h.hasOwnProperty('savedVisualization');
-    if (isSavedVisualization) {
-      queryType = 'Visualization';
-    } else {
-      queryType = 'Query';
-    }
-    return {
-      data: {
-        name: savedObject.name,
-        query: savedObject.query,
-        date_start: savedObject.selected_date_range.start,
-        date_end: savedObject.selected_date_range.end,
-        timestamp: savedObject.selected_timestamp?.name,
-        fields: savedObject.selected_fields?.tokens || [],
-      },
+    const savedObject = isSavedVisualization ? h.savedVisualization : h.savedQuery;
+    const curType = isSavedVisualization ? 'savedVisualization' : 'savedQuery';
+    const record = {
+      objectId: h.objectId,
+      objectType: curType,
       name: savedObject.name,
-      type: queryType,
+      query: savedObject.query,
+      date_start: savedObject.selected_date_range.start,
+      date_end: savedObject.selected_date_range.end,
+      timestamp: savedObject.selected_timestamp?.name,
+      fields: savedObject.selected_fields?.tokens || []
+    };
+    return {
+      data: record,
+      name: savedObject.name,
+      type: isSavedVisualization ? 'Visualization' : 'Query',
+      delete: record
     };
   });
 
@@ -142,15 +159,12 @@ export function Table(options: TableData) {
   };
 
   return (
-    <div>
-      <EuiSpacer size="xl" />
-      <EuiInMemoryTable
-        items={queries}
-        columns={columns}
-        pagination={pagination}
-        onChange={onTableChange}
-        search={search}
-      />
-    </div>
+    <EuiInMemoryTable
+      items={queries}
+      columns={columns}
+      pagination={pagination}
+      onChange={onTableChange}
+      search={search}
+    />
   );
 }
