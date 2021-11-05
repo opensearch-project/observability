@@ -192,72 +192,72 @@ export const Home = (props: IHomeProps) => {
   ];
 
   return (
-      <EuiPage>
-        <EuiPageBody>
-          <EuiPageHeader>
-            <EuiPageHeaderSection>
-              <EuiTitle size="l">
-                <h1>Event Analytics</h1>
-              </EuiTitle>
-            </EuiPageHeaderSection>
-          </EuiPageHeader>
-          <EuiPageContent id="event-home">
-            <EuiFlexGroup gutterSize="s">
-              <EuiFlexItem>
-                <Search
-                  query={ searchQuery }
-                  handleQueryChange={ handleQueryChange }
-                  handleQuerySearch={ handleQuerySearch }
-                  handleTimePickerChange={ handleTimePickerChange }
-                  pplService={ pplService }
-                  dslService={ dslService }
-                  startTime={ selectedDateRange[0] }
-                  endTime={ selectedDateRange[1] }
-                  setStartTime={ () => {} }
-                  setEndTime={ () => {} }
-                  setIsOutputStale={ () => {} }
-                  liveStreamChecked={ false }
-                  onLiveStreamChange={ () => {} }
-                  showSaveButton={ false }
-                  runButtonText="New Query"
-                />
+    <EuiPage>
+      <EuiPageBody>
+        <EuiPageHeader>
+          <EuiPageHeaderSection>
+            <EuiTitle size="l">
+              <h1>Event Analytics</h1>
+            </EuiTitle>
+          </EuiPageHeaderSection>
+        </EuiPageHeader>
+        <EuiPageContent id="event-home">
+          <EuiFlexGroup gutterSize="s">
+            <EuiFlexItem>
+              <Search
+                query={ searchQuery }
+                handleQueryChange={ handleQueryChange }
+                handleQuerySearch={ handleQuerySearch }
+                handleTimePickerChange={ handleTimePickerChange }
+                pplService={ pplService }
+                dslService={ dslService }
+                startTime={ selectedDateRange[0] }
+                endTime={ selectedDateRange[1] }
+                setStartTime={ () => {} }
+                setEndTime={ () => {} }
+                setIsOutputStale={ () => {} }
+                liveStreamChecked={ false }
+                onLiveStreamChange={ () => {} }
+                showSaveButton={ false }
+                runButtonText="New Query"
+              />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+          <EuiSpacer size='m' />
+          <EuiPageHeaderSection>
+            <EuiFlexGroup 
+              gutterSize="s"
+              justifyContent="spaceBetween"
+            >
+              <EuiFlexItem grow={false}>
+                <EuiTitle size="s">
+                  <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
+                </EuiTitle>
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiPopover
+                  panelPaddingSize="none"
+                  button={popoverButton}
+                  isOpen={isActionsPopoverOpen}
+                  closePopover={() => setIsActionsPopoverOpen(false)}
+                >
+                  <EuiContextMenuPanel items={popoverItems} />
+                </EuiPopover>
               </EuiFlexItem>
             </EuiFlexGroup>
-            <EuiSpacer size='m' />
-            <EuiPageHeaderSection>
-              <EuiFlexGroup 
-                gutterSize="s"
-                justifyContent="spaceBetween"
-              >
-                <EuiFlexItem grow={false}>
-                  <EuiTitle size="s">
-                    <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
-                  </EuiTitle>
-                </EuiFlexItem>
-                <EuiFlexItem grow={false}>
-                  <EuiPopover
-                    panelPaddingSize="none"
-                    button={popoverButton}
-                    isOpen={isActionsPopoverOpen}
-                    closePopover={() => setIsActionsPopoverOpen(false)}
-                  >
-                    <EuiContextMenuPanel items={popoverItems} />
-                  </EuiPopover>
-                </EuiFlexItem>
-              </EuiFlexGroup>
-            </EuiPageHeaderSection>
-            <EuiSpacer size="m" />
-            <EuiFlexGroup>
-              <EuiFlexItem grow={ true }>
-                <EventHomeHistories
-                  handleDeleteHistory={deleteHistoryById}
-                  savedHistories={savedHistories}
-                  handleHistoryClick={handleHistoryClick}
-                />
-              </EuiFlexItem>
-            </EuiFlexGroup>
-          </EuiPageContent>
-        </EuiPageBody>
-      </EuiPage>
+          </EuiPageHeaderSection>
+          <EuiSpacer size="m" />
+          <EuiFlexGroup>
+            <EuiFlexItem grow={ true }>
+              <EventHomeHistories
+                handleDeleteHistory={deleteHistoryById}
+                savedHistories={savedHistories}
+                handleHistoryClick={handleHistoryClick}
+              />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiPageContent>
+      </EuiPageBody>
+    </EuiPage>
   );
 };

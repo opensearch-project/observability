@@ -71,24 +71,23 @@ export const EventAnalytics = ({
           <Route
             path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
             render={(props) => {
-              const breadcrumbPath = [
+              chrome.setBreadcrumbs([
                 parentBreadcrumb,
                 eventAnalyticsBreadcrumb,
                 {
                   text: 'Explorer',
                   href: `#/event_analytics/explorer`,
                 }
-              ];
-              chrome.setBreadcrumbs(breadcrumbPath);
+              ]);
               return (
                 <LogExplorer
                   savedObjectId={props.match.params.id}
-                  pplService={ pplService }
-                  dslService={ dslService }
-                  savedObjects={ savedObjects }
-                  timestampUtils={ timestampUtils }
-                  http={ http }
-                  setToast={ setToast }
+                  pplService={pplService}
+                  dslService={dslService}
+                  savedObjects={savedObjects}
+                  timestampUtils={timestampUtils}
+                  http={http}
+                  setToast={setToast}
                   chrome={chrome}
                   getExistingEmptyTab={getExistingEmptyTab}
                 />

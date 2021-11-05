@@ -30,6 +30,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from '@elastic/eui';
+import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
 import { CountDistribution } from './visualizations/count_distribution';
@@ -115,7 +116,6 @@ export const Explorer = ({
   timestampUtils,
   setToast
 }: IExplorerProps) => {
-
   const dispatch = useDispatch();
   const requestParams = { tabId, };
   const {
@@ -140,7 +140,6 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  // const queryTabs = useSelector(selectQueryTabs);
   const queryTabName = useSelector(selectQueryTabs)['tabNames'][tabId];
   
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
@@ -150,6 +149,8 @@ export const Explorer = ({
   const [prevIndex, setPrevIndex] = useState('');
   const [isPanelTextFieldInvalid, setIsPanelTextFieldInvalid ] = useState(false);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
+  const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -159,6 +160,34 @@ export const Explorer = ({
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
   // queryTabsRef.current = queryTabs;
+
+  let minInterval = 'y';
+  const findAutoInterval = (startTime: string, endTime: string) => {
+    if (startTime?.length === 0 || endTime?.length === 0 || startTime === endTime) return 'd';
+    const momentStart = dateMath.parse(startTime)!;
+    const momentEnd = dateMath.parse(endTime)!;
+    const diffSeconds = momentEnd.unix() - momentStart.unix();
+
+    // less than 1 second
+    if (diffSeconds <= 1) minInterval = 'ms';
+    // less than 2 minutes
+    else if (diffSeconds <= 60 * 2) minInterval = 's';
+    // less than 2 hours
+    else if (diffSeconds <= 3600 * 2) minInterval = 'm';
+    // less than 2 days
+    else if (diffSeconds <= 86400 * 2) minInterval = 'h';
+    // less than 1 month
+    else if (diffSeconds <= 86400 * 31) minInterval = 'd';
+    // less than 3 months
+    else if (diffSeconds <= 86400 * 93) minInterval = 'w';
+    // less than 1 year
+    else if (diffSeconds <= 86400 * 366) minInterval = 'M';
+
+    setTimeIntervalOptions([
+      { text: 'Auto', value: 'auto_' + minInterval },
+      ...TIME_INTERVAL_OPTIONS,
+    ]);
+  };
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
@@ -253,7 +282,7 @@ export const Explorer = ({
         // from index mappings
         hasSavedTimestamp = false;
         const timestamps = await timestampUtils.getTimestamp(curIndex);
-        curTimestamp = timestamps!.default_timestamp
+        curTimestamp = timestamps!.default_timestamp;
       }
     }
 
@@ -279,8 +308,9 @@ export const Explorer = ({
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
     } else {
+      findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
       getEvents();
-      getCountVisualizations('h');
+      getCountVisualizations(minInterval);
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -299,7 +329,6 @@ export const Explorer = ({
     },
     [
       query.savedObjectId,
-      // queryTabs.tabNames.tabId
       queryTabName
     ]
   );
@@ -372,6 +401,8 @@ export const Explorer = ({
       setToast('Cannot override timestamp because there was no valid index found.', 'danger');
       return;
     }
+
+    setIsOverridingTimestamp(true);
     
     let saveTimestampRes;
     if (curQuery![HAS_SAVED_TIMESTAMP]) {
@@ -384,6 +415,9 @@ export const Explorer = ({
       })
       .catch((error: any) => { 
         setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
       });
     } else {
       saveTimestampRes = await savedObjects.createSavedTimestamp({
@@ -395,6 +429,9 @@ export const Explorer = ({
       })
       .catch((error: any) => { 
         setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      })
+      .finally(() => {
+        setIsOverridingTimestamp(false);
       });
     }
 
@@ -476,7 +513,7 @@ export const Explorer = ({
                         >
                           <TimechartHeader
                             dateFormat={ "MMM D, YYYY @ HH:mm:ss.SSS" }
-                            options={ TIME_INTERVAL_OPTIONS }
+                            options={ timeIntervalOptions }
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
                             }}
@@ -592,7 +629,8 @@ export const Explorer = ({
       isSidebarClosed,
       countDistribution,
       explorerVisualizations,
-      selectedContentTabId
+      selectedContentTabId,
+      isOverridingTimestamp
     ]
   );
 
@@ -662,6 +700,11 @@ export const Explorer = ({
       }
 
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+
+      if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
+        setToast(`There is no query or(and) visualization to save`, 'danger');
+        return;
+      }
 
       let savingVisRes;
 

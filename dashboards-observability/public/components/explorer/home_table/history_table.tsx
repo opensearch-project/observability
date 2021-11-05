@@ -17,7 +17,7 @@ import {
   EuiLoadingChart, 
   EuiButtonIcon
 } from '@elastic/eui';
-
+import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
 interface TableData {
   savedHistories: Array<any>;
@@ -36,7 +36,6 @@ export function Histories({
   pageIndexRef.current = pageIndex;
   const pageSizeRef = useRef();
   pageSizeRef.current = pageSize;
-
 
   const onTableChange = ({ page = {} }) => {
     const { index: pageIndex, size: pageSize } = page;
@@ -143,7 +142,7 @@ export function Histories({
         field: 'type',
         name: 'Type',
         multiSelect: false,
-        options: ['Visualization', 'Query'].map((i) => ({
+        options: FILTER_OPTIONS.map((i) => ({
           value: i,
           name: i,
           view: i,
@@ -169,5 +168,3 @@ export function Histories({
     />
   );
 }
-
-
