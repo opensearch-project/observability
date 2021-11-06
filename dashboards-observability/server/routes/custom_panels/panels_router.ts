@@ -339,4 +339,43 @@ export function PanelsRouter(router: IRouter) {
       }
     }
   );
+
+  // Add Sample Panels
+  router.post(
+    {
+      path: `${API_PREFIX}/panels/addSamplePanels`,
+      validate: {
+        body: schema.object({
+          savedVisualizationIds: schema.arrayOf(schema.string()),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        const panelsData = await customPanelBackend.addSamplePanels(
+          opensearchNotebooksClient,
+          request.body.savedVisualizationIds
+        );
+        return response.ok({
+          body: {
+            demoPanelsData: panelsData,
+          },
+        });
+      } catch (error) {
+        console.error('Issue in fetching panel list:', error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
 }

@@ -25,6 +25,11 @@ import { renderPageWithSidebar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
+import {
+  EVENT_ANALYTICS,
+  OBSERVABILITY_BASE,
+  SAVED_OBJECTS,
+} from '../../../common/constants/shared';
 
 /*
  * "Home" module is initial page for Operantional Panels
@@ -220,6 +225,56 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       });
   };
 
+  const addSamplePanels = async () => {
+    try {
+      setLoading(true);
+      const flights = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_flights',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      const logs = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_logs',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      if (flights || logs) setToast('Adding sample data. This can take some time.');
+      await Promise.all([
+        flights ? http.post('../api/sample_data/flights') : Promise.resolve(),
+        logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
+      ]);
+
+      let savedVisualizationIds = [];
+      await http
+        .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
+        .then((resp) => (savedVisualizationIds = [...resp.savedObjectIds]));
+
+      await http
+        .post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
+          body: JSON.stringify({
+            savedVisualizationIds: savedVisualizationIds,
+          }),
+        })
+        .then((res) => {
+          setcustomPanelData([...customPanelData, ...res.demoPanelsData]);
+        });
+      setToast(`Sample panels successfully added.`);
+    } catch (err) {
+      setToast('Error adding sample panels.', 'danger');
+      console.error(err.body.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <EuiGlobalToastList
@@ -245,6 +300,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               renameCustomPanel={renameCustomPanel}
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanelList={deleteCustomPanelList}
+              addSamplePanels={addSamplePanels}
             />
           );
         }}

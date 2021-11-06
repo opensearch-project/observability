@@ -316,4 +316,29 @@ export const registerEventAnalyticsRouter = ({
       return res.custom(result);
     }
   );
+
+  router.get(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/{sampleRequestor}`,
+      validate: {
+        params: schema.object({
+          sampleRequestor: schema.string(),
+        }),
+      },
+    },
+    async (context, req, res): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const savedRes = await savedObjectFacet.createSampleSavedObjects(req);
+      const result: any = {
+        body: {
+          ...savedRes['data'],
+        },
+      };
+
+      if (savedRes['success']) return res.ok(result);
+
+      result['statusCode'] = 500;
+      result['message'] = savedRes['data'];
+      return res.custom(result);
+    }
+  );
 }

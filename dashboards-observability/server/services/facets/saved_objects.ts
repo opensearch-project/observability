@@ -9,24 +9,23 @@
  * GitHub history for details.
  */
 
+import { sampleVisualizationSet1 } from '../../common/helpers/events_explorer/sample_savedObjects';
+
 export default class SavedObjectFacet {
   constructor(private client: any) {
     this.client = client;
   }
 
-  fetch = async (
-    request: any,
-    format: string
-  ) => {
+  fetch = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
-        ...request.url.query
-      };    
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+        ...request.url.query,
+      };
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
@@ -36,24 +35,20 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  create = async (
-    request: any,
-    format: string,
-    objectType: string
-  ) => {
+  create = async (request: any, format: string, objectType: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         body: {
           [objectType]: {
-            ...request.body.object
-          }
-        }
-      };    
-      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+            ...request.body.object,
+          },
+        },
+      };
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedRes;
     } catch (err: any) {
@@ -63,24 +58,21 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  createTimestamp = async (
-    request: any,
-    format: string,
-  ) => {
+  createTimestamp = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         body: {
           objectId: request.body.index,
-          'timestamp': {
-            ...request.body
-          }
-        }
-      };    
-      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+          timestamp: {
+            ...request.body,
+          },
+        },
+      };
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedRes;
     } catch (err: any) {
@@ -88,24 +80,21 @@ export default class SavedObjectFacet {
       res['data'] = err;
     }
     return res;
-  }
+  };
 
-  updateTimestamp = async (
-    request: any,
-    format: string,
-  ) => {
+  updateTimestamp = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         objectId: request.body.objectId,
         body: {
-          ...request.body
-        }
+          ...request.body,
+        },
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
@@ -115,25 +104,21 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  update = async (
-    request: any,
-    format: string,
-    objectType: string
-  ) => {
+  update = async (request: any, format: string, objectType: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         objectId: request.body.object_id,
-        body: {              
+        body: {
           [objectType]: {
-            ...request.body.object
-          }
-        }
+            ...request.body.object,
+          },
+        },
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
@@ -149,18 +134,50 @@ export default class SavedObjectFacet {
   ) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {    
         objectId: request.body.objectId
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics delete error: ', err);
       res['data'] = err.message;
+    }
+    return res;
+  };
+
+  createSamples = async (request: any, format: string) => {
+    const res = {
+      success: false,
+      data: {},
+    };
+    try {
+      let savedRes: any[] = [];
+
+      // TODO: add support for samples in event analytics
+      if (request.params.sampleRequestor === 'panels') {
+        for (var i = 0; i < sampleVisualizationSet1.length; i++) {
+          const params = {
+            body: {
+              savedVisualization: {
+                ...sampleVisualizationSet1[i],
+              },
+            },
+          };
+          const savedVizRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
+          savedRes.push(savedVizRes.objectId);
+        }
+      }
+
+      res['success'] = true;
+      res['data'] = { savedObjectIds: savedRes };
+    } catch (err: any) {
+      console.error('Event analytics create error: ', err);
+      res['data'] = err;
     }
     return res;
   };
@@ -192,12 +209,16 @@ export default class SavedObjectFacet {
   updateSavedQuery = (request: any) => {
     return this.update(request, 'observability.updateObjectById', 'savedQuery');
   };
-  
+
   updateSavedVisualization = (request: any) => {
     return this.update(request, 'observability.updateObjectById', 'savedVisualization');
   };
 
   deleteSavedObject = async (request: any) => {
     return this.delete(request, 'observability.deleteObjectById', 'savedQuery');
+  };
+
+  createSampleSavedObjects = async (request: any) => {
+    return this.createSamples(request, 'observability.createObject');
   };
 }
