@@ -23,12 +23,14 @@ interface TableData {
   savedHistories: Array<any>;
   handleHistoryClick: (objectId: string) => void;
   handleDeleteHistory: (objectId: string, type: string) => void;
+  isTableLoading: boolean;
 }
 
 export function Histories({
   savedHistories,
   handleHistoryClick,
-  handleDeleteHistory
+  handleDeleteHistory,
+  isTableLoading
 }: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -160,6 +162,7 @@ export function Histories({
 
   return (
     <EuiInMemoryTable
+      loading={isTableLoading}
       items={queries}
       columns={columns}
       pagination={pagination}

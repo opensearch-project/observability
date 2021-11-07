@@ -108,7 +108,7 @@ export const EventAnalytics = ({
               ]);
               return renderPageWithSidebar(
                 <EventExplorerHome 
-                  http={http} 
+                  http={http}
                   savedObjects={savedObjects}
                   dslService={dslService}
                   timestampUtils={timestampUtils}

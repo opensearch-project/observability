@@ -37,8 +37,9 @@ import {
   TAB_ID_TXT_PFX,
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
-  SELECTED_FIELDS
+  SELECTED_FIELDS,
 } from '../../../common/constants/explorer';
+import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { useEffect } from 'react';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
@@ -69,7 +70,8 @@ export const Home = (props: IHomeProps) => {
     dslService,
     savedObjects,
     setToast,
-    getExistingEmptyTab
+    getExistingEmptyTab,
+    http
   } = props;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -88,6 +90,7 @@ export const Home = (props: IHomeProps) => {
   const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
   const [savedHistories, setSavedHistories] = useState([]);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
 
   const fetchHistories = async () => {
     const res = await savedObjects.fetchSavedObjects({
@@ -169,6 +172,56 @@ export const Home = (props: IHomeProps) => {
     history.push(`/event_analytics/explorer/${objectId}`);
   };
 
+  const addSampleEvents = async () => {
+    try {
+      setIsTableLoading(true);
+      const flights = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_flights',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      const logs = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_logs',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      if (flights || logs) setToast('Adding sample data. This can take some time.');
+      await Promise.all([
+        flights ? http.post('../api/sample_data/flights') : Promise.resolve(),
+        logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
+      ]);
+      let histories;
+      await http
+        .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
+        .then(async (resp) => {
+          const res = await savedObjects.fetchSavedObjects({
+            objectType: ['savedQuery', 'savedVisualization'],
+            sortOrder: 'desc',
+            fromIndex: 0
+          }); 
+          histories = [...res['observabilityObjectList']];
+          setSavedHistories(() => {
+            return histories;
+          });
+        });
+      setToast(`Sample events added successfully.`);
+    } catch (error) {
+      setToast(`Cannot add sample events data, error: ${error}`, 'danger');
+      console.error(error.body.message);
+    } 
+    finally {
+      setIsTableLoading(false);
+    }
+  };
+
   const popoverButton = (
     <EuiButton
       iconType="arrowDown"
@@ -181,13 +234,22 @@ export const Home = (props: IHomeProps) => {
 
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
-      key="rename"
+      key="redirect"
       onClick={() => {
         setIsActionsPopoverOpen(false);
         history.push(`/event_analytics/explorer`);
       }}
     >
       Event Explorer
+    </EuiContextMenuItem>,
+      <EuiContextMenuItem
+      key="addSample"
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        addSampleEvents();
+      }}
+    >
+      Add sample Events Data
     </EuiContextMenuItem>
   ];
 
@@ -253,6 +315,7 @@ export const Home = (props: IHomeProps) => {
                 handleDeleteHistory={deleteHistoryById}
                 savedHistories={savedHistories}
                 handleHistoryClick={handleHistoryClick}
+                isTableLoading={isTableLoading}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
