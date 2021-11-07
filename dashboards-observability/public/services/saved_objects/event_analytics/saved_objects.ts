@@ -282,9 +282,9 @@ export default class SavedObjects {
     );
   }
 
-  async deleteSavedObjectsById(deleteObjectRequest: any) {
+  async deleteSavedObjectsList(deleteObjectRequest: any) {
     const finalParams = {
-      objectId: deleteObjectRequest.objectId
+      objectIdList: deleteObjectRequest.objectIdList.join(',')
     };
     return await this.http.delete(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,

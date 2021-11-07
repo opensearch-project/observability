@@ -294,7 +294,7 @@ export const registerEventAnalyticsRouter = ({
       path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
       validate: {
         body: schema.object({
-          objectId: schema.string()
+          objectIdList: schema.string()
         }),
       },
     },

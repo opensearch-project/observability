@@ -97,6 +97,7 @@ export const CustomPanelTable = ({
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [selectedCustomPanels, setselectedCustomPanels] = useState<CustomPanelListType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  console.log('selectedCustomPanels: ', selectedCustomPanels);
 
   useEffect(() => {
     setBreadcrumbs(parentBreadcrumb);
@@ -364,7 +365,7 @@ export const CustomPanelTable = ({
                 allowNeutralSort={false}
                 isSelectable={true}
                 selection={{
-                  onSelectionChange: (items) => setselectedCustomPanels(items),
+                  onSelectionChange: (items) => setselectedCustomPanels(items)
                 }}
               />
             ) : (

@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   EuiLink,
   EuiInMemoryTable,
@@ -18,6 +18,7 @@ import {
   EuiButtonIcon
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
+import { uniqueId } from 'lodash';
 
 interface TableData {
   savedHistories: Array<any>;
@@ -29,7 +30,7 @@ interface TableData {
 export function Histories({
   savedHistories,
   handleHistoryClick,
-  handleDeleteHistory,
+  handleSelectHistory,
   isTableLoading
 }: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
@@ -89,24 +90,6 @@ export function Histories({
     {
       field: 'type',
       name: 'Type'
-    },
-    {
-      field: 'delete',
-      width: '40px',
-      align: 'right',
-      name: '',
-      render: (item) => <EuiButtonIcon 
-                          iconType="trash"
-                          size='s'
-                          color="danger"
-                          aria-label="trash"
-                          onClick={() => {
-                            handleDeleteHistory(
-                              item.objectId,
-                              item.name
-                            );
-                          }}
-                        />
     }
   ];
 
@@ -128,7 +111,7 @@ export function Histories({
       data: record,
       name: savedObject.name,
       type: isSavedVisualization ? 'Visualization' : 'Query',
-      delete: record
+      // delete: record
     };
   });
 
@@ -168,6 +151,13 @@ export function Histories({
       pagination={pagination}
       onChange={onTableChange}
       search={search}
+      isSelectable={true}
+      selection={{
+        onSelectionChange: (selectedHistories) => { 
+          console.log('on select handleSelectHistory: ', selectedHistories);
+          handleSelectHistory(selectedHistories);
+        },
+      }}
     />
   );
 }

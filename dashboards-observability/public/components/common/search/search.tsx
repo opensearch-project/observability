@@ -113,7 +113,7 @@ export const Search = (props: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-        <EuiButtonIcon iconType="iInCircle" iconSize="l" target="_blank" href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"/>
+        <EuiButtonIcon aria-label="ppl-info" iconType="iInCircle" iconSize="l" target="_blank" href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"/>
         </EuiFlexItem>
         <EuiFlexItem
           className="euiFlexItem--flexGrowZero"
