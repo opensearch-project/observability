@@ -9,6 +9,9 @@
  * GitHub history for details.
  */
 
+import './components/trace_analytics/index.scss';
+import './components/notebooks/index.scss'
+
 import { PluginInitializer, PluginInitializerContext } from '../../../src/core/public';
 import {
   ObservabilityPlugin

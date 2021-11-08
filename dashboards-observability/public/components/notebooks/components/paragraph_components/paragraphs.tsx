@@ -52,6 +52,7 @@ import { ViewMode } from '../../../../../../../src/plugins/embeddable/public';
 import { NOTEBOOKS_API_PREFIX } from '../../../../../common/constants/notebooks';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { ParaType } from '../../../../../common/types/notebooks';
+import { uiSettingsService } from '../../../../../common/utils';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
 
@@ -479,6 +480,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     </EuiText>
   );
 
+  const paraClass = `notebooks-paragraph notebooks-paragraph-${
+    uiSettingsService.get('theme:darkMode') ? 'dark' : 'light'
+  }`;
+
   return (
     <>
       <EuiPanel>
@@ -486,7 +491,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
           index
         )}
-        <div key={index} onClick={() => paragraphSelector(index)}>
+        <div key={index} className={paraClass} onClick={() => paragraphSelector(index)}>
           {para.isInputExpanded && (
             <>
               <EuiSpacer size="s" />

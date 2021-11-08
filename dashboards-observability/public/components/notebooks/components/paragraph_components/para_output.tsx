@@ -165,11 +165,12 @@ export const ParaOutput = (props: {
   const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
 
   return (
-    <>
-      {!para.isOutputHidden &&
-        para.typeOut.map((typeOut: string, tIdx: number) =>
+    !para.isOutputHidden && (
+      <>
+        {para.typeOut.map((typeOut: string, tIdx: number) =>
           outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
         )}
-    </>
+      </>
+    )
   );
 };

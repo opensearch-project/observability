@@ -87,7 +87,7 @@ export const ParaInput = (props: {
 
   const renderParaInput = () => {
     return (
-      <>
+      <div style={{ width: '100%' }}>
         {/* If the para is selected show the editor else display the code in the paragraph */}
         {para.isSelected ? (
           <EuiTextArea
@@ -106,14 +106,14 @@ export const ParaInput = (props: {
           />
         ) : (
           <EuiCodeBlock
-            language={para.inp.slice(0, 4) === '%sql' ? 'sql' : 'md'}
+            language={para.inp.match(/^%(sql|md)/)?.[1]}
+            overflowHeight={200}
             paddingSize="s"
-            isCopyable
           >
             {para.inp}
           </EuiCodeBlock>
         )}
-      </>
+      </div>
     );
   };
 
