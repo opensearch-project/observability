@@ -116,7 +116,7 @@ export const Search = (props: any) => {
         <EuiButtonIcon aria-label="ppl-info" iconType="iInCircle" iconSize="l" target="_blank" href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"/>
         </EuiFlexItem>
         <EuiFlexItem
-          className="euiFlexItem--flexGrowZero"
+          className="euiFlexItem--flexGrowZero event-date-picker"
         >
           <DatePicker
             startTime={startTime}

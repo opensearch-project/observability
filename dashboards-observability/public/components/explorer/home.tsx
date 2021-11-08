@@ -11,7 +11,7 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement, useRef } from 'react';
+import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -42,7 +42,8 @@ import {
   SELECTED_FIELDS,
 } from '../../../common/constants/explorer';
 import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
-import { useEffect } from 'react';
+import { EmptyTabParams } from '../../../common/types/explorer';
+import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
 import { init as initFields } from './slices/field_slice';
@@ -65,6 +66,8 @@ interface IHomeProps {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
+  getExistingEmptyTab: (params: EmptyTabParams) => string;
+  http: HttpStart;
 }
 
 export const Home = (props: IHomeProps) => {
@@ -132,7 +135,6 @@ export const Home = (props: IHomeProps) => {
           })
           .finally(() => {
             closeModal();
-            setToast(`Cannot delete Histories, error: ${error.message}`, 'danger');
           });
   };
 
@@ -201,7 +203,7 @@ export const Home = (props: IHomeProps) => {
             search: 'opensearch_dashboards_sample_data_flights',
           },
         })
-        .then((resp) => resp.total === 0);
+        .then((resp: any) => resp.total === 0);
       const logs = await http
         .get('../api/saved_objects/_find', {
           query: {
@@ -210,24 +212,24 @@ export const Home = (props: IHomeProps) => {
             search: 'opensearch_dashboards_sample_data_logs',
           },
         })
-        .then((resp) => resp.total === 0);
+        .then((resp: any) => resp.total === 0);
       if (flights || logs) setToast('Adding sample data. This can take some time.');
       await Promise.all([
         flights ? http.post('../api/sample_data/flights') : Promise.resolve(),
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
-      let histories;
+
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
-        .then(async (resp) => {
+        .then(async (resp: any) => {
           const res = await savedObjects.fetchSavedObjects({
+            objectIdList: resp?.savedObjectIds || [],
             objectType: ['savedQuery', 'savedVisualization'],
             sortOrder: 'desc',
             fromIndex: 0
-          }); 
-          histories = [...res['observabilityObjectList']];
+          });
           setSavedHistories((staleHistoryList) => {
-            return histories;
+            return [...res['observabilityObjectList'], ...staleHistoryList];
           });
         });
       setToast(`Sample events added successfully.`);
@@ -352,13 +354,13 @@ export const Home = (props: IHomeProps) => {
             </EuiPageHeaderSection>
             <EuiSpacer size="m" />
             <EuiFlexGroup>
-              <EuiFlexItem grow={ true }>
+              <EuiFlexItem grow={true}>
                 <EventHomeHistories
-                  handleDeleteHistory={deleteHistoryList}
                   savedHistories={savedHistories}
                   handleHistoryClick={handleHistoryClick}
                   isTableLoading={isTableLoading}
                   handleSelectHistory={setSelectedHisotries}
+                  selectedHisotries={selectedHisotries}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>

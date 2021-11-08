@@ -9,21 +9,19 @@
  * GitHub history for details.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   EuiLink,
   EuiInMemoryTable,
   EuiIcon,
-  EuiLoadingChart, 
-  EuiButtonIcon
+  EuiLoadingChart
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
-import { uniqueId } from 'lodash';
 
 interface TableData {
   savedHistories: Array<any>;
   handleHistoryClick: (objectId: string) => void;
-  handleDeleteHistory: (objectId: string, type: string) => void;
+  handleSelectHistory: (selectedHistories: Array<any>) => void;
   isTableLoading: boolean;
 }
 
@@ -93,7 +91,7 @@ export function Histories({
     }
   ];
 
-  const queries = savedHistories.map((h) => {
+  const histories = savedHistories.map((h) => {
     const isSavedVisualization = h.hasOwnProperty('savedVisualization');
     const savedObject = isSavedVisualization ? h.savedVisualization : h.savedQuery;
     const curType = isSavedVisualization ? 'savedVisualization' : 'savedQuery';
@@ -108,14 +106,12 @@ export function Histories({
       fields: savedObject.selected_fields?.tokens || []
     };
     return {
+      id: h.objectId,
       data: record,
       name: savedObject.name,
-      type: isSavedVisualization ? 'Visualization' : 'Query',
-      // delete: record
+      type: isSavedVisualization ? 'Visualization' : 'Query'
     };
   });
-
-  const totalItemCount = queries.length;
 
   const search = {
     box: {
@@ -139,22 +135,22 @@ export function Histories({
   const pagination = {
     pageIndex,
     pageSize,
-    totalItemCount,
+    totalItemCount: histories.length,
     pageSizeOptions: [5, 10, 20, 50],
   };
-
+  
   return (
     <EuiInMemoryTable
+      itemId="id"
       loading={isTableLoading}
-      items={queries}
+      items={histories}
       columns={columns}
       pagination={pagination}
       onChange={onTableChange}
       search={search}
       isSelectable={true}
       selection={{
-        onSelectionChange: (selectedHistories) => { 
-          console.log('on select handleSelectHistory: ', selectedHistories);
+        onSelectionChange: (selectedHistories) => {
           handleSelectHistory(selectedHistories);
         },
       }}
