@@ -64,7 +64,6 @@ export const useFetchEvents = ({
     })
     .catch((err: any) => {
       console.error(err);
-      setToast();
     })
     .finally(() => {
       setIsEventsLoading(false);
