@@ -14,22 +14,21 @@ import {
   EuiLink,
   EuiInMemoryTable,
   EuiIcon,
-  EuiLoadingChart, 
-  EuiButtonIcon
+  EuiLoadingChart
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
 interface TableData {
   savedHistories: Array<any>;
   handleHistoryClick: (objectId: string) => void;
-  handleDeleteHistory: (objectId: string, type: string) => void;
+  handleSelectHistory: (selectedHistories: Array<any>) => void;
   isTableLoading: boolean;
 }
 
 export function Histories({
   savedHistories,
   handleHistoryClick,
-  handleDeleteHistory,
+  handleSelectHistory,
   isTableLoading
 }: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
@@ -89,28 +88,10 @@ export function Histories({
     {
       field: 'type',
       name: 'Type'
-    },
-    {
-      field: 'delete',
-      width: '40px',
-      align: 'right',
-      name: '',
-      render: (item) => <EuiButtonIcon 
-                          iconType="trash"
-                          size='s'
-                          color="danger"
-                          aria-label="trash"
-                          onClick={() => {
-                            handleDeleteHistory(
-                              item.objectId,
-                              item.name
-                            );
-                          }}
-                        />
     }
   ];
 
-  const queries = savedHistories.map((h) => {
+  const histories = savedHistories.map((h) => {
     const isSavedVisualization = h.hasOwnProperty('savedVisualization');
     const savedObject = isSavedVisualization ? h.savedVisualization : h.savedQuery;
     const curType = isSavedVisualization ? 'savedVisualization' : 'savedQuery';
@@ -125,14 +106,12 @@ export function Histories({
       fields: savedObject.selected_fields?.tokens || []
     };
     return {
+      id: h.objectId,
       data: record,
       name: savedObject.name,
-      type: isSavedVisualization ? 'Visualization' : 'Query',
-      delete: record
+      type: isSavedVisualization ? 'Visualization' : 'Query'
     };
   });
-
-  const totalItemCount = queries.length;
 
   const search = {
     box: {
@@ -156,18 +135,25 @@ export function Histories({
   const pagination = {
     pageIndex,
     pageSize,
-    totalItemCount,
+    totalItemCount: histories.length,
     pageSizeOptions: [5, 10, 20, 50],
   };
-
+  
   return (
     <EuiInMemoryTable
+      itemId="id"
       loading={isTableLoading}
-      items={queries}
+      items={histories}
       columns={columns}
       pagination={pagination}
       onChange={onTableChange}
       search={search}
+      isSelectable={true}
+      selection={{
+        onSelectionChange: (selectedHistories) => {
+          handleSelectHistory(selectedHistories);
+        },
+      }}
     />
   );
 }

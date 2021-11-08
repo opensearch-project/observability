@@ -124,7 +124,7 @@ export const Explorer = ({
     getAvailableFields
   } = useFetchEvents({
     pplService,
-    requestParams
+    requestParams,
   });
   const {
     isVisLoading,
@@ -132,7 +132,7 @@ export const Explorer = ({
     getCountVisualizations
   } = useFetchVisualizations({
     pplService,
-    requestParams
+    requestParams,
   });
 
   const query = useSelector(selectQueries)[tabId];
@@ -274,12 +274,16 @@ export const Explorer = ({
       }).catch((error: any) => {
         console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
-      if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
+      if (
+          savedTimestamps?.observabilityObjectList && 
+          savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
+        ) {
         // from saved objects
         hasSavedTimestamp = true;
         curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
       } else {
         // from index mappings
+        console.log('pick timestamp');
         hasSavedTimestamp = false;
         const timestamps = await timestampUtils.getTimestamp(curIndex);
         curTimestamp = timestamps!.default_timestamp;

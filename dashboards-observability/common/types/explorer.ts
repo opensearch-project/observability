@@ -64,6 +64,12 @@ export interface IExplorerFields {
   [QUERIED_FIELDS]: Array<IField>;
 }
 
+export type EmptyTabParams = {
+  tabIds: Array<string> | undefined,
+  queries: any | undefined,
+  explorerData: any | undefined
+};
+
 export interface ILogExplorerProps {
   pplService: PPLService;
   dslService: DSLService;
@@ -76,4 +82,6 @@ export interface ILogExplorerProps {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
+  savedObjectId: string;
+  getExistingEmptyTab: (params: EmptyTabParams) => string;
 }

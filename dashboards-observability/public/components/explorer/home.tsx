@@ -11,7 +11,7 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement, useRef } from 'react';
+import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -29,6 +29,8 @@ import {
   EuiPopover,
   EuiContextMenuPanel,
   EuiContextMenuItem,
+  EuiOverlayMask,
+
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
 import {
@@ -40,7 +42,8 @@ import {
   SELECTED_FIELDS,
 } from '../../../common/constants/explorer';
 import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
-import { useEffect } from 'react';
+import { EmptyTabParams } from '../../../common/types/explorer';
+import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
 import { init as initFields } from './slices/field_slice';
@@ -51,6 +54,7 @@ import {
 import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
 import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
+import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 
 interface IHomeProps {
   pplService: any;
@@ -62,6 +66,8 @@ interface IHomeProps {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
+  getExistingEmptyTab: (params: EmptyTabParams) => string;
+  http: HttpStart;
 }
 
 export const Home = (props: IHomeProps) => {
@@ -89,9 +95,20 @@ export const Home = (props: IHomeProps) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
   const [savedHistories, setSavedHistories] = useState([]);
+  const [selectedHisotries, setSelectedHisotries] = useState([]);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  
   const fetchHistories = async () => {
     const res = await savedObjects.fetchSavedObjects({
       objectType: ['savedQuery', 'savedVisualization'],
@@ -101,20 +118,23 @@ export const Home = (props: IHomeProps) => {
     setSavedHistories(res['observabilityObjectList']);
   };
 
-  const deleteHistoryById = async(objectId: string, name: string) => {
+  const deleteHistoryList = async() => {
+    const objectIdsToDelete = selectedHisotries.map((history) => history.data.objectId);
     await savedObjects
-          .deleteSavedObjectsById({ objectId })
+          .deleteSavedObjectsList({ objectIdList: objectIdsToDelete })
           .then(async (res) => {
             setSavedHistories((staleHistories) => {
               return staleHistories.filter((his) => {
-                return his.objectId !== objectId;
+                return !objectIdsToDelete.includes(his.objectId);
               });
             });
-            setToast(`History '${name}' has been successfully deleted.`, 'success');
+            setToast(`Histories has been successfully deleted.`, 'success');
           })
           .catch((error) => { 
-            console.log('delete error: ', error); 
-            setToast(`Cannot delete history '${name}', error: ${error.message}`, 'danger');
+            setToast(`Cannot delete Histories, error: ${error.message}`, 'danger');
+          })
+          .finally(() => {
+            closeModal();
           });
   };
 
@@ -183,7 +203,7 @@ export const Home = (props: IHomeProps) => {
             search: 'opensearch_dashboards_sample_data_flights',
           },
         })
-        .then((resp) => resp.total === 0);
+        .then((resp: any) => resp.total === 0);
       const logs = await http
         .get('../api/saved_objects/_find', {
           query: {
@@ -192,24 +212,24 @@ export const Home = (props: IHomeProps) => {
             search: 'opensearch_dashboards_sample_data_logs',
           },
         })
-        .then((resp) => resp.total === 0);
+        .then((resp: any) => resp.total === 0);
       if (flights || logs) setToast('Adding sample data. This can take some time.');
       await Promise.all([
         flights ? http.post('../api/sample_data/flights') : Promise.resolve(),
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
-      let histories;
+
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
-        .then(async (resp) => {
+        .then(async (resp: any) => {
           const res = await savedObjects.fetchSavedObjects({
+            objectIdList: resp?.savedObjectIds || [],
             objectType: ['savedQuery', 'savedVisualization'],
             sortOrder: 'desc',
             fromIndex: 0
-          }); 
-          histories = [...res['observabilityObjectList']];
-          setSavedHistories(() => {
-            return histories;
+          });
+          setSavedHistories((staleHistoryList) => {
+            return [...res['observabilityObjectList'], ...staleHistoryList];
           });
         });
       setToast(`Sample events added successfully.`);
@@ -232,7 +252,30 @@ export const Home = (props: IHomeProps) => {
     </EuiButton>
   );
 
+  const deleteHistory = () => {
+    const customPanelString = `${selectedHisotries.length > 1 ? 'histories' : 'history'}`;
+    setModalLayout(
+      <DeletePanelModal
+        onConfirm={deleteHistoryList}
+        onCancel={closeModal}
+        title={`Delete ${selectedHisotries.length} ${customPanelString}`}
+        message={`Are you sure you want to delete the selected ${selectedHisotries.length} ${customPanelString}?`}
+      />
+    );
+    showModal();
+  };
+
   const popoverItems: ReactElement[] = [
+    <EuiContextMenuItem
+      key="delete"
+      disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        deleteHistory();
+      }}
+    >
+      Delete
+    </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="redirect"
       onClick={() => {
@@ -254,73 +297,77 @@ export const Home = (props: IHomeProps) => {
   ];
 
   return (
-    <EuiPage>
-      <EuiPageBody>
-        <EuiPageHeader>
-          <EuiPageHeaderSection>
-            <EuiTitle size="l">
-              <h1>Event Analytics</h1>
-            </EuiTitle>
-          </EuiPageHeaderSection>
-        </EuiPageHeader>
-        <EuiPageContent id="event-home">
-          <EuiFlexGroup gutterSize="s">
-            <EuiFlexItem>
-              <Search
-                query={ searchQuery }
-                handleQueryChange={ handleQueryChange }
-                handleQuerySearch={ handleQuerySearch }
-                handleTimePickerChange={ handleTimePickerChange }
-                pplService={ pplService }
-                dslService={ dslService }
-                startTime={ selectedDateRange[0] }
-                endTime={ selectedDateRange[1] }
-                setStartTime={ () => {} }
-                setEndTime={ () => {} }
-                setIsOutputStale={ () => {} }
-                liveStreamChecked={ false }
-                onLiveStreamChange={ () => {} }
-                showSaveButton={ false }
-                runButtonText="New Query"
-              />
-            </EuiFlexItem>
-          </EuiFlexGroup>
-          <EuiSpacer size='m' />
-          <EuiPageHeaderSection>
-            <EuiFlexGroup 
-              gutterSize="s"
-              justifyContent="spaceBetween"
-            >
-              <EuiFlexItem grow={false}>
-                <EuiTitle size="s">
-                  <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
-                </EuiTitle>
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiPopover
-                  panelPaddingSize="none"
-                  button={popoverButton}
-                  isOpen={isActionsPopoverOpen}
-                  closePopover={() => setIsActionsPopoverOpen(false)}
-                >
-                  <EuiContextMenuPanel items={popoverItems} />
-                </EuiPopover>
+    <>
+      <EuiPage>
+        <EuiPageBody>
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>Event Analytics</h1>
+              </EuiTitle>
+            </EuiPageHeaderSection>
+          </EuiPageHeader>
+          <EuiPageContent id="event-home">
+            <EuiFlexGroup gutterSize="s">
+              <EuiFlexItem>
+                <Search
+                  query={ searchQuery }
+                  handleQueryChange={ handleQueryChange }
+                  handleQuerySearch={ handleQuerySearch }
+                  handleTimePickerChange={ handleTimePickerChange }
+                  pplService={ pplService }
+                  dslService={ dslService }
+                  startTime={ selectedDateRange[0] }
+                  endTime={ selectedDateRange[1] }
+                  setStartTime={ () => {} }
+                  setEndTime={ () => {} }
+                  setIsOutputStale={ () => {} }
+                  liveStreamChecked={ false }
+                  onLiveStreamChange={ () => {} }
+                  showSaveButton={ false }
+                  runButtonText="New Query"
+                />
               </EuiFlexItem>
             </EuiFlexGroup>
-          </EuiPageHeaderSection>
-          <EuiSpacer size="m" />
-          <EuiFlexGroup>
-            <EuiFlexItem grow={ true }>
-              <EventHomeHistories
-                handleDeleteHistory={deleteHistoryById}
-                savedHistories={savedHistories}
-                handleHistoryClick={handleHistoryClick}
-                isTableLoading={isTableLoading}
-              />
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </EuiPageContent>
-      </EuiPageBody>
-    </EuiPage>
+            <EuiSpacer size='m' />
+            <EuiPageHeaderSection>
+              <EuiFlexGroup 
+                gutterSize="s"
+                justifyContent="spaceBetween"
+              >
+                <EuiFlexItem grow={false}>
+                  <EuiTitle size="s">
+                    <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
+                  </EuiTitle>
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    panelPaddingSize="none"
+                    button={popoverButton}
+                    isOpen={isActionsPopoverOpen}
+                    closePopover={() => setIsActionsPopoverOpen(false)}
+                  >
+                    <EuiContextMenuPanel items={popoverItems} />
+                  </EuiPopover>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPageHeaderSection>
+            <EuiSpacer size="m" />
+            <EuiFlexGroup>
+              <EuiFlexItem grow={true}>
+                <EventHomeHistories
+                  savedHistories={savedHistories}
+                  handleHistoryClick={handleHistoryClick}
+                  isTableLoading={isTableLoading}
+                  handleSelectHistory={setSelectedHisotries}
+                  selectedHisotries={selectedHisotries}
+                />
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiPageContent>
+        </EuiPageBody>
+      </EuiPage>
+      {isModalVisible && modalLayout}
+    </>
   );
 };

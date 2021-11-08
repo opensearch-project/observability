@@ -40,11 +40,11 @@ interface IFetchEventsParams {
 
 export const useFetchEvents = ({
   pplService,
-  requestParams
+  requestParams,
 }: IFetchEventsParams) => {
   
   const dispatch = useDispatch();
-  const [isEventsLoading, setIsEventsLoading] = useState<boolean>(false);
+  const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
   const queriesRef = useRef();
   queriesRef.current = queries;
@@ -64,6 +64,7 @@ export const useFetchEvents = ({
     })
     .catch((err: any) => {
       console.error(err);
+      setToast();
     })
     .finally(() => {
       setIsEventsLoading(false);
