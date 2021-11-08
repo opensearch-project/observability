@@ -307,7 +307,7 @@ export const Home = (props: IHomeProps) => {
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
-          <EuiPageContent id="event-home">
+          <EuiPageContent className="event-home">
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem>
                 <Search
@@ -330,7 +330,10 @@ export const Home = (props: IHomeProps) => {
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size='m' />
-            <EuiPageHeaderSection>
+          </EuiPageContent>
+          <EuiSpacer size='m' />
+          <EuiPageContent className="event-home">
+          <EuiPageHeaderSection>
               <EuiFlexGroup 
                 gutterSize="s"
                 justifyContent="spaceBetween"
