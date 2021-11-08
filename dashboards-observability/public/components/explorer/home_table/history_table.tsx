@@ -14,7 +14,7 @@ import {
   EuiLink,
   EuiInMemoryTable,
   EuiIcon,
-  EuiLoadingChart
+  EuiFieldSearch
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
@@ -55,7 +55,7 @@ export function Histories({
         if (item == 'Visualization') {
           return (
             <div>
-              <EuiLoadingChart size="m" />
+              <EuiIcon type="visBarVerticalStacked" size="m" />
             </div>
           );
         } else {
@@ -128,7 +128,7 @@ export function Histories({
           name: i,
           view: i,
         })),
-      },
+      }
     ],
   };
 

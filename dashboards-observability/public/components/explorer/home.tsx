@@ -340,7 +340,7 @@ export const Home = (props: IHomeProps) => {
               >
                 <EuiFlexItem grow={false}>
                   <EuiTitle size="s">
-                    <h1 id='home-his-title'>{ "Queries and Visualizations" }</h1>
+                    <h1 id='home-his-title'>{ "Queries and Visualizations" } {`(${savedHistories.length})`}</h1>
                   </EuiTitle>
                 </EuiFlexItem>
                 <EuiFlexItem grow={false}>

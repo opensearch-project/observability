@@ -283,7 +283,6 @@ export const Explorer = ({
         curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
       } else {
         // from index mappings
-        console.log('pick timestamp');
         hasSavedTimestamp = false;
         const timestamps = await timestampUtils.getTimestamp(curIndex);
         curTimestamp = timestamps!.default_timestamp;
