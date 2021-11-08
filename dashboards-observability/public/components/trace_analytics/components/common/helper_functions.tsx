@@ -167,7 +167,7 @@ export function getServiceMapGraph(
       id: map[service].id,
       label: service,
       size: service === currService ? 30 : 15,
-      title: `<p>${service}</p><p>${message}</p>`,
+      title: `${service}\n\n${message}`,
       ...styleOptions,
     };
   });

@@ -143,13 +143,6 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@egjs/hammerjs@^2.0.15":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
-  integrity sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==
-  dependencies:
-    "@types/hammerjs" "^2.0.36"
-
 "@hypnosphi/create-react-context@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@hypnosphi/create-react-context/-/create-react-context-0.3.1.tgz#f8bfebdc7665f5d426cba3753e0e9c7d3154d7c6"
@@ -244,11 +237,6 @@
   dependencies:
     "@types/cheerio" "*"
     "@types/react" "*"
-
-"@types/hammerjs@^2.0.36":
-  version "2.0.40"
-  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.40.tgz#ded0240b6ea1ad7afc1e60374c49087aaea5dbd8"
-  integrity sha512-VbjwR1fhsn2h2KXAY4oy1fm7dCxaKy0D+deTb8Ilc3Eo3rc5+5eA4rfYmZaHgNJKxVyI0f6WIXzO2zLkVmQPHA==
 
 "@types/hast@^2.0.0":
   version "2.3.4"
@@ -733,11 +721,6 @@ common-tags@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.0.tgz#8e3153e542d4a39e9b10554434afaaf98956a937"
   integrity sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw==
-
-component-emitter@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
-  integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -1900,11 +1883,6 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-keycharm@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/keycharm/-/keycharm-0.2.0.tgz#fa6ea2e43b90a68028843d27f2075d35a8c3e6f9"
-  integrity sha1-+m6i5DuQpoAohD0n8gddNajD5vk=
-
 lazy-ass@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/lazy-ass/-/lazy-ass-1.6.0.tgz#7999655e8646c17f089fdd187d150d3324d54513"
@@ -2089,12 +2067,7 @@ mkdirp@^0.5.1, mkdirp@^0.5.4:
   dependencies:
     minimist "^1.2.5"
 
-moment@2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
-
-moment@^2.24.0, moment@^2.27.0:
+moment@^2.27.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -2452,14 +2425,15 @@ react-base16-styling@^0.7.0:
     pure-color "^1.3.0"
 
 react-graph-vis@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-graph-vis/-/react-graph-vis-1.0.5.tgz#4aee3130db73a69a577a99e30a9126bd0e6d59cd"
-  integrity sha512-y7+eHcwj7GryRoY+ZawwsDmS8OMeJ8Gpzmzejqwz+T2qg6IYTk1bod42H5g3J2zzHcPaqAZpwxZG3d3YB4nBwQ==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-graph-vis/-/react-graph-vis-1.0.7.tgz#55b934100c5235e7cc0e8721646c21246e4b7d75"
+  integrity sha512-FI35zlBMKU22JEvG1ukd1DDwW185y4YrDvHm6Bom9EGdA+UNMrZrIV/lyPIRWPcRkzbKaA1w1NvOYcRApD4KdQ==
   dependencies:
     lodash "^4.17.15"
     prop-types "^15.5.10"
     uuid "^2.0.1"
-    vis-network "^5.1.1"
+    vis-data "^7.1.2"
+    vis-network "^9.0.0"
 
 react-is@^16.13.1, react-is@^16.8.1, react-is@^16.8.6:
   version "16.13.1"
@@ -2971,11 +2945,6 @@ through@^2.3.6:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
-timsort@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
-  integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
-
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -3204,36 +3173,15 @@ vfile@^2.0.0:
     unist-util-stringify-position "^1.0.0"
     vfile-message "^1.0.0"
 
-vis-data@^6.1.1:
-  version "6.6.1"
-  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-6.6.1.tgz#2aa52e46c305ad46bb7abe6e7634e2eecd743b15"
-  integrity sha512-xmujDB2Dzf8T04rGFJ9OP4OA6zRVrz8R9hb0CVKryBrZRCljCga9JjSfgctA8S7wdZu7otDtUIwX4ZOgfV/57w==
+vis-data@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-7.1.2.tgz#b7d076ac79cb54f7c5e9c80f5b03b93cc8cc1fda"
+  integrity sha512-RPSegFxEcnp3HUEJSzhS2vBdbJ2PSsrYYuhRlpHp2frO/MfRtTYbIkkLZmPkA/Sg3pPfBlR235gcoKbtdm4mbw==
 
-vis-network@^5.1.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/vis-network/-/vis-network-5.4.1.tgz#e0e33d23775e834f4cfd961bd7b92bf11df097c6"
-  integrity sha512-hUJlFWoCmLup6IxoXCr//OO2ZCkC8jrXEkkHLG1DhBgB54Y3K33+e5q4tc436inMlGzfqqaKTIToNbOGr8Szww==
-  dependencies:
-    "@egjs/hammerjs" "^2.0.15"
-    component-emitter "^1.3.0"
-    keycharm "^0.2.0"
-    moment "^2.24.0"
-    timsort "^0.3.0"
-    vis-data "^6.1.1"
-    vis-util "^1.1.6"
-
-vis-util@^1.1.6:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/vis-util/-/vis-util-1.1.10.tgz#1c0ebb17ad5139959122dcd12aae54a4e173846a"
-  integrity sha512-8hGSxsFi2ogYYweClQyITzWnirWgQ8p0i9M4d3OXMuUO8vjXrf+2zHOYI9OZbtUduxAWuMEePnS9BXDtPJmJ7Q==
-  dependencies:
-    moment "2.24.0"
-    vis-uuid "1.1.3"
-
-vis-uuid@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/vis-uuid/-/vis-uuid-1.1.3.tgz#2f53ff35e9e026b0ec93bc433ce685c40c2f784c"
-  integrity sha512-2B6XdY1bkzbUh+TugmnAaFa61KO9R5pzBzIuFIm8a9FrkbxIdSmQXV+FbfkL8QunkQV/bT0JDLQ2puqCS2+0Og==
+vis-network@^9.0.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/vis-network/-/vis-network-9.1.0.tgz#511db833b68060f279bedc4a852671261d40204e"
+  integrity sha512-rx96L144RJWcqOa6afjiFyxZKUerRRbT/YaNMpsusHdwzxrVTO2LlduR45PeJDEztrAf3AU5l2zmiG+1ydUZCw==
 
 warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"
