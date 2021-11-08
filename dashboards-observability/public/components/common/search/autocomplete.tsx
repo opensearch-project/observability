@@ -30,10 +30,12 @@ let currField: string = '';
 let currFieldType: string = '';
 
 let inFieldsCommaLoop: boolean = false;
+let inMatch: boolean = false;
 let nextWhere: number = Number.MAX_SAFE_INTEGER;
 let nextStats: number = Number.MAX_SAFE_INTEGER;
 
 const indexList: string[] = [];
+const fieldList: string[] = [];
 const fieldsFromBackend: [] = [];
 const indicesFromBackend: [] = [];
 
@@ -103,6 +105,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
   } else if (splittedModel.length > 1) {
     if (splittedModel[splittedModel.length - 2] === '|') {
       inFieldsCommaLoop = false;
+      inMatch = false;
       nextWhere = Number.MAX_SAFE_INTEGER;
       nextStats = Number.MAX_SAFE_INTEGER;
       currField = '';
@@ -110,6 +113,14 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
       if (inFieldsCommaLoop) {
         return fillSuggestions(str, prefix, fieldsFromBackend);
+      }
+      if (inMatch) {
+        inMatch = true;
+        return fillSuggestions(
+          str, 
+          prefix,
+          await getDataValues(currIndex, currField, currFieldType, dslService)
+        );
       }
       return fullSuggestions;
     } else if (
@@ -129,6 +140,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       getFields(dslService);
       return [{ label: str + '|', input: str, suggestion: '|' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
+      );
+    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
+      inMatch = true;
+      currField = splittedModel[splittedModel.length - 2];
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
+      return [{ label: str + ',', input: str, suggestion: ','}].filter(
+        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
       return fillSuggestions(str, prefix, [{ label: 'source' }]);
@@ -166,6 +184,9 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (splittedModel[splittedModel.length - 2] === 'where') {
       nextWhere = splittedModel.length;
+      return fillSuggestions(str, prefix, [{label: 'match('}, ...fieldsFromBackend]);
+    } else if (splittedModel[splittedModel.length - 2] === 'match(') {
+      inMatch = true;
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (nextWhere === splittedModel.length - 1) {
       fullSuggestions.push({
@@ -183,7 +204,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         prefix,
         await getDataValues(currIndex, currField, currFieldType, dslService)
       );
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
+    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
       );
@@ -197,6 +218,11 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         },
         { label: str + '|', input: str, suggestion: '|', item: ',' },
       ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
+    } else if (inMatch) {
+      inMatch = false;
+      return [{ label: str + ')', input: str, suggestion: ')' }].filter(
+      ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+    );
     }
     return [];
   }
@@ -227,6 +253,7 @@ const getFields = async (dslService: DSLService) => {
           type: res?.[currIndex].mappings.properties[element].type,
         });
       }
+      fieldList.push(element);
     }
   }
 };

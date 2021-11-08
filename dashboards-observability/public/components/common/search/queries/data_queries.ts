@@ -10,7 +10,7 @@
 */
 
 export const getDataValueQuery = (index: string, field: string) => {
-  const query ={
+  const query = {
     index: index,
     'size': 0,
     'aggs': {
