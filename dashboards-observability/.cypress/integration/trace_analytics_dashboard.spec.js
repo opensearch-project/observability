@@ -88,7 +88,7 @@ describe('Dump test data', () => {
 
 describe('Testing dashboard table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/home', {
+    cy.visit('app/observability-dashboards#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -104,7 +104,7 @@ describe('Testing dashboard table empty state', () => {
 
 describe('Testing dashboard table', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/home', {
+    cy.visit('app/observability-dashboards#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -163,7 +163,7 @@ describe('Testing dashboard table', () => {
 
 describe('Testing plots', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/home', {
+    cy.visit('app/observability-dashboards#/trace_analytics/home', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },

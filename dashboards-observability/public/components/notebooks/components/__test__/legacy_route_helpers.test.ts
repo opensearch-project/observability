@@ -32,9 +32,9 @@ describe('Test legacy route helpers', () => {
       },
     ] as Location[];
     const expected = [
-      '/app/observability#/notebooks/GQ5icXwBJCegTOBKO4Um',
-      '/app/observability#/notebooks/clPiPXwBEM7l9gC0xTpA?view=view_both',
-      `/testBasePath/app/observability#/notebooks/GQ5icXwBJCegTOBKO4Um?_g=(time:(from:'2021-10-15T20:25:09.556Z',to:'2021-10-15T20:55:09.556Z'))&view=output_only&security_tenant=global`,
+      '/app/observability-dashboards#/notebooks/GQ5icXwBJCegTOBKO4Um',
+      '/app/observability-dashboards#/notebooks/clPiPXwBEM7l9gC0xTpA?view=view_both',
+      `/testBasePath/app/observability-dashboards#/notebooks/GQ5icXwBJCegTOBKO4Um?_g=(time:(from:'2021-10-15T20:25:09.556Z',to:'2021-10-15T20:55:09.556Z'))&view=output_only&security_tenant=global`,
     ] as RedirectProps['to'][];
     expect(locations.map((location) => convertLegacyNotebooksUrl(location))).toEqual(expected);
   });

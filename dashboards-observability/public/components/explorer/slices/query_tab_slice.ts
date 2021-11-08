@@ -19,10 +19,12 @@ import {
   NEW_SELECTED_QUERY_TAB,
   REDUX_EXPL_SLICE_QUERY_TABS
 } from '../../../../common/constants/explorer';
+import { assign } from 'lodash';
 
 const initialState = {
   queryTabIds: [initialTabId],
-  selectedQueryTab: initialTabId
+  selectedQueryTab: initialTabId,
+  tabNames: {}
 };
 
 export const queryTabsSlice = createSlice({
@@ -40,6 +42,12 @@ export const queryTabsSlice = createSlice({
       });
       state[SELECTED_QUERY_TAB] = payload[NEW_SELECTED_QUERY_TAB];
     },
+    updateTabName: (state, { payload }) => {
+      const newTabNames = {
+        [payload.tabId]: payload.tabName
+      };
+      assign(state.tabNames, newTabNames);
+    },
     setSelectedQueryTab: (state, { payload }) => {
       state[SELECTED_QUERY_TAB] = payload.tabId;
     }
@@ -50,7 +58,8 @@ export const queryTabsSlice = createSlice({
 export const {
   addTab,
   removeTab,
-  setSelectedQueryTab
+  setSelectedQueryTab,
+  updateTabName
 } = queryTabsSlice.actions;
 
 export const selectQueryTabs = (state) => state.explorerTabs;

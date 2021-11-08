@@ -51,7 +51,7 @@ export const NoResults = () => {
                 <FormattedMessage
                   id="discover.noResults.queryMayNotMatchTitle"
                   defaultMessage="Your query may not match anything in the current time range, or there may not be any data at all in
-                    the currently selected time range. You can try changing the time range or query filters."
+                    the currently selected time range. Try change time range, query filters or choose different time fields"
                 />
               </p>
             </EuiText>
