@@ -537,7 +537,9 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           {props.selectedViewId !== 'input_only' && isOutputAvailable && (
             <>
               <EuiHorizontalRule margin="none" />
-              <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>{paraOutput}</div>
+              <div style={{ opacity: para.isOutputStale ? 0.5 : 1, padding: '15px' }}>
+                {paraOutput}
+              </div>
             </>
           )}
         </div>
