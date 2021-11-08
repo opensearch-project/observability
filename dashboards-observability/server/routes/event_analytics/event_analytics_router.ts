@@ -45,12 +45,15 @@ export const registerEventAnalyticsRouter = ({
       body: {
         ...savedRes['data']
       }
-    };   
+    };
     
-    if (savedRes['success']) return res.ok(result);
+    if (
+      savedRes['success'] ||
+      savedRes?.data?.statusCode === 404
+    ) return res.ok(result);
     
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -92,8 +95,8 @@ export const registerEventAnalyticsRouter = ({
 
     if (savedRes['success']) return res.ok(result);
     
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -136,8 +139,8 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -178,8 +181,8 @@ export const registerEventAnalyticsRouter = ({
       }
     };   
     if (savedRes['success']) return res.ok(result);
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -221,8 +224,8 @@ export const registerEventAnalyticsRouter = ({
       }
     };   
     if (updateRes['success']) return res.ok(result);
-    result['statusCode'] = 500;
-    result['message'] = updateRes['data'];
+    result['statusCode'] = updateRes?.data?.statusCode || 500;
+    result['message'] = updateRes?.data || '';
     return res.custom(result);
   });
 
@@ -251,8 +254,8 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -284,8 +287,8 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -294,7 +297,7 @@ export const registerEventAnalyticsRouter = ({
       path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
       validate: {
         body: schema.object({
-          objectId: schema.string()
+          objectIdList: schema.string()
         }),
       },
     },
@@ -311,8 +314,8 @@ export const registerEventAnalyticsRouter = ({
         }
       };
       if (deleteResponse['success']) return res.ok(result);
-      result['statusCode'] = 500;
-      result['message'] = deleteResponse['data'];
+      result['statusCode'] = deleteResponse?.data?.statusCode || 500;
+      result['message'] = deleteResponse?.data || '';
       return res.custom(result);
     }
   );
@@ -336,8 +339,8 @@ export const registerEventAnalyticsRouter = ({
 
       if (savedRes['success']) return res.ok(result);
 
-      result['statusCode'] = 500;
-      result['message'] = savedRes['data'];
+      result['statusCode'] = savedRes?.data?.statusCode || 500;
+      result['message'] = savedRes?.data || '';
       return res.custom(result);
     }
   );
