@@ -141,7 +141,7 @@ export function ServiceMapScale(props: {
               />
             </EuiFlexItem>
             <EuiFlexItem grow={false} style={{ marginRight: -30, marginLeft: -10 }}>
-              <EuiText style={{ transform: 'rotate(-90deg)', fontSize: '14px', color: '#444444' }}>
+              <EuiText style={{ transform: 'rotate(-90deg)', fontSize: '14px', color: '#808080' }}>
                 No match
               </EuiText>
             </EuiFlexItem>

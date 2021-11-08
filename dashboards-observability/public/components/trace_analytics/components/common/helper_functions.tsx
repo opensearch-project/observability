@@ -34,6 +34,7 @@ import {
   DATA_PREPPER_SERVICE_INDEX_NAME,
   TRACE_ANALYTICS_DOCUMENTATION_LINK,
 } from '../../../../../common/constants/trace_analytics';
+import { uiSettingsService } from '../../../../../common/utils';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -172,6 +173,7 @@ export function getServiceMapGraph(
     };
   });
   const edges: Array<{ from: number; to: number; color: string }> = [];
+  const edgeColor = uiSettingsService.get('theme:darkMode') ? '255, 255, 255' : '0, 0, 0';
   Object.keys(map).map((service) => {
     map[service].targetServices.map((target) => {
       edges.push({
@@ -179,8 +181,8 @@ export function getServiceMapGraph(
         to: map[target].id,
         color:
           relatedServices!.indexOf(service) >= 0 && relatedServices!.indexOf(target) >= 0
-            ? 'rgba(0, 0, 0, 1)'
-            : 'rgba(0, 0, 0, 0.3)',
+            ? `rgba(${edgeColor}, 1)`
+            : `rgba(${edgeColor}, 0.3)`,
       });
     });
   });
