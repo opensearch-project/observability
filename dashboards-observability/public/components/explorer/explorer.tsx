@@ -125,7 +125,6 @@ export const Explorer = ({
   } = useFetchEvents({
     pplService,
     requestParams,
-    setToast
   });
   const {
     isVisLoading,
@@ -134,7 +133,6 @@ export const Explorer = ({
   } = useFetchVisualizations({
     pplService,
     requestParams,
-    setToast
   });
 
   const query = useSelector(selectQueries)[tabId];

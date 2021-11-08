@@ -41,7 +41,6 @@ interface IFetchEventsParams {
 export const useFetchEvents = ({
   pplService,
   requestParams,
-  setToast
 }: IFetchEventsParams) => {
   
   const dispatch = useDispatch();
