@@ -41,7 +41,6 @@ import {
   EuiText,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { Cell } from '@nteract/presentational-components';
 import moment from 'moment';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
@@ -487,7 +486,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
           index
         )}
-        <Cell key={index} onClick={() => paragraphSelector(index)}>
+        <div key={index} onClick={() => paragraphSelector(index)}>
           {para.isInputExpanded && (
             <>
               <EuiSpacer size="s" />
@@ -536,7 +535,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
               <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>{paraOutput}</div>
             </>
           )}
-        </Cell>
+        </div>
       </EuiPanel>
     </>
   );

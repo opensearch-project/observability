@@ -27,7 +27,6 @@
 import { EuiCodeBlock, EuiSpacer, EuiText } from '@elastic/eui';
 import MarkdownRender from '@nteract/markdown';
 import { Media } from '@nteract/outputs';
-import { Outputs } from '@nteract/presentational-components';
 import moment from 'moment';
 import React, { useState } from 'react';
 import {
@@ -166,10 +165,11 @@ export const ParaOutput = (props: {
   const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
 
   return (
-    <Outputs hidden={para.isOutputHidden}>
-      {para.typeOut.map((typeOut: string, tIdx: number) =>
-        outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
-      )}
-    </Outputs>
+    <>
+      {!para.isOutputHidden &&
+        para.typeOut.map((typeOut: string, tIdx: number) =>
+          outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
+        )}
+    </>
   );
 };

@@ -27,6 +27,7 @@
 import {
   EuiButton,
   EuiButtonEmpty,
+  EuiCodeBlock,
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
@@ -46,7 +47,7 @@ import {
   EuiText,
   EuiTextArea,
 } from '@elastic/eui';
-import { Input, Prompt, Source } from '@nteract/presentational-components';
+import { Input, Prompt } from '@nteract/presentational-components';
 import { uiSettingsService } from '../../../../../common/utils';
 import React, { useState } from 'react';
 import { ParaType } from '../../../../../common/types/notebooks';
@@ -86,7 +87,7 @@ export const ParaInput = (props: {
 
   const renderParaInput = () => {
     return (
-      <Source language={para.lang}>
+      <>
         {/* If the para is selected show the editor else display the code in the paragraph */}
         {para.isSelected ? (
           <EuiTextArea
@@ -104,9 +105,15 @@ export const ParaInput = (props: {
             autoFocus
           />
         ) : (
-          para.inp
+          <EuiCodeBlock
+            language={para.inp.slice(0, 4) === '%sql' ? 'sql' : 'md'}
+            paddingSize="s"
+            isCopyable
+          >
+            {para.inp}
+          </EuiCodeBlock>
         )}
-      </Source>
+      </>
     );
   };
 

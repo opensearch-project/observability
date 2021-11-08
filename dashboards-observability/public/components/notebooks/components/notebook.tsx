@@ -43,7 +43,6 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { Cells } from '@nteract/presentational-components';
 import CSS from 'csstype';
 import moment from 'moment';
 import queryString from 'query-string';
@@ -995,7 +994,6 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             </EuiFlexGroup>
             {this.state.parsedPara.length > 0 ? (
               <>
-                <Cells>
                   <PanelWrapper>
                     {this.state.parsedPara.map((para: ParaType, index: number) => (
                       <div
@@ -1031,7 +1029,6 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                       </div>
                     ))}
                   </PanelWrapper>
-                </Cells>
                 {this.state.selectedViewId !== 'output_only' && (
                   <EuiPopover
                     panelPaddingSize="none"
