@@ -396,7 +396,7 @@ export function Autocomplete({
               const { source, items } = collection;
               const filteredItems = items.filter((item, index) => { return items.findIndex(i => i.itemName === item.itemName) === index })
               return (
-                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
+                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24', border: '2px groove #383444'} : {}}>
                   <div key={`source-${index}`} className="aa-Source">
                     {items.length > 0 && (
                       <ul className="aa-List" {...autocomplete.getListProps()}>
