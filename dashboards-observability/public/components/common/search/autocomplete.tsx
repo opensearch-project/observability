@@ -23,10 +23,9 @@ import {
 import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
-import { RAW_QUERY } from 'common/constants/explorer';
 
 let currIndex: string = '';
 let currField: string = '';
