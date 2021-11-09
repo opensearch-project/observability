@@ -14,7 +14,7 @@ import './search.scss';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import { 
+import {
   EuiFlexGroup,
   EuiButton,
   EuiFlexItem,
@@ -22,7 +22,7 @@ import {
   EuiButtonEmpty,
   EuiPopoverFooter,
   EuiIcon,
-  EuiButtonIcon
+  EuiButtonIcon,
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -30,6 +30,7 @@ import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
 import { useCallback } from 'react';
+import { PPLReferenceFlyout } from '../helpers';
 
 export interface IQueryBarProps {
   query: string;
@@ -73,18 +74,32 @@ export const Search = (props: any) => {
     showSavePanelOptionsList,
     showSaveButton = true,
     setToast,
-    runButtonText
+    runButtonText,
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
+  const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
+
+  const closeFlyout = () => {
+    setIsFlyoutVisible(false);
+  };
+
+  const showFlyout = () => {
+    setIsFlyoutVisible(true);
+  };
+
+  let flyout;
+  if (isFlyoutVisible) {
+    flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
+  }
 
   const saveButton = (
     <EuiButton
       onClick={() => {
-                setIsSavePanelOpen((staleState) => {
-                  return !staleState;
-                })
-              }}
+        setIsSavePanelOpen((staleState) => {
+          return !staleState;
+        });
+      }}
       data-test-subj="saved-query-management-popover-button"
     >
       <EuiIcon size="m" type="save" className="euiQuickSelectPopover__buttonText" />
@@ -94,12 +109,10 @@ export const Search = (props: any) => {
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems='center'>
-        <EuiFlexItem
-          key="search-bar"
-        >
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="center">
+        <EuiFlexItem key="search-bar">
           <Autocomplete
-            key={"autocomplete-search-bar"}
+            key={'autocomplete-search-bar'}
             query={query}
             tempQuery={tempQuery}
             handleQueryChange={handleQueryChange}
@@ -108,11 +121,14 @@ export const Search = (props: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-        <EuiButtonIcon aria-label="ppl-info" iconType="iInCircle" iconSize="l" target="_blank" href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"/>
+          <EuiButtonIcon
+            aria-label="ppl-info"
+            iconType="questionInCircle"
+            iconSize="l"
+            onClick={showFlyout}
+          />
         </EuiFlexItem>
-        <EuiFlexItem
-          className="euiFlexItem--flexGrowZero event-date-picker"
-        >
+        <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker
             startTime={startTime}
             endTime={endTime}
@@ -121,64 +137,55 @@ export const Search = (props: any) => {
             setIsOutputStale={setIsOutputStale}
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
-            handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
+            handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
           />
         </EuiFlexItem>
-        <EuiFlexItem
-          key={"search-run"}
-          className="euiFlexItem--flexGrowZero"
-        >
+        <EuiFlexItem key={'search-run'} className="euiFlexItem--flexGrowZero">
           <EuiButton
-            size='m'
-            iconType={ isEmpty(explorerData) ? 'play': 'refresh' }
-            fill={ isEmpty(explorerData) ? true : false }
+            size="m"
+            iconType={isEmpty(explorerData) ? 'play' : 'refresh'}
+            fill={isEmpty(explorerData) ? true : false}
             onClick={() => {
               handleQuerySearch();
             }}
           >
-            { runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh' }
+            {runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh'}
           </EuiButton>
         </EuiFlexItem>
-        { showSaveButton && (
+        {showSaveButton && (
           <>
-            <EuiFlexItem
-              key={"search-save-"}
-              className="euiFlexItem--flexGrowZero"
-            >
+            <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
-                button={ saveButton }
+                button={saveButton}
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
                 <SavePanel
-                  selectedOptions={ selectedCustomPanelOptions }
-                  handleNameChange={ setSelectedPanelName }
-                  handleOptionChange={ setSelectedCustomPanelOptions }
-                  savedObjects={ savedObjects }
-                  isTextFieldInvalid={ isPanelTextFieldInvalid }
-                  savePanelName={ selectedPanelName }
-                  showOptionList={ showSavePanelOptionsList }
+                  selectedOptions={selectedCustomPanelOptions}
+                  handleNameChange={setSelectedPanelName}
+                  handleOptionChange={setSelectedCustomPanelOptions}
+                  savedObjects={savedObjects}
+                  isTextFieldInvalid={isPanelTextFieldInvalid}
+                  savePanelName={selectedPanelName}
+                  showOptionList={showSavePanelOptionsList}
                 />
                 <EuiPopoverFooter>
-                  <EuiFlexGroup
-                    justifyContent="flexEnd"
-                  >
+                  <EuiFlexGroup justifyContent="flexEnd">
                     <EuiFlexItem grow={false}>
-                      <EuiButtonEmpty
-                        size="s"
-                        onClick={() => setIsSavePanelOpen(false)}>
-                        { "Cancel" }
+                      <EuiButtonEmpty size="s" onClick={() => setIsSavePanelOpen(false)}>
+                        {'Cancel'}
                       </EuiButtonEmpty>
                     </EuiFlexItem>
                     <EuiFlexItem grow={false}>
                       <EuiButton
                         size="s"
                         fill
-                        onClick={() => { 
+                        onClick={() => {
                           handleSavingObject();
                           setIsSavePanelOpen(false);
-                        }}>
-                        { "Save" }
+                        }}
+                      >
+                        {'Save'}
                       </EuiButton>
                     </EuiFlexItem>
                   </EuiFlexGroup>
@@ -188,6 +195,7 @@ export const Search = (props: any) => {
           </>
         )}
       </EuiFlexGroup>
+      {flyout}
     </div>
   );
 };

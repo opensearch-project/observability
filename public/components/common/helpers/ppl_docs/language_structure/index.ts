@@ -9,5 +9,5 @@
  * GitHub history for details.
  */
 
-export { formatNumWithCommas } from './format_number_with_commas';
-export { PPLReferenceFlyout } from './ppl_reference_flyout';
+export {pplDatatypes} from './datatypes';
+export {pplIdentifiers} from './identifiers';
