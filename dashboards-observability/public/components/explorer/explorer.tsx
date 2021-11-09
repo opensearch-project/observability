@@ -663,6 +663,8 @@ export const Explorer = ({
         await savedObjects.updateSavedQueryById(params)
         .then((res: any) => {
           setToast(`Query '${selectedPanelNameRef.current}' has been successfully updated.`, 'success');
+          fetchSavedResult();
+          fetchData();
           return res;
         })
         .catch((error: any) => {
@@ -699,6 +701,8 @@ export const Explorer = ({
         savingVisRes = await savedObjects.updateSavedVisualizationById(params)
         .then((res: any) => {
           setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully updated.`, 'success');
+          fetchSavedResult();
+          fetchData();
           return res;
         })
         .catch((error: any) => {
