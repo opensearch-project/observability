@@ -121,7 +121,7 @@ const pplServiceRequestor = async (
   await pplService
     .fetch({ query: finalQuery, format: 'viz' })
     .then((res) => {
-      if (res === undefined) setIsError('Please check the PPL Filter Value');
+      if (res === undefined) setIsError('Please check the validity of PPL Filter');
       setVisualizationData(res);
     })
     .catch((error: Error) => {
@@ -146,9 +146,8 @@ const fetchVisualizationById = async (
       savedVisualization = res.visualization;
     })
     .catch((err) => {
-      const errorMessage = 'Issue in fetching the saved Visualization by Id';
-      setIsError(errorMessage);
-      console.error(errorMessage, err);
+      setIsError(`Could not locate saved visualization id:${savedVisualizationId}`);
+      console.error('Issue in fetching the saved Visualization by Id', err);
     });
 
   return savedVisualization;
@@ -203,6 +202,11 @@ export const renderSavedVisualization = async (
 
   let visualization = {} as SavedVisualizationType;
   visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
+
+  if (_.isEmpty(visualization)) {
+    setIsLoading(false);
+    return;
+  }
 
   if (visualization.name) {
     setVisualizationTitle(visualization.name);
