@@ -10,7 +10,9 @@
  */
 
 import './search.scss';
+import $ from 'jquery';
 import React, {
+  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -24,6 +26,7 @@ import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty, isEqual } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
+import { RAW_QUERY } from 'common/constants/explorer';
 
 let currIndex: string = '';
 let currField: string = '';
@@ -178,11 +181,14 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
       return fullSuggestions.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
     } else if (nextWhere === splittedModel.length - 2) {
-      return fillSuggestions(
-        str,
-        prefix,
-        await getDataValues(currIndex, currField, currFieldType, dslService)
-      );
+      if (isEmpty(prefix)) {
+        return fillSuggestions(
+          str,
+          prefix,
+          await getDataValues(currIndex, currField, currFieldType, dslService)
+        );
+      }
+      return [];
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
       return [{ label: str + '|', input: str, suggestion: '|' }].filter(
         ({ label }) => label.startsWith(prefix) && prefix !== label
@@ -237,8 +243,7 @@ const getDataValues = async (
   fieldType: string,
   dslService: DSLService
 ) => {
-  const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags
-    .buckets;
+  const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
   const dataValuesFromBackend: [] = [];
   res.forEach((e: any) => {
     if (fieldType === 'string') {
@@ -274,7 +279,9 @@ type AutocompleteItem = {
 
 export function Autocomplete({
   query,
+  tempQuery,
   handleQueryChange,
+  handleQuerySearch,
   dslService
 }: IQueryBarProps) {
 
@@ -283,10 +290,23 @@ export function Autocomplete({
     completion: null,
     context: {},
     isOpen: false,
-    query: '',
+    query: tempQuery,
     activeItemId: null,
     status: 'idle',
   });
+
+  useEffect(() => {
+    $('#autocomplete-textarea').keypress((e) => {
+      const keycode = (e.keyCode ? e.keyCode : e.which);
+      if (keycode === 13 && e.shiftKey) {
+        handleQuerySearch();
+      }
+    });
+
+    return () => {
+      $('#autocomplete-textarea').unbind('keypress');
+    };
+  }, [tempQuery]);
 
   const autocomplete = useMemo(
     () => {
@@ -297,20 +317,15 @@ export function Autocomplete({
         React.KeyboardEvent
       >(
         {
-          onStateChange: async ({ state }) => {
-            if (
-              !isEqual(query, state.query) || 
-              isEmpty(query) && isEmpty(state.query)
-            ) {
-              setAutocompleteState({
-                ...state,
-              });
-              await handleQueryChange(state.query, currIndex);
-            }
+          onStateChange: ({ state }) => {
+            setAutocompleteState({
+              ...state,
+            });
+            handleQueryChange(state.query);
           },
           initialState: { 
             ...autocompleteState,
-            query, 
+            query,
           },
           getSources() {
             return [
@@ -336,7 +351,7 @@ export function Autocomplete({
   }, [query]);
 
   return (
-    <div 
+    <div
       className="aa-Autocomplete"
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >

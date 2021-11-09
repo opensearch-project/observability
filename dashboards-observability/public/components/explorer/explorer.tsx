@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
@@ -151,6 +151,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  const [tempQuery, setTempQuery] = useState('');
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -347,7 +348,7 @@ export const Explorer = ({
         [SELECTED_DATE_RANGE]: timeRange
       }
     }));
-    fetchData();
+    handleQuerySearch();
   }
 
   /**
@@ -447,7 +448,7 @@ export const Explorer = ({
       }
     }));
 
-    fetchData();
+    handleQuerySearch();
   };
 
   const getMainContent = () => {
@@ -639,16 +640,31 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = () => fetchData();
-
-  const handleQueryChange = async (query: string, index: string) => {
+  const updateQueryInStore = async (query: string) => {
+    // await handleQueryChange(query);
     await dispatch(changeQuery({
       tabId,
       query: {
         [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
-        [INDEX]: index
       },
     }));
+  };
+
+  const handleQuerySearch = useCallback(async () => {
+    console.log('handle query search......');
+    await updateQueryInStore(tempQuery);
+    fetchData();
+  }, [tempQuery]);
+
+  const handleQueryChange = async (query: string) => {
+    setTempQuery(query);
+    // await dispatch(changeQuery({
+    //   tabId,
+    //   query: {
+    //     [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
+    //     [INDEX]: index
+    //   },
+    // }));
   }
 
   const handleSavingObject = async () => {
@@ -768,8 +784,9 @@ export const Explorer = ({
       <Search
         key="search-component"
         query={ query[RAW_QUERY] }
-        handleQueryChange={ handleQueryChange }
-        handleQuerySearch={ () => { handleQuerySearch() } }
+        tempQuery={tempQuery}
+        handleQueryChange={handleQueryChange}
+        handleQuerySearch={handleQuerySearch}
         dslService = { dslService }
         startTime={ dateRange[0] }
         endTime={ dateRange[1] }
