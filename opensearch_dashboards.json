@@ -13,6 +13,7 @@
     "navigation",
     "uiActions",
     "dashboard",
-    "visualizations"
+    "visualizations",
+    "opensearchDashboardsReact"
   ]
 }

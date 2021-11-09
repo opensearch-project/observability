@@ -9,15 +9,15 @@
  * GitHub history for details.
  */
 
-import React, { useState, ReactChild } from 'react';
-import { isEmpty } from 'lodash';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { EuiGlobalToastList } from '@elastic/eui';
-import { LogExplorer } from './log_explorer';
-import { Home as EventExplorerHome } from './home';
-import { renderPageWithSidebar } from '../common/side_nav';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { isEmpty } from 'lodash';
+import React, { ReactChild, useState } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { RAW_QUERY } from '../../../common/constants/explorer';
+import { ObservabilitySideBar } from '../common/side_nav';
+import { Home as EventExplorerHome } from './home';
+import { LogExplorer } from './log_explorer';
 
 export const EventAnalytics = ({
   chrome,
@@ -29,7 +29,6 @@ export const EventAnalytics = ({
   http,
   ...props
 }: any) => {
-
   const [toasts, setToasts] = useState<Array<Toast>>([]);
 
   const eventAnalyticsBreadcrumb = {
@@ -46,10 +45,7 @@ export const EventAnalytics = ({
     let emptyTabId = '';
     for (let i = 0; i < tabIds.length; i++) {
       const tid = tabIds[i];
-      if (
-        isEmpty(queries[tid][RAW_QUERY]) &&
-        isEmpty(explorerData[tid])
-      ) {
+      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
         emptyTabId = tid;
         break;
       }
@@ -77,7 +73,7 @@ export const EventAnalytics = ({
                 {
                   text: 'Explorer',
                   href: `#/event_analytics/explorer`,
-                }
+                },
               ]);
               return (
                 <LogExplorer
@@ -104,17 +100,19 @@ export const EventAnalytics = ({
                 {
                   text: 'Home',
                   href: '#/event_analytics',
-                }
+                },
               ]);
-              return renderPageWithSidebar(
-                <EventExplorerHome 
-                  http={http}
-                  savedObjects={savedObjects}
-                  dslService={dslService}
-                  timestampUtils={timestampUtils}
-                  setToast={ setToast }
-                  getExistingEmptyTab={getExistingEmptyTab}
-                />
+              return (
+                <ObservabilitySideBar>
+                  <EventExplorerHome
+                    http={http}
+                    savedObjects={savedObjects}
+                    dslService={dslService}
+                    timestampUtils={timestampUtils}
+                    setToast={setToast}
+                    getExistingEmptyTab={getExistingEmptyTab}
+                  />
+                </ObservabilitySideBar>
               );
             }}
           />
@@ -122,4 +120,4 @@ export const EventAnalytics = ({
       </HashRouter>
     </>
   );
-}
+};

@@ -11,8 +11,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
-import { ChromeBreadcrumb, ChromeStart, HttpStart } from '../../../../../src/core/public';
-import { renderPageWithSidebar } from '../common/side_nav';
+import {
+  ChromeBreadcrumb,
+  ChromeStart,
+  CoreStart,
+  HttpStart,
+} from '../../../../../src/core/public';
+import { ObservabilitySideBar } from '../common/side_nav';
 import { FilterType } from './components/common/filters/filters';
 import { SearchBarProps } from './components/common/search_bar';
 import { Dashboard } from './components/dashboard';
@@ -87,12 +92,20 @@ export const Home = (props: HomeProps) => {
       <Route
         exact
         path={['/', '/trace_analytics', '/trace_analytics/home']}
-        render={(routerProps) => renderPageWithSidebar(<Dashboard {...commonProps} />)}
+        render={(routerProps) => (
+          <ObservabilitySideBar>
+            <Dashboard {...commonProps} />
+          </ObservabilitySideBar>
+        )}
       />
       <Route
         exact
         path="/trace_analytics/traces"
-        render={(routerProps) => renderPageWithSidebar(<Traces {...commonProps} />)}
+        render={(routerProps) => (
+          <ObservabilitySideBar>
+            <Traces {...commonProps} />
+          </ObservabilitySideBar>
+        )}
       />
       <Route
         path="/trace_analytics/traces/:id+"
@@ -108,7 +121,11 @@ export const Home = (props: HomeProps) => {
       <Route
         exact
         path="/trace_analytics/services"
-        render={(routerProps) => renderPageWithSidebar(<Services {...commonProps} />)}
+        render={(routerProps) => (
+          <ObservabilitySideBar>
+            <Services {...commonProps} />
+          </ObservabilitySideBar>
+        )}
       />
       <Route
         path="/trace_analytics/services/:id+"
