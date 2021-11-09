@@ -646,7 +646,6 @@ export const Explorer = ({
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
   const updateQueryInStore = async (query: string) => {
-    // await handleQueryChange(query);
     await dispatch(changeQuery({
       tabId,
       query: {
@@ -656,20 +655,12 @@ export const Explorer = ({
   };
 
   const handleQuerySearch = useCallback(async () => {
-    console.log('handle query search......');
     await updateQueryInStore(tempQuery);
     fetchData();
   }, [tempQuery]);
 
   const handleQueryChange = async (query: string) => {
     setTempQuery(query);
-    // await dispatch(changeQuery({
-    //   tabId,
-    //   query: {
-    //     [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
-    //     [INDEX]: index
-    //   },
-    // }));
   }
 
   const handleSavingObject = async () => {
