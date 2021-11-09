@@ -94,6 +94,7 @@ const getFirstPipe = async (str: string, dslService: DSLService) => {
 const getSuggestions = async (str: string, dslService: DSLService) => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
+  const lowerPrefix = prefix.toLowerCase();
   const fullSuggestions: any = [];
 
   // Check the last full word in the query, then suggest inputs based off that
@@ -118,7 +119,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       splittedModel[splittedModel.length - 2] === 'index'
     ) {
       return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (
       (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') ||
@@ -129,7 +130,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
       return fillSuggestions(str, prefix, [{ label: 'source' }]);
@@ -140,7 +141,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       if (splittedModel[splittedModel.length - 2] !== 'count()') {
         const numberFields = fieldsFromBackend.filter(
           (field: { label: string, type: string }) =>
-            field.label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
+            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
         );
         for (let i = 0; i < numberFields.length; i++) {
           var field: {label: string} = numberFields[i];
@@ -155,7 +156,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       }
     } else if (nextStats === splittedModel.length - 2) {
       return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (nextStats === splittedModel.length - 3) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -177,7 +178,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       });
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
-      return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(suggestion.label.toLowerCase()));
+      return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
       if (!currFieldType) {
         console.error('Current field type is undefined')
@@ -190,7 +191,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       );
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (inFieldsCommaLoop) {
       return [
@@ -201,7 +202,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           itemName: ',',
         },
         { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-      ].filter(({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase()));
+      ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase()));
     }
     return [];
   }
