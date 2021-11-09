@@ -11,14 +11,7 @@
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { 
-  uniqueId,
-  isEmpty,
-  cloneDeep,
-  isEqual,
-  has,
-  reduce
-} from 'lodash';
+import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { 
   FormattedMessage 
 } from '@osd/i18n/react';
@@ -40,45 +33,24 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import {
-  IField,
-  IQueryTab
-} from '../../../common/types/explorer';
+import { IField, IQueryTab } from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
-  TAB_EVENT_ID_TXT_PFX,
-  TAB_CHART_ID_TXT_PFX,
   RAW_QUERY,
   SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
   SELECTED_TIMESTAMP,
-  UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
-  INDEX,
   TIME_INTERVAL_OPTIONS,
   HAS_SAVED_TIMESTAMP
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
-import { 
-  getIndexPatternFromRawQuery,
-  insertDateRangeToQuery
-} from '../../../common/utils';
-import { 
-  useFetchEvents,
-  useFetchVisualizations,
-} from './hooks';
-import { 
-  changeQuery,
-  changeDateRange,
-  selectQueries
-} from './slices/query_slice';
+import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
+import { useFetchEvents, useFetchVisualizations } from './hooks';
+import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
-import { 
-  selectFields,
-  updateFields,
-  sortFields
-} from './slices/field_slice';
+import { selectFields, updateFields, sortFields } from './slices/field_slice';
 import { updateTabName, selectQueryTabs } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
@@ -156,11 +128,9 @@ export const Explorer = ({
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
   const explorerFieldsRef = useRef();
-  const queryTabsRef = useRef();
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
-  // queryTabsRef.current = queryTabs;
 
   let minInterval = 'y';
   const findAutoInterval = (startTime: string, endTime: string) => {
