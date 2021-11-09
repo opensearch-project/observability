@@ -25,7 +25,7 @@ import { uiSettingsService } from '../common/utils';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
   public setup(core: CoreSetup): ObservabilitySetup {
-    uiSettingsService.init(core.uiSettings);
+    uiSettingsService.init(core.uiSettings, core.notifications);
 
     // redirect legacy notebooks URL to current URL under observability
     if (window.location.pathname.includes('notebooks-dashboards')) {

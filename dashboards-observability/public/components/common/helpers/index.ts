@@ -10,3 +10,4 @@
  */
 
 export { formatNumWithCommas } from './format_number_with_commas';
+export { PPLReferenceFlyout } from './ppl_reference_flyout';

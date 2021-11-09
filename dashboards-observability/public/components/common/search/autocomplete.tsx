@@ -10,7 +10,9 @@
  */
 
 import './search.scss';
+import $ from 'jquery';
 import React, {
+  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -21,7 +23,7 @@ import {
 import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
 
@@ -180,15 +182,18 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
-      if (!currFieldType) {
+      if (isEmpty(prefix)) {
+        if (!currFieldType) {
         console.error('Current field type is undefined')
         return [];
+        }
+        return fillSuggestions(
+          str,
+          prefix,
+          await getDataValues(currIndex, currField, currFieldType, dslService)
+        );
       }
-      return fillSuggestions(
-        str,
-        prefix,
-        await getDataValues(currIndex, currField, currFieldType, dslService)
-      );
+      return [];
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
@@ -243,9 +248,14 @@ const getDataValues = async (
   fieldType: string,
   dslService: DSLService
 ) => {
+<<<<<<< HEAD
   const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags
     .buckets;
   const dataValuesFromBackend: dataItem[] = [];
+=======
+  const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
+  const dataValuesFromBackend: [] = [];
+>>>>>>> upstream/main
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
@@ -294,7 +304,9 @@ type dataItem = {
 
 export function Autocomplete({
   query,
+  tempQuery,
   handleQueryChange,
+  handleQuerySearch,
   dslService
 }: IQueryBarProps) {
 
@@ -303,10 +315,23 @@ export function Autocomplete({
     completion: null,
     context: {},
     isOpen: false,
-    query: '',
+    query: tempQuery,
     activeItemId: null,
     status: 'idle',
   });
+
+  useEffect(() => {
+    $('#autocomplete-textarea').keypress((e) => {
+      const keycode = (e.keyCode ? e.keyCode : e.which);
+      if (keycode === 13 && e.shiftKey) {
+        handleQuerySearch();
+      }
+    });
+
+    return () => {
+      $('#autocomplete-textarea').unbind('keypress');
+    };
+  }, [tempQuery]);
 
   const autocomplete = useMemo(
     () => {
@@ -317,20 +342,15 @@ export function Autocomplete({
         React.KeyboardEvent
       >(
         {
-          onStateChange: async ({ state }) => {
-            if (
-              !isEqual(query, state.query) || 
-              isEmpty(query) && isEmpty(state.query)
-            ) {
-              setAutocompleteState({
-                ...state,
-              });
-              await handleQueryChange(state.query, currIndex);
-            }
+          onStateChange: ({ state }) => {
+            setAutocompleteState({
+              ...state,
+            });
+            handleQueryChange(state.query);
           },
           initialState: { 
             ...autocompleteState,
-            query, 
+            query,
           },
           getSources() {
             return [
@@ -356,7 +376,7 @@ export function Autocomplete({
   }, [query]);
 
   return (
-    <div 
+    <div
       className="aa-Autocomplete"
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >

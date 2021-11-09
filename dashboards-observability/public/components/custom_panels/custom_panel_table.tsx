@@ -364,7 +364,7 @@ export const CustomPanelTable = ({
                 allowNeutralSort={false}
                 isSelectable={true}
                 selection={{
-                  onSelectionChange: (items) => setselectedCustomPanels(items),
+                  onSelectionChange: (items) => setselectedCustomPanels(items)
                 }}
               />
             ) : (
