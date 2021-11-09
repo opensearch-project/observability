@@ -13,8 +13,7 @@ import React, { useState, useRef } from 'react';
 import {
   EuiLink,
   EuiInMemoryTable,
-  EuiIcon,
-  EuiFieldSearch
+  EuiIcon
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
