@@ -66,8 +66,9 @@ const statsCommands = [
 
 // Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any) => {
+  const lowerWord = word.toLowerCase();
   const filteredList = items.filter(
-    (item: { label: string }) => item.label.toLowerCase().startsWith(word.toLowerCase()) && word.toLowerCase().localeCompare(item.label.toLowerCase())
+    (item: { label: string }) => item.label.toLowerCase().startsWith(lowerWord) && lowerWord.localeCompare(item.label.toLowerCase())
   );
   const suggestionList = [];
   for (let i = 0; i < filteredList.length; i++) {
@@ -378,13 +379,13 @@ export function Autocomplete({
         >
           {autocompleteState.collections.map((collection, index) => {
               const { source, items } = collection;
-              items.filter((item, index) => { return items.indexOf(item) === index })
+              const filteredItems = items.filter((item, index) => { return items.findIndex(i => i.itemName === item.itemName) === index })
               return (
                 <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
                   <div key={`source-${index}`} className="aa-Source">
                     {items.length > 0 && (
                       <ul className="aa-List" {...autocomplete.getListProps()}>
-                        {items.map((item, index) => {
+                        {filteredItems.map((item, index) => {
                           const fullWord = item.itemName;
                           return (
                             <li
