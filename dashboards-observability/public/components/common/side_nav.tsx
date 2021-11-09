@@ -95,10 +95,10 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
         <EuiFlexGroup
           direction="column"
           justifyContent="spaceBetween"
-          style={{ height: '100%', minHeight: '80vh' }}
+          style={{ height: '100%' }}
           gutterSize="none"
         >
-          <EuiFlexItem grow={10}>
+          <EuiFlexItem>
             <EuiSideNav items={items} />
           </EuiFlexItem>
           <EuiFlexItem grow={false} style={{ marginBottom: 20 }}>
@@ -109,8 +109,7 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
                 uiSettingsService.set('theme:darkMode', !isDarkMode).then((resp) => {
                   setIsDarkMode(!isDarkMode);
                   uiSettingsService.addToast({
-                    title:
-                      'Theme setting changes require you to reload the page to take effect.',
+                    title: 'Theme setting changes require you to reload the page to take effect.',
                     text: toMountPoint(
                       <>
                         <EuiFlexGroup justifyContent="flexEnd" gutterSize="s">
