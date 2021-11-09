@@ -12,6 +12,7 @@
 import {
   EuiBreadcrumb,
   EuiButton,
+  EuiButtonIcon,
   EuiContextMenu,
   EuiContextMenuPanelDescriptor,
   EuiFieldText,
@@ -49,6 +50,7 @@ import { ChangeEvent } from 'react';
 import moment from 'moment';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 import { uiSettingsService } from '../../../common/utils';
+import { PPLReferenceFlyout } from '../common/helpers';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -115,6 +117,17 @@ export const CustomPanelView = ({
   const [replaceVisualizationId, setReplaceVisualizationId] = useState<string | undefined>('');
   const [panelsMenuPopover, setPanelsMenuPopover] = useState(false);
   const [editActionType, setEditActionType] = useState('');
+  const [isHelpFlyoutVisible, setHelpIsFlyoutVisible] = useState(false);
+
+  const closeHelpFlyout = () => {
+    setAddVizDisabled(false);
+    setHelpIsFlyoutVisible(false);
+  };
+
+  const showHelpFlyout = () => {
+    setAddVizDisabled(true);
+    setHelpIsFlyoutVisible(true);
+  };
 
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
@@ -412,6 +425,11 @@ export const CustomPanelView = ({
     );
   }
 
+  let helpFlyout;
+  if (isHelpFlyoutVisible) {
+    helpFlyout = <PPLReferenceFlyout module="panels" closeFlyout={closeHelpFlyout} />;
+  }
+
   const panelActionsMenu: EuiContextMenuPanelDescriptor[] = [
     {
       id: 0,
@@ -561,6 +579,14 @@ export const CustomPanelView = ({
                   disabled={inputDisabled}
                 />
               </EuiFlexItem>
+              <EuiFlexItem grow={false} style={{ justifyContent: 'center' }}>
+                <EuiButtonIcon
+                  aria-label="ppl-info"
+                  iconType="questionInCircle"
+                  iconSize="l"
+                  onClick={showHelpFlyout}
+                />
+              </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
                   dateFormat={uiSettingsService.get('dateFormat')}
@@ -600,6 +626,7 @@ export const CustomPanelView = ({
       </EuiPage>
       {isModalVisible && modalLayout}
       {flyout}
+      {helpFlyout}
     </div>
   );
 };

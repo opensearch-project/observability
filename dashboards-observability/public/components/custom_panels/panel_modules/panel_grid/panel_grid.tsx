@@ -139,11 +139,13 @@ export const PanelGrid = ({
         saveVisualizationLayouts(panelId, visualizationParams);
       }
     }
+    console.log("editMode changes", editMode);
   }, [editMode]);
 
   // Update layout whenever visualizations are updated
   useEffect(() => {
     reloadLayout();
+    console.log("panelvix changes", panelVisualizations);
   }, [panelVisualizations]);
 
   // Reset Size of Panel Grid when Nav Dock is Locked
