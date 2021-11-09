@@ -31,8 +31,11 @@ import { Route, Switch } from 'react-router';
 import { HashRouter, RouteComponentProps } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
-import { NOTEBOOKS_API_PREFIX, NOTEBOOKS_DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
-import { renderPageWithSidebar } from '../../common/side_nav';
+import {
+  NOTEBOOKS_API_PREFIX,
+  NOTEBOOKS_DOCUMENTATION_URL,
+} from '../../../../common/constants/notebooks';
+import { ObservabilitySideBar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
 
@@ -339,8 +342,8 @@ export class Main extends React.Component<MainProps, MainState> {
             />
             <Route
               path="/notebooks"
-              render={(props) =>
-                renderPageWithSidebar(
+              render={(props) => (
+                <ObservabilitySideBar>
                   <NoteTable
                     loading={this.state.loading}
                     fetchNotebooks={this.fetchNotebooks}
@@ -354,8 +357,8 @@ export class Main extends React.Component<MainProps, MainState> {
                     setBreadcrumbs={this.props.setBreadcrumbs}
                     setToast={this.setToast}
                   />
-                )
-              }
+                </ObservabilitySideBar>
+              )}
             />
           </Switch>
         </>
