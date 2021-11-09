@@ -62,14 +62,14 @@ For more information, refer to the [documentation](https://opensearch.org/docs/d
       {
         output: [
           {
-            result: 'Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %[language type] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:',
+            result: 'Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %\[language type\] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:',
             outputType: 'MARKDOWN',
             execution_time: '0 ms',
           },
         ],
         input: {
           inputText: `%md
-Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %[language type] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:`,
+Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %\[language type\] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,

@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { 
   uniqueId,
@@ -124,7 +124,7 @@ export const Explorer = ({
     getAvailableFields
   } = useFetchEvents({
     pplService,
-    requestParams
+    requestParams,
   });
   const {
     isVisLoading,
@@ -132,7 +132,7 @@ export const Explorer = ({
     getCountVisualizations
   } = useFetchVisualizations({
     pplService,
-    requestParams
+    requestParams,
   });
 
   const query = useSelector(selectQueries)[tabId];
@@ -151,6 +151,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  const [tempQuery, setTempQuery] = useState('');
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -274,7 +275,10 @@ export const Explorer = ({
       }).catch((error: any) => {
         console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
-      if (savedTimestamps?.observabilityObjectList[0]?.timestamp?.name) {
+      if (
+          savedTimestamps?.observabilityObjectList && 
+          savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
+        ) {
         // from saved objects
         hasSavedTimestamp = true;
         curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
@@ -349,7 +353,7 @@ export const Explorer = ({
         [SELECTED_DATE_RANGE]: timeRange
       }
     }));
-    fetchData();
+    handleQuerySearch();
   }
 
   /**
@@ -449,7 +453,7 @@ export const Explorer = ({
       }
     }));
 
-    fetchData();
+    handleQuerySearch();
   };
 
   const getMainContent = () => {
@@ -641,16 +645,22 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
   
-  const handleQuerySearch = () => fetchData();
-
-  const handleQueryChange = async (query: string, index: string) => {
+  const updateQueryInStore = async (query: string) => {
     await dispatch(changeQuery({
       tabId,
       query: {
         [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
-        [INDEX]: index
       },
     }));
+  };
+
+  const handleQuerySearch = useCallback(async () => {
+    await updateQueryInStore(tempQuery);
+    fetchData();
+  }, [tempQuery]);
+
+  const handleQueryChange = async (query: string) => {
+    setTempQuery(query);
   }
 
   const handleSavingObject = async () => {
@@ -769,28 +779,29 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={ query[RAW_QUERY] }
-        handleQueryChange={ handleQueryChange }
-        handleQuerySearch={ () => { handleQuerySearch() } }
-        dslService = { dslService }
-        startTime={ dateRange[0] }
-        endTime={ dateRange[1] }
-        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
-        selectedPanelName={ selectedPanelNameRef.current }
-        selectedCustomPanelOptions={ selectedCustomPanelOptions }
-        setSelectedPanelName={ setSelectedPanelName }
-        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
-        handleSavingObject={ handleSavingObject }
-        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
-        savedObjects={ savedObjects }
-        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
+        query={query[RAW_QUERY]}
+        tempQuery={tempQuery}
+        handleQueryChange={handleQueryChange}
+        handleQuerySearch={handleQuerySearch}
+        dslService = {dslService}
+        startTime={dateRange[0]}
+        endTime={dateRange[1]}
+        handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
+        selectedPanelName={selectedPanelNameRef.current}
+        selectedCustomPanelOptions={selectedCustomPanelOptions}
+        setSelectedPanelName={setSelectedPanelName}
+        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
+        handleSavingObject={handleSavingObject}
+        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
+        savedObjects={savedObjects}
+        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
       />
       <EuiTabbedContent
         className="mainContentTabs"
-        initialSelectedTab={ memorizedMainContentTabs[0] }
-        selectedTab={ memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId) }
-        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-        tabs={ memorizedMainContentTabs }
+        initialSelectedTab={memorizedMainContentTabs[0]}
+        selectedTab={memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId)}
+        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+        tabs={memorizedMainContentTabs}
       />
     </div>
   );

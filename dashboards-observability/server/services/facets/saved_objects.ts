@@ -138,7 +138,7 @@ export default class SavedObjectFacet {
     };
     try {
       const params = {    
-        objectId: request.body.objectId
+        objectIdList: request.body.objectIdList
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
@@ -215,7 +215,7 @@ export default class SavedObjectFacet {
   };
 
   deleteSavedObject = async (request: any) => {
-    return this.delete(request, 'observability.deleteObjectById', 'savedQuery');
+    return this.delete(request, 'observability.deleteObjectByIdList');
   };
 
   createSampleSavedObjects = async (request: any) => {
