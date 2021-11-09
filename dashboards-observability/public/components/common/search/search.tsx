@@ -78,29 +78,6 @@ export const Search = (props: any) => {
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
 
-  // const memorizedHandleQuerySearch = useCallback(async () => {
-  //   handleQuerySearch();
-  // }, [
-  //   tempQuery,
-  //   startTime,
-  //   endTime
-  // ]);
-
-  // const updateQuery = async (query: string) => {
-  //   await handleQueryChange(query);
-  // };
-
-  // const searchQuery = useCallback(async () => {
-  //   await updateQuery(tempQuery);
-  //   memorizedHandleQuerySearch();
-  // }, [
-  //   tempQuery,
-  //   startTime,
-  //   endTime
-  // ]);
-
-  // const onQueryChange = (query: string) => setTempQuery(query);
-
   const saveButton = (
     <EuiButton
       onClick={() => {

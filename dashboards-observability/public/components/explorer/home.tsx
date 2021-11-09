@@ -11,7 +11,7 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement, useRef, useEffect } from 'react';
+import React, { useState, ReactElement, useRef, useEffect, useCallback } from 'react';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -34,12 +34,9 @@ import {
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
 import {
-  INDEX,
   RAW_QUERY,
   TAB_ID_TXT_PFX,
-  SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
-  SELECTED_FIELDS,
 } from '../../../common/constants/explorer';
 import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { EmptyTabParams } from '../../../common/types/explorer';
@@ -100,6 +97,8 @@ export const Home = (props: IHomeProps) => {
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const selectedDateRangeRef = useRef();
+  selectedDateRangeRef.current = selectedDateRange;
   
   const closeModal = () => {
     setIsModalVisible(false);
@@ -157,15 +156,16 @@ export const Home = (props: IHomeProps) => {
     fetchHistories();
   }, []);
 
-  const addSearchInput = async (tabId: string) => {
+  const dispatchInitialData = (tabId: string) => {
     dispatch(changeQuery({
       tabId,
       query: {
         [RAW_QUERY]: searchQuery,
-        [SELECTED_DATE_RANGE]: selectedDateRange
+        [SELECTED_DATE_RANGE]: selectedDateRangeRef.current
       }
     }));
-  }
+  };
+  
 
   const handleQuerySearch = async () => {
 
@@ -177,13 +177,13 @@ export const Home = (props: IHomeProps) => {
     const newTabId = emptyTabId ? emptyTabId : await addNewTab();
 
     // update this new tab with data
-    await addSearchInput(newTabId);
+    await dispatchInitialData(newTabId);
 
     // redirect to explorer
     history.push('/event_analytics/explorer');
-  }
+  };
 
-  const handleQueryChange = async (query: string, index: string) => setSearchQuery(query);
+  const handleQueryChange = async (query: string) => setSearchQuery(query);
 
   const handleTimePickerChange = async (timeRange: Array<string>) => setSelectedDateRange(timeRange);
 
@@ -311,19 +311,17 @@ export const Home = (props: IHomeProps) => {
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem>
                 <Search
-                  query={ searchQuery }
-                  handleQueryChange={ handleQueryChange }
-                  handleQuerySearch={ handleQuerySearch }
-                  handleTimePickerChange={ handleTimePickerChange }
-                  pplService={ pplService }
-                  dslService={ dslService }
-                  startTime={ selectedDateRange[0] }
-                  endTime={ selectedDateRange[1] }
-                  setStartTime={ () => {} }
-                  setEndTime={ () => {} }
-                  setIsOutputStale={ () => {} }
-                  liveStreamChecked={ false }
-                  onLiveStreamChange={ () => {} }
+                  query={queryRef.current![RAW_QUERY]}
+                  tempQuery={searchQuery}
+                  handleQueryChange={handleQueryChange}
+                  handleQuerySearch={handleQuerySearch}
+                  handleTimePickerChange={handleTimePickerChange}
+                  pplService={pplService}
+                  dslService={dslService}
+                  startTime={selectedDateRange[0]}
+                  endTime={selectedDateRange[1]}
+                  setStartTime={() => {}}
+                  setEndTime={() => {}}
                   showSaveButton={ false }
                   runButtonText="New Query"
                 />

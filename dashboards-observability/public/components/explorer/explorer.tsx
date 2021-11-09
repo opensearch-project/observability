@@ -788,29 +788,29 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={ query[RAW_QUERY] }
+        query={query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
-        dslService = { dslService }
-        startTime={ dateRange[0] }
-        endTime={ dateRange[1] }
-        handleTimePickerChange={ (timeRange: Array<string>) => handleTimePickerChange(timeRange) }
-        selectedPanelName={ selectedPanelNameRef.current }
-        selectedCustomPanelOptions={ selectedCustomPanelOptions }
-        setSelectedPanelName={ setSelectedPanelName }
-        setSelectedCustomPanelOptions={ setSelectedCustomPanelOptions }
-        handleSavingObject={ handleSavingObject }
-        isPanelTextFieldInvalid={ isPanelTextFieldInvalid }
-        savedObjects={ savedObjects }
-        showSavePanelOptionsList={ isEqual(selectedContentTabId, TAB_CHART_ID) }
+        dslService = {dslService}
+        startTime={dateRange[0]}
+        endTime={dateRange[1]}
+        handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
+        selectedPanelName={selectedPanelNameRef.current}
+        selectedCustomPanelOptions={selectedCustomPanelOptions}
+        setSelectedPanelName={setSelectedPanelName}
+        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
+        handleSavingObject={handleSavingObject}
+        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
+        savedObjects={savedObjects}
+        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
       />
       <EuiTabbedContent
         className="mainContentTabs"
-        initialSelectedTab={ memorizedMainContentTabs[0] }
-        selectedTab={ memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId) }
-        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-        tabs={ memorizedMainContentTabs }
+        initialSelectedTab={memorizedMainContentTabs[0]}
+        selectedTab={memorizedMainContentTabs.find(tab => tab.id === selectedContentTabId)}
+        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+        tabs={memorizedMainContentTabs}
       />
     </div>
   );
