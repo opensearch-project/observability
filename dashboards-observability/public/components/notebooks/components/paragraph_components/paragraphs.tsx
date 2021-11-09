@@ -41,7 +41,6 @@ import {
   EuiText,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { Cell } from '@nteract/presentational-components';
 import moment from 'moment';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
@@ -53,6 +52,7 @@ import { ViewMode } from '../../../../../../../src/plugins/embeddable/public';
 import { NOTEBOOKS_API_PREFIX } from '../../../../../common/constants/notebooks';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { ParaType } from '../../../../../common/types/notebooks';
+import { uiSettingsService } from '../../../../../common/utils';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
 
@@ -480,6 +480,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     </EuiText>
   );
 
+  const paraClass = `notebooks-paragraph notebooks-paragraph-${
+    uiSettingsService.get('theme:darkMode') ? 'dark' : 'light'
+  }`;
+
   return (
     <>
       <EuiPanel>
@@ -487,7 +491,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
           index
         )}
-        <Cell key={index} onClick={() => paragraphSelector(index)}>
+        <div key={index} className={paraClass} onClick={() => paragraphSelector(index)}>
           {para.isInputExpanded && (
             <>
               <EuiSpacer size="s" />
@@ -533,10 +537,12 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           {props.selectedViewId !== 'input_only' && isOutputAvailable && (
             <>
               <EuiHorizontalRule margin="none" />
-              <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>{paraOutput}</div>
+              <div style={{ opacity: para.isOutputStale ? 0.5 : 1, padding: '15px' }}>
+                {paraOutput}
+              </div>
             </>
           )}
-        </Cell>
+        </div>
       </EuiPanel>
     </>
   );
