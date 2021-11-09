@@ -248,14 +248,8 @@ const getDataValues = async (
   fieldType: string,
   dslService: DSLService
 ) => {
-<<<<<<< HEAD
-  const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags
-    .buckets;
-  const dataValuesFromBackend: dataItem[] = [];
-=======
   const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
-  const dataValuesFromBackend: [] = [];
->>>>>>> upstream/main
+  const dataValuesFromBackend: dataItem[] = [];
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
