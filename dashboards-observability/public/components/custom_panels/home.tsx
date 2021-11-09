@@ -11,7 +11,6 @@
 
 import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { CustomPanelListType } from '../../../common/types/custom_panels';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
 import { StaticContext } from 'react-router';
@@ -21,15 +20,16 @@ import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
-import { renderPageWithSidebar } from '../common/side_nav';
-import { CustomPanelTable } from './custom_panel_table';
-import { CustomPanelView } from './custom_panel_view';
-import { isNameValid } from './helpers/utils';
 import {
   EVENT_ANALYTICS,
   OBSERVABILITY_BASE,
   SAVED_OBJECTS,
 } from '../../../common/constants/shared';
+import { CustomPanelListType } from '../../../common/types/custom_panels';
+import { ObservabilitySideBar } from '../common/side_nav';
+import { CustomPanelTable } from './custom_panel_table';
+import { CustomPanelView } from './custom_panel_view';
+import { isNameValid } from './helpers/utils';
 
 /*
  * "Home" module is initial page for Operantional Panels
@@ -289,19 +289,21 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         exact
         path={renderProps.match.path}
         render={(props) => {
-          return renderPageWithSidebar(
-            <CustomPanelTable
-              loading={loading}
-              fetchCustomPanels={fetchCustomPanels}
-              customPanels={customPanelData}
-              createCustomPanel={createCustomPanel}
-              setBreadcrumbs={chrome.setBreadcrumbs}
-              parentBreadcrumb={parentBreadcrumb}
-              renameCustomPanel={renameCustomPanel}
-              cloneCustomPanel={cloneCustomPanel}
-              deleteCustomPanelList={deleteCustomPanelList}
-              addSamplePanels={addSamplePanels}
-            />
+          return (
+            <ObservabilitySideBar>
+              <CustomPanelTable
+                loading={loading}
+                fetchCustomPanels={fetchCustomPanels}
+                customPanels={customPanelData}
+                createCustomPanel={createCustomPanel}
+                setBreadcrumbs={chrome.setBreadcrumbs}
+                parentBreadcrumb={parentBreadcrumb}
+                renameCustomPanel={renameCustomPanel}
+                cloneCustomPanel={cloneCustomPanel}
+                deleteCustomPanelList={deleteCustomPanelList}
+                addSamplePanels={addSamplePanels}
+              />
+            </ObservabilitySideBar>
           );
         }}
       />

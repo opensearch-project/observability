@@ -9,10 +9,23 @@
  * GitHub history for details.
  */
 
-import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiSideNavItemType } from '@elastic/eui';
+import {
+  EuiButton,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPage,
+  EuiPageBody,
+  EuiPageSideBar,
+  EuiSideNav,
+  EuiSideNavItemType,
+  EuiSwitch,
+} from '@elastic/eui';
 import React from 'react';
+import { useState } from 'react';
+import { toMountPoint } from '../../../../../src/plugins/opensearch_dashboards_react/public';
+import { uiSettingsService } from '../../../common/utils';
 
-export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
+export function ObservabilitySideBar(props: { children: React.ReactNode }) {
   // set items.isSelected based on location.hash passed in
   // tries to find an item where href is a prefix of the hash
   // if none will try to find an item where the hash is a prefix of href
@@ -74,13 +87,50 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
     },
   ];
   setIsSelected(items, location.hash);
+  const [isDarkMode, setIsDarkMode] = useState(uiSettingsService.get('theme:darkMode'));
 
   return (
     <EuiPage>
       <EuiPageSideBar>
-        <EuiSideNav items={items} />
+        <EuiFlexGroup
+          direction="column"
+          justifyContent="spaceBetween"
+          style={{ height: '98%', minHeight: '80vh' }}
+          gutterSize="none"
+        >
+          <EuiFlexItem grow={10}>
+            <EuiSideNav items={items} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiSwitch
+              label="Dark mode"
+              checked={isDarkMode}
+              onChange={() => {
+                uiSettingsService.set('theme:darkMode', !isDarkMode).then((resp) => {
+                  setIsDarkMode(!isDarkMode);
+                  uiSettingsService.addToast({
+                    title:
+                      'Changing dark mode setting requires you to reload the page to take effect.',
+                    text: toMountPoint(
+                      <>
+                        <EuiFlexGroup justifyContent="flexEnd" gutterSize="s">
+                          <EuiFlexItem grow={false}>
+                            <EuiButton size="s" onClick={() => window.location.reload()}>
+                              Reload page
+                            </EuiButton>
+                          </EuiFlexItem>
+                        </EuiFlexGroup>
+                      </>
+                    ),
+                    color: 'success',
+                  });
+                });
+              }}
+            />
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </EuiPageSideBar>
-      <EuiPageBody>{BodyComponent}</EuiPageBody>
+      <EuiPageBody>{props.children}</EuiPageBody>
     </EuiPage>
   );
-};
+}
