@@ -51,7 +51,6 @@ export const PPLReferenceFlyout = ({ module, closeFlyout }: Props) => {
       <EuiMarkdownFormat>{option.value}</EuiMarkdownFormat>
     ));
     setFlyoutContent(newContent);
-    console.log(selectedOptions);
   };
 
   const flyoutHeader = (
