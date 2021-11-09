@@ -313,7 +313,12 @@ export const Explorer = ({
       getAvailableFields(`search source=${curIndex}`);
     } else {
       findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
-      getEvents();
+      getEvents(undefined, (error) => {
+        setToast(
+          `Error fetching events: ${error?.body?.message || 'see console error for more details.'}`,
+          'danger'
+        );
+      });
       getCountVisualizations(minInterval);
     }
 

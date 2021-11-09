@@ -52,13 +52,14 @@ export const useFetchEvents = ({
   const fetchEvents = async (
     { query }: { query: string },
     format: string,
-    handler: (res: any) => void
+    handler: (res: any) => void,
+    errorHandler?: (error: any) => void
   ) => {
     setIsEventsLoading(true);
     await pplService.fetch({
       query,
       format,
-    })
+    }, errorHandler)
     .then((res: any) => {
       handler(res);
     })
@@ -123,7 +124,7 @@ export const useFetchEvents = ({
     });
   };
 
-  const getEvents = (query: string = '') => {
+  const getEvents = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
@@ -132,7 +133,7 @@ export const useFetchEvents = ({
       }
       // when no hits and needs to get available fields to override default timestamp
       dispatchOnNoHis(res);
-    });
+    }, errorHandler);
   };
 
   const getAvailableFields = (query: string) => {
