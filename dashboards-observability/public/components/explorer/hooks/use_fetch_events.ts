@@ -40,11 +40,11 @@ interface IFetchEventsParams {
 
 export const useFetchEvents = ({
   pplService,
-  requestParams
+  requestParams,
 }: IFetchEventsParams) => {
   
   const dispatch = useDispatch();
-  const [isEventsLoading, setIsEventsLoading] = useState<boolean>(false);
+  const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
   const queriesRef = useRef();
   queriesRef.current = queries;
@@ -52,13 +52,14 @@ export const useFetchEvents = ({
   const fetchEvents = async (
     { query }: { query: string },
     format: string,
-    handler: (res: any) => void
+    handler: (res: any) => void,
+    errorHandler?: (error: any) => void
   ) => {
     setIsEventsLoading(true);
     await pplService.fetch({
       query,
       format,
-    })
+    }, errorHandler)
     .then((res: any) => {
       handler(res);
     })
@@ -84,7 +85,6 @@ export const useFetchEvents = ({
       dispatch(updateFields({
         tabId: requestParams.tabId,
         data: {
-          [SELECTED_FIELDS]: [],
           [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
           [QUERIED_FIELDS]: [],
           [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
@@ -124,7 +124,7 @@ export const useFetchEvents = ({
     });
   };
 
-  const getEvents = (query: string = '') => {
+  const getEvents = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
@@ -133,7 +133,7 @@ export const useFetchEvents = ({
       }
       // when no hits and needs to get available fields to override default timestamp
       dispatchOnNoHis(res);
-    });
+    }, errorHandler);
   };
 
   const getAvailableFields = (query: string) => {

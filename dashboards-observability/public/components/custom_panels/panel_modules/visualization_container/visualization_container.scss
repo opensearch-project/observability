@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
- .mouseGrabber {
+.mouseGrabber {
   & :hover {
     cursor: -webkit-grab;
     cursor: grab;
@@ -52,4 +52,8 @@
 .panel-full-width {
   width: 100%;
   height: 100%;
+}
+
+.panels-title-text {
+  @include euiTextTruncate;
 }

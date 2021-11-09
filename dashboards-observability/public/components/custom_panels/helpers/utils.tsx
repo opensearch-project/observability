@@ -85,7 +85,7 @@ export const mergeLayoutAndVisualizations = (
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
  * -> finalQuery = source=opensearch_dashboards_sample_data_flights
- *                  + | where utc_time > timestamp(‘2021-07-01 00:00:00’) and utc_time < timestamp(‘2021-07-02 00:00:00’)
+ *                  + | where utc_time > ‘2021-07-01 00:00:00’ and utc_time < ‘2021-07-02 00:00:00’
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
  */
@@ -102,9 +102,9 @@ const queryAccumulator = (
   }
   const indexPartOfQuery = indexMatchArray[0];
   const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, '');
-  const timeQueryFilter = ` | where ${timestampField} >= timestamp('${convertDateTime(
+  const timeQueryFilter = ` | where ${timestampField} >= '${convertDateTime(
     startTime
-  )}') and ${timestampField} <= timestamp('${convertDateTime(endTime, false)}')`;
+  )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
@@ -121,7 +121,7 @@ const pplServiceRequestor = async (
   await pplService
     .fetch({ query: finalQuery, format: 'viz' })
     .then((res) => {
-      if (res === undefined) setIsError('Please check the PPL Filter Value');
+      if (res === undefined) setIsError('Please check the validity of PPL Filter');
       setVisualizationData(res);
     })
     .catch((error: Error) => {
@@ -146,9 +146,8 @@ const fetchVisualizationById = async (
       savedVisualization = res.visualization;
     })
     .catch((err) => {
-      const errorMessage = 'Issue in fetching the saved Visualization by Id';
-      setIsError(errorMessage);
-      console.error(errorMessage, err);
+      setIsError(`Could not locate saved visualization id:${savedVisualizationId}`);
+      console.error('Issue in fetching the saved Visualization by Id', err);
     });
 
   return savedVisualization;
@@ -203,6 +202,11 @@ export const renderSavedVisualization = async (
 
   let visualization = {} as SavedVisualizationType;
   visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
+
+  if (_.isEmpty(visualization)) {
+    setIsLoading(false);
+    return;
+  }
 
   if (visualization.name) {
     setVisualizationTitle(visualization.name);

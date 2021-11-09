@@ -10,7 +10,9 @@
  */
 
 import './search.scss';
+import $ from 'jquery';
 import React, {
+  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -21,13 +23,13 @@ import {
 import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
-let currFieldType: string = '';
+let currFieldType: string | undefined = '';
 
 let inFieldsCommaLoop: boolean = false;
 let inMatch: boolean = false;
@@ -36,8 +38,8 @@ let nextStats: number = Number.MAX_SAFE_INTEGER;
 
 const indexList: string[] = [];
 const fieldList: string[] = [];
-const fieldsFromBackend: [] = [];
-const indicesFromBackend: [] = [];
+const fieldsFromBackend: fieldItem[] = [];
+const indicesFromBackend: indexItem[] = [];
 
 const firstCommand = [{ label: 'index' }, { label: 'search' }, { label: 'source' }];
 
@@ -68,8 +70,9 @@ const statsCommands = [
 
 // Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any) => {
+  const lowerWord = word.toLowerCase();
   const filteredList = items.filter(
-    (item: { label: string }) => item.label.startsWith(word) && word !== item.label
+    (item: { label: string }) => item.label.toLowerCase().startsWith(lowerWord) && lowerWord.localeCompare(item.label.toLowerCase())
   );
   const suggestionList = [];
   for (let i = 0; i < filteredList.length; i++) {
@@ -95,6 +98,7 @@ const getFirstPipe = async (str: string, dslService: DSLService) => {
 const getSuggestions = async (str: string, dslService: DSLService) => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
+  const lowerPrefix = prefix.toLowerCase();
   const fullSuggestions: any = [];
 
   // Check the last full word in the query, then suggest inputs based off that
@@ -127,8 +131,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       splittedModel[splittedModel.length - 2] === 'source' ||
       splittedModel[splittedModel.length - 2] === 'index'
     ) {
-      return [{ label: str + '=', input: str, suggestion: '=' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (
       (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') ||
@@ -138,8 +142,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
-      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       inMatch = true;
@@ -156,23 +160,23 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (nextStats === splittedModel.length - 1) {
       if (splittedModel[splittedModel.length - 2] !== 'count()') {
         const numberFields = fieldsFromBackend.filter(
-          ({ label, type }) =>
-            label.startsWith(prefix) && prefix !== label && (type === 'float' || type === 'integer')
+          (field: { label: string, type: string }) =>
+            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
         );
         for (let i = 0; i < numberFields.length; i++) {
+          var field: {label: string} = numberFields[i];
           fullSuggestions.push({
-            label: str.substring(0, str.length - 1) + numberFields[i].label + ')',
-            input: str.substring(0, str.length - 1),
-            suggestion: numberFields[i].label.substring(prefix.length) + ')',
-            itemName: numberFields[i].label,
+            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ')',
+            input: str,
+            suggestion: field.label.substring(prefix.length) + ')',
+            itemName: field.label + ')',
           });
         }
-        nextStats = nextStats - 1;
         return fullSuggestions;
       }
     } else if (nextStats === splittedModel.length - 2) {
-      return [{ label: str + 'by', input: str, suggestion: 'by' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (nextStats === splittedModel.length - 3) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -193,20 +197,27 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         label: str + '=',
         input: str,
         suggestion: '=',
-        item: '=',
+        itemName: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
-      return fullSuggestions.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
+      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
+      return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
-      return fillSuggestions(
-        str,
-        prefix,
-        await getDataValues(currIndex, currField, currFieldType, dslService)
-      );
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4 || nextWhere === splittedModel.length - 5) {
-      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      if (isEmpty(prefix)) {
+        if (!currFieldType) {
+        console.error('Current field type is undefined')
+        return [];
+      }
+        return fillSuggestions(
+          str,
+          prefix,
+          await getDataValues(currIndex, currField, currFieldType, dslService)
+        );
+      }
+      return [];
+    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4 || nextWhere === splitteModel.length - 5) {
+      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (inFieldsCommaLoop) {
       return [
@@ -214,16 +225,15 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           label: str.substring(0, str.length - 1) + ',',
           input: str.substring(0, str.length - 1),
           suggestion: ',',
-          item: ',',
+          itemName: ',',
         },
-        { label: str + '|', input: str, suggestion: '|', item: ',' },
-      ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
-    } else if (inMatch) {
+        { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+      ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase()));
+    }  else if (inMatch) {
       inMatch = false;
       return [{ label: str + ')', input: str, suggestion: ')' }].filter(
       ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
     );
-    }
     return [];
   }
 };
@@ -264,9 +274,8 @@ const getDataValues = async (
   fieldType: string,
   dslService: DSLService
 ) => {
-  const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags
-    .buckets;
-  const dataValuesFromBackend: [] = [];
+  const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
+  const dataValuesFromBackend: dataItem[] = [];
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
@@ -299,9 +308,25 @@ type AutocompleteItem = {
   __autocomplete_id: number;
 };
 
+type fieldItem = {
+  label: string;
+  type: string;
+}
+
+type indexItem = {
+  label: string;
+}
+
+type dataItem = {
+  label: string;
+  doc_count: any;
+}
+
 export function Autocomplete({
   query,
+  tempQuery,
   handleQueryChange,
+  handleQuerySearch,
   dslService
 }: IQueryBarProps) {
 
@@ -310,10 +335,23 @@ export function Autocomplete({
     completion: null,
     context: {},
     isOpen: false,
-    query: '',
+    query: tempQuery,
     activeItemId: null,
     status: 'idle',
   });
+
+  useEffect(() => {
+    $('#autocomplete-textarea').keypress((e) => {
+      const keycode = (e.keyCode ? e.keyCode : e.which);
+      if (keycode === 13 && e.shiftKey) {
+        handleQuerySearch();
+      }
+    });
+
+    return () => {
+      $('#autocomplete-textarea').unbind('keypress');
+    };
+  }, [tempQuery]);
 
   const autocomplete = useMemo(
     () => {
@@ -324,20 +362,15 @@ export function Autocomplete({
         React.KeyboardEvent
       >(
         {
-          onStateChange: async ({ state }) => {
-            if (
-              !isEqual(query, state.query) || 
-              isEmpty(query) && isEmpty(state.query)
-            ) {
-              setAutocompleteState({
-                ...state,
-              });
-              await handleQueryChange(state.query, currIndex);
-            }
+          onStateChange: ({ state }) => {
+            setAutocompleteState({
+              ...state,
+            });
+            handleQueryChange(state.query);
           },
           initialState: { 
             ...autocompleteState,
-            query, 
+            query,
           },
           getSources() {
             return [
@@ -360,73 +393,76 @@ export function Autocomplete({
           },
         }
       );
-  }, []);
+  }, [query]);
 
   return (
-    <div 
+    <div
       className="aa-Autocomplete"
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >
       <EuiTextArea
         {...autocomplete.getInputProps({
-          'id': 'autocomplete-textarea',
-          'placeholder': 'Enter PPL query to retrieve log, traces, and metrics'
+          id: 'autocomplete-textarea',
+          placeholder: 'Enter PPL query to retrieve logs',
+          inputElement: null
         })}
       />
-      <div
-        className={[
-          'aa-Panel',
-          'aa-Panel--desktop',
-          autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
-        ]
-        .filter(Boolean)
-        .join(' ')}
-        {...autocomplete.getPanelProps({})}
-      >
-        {autocompleteState.isOpen &&
-          autocompleteState.collections.map((collection, index) => {
-            const { source, items } = collection;
-            return (
-              <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
-                <div key={`source-${index}`} className="aa-Source">
-                  {items.length > 0 && (
-                    <ul className="aa-List" {...autocomplete.getListProps()}>
-                      {items.map((item, index) => {
-                        const prefix = item.input.split(' ');
-                        return (
-                          <li
-                            key={item.__autocomplete_id}
-                            className="aa-Item"
-                            {...autocomplete.getItemProps({
-                              item,
-                              source,
-                            })}
-                            style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
-                          >
-                            <div className="aa-ItemWrapper">
-                              <div className="aa-ItemContent">
-                                <div className="aa-ItemContentBody">
-                                  <div
-                                    className="aa-ItemContentTitle"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `<div>
-                                      <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
-                                    </div>`
-                                    }}
-                                  />
+      {autocompleteState.isOpen && (
+        <div
+          className={[
+            'aa-Panel',
+            'aa-Panel--desktop',
+            autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
+          ]
+          .filter(Boolean)
+          .join(' ')}
+          {...autocomplete.getPanelProps({})}
+        >
+          {autocompleteState.collections.map((collection, index) => {
+              const { source, items } = collection;
+              const filteredItems = items.filter((item, index) => { return items.findIndex(i => i.itemName === item.itemName) === index })
+              return (
+                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
+                  <div key={`source-${index}`} className="aa-Source">
+                    {items.length > 0 && (
+                      <ul className="aa-List" {...autocomplete.getListProps()}>
+                        {filteredItems.map((item, index) => {
+                          const fullWord = item.itemName;
+                          return (
+                            <li
+                              key={item.__autocomplete_id}
+                              className="aa-Item"
+                              {...autocomplete.getItemProps({
+                                item,
+                                source,
+                              })}
+                              style={uiSettingsService.get('theme:darkMode') ? {color: '#DFE5EF'}: {}}
+                            >
+                              <div className="aa-ItemWrapper">
+                                <div className="aa-ItemContent">
+                                  <div className="aa-ItemContentBody">
+                                    <div
+                                      className="aa-ItemContentTitle"
+                                      dangerouslySetInnerHTML={{
+                                        __html: `<div>
+                                        <span><b>${fullWord.slice(0, -item.suggestion.length)}</b>${item.suggestion}</span>
+                                      </div>`
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-      </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 }

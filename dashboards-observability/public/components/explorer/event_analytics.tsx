@@ -9,13 +9,15 @@
  * GitHub history for details.
  */
 
-import React, { useState, ReactChild } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { EuiGlobalToastList } from '@elastic/eui';
-import { LogExplorer } from './log_explorer';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { isEmpty } from 'lodash';
+import React, { ReactChild, useState } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import { RAW_QUERY } from '../../../common/constants/explorer';
+import { ObservabilitySideBar } from '../common/side_nav';
 import { Home as EventExplorerHome } from './home';
-import { renderPageWithSidebar } from '../common/side_nav';
+import { LogExplorer } from './log_explorer';
 
 export const EventAnalytics = ({
   chrome,
@@ -27,7 +29,6 @@ export const EventAnalytics = ({
   http,
   ...props
 }: any) => {
-
   const [toasts, setToasts] = useState<Array<Toast>>([]);
 
   const eventAnalyticsBreadcrumb = {
@@ -40,6 +41,18 @@ export const EventAnalytics = ({
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }) => {
+    let emptyTabId = '';
+    for (let i = 0; i < tabIds.length; i++) {
+      const tid = tabIds[i];
+      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
+        emptyTabId = tid;
+        break;
+      }
+    }
+    return emptyTabId;
+  };
+
   return (
     <>
       <EuiGlobalToastList
@@ -50,53 +63,61 @@ export const EventAnalytics = ({
         toastLifeTimeMs={6000}
       />
       <HashRouter>
-      <Switch>
-        <Route
-          path={`${props.match.path}/explorer`}
-          render={(props) => {
-            chrome.setBreadcrumbs([
-              parentBreadcrumb,
-              eventAnalyticsBreadcrumb,
-              {
-                text: 'Explorer',
-                href: '#/event_analytics/explorer',
-              },
-            ]);
-            return (
-              <LogExplorer
-                pplService={ pplService }
-                dslService={ dslService }
-                savedObjects={ savedObjects }
-                timestampUtils={ timestampUtils }
-                http={ http }
-                setToast={ setToast }
-              />
-            );
-          }}
-        />
-        <Route 
-          path={props.match.path}
-          render={(props) => {
-            chrome.setBreadcrumbs([
-              parentBreadcrumb,
-              eventAnalyticsBreadcrumb,
-              {
-                text: 'Home',
-                href: '#/event_analytics',
-              }
-            ]);
-            return renderPageWithSidebar(
-              <EventExplorerHome 
-                http={ http } 
-                savedObjects={ savedObjects }
-                dslService={ dslService }
-                timestampUtils={ timestampUtils }
-              />
-            );
-          }}
-        />
-      </Switch>
-    </HashRouter>
+        <Switch>
+          <Route
+            path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
+            render={(props) => {
+              chrome.setBreadcrumbs([
+                parentBreadcrumb,
+                eventAnalyticsBreadcrumb,
+                {
+                  text: 'Explorer',
+                  href: `#/event_analytics/explorer`,
+                },
+              ]);
+              return (
+                <LogExplorer
+                  savedObjectId={props.match.params.id}
+                  pplService={pplService}
+                  dslService={dslService}
+                  savedObjects={savedObjects}
+                  timestampUtils={timestampUtils}
+                  http={http}
+                  setToast={setToast}
+                  chrome={chrome}
+                  getExistingEmptyTab={getExistingEmptyTab}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path={props.match.path}
+            render={(props) => {
+              chrome.setBreadcrumbs([
+                parentBreadcrumb,
+                eventAnalyticsBreadcrumb,
+                {
+                  text: 'Home',
+                  href: '#/event_analytics',
+                },
+              ]);
+              return (
+                <ObservabilitySideBar>
+                  <EventExplorerHome
+                    http={http}
+                    savedObjects={savedObjects}
+                    dslService={dslService}
+                    timestampUtils={timestampUtils}
+                    setToast={setToast}
+                    getExistingEmptyTab={getExistingEmptyTab}
+                  />
+                </ObservabilitySideBar>
+              );
+            }}
+          />
+        </Switch>
+      </HashRouter>
     </>
   );
-}
+};

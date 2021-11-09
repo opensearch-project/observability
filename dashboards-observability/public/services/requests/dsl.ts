@@ -44,7 +44,7 @@ export default class DSLService {
                   format: 'json',
                 }
               }
-            )
+            ).catch(error => console.error(error));
   }
 
   fetchFields = async(
@@ -58,6 +58,6 @@ export default class DSLService {
                   index: index
                 }
               }
-            )
+            ).catch(error => console.error(error));
   }
 }

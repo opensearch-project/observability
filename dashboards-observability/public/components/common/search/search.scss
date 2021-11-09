@@ -26,18 +26,20 @@
 }
 
 #autocomplete-root {
-  width: 100%;
   #autocomplete-textarea {
     width: 100%;
     outline: none;
-    min-height: 40px;
+    min-height: 80px;
     max-width: unset;
     height: 40px;
     resize: vertical;
     font-size: 16px;
   }
   .aa-Panel {
-    width: 100%;
     z-index: 2500;
   }
+}
+
+.event-date-picker {
+  max-width: 380px;
 }

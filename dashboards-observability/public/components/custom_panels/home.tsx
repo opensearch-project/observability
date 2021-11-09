@@ -11,7 +11,6 @@
 
 import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { CustomPanelListType } from '../../../common/types/custom_panels';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
 import { StaticContext } from 'react-router';
@@ -21,7 +20,13 @@ import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
-import { renderPageWithSidebar } from '../common/side_nav';
+import {
+  EVENT_ANALYTICS,
+  OBSERVABILITY_BASE,
+  SAVED_OBJECTS,
+} from '../../../common/constants/shared';
+import { CustomPanelListType } from '../../../common/types/custom_panels';
+import { ObservabilitySideBar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
@@ -220,6 +225,56 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       });
   };
 
+  const addSamplePanels = async () => {
+    try {
+      setLoading(true);
+      const flights = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_flights',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      const logs = await http
+        .get('../api/saved_objects/_find', {
+          query: {
+            type: 'index-pattern',
+            search_fields: 'title',
+            search: 'opensearch_dashboards_sample_data_logs',
+          },
+        })
+        .then((resp) => resp.total === 0);
+      if (flights || logs) setToast('Adding sample data. This can take some time.');
+      await Promise.all([
+        flights ? http.post('../api/sample_data/flights') : Promise.resolve(),
+        logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
+      ]);
+
+      let savedVisualizationIds = [];
+      await http
+        .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
+        .then((resp) => (savedVisualizationIds = [...resp.savedObjectIds]));
+
+      await http
+        .post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
+          body: JSON.stringify({
+            savedVisualizationIds: savedVisualizationIds,
+          }),
+        })
+        .then((res) => {
+          setcustomPanelData([...customPanelData, ...res.demoPanelsData]);
+        });
+      setToast(`Sample panels successfully added.`);
+    } catch (err) {
+      setToast('Error adding sample panels.', 'danger');
+      console.error(err.body.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <EuiGlobalToastList
@@ -234,18 +289,21 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         exact
         path={renderProps.match.path}
         render={(props) => {
-          return renderPageWithSidebar(
-            <CustomPanelTable
-              loading={loading}
-              fetchCustomPanels={fetchCustomPanels}
-              customPanels={customPanelData}
-              createCustomPanel={createCustomPanel}
-              setBreadcrumbs={chrome.setBreadcrumbs}
-              parentBreadcrumb={parentBreadcrumb}
-              renameCustomPanel={renameCustomPanel}
-              cloneCustomPanel={cloneCustomPanel}
-              deleteCustomPanelList={deleteCustomPanelList}
-            />
+          return (
+            <ObservabilitySideBar>
+              <CustomPanelTable
+                loading={loading}
+                fetchCustomPanels={fetchCustomPanels}
+                customPanels={customPanelData}
+                createCustomPanel={createCustomPanel}
+                setBreadcrumbs={chrome.setBreadcrumbs}
+                parentBreadcrumb={parentBreadcrumb}
+                renameCustomPanel={renameCustomPanel}
+                cloneCustomPanel={cloneCustomPanel}
+                deleteCustomPanelList={deleteCustomPanelList}
+                addSamplePanels={addSamplePanels}
+              />
+            </ObservabilitySideBar>
           );
         }}
       />

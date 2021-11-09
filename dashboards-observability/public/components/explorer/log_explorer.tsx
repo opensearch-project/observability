@@ -10,11 +10,13 @@
  */
 
 import './log_explorer.scss';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { 
   uniqueId,
-  map
+  map,
+  isEmpty,
+  forEach
 } from 'lodash';
 import $ from 'jquery';
 import {
@@ -27,7 +29,8 @@ import { Explorer } from './explorer';
 import { ILogExplorerProps } from '../../../common/types/explorer';
 import {
   TAB_TITLE,
-  TAB_ID_TXT_PFX
+  TAB_ID_TXT_PFX,
+  RAW_QUERY
 } from '../../../common/constants/explorer';
 import { 
   selectQueryTabs,
@@ -35,17 +38,20 @@ import {
   setSelectedQueryTab,
   removeTab
 } from './slices/query_tab_slice';
+import { selectQueries } from './slices/query_slice';
 import { 
   init as initFields,
   remove as removefields
 } from './slices/field_slice';
 import {
   init as initQuery,
-  remove as removeQuery
+  remove as removeQuery,
+  changeQuery
 } from './slices/query_slice';
 import { 
   init as initQueryResult,
   remove as removeQueryResult,
+  selectQueryResult,
 } from './slices/query_result_slice';
 
 export const LogExplorer = ({
@@ -53,13 +59,24 @@ export const LogExplorer = ({
   dslService,
   savedObjects,
   timestampUtils,
-  http,
-  setToast
+  setToast,
+  savedObjectId,
+  getExistingEmptyTab
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
+  const tabNames = useSelector(selectQueryTabs)['tabNames'];
+  const queries = useSelector(selectQueries);
   const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
+  const explorerData = useSelector(selectQueryResult);
+  const queryRef = useRef();
+  const tabIdsRef = useRef();
+  const explorerDataRef = useRef();
+  queryRef.current = queries;
+  tabIdsRef.current = tabIds;
+  explorerDataRef.current = explorerData;
+
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -104,15 +121,44 @@ export const LogExplorer = ({
     });
   };
 
-  function addNewTab () {
-    const tabId: string = uniqueId(TAB_ID_TXT_PFX);
-    batch(() => {
+  const addNewTab = async () => {
+
+    // get a new tabId
+    const tabId = uniqueId(TAB_ID_TXT_PFX);
+
+    // create a new tab
+    await batch(() => {
       dispatch(initQuery({ tabId, }));
       dispatch(initQueryResult({ tabId, }));
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
     });
+
+    return tabId;
   };
+
+  const dispatchSavedObjectId = async () => {
+
+    const emptyTabId = getExistingEmptyTab({
+      tabIds: tabIdsRef.current,
+      queries: queryRef.current,
+      explorerData: explorerDataRef.current
+    });
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
+
+    await dispatch(changeQuery({
+      tabId: newTabId,
+      query: {
+        'savedObjectId': savedObjectId
+      }
+    }));
+  };
+
+  useEffect(() => {
+    if (!isEmpty(savedObjectId)) {
+      dispatchSavedObjectId();
+    }
+  }, []);
 
   function getQueryTab ({
     tabTitle,
@@ -157,16 +203,21 @@ export const LogExplorer = ({
   }
 
   const memorizedTabs = useMemo(() => {
-    return map(tabIds, (tabId) => {
+    const res = map(tabIds, (tabId) => {
       return getQueryTab(
         {
-          tabTitle: TAB_TITLE,
+          tabTitle: tabNames[tabId] || TAB_TITLE,
           tabId,
           handleTabClose,
         }
       );
     });
-  }, [ tabIds ]);
+
+    return res;
+  }, [ 
+    tabIds,
+    tabNames
+  ]);
 
   return (
     <>

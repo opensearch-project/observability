@@ -43,7 +43,6 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { Cells } from '@nteract/presentational-components';
 import CSS from 'csstype';
 import moment from 'moment';
 import queryString from 'query-string';
@@ -380,7 +379,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       });
   };
 
-  // Backend call to add a paragraph
+  // Backend call to add a paragraph, switch to "view both" if in output only view
   addPara = (index: number, newParaContent: string, inpType: string) => {
     const addParaObj = {
       noteId: this.props.openedNoteId,
@@ -403,6 +402,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
 
         this.setState({ paragraphs, parsedPara });
         this.paragraphSelector(index);
+        if (this.state.selectedViewId === 'output_only')
+          this.setState({ selectedViewId: 'view_both' });
       })
       .catch((err) => {
         this.props.setToast(
@@ -995,43 +996,41 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             </EuiFlexGroup>
             {this.state.parsedPara.length > 0 ? (
               <>
-                <Cells>
-                  <PanelWrapper>
-                    {this.state.parsedPara.map((para: ParaType, index: number) => (
-                      <div
-                        ref={this.state.parsedPara[index].paraDivRef}
-                        key={`para_div_${para.uniqueId}`}
-                        style={panelStyles}
-                      >
-                        <Paragraphs
-                          ref={this.state.parsedPara[index].paraRef}
-                          para={para}
-                          setPara={(para: ParaType) => this.setPara(para, index)}
-                          dateModified={this.state.paragraphs[index]?.dateModified}
-                          index={index}
-                          paraCount={this.state.parsedPara.length}
-                          paragraphSelector={this.paragraphSelector}
-                          textValueEditor={this.textValueEditor}
-                          handleKeyPress={this.handleKeyPress}
-                          addPara={this.addPara}
-                          DashboardContainerByValueRenderer={
-                            this.props.DashboardContainerByValueRenderer
-                          }
-                          deleteVizualization={this.deleteVizualization}
-                          http={this.props.http}
-                          selectedViewId={this.state.selectedViewId}
-                          setSelectedViewId={this.updateView}
-                          deletePara={this.showDeleteParaModal}
-                          runPara={this.updateRunParagraph}
-                          clonePara={this.cloneParaButton}
-                          movePara={this.movePara}
-                          showQueryParagraphError={this.state.showQueryParagraphError}
-                          queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
-                        />
-                      </div>
-                    ))}
-                  </PanelWrapper>
-                </Cells>
+                <PanelWrapper>
+                  {this.state.parsedPara.map((para: ParaType, index: number) => (
+                    <div
+                      ref={this.state.parsedPara[index].paraDivRef}
+                      key={`para_div_${para.uniqueId}`}
+                      style={panelStyles}
+                    >
+                      <Paragraphs
+                        ref={this.state.parsedPara[index].paraRef}
+                        para={para}
+                        setPara={(para: ParaType) => this.setPara(para, index)}
+                        dateModified={this.state.paragraphs[index]?.dateModified}
+                        index={index}
+                        paraCount={this.state.parsedPara.length}
+                        paragraphSelector={this.paragraphSelector}
+                        textValueEditor={this.textValueEditor}
+                        handleKeyPress={this.handleKeyPress}
+                        addPara={this.addPara}
+                        DashboardContainerByValueRenderer={
+                          this.props.DashboardContainerByValueRenderer
+                        }
+                        deleteVizualization={this.deleteVizualization}
+                        http={this.props.http}
+                        selectedViewId={this.state.selectedViewId}
+                        setSelectedViewId={this.updateView}
+                        deletePara={this.showDeleteParaModal}
+                        runPara={this.updateRunParagraph}
+                        clonePara={this.cloneParaButton}
+                        movePara={this.movePara}
+                        showQueryParagraphError={this.state.showQueryParagraphError}
+                        queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
+                      />
+                    </div>
+                  ))}
+                </PanelWrapper>
                 {this.state.selectedViewId !== 'output_only' && (
                   <EuiPopover
                     panelPaddingSize="none"
