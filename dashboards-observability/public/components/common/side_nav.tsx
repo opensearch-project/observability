@@ -95,13 +95,13 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
         <EuiFlexGroup
           direction="column"
           justifyContent="spaceBetween"
-          style={{ height: '98%', minHeight: '80vh' }}
+          style={{ height: '100%', minHeight: '80vh' }}
           gutterSize="none"
         >
           <EuiFlexItem grow={10}>
             <EuiSideNav items={items} />
           </EuiFlexItem>
-          <EuiFlexItem grow={false}>
+          <EuiFlexItem grow={false} style={{ marginBottom: 20 }}>
             <EuiSwitch
               label="Dark mode"
               checked={isDarkMode}
@@ -110,7 +110,7 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
                   setIsDarkMode(!isDarkMode);
                   uiSettingsService.addToast({
                     title:
-                      'Changing dark mode setting requires you to reload the page to take effect.',
+                      'Theme setting changes require you to reload the page to take effect.',
                     text: toMountPoint(
                       <>
                         <EuiFlexGroup justifyContent="flexEnd" gutterSize="s">
