@@ -33,7 +33,8 @@ import { useCallback } from 'react';
 
 export interface IQueryBarProps {
   query: string;
-  handleQueryChange: (query: string, index: string) => void;
+  tempQuery: string;
+  handleQueryChange: (query: string) => void;
   handleQuerySearch: () => void;
   dslService: any;
 }
@@ -51,6 +52,7 @@ export interface IDatePickerProps {
 export const Search = (props: any) => {
   const {
     query,
+    tempQuery,
     handleQueryChange,
     handleQuerySearch,
     handleTimePickerChange,
@@ -76,14 +78,6 @@ export const Search = (props: any) => {
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
 
-  const memorizedHandleQuerySearch = useCallback(() => {
-    handleQuerySearch();
-  }, [
-    query,
-    startTime,
-    endTime
-  ]);
-
   const saveButton = (
     <EuiButton
       onClick={() => {
@@ -107,8 +101,9 @@ export const Search = (props: any) => {
           <Autocomplete
             key={"autocomplete-search-bar"}
             query={query}
-            handleQueryChange={ handleQueryChange }
-            handleQuerySearch={memorizedHandleQuerySearch}
+            tempQuery={tempQuery}
+            handleQueryChange={handleQueryChange}
+            handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
         </EuiFlexItem>
@@ -138,7 +133,7 @@ export const Search = (props: any) => {
             iconType={ isEmpty(explorerData) ? 'play': 'refresh' }
             fill={ isEmpty(explorerData) ? true : false }
             onClick={() => {
-              memorizedHandleQuerySearch();
+              handleQuerySearch();
             }}
           >
             { runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh' }
