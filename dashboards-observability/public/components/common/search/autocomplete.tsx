@@ -27,15 +27,15 @@ import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
-let currFieldType: string = '';
+let currFieldType: string | undefined = '';
 
 let inFieldsCommaLoop: boolean = false;
 let nextWhere: number = Number.MAX_SAFE_INTEGER;
 let nextStats: number = Number.MAX_SAFE_INTEGER;
 
 const indexList: string[] = [];
-const fieldsFromBackend: [] = [];
-const indicesFromBackend: [] = [];
+const fieldsFromBackend: fieldItem[] = [];
+const indicesFromBackend: indexItem[] = [];
 
 const firstCommand = [{ label: 'index' }, { label: 'search' }, { label: 'source' }];
 
@@ -67,7 +67,7 @@ const statsCommands = [
 // Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any) => {
   const filteredList = items.filter(
-    (item: { label: string }) => item.label.startsWith(word) && word !== item.label
+    (item: { label: string }) => item.label.toLowerCase().startsWith(word.toLowerCase()) && word.toLowerCase().localeCompare(item.label.toLowerCase())
   );
   const suggestionList = [];
   for (let i = 0; i < filteredList.length; i++) {
@@ -116,8 +116,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       splittedModel[splittedModel.length - 2] === 'source' ||
       splittedModel[splittedModel.length - 2] === 'index'
     ) {
-      return [{ label: str + '=', input: str, suggestion: '=' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
       );
     } else if (
       (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') ||
@@ -127,8 +127,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
-      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
       return fillSuggestions(str, prefix, [{ label: 'source' }]);
@@ -138,23 +138,23 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (nextStats === splittedModel.length - 1) {
       if (splittedModel[splittedModel.length - 2] !== 'count()') {
         const numberFields = fieldsFromBackend.filter(
-          ({ label, type }) =>
-            label.startsWith(prefix) && prefix !== label && (type === 'float' || type === 'integer')
+          (field: { label: string, type: string }) =>
+            field.label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
         );
         for (let i = 0; i < numberFields.length; i++) {
+          var field: {label: string} = numberFields[i];
           fullSuggestions.push({
-            label: str.substring(0, str.length - 1) + numberFields[i].label + ')',
-            input: str.substring(0, str.length - 1),
-            suggestion: numberFields[i].label.substring(prefix.length) + ')',
-            itemName: numberFields[i].label,
+            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ')',
+            input: str,
+            suggestion: field.label.substring(prefix.length) + ')',
+            itemName: field.label + ')',
           });
         }
-        nextStats = nextStats - 1;
         return fullSuggestions;
       }
     } else if (nextStats === splittedModel.length - 2) {
-      return [{ label: str + 'by', input: str, suggestion: 'by' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
       );
     } else if (nextStats === splittedModel.length - 3) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -172,20 +172,24 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         label: str + '=',
         input: str,
         suggestion: '=',
-        item: '=',
+        itemName: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
-      return fullSuggestions.filter(({ label }) => label.startsWith(prefix) && prefix !== label);
+      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
+      return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
+      if (!currFieldType) {
+        console.error('Current field type is undefined')
+        return [];
+      }
       return fillSuggestions(
         str,
         prefix,
         await getDataValues(currIndex, currField, currFieldType, dslService)
       );
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4) {
-      return [{ label: str + '|', input: str, suggestion: '|' }].filter(
-        ({ label }) => label.startsWith(prefix) && prefix !== label
+      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
+        ({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase())
       );
     } else if (inFieldsCommaLoop) {
       return [
@@ -193,10 +197,10 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           label: str.substring(0, str.length - 1) + ',',
           input: str.substring(0, str.length - 1),
           suggestion: ',',
-          item: ',',
+          itemName: ',',
         },
-        { label: str + '|', input: str, suggestion: '|', item: ',' },
-      ].filter(({ label }) => label.startsWith(prefix) && prefix !== label);
+        { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+      ].filter(({ label }) => label.toLowerCase().startsWith(prefix.toLowerCase()) && prefix.toLowerCase().localeCompare(label.toLowerCase()));
     }
     return [];
   }
@@ -239,7 +243,7 @@ const getDataValues = async (
 ) => {
   const res = (await dslService.fetch(getDataValueQuery(index, field))).aggregations.top_tags
     .buckets;
-  const dataValuesFromBackend: [] = [];
+  const dataValuesFromBackend: dataItem[] = [];
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
@@ -271,6 +275,20 @@ type AutocompleteItem = {
   suggestion: string;
   __autocomplete_id: number;
 };
+
+type fieldItem = {
+  label: string;
+  type: string;
+}
+
+type indexItem = {
+  label: string;
+}
+
+type dataItem = {
+  label: string;
+  doc_count: any;
+}
 
 export function Autocomplete({
   query,
@@ -342,8 +360,9 @@ export function Autocomplete({
     >
       <EuiTextArea
         {...autocomplete.getInputProps({
-          'id': 'autocomplete-textarea',
-          'placeholder': 'Enter PPL query to retrieve logs'
+          id: 'autocomplete-textarea',
+          placeholder: 'Enter PPL query to retrieve logs',
+          inputElement: null
         })}
       />
       {autocompleteState.isOpen && (
@@ -366,7 +385,7 @@ export function Autocomplete({
                     {items.length > 0 && (
                       <ul className="aa-List" {...autocomplete.getListProps()}>
                         {items.map((item, index) => {
-                          const prefix = item.input.split(' ');
+                          const fullWord = item.itemName;
                           return (
                             <li
                               key={item.__autocomplete_id}
@@ -384,7 +403,7 @@ export function Autocomplete({
                                       className="aa-ItemContentTitle"
                                       dangerouslySetInnerHTML={{
                                         __html: `<div>
-                                        <span><b>${prefix[prefix.length-1]}</b>${item.suggestion}</span>
+                                        <span><b>${fullWord.slice(0, -item.suggestion.length)}</b>${item.suggestion}</span>
                                       </div>`
                                       }}
                                     />
