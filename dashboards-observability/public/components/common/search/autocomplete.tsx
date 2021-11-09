@@ -233,7 +233,8 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       inMatch = false;
       return [{ label: str + ')', input: str, suggestion: ')' }].filter(
       ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
-    );
+      );
+    }
     return [];
   }
 };
