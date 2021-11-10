@@ -37,17 +37,8 @@ import {
   EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import {
-  RAW_QUERY,
-  TAB_ID_TXT_PFX,
-  SELECTED_DATE_RANGE,
-  EVENT_ANALYTICS_DOCUMENTATION_URL,
-} from '../../../common/constants/explorer';
-import {
-  OBSERVABILITY_BASE,
-  EVENT_ANALYTICS,
-  SAVED_OBJECTS,
-} from '../../../common/constants/shared';
+import { RAW_QUERY, TAB_ID_TXT_PFX, SELECTED_DATE_RANGE, EVENT_ANALYTICS_DOCUMENTATION_URL } from '../../../common/constants/explorer';
+import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { EmptyTabParams } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
@@ -57,6 +48,7 @@ import { init as initQuery, changeQuery } from './slices/query_slice';
 import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
 import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
+import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
@@ -151,7 +143,7 @@ export const Home = (props: IHomeProps) => {
       dispatch(changeQuery({
         tabId,
         query: {
-          'tabCreatedType': where
+          'tabCreatedType': 'redirect'
         }
       }));
     });
@@ -164,17 +156,18 @@ export const Home = (props: IHomeProps) => {
   }, []);
 
   const dispatchInitialData = (tabId: string) => {
-    dispatch(
-      changeQuery({
+    batch(() => {
+      dispatch(changeQuery({
         tabId,
         query: {
           [RAW_QUERY]: searchQuery,
-          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current,
-        },
-      })
-    );
+          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current
+        }
+      }));
+      dispatch(setSelectedQueryTab({ tabId }));
+    });
   };
-
+  
   const handleQuerySearch = async () => {
     const emptyTabId = getExistingEmptyTab({
       tabIds: tabIdsRef.current,
@@ -196,6 +189,21 @@ export const Home = (props: IHomeProps) => {
     setSelectedDateRange(timeRange);
 
   const handleHistoryClick = async (objectId: string) => {
+    const emptyTabId = getExistingEmptyTab({
+      tabIds: tabIdsRef.current,
+      queries: queryRef.current,
+      explorerData: explorerDataRef.current
+    });
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
+    batch(() => {
+      dispatch(changeQuery({
+        tabId: newTabId,
+        query: {
+          'tabCreatedType': 'redirect'
+        }
+      }));
+      dispatch(setSelectedQueryTab({ tabId: newTabId }));
+    });
     // redirect to explorer
     history.push(`/event_analytics/explorer/${objectId}`);
   };
@@ -341,6 +349,7 @@ export const Home = (props: IHomeProps) => {
                   handleQueryChange={handleQueryChange}
                   handleQuerySearch={handleQuerySearch}
                   handleTimePickerChange={handleTimePickerChange}
+                  handleTimeRangePickerRefresh={handleQuerySearch}
                   pplService={pplService}
                   dslService={dslService}
                   startTime={selectedDateRange[0]}

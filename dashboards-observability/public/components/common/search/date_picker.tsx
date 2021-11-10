@@ -26,54 +26,27 @@ export function DatePicker(props: IDatePickerProps) {
     endTime,
     setStartTime,
     setEndTime,
-    handleTimePickerChange
+    handleTimePickerChange,
+    handleTimeRangePickerRefresh
   } = props;
 
-  function handleTimeChange({
-    start,
-    end,
-  }: {
-    start: string;
-    end: string;
-  }) {
-    setStartTime(start);
-    setEndTime(end);
-  }
-
-  function handleRefresh({ 
-    start, 
-    end 
-  }: { 
-      start: string,
-      end: string,
-      label?: string,
-      refreshInterval: number
-  }) {
-    const retVal = {
-      dateRange: {
-        from: start,
-        to: end,
-      },
-    };
-    setStartTime(start);
-    setEndTime(end);
-  }
+  const handleTimeChange = (e) => {
+    const start = e.start;
+    const end = e.start === e.end ? 'now' : e.end;
+    handleTimePickerChange([start, end]);
+  };
 
   return (
     <EuiFlexItem
       className="euiFlexItem--flexGrowZero event-date-picker"
-      style={{maxWidth: '40vw'}}
+      style={{maxWidth: '35vw'}}
     >
       <EuiSuperDatePicker
         start={startTime}
         end={endTime}
         dateFormat={uiSettingsService.get('dateFormat')}
-        onTimeChange={(e) => {
-          const start = e.start;
-          const end = e.start === e.end ? 'now' : e.end;
-          handleTimePickerChange([start, end]);
-        }}
-        onRefresh={ handleRefresh }
+        onTimeChange={handleTimeChange}
+        onRefresh={handleTimeRangePickerRefresh}
         className="osdQueryBar__datePicker"
       />
     </EuiFlexItem>
