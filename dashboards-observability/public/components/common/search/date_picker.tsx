@@ -65,9 +65,8 @@ export function DatePicker(props: IDatePickerProps) {
       style={{maxWidth: '40vw'}}
     >
       <EuiSuperDatePicker
-        start={ startTime }
-        end={ endTime }
-        showUpdateButton={ false }
+        start={startTime}
+        end={endTime}
         dateFormat={uiSettingsService.get('dateFormat')}
         onTimeChange={(e) => {
           const start = e.start;

@@ -49,7 +49,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         key={ uniqueId('datagrid-cell-') }
         className={ clsName }
       >
-        { content }
+        { typeof(content) === 'boolean' ? String(content) : content }
       </td>);
   };
 

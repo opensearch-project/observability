@@ -11,7 +11,7 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement, useRef, useEffect, useCallback } from 'react';
+import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -138,16 +138,22 @@ export const Home = (props: IHomeProps) => {
       });
   };
 
-  const addNewTab = async () => {
+  const addNewTab = async (where: string = 'redirect') => {
     //get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
     // create a new tab
     await batch(() => {
-      dispatch(initQuery({ tabId }));
-      dispatch(initQueryResult({ tabId }));
-      dispatch(initFields({ tabId }));
-      dispatch(addTab({ tabId }));
+      dispatch(initQuery({ tabId, }));
+      dispatch(initQueryResult({ tabId, }));
+      dispatch(initFields({ tabId, }));
+      dispatch(addTab({ tabId, }));
+      dispatch(changeQuery({
+        tabId,
+        query: {
+          'tabCreatedType': where
+        }
+      }));
     });
 
     return tabId;
