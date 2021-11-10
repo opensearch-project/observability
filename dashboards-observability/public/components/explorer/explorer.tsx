@@ -53,7 +53,7 @@ import { useFetchEvents, useFetchVisualizations } from './hooks';
 import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
 import { selectFields, updateFields, sortFields } from './slices/field_slice';
-import { updateTabName, selectQueryTabs } from './slices/query_tab_slice';
+import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import PPLService from '../../services/requests/ppl';
@@ -89,7 +89,8 @@ export const Explorer = ({
   savedObjects,
   timestampUtils,
   setToast,
-  history
+  history,
+  savedObjectId
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId, };
@@ -115,7 +116,6 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  const queryTabName = useSelector(selectQueryTabs)['tabNames'][tabId];
   
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -189,6 +189,7 @@ export const Explorer = ({
           query: {
             [RAW_QUERY]: objectData?.query || '',
             [SELECTED_TIMESTAMP]: objectData?.selected_timestamp?.name || 'timestamp',
+            [SAVED_OBJECT_ID]: objectId,
             [SAVED_OBJECT_TYPE]: savedType,
             [SELECTED_DATE_RANGE]: objectData?.selected_date_range?.start &&
             objectData?.selected_date_range?.end ? 
@@ -213,33 +214,25 @@ export const Explorer = ({
       setCurVisId(objectData?.type || 'bar');
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING[SAVED_QUERY] : TYPE_TAB_MAPPING[SAVED_VISUALIZATION]
       setSelectedContentTab(tabToBeFocused);
+
+      fetchData();
+
     })
     .catch((error) => {
       setToast(`Cannot get saved data for object id: ${objectId}, error: ${error.message}`, 'danger');
     });
   };
 
-  const fetchSavedResult = async () => {
-    const curQuery = queryRef.current;
-    if (!isEmpty(curQuery![SAVED_OBJECT_ID])) {
-      await getSavedDataById(curQuery![SAVED_OBJECT_ID]);
-    }
-  };
-
   const fetchData = async () => {
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-
-    if (
-      isEmpty(rawQueryStr) ||
-      (!isEmpty(curQuery![SAVED_OBJECT_ID]) && isEmpty(queryTabName))
-    ) return;
+    if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
       setToast('Query does not include vaild index.', 'danger');
       return;
     }
-    
+
     let curTimestamp = '';
     let hasSavedTimestamp = false;
 
@@ -301,20 +294,26 @@ export const Explorer = ({
     setPrevIndex(curTimestamp || curQuery![SELECTED_TIMESTAMP]);
   };
 
+  const updateTabData = async (objectId: string) => {
+    await getSavedDataById(objectId);
+    await fetchData();
+  };
+
   useEffect(
     () => {
-      if (
-        (isEmpty(query.savedObjectId) && !isEmpty(query[RAW_QUERY])) ||
-        query.savedObjectId
-      ) {
-        fetchSavedResult();
+      let objectId;
+      if (queryRef.current!['tabCreatedType'] === 'fromClick') {
+        objectId = queryRef.current!.savedObjectId || '';
+      } else {
+        objectId = queryRef.current!.savedObjectId || savedObjectId;
+      }
+      if (objectId) {
+        updateTabData(objectId);
+      } else {
         fetchData();
       }
     },
-    [
-      query.savedObjectId,
-      queryTabName
-    ]
+    []
   );
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
@@ -670,8 +669,6 @@ export const Explorer = ({
             tabId,
             tabName: selectedPanelNameRef.current
           }));
-          // fetchSavedResult();
-          // fetchData();
           return res;
         })
         .catch((error: any) => {
@@ -681,10 +678,21 @@ export const Explorer = ({
         // create new saved query
         savedObjects.createSavedQuery(params)
         .then((res: any) => {
+          history.replace(`/event_analytics/explorer/${res['objectId']}`);
           setToast(`New query '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
-          // location.pathname.replace(/[^/]*$/, `/${res['objectId']}`)
-          getSavedDataById(res['objectId']);
-          fetchData();
+          batch(() => {
+            dispatch(changeQuery({
+              tabId,
+              query: {
+                [SAVED_OBJECT_ID]: res['objectId'],
+                [SAVED_OBJECT_TYPE]: SAVED_QUERY
+              }
+            }));
+            dispatch(updateTabName({
+              tabId,
+              tabName: selectedPanelNameRef.current
+            }));
+          });
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
         })
         .catch((error: any) => { 
@@ -728,20 +736,21 @@ export const Explorer = ({
           timestamp: currQuery![SELECTED_TIMESTAMP]
         })
         .then((res: any) => {
-          setToast(`New visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
-          // batch(async () => {
-          //   await dispatch(changeQuery({
-          //     tabId,
-          //     [SAVED_OBJECT_ID]: res['objectId']
-          //   }));
-          //   await dispatch(updateTabName({
-          //     tabId,
-          //     tabName: selectedPanelNameRef.current
-          //   }));
-          // });
-          // getSavedDataById(res['objectId']);
-          // fetchData();
+          batch(() => {
+            dispatch(changeQuery({
+              tabId,
+              query: {
+                [SAVED_OBJECT_ID]: res['objectId'],
+                [SAVED_OBJECT_TYPE]: SAVED_VISUALIZATION
+              }
+            }));
+            dispatch(updateTabName({
+              tabId,
+              tabName: selectedPanelNameRef.current
+            }));
+          });
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
+          setToast(`New visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
         })
         .catch((error: any) => {
           setToast(`Cannot save Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');

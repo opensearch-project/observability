@@ -129,7 +129,7 @@ export const Home = (props: IHomeProps) => {
           });
   };
 
-  const addNewTab = async () => {
+  const addNewTab = async (where: string = 'redirect') => {
     //get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
@@ -139,6 +139,12 @@ export const Home = (props: IHomeProps) => {
       dispatch(initQueryResult({ tabId, }));
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
+      dispatch(changeQuery({
+        tabId,
+        query: {
+          'tabCreatedType': where
+        }
+      }));
     });
 
     return tabId;

@@ -10,7 +10,7 @@
  */
 
 import './log_explorer.scss';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { 
   uniqueId,
@@ -79,11 +79,13 @@ export const LogExplorer = ({
   tabIdsRef.current = tabIds;
   explorerDataRef.current = explorerData;
 
+  const [tabCreatedTypes, setTabCreatedTypes] = useState({});
+
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
     const addNewLink = $('<a class="linkNewTag">+ Add new</a>').on('click', () => {
-      addNewTab();
+      addNewTab('fromClick');
     });
     $('.queryTabs > .euiTabs').append(addNewLink);
     return () => {
@@ -92,9 +94,7 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    console.log('${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}: ', `${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}`);
     history.replace(`/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`);
-    // location.pathname.replace(/[^/]*$/, `/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}`);
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
@@ -126,8 +126,8 @@ export const LogExplorer = ({
     });
   };
 
-  const addNewTab = async () => {
-
+  const addNewTab = async (where: string = 'redirect') => {
+    
     // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
@@ -137,9 +137,20 @@ export const LogExplorer = ({
       dispatch(initQueryResult({ tabId, }));
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
+      dispatch(changeQuery({
+        tabId,
+        query: {
+          'tabCreatedType': where
+        }
+      }));
     });
 
-    // history.replace(`/event_analytics/explorer/${queryRef.current![tabId][SAVED_OBJECT_ID] || ''}`);
+    setTabCreatedTypes(staleState => {
+      return {
+        ...staleState,
+        [tabId]: where
+      };
+    });
 
     return tabId;
   };
@@ -152,13 +163,7 @@ export const LogExplorer = ({
       explorerData: explorerDataRef.current
     });
     const newTabId = emptyTabId ? emptyTabId : await addNewTab();
-
-    await dispatch(changeQuery({
-      tabId: newTabId,
-      query: {
-        'savedObjectId': savedObjectId
-      }
-    }));
+    return newTabId;
   };
 
   useEffect(() => {
@@ -205,6 +210,8 @@ export const LogExplorer = ({
             timestampUtils={ timestampUtils }
             setToast={ setToast }
             history={history}
+            savedObjectId={savedObjectId}
+            tabCreatedTypes={tabCreatedTypes}
           />
         </>)
     };
@@ -224,7 +231,8 @@ export const LogExplorer = ({
     return res;
   }, [ 
     tabIds,
-    tabNames
+    tabNames,
+    tabCreatedTypes
   ]);
 
   return (
