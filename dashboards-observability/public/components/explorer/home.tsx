@@ -29,13 +29,6 @@ import {
   EuiPopover,
   EuiContextMenuPanel,
   EuiContextMenuItem,
-<<<<<<< HEAD
-  EuiOverlayMask
-} from '@elastic/eui';
-import { Search } from '../common/search/search';
-import { RAW_QUERY, TAB_ID_TXT_PFX, SELECTED_DATE_RANGE } from '../../../common/constants/explorer';
-import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
-=======
   EuiOverlayMask,
   EuiLink,
   EuiPageContentHeader,
@@ -44,18 +37,8 @@ import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../com
   EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import {
-  RAW_QUERY,
-  TAB_ID_TXT_PFX,
-  SELECTED_DATE_RANGE,
-  EVENT_ANALYTICS_DOCUMENTATION_URL,
-} from '../../../common/constants/explorer';
-import {
-  OBSERVABILITY_BASE,
-  EVENT_ANALYTICS,
-  SAVED_OBJECTS,
-} from '../../../common/constants/shared';
->>>>>>> main
+import { RAW_QUERY, TAB_ID_TXT_PFX, SELECTED_DATE_RANGE, EVENT_ANALYTICS_DOCUMENTATION_URL } from '../../../common/constants/explorer';
+import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { EmptyTabParams } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
@@ -160,11 +143,7 @@ export const Home = (props: IHomeProps) => {
       dispatch(changeQuery({
         tabId,
         query: {
-<<<<<<< HEAD
           'tabCreatedType': 'redirect'
-=======
-          'tabCreatedType': where
->>>>>>> main
         }
       }));
     });
