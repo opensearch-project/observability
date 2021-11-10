@@ -43,6 +43,7 @@ import { init as initQuery, changeQuery } from './slices/query_slice';
 import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
 import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
+import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 
 interface IHomeProps {
@@ -142,7 +143,7 @@ export const Home = (props: IHomeProps) => {
       dispatch(changeQuery({
         tabId,
         query: {
-          'tabCreatedType': where
+          'tabCreatedType': 'redirect'
         }
       }));
     });
@@ -155,16 +156,18 @@ export const Home = (props: IHomeProps) => {
   }, []);
 
   const dispatchInitialData = (tabId: string) => {
-    dispatch(changeQuery({
-      tabId,
-      query: {
-        [RAW_QUERY]: searchQuery,
-        [SELECTED_DATE_RANGE]: selectedDateRangeRef.current
-      }
-    }));
+    batch(() => {
+      dispatch(changeQuery({
+        tabId,
+        query: {
+          [RAW_QUERY]: searchQuery,
+          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current
+        }
+      }));
+      dispatch(setSelectedQueryTab({ tabId }));
+    });
   };
   
-
   const handleQuerySearch = async () => {
 
     const emptyTabId = getExistingEmptyTab({
@@ -186,6 +189,21 @@ export const Home = (props: IHomeProps) => {
   const handleTimePickerChange = async (timeRange: Array<string>) => setSelectedDateRange(timeRange);
 
   const handleHistoryClick = async (objectId: string) => {
+    const emptyTabId = getExistingEmptyTab({
+      tabIds: tabIdsRef.current,
+      queries: queryRef.current,
+      explorerData: explorerDataRef.current
+    });
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
+    batch(() => {
+      dispatch(changeQuery({
+        tabId: newTabId,
+        query: {
+          'tabCreatedType': 'redirect'
+        }
+      }));
+      dispatch(setSelectedQueryTab({ tabId: newTabId }));
+    });
     // redirect to explorer
     history.push(`/event_analytics/explorer/${objectId}`);
   };
@@ -314,6 +332,7 @@ export const Home = (props: IHomeProps) => {
                   handleQueryChange={handleQueryChange}
                   handleQuerySearch={handleQuerySearch}
                   handleTimePickerChange={handleTimePickerChange}
+                  handleTimeRangePickerRefresh={handleQuerySearch}
                   pplService={pplService}
                   dslService={dslService}
                   startTime={selectedDateRange[0]}
