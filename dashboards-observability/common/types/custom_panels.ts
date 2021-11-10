@@ -12,8 +12,8 @@
 export type CustomPanelListType = {
   name: string;
   id: string;
-  dateCreated: string;
-  dateModified: string;
+  dateCreated: number;
+  dateModified: number;
 };
 
 export type VisualizationType = {

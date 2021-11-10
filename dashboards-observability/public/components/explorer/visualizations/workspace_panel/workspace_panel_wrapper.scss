@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   position: relative; // For positioning the dnd overlay
-  min-height: $euiSizeXXL * 10;
+  min-height: 50vh;
 
   .lnsWorkspacePanelWrapper__pageContentHeader {
     @include euiTitle('xs');
