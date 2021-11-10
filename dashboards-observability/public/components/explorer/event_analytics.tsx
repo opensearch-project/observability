@@ -13,7 +13,7 @@ import { EuiGlobalToastList } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { isEmpty } from 'lodash';
 import React, { ReactChild, useState } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, useHistory } from 'react-router-dom';
 import { RAW_QUERY } from '../../../common/constants/explorer';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { Home as EventExplorerHome } from './home';
@@ -29,6 +29,7 @@ export const EventAnalytics = ({
   http,
   ...props
 }: any) => {
+  const history = useHistory();
   const [toasts, setToasts] = useState<Array<Toast>>([]);
 
   const eventAnalyticsBreadcrumb = {
@@ -86,6 +87,7 @@ export const EventAnalytics = ({
                   setToast={setToast}
                   chrome={chrome}
                   getExistingEmptyTab={getExistingEmptyTab}
+                  history={history}
                 />
               );
             }}
@@ -111,6 +113,7 @@ export const EventAnalytics = ({
                     timestampUtils={timestampUtils}
                     setToast={setToast}
                     getExistingEmptyTab={getExistingEmptyTab}
+                    history={history}
                   />
                 </ObservabilitySideBar>
               );

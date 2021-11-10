@@ -29,9 +29,11 @@ import { selectQueries } from '../slices/query_slice';
 import { reset as visualizationReset } from '../slices/visualization_slice';
 import {
   updateFields,
-  sortFields
+  sortFields,
+  selectFields
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
+import { IField } from 'common/types/explorer';
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -46,8 +48,11 @@ export const useFetchEvents = ({
   const dispatch = useDispatch();
   const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
+  const fields = useSelector(selectFields);
   const queriesRef = useRef();
+  const fieldsRef = useRef();
   queriesRef.current = queries;
+  fieldsRef.current = fields;
 
   const fetchEvents = async (
     { query }: { query: string },
@@ -72,6 +77,7 @@ export const useFetchEvents = ({
   };
 
   const dispatchOnGettingHis = (res: any) => {
+    const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map((field: IField) => field.name);
     batch(() => {
       dispatch(queryResultReset({
         tabId: requestParams.tabId
@@ -87,7 +93,9 @@ export const useFetchEvents = ({
         data: {
           [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
           [QUERIED_FIELDS]: [],
-          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
+          [AVAILABLE_FIELDS]: res?.schema ? 
+            isEmpty(selectedFields) ? 
+            [...res.schema] : [...res?.schema.filter((curField: IField) => !selectedFields.includes(curField.name))] : []
         }
       }));
       dispatch(sortFields({
