@@ -149,7 +149,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       inMatch = true;
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
-      return [{ label: str + ',', input: str, suggestion: ','}].filter(
+      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     } else if (splittedModel[splittedModel.length - 2] === 'search') {
@@ -242,7 +242,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase()));
     }  else if (inMatch) {
       inMatch = false;
-      return [{ label: str + ')', input: str, suggestion: ')' }].filter(
+      return [{ label: str + ')', input: str, suggestion: ')', itemName: ')' }].filter(
       ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     }
