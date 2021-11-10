@@ -244,7 +244,7 @@ export const CustomPanelTable = ({
         addSamplePanels();
       }}
     >
-      Add sample panel
+      Add samples
     </EuiContextMenuItem>,
   ];
 
@@ -390,7 +390,7 @@ export const CustomPanelTable = ({
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => addSamplePanels()}>
-                      Add sample panel
+                      Add samples
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

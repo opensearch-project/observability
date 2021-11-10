@@ -156,7 +156,8 @@ export default class SavedObjectFacet {
       data: {},
     };
     try {
-      let savedRes: any[] = [];
+      let savedVizIds: any[] = [];
+      let savedQueryIds: any[] = [];
 
       if (['panels', 'event_analytics'].includes(request.params.sampleRequestor)) {
         for (var i = 0; i < sampleVisualizations.length; i++) {
@@ -168,11 +169,9 @@ export default class SavedObjectFacet {
             },
           };
           const savedVizRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-          savedRes.push(savedVizRes.objectId);
+          savedVizIds.push(savedVizRes.objectId);
         }
-      }
 
-      if (request.params.sampleRequestor === 'event_analytics') {
         for (var i = 0; i < sampleQueries.length; i++) {
           const params = {
             body: {
@@ -181,15 +180,15 @@ export default class SavedObjectFacet {
               },
             },
           };
-          const savedObjectsRes = await this.client
+          const savedQueryRes = await this.client
             .asScoped(request)
             .callAsCurrentUser(format, params);
-          savedRes.push(savedObjectsRes.objectId);
+          savedQueryIds.push(savedQueryRes.objectId);
         }
       }
 
       res['success'] = true;
-      res['data'] = { savedObjectIds: savedRes };
+      res['data'] = { savedVizIds: savedVizIds, savedQueryIds: savedQueryIds };
     } catch (err: any) {
       console.error('Event analytics create error: ', err);
       res['data'] = err;

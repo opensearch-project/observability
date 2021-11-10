@@ -261,7 +261,7 @@ export function NoteTable(props: NoteTableProps) {
         addSampleNotebooks();
       }}
     >
-      Add sample notebooks
+      Add samples
     </EuiContextMenuItem>,
   ];
 
@@ -405,7 +405,7 @@ export function NoteTable(props: NoteTableProps) {
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => addSampleNotebooks()}>
-                      Add sample notebooks
+                      Add samples
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

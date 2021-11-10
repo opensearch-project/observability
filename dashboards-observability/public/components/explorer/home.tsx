@@ -58,7 +58,7 @@ import { init as initQueryResult, selectQueryResult } from './slices/query_resul
 import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
-import { CUSTOM_PANELS_DOCUMENTATION_URL } from 'common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 
 interface IHomeProps {
   pplService: any;
@@ -225,8 +225,14 @@ export const Home = (props: IHomeProps) => {
           `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/event_analytics`
         )
         .then(async (resp: any) => {
+          await http.post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
+            body: JSON.stringify({
+              savedVisualizationIds: [...resp?.savedVizIds],
+            }),
+          });
+
           const res = await savedObjects.fetchSavedObjects({
-            objectIdList: resp?.savedObjectIds || [],
+            objectIdList: [...resp?.savedVizIds, ...resp?.savedQueryIds] || [],
             objectType: ['savedQuery', 'savedVisualization'],
             sortOrder: 'desc',
             fromIndex: 0,
@@ -294,7 +300,7 @@ export const Home = (props: IHomeProps) => {
         addSampleEvents();
       }}
     >
-      Add sample events data
+      Add samples
     </EuiContextMenuItem>,
   ];
 
@@ -401,7 +407,7 @@ export const Home = (props: IHomeProps) => {
                       </EuiFlexItem>
                       <EuiFlexItem grow={false}>
                         <EuiButton fullWidth={false} onClick={() => addSampleEvents()}>
-                          Add sample events data
+                          Add samples
                         </EuiButton>
                       </EuiFlexItem>
                     </EuiFlexGroup>
