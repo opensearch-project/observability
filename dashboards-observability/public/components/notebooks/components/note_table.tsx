@@ -53,7 +53,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../../src/core/public';
-import { CREATE_NOTE_MESSAGE, NOTEBOOKS_DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
+import {
+  CREATE_NOTE_MESSAGE,
+  NOTEBOOKS_DOCUMENTATION_URL,
+} from '../../../../common/constants/notebooks';
 import { UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import {
   DeleteNotebookModal,
@@ -343,42 +346,44 @@ export function NoteTable(props: NoteTableProps) {
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule margin="m" />
-            <EuiFieldSearch
-              fullWidth
-              placeholder="Search notebook name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <EuiHorizontalRule margin="m" />
             {notebooks.length > 0 ? (
-              <EuiInMemoryTable
-                loading={props.loading}
-                items={
-                  searchQuery
-                    ? notebooks.filter((notebook) =>
-                        notebook.path.toLowerCase().includes(searchQuery.toLowerCase())
-                      )
-                    : notebooks
-                }
-                itemId="id"
-                columns={tableColumns}
-                tableLayout="auto"
-                pagination={{
-                  initialPageSize: 10,
-                  pageSizeOptions: [8, 10, 13],
-                }}
-                sorting={{
-                  sort: {
-                    field: 'dateModified',
-                    direction: 'desc',
-                  },
-                }}
-                allowNeutralSort={false}
-                isSelectable={true}
-                selection={{
-                  onSelectionChange: (items) => setSelectedNotebooks(items),
-                }}
-              />
+              <>
+                <EuiFieldSearch
+                  fullWidth
+                  placeholder="Search notebook name"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <EuiHorizontalRule margin="m" />
+                <EuiInMemoryTable
+                  loading={props.loading}
+                  items={
+                    searchQuery
+                      ? notebooks.filter((notebook) =>
+                          notebook.path.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
+                      : notebooks
+                  }
+                  itemId="id"
+                  columns={tableColumns}
+                  tableLayout="auto"
+                  pagination={{
+                    initialPageSize: 10,
+                    pageSizeOptions: [8, 10, 13],
+                  }}
+                  sorting={{
+                    sort: {
+                      field: 'dateModified',
+                      direction: 'desc',
+                    },
+                  }}
+                  allowNeutralSort={false}
+                  isSelectable={true}
+                  selection={{
+                    onSelectionChange: (items) => setSelectedNotebooks(items),
+                  }}
+                />
+              </>
             ) : (
               <>
                 <EuiSpacer size="xxl" />

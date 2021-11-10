@@ -34,6 +34,7 @@ import {
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
   EuiText,
+  EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
 import {
@@ -293,7 +294,7 @@ export const Home = (props: IHomeProps) => {
         addSampleEvents();
       }}
     >
-      Add sample Events Data
+      Add sample events data
     </EuiContextMenuItem>,
   ];
 
@@ -365,16 +366,48 @@ export const Home = (props: IHomeProps) => {
                 </EuiFlexGroup>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
-            <EuiSpacer size="m" />
+            <EuiHorizontalRule margin="m" />
             <EuiFlexGroup>
               <EuiFlexItem grow={true}>
-                <EventHomeHistories
-                  savedHistories={savedHistories}
-                  handleHistoryClick={handleHistoryClick}
-                  isTableLoading={isTableLoading}
-                  handleSelectHistory={setSelectedHisotries}
-                  selectedHisotries={selectedHisotries}
-                />
+                {savedHistories.length > 0 ? (
+                  <EventHomeHistories
+                    savedHistories={savedHistories}
+                    handleHistoryClick={handleHistoryClick}
+                    isTableLoading={isTableLoading}
+                    handleSelectHistory={setSelectedHisotries}
+                    selectedHisotries={selectedHisotries}
+                  />
+                ) : (
+                  <>
+                    <EuiSpacer size="xxl" />
+                    <EuiText textAlign="center">
+                      <h2>No Queries or Visualizations</h2>
+                      <EuiSpacer size="m" />
+                      <EuiText color="subdued">
+                        Use events analytics to create and save frequently searched
+                        <br />
+                        queries and visualizations, using PPL.
+                      </EuiText>
+                    </EuiText>
+                    <EuiSpacer size="m" />
+                    <EuiFlexGroup justifyContent="center">
+                      <EuiFlexItem grow={false}>
+                        <EuiButton
+                          fullWidth={false}
+                          onClick={() => history.push(`/event_analytics/explorer`)}
+                        >
+                          Event Explorer
+                        </EuiButton>
+                      </EuiFlexItem>
+                      <EuiFlexItem grow={false}>
+                        <EuiButton fullWidth={false} onClick={() => addSampleEvents()}>
+                          Add sample events data
+                        </EuiButton>
+                      </EuiFlexItem>
+                    </EuiFlexGroup>
+                    <EuiSpacer size="xxl" />
+                  </>
+                )}
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPageContent>
