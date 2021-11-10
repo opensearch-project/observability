@@ -11,6 +11,7 @@
 
 import { CoreStart } from '../../../../src/core/public';
 import httpClientMock from './httpClientMock';
+import { of } from 'rxjs';
 
 const coreStartMock = ({
   uiSettings: {
@@ -18,6 +19,7 @@ const coreStartMock = ({
   },
   chrome: {
     setBreadcrumbs: jest.fn(),
+    getIsNavDrawerLocked$: jest.fn(() => of(true)),
   },
   notifications: {
     toasts: {
