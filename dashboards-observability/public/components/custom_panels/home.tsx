@@ -255,7 +255,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       let savedVisualizationIds = [];
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
-        .then((resp) => (savedVisualizationIds = [...resp.savedObjectIds]));
+        .then((resp) => (savedVisualizationIds = [...resp.savedVizIds]));
 
       await http
         .post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
