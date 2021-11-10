@@ -30,7 +30,8 @@ import { ILogExplorerProps } from '../../../common/types/explorer';
 import {
   TAB_TITLE,
   TAB_ID_TXT_PFX,
-  RAW_QUERY
+  RAW_QUERY,
+  SAVED_OBJECT_ID
 } from '../../../common/constants/explorer';
 import { 
   selectQueryTabs,
@@ -61,7 +62,8 @@ export const LogExplorer = ({
   timestampUtils,
   setToast,
   savedObjectId,
-  getExistingEmptyTab
+  getExistingEmptyTab,
+  history
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -90,6 +92,9 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
+    console.log('${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}: ', `${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}`);
+    history.replace(`/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`);
+    // location.pathname.replace(/[^/]*$/, `/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID]}`);
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
@@ -133,6 +138,8 @@ export const LogExplorer = ({
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
     });
+
+    // history.replace(`/event_analytics/explorer/${queryRef.current![tabId][SAVED_OBJECT_ID] || ''}`);
 
     return tabId;
   };
@@ -197,6 +204,7 @@ export const LogExplorer = ({
             savedObjects={ savedObjects }
             timestampUtils={ timestampUtils }
             setToast={ setToast }
+            history={history}
           />
         </>)
     };

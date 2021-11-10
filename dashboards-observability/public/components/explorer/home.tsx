@@ -11,7 +11,7 @@
 
 import './home.scss';
 
-import React, { useState, ReactElement, useRef, useEffect, useCallback } from 'react';
+import React, { useState, ReactElement, useRef, useEffect } from 'react';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -29,25 +29,17 @@ import {
   EuiPopover,
   EuiContextMenuPanel,
   EuiContextMenuItem,
-  EuiOverlayMask,
-
+  EuiOverlayMask
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import {
-  RAW_QUERY,
-  TAB_ID_TXT_PFX,
-  SELECTED_DATE_RANGE,
-} from '../../../common/constants/explorer';
+import { RAW_QUERY, TAB_ID_TXT_PFX, SELECTED_DATE_RANGE } from '../../../common/constants/explorer';
 import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { EmptyTabParams } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
 import { init as initFields } from './slices/field_slice';
-import {
-  init as initQuery,
-  changeQuery
-} from './slices/query_slice';
+import { init as initQuery, changeQuery } from './slices/query_slice';
 import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
 import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
@@ -322,7 +314,7 @@ export const Home = (props: IHomeProps) => {
                   endTime={selectedDateRange[1]}
                   setStartTime={() => {}}
                   setEndTime={() => {}}
-                  showSaveButton={ false }
+                  showSaveButton={false}
                   runButtonText="New Query"
                 />
               </EuiFlexItem>
