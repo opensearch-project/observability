@@ -23,6 +23,14 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * added find auto interval ([#167](https://github.com/opensearch-project/trace-analytics/pull/167))
 * Feature available fields timestamp ([#179](https://github.com/opensearch-project/trace-analytics/pull/179))
 * Added aggregate functions to autocomplete ([#185](https://github.com/opensearch-project/trace-analytics/pull/185))
+* Feature event analytics imporovements and fixes ([#199](https://github.com/opensearch-project/trace-analytics/pull/199))
+* Added support for sample panels ([#200](https://github.com/opensearch-project/trace-analytics/pull/200))
+* Feature couple of features and fixes ([#202](https://github.com/opensearch-project/trace-analytics/pull/202))
+* Add match command to AutoComplete ([#203](https://github.com/opensearch-project/trace-analytics/pull/203))
+* Add error handler when fetching ppl in event explorer ([#204](https://github.com/opensearch-project/trace-analytics/pull/204))
+* Support dark mode for notebooks and other style improvements ([#206](https://github.com/opensearch-project/trace-analytics/pull/206))
+* Add toggle dark mode in observability side bar ([#209](https://github.com/opensearch-project/trace-analytics/pull/209))
+* Panel bug fixes4 and PPL Reference Manual ([#211](https://github.com/opensearch-project/trace-analytics/pull/211))
 
 ### Enhancements
 * Adding plugin backend adaptor ([#126](https://github.com/opensearch-project/trace-analytics/pull/126))
@@ -42,6 +50,8 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Home table update ([#174](https://github.com/opensearch-project/trace-analytics/pull/174))
 * Icon that redirects to PPL Documentation next to Search Bar ([#183](https://github.com/opensearch-project/trace-analytics/pull/183))
 * Suggestions are shown in dark mode if settings change ([#187](https://github.com/opensearch-project/trace-analytics/pull/187))
+* Case insensitive Autocomplete ([#207](https://github.com/opensearch-project/trace-analytics/pull/207))
+* Adjust wording and margin for dark toggle button ([#210](https://github.com/opensearch-project/trace-analytics/pull/210))
 
 ### Bug Fixes
 * Redirect legacy notebooks URL to current observability one ([#141](https://github.com/opensearch-project/trace-analytics/pull/141))
@@ -51,6 +61,11 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Panels bug fix2 ([#170](https://github.com/opensearch-project/trace-analytics/pull/170))
 * timestamp fix ([#175](https://github.com/opensearch-project/trace-analytics/pull/175))
 * Fix deleting all paragraphs for notebooks ([#184](https://github.com/opensearch-project/trace-analytics/pull/184))
+* Fix for duplicate indices in suggestion ([#190](https://github.com/opensearch-project/trace-analytics/pull/190))
+* added panels modifications and bug fix ([#194](https://github.com/opensearch-project/trace-analytics/pull/194))
+* Update plugin ID and bug fixes ([#195](https://github.com/opensearch-project/trace-analytics/pull/195))
+* Feature autocomplete fix ([#208](https://github.com/opensearch-project/trace-analytics/pull/208))
+* Use parent height instead of view port height for nav bar ([#212](https://github.com/opensearch-project/trace-analytics/pull/212))
 
 ### Infrastructure
 * Refactor trace analytics UT and IT, sync main branch ([#107](https://github.com/opensearch-project/trace-analytics/pull/107))
