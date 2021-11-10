@@ -158,7 +158,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
     } else if (nextStats === splittedModel.length - 1) {
-      if (splittedModel[splittedModel.length - 2] !== 'count()') {
+      if (statsCommands.filter(c => c.label === splittedModel[splittedModel.length - 2]).length > 0) {
+        if (splittedModel[splittedModel.length - 2] === 'count()') {
+          return [
+            { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }
+          ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+          );
+        } else {
         const numberFields = fieldsFromBackend.filter(
           (field: { label: string, type: string }) =>
             field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
@@ -173,10 +179,15 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           });
         }
         return fullSuggestions;
+        }
       }
+    } else if (nextStats === splittedModel.length - 2 && splittedModel[splittedModel.length - 3] === 'count()') {
+      return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (nextStats === splittedModel.length - 3) {
-      return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+      return [
+        { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' },
+        { label: str + '|', input: str, suggestion: '|', itemName: '|' }
+      ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (nextStats === splittedModel.length - 4) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -215,7 +226,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         );
       }
       return [];
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splitteModel.length - 5) {
+    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
