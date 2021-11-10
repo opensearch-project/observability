@@ -74,6 +74,7 @@ export const Search = (props: any) => {
     showSaveButton = true,
     setToast,
     runButtonText,
+    handleTimeRangePickerRefresh
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -94,15 +95,16 @@ export const Search = (props: any) => {
 
   const saveButton = (
     <EuiButton
+      iconSide="right"
       onClick={() => {
         setIsSavePanelOpen((staleState) => {
           return !staleState;
         });
       }}
       data-test-subj="saved-query-management-popover-button"
+      iconType="arrowDown"
     >
-      <EuiIcon size="m" type="save" className="euiQuickSelectPopover__buttonText" />
-      <EuiIcon type="arrowDown" />
+      Save
     </EuiButton>
   );
 
@@ -137,19 +139,8 @@ export const Search = (props: any) => {
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
             handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
+            handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           />
-        </EuiFlexItem>
-        <EuiFlexItem key={'search-run'} className="euiFlexItem--flexGrowZero">
-          <EuiButton
-            size="m"
-            iconType={isEmpty(explorerData) ? 'play' : 'refresh'}
-            fill={isEmpty(explorerData) ? true : false}
-            onClick={() => {
-              handleQuerySearch();
-            }}
-          >
-            {runButtonText ? runButtonText : isEmpty(explorerData) ? 'Run' : 'Refresh'}
-          </EuiButton>
         </EuiFlexItem>
         {showSaveButton && (
           <>

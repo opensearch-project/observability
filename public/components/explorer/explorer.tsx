@@ -328,8 +328,11 @@ export const Explorer = ({
         [SELECTED_DATE_RANGE]: timeRange
       }
     }));
-    handleQuerySearch();
   }
+
+  const handleTimeRangePickerRefresh = () => {
+    handleQuerySearch();
+  };
 
   /**
    * Toggle fields between selected and unselected sets
@@ -796,6 +799,7 @@ export const Explorer = ({
         isPanelTextFieldInvalid={isPanelTextFieldInvalid}
         savedObjects={savedObjects}
         showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
+        handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
       />
       <EuiTabbedContent
         className="mainContentTabs"
