@@ -166,19 +166,19 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         for (let i = 0; i < numberFields.length; i++) {
           var field: {label: string} = numberFields[i];
           fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ')',
+            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ' )',
             input: str,
-            suggestion: field.label.substring(prefix.length) + ')',
-            itemName: field.label + ')',
+            suggestion: field.label.substring(prefix.length) + ' )',
+            itemName: field.label + ' )',
           });
         }
         return fullSuggestions;
       }
-    } else if (nextStats === splittedModel.length - 2) {
+    } else if (nextStats === splittedModel.length - 3) {
       return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
-    } else if (nextStats === splittedModel.length - 3) {
+    } else if (nextStats === splittedModel.length - 4) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     }
     else if (splittedModel[splittedModel.length - 2] === 'fields') {
@@ -207,7 +207,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         if (!currFieldType) {
         console.error('Current field type is undefined')
         return [];
-      }
+        }
         return fillSuggestions(
           str,
           prefix,
@@ -215,7 +215,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         );
       }
       return [];
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4 || nextWhere === splitteModel.length - 5) {
+    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splitteModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
