@@ -220,7 +220,7 @@ export const Home = (props: IHomeProps) => {
       ]);
 
       await http
-        .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
+        .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/event_analytics`)
         .then(async (resp: any) => {
           const res = await savedObjects.fetchSavedObjects({
             objectIdList: resp?.savedObjectIds || [],

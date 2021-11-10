@@ -9,7 +9,10 @@
  * GitHub history for details.
  */
 
-import { sampleVisualizationSet1 } from '../../common/helpers/events_explorer/sample_savedObjects';
+import {
+  sampleQueries,
+  sampleVisualizations,
+} from '../../common/helpers/events_explorer/sample_savedObjects';
 
 export default class SavedObjectFacet {
   constructor(private client: any) {
@@ -128,17 +131,14 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  delete = async (
-    request: any,
-    format: string
-  ) => {
+  delete = async (request: any, format: string) => {
     const res = {
       success: false,
       data: {},
     };
     try {
-      const params = {    
-        objectIdList: request.body.objectIdList
+      const params = {
+        objectIdList: request.body.objectIdList,
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
@@ -158,18 +158,33 @@ export default class SavedObjectFacet {
     try {
       let savedRes: any[] = [];
 
-      // TODO: add support for samples in event analytics
-      if (request.params.sampleRequestor === 'panels') {
-        for (var i = 0; i < sampleVisualizationSet1.length; i++) {
+      if (['panels', 'event_analytics'].includes(request.params.sampleRequestor)) {
+        for (var i = 0; i < sampleVisualizations.length; i++) {
           const params = {
             body: {
               savedVisualization: {
-                ...sampleVisualizationSet1[i],
+                ...sampleVisualizations[i],
               },
             },
           };
           const savedVizRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
           savedRes.push(savedVizRes.objectId);
+        }
+      }
+
+      if (request.params.sampleRequestor === 'event_analytics') {
+        for (var i = 0; i < sampleQueries.length; i++) {
+          const params = {
+            body: {
+              savedQuery: {
+                ...sampleQueries[i],
+              },
+            },
+          };
+          const savedObjectsRes = await this.client
+            .asScoped(request)
+            .callAsCurrentUser(format, params);
+          savedRes.push(savedObjectsRes.objectId);
         }
       }
 
