@@ -29,7 +29,6 @@ import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
-import { useCallback } from 'react';
 import { PPLReferenceFlyout } from '../helpers';
 
 export interface IQueryBarProps {

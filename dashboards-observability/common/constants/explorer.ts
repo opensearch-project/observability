@@ -26,6 +26,10 @@ export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-vis-';
 export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
 export const FILTER_OPTIONS = ['Visualization', 'Query'];
+export const SAVED_QUERY = 'savedQuery';
+export const SAVED_VISUALIZATION = 'savedVisualization';
+export const SAVED_OBJECT_ID = 'savedObjectId';
+export const SAVED_OBJECT_TYPE = 'objectType';
 
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [

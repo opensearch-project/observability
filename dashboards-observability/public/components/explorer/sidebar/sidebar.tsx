@@ -79,7 +79,7 @@ export const Sidebar = (props: ISidebarProps) => {
                       <h3>
                         <FormattedMessage
                           id="discover.fieldChooser.filter.selectedFieldsTitle"
-                          defaultMessage="Queried Fields"
+                          defaultMessage="Query fields"
                         />
                       </h3>
                     </EuiTitle>

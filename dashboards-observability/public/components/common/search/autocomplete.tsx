@@ -158,7 +158,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
     } else if (nextStats === splittedModel.length - 1) {
-      if (splittedModel[splittedModel.length - 2] !== 'count()') {
+      if (statsCommands.filter(c => c.label === splittedModel[splittedModel.length - 2]).length > 0) {
+        if (splittedModel[splittedModel.length - 2] === 'count()') {
+          return [
+            { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }
+          ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+          );
+        } else {
         const numberFields = fieldsFromBackend.filter(
           (field: { label: string, type: string }) =>
             field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
@@ -166,19 +172,24 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         for (let i = 0; i < numberFields.length; i++) {
           var field: {label: string} = numberFields[i];
           fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ')',
+            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ' )',
             input: str,
-            suggestion: field.label.substring(prefix.length) + ')',
-            itemName: field.label + ')',
+            suggestion: field.label.substring(prefix.length) + ' )',
+            itemName: field.label + ' )',
           });
         }
         return fullSuggestions;
+        }
       }
-    } else if (nextStats === splittedModel.length - 2) {
-      return [{ label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
-      );
+    } else if (nextStats === splittedModel.length - 2 && splittedModel[splittedModel.length - 3] === 'count()') {
+      return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (nextStats === splittedModel.length - 3) {
+      return [
+        { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' },
+        { label: str + '|', input: str, suggestion: '|', itemName: '|' }
+      ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+      );
+    } else if (nextStats === splittedModel.length - 4) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     }
     else if (splittedModel[splittedModel.length - 2] === 'fields') {
@@ -207,7 +218,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         if (!currFieldType) {
         console.error('Current field type is undefined')
         return [];
-      }
+        }
         return fillSuggestions(
           str,
           prefix,
@@ -215,7 +226,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         );
       }
       return [];
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 4 || nextWhere === splitteModel.length - 5) {
+    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
@@ -427,7 +438,7 @@ export function Autocomplete({
               const { source, items } = collection;
               const filteredItems = items.filter((item, index) => { return items.findIndex(i => i.itemName === item.itemName) === index })
               return (
-                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24'} : {}}>
+                <div key={`scrollable-${index}`} className="aa-PanelLayout aa-Panel--scrollable" style={uiSettingsService.get('theme:darkMode') ? {backgroundColor: '#1D1E24', border: '2px groove #383444'} : {}}>
                   <div key={`source-${index}`} className="aa-Source">
                     {items.length > 0 && (
                       <ul className="aa-List" {...autocomplete.getListProps()}>
