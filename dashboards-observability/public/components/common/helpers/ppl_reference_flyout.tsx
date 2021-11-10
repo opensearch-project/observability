@@ -24,6 +24,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
+import { PPL_DOCUMENTATION_URL } from '../../../../common/constants/shared';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { FlyoutContainers } from '../flyout_containers';
@@ -74,11 +75,7 @@ export const PPLReferenceFlyout = ({ module, closeFlyout }: Props) => {
         </EuiFlexItem>
         <EuiFlexItem style={{ justifyContent: 'center' }}>
           <EuiText size="s" color="subdued">
-            <EuiLink
-              target="_blank"
-              href="https://opensearch.org/docs/latest/search-plugins/ppl/commands/"
-              external
-            >
+            <EuiLink target="_blank" href={PPL_DOCUMENTATION_URL} external>
               Learn More
             </EuiLink>
           </EuiText>

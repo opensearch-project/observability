@@ -8,7 +8,8 @@
  * Modifications Copyright OpenSearch Contributors. See
  * GitHub history for details.
  */
- 
+
+export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability-plugins/event-analytics/'
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
