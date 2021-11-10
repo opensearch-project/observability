@@ -20,7 +20,7 @@ import {
   AutocompleteState,
   createAutocomplete
 } from '@algolia/autocomplete-core';
-import { EuiTextArea } from '@elastic/eui';
+import { EuiFlexGroup, EuiFlexItem, EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty } from 'lodash';
@@ -401,6 +401,8 @@ export function Autocomplete({
       className="aa-Autocomplete"
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >
+      <EuiFlexGroup direction='column' gutterSize='none' alignItems='stretch'>
+        <EuiFlexItem>
       <EuiTextArea
         {...autocomplete.getInputProps({
           id: 'autocomplete-textarea',
@@ -408,6 +410,8 @@ export function Autocomplete({
           inputElement: null
         })}
       />
+      </EuiFlexItem>
+      <EuiFlexItem>
       {autocompleteState.isOpen && (
         <div
           className={[
@@ -464,6 +468,8 @@ export function Autocomplete({
             })}
         </div>
       )}
+      </EuiFlexItem>
+      </EuiFlexGroup>
     </div>
   );
 }
