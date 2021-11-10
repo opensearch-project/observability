@@ -90,7 +90,7 @@ export const CustomPanelTable = ({
   renameCustomPanel,
   cloneCustomPanel,
   deleteCustomPanelList,
-  addSamplePanels
+  addSamplePanels,
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
@@ -303,8 +303,9 @@ export const CustomPanelTable = ({
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Operational panels provide users with the ability to create and view different
-                  visualizations on ingested observability data, using PPL queries.{' '}
+                  Use Operational panels to create and view different
+                  visualizations on ingested observability data, using Piped Processing Language
+                  queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>
@@ -364,7 +365,7 @@ export const CustomPanelTable = ({
                 allowNeutralSort={false}
                 isSelectable={true}
                 selection={{
-                  onSelectionChange: (items) => setselectedCustomPanels(items)
+                  onSelectionChange: (items) => setselectedCustomPanels(items),
                 }}
               />
             ) : (
