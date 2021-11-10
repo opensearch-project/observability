@@ -59,6 +59,7 @@ import { Histories as EventHomeHistories } from './home_table/history_table';
 import { selectQueries } from './slices/query_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
+import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 
 interface IHomeProps {
   pplService: any;
@@ -193,6 +194,16 @@ export const Home = (props: IHomeProps) => {
     history.push(`/event_analytics/explorer/${objectId}`);
   };
 
+  const addSampledata = async () => {
+    setModalLayout(
+      getSampleDataModal(closeModal, async () => {
+        closeModal();
+        await addSampleEvents();
+      })
+    );
+    showModal();
+  };
+
   const addSampleEvents = async () => {
     try {
       setIsTableLoading(true);
@@ -297,7 +308,7 @@ export const Home = (props: IHomeProps) => {
       key="addSample"
       onClick={() => {
         setIsActionsPopoverOpen(false);
-        addSampleEvents();
+        addSampledata();
       }}
     >
       Add samples
@@ -406,7 +417,7 @@ export const Home = (props: IHomeProps) => {
                         </EuiButton>
                       </EuiFlexItem>
                       <EuiFlexItem grow={false}>
-                        <EuiButton fullWidth={false} onClick={() => addSampleEvents()}>
+                        <EuiButton fullWidth={false} onClick={() => addSampledata()}>
                           Add samples
                         </EuiButton>
                       </EuiFlexItem>

@@ -45,6 +45,7 @@ import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
+import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 
 const pageStyles: CSSProperties = {
   float: 'left',
@@ -196,6 +197,16 @@ export const CustomPanelTable = ({
     showModal();
   };
 
+  const addSampledata = async () => {
+    setModalLayout(
+      getSampleDataModal(closeModal, async () => {
+        closeModal();
+        await addSamplePanels();
+      })
+    );
+    showModal();
+  };
+
   const popoverButton = (
     <EuiButton
       iconType="arrowDown"
@@ -241,7 +252,7 @@ export const CustomPanelTable = ({
       key="addSample"
       onClick={() => {
         setIsActionsPopoverOpen(false);
-        addSamplePanels();
+        addSampledata();
       }}
     >
       Add samples
@@ -272,14 +283,7 @@ export const CustomPanelTable = ({
       sortable: true,
       render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
-  ] as Array<
-    EuiTableFieldDataColumnType<{
-      name: string;
-      id: string;
-      dateCreated: string;
-      dateModified: string;
-    }>
-  >;
+  ] as Array<EuiTableFieldDataColumnType<CustomPanelListType>>;
 
   return (
     <div style={pageStyles}>
@@ -389,7 +393,7 @@ export const CustomPanelTable = ({
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false} onClick={() => addSamplePanels()}>
+                    <EuiButton fullWidth={false} onClick={() => addSampledata()}>
                       Add samples
                     </EuiButton>
                   </EuiFlexItem>
