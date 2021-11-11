@@ -68,6 +68,18 @@ const statsCommands = [
   { label: 'stddev_pop(' },
 ];
 
+const numberTypes = [
+  'long', 
+  'integer', 
+  'short', 
+  'byte', 
+  'double', 
+  'float', 
+  'half_float', 
+  'scaled_float', 
+  'unsigned_long'
+];
+
 // Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any) => {
   const lowerWord = word.toLowerCase();
@@ -167,7 +179,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         } else {
         const numberFields = fieldsFromBackend.filter(
           (field: { label: string, type: string }) =>
-            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
+            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && numberTypes.includes(field.type)
         );
         for (let i = 0; i < numberFields.length; i++) {
           var field: {label: string} = numberFields[i];
