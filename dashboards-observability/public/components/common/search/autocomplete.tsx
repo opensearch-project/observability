@@ -412,8 +412,6 @@ export function Autocomplete({
       className="aa-Autocomplete"
       {...autocomplete.getRootProps({ 'id': 'autocomplete-root' })}
     >
-      <EuiFlexGroup direction='column' gutterSize='none' alignItems='stretch'>
-        <EuiFlexItem>
       <EuiTextArea
         {...autocomplete.getInputProps({
           id: 'autocomplete-textarea',
@@ -421,8 +419,6 @@ export function Autocomplete({
           inputElement: null
         })}
       />
-      </EuiFlexItem>
-      <EuiFlexItem>
       {autocompleteState.isOpen && (
         <div
           className={[
@@ -479,8 +475,6 @@ export function Autocomplete({
             })}
         </div>
       )}
-      </EuiFlexItem>
-      </EuiFlexGroup>
     </div>
   );
 }
