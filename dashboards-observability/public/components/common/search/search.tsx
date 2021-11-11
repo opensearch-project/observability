@@ -110,7 +110,7 @@ export const Search = (props: any) => {
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="center">
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
         <EuiFlexItem key="search-bar">
           <Autocomplete
             key={'autocomplete-search-bar'}
