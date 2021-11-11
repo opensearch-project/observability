@@ -78,7 +78,7 @@ Example:
 
 **Description**
 
-Usage: atan(x) calculates the arc tangent of x. atan(y, x) calculates
+Usage: atan(x) calculates the arc tangent of x. atan(y, x&#41; calculates
 the arc tangent of y / x, except that the signs of both arguments are
 used to determine the quadrant of the result.
 
@@ -100,7 +100,7 @@ Example:
 
 **Description**
 
-Usage: atan2(y, x) calculates the arc tangent of y / x, except that the
+Usage: atan2(y, x&#41; calculates the arc tangent of y / x, except that the
 signs of both arguments are used to determine the quadrant of the
 result.
 
@@ -327,7 +327,7 @@ Example:
 Specifications:
 
 Usage: log(x) returns the natural logarithm of x that is the base e
-logarithm of the x. log(B, x) is equivalent to log(x)/log(B).
+logarithm of the x. log(B, x&#41; is equivalent to log(x)/log(B).
 
 Argument type: INTEGER/LONG/FLOAT/DOUBLE
 

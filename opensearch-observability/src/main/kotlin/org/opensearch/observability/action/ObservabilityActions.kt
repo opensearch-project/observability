@@ -99,6 +99,9 @@ internal object ObservabilityActions {
                 RestStatus.FORBIDDEN
             )
         }
+        if (currentDoc.type != request.type) {
+            throw OpenSearchStatusException("Object type cannot be changed after creation", RestStatus.CONFLICT)
+        }
         val currentTime = Instant.now()
         val objectDoc = ObservabilityObjectDoc(
             request.objectId,

@@ -17,7 +17,7 @@ Using \`fields\` command to keep or remove fields from the search result.
 
 ### Syntax
 
-field \[+\|-\] &lt;field-list&gt;
+fields \[+\|-\] &lt;field-list&gt;
 
 -   index: optional. if the plus (+) is used, only the fields specified
     in the field list will be keep. if the minus (-) is used, all the

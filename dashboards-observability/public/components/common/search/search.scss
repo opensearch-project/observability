@@ -15,6 +15,7 @@
 }
 .aa-Autocomplete {
   width: 100%;
+  position: relative;
   margin: 4px;
   margin-left: 8px;
   --aa-search-input-height: 38px;
@@ -25,19 +26,18 @@
   font-weight: bold;
 }
 
-#autocomplete-root {
-  #autocomplete-textarea {
-    width: 100%;
-    outline: none;
-    min-height: 80px;
-    max-width: unset;
-    height: 40px;
-    resize: vertical;
-    font-size: 16px;
-  }
-  .aa-Panel {
-    z-index: 2500;
-  }
+#autocomplete-textarea {
+  width: 100%;
+  outline: none;
+  min-height: 45px;
+  max-width: unset;
+  height: 45px;
+  resize: vertical;
+  font-size: 16px;
+}
+.aa-Panel {
+  width: 100%;
+  z-index: 2500;
 }
 
 .event-date-picker {
