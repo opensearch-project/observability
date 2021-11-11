@@ -309,7 +309,7 @@ const onItemSelect = async ({ setQuery, item }, dslService: DSLService) => {
     currIndex = item.itemName;
     getFields(dslService);
   }
-  setQuery(item.label + ' ');
+  setQuery(item.label);
 };
 
 type AutocompleteItem = {
@@ -387,6 +387,7 @@ export function Autocomplete({
           getSources() {
             return [
               {
+                sourceId: 'querySuggestions',
                 async getItems({ query }) {
                   const suggestions = await getSuggestions(query, dslService);
                   return suggestions;
