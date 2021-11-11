@@ -13,6 +13,9 @@
   float: left;
   width: 100%;
   max-width: 1130px;
+  #autocomplete-textarea {
+    min-height: 80px;
+  }
 }
 
 #home-his-title {
