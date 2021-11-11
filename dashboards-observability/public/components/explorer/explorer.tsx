@@ -45,7 +45,9 @@ import {
   SAVED_QUERY,
   SAVED_VISUALIZATION,
   SAVED_OBJECT_ID,
-  SAVED_OBJECT_TYPE
+  SAVED_OBJECT_TYPE,
+  NEW_TAB,
+  TAB_CREATED_TYPE
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
@@ -305,7 +307,7 @@ export const Explorer = ({
   useEffect(
     () => {
       let objectId;
-      if (queryRef.current!['tabCreatedType'] === 'fromClick') {
+      if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
         objectId = queryRef.current!.savedObjectId || '';
       } else {
         objectId = queryRef.current!.savedObjectId || savedObjectId;
