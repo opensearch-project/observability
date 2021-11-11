@@ -126,7 +126,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
-  const [tempQuery, setTempQuery] = useState('');
+  const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -212,6 +212,9 @@ export const Explorer = ({
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
       setCurVisId(objectData?.type || 'bar');
+      setTempQuery((staleTempQuery: string) => {
+        return objectData?.query || staleTempQuery
+      })
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING[SAVED_QUERY] : TYPE_TAB_MAPPING[SAVED_VISUALIZATION]
       setSelectedContentTab(tabToBeFocused);
 
