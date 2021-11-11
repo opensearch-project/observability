@@ -20,7 +20,7 @@ import {
   AutocompleteState,
   createAutocomplete
 } from '@algolia/autocomplete-core';
-import { EuiFlexGroup, EuiFlexItem, EuiTextArea } from '@elastic/eui';
+import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
 import { isEmpty } from 'lodash';
