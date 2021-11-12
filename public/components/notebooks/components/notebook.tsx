@@ -1032,23 +1032,26 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   ))}
                 </PanelWrapper>
                 {this.state.selectedViewId !== 'output_only' && (
-                  <EuiPopover
-                    panelPaddingSize="none"
-                    withTitle
-                    button={
-                      <EuiButton
-                        iconType="arrowDown"
-                        iconSide="right"
-                        onClick={() => this.setState({ isAddParaPopoverOpen: true })}
-                      >
-                        Add paragraph
-                      </EuiButton>
-                    }
-                    isOpen={this.state.isAddParaPopoverOpen}
-                    closePopover={() => this.setState({ isAddParaPopoverOpen: false })}
-                  >
-                    <EuiContextMenu initialPanelId={0} panels={addParaPanels} />
-                  </EuiPopover>
+                  <>
+                    <EuiSpacer />
+                    <EuiPopover
+                      panelPaddingSize="none"
+                      withTitle
+                      button={
+                        <EuiButton
+                          iconType="arrowDown"
+                          iconSide="right"
+                          onClick={() => this.setState({ isAddParaPopoverOpen: true })}
+                        >
+                          Add paragraph
+                        </EuiButton>
+                      }
+                      isOpen={this.state.isAddParaPopoverOpen}
+                      closePopover={() => this.setState({ isAddParaPopoverOpen: false })}
+                    >
+                      <EuiContextMenu initialPanelId={0} panels={addParaPanels} />
+                    </EuiPopover>
+                  </>
                 )}
               </>
             ) : (
