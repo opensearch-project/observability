@@ -1,19 +1,12 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import './search.scss';
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import {
   EuiFlexGroup,
   EuiButton,
@@ -21,7 +14,6 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiIcon,
   EuiButtonIcon,
 } from '@elastic/eui';
 import _ from 'lodash';
@@ -110,7 +102,7 @@ export const Search = (props: any) => {
 
   return (
     <div className="globalQueryBar">
-      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="center">
+      <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
         <EuiFlexItem key="search-bar">
           <Autocomplete
             key={'autocomplete-search-bar'}

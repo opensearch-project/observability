@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -599,28 +593,29 @@ export const CustomPanelView = ({
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {panelVisualizations.length === 0 && (
+            {panelVisualizations.length > 0 ? (
+              <PanelGrid
+                http={http}
+                panelId={panelId}
+                chrome={chrome}
+                panelVisualizations={panelVisualizations}
+                setPanelVisualizations={setPanelVisualizations}
+                editMode={editMode}
+                pplService={pplService}
+                startTime={start}
+                endTime={end}
+                onRefresh={onRefresh}
+                cloneVisualization={cloneVisualization}
+                pplFilterValue={pplFilterValue}
+                showFlyout={showFlyout}
+                editActionType={editActionType}
+              />
+            ) : (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
                 getVizContextPanels={getVizContextPanels}
               />
             )}
-            <PanelGrid
-              http={http}
-              panelId={panelId}
-              chrome={chrome}
-              panelVisualizations={panelVisualizations}
-              setPanelVisualizations={setPanelVisualizations}
-              editMode={editMode}
-              pplService={pplService}
-              startTime={start}
-              endTime={end}
-              onRefresh={onRefresh}
-              cloneVisualization={cloneVisualization}
-              pplFilterValue={pplFilterValue}
-              showFlyout={showFlyout}
-              editActionType={editActionType}
-            />
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

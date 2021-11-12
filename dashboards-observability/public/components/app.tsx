@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { I18nProvider } from '@osd/i18n/react';
@@ -37,7 +31,7 @@ export const App = ({
   pplService,
   dslService,
   savedObjects,
-  timestampUtils
+  timestampUtils,
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
@@ -72,23 +66,6 @@ export const App = ({
                 )}
               />
               <Route
-                path="/event_analytics"
-                render={(props) => {
-                  return (
-                    <EventAnalytics
-                      chrome={ chrome }
-                      parentBreadcrumb={ parentBreadcrumb }
-                      pplService={ pplService }
-                      dslService={ dslService }
-                      savedObjects={ savedObjects }
-                      timestampUtils={ timestampUtils }
-                      http={ http }
-                      { ...props }
-                    />
-                  );
-                }}
-              />
-              <Route
                 path="/operational_panels"
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
@@ -104,7 +81,7 @@ export const App = ({
                 }}
               />
               <Route
-                path={['/', '/trace_analytics', '/trace_analytics/home']}
+                path={['/trace_analytics', '/trace_analytics/home']}
                 render={(props) => (
                   <TraceAnalyticsHome
                     {...props}
@@ -113,6 +90,23 @@ export const App = ({
                     parentBreadcrumb={parentBreadcrumb}
                   />
                 )}
+              />
+              <Route
+                path={['/', '/event_analytics']}
+                render={(props) => {
+                  return (
+                    <EventAnalytics
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      pplService={pplService}
+                      dslService={dslService}
+                      savedObjects={savedObjects}
+                      timestampUtils={timestampUtils}
+                      http={http}
+                      {...props}
+                    />
+                  );
+                }}
               />
             </Switch>
           </>

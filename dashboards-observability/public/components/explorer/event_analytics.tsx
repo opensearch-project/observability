@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { EuiGlobalToastList } from '@elastic/eui';
@@ -66,7 +60,7 @@ export const EventAnalytics = ({
       <HashRouter>
         <Switch>
           <Route
-            path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
+            path={[`/event_analytics/explorer/:id`, `/event_analytics/explorer`]}
             render={(props) => {
               chrome.setBreadcrumbs([
                 parentBreadcrumb,
@@ -94,7 +88,7 @@ export const EventAnalytics = ({
           />
           <Route
             exact
-            path={props.match.path}
+            path={['/', '/event_analytics']}
             render={(props) => {
               chrome.setBreadcrumbs([
                 parentBreadcrumb,

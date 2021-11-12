@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import './search.scss';
@@ -41,7 +35,7 @@ const fieldList: string[] = [];
 const fieldsFromBackend: fieldItem[] = [];
 const indicesFromBackend: indexItem[] = [];
 
-const firstCommand = [{ label: 'index' }, { label: 'search' }, { label: 'source' }];
+const firstCommand = [{ label: 'source' }];
 
 const pipeCommands = [
   { label: 'dedup' },
@@ -66,6 +60,18 @@ const statsCommands = [
   { label: 'var_pop(' },
   { label: 'stddev_samp(' },
   { label: 'stddev_pop(' },
+];
+
+const numberTypes = [
+  'long', 
+  'integer', 
+  'short', 
+  'byte', 
+  'double', 
+  'float', 
+  'half_float', 
+  'scaled_float', 
+  'unsigned_long'
 ];
 
 // Function to create the array of objects to be suggested
@@ -128,15 +134,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       }
       return fullSuggestions;
     } else if (
-      splittedModel[splittedModel.length - 2] === 'source' ||
-      splittedModel[splittedModel.length - 2] === 'index'
+      splittedModel[splittedModel.length - 2] === 'source'
     ) {
       return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (
-      (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') ||
-      splittedModel[splittedModel.length - 3] === 'index'
+      (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source')
     ) {
       return fillSuggestions(str, prefix, indicesFromBackend);
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
@@ -152,8 +156,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
-    } else if (splittedModel[splittedModel.length - 2] === 'search') {
-      return fillSuggestions(str, prefix, [{ label: 'source' }]);
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
@@ -167,7 +169,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         } else {
         const numberFields = fieldsFromBackend.filter(
           (field: { label: string, type: string }) =>
-            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && (field.type === 'float' || field.type === 'integer')
+            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && numberTypes.includes(field.type)
         );
         for (let i = 0; i < numberFields.length; i++) {
           var field: {label: string} = numberFields[i];
@@ -374,6 +376,8 @@ export function Autocomplete({
         React.KeyboardEvent
       >(
         {
+          openOnFocus: true,
+          defaultActiveItemId: 0,
           onStateChange: ({ state }) => {
             setAutocompleteState({
               ...state,
@@ -382,11 +386,12 @@ export function Autocomplete({
           },
           initialState: { 
             ...autocompleteState,
-            query,
+            query: query || '',
           },
           getSources() {
             return [
               {
+                sourceId: 'querySuggestions',
                 async getItems({ query }) {
                   const suggestions = await getSuggestions(query, dslService);
                   return suggestions;
@@ -399,6 +404,8 @@ export function Autocomplete({
                     },
                     dslService
                   );
+                  $("#autocomplete-textarea").blur();
+                  $("#autocomplete-textarea").focus();
                 }
               },
             ];

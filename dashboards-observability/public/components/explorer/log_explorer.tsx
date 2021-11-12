@@ -1,59 +1,29 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import './log_explorer.scss';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
-import { 
-  uniqueId,
-  map,
-  isEmpty,
-  forEach
-} from 'lodash';
+import { uniqueId, map, isEmpty } from 'lodash';
 import $ from 'jquery';
-import {
-  EuiIcon,
-  EuiText,
-  EuiTabbedContentTab,
-  EuiTabbedContent
-} from '@elastic/eui';
+import { EuiIcon, EuiText, EuiTabbedContentTab, EuiTabbedContent } from '@elastic/eui';
 import { Explorer } from './explorer';
 import { ILogExplorerProps } from '../../../common/types/explorer';
 import {
   TAB_TITLE,
   TAB_ID_TXT_PFX,
-  RAW_QUERY,
-  SAVED_OBJECT_ID
+  SAVED_OBJECT_ID,
+  NEW_TAB,
+  TAB_CREATED_TYPE,
+  REDIRECT_TAB
 } from '../../../common/constants/explorer';
-import { 
-  selectQueryTabs,
-  addTab,
-  setSelectedQueryTab,
-  removeTab
-} from './slices/query_tab_slice';
+import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
-import { 
-  init as initFields,
-  remove as removefields
-} from './slices/field_slice';
-import {
-  init as initQuery,
-  remove as removeQuery,
-  changeQuery
-} from './slices/query_slice';
-import { 
-  init as initQueryResult,
-  remove as removeQueryResult,
-  selectQueryResult,
-} from './slices/query_result_slice';
+import { init as initFields, remove as removefields } from './slices/field_slice';
+import { init as initQuery, remove as removeQuery, changeQuery } from './slices/query_slice';
+import { init as initQueryResult, remove as removeQueryResult, selectQueryResult } from './slices/query_result_slice';
 
 export const LogExplorer = ({
   pplService,
@@ -85,7 +55,7 @@ export const LogExplorer = ({
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
     const addNewLink = $('<a class="linkNewTag">+ Add new</a>').on('click', () => {
-      addNewTab('fromClick');
+      addNewTab(NEW_TAB);
     });
     $('.queryTabs > .euiTabs').append(addNewLink);
     return () => {
@@ -126,7 +96,7 @@ export const LogExplorer = ({
     });
   };
 
-  const addNewTab = async (where: string = 'redirect') => {
+  const addNewTab = async (where: string) => {
     
     // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
@@ -140,7 +110,7 @@ export const LogExplorer = ({
       dispatch(changeQuery({
         tabId,
         query: {
-          'tabCreatedType': where
+          [TAB_CREATED_TYPE]: where
         }
       }));
     });
@@ -162,7 +132,7 @@ export const LogExplorer = ({
       queries: queryRef.current,
       explorerData: explorerDataRef.current
     });
-    const newTabId = emptyTabId ? emptyTabId : await addNewTab();
+    const newTabId = emptyTabId ? emptyTabId : await addNewTab(REDIRECT_TAB);
     return newTabId;
   };
 
@@ -194,7 +164,7 @@ export const LogExplorer = ({
                   type="cross"
                   onClick={ (e) => {
                     e.stopPropagation();
-                    handleTabClose(tabId)
+                    handleTabClose(tabId);
                   } }
                 />
               </EuiText>

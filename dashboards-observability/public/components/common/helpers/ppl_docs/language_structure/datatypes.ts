@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 export const pplDatatypes = `## Data Types
@@ -108,7 +102,7 @@ information.
 
 | Type | Syntax                  | Range                                  |
 |------|-------------------------|----------------------------------------|
-| Time | 'hh:mm:ss\[.fraction\]' | '00:00:00.000000' to '23:59:59.999999' |
+| Time | 'hh:mm&#58;ss\[.fraction\]' | '00:00:00.000000' to '23:59:59.999999' |
 
 #### **Datetime**
 
@@ -121,7 +115,7 @@ contains both date time and timezone information, see
 
 | Type     | Syntax                             | Range                                                        |
 |----------|------------------------------------|--------------------------------------------------------------|
-| Datetime | 'yyyy-MM-dd hh:mm:ss\[.fraction\]' | '0001-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999' |
+| Datetime | 'yyyy-MM-dd hh:mm&#58;ss\[.fraction\]' | '0001-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999' |
 
 #### **Timestamp**
 
@@ -135,7 +129,7 @@ timezone from UTC when retrieving.
 
 | Type      | Syntax                             | Range                                                            |
 |-----------|------------------------------------|------------------------------------------------------------------|
-| Timestamp | 'yyyy-MM-dd hh:mm:ss\[.fraction\]' | '0001-01-01 00:00:01.000000' UTC to '9999-12-31 23:59:59.999999' |
+| Timestamp | 'yyyy-MM-dd hh:mm&#58;ss\[.fraction\]' | '0001-01-01 00:00&#58;01.000000' UTC to '9999-12-31 23:59:59.999999' |
 
 ####  **Interval**
 
@@ -193,15 +187,15 @@ each of the types:
 
 -   Conversion from datetime to date is to extract the date part from
     the datetime value. For example, the result to convert datetime
-    '2020-08-17 14:09:00' to date is date '2020-08-08'.
+    '2020-08-17 14&#58;09&#58;00' to date is date '2020-08-08'.
 -   Conversion to time is to extract the time part from the datetime
     value. For example, the result to convert datetime '2020-08-17
-    14:09:00' to time is time '14:09:00'.
+    14&#58;09&#58;00' to time is time '14&#58;09&#58;00'.
 -   Since the datetime type does not contain timezone information, the
     conversion to timestamp needs to fill up the timezone part with the
     session timezone. For example, the result to convert datetime
-    '2020-08-17 14:09:00' with system timezone of UTC, to timestamp is
-    timestamp '2020-08-17 14:09:00' UTC.
+    '2020-08-17 14&#58;09&#58;00' with system timezone of UTC, to timestamp is
+    timestamp '2020-08-17 14&#58;09&#58;00' UTC.
 
 #### **Conversion from TIMESTAMP**
 
@@ -209,9 +203,9 @@ each of the types:
     it to date is to extract the date value, and conversion to time is
     to extract the time value. Conversion to datetime, it will extracts
     the datetime value and leave the timezone information over. For
-    example, the result to convert datetime '2020-08-17 14:09:00' UTC to
-    date is date '2020-08-17', to time is '14:09:00' and to datetime is
-    datetime '2020-08-17 14:09:00'.
+    example, the result to convert datetime '2020-08-17 14&#58;09&#58;00' UTC to
+    date is date '2020-08-17', to time is '14&#58;09&#58;00' and to datetime is
+    datetime '2020-08-17 14&#58;09&#58;00'.
 
 ### **String Data Types**
 
