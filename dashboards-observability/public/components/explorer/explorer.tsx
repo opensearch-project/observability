@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
@@ -20,6 +14,7 @@ import {
   EuiTabbedContentTab,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -45,7 +40,10 @@ import {
   SAVED_QUERY,
   SAVED_VISUALIZATION,
   SAVED_OBJECT_ID,
-  SAVED_OBJECT_TYPE
+  SAVED_OBJECT_TYPE,
+  NEW_TAB,
+  TAB_CREATED_TYPE,
+  EVENT_ANALYTICS_DOCUMENTATION_URL,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
@@ -126,7 +124,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
-  const [tempQuery, setTempQuery] = useState('');
+  const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -212,6 +210,9 @@ export const Explorer = ({
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
       setCurVisId(objectData?.type || 'bar');
+      setTempQuery((staleTempQuery: string) => {
+        return objectData?.query || staleTempQuery
+      })
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING[SAVED_QUERY] : TYPE_TAB_MAPPING[SAVED_VISUALIZATION]
       setSelectedContentTab(tabToBeFocused);
 
@@ -241,6 +242,9 @@ export const Explorer = ({
       const savedTimestamps = await savedObjects.fetchSavedObjects({
         objectId: curIndex
       }).catch((error: any) => {
+        if (error?.body?.statusCode === 403) {
+          showPermissionErrorToast();
+        }
         console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
       if (
@@ -302,7 +306,7 @@ export const Explorer = ({
   useEffect(
     () => {
       let objectId;
-      if (queryRef.current!['tabCreatedType'] === 'fromClick') {
+      if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
         objectId = queryRef.current!.savedObjectId || '';
       } else {
         objectId = queryRef.current!.savedObjectId || savedObjectId;
@@ -329,6 +333,16 @@ export const Explorer = ({
       }
     }));
   }
+
+  const showPermissionErrorToast = () => {
+    setToast(
+      'Please ask your administrator to enable Event Analytics for you.',
+      'danger',
+      <EuiLink href={EVENT_ANALYTICS_DOCUMENTATION_URL} target="_blank">
+        Documentation
+      </EuiLink>
+    );
+  };
 
   const handleTimeRangePickerRefresh = () => {
     handleQuerySearch();
@@ -699,7 +713,11 @@ export const Explorer = ({
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
         })
         .catch((error: any) => { 
-          setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          if (error?.body?.statusCode === 403) {
+            showPermissionErrorToast();
+          } else {
+            setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          }
         });
       }
       // to-dos - update selected custom panel

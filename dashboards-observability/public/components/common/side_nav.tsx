@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -35,6 +29,12 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
     initial = true,
     reverse = false
   ): boolean {
+    // Default page is Events Analytics
+    // But it is kept as second option in side nav
+    if (hash === '#/') {
+      items[0].items[1].isSelected = true;
+      return true;
+    }
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.href && ((reverse && item.href.startsWith(hash)) || hash.startsWith(item.href))) {

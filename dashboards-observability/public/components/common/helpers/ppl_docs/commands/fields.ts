@@ -1,13 +1,7 @@
 /*
-* SPDX-License-Identifier: Apache-2.0
-*
-* The OpenSearch Contributors require contributions made to
-* this file be licensed under the Apache-2.0 license or a
-* compatible open source license.
-*
-* Modifications Copyright OpenSearch Contributors. See
-* GitHub history for details.
-*/
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 export const fieldsCmd = `## fields
 ---
@@ -17,7 +11,7 @@ Using \`fields\` command to keep or remove fields from the search result.
 
 ### Syntax
 
-field \[+\|-\] &lt;field-list&gt;
+fields \[+\|-\] &lt;field-list&gt;
 
 -   index: optional. if the plus (+) is used, only the fields specified
     in the field list will be keep. if the minus (-) is used, all the
