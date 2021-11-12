@@ -593,28 +593,29 @@ export const CustomPanelView = ({
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {panelVisualizations.length === 0 && (
+            {panelVisualizations.length > 0 ? (
+              <PanelGrid
+                http={http}
+                panelId={panelId}
+                chrome={chrome}
+                panelVisualizations={panelVisualizations}
+                setPanelVisualizations={setPanelVisualizations}
+                editMode={editMode}
+                pplService={pplService}
+                startTime={start}
+                endTime={end}
+                onRefresh={onRefresh}
+                cloneVisualization={cloneVisualization}
+                pplFilterValue={pplFilterValue}
+                showFlyout={showFlyout}
+                editActionType={editActionType}
+              />
+            ) : (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
                 getVizContextPanels={getVizContextPanels}
               />
             )}
-            <PanelGrid
-              http={http}
-              panelId={panelId}
-              chrome={chrome}
-              panelVisualizations={panelVisualizations}
-              setPanelVisualizations={setPanelVisualizations}
-              editMode={editMode}
-              pplService={pplService}
-              startTime={start}
-              endTime={end}
-              onRefresh={onRefresh}
-              cloneVisualization={cloneVisualization}
-              pplFilterValue={pplFilterValue}
-              showFlyout={showFlyout}
-              editActionType={editActionType}
-            />
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

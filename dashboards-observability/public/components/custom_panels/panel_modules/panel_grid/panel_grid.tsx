@@ -73,12 +73,36 @@ export const PanelGrid = ({
 }: Props) => {
   const [currentLayout, setCurrentLayout] = useState<Layout[]>([]);
   const [postEditLayout, setPostEditLayout] = useState<Layout[]>([]);
+  const [gridData, setGridData] = useState(panelVisualizations.map(() => <></>));
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
   const layoutChanged = (currentLayout: Layout[], allLayouts: Layouts) => {
     window.dispatchEvent(new Event('resize'));
     setPostEditLayout(currentLayout);
+  };
+
+  const loadVizComponents = () => {
+    const gridDataComps = panelVisualizations.map(
+      (panelVisualization: VisualizationType, index) => (
+        <VisualizationContainer
+          key={panelVisualization.id}
+          http={http}
+          editMode={editMode}
+          visualizationId={panelVisualization.id}
+          savedVisualizationId={panelVisualization.savedVisualizationId}
+          pplService={pplService}
+          fromTime={startTime}
+          toTime={endTime}
+          onRefresh={onRefresh}
+          cloneVisualization={cloneVisualization}
+          pplFilterValue={pplFilterValue}
+          showFlyout={showFlyout}
+          removeVisualization={removeVisualization}
+        />
+      )
+    );
+    setGridData(gridDataComps);
   };
 
   // Reload the Layout
@@ -125,6 +149,7 @@ export const PanelGrid = ({
   useEffect(() => {
     if (editMode) {
       reloadLayout();
+      loadVizComponents();
     } else {
       if (editActionType === 'save') {
         const visualizationParams = postEditLayout.map((layout) =>
@@ -138,6 +163,7 @@ export const PanelGrid = ({
   // Update layout whenever visualizations are updated
   useEffect(() => {
     reloadLayout();
+    loadVizComponents();
   }, [panelVisualizations]);
 
   // Reset Size of Panel Grid when Nav Dock is Locked
@@ -147,6 +173,10 @@ export const PanelGrid = ({
     }, 300);
   }, [isLocked]);
 
+  useEffect(() => {
+    loadVizComponents();
+  }, []);
+
   return (
     <ResponsiveGridLayout
       layouts={{ lg: currentLayout, md: currentLayout, sm: currentLayout }}
@@ -155,23 +185,8 @@ export const PanelGrid = ({
       cols={{ lg: 12, md: 12, sm: 12, xs: 1, xxs: 1 }}
       onLayoutChange={layoutChanged}
     >
-      {panelVisualizations.map((panelVisualization: VisualizationType) => (
-        <div key={panelVisualization.id}>
-          <VisualizationContainer
-            http={http}
-            editMode={editMode}
-            visualizationId={panelVisualization.id}
-            savedVisualizationId={panelVisualization.savedVisualizationId}
-            pplService={pplService}
-            fromTime={startTime}
-            toTime={endTime}
-            onRefresh={onRefresh}
-            cloneVisualization={cloneVisualization}
-            pplFilterValue={pplFilterValue}
-            showFlyout={showFlyout}
-            removeVisualization={removeVisualization}
-          />
-        </div>
+      {panelVisualizations.map((panelVisualization: VisualizationType, index) => (
+        <div key={panelVisualization.id}>{gridData[index]}</div>
       ))}
     </ResponsiveGridLayout>
   );
