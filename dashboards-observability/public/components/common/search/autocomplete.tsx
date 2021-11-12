@@ -358,18 +358,17 @@ export function Autocomplete({
     status: 'idle',
   });
 
-  useEffect(() => {
-    $('#autocomplete-textarea').keypress((e) => {
-      const keycode = (e.keyCode ? e.keyCode : e.which);
-      if (keycode === 13 && e.shiftKey) {
-        handleQuerySearch();
-      }
-    });
+  const searchBar = document.getElementById('autocomplete-textarea');
 
+  searchBar?.addEventListener('keydown', function (e) {
+    const keyCode = e.which || e.keyCode;
+    if (keyCode === 13 && e.shiftKey) {
+      handleQuerySearch();
+    }
     return () => {
-      $('#autocomplete-textarea').unbind('keypress');
+      $('#autocomplete-textarea').unbind('keydown');
     };
-  }, [tempQuery]);
+  })
 
   const autocomplete = useMemo(
     () => {
