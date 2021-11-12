@@ -139,7 +139,7 @@ export const VisualizationContainer = ({
           <div className="visualization-error-div">
             <EuiIcon type="alert" color="danger" size="s" />
             <EuiSpacer size="s" />
-            <EuiText size='s'>
+            <EuiText size="s">
               <p>{isError}</p>
             </EuiText>
           </div>
