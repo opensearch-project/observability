@@ -386,8 +386,8 @@ export function Autocomplete({
         React.KeyboardEvent
       >(
         {
+          openOnFocus: true,
           onStateChange: ({ state }) => {
-            openOnFocus: true
             setAutocompleteState({
               ...state,
             });
@@ -395,7 +395,7 @@ export function Autocomplete({
           },
           initialState: { 
             ...autocompleteState,
-            query,
+            query: '',
           },
           getSources() {
             return [
