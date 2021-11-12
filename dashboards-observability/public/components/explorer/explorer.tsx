@@ -41,6 +41,8 @@ import {
   SAVED_VISUALIZATION,
   SAVED_OBJECT_ID,
   SAVED_OBJECT_TYPE,
+  NEW_TAB,
+  TAB_CREATED_TYPE,
   EVENT_ANALYTICS_DOCUMENTATION_URL,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
@@ -122,7 +124,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
-  const [tempQuery, setTempQuery] = useState('');
+  const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef();
@@ -208,6 +210,9 @@ export const Explorer = ({
       // populate name field in save panel for default name
       setSelectedPanelName(objectData?.name || '');
       setCurVisId(objectData?.type || 'bar');
+      setTempQuery((staleTempQuery: string) => {
+        return objectData?.query || staleTempQuery
+      })
       const tabToBeFocused = isSavedQuery ? TYPE_TAB_MAPPING[SAVED_QUERY] : TYPE_TAB_MAPPING[SAVED_VISUALIZATION]
       setSelectedContentTab(tabToBeFocused);
 
@@ -301,7 +306,7 @@ export const Explorer = ({
   useEffect(
     () => {
       let objectId;
-      if (queryRef.current!['tabCreatedType'] === 'fromClick') {
+      if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
         objectId = queryRef.current!.savedObjectId || '';
       } else {
         objectId = queryRef.current!.savedObjectId || savedObjectId;
