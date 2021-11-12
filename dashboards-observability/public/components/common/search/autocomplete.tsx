@@ -387,6 +387,7 @@ export function Autocomplete({
       >(
         {
           onStateChange: ({ state }) => {
+            openOnFocus: true
             setAutocompleteState({
               ...state,
             });
@@ -412,6 +413,8 @@ export function Autocomplete({
                     },
                     dslService
                   );
+                  $("#autocomplete-textarea").blur();
+                  $("#autocomplete-textarea").focus();
                 }
               },
             ];
