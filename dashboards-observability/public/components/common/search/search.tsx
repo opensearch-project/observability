@@ -13,7 +13,6 @@ import './search.scss';
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import {
   EuiFlexGroup,
   EuiButton,
@@ -21,7 +20,6 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiIcon,
   EuiButtonIcon,
 } from '@elastic/eui';
 import _ from 'lodash';
