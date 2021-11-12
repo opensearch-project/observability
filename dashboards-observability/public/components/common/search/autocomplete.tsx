@@ -390,7 +390,7 @@ export function Autocomplete({
           },
           initialState: { 
             ...autocompleteState,
-            query: '',
+            query: query || '',
           },
           getSources() {
             return [
