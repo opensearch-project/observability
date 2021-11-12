@@ -41,7 +41,7 @@ const fieldList: string[] = [];
 const fieldsFromBackend: fieldItem[] = [];
 const indicesFromBackend: indexItem[] = [];
 
-const firstCommand = [{ label: 'index' }, { label: 'search' }, { label: 'source' }];
+const firstCommand = [{ label: 'source' }];
 
 const pipeCommands = [
   { label: 'dedup' },
