@@ -35,7 +35,7 @@ const fieldList: string[] = [];
 const fieldsFromBackend: fieldItem[] = [];
 const indicesFromBackend: indexItem[] = [];
 
-const firstCommand = [{ label: 'index' }, { label: 'search' }, { label: 'source' }];
+const firstCommand = [{ label: 'source' }];
 
 const pipeCommands = [
   { label: 'dedup' },
@@ -134,15 +134,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       }
       return fullSuggestions;
     } else if (
-      splittedModel[splittedModel.length - 2] === 'source' ||
-      splittedModel[splittedModel.length - 2] === 'index'
+      splittedModel[splittedModel.length - 2] === 'source'
     ) {
       return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (
-      (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') ||
-      splittedModel[splittedModel.length - 3] === 'index'
+      (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source')
     ) {
       return fillSuggestions(str, prefix, indicesFromBackend);
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
@@ -158,8 +156,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
-    } else if (splittedModel[splittedModel.length - 2] === 'search') {
-      return fillSuggestions(str, prefix, [{ label: 'source' }]);
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
