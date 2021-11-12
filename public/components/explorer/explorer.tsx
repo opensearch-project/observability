@@ -20,6 +20,7 @@ import {
   EuiTabbedContentTab,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -45,7 +46,8 @@ import {
   SAVED_QUERY,
   SAVED_VISUALIZATION,
   SAVED_OBJECT_ID,
-  SAVED_OBJECT_TYPE
+  SAVED_OBJECT_TYPE,
+  EVENT_ANALYTICS_DOCUMENTATION_URL,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
@@ -241,6 +243,9 @@ export const Explorer = ({
       const savedTimestamps = await savedObjects.fetchSavedObjects({
         objectId: curIndex
       }).catch((error: any) => {
+        if (error?.body?.statusCode === 403) {
+          showPermissionErrorToast();
+        }
         console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
       if (
@@ -329,6 +334,16 @@ export const Explorer = ({
       }
     }));
   }
+
+  const showPermissionErrorToast = () => {
+    setToast(
+      'Please ask your administrator to enable Event Analytics for you.',
+      'danger',
+      <EuiLink href={EVENT_ANALYTICS_DOCUMENTATION_URL} target="_blank">
+        Documentation
+      </EuiLink>
+    );
+  };
 
   const handleTimeRangePickerRefresh = () => {
     handleQuerySearch();
@@ -699,7 +714,11 @@ export const Explorer = ({
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
         })
         .catch((error: any) => { 
-          setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          if (error?.body?.statusCode === 403) {
+            showPermissionErrorToast();
+          } else {
+            setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          }
         });
       }
       // to-dos - update selected custom panel
