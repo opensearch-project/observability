@@ -29,6 +29,12 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
     initial = true,
     reverse = false
   ): boolean {
+    // Default page is Events Analytics
+    // But it is kept as second option in side nav
+    if (hash === '#/') {
+      items[0].items[1].isSelected = true;
+      return true;
+    }
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.href && ((reverse && item.href.startsWith(hash)) || hash.startsWith(item.href))) {

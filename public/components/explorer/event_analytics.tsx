@@ -60,7 +60,7 @@ export const EventAnalytics = ({
       <HashRouter>
         <Switch>
           <Route
-            path={[`${props.match.path}/explorer/:id`, `${props.match.path}/explorer`]}
+            path={[`/event_analytics/explorer/:id`, `/event_analytics/explorer`]}
             render={(props) => {
               chrome.setBreadcrumbs([
                 parentBreadcrumb,
@@ -88,7 +88,7 @@ export const EventAnalytics = ({
           />
           <Route
             exact
-            path={props.match.path}
+            path={['/', '/event_analytics']}
             render={(props) => {
               chrome.setBreadcrumbs([
                 parentBreadcrumb,
