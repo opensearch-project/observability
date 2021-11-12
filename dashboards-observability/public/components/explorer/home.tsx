@@ -37,7 +37,15 @@ import {
   EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import { RAW_QUERY, TAB_ID_TXT_PFX, SELECTED_DATE_RANGE, EVENT_ANALYTICS_DOCUMENTATION_URL } from '../../../common/constants/explorer';
+import { 
+  RAW_QUERY,
+  TAB_ID_TXT_PFX,
+  SELECTED_DATE_RANGE,
+  EVENT_ANALYTICS_DOCUMENTATION_URL,
+  TAB_CREATED_TYPE,
+  NEW_TAB,
+  REDIRECT_TAB
+} from '../../../common/constants/explorer';
 import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
 import { EmptyTabParams } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
@@ -130,7 +138,7 @@ export const Home = (props: IHomeProps) => {
       });
   };
 
-  const addNewTab = async (where: string = 'redirect') => {
+  const addNewTab = async () => {
     //get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
@@ -140,12 +148,6 @@ export const Home = (props: IHomeProps) => {
       dispatch(initQueryResult({ tabId, }));
       dispatch(initFields({ tabId, }));
       dispatch(addTab({ tabId, }));
-      dispatch(changeQuery({
-        tabId,
-        query: {
-          'tabCreatedType': 'redirect'
-        }
-      }));
     });
 
     return tabId;
@@ -161,7 +163,8 @@ export const Home = (props: IHomeProps) => {
         tabId,
         query: {
           [RAW_QUERY]: searchQuery,
-          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current
+          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current,
+          [TAB_CREATED_TYPE]: NEW_TAB
         }
       }));
       dispatch(setSelectedQueryTab({ tabId }));
@@ -199,7 +202,7 @@ export const Home = (props: IHomeProps) => {
       dispatch(changeQuery({
         tabId: newTabId,
         query: {
-          'tabCreatedType': 'redirect'
+          [TAB_CREATED_TYPE]: REDIRECT_TAB
         }
       }));
       dispatch(setSelectedQueryTab({ tabId: newTabId }));
