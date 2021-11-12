@@ -387,6 +387,7 @@ export function Autocomplete({
       >(
         {
           openOnFocus: true,
+          defaultActiveItemId: 0,
           onStateChange: ({ state }) => {
             setAutocompleteState({
               ...state,
