@@ -216,7 +216,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
-      if (isEmpty(prefix)) {
         if (!currFieldType) {
         console.error('Current field type is undefined')
         return [];
@@ -226,8 +225,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
           prefix,
           await getDataValues(currIndex, currField, currFieldType, dslService)
         );
-      }
-      return [];
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
