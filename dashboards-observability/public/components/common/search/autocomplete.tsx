@@ -129,7 +129,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         return fillSuggestions(
           str, 
           prefix,
-          await getDataValues(currIndex, currField, currFieldType, dslService)
+          dataValuesFromBackend
         );
       }
       return fullSuggestions;
