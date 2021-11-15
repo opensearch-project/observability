@@ -269,7 +269,9 @@ const getFields = async (dslService: DSLService) => {
     const res = await dslService.fetchFields(currIndex);
     fieldsFromBackend.length = 0;
     for (const element in res?.[currIndex].mappings.properties) {
-      if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
+      if (res?.[currIndex].mappings.properties[element].properties) {
+        fieldsFromBackend.push({ label: element, type: 'string' })
+      } else if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
       } else {
         fieldsFromBackend.push({
