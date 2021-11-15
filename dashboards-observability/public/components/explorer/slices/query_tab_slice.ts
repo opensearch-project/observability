@@ -31,10 +31,11 @@ export const queryTabsSlice = createSlice({
     },
     removeTab: (state, { payload }) => {
       state[QUERY_TAB_IDS] = state[QUERY_TAB_IDS].filter((tabId) => {
-        if (tabId === payload.tabId) return false;
-        return true;
+        return tabId !== payload.tabId;
       });
-      state[SELECTED_QUERY_TAB] = payload[NEW_SELECTED_QUERY_TAB];
+      if (payload[NEW_SELECTED_QUERY_TAB]) {
+        state[SELECTED_QUERY_TAB] = payload[NEW_SELECTED_QUERY_TAB];
+      }
     },
     updateTabName: (state, { payload }) => {
       const newTabNames = {
