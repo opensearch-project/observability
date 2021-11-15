@@ -17,13 +17,12 @@ import {
 import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { isEmpty } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
-let currFieldType: string | undefined = '';
+let currFieldType: string = '';
 
 let inFieldsCommaLoop: boolean = false;
 let inMatch: boolean = false;
@@ -34,6 +33,7 @@ const indexList: string[] = [];
 const fieldList: string[] = [];
 const fieldsFromBackend: fieldItem[] = [];
 const indicesFromBackend: indexItem[] = [];
+const dataValuesFromBackend: dataItem[] = [];
 
 const firstCommand = [{ label: 'source' }];
 
@@ -119,6 +119,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       nextWhere = Number.MAX_SAFE_INTEGER;
       nextStats = Number.MAX_SAFE_INTEGER;
       currField = '';
+      currFieldType = '';
       return fillSuggestions(str, prefix, pipeCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
       if (inFieldsCommaLoop) {
@@ -152,7 +153,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       inMatch = true;
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
       return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
@@ -213,17 +214,14 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         itemName: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
+      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type || '';
+      await getDataValues(currIndex, currField, currFieldType, dslService);
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
     } else if (nextWhere === splittedModel.length - 2) {
-        if (!currFieldType) {
-        console.error('Current field type is undefined')
-        return [];
-        }
         return fillSuggestions(
           str,
           prefix,
-          await getDataValues(currIndex, currField, currFieldType, dslService)
+          dataValuesFromBackend
         );
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
@@ -286,7 +284,7 @@ const getDataValues = async (
   dslService: DSLService
 ) => {
   const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
-  const dataValuesFromBackend: dataItem[] = [];
+  dataValuesFromBackend.length = 0;
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
