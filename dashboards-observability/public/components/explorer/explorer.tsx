@@ -45,6 +45,7 @@ import {
   TAB_CREATED_TYPE,
   EVENT_ANALYTICS_DOCUMENTATION_URL,
 } from '../../../common/constants/explorer';
+import { useServicesContext } from '../../../../../../OpenSearch-Dashboards/src/plugins/console/public/application/contexts';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from './hooks';
@@ -108,6 +109,10 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
+
+  const {
+    services: { notifications },
+  } = useServicesContext();
 
   const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
@@ -220,7 +225,9 @@ export const Explorer = ({
 
     })
     .catch((error) => {
-      setToast(`Cannot get saved data for object id: ${objectId}, error: ${error.message}`, 'danger');
+      notifications.toasts.addError(error.message, {
+        title: `Cannot get saved data for object id: ${objectId}`
+      });
     });
   };
 
@@ -414,8 +421,10 @@ export const Explorer = ({
         setToast(`Timestamp has been overridden successfully.`, 'success');
         return res;
       })
-      .catch((error: any) => { 
-        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+      .catch((error: any) => {
+        notifications.toasts.addError(error.message, {
+          title: 'Cannot override timestamp'
+        });
       })
       .finally(() => {
         setIsOverridingTimestamp(false);
@@ -429,7 +438,9 @@ export const Explorer = ({
         return res;
       })
       .catch((error: any) => { 
-        setToast(`Cannot override timestamp, error: ${error.message}`, 'danger');
+        notifications.toasts.addError(error.message, {
+          title: 'Cannot override timestamp'
+        });
       })
       .finally(() => {
         setIsOverridingTimestamp(false);
@@ -689,7 +700,9 @@ export const Explorer = ({
           return res;
         })
         .catch((error: any) => {
-          setToast(`Cannot update query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          notifications.toasts.addError(error.message, {
+            title: `Cannot update query '${selectedPanelNameRef.current}'`
+          });
         });
       } else {
         // create new saved query
@@ -716,7 +729,9 @@ export const Explorer = ({
           if (error?.body?.statusCode === 403) {
             showPermissionErrorToast();
           } else {
-            setToast(`Cannot save query '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+            notifications.toasts.addError(error.message, {
+              title: `Cannot save query '${selectedPanelNameRef.current}'`
+            });
           }
         });
       }
@@ -744,7 +759,9 @@ export const Explorer = ({
           return res;
         })
         .catch((error: any) => {
-          setToast(`Cannot update Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          notifications.toasts.addError(error.message, {
+            title: `Cannot update Visualization '${selectedPanelNameRef.current}'`
+          });
         });
       } else {
         // create new saved visualization
@@ -774,7 +791,9 @@ export const Explorer = ({
           setToast(`New visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
         })
         .catch((error: any) => {
-          setToast(`Cannot save Visualization '${selectedPanelNameRef.current}', error: ${error.message}`, 'danger');
+          notifications.toasts.addError(error.message, {
+            title: `Cannot save Visualization '${selectedPanelNameRef.current}'`
+          });
         });
       }
       if (!has(savingVisRes, 'objectId')) return;
@@ -788,7 +807,9 @@ export const Explorer = ({
           setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved to operation panels.`, 'success');
         })
         .catch((error: any) => {
-          setToast(`Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels, error: ${error.message}`, 'danger');
+          notifications.toasts.addError(error.message, {
+            title: `Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels`
+          });
         });
       }
     }
