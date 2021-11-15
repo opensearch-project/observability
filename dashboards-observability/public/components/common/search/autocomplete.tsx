@@ -149,13 +149,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
-    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-      inMatch = true;
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
-      );
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
@@ -215,6 +208,13 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
+    }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
+      inMatch = true;
+      currField = splittedModel[splittedModel.length - 2];
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
+      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
+        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+      );
     } else if (nextWhere === splittedModel.length - 2) {
       if (isEmpty(prefix)) {
         if (!currFieldType) {
