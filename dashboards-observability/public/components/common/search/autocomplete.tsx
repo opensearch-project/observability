@@ -130,7 +130,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         return fillSuggestions(
           str, 
           prefix,
-          await getDataValues(currIndex, currField, currFieldType, dslService)
+          dataValuesFromBackend
         );
       }
       return fullSuggestions;
@@ -154,6 +154,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       inMatch = true;
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+      await getDataValues(currIndex, currField, currFieldType, dslService)
       return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
