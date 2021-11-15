@@ -6,7 +6,6 @@
 import './search.scss';
 import $ from 'jquery';
 import React, {
-  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -150,16 +149,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
-<<<<<<< HEAD
-=======
-    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-      inMatch = true;
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
-      );
->>>>>>> origin/zurich-bug
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
@@ -223,7 +212,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
     }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       inMatch = true;
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
       return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
