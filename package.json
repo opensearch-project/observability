@@ -37,6 +37,7 @@
     "prismjs": "^1.22.0",
     "trim": "^1.0.0",
     "lodash": "^4.17.21",
-    "glob-parent": "^5.1.2"
+    "glob-parent": "^5.1.2",
+    "ansi-regex": "^5.0.1"
   }
 }
