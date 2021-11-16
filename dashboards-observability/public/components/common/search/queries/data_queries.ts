@@ -11,7 +11,6 @@ export const getDataValueQuery = (index: string, field: string) => {
       'top_tags': {
         'terms': {
           'field': field,
-          'fielddata': true
         }
       }
     }
