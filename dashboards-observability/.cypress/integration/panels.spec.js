@@ -13,6 +13,26 @@ import {
   PPL_FILTER,
 } from '../utils/panel_constants';
 
+const moveToEventsHome = () => {
+  cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/`);
+  cy.wait(delay * 3);
+};
+
+const moveToPanelHome = () => {
+  cy.visit(
+    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+  );
+  cy.wait(delay * 3);
+};
+
+const moveToTestPanel = () => {
+  moveToPanelHome();
+  cy.get('.euiTableCellContent').contains(TEST_PANEL).click();
+  cy.wait(delay * 3);
+  cy.get('h1').contains(TEST_PANEL).should('exist');
+  cy.wait(delay);
+};
+
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -25,10 +45,7 @@ describe('Adding sample data and visualization', () => {
 
 describe('Creating visualizations', () => {
   beforeEach(() => {
-    cy.visit(
-      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/`
-    );
-    cy.wait(delay * 3);
+    moveToEventsHome();
   });
 
   it('Create first visualization in event analytics', () => {
@@ -158,57 +175,173 @@ describe('Testing panels table', () => {
 });
 
 describe('Testing a panel', () => {
-  it('Change date filter of the panel', () => {
-    cy.visit(
-      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
-    );
-    cy.get('.euiTableCellContent').contains(TEST_PANEL).click();
-    cy.wait(delay * 3);
-    cy.get('.euiButtonEmpty[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
-    cy.get('.euiLink').contains('This year').click();
+  it('Move to test panel', () => {
+    moveToTestPanel();
   });
 
-    it('Add existing visualization #1', () => {
-      cy.get('.euiButton__text').contains('Add Visualization').click();
-      cy.wait(delay);
-      cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
-      cy.wait(delay);
-      cy.get('select').select(PPL_VISUALIZATIONS_NAMES[0]);
-      cy.get('button[aria-label="refreshPreview"]').click();
-      cy.wait(delay);
-      cy.get('.plot-container').should('exist');
-      cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
-      cy.wait(delay);
-      cy.get('.euiToastHeader__title').contains('successfully').should('exist');
-    });
+  it('Change date filter of the panel', () => {
+    cy.get('.euiButtonEmpty[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
+    cy.get('.euiLink').contains('This year').click();
+    cy.wait(delay * 2);
+    cy.get('.euiSuperDatePicker__prettyFormat[data-test-subj="superDatePickerShowDatesButton"]')
+      .contains('This year')
+      .should('exist');
+    cy.wait(delay);
+  });
 
-    it('Add existing visualization #2', () => {
-      cy.get('.euiButton__text').contains('Add Visualization').click();
-      cy.wait(delay);
-      cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
-      cy.wait(delay);
-      cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
-      cy.get('button[aria-label="refreshPreview"]').click();
-      cy.wait(delay);
-      cy.get('.plot-container').should('exist');
-      cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
-      cy.wait(delay);
-      cy.get('.euiToastHeader__title').contains('successfully').should('exist');
-    });
+  it('Add existing visualization #1', () => {
+    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
+    cy.wait(delay);
+    cy.get('select').select(PPL_VISUALIZATIONS_NAMES[0]);
+    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.wait(delay * 2);
+    cy.get('.plot-container').should('exist');
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.wait(delay);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+  });
+
+  it('Add existing visualization #2', () => {
+    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
+    cy.wait(delay);
+    cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
+    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.wait(delay * 2);
+    cy.get('.plot-container').should('exist');
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.wait(delay);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+  });
 
   it('Add ppl filter to panel', () => {
-    cy.get('.euiFieldText').invoke('attr', 'placeholder').should('contain', 'where');
-    cy.get('input.euiFieldText').type(PPL_FILTER);
+    cy.get('.euiFieldText--fullWidth').invoke('attr', 'placeholder').should('contain', 'where');
+    cy.get('.euiFieldText--fullWidth').type(PPL_FILTER);
     cy.get('.euiButton__text').contains('Refresh').click();
-    // cy.wait(delay);
-    // cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
-    // cy.wait(delay);
-    // cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
-    // cy.get('button[aria-label="refreshPreview"]').click();
-    // cy.wait(delay);
-    // cy.get('.plot-container').should('exist');
-    // cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
-    // cy.wait(delay);
-    // cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.wait(delay * 3);
+    cy.get('.xtick').should('contain', 'OpenSearch-Air');
+    cy.get('.xtick').should('contain', 'Munich Airport');
+    cy.get('.xtick').contains('Zurich Airport').should('not.exist');
+    cy.get('.xtick').contains('BeatsWest').should('not.exist');
+    cy.get('.xtick').contains('Logstash Airways').should('not.exist');
+    cy.get('.xtick').contains('OpenSearch Dashboards Airlines').should('not.exist');
+    cy.wait(delay);
+  });
+
+  it('Drag and drop a visualization', () => {
+    cy.get('.euiButton__text').contains('Edit').click();
+    cy.wait(delay);
+    cy.get('h5')
+      .contains(PPL_VISUALIZATIONS_NAMES[1])
+      .trigger('mousedown', { which: 1 })
+      .trigger('mousemove', { clientX: 900, clientY: 0 })
+      .trigger('mouseup', { force: true });
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Save').click();
+    cy.wait(delay * 3);
+    cy.get('div.react-grid-layout>div')
+      .eq(1)
+      .invoke('attr', 'style')
+      .should('match', new RegExp('(.*)transform: translate((.*)10px)(.*)'));
+    cy.wait(delay);
+  });
+
+  it('Delete a visualization', () => {
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
+    cy.get('.euiButton__text').contains('Edit').click();
+    cy.wait(delay);
+    cy.get('.visualization-action-button').eq(1).click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Save').click();
+    cy.wait(delay * 3);
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('not.exist');
+    cy.wait(delay);
+  });
+
+  it('Duplicate a visualization', () => {
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.get('button[aria-label="actionMenuButton"]').click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Duplicate').click();
+    cy.wait(delay * 2);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.wait(delay);
+    cy.get('h5').eq(0).contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.get('h5').eq(1).contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.wait(delay);
+  });
+
+  it('Replace a visualization', () => {
+    cy.get('.visualization-action-button').eq(1).click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Replace').click();
+    cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
+    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.wait(delay * 3);
+    cy.get('.plot-container').should('exist');
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.wait(delay);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.wait(delay);
+    cy.get('h5').eq(0).contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.get('h5').eq(1).contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
+    cy.wait(delay);
+  });
+
+  it('Move to explorer to create new visualization', () => {
+    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Create New Visualization').click();
+    cy.wait(delay * 3);
+    cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
+  });
+
+  it('Move to test panel and check visualization edit button', () => {
+    moveToTestPanel();
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.get('button[aria-label="actionMenuButton"]').eq(0).click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Edit').click();
+    cy.wait(delay * 3);
+    cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
+    cy.wait(delay);
+  });
+});
+
+describe('Clean up all test data', () => {
+  it('Delete visualizations from event analytics', () => {
+    moveToEventsHome();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.wait(delay);
+
+    cy.get('button.euiButton--danger').should('be.disabled');
+
+    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('button.euiButton--danger').should('not.be.disabled');
+    cy.get('.euiButton__text').contains('Delete').click();
+
+    cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
+  });
+
+  it('Deletes test panel', () => {
+    moveToPanelHome();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.wait(delay);
+
+    cy.get('button.euiButton--danger').should('be.disabled');
+
+    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('button.euiButton--danger').should('not.be.disabled');
+    cy.get('.euiButton__text').contains('Delete').click();
+
+    cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
   });
 });
