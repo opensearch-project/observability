@@ -266,7 +266,7 @@ export const Explorer = ({
     }
 
     if (isEmpty(curTimestamp)) {
-      setToast('Index does not contain time field.', 'danger');
+      setToast('Index does not contain a valid time field.', 'danger');
       return;
     }
 
