@@ -150,14 +150,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
       );
-    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-      inMatch = true;
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-      await getDataValues(currIndex, currField, currFieldType, dslService)
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
-      );
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
@@ -218,6 +210,14 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type || '';
       await getDataValues(currIndex, currField, currFieldType, dslService);
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
+    }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
+      inMatch = true;
+      currField = splittedModel[splittedModel.length - 2];
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+      await getDataValues(currIndex, currField, currFieldType, dslService);
+      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
+        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+      );
     } else if (nextWhere === splittedModel.length - 2) {
         return fillSuggestions(
           str,
@@ -265,7 +265,9 @@ const getFields = async (dslService: DSLService) => {
     const res = await dslService.fetchFields(currIndex);
     fieldsFromBackend.length = 0;
     for (const element in res?.[currIndex].mappings.properties) {
-      if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
+      if (res?.[currIndex].mappings.properties[element].properties) {
+        fieldsFromBackend.push({ label: element, type: 'string' })
+      } else if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
       } else {
         fieldsFromBackend.push({
