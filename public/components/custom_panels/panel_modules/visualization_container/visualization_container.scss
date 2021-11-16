@@ -14,6 +14,13 @@
   }
 }
 
+.visualization-action-button {
+  & :hover {
+    cursor: -webkit-pointer;
+    cursor: pointer;
+  }
+}
+
 .visualization-div {
   width: 100%;
   height: 90%;
