@@ -299,6 +299,14 @@ export const Explorer = ({
 
     // for comparing usage if for the same tab, user changed index from one to another
     setPrevIndex(curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+    if (!queryRef.current!.isLoaded) {
+      dispatch(changeQuery({
+        tabId,
+        query: {
+          isLoaded: true
+        }
+      }));
+    }
   };
 
   const updateTabData = async (objectId: string) => {
@@ -308,6 +316,7 @@ export const Explorer = ({
 
   useEffect(
     () => {
+      if (queryRef.current!.isLoaded) return;
       let objectId;
       if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
         objectId = queryRef.current!.savedObjectId || '';

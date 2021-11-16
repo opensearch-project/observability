@@ -4,7 +4,7 @@
  */
 
 import { RedirectProps } from 'react-router-dom';
-import { convertLegacyNotebooksUrl } from '../helpers/legacy_route_helpers';
+import { convertLegacyNotebooksUrl } from '../legacy_route_helpers';
 
 describe('Test legacy route helpers', () => {
   it('converts legacy notebooks url', () => {

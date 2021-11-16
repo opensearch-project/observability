@@ -17,7 +17,8 @@ import {
   SAVED_OBJECT_ID,
   NEW_TAB,
   TAB_CREATED_TYPE,
-  REDIRECT_TAB
+  REDIRECT_TAB,
+  NEW_SELECTED_QUERY_TAB
 } from '../../../common/constants/explorer';
 import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
@@ -76,14 +77,14 @@ export const LogExplorer = ({
       return;
     }
 
-    // Always find the first tab on the left side of the current removing one to be the new focused tab, 
-    // if the leftmost (first) tab is the one being removed, then it finds the next tab to be the new focus
     const index: number = tabIds.indexOf(TabIdToBeClosed);
     let newIdToFocus = '';
-    if (index === 0) {
-      newIdToFocus = tabIds[index + 1];
-    } else if (index > 0) {
-      newIdToFocus = tabIds[index - 1];
+    if (TabIdToBeClosed === curSelectedTabId) {
+      if (index === 0) {
+        newIdToFocus = tabIds[index + 1];
+      } else if (index > 0) {
+        newIdToFocus = tabIds[index - 1];
+      }
     }
 
     batch(() => {
@@ -91,8 +92,8 @@ export const LogExplorer = ({
       dispatch(removefields({ tabId: TabIdToBeClosed, }));
       dispatch(removeQueryResult({ tabId: TabIdToBeClosed, }));
       dispatch(removeTab({ 
-        tabId: TabIdToBeClosed, 
-        newSelectedQueryTab: newIdToFocus
+        tabId: TabIdToBeClosed,
+        [NEW_SELECTED_QUERY_TAB]: newIdToFocus
       }));
     });
   };
