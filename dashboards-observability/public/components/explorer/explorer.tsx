@@ -248,7 +248,7 @@ export const Explorer = ({
         if (error?.body?.statusCode === 403) {
           showPermissionErrorToast();
         }
-        notifications.toasts.addError(error, { title: 'Unable to get saved timestamp for this index'})
+        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
       });
       if (
           savedTimestamps?.observabilityObjectList && 
