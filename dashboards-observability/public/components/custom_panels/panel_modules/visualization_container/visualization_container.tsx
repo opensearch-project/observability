@@ -174,7 +174,7 @@ export const VisualizationContainer = ({
               </EuiToolTip>
             </EuiText>
           </EuiFlexItem>
-          <EuiFlexItem grow={false}>
+          <EuiFlexItem grow={false} className="visualization-action-button">
             {disablePopover ? (
               <EuiIcon
                 type="crossInACircleFilled"

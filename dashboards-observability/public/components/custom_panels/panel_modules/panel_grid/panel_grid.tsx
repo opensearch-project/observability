@@ -150,15 +150,17 @@ export const PanelGrid = ({
     if (editMode) {
       reloadLayout();
       loadVizComponents();
-    } else {
-      if (editActionType === 'save') {
-        const visualizationParams = postEditLayout.map((layout) =>
-          _.omit(layout, ['static', 'moved'])
-        );
-        saveVisualizationLayouts(panelId, visualizationParams);
-      }
     }
   }, [editMode]);
+
+  useEffect(() => {
+    if (editActionType === 'save') {
+      const visualizationParams = postEditLayout.map((layout) =>
+        _.omit(layout, ['static', 'moved'])
+      );
+      saveVisualizationLayouts(panelId, visualizationParams);
+    }
+  }, [editActionType]);
 
   // Update layout whenever visualizations are updated
   useEffect(() => {
@@ -172,6 +174,10 @@ export const PanelGrid = ({
       window.dispatchEvent(new Event('resize'));
     }, 300);
   }, [isLocked]);
+
+  useEffect(() => {
+    loadVizComponents();
+  }, [onRefresh]);
 
   useEffect(() => {
     loadVizComponents();
