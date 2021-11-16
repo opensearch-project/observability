@@ -45,7 +45,6 @@ import {
   TAB_CREATED_TYPE,
   EVENT_ANALYTICS_DOCUMENTATION_URL,
 } from '../../../common/constants/explorer';
-import { useServicesContext } from '../../../../../../OpenSearch-Dashboards/src/plugins/console/public/application/contexts';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from './hooks';
@@ -55,10 +54,7 @@ import { selectFields, updateFields, sortFields } from './slices/field_slice';
 import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
-import PPLService from '../../services/requests/ppl';
-import DSLService from '../../services/requests/dsl';
-import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
-import TimestampUtils from 'public/services/timestamp/timestamp';
+import { IExplorerProps } from '../../../common/types/explorer';
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -66,20 +62,6 @@ const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
   [SAVED_VISUALIZATION]: TAB_CHART_ID
 };
-
-interface IExplorerProps {
-  pplService: PPLService;
-  dslService: DSLService;
-  tabId: string;
-  savedObjects: SavedObjects;
-  timestampUtils: TimestampUtils;
-  setToast: (
-    title: string,
-    color?: string,
-    text?: React.ReactChild | undefined,
-    side?: string | undefined
-  ) => void;
-}
 
 export const Explorer = ({
   pplService,
@@ -89,6 +71,7 @@ export const Explorer = ({
   timestampUtils,
   setToast,
   history,
+  notifications,
   savedObjectId
 }: IExplorerProps) => {
   const dispatch = useDispatch();
@@ -110,10 +93,6 @@ export const Explorer = ({
     requestParams,
   });
 
-  const {
-    services: { notifications },
-  } = useServicesContext();
-
   const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
@@ -132,7 +111,7 @@ export const Explorer = ({
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   
   const queryRef = useRef();
-  const selectedPanelNameRef = useRef();
+  const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
@@ -175,6 +154,23 @@ export const Explorer = ({
       timeField,
     });
   };
+
+  const formatError = (name: string, message: string, details: string) => {
+    return { 
+      name: name, 
+      message: message, 
+      body: { 
+        attributes: { 
+          error: { 
+            caused_by: { 
+              type: '', 
+              reason: details
+            }
+          }
+        }
+      }
+    }
+  }
 
   const getSavedDataById = async (objectId: string) => {
     // load saved query/visualization if object id exists
@@ -225,7 +221,7 @@ export const Explorer = ({
 
     })
     .catch((error) => {
-      notifications.toasts.addError(error.message, {
+      notifications.toasts.addError(error, {
         title: `Cannot get saved data for object id: ${objectId}`
       });
     });
@@ -252,7 +248,7 @@ export const Explorer = ({
         if (error?.body?.statusCode === 403) {
           showPermissionErrorToast();
         }
-        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+        notifications.toasts.addError(error, { title: 'Unable to get saved timestamp for this index'})
       });
       if (
           savedTimestamps?.observabilityObjectList && 
@@ -293,10 +289,10 @@ export const Explorer = ({
     } else {
       findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
       getEvents(undefined, (error) => {
-        setToast(
-          `Error fetching events: ${error?.body?.message || 'see console error for more details.'}`,
-          'danger'
-        );
+        const formattedError = formatError(error.name, error.message, error.body.message);
+        notifications.toasts.addError(formattedError, {
+          title: 'Error fetching events'
+        });
       });
       getCountVisualizations(minInterval);
     }
@@ -422,7 +418,7 @@ export const Explorer = ({
         return res;
       })
       .catch((error: any) => {
-        notifications.toasts.addError(error.message, {
+        notifications.toasts.addError(error, {
           title: 'Cannot override timestamp'
         });
       })
@@ -438,7 +434,7 @@ export const Explorer = ({
         return res;
       })
       .catch((error: any) => { 
-        notifications.toasts.addError(error.message, {
+        notifications.toasts.addError(error, {
           title: 'Cannot override timestamp'
         });
       })
@@ -700,7 +696,7 @@ export const Explorer = ({
           return res;
         })
         .catch((error: any) => {
-          notifications.toasts.addError(error.message, {
+          notifications.toasts.addError(error, {
             title: `Cannot update query '${selectedPanelNameRef.current}'`
           });
         });
@@ -729,7 +725,7 @@ export const Explorer = ({
           if (error?.body?.statusCode === 403) {
             showPermissionErrorToast();
           } else {
-            notifications.toasts.addError(error.message, {
+            notifications.toasts.addError(error ,{
               title: `Cannot save query '${selectedPanelNameRef.current}'`
             });
           }
@@ -759,7 +755,7 @@ export const Explorer = ({
           return res;
         })
         .catch((error: any) => {
-          notifications.toasts.addError(error.message, {
+          notifications.toasts.addError(error, {
             title: `Cannot update Visualization '${selectedPanelNameRef.current}'`
           });
         });
@@ -791,7 +787,7 @@ export const Explorer = ({
           setToast(`New visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
         })
         .catch((error: any) => {
-          notifications.toasts.addError(error.message, {
+          notifications.toasts.addError(error, {
             title: `Cannot save Visualization '${selectedPanelNameRef.current}'`
           });
         });
@@ -807,7 +803,7 @@ export const Explorer = ({
           setToast(`Visualization '${selectedPanelNameRef.current}' has been successfully saved to operation panels.`, 'success');
         })
         .catch((error: any) => {
-          notifications.toasts.addError(error.message, {
+          notifications.toasts.addError(error, {
             title: `Cannot add Visualization '${selectedPanelNameRef.current}' to operation panels`
           });
         });

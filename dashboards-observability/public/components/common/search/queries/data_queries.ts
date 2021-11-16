@@ -10,7 +10,8 @@ export const getDataValueQuery = (index: string, field: string) => {
     'aggs': {
       'top_tags': {
         'terms': {
-          'field': field
+          'field': field,
+          'fielddata': true
         }
       }
     }

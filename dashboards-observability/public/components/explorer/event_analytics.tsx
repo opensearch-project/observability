@@ -21,6 +21,7 @@ export const EventAnalytics = ({
   savedObjects,
   timestampUtils,
   http,
+  notifications,
   ...props
 }: any) => {
   const history = useHistory();
@@ -82,6 +83,7 @@ export const EventAnalytics = ({
                   chrome={chrome}
                   getExistingEmptyTab={getExistingEmptyTab}
                   history={history}
+                  notifications={notifications}
                 />
               );
             }}
