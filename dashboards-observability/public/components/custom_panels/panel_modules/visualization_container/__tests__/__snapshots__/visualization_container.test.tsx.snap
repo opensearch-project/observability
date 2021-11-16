@@ -80,10 +80,11 @@ exports[`Visualization Container Component renders add visualization container 1
               </div>
             </EuiFlexItem>
             <EuiFlexItem
+              className="visualization-action-button"
               grow={false}
             >
               <div
-                className="euiFlexItem euiFlexItem--flexGrowZero"
+                className="euiFlexItem euiFlexItem--flexGrowZero visualization-action-button"
               >
                 <EuiIcon
                   onClick={[Function]}
@@ -227,10 +228,11 @@ exports[`Visualization Container Component renders add visualization container 2
               </div>
             </EuiFlexItem>
             <EuiFlexItem
+              className="visualization-action-button"
               grow={false}
             >
               <div
-                className="euiFlexItem euiFlexItem--flexGrowZero"
+                className="euiFlexItem euiFlexItem--flexGrowZero visualization-action-button"
               >
                 <EuiIcon
                   onClick={[Function]}

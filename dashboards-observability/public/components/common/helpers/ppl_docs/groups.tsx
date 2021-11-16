@@ -22,7 +22,7 @@ import {
   datetimeFunction,
   stringFunction,
   conditionFunction,
-  relevanceFunction,
+  fullTextSearchFunction,
 } from './functions';
 import { pplDatatypes, pplIdentifiers } from './language_structure';
 
@@ -100,8 +100,8 @@ export const Group2 = {
       value: conditionFunction,
     },
     {
-      label: 'Relevance',
-      value: relevanceFunction,
+      label: 'Full Text Search',
+      value: fullTextSearchFunction,
     },
   ],
 };

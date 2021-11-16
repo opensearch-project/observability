@@ -320,4 +320,3 @@ export const displayVisualization = (data: any, type: string, editMode?: boolean
   }
   return vizComponent;
 };
-
