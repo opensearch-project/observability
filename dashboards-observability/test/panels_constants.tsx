@@ -3,6 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export const panelBreadCrumbs = [
+  { text: 'Operational panels', href: '#/operational_panels/' },
+  { text: 'Observability', href: 'observability#/' },
+];
+
 export const sampleSavedVisualization = {
   visualization: {
     id: 'oiuccXwBYVazWqOO1e06',
@@ -141,14 +146,14 @@ export const samplePanel = {
         w: 10,
         h: 2,
       },
-      // {
-      //   id: 'panel_viz_8c47e96c-2494-407a-95e0-56a4790af2f5',
-      //   savedVisualizationId: 'ScS83HwBDp0rvEg3e3CC',
-      //   x: 0,
-      //   y: 2,
-      //   w: 6,
-      //   h: 4,
-      // },
+      {
+        id: 'panel_viz_8c47e96c-2494-407a-95e0-56a4790af2f5',
+        savedVisualizationId: 'oiuccXwBYVazWqOO1e06',
+        x: 0,
+        y: 2,
+        w: 6,
+        h: 4,
+      },
     ],
     timeRange: { to: 'now/y', from: 'now/y' },
     queryFilter: { query: "where host = 'www.opensearch.org'", language: 'ppl' },

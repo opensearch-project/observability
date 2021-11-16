@@ -197,7 +197,7 @@ export const CustomPanelView = ({
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') onRefreshFilters();
+    if (e.key === 'Enter') onRefreshFilters(start, end);
   };
 
   const onDatePickerChange = (props: OnTimeChangeProps) => {
@@ -209,7 +209,7 @@ export const CustomPanelView = ({
       setStart,
       setEnd
     );
-    onRefreshFilters();
+    onRefreshFilters(props.start, props.end);
   };
 
   const onDelete = async () => {
@@ -328,8 +328,8 @@ export const CustomPanelView = ({
     }
   };
 
-  const onRefreshFilters = () => {
-    if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast)) {
+  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
+    if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
       return;
     }
 
@@ -341,8 +341,8 @@ export const CustomPanelView = ({
       panelId: panelId,
       query: pplFilterValue,
       language: 'ppl',
-      to: end,
-      from: start,
+      to: endTime,
+      from: startTime,
     };
 
     http
@@ -466,11 +466,6 @@ export const CustomPanelView = ({
     fetchCustomPanel();
   }, [panelId]);
 
-  // Check Validity of Time
-  useEffect(() => {
-    isDateValid(convertDateTime(start), convertDateTime(end, false), setToast);
-  }, [start, end]);
-
   // Toggle input type (disabled or not disabled)
   // Disabled when there no visualizations in panels or when the panel is in edit mode
   useEffect(() => {
@@ -593,29 +588,28 @@ export const CustomPanelView = ({
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {panelVisualizations.length > 0 ? (
-              <PanelGrid
-                http={http}
-                panelId={panelId}
-                chrome={chrome}
-                panelVisualizations={panelVisualizations}
-                setPanelVisualizations={setPanelVisualizations}
-                editMode={editMode}
-                pplService={pplService}
-                startTime={start}
-                endTime={end}
-                onRefresh={onRefresh}
-                cloneVisualization={cloneVisualization}
-                pplFilterValue={pplFilterValue}
-                showFlyout={showFlyout}
-                editActionType={editActionType}
-              />
-            ) : (
+            {panelVisualizations.length === 0 && (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
                 getVizContextPanels={getVizContextPanels}
               />
             )}
+            <PanelGrid
+              http={http}
+              panelId={panelId}
+              chrome={chrome}
+              panelVisualizations={panelVisualizations}
+              setPanelVisualizations={setPanelVisualizations}
+              editMode={editMode}
+              pplService={pplService}
+              startTime={start}
+              endTime={end}
+              onRefresh={onRefresh}
+              cloneVisualization={cloneVisualization}
+              pplFilterValue={pplFilterValue}
+              showFlyout={showFlyout}
+              editActionType={editActionType}
+            />
           </EuiPageContentBody>
         </EuiPageBody>
       </EuiPage>

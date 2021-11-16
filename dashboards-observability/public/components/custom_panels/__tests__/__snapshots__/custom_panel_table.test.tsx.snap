@@ -1,5 +1,578 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Panels Table Component renders empty panel table container 1`] = `
+<CustomPanelTable
+  addSamplePanels={[MockFunction]}
+  cloneCustomPanel={[MockFunction]}
+  createCustomPanel={[MockFunction]}
+  customPanels={Array []}
+  deleteCustomPanelList={[MockFunction]}
+  fetchCustomPanels={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  loading={false}
+  parentBreadcrumb={
+    Array [
+      Object {
+        "href": "#/operational_panels/",
+        "text": "Operational panels",
+      },
+      Object {
+        "href": "observability#/",
+        "text": "Observability",
+      },
+    ]
+  }
+  renameCustomPanel={[MockFunction]}
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#/operational_panels/",
+              "text": "Operational panels",
+            },
+            Object {
+              "href": "observability#/",
+              "text": "Observability",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "float": "left",
+        "maxWidth": "1130px",
+        "width": "100%",
+      }
+    }
+  >
+    <EuiPage>
+      <div
+        className="euiPage"
+      >
+        <EuiPageBody
+          component="div"
+        >
+          <div
+            className="euiPageBody"
+          >
+            <EuiPageHeader>
+              <div
+                className="euiPageHeader euiPageHeader--responsive"
+              >
+                <EuiPageHeaderSection>
+                  <div
+                    className="euiPageHeaderSection"
+                  >
+                    <EuiTitle
+                      size="l"
+                    >
+                      <h1
+                        className="euiTitle euiTitle--large"
+                      >
+                        Operational panels
+                      </h1>
+                    </EuiTitle>
+                  </div>
+                </EuiPageHeaderSection>
+              </div>
+            </EuiPageHeader>
+            <EuiPageContent
+              id="customPanelArea"
+            >
+              <EuiPanel
+                className="euiPageContent"
+                id="customPanelArea"
+                paddingSize="l"
+              >
+                <div
+                  className="euiPanel euiPanel--paddingLarge euiPageContent"
+                  id="customPanelArea"
+                >
+                  <EuiPageContentHeader>
+                    <div
+                      className="euiPageContentHeader euiPageContentHeader--responsive"
+                    >
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiTitle
+                            size="s"
+                          >
+                            <h3
+                              className="euiTitle euiTitle--small"
+                            >
+                              Panels
+                              <span
+                                className="panel-header-count"
+                              >
+                                 (
+                                0
+                                )
+                              </span>
+                            </h3>
+                          </EuiTitle>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                            size="s"
+                          >
+                            <div
+                              className="euiText euiText--small"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using Piped Processing Language queries.
+                                   
+                                  <EuiLink
+                                    external={true}
+                                    href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                    target="blank"
+                                  >
+                                    <a
+                                      className="euiLink euiLink--primary"
+                                      href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                      rel="noreferrer"
+                                      target="blank"
+                                    >
+                                      Learn more
+                                      <EuiI18n
+                                        default="External link"
+                                        token="euiLink.external.ariaLabel"
+                                      >
+                                        <EuiIcon
+                                          aria-label="External link"
+                                          className="euiLink__externalIcon"
+                                          size="s"
+                                          type="popout"
+                                        >
+                                          <EuiIconEmpty
+                                            aria-hidden={true}
+                                            aria-label="External link"
+                                            className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-label="External link"
+                                              className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                          </EuiIconEmpty>
+                                        </EuiIcon>
+                                      </EuiI18n>
+                                    </a>
+                                  </EuiLink>
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiFlexGroup
+                            gutterSize="s"
+                          >
+                            <div
+                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+                            >
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiPopover
+                                    anchorPosition="downCenter"
+                                    button={
+                                      <EuiButton
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        onClick={[Function]}
+                                      >
+                                        Actions
+                                      </EuiButton>
+                                    }
+                                    closePopover={[Function]}
+                                    display="inlineBlock"
+                                    hasArrow={true}
+                                    isOpen={false}
+                                    ownFocus={false}
+                                    panelPaddingSize="none"
+                                  >
+                                    <EuiOutsideClickDetector
+                                      isDisabled={true}
+                                      onOutsideClick={[Function]}
+                                    >
+                                      <div
+                                        className="euiPopover euiPopover--anchorDownCenter"
+                                        onKeyDown={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchStart={[Function]}
+                                      >
+                                        <div
+                                          className="euiPopover__anchor"
+                                        >
+                                          <EuiButton
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            onClick={[Function]}
+                                          >
+                                            <EuiButtonDisplay
+                                              disabled={false}
+                                              element="button"
+                                              iconSide="right"
+                                              iconType="arrowDown"
+                                              isDisabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <button
+                                                className="euiButton euiButton--primary"
+                                                disabled={false}
+                                                onClick={[Function]}
+                                                type="button"
+                                              >
+                                                <EuiButtonContent
+                                                  className="euiButton__content"
+                                                  iconSide="right"
+                                                  iconType="arrowDown"
+                                                  textProps={
+                                                    Object {
+                                                      "className": "euiButton__text",
+                                                    }
+                                                  }
+                                                >
+                                                  <span
+                                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                  >
+                                                    <EuiIcon
+                                                      className="euiButtonContent__icon"
+                                                      size="m"
+                                                      type="arrowDown"
+                                                    >
+                                                      <EuiIconEmpty
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                        focusable="false"
+                                                        role="img"
+                                                        style={null}
+                                                      >
+                                                        <svg
+                                                          aria-hidden={true}
+                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                          focusable="false"
+                                                          height={16}
+                                                          role="img"
+                                                          style={null}
+                                                          viewBox="0 0 16 16"
+                                                          width={16}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                        />
+                                                      </EuiIconEmpty>
+                                                    </EuiIcon>
+                                                    <span
+                                                      className="euiButton__text"
+                                                    >
+                                                      Actions
+                                                    </span>
+                                                  </span>
+                                                </EuiButtonContent>
+                                              </button>
+                                            </EuiButtonDisplay>
+                                          </EuiButton>
+                                        </div>
+                                      </div>
+                                    </EuiOutsideClickDetector>
+                                  </EuiPopover>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiButton
+                                    fill={true}
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--fill"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Create New Panel
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </EuiFlexItem>
+                            </div>
+                          </EuiFlexGroup>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                    </div>
+                  </EuiPageContentHeader>
+                  <EuiHorizontalRule
+                    margin="m"
+                  >
+                    <hr
+                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                    />
+                  </EuiHorizontalRule>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
+                  <EuiText
+                    textAlign="center"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <EuiTextAlign
+                        textAlign="center"
+                      >
+                        <div
+                          className="euiTextAlign euiTextAlign--center"
+                        >
+                          <h2>
+                            No Operational Panels
+                          </h2>
+                          <EuiSpacer
+                            size="m"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--m"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                          >
+                            <div
+                              className="euiText euiText--medium"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use operational panels to dive deeper into observability
+                                  <br />
+                                  using PPL queries and insightful visualizations
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiTextAlign>
+                    </div>
+                  </EuiText>
+                  <EuiSpacer
+                    size="m"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--m"
+                    />
+                  </EuiSpacer>
+                  <EuiFlexGroup
+                    justifyContent="center"
+                  >
+                    <div
+                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                    >
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Create new panel
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Add samples
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                    </div>
+                  </EuiFlexGroup>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
+                </div>
+              </EuiPanel>
+            </EuiPageContent>
+          </div>
+        </EuiPageBody>
+      </div>
+    </EuiPage>
+  </div>
+</CustomPanelTable>
+`;
+
 exports[`Panels Table Component renders panel table container 1`] = `
 <CustomPanelTable
   addSamplePanels={[MockFunction]}
@@ -207,18 +780,16 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           size="s"
                                           type="popout"
                                         >
-                                          <EuiIconEmpty
-                                            aria-hidden={true}
+                                          <EuiIconPopout
                                             aria-label="External link"
-                                            className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                            className="euiIcon euiIcon--small euiLink__externalIcon"
                                             focusable="false"
                                             role="img"
                                             style={null}
                                           >
                                             <svg
-                                              aria-hidden={true}
                                               aria-label="External link"
-                                              className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                              className="euiIcon euiIcon--small euiLink__externalIcon"
                                               focusable="false"
                                               height={16}
                                               role="img"
@@ -226,8 +797,12 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                               viewBox="0 0 16 16"
                                               width={16}
                                               xmlns="http://www.w3.org/2000/svg"
-                                            />
-                                          </EuiIconEmpty>
+                                            >
+                                              <path
+                                                d="M13 8.5a.5.5 0 111 0V12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h3.5a.5.5 0 010 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8.5zm-5.12.339a.5.5 0 11-.706-.707L13.305 2H10.5a.5.5 0 110-1H14a1 1 0 011 1v3.5a.5.5 0 11-1 0V2.72L7.88 8.838z"
+                                              />
+                                            </svg>
+                                          </EuiIconPopout>
                                         </EuiIcon>
                                       </EuiI18n>
                                     </a>
@@ -323,16 +898,16 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                       size="m"
                                                       type="arrowDown"
                                                     >
-                                                      <EuiIconEmpty
+                                                      <EuiIconArrowDown
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                        className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                         focusable="false"
                                                         role="img"
                                                         style={null}
                                                       >
                                                         <svg
                                                           aria-hidden={true}
-                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                           focusable="false"
                                                           height={16}
                                                           role="img"
@@ -340,8 +915,13 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                           viewBox="0 0 16 16"
                                                           width={16}
                                                           xmlns="http://www.w3.org/2000/svg"
-                                                        />
-                                                      </EuiIconEmpty>
+                                                        >
+                                                          <path
+                                                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                            fillRule="non-zero"
+                                                          />
+                                                        </svg>
+                                                      </EuiIconArrowDown>
                                                     </EuiIcon>
                                                     <span
                                                       className="euiButton__text"
@@ -839,16 +1419,16 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                             size="m"
                                                             type="arrowDown"
                                                           >
-                                                            <EuiIconEmpty
+                                                            <EuiIconArrowDown
                                                               aria-hidden={true}
-                                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                              className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                               focusable="false"
                                                               role="img"
                                                               style={null}
                                                             >
                                                               <svg
                                                                 aria-hidden={true}
-                                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                                className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                                 focusable="false"
                                                                 height={16}
                                                                 role="img"
@@ -856,8 +1436,13 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                                 viewBox="0 0 16 16"
                                                                 width={16}
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                              />
-                                                            </EuiIconEmpty>
+                                                              >
+                                                                <path
+                                                                  d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                                  fillRule="non-zero"
+                                                                />
+                                                              </svg>
+                                                            </EuiIconArrowDown>
                                                           </EuiIcon>
                                                           <span
                                                             className="euiButtonEmpty__text"
@@ -2000,16 +2585,16 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                         size="m"
                                                         type="arrowDown"
                                                       >
-                                                        <EuiIconEmpty
+                                                        <EuiIconArrowDown
                                                           aria-hidden={true}
-                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                           focusable="false"
                                                           role="img"
                                                           style={null}
                                                         >
                                                           <svg
                                                             aria-hidden={true}
-                                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                            className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                             focusable="false"
                                                             height={16}
                                                             role="img"
@@ -2017,8 +2602,13 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                             viewBox="0 0 16 16"
                                                             width={16}
                                                             xmlns="http://www.w3.org/2000/svg"
-                                                          />
-                                                        </EuiIconEmpty>
+                                                          >
+                                                            <path
+                                                              d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                              fillRule="non-zero"
+                                                            />
+                                                          </svg>
+                                                        </EuiIconArrowDown>
                                                       </EuiIcon>
                                                       <span
                                                         className="euiButtonEmpty__text"
