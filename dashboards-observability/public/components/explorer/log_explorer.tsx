@@ -34,7 +34,8 @@ export const LogExplorer = ({
   setToast,
   savedObjectId,
   getExistingEmptyTab,
-  history
+  history,
+  notifications,
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -181,6 +182,7 @@ export const LogExplorer = ({
             timestampUtils={ timestampUtils }
             setToast={ setToast }
             history={history}
+            notifications={notifications}
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
           />
