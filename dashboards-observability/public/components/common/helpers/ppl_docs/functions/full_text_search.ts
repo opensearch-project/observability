@@ -65,7 +65,7 @@ parameters:
 ### Limitations
 
 The full text search functions are available to execute only in OpenSearch DSL
-but not in memory as of now, so the full text search search might fail for
+but not in memory as of now, so the full text search might fail for
 queries that are too complex to translate into DSL if the full text search
 function is following after a complex PPL query. To make your queries
 always work-able, it is recommended to place the full text search commands as
