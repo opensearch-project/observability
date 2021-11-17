@@ -24,6 +24,7 @@ import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
 import { PPLReferenceFlyout } from '../helpers';
+import { uiSettingsService } from '../../../../common/utils';
 
 export interface IQueryBarProps {
   query: string;
@@ -116,7 +117,7 @@ export const Search = (props: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiBadge color="hollow" onClick={() => showFlyout()}>
+          <EuiBadge className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`} color="hollow" onClick={() => showFlyout()}>
             PPL
           </EuiBadge>
         </EuiFlexItem>

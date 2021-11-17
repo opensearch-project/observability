@@ -28,6 +28,7 @@
   height: 45px;
   resize: vertical;
   font-size: 16px;
+  padding-right: 40px;
 }
 .aa-Panel {
   width: 100%;
@@ -36,4 +37,20 @@
 
 .event-date-picker {
   max-width: 35vw;
+}
+
+.ppl-link {
+  border: unset;
+  position: absolute;
+  top: 10px;
+  left: 73.4%;
+  background-color: transparent;
+  padding: 12px;
+}
+.ppl-link-light {
+  color: #006BB4;
+}
+
+.ppl-link-dark {
+  color: #1BA9F5;
 }
