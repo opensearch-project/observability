@@ -86,28 +86,20 @@ export const Home = (props: HomeProps) => {
       <Route
         exact
         path={['/trace_analytics', '/trace_analytics/home']}
-<<<<<<< HEAD
-        render={(routerProps) => renderPageWithSidebar(<Dashboard {...commonProps} hasTitle={true} breadCrumbOwner="dashboard" />)}
-=======
         render={(routerProps) => (
           <ObservabilitySideBar>
             <Dashboard {...commonProps} />
           </ObservabilitySideBar>
         )}
->>>>>>> upstream/main
       />
       <Route
         exact
         path="/trace_analytics/traces"
-<<<<<<< HEAD
-        render={(routerProps) => renderPageWithSidebar(<Traces {...commonProps} hasTitle={true} breadCrumbOwner="traces" />)}
-=======
         render={(routerProps) => (
           <ObservabilitySideBar>
             <Traces {...commonProps} />
           </ObservabilitySideBar>
         )}
->>>>>>> upstream/main
       />
       <Route
         path="/trace_analytics/traces/:id+"
@@ -123,15 +115,11 @@ export const Home = (props: HomeProps) => {
       <Route
         exact
         path="/trace_analytics/services"
-<<<<<<< HEAD
-        render={(routerProps) => renderPageWithSidebar(<Services {...commonProps} hasTitle={true} breadCrumbOwner="services" />)}
-=======
         render={(routerProps) => (
           <ObservabilitySideBar>
             <Services {...commonProps} />
           </ObservabilitySideBar>
         )}
->>>>>>> upstream/main
       />
       <Route
         path="/trace_analytics/services/:id+"
