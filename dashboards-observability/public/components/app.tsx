@@ -103,6 +103,7 @@ export const App = ({
                       savedObjects={savedObjects}
                       timestampUtils={timestampUtils}
                       http={http}
+                      notifications={notifications}
                       {...props}
                     />
                   );

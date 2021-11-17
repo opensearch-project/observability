@@ -6,7 +6,6 @@
 import './search.scss';
 import $ from 'jquery';
 import React, {
-  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -17,13 +16,12 @@ import {
 import { EuiTextArea } from '@elastic/eui';
 import { IQueryBarProps } from './search';
 import { getDataValueQuery } from './queries/data_queries';
-import { isEmpty } from 'lodash';
 import DSLService from 'public/services/requests/dsl';
 import { uiSettingsService } from '../../../../common/utils';
 
 let currIndex: string = '';
 let currField: string = '';
-let currFieldType: string | undefined = '';
+let currFieldType: string = '';
 
 let inFieldsCommaLoop: boolean = false;
 let inMatch: boolean = false;
@@ -34,6 +32,7 @@ const indexList: string[] = [];
 const fieldList: string[] = [];
 const fieldsFromBackend: fieldItem[] = [];
 const indicesFromBackend: indexItem[] = [];
+const dataValuesFromBackend: dataItem[] = [];
 
 const firstCommand = [{ label: 'source' }];
 
@@ -119,6 +118,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       nextWhere = Number.MAX_SAFE_INTEGER;
       nextStats = Number.MAX_SAFE_INTEGER;
       currField = '';
+      currFieldType = '';
       return fillSuggestions(str, prefix, pipeCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
       if (inFieldsCommaLoop) {
@@ -129,7 +129,7 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         return fillSuggestions(
           str, 
           prefix,
-          await getDataValues(currIndex, currField, currFieldType, dslService)
+          dataValuesFromBackend
         );
       }
       return fullSuggestions;
@@ -148,13 +148,6 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
       getFields(dslService);
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
-      );
-    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-      inMatch = true;
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type;
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
@@ -213,21 +206,23 @@ const getSuggestions = async (str: string, dslService: DSLService) => {
         itemName: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type;
+      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type || '';
+      await getDataValues(currIndex, currField, currFieldType, dslService);
       return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
+    }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
+      inMatch = true;
+      currField = splittedModel[splittedModel.length - 2];
+      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+      await getDataValues(currIndex, currField, currFieldType, dslService);
+      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
+        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+      );
     } else if (nextWhere === splittedModel.length - 2) {
-      if (isEmpty(prefix)) {
-        if (!currFieldType) {
-        console.error('Current field type is undefined')
-        return [];
-        }
         return fillSuggestions(
           str,
           prefix,
-          await getDataValues(currIndex, currField, currFieldType, dslService)
+          dataValuesFromBackend
         );
-      }
-      return [];
     } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
         ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
@@ -269,7 +264,9 @@ const getFields = async (dslService: DSLService) => {
     const res = await dslService.fetchFields(currIndex);
     fieldsFromBackend.length = 0;
     for (const element in res?.[currIndex].mappings.properties) {
-      if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
+      if (res?.[currIndex].mappings.properties[element].properties || res?.[currIndex].mappings.properties[element].fields) {
+        fieldsFromBackend.push({ label: element, type: 'string' });
+      } else if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
       } else {
         fieldsFromBackend.push({
@@ -289,7 +286,7 @@ const getDataValues = async (
   dslService: DSLService
 ) => {
   const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
-  const dataValuesFromBackend: dataItem[] = [];
+  dataValuesFromBackend.length = 0;
   res.forEach((e: any) => {
     if (fieldType === 'string') {
       dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
@@ -354,18 +351,17 @@ export function Autocomplete({
     status: 'idle',
   });
 
-  useEffect(() => {
-    $('#autocomplete-textarea').keypress((e) => {
-      const keycode = (e.keyCode ? e.keyCode : e.which);
-      if (keycode === 13 && e.shiftKey) {
-        handleQuerySearch();
-      }
-    });
+  const searchBar = document.getElementById('autocomplete-textarea');
 
+  searchBar?.addEventListener('keydown', function (e) {
+    const keyCode = e.which || e.keyCode;
+    if (keyCode === 13 && e.shiftKey) {
+      handleQuerySearch();
+    }
     return () => {
-      $('#autocomplete-textarea').unbind('keypress');
+      $('#autocomplete-textarea').unbind('keydown');
     };
-  }, [tempQuery]);
+  })
 
   const autocomplete = useMemo(
     () => {

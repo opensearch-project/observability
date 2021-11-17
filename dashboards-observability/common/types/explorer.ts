@@ -14,11 +14,12 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE
  } from '../constants/explorer';
- import { HttpStart } from '../../../../src/core/public';
+ import { HttpStart, NotificationsStart } from '../../../../src/core/public';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
  import TimestampUtils from '../../public/services/timestamp/timestamp';
  import PPLService from '../../public/services/requests/ppl';
  import DSLService from '../../public/services/requests/dsl';
+ import { History } from 'history';
 
 export interface IQueryTab {
   id: string;
@@ -69,6 +70,8 @@ export interface ILogExplorerProps {
   dslService: DSLService;
   savedObjects: SavedObjects;
   http: HttpStart;
+  history: History;
+  notifications: NotificationsStart;
   timestampUtils: TimestampUtils;
   setToast: (
     title: string,
@@ -78,4 +81,21 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
+}
+
+export interface IExplorerProps {
+  pplService: PPLService;
+  dslService: DSLService;
+  tabId: string;
+  savedObjects: SavedObjects;
+  timestampUtils: TimestampUtils;
+  history: History;
+  notifications: NotificationsStart;
+  savedObjectId: string;
+  setToast: (
+    title: string,
+    color?: string,
+    text?: React.ReactChild | undefined,
+    side?: string | undefined
+  ) => void;
 }
