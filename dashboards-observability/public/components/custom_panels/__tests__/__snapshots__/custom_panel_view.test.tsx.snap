@@ -489,6 +489,19 @@ exports[`Panels View Component renders panel view container with visualizations 
                         className="euiFlexItem"
                       >
                         <EuiFieldText
+                          append={
+                            <EuiLink
+                              aria-label="ppl-info"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "padding": "10px",
+                                }
+                              }
+                            >
+                              PPL
+                            </EuiLink>
+                          }
                           disabled={true}
                           fullWidth={true}
                           onChange={[Function]}
@@ -497,17 +510,30 @@ exports[`Panels View Component renders panel view container with visualizations 
                           value=""
                         >
                           <EuiFormControlLayout
+                            append={
+                              <EuiLink
+                                aria-label="ppl-info"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                PPL
+                              </EuiLink>
+                            }
                             fullWidth={true}
                           >
                             <div
-                              className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                              className="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--group"
                             >
                               <div
                                 className="euiFormControlLayout__childrenWrapper"
                               >
                                 <EuiValidatableControl>
                                   <input
-                                    className="euiFieldText euiFieldText--fullWidth"
+                                    className="euiFieldText euiFieldText--fullWidth euiFieldText--inGroup"
                                     disabled={true}
                                     onChange={[Function]}
                                     onKeyPress={[Function]}
@@ -518,72 +544,35 @@ exports[`Panels View Component renders panel view container with visualizations 
                                 </EuiValidatableControl>
                                 <EuiFormControlLayoutIcons />
                               </div>
+                              <EuiLink
+                                aria-label="ppl-info"
+                                className="euiFormControlLayout__append"
+                                key="0/.0"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                <button
+                                  aria-label="ppl-info"
+                                  className="euiLink euiLink--primary euiFormControlLayout__append"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "padding": "10px",
+                                    }
+                                  }
+                                  type="button"
+                                >
+                                  PPL
+                                </button>
+                              </EuiLink>
                             </div>
                           </EuiFormControlLayout>
                         </EuiFieldText>
-                      </div>
-                    </EuiFlexItem>
-                    <EuiFlexItem
-                      grow={false}
-                      style={
-                        Object {
-                          "justifyContent": "center",
-                        }
-                      }
-                    >
-                      <div
-                        className="euiFlexItem euiFlexItem--flexGrowZero"
-                        style={
-                          Object {
-                            "justifyContent": "center",
-                          }
-                        }
-                      >
-                        <EuiButtonIcon
-                          aria-label="ppl-info"
-                          iconSize="l"
-                          iconType="questionInCircle"
-                          onClick={[Function]}
-                        >
-                          <button
-                            aria-label="ppl-info"
-                            className="euiButtonIcon euiButtonIcon--primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            <EuiIcon
-                              aria-hidden="true"
-                              className="euiButtonIcon__icon"
-                              size="l"
-                              type="questionInCircle"
-                            >
-                              <EuiIconQuestionInCircle
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--large euiButtonIcon__icon"
-                                focusable="false"
-                                role="img"
-                                style={null}
-                              >
-                                <svg
-                                  aria-hidden={true}
-                                  className="euiIcon euiIcon--large euiButtonIcon__icon"
-                                  focusable="false"
-                                  height={16}
-                                  role="img"
-                                  style={null}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M8 14A6 6 0 118 2a6 6 0 010 12zm0-1A5 5 0 108 3a5 5 0 000 10zm-.186-1.065A.785.785 0 017 11.12c0-.48.34-.82.814-.82.475 0 .809.34.809.82 0 .475-.334.815-.809.815zM5.9 6.317C5.96 5.168 6.755 4.4 8.048 4.4c1.218 0 2.091.759 2.091 1.8 0 .736-.36 1.304-1.03 1.707-.56.33-.717.56-.717 1.022v.305l-.1.1H7.47l-.1-.1v-.431c-.005-.646.302-1.104.987-1.514.527-.322.708-.59.708-1.047 0-.536-.416-.91-1.05-.91-.652 0-1.064.374-1.112.998l-.1.092H6l-.1-.105z"
-                                  />
-                                </svg>
-                              </EuiIconQuestionInCircle>
-                            </EuiIcon>
-                          </button>
-                        </EuiButtonIcon>
                       </div>
                     </EuiFlexItem>
                     <EuiFlexItem
@@ -2111,6 +2100,19 @@ exports[`Panels View Component renders panel view container with visualizations 
                         className="euiFlexItem"
                       >
                         <EuiFieldText
+                          append={
+                            <EuiLink
+                              aria-label="ppl-info"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "padding": "10px",
+                                }
+                              }
+                            >
+                              PPL
+                            </EuiLink>
+                          }
                           disabled={true}
                           fullWidth={true}
                           onChange={[Function]}
@@ -2119,17 +2121,30 @@ exports[`Panels View Component renders panel view container with visualizations 
                           value=""
                         >
                           <EuiFormControlLayout
+                            append={
+                              <EuiLink
+                                aria-label="ppl-info"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                PPL
+                              </EuiLink>
+                            }
                             fullWidth={true}
                           >
                             <div
-                              className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                              className="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--group"
                             >
                               <div
                                 className="euiFormControlLayout__childrenWrapper"
                               >
                                 <EuiValidatableControl>
                                   <input
-                                    className="euiFieldText euiFieldText--fullWidth"
+                                    className="euiFieldText euiFieldText--fullWidth euiFieldText--inGroup"
                                     disabled={true}
                                     onChange={[Function]}
                                     onKeyPress={[Function]}
@@ -2140,72 +2155,35 @@ exports[`Panels View Component renders panel view container with visualizations 
                                 </EuiValidatableControl>
                                 <EuiFormControlLayoutIcons />
                               </div>
+                              <EuiLink
+                                aria-label="ppl-info"
+                                className="euiFormControlLayout__append"
+                                key="0/.0"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                <button
+                                  aria-label="ppl-info"
+                                  className="euiLink euiLink--primary euiFormControlLayout__append"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "padding": "10px",
+                                    }
+                                  }
+                                  type="button"
+                                >
+                                  PPL
+                                </button>
+                              </EuiLink>
                             </div>
                           </EuiFormControlLayout>
                         </EuiFieldText>
-                      </div>
-                    </EuiFlexItem>
-                    <EuiFlexItem
-                      grow={false}
-                      style={
-                        Object {
-                          "justifyContent": "center",
-                        }
-                      }
-                    >
-                      <div
-                        className="euiFlexItem euiFlexItem--flexGrowZero"
-                        style={
-                          Object {
-                            "justifyContent": "center",
-                          }
-                        }
-                      >
-                        <EuiButtonIcon
-                          aria-label="ppl-info"
-                          iconSize="l"
-                          iconType="questionInCircle"
-                          onClick={[Function]}
-                        >
-                          <button
-                            aria-label="ppl-info"
-                            className="euiButtonIcon euiButtonIcon--primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            <EuiIcon
-                              aria-hidden="true"
-                              className="euiButtonIcon__icon"
-                              size="l"
-                              type="questionInCircle"
-                            >
-                              <EuiIconQuestionInCircle
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--large euiButtonIcon__icon"
-                                focusable="false"
-                                role="img"
-                                style={null}
-                              >
-                                <svg
-                                  aria-hidden={true}
-                                  className="euiIcon euiIcon--large euiButtonIcon__icon"
-                                  focusable="false"
-                                  height={16}
-                                  role="img"
-                                  style={null}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M8 14A6 6 0 118 2a6 6 0 010 12zm0-1A5 5 0 108 3a5 5 0 000 10zm-.186-1.065A.785.785 0 017 11.12c0-.48.34-.82.814-.82.475 0 .809.34.809.82 0 .475-.334.815-.809.815zM5.9 6.317C5.96 5.168 6.755 4.4 8.048 4.4c1.218 0 2.091.759 2.091 1.8 0 .736-.36 1.304-1.03 1.707-.56.33-.717.56-.717 1.022v.305l-.1.1H7.47l-.1-.1v-.431c-.005-.646.302-1.104.987-1.514.527-.322.708-.59.708-1.047 0-.536-.416-.91-1.05-.91-.652 0-1.064.374-1.112.998l-.1.092H6l-.1-.105z"
-                                  />
-                                </svg>
-                              </EuiIconQuestionInCircle>
-                            </EuiIcon>
-                          </button>
-                        </EuiButtonIcon>
                       </div>
                     </EuiFlexItem>
                     <EuiFlexItem
@@ -3719,6 +3697,19 @@ exports[`Panels View Component renders panel view container without visualizatio
                         className="euiFlexItem"
                       >
                         <EuiFieldText
+                          append={
+                            <EuiLink
+                              aria-label="ppl-info"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "padding": "10px",
+                                }
+                              }
+                            >
+                              PPL
+                            </EuiLink>
+                          }
                           disabled={true}
                           fullWidth={true}
                           onChange={[Function]}
@@ -3727,17 +3718,30 @@ exports[`Panels View Component renders panel view container without visualizatio
                           value=""
                         >
                           <EuiFormControlLayout
+                            append={
+                              <EuiLink
+                                aria-label="ppl-info"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                PPL
+                              </EuiLink>
+                            }
                             fullWidth={true}
                           >
                             <div
-                              className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                              className="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--group"
                             >
                               <div
                                 className="euiFormControlLayout__childrenWrapper"
                               >
                                 <EuiValidatableControl>
                                   <input
-                                    className="euiFieldText euiFieldText--fullWidth"
+                                    className="euiFieldText euiFieldText--fullWidth euiFieldText--inGroup"
                                     disabled={true}
                                     onChange={[Function]}
                                     onKeyPress={[Function]}
@@ -3748,68 +3752,35 @@ exports[`Panels View Component renders panel view container without visualizatio
                                 </EuiValidatableControl>
                                 <EuiFormControlLayoutIcons />
                               </div>
+                              <EuiLink
+                                aria-label="ppl-info"
+                                className="euiFormControlLayout__append"
+                                key="0/.0"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "padding": "10px",
+                                  }
+                                }
+                              >
+                                <button
+                                  aria-label="ppl-info"
+                                  className="euiLink euiLink--primary euiFormControlLayout__append"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "padding": "10px",
+                                    }
+                                  }
+                                  type="button"
+                                >
+                                  PPL
+                                </button>
+                              </EuiLink>
                             </div>
                           </EuiFormControlLayout>
                         </EuiFieldText>
-                      </div>
-                    </EuiFlexItem>
-                    <EuiFlexItem
-                      grow={false}
-                      style={
-                        Object {
-                          "justifyContent": "center",
-                        }
-                      }
-                    >
-                      <div
-                        className="euiFlexItem euiFlexItem--flexGrowZero"
-                        style={
-                          Object {
-                            "justifyContent": "center",
-                          }
-                        }
-                      >
-                        <EuiButtonIcon
-                          aria-label="ppl-info"
-                          iconSize="l"
-                          iconType="questionInCircle"
-                          onClick={[Function]}
-                        >
-                          <button
-                            aria-label="ppl-info"
-                            className="euiButtonIcon euiButtonIcon--primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            <EuiIcon
-                              aria-hidden="true"
-                              className="euiButtonIcon__icon"
-                              size="l"
-                              type="questionInCircle"
-                            >
-                              <EuiIconEmpty
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--large euiIcon-isLoading euiButtonIcon__icon"
-                                focusable="false"
-                                role="img"
-                                style={null}
-                              >
-                                <svg
-                                  aria-hidden={true}
-                                  className="euiIcon euiIcon--large euiIcon-isLoading euiButtonIcon__icon"
-                                  focusable="false"
-                                  height={16}
-                                  role="img"
-                                  style={null}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                />
-                              </EuiIconEmpty>
-                            </EuiIcon>
-                          </button>
-                        </EuiButtonIcon>
                       </div>
                     </EuiFlexItem>
                     <EuiFlexItem
