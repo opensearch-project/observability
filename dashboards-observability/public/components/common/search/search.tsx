@@ -14,7 +14,7 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiButtonIcon,
+  EuiBadge,
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -22,6 +22,7 @@ import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
 import { PPLReferenceFlyout } from '../helpers';
+import { uiSettingsService } from '../../../../common/utils';
 
 export interface IQueryBarProps {
   query: string;
@@ -66,7 +67,7 @@ export const Search = (props: any) => {
     showSaveButton = true,
     setToast,
     runButtonText,
-    handleTimeRangePickerRefresh
+    handleTimeRangePickerRefresh,
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -103,7 +104,7 @@ export const Search = (props: any) => {
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
-        <EuiFlexItem key="search-bar">
+        <EuiFlexItem key="search-bar" className="search-area">
           <Autocomplete
             key={'autocomplete-search-bar'}
             query={query}
@@ -112,14 +113,11 @@ export const Search = (props: any) => {
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
+          <EuiBadge className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`} color="hollow" onClick={() => showFlyout()}>
+            PPL
+          </EuiBadge>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButtonIcon
-            aria-label="ppl-info"
-            iconType="questionInCircle"
-            iconSize="l"
-            onClick={showFlyout}
-          />
         </EuiFlexItem>
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker

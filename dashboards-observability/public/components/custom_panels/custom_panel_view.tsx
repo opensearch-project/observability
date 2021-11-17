@@ -12,6 +12,7 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -21,6 +22,7 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiSuperDatePicker,
+  EuiText,
   EuiTitle,
   OnTimeChangeProps,
   ShortDate,
@@ -566,14 +568,15 @@ export const CustomPanelView = ({
                   onChange={onChange}
                   onKeyPress={onKeyPress}
                   disabled={inputDisabled}
-                />
-              </EuiFlexItem>
-              <EuiFlexItem grow={false} style={{ justifyContent: 'center' }}>
-                <EuiButtonIcon
-                  aria-label="ppl-info"
-                  iconType="questionInCircle"
-                  iconSize="l"
-                  onClick={showHelpFlyout}
+                  append={
+                    <EuiLink
+                      aria-label="ppl-info"
+                      onClick={showHelpFlyout}
+                      style={{ padding: '10px' }}
+                    >
+                      PPL
+                    </EuiLink>
+                  }
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
