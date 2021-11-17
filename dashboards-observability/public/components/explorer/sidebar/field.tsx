@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import React, { useState } from 'react';
@@ -17,7 +11,8 @@ import {
   EuiButtonIcon,
   EuiToolTip,
   EuiButton,
-  EuiMark
+  EuiMark,
+  EuiLoadingSpinner
 } from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
@@ -26,9 +21,12 @@ import { IField } from '../../../../common/types/explorer';
 interface IFieldProps {
   field: IField;
   selectedTimestamp: string;
+  isOverridingTimestamp: boolean;
   handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   selected: boolean;
   showToggleButton: boolean;
+  showTimestampOverrideButton: boolean;
+  isFieldToggleButtonDisabled: boolean;
   onToggleField: (field: IField) => void;
 }
 
@@ -37,9 +35,11 @@ export const Field = (props: IFieldProps) => {
   const {
     field,
     selectedTimestamp,
+    isOverridingTimestamp,
     handleOverrideTimestamp,
     selected,
-    showToggleButton = true,
+    isFieldToggleButtonDisabled = false,
+    showTimestampOverrideButton = true,
     onToggleField
   } = props;
 
@@ -68,49 +68,71 @@ export const Field = (props: IFieldProps) => {
 
   const getFieldActionDOM = () => {
     return (
-      <EuiToolTip
-        delay="long"
-        content={
-          i18n.translate(
-            selected ? 'removeFieldTooltip' : 'addFieldTooltip', 
-            { defaultMessage: selected ? 'Remove field from table' : 'Add field as column' }
-          )
-        }
-      >
-        <>
-        { isEqual(field.type, 'timestamp') ?
-          isEqual(selectedTimestamp, field.name) ? <EuiMark>{ 'Default Timestamp' }</EuiMark> :
-          <EuiButton
-            className="timestamp_override"
-            size="s"
-            color={'secondary'}
-            fill
-            onClick={() => handleOverrideTimestamp(field)}
-          >
-            { 'Override' }
-          </EuiButton> : null
-        }
-        {
-          showToggleButton ? (
-            <EuiButtonIcon
-              color={ selected ? "danger" : "primary" }
-              iconType={ selected ? "cross": "plusInCircleFilled" }
-              className="dscSidebarItem__action"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                if (e.type === 'click') {
-                  e.currentTarget.focus();
-                }
-                e.preventDefault();
-                e.stopPropagation();
-                toggleField(field);
-              }}
-              data-test-subj={`fieldToggle-${field.name}`}
-              aria-label={ selected ? removeLabelAria : addLabelAria }
-            />
-          ) : null
-        }
-        </>
+      <>
+        <EuiToolTip
+          id="override-timestamp"
+          delay="long"
+          content="Override default timestamp"
+        >
+          <>
+            { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
+              isEqual(selectedTimestamp, field.name) ? 
+              <EuiMark>Default Timestamp</EuiMark> :
+              isOverridingTimestamp ? 
+              <EuiLoadingSpinner className="override_timestamp_loading" size='m' /> :
+              <EuiButtonIcon
+                aria-labelledby="override_timestamp"
+                className="dscSidebarItem__action"
+                size="s"
+                color="text"
+                iconType="inputOutput"
+                onClick={() => handleOverrideTimestamp(field)}
+              >
+                Override
+              </EuiButtonIcon> : null
+            }
+          </>
+        </EuiToolTip>
+        <EuiToolTip
+          delay="long"
+          content={
+            isFieldToggleButtonDisabled ? "Toggle button is disabled on query contains 'stats' or no hits for the search" :
+            selected ? "Remove field from table" : "Add field as column"
+          }
+        >
+          <>
+          {
+            isFieldToggleButtonDisabled ? (
+              <EuiButtonIcon
+                className="dscSidebarItem__action"
+                color="ghost"
+                display="fill"
+                isDisabled
+                iconType={ selected ? "cross": "plusInCircleFilled" }
+                data-test-subj={`fieldToggle-${field.name}`}
+                aria-label={ selected ? removeLabelAria : addLabelAria }
+              />
+            ) : (
+              <EuiButtonIcon
+                color={ selected ? "danger" : "primary" }
+                iconType={ selected ? "cross": "plusInCircleFilled" }
+                className="dscSidebarItem__action"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  if (e.type === 'click') {
+                    e.currentTarget.focus();
+                  }
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleField(field);
+                }}
+                data-test-subj={`fieldToggle-${field.name}`}
+                aria-label={ selected ? removeLabelAria : addLabelAria }
+              />
+            )
+          }
+          </>
       </EuiToolTip>
+      </>
     );
   };
 

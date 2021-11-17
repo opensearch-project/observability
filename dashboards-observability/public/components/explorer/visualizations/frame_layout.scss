@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 $lnsPanelMinWidth: $euiSize * 18;
@@ -35,7 +29,7 @@ $lnsSuggestionWidth: 150px;
 .lnsFrameLayout__pageBody {
   @include euiScrollBar;
   min-width: $lnsPanelMinWidth + $euiSizeXL;
-  max-height: 500px;
+  max-height: 100%;
   overflow: hidden auto;
   // Leave out bottom padding so the suggestions scrollbar stays flush to window edge
   // Leave out left padding so the left sidebar's focus states are visible outside of content bounds

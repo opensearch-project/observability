@@ -1,32 +1,28 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
+
+import {
+  sampleQueries,
+  sampleVisualizations,
+} from '../../common/helpers/events_explorer/sample_savedObjects';
 
 export default class SavedObjectFacet {
   constructor(private client: any) {
     this.client = client;
   }
 
-  fetch = async (
-    request: any,
-    format: string
-  ) => {
+  fetch = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
-        ...request.url.query
-      };    
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+        ...request.url.query,
+      };
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
@@ -36,24 +32,20 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  create = async (
-    request: any,
-    format: string,
-    objectType: string
-  ) => {
+  create = async (request: any, format: string, objectType: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         body: {
           [objectType]: {
-            ...request.body.object
-          }
-        }
-      };    
-      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+            ...request.body.object,
+          },
+        },
+      };
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedRes;
     } catch (err: any) {
@@ -63,24 +55,21 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  createTimestamp = async (
-    request: any,
-    format: string,
-  ) => {
+  createTimestamp = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         body: {
           objectId: request.body.index,
-          'timestamp': {
-            ...request.body
-          }
-        }
-      };    
-      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+          timestamp: {
+            ...request.body,
+          },
+        },
+      };
+      const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedRes;
     } catch (err: any) {
@@ -88,84 +77,114 @@ export default class SavedObjectFacet {
       res['data'] = err;
     }
     return res;
-  }
+  };
 
-  updateTimestamp = async (
-    request: any,
-    format: string,
-  ) => {
+  updateTimestamp = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         objectId: request.body.objectId,
         body: {
-          ...request.body
-        }
+          ...request.body,
+        },
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err;
+      res['data'] = err.message;
     }
     return res;
   };
 
-  update = async (
-    request: any,
-    format: string,
-    objectType: string
-  ) => {
+  update = async (request: any, format: string, objectType: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
         objectId: request.body.object_id,
-        body: {              
+        body: {
           [objectType]: {
-            ...request.body.object
-          }
-        }
+            ...request.body.object,
+          },
+        },
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err;
+      res['data'] = err.message;
     }
     return res;
   };
 
-  delete = async (
-    request: any,
-    format: string,
-    objectType: string
-  ) => {
+  delete = async (request: any, format: string) => {
     const res = {
       success: false,
-      data: {}
+      data: {},
     };
     try {
       const params = {
-        objectId: request.body.object_id,
-        body: {              
-          [objectType]: {
-            ...request.body.object
-          }
-        }
+        objectIdList: request.body.objectIdList,
       };
-      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);      
+      const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res['success'] = true;
       res['data'] = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics delete error: ', err);
+      res['data'] = err.message;
+    }
+    return res;
+  };
+
+  createSamples = async (request: any, format: string) => {
+    const res = {
+      success: false,
+      data: {},
+    };
+    try {
+      let savedVizIds: any[] = [];
+      let savedQueryIds: any[] = [];
+
+      if (['panels', 'event_analytics'].includes(request.params.sampleRequestor)) {
+        for (var i = 0; i < sampleVisualizations.length; i++) {
+          const params = {
+            body: {
+              savedVisualization: {
+                ...sampleVisualizations[i],
+              },
+            },
+          };
+          const savedVizRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
+          savedVizIds.push(savedVizRes.objectId);
+        }
+
+        for (var i = 0; i < sampleQueries.length; i++) {
+          const params = {
+            body: {
+              savedQuery: {
+                ...sampleQueries[i],
+              },
+            },
+          };
+          const savedQueryRes = await this.client
+            .asScoped(request)
+            .callAsCurrentUser(format, params);
+          savedQueryIds.push(savedQueryRes.objectId);
+        }
+      }
+
+      res['success'] = true;
+      res['data'] = { savedVizIds: savedVizIds, savedQueryIds: savedQueryIds };
+    } catch (err: any) {
+      console.error('Event analytics create error: ', err);
       res['data'] = err;
     }
     return res;
@@ -198,12 +217,16 @@ export default class SavedObjectFacet {
   updateSavedQuery = (request: any) => {
     return this.update(request, 'observability.updateObjectById', 'savedQuery');
   };
-  
+
   updateSavedVisualization = (request: any) => {
     return this.update(request, 'observability.updateObjectById', 'savedVisualization');
   };
 
-  deleteSavedQuery = async (request: any) => {
-    return this.delete(request, 'observability.deleteObjectByIdList', 'savedQuery');
+  deleteSavedObject = async (request: any) => {
+    return this.delete(request, 'observability.deleteObjectByIdList');
+  };
+
+  createSampleSavedObjects = async (request: any) => {
+    return this.createSamples(request, 'observability.createObject');
   };
 }

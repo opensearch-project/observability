@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { 
@@ -14,7 +8,6 @@ import {
   isEmpty,
   isArray
 } from 'lodash';
-import { htmlIdGenerator } from '@elastic/eui';
 import { 
   OBSERVABILITY_BASE,
   EVENT_ANALYTICS,
@@ -119,20 +112,18 @@ export default class SavedObjects {
       );
     });
 
-    const res = await this.http.get(
+    return await this.http.get(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, 
       {
         query: {
           ...params
         },
       }
-    ).catch((error: any) => console.error(error));
-
-    return res;
+    );
   }
 
   async fetchCustomPanels() {
-    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`).catch((error: any) => console.error(error));
+    return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`);
   }
 
   async bulkUpdateCustomPanel (params: ISelectedPanelsParams) {
@@ -141,14 +132,14 @@ export default class SavedObjects {
       savedVisualizationId: params.savedVisualizationId,
     };
 
-    const responses = await Promise.all(
+    return await Promise.all(
       params['selectedCustomPanels'].map((panel) => {
         finalParams['panelId'] = panel['panel']['id'];
         return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify(finalParams)
         });
       })
-    ).catch((error) => console.error(error));
+    );
   };
 
   async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
@@ -161,7 +152,7 @@ export default class SavedObjects {
       name: params.name
     });
 
-    const responses = await Promise.all(
+    return await Promise.all(
       params.savedObjectList.map((objectToUpdate) => {
         finalParams['object_id'] = objectToUpdate['saved_object']['objectId'];
         return this.http.put(
@@ -171,7 +162,7 @@ export default class SavedObjects {
           }
         );
       })
-    ).catch((error) => console.error(error));
+    );
   }
 
   async updateSavedVisualizationById(params: any) {
@@ -179,16 +170,39 @@ export default class SavedObjects {
       query: params.query,
       fields: params.fields,
       dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
     });
 
     finalParams['object_id'] = params.objectId;
 
-    return await this.http.post(
+    return await this.http.put(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    );
+  }
+
+  async updateSavedQueryById(params: any) {
+    const finalParams = this.buildRequestBody({
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
+    });
+
+    finalParams['object_id'] = params.objectId;
+
+    return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.error(error));
+    );
   }
 
   async createSavedQuery(params: any) {
@@ -206,7 +220,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   async createSavedVisualization(params: any) {
@@ -225,7 +239,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   async createSavedTimestamp(params: any) {
@@ -241,7 +255,7 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
   async updateTimestamp(params: any) {
@@ -259,10 +273,20 @@ export default class SavedObjects {
       {
         body: JSON.stringify(finalParams)
       }
-    ).catch((error: any) => console.log(error));
+    );
   }
 
-  deleteSavedObjectsById(deleteObjectRequest: any) {}
+  async deleteSavedObjectsList(deleteObjectRequest: any) {
+    const finalParams = {
+      objectIdList: deleteObjectRequest.objectIdList.join(',')
+    };
+    return await this.http.delete(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    );
+  }
 
   deleteSavedObjectsByIdList(deleteObjectRequesList: any) {}
 

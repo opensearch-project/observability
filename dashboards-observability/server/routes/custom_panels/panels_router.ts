@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { schema } from '@osd/config-schema';
@@ -332,6 +326,45 @@ export function PanelsRouter(router: IRouter) {
         });
       } catch (error) {
         console.error('Issue in adding query filter', error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
+  // Add Sample Panels
+  router.post(
+    {
+      path: `${API_PREFIX}/panels/addSamplePanels`,
+      validate: {
+        body: schema.object({
+          savedVisualizationIds: schema.arrayOf(schema.string()),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        const panelsData = await customPanelBackend.addSamplePanels(
+          opensearchNotebooksClient,
+          request.body.savedVisualizationIds
+        );
+        return response.ok({
+          body: {
+            demoPanelsData: panelsData,
+          },
+        });
+      } catch (error) {
+        console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,

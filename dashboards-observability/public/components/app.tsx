@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { I18nProvider } from '@osd/i18n/react';
@@ -14,7 +8,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../src/core/public';
-import { observabilityTitle } from '../../common/constants/shared';
+import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
@@ -38,13 +32,12 @@ export const App = ({
   pplService,
   dslService,
   savedObjects,
-  timestampUtils
+  timestampUtils,
 }: ObservabilityAppDeps) => {
-
   const { chrome, http, notifications } = CoreStart;
   const parentBreadcrumb = {
     text: observabilityTitle,
-    href: 'observability#/',
+    href: `${observabilityID}#/`,
   };
 
   const customPanelBreadcrumb = {
@@ -77,18 +70,6 @@ export const App = ({
                   )
                 }}
               />
-              <Route
-                path={['/trace_analytics', '/trace_analytics/home']}
-                render={(props) => (
-                  <TraceAnalyticsHome
-                    {...props}
-                    chrome={chrome}
-                    http={http}
-                    parentBreadcrumb={parentBreadcrumb}
-                  />
-                )}
-              />
-              <Route
                 path="/notebooks"
                 render={(props) => (
                   <NotebooksHome
@@ -104,24 +85,7 @@ export const App = ({
                 )}
               />
               <Route
-                path="/event_analytics"
-                render={(props) => {
-                  return (
-                    <EventAnalytics
-                      chrome={ chrome }
-                      parentBreadcrumb={ parentBreadcrumb }
-                      pplService={ pplService }
-                      dslService={ dslService }
-                      savedObjects={ savedObjects }
-                      timestampUtils={ timestampUtils }
-                      http={ http }
-                      { ...props }
-                    />
-                  );
-                }}
-              />
-              <Route
-                path={['/operational_panels']}
+                path="/operational_panels"
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
                   return (
@@ -131,6 +95,35 @@ export const App = ({
                       parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
                       pplService={pplService}
                       renderProps={props}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path={['/trace_analytics', '/trace_analytics/home']}
+                render={(props) => (
+                  <TraceAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                  />
+                )}
+              />
+              <Route
+                path={['/', '/event_analytics']}
+                render={(props) => {
+                  return (
+                    <EventAnalytics
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      pplService={pplService}
+                      dslService={dslService}
+                      savedObjects={savedObjects}
+                      timestampUtils={timestampUtils}
+                      http={http}
+                      notifications={notifications}
+                      {...props}
                     />
                   );
                 }}

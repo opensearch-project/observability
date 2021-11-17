@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
  */
 
 /// <reference types="cypress" />
@@ -30,7 +9,7 @@ import { delay, SERVICE_NAME, setTimeFilter } from '../utils/constants';
 
 describe('Testing services table empty state', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/services', {
+    cy.visit('app/observability-dashboards#/trace_analytics/services', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -46,7 +25,7 @@ describe('Testing services table empty state', () => {
 
 describe('Testing services table', () => {
   beforeEach(() => {
-    cy.visit('app/observability#/trace_analytics/services', {
+    cy.visit('app/observability-dashboards#/trace_analytics/services', {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -77,7 +56,7 @@ describe('Testing service view empty state', () => {
       if (err.message.includes('ResizeObserver loop'))
         return false;
     });
-    cy.visit(`app/observability#/trace_analytics/services/${SERVICE_NAME}`, {
+    cy.visit(`app/observability-dashboards#/trace_analytics/services/${SERVICE_NAME}`, {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
@@ -99,7 +78,7 @@ describe('Testing service view', () => {
       if (err.message.includes('ResizeObserver loop'))
         return false;
     });
-    cy.visit(`app/observability#/trace_analytics/services/${SERVICE_NAME}`, {
+    cy.visit(`app/observability-dashboards#/trace_analytics/services/${SERVICE_NAME}`, {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },

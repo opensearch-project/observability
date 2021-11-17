@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { 
@@ -19,10 +13,12 @@ import {
   NEW_SELECTED_QUERY_TAB,
   REDUX_EXPL_SLICE_QUERY_TABS
 } from '../../../../common/constants/explorer';
+import { assign } from 'lodash';
 
 const initialState = {
   queryTabIds: [initialTabId],
-  selectedQueryTab: initialTabId
+  selectedQueryTab: initialTabId,
+  tabNames: {}
 };
 
 export const queryTabsSlice = createSlice({
@@ -35,10 +31,17 @@ export const queryTabsSlice = createSlice({
     },
     removeTab: (state, { payload }) => {
       state[QUERY_TAB_IDS] = state[QUERY_TAB_IDS].filter((tabId) => {
-        if (tabId === payload.tabId) return false;
-        return true;
+        return tabId !== payload.tabId;
       });
-      state[SELECTED_QUERY_TAB] = payload[NEW_SELECTED_QUERY_TAB];
+      if (payload[NEW_SELECTED_QUERY_TAB]) {
+        state[SELECTED_QUERY_TAB] = payload[NEW_SELECTED_QUERY_TAB];
+      }
+    },
+    updateTabName: (state, { payload }) => {
+      const newTabNames = {
+        [payload.tabId]: payload.tabName
+      };
+      assign(state.tabNames, newTabNames);
     },
     setSelectedQueryTab: (state, { payload }) => {
       state[SELECTED_QUERY_TAB] = payload.tabId;
@@ -50,7 +53,8 @@ export const queryTabsSlice = createSlice({
 export const {
   addTab,
   removeTab,
-  setSelectedQueryTab
+  setSelectedQueryTab,
+  updateTabName
 } = queryTabsSlice.actions;
 
 export const selectQueryTabs = (state) => state.explorerTabs;

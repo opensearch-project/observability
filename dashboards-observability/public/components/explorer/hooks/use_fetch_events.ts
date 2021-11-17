@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { useState, useRef } from 'react';
@@ -29,9 +23,11 @@ import { selectQueries } from '../slices/query_slice';
 import { reset as visualizationReset } from '../slices/visualization_slice';
 import {
   updateFields,
-  sortFields
+  sortFields,
+  selectFields
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
+import { IField } from 'common/types/explorer';
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -40,25 +36,29 @@ interface IFetchEventsParams {
 
 export const useFetchEvents = ({
   pplService,
-  requestParams
+  requestParams,
 }: IFetchEventsParams) => {
   
   const dispatch = useDispatch();
-  const [isEventsLoading, setIsEventsLoading] = useState<boolean>(false);
+  const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
+  const fields = useSelector(selectFields);
   const queriesRef = useRef();
+  const fieldsRef = useRef();
   queriesRef.current = queries;
+  fieldsRef.current = fields;
 
   const fetchEvents = async (
     { query }: { query: string },
     format: string,
-    handler: (res: any) => void
+    handler: (res: any) => void,
+    errorHandler?: (error: any) => void
   ) => {
     setIsEventsLoading(true);
     await pplService.fetch({
       query,
       format,
-    })
+    }, errorHandler)
     .then((res: any) => {
       handler(res);
     })
@@ -70,38 +70,72 @@ export const useFetchEvents = ({
     });
   };
 
-  const getEvents = (query: string = '') => {
+  const dispatchOnGettingHis = (res: any) => {
+    const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map((field: IField) => field.name);
+    batch(() => {
+      dispatch(queryResultReset({
+        tabId: requestParams.tabId
+      }));
+      dispatch(fetchSuccess({
+        tabId: requestParams.tabId,
+        data: {
+          ...res
+        }
+      }));
+      dispatch(updateFields({
+        tabId: requestParams.tabId,
+        data: {
+          [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
+          [QUERIED_FIELDS]: [],
+          [AVAILABLE_FIELDS]: res?.schema ? 
+            isEmpty(selectedFields) ? 
+            [...res.schema] : [...res?.schema.filter((curField: IField) => !selectedFields.includes(curField.name))] : []
+        }
+      }));
+      dispatch(sortFields({
+        tabId: requestParams.tabId,
+        data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
+      }));
+      dispatch(visualizationReset({
+        tabId: requestParams.tabId,
+      }));
+    });
+  };
+
+  const dispatchOnNoHis = (res: any) => {
+    batch(() => {
+      dispatch(queryResultReset({
+        tabId: requestParams.tabId
+      }));
+      dispatch(updateFields({
+        tabId: requestParams.tabId,
+        data: {
+          [SELECTED_FIELDS]: [],
+          [UNSELECTED_FIELDS]: [],
+          [QUERIED_FIELDS]: [],
+          [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
+        }
+      }));
+      dispatch(sortFields({
+        tabId: requestParams.tabId,
+        data: [AVAILABLE_FIELDS]
+      }));
+      dispatch(visualizationReset({
+        tabId: requestParams.tabId,
+      }));
+    });
+  };
+
+  const getEvents = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
-      batch(() => {
-        dispatch(queryResultReset({
-          tabId: requestParams.tabId
-        }));
-        dispatch(fetchSuccess({
-          tabId: requestParams.tabId,
-          data: {
-            ...res
-          }
-        }));
-        dispatch(updateFields({
-          tabId: requestParams.tabId,
-          data: {
-            [SELECTED_FIELDS]: [],
-            [UNSELECTED_FIELDS]: res?.schema ? [ ...res.schema ] : [],
-            [QUERIED_FIELDS]: [],
-            [AVAILABLE_FIELDS]: res?.schema ? [...res.schema] : []
-          }
-        }));
-        dispatch(sortFields({
-          tabId: requestParams.tabId,
-          data: [AVAILABLE_FIELDS, UNSELECTED_FIELDS]
-        }));
-        dispatch(visualizationReset({
-          tabId: requestParams.tabId,
-        }));
-      });
-    });
+      if (!isEmpty(res.jsonData)) {
+        return dispatchOnGettingHis(res);
+      }
+      // when no hits and needs to get available fields to override default timestamp
+      dispatchOnNoHis(res);
+    }, errorHandler);
   };
 
   const getAvailableFields = (query: string) => {

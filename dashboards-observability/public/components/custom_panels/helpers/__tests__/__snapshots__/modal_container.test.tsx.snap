@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal Container component renders DeletePanelModal component 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        Test Title
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiText>
+        Test Message
+      </EuiText>
+      <EuiText>
+        The action cannot be undone.
+      </EuiText>
+      <EuiSpacer />
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          label="To confirm deletion, enter \\"delete\\" in the text field"
+          labelType="label"
+        >
+          <EuiFieldText
+            name="input"
+            onChange={[Function]}
+            placeholder="delete"
+            value=""
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        Cancel
+      </EuiButtonEmpty>
+      <EuiButton
+        color="danger"
+        disabled={true}
+        fill={true}
+        onClick={[Function]}
+      >
+        Delete
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
+
+exports[`Modal Container component renders getCloneModal function 1`] = `""`;
+
+exports[`Modal Container component renders getDeleteModal function 1`] = `""`;

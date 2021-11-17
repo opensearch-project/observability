@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
 
 import {
@@ -53,7 +32,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../../src/core/public';
-import { CREATE_NOTE_MESSAGE, NOTEBOOKS_DOCUMENTATION_URL } from '../../../../common/constants/notebooks';
+import {
+  CREATE_NOTE_MESSAGE,
+  NOTEBOOKS_DOCUMENTATION_URL,
+} from '../../../../common/constants/notebooks';
 import { UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import {
   DeleteNotebookModal,
@@ -258,7 +240,7 @@ export function NoteTable(props: NoteTableProps) {
         addSampleNotebooks();
       }}
     >
-      Add sample notebooks
+      Add samples
     </EuiContextMenuItem>,
   ];
 
@@ -343,42 +325,44 @@ export function NoteTable(props: NoteTableProps) {
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule margin="m" />
-            <EuiFieldSearch
-              fullWidth
-              placeholder="Search notebook name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <EuiHorizontalRule margin="m" />
             {notebooks.length > 0 ? (
-              <EuiInMemoryTable
-                loading={props.loading}
-                items={
-                  searchQuery
-                    ? notebooks.filter((notebook) =>
-                        notebook.path.toLowerCase().includes(searchQuery.toLowerCase())
-                      )
-                    : notebooks
-                }
-                itemId="id"
-                columns={tableColumns}
-                tableLayout="auto"
-                pagination={{
-                  initialPageSize: 10,
-                  pageSizeOptions: [8, 10, 13],
-                }}
-                sorting={{
-                  sort: {
-                    field: 'dateModified',
-                    direction: 'desc',
-                  },
-                }}
-                allowNeutralSort={false}
-                isSelectable={true}
-                selection={{
-                  onSelectionChange: (items) => setSelectedNotebooks(items),
-                }}
-              />
+              <>
+                <EuiFieldSearch
+                  fullWidth
+                  placeholder="Search notebook name"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <EuiHorizontalRule margin="m" />
+                <EuiInMemoryTable
+                  loading={props.loading}
+                  items={
+                    searchQuery
+                      ? notebooks.filter((notebook) =>
+                          notebook.path.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
+                      : notebooks
+                  }
+                  itemId="id"
+                  columns={tableColumns}
+                  tableLayout="auto"
+                  pagination={{
+                    initialPageSize: 10,
+                    pageSizeOptions: [8, 10, 13],
+                  }}
+                  sorting={{
+                    sort: {
+                      field: 'dateModified',
+                      direction: 'desc',
+                    },
+                  }}
+                  allowNeutralSort={false}
+                  isSelectable={true}
+                  selection={{
+                    onSelectionChange: (items) => setSelectedNotebooks(items),
+                  }}
+                />
+              </>
             ) : (
               <>
                 <EuiSpacer size="xxl" />
@@ -400,7 +384,7 @@ export function NoteTable(props: NoteTableProps) {
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => addSampleNotebooks()}>
-                      Add sample notebooks
+                      Add samples
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

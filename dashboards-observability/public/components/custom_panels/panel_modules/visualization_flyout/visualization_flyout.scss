@@ -1,19 +1,13 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
-.visualization-div {
-  min-height: 200;
+.visualization-div-preview {
+  min-height: 50vh;
 }
 
-.visualization-loading-chart {
+.visualization-loading-chart-preview {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -25,10 +19,11 @@
   transform: translate(-50%, -50%);
 }
 
-.visualization-error-div {
+.visualization-error-div-preview {
   overflow: scroll;
 }
 
-.date-picker-height {
+.date-picker-preview {
   height: 3vh;
+  max-width: 500px;
 }

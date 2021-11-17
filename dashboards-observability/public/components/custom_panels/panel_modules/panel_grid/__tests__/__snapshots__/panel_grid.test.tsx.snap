@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panel Grid Component renders panel grid component with empty visualizations 1`] = `
+<PanelGrid
+  chrome={
+    Object {
+      "getIsNavDrawerLocked$": [MockFunction] {
+        "calls": Array [
+          Array [],
+          Array [],
+          Array [],
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": Observable {
+              "_isScalar": false,
+              "_subscribe": [Function],
+            },
+          },
+          Object {
+            "type": "return",
+            "value": Observable {
+              "_isScalar": false,
+              "_subscribe": [Function],
+            },
+          },
+          Object {
+            "type": "return",
+            "value": Observable {
+              "_isScalar": false,
+              "_subscribe": [Function],
+            },
+          },
+          Object {
+            "type": "return",
+            "value": Observable {
+              "_isScalar": false,
+              "_subscribe": [Function],
+            },
+          },
+        ],
+      },
+      "setBreadcrumbs": [MockFunction],
+    }
+  }
+  cloneVisualization={[MockFunction]}
+  editActionType=""
+  editMode={false}
+  endTime="now"
+  http={[MockFunction]}
+  onRefresh={false}
+  panelId=""
+  panelVisualizations={Array []}
+  pplFilterValue=""
+  pplService={
+    PPLService {
+      "fetch": [Function],
+      "http": [MockFunction],
+    }
+  }
+  setPanelVisualizations={[MockFunction]}
+  showFlyout={[MockFunction]}
+  startTime="now-15m"
+>
+  <WidthProvider
+    breakpoints={
+      Object {
+        "lg": 1200,
+        "md": 996,
+        "sm": 768,
+        "xs": 480,
+        "xxs": 0,
+      }
+    }
+    className="layout full-width"
+    cols={
+      Object {
+        "lg": 12,
+        "md": 12,
+        "sm": 12,
+        "xs": 1,
+        "xxs": 1,
+      }
+    }
+    layouts={
+      Object {
+        "lg": Array [],
+        "md": Array [],
+        "sm": Array [],
+      }
+    }
+    measureBeforeMount={false}
+    onLayoutChange={[Function]}
+  >
+    <ResponsiveReactGridLayout
+      breakpoints={
+        Object {
+          "lg": 1200,
+          "md": 996,
+          "sm": 768,
+          "xs": 480,
+          "xxs": 0,
+        }
+      }
+      className="layout full-width"
+      cols={
+        Object {
+          "lg": 12,
+          "md": 12,
+          "sm": 12,
+          "xs": 1,
+          "xxs": 1,
+        }
+      }
+      layouts={
+        Object {
+          "lg": Array [],
+          "md": Array [],
+          "sm": Array [],
+        }
+      }
+      onBreakpointChange={[Function]}
+      onLayoutChange={[Function]}
+      onWidthChange={[Function]}
+      width={0}
+    >
+      <ReactGridLayout
+        autoSize={true}
+        className="layout full-width"
+        cols={1}
+        compactType="vertical"
+        containerPadding={null}
+        draggableCancel=""
+        draggableHandle=""
+        isDraggable={true}
+        isResizable={true}
+        layout={Array []}
+        margin={
+          Array [
+            10,
+            10,
+          ]
+        }
+        maxRows={Infinity}
+        onDrag={[Function]}
+        onDragStart={[Function]}
+        onDragStop={[Function]}
+        onLayoutChange={[Function]}
+        onResize={[Function]}
+        onResizeStart={[Function]}
+        onResizeStop={[Function]}
+        preventCollision={false}
+        rowHeight={150}
+        style={Object {}}
+        useCSSTransforms={true}
+        verticalCompact={true}
+        width={0}
+      >
+        <div
+          className="react-grid-layout layout full-width"
+          style={
+            Object {
+              "height": "10px",
+            }
+          }
+        />
+      </ReactGridLayout>
+    </ResponsiveReactGridLayout>
+  </WidthProvider>
+</PanelGrid>
+`;

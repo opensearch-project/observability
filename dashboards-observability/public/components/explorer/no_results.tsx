@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import React from 'react';
@@ -51,7 +45,7 @@ export const NoResults = () => {
                 <FormattedMessage
                   id="discover.noResults.queryMayNotMatchTitle"
                   defaultMessage="Your query may not match anything in the current time range, or there may not be any data at all in
-                    the currently selected time range. You can try changing the time range or query filters."
+                    the currently selected time range. Try change time range, query filters or choose different time fields"
                 />
               </p>
             </EuiText>

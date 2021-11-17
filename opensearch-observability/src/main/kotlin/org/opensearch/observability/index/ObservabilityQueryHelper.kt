@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 package org.opensearch.observability.index
@@ -94,7 +88,6 @@ internal class ObservabilityQueryHelper(private val types: EnumSet<Observability
 
     private fun getQueryAllBuilder(queryValue: String): QueryBuilder {
         val allQuery = QueryBuilders.queryStringQuery(queryValue)
-        // Searching on metadata field is not supported. skip adding METADATA_FIELDS
         OBSERVABILITY_OBJECT_FIELDS.forEach {
             prefixes.forEach { type -> allQuery.field("$type.$it") }
         }

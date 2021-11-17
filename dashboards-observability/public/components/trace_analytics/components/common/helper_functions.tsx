@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
  */
 
 import dateMath from '@elastic/datemath';
@@ -34,6 +13,7 @@ import {
   DATA_PREPPER_SERVICE_INDEX_NAME,
   TRACE_ANALYTICS_DOCUMENTATION_LINK,
 } from '../../../../../common/constants/trace_analytics';
+import { uiSettingsService } from '../../../../../common/utils';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -167,11 +147,12 @@ export function getServiceMapGraph(
       id: map[service].id,
       label: service,
       size: service === currService ? 30 : 15,
-      title: `<p>${service}</p><p>${message}</p>`,
+      title: `${service}\n\n${message}`,
       ...styleOptions,
     };
   });
   const edges: Array<{ from: number; to: number; color: string }> = [];
+  const edgeColor = uiSettingsService.get('theme:darkMode') ? '255, 255, 255' : '0, 0, 0';
   Object.keys(map).map((service) => {
     map[service].targetServices.map((target) => {
       edges.push({
@@ -179,8 +160,8 @@ export function getServiceMapGraph(
         to: map[target].id,
         color:
           relatedServices!.indexOf(service) >= 0 && relatedServices!.indexOf(target) >= 0
-            ? 'rgba(0, 0, 0, 1)'
-            : 'rgba(0, 0, 0, 0.3)',
+            ? `rgba(${edgeColor}, 1)`
+            : `rgba(${edgeColor}, 0.3)`,
       });
     });
   });

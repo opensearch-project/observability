@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import './sidebar.scss';
@@ -28,6 +22,8 @@ interface ISidebarProps {
   explorerFields: IExplorerFields;
   explorerData: any;
   selectedTimestamp: string;
+  isOverridingTimestamp: boolean;
+  isFieldToggleButtonDisabled: boolean;
   handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
@@ -39,6 +35,8 @@ export const Sidebar = (props: ISidebarProps) => {
     explorerFields,
     explorerData,
     selectedTimestamp,
+    isOverridingTimestamp,
+    isFieldToggleButtonDisabled,
     handleOverrideTimestamp,
     handleAddField,
     handleRemoveField
@@ -66,7 +64,7 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s"/>
         <div className="sidebar-list">
-          { explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) && (
+          { (explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields) || !isEmpty(explorerFields.availableFields))  && (
             <>
               {
                 explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
@@ -75,7 +73,7 @@ export const Sidebar = (props: ISidebarProps) => {
                       <h3>
                         <FormattedMessage
                           id="discover.fieldChooser.filter.selectedFieldsTitle"
-                          defaultMessage="Queried Fields"
+                          defaultMessage="Query fields"
                         />
                       </h3>
                     </EuiTitle>
@@ -97,7 +95,8 @@ export const Sidebar = (props: ISidebarProps) => {
                               selectedTimestamp={ selectedTimestamp }
                               handleOverrideTimestamp={ handleOverrideTimestamp }
                               selected={ true }
-                              showToggleButton={ false }
+                              isFieldToggleButtonDisabled={ true }
+                              showTimestampOverrideButton={ false }
                               onToggleField={ handleRemoveField }
                             />
                           </li>
@@ -134,9 +133,12 @@ export const Sidebar = (props: ISidebarProps) => {
                     <Field 
                       field={ field }
                       selectedTimestamp={ selectedTimestamp }
-                      handleOverrideTimestamp={ handleOverrideTimestamp }
-                      selected={ true }
-                      onToggleField={ handleRemoveField }
+                      isOverridingTimestamp={ isOverridingTimestamp }
+                      handleOverrideTimestamp={handleOverrideTimestamp}
+                      selected={true}
+                      isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}
+                      showTimestampOverrideButton={true}
+                      onToggleField={handleRemoveField}
                     />
                   </li>
                 )})
@@ -182,8 +184,6 @@ export const Sidebar = (props: ISidebarProps) => {
               data-test-subj={`fieldList-unpopular`}
             >
               {
-                explorerData &&
-                !isEmpty(explorerData.jsonData) &&
                 explorerFields.availableFields &&
                 explorerFields.availableFields.filter(
                   (field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
@@ -196,10 +196,13 @@ export const Sidebar = (props: ISidebarProps) => {
                     >
                       <Field 
                         field={ field }
-                        selectedTimestamp={ selectedTimestamp }
-                        handleOverrideTimestamp={ handleOverrideTimestamp }
-                        onToggleField={ handleAddField }
-                        selected={ false }
+                        selectedTimestamp={selectedTimestamp}
+                        isOverridingTimestamp={isOverridingTimestamp}
+                        handleOverrideTimestamp={handleOverrideTimestamp}
+                        onToggleField={handleAddField}
+                        selected={false}
+                        isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}
+                        showTimestampOverrideButton={true}
                       />
                     </li>
                   )})

@@ -1,50 +1,44 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import React from 'react';
-import {
-  take,
-  merge
-} from 'lodash';
+import { take, merge } from 'lodash';
 import { Plt } from '../plotly/plot';
+import { PLOTLY_COLOR } from '../../../../common/constants/shared';
 
-export const Line = ({
-  visualizations,
-  lineConfig = {},
-  layoutConfig = {},
-}: any) => {
-
-  const { data, metadata: { fields, } } = visualizations;
+export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any) => {
+  const {
+    data,
+    metadata: { fields },
+  } = visualizations;
   const lineLength = fields.length - 1;
   const lineValues = take(fields, lineLength).map((field: any) => {
     return {
       x: data[fields[lineLength].name],
       y: data[field.name],
       type: 'line',
-      name: field.name
+      name: field.name,
     };
   });
 
   const config = {
     barmode: 'line',
     xaxis: {
-      automargin: true
-    }
+      automargin: true,
+    },
+    yaxis: {
+      automargin: true,
+    },
   };
   const lineLayoutConfig = merge(config, layoutConfig);
-  
+
   return (
-    <Plt 
-      data={ lineValues }
+    <Plt
+      data={lineValues}
       layout={{
+        colorway: PLOTLY_COLOR,
         plot_bgcolor: 'rgba(0, 0, 0, 0)',
         paper_bgcolor: 'rgba(0, 0, 0, 0)',
         xaxis: {
@@ -57,9 +51,9 @@ export const Line = ({
           showgrid: false,
           visible: true,
         },
-        ...lineLayoutConfig
+        ...lineLayoutConfig,
       }}
-      config={ lineConfig }
-    />  
+      config={lineConfig}
+    />
   );
 };

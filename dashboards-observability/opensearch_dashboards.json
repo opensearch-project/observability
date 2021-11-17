@@ -1,6 +1,7 @@
 {
-  "id": "opensearchObservability",
-  "version": "opensearchDashboards",
+  "id": "observabilityDashboards",
+  "version": "1.2.0.0",
+  "opensearchDashboardsVersion": "1.2.0",
   "server": true,
   "ui": true,
   "requiredPlugins": [
@@ -12,6 +13,7 @@
     "navigation",
     "uiActions",
     "dashboard",
-    "visualizations"
+    "visualizations",
+    "opensearchDashboardsReact"
   ]
 }

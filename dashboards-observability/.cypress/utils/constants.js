@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
  */
 
 export const delay = 1500;
@@ -33,18 +12,18 @@ export const SERVICE_NAME = 'frontend-client';
 
 export const testDataSet = [
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-service-map-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-service-map.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map.json',
     index: 'otel-v1-apm-service-map',
   },
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001.json',
     index: 'otel-v1-apm-span-000001',
   },
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/.cypress/utils/otel-v1-apm-span-000002.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000002.json',
     index: 'otel-v1-apm-span-000002',
   },
 ]

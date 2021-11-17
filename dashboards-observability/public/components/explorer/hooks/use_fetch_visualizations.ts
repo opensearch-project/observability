@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { useState, useRef } from 'react';
@@ -19,7 +13,8 @@ import {
   FINAL_QUERY,
   QUERIED_FIELDS,
   RAW_QUERY,
-  SELECTED_FIELDS
+  SELECTED_FIELDS,
+  SELECTED_TIMESTAMP
 } from '../../../../common/constants/explorer';
 import { render as renderCountDis } from '../slices/count_distribution_slice';
 import { selectQueries } from '../slices/query_slice';
@@ -73,7 +68,7 @@ export const useFetchVisualizations = ({
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     fetchVisualizations({
-      query: `${rawQuery} | stats count() by span(timestamp, '1${interval = interval ? interval: 'm' }')` },
+      query: `${rawQuery} | stats count() by span(${cur![requestParams.tabId][SELECTED_TIMESTAMP]}, 1${interval = interval ? interval: 'm' })` },
       'viz',
       (res: any) => {
       dispatch(renderCountDis({
@@ -98,13 +93,13 @@ export const useFetchVisualizations = ({
           dispatch(fetchSuccess({
             tabId: requestParams.tabId,
             data: {
-              jsonData: res.jsonData
+              jsonData: res?.jsonData || {}
             }
           }));
           dispatch(updateFields({
             tabId: requestParams.tabId,
             data: {
-              [QUERIED_FIELDS]: res?.metadata.fields,
+              [QUERIED_FIELDS]: res?.metadata?.fields || [],
               [SELECTED_FIELDS]: []
             }
           }));

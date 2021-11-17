@@ -1,20 +1,15 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 .globalQueryBar {
   margin: .5rem 0;
   padding: .5rem;
 }
-.autocomplete {
+.aa-Autocomplete {
   width: 100%;
+  position: relative;
   margin: 4px;
   margin-left: 8px;
   --aa-search-input-height: 38px;
@@ -23,4 +18,38 @@
 }
 .styling {
   font-weight: bold;
+}
+
+#autocomplete-textarea {
+  width: 100%;
+  outline: none;
+  min-height: 45px;
+  max-width: unset;
+  height: 45px;
+  resize: vertical;
+  font-size: 16px;
+  padding-right: 40px;
+}
+.aa-Panel {
+  width: 100%;
+  z-index: 2500;
+}
+
+.event-date-picker {
+  max-width: 35vw;
+}
+
+.ppl-link {
+  border: unset;
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  background-color: transparent;
+}
+.ppl-link-light {
+  color: #006BB4;
+}
+
+.ppl-link-dark {
+  color: #1BA9F5;
 }

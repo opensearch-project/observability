@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import dateMath from '@elastic/datemath';
@@ -85,7 +79,7 @@ export const mergeLayoutAndVisualizations = (
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
  * -> finalQuery = source=opensearch_dashboards_sample_data_flights
- *                  + | where utc_time > timestamp(‘2021-07-01 00:00:00’) and utc_time < timestamp(‘2021-07-02 00:00:00’)
+ *                  + | where utc_time > ‘2021-07-01 00:00:00’ and utc_time < ‘2021-07-02 00:00:00’
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
  */
@@ -102,9 +96,9 @@ const queryAccumulator = (
   }
   const indexPartOfQuery = indexMatchArray[0];
   const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, '');
-  const timeQueryFilter = ` | where ${timestampField} >= timestamp('${convertDateTime(
+  const timeQueryFilter = ` | where ${timestampField} >= '${convertDateTime(
     startTime
-  )}') and ${timestampField} <= timestamp('${convertDateTime(endTime, false)}')`;
+  )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
@@ -121,7 +115,7 @@ const pplServiceRequestor = async (
   await pplService
     .fetch({ query: finalQuery, format: 'viz' })
     .then((res) => {
-      if (res === undefined) setIsError('Please check the PPL Filter Value');
+      if (res === undefined) setIsError('Please check the validity of PPL Filter');
       setVisualizationData(res);
     })
     .catch((error: Error) => {
@@ -146,9 +140,8 @@ const fetchVisualizationById = async (
       savedVisualization = res.visualization;
     })
     .catch((err) => {
-      const errorMessage = 'Issue in fetching the saved Visualization by Id';
-      setIsError(errorMessage);
-      console.error(errorMessage, err);
+      setIsError(`Could not locate saved visualization id:${savedVisualizationId}`);
+      console.error('Issue in fetching the saved Visualization by Id', err);
     });
 
   return savedVisualization;
@@ -203,6 +196,11 @@ export const renderSavedVisualization = async (
 
   let visualization = {} as SavedVisualizationType;
   visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
+
+  if (_.isEmpty(visualization)) {
+    setIsLoading(false);
+    return;
+  }
 
   if (visualization.name) {
     setVisualizationTitle(visualization.name);
@@ -287,48 +285,32 @@ export const isPPLFilterValid = (
 };
 
 // This function renders the visualzation based of its type
-export const displayVisualization = (data: any, type: string) => {
+export const displayVisualization = (data: any, type: string, editMode?: boolean) => {
   if (data === undefined) return;
+
+  const layoutObject = {
+    xaxis: {
+      fixedrange: editMode ? true : false,
+      showgrid: false,
+    },
+    yaxis: {
+      fixedrange: editMode ? true : false,
+      showgrid: false,
+    },
+  };
 
   let vizComponent!: JSX.Element;
   switch (type) {
     case 'bar': {
-      vizComponent = (
-        <Bar
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <Bar visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     case 'horizontal_bar': {
-      vizComponent = (
-        <HorizontalBar
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <HorizontalBar visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     case 'line': {
-      vizComponent = (
-        <Line
-          visualizations={data}
-          layoutConfig={{
-            yaxis: {
-              automargin: true,
-            },
-          }}
-        />
-      );
+      vizComponent = <Line visualizations={data} layoutConfig={layoutObject} />;
       break;
     }
     default: {
