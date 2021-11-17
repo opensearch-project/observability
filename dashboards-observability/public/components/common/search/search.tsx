@@ -15,6 +15,8 @@ import {
   EuiButtonEmpty,
   EuiPopoverFooter,
   EuiButtonIcon,
+  EuiLink,
+  EuiBadge,
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -66,7 +68,7 @@ export const Search = (props: any) => {
     showSaveButton = true,
     setToast,
     runButtonText,
-    handleTimeRangePickerRefresh
+    handleTimeRangePickerRefresh,
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -114,12 +116,9 @@ export const Search = (props: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButtonIcon
-            aria-label="ppl-info"
-            iconType="questionInCircle"
-            iconSize="l"
-            onClick={showFlyout}
-          />
+          <EuiBadge color="hollow" onClick={() => showFlyout()}>
+            PPL
+          </EuiBadge>
         </EuiFlexItem>
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker
