@@ -104,7 +104,7 @@ export const Search = (props: any) => {
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
-        <EuiFlexItem key="search-bar">
+        <EuiFlexItem key="search-bar" className="search-area">
           <Autocomplete
             key={'autocomplete-search-bar'}
             query={query}
@@ -113,11 +113,11 @@ export const Search = (props: any) => {
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
           <EuiBadge className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`} color="hollow" onClick={() => showFlyout()}>
             PPL
           </EuiBadge>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
         </EuiFlexItem>
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker
