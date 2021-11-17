@@ -14,8 +14,6 @@ import {
   EuiPopover,
   EuiButtonEmpty,
   EuiPopoverFooter,
-  EuiButtonIcon,
-  EuiLink,
   EuiBadge,
 } from '@elastic/eui';
 import _ from 'lodash';
