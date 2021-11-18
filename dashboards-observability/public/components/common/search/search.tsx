@@ -18,7 +18,6 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
-import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
 import { SavePanel } from '../../explorer/save_panel';
 import { PPLReferenceFlyout } from '../helpers';
@@ -55,7 +54,6 @@ export const Search = (props: any) => {
     setStartTime,
     setEndTime,
     setIsOutputStale,
-    explorerData,
     selectedPanelName,
     selectedCustomPanelOptions,
     setSelectedPanelName,
@@ -65,8 +63,6 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast,
-    runButtonText,
     handleTimeRangePickerRefresh,
   } = props;
 
