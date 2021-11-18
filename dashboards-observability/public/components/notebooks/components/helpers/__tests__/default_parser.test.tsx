@@ -27,8 +27,7 @@ describe('Testing default backend parser function with perfect schema', () => {
   });
 
   it('returns parsed paragraphs', () => {
-    const MockVis =
-      '{"viewMode":"view","panels":{"1":{"gridData":{"x":0,"y":0,"w":50,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"c8fc3d30-4c87-11e8-b3d7-01146121b73d"}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i4cbb9271-464d-11ec-a509-4d69f5227d64","timeRange":{"to":"2021-11-15T19:50:26.477Z","from":"2021-10-16T18:50:26.477Z"},"title":"embed_viz_i4cbb9271-464d-11ec-a509-4d69f5227d64","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}';
+    const MockVis = sampleNotebook1.paragraphs[2].input.inputText;
 
     const parsedPara = defaultParagraphParser(
       Array.from({ length: 5 }, (v, k) => {
@@ -72,9 +71,9 @@ describe('Testing default backend parser function with perfect schema', () => {
         isOutputStale: false,
         paraRef: undefined,
         paraDivRef: undefined,
-        visStartTime: isVisualization ? '2021-10-16T18:50:26.477Z' : undefined,
-        visEndTime: isVisualization ? '2021-11-15T19:50:26.477Z' : undefined,
-        visSavedObjId: isVisualization ? 'c8fc3d30-4c87-11e8-b3d7-01146121b73d' : undefined,
+        visStartTime: isVisualization ? '2020-07-21T18:37:44.710Z' : undefined,
+        visEndTime: isVisualization ? '2020-08-20T18:37:44.710Z' : undefined,
+        visSavedObjId: isVisualization ? '935afa20-e0cd-11e7-9d07-1398ccfcefa3' : undefined,
       };
     });
     expect(parsedPara).toEqual(expected);
