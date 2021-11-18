@@ -47,12 +47,13 @@ export const LogExplorer = ({
   const queryRef = useRef();
   const tabIdsRef = useRef();
   const explorerDataRef = useRef();
+  const curSelectedTabIdRef = useRef();
   queryRef.current = queries;
   tabIdsRef.current = tabIds;
   explorerDataRef.current = explorerData;
+  curSelectedTabIdRef.current = curSelectedTabId;
 
   const [tabCreatedTypes, setTabCreatedTypes] = useState({});
-
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
@@ -78,8 +79,9 @@ export const LogExplorer = ({
     }
 
     const index: number = tabIds.indexOf(TabIdToBeClosed);
+    const curSelectedTab = curSelectedTabIdRef.current;
     let newIdToFocus = '';
-    if (TabIdToBeClosed === curSelectedTabId) {
+    if (TabIdToBeClosed === curSelectedTab) {
       if (index === 0) {
         newIdToFocus = tabIds[index + 1];
       } else if (index > 0) {
