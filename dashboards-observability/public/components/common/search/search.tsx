@@ -113,7 +113,12 @@ export const Search = (props: any) => {
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
-          <EuiBadge className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`} color="hollow" onClick={() => showFlyout()}>
+          <EuiBadge 
+            className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+            color="hollow"
+            onClick={() => showFlyout()}
+            onClickAriaLabel={"pplLinkShowFlyout"}
+          >
             PPL
           </EuiBadge>
         </EuiFlexItem>
