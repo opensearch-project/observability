@@ -207,7 +207,7 @@ export const ParaInput = (props: {
 
               <EuiModalFooter>
                 <EuiButtonEmpty onClick={() => setIsModalOpen(false)}>Cancel</EuiButtonEmpty>
-                <EuiButton onClick={() => onSelect()} fill>
+                <EuiButton data-test-subj="para-input-select-button" onClick={() => onSelect()} fill>
                   Select
                 </EuiButton>
               </EuiModalFooter>

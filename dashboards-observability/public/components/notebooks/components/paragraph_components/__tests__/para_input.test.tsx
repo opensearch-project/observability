@@ -140,5 +140,9 @@ describe('<para_input /> spec', () => {
     fireEvent.click(datepicker[0]);
 
     utils.getByTestId('para-input-visualization-browse-button').click();
+    await waitFor(() => {
+      // modal should show up
+      utils.getByTestId('para-input-select-button').click();
+    });
   });
 });
