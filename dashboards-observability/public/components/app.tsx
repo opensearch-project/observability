@@ -70,6 +70,7 @@ export const App = ({
                   )
                 }}
               />
+              <Route
                 path="/notebooks"
                 render={(props) => (
                   <NotebooksHome
