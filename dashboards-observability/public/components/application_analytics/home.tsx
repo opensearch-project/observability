@@ -16,7 +16,6 @@ import { CreateApp } from './components/create'
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
 import { FilterType } from '../trace_analytics/components/common/filters/filters';
-import { renderPageWithSidebar } from '../common/side_nav';
 import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
@@ -111,9 +110,7 @@ export const Home = (props: HomeProps) => {
           exact
           path={match.path}
           render={() => 
-            renderPageWithSidebar(
-              <AppTable loading={false} applications={dummyApplication} {...commonProps} />
-            )
+            <AppTable loading={false} applications={dummyApplication} {...commonProps} />
           }
         />
         <Route
