@@ -729,6 +729,7 @@ export const Explorer = ({
             }));
           });
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
+          return res;
         })
         .catch((error: any) => { 
           if (error?.body?.statusCode === 403) {
@@ -794,6 +795,7 @@ export const Explorer = ({
           });
           history.replace(`/event_analytics/explorer/${res['objectId']}`);
           setToast(`New visualization '${selectedPanelNameRef.current}' has been successfully saved.`, 'success');
+          return res;
         })
         .catch((error: any) => {
           notifications.toasts.addError(error, {
