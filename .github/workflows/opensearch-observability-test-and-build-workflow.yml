@@ -24,6 +24,13 @@ jobs:
           cd opensearch-observability
           ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }}
 
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          flags: opensearch-observability
+          directory: opensearch-observability/
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Create Artifact Path
         run: |
           mkdir -p opensearch-observability-builds
