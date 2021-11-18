@@ -142,7 +142,6 @@ export const ParaOutput = (props: {
   };
 
   const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
-          console.log('para:', para);
 
   return (
     !para.isOutputHidden ? (

@@ -53,7 +53,9 @@ describe('<ParaOutput /> spec', () => {
       <ParaOutput
         key={para.uniqueId}
         para={para}
-        visInput={jest.fn()}
+        visInput={{
+          timeRange: { from: '2020-07-21T18:37:44.710Z', to: '2020-08-20T18:37:44.710Z' },
+        }}
         setVisInput={setVisInput}
         DashboardContainerByValueRenderer={() => null}
       />

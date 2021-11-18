@@ -39,6 +39,7 @@ import { ParaType } from '../../../../common/types/notebooks';
 import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 import { defaultParagraphParser } from './helpers/default_parser';
 import { DeleteNotebookModal, getCustomModal, getDeleteModal } from './helpers/modal_containers';
+import { PanelWrapper } from './helpers/panel_wrapper';
 import {
   contextMenuCreateReportDefinition,
   contextMenuViewReports,
@@ -573,6 +574,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
     this.props.http
       .get(`${NOTEBOOKS_API_PREFIX}/note/` + this.props.openedNoteId)
       .then(async (res) => {
+        console.log('res', res)
         this.setBreadcrumbs(res.path);
         let index = 0;
         for (index = 0; index < res.paragraphs.length; ++index) {
