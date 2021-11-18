@@ -140,6 +140,7 @@ export const ParaInput = (props: {
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiButton
+              data-test-subj="para-input-visualization-browse-button"
               onClick={() => {
                 setSelectableOptions(props.visOptions);
                 setSelectableError(false);
