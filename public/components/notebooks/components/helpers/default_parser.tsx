@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ParaType } from '../../../common';
+import { ParaType } from "../../../../../common/types/notebooks";
 
 // Get the type of output and result in a default notebook paragraph
 // Param: Default Backend Paragraph

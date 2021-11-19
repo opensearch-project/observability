@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { zeppelinParagraphParser } from '../helpers/zeppelin_parser';
+import { zeppelinParagraphParser } from '../zeppelin_parser';
 import {
   sampleNotebook1,
   sampleNotebook2,
