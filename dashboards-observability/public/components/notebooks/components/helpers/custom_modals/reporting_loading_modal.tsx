@@ -16,20 +16,16 @@ import {
   EuiLoadingSpinner, 
   EuiButton 
 } from "@elastic/eui";
-import React, { useState } from "react";
+import React from "react";
 
 export function GenerateReportLoadingModal(props: { setShowLoading: any; }) {
   const {
     setShowLoading
   } = props;
   
-  const [isModalVisible, setIsModalVisible] = useState(true);
-
   const closeModal = () => {
-    setIsModalVisible(false);
     setShowLoading(false);
   };
-  const showModal = () => setIsModalVisible(true);
 
   return (
     <div>
@@ -48,22 +44,22 @@ export function GenerateReportLoadingModal(props: { setShowLoading: any; }) {
           </EuiModalHeader>
           <EuiModalBody>
             <EuiText>Preparing your file for download.</EuiText>
-            <EuiText>
-              You can close this dialog while we continue in the background.
-            </EuiText>
+            <EuiText>You can close this dialog while we continue in the background.</EuiText>
             <EuiSpacer />
             <EuiFlexGroup justifyContent="center" alignItems="center">
               <EuiFlexItem grow={false}>
-                <EuiLoadingSpinner
-                  size="xl"
-                  style={{ minWidth: 75, minHeight: 75 }}
-                />
+                <EuiLoadingSpinner size="xl" style={{ minWidth: 75, minHeight: 75 }} />
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
             <EuiFlexGroup alignItems="flexEnd" justifyContent="flexEnd">
               <EuiFlexItem grow={false}>
-                <EuiButton onClick={closeModal}>Close</EuiButton>
+                <EuiButton
+                  data-test-subj="reporting-loading-modal-close-button"
+                  onClick={closeModal}
+                >
+                  Close
+                </EuiButton>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiModalBody>
