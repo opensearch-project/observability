@@ -8,7 +8,9 @@ import React from 'react';
 import { Search } from './search';
 
 describe('Search bar', () => {
-  it('renders the component', () => {
+  it('handles query change', () => {
+    const query = 'rawQuery';
+    const tempQuery = 'rawQuery';
     const handleQueryChange = jest.fn();
     const handleQuerySearch = jest.fn();
     const dslService = jest.fn();
@@ -26,8 +28,8 @@ describe('Search bar', () => {
     const utils = render(
       <Search
       key="search-component"
-      query={'rawQuery'}
-      tempQuery={'rawQuery'}
+      query={query}
+      tempQuery={tempQuery}
       handleQueryChange={handleQueryChange}
       handleQuerySearch={handleQuerySearch}
       dslService = {dslService}
@@ -49,8 +51,5 @@ describe('Search bar', () => {
     const searchBar = utils.getByPlaceholderText('Enter PPL query to retrieve logs');
     fireEvent.change(searchBar, { target: { value: 'new query' } });
     expect(handleQueryChange).toBeCalledWith('new query');
-
-    // utils.getByText('Refresh').click();
-    // expect(refresh).toBeCalled();
   });
 });
