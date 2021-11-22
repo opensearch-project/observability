@@ -117,7 +117,7 @@ export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: an
     const splittedModel = str.split(' ');
     const prefix = splittedModel[splittedModel.length - 1];
     const lowerPrefix = prefix.toLowerCase();
-    const fullSuggestions: any = [];
+    const fullSuggestions: AutocompleteItem[] = [];
 
     // Check the last full word in the query, then suggest inputs based off that
     if (splittedModel.length === 1) {
