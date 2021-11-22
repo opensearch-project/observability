@@ -47,7 +47,7 @@ export type AutocompleteItem = {
     itemName: string;
     label: string;
     suggestion: string;
-    __autocomplete_id: number;
+    __autocomplete_id?: number;
 };
 
 export type fieldItem = {
