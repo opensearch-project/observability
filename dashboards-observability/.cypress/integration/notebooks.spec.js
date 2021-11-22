@@ -271,7 +271,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay * 5);
 
-    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
+    cy.get('b').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
 
     cy.get('.euiDataGrid__overflow').should('exist');
   });
@@ -287,7 +287,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay * 5);
 
-    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('source=opensearch_dashboards_sample_data_flights');
+    cy.get('b').contains('source=opensearch_dashboards_sample_data_flights');
 
     cy.get('.euiDataGrid__overflow').should('exist');
   });
