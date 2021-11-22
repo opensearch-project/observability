@@ -149,16 +149,18 @@ export const DeleteNotebookModal = ({
         </EuiModalHeader>
 
         <EuiModalBody>
-          <EuiText>
-            {message}
-          </EuiText>
-          <EuiText>
-            The action cannot be undone.
-          </EuiText>
+          <EuiText>{message}</EuiText>
+          <EuiText>The action cannot be undone.</EuiText>
           <EuiSpacer />
           <EuiForm>
-            <EuiFormRow label={"To confirm deletion, enter \"delete\" in the text field"}>
-              <EuiFieldText name="input" placeholder="delete" value={value} onChange={(e) => onChange(e)} />
+            <EuiFormRow label={'To confirm deletion, enter "delete" in the text field'}>
+              <EuiFieldText
+                data-test-subj="delete-notebook-modal-input"
+                name="input"
+                placeholder="delete"
+                value={value}
+                onChange={(e) => onChange(e)}
+              />
             </EuiFormRow>
           </EuiForm>
         </EuiModalBody>
@@ -166,10 +168,12 @@ export const DeleteNotebookModal = ({
         <EuiModalFooter>
           <EuiButtonEmpty onClick={onCancel}>Cancel</EuiButtonEmpty>
           <EuiButton
+            data-test-subj="delete-notebook-modal-delete-button"
             onClick={() => onConfirm()}
             color="danger"
             fill
-            disabled={value !== 'delete'}>
+            disabled={value !== 'delete'}
+          >
             Delete
           </EuiButton>
         </EuiModalFooter>

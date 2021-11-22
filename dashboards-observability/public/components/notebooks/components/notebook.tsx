@@ -39,7 +39,6 @@ import { ParaType } from '../../../../common/types/notebooks';
 import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 import { defaultParagraphParser } from './helpers/default_parser';
 import { DeleteNotebookModal, getCustomModal, getDeleteModal } from './helpers/modal_containers';
-import { PanelWrapper } from './helpers/panel_wrapper';
 import {
   contextMenuCreateReportDefinition,
   contextMenuViewReports,
@@ -584,7 +583,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           'Error fetching notebooks, please make sure you have the correct permission.',
           'danger'
         );
-        console.error(err.body.message);
+        console.error(err?.body?.message || err);
       });
   };
 
@@ -975,41 +974,39 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             </EuiFlexGroup>
             {this.state.parsedPara.length > 0 ? (
               <>
-                <PanelWrapper>
-                  {this.state.parsedPara.map((para: ParaType, index: number) => (
-                    <div
-                      ref={this.state.parsedPara[index].paraDivRef}
-                      key={`para_div_${para.uniqueId}`}
-                      style={panelStyles}
-                    >
-                      <Paragraphs
-                        ref={this.state.parsedPara[index].paraRef}
-                        para={para}
-                        setPara={(para: ParaType) => this.setPara(para, index)}
-                        dateModified={this.state.paragraphs[index]?.dateModified}
-                        index={index}
-                        paraCount={this.state.parsedPara.length}
-                        paragraphSelector={this.paragraphSelector}
-                        textValueEditor={this.textValueEditor}
-                        handleKeyPress={this.handleKeyPress}
-                        addPara={this.addPara}
-                        DashboardContainerByValueRenderer={
-                          this.props.DashboardContainerByValueRenderer
-                        }
-                        deleteVizualization={this.deleteVizualization}
-                        http={this.props.http}
-                        selectedViewId={this.state.selectedViewId}
-                        setSelectedViewId={this.updateView}
-                        deletePara={this.showDeleteParaModal}
-                        runPara={this.updateRunParagraph}
-                        clonePara={this.cloneParaButton}
-                        movePara={this.movePara}
-                        showQueryParagraphError={this.state.showQueryParagraphError}
-                        queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
-                      />
-                    </div>
-                  ))}
-                </PanelWrapper>
+                {this.state.parsedPara.map((para: ParaType, index: number) => (
+                  <div
+                    ref={this.state.parsedPara[index].paraDivRef}
+                    key={`para_div_${para.uniqueId}`}
+                    style={panelStyles}
+                  >
+                    <Paragraphs
+                      ref={this.state.parsedPara[index].paraRef}
+                      para={para}
+                      setPara={(para: ParaType) => this.setPara(para, index)}
+                      dateModified={this.state.paragraphs[index]?.dateModified}
+                      index={index}
+                      paraCount={this.state.parsedPara.length}
+                      paragraphSelector={this.paragraphSelector}
+                      textValueEditor={this.textValueEditor}
+                      handleKeyPress={this.handleKeyPress}
+                      addPara={this.addPara}
+                      DashboardContainerByValueRenderer={
+                        this.props.DashboardContainerByValueRenderer
+                      }
+                      deleteVizualization={this.deleteVizualization}
+                      http={this.props.http}
+                      selectedViewId={this.state.selectedViewId}
+                      setSelectedViewId={this.updateView}
+                      deletePara={this.showDeleteParaModal}
+                      runPara={this.updateRunParagraph}
+                      clonePara={this.cloneParaButton}
+                      movePara={this.movePara}
+                      showQueryParagraphError={this.state.showQueryParagraphError}
+                      queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
+                    />
+                  </div>
+                ))}
                 {this.state.selectedViewId !== 'output_only' && (
                   <>
                     <EuiSpacer />

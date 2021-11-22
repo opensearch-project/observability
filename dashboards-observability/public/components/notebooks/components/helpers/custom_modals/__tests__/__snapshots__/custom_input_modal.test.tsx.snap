@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CustomInputModal /> spec renders the component 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        title
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          helpText="help text"
+          label="label"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="custom-input-modal-input"
+            name="input"
+            onChange={[Function]}
+            value="mock-path"
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        Cancel
+      </EuiButtonEmpty>
+      <EuiButton
+        data-test-subj="custom-input-modal-confirm-button"
+        fill={true}
+        onClick={[Function]}
+      >
+        Confirm
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
+
+exports[`<CustomInputModal /> spec renders the component 2`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        title
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          helpText="help text"
+          label="label"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="custom-input-modal-input"
+            name="input"
+            onChange={[Function]}
+            value=""
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        Cancel
+      </EuiButtonEmpty>
+      <EuiButton
+        data-test-subj="custom-input-modal-confirm-button"
+        fill={true}
+        onClick={[Function]}
+      >
+        Confirm
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
