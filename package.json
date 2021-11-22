@@ -7,8 +7,8 @@
     "osd": "node ../../scripts/osd",
     "build": "yarn plugin_helpers build",
     "test": "../../node_modules/.bin/jest --config ./test/jest.config.js",
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open",
+    "cypress:run": "TZ=America/Los_Angeles cypress run",
+    "cypress:open": "TZ=America/Los_Angeles cypress open",
     "plugin_helpers": "node ../../scripts/plugin_helpers"
   },
   "dependencies": {
