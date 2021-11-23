@@ -192,11 +192,18 @@ export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: an
       } else if (nextStats === splittedModel.length - 2 && splittedModel[splittedModel.length - 3] === 'count()') {
         return fillSuggestions(str, prefix, fieldsFromBackend);
       } else if (nextStats === splittedModel.length - 3) {
-        return [
+        if (splittedModel[splittedModel.length - 3] === 'by') {
+            return [
+              { label: str + '|', input: str, suggestion: '|', itemName: '|' }
+              ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+              );
+        } else {
+          return [
           { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' },
           { label: str + '|', input: str, suggestion: '|', itemName: '|' }
-        ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
-        );
+          ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+          );
+        }
       } else if (nextStats === splittedModel.length - 4) {
         return fillSuggestions(str, prefix, fieldsFromBackend);
       }
@@ -223,7 +230,6 @@ export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: an
         await getDataValues(currIndex, currField, currFieldType, dslService);
         return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
       }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-        inMatch = true;
         currField = splittedModel[splittedModel.length - 2];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
