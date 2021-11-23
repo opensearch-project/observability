@@ -196,13 +196,15 @@ export function registerParaRoute(router: IRouter) {
 
   /* --> Deletes a paragraph
    * --> Fetches the all other Paragraphs as a list
+   * --> Deletes all paragraphs if paragraphId is not provided
    */
   router.delete(
     {
-      path: `${NOTEBOOKS_API_PREFIX}/paragraph/{ids*2}`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph`,
       validate: {
-        params: schema.object({
-          ids: schema.string(),
+        query: schema.object({
+          noteId: schema.string(),
+          paragraphId: schema.maybe(schema.string()),
         }),
       },
     },
@@ -215,8 +217,8 @@ export function registerParaRoute(router: IRouter) {
         request
       );
       const params = {
-        noteId: request.params.ids.split('/')[0],
-        paragraphId: request.params.ids.split('/')[1],
+        noteId: request.query.noteId,
+        paragraphId: request.query.paragraphId,
       };
       try {
         const deleteResponse = await BACKEND.deleteFetchParagraphs(

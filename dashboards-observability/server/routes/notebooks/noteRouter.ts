@@ -12,6 +12,7 @@ import {
 } from '../../../../../src/core/server';
 import { NOTEBOOKS_API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
 import BACKEND from '../../adaptors/notebooks';
+import { joinRequestParams } from './utils/helpers';
 
 export function registerNoteRoute(router: IRouter) {
   // Fetch all the notebooks available
@@ -192,13 +193,13 @@ export function registerNoteRoute(router: IRouter) {
     }
   );
 
-  // Delete a notebook
+  // Delete notebooks
   router.delete(
     {
-      path: `${NOTEBOOKS_API_PREFIX}/note/{noteid}`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/{noteList}`,
       validate: {
         params: schema.object({
-          noteid: schema.string(),
+          noteList: schema.string(),
         }),
       },
     },
@@ -213,7 +214,7 @@ export function registerNoteRoute(router: IRouter) {
       try {
         const delResponse = await BACKEND.deleteNote(
           opensearchNotebooksClient,
-          request.params.noteid,
+          request.params.noteList,
           wreckOptions
         );
         return response.ok({
