@@ -33,6 +33,7 @@ exports[`<Notebook /> spec renders the component 1`] = `
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="notebook-paragraph-actions-button"
                 type="button"
               >
                 <span
@@ -77,6 +78,7 @@ exports[`<Notebook /> spec renders the component 1`] = `
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="notebook-notebook-actions-button"
                 type="button"
               >
                 <span
@@ -346,6 +348,7 @@ exports[`<Notebook /> spec renders the empty component 1`] = `
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="notebook-paragraph-actions-button"
                 type="button"
               >
                 <span
@@ -385,6 +388,7 @@ exports[`<Notebook /> spec renders the empty component 1`] = `
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="notebook-notebook-actions-button"
                 type="button"
               >
                 <span

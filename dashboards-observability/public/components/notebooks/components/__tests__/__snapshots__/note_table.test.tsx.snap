@@ -1096,6 +1096,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
           >
             <button
               class="euiButton euiButton--primary"
+              data-test-subj="note-table-empty-state-create-notebook-button"
               type="button"
             >
               <span
