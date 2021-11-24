@@ -55,7 +55,6 @@ export const Search = (props: any) => {
     setStartTime,
     setEndTime,
     setIsOutputStale,
-    explorerData,
     selectedPanelName,
     selectedCustomPanelOptions,
     setSelectedPanelName,
@@ -65,8 +64,6 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast,
-    runButtonText,
     handleTimeRangePickerRefresh,
   } = props;
 
