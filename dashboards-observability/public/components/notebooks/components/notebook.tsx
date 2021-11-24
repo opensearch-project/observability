@@ -39,7 +39,6 @@ import { ParaType } from '../../../../common/types/notebooks';
 import { GenerateReportLoadingModal } from './helpers/custom_modals/reporting_loading_modal';
 import { defaultParagraphParser } from './helpers/default_parser';
 import { DeleteNotebookModal, getCustomModal, getDeleteModal } from './helpers/modal_containers';
-import { PanelWrapper } from './helpers/panel_wrapper';
 import {
   contextMenuCreateReportDefinition,
   contextMenuViewReports,
@@ -76,7 +75,7 @@ type NotebookProps = {
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => Promise<string>;
-  deleteNotebook: (noteId: string, noteName?: string, showToast?: boolean) => void;
+  deleteNotebook: (noteList: string[], toastMessage?: string) => void;
   setToast: (title: string, color?: string, text?: string) => void;
   location: RouteComponentProps['location'];
   history: RouteComponentProps['history'];
@@ -194,9 +193,12 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   deleteParagraphButton = (para: ParaType, index: number) => {
     if (index !== -1) {
       return this.props.http
-        .delete(
-          `${NOTEBOOKS_API_PREFIX}/paragraph/` + this.props.openedNoteId + '/' + para.uniqueId
-        )
+        .delete(`${NOTEBOOKS_API_PREFIX}/paragraph`, {
+          query: {
+            noteId: this.props.openedNoteId,
+            paragraphId: para.uniqueId,
+          },
+        })
         .then((res) => {
           const paragraphs = [...this.state.paragraphs];
           paragraphs.splice(index, 1);
@@ -235,14 +237,16 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
         () => this.setState({ isModalVisible: false }),
         async () => {
           this.setState({ isModalVisible: false });
-          await this.runForAllParagraphs((para: ParaType, index: number) =>
-            this.props.http.delete(
-              `${NOTEBOOKS_API_PREFIX}/paragraph/${this.props.openedNoteId}/${para.uniqueId}`
-            )
-          )
+          await this.props.http
+            .delete(`${NOTEBOOKS_API_PREFIX}/paragraph`, {
+              query: {
+                noteId: this.props.openedNoteId,
+              },
+            })
             .then((res) => {
               this.setState({ paragraphs: res.paragraphs });
               this.parseAllParagraphs();
+              this.props.setToast('Paragraphs successfully deleted!');
             })
             .catch((err) => {
               this.props.setToast(
@@ -251,7 +255,6 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
               );
               console.error(err.body.message);
             });
-          this.props.setToast('Paragraphs successfully deleted!');
         },
         'Delete all paragraphs',
         'Are you sure you want to delete all paragraphs? The action cannot be undone.'
@@ -325,7 +328,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       modalLayout: (
         <DeleteNotebookModal
           onConfirm={async () => {
-            await this.props.deleteNotebook(this.props.openedNoteId, this.state.path);
+            const toastMessage = `Notebook "${this.state.path}" successfully deleted!`;
+            await this.props.deleteNotebook([this.props.openedNoteId], toastMessage);
             this.setState({ isModalVisible: false }, () =>
               setTimeout(() => {
                 this.props.history.push('.');
@@ -584,7 +588,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
           'Error fetching notebooks, please make sure you have the correct permission.',
           'danger'
         );
-        console.error(err.body.message);
+        console.error(err?.body?.message || err);
       });
   };
 
@@ -929,6 +933,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   withTitle
                   button={
                     <EuiButton
+                      data-test-subj="notebook-paragraph-actions-button"
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={() => this.setState({ isParaActionsPopoverOpen: true })}
@@ -949,6 +954,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   withTitle
                   button={
                     <EuiButton
+                      data-test-subj="notebook-notebook-actions-button"
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={() => this.setState({ isNoteActionsPopoverOpen: true })}
@@ -975,41 +981,39 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             </EuiFlexGroup>
             {this.state.parsedPara.length > 0 ? (
               <>
-                <PanelWrapper>
-                  {this.state.parsedPara.map((para: ParaType, index: number) => (
-                    <div
-                      ref={this.state.parsedPara[index].paraDivRef}
-                      key={`para_div_${para.uniqueId}`}
-                      style={panelStyles}
-                    >
-                      <Paragraphs
-                        ref={this.state.parsedPara[index].paraRef}
-                        para={para}
-                        setPara={(para: ParaType) => this.setPara(para, index)}
-                        dateModified={this.state.paragraphs[index]?.dateModified}
-                        index={index}
-                        paraCount={this.state.parsedPara.length}
-                        paragraphSelector={this.paragraphSelector}
-                        textValueEditor={this.textValueEditor}
-                        handleKeyPress={this.handleKeyPress}
-                        addPara={this.addPara}
-                        DashboardContainerByValueRenderer={
-                          this.props.DashboardContainerByValueRenderer
-                        }
-                        deleteVizualization={this.deleteVizualization}
-                        http={this.props.http}
-                        selectedViewId={this.state.selectedViewId}
-                        setSelectedViewId={this.updateView}
-                        deletePara={this.showDeleteParaModal}
-                        runPara={this.updateRunParagraph}
-                        clonePara={this.cloneParaButton}
-                        movePara={this.movePara}
-                        showQueryParagraphError={this.state.showQueryParagraphError}
-                        queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
-                      />
-                    </div>
-                  ))}
-                </PanelWrapper>
+                {this.state.parsedPara.map((para: ParaType, index: number) => (
+                  <div
+                    ref={this.state.parsedPara[index].paraDivRef}
+                    key={`para_div_${para.uniqueId}`}
+                    style={panelStyles}
+                  >
+                    <Paragraphs
+                      ref={this.state.parsedPara[index].paraRef}
+                      para={para}
+                      setPara={(para: ParaType) => this.setPara(para, index)}
+                      dateModified={this.state.paragraphs[index]?.dateModified}
+                      index={index}
+                      paraCount={this.state.parsedPara.length}
+                      paragraphSelector={this.paragraphSelector}
+                      textValueEditor={this.textValueEditor}
+                      handleKeyPress={this.handleKeyPress}
+                      addPara={this.addPara}
+                      DashboardContainerByValueRenderer={
+                        this.props.DashboardContainerByValueRenderer
+                      }
+                      deleteVizualization={this.deleteVizualization}
+                      http={this.props.http}
+                      selectedViewId={this.state.selectedViewId}
+                      setSelectedViewId={this.updateView}
+                      deletePara={this.showDeleteParaModal}
+                      runPara={this.updateRunParagraph}
+                      clonePara={this.cloneParaButton}
+                      movePara={this.movePara}
+                      showQueryParagraphError={this.state.showQueryParagraphError}
+                      queryParagraphErrorMessage={this.state.queryParagraphErrorMessage}
+                    />
+                  </div>
+                ))}
                 {this.state.selectedViewId !== 'output_only' && (
                   <>
                     <EuiSpacer />
