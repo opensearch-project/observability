@@ -21,6 +21,7 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
+import { ObservabilitySideBar } from '../common/side_nav';
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
   pplService: PPLService;
@@ -108,14 +109,16 @@ export const Home = (props: HomeProps) => {
       <Switch>
         <Route
           exact
-          path={match.path}
+          path={['/', '/application_analytics']}
           render={() => 
+            <ObservabilitySideBar>
             <AppTable loading={false} applications={dummyApplication} {...commonProps} />
+            </ObservabilitySideBar>
           }
         />
         <Route
           exact
-          path={`${match.path}/create`}
+          path={'/application_analytics/create'}
           render={() => 
             <CreateApp 
             {...commonProps}
@@ -125,7 +128,7 @@ export const Home = (props: HomeProps) => {
         <Route
           exact
           // path="/application_analytics/:id+"
-          path={`${match.path}/:id`}
+          path={'/application_analytics/:id'}
           render={(routerProps) => 
             <Application
               disabled={false}
