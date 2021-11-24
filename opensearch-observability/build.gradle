@@ -254,7 +254,7 @@ testClusters.integTest {
 
 
 String bwcVersion = "1.13.0.0"
-String baseName = "tcBwcCluster"
+String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
 
 2.times {i -> 

@@ -108,7 +108,6 @@ class TCBackwardsCompatibilityIT extends ObservabilityPluginIT {
         }
     }
 
-
     private fun callIntegTest() {
         GetObjectIT.`test get single object`();
         GetObjectIT.`test get multiple objects`();
