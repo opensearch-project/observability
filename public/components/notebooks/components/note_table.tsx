@@ -58,7 +58,7 @@ type NoteTableProps = {
   createNotebook: (newNoteName: string) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => void;
-  deleteNotebook: (noteId: string, noteName?: string, showToast?: boolean) => void;
+  deleteNotebook: (noteList: string[], toastMessage?: string) => void;
   parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   setToast: (title: string, color?: string, text?: string) => void;
@@ -68,7 +68,7 @@ export function NoteTable(props: NoteTableProps) {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedNotebooks, setSelectedNotebooks] = useState([]);
+  const [selectedNotebooks, setSelectedNotebooks] = useState<Array<NotebookType>>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { notebooks, createNotebook, renameNotebook, cloneNotebook, deleteNotebook } = props;
 
@@ -107,17 +107,12 @@ export function NoteTable(props: NoteTableProps) {
 
   const onDelete = async () => {
     const toastMessage = `Notebook${
-      selectedNotebooks.length > 1 ? 's' : ' ' + selectedNotebooks[0].path
+      selectedNotebooks.length > 1 ? 's' : ' "' + selectedNotebooks[0].path + '"'
     } successfully deleted!`;
-    Promise.all(selectedNotebooks.map((notebook) => deleteNotebook(notebook.id, undefined, false)))
-      .then(() => props.setToast(toastMessage))
-      .catch((err) => {
-        props.setToast(
-          'Error deleting notebooks, please make sure you have the correct permission.',
-          'danger'
-        );
-        console.error(err.body.message);
-      });
+    await deleteNotebook(
+      selectedNotebooks.map((note) => note.id),
+      toastMessage
+    );
     closeModal();
   };
 
@@ -378,7 +373,11 @@ export function NoteTable(props: NoteTableProps) {
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false} onClick={() => createNote()}>
+                    <EuiButton
+                      data-test-subj="note-table-empty-state-create-notebook-button"
+                      fullWidth={false}
+                      onClick={() => createNote()}
+                    >
                       Create notebook
                     </EuiButton>
                   </EuiFlexItem>
