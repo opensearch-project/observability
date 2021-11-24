@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { isEmpty } from 'lodash';
@@ -48,7 +42,7 @@ export const insertDateRangeToQuery = ({
   const tokens = rawQuery.replaceAll(PPL_NEWLINE_REGEX, '').match(PPL_INDEX_INSERT_POINT_REGEX);
   
   if (isEmpty(tokens)) return finalQuery;
-  finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= timestamp('${start}') and ${timeField} <= timestamp('${end}')${tokens![3]}`;
+  finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]}`;
 
   return finalQuery;
 };

@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
@@ -25,7 +19,7 @@ import { uiSettingsService } from '../common/utils';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
   public setup(core: CoreSetup): ObservabilitySetup {
-    uiSettingsService.init(core.uiSettings);
+    uiSettingsService.init(core.uiSettings, core.notifications);
 
     // redirect legacy notebooks URL to current URL under observability
     if (window.location.pathname.includes('notebooks-dashboards')) {

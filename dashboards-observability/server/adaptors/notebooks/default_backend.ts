@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
 
 import now from 'performance-now';
@@ -98,7 +77,7 @@ export class DefaultBackend implements NotebookAdaptor {
         objectId: noteId,
       });
       if (response.observabilityObjectList.length === 0) {
-        throw 'notebook id not found'
+        throw 'notebook id not found';
       }
       return response.observabilityObjectList[0];
     } catch (error) {
@@ -110,7 +89,7 @@ export class DefaultBackend implements NotebookAdaptor {
   viewNotes = async function (client: ILegacyScopedClusterClient, _wreckOptions: optionsType) {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
-        objectType: 'notebook'
+        objectType: 'notebook',
       });
       return response.observabilityObjectList.map((notebook) => ({
         path: notebook.notebook.name,
@@ -245,12 +224,12 @@ export class DefaultBackend implements NotebookAdaptor {
    */
   deleteNote = async function (
     client: ILegacyScopedClusterClient,
-    noteId: string,
+    noteList: string,
     _wreckOptions: optionsType
   ) {
     try {
-      const response = await client.callAsCurrentUser('observability.deleteObjectById', {
-        objectId: noteId,
+      const response = await client.callAsCurrentUser('observability.deleteObjectByIdList', {
+        objectIdList: noteList,
       });
       return { status: 'OK', message: response };
     } catch (error) {
@@ -549,19 +528,21 @@ export class DefaultBackend implements NotebookAdaptor {
    */
   deleteFetchParagraphs = async function (
     client: ILegacyScopedClusterClient,
-    params: { noteId: string; paragraphId: string },
+    params: { noteId: string; paragraphId: string | undefined },
     _wreckOptions: optionsType
   ) {
     try {
       const opensearchClientGetResponse = await this.getNote(client, params.noteId);
       const updatedparagraphs: DefaultParagraph[] = [];
-      opensearchClientGetResponse.notebook.paragraphs.map(
-        (paragraph: DefaultParagraph, index: number) => {
-          if (paragraph.id !== params.paragraphId) {
-            updatedparagraphs.push(paragraph);
+      if (params.paragraphId !== undefined) {
+        opensearchClientGetResponse.notebook.paragraphs.map(
+          (paragraph: DefaultParagraph, index: number) => {
+            if (paragraph.id !== params.paragraphId) {
+              updatedparagraphs.push(paragraph);
+            }
           }
-        }
-      );
+        );
+      }
 
       const updateNotebook = {
         paragraphs: updatedparagraphs,

@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -72,7 +66,7 @@ export const EmptyPanelView = ({ addVizDisabled, getVizContextPanels }: Props) =
         <h2>Start by adding your first visualization</h2>
         <EuiSpacer size="m" />
         <EuiText color="subdued" size="m">
-          Use PPL Queries to fetch and filter Observability Data to Create Visualizations
+          Use PPL Queries to fetch &amp; filter Observability Data and Create Visualizations
         </EuiText>
       </EuiText>
       <EuiSpacer size="m" />

@@ -1,17 +1,12 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { v4 as uuidv4 } from 'uuid';
 import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
 interface boxType {
   x1: number;
@@ -385,6 +380,24 @@ export class CustomPanelsAdaptor {
       return filteredPanelVisualizations;
     } catch (error) {
       throw new Error('Edit Visualizations Error:' + error);
+    }
+  };
+
+  // Create Sample Panels
+  addSamplePanels = async (client: ILegacyScopedClusterClient, savedVisualizationIds: string[]) => {
+    try {
+      const panelBody = createDemoPanel(savedVisualizationIds);
+      const indexResponse = await this.indexPanel(client, panelBody);
+      const fetchPanel = await this.getPanel(client, indexResponse.objectId);
+      const fetchResponse = {
+        name: fetchPanel.operationalPanel.name,
+        id: fetchPanel.objectId,
+        dateCreated: fetchPanel.createdTimeMs,
+        dateModified: fetchPanel.lastUpdatedTimeMs,
+      };
+      return [fetchResponse];
+    } catch (error) {
+      throw new Error('Create New Panel Error:' + error);
     }
   };
 }

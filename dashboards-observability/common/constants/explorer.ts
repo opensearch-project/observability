@@ -1,14 +1,9 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
- 
+
+export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability-plugins/event-analytics/'
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
@@ -26,6 +21,13 @@ export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-vis-';
 export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
 export const FILTER_OPTIONS = ['Visualization', 'Query'];
+export const SAVED_QUERY = 'savedQuery';
+export const SAVED_VISUALIZATION = 'savedVisualization';
+export const SAVED_OBJECT_ID = 'savedObjectId';
+export const SAVED_OBJECT_TYPE = 'objectType';
+export const TAB_CREATED_TYPE = 'tabCreatedType';
+export const NEW_TAB = 'newTab';
+export const REDIRECT_TAB = 'redirect_tab';
 
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [

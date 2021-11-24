@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { schema } from '@osd/config-schema';
@@ -45,12 +39,15 @@ export const registerEventAnalyticsRouter = ({
       body: {
         ...savedRes['data']
       }
-    };   
+    };
     
-    if (savedRes['success']) return res.ok(result);
+    if (
+      savedRes['success'] ||
+      savedRes?.data?.statusCode === 404
+    ) return res.ok(result);
     
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -92,8 +89,8 @@ export const registerEventAnalyticsRouter = ({
 
     if (savedRes['success']) return res.ok(result);
     
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -136,8 +133,8 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -152,6 +149,10 @@ export const registerEventAnalyticsRouter = ({
             start: schema.string(),
             end: schema.string(),
             text: schema.string(),
+          }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
           }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
@@ -174,8 +175,8 @@ export const registerEventAnalyticsRouter = ({
       }
     };   
     if (savedRes['success']) return res.ok(result);
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -190,6 +191,10 @@ export const registerEventAnalyticsRouter = ({
             start: schema.string(),
             end: schema.string(),
             text: schema.string(),
+          }),
+          selected_timestamp: schema.object({
+            name: schema.string(),
+            type: schema.string()
           }),
           selected_fields: schema.object({
             tokens: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
@@ -206,15 +211,15 @@ export const registerEventAnalyticsRouter = ({
     req,
     res
   ) : Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-    const savedRes = await savedObjectFacet.updateSavedVisualization(req);
+    const updateRes = await savedObjectFacet.updateSavedVisualization(req);
     const result: any = {
       body: {
-        ...savedRes['data']
+        ...updateRes['data']
       }
     };   
-    if (savedRes['success']) return res.ok(result);
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    if (updateRes['success']) return res.ok(result);
+    result['statusCode'] = updateRes?.data?.statusCode || 500;
+    result['message'] = updateRes?.data || '';
     return res.custom(result);
   });
 
@@ -243,8 +248,8 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
 
@@ -276,8 +281,61 @@ export const registerEventAnalyticsRouter = ({
     
     if (savedRes['success']) return res.ok(result);
 
-    result['statusCode'] = 500;
-    result['message'] = savedRes['data'];
+    result['statusCode'] = savedRes?.data?.statusCode || 500;
+    result['message'] = savedRes?.data || '';
     return res.custom(result);
   });
+
+  router.delete(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      validate: {
+        body: schema.object({
+          objectIdList: schema.string()
+        }),
+      },
+    },
+    async (
+      context,
+      req,
+      res
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+
+      const deleteResponse = await savedObjectFacet.deleteSavedObject(req);
+      const result: any = {
+        body: {
+          ...deleteResponse['data']
+        }
+      };
+      if (deleteResponse['success']) return res.ok(result);
+      result['statusCode'] = deleteResponse?.data?.statusCode || 500;
+      result['message'] = deleteResponse?.data || '';
+      return res.custom(result);
+    }
+  );
+
+  router.get(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/{sampleRequestor}`,
+      validate: {
+        params: schema.object({
+          sampleRequestor: schema.string(),
+        }),
+      },
+    },
+    async (context, req, res): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const savedRes = await savedObjectFacet.createSampleSavedObjects(req);
+      const result: any = {
+        body: {
+          ...savedRes['data'],
+        },
+      };
+
+      if (savedRes['success']) return res.ok(result);
+
+      result['statusCode'] = savedRes?.data?.statusCode || 500;
+      result['message'] = savedRes?.data || '';
+      return res.custom(result);
+    }
+  );
 }

@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { 
@@ -176,11 +170,34 @@ export default class SavedObjects {
       query: params.query,
       fields: params.fields,
       dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
     });
 
     finalParams['object_id'] = params.objectId;
 
-    return await this.http.post(
+    return await this.http.put(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    );
+  }
+
+  async updateSavedQueryById(params: any) {
+    const finalParams = this.buildRequestBody({
+      query: params.query,
+      fields: params.fields,
+      dateRange: params.dateRange,
+      chartType: params.type,
+      name: params.name,
+      timestamp: params.timestamp
+    });
+
+    finalParams['object_id'] = params.objectId;
+
+    return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
       {
         body: JSON.stringify(finalParams)
@@ -259,7 +276,17 @@ export default class SavedObjects {
     );
   }
 
-  deleteSavedObjectsById(deleteObjectRequest: any) {}
+  async deleteSavedObjectsList(deleteObjectRequest: any) {
+    const finalParams = {
+      objectIdList: deleteObjectRequest.objectIdList.join(',')
+    };
+    return await this.http.delete(
+      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      {
+        body: JSON.stringify(finalParams)
+      }
+    );
+  }
 
   deleteSavedObjectsByIdList(deleteObjectRequesList: any) {}
 

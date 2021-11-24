@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 diff --git a/elasticsearch/pom.xml b/elasticsearch/pom.xml
 index 13bc6d469..bbdde076a 100644
 --- a/elasticsearch/pom.xml

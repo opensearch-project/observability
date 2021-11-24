@@ -1,22 +1,18 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
   EuiBreadcrumb,
   EuiButton,
+  EuiButtonIcon,
   EuiContextMenu,
   EuiContextMenuPanelDescriptor,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -26,6 +22,7 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiSuperDatePicker,
+  EuiText,
   EuiTitle,
   OnTimeChangeProps,
   ShortDate,
@@ -49,6 +46,7 @@ import { ChangeEvent } from 'react';
 import moment from 'moment';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 import { uiSettingsService } from '../../../common/utils';
+import { PPLReferenceFlyout } from '../common/helpers';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -115,6 +113,17 @@ export const CustomPanelView = ({
   const [replaceVisualizationId, setReplaceVisualizationId] = useState<string | undefined>('');
   const [panelsMenuPopover, setPanelsMenuPopover] = useState(false);
   const [editActionType, setEditActionType] = useState('');
+  const [isHelpFlyoutVisible, setHelpIsFlyoutVisible] = useState(false);
+
+  const closeHelpFlyout = () => {
+    setAddVizDisabled(false);
+    setHelpIsFlyoutVisible(false);
+  };
+
+  const showHelpFlyout = () => {
+    setAddVizDisabled(true);
+    setHelpIsFlyoutVisible(true);
+  };
 
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
@@ -190,7 +199,7 @@ export const CustomPanelView = ({
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') onRefreshFilters();
+    if (e.key === 'Enter') onRefreshFilters(start, end);
   };
 
   const onDatePickerChange = (props: OnTimeChangeProps) => {
@@ -202,7 +211,7 @@ export const CustomPanelView = ({
       setStart,
       setEnd
     );
-    onRefreshFilters();
+    onRefreshFilters(props.start, props.end);
   };
 
   const onDelete = async () => {
@@ -321,8 +330,8 @@ export const CustomPanelView = ({
     }
   };
 
-  const onRefreshFilters = () => {
-    if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast)) {
+  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
+    if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
       return;
     }
 
@@ -334,8 +343,8 @@ export const CustomPanelView = ({
       panelId: panelId,
       query: pplFilterValue,
       language: 'ppl',
-      to: end,
-      from: start,
+      to: endTime,
+      from: startTime,
     };
 
     http
@@ -376,9 +385,20 @@ export const CustomPanelView = ({
       iconSide="right"
       disabled={addVizDisabled}
       onClick={onPopoverClick}
-      fill
     >
       Add Visualization
+    </EuiButton>
+  );
+
+  // Panel Actions Button
+  const panelActionsButton = (
+    <EuiButton
+      iconType="arrowDown"
+      iconSide="right"
+      onClick={() => setPanelsMenuPopover(true)}
+      disabled={addVizDisabled}
+    >
+      Panel actions
     </EuiButton>
   );
 
@@ -401,13 +421,18 @@ export const CustomPanelView = ({
     );
   }
 
+  let helpFlyout;
+  if (isHelpFlyoutVisible) {
+    helpFlyout = <PPLReferenceFlyout module="panels" closeFlyout={closeHelpFlyout} />;
+  }
+
   const panelActionsMenu: EuiContextMenuPanelDescriptor[] = [
     {
       id: 0,
       title: 'Panel actions',
       items: [
         {
-          name: 'Refresh panel',
+          name: 'Reload panel',
           onClick: () => {
             setPanelsMenuPopover(false);
             fetchCustomPanel();
@@ -442,11 +467,6 @@ export const CustomPanelView = ({
   useEffect(() => {
     fetchCustomPanel();
   }, [panelId]);
-
-  // Check Validity of Time
-  useEffect(() => {
-    isDateValid(convertDateTime(start), convertDateTime(end, false), setToast);
-  }, [start, end]);
 
   // Toggle input type (disabled or not disabled)
   // Disabled when there no visualizations in panels or when the panel is in edit mode
@@ -513,19 +533,26 @@ export const CustomPanelView = ({
                   <EuiPopover
                     panelPaddingSize="none"
                     withTitle
-                    button={
-                      <EuiButton
-                        iconType="arrowDown"
-                        iconSide="right"
-                        onClick={() => setPanelsMenuPopover(true)}
-                      >
-                        Panel actions
-                      </EuiButton>
-                    }
+                    button={panelActionsButton}
                     isOpen={panelsMenuPopover}
                     closePopover={() => setPanelsMenuPopover(false)}
                   >
                     <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                  </EuiPopover>
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    id="addVisualizationContextMenu"
+                    button={addVisualizationButton}
+                    isOpen={isVizPopoverOpen}
+                    closePopover={closeVizPopover}
+                    panelPaddingSize="none"
+                    anchorPosition="downLeft"
+                  >
+                    <EuiContextMenu
+                      initialPanelId={0}
+                      panels={getVizContextPanels(closeVizPopover)}
+                    />
                   </EuiPopover>
                 </EuiFlexItem>
               </EuiFlexGroup>
@@ -541,6 +568,15 @@ export const CustomPanelView = ({
                   onChange={onChange}
                   onKeyPress={onKeyPress}
                   disabled={inputDisabled}
+                  append={
+                    <EuiLink
+                      aria-label="ppl-info"
+                      onClick={showHelpFlyout}
+                      style={{ padding: '10px' }}
+                    >
+                      PPL
+                    </EuiLink>
+                  }
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
@@ -553,30 +589,13 @@ export const CustomPanelView = ({
                   isDisabled={dateDisabled}
                 />
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiPopover
-                  id="addVisualizationContextMenu"
-                  button={addVisualizationButton}
-                  isOpen={isVizPopoverOpen}
-                  closePopover={closeVizPopover}
-                  panelPaddingSize="none"
-                  anchorPosition="downLeft"
-                >
-                  <EuiContextMenu
-                    initialPanelId={0}
-                    panels={getVizContextPanels(closeVizPopover)}
-                  />
-                </EuiPopover>
-              </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />
-            {panelVisualizations.length === 0 ? (
+            {panelVisualizations.length === 0 && (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
                 getVizContextPanels={getVizContextPanels}
               />
-            ) : (
-              <></>
             )}
             <PanelGrid
               http={http}
@@ -599,6 +618,7 @@ export const CustomPanelView = ({
       </EuiPage>
       {isModalVisible && modalLayout}
       {flyout}
+      {helpFlyout}
     </div>
   );
 };

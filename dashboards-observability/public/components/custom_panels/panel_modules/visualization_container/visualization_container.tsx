@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -21,14 +15,12 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiText,
+  EuiToolTip,
 } from '@elastic/eui';
 import React, { useEffect, useMemo, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import {
-  displayVisualization,
-  renderSavedVisualization,
-} from '../../helpers/utils';
+import { displayVisualization, renderSavedVisualization } from '../../helpers/utils';
 import './visualization_container.scss';
 
 /*
@@ -95,6 +87,16 @@ export const VisualizationContainer = ({
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();
+        window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+      }}
+    >
+      Edit
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="Replace"
+      disabled={disablePopover}
+      onClick={() => {
+        closeActionsMenu();
         showFlyout(true, visualizationId);
       }}
     >
@@ -135,14 +137,9 @@ export const VisualizationContainer = ({
           <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
         ) : isError != '' ? (
           <div className="visualization-error-div">
-            <EuiSpacer size="l" />
-            <EuiIcon type="alert" color="danger" size="l" />
-            <EuiSpacer size="l" />
-            <EuiText>
-              <h2>Error in rendering the visualizaiton</h2>
-            </EuiText>
-            <EuiSpacer size="l" />
-            <EuiText>
+            <EuiIcon type="alert" color="danger" size="s" />
+            <EuiSpacer size="s" />
+            <EuiText size="s">
               <p>{isError}</p>
             </EuiText>
           </div>
@@ -166,12 +163,18 @@ export const VisualizationContainer = ({
     <EuiPanel className="panel-full-width" grow={false}>
       <div className={editMode ? 'mouseGrabber' : ''}>
         <EuiFlexGroup justifyContent="spaceBetween">
-          <EuiFlexItem grow={false}>
-            <EuiText grow={false}>
-              <h5>{visualizationTitle}</h5>
+          <EuiFlexItem
+            style={{
+              width: '35%',
+            }}
+          >
+            <EuiText grow={false} className="panels-title-text">
+              <EuiToolTip delay="long" position="top" content={visualizationTitle}>
+                <h5>{visualizationTitle}</h5>
+              </EuiToolTip>
             </EuiText>
           </EuiFlexItem>
-          <EuiFlexItem grow={false}>
+          <EuiFlexItem grow={false} className="visualization-action-button">
             {disablePopover ? (
               <EuiIcon
                 type="crossInACircleFilled"

@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -45,6 +39,7 @@ import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
 import moment from 'moment';
 import _ from 'lodash';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
+import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 
 const pageStyles: CSSProperties = {
   float: 'left',
@@ -77,6 +72,7 @@ type Props = {
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
+  addSamplePanels: () => void;
 };
 
 export const CustomPanelTable = ({
@@ -89,6 +85,7 @@ export const CustomPanelTable = ({
   renameCustomPanel,
   cloneCustomPanel,
   deleteCustomPanelList,
+  addSamplePanels,
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
@@ -194,6 +191,16 @@ export const CustomPanelTable = ({
     showModal();
   };
 
+  const addSampledata = async () => {
+    setModalLayout(
+      getSampleDataModal(closeModal, async () => {
+        closeModal();
+        await addSamplePanels();
+      })
+    );
+    showModal();
+  };
+
   const popoverButton = (
     <EuiButton
       iconType="arrowDown"
@@ -235,6 +242,15 @@ export const CustomPanelTable = ({
     >
       Delete
     </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="addSample"
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        addSampledata();
+      }}
+    >
+      Add samples
+    </EuiContextMenuItem>,
   ];
 
   const tableColumns = [
@@ -261,14 +277,7 @@ export const CustomPanelTable = ({
       sortable: true,
       render: (value) => moment(new Date(value)).format(UI_DATE_FORMAT),
     },
-  ] as Array<
-    EuiTableFieldDataColumnType<{
-      name: string;
-      id: string;
-      dateCreated: string;
-      dateModified: string;
-    }>
-  >;
+  ] as Array<EuiTableFieldDataColumnType<CustomPanelListType>>;
 
   return (
     <div style={pageStyles}>
@@ -292,8 +301,8 @@ export const CustomPanelTable = ({
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Operational panels provide users with the ability to create and view different
-                  visualizations on ingested observability data, using PPL queries.{' '}
+                  Use Operational panels to create and view different visualizations on ingested
+                  observability data, using Piped Processing Language queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>
@@ -320,42 +329,44 @@ export const CustomPanelTable = ({
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule margin="m" />
-            <EuiFieldSearch
-              fullWidth
-              placeholder="Search operational panel name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <EuiHorizontalRule margin="m" />
             {customPanels.length > 0 ? (
-              <EuiInMemoryTable
-                loading={loading}
-                items={
-                  searchQuery
-                    ? customPanels.filter((customPanel) =>
-                        customPanel.name.toLowerCase().includes(searchQuery.toLowerCase())
-                      )
-                    : customPanels
-                }
-                itemId="id"
-                columns={tableColumns}
-                tableLayout="auto"
-                pagination={{
-                  initialPageSize: 10,
-                  pageSizeOptions: [8, 10, 13],
-                }}
-                sorting={{
-                  sort: {
-                    field: 'dateModified',
-                    direction: 'desc',
-                  },
-                }}
-                allowNeutralSort={false}
-                isSelectable={true}
-                selection={{
-                  onSelectionChange: (items) => setselectedCustomPanels(items),
-                }}
-              />
+              <>
+                <EuiFieldSearch
+                  fullWidth
+                  placeholder="Search operational panel name"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <EuiHorizontalRule margin="m" />
+                <EuiInMemoryTable
+                  loading={loading}
+                  items={
+                    searchQuery
+                      ? customPanels.filter((customPanel) =>
+                          customPanel.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
+                      : customPanels
+                  }
+                  itemId="id"
+                  columns={tableColumns}
+                  tableLayout="auto"
+                  pagination={{
+                    initialPageSize: 10,
+                    pageSizeOptions: [8, 10, 13],
+                  }}
+                  sorting={{
+                    sort: {
+                      field: 'dateModified',
+                      direction: 'desc',
+                    },
+                  }}
+                  allowNeutralSort={false}
+                  isSelectable={true}
+                  selection={{
+                    onSelectionChange: (items) => setselectedCustomPanels(items),
+                  }}
+                />
+              </>
             ) : (
               <>
                 <EuiSpacer size="xxl" />
@@ -372,7 +383,12 @@ export const CustomPanelTable = ({
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => createPanel()}>
-                      Create New Panel
+                      Create new panel
+                    </EuiButton>
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>
+                    <EuiButton fullWidth={false} onClick={() => addSampledata()}>
+                      Add samples
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>

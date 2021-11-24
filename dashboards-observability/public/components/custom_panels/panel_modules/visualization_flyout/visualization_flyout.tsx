@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import {
@@ -32,7 +26,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { FlyoutContainers } from '../../helpers/flyout_containers';
+import { FlyoutContainers } from '../../../common/flyout_containers';
 import { displayVisualization, getQueryResponse, isDateValid } from '../../helpers/utils';
 import { convertDateTime } from '../../helpers/utils';
 import PPLService from '../../../../services/requests/ppl';
@@ -264,10 +258,7 @@ export const VisaulizationFlyout = ({
     ) : (
       <EuiFlyoutBody banner={emptySavedVisualizations}>
         <>
-          <div>
-            You don't have any saved visualizations. Please use the "create new visualization"
-            option in add visualization menu.
-          </div>
+          <div>Please use the "create new visualization" option in add visualization menu.</div>
         </>
       </EuiFlyoutBody>
     );
@@ -316,14 +307,9 @@ export const VisaulizationFlyout = ({
               <EuiLoadingChart size="xl" mono className="visualization-loading-chart-preview" />
             ) : isPreviewError != '' ? (
               <div className="visualization-error-div-preview">
-                <EuiSpacer size="l" />
-                <EuiIcon type="alert" color="danger" size="l" />
-                <EuiSpacer size="l" />
-                <EuiText>
-                  <h2>Error in rendering the visualizaiton</h2>
-                </EuiText>
-                <EuiSpacer size="l" />
-                <EuiText>
+                <EuiIcon type="alert" color="danger" size="s" />
+                <EuiSpacer size="s" />
+                <EuiText size="s">
                   <p>{isPreviewError}</p>
                 </EuiText>
               </div>

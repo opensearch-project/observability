@@ -1,18 +1,25 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
-import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav, EuiSideNavItemType } from '@elastic/eui';
+import {
+  EuiButton,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPage,
+  EuiPageBody,
+  EuiPageSideBar,
+  EuiSideNav,
+  EuiSideNavItemType,
+  EuiSwitch,
+} from '@elastic/eui';
 import React from 'react';
+import { useState } from 'react';
+import { toMountPoint } from '../../../../../src/plugins/opensearch_dashboards_react/public';
+import { uiSettingsService } from '../../../common/utils';
 
-export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
+export function ObservabilitySideBar(props: { children: React.ReactNode }) {
   // set items.isSelected based on location.hash passed in
   // tries to find an item where href is a prefix of the hash
   // if none will try to find an item where the hash is a prefix of href
@@ -22,6 +29,12 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
     initial = true,
     reverse = false
   ): boolean {
+    // Default page is Events Analytics
+    // But it is kept as second option in side nav
+    if (hash === '#/') {
+      items[0].items[1].isSelected = true;
+      return true;
+    }
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.href && ((reverse && item.href.startsWith(hash)) || hash.startsWith(item.href))) {
@@ -74,13 +87,49 @@ export const renderPageWithSidebar = (BodyComponent: React.ReactNode) => {
     },
   ];
   setIsSelected(items, location.hash);
+  const [isDarkMode, setIsDarkMode] = useState(uiSettingsService.get('theme:darkMode'));
 
   return (
     <EuiPage>
       <EuiPageSideBar>
-        <EuiSideNav items={items} />
+        <EuiFlexGroup
+          direction="column"
+          justifyContent="spaceBetween"
+          style={{ height: '100%' }}
+          gutterSize="none"
+        >
+          <EuiFlexItem>
+            <EuiSideNav items={items} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false} style={{ marginBottom: 20 }}>
+            <EuiSwitch
+              label="Dark mode"
+              checked={isDarkMode}
+              onChange={() => {
+                uiSettingsService.set('theme:darkMode', !isDarkMode).then((resp) => {
+                  setIsDarkMode(!isDarkMode);
+                  uiSettingsService.addToast({
+                    title: 'Theme setting changes require you to reload the page to take effect.',
+                    text: toMountPoint(
+                      <>
+                        <EuiFlexGroup justifyContent="flexEnd" gutterSize="s">
+                          <EuiFlexItem grow={false}>
+                            <EuiButton size="s" onClick={() => window.location.reload()}>
+                              Reload page
+                            </EuiButton>
+                          </EuiFlexItem>
+                        </EuiFlexGroup>
+                      </>
+                    ),
+                    color: 'success',
+                  });
+                });
+              }}
+            />
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </EuiPageSideBar>
-      <EuiPageBody>{BodyComponent}</EuiPageBody>
+      <EuiPageBody>{props.children}</EuiPageBody>
     </EuiPage>
   );
-};
+}

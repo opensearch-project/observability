@@ -4,9 +4,9 @@ name: Test and Build Observability Dashboards Plugin
 on: [pull_request, push]
 
 env:
-  PLUGIN_NAME: observability
+  PLUGIN_NAME: dashboards-observability
   OPENSEARCH_VERSION: '1.x'
-  OPENSEARCH_PLUGIN_VERSION: 1.1.0.0
+  OPENSEARCH_PLUGIN_VERSION: 1.2.0.0
 
 jobs:
 
@@ -60,19 +60,20 @@ jobs:
       # - name: Upload coverage
       #   uses: codecov/codecov-action@v1
       #   with:
+      #     flags: dashboards-observability
+      #     directory: ./OpenSearch-Dashboards/plugins/dashboards-observability
       #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     direcotry: ./OpenSearch-Dashboards/plugins/dashboards-observability
 
       # TODO remove hard coded version when observability is ready
       - name: Build Artifact
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
-          yarn build --opensearch-dashboards-version 1.1.0
+          yarn build
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OPENSEARCH_PLUGIN_VERSION }}.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: observability
+          name: dashboards-observability
           path: ./OpenSearch-Dashboards/plugins/dashboards-observability/build
 

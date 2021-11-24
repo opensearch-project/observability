@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modal_containers spec render delete notebooks modal 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        title
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiText>
+        message
+      </EuiText>
+      <EuiText>
+        The action cannot be undone.
+      </EuiText>
+      <EuiSpacer />
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          label="To confirm deletion, enter \\"delete\\" in the text field"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="delete-notebook-modal-input"
+            name="input"
+            onChange={[Function]}
+            placeholder="delete"
+            value=""
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        Cancel
+      </EuiButtonEmpty>
+      <EuiButton
+        color="danger"
+        data-test-subj="delete-notebook-modal-delete-button"
+        disabled={true}
+        fill={true}
+        onClick={[Function]}
+      >
+        Delete
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
+
+exports[`modal_containers spec render get clone modal 1`] = `""`;
+
+exports[`modal_containers spec render get custom modal 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        title
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          helpText="help text"
+          label="label"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="custom-input-modal-input"
+            name="input"
+            onChange={[Function]}
+            value="mock-path"
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        Cancel
+      </EuiButtonEmpty>
+      <EuiButton
+        data-test-subj="custom-input-modal-confirm-button"
+        fill={true}
+        onClick={[Function]}
+      >
+        Confirm
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
+
+exports[`modal_containers spec render get delete modal 1`] = `""`;
+
+exports[`modal_containers spec render get delete modal 2`] = `""`;
+
+exports[`modal_containers spec render get sample notebooks modal 1`] = `""`;

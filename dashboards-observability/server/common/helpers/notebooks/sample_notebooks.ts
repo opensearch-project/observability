@@ -1,12 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import { v4 as uuid } from 'uuid';
@@ -62,14 +56,14 @@ For more information, refer to the [documentation](https://opensearch.org/docs/d
       {
         output: [
           {
-            result: 'Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %[language type] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:',
+            result: 'Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %\[language type\] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:',
             outputType: 'MARKDOWN',
             execution_time: '0 ms',
           },
         ],
         input: {
           inputText: `%md
-Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %[language type] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:`,
+Notebooks combine code blocks and visualizations for describing data. Code blocks support markdown, SQL, and PPL languages. Specify the input language on the first line using %\[language type\] syntax. For example, type %md for markdown, %sql for SQL, and %ppl for PPL. A sample visualization is shown below:`,
           inputType: 'MARKDOWN',
         },
         dateCreated: dateString,

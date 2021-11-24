@@ -1,34 +1,34 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
 import React from 'react';
 
 import { take, merge } from 'lodash';
 import { Plt } from '../plotly/plot';
-import { PlotlyColorWay } from '../../../../common/constants/shared';
+import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../common/constants/shared';
 
-export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniColor = false }: any) => {
+export const Bar = ({
+  visualizations,
+  barConfig = {},
+  layoutConfig = {},
+  isUniColor = false,
+}: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations;
   const stackLength = fields.length - 1;
 
-  // Individual bars have different colors when stackLength = 1 and chart is not unicolor
+  // Individual bars have different colors
+  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor 
   // Else each stacked bar has its own color using colorway
   let marker = {};
-  if (stackLength == 1 && !isUniColor) {
+  if (stackLength == 1 && data[fields[stackLength].name].length < 16 && !isUniColor) {
     marker = {
       color: data[fields[stackLength].name].map((_: string, index: number) => {
-        return PlotlyColorWay[index % PlotlyColorWay.length];
+        return PLOTLY_COLOR[index % PLOTLY_COLOR.length];
       }),
     };
   }
@@ -56,11 +56,16 @@ export const Bar = ({ visualizations, barConfig = {}, layoutConfig = {}, isUniCo
     layoutConfig
   );
 
+  // If chart has length of result buckets < 16
+  // then use the LONG_CHART_COLOR for all the bars in the chart
+  const plotlyColorway =
+    data[fields[stackLength].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
+
   return (
     <Plt
       data={barValues}
       layout={{
-        colorway: PlotlyColorWay,
+        colorway: plotlyColorway,
         xaxis: {
           showgrid: false,
           visible: true,

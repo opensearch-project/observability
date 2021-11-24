@@ -1,14 +1,9 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
  */
 
+import { LONG_CHART_COLOR } from '../../../../../common/constants/shared';
 import React from 'react';
 import { Bar } from '../../../visualizations/charts/bar';
 
@@ -31,7 +26,7 @@ export const CountDistribution = ({ countDistribution }: any) => {
       pad: 0,
     },
     height: 220,
-    colorway: ['#127871'],
+    colorway: [LONG_CHART_COLOR],
   };
 
   return (

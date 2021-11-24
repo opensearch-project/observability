@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
 
 import { schema } from '@osd/config-schema';
@@ -217,13 +196,15 @@ export function registerParaRoute(router: IRouter) {
 
   /* --> Deletes a paragraph
    * --> Fetches the all other Paragraphs as a list
+   * --> Deletes all paragraphs if paragraphId is not provided
    */
   router.delete(
     {
-      path: `${NOTEBOOKS_API_PREFIX}/paragraph/{ids*2}`,
+      path: `${NOTEBOOKS_API_PREFIX}/paragraph`,
       validate: {
-        params: schema.object({
-          ids: schema.string(),
+        query: schema.object({
+          noteId: schema.string(),
+          paragraphId: schema.maybe(schema.string()),
         }),
       },
     },
@@ -236,8 +217,8 @@ export function registerParaRoute(router: IRouter) {
         request
       );
       const params = {
-        noteId: request.params.ids.split('/')[0],
-        paragraphId: request.params.ids.split('/')[1],
+        noteId: request.query.noteId,
+        paragraphId: request.query.paragraphId,
       };
       try {
         const deleteResponse = await BACKEND.deleteFetchParagraphs(

@@ -1,32 +1,12 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
 
 import {
   EuiButton,
   EuiButtonEmpty,
+  EuiCodeBlock,
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
@@ -46,7 +26,7 @@ import {
   EuiText,
   EuiTextArea,
 } from '@elastic/eui';
-import { Input, Prompt, Source } from '@nteract/presentational-components';
+import { Input, Prompt } from '@nteract/presentational-components';
 import { uiSettingsService } from '../../../../../common/utils';
 import React, { useState } from 'react';
 import { ParaType } from '../../../../../common/types/notebooks';
@@ -86,7 +66,7 @@ export const ParaInput = (props: {
 
   const renderParaInput = () => {
     return (
-      <Source language={para.lang}>
+      <div style={{ width: '100%' }}>
         {/* If the para is selected show the editor else display the code in the paragraph */}
         {para.isSelected ? (
           <EuiTextArea
@@ -104,9 +84,15 @@ export const ParaInput = (props: {
             autoFocus
           />
         ) : (
-          para.inp
+          <EuiCodeBlock
+            language={para.inp.match(/^%(sql|md)/)?.[1]}
+            overflowHeight={200}
+            paddingSize="s"
+          >
+            {para.inp}
+          </EuiCodeBlock>
         )}
-      </Source>
+      </div>
     );
   };
 

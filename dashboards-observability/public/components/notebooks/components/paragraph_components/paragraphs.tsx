@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
 
 import {
@@ -41,7 +20,6 @@ import {
   EuiText,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { Cell } from '@nteract/presentational-components';
 import moment from 'moment';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
@@ -53,6 +31,7 @@ import { ViewMode } from '../../../../../../../src/plugins/embeddable/public';
 import { NOTEBOOKS_API_PREFIX } from '../../../../../common/constants/notebooks';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { ParaType } from '../../../../../common/types/notebooks';
+import { uiSettingsService } from '../../../../../common/utils';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
 
@@ -480,6 +459,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     </EuiText>
   );
 
+  const paraClass = `notebooks-paragraph notebooks-paragraph-${
+    uiSettingsService.get('theme:darkMode') ? 'dark' : 'light'
+  }`;
+
   return (
     <>
       <EuiPanel>
@@ -487,7 +470,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
           index
         )}
-        <Cell key={index} onClick={() => paragraphSelector(index)}>
+        <div key={index} className={paraClass} onClick={() => paragraphSelector(index)}>
           {para.isInputExpanded && (
             <>
               <EuiSpacer size="s" />
@@ -533,10 +516,12 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           {props.selectedViewId !== 'input_only' && isOutputAvailable && (
             <>
               <EuiHorizontalRule margin="none" />
-              <div style={{ opacity: para.isOutputStale ? 0.5 : 1 }}>{paraOutput}</div>
+              <div style={{ opacity: para.isOutputStale ? 0.5 : 1, padding: '15px' }}>
+                {paraOutput}
+              </div>
             </>
           )}
-        </Cell>
+        </div>
       </EuiPanel>
     </>
   );

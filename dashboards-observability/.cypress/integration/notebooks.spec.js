@@ -1,27 +1,6 @@
 /*
+ * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
- *
- * The OpenSearch Contributors require contributions made to
- * this file be licensed under the Apache-2.0 license or a
- * compatible open source license.
- *
- * Modifications Copyright OpenSearch Contributors. See
- * GitHub history for details.
- */
-
-/*
- *   Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License").
- *   You may not use this file except in compliance with the License.
- *   A copy of the License is located at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   or in the "license" file accompanying this file. This file is distributed
- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *   express or implied. See the License for the specific language governing
- *   permissions and limitations under the License.
  */
 
 /// <reference types="cypress" />
@@ -41,14 +20,12 @@ describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
     cy.get('div[data-test-subj="sampleDataSetCardflights"]').contains(/(Add|View) data/).click();
-    cy.wait(delay * 3);
   });
 })
 
 describe('Testing notebooks table', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
-    cy.wait(delay * 3);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
   });
 
   it('Displays error toast for invalid notebook name', () => {
@@ -134,7 +111,7 @@ describe('Testing notebooks table', () => {
 
 describe('Test reporting integration if plugin installed', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
     cy.wait(delay * 3);
     cy.get('body').then($body => {
@@ -184,9 +161,8 @@ describe('Test reporting integration if plugin installed', () => {
 
 describe('Testing paragraphs', () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability#/notebooks`);
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
-    cy.wait(delay * 3);
   });
 
   it('Goes into a notebook and creates paragraphs', () => {
@@ -260,7 +236,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Adds a visualization paragraph', () => {
-    cy.get('.euiButton__text').contains('Add paragraph').click();
+    cy.contains('Add paragraph').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Visualization').click();
     cy.wait(delay);
@@ -282,7 +258,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Adds a SQL query paragraph', () => {
-    cy.get('.euiButton__text').contains('Add paragraph').click();
+    cy.contains('Add paragraph').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
@@ -292,13 +268,13 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay * 5);
 
-    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
+    cy.get('b').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
 
     cy.get('.euiDataGrid__overflow').should('exist');
   });
 
   it('Adds a PPL query paragraph', () => {
-    cy.get('.euiButton__text').contains('Add paragraph').click();
+    cy.contains('Add paragraph').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
@@ -308,13 +284,14 @@ describe('Testing paragraphs', () => {
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay * 5);
 
-    cy.get('.sc-Axmtr > div:nth-child(1) > div:nth-child(1)').contains('source=opensearch_dashboards_sample_data_flights');
+    cy.get('b').contains('source=opensearch_dashboards_sample_data_flights');
 
     cy.get('.euiDataGrid__overflow').should('exist');
   });
 
   it('Clears outputs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.wait(delay * 3); // need to wait for paragraphs to load first
+    cy.get('[data-test-subj="notebook-paragraph-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Clear all outputs').click();
     cy.wait(delay);
@@ -325,7 +302,8 @@ describe('Testing paragraphs', () => {
   });
 
   it('Runs all paragraphs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.wait(delay * 3); // need to wait for paragraphs to load first
+    cy.get('[data-test-subj="notebook-paragraph-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Run all paragraphs').click();
     cy.wait(delay);
@@ -334,13 +312,14 @@ describe('Testing paragraphs', () => {
   });
 
   it('Adds paragraph to top and bottom', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.wait(delay * 3); // need to wait for paragraphs to load first
+    cy.get('[data-test-subj="notebook-paragraph-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to top').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.get('[data-test-subj="notebook-paragraph-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Add paragraph to bottom').click();
     cy.wait(delay);
@@ -362,14 +341,14 @@ describe('Testing paragraphs', () => {
   });
 
   it('Duplicates and renames the notebook', () => {
-    cy.get('.euiButton__text').contains('Notebook actions').click();
+    cy.get('[data-test-subj="notebook-notebook-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Duplicate notebook').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Duplicate').click();
     cy.wait(delay * 3);
 
-    cy.get('.euiButton__text').contains('Notebook actions').click();
+    cy.get('[data-test-subj="notebook-notebook-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Rename notebook').click();
     cy.wait(delay);
@@ -385,7 +364,8 @@ describe('Testing paragraphs', () => {
   });
 
   it('Deletes paragraphs', () => {
-    cy.get('.euiButton__text').contains('Paragraph actions').click();
+    cy.wait(delay * 3);
+    cy.get('[data-test-subj="notebook-paragraph-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete all paragraphs').click();
     cy.wait(delay);
@@ -396,7 +376,7 @@ describe('Testing paragraphs', () => {
   });
 
   it('Deletes notebook', () => {
-    cy.get('.euiButton__text').contains('Notebook actions').click();
+    cy.get('[data-test-subj="notebook-notebook-actions-button"]').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete notebook').click();
     cy.wait(delay);
