@@ -6,115 +6,109 @@
 
 package org.opensearch.observability.bwc;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.junit.Assert;
-import org.opensearch.common.settings.Settings;
-import org.opensearch.observability.ObservabilityPluginIT;
-import org.opensearch.test.rest.OpenSearchRestTestCase;
-import org.opensearch.test.rest.CreateObjectIT;
-import org.opensearch.test.rest.DeleteObjectIT;
-import org.opensearch.test.rest.GetObjectIT;
-import org.opensearch.test.rest.UpdateObjectIT;
+import org.junit.Assert
+import org.opensearch.common.settings.Settings
+import org.opensearch.observability.rest.CreateObjectIT
+import org.opensearch.observability.rest.GetObjectIT
+import org.opensearch.test.rest.OpenSearchRestTestCase
+import org.opensearch.test.rest.OpenSearchRestTestCase.CLIENT_SOCKET_TIMEOUT
+import java.util.List
+import java.util.Map
+import java.util.Set
 
 
-class TCBackwardsCompatibilityIT extends ObservabilityPluginIT {
-    private const val ClusterType CLUSTER_TYPE =
-            ClusterType.parse(System.getProperty("tests.rest.bwcsuite"));
-    private const val CLUSTER_NAME = System.getProperty("tests.clustername");
-    private const val String MIXED_CLUSTER_TEST_ROUND = System.getProperty("tests.rest.bwcsuite_round");
+abstract class TCBackwardsCompatibilityIT {
+
+    companion object {
+        private val CLUSTER_TYPE: ClusterType = ClusterType.parse(System.getProperty("tests.rest.bwcsuite"));
+        private val CLUSTER_NAME: String = System.getProperty("tests.clustername");
+    }
 
 
     @Override
-    protected final fun preserveReposUponCompletion() : Boolean {
+    protected fun preserveReposUponCompletion() : Boolean {
         return true;
     }
 
-    @Override
-    protected final fun restClientSettings() : Settings {
-        return Settings.builder()
-                .put(super.restClientSettings())
-                // increase the timeout here to 90 seconds to handle long waits for a green
-                // cluster health. the waits for green need to be longer than a minute to
-                // account for delayed shards
-                .put(OpenSearchRestTestCase.CLIENT_SOCKET_TIMEOUT, "90s")
-                .build();
-    }
 
-    enum class ClusterType {
+    override fun restClientSettings(): Settings {
+        return Settings.builder()
+            .put(super.restClientSettings())
+            // increase the timeout here to 90 seconds to handle long waits for a green
+            // cluster health. the waits for green need to be longer than a minute to
+            // account for delayed shards
+            .put(CLIENT_SOCKET_TIMEOUT, "90s")
+            .build()
+}
+
+    private enum class ClusterType {
         OLD,
         MIXED,
         UPGRADED;
 
-        const ClusterType parse(final val value: String) {
-            switch (value) {
-                case "old_cluster":
-                    return OLD;
-                case "mixed_cluster":
-                    return MIXED;
-                case "upgraded_cluster":
-                    return UPGRADED;
-                default:
-                    throw new AssertionError("unknown cluster type: " + value);
+        companion object {
+            fun parse(value: String): ClusterType {
+                return when (value) {
+                    "old_cluster" -> OLD
+                    "mixed_cluster" -> MIXED
+                    "upgraded_cluster" -> UPGRADED
+                    else -> {
+                        throw AssertionError("unknown cluster type: $value")
+                    }
+                }
             }
         }
     }
 
+    @Throws(Exception::class)
     @SuppressWarnings("unchecked")
-    fun testBackwardsCompatibility() throws Exception {
-        val uri = getUri();
-        var responseMap: Map<String, Map<String, Object>> = getAsMap(uri).get("nodes");
+     fun `test backwards compatibility`() {
+        val uri = getUri()
+        val responseMap = getAsMap(uri)["nodes"] as Map<String, Map<String, Any>>
         for (response in responseMap.values()) {
-            var plugins: List<Map<String, Object>> = response.get("plugins");
-            val pluginNames: Set<Object> =
-                    plugins.stream().map(map -> map.get("name")).collect(Collectors.toSet());
-            switch (CLUSTER_TYPE) {
-                case OLD:
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"));
-                    callIntegTest();
-                    break;
-                case MIXED:
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"));
-                    callIntegTest();
-                    break;
-                case UPGRADED:
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"));
-                    callIntegTest();
-                    break;
+            val plugins = response["plugins"] as List<Map<String, Any>>
+            val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
+            return when (Companion.CLUSTER_TYPE) {
+                ClusterType.OLD -> {
+                   Assert.assertTrue(pluginNames.contains("opensearch-observability"))
+                   callIntegTest()
+               }
+                ClusterType.MIXED -> {
+                    Assert.assertTrue(pluginNames.contains("opensearch-observability"))
+                    callIntegTest()
+                }
+                ClusterType.UPGRADED -> {
+                    Assert.assertTrue(pluginNames.contains("opensearch-observability"))
+                    callIntegTest()
+                }
             }
-            break;
+            break
         }
     }
 
     private fun getUri() : String {
-        switch (CLUSTER_TYPE) {
-            case OLD:
-                return "_nodes/" + CLUSTER_NAME + "-0/plugins";
-            case MIXED:
-                String round = System.getProperty("tests.rest.bwcsuite_round");
-                if (round.equals("second")) {
-                    return "_nodes/" + CLUSTER_NAME + "-1/plugins";
-                } else if (round.equals("third")) {
-                    return "_nodes/" + CLUSTER_NAME + "-2/plugins";
-                } else {
-                    return "_nodes/" + CLUSTER_NAME + "-0/plugins";
+        return when (Companion.CLUSTER_TYPE) {
+            ClusterType.OLD -> "_nodes/" + Companion.CLUSTER_NAME + "-0/plugins"
+            ClusterType.MIXED -> {
+                when (System.getProperty("tests.rest.bwcsuite_round")) {
+                    "second" -> "_nodes/$CLUSTER_NAME-1/plugins"
+                    "third" -> "_nodes/$CLUSTER_NAME-2/plugins"
+                    else -> "_nodes/$CLUSTER_NAME-0/plugins"
                 }
-            case UPGRADED:
-                return "_nodes/plugins";
-            default:
-                throw new AssertionError("unknown cluster type: " + CLUSTER_TYPE);
+            }
+            ClusterType.UPGRADED -> "_nodes/plugins"
+            else -> throw AssertionError("unknown cluster type: " + Companion.CLUSTER_TYPE)
         }
     }
 
     private fun callIntegTest() {
-        GetObjectIT.`test get single object`();
-        GetObjectIT.`test get multiple objects`();
-        CreateObjectIT.`test create notebook`();
-        CreateObjectIT.`test create saved query with id`();
-        CreateObjectIT.`test create saved visualization`();
-        CreateObjectIT.`test create operational panel`();
+        GetObjectIT().`test get single object`();
+        GetObjectIT().`test get multiple objects`();
+        CreateObjectIT().`test create notebook`();
+        CreateObjectIT().`test create saved query with id`();
+        CreateObjectIT().`test create saved visualization`();
+        CreateObjectIT().`test create operational panel`();
     }
+
 }
 
