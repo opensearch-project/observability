@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import QueryService from "../services/queryService";
+import QueryService from "../../../services/queryService";
 
 export const inputIsQuery = (inputText: string) => {
   return (inputIsSQL(inputText) || inputIsPPL(inputText));

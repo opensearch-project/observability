@@ -189,15 +189,17 @@ export class Main extends React.Component<MainProps, MainState> {
       });
   };
 
-  // Deletes an existing notebook
-  deleteNotebook = (notebookId: string, notebookName?: string, showToast = true) => {
+  // Deletes existing notebooks
+  deleteNotebook = (notebookList: string[], toastMessage?: string) => {
     return this.props.http
-      .delete(`${NOTEBOOKS_API_PREFIX}/note/` + notebookId)
+      .delete(`${NOTEBOOKS_API_PREFIX}/note/${notebookList.join(',')}`)
       .then((res) => {
         this.setState((prevState) => ({
-          data: prevState.data.filter((notebook) => notebook.id !== notebookId),
+          data: prevState.data.filter((notebook) => !notebookList.includes(notebook.id)),
         }));
-        if (showToast) this.setToast(`Notebook "${notebookName}" successfully deleted!`);
+        const message =
+          toastMessage || `Notebook${notebookList.length > 1 ? 's' : ''} successfully deleted!`;
+        this.setToast(message);
         return res;
       })
       .catch((err) => {
