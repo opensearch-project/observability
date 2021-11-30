@@ -30,6 +30,10 @@ internal object ObservabilityObjectDataProperties {
             ObjectProperty(OperationalPanel.reader, OperationalPanel.xParser)
         ),
         Pair(
+            ObservabilityObjectType.APPLICATION,
+            ObjectProperty(Application.reader, Application.xParser)
+        ),
+        Pair(
             ObservabilityObjectType.TIMESTAMP,
             ObjectProperty(Timestamp.reader, Timestamp.xParser)
         )
@@ -54,6 +58,7 @@ internal object ObservabilityObjectDataProperties {
             ObservabilityObjectType.SAVED_QUERY -> objectData is SavedQuery
             ObservabilityObjectType.SAVED_VISUALIZATION -> objectData is SavedVisualization
             ObservabilityObjectType.OPERATIONAL_PANEL -> objectData is OperationalPanel
+            ObservabilityObjectType.APPLICATION -> objectData is Application
             ObservabilityObjectType.TIMESTAMP -> objectData is Timestamp
             ObservabilityObjectType.NONE -> true
         }
