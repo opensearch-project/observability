@@ -13,16 +13,17 @@ import {
 import _ from 'lodash';
 import React from 'react';
 
-const getFields = (page: 'dashboard' | 'traces' | 'services') =>
+const getFields = (page: 'dashboard' | 'traces' | 'services' | 'app') =>
   ({
     dashboard: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
     traces: ['traceId', 'traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
     services: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
+    app: ['appId', 'appName', 'traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
   }[page]);
 // filters will take effect and can be manually added
-export const getFilterFields = (page: 'dashboard' | 'traces' | 'services') => getFields(page);
+export const getFilterFields = (page: 'dashboard' | 'traces' | 'services' | 'app') => getFields(page);
 // filters will take effect
-export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services') => {
+export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services' | 'app') => {
   const fields = getFields(page);
   if (page !== 'services') return [...fields, 'Latency percentile within trace group'];
   return fields;
@@ -58,7 +59,7 @@ const getType = (field: string): string => {
     startTime: 'date_nanos',
   };
   const type = _.get(typeMapping, field, 'keyword');
-  return typeof type === 'string' ? type : null;
+  return type;
 };
 
 export const getInvertedOperator = (operator: string, inverted: boolean) => {
@@ -106,7 +107,7 @@ export const getOperatorOptions = (field: string) => {
   };
   const operators = [
     ...operatorMapping.default_first,
-    ...operatorMapping[type],
+    ..._.get(operatorMapping, type),
     ...operatorMapping.default_last,
   ];
   return operators;

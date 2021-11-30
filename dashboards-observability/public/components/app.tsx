@@ -11,6 +11,7 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
+import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
@@ -50,6 +51,23 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
+              <Route
+                path={'/application_analytics'}
+                render={(props) => {
+                  return (
+                    <ApplicationAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    parentBreadcrumb={parentBreadcrumb}
+                    pplService={ pplService }
+                    dslService={ dslService }
+                    savedObjects={ savedObjects }
+                    timestampUtils={ timestampUtils }
+                  />
+                  )
+                }}
+              />
               <Route
                 path="/notebooks"
                 render={(props) => (
@@ -108,7 +126,7 @@ export const App = ({
                     />
                   );
                 }}
-              />
+              />  
             </Switch>
           </>
         </I18nProvider>

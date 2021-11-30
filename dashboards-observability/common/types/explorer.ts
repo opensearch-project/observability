@@ -16,10 +16,15 @@ import {
  } from '../constants/explorer';
  import { HttpStart, NotificationsStart } from '../../../../src/core/public';
  import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
+<<<<<<< HEAD
+import TimestampUtils from 'public/services/timestamp/timestamp';
+import { CoreStart } from '../../../../src/core/public';
+=======
  import TimestampUtils from '../../public/services/timestamp/timestamp';
  import PPLService from '../../public/services/requests/ppl';
  import DSLService from '../../public/services/requests/dsl';
  import { History } from 'history';
+>>>>>>> upstream/main
 
 export interface IQueryTab {
   id: string;
@@ -89,6 +94,7 @@ export interface IExplorerProps {
   tabId: string;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+  http: CoreStart['http'];
   history: History;
   notifications: NotificationsStart;
   savedObjectId: string;
