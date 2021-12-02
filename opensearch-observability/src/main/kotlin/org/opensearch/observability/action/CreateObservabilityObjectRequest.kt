@@ -127,6 +127,7 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
         super.writeTo(output)
         output.writeOptionalString(objectId)
         output.writeEnum(type)
+        output.writeEnum(type)
         output.writeOptionalWriteable(objectData)
     }
 
