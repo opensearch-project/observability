@@ -127,8 +127,7 @@ export const Home = (props: HomeProps) => {
         />
         <Route
           exact
-          // path="/application_analytics/:id+"
-          path={'/application_analytics/:id'}
+          path={'/application_analytics/:id+'}
           render={(routerProps) => 
             <Application
               disabled={false}
