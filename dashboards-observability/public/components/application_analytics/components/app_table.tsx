@@ -24,11 +24,18 @@ import {
     EuiTableFieldDataColumnType,
     EuiText,
     EuiTitle,
-  } from '@elastic/eui';
+} from '@elastic/eui';
+import CSS from 'csstype';
 import _ from 'lodash';
 import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ApplicationType } from '../home';
+
+const pageStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1130px',
+};
 
 interface AppTableProps extends TraceAnalyticsComponentDeps {
     loading: boolean;
@@ -127,7 +134,7 @@ export function AppTable(props: AppTableProps) {
   >;
 
   return (
-    <div>
+    <div style={pageStyles}>
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>
