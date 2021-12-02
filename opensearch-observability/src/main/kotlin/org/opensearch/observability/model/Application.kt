@@ -57,7 +57,7 @@ internal data class Application(
 ) : BaseObjectData {
 
     internal companion object {
-        private val log by logger(SavedQuery::class.java)
+        private val log by logger(Application::class.java)
         private const val NAME_TAG = "name"
         private const val DESCRIPTION_TAG = "description"
         private const val BASE_QUERY_TAG = "base_query"
@@ -108,13 +108,6 @@ internal data class Application(
                     }
                 }
             }
-            // Why is this not necessary?
-            // name ?: throw IllegalArgumentException("$NAME_TAG field absent")
-            // description ?: throw IllegalArgumentException("$DESCRIPTION_TAG field absent")
-            // base_query ?: throw IllegalArgumentException("$BASE_QUERY_TAG field absent")
-            // services_entities ?: throw IllegalArgumentException("$SERVICES_ENTITIES_TAG field absent")
-            // trace_groups ?: throw IllegalArgumentException("$TRACE_GROUPS_TAG field absent")
-            // availability_levels ?: throw IllegalArgumentException("$AVAILABILITY_LEVELS_TAG field absent")
             return Application(name, description, base_query, services_entities, trace_groups, availability_levels)
         }
     }
