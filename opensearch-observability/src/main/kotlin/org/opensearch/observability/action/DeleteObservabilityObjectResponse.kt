@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.action
 
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
@@ -17,6 +17,7 @@ import org.opensearch.commons.utils.STRING_WRITER
 import org.opensearch.commons.utils.enumReader
 import org.opensearch.commons.utils.enumWriter
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.model.BaseResponse
 import org.opensearch.observability.model.RestTag.DELETE_RESPONSE_LIST_TAG
 import org.opensearch.rest.RestStatus
 import java.io.IOException
