@@ -7,11 +7,9 @@ package org.opensearch.observability.action
 
 import com.fasterxml.jackson.core.JsonParseException
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
-import org.opensearch.observability.constructSampleObservabilityObjectDoc
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 

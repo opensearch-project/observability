@@ -56,7 +56,6 @@ internal class UpdateObservabilityObjectRequestTests {
         assertEquals("test-id", recreatedObject.objectId)
     }
 
-
     @Test
     fun `Update object should throw exception when invalid json object is passed`() {
         val jsonString = "sample message"

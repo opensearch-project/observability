@@ -13,7 +13,6 @@ import org.opensearch.commons.utils.recreateObject
 import org.opensearch.observability.constructSampleObservabilityObjectDoc
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
-import java.time.Instant
 
 internal class ObservabilityObjectDocTests {
     private val sampleObservabilityObjectDoc = constructSampleObservabilityObjectDoc()
