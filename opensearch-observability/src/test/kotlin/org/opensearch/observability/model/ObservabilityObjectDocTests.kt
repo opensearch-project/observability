@@ -33,7 +33,7 @@ internal class ObservabilityObjectDocTests {
     @Test
     fun `ObservabilityObjectDoc should deserialize json object using parser`() {
         val jsonString =
-            "{\"objectId\":\"test-id\",\"lastUpdatedTimeMs\":1638482208790,\"createdTimeMs\":1638482208790,\"tenant\":\"test-tenant\",\"access\":[\"test-access\"],\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\"}}"
+            "{\"objectId\":\"test-id\",\"lastUpdatedTimeMs\":1638482208790,\"createdTimeMs\":1638482208790,\"tenant\":\"test-tenant\",\"access\":[\"test-access\"],\"timestamp\":{\"name\":\"test object\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\"}}"
         val recreatedObject = createObjectFromJsonString(jsonString) { ObservabilityObjectDoc.parse(it) }
         assertEquals(sampleObservabilityObjectDoc, recreatedObject)
     }
@@ -49,7 +49,7 @@ internal class ObservabilityObjectDocTests {
     @Test
     fun `ObservabilityObjectDoc should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"objectId\":\"test-id\",\"lastUpdatedTimeMs\":1638482208790,\"createdTimeMs\":1638482208790,\"tenant\":\"test-tenant\",\"access\":[\"test-access\"],\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\"},\"another\":\"field\"}"
+            "{\"objectId\":\"test-id\",\"lastUpdatedTimeMs\":1638482208790,\"createdTimeMs\":1638482208790,\"tenant\":\"test-tenant\",\"access\":[\"test-access\"],\"timestamp\":{\"name\":\"test object\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\"},\"another\":\"field\"}"
         val recreatedObject = createObjectFromJsonString(jsonString) { ObservabilityObjectDoc.parse(it) }
         assertEquals(sampleObservabilityObjectDoc, recreatedObject)
     }
