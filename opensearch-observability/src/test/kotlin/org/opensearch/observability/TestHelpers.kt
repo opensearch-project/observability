@@ -14,11 +14,34 @@ import org.opensearch.common.xcontent.ToXContent
 import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.observability.model.ObservabilityObjectDoc
+import org.opensearch.observability.model.ObservabilityObjectType
+import org.opensearch.observability.model.Timestamp
 import java.io.ByteArrayOutputStream
 import java.time.Instant
 import kotlin.test.assertTrue
 
 private const val DEFAULT_TIME_ACCURACY_SEC = 5L
+
+fun constructSampleObservabilityObjectDoc(
+    name: String = "test object",
+    id: String = "test-id"
+): ObservabilityObjectDoc {
+    return ObservabilityObjectDoc(
+        id,
+        Instant.ofEpochMilli(1638482208790),
+        Instant.ofEpochMilli(1638482208790),
+        "test-tenant",
+        listOf("test-access"),
+        ObservabilityObjectType.TIMESTAMP,
+        Timestamp(
+            name,
+            "opensearch_dashboards_sample_data_logs",
+            "timestamp",
+            "date"
+        )
+    )
+}
 
 fun constructNotebookRequest(name: String = "test notebook"): String {
     return """

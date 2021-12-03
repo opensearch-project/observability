@@ -9,16 +9,8 @@ import org.opensearch.OpenSearchStatusException
 import org.opensearch.commons.authuser.User
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.index.ObservabilityIndex
-import org.opensearch.observability.model.CreateObservabilityObjectRequest
-import org.opensearch.observability.model.CreateObservabilityObjectResponse
-import org.opensearch.observability.model.DeleteObservabilityObjectRequest
-import org.opensearch.observability.model.DeleteObservabilityObjectResponse
-import org.opensearch.observability.model.GetObservabilityObjectRequest
-import org.opensearch.observability.model.GetObservabilityObjectResponse
 import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.model.ObservabilityObjectSearchResult
-import org.opensearch.observability.model.UpdateObservabilityObjectRequest
-import org.opensearch.observability.model.UpdateObservabilityObjectResponse
 import org.opensearch.observability.security.UserAccessManager
 import org.opensearch.observability.util.logger
 import org.opensearch.rest.RestStatus
