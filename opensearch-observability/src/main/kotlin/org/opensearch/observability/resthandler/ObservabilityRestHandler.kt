@@ -9,14 +9,15 @@ import org.opensearch.commons.utils.logger
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.action.CreateObservabilityObjectAction
+import org.opensearch.observability.action.CreateObservabilityObjectRequest
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
+import org.opensearch.observability.action.DeleteObservabilityObjectRequest
 import org.opensearch.observability.action.GetObservabilityObjectAction
+import org.opensearch.observability.action.GetObservabilityObjectRequest
 import org.opensearch.observability.action.ObservabilityActions
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
+import org.opensearch.observability.action.UpdateObservabilityObjectRequest
 import org.opensearch.observability.index.ObservabilityQueryHelper
-import org.opensearch.observability.model.CreateObservabilityObjectRequest
-import org.opensearch.observability.model.DeleteObservabilityObjectRequest
-import org.opensearch.observability.model.GetObservabilityObjectRequest
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD
@@ -25,7 +26,6 @@ import org.opensearch.observability.model.RestTag.OBJECT_ID_LIST_FIELD
 import org.opensearch.observability.model.RestTag.OBJECT_TYPE_FIELD
 import org.opensearch.observability.model.RestTag.SORT_FIELD_FIELD
 import org.opensearch.observability.model.RestTag.SORT_ORDER_FIELD
-import org.opensearch.observability.model.UpdateObservabilityObjectRequest
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.contentParserNextToken
 import org.opensearch.rest.BaseRestHandler

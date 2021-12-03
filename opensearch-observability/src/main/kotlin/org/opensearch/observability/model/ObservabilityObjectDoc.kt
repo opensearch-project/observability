@@ -128,6 +128,7 @@ data class ObservabilityObjectDoc(
         output.writeString(tenant)
         output.writeStringCollection(access)
         output.writeEnum(type)
+        output.writeEnum(type) // type is read twice in constructor
         output.writeOptionalWriteable(objectData)
     }
 

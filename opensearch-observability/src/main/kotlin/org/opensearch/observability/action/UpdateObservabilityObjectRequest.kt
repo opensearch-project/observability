@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.action
 
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.ActionRequestValidationException
+import org.opensearch.action.ValidateActions
+import org.opensearch.common.Strings
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
 import org.opensearch.common.io.stream.Writeable
@@ -17,24 +19,27 @@ import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.fieldIfNotNull
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.model.BaseObjectData
+import org.opensearch.observability.model.ObservabilityObjectDataProperties
+import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.OBJECT_ID_FIELD
 import java.io.IOException
 
 /**
  * Action request for creating new configuration.
  */
-internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObject {
-    val objectId: String?
+internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObject {
+    val objectId: String
     val type: ObservabilityObjectType
     val objectData: BaseObjectData?
 
     companion object {
-        private val log by logger(CreateObservabilityObjectRequest::class.java)
+        private val log by logger(UpdateObservabilityObjectRequest::class.java)
 
         /**
          * reader to create instance of class from writable.
          */
-        val reader = Writeable.Reader { CreateObservabilityObjectRequest(it) }
+        val reader = Writeable.Reader { UpdateObservabilityObjectRequest(it) }
 
         /**
          * Creator used in REST communication.
@@ -43,7 +48,7 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
          */
         @JvmStatic
         @Throws(IOException::class)
-        fun parse(parser: XContentParser, id: String? = null): CreateObservabilityObjectRequest {
+        fun parse(parser: XContentParser, id: String? = null): UpdateObservabilityObjectRequest {
             var objectId: String? = id
             var type: ObservabilityObjectType? = null
             var baseObjectData: BaseObjectData? = null
@@ -71,9 +76,10 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
                     }
                 }
             }
+            objectId ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
             type ?: throw IllegalArgumentException("Object data field absent")
             baseObjectData ?: throw IllegalArgumentException("Object data field absent")
-            return CreateObservabilityObjectRequest(objectId, type, baseObjectData)
+            return UpdateObservabilityObjectRequest(baseObjectData, type, objectId)
         }
     }
 
@@ -90,14 +96,13 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
 
     /**
      * constructor for creating the class
-     * @param objectId optional id to use for ObservabilityObject
-     * @param type type of ObservabilityObject
      * @param objectData the ObservabilityObject
+     * @param objectId optional id to use for ObservabilityObject
      */
-    constructor(objectId: String? = null, type: ObservabilityObjectType, objectData: BaseObjectData) {
-        this.objectId = objectId
-        this.type = type
+    constructor(objectData: BaseObjectData, type: ObservabilityObjectType, objectId: String) {
         this.objectData = objectData
+        this.type = type
+        this.objectId = objectId
     }
 
     /**
@@ -105,7 +110,7 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
      */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
-        objectId = input.readOptionalString()
+        objectId = input.readString()
         type = input.readEnum(ObservabilityObjectType::class.java)
         objectData = input.readOptionalWriteable(
             ObservabilityObjectDataProperties.getReaderForObjectType(
@@ -122,7 +127,8 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         super.writeTo(output)
-        output.writeOptionalString(objectId)
+        output.writeString(objectId)
+        output.writeEnum(type)
         output.writeEnum(type)
         output.writeOptionalWriteable(objectData)
     }
@@ -131,6 +137,10 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
      * {@inheritDoc}
      */
     override fun validate(): ActionRequestValidationException? {
-        return null
+        var validationException: ActionRequestValidationException? = null
+        if (Strings.isNullOrEmpty(objectId)) {
+            validationException = ValidateActions.addValidationError("objectId is null or empty", validationException)
+        }
+        return validationException
     }
 }

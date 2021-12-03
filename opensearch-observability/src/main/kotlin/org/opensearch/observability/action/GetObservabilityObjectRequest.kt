@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.action
 
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.ActionRequestValidationException
@@ -23,6 +23,7 @@ import org.opensearch.commons.utils.enumSet
 import org.opensearch.commons.utils.fieldIfNotNull
 import org.opensearch.commons.utils.logger
 import org.opensearch.commons.utils.stringList
+import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FILTER_PARAM_LIST_FIELD
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD

@@ -8,10 +8,40 @@ package org.opensearch.observability
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.junit.Assert
+import org.opensearch.common.xcontent.DeprecationHandler
+import org.opensearch.common.xcontent.NamedXContentRegistry
+import org.opensearch.common.xcontent.ToXContent
+import org.opensearch.common.xcontent.XContentFactory
+import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.common.xcontent.XContentType
+import org.opensearch.observability.model.ObservabilityObjectDoc
+import org.opensearch.observability.model.ObservabilityObjectType
+import org.opensearch.observability.model.Timestamp
+import java.io.ByteArrayOutputStream
 import java.time.Instant
 import kotlin.test.assertTrue
 
 private const val DEFAULT_TIME_ACCURACY_SEC = 5L
+
+fun constructSampleObservabilityObjectDoc(
+    name: String = "test object",
+    id: String = "test-id"
+): ObservabilityObjectDoc {
+    return ObservabilityObjectDoc(
+        id,
+        Instant.ofEpochMilli(1638482208790),
+        Instant.ofEpochMilli(1638482208790),
+        "test-tenant",
+        listOf("test-access"),
+        ObservabilityObjectType.TIMESTAMP,
+        Timestamp(
+            name,
+            "opensearch_dashboards_sample_data_logs",
+            "timestamp",
+            "date"
+        )
+    )
+}
 
 fun constructNotebookRequest(name: String = "test notebook"): String {
     return """
@@ -178,4 +208,23 @@ fun validateErrorResponse(response: JsonObject, statusCode: Int, errorType: Stri
     Assert.assertNotNull(reason)
     Assert.assertNotNull(rootCause)
     Assert.assertTrue(rootCause.size() > 0)
+}
+
+fun getJsonString(xContent: ToXContent, params: ToXContent.Params? = ToXContent.EMPTY_PARAMS): String {
+    ByteArrayOutputStream().use { byteArrayOutputStream ->
+        val builder = XContentFactory.jsonBuilder(byteArrayOutputStream)
+        xContent.toXContent(builder, params)
+        builder.close()
+        return byteArrayOutputStream.toString("UTF8")
+    }
+}
+
+inline fun <reified CreateType> createObjectFromJsonString(
+    jsonString: String,
+    block: (XContentParser) -> CreateType
+): CreateType {
+    val parser = XContentType.JSON.xContent()
+        .createParser(NamedXContentRegistry.EMPTY, DeprecationHandler.IGNORE_DEPRECATIONS, jsonString)
+    parser.nextToken()
+    return block(parser)
 }

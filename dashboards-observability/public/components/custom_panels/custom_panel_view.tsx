@@ -260,9 +260,7 @@ export const CustomPanelView = ({
 
   const onClone = async (newCustomPanelName: string) => {
     cloneCustomPanel(newCustomPanelName, panelId).then((id: string) => {
-      setTimeout(() => {
-        window.location.assign(`${_.last(parentBreadcrumb).href}${id}`);
-      }, 1000);
+      window.location.assign(`${_.last(parentBreadcrumb).href}${id}`);
     });
     closeModal();
   };
