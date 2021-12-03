@@ -11,8 +11,6 @@ import org.opensearch.client.Client
 import org.opensearch.common.inject.Inject
 import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.commons.authuser.User
-import org.opensearch.observability.model.DeleteObservabilityObjectRequest
-import org.opensearch.observability.model.DeleteObservabilityObjectResponse
 import org.opensearch.transport.TransportService
 
 /**
