@@ -10,25 +10,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
+import org.opensearch.observability.constructSampleObservabilityObjectDoc
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 import java.time.Instant
 
 internal class ObservabilityObjectDocTests {
-    private val sampleObservabilityObjectDoc = ObservabilityObjectDoc(
-        "test-id",
-        Instant.ofEpochMilli(1638482208790),
-        Instant.ofEpochMilli(1638482208790),
-        "test-tenant",
-        listOf("test-access"),
-        ObservabilityObjectType.TIMESTAMP,
-        Timestamp(
-            "test-timestamp",
-            "opensearch_dashboards_sample_data_logs",
-            "timestamp",
-            "date"
-        )
-    )
+    private val sampleObservabilityObjectDoc = constructSampleObservabilityObjectDoc()
 
     @Test
     fun `ObservabilityObjectDoc serialize and deserialize transport object should be equal`() {
