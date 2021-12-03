@@ -129,6 +129,7 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
         super.writeTo(output)
         output.writeString(objectId)
         output.writeEnum(type)
+        output.writeEnum(type)
         output.writeOptionalWriteable(objectData)
     }
 
