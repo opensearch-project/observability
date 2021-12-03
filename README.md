@@ -1,9 +1,21 @@
-[![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)
-[![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)
-
 # OpenSearch Dashboards Observability
 
 The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks. Event analytics allows user to use [PPL](https://opensearch.org/docs/latest/search-plugins/ppl/index/) to query indices stored in OpenSearch. Users can also aggregate on their indices to automatically create visualizations, which can be added as operational panels similar to dashboards.
+
+## Code Summary
+
+| Type   | Badge        | Module   |
+|--------|--------------|----------|
+| Build  | [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)             | Frontend |
+|        |        [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)      | Backend  |
+| Unit tests    |    [![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)          | Frontend |
+|        |    [![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)          | Backend  |
+| Integration tests    |   [![cypress tests](https://img.shields.io/badge/Cypress%20tests-success-green)](https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md)           | Frontend |
+|        |   [![plugin IT tests](https://img.shields.io/badge/Plugin%20IT%20Tests-success-green)](https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt)          | Backend  |
+| Backward compatibility tests    |   [![BWC tests](https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow)](https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow)           | Backend  |
+| Issues | [![good first issues open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue")          |          |
+|        | [![bug open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+)         |          |
+|        | [![ehancement open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+) |          |
 
 #### Trace Analytics
 
@@ -23,7 +35,7 @@ Dashboards offer a solution for a few selected use cases, and are great tools if
 
 ## Documentation
 
-Please see our technical [documentation](https://opensearch.org/docs/latest/monitoring-plugins/trace/index/) to learn more about its features.
+Please see our technical [documentation](https://opensearch.org/docs/latest/observability-plugins/index/) to learn more about its features.
 
 ## Contributing
 
