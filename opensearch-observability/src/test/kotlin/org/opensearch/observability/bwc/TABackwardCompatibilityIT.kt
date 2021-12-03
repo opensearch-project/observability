@@ -10,8 +10,6 @@ import org.opensearch.common.settings.Settings
 import org.opensearch.observability.rest.CreateObjectIT
 import org.opensearch.observability.rest.GetObjectIT
 import org.opensearch.test.rest.OpenSearchRestTestCase
-import org.opensearch.test.rest.OpenSearchRestTestCase.CLIENT_SOCKET_TIMEOUT
-import org.opensearch.test.rest.OpenSearchRestTestCase.getAsMap
 import java.util.List
 import java.util.Map
 
@@ -98,10 +96,10 @@ abstract class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
 
     private fun callIntegTest() {
         GetObjectIT().`test get single object`()
-        GetObjectIT().`test get multiple objects`()
+//        GetObjectIT().`test get multiple objects`()
         CreateObjectIT().`test create notebook`()
-        CreateObjectIT().`test create saved query with id`()
-        CreateObjectIT().`test create saved visualization`()
-        CreateObjectIT().`test create operational panel`()
+//        CreateObjectIT().`test create saved query with id`()
+//        CreateObjectIT().`test create saved visualization`()
+//        CreateObjectIT().`test create operational panel`()
     }
 }
