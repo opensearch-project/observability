@@ -22,12 +22,14 @@ import SavedObjects from 'public/services/saved_objects/event_analytics/saved_ob
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
 import { ObservabilitySideBar } from '../common/side_nav';
+import { NotificationsStart } from '../../../../../src/core/public';
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
   pplService: PPLService;
   dslService: DSLService;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+  notifications: NotificationsStart;
 }
 
 
@@ -54,7 +56,7 @@ const dummyApplication: ApplicationType[] = [{
 }];
 
 export const Home = (props: HomeProps) => {
-  const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, match } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
@@ -132,10 +134,11 @@ export const Home = (props: HomeProps) => {
             <Application
               disabled={false}
               appId={decodeURIComponent(routerProps.match.params.id)}
-              pplService={ pplService }
-              dslService={ dslService }
-              savedObjects={ savedObjects }
-              timestampUtils={ timestampUtils }
+              pplService={pplService}
+              dslService={dslService}
+              savedObjects={savedObjects}
+              timestampUtils={timestampUtils}
+              notifications={notifications}
               {...commonProps}
             />
           }
