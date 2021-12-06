@@ -89,6 +89,7 @@ export interface IExplorerProps {
   tabId: string;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+  http: CoreStart['http'];
   history: History;
   notifications: NotificationsStart;
   savedObjectId: string;
