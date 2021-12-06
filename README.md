@@ -1,6 +1,6 @@
 # OpenSearch Dashboards Observability
 
-The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks. Event analytics allows user to use [PPL](https://opensearch.org/docs/latest/search-plugins/ppl/index/) to query indices stored in OpenSearch. Users can also aggregate on their indices to automatically create visualizations, which can be added as operational panels similar to dashboards.
+The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
 
 ## Code Summary
 
@@ -16,8 +16,10 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 |        |   [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]          | OpenSearch-Plugin  |
 | Backward compatibility tests    |   [![BWC tests][bwc-tests-badge]][bwc-tests-badge]           | OpenSearch-Plugin  |
 | Issues | [![good first issues open][good-first-badge]][good-first-link]         |          |
+|        | [![feature open][feature-badge]][feature-link]        |          |
+|        | [![enhancement open][enhancement-badge]][enhancement-link] |          |
 |        | [![bug open][bug-badge]][bug-link]        |          |
-|        | [![ehancement open][ehancement-badge]][enhancement-link] |          |
+
 
 [dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
 [dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
@@ -34,19 +36,21 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [cypress-test-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
 [opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-success-green
 [opensearch-it-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
-[bwc-tests-badge]: https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow
+[bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
 [bwc-tests-badge]: https://github.com/opensearch-project/trace-analytics/issues/276
 [good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
-[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue"
+[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A+label%3A%22good+first+issue%22+
+[feature-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/feature.svg
+[feature-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
 [bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg 
 [bug-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
-[ehancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg 
+[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg 
 [enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
 
 
 ### Event Analytics
 
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through Piped Processing Language. It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
+Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
 
 
 ### Operational Panels
