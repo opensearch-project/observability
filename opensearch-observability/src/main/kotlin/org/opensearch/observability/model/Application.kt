@@ -25,18 +25,18 @@ import org.opensearch.observability.util.logger
  * {
  *   "name": "Cool Application",
  *   "description": "Application that includes multiple cool services",
- *   "base_query": "source = opensearch_sample_database_flights",
- *   "services_entities": [
+ *   "baseQuery": "source = opensearch_sample_database_flights",
+ *   "servicesEntities": [
  *       "Payment", 
  *       "Users", 
  *       "Purchase"
  *   ],
- *   "trace_groups": [
+ *   "traceGroups": [
  *       "Payment.auto",
  *       "Users.admin",
  *       "Purchase.source"
  *   ],
- *   "availability_levels": [
+ *   "availabilityLevels": [
  *       {
  *           "label": "Unavailable",
  *           "color": "#D36086",
@@ -51,20 +51,20 @@ import org.opensearch.observability.util.logger
 internal data class Application(
     val name: String?,
     val description: String?,
-    val base_query: String?,
-    val services_entities: List<String>,
-    val trace_groups: List<String>,
-    val availability_levels: List<AvailabilityLevel>
+    val baseQuery: String?,
+    val servicesEntities: List<String>,
+    val traceGroups: List<String>,
+    val availabilityLevels: List<AvailabilityLevel>
 ) : BaseObjectData {
 
     internal companion object {
         private val log by logger(Application::class.java)
         private const val NAME_TAG = "name"
         private const val DESCRIPTION_TAG = "description"
-        private const val BASE_QUERY_TAG = "base_query"
-        private const val SERVICES_ENTITIES_TAG = "services_entities"
-        private const val TRACE_GROUPS_TAG = "trace_groups"
-        private const val AVAILABILITY_LEVELS_TAG = "availability_levels"
+        private const val BASE_QUERY_TAG = "baseQuery"
+        private const val SERVICES_ENTITIES_TAG = "servicesEntities"
+        private const val TRACE_GROUPS_TAG = "traceGroups"
+        private const val AVAILABILITY_LEVELS_TAG = "availabilityLevels"
 
         /**
          * reader to create instance of class from writable.
@@ -98,10 +98,10 @@ internal data class Application(
         fun parse(parser: XContentParser): Application {
             var name: String? = null
             var description: String? = null
-            var base_query: String? = null
-            var services_entities: List<String> = listOf()
-            var trace_groups: List<String> = listOf()
-            var availability_levels: List<AvailabilityLevel> = listOf()
+            var baseQuery: String? = null
+            var servicesEntities: List<String> = listOf()
+            var traceGroups: List<String> = listOf()
+            var availabilityLevels: List<AvailabilityLevel> = listOf()
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
@@ -113,17 +113,17 @@ internal data class Application(
                 when (fieldName) {
                     NAME_TAG -> name = parser.text()
                     DESCRIPTION_TAG -> description = parser.text()
-                    BASE_QUERY_TAG -> base_query = parser.text()
-                    SERVICES_ENTITIES_TAG -> services_entities = parser.stringList()
-                    TRACE_GROUPS_TAG -> trace_groups = parser.stringList()
-                    AVAILABILITY_LEVELS_TAG -> availability_levels = parseItemList(parser)
+                    BASE_QUERY_TAG -> baseQuery = parser.text()
+                    SERVICES_ENTITIES_TAG -> servicesEntities = parser.stringList()
+                    TRACE_GROUPS_TAG -> traceGroups = parser.stringList()
+                    AVAILABILITY_LEVELS_TAG -> availabilityLevels = parseItemList(parser)
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Application Skipping Unknown field $fieldName")
                     }
                 }
             }
-            return Application(name, description, base_query, services_entities, trace_groups, availability_levels)
+            return Application(name, description, baseQuery, servicesEntities, traceGroups, availabilityLevels)
         }
     }
 
@@ -143,10 +143,10 @@ internal data class Application(
     constructor(input: StreamInput) : this(
         name = input.readString(),
         description = input.readString(),
-        base_query = input.readString(),
-        services_entities = input.readStringList(),
-        trace_groups = input.readStringList(),
-        availability_levels = input.readList(AvailabilityLevel.reader)
+        baseQuery = input.readString(),
+        servicesEntities = input.readStringList(),
+        traceGroups = input.readStringList(),
+        availabilityLevels = input.readList(AvailabilityLevel.reader)
     )
 
     /**
@@ -155,10 +155,10 @@ internal data class Application(
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(description)
-        output.writeString(base_query)
-        output.writeStringCollection(services_entities)
-        output.writeStringCollection(trace_groups)
-        output.writeCollection(availability_levels)
+        output.writeString(baseQuery)
+        output.writeStringCollection(servicesEntities)
+        output.writeStringCollection(traceGroups)
+        output.writeCollection(availabilityLevels)
     }
 
     /**
@@ -169,10 +169,10 @@ internal data class Application(
         builder.startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(DESCRIPTION_TAG, description)
-            .fieldIfNotNull(BASE_QUERY_TAG, base_query)
-            .fieldIfNotNull(SERVICES_ENTITIES_TAG, services_entities)
-            .fieldIfNotNull(TRACE_GROUPS_TAG, trace_groups)
-            .fieldIfNotNull(AVAILABILITY_LEVELS_TAG, availability_levels)
+            .fieldIfNotNull(BASE_QUERY_TAG, baseQuery)
+            .fieldIfNotNull(SERVICES_ENTITIES_TAG, servicesEntities)
+            .fieldIfNotNull(TRACE_GROUPS_TAG, traceGroups)
+            .fieldIfNotNull(AVAILABILITY_LEVELS_TAG, availabilityLevels)
         return builder.endObject()
     }
 
