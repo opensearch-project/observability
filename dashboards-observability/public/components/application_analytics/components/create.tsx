@@ -188,12 +188,12 @@ export const CreateApp = (props: CreateAppProps) => {
           </EuiPageContentHeader>
           <EuiHorizontalRule />
           <EuiAccordion
-            id="logSources"
+            id="logSource"
             buttonContent={
               <>
               <EuiText size="s">
               <h3>
-                Log Sources  <EuiBadge>0</EuiBadge>
+                Log Source  <EuiBadge>0</EuiBadge>
               </h3>
               </EuiText>
               <EuiSpacer size="s" />
