@@ -6,16 +6,42 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 | Type   | Badge        | Module   |
 |--------|--------------|----------|
-| Build  | [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)             | Dashboards-Plugin |
-|        |        [![Trace Analytics CI](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml/badge.svg)](https://github.com/opensearch-project/trace-analytics/actions/workflows/test-and-build-workflow.yml)      | OpenSearch-Plugin  |
-| Unit tests    |    [![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)          | Dashboards-Plugin |
-|        |    [![codecov](https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg)](https://codecov.io/gh/opensearch-project/trace-analytics)          | OpenSearch-Plugin  |
-| Integration tests    |   [![cypress tests](https://img.shields.io/badge/Cypress%20tests-success-green)](https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md)           | Dashboards-Plugin |
-|        |   [![plugin IT tests](https://img.shields.io/badge/Plugin%20IT%20Tests-success-green)](https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt)          | OpenSearch-Plugin  |
-| Backward compatibility tests    |   [![BWC tests](https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow)](https://github.com/opensearch-project/trace-analytics/issues/276)           | OpenSearch-Plugin  |
-| Issues | [![good first issues open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue")          |          |
-|        | [![bug open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+)         |          |
-|        | [![ehancement open](https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg)](https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+) |          |
+| Build  | [![Developer certificate of origin][dco-badge]][dco-badge-link] |  |
+|        | [![Link Checker][link-check-badge]][link-check-link]             |  |
+|        | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]          | Dashboards-Plugin |
+|        | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]     | OpenSearch-Plugin  |
+| Unit tests    |    [![codecov][dashboard-codecov-badge]][codecov-link]          | Dashboards-Plugin |
+|        |    [![codecov][opensearch-codecov-badge]][codecov-link]            | OpenSearch-Plugin  |
+| Integration tests    |   [![cypress tests][cypress-test-badge]][cypress-test-link]           | Dashboards-Plugin |
+|        |   [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]          | OpenSearch-Plugin  |
+| Backward compatibility tests    |   [![BWC tests][bwc-tests-badge]][bwc-tests-badge]           | OpenSearch-Plugin  |
+| Issues | [![good first issues open][good-first-badge]][good-first-link]         |          |
+|        | [![bug open][bug-badge]][bug-link]        |          |
+|        | [![ehancement open][ehancement-badge]][enhancement-link] |          |
+
+[dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
+[dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
+[link-check-badge]:https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml/badge.svg
+[link-check-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml
+[dashboard-build-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml/badge.svg
+[dashboard-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml
+[opensearch-build-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/opensearch-observability-test-and-build-workflow.yml/badge.svg
+[opensearch-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/opensearch-observability-test-and-build-workflow.yml
+[dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
+[opensearch-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=opensearch-observability
+[codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
+[cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
+[cypress-test-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
+[opensearch-it-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
+[opensearch-it-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
+[bwc-tests-badge]: https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow
+[bwc-tests-badge]: https://github.com/opensearch-project/trace-analytics/issues/276
+[good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
+[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue"
+[bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg 
+[bug-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
+[ehancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg 
+[enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
 
 
 ### Event Analytics
