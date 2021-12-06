@@ -168,7 +168,7 @@ export const CreateApp = (props: CreateAppProps) => {
                 onChange={(e) => onChange(e)}
               />
             </EuiFormRow>
-            <EuiFormRow label="Description - optional">
+            <EuiFormRow label="Description">
               <EuiFieldText 
                 name="description"
                 value={state.description}
