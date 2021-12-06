@@ -16,9 +16,9 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 |        |   [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]          | OpenSearch-Plugin  |
 | Backward compatibility tests    |   [![BWC tests][bwc-tests-badge]][bwc-tests-badge]           | OpenSearch-Plugin  |
 | Issues | [![good first issues open][good-first-badge]][good-first-link]         |          |
-|        | [![feature open][feature-badge]][feature-link]        |          |
-|        | [![enhancement open][enhancement-badge]][enhancement-link] |          |
-|        | [![bug open][bug-badge]][bug-link]        |          |
+|        | [![features open][feature-badge]][feature-link]        |          |
+|        | [![enhancements open][enhancement-badge]][enhancement-link] |          |
+|        | [![bugs open][bug-badge]][bug-link]        |          |
 
 
 [dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
