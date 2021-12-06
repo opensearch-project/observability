@@ -25,8 +25,8 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
-import React, { useMemo, useState } from 'react';
-import { uniqueId } from 'lodash';
+import React, { ReactChild, useMemo, useState } from 'react';
+import { isEmpty, uniqueId } from 'lodash';
 import { 
   TAB_CONFIG_ID_TXT_PFX, 
   TAB_CONFIG_TITLE, 
@@ -40,6 +40,10 @@ import {
   TAB_TRACE_TITLE 
 } from '../../../../common/constants/application_analytics';
 import { IQueryTab } from 'common/types/explorer';
+import { useHistory } from 'react-router-dom';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { RAW_QUERY } from 'common/constants/explorer';
+import { NotificationsStart } from '../../../../../../src/core/public';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
@@ -63,13 +67,34 @@ interface AppDetailProps extends TraceAnalyticsComponentDeps {
   dslService: DSLService;
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
+  notifications: NotificationsStart;
 }
 
 
 export function Application(props: AppDetailProps) {
-  const { pplService, dslService, timestampUtils, savedObjects, http } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, http, notifications } = props;
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
+  const history = useHistory();
+  const [toasts, setToasts] = useState<Array<Toast>>([]);
+
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }) => {
+    let emptyTabId = '';
+    for (let i = 0; i < tabIds.length; i++) {
+      const tid = tabIds[i];
+      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
+        emptyTabId = tid;
+        break;
+      }
+    }
+    return emptyTabId;
+  };
+
 
   const getOverview = () => {
     return (
@@ -100,12 +125,18 @@ export function Application(props: AppDetailProps) {
   const getLog = () => {
     return (
       <LogExplorer 
-            pplService={pplService}
-            dslService={dslService}
-            savedObjects={savedObjects}
-            timestampUtils={timestampUtils}
-            http={http}
-          />
+        pplService={pplService}
+        dslService={dslService}
+        savedObjects={savedObjects}
+        timestampUtils={timestampUtils}
+        http={http} 
+        history={history} 
+        notifications={notifications} 
+        setToast={setToast}
+        // App Analytics will not be saving queries on Log Events
+        savedObjectId={''} 
+        getExistingEmptyTab={getExistingEmptyTab}
+        />
     );
   };
 
