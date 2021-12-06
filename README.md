@@ -32,7 +32,7 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
 [cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
 [cypress-test-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
-[opensearch-it-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
+[opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-success-green
 [opensearch-it-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
 [bwc-tests-badge]: https://img.shields.io/badge/BWC%20Tests-in%20progress-yellow
 [bwc-tests-badge]: https://github.com/opensearch-project/trace-analytics/issues/276
