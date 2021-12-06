@@ -6,12 +6,12 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 ### OpenSearch-Plugin
 
-|                              |                                                                                                                                        |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]                                                  |
-| Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                                                                   |
-| Distribution build tests     | [![OpenSearch IT tests][opensearch-it-badge]][opensearch-it-link] [![OpenSearch IT code][opensearch-code-badge]][opensearch-code-link] |
-| Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                                                                        |
+|                              |                                                                                                                                              |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]                                                        |
+| Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                                                                         |
+| Distribution build tests     | [![OpenSearch IT tests][opensearch-it-badge]][opensearch-it-link] [![OpenSearch IT code][opensearch-it-code-badge]][opensearch-it-code-link] |
+| Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                                                                              |
 
 ### OpenSearch Dashboards-Plugin
 
@@ -56,10 +56,10 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [cypress-test-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [cypress-code-badge]: https://img.shields.io/badge/Cypress%20code-blue
 [cypress-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
-[opensearch-it-badge]: https://img.shields.io/badge/OpenSearch%20IT%20tests-in%20progress-yellow
+[opensearch-it-badge]: https://img.shields.io/badge/OpenSearch%20Plugin%20IT%20tests-in%20progress-yellow
 [opensearch-it-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
-[opensearch-code-badge]: https://img.shields.io/badge/OpenSearch%20IT%20code-blue
-[opensearch-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
+[opensearch-it-code-badge]: https://img.shields.io/badge/OpenSearch%20IT%20code-blue
+[opensearch-it-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
 [bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
 [bwc-tests-link]: https://github.com/opensearch-project/trace-analytics/issues/276
 [good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
@@ -85,7 +85,7 @@ Additionally the fields can be sorted and filtered.
 
 ### Event Analytics
 
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
+Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/observability-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
 
 ### Operational Panels
 
