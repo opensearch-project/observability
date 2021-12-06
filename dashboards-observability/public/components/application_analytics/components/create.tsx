@@ -192,9 +192,7 @@ export const CreateApp = (props: CreateAppProps) => {
             buttonContent={
               <>
               <EuiText size="s">
-              <h3>
-                Log Source  <EuiBadge>0</EuiBadge>
-              </h3>
+              <h3>Log Source</h3>
               </EuiText>
               <EuiSpacer size="s" />
               <EuiText size="s" color="subdued">
