@@ -4,26 +4,25 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 ## Code Summary
 
-| Type   | Badge        | Module   |
-|--------|--------------|----------|
-| Build  | [![Developer certificate of origin][dco-badge]][dco-badge-link] |  |
-|        | [![Link Checker][link-check-badge]][link-check-link]             |  |
-|        | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]          | Dashboards-Plugin |
-|        | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]     | OpenSearch-Plugin  |
-| Unit tests    |    [![codecov][dashboard-codecov-badge]][codecov-link]          | Dashboards-Plugin |
-|        |    [![codecov][opensearch-codecov-badge]][codecov-link]            | OpenSearch-Plugin  |
-| Integration tests    |   [![cypress tests][cypress-test-badge]][cypress-test-link]           | Dashboards-Plugin |
-|        |   [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]          | OpenSearch-Plugin  |
-| Backward compatibility tests    |   [![BWC tests][bwc-tests-badge]][bwc-tests-badge]           | OpenSearch-Plugin  |
-| Issues | [![good first issues open][good-first-badge]][good-first-link]         |          |
-|        | [![features open][feature-badge]][feature-link]        |          |
-|        | [![enhancements open][enhancement-badge]][enhancement-link] |          |
-|        | [![bugs open][bug-badge]][bug-link]        |          |
-
+| Module                          | Type                         | Badge                                                                                 |
+| ------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------- |
+| Observability OpenSearch-Plugin | Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link] |
+|                                 | Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                  |
+|                                 | Distribution build tests     | [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]                         |
+|                                 | Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                       |
+| Observability Dashboards-Plugin | Test and build               | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]         |
+|                                 | Code coverage                | [![codecov][dashboard-codecov-badge]][codecov-link]                                   |
+|                                 | Distribution build tests     | [![cypress tests][cypress-test-badge]][cypress-test-link]                             |
+| Repository Checks               | DCO Checker                  | [![Developer certificate of origin][dco-badge]][dco-badge-link]                       |
+|                                 | Link Checker                 | [![Link Checker][link-check-badge]][link-check-link]                                  |
+| Issues                          |                              | [![good first issues open][good-first-badge]][good-first-link]                        |
+|                                 |                              | [![features open][feature-badge]][feature-link]                                       |
+|                                 |                              | [![enhancements open][enhancement-badge]][enhancement-link]                           |
+|                                 |                              | [![bugs open][bug-badge]][bug-link]                                                   |
 
 [dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
 [dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
-[link-check-badge]:https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml/badge.svg
+[link-check-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml/badge.svg
 [link-check-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml
 [dashboard-build-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml/badge.svg
 [dashboard-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml
@@ -32,21 +31,20 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
 [opensearch-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=opensearch-observability
 [codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
-[cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
+[cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-in%20progress-yellow
 [cypress-test-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
-[opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-success-green
+[opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-in%20progress-yellow
 [opensearch-it-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
 [bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
-[bwc-tests-badge]: https://github.com/opensearch-project/trace-analytics/issues/276
+[bwc-tests-link]: https://github.com/opensearch-project/trace-analytics/issues/276
 [good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
-[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A+label%3A%22good+first+issue%22+
+[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+
 [feature-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/feature.svg
 [feature-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
-[bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg 
+[bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg
 [bug-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
-[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg 
+[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg
 [enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
-
 
 ### Trace Analytics
 
@@ -60,16 +58,13 @@ Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for
 
 Additionally the fields can be sorted and filtered.
 
-
 ### Event Analytics
 
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
-
+Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
 
 ### Operational Panels
 
-Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.  
-
+Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.
 
 ### Notebooks
 
