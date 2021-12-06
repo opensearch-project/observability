@@ -196,7 +196,7 @@ export const CreateApp = (props: CreateAppProps) => {
               </EuiText>
               <EuiSpacer size="s" />
               <EuiText size="s" color="subdued">
-              Configure index patterns and timestamp fields
+              Configure your application base query
               </EuiText>
               </>
             }
@@ -206,7 +206,7 @@ export const CreateApp = (props: CreateAppProps) => {
           >
             <EuiFormRow
             label="PPL Base Query"
-            helpText="The default log event indices you query the most often. You can include one or multiple indices."
+            helpText="The default logs view in the application will be filtered by this query."
             >
               <EuiSelect
               hasNoInitialSelection
