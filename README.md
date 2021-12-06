@@ -4,21 +4,21 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 ## Code Summary
 
-| Module                          | Type                         | Badge                                                                                 |
-| ------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------- |
-| Observability OpenSearch-Plugin | Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link] |
-|                                 | Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                  |
-|                                 | Distribution build tests     | [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]                         |
-|                                 | Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                       |
-| Observability Dashboards-Plugin | Test and build               | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]         |
-|                                 | Code coverage                | [![codecov][dashboard-codecov-badge]][codecov-link]                                   |
-|                                 | Distribution build tests     | [![cypress tests][cypress-test-badge]][cypress-test-link]                             |
-| Repository Checks               | DCO Checker                  | [![Developer certificate of origin][dco-badge]][dco-badge-link]                       |
-|                                 | Link Checker                 | [![Link Checker][link-check-badge]][link-check-link]                                  |
-| Issues                          |                              | [![good first issues open][good-first-badge]][good-first-link]                        |
-|                                 |                              | [![features open][feature-badge]][feature-link]                                       |
-|                                 |                              | [![enhancements open][enhancement-badge]][enhancement-link]                           |
-|                                 |                              | [![bugs open][bug-badge]][bug-link]                                                   |
+| Module            | Type                         | Badge                                                                                 |
+| ----------------- | ---------------------------- | ------------------------------------------------------------------------------------- |
+| OpenSearch-Plugin | Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link] |
+|                   | Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                  |
+|                   | Distribution build tests     | [![plugin IT tests][opensearch-it-badge]][opensearch-it-link]                         |
+|                   | Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                       |
+| Dashboards-Plugin | Test and build               | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]         |
+|                   | Code coverage                | [![codecov][dashboard-codecov-badge]][codecov-link]                                   |
+|                   | Distribution build tests     | [![cypress tests][cypress-test-badge]][cypress-test-link]                             |
+| Repository Checks | DCO Checker                  | [![Developer certificate of origin][dco-badge]][dco-badge-link]                       |
+|                   | Link Checker                 | [![Link Checker][link-check-badge]][link-check-link]                                  |
+| Issues            |                              | [![good first issues open][good-first-badge]][good-first-link]                        |
+|                   |                              | [![features open][feature-badge]][feature-link]                                       |
+|                   |                              | [![enhancements open][enhancement-badge]][enhancement-link]                           |
+|                   |                              | [![bugs open][bug-badge]][bug-link]                                                   |
 
 [dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
 [dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
