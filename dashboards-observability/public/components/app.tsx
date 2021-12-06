@@ -59,6 +59,7 @@ export const App = ({
                     {...props}
                     chrome={chrome}
                     http={http}
+                    notifications={notifications}
                     parentBreadcrumb={parentBreadcrumb}
                     pplService={ pplService }
                     dslService={ dslService }
