@@ -205,7 +205,7 @@ export const CreateApp = (props: CreateAppProps) => {
             paddingSize="l"
           >
             <EuiFormRow
-            label="Log Source"
+            label="PPL Base Query"
             helpText="The default log event indices you query the most often. You can include one or multiple indices."
             >
               <EuiSelect
