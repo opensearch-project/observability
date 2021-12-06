@@ -77,6 +77,20 @@ internal data class Application(
         val xParser = XParser { parse(it) }
 
         /**
+         * Parse the item list from parser
+         * @param parser data referenced at parser
+         * @return created list of items
+         */
+        private fun parseItemList(parser: XContentParser): List<AvailabilityLevel> {
+            val retList: MutableList<AvailabilityLevel> = mutableListOf()
+            XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_ARRAY, parser.currentToken(), parser)
+            while (parser.nextToken() != XContentParser.Token.END_ARRAY) {
+                retList.add(AvailabilityLevel.parse(parser))
+            }
+            return retList
+        }
+
+        /**
          * Parse the data from parser and create ObservabilityObject object
          * @param parser data referenced at parser
          * @return created ObservabilityObject object
