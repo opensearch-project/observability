@@ -39,10 +39,10 @@ import {
   TAB_TRACE_ID_TXT_PFX, 
   TAB_TRACE_TITLE 
 } from '../../../../common/constants/application_analytics';
-import { IQueryTab } from 'common/types/explorer';
+import { IQueryTab } from '../../../../common/types/explorer';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { RAW_QUERY } from 'common/constants/explorer';
+import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 
 

@@ -13,6 +13,7 @@ import org.opensearch.common.xcontent.XContentBuilder
 import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
+import org.opensearch.commons.utils.stringList
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.util.fieldIfNotNull
 import org.opensearch.observability.util.logger
@@ -86,7 +87,7 @@ internal data class Application(
             var base_query: String? = null
             var services_entities: List<String> = listOf()
             var trace_groups: List<String> = listOf()
-            var availability_levels: List<AvailabilityLevel> = null
+            var availability_levels: List<AvailabilityLevel> = listOf()
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
