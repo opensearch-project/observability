@@ -48,16 +48,6 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
 
 
-### Event Analytics
-
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
-
-
-### Operational Panels
-
-Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.  
-
-
 ### Trace Analytics
 
 Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
@@ -69,6 +59,17 @@ Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for
 1. Services: a table of the services, where users can click on a service to see its performance metrics and related services.
 
 Additionally the fields can be sorted and filtered.
+
+
+### Event Analytics
+
+Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
+
+
+### Operational Panels
+
+Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.  
+
 
 ### Notebooks
 
