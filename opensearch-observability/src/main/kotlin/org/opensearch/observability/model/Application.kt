@@ -132,7 +132,7 @@ internal data class Application(
         base_query = input.readString(),
         services_entities = input.readStringList(),
         trace_groups = input.readStringList(),
-        availability_levels = input.readOptionalWriteable(AvailabilityLevel.reader)
+        availability_levels = input.readOptionalWriteable(AvailabilityLevels.reader)
     )
 
     /**
@@ -189,7 +189,7 @@ internal data class Application(
              * @param parser data referenced at parser
              * @return created Trigger object
              */
-            fun parse(parser: XContentParser): SelectedFields {
+            fun parse(parser: XContentParser): AvailabilityLevel {
                 var label: String? = null
                 var color: String? = null
                 var condition: String? = null
