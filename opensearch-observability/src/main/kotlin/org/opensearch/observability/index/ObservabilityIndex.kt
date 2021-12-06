@@ -27,7 +27,7 @@ import org.opensearch.index.query.QueryBuilders
 import org.opensearch.index.reindex.ReindexAction
 import org.opensearch.index.reindex.ReindexRequestBuilder
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.observability.model.GetObservabilityObjectRequest
+import org.opensearch.observability.action.GetObservabilityObjectRequest
 import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.model.ObservabilityObjectDocInfo
 import org.opensearch.observability.model.ObservabilityObjectSearchResult

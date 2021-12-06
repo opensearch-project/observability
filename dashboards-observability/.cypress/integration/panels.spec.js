@@ -10,7 +10,10 @@ import {
   TEST_PANEL,
   PPL_VISUALIZATIONS,
   PPL_VISUALIZATIONS_NAMES,
+  NEW_VISUALIZATION_NAME,
   PPL_FILTER,
+  SAMPLE_PANEL,
+  SAMPLE_VISUALIZATIONS_NAMES,
 } from '../utils/panel_constants';
 
 const moveToEventsHome = () => {
@@ -79,13 +82,10 @@ describe('Creating visualizations', () => {
 
 describe('Testing panels table', () => {
   beforeEach(() => {
-    cy.visit(
-      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
-    );
-    cy.wait(delay * 3);
+    moveToPanelHome();
   });
 
-  it('Displays error toast for invalid notebook name', () => {
+  it('Displays error toast for invalid panel name', () => {
     cy.get('.euiButton__text').contains('Create new panel').click();
     cy.wait(delay);
     cy.get('.euiButton__text')
@@ -179,7 +179,39 @@ describe('Testing a panel', () => {
     moveToTestPanel();
   });
 
+  it('Duplicate the open panel', () => {
+    cy.get('.euiButton__text').contains('Panel actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Duplicate panel').click();
+    cy.wait(delay);
+    cy.get(`input.euiFieldText[value="${TEST_PANEL} (copy)"]`).should('exist');
+    cy.get('.euiButton__text').contains('Duplicate').click();
+    cy.wait(delay * 3);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.get('h1')
+      .contains(TEST_PANEL + ' (copy)')
+      .should('exist');
+    cy.wait(delay);
+  });
+
+  it('Rename the open panel', () => {
+    cy.get('.euiButton__text').contains('Panel actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Rename panel').click();
+    cy.wait(delay);
+    cy.get(`input.euiFieldText[value="${TEST_PANEL} (copy)"]`)
+      .focus()
+      .clear()
+      .type('Renamed Panel');
+    cy.get('.euiButton__text').contains('Rename').click();
+    cy.wait(delay * 3);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.get('h1').contains('Renamed Panel').should('exist');
+    cy.wait(delay);
+  });
+
   it('Change date filter of the panel', () => {
+    moveToTestPanel();
     cy.get('.euiButtonEmpty[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
     cy.get('.euiLink').contains('This year').click();
     cy.wait(delay * 2);
@@ -249,6 +281,21 @@ describe('Testing a panel', () => {
     cy.wait(delay);
   });
 
+  it('Resize a visualization', () => {
+    cy.get('.euiButton__text').contains('Edit').click();
+    cy.wait(delay);
+    cy.get('.react-resizable-handle')
+      .eq(1)
+      .trigger('mousedown', { which: 1 })
+      .trigger('mousemove', { clientX: 1600, clientY: 500 })
+      .trigger('mouseup', { force: true });
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Save').click();
+    cy.wait(delay * 3);
+    cy.get('div.react-grid-layout>div').eq(1).invoke('height').should('match', new RegExp('310'));
+    cy.wait(delay);
+  });
+
   it('Delete a visualization', () => {
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
     cy.get('.euiButton__text').contains('Edit').click();
@@ -289,12 +336,30 @@ describe('Testing a panel', () => {
     cy.wait(delay);
   });
 
-  it('Move to explorer to create new visualization', () => {
+  it('Create new visualization and add to panel', () => {
     cy.get('.euiButton__text').contains('Add Visualization').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Create New Visualization').click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
+
+    cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[2]);
+    cy.get('.euiButton__text').contains('Refresh').click();
+    cy.wait(delay);
+    cy.get('.tab-title').contains('Visualizations').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Save').click();
+    cy.wait(delay);
+    cy.get('.euiComboBox__input').type(TEST_PANEL);
+    cy.get(`input[value="${TEST_PANEL}"]`).click();
+    cy.get('.euiFieldText').type(PPL_VISUALIZATIONS_NAMES[2]);
+    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    cy.wait(delay);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    moveToTestPanel();
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[2]).should('exist');
   });
 
   it('Move to test panel and check visualization edit button', () => {
@@ -305,12 +370,52 @@ describe('Testing a panel', () => {
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
     cy.wait(delay);
+    cy.get('.euiButton__text').contains('Save').click();
+    cy.wait(delay);
+    cy.get('.euiFieldText').focus().clear().type(NEW_VISUALIZATION_NAME);
+    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    cy.wait(delay);
+    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    moveToTestPanel();
+    cy.get('h5').contains(NEW_VISUALIZATION_NAME).should('exist');
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
+    cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[2]).should('exist');
   });
 });
 
-describe('Clean up all test data', () => {
+describe('Add samples and clean up all test data', () => {
+  it('Add sample data', () => {
+    moveToPanelHome();
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Add samples').click();
+    cy.wait(delay);
+    cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
+      .contains('Add samples')
+      .should('exist');
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Yes').click();
+    cy.wait(delay * 5);
+    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
+    cy.wait(delay);
+  });
+
+  it('Validate sample data', () => {
+    moveToPanelHome();
+    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).click();
+    cy.wait(delay * 3);
+    cy.get('h1').contains(SAMPLE_PANEL).should('exist');
+    cy.wait(delay);
+    SAMPLE_VISUALIZATIONS_NAMES.forEach((vizName) =>
+      cy.get('h5').contains(vizName).should('exist')
+    );
+    cy.wait(delay);
+  });
+
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
+    cy.get('.euiButtonEmpty__text').contains('Rows per page: 10').click();
+    cy.get('.euiContextMenuItem__text').contains('50 rows').click();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Actions').click();
@@ -323,7 +428,7 @@ describe('Clean up all test data', () => {
     cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').click();
-
+    cy.wait(delay);
     cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
   });
 
