@@ -4,21 +4,42 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 ## Code Summary
 
-| Module                       | Type                         | Badge                                                                                                                                  |
-| ---------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| OpenSearch-Plugin            | Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]                                                  |
-|                              | Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                                                                   |
-|                              | Distribution build tests     | [![OpenSearch IT tests][opensearch-it-badge]][opensearch-it-link] [![OpenSearch IT code][opensearch-code-badge]][opensearch-code-link] |
-|                              | Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                                                                        |
-| OpenSearch Dashboards-Plugin | Test and build               | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]                                                          |
-|                              | Code coverage                | [![codecov][dashboard-codecov-badge]][codecov-link]                                                                                    |
-|                              | Distribution build tests     | [![cypress tests][cypress-test-badge]][cypress-test-link] [![cypress code][cypress-code-badge]][cypress-code-link]                     |
-| Repository Checks            | DCO Checker                  | [![Developer certificate of origin][dco-badge]][dco-badge-link]                                                                        |
-|                              | Link Checker                 | [![Link Checker][link-check-badge]][link-check-link]                                                                                   |
-| Issues                       |                              | [![good first issues open][good-first-badge]][good-first-link]                                                                         |
-|                              |                              | [![features open][feature-badge]][feature-link]                                                                                        |
-|                              |                              | [![enhancements open][enhancement-badge]][enhancement-link]                                                                            |
-|                              |                              | [![bugs open][bug-badge]][bug-link]                                                                                                    |
+### OpenSearch-Plugin
+
+|                              |                                                                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Test and build               | [![Observability OpenSearch Build CI][opensearch-build-badge]][opensearch-build-link]                                                  |
+| Code coverage                | [![codecov][opensearch-codecov-badge]][codecov-link]                                                                                   |
+| Distribution build tests     | [![OpenSearch IT tests][opensearch-it-badge]][opensearch-it-link] [![OpenSearch IT code][opensearch-code-badge]][opensearch-code-link] |
+| Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                                                                        |
+
+### OpenSearch Dashboards-Plugin
+
+|                          |                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Test and build           | [![Observability Dashboards CI][dashboard-build-badge]][dashboard-build-link]                                      |
+| Code coverage            | [![codecov][dashboard-codecov-badge]][codecov-link]                                                                |
+| Distribution build tests | [![cypress tests][cypress-test-badge]][cypress-test-link] [![cypress code][cypress-code-badge]][cypress-code-link] |
+
+### Repository Checks
+
+|              |                                                                 |
+| ------------ | --------------------------------------------------------------- |
+| DCO Checker  | [![Developer certificate of origin][dco-badge]][dco-badge-link] |
+| Link Checker | [![Link Checker][link-check-badge]][link-check-link]            |
+
+### Issues
+
+|                                                                |
+| -------------------------------------------------------------- |
+| [![good first issues open][good-first-badge]][good-first-link] |
+| [![features open][feature-badge]][feature-link]                |
+| [![enhancements open][enhancement-badge]][enhancement-link]    |
+| [![bugs open][bug-badge]][bug-link]                            |
+
+# OpenSearch Dashboards Observability
+
+The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
 
 [dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
 [dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
@@ -35,7 +56,7 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [cypress-test-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [cypress-code-badge]: https://img.shields.io/badge/Cypress%20code-blue
 [cypress-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
-[opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-in%20progress-yellow
+[opensearch-it-badge]: https://img.shields.io/badge/OpenSearch%20IT%20tests-in%20progress-yellow
 [opensearch-it-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [opensearch-code-badge]: https://img.shields.io/badge/OpenSearch%20IT%20code-blue
 [opensearch-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
