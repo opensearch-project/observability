@@ -27,8 +27,8 @@ import org.opensearch.observability.util.logger
  *   "description": "Application that includes multiple cool services",
  *   "baseQuery": "source = opensearch_sample_database_flights",
  *   "servicesEntities": [
- *       "Payment", 
- *       "Users", 
+ *       "Payment",
+ *       "Users",
  *       "Purchase"
  *   ],
  *   "traceGroups": [
