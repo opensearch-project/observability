@@ -5,15 +5,15 @@
 
 package org.opensearch.observability.bwc
 
-import org.junit.Assert
 import org.opensearch.common.settings.Settings
 import org.opensearch.observability.rest.CreateObjectIT
 import org.opensearch.observability.rest.GetObjectIT
+import org.opensearch.observability.notebooks1.NotebooksIT
 import org.opensearch.test.rest.OpenSearchRestTestCase
 import java.util.List
 import java.util.Map
 
-abstract class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
+public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
 
     companion object {
         private val CLUSTER_TYPE: ClusterType = ClusterType.parse(System.getProperty("tests.rest.bwcsuite"))
@@ -61,18 +61,18 @@ abstract class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
         for (response in responseMap.values()) {
             val plugins = response["plugins"] as List<Map<String, Any>>
             val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
-            return when (Companion.CLUSTER_TYPE) {
+            return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"))
-                    callIntegTest()
+                    assertTrue(pluginNames.contains("opensearch-observability"))
+                    callOldIntegTest()
                 }
                 ClusterType.MIXED -> {
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"))
-                    callIntegTest()
+                    assertTrue(pluginNames.contains("opensearch-observability"))
+                    callMixedIntegTest()
                 }
                 ClusterType.UPGRADED -> {
-                    Assert.assertTrue(pluginNames.contains("opensearch-observability"))
-                    callIntegTest()
+                    assertTrue(pluginNames.contains("opensearch-observability"))
+                    callUpgradedIntegTest()
                 }
             }
             break
@@ -80,8 +80,8 @@ abstract class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
     }
 
     private fun getUri(): String {
-        return when (Companion.CLUSTER_TYPE) {
-            ClusterType.OLD -> "_nodes/" + Companion.CLUSTER_NAME + "-0/plugins"
+        return when (CLUSTER_TYPE) {
+            ClusterType.OLD -> "_nodes/" + CLUSTER_NAME + "-0/plugins"
             ClusterType.MIXED -> {
                 when (System.getProperty("tests.rest.bwcsuite_round")) {
                     "second" -> "_nodes/$CLUSTER_NAME-1/plugins"
@@ -90,16 +90,23 @@ abstract class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
                 }
             }
             ClusterType.UPGRADED -> "_nodes/plugins"
-            else -> throw AssertionError("unknown cluster type: " + Companion.CLUSTER_TYPE)
+            else -> throw AssertionError("unknown cluster type: " + CLUSTER_TYPE)
         }
     }
 
-    private fun callIntegTest() {
-        GetObjectIT().`test get single object`()
-//        GetObjectIT().`test get multiple objects`()
+    private fun callOldIntegTest() {
+        NotebooksIT().`test create notebook`()
+        NotebooksIT().`test get notebook`()
+        NotebooksIT().`test get all notebooks`()
+    }
+
+    private fun callMixedIntegTest() {
+//        GetObjectIT().`test get single object`()
+//        CreateObjectIT().`test create notebook`()
+    }
+
+    private fun callUpgradedIntegTest() {
         CreateObjectIT().`test create notebook`()
-//        CreateObjectIT().`test create saved query with id`()
-//        CreateObjectIT().`test create saved visualization`()
-//        CreateObjectIT().`test create operational panel`()
+        GetObjectIT().`test get single object`()
     }
 }
