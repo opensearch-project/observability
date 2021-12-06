@@ -102,7 +102,7 @@ internal data class Application(
                     BASE_QUERY_TAG -> base_query = parser.text()
                     SERVICES_ENTITIES_TAG -> services_entities = parser.stringList()
                     TRACE_GROUPS_TAG -> trace_groups = parser.stringList()
-                    AVAILABILITY_LEVELS_TAG -> availability_levels = AvailabilityLevel.parse(parser)
+                    AVAILABILITY_LEVELS_TAG -> availability_levels = parseItemList(parser)
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Application Skipping Unknown field $fieldName")
@@ -132,7 +132,7 @@ internal data class Application(
         base_query = input.readString(),
         services_entities = input.readStringList(),
         trace_groups = input.readStringList(),
-        availability_levels = input.readOptionalWriteable(AvailabilityLevels.reader)
+        availability_levels = input.readList(AvailabilityLevel.reader)
     )
 
     /**
