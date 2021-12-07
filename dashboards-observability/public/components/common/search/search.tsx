@@ -55,7 +55,6 @@ export const Search = (props: any) => {
     setStartTime,
     setEndTime,
     setIsOutputStale,
-    explorerData,
     selectedPanelName,
     selectedCustomPanelOptions,
     setSelectedPanelName,
@@ -65,8 +64,6 @@ export const Search = (props: any) => {
     savedObjects,
     showSavePanelOptionsList,
     showSaveButton = true,
-    setToast,
-    runButtonText,
     handleTimeRangePickerRefresh,
   } = props;
 
@@ -94,7 +91,7 @@ export const Search = (props: any) => {
           return !staleState;
         });
       }}
-      data-test-subj="saved-query-management-popover-button"
+      data-test-subj="eventExplorer__saveManagementPopover"
       iconType="arrowDown"
     >
       Save
@@ -157,8 +154,12 @@ export const Search = (props: any) => {
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
                     <EuiFlexItem grow={false}>
-                      <EuiButtonEmpty size="s" onClick={() => setIsSavePanelOpen(false)}>
-                        {'Cancel'}
+                      <EuiButtonEmpty 
+                        size="s"
+                        onClick={() => setIsSavePanelOpen(false)}
+                        data-test-subj="eventExplorer__querySaveCancel"
+                      >
+                        Cancel
                       </EuiButtonEmpty>
                     </EuiFlexItem>
                     <EuiFlexItem grow={false}>
@@ -169,8 +170,9 @@ export const Search = (props: any) => {
                           handleSavingObject();
                           setIsSavePanelOpen(false);
                         }}
+                        data-test-subj="eventExplorer__querySaveConfirm"
                       >
-                        {'Save'}
+                        Save
                       </EuiButton>
                     </EuiFlexItem>
                   </EuiFlexGroup>

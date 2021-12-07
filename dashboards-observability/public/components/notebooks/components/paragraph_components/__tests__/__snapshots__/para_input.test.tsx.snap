@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<para_input /> spec renders the markdown component 1`] = `
+<div
+  class="sc-AxheI fpkdSC"
+>
+  <div
+    class="sc-AxjAm cHiKMy"
+  />
+  <div
+    style="width: 100%;"
+  >
+    <div
+      class="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingSmall euiCodeBlock--hasControls"
+      style="max-height: 200px;"
+    >
+      <pre
+        class="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
+        style="max-height: 200px;"
+      >
+        <code
+          class="euiCodeBlock__code"
+        >
+          # Type your input here
+        </code>
+      </pre>
+      <div
+        class="euiCodeBlock__controls"
+      >
+        <button
+          aria-label="Expand"
+          class="euiButtonIcon euiButtonIcon--text euiCodeBlock__fullScreenButton"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+            focusable="false"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<para_input /> spec renders the visualization component 1`] = `
+<div
+  class="sc-AxheI fpkdSC"
+>
+  <div
+    class="sc-AxjAm cHiKMy"
+  />
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+  >
+    <div
+      class="euiFlexItem euiFlexItem--flexGrow6"
+    >
+      <div
+        class="euiFormRow euiFormRow--fullWidth"
+        id="random_html_id-row"
+      >
+        <div
+          class="euiFormRow__labelWrapper"
+        >
+          <label
+            class="euiFormLabel euiFormRow__label"
+            for="random_html_id"
+          >
+            Title
+          </label>
+        </div>
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="euiComboBox"
+            role="combobox"
+          >
+            <div
+              class="euiFormControlLayout"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <div
+                  class="euiComboBox__inputWrap euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                  data-test-subj="comboBoxInput"
+                  tabindex="-1"
+                >
+                  <span
+                    class="euiComboBoxPill euiComboBoxPill--plainText"
+                  >
+                    visualization-0
+                  </span>
+                  <div
+                    class="euiComboBox__input"
+                    style="font-size: 14px; display: inline-block;"
+                  >
+                    <input
+                      aria-controls=""
+                      data-test-subj="comboBoxSearchInput"
+                      id="random_html_id"
+                      role="textbox"
+                      style="box-sizing: content-box; width: 2px;"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <button
+                    aria-label="Clear input"
+                    class="euiFormControlLayoutClearButton"
+                    data-test-subj="comboBoxClearButton"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </button>
+                  <button
+                    aria-label="Open list of options"
+                    class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                    data-test-subj="comboBoxToggleListButton"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    >
+      <button
+        class="euiButton euiButton--primary"
+        data-test-subj="para-input-visualization-browse-button"
+        type="button"
+      >
+        <span
+          class="euiButtonContent euiButton__content"
+        >
+          <span
+            class="euiButton__text"
+          >
+            Browse
+          </span>
+        </span>
+      </button>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrow2"
+    />
+    <div
+      class="euiFlexItem euiFlexItem--flexGrow9"
+    >
+      <div
+        class="euiFormRow euiFormRow--fullWidth"
+        id="random_html_id-row"
+      >
+        <div
+          class="euiFormRow__labelWrapper"
+        >
+          <label
+            class="euiFormLabel euiFormRow__label"
+            for="random_html_id"
+          >
+            Date range
+          </label>
+        </div>
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper euiSuperDatePicker__flexWrapper--noUpdateButton"
+          >
+            <div
+              class="euiFlexItem"
+            >
+              <div
+                class="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+              >
+                <div
+                  class="euiPopover euiPopover--anchorDownLeft"
+                  id="QuickSelectPopover"
+                >
+                  <div
+                    class="euiPopover__anchor euiQuickSelectPopover__anchor"
+                  >
+                    <button
+                      aria-label="Date quick select"
+                      class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                      data-test-subj="superDatePickerToggleQuickMenuButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        />
+                        <span
+                          class="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="euiIcon euiIcon--medium euiIcon-isLoading"
+                            focusable="false"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <div
+                    class="euiDatePickerRange euiDatePickerRange--inGroup"
+                  >
+                    <div
+                      class="euiPopover euiPopover--anchorDownLeft euiPopover--displayBlock euiSuperDatePicker__startPopoverButton"
+                    >
+                      <div
+                        class="euiPopover__anchor"
+                      >
+                        <button
+                          class="euiDatePopoverButton euiDatePopoverButton--start"
+                          data-test-subj="superDatePickerstartDatePopoverButton"
+                          title="2020-07-21T18:37:44.710Z"
+                        >
+                          2020-07-21T18:37:44+00:00
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="euiText euiText--small euiDatePickerRange__delimeter"
+                    >
+                      <div
+                        class="euiTextColor euiTextColor--subdued"
+                      >
+                        →
+                      </div>
+                    </div>
+                    <div
+                      class="euiPopover euiPopover--anchorDownRight euiPopover--displayBlock"
+                    >
+                      <div
+                        class="euiPopover__anchor"
+                      >
+                        <button
+                          class="euiDatePopoverButton euiDatePopoverButton--end"
+                          data-test-subj="superDatePickerendDatePopoverButton"
+                          title="2020-08-20T18:37:44.710Z"
+                        >
+                          2020-08-20T18:37:44+00:00
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem"
+    />
+  </div>
+</div>
+`;

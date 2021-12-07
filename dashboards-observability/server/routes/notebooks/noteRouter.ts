@@ -192,13 +192,13 @@ export function registerNoteRoute(router: IRouter) {
     }
   );
 
-  // Delete a notebook
+  // Delete notebooks
   router.delete(
     {
-      path: `${NOTEBOOKS_API_PREFIX}/note/{noteid}`,
+      path: `${NOTEBOOKS_API_PREFIX}/note/{noteList}`,
       validate: {
         params: schema.object({
-          noteid: schema.string(),
+          noteList: schema.string(),
         }),
       },
     },
@@ -213,7 +213,7 @@ export function registerNoteRoute(router: IRouter) {
       try {
         const delResponse = await BACKEND.deleteNote(
           opensearchNotebooksClient,
-          request.params.noteid,
+          request.params.noteList,
           wreckOptions
         );
         return response.ok({

@@ -12,8 +12,8 @@ import {
   DashboardContainerInput,
   DashboardStart,
 } from '../../../../../../../src/plugins/dashboard/public';
-import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { ParaType } from '../../../../../common/types/notebooks';
+import { uiSettingsService } from '../../../../../common/utils';
 import { QueryDataGridMemo } from './para_query_grid';
 
 /*
@@ -106,8 +106,9 @@ export const ParaOutput = (props: {
             </EuiText>
           );
         case 'VISUALIZATION':
-          let from = moment(visInput?.timeRange?.from).format(UI_DATE_FORMAT);
-          let to = moment(visInput?.timeRange?.to).format(UI_DATE_FORMAT);
+          const dateFormat = uiSettingsService.get('dateFormat');
+          let from = moment(visInput?.timeRange?.from).format(dateFormat);
+          let to = moment(visInput?.timeRange?.to).format(dateFormat);
           from = from === 'Invalid date' ? visInput.timeRange.from : from;
           to = to === 'Invalid date' ? visInput.timeRange.to : to;
           return (
@@ -144,12 +145,13 @@ export const ParaOutput = (props: {
   const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
 
   return (
-    !para.isOutputHidden && (
+    !para.isOutputHidden ? (
       <>
-        {para.typeOut.map((typeOut: string, tIdx: number) =>
-          outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
+        {para.typeOut.map((typeOut: string, tIdx: number) => {
+          return outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
+        }
         )}
       </>
-    )
+    ) : null
   );
 };
