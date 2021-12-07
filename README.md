@@ -51,25 +51,6 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [opensearch-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/opensearch-observability-test-and-build-workflow.yml
 [dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
 [opensearch-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=opensearch-observability
-<<<<<<< HEAD
-[codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
-[cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-success-green
-[cypress-test-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
-[opensearch-it-badge]: https://img.shields.io/badge/Plugin%20IT%20tests-success-green
-[opensearch-it-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
-[bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
-[bwc-tests-badge]: https://github.com/opensearch-project/trace-analytics/issues/276
-[good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
-[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A+label%3A%22good+first+issue%22+
-[feature-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/feature.svg
-[feature-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
-[bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg 
-[bug-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
-[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg 
-[enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
-
-
-=======
 [codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics
 [cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-in%20progress-yellow
 [cypress-test-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
@@ -90,7 +71,6 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 [enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg
 [enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
 
->>>>>>> main
 ### Trace Analytics
 
 Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for users to quickly analyze their logs. The plugin uses aggregated results from two indices, `otel-v1-apm-span-*` and `otel-v1-apm-service-map*` created by the otel-trace-raw-processor and service-map-processor, and renders three main views:
@@ -103,18 +83,6 @@ Trace Analytics page provides instant on dashboards in OpenSearch Dashboards for
 
 Additionally the fields can be sorted and filtered.
 
-<<<<<<< HEAD
-
-### Event Analytics
-
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/search-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access. 
-
-
-### Operational Panels
-
-Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.  
-
-=======
 ### Event Analytics
 
 Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/observability-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
@@ -122,7 +90,6 @@ Event Analytics allows user to monitor, correlate, analyze and visualize machine
 ### Operational Panels
 
 Operational panels provides the users to create and view different visualizations on ingested observability data, using Piped Processing Language queries. Use PPL 'where clauses' and datetime timespans to filter all visualizations in the panel.
->>>>>>> main
 
 ### Notebooks
 
