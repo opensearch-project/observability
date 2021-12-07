@@ -6,11 +6,11 @@
 package org.opensearch.observability.model
 
 import org.opensearch.commons.utils.EnumParser
+import org.opensearch.observability.model.RestTag.APPLICATION_FIELD
 import org.opensearch.observability.model.RestTag.NOTEBOOK_FIELD
 import org.opensearch.observability.model.RestTag.OPERATIONAL_PANEL_FIELD
 import org.opensearch.observability.model.RestTag.SAVED_QUERY_FIELD
 import org.opensearch.observability.model.RestTag.SAVED_VISUALIZATION_FIELD
-import org.opensearch.observability.model.RestTag.APPLICATION_FIELD
 import org.opensearch.observability.model.RestTag.TIMESTAMP_FIELD
 import java.util.EnumSet
 
