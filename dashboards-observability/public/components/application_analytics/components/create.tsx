@@ -8,6 +8,8 @@ import {
   EuiBadge,
   EuiBasicTable,
   EuiButton,
+  EuiComboBox,
+  EuiComboBoxOptionOption,
   EuiFieldText, 
   EuiFlexGroup, 
   EuiFlexItem, 
@@ -36,13 +38,17 @@ import { ChangeEvent } from "react";
 import { PPLReferenceFlyout } from "../../common/helpers";
 import { uiSettingsService } from "../../../../common/utils";
 import { AppAnalyticsComponentDeps } from "../home";
+import { ServiceMap } from "../../../components/trace_analytics/components/services";
+import { handleServiceMapRequest } from "../../../components/trace_analytics/requests/services_request_handler";
+import { ServiceObject } from "../../../components/trace_analytics/components/common/plots/service_map";
+import { FilterType } from "../../../components/trace_analytics/components/common/filters/filters";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, dslService, query } = props;
+  const { parentBreadcrumb, chrome, dslService, query, indicesExist, filters, setFilters, startTime, endTime, http } = props;
   const [state, setState] = useState({
     name: '',
     description: ''
@@ -53,6 +59,44 @@ export const CreateApp = (props: CreateAppProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
   const [tempQuery, setTempQuery] = useState<string>('');
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
+  const [selectedServices, setSelectedServices] = useState(filters.map((f) => { return { label: f.value }}));
+
+  useEffect (() => {
+    const filterServices = filters.map((f) => { return { label: f.value }});
+    const noDups = filterServices.filter((s, index) => { return filterServices.findIndex(ser => ser.label === s.label) === index });
+    setSelectedServices(noDups);
+  }, [filters])
+
+  const addFilter = (filter: FilterType) => {
+    for (const addedFilter of filters) {
+      if (
+        addedFilter.field === filter.field &&
+        addedFilter.operator === filter.operator &&
+        addedFilter.value === filter.value
+      ) {
+        return;
+      }
+    }
+    const newFilters = [...filters, filter];
+    setFilters(newFilters);
+  };
+
+  const onServiceChange = (selectedServices: any) => {
+    const serviceFilter = selectedServices.map((option: EuiComboBoxOptionOption<string>) => { 
+      return {
+        field: 'service', 
+        operator: 'is', 
+        value: option.label, 
+        inverted: false, 
+        disabled: false 
+      }
+    })
+    setFilters(serviceFilter);
+  };
+
+  const services = Object.keys(serviceMap).map((service) => { return { label: service } });
 
   const handleQueryChange = async (query: string) => setTempQuery(query);
 
@@ -82,6 +126,7 @@ export const CreateApp = (props: CreateAppProps) => {
       href: '#/application_analytics/create',
       },
     ]);
+    handleServiceMapRequest(http, dslService, serviceMap, setServiceMap);
     })
 
   const dummyItems = [{id: '1', level: "Unavailable", color: "danger", conditions: "WHEN errorRate() IS ABOVE OR EQUAL TO 2%"}];
@@ -250,7 +295,7 @@ export const CreateApp = (props: CreateAppProps) => {
               <>
                 <EuiText size="s">
                 <h3>
-                Services & Entities  <EuiBadge>0</EuiBadge>
+                Services & Entities  <EuiBadge>{selectedServices.length}</EuiBadge>
                 </h3>
               </EuiText>
               <EuiSpacer size="s" />
@@ -266,16 +311,23 @@ export const CreateApp = (props: CreateAppProps) => {
             <EuiFormRow
             label="Services & Entities"
             >
-              <EuiSelect
-              hasNoInitialSelection
-              onChange={() => {}}
-              options={[
-                { value: 'payment', text: 'Payment' },
-                { value: 'user', text: 'Users' },
-                { value: 'purchase', text: 'Purchase' },
-              ]}
+              <EuiComboBox
+                aria-label="Select services and entities"
+                placeholder="Select services and entities"
+                options={services}
+                selectedOptions={selectedServices}
+                onChange={onServiceChange}
+                isClearable={false}
+                data-test-subj="servicesEntitiesComboBox"
               />
             </EuiFormRow>
+            <EuiSpacer />
+            <ServiceMap
+              serviceMap={serviceMap}
+              idSelected={serviceMapIdSelected}
+              setIdSelected={setServiceMapIdSelected}
+              addFilter={addFilter}
+            />
           </EuiAccordion>
           <EuiHorizontalRule />
           <EuiAccordion
