@@ -20,7 +20,6 @@ import { Services } from '../../trace_analytics/components/services';
 import { Traces } from '../../trace_analytics/components/traces';
 import { SpanDetailPanel } from '../../trace_analytics/components/traces/span_detail_panel';
 import { Configuration } from './configuration';
-import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
 import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
@@ -44,6 +43,7 @@ import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
+import { AppAnalyticsComponentDeps } from '../home';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
@@ -60,7 +60,7 @@ export interface DetailTab {
   testId: string;
 }
 
-interface AppDetailProps extends TraceAnalyticsComponentDeps {
+interface AppDetailProps extends AppAnalyticsComponentDeps {
   disabled?: boolean;
   appId: string;
   pplService: PPLService;

@@ -14,8 +14,6 @@ import {
   EuiBadge,
   EuiBasicTable,
   EuiButton,
-  EuiContextMenuItem,
-  EuiContextMenuPanel,
   EuiFieldText, 
   EuiFlexGroup, 
   EuiFlexItem, 
@@ -35,17 +33,22 @@ import {
   EuiSpacer, 
   EuiTableFieldDataColumnType, 
   EuiText, 
-  EuiTextColor, 
   EuiTitle 
 } from "@elastic/eui";
-import { TraceAnalyticsComponentDeps } from "public/components/trace_analytics/home";
+import { Autocomplete } from "../../common/search/autocomplete";
+import DSLService from "public/services/requests/dsl";
 import React, { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
+import { PPLReferenceFlyout } from "../../common/helpers";
+import { uiSettingsService } from "../../../../common/utils";
+import { AppAnalyticsComponentDeps } from "../home";
 
-interface CreateAppProps extends TraceAnalyticsComponentDeps {};
+interface CreateAppProps extends AppAnalyticsComponentDeps {
+  dslService: DSLService;
+};
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome } = props;
+  const { parentBreadcrumb, chrome, dslService, query } = props;
   const [state, setState] = useState({
     name: '',
     description: ''
@@ -54,6 +57,23 @@ export const CreateApp = (props: CreateAppProps) => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [traceOpen, setTraceOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
+  const [tempQuery, setTempQuery] = useState<string>('');
+
+  const handleQueryChange = async (query: string) => setTempQuery(query);
+
+  const closeFlyout = () => {
+    setIsFlyoutVisible(false);
+  };
+
+  const showFlyout = () => {
+    setIsFlyoutVisible(true);
+  };
+
+  let flyout;
+  if (isFlyoutVisible) {
+    flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
+  }
 
   useEffect(() => {
     chrome.setBreadcrumbs(
@@ -142,6 +162,7 @@ export const CreateApp = (props: CreateAppProps) => {
   );
 
   return (
+    <div style={{maxWidth: '1130px'}}>
     <EuiPage>
       <EuiPageBody component="div">
         <EuiPageHeader>
@@ -208,14 +229,24 @@ export const CreateApp = (props: CreateAppProps) => {
             label="PPL Base Query"
             helpText="The default logs view in the application will be filtered by this query."
             >
-              <EuiSelect
-              hasNoInitialSelection
-              onChange={() => {}}
-              options={[
-                { value: 'index_1', text: 'index_1' },
-                { value: 'ingest_logs_all', text: 'ingest_logs_all' },
-              ]}
-              />
+              <EuiFlexItem grow={false} key="query-bar" className="query-area">
+                <Autocomplete
+                  key={'autocomplete-bar'}
+                  query={query}
+                  tempQuery={tempQuery}
+                  handleQueryChange={handleQueryChange}
+                  handleQuerySearch={() => {}}
+                  dslService={dslService}
+                />
+                <EuiBadge 
+                  className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+                  color="hollow"
+                  onClick={() => showFlyout()}
+                  onClickAriaLabel={"pplLinkShowFlyout"}
+                >
+                  PPL
+                </EuiBadge>
+              </EuiFlexItem>
             </EuiFormRow>
           </EuiAccordion>
           <EuiHorizontalRule />
@@ -331,5 +362,7 @@ export const CreateApp = (props: CreateAppProps) => {
         </EuiFlexGroup>
       </EuiPageBody>
     </EuiPage>
+    {flyout}
+    </div>
   );
 }

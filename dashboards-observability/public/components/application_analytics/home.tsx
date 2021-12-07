@@ -24,7 +24,9 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 
-interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
+export interface AppAnalyticsCoreDeps extends TraceAnalyticsCoreDeps {}
+
+interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
   pplService: PPLService;
   dslService: DSLService;
   savedObjects: SavedObjects;
@@ -32,6 +34,7 @@ interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {
   notifications: NotificationsStart;
 }
 
+export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {}
 
 export type ApplicationType = {
   name: string;
@@ -91,7 +94,7 @@ export const Home = (props: HomeProps) => {
     handleIndicesExistRequest(http, setIndicesExist);
   }, []);
 
-  const commonProps: TraceAnalyticsComponentDeps = {
+  const commonProps: AppAnalyticsComponentDeps = {
     parentBreadcrumb: parentBreadcrumb,
     http: http,
     chrome: chrome,
@@ -122,7 +125,8 @@ export const Home = (props: HomeProps) => {
           exact
           path={'/application_analytics/create'}
           render={() => 
-            <CreateApp 
+            <CreateApp
+            dslService={dslService}
             {...commonProps}
             />
           }

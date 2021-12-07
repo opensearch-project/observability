@@ -27,9 +27,8 @@ import {
 } from '@elastic/eui';
 import CSS from 'csstype';
 import _ from 'lodash';
-import { TraceAnalyticsComponentDeps } from 'public/components/trace_analytics/home';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { ApplicationType } from '../home';
+import { AppAnalyticsComponentDeps, ApplicationType } from '../home';
 
 const pageStyles: CSS.Properties = {
   float: 'left',
@@ -37,7 +36,7 @@ const pageStyles: CSS.Properties = {
   maxWidth: '1130px',
 };
 
-interface AppTableProps extends TraceAnalyticsComponentDeps {
+interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
     applications: Array<ApplicationType>;
   };
