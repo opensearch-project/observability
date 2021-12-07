@@ -31,17 +31,14 @@ export function DatePicker(props: IDatePickerProps) {
   };
 
   return (
-    <EuiFlexItem
-      className="euiFlexItem--flexGrowZero event-date-picker"
-    >
-      <EuiSuperDatePicker
-        start={startTime}
-        end={endTime}
-        dateFormat={uiSettingsService.get('dateFormat')}
-        onTimeChange={handleTimeChange}
-        onRefresh={handleTimeRangePickerRefresh}
-        className="osdQueryBar__datePicker"
-      />
-    </EuiFlexItem>
+    <EuiSuperDatePicker
+      data-test-subj="pplSearchDatePicker"
+      start={startTime}
+      end={endTime}
+      dateFormat={uiSettingsService.get('dateFormat')}
+      onTimeChange={handleTimeChange}
+      onRefresh={handleTimeRangePickerRefresh}
+      className="osdQueryBar__datePicker"
+    />
   );
 }
