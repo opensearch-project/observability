@@ -4,7 +4,7 @@
  */
 
 import dateMath from '@elastic/datemath';
-import { EuiComboBox, EuiFormRow } from "@elastic/eui";
+import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
 import { optionType } from "common/constants/application_analytics";
 import { filtersToDsl } from "../../../components/trace_analytics/components/common/helper_functions";
 import { handleDashboardRequest } from "../../../components/trace_analytics/requests/dashboard_request_handler";
@@ -18,6 +18,7 @@ interface TraceConfigProps extends AppAnalyticsComponentDeps {
 
 export const TraceConfig = (props: TraceConfigProps) => {
   const { dslService, query, filters, http, startTime, endTime } = props;
+  const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
   const [traceOptions, setTraceOptions] = useState<Array<optionType>>([]);
@@ -78,20 +79,40 @@ export const TraceConfig = (props: TraceConfigProps) => {
   };
 
   return (
-    <EuiFormRow
-    label="Trace Groups"
-    helpText="Select one or multiple trace groups, or type a custom one"
+    <EuiAccordion
+      id="traceGroups"
+      buttonContent={
+        <>
+          <EuiText size="s">
+          <h3>
+          Trace Groups  <EuiBadge>0</EuiBadge>
+          </h3>
+          </EuiText>
+          <EuiSpacer size="s" />
+          <EuiText size="s" color="subdued">
+            Constrain your application to specific trace groups
+          </EuiText>
+        </>
+        }
+      extraAction={<EuiButton size="s" disabled={!traceOpen}>Clear all</EuiButton>}
+      onToggle={(isOpen) => {setTraceOpen(isOpen)}}
+      paddingSize="l"
     >
-      <EuiComboBox
-        aria-label="Select trace groups"
-        placeholder="Select or add trace groups"
-        options={traceOptions}
-        selectedOptions={selectedTraces}
-        onChange={onTraceChange}
-        onCreateOption={onCreateTrace}
-        isClearable={false}
-        data-test-subj="traceGroupsComboBox"
-      />
-    </EuiFormRow>
+      <EuiFormRow
+      label="Trace Groups"
+      helpText="Select one or multiple trace groups, or type a custom one"
+      >
+        <EuiComboBox
+          aria-label="Select trace groups"
+          placeholder="Select or add trace groups"
+          options={traceOptions}
+          selectedOptions={selectedTraces}
+          onChange={onTraceChange}
+          onCreateOption={onCreateTrace}
+          isClearable={false}
+          data-test-subj="traceGroupsComboBox"
+        />
+      </EuiFormRow>
+    </EuiAccordion>
   );
 }
