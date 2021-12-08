@@ -5,13 +5,18 @@
 
 package org.opensearch.observability.bwc
 
+import org.junit.Assert
 import org.opensearch.common.settings.Settings
-import org.opensearch.observability.rest.GetObjectIT
-import org.opensearch.test.rest.OpenSearchRestTestCase
+import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
+import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
+import org.opensearch.observability.PluginRestTestCase
+import org.opensearch.observability.constructNotebookRequest
+import org.opensearch.rest.RestRequest
+import org.opensearch.rest.RestStatus
 import java.util.List
 import java.util.Map
 
-public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
+class TABackwardCompatibilityIT : PluginRestTestCase() {
 
     companion object {
         private val CLUSTER_TYPE: ClusterType = ClusterType.parse(System.getProperty("tests.rest.bwcsuite"))
@@ -62,15 +67,17 @@ public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
             return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
                     assertTrue(pluginNames.contains("opensearch-notebooks"))
-                    callOldIntegTest()
+                    createNotebook()
+                    verifyNotebooksExists(BASE_NOTEBOOKS_URI)
                 }
                 ClusterType.MIXED -> {
+//                    assertTrue(pluginNames.contains("opensearch-notebooks"))
                     assertTrue(pluginNames.contains("opensearch-observability"))
-                    callMixedIntegTest()
+//                    verifyNotebooksExists(BASE_OBSERVABILITY_URI)
                 }
                 ClusterType.UPGRADED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
-                    callUpgradedIntegTest()
+                    verifyNotebooksExists(BASE_OBSERVABILITY_URI)
                 }
             }
             break
@@ -92,18 +99,27 @@ public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
         }
     }
 
-    private fun callOldIntegTest() {
-        NotebooksIT().`test create notebook`()
-//        NotebooksIT().`test get notebook`()
-        NotebooksIT().`test get all notebooks`()
+    private fun createNotebook() {
+        val createRequest = constructNotebookRequest()
+        val createResponse = executeRequest(
+            RestRequest.Method.POST.name,
+            "$BASE_NOTEBOOKS_URI/object",
+            createRequest,
+            RestStatus.OK.status
+        )
+        val id = createResponse.get("objectId").asString
+        Assert.assertNotNull("Id should be generated", id)
+        Thread.sleep(100)
     }
 
-    private fun callMixedIntegTest() {
-//        GetObjectIT().`test get single object`()
-//        CreateObjectIT().`test create notebook`()
-    }
-
-    private fun callUpgradedIntegTest() {
-        GetObjectIT().`test get single object`()
+    private fun verifyNotebooksExists(uri: String) {
+        val listNotebooks = executeRequest(
+            RestRequest.Method.GET.name,
+            "$uri/notebooks",
+            "",
+            RestStatus.OK.status
+        )
+        val totalHits = listNotebooks.get("totalHits").asInt
+        assertTrue("Actual notebooks counts ($totalHits) should be greater than or equal to (1)", totalHits >= 1)
     }
 }
