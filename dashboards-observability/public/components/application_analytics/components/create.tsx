@@ -48,7 +48,7 @@ interface CreateAppProps extends AppAnalyticsComponentDeps {
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, dslService, query, indicesExist, filters, setFilters, startTime, endTime, http } = props;
+  const { parentBreadcrumb, chrome, dslService, query, setQuery, filters, setFilters, http } = props;
   const [state, setState] = useState({
     name: '',
     description: ''
@@ -98,7 +98,7 @@ export const CreateApp = (props: CreateAppProps) => {
 
   const services = Object.keys(serviceMap).map((service) => { return { label: service } });
 
-  const handleQueryChange = async (query: string) => setTempQuery(query);
+  const handleQueryChange = async (query: string) => setQuery(query);
 
   const closeFlyout = () => {
     setIsFlyoutVisible(false);
@@ -260,7 +260,7 @@ export const CreateApp = (props: CreateAppProps) => {
               </EuiText>
               </>
             }
-            extraAction={<EuiButton size="s" disabled={!logOpen}>Clear all</EuiButton>}
+            extraAction={<EuiButton size="s" disabled={!logOpen} onClick={() => { handleQueryChange('') }}>Clear all</EuiButton>}
             onToggle={(isOpen) => {setLogOpen(isOpen)}}
             paddingSize="l"
           >
