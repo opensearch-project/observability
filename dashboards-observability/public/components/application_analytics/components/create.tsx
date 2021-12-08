@@ -42,6 +42,7 @@ import { ServiceMap } from "../../../components/trace_analytics/components/servi
 import { handleServiceMapRequest } from "../../../components/trace_analytics/requests/services_request_handler";
 import { ServiceObject } from "../../../components/trace_analytics/components/common/plots/service_map";
 import { FilterType } from "../../../components/trace_analytics/components/common/filters/filters";
+import { TraceConfig } from './trace_config';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -63,9 +64,10 @@ export const CreateApp = (props: CreateAppProps) => {
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
   const [selectedServices, setSelectedServices] = useState(filters.map((f) => { return { label: f.value }}));
 
+
   useEffect (() => {
-    const filterServices = filters.map((f) => { return { label: f.value }});
-    const noDups = filterServices.filter((s, index) => { return filterServices.findIndex(ser => ser.label === s.label) === index });
+    const serviceOptions = filters.filter(f => f.field === 'serviceName').map((f) => { return { label: f.value }});
+    const noDups = serviceOptions.filter((s, index) => { return serviceOptions.findIndex(ser => ser.label === s.label) === index });
     setSelectedServices(noDups);
   }, [filters])
 
@@ -86,7 +88,7 @@ export const CreateApp = (props: CreateAppProps) => {
   const onServiceChange = (selectedServices: any) => {
     const serviceFilter = selectedServices.map((option: EuiComboBoxOptionOption<string>) => { 
       return {
-        field: 'service', 
+        field: 'serviceName', 
         operator: 'is', 
         value: option.label, 
         inverted: false, 
@@ -127,7 +129,7 @@ export const CreateApp = (props: CreateAppProps) => {
       },
     ]);
     handleServiceMapRequest(http, dslService, serviceMap, setServiceMap);
-    })
+    }, [])
 
   const dummyItems = [{id: '1', level: "Unavailable", color: "danger", conditions: "WHEN errorRate() IS ABOVE OR EQUAL TO 2%"}];
   const tableColumns = [
@@ -338,31 +340,18 @@ export const CreateApp = (props: CreateAppProps) => {
                 <h3>
                 Trace Groups  <EuiBadge>0</EuiBadge>
                 </h3>
-              </EuiText>
-              <EuiSpacer size="s" />
-              <EuiText size="s" color="subdued">
-                Constrain your application to specific trace groups
-              </EuiText>
+                </EuiText>
+                <EuiSpacer size="s" />
+                <EuiText size="s" color="subdued">
+                  Constrain your application to specific trace groups
+                </EuiText>
               </>
               }
             extraAction={<EuiButton size="s" disabled={!traceOpen}>Clear all</EuiButton>}
             onToggle={(isOpen) => {setTraceOpen(isOpen)}}
             paddingSize="l"
           >
-            <EuiFormRow
-            label="Trace Groups"
-            helpText="Select one or multiple trace groups, or type a custom one"
-            >
-              <EuiSelect
-              hasNoInitialSelection
-              onChange={() => {}}
-              options={[
-                { value: 'payment', text: 'Payment.auto' },
-                { value: 'user', text: 'Users.admin' },
-                { value: 'purchase', text: 'Purchase.source' },
-              ]}
-              />
-            </EuiFormRow>
+            <TraceConfig {...props}/>
           </EuiAccordion>
         </EuiPageContent>
         <EuiSpacer />
