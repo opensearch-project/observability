@@ -85,7 +85,7 @@ class NotebooksIT : PluginRestTestCase() {
     fun `test get all notebooks`() {
         val notebooksGetAllEmptyResponse = executeRequest(
             RestRequest.Method.GET.name,
-            "_cat/plugins?format=JSON",
+            "$BASE_NOTEBOOKS_URI/notebooks",
             "",
             RestStatus.OK.status
         )
