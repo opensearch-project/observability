@@ -304,7 +304,7 @@ export const CreateApp = (props: CreateAppProps) => {
               </EuiText>
               </>
               }
-            extraAction={<EuiButton size="s" disabled={!servicesOpen}>Clear all</EuiButton>}
+            extraAction={<EuiButton size="s" disabled={!servicesOpen} onClick={() => {setFilters([])}}>Clear all</EuiButton>}
             onToggle={(isOpen) => {setServicesOpen(isOpen)}}
             paddingSize="l"
           >
