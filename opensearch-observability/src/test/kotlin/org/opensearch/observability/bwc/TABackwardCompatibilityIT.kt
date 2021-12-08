@@ -93,7 +93,7 @@ public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
     }
 
     private fun callOldIntegTest() {
-//        NotebooksIT().`test create notebook`()
+        NotebooksIT().`test create notebook`()
 //        NotebooksIT().`test get notebook`()
         NotebooksIT().`test get all notebooks`()
     }
