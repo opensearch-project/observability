@@ -4,7 +4,7 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 
 ## Code Summary
 
-### OpenSearch-Plugin
+### OpenSearch-Observability
 
 |                              |                                                                                                                                              |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,7 +13,7 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 | Distribution build tests     | [![OpenSearch IT tests][opensearch-it-badge]][opensearch-it-link] [![OpenSearch IT code][opensearch-it-code-badge]][opensearch-it-code-link] |
 | Backward compatibility tests | [![BWC tests][bwc-tests-badge]][bwc-tests-link]                                                                                              |
 
-### OpenSearch Dashboards-Plugin
+### Dashboards-Observability
 
 |                          |                                                                                                                    |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
