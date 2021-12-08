@@ -89,7 +89,7 @@ class NotebooksIT : PluginRestTestCase() {
             "",
             RestStatus.OK.status
         )
-        println("cat plugins $notebooksGetAllEmptyResponse")
+//        println("cat plugins $notebooksGetAllEmptyResponse")
         Assert.assertEquals(0, notebooksGetAllEmptyResponse.get("totalHits").asInt)
 
         val notebookIds = Array(5) { createNotebook("test-$it") }
