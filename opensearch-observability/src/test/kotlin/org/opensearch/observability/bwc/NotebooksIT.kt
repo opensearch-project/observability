@@ -3,12 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.notebooks1
+package org.opensearch.observability.bwc
 
+import org.junit.Assert
+import org.opensearch.observability.PluginRestTestCase
+import org.opensearch.observability.constructNotebookRequest
+import org.opensearch.observability.jsonify
+import org.opensearch.observability.validateErrorResponse
+import org.opensearch.observability.validateTimeRecency
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
-import org.junit.Assert
-import org.opensearch.observability.*
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
 import java.time.Instant
 
@@ -81,10 +85,11 @@ class NotebooksIT : PluginRestTestCase() {
     fun `test get all notebooks`() {
         val notebooksGetAllEmptyResponse = executeRequest(
             RestRequest.Method.GET.name,
-            "$BASE_NOTEBOOKS_URI/notebooks",
+            "_cat/plugins?format=JSON",
             "",
             RestStatus.OK.status
         )
+        println("cat plugins $notebooksGetAllEmptyResponse")
         Assert.assertEquals(0, notebooksGetAllEmptyResponse.get("totalHits").asInt)
 
         val notebookIds = Array(5) { createNotebook("test-$it") }

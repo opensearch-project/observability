@@ -6,9 +6,7 @@
 package org.opensearch.observability.bwc
 
 import org.opensearch.common.settings.Settings
-import org.opensearch.observability.rest.CreateObjectIT
 import org.opensearch.observability.rest.GetObjectIT
-import org.opensearch.observability.notebooks1.NotebooksIT
 import org.opensearch.test.rest.OpenSearchRestTestCase
 import java.util.List
 import java.util.Map
@@ -63,7 +61,7 @@ public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
             val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
             return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
-                    assertTrue(pluginNames.contains("opensearch-observability"))
+                    assertTrue(pluginNames.contains("opensearch-notebooks"))
                     callOldIntegTest()
                 }
                 ClusterType.MIXED -> {
@@ -106,7 +104,6 @@ public class TABackwardCompatibilityIT : OpenSearchRestTestCase() {
     }
 
     private fun callUpgradedIntegTest() {
-        CreateObjectIT().`test create notebook`()
         GetObjectIT().`test get single object`()
     }
 }
