@@ -68,7 +68,7 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
                 ClusterType.OLD -> {
                     assertTrue(pluginNames.contains("opensearch-notebooks"))
                     createNotebook()
-                    verifyNotebooksExists(BASE_NOTEBOOKS_URI)
+//                    verifyNotebooksExists(BASE_NOTEBOOKS_URI)
                 }
                 ClusterType.MIXED -> {
 //                    assertTrue(pluginNames.contains("opensearch-notebooks"))
@@ -103,11 +103,11 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         val createRequest = constructNotebookRequest()
         val createResponse = executeRequest(
             RestRequest.Method.POST.name,
-            "$BASE_NOTEBOOKS_URI/object",
+            "$BASE_NOTEBOOKS_URI/notebook",
             createRequest,
             RestStatus.OK.status
         )
-        val id = createResponse.get("objectId").asString
+        val id = createResponse.get("notebookId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
     }
@@ -115,7 +115,7 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
     private fun verifyNotebooksExists(uri: String) {
         val listNotebooks = executeRequest(
             RestRequest.Method.GET.name,
-            "$uri/notebooks",
+            "$uri/object",
             "",
             RestStatus.OK.status
         )
