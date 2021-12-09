@@ -11,19 +11,22 @@ import { handleDashboardRequest } from "../../../components/trace_analytics/requ
 import DSLService from "public/services/requests/dsl";
 import React, { useEffect, useState } from "react";
 import { AppAnalyticsComponentDeps } from "../home";
+import { DashboardTable } from '../../../components/trace_analytics/components/dashboard/dashboard_table';
+import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
 }
 
 export const TraceConfig = (props: TraceConfigProps) => {
-  const { dslService, query, filters, http, startTime, endTime } = props;
+  const { dslService, query, filters, setFilters, http, startTime, endTime } = props;
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
   const [traceOptions, setTraceOptions] = useState<Array<optionType>>([]);
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
+  const [redirect, setRedirect] = useState(true);
 
   useEffect(() => {
     setLoading(true)
@@ -47,6 +50,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
       setTraceItems,
       setPercentileMap
     ).then(() => setLoading(false));
+    setRedirect(false);
     }, [])
 
   useEffect (() => {
@@ -54,8 +58,41 @@ export const TraceConfig = (props: TraceConfigProps) => {
     setTraceOptions(toOptions);
   }, [traceItems])
 
+  useEffect (() => {
+    console.log('selected traces update with filters ' + JSON.stringify(filters))
+    const filteredOptions = filters.filter(f => f.field === 'traceGroup').map((f) => { return { label: f.value }});
+    const noDups = filteredOptions.filter((t, index) => { return filteredOptions.findIndex(trace => trace.label === t.label) === index });
+    setSelectedTraces(noDups);
+  }, [filters])
+
+  const addFilter = (filter: FilterType) => {
+    console.log('current filters' + JSON.stringify(filters))
+    for (const addedFilter of filters) {
+      if (
+        addedFilter.field === filter.field &&
+        addedFilter.operator === filter.operator &&
+        addedFilter.value === filter.value
+      ) {
+        return;
+      }
+    }
+    const newFilters = [...filters, filter];
+    setFilters(newFilters);
+    setTimeout(() => console.log('filter added' + JSON.stringify(filters)), 500);
+  };
+
   const onTraceChange = (selectedTraces: any) => {
-    setSelectedTraces(selectedTraces);
+    const traceFilters = selectedTraces.map((option: optionType) => { 
+      return {
+        field: 'traceGroup', 
+        operator: 'is', 
+        value: option.label, 
+        inverted: false, 
+        disabled: false 
+      }
+    })
+    setFilters(traceFilters);
+    setTimeout(() => console.log('added filter from combo box' + JSON.stringify(filters)), 500);
   };
 
   const onCreateTrace = (searchValue: string, flattenedOptions: any) => {
@@ -63,8 +100,15 @@ export const TraceConfig = (props: TraceConfigProps) => {
     if (!normalizedSearchValue) {
       return;
     }
-    const newTrace = {
-      label: searchValue,
+    const newTraceOption = {
+      label: searchValue
+    }
+    const newTraceFilter = {
+      field: 'traceGroup',
+      operator: 'is',
+      value: searchValue,
+      inverted: false, 
+      disabled: false 
     };
     // Create the option if it doesn't exist.
     if (
@@ -72,11 +116,39 @@ export const TraceConfig = (props: TraceConfigProps) => {
         (option: optionType) => option.label.trim().toLowerCase() === normalizedSearchValue
       ) === -1
     ) {
-      setTraceOptions([...traceOptions, newTrace]);
+      setTraceOptions([...traceOptions, newTraceOption]);
     }
     // Select the option.
-    setSelectedTraces([...selectedTraces, newTrace]);
+    setFilters([...filters, newTraceFilter]);
   };
+
+  const addPercentileFilter = (condition = 'gte', additionalFilters = [] as FilterType[]) => {
+    if (traceItems.length === 0 || Object.keys(percentileMap).length === 0) return;
+    for (let i = 0; i < props.filters.length; i++) {
+      if (props.filters[i].custom) {
+        const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
+        newFilter.custom.query.bool.should.forEach((should: any) =>
+          should.bool.must.forEach((must: any) => {
+            const range = must?.range?.['traceGroupFields.durationInNanos'];
+            if (range) {
+              const duration = range.lt || range.lte || range.gt || range.gte;
+              if (duration || duration === 0) {
+                must.range['traceGroupFields.durationInNanos'] = {
+                  [condition]: duration,
+                };
+              }
+            }
+          })
+        );
+        newFilter.value = condition === 'gte' ? '>= 95th' : '< 95th';
+        const newFilters = [...filters, ...additionalFilters];
+        newFilters.splice(i, 1, newFilter);
+        console.log("here")
+        setFilters(newFilters);
+        return;
+      }
+    }
+  }
 
   return (
     <EuiAccordion
@@ -85,7 +157,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         <>
           <EuiText size="s">
           <h3>
-          Trace Groups  <EuiBadge>0</EuiBadge>
+          Trace Groups  <EuiBadge>{selectedTraces.length}</EuiBadge>
           </h3>
           </EuiText>
           <EuiSpacer size="s" />
@@ -113,6 +185,18 @@ export const TraceConfig = (props: TraceConfigProps) => {
           data-test-subj="traceGroupsComboBox"
         />
       </EuiFormRow>
+      <EuiSpacer />
+      <EuiButton onClick={() => {console.log('filters' + JSON.stringify(filters)); console.log(JSON.stringify(sessionStorage)); }}>
+        log
+      </EuiButton>
+      <DashboardTable
+        items={traceItems}
+        filters={[]}
+        addFilter={addFilter}
+        addPercentileFilter={addPercentileFilter}
+        setRedirect={setRedirect}
+        loading={loading}
+      />
     </EuiAccordion>
   );
 }

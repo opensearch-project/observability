@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiComboBoxOptionOption, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
+import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
 import { FilterType } from "../../../components/trace_analytics/components/common/filters/filters";
 import { ServiceObject } from "../../../components/trace_analytics/components/common/plots/service_map";
 import { ServiceMap } from "../../../components/trace_analytics/components/services";
@@ -12,13 +12,14 @@ import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { AppAnalyticsComponentDeps } from "../home";
+import { optionType } from "common/constants/application_analytics";
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
 }
 
 export const ServiceConfig = (props: ServiceConfigProps) => {
-  const { parentBreadcrumb, chrome, dslService, query, setQuery, filters, setFilters, http } = props;
+  const { dslService, filters, setFilters, http } = props;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
@@ -49,7 +50,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
   };
 
   const onServiceChange = (selectedServices: any) => {
-    const serviceFilter = selectedServices.map((option: EuiComboBoxOptionOption<string>) => { 
+    const serviceFilters = selectedServices.map((option: optionType) => { 
       return {
         field: 'serviceName', 
         operator: 'is', 
@@ -58,7 +59,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         disabled: false 
       }
     })
-    setFilters(serviceFilter);
+    setFilters(serviceFilters);
   };
 
   const services = Object.keys(serviceMap).map((service) => { return { label: service } });

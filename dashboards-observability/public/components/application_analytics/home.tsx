@@ -69,6 +69,7 @@ export const Home = (props: HomeProps) => {
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
+    console.log('newFilters ' + JSON.stringify(newFilters))
     setFilters(newFilters);
     sessionStorage.setItem('AppAnalyticsFilters', JSON.stringify(newFilters));
   };
