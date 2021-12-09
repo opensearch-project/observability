@@ -171,9 +171,6 @@ exports[`<Notebook /> spec renders the component 1`] = `
             class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentSpaceEvenly euiFlexGroup--directionRow euiFlexGroup--responsive"
           >
             <div
-              class="euiFlexItem euiFlexItem--flexGrow2"
-            />
-            <div
               class="euiFlexItem euiFlexItem--flexGrow3"
             >
               <div
@@ -300,8 +297,68 @@ exports[`<Notebook /> spec renders the component 1`] = `
               </div>
             </div>
             <div
-              class="euiFlexItem euiFlexItem--flexGrow2"
-            />
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 7.5v6a.5.5 0 11-1 0V8H6v5.5a.5.5 0 11-1 0V3H2v10.5a.5.5 0 11-1 0v-11a.5.5 0 01.5-.5h4a.5.5 0 01.5.5V7h3V4.5a.5.5 0 01.5-.5h4a.5.5 0 01.5.5v9a.5.5 0 11-1 0V5h-3v2.5zM.5 16a.5.5 0 110-1h14a.5.5 0 110 1H.5z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    OpenSearch Observability visualization
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Import OpenSearch Observability visualizations to the notes.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add visualization
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="euiSpacer euiSpacer--xxl"
@@ -476,9 +533,6 @@ exports[`<Notebook /> spec renders the empty component 1`] = `
             class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentSpaceEvenly euiFlexGroup--directionRow euiFlexGroup--responsive"
           >
             <div
-              class="euiFlexItem euiFlexItem--flexGrow2"
-            />
-            <div
               class="euiFlexItem euiFlexItem--flexGrow3"
             >
               <div
@@ -597,8 +651,64 @@ exports[`<Notebook /> spec renders the empty component 1`] = `
               </div>
             </div>
             <div
-              class="euiFlexItem euiFlexItem--flexGrow2"
-            />
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiIcon-isLoading euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    OpenSearch Observability visualization
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Import OpenSearch Observability visualizations to the notes.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add visualization
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="euiSpacer euiSpacer--xxl"

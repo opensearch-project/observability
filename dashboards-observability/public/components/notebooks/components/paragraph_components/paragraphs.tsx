@@ -34,6 +34,8 @@ import { ParaType } from '../../../../../common/types/notebooks';
 import { uiSettingsService } from '../../../../../common/utils';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
+import PPLService from '../../../../services/requests/ppl';
 
 /*
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs
@@ -60,6 +62,7 @@ import { ParaOutput } from './para_output';
  * https://components.nteract.io/#cell
  */
 type ParagraphProps = {
+  pplService: PPLService;
   para: ParaType;
   setPara: (para: ParaType) => void;
   dateModified: string;
@@ -84,6 +87,7 @@ type ParagraphProps = {
 
 export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   const {
+    pplService,
     para,
     index,
     paragraphSelector,
@@ -116,7 +120,7 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   }));
 
   useEffect(() => {
-    if (para.isVizualisation) {
+    if (para.inputType === 'VISUALIZATION') {
       if (para.visSavedObjId !== '') setVisInput(JSON.parse(para.vizObjectInput));
 
       http
@@ -129,13 +133,30 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
           setVisOptions(opt);
           setSelectedVisOption(opt.filter((o) => o.key === para.visSavedObjId));
         })
-        .catch((err) => console.error('Fetching visualization issue', err.body.message));
+        .catch((err) => console.error('Fetching dashboard visualization issue', err.body.message));
+    }
+
+    if (para.inputType === 'OBSERVABILITY_VISUALIZATION') {
+      if (para.visSavedObjId !== '') setVisInput(JSON.parse(para.vizObjectInput));
+
+      http
+        .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations`)
+        .then((res) => {
+          const opt = res.visualizations.map((vizObject) => ({
+            label: vizObject.name,
+            key: vizObject.id,
+          }));
+          setVisOptions(opt);
+          setSelectedVisOption(opt.filter((o) => o.key === para.visSavedObjId));
+        })
+        .catch((err) =>
+          console.error('Fetching observability visualization issue', err.body.message)
+        );
     }
   }, []);
 
-  const createNewVizObject = (objectId: string) => {
+  const createDashboardVizObject = (objectId: string) => {
     const vizUniqueId = htmlIdGenerator()();
-
     // a dashboard container object for new visualization
     const newVizObject: DashboardContainerInput = {
       viewMode: ViewMode.VIEW,
@@ -176,6 +197,14 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     return newVizObject;
   };
 
+  const createObservabilityVizObject = (objectId: string) => {
+    const newVizObject = {
+      savedVisualizationId: objectId,
+      timeRange: { from: para.visStartTime, to: para.visEndTime },
+    };
+    return newVizObject;
+  };
+
   const onRunPara = () => {
     if (
       (!para.isVizualisation && !para.inp) ||
@@ -186,7 +215,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     }
     let newVisObjectInput = undefined;
     if (para.isVizualisation) {
-      const inputTemp = createNewVizObject(selectedVisOption[0].key);
+      const inputTemp =
+        para.inputType === 'VISUALIZATION'
+          ? createDashboardVizObject(selectedVisOption[0].key)
+          : createObservabilityVizObject(selectedVisOption[0].key);
       setVisInput(inputTemp);
       setRunParaError(false);
       newVisObjectInput = JSON.stringify(inputTemp);
@@ -214,6 +246,8 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
   // do not show output if it is a visualization paragraph and visInput is not loaded yet
   const paraOutput = (!para.isVizualisation || visInput) && (
     <ParaOutput
+      http={http}
+      pplService={pplService}
       key={para.uniqueId}
       para={para}
       visInput={visInput}
@@ -308,10 +342,17 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
             },
           },
           {
-            name: 'Visualization',
+            name: 'Dashboards visualization',
             onClick: () => {
               setIsPopoverOpen(false);
               props.addPara(index, '', 'VISUALIZATION');
+            },
+          },
+          {
+            name: 'Observability visualization',
+            onClick: () => {
+              setIsPopoverOpen(false);
+              props.addPara(index, '', 'OBSERVABILITY_VISUALIZATION');
             },
           },
         ],
@@ -328,10 +369,17 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
             },
           },
           {
-            name: 'Visualization',
+            name: 'Dashboards visualization',
             onClick: () => {
               setIsPopoverOpen(false);
               props.addPara(index + 1, '', 'VISUALIZATION');
+            },
+          },
+          {
+            name: 'Observability visualization',
+            onClick: () => {
+              setIsPopoverOpen(false);
+              props.addPara(index + 1, '', 'OBSERVABILITY_VISUALIZATION');
             },
           },
         ],
@@ -467,7 +515,11 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     <>
       <EuiPanel>
         {renderParaHeader(
-          para.isVizualisation ? 'OpenSearch Dashboards visualization' : 'Code block',
+          !para.isVizualisation
+            ? 'Code block'
+            : para.inputType === 'VISUALIZATION'
+            ? 'OpenSearch Dashboards visualization'
+            : 'OpenSearch Observability visualization',
           index
         )}
         <div key={index} className={paraClass} onClick={() => paragraphSelector(index)}>

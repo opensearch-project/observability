@@ -165,11 +165,19 @@ export class ZeppelinBackend implements NotebookAdaptor {
     params: { paragraphIndex: number; noteId: string; paragraphInput: string; inputType: string }
   ) {
     const visualizationPrefix = '%sh #vizobject:';
+    const observabilityVisualizationPrefix = '%sh #observabilityviz:';
     let paragraphText = params.paragraphInput;
 
     if (
       params.inputType === 'VISUALIZATION' &&
       params.paragraphInput.substring(0, 15) !== visualizationPrefix
+    ) {
+      paragraphText = visualizationPrefix + paragraphText;
+    }
+
+    if (
+      params.inputType === 'OBSERVABILITY_VISUALIZATION' &&
+      params.paragraphInput.substring(0, 22) !== observabilityVisualizationPrefix
     ) {
       paragraphText = visualizationPrefix + paragraphText;
     }

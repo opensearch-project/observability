@@ -310,6 +310,9 @@ export class DefaultBackend implements NotebookAdaptor {
       if (inputType === 'VISUALIZATION') {
         paragraphType = 'VISUALIZATION';
       }
+      if (inputType === 'OBSERVABILITY_VISUALIZATION') {
+        paragraphType = 'OBSERVABILITY_VISUALIZATION';
+      }
       if (paragraphInput.substring(0, 3) === '%sql' || paragraphInput.substring(0, 3) === '%ppl') {
         paragraphType = 'QUERY';
       }
@@ -382,6 +385,15 @@ export class DefaultBackend implements NotebookAdaptor {
             updatedParagraph.output = [
               {
                 outputType: 'VISUALIZATION',
+                result: '',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
+              },
+            ];
+          } else if (paragraphs[index].input.inputType === 'OBSERVABILITY_VISUALIZATION') {
+            updatedParagraph.dateModified = new Date().toISOString();
+            updatedParagraph.output = [
+              {
+                outputType: 'OBSERVABILITY_VISUALIZATION',
                 result: '',
                 execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
