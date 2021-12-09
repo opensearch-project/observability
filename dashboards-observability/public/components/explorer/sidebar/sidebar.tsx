@@ -56,10 +56,11 @@ export const Sidebar = (props: ISidebarProps) => {
             compressed
             fullWidth
             onChange={(e) => { 
-              setSearchTerm(e.target.value) 
+              setSearchTerm(e.target.value)
             }}
             placeholder="Search field names"
             value={searchTerm}
+            data-test-subj="eventExplorer__sidebarSearch"
           />
         </div>
         <EuiSpacer size="s"/>
@@ -132,8 +133,8 @@ export const Sidebar = (props: ISidebarProps) => {
                   >
                     <Field 
                       field={ field }
-                      selectedTimestamp={ selectedTimestamp }
-                      isOverridingTimestamp={ isOverridingTimestamp }
+                      selectedTimestamp={selectedTimestamp}
+                      isOverridingTimestamp={isOverridingTimestamp}
                       handleOverrideTimestamp={handleOverrideTimestamp}
                       selected={true}
                       isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}

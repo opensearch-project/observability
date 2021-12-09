@@ -277,6 +277,7 @@ export const Home = (props: IHomeProps) => {
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
+      data-test-subj="eventHomeAction"
     >
       Actions
     </EuiButton>
@@ -303,6 +304,7 @@ export const Home = (props: IHomeProps) => {
         setIsActionsPopoverOpen(false);
         deleteHistory();
       }}
+      data-test-subj="eventHomeAction__delete"
     >
       Delete
     </EuiContextMenuItem>,
@@ -312,6 +314,7 @@ export const Home = (props: IHomeProps) => {
         setIsActionsPopoverOpen(false);
         history.push(`/event_analytics/explorer`);
       }}
+      data-test-subj="eventHomeAction__explorer"
     >
       Event Explorer
     </EuiContextMenuItem>,
@@ -321,6 +324,7 @@ export const Home = (props: IHomeProps) => {
         setIsActionsPopoverOpen(false);
         addSampledata();
       }}
+      data-test-subj="eventHomeAction__addSamples"
     >
       Add samples
     </EuiContextMenuItem>,
@@ -388,6 +392,7 @@ export const Home = (props: IHomeProps) => {
                       button={popoverButton}
                       isOpen={isActionsPopoverOpen}
                       closePopover={() => setIsActionsPopoverOpen(false)}
+                      // data-test-subj="eventHomeAction__popover"
                     >
                       <EuiContextMenuPanel items={popoverItems} />
                     </EuiPopover>
@@ -424,12 +429,17 @@ export const Home = (props: IHomeProps) => {
                         <EuiButton
                           fullWidth={false}
                           onClick={() => history.push(`/event_analytics/explorer`)}
+                          data-test-subj="actionEventExplorer"
                         >
                           Event Explorer
                         </EuiButton>
                       </EuiFlexItem>
                       <EuiFlexItem grow={false}>
-                        <EuiButton fullWidth={false} onClick={() => addSampledata()}>
+                        <EuiButton 
+                          fullWidth={false}
+                          onClick={() => addSampledata()}
+                          data-test-subj="actionAddSamples"
+                        >
                           Add samples
                         </EuiButton>
                       </EuiFlexItem>

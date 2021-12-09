@@ -472,7 +472,7 @@ export const Explorer = ({
           <div
               className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
               id="discover-sidebar"
-              data-test-subj="discover-sidebar"
+              data-test-subj="eventExplorer__sidebar"
             >
               {!isSidebarClosed && (
                 <div className="dscFieldChooser">
