@@ -402,8 +402,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   // Function to clone a paragraph
   cloneParaButton = (para: ParaType, index: number) => {
     let inputType = 'CODE';
-    if (para.inputType.includes('VISUALIZATION') === true) {
+    if (para.inputType === 'VISUALIZATION') {
       inputType = 'VISUALIZATION';
+    }
+    if (para.inputType === 'OBSERVABILITY_VISUALIZATION') {
+      inputType = 'OBSERVABILITY_VISUALIZATION';
     }
     if (index !== -1) {
       return this.addPara(index, para.inp, inputType);

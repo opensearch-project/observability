@@ -11,6 +11,7 @@
 import { ParaType } from '../../../common';
 
 const visualizationPrefix = '%sh #vizobject:';
+const observabilityVisualizationPrefix = '%sh #observabilityviz:';
 
 const langSupport = {
   '%sh': 'shell',
@@ -65,7 +66,10 @@ const parseText = (paraObject: any) => {
 // Param: Zeppelin Paragraph
 const parseVisualization = (paraObject: any) => {
   let vizContent = '';
-  if ('text' in paraObject && paraObject.text.substring(0, 15) === visualizationPrefix) {
+  if (
+    paraObject.hasOwnProperty('text') &&
+    paraObject.text.substring(0, 15) === visualizationPrefix
+  ) {
     if (paraObject.title !== 'VISUALIZATION') {
       throw new Error('Visualization parse issue');
     }
@@ -74,12 +78,26 @@ const parseVisualization = (paraObject: any) => {
       isViz: true,
       VizObject: vizContent,
     };
-  } else {
+  }
+
+  if (
+    paraObject.hasOwnProperty('text') &&
+    paraObject.text.substring(0, 22) === observabilityVisualizationPrefix
+  ) {
+    if (paraObject.title !== 'OBSERVABILITY_VISUALIZATION') {
+      throw new Error('Visualization parse issue');
+    }
+    vizContent = paraObject.text.substring(22);
     return {
-      isViz: false,
+      isViz: true,
       VizObject: vizContent,
     };
   }
+
+  return {
+    isViz: false,
+    VizObject: vizContent,
+  };
 };
 
 // This parser is used to get paragraph id
@@ -113,7 +131,7 @@ export const zeppelinParagraphParser = (zeppelinBackendParagraphs: any) => {
         isInputHidden: false,
         isOutputHidden: false,
         showAddPara: false,
-        inputType: paraObject.input.inputType,
+        inputType: vizParams.VizObject ? paraObject.title : '',
         isVizualisation: vizParams.isViz,
         vizObjectInput: vizParams.VizObject,
         id: index + 1,

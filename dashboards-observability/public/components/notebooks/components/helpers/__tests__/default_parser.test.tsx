@@ -59,6 +59,7 @@ describe('Testing default backend parser function with perfect schema', () => {
         isInputHidden: false,
         isOutputHidden: false,
         showAddPara: false,
+        inputType: isVisualization ? 'VISUALIZATION' : 'MARKDOWN',
         isVizualisation: isVisualization,
         vizObjectInput: isVisualization ? MockVis : '',
         id: k + 1,

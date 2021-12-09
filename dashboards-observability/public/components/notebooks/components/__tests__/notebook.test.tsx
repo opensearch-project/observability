@@ -6,6 +6,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import PPLService from '../../../../services/requests/ppl';
 import React from 'react';
 import { HttpResponse } from '../../../../../../../src/core/public';
 import httpClientMock from '../../../../../test/__mocks__/httpClientMock';
@@ -43,8 +44,10 @@ describe('<Notebook /> spec', () => {
     const location = jest.fn();
     const history = jest.fn() as any;
     history.replace = jest.fn();
+    const pplService = new PPLService(httpClientMock);
     const utils = render(
       <Notebook
+        pplService={pplService}
         openedNoteId="mock-id"
         DashboardContainerByValueRenderer={jest.fn()}
         http={httpClientMock}
@@ -60,8 +63,9 @@ describe('<Notebook /> spec', () => {
     );
     expect(utils.container.firstChild).toMatchSnapshot();
 
-    utils.getByText("Add code block").click();
-    utils.getByText("Add visualization").click();
+    utils.getByText('Add code block').click();
+    utils.getAllByText('Add visualization')[0].click();
+    utils.getAllByText('Add visualization')[1].click();
   });
 
   it('renders the component', async () => {
@@ -83,8 +87,10 @@ describe('<Notebook /> spec', () => {
         })),
       } as unknown) as HttpResponse)
     );
+    const pplService = new PPLService(httpClientMock);
     const utils = render(
       <Notebook
+        pplService={pplService}
         openedNoteId={sampleNotebook1.id}
         DashboardContainerByValueRenderer={jest.fn()}
         http={httpClientMock}
