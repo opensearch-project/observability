@@ -371,7 +371,7 @@ export function DashboardTable(props: {
   };
 
   const varianceProps = useMemo(() => getVarianceProps(props.items), [props.items]);
-  const columns = useMemo(() => getColumns(), [props.items]);
+  const columns = useMemo(() => getColumns(), [props.items, props.filters]);
   const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
 
   const [sorting, setSorting] = useState<{ sort: PropertySort }>({

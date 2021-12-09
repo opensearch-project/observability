@@ -59,14 +59,12 @@ export const TraceConfig = (props: TraceConfigProps) => {
   }, [traceItems])
 
   useEffect (() => {
-    console.log('selected traces update with filters ' + JSON.stringify(filters))
     const filteredOptions = filters.filter(f => f.field === 'traceGroup').map((f) => { return { label: f.value }});
     const noDups = filteredOptions.filter((t, index) => { return filteredOptions.findIndex(trace => trace.label === t.label) === index });
     setSelectedTraces(noDups);
   }, [filters])
 
   const addFilter = (filter: FilterType) => {
-    console.log('current filters' + JSON.stringify(filters))
     for (const addedFilter of filters) {
       if (
         addedFilter.field === filter.field &&
@@ -78,7 +76,6 @@ export const TraceConfig = (props: TraceConfigProps) => {
     }
     const newFilters = [...filters, filter];
     setFilters(newFilters);
-    setTimeout(() => console.log('filter added' + JSON.stringify(filters)), 500);
   };
 
   const onTraceChange = (selectedTraces: any) => {
@@ -92,7 +89,6 @@ export const TraceConfig = (props: TraceConfigProps) => {
       }
     })
     setFilters(traceFilters);
-    setTimeout(() => console.log('added filter from combo box' + JSON.stringify(filters)), 500);
   };
 
   const onCreateTrace = (searchValue: string, flattenedOptions: any) => {
@@ -143,7 +139,6 @@ export const TraceConfig = (props: TraceConfigProps) => {
         newFilter.value = condition === 'gte' ? '>= 95th' : '< 95th';
         const newFilters = [...filters, ...additionalFilters];
         newFilters.splice(i, 1, newFilter);
-        console.log("here")
         setFilters(newFilters);
         return;
       }
@@ -186,9 +181,6 @@ export const TraceConfig = (props: TraceConfigProps) => {
         />
       </EuiFormRow>
       <EuiSpacer />
-      <EuiButton onClick={() => {console.log('filters' + JSON.stringify(filters)); console.log(JSON.stringify(sessionStorage)); }}>
-        log
-      </EuiButton>
       <DashboardTable
         items={traceItems}
         filters={[]}
