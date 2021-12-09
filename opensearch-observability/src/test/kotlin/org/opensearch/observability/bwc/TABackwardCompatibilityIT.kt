@@ -6,6 +6,7 @@
 package org.opensearch.observability.bwc
 
 import org.junit.Assert
+import org.opensearch.common.collect.Set
 import org.opensearch.common.settings.Settings
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
@@ -23,9 +24,13 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         private val CLUSTER_NAME: String = System.getProperty("tests.clustername")
     }
 
-    override fun preserveReposUponCompletion(): Boolean {
-        return true
-    }
+    override fun preserveReposUponCompletion(): Boolean = true
+
+    override fun preserveIndicesUponCompletion(): Boolean = true
+
+    override fun preserveTemplatesUponCompletion(): Boolean = true
+
+    override fun preserveOpenSearchIndicesAfterTest(): Boolean = true
 
     override fun restClientSettings(): Settings {
         return Settings.builder()
@@ -64,6 +69,7 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         for (response in responseMap.values()) {
             val plugins = response["plugins"] as List<Map<String, Any>>
             val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
+            val nodeName = plugins.map { plugin -> plugin["version"] }
             return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
                     assertTrue(pluginNames.contains("opensearch-notebooks"))
@@ -74,6 +80,11 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
 //                    assertTrue(pluginNames.contains("opensearch-notebooks"))
                     assertTrue(pluginNames.contains("opensearch-observability"))
 //                    verifyNotebooksExists(BASE_OBSERVABILITY_URI)
+                    if (nodeName[0].equals("1.2.0.0-SNAPSHOT")) {
+                        verifyMixed(BASE_OBSERVABILITY_URI)
+                    } else verifyMixed(BASE_NOTEBOOKS_URI)
+//                    mixedClusterTest(nodeName)
+                    assertEquals(nodeName[0], "1.2.0.0-SNAPSHOT")
                 }
                 ClusterType.UPGRADED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
@@ -122,4 +133,32 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         val totalHits = listNotebooks.get("totalHits").asInt
         assertTrue("Actual notebooks counts ($totalHits) should be greater than or equal to (1)", totalHits >= 1)
     }
+
+    private fun verifyMixed(uri: String) {
+        val listNotebooks = executeRequest(
+            RestRequest.Method.GET.name,
+            "$uri/object",
+            "",
+            RestStatus.NOT_FOUND.status
+        )
+        val totalHits = listNotebooks.get("totalHits").asInt
+        assertTrue("Actual notebooks counts ($totalHits) should be greater than or equal to (1)", totalHits >= 1)
+    }
+
+//    private fun mixedClusterTest(nodeName: kotlin.collections.Set) {
+////        val identifyNode = executeRequest(
+////            RestRequest.Method.GET.name,
+////            "/_nodes/plugins",
+////            "",
+////            RestStatus.OK.status
+////        )
+////        val nodeName = identifyNode.get("name").asString
+//        val observability: String = "opensearch-observability"
+//        for (name in nodeName) {
+//            if (nodeName.equals(observability)) {
+//                verifyNotebooksExists(BASE_OBSERVABILITY_URI)
+//            } else verifyNotebooksExists(BASE_NOTEBOOKS_URI)
+//        }
+//    }
 }
+
