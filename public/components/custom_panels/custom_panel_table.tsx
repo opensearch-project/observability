@@ -321,7 +321,11 @@ export const CustomPanelTable = ({
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => createPanel()}>
+                    <EuiButton 
+                      fill 
+                      onClick={() => createPanel()}
+                      data-test-subj="customPanels__createNewPanels"
+                    >
                       Create New Panel
                     </EuiButton>
                   </EuiFlexItem>
