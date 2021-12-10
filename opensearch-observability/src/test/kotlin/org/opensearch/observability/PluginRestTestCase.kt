@@ -63,9 +63,12 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
         return true
     }
 
+    open fun preserveOpenSearchIndicesAfterTest(): Boolean = false
+
     @Throws(IOException::class)
     @After
     open fun wipeAllOpenSearchIndices() {
+        if (preserveOpenSearchIndicesAfterTest()) return
         val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
         val xContentType = XContentType.fromMediaTypeOrFormat(response.entity.contentType.value)
         xContentType.xContent().createParser(
@@ -165,9 +168,13 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
             exception.response
         }
         if (expectedRestStatus != null) {
+//            println("response is $response")
             assertEquals(expectedRestStatus, response.statusLine.statusCode)
+//            response.statusLine.statusCode
         }
         val responseBody = getResponseBody(response)
+//        val json = jsonify(responseBody)
+//        print("json body of response $json")
         return jsonify(responseBody)
     }
 
