@@ -13,29 +13,19 @@ import { SearchBar } from '../common/search_bar';
 import { TracesTable } from './traces_table';
 
 interface TracesProps extends TraceAnalyticsComponentDeps {
-  hasTitle: boolean;
-  breadCrumbOwner: string;
   appId?: string;
   appName?: string;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Traces(props: TracesProps) {
-  const { hasTitle, appId, appName, breadCrumbOwner, parentBreadcrumb } = props;
+  const { appId, appName, parentBreadcrumb, page } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const breadCrumbs = breadCrumbOwner === 'trace' ? 
+  const breadCrumbs = page === 'app' ? 
   [
-    {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Dashboards',
-        href: '#/trace_analytics/home',
-      },
-  ] : [
     {
       text: 'Application analytics',
       href: '#/application_analytics',
@@ -44,6 +34,15 @@ export function Traces(props: TracesProps) {
       text: `${appName}`,
       href: `#/application_analytics/${appId}`,
     },
+  ] : [
+    {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Dashboards',
+        href: '#/trace_analytics/home',
+      },
   ]
 
   useEffect(() => {
@@ -75,12 +74,12 @@ export function Traces(props: TracesProps) {
 
   return (
     <>
-    {hasTitle ?
+    {page === 'app' ?
+      <EuiSpacer size="m" />
+      :
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Traces</h2>
       </EuiTitle>
-      :
-      <EuiSpacer size="m" />
       }
       <SearchBar
         query={props.query}
@@ -92,7 +91,7 @@ export function Traces(props: TracesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="traces"
+        page={page}
       />
       <EuiSpacer size="m" />
       <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} />

@@ -88,7 +88,7 @@ export const Home = (props: HomeProps) => {
         path={['/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Dashboard hasTitle={true} breadCrumbOwner={'dashboard'} {...commonProps} />
+            <Dashboard page="dashboard" {...commonProps} />
           </ObservabilitySideBar>
         )}
       />
@@ -97,7 +97,7 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/traces"
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Traces hasTitle={true} breadCrumbOwner={'dashboard'} {...commonProps} />
+            <Traces page="traces" {...commonProps} />
           </ObservabilitySideBar>
         )}
       />
@@ -117,7 +117,7 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/services"
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Services hasTitle={true} breadCrumbOwner={'dashboard'} {...commonProps} />
+            <Services page='services' {...commonProps} />
           </ObservabilitySideBar>
         )}
       />

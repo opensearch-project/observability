@@ -98,20 +98,20 @@ export function Application(props: AppDetailProps) {
 
   const getOverview = () => {
     return (
-      <Dashboard {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+      <Dashboard {...props} page="app" appId="id" appName="Cool Application" />
     );
   };
 
   const getService = () => {
     return (
-      <Services {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+      <Services {...props} page="app" appId="id" appName="Cool Application" />
     );
   };
 
   const getTrace = () => {
     return (
       <>
-      <Traces {...props} hasTitle={false} breadCrumbOwner="app" appId="id" appName="Cool Application" />
+      <Traces {...props} page="app" appId="id" appName="Cool Application" />
       <EuiSpacer size='m'/>
       <SpanDetailPanel
         {...props}

@@ -34,7 +34,7 @@ describe('Traces component', () => {
         setEndTime={setEndTime}
         indicesExist={false}
         hasTitle={true}
-        breadCrumbOwner="trace"
+        page="traces"
       />
     );
 
@@ -62,7 +62,7 @@ describe('Traces component', () => {
         setEndTime={setEndTime}
         indicesExist={true}
         hasTitle={true}
-        breadCrumbOwner="trace"
+        page="traces"
       />
     );
 

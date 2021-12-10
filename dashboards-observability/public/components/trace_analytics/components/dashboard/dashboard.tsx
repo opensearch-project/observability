@@ -24,14 +24,13 @@ import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
 
 interface DashboardProps extends TraceAnalyticsComponentDeps {
-  hasTitle: boolean;
-  breadCrumbOwner: 'dashboard' | 'app';
   appId?: string;
   appName?: string;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Dashboard(props: DashboardProps) {
-  const { hasTitle, breadCrumbOwner, appId, appName, parentBreadcrumb } = props;
+  const { appId, appName, page, parentBreadcrumb } = props;
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -41,7 +40,7 @@ export function Dashboard(props: DashboardProps) {
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const breadCrumbs = breadCrumbOwner === 'app' ? 
+  const breadCrumbs = page === 'app' ? 
     [
       {
         text: 'Application analytics',
@@ -69,7 +68,7 @@ export function Dashboard(props: DashboardProps) {
       parentBreadcrumb,
       ...breadCrumbs
     ]);
-    const validFilters = getValidFilterFields(breadCrumbOwner);
+    const validFilters = getValidFilterFields(page);
     props.setFilters([
       ...props.filters.map((filter) => ({
         ...filter,
@@ -179,12 +178,12 @@ export function Dashboard(props: DashboardProps) {
 
   return (
     <>
-      {hasTitle ?
+      {page === 'app' ?
+      <EuiSpacer size="m" />
+      :
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
       </EuiTitle>
-      :
-      <EuiSpacer size="m" />
       }
       <SearchBar
         query={props.query}
@@ -196,7 +195,7 @@ export function Dashboard(props: DashboardProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="dashboard"
+        page={page}
       />
       <EuiSpacer size="m" />
       {props.indicesExist ? (
