@@ -87,6 +87,7 @@ export const Field = (props: IFieldProps) => {
                 color="text"
                 iconType="inputOutput"
                 onClick={() => handleOverrideTimestamp(field)}
+                data-test-subj="eventExplorer__overrideDefaultTimestamp"
               >
                 Override
               </EuiButtonIcon> : null

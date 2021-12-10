@@ -337,10 +337,12 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                   className="euiFlexItem"
                                 >
                                   <EuiButton
+                                    data-test-subj="customPanels__createNewPanels"
                                     fill={true}
                                     onClick={[Function]}
                                   >
                                     <EuiButtonDisplay
+                                      data-test-subj="customPanels__createNewPanels"
                                       disabled={false}
                                       element="button"
                                       fill={true}
@@ -350,6 +352,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     >
                                       <button
                                         className="euiButton euiButton--primary euiButton--fill"
+                                        data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
                                         onClick={[Function]}
                                         type="button"
@@ -944,10 +947,12 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                   className="euiFlexItem"
                                 >
                                   <EuiButton
+                                    data-test-subj="customPanels__createNewPanels"
                                     fill={true}
                                     onClick={[Function]}
                                   >
                                     <EuiButtonDisplay
+                                      data-test-subj="customPanels__createNewPanels"
                                       disabled={false}
                                       element="button"
                                       fill={true}
@@ -957,6 +962,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                     >
                                       <button
                                         className="euiButton euiButton--primary euiButton--fill"
+                                        data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
                                         onClick={[Function]}
                                         type="button"
