@@ -63,6 +63,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
         return true
     }
 
+    // this function is triggered when BWC IT is triggered
     open fun preserveOpenSearchIndicesAfterTest(): Boolean = false
 
     @Throws(IOException::class)
@@ -168,13 +169,9 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
             exception.response
         }
         if (expectedRestStatus != null) {
-//            println("response is $response")
             assertEquals(expectedRestStatus, response.statusLine.statusCode)
-//            response.statusLine.statusCode
         }
         val responseBody = getResponseBody(response)
-//        val json = jsonify(responseBody)
-//        print("json body of response $json")
         return jsonify(responseBody)
     }
 
