@@ -57,10 +57,10 @@ export const LogExplorer = ({
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
-    const addNewLink = $('<a class="linkNewTag">+ Add new</a>').on('click', () => {
+    const newLink = $('<a class="linkNewTag" data-test-subj="eventExplorer__addNewTab">+ Add new</a>').on('click', () => {
       addNewTab(NEW_TAB);
     });
-    $('.queryTabs > .euiTabs').append(addNewLink);
+    $('.queryTabs > .euiTabs').append(newLink);
     return () => {
       $('.queryTabs > .euiTabs .linkNewTag').remove();
     }
@@ -170,6 +170,7 @@ export const LogExplorer = ({
                     e.stopPropagation();
                     handleTabClose(tabId);
                   } }
+                  data-test-subj="eventExplorer__tabClose"
                 />
               </EuiText>
             </>),
@@ -218,6 +219,7 @@ export const LogExplorer = ({
         tabs={ memorizedTabs }
         selectedTab={ memorizedTabs.find(tab => tab.id === curSelectedTabId) }
         onTabClick={ (selectedTab: EuiTabbedContentTab) => handleTabClick(selectedTab) }
+        data-test-subj="eventExplorer__topLevelTabbing"
       />
     </>
   );
