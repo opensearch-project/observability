@@ -64,7 +64,6 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
     }
 
     open fun preserveOpenSearchIndicesAfterTest(): Boolean = false
-    
 
     @Throws(IOException::class)
     @After
