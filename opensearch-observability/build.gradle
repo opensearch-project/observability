@@ -164,9 +164,6 @@ test {
 File repo = file("$buildDir/testclusters/repo")
 def _numNodes = findProperty('numNodes') as Integer ?: 1
 
-def es_tmp_dir = rootProject.file('build/private/es_tmp').absoluteFile
-es_tmp_dir.mkdirs()
-
 def opensearch_tmp_dir = rootProject.file('build/private/opensearch_tmp').absoluteFile
 opensearch_tmp_dir.mkdirs()
 
@@ -197,7 +194,7 @@ tasks.named("check").configure { dependsOn(integTest) }
 
 integTest {
     systemProperty 'tests.security.manager', 'false'
-    systemProperty 'java.io.tmpdir', es_tmp_dir.absolutePath
+    systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
 
     systemProperty "https", System.getProperty("https")
     systemProperty "user", System.getProperty("user")

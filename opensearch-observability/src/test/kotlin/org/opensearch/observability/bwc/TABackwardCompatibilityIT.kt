@@ -123,6 +123,6 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
             RestStatus.OK.status
         )
         val totalHits = listNotebooks.get("totalHits").asInt
-        assertTrue("Actual notebooks counts ($totalHits) should be greater than or equal to (1)", totalHits >= 1)
+        assertTrue("Actual notebooks counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
 }
