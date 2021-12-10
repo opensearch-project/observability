@@ -72,6 +72,7 @@ export function Histories({
             onClick={() => {
               handleHistoryClick(item.objectId);
             }}
+            data-test-subj="eventHome__savedQueryTableName"
           >
             {item.name}
           </EuiLink>

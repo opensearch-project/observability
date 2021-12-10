@@ -79,13 +79,13 @@ export const SavePanel = ({
                   }
                 }) }
                 isClearable={true}
-                data-test-subj="demoComboBox"
+                data-test-subj="eventExplorer__querySaveComboBox"
               />
           </EuiFormRow>
         </>
       )}
       <EuiTitle size="xxs">
-        <h3>{ 'Name' }</h3>
+        <h3>Name</h3>
       </EuiTitle>
       <EuiFormRow
         helpText="Name for your savings">
@@ -96,6 +96,7 @@ export const SavePanel = ({
             onChange={(e) => {
               handleNameChange(e.target.value);
             }}
+            data-test-subj="eventExplorer__querySaveName"
           />
       </EuiFormRow>
     </>

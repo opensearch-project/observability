@@ -141,6 +141,7 @@ export const DeletePanelModal = ({
                 placeholder="delete"
                 value={value}
                 onChange={(e) => onChange(e)}
+                data-test-subj="popoverModal__deleteTextInput"
               />
             </EuiFormRow>
           </EuiForm>
@@ -148,7 +149,13 @@ export const DeletePanelModal = ({
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={onCancel}>Cancel</EuiButtonEmpty>
-          <EuiButton onClick={() => onConfirm()} color="danger" fill disabled={value !== 'delete'}>
+          <EuiButton 
+            onClick={() => onConfirm()}
+            color="danger"
+            fill
+            disabled={value !== 'delete'}
+            data-test-subj="popoverModal__deleteButton"
+          >
             Delete
           </EuiButton>
         </EuiModalFooter>
