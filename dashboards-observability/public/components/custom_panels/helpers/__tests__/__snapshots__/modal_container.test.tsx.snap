@@ -30,6 +30,7 @@ exports[`Modal Container component renders DeletePanelModal component 1`] = `
           labelType="label"
         >
           <EuiFieldText
+            data-test-subj="popoverModal__deleteTextInput"
             name="input"
             onChange={[Function]}
             placeholder="delete"
@@ -46,6 +47,7 @@ exports[`Modal Container component renders DeletePanelModal component 1`] = `
       </EuiButtonEmpty>
       <EuiButton
         color="danger"
+        data-test-subj="popoverModal__deleteButton"
         disabled={true}
         fill={true}
         onClick={[Function]}

@@ -52,17 +52,17 @@ jobs:
           yarn osd bootstrap
 
       # TODO enable unit tests when ready
-      # - name: Test
-      #   run: |
-      #     cd OpenSearch-Dashboards/plugins/observability
-      #     yarn test --coverage
+      - name: Test Panels
+        run: |
+          cd OpenSearch-Dashboards/plugins/dashboards-observability
+          yarn test ./public/components/custom_panels/ --coverage
 
-      # - name: Upload coverage
-      #   uses: codecov/codecov-action@v1
-      #   with:
-      #     flags: dashboards-observability
-      #     directory: ./OpenSearch-Dashboards/plugins/dashboards-observability
-      #     token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          flags: dashboards-observability
+          directory: ./OpenSearch-Dashboards/plugins/dashboards-observability
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       # TODO remove hard coded version when observability is ready
       - name: Build Artifact
