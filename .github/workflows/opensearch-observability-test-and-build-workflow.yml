@@ -19,6 +19,12 @@ jobs:
         with:
           java-version: 1.14
 
+      - name: Run Backwards Compatibility Tests
+        run: |
+          cd opensearch-observability
+          echo "Running backwards compatibility tests ..."
+          ./gradlew bwcTestSuite -Dtests.security.manager=false
+
       - name: Build with Gradle
         run: |
           cd opensearch-observability
