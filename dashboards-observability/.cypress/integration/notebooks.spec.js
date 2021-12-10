@@ -11,17 +11,35 @@ import {
   MARKDOWN_TEXT,
   SAMPLE_URL,
   SQL_QUERY_TEXT,
-  PPL_QUERY_TEXT
-} from "../utils/constants";
+  PPL_QUERY_TEXT,
+} from '../utils/constants';
 
-import { skipOn } from '@cypress/skip-test'
+import { SAMPLE_PANEL } from '../utils/panel_constants';
+
+import { skipOn } from '@cypress/skip-test';
 
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for visualization paragraph', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
-    cy.get('div[data-test-subj="sampleDataSetCardflights"]').contains(/(Add|View) data/).click();
+    cy.get('div[data-test-subj="sampleDataSetCardflights"]')
+      .contains(/(Add|View) data/)
+      .click();
   });
-})
+
+  it('Add sample observability data', () => {
+    cy.visit(
+      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+    );
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiContextMenuItem__text').contains('Add samples').click();
+    cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
+      .contains('Add samples')
+      .should('exist');
+    cy.get('.euiButton__text').contains('Yes').click();
+    cy.wait(delay * 5);
+    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
+  });
+});
 
 describe('Testing notebooks table', () => {
   beforeEach(() => {
@@ -31,7 +49,9 @@ describe('Testing notebooks table', () => {
   it('Displays error toast for invalid notebook name', () => {
     cy.get('.euiButton__text').contains('Create notebook').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains(/^Create$/).click();
+    cy.get('.euiButton__text')
+      .contains(/^Create$/)
+      .click();
     cy.wait(delay);
 
     cy.get('.euiToastHeader__title').contains('Invalid notebook name').should('exist');
@@ -41,7 +61,9 @@ describe('Testing notebooks table', () => {
     cy.get('.euiButton__text').contains('Create notebook').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_NOTEBOOK);
-    cy.get('.euiButton__text').contains(/^Create$/).click();
+    cy.get('.euiButton__text')
+      .contains(/^Create$/)
+      .click();
     cy.wait(delay);
 
     cy.contains(TEST_NOTEBOOK).should('exist');
@@ -81,7 +103,9 @@ describe('Testing notebooks table', () => {
     cy.get('input.euiFieldSearch').type(TEST_NOTEBOOK + ' (copy) (rename)');
     cy.wait(delay);
 
-    cy.get('a.euiLink').contains(TEST_NOTEBOOK + ' (copy) (rename)').should('exist');
+    cy.get('a.euiLink')
+      .contains(TEST_NOTEBOOK + ' (copy) (rename)')
+      .should('exist');
   });
 
   it('Deletes notebooks', () => {
@@ -104,7 +128,9 @@ describe('Testing notebooks table', () => {
     cy.get('.euiButton__text').contains('Create notebook').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_NOTEBOOK);
-    cy.get('.euiButton__text').contains(/^Create$/).click();
+    cy.get('.euiButton__text')
+      .contains(/^Create$/)
+      .click();
     cy.wait(delay * 2);
   });
 });
@@ -114,7 +140,7 @@ describe('Test reporting integration if plugin installed', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
     cy.get('.euiTableCellContent').contains(TEST_NOTEBOOK).click();
     cy.wait(delay * 3);
-    cy.get('body').then($body => {
+    cy.get('body').then(($body) => {
       skipOn($body.find('#reportingActionsButton').length <= 0);
     });
   });
@@ -138,24 +164,18 @@ describe('Test reporting integration if plugin installed', () => {
     cy.wait(delay);
     cy.get('button.euiContextMenuItem:nth-child(3)').contains('Create report definition').click();
     cy.wait(delay);
-    cy.location('pathname', { timeout: 60000 }).should(
-      'include',
-      '/reports-dashboards'
-    );
+    cy.location('pathname', { timeout: 60000 }).should('include', '/reports-dashboards');
     cy.wait(delay);
     cy.get('#reportSettingsName').type('Create notebook on-demand report');
     cy.get('#createNewReportDefinition').click({ force: true });
   });
 
-  it ('View reports homepage from context menu', () => {
+  it('View reports homepage from context menu', () => {
     cy.get('#reportingActionsButton').click();
     cy.wait(delay);
     cy.get('button.euiContextMenuItem:nth-child(4)').contains('View reports').click();
     cy.wait(delay);
-    cy.location('pathname', { timeout: 60000 }).should(
-      'include',
-      '/reports-dashboards'
-    );
+    cy.location('pathname', { timeout: 60000 }).should('include', '/reports-dashboards');
   });
 });
 
@@ -235,10 +255,10 @@ describe('Testing paragraphs', () => {
     cy.get(`a[href="${SAMPLE_URL}"]`).should('have.length.gte', 2);
   });
 
-  it('Adds a visualization paragraph', () => {
+  it('Adds a dashboards visualization paragraph', () => {
     cy.contains('Add paragraph').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Dashboards visualization').click();
     cy.wait(delay);
 
     cy.get('.euiButton__text').contains('Run').click();
@@ -247,7 +267,7 @@ describe('Testing paragraphs', () => {
 
     cy.get('.euiButton__text').contains('Browse').click();
     cy.wait(delay);
-    cy.get('.euiFieldSearch').focus().type('{uparrow}{uparrow}{enter}')
+    cy.get('.euiFieldSearch').focus().type('{uparrow}{uparrow}{enter}');
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Select').click();
     cy.wait(delay);
@@ -271,6 +291,28 @@ describe('Testing paragraphs', () => {
     cy.get('b').contains('select * from opensearch_dashboards_sample_data_flights limit 20');
 
     cy.get('.euiDataGrid__overflow').should('exist');
+  });
+
+  it('Adds an observability visualization paragraph', () => {
+    cy.contains('Add paragraph').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Observability visualization').click();
+    cy.wait(delay);
+
+    cy.get('.euiButton__text').contains('Run').click();
+    cy.wait(delay);
+    cy.get('.euiTextColor').contains('Visualization is required.').should('exist');
+
+    cy.get('.euiButton__text').contains('Browse').click();
+    cy.wait(delay);
+    cy.get('.euiFieldSearch').focus().type('{uparrow}{uparrow}{enter}');
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Select').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Run').click();
+    cy.wait(delay);
+
+    cy.get('div.visualization').should('exist');
   });
 
   it('Adds a PPL query paragraph', () => {
@@ -359,7 +401,9 @@ describe('Testing paragraphs', () => {
     cy.reload();
     cy.wait(delay * 3);
 
-    cy.get('.euiTitle').contains(TEST_NOTEBOOK + ' (copy) (rename)').should('exist');
+    cy.get('.euiTitle')
+      .contains(TEST_NOTEBOOK + ' (copy) (rename)')
+      .should('exist');
     cy.get(`a[href="${SAMPLE_URL}"]`).should('have.length.gte', 2);
   });
 

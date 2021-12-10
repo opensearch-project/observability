@@ -113,7 +113,10 @@ export const ParaInput = (props: {
     };
 
     const renderOption = (option, searchValue) => {
-      const visURL = `visualize#/edit/${option.key}?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+      let visURL = `visualize#/edit/${option.key}?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+      if (para.inputType === 'OBSERVABILITY_VISUALIZATION') {
+        visURL = `#/event_analytics/explorer/${option.key}`;
+      }
       return (
         <EuiLink href={visURL} target="_blank">
           <EuiHighlight search={searchValue}>{option.label}</EuiHighlight>
@@ -207,7 +210,11 @@ export const ParaInput = (props: {
 
               <EuiModalFooter>
                 <EuiButtonEmpty onClick={() => setIsModalOpen(false)}>Cancel</EuiButtonEmpty>
-                <EuiButton data-test-subj="para-input-select-button" onClick={() => onSelect()} fill>
+                <EuiButton
+                  data-test-subj="para-input-select-button"
+                  onClick={() => onSelect()}
+                  fill
+                >
                   Select
                 </EuiButton>
               </EuiModalFooter>
