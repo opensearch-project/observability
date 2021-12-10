@@ -88,7 +88,8 @@ export const TraceConfig = (props: TraceConfigProps) => {
         disabled: false 
       }
     })
-    setFilters(traceFilters);
+    const nonTraceFilters = filters.filter((f) => f.field !== 'traceGroup');
+    setFilters([...nonTraceFilters, ...traceFilters]);
   };
 
   const onCreateTrace = (searchValue: string, flattenedOptions: any) => {

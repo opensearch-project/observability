@@ -59,7 +59,8 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         disabled: false 
       }
     })
-    setFilters(serviceFilters);
+    const nonServiceFilters = filters.filter((f) => f.field !== 'serviceName');
+    setFilters([...nonServiceFilters, ...serviceFilters]);
   };
 
   const clearServices = () => {
