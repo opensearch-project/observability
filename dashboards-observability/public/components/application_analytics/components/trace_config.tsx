@@ -145,6 +145,12 @@ export const TraceConfig = (props: TraceConfigProps) => {
     }
   }
 
+  const clearTraces = () => {
+    const withoutTraces = filters.filter((f) => f.field !== 'traceGroup')
+    filters.map((f) => {console.log(f.field !== 'traceGroup')})
+    setFilters(withoutTraces);
+  };
+
   return (
     <EuiAccordion
       id="traceGroups"
@@ -161,7 +167,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
           </EuiText>
         </>
         }
-      extraAction={<EuiButton size="s" disabled={!traceOpen}>Clear all</EuiButton>}
+      extraAction={<EuiButton size="s" disabled={!traceOpen} onClick={clearTraces}>Clear all</EuiButton>}
       onToggle={(isOpen) => {setTraceOpen(isOpen)}}
       paddingSize="l"
     >

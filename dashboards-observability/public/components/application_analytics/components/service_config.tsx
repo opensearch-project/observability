@@ -62,6 +62,11 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     setFilters(serviceFilters);
   };
 
+  const clearServices = () => {
+    const withoutServices = filters.filter((f) => f.field !== 'serviceName')
+    setFilters(withoutServices);
+  };
+
   const services = Object.keys(serviceMap).map((service) => { return { label: service } });
 
   return (
@@ -80,7 +85,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
               </EuiText>
               </>
               }
-            extraAction={<EuiButton size="s" disabled={!servicesOpen} onClick={() => {setFilters([])}}>Clear all</EuiButton>}
+            extraAction={<EuiButton size="s" disabled={!servicesOpen} onClick={clearServices}>Clear all</EuiButton>}
             onToggle={(isOpen) => {setServicesOpen(isOpen)}}
             paddingSize="l"
           >

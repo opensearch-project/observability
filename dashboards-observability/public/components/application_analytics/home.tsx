@@ -62,14 +62,13 @@ export const Home = (props: HomeProps) => {
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-5m'
+    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h'
   );
   const [endTime, setEndTime] = useState<string>(
     sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
   );
 
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
-    console.log('newFilters ' + JSON.stringify(newFilters))
     setFilters(newFilters);
     sessionStorage.setItem('AppAnalyticsFilters', JSON.stringify(newFilters));
   };
