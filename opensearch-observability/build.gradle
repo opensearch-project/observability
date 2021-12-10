@@ -258,38 +258,6 @@ testClusters.integTest {
 }
 
 
-task integTestRemote(type: StandaloneRestIntegTestTask) {
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
-    systemProperty 'tests.security.manager', 'false'
-    systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
-
-    systemProperty "https", System.getProperty("https")
-    systemProperty "user", System.getProperty("user")
-    systemProperty "password", System.getProperty("password")
-
-    // Only rest case can run with remote cluster
-    if (System.getProperty("tests.rest.cluster") != null) {
-        filter {
-            includeTestsMatching "org.opensearch.observability.rest.*IT"
-            includeTestsMatching "org.opensearch.observability.*IT"
-        }
-    }
-
-//    if (System.getProperty("https") == null || System.getProperty("https") == "false") {
-//        filter {
-//            excludeTestsMatching "org.opensearch.ad.rest.SecureADRestIT"
-//        }
-//    }
-
-    if (System.getProperty("tests.rest.bwcsuite") == null) {
-        filter {
-            excludeTestsMatching "org.opensearch.ad.bwc.*IT"
-        }
-    }
-}
-
-
 String bwcVersion = "1.1.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
@@ -329,19 +297,6 @@ task prepareBwcTests {
     }
 }
 
-//List<Provider<RegularFile>> plugins = [
-//        provider(new Callable<RegularFile>(){
-//            @Override
-//            RegularFile call() throws Exception {
-//                return new RegularFile() {
-//                    @Override
-//                    File getAsFile() {
-//                        return fileTree(bwcFilePath + project.version).getSingleFile()
-//                    }
-//                }
-//            }
-//        })
-//    ]
 
 // Creates 2 test clusters with 3 nodes of the old version.
 2.times {i ->
