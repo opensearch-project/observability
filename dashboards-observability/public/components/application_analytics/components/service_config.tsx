@@ -86,7 +86,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
               </EuiText>
               </>
               }
-            extraAction={<EuiButton size="s" disabled={!servicesOpen} onClick={clearServices}>Clear all</EuiButton>}
+            extraAction={<EuiButton size="s" disabled={!servicesOpen || !selectedServices.length} onClick={clearServices}>Clear all</EuiButton>}
             onToggle={(isOpen) => {setServicesOpen(isOpen)}}
             paddingSize="l"
           >

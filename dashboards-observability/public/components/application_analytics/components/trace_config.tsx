@@ -168,7 +168,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
           </EuiText>
         </>
         }
-      extraAction={<EuiButton size="s" disabled={!traceOpen} onClick={clearTraces}>Clear all</EuiButton>}
+      extraAction={<EuiButton size="s" disabled={!traceOpen || !selectedTraces.length} onClick={clearTraces}>Clear all</EuiButton>}
       onToggle={(isOpen) => {setTraceOpen(isOpen)}}
       paddingSize="l"
     >
