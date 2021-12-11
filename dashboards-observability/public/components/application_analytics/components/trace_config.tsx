@@ -195,6 +195,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         addPercentileFilter={addPercentileFilter}
         setRedirect={setRedirect}
         loading={loading}
+        page="app"
       />
     </EuiAccordion>
   );

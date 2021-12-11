@@ -207,6 +207,7 @@ export function Dashboard(props: DashboardProps) {
             addPercentileFilter={addPercentileFilter}
             setRedirect={setRedirect}
             loading={loading}
+            page="dashboard"
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">
