@@ -29,7 +29,7 @@ export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services' |
   return fields;
 };
 
-const getType = (field: string): string => {
+const getType = (field: string): string | null => {
   const typeMapping = {
     attributes: {
       host: {
@@ -59,7 +59,7 @@ const getType = (field: string): string => {
     startTime: 'date_nanos',
   };
   const type = _.get(typeMapping, field, 'keyword');
-  return type;
+  return typeof type === 'string' ? type : null;
 };
 
 export const getInvertedOperator = (operator: string, inverted: boolean) => {
