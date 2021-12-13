@@ -15,7 +15,7 @@ import { TracesTable } from './traces_table';
 interface TracesProps extends TraceAnalyticsComponentDeps {
   appId?: string;
   appName?: string;
-  page: 'dashboard' | 'traces' | 'services' | 'app';
+  page: 'traces' | 'app';
 }
 
 export function Traces(props: TracesProps) {

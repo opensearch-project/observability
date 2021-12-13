@@ -4,14 +4,14 @@
  */
 
 import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
-import { FilterType } from "../../../components/trace_analytics/components/common/filters/filters";
-import { ServiceObject } from "../../../components/trace_analytics/components/common/plots/service_map";
-import { ServiceMap } from "../../../components/trace_analytics/components/services";
-import { handleServiceMapRequest } from "../../../components/trace_analytics/requests/services_request_handler";
+import { FilterType } from "../../../trace_analytics/components/common/filters/filters";
+import { ServiceObject } from "../../../trace_analytics/components/common/plots/service_map";
+import { ServiceMap } from "../../../trace_analytics/components/services";
+import { handleServiceMapRequest } from "../../../trace_analytics/requests/services_request_handler";
 import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { AppAnalyticsComponentDeps } from "../home";
+import { AppAnalyticsComponentDeps } from "../../home";
 import { optionType } from "common/constants/application_analytics";
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {

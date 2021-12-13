@@ -99,4 +99,5 @@ export interface IExplorerProps {
     side?: string | undefined
   ) => void;
   http: CoreStart['http'];
+  tabCreatedTypes?: any;
 }

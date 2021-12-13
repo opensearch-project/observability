@@ -4,7 +4,6 @@
  */
 
 import {
-  EuiBasicTable,
   EuiButton,
   EuiFieldText, 
   EuiFlexGroup, 
@@ -19,8 +18,7 @@ import {
   EuiPageContentHeader, 
   EuiPageContentHeaderSection, 
   EuiPageHeader, 
-  EuiPageHeaderSection, 
-  EuiPopover, 
+  EuiPageHeaderSection,
   EuiSelect, 
   EuiSpacer, 
   EuiTableFieldDataColumnType,
@@ -30,9 +28,9 @@ import DSLService from "public/services/requests/dsl";
 import React, { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
 import { AppAnalyticsComponentDeps } from "../home";
-import { TraceConfig } from './trace_config';
-import { ServiceConfig } from "./service_config";
-import { LogConfig } from "./log_config";
+import { TraceConfig } from './config_components/trace_config';
+import { ServiceConfig } from "./config_components/service_config";
+import { LogConfig } from "./config_components/log_config";
 import { PPLReferenceFlyout } from "../../../components/common/helpers";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {

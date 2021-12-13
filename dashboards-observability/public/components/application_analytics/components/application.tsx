@@ -38,7 +38,7 @@ import {
   TAB_TRACE_ID_TXT_PFX, 
   TAB_TRACE_TITLE 
 } from '../../../../common/constants/application_analytics';
-import { IQueryTab } from '../../../../common/types/explorer';
+import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
@@ -83,10 +83,10 @@ export function Application(props: AppDetailProps) {
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
-  const getExistingEmptyTab = ({ tabIds, queries, explorerData }) => {
+  const getExistingEmptyTab = ({tabIds, queries, explorerData}: EmptyTabParams) => {
     let emptyTabId = '';
-    for (let i = 0; i < tabIds.length; i++) {
-      const tid = tabIds[i];
+    for (let i = 0; i < tabIds!.length; i++) {
+      const tid = tabIds![i];
       if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
         emptyTabId = tid;
         break;

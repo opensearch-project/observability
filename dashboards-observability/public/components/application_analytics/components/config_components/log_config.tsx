@@ -4,11 +4,11 @@
  */
 
 import { EuiAccordion, EuiText, EuiSpacer, EuiButton, EuiFormRow, EuiFlexItem, EuiBadge } from "@elastic/eui";
-import { uiSettingsService } from "../../../../common/utils";
-import { Autocomplete } from "../../../components/common/search/autocomplete";
+import { uiSettingsService } from "../../../../../common/utils";
+import { Autocomplete } from "../../../common/search/autocomplete";
 import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
-import { AppAnalyticsComponentDeps } from "../home";
+import { AppAnalyticsComponentDeps } from "../../home";
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;

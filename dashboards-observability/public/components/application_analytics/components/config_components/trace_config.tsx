@@ -6,12 +6,12 @@
 import dateMath from '@elastic/datemath';
 import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
 import { optionType } from "common/constants/application_analytics";
-import { filtersToDsl } from "../../../components/trace_analytics/components/common/helper_functions";
-import { handleDashboardRequest } from "../../../components/trace_analytics/requests/dashboard_request_handler";
+import { filtersToDsl } from "../../../trace_analytics/components/common/helper_functions";
+import { handleDashboardRequest } from "../../../trace_analytics/requests/dashboard_request_handler";
 import DSLService from "public/services/requests/dsl";
 import React, { useEffect, useState } from "react";
-import { AppAnalyticsComponentDeps } from "../home";
-import { DashboardTable } from '../../../components/trace_analytics/components/dashboard/dashboard_table';
+import { AppAnalyticsComponentDeps } from "../../home";
+import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
