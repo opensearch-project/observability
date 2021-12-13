@@ -54,7 +54,6 @@ import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
-import { pageStyles } from '../../../common/constants/shared';
 
 interface IHomeProps {
   pplService: any;
@@ -332,7 +331,7 @@ export const Home = (props: IHomeProps) => {
   ];
 
   return (
-    <div style={pageStyles}>
+    <>
       <EuiPage>
         <EuiPageBody>
           <EuiPageHeader>
@@ -454,6 +453,6 @@ export const Home = (props: IHomeProps) => {
         </EuiPageBody>
       </EuiPage>
       {isModalVisible && modalLayout}
-    </div>
+    </>
   );
 };

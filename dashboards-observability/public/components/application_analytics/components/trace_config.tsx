@@ -148,7 +148,6 @@ export const TraceConfig = (props: TraceConfigProps) => {
 
   const clearTraces = () => {
     const withoutTraces = filters.filter((f) => f.field !== 'traceGroup')
-    filters.map((f) => {console.log(f.field !== 'traceGroup')})
     setFilters(withoutTraces);
   };
 
@@ -190,6 +189,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
       <EuiSpacer />
       <DashboardTable
         items={traceItems}
+        // We want table to display all traces regardless of added filters
         filters={[]}
         addFilter={addFilter}
         addPercentileFilter={addPercentileFilter}

@@ -41,8 +41,8 @@ export function Services(props: ServicesProps) {
         href: '#/trace_analytics/home',
       },
       {
-        text: 'Dashboards',
-        href: '#/trace_analytics/home',
+        text: 'Services',
+        href: '#/trace_analytics/services',
       },
   ]
 

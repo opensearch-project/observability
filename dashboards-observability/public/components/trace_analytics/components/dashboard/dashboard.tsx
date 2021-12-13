@@ -5,7 +5,6 @@
 
 import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
-import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { TraceAnalyticsComponentDeps } from '../../home';
 import {

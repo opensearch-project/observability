@@ -40,8 +40,8 @@ export function Traces(props: TracesProps) {
         href: '#/trace_analytics/home',
       },
       {
-        text: 'Dashboards',
-        href: '#/trace_analytics/home',
+        text: 'Traces',
+        href: '#/trace_analytics/traces',
       },
   ]
 
