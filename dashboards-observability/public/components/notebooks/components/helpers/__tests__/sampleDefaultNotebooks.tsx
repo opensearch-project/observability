@@ -54,6 +54,23 @@ export const sampleNotebook1 = {
       dateModified: '2020-08-20T18:37:56.844Z',
       id: 'paragraph_f1b2db55-8704-4822-a8ff-6445fe1fa10c',
     },
+    {
+      output: [
+        {
+          result: '',
+          outputType: 'OBSERVABILITY_VISUALIZATION',
+          execution_time: '0.009 ms',
+        },
+      ],
+      input: {
+        inputText:
+          '{"savedVisualizationId":"hKq9oX0B7874ranqwRKa","timeRange":{"from":"2021-11-10T00:31:23.056Z","to":"2021-12-10T00:31:23.056Z"}}',
+        inputType: 'OBSERVABILITY_VISUALIZATION',
+      },
+      dateCreated: '2021-12-10T00:31:22.973Z',
+      dateModified: '2021-12-10T00:32:16.603Z',
+      id: 'paragraph_56df90c1-ada9-4c72-98aa-72c2834c0cc5',
+    },
   ],
 };
 
@@ -122,7 +139,8 @@ export const sampleParsedParagraghs1 = [
     vizObjectInput:
       '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
     id: 3,
-    inp: '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
+    inp:
+      '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
     lang: 'text/x-',
     isInputExpanded: false,
     isOutputStale: false,
@@ -161,6 +179,33 @@ export const sampleParsedParagraghs1 = [
     out: [
       '{"schema":[{"name":"FlightNum","type":"keyword"},{"name":"Origin","type":"keyword"},{"name":"OriginLocation","type":"geo_point"},{"name":"DestLocation","type":"geo_point"},{"name":"FlightDelay","type":"boolean"},{"name":"DistanceMiles","type":"float"},{"name":"FlightTimeMin","type":"float"},{"name":"OriginWeather","type":"keyword"},{"name":"dayOfWeek","type":"integer"},{"name":"AvgTicketPrice","type":"float"},{"name":"Carrier","type":"keyword"},{"name":"FlightDelayMin","type":"integer"},{"name":"OriginRegion","type":"keyword"},{"name":"DestAirportID","type":"keyword"},{"name":"FlightDelayType","type":"keyword"},{"name":"timestamp","type":"timestamp"},{"name":"Dest","type":"keyword"},{"name":"FlightTimeHour","type":"keyword"},{"name":"Cancelled","type":"boolean"},{"name":"DistanceKilometers","type":"float"},{"name":"OriginCityName","type":"keyword"},{"name":"DestWeather","type":"keyword"},{"name":"OriginCountry","type":"keyword"},{"name":"DestCountry","type":"keyword"},{"name":"DestRegion","type":"keyword"},{"name":"DestCityName","type":"keyword"},{"name":"OriginAirportID","type":"keyword"}],"datarows":[["9HY9SWR","Frankfurt am Main Airport",{"lat":50.033333,"lon":8.570556},{"lat":-33.94609833,"lon":151.177002},false,10247.856,1030.7704,"Sunny",0,841.2656,"OpenSearch Dashboards Airlines",0,"DE-HE","SYD","No Delay","2021-11-01 00:00:00","Sydney Kingsford Smith International Airport","17.179506930998397",false,16492.326,"Frankfurt am Main","Rain","DE","AU","SE-BD","Sydney","FRA"],["X98CCZO","Cape Town International Airport",{"lat":-33.96480179,"lon":18.60169983},{"lat":45.505299,"lon":12.3519},false,5482.6064,464.3895,"Clear",0,882.98267,"Logstash Airways",0,"SE-BD","VE05","No Delay","2021-11-01 18:27:00","Venice Marco Polo Airport","7.73982468459836",false,8823.4,"Cape Town","Sunny","ZA","IT","IT-34","Venice","CPT"]],"total":2,"size":2,"status":200}',
     ],
+  },
+  {
+    uniqueId: 'paragraph_56df90c1-ada9-4c72-98aa-72c2834c0cc5',
+    isRunning: false,
+    inQueue: false,
+    isSelected: false,
+    isInputHidden: false,
+    isOutputHidden: false,
+    showAddPara: false,
+    inputType: 'OBSERVABILITY_VISUALIZATION',
+    isVizualisation: true,
+    vizObjectInput:
+      '{"savedVisualizationId":"hKq9oX0B7874ranqwRKa","timeRange":{"from":"2021-11-10T00:31:23.056Z","to":"2021-12-10T00:31:23.056Z"}}',
+    id: 5,
+    inp:
+      '{"savedVisualizationId":"hKq9oX0B7874ranqwRKa","timeRange":{"from":"2021-11-10T00:31:23.056Z","to":"2021-12-10T00:31:23.056Z"}}',
+    isInputExpanded: false,
+    isOutputStale: false,
+    paraDivRef: undefined,
+    paraRef: undefined,
+    visEndTime: '2021-12-10T00:31:23.056Z',
+    visSavedObjId: 'hKq9oX0B7874ranqwRKa',
+    visStartTime: '2021-11-10T00:31:23.056Z',
+    lang: 'text/x-',
+    editorLanguage: '',
+    typeOut: ['OBSERVABILITY_VISUALIZATION'],
+    out: [''],
   },
 ];
 
@@ -226,7 +271,8 @@ export const sampleParsedParagraghs2 = [
     isVizualisation: false,
     vizObjectInput: '',
     id: 1,
-    inp: '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
+    inp:
+      '# Type no output here\n* Sample link: [link](https://opensearch.org/)\n* ~~Strike~~, **Bold**, __Italic__',
     lang: 'text/x-md',
     isInputExpanded: false,
     isOutputStale: false,
@@ -279,7 +325,8 @@ export const sampleParsedParagraghs2 = [
     vizObjectInput:
       '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
     id: 3,
-    inp: '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
+    inp:
+      '{"viewMode":"view","panels":{"1":{"gridData":{"x":1,"y":0,"w":44,"h":20,"i":"1"},"type":"visualization","explicitInput":{"id":"1","savedObjectId":"935afa20-e0cd-11e7-9d07-1398ccfcefa3","vis":null}}},"isFullScreenMode":false,"filters":[],"useMargins":false,"id":"i3ccc6260-e314-11ea-9f99-b37e94bb02ca","timeRange":{"to":"2020-08-20T18:37:44.710Z","from":"2020-07-21T18:37:44.710Z"},"title":"embed_viz_i3ccc6260-e314-11ea-9f99-b37e94bb02ca","query":{"query":"","language":"lucene"},"refreshConfig":{"pause":true,"value":15}}',
     lang: 'text/x-',
     isInputExpanded: false,
     isOutputStale: false,
