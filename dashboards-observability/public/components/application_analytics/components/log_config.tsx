@@ -40,7 +40,7 @@ export const LogConfig = (props: LogConfigProps) => {
         </EuiText>
         </>
       }
-      extraAction={<EuiButton size="s" disabled={!logOpen} onClick={() => { handleQueryChange('') }}>Clear all</EuiButton>}
+      extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={() => { handleQueryChange('') }}>Clear all</EuiButton>}
       onToggle={(isOpen) => {setLogOpen(isOpen)}}
       paddingSize="l"
     >
