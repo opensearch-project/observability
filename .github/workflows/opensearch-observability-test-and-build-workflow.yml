@@ -3,7 +3,7 @@ name: Test and Build OpenSearch Observability Backend Plugin
 on: [pull_request, push]
 
 env:
-  OPENSEARCH_VERSION: '1.2.0-SNAPSHOT'
+  OPENSEARCH_VERSION: '1.2.1-SNAPSHOT'
   OPENSEARCH_BRANCH: '1.2'
   COMMON_UTILS_BRANCH: 'main'
 
@@ -18,6 +18,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.14
+    
+      - name: Run Backwards Compatibility Tests
+        run: |
+          cd opensearch-observability
+          echo "Running backwards compatibility tests ..."
+          ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
