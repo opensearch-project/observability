@@ -25,16 +25,10 @@ import {
     EuiText,
     EuiTitle,
 } from '@elastic/eui';
-import CSS from 'csstype';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { AppAnalyticsComponentDeps, ApplicationType } from '../home';
-
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
+import { pageStyles } from '../../../../common/constants/shared';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
@@ -100,7 +94,6 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        // <EuiLink href={`#/application_analytics/${record.id}`}>{_.truncate(value, { length: 100 })}</EuiLink>
         <EuiLink href={`#/application_analytics/id`}>{_.truncate(value, { length: 100 })}</EuiLink>
       ),
     },

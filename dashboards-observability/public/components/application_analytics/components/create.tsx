@@ -196,34 +196,6 @@ export const CreateApp = (props: CreateAppProps) => {
           <EuiHorizontalRule />
             <TraceConfig {...props}/>
         </EuiPageContent>
-        <EuiSpacer />
-        <EuiPageContent id="availability">
-          <EuiPageContentHeader>
-            <EuiPageContentHeaderSection>
-              <EuiTitle size="m">
-                <h2>Availability</h2>
-              </EuiTitle>
-            </EuiPageContentHeaderSection>
-          </EuiPageContentHeader>
-          <EuiHorizontalRule />
-          <EuiBasicTable
-          items={dummyItems}
-          columns={tableColumns}
-          />
-          <EuiSpacer/>
-          <EuiFlexGroup gutterSize="s">
-            <EuiFlexItem>
-            <EuiPopover
-              panelPaddingSize="l"
-              button={popoverButton}
-              isOpen={isPopoverOpen}
-              closePopover={() => setIsPopoverOpen(false)}
-            >
-            {popoverContent}
-            </EuiPopover>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </EuiPageContent>
         <EuiSpacer/>
         <EuiFlexGroup>
         <EuiFlexItem grow={false}>

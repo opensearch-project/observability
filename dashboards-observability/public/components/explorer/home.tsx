@@ -30,7 +30,6 @@ import {
   EuiText,
   EuiHorizontalRule,
 } from '@elastic/eui';
-import CSS from 'csstype';
 import { Search } from '../common/search/search';
 import { 
   RAW_QUERY,
@@ -55,12 +54,7 @@ import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
-
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
+import { pageStyles } from '../../../common/constants/shared';
 
 interface IHomeProps {
   pplService: any;

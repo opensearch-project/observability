@@ -61,10 +61,10 @@ export const App = ({
                     http={http}
                     notifications={notifications}
                     parentBreadcrumb={parentBreadcrumb}
-                    pplService={ pplService }
-                    dslService={ dslService }
-                    savedObjects={ savedObjects }
-                    timestampUtils={ timestampUtils }
+                    pplService={pplService}
+                    dslService={dslService}
+                    savedObjects={savedObjects}
+                    timestampUtils={timestampUtils}
                   />
                   )
                 }}
