@@ -11,7 +11,7 @@ So you want to contribute code to this project? Excellent! We're glad you're her
 1. cd into `plugins` directory in the OpenSearch Dashboards source code directory.
 1. Check out this package from version control into the `plugins` directory.
 ```bash
-git clone git@github.com:opensearch-project/trace-analytics.git plugins --no-checkout
+git clone git@github.com:opensearch-project/observability.git plugins --no-checkout
 cd plugins
 echo 'dashboards-observability/*' >> .git/info/sparse-checkout
 git config core.sparseCheckout true
