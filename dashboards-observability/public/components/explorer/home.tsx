@@ -86,8 +86,8 @@ export const Home = (props: IHomeProps) => {
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
-  const [savedHistories, setSavedHistories] = useState([]);
-  const [selectedHisotries, setSelectedHisotries] = useState([]);
+  const [savedHistories, setSavedHistories] = useState<Array<any>>([]);
+  const [selectedHistories, setSelectedHistories] = useState<Array<any>>([]);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
@@ -113,7 +113,7 @@ export const Home = (props: IHomeProps) => {
   };
 
   const deleteHistoryList = async () => {
-    const objectIdsToDelete = selectedHisotries.map((history) => history.data.objectId);
+    const objectIdsToDelete = selectedHistories.map((history) => history.data.objectId);
     await savedObjects
       .deleteSavedObjectsList({ objectIdList: objectIdsToDelete })
       .then(async (res) => {
@@ -264,7 +264,7 @@ export const Home = (props: IHomeProps) => {
           });
         });
       setToast(`Sample events added successfully.`);
-    } catch (error) {
+    } catch (error: any) {
       setToast(`Cannot add sample events data, error: ${error}`, 'danger');
       console.error(error.body.message);
     } finally {
@@ -284,13 +284,13 @@ export const Home = (props: IHomeProps) => {
   );
 
   const deleteHistory = () => {
-    const customPanelString = `${selectedHisotries.length > 1 ? 'histories' : 'history'}`;
+    const customPanelString = `${selectedHistories.length > 1 ? 'histories' : 'history'}`;
     setModalLayout(
       <DeletePanelModal
         onConfirm={deleteHistoryList}
         onCancel={closeModal}
-        title={`Delete ${selectedHisotries.length} ${customPanelString}`}
-        message={`Are you sure you want to delete the selected ${selectedHisotries.length} ${customPanelString}?`}
+        title={`Delete ${selectedHistories.length} ${customPanelString}`}
+        message={`Are you sure you want to delete the selected ${selectedHistories.length} ${customPanelString}?`}
       />
     );
     showModal();
@@ -299,7 +299,7 @@ export const Home = (props: IHomeProps) => {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="delete"
-      disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
+      disabled={savedHistories.length === 0 || selectedHistories.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
         deleteHistory();
@@ -408,8 +408,8 @@ export const Home = (props: IHomeProps) => {
                     savedHistories={savedHistories}
                     handleHistoryClick={handleHistoryClick}
                     isTableLoading={isTableLoading}
-                    handleSelectHistory={setSelectedHisotries}
-                    selectedHisotries={selectedHisotries}
+                    handleSelectHistory={setSelectedHistories}
+                    selectedHistories={selectedHistories}
                   />
                 ) : (
                   <>

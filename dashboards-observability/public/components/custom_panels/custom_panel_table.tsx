@@ -28,7 +28,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import {
   CREATE_PANEL_MESSAGE,
@@ -40,12 +40,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
-
-const pageStyles: CSSProperties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
+import { pageStyles } from '../../../common/constants/shared';
 
 /*
  * "CustomPanelTable" module, used to view all the saved panels
