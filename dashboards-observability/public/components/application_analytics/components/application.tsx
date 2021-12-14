@@ -24,7 +24,7 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
-import React, { ReactChild, useMemo, useState } from 'react';
+import React, { ReactChild, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
 import { 
   TAB_CONFIG_ID_TXT_PFX, 
@@ -111,13 +111,13 @@ export function Application(props: AppDetailProps) {
   const getTrace = () => {
     return (
       <>
-      <Traces {...props} page="app" appId="id" appName="Cool Application" />
-      <EuiSpacer size='m'/>
-      <SpanDetailPanel
-        {...props}
-        traceId="id"
-        colorMap="color" 
-      />
+        <Traces {...props} page="app" appId="id" appName="Cool Application" />
+        <EuiSpacer size='m'/>
+        <SpanDetailPanel
+          {...props}
+          traceId="id"
+          colorMap="color" 
+        />
     </>
     );
   };
@@ -136,7 +136,7 @@ export function Application(props: AppDetailProps) {
         // App Analytics will not be saving queries on Log Events
         savedObjectId={''} 
         getExistingEmptyTab={getExistingEmptyTab}
-        />
+      />
     );
   };
 
@@ -173,51 +173,44 @@ export function Application(props: AppDetailProps) {
     };
   };
 
-  const getAppAnalyticsTabs = () => {
-    return [
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_OVERVIEW_ID,
-            tabTitle: TAB_OVERVIEW_TITLE,
-            getContent: () => getOverview()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_SERVICE_ID,
-            tabTitle: TAB_SERVICE_TITLE,
-            getContent: () => getService()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_TRACE_ID,
-            tabTitle: TAB_TRACE_TITLE,
-            getContent: () => getTrace()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_LOG_ID,
-            tabTitle: TAB_LOG_TITLE,
-            getContent: () => getLog()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_CONFIG_ID,
-            tabTitle: TAB_CONFIG_TITLE,
-            getContent: () => getConfig()
-          }
-        )
+  const appAnalyticsTabs = 
+    [
+      getAppAnalyticsTab(
+        {
+          tabId: TAB_OVERVIEW_ID,
+          tabTitle: TAB_OVERVIEW_TITLE,
+          getContent: () => getOverview()
+        }
+      ),
+      getAppAnalyticsTab(
+        {
+          tabId: TAB_SERVICE_ID,
+          tabTitle: TAB_SERVICE_TITLE,
+          getContent: () => getService()
+        }
+      ),
+      getAppAnalyticsTab(
+        {
+          tabId: TAB_TRACE_ID,
+          tabTitle: TAB_TRACE_TITLE,
+          getContent: () => getTrace()
+        }
+      ),
+      getAppAnalyticsTab(
+        {
+          tabId: TAB_LOG_ID,
+          tabTitle: TAB_LOG_TITLE,
+          getContent: () => getLog()
+        }
+      ),
+      getAppAnalyticsTab(
+        {
+          tabId: TAB_CONFIG_ID,
+          tabTitle: TAB_CONFIG_TITLE,
+          getContent: () => getConfig()
+        }
+      )
     ];
-  };
-  
-
-  const memorizedAppAnalyticsTabs = useMemo(() => {
-    return getAppAnalyticsTabs();
-  },
-  []);
 
   return (
     <div>
@@ -232,10 +225,10 @@ export function Application(props: AppDetailProps) {
         </EuiPageHeader>
         <EuiTabbedContent
           className="appAnalyticsTabs"
-          initialSelectedTab={ memorizedAppAnalyticsTabs[0] }
-          selectedTab={ memorizedAppAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
+          initialSelectedTab={ appAnalyticsTabs[0] }
+          selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
           onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-          tabs={ memorizedAppAnalyticsTabs }
+          tabs={ appAnalyticsTabs }
       />
       </EuiPageBody>
     </EuiPage>
