@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`No result component Renders No result component 1`] = `
+exports[`Data panel component Renders data panel component 1`] = `
 <DataPanel
   explorerFields={
     Object {

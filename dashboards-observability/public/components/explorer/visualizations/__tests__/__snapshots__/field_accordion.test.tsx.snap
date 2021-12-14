@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Visualization field components Renders fields accordion 1`] = `
+exports[`Visualization fields accordion component Renders fields accordion component 1`] = `
 <Memo(InnerFieldsAccordion)
   id="3367"
   isFiltered={false}

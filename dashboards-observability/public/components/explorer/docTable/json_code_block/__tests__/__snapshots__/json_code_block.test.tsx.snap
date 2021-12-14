@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Doc viewer json block component Renders json block component 1`] = `
+exports[`Doc viewer JSON block component Renders JSON block component 1`] = `
 <JsonCodeBlock
   hit={
     Object {

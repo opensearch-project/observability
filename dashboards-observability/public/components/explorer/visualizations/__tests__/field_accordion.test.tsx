@@ -12,10 +12,10 @@ import {
   AVAILABLE_FIELDS
 } from '../../../../../test/event_analytics_constants';
 
-describe('Visualization field components', () => {
+describe('Visualization fields accordion component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders fields accordion', async () => {
+  it('Renders fields accordion component', async () => {
     
     const wrapper = mount(
       <FieldsAccordion

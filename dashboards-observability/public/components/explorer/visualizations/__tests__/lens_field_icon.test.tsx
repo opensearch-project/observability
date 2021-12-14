@@ -9,10 +9,10 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { LensFieldIcon } from '../lens_field_icon';
 
-describe('Visualization field components', () => {
+describe('Visualization field icon component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders field list component', async () => {
+  it('Renders field icon component', async () => {
     
     const wrapper = mount(
       <LensFieldIcon

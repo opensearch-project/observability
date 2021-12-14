@@ -12,7 +12,7 @@ import {
   AVAILABLE_FIELDS
 } from '../../../../../test/event_analytics_constants';
 
-describe('Visualization field components', () => {
+describe('Visualization field item component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders field item component', async () => {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Visualization field components Renders field item component 1`] = `
+exports[`Visualization field item component Renders field item component 1`] = `
 <Component
   exists={true}
   field={

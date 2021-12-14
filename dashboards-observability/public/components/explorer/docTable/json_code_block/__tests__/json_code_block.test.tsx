@@ -9,10 +9,10 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { JsonCodeBlock } from '../json_code_block';
 
-describe('Doc viewer json block component', () => {
+describe('Doc viewer JSON block component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders json block component', async () => {
+  it('Renders JSON block component', async () => {
     
     const hit = {
       'Carrier': 'JetBeats',

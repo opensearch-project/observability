@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Visualization field components Renders field list component 1`] = `
+exports[`Visualization field icon component Renders field icon component 1`] = `
 <LensFieldIcon
   type="date"
 >

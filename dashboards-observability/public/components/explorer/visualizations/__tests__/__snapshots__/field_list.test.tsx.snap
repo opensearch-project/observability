@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Visualization field components Renders field list component 1`] = `
+exports[`Visualization field list component Renders field list component 1`] = `
 <FieldList
   field={
     Array [

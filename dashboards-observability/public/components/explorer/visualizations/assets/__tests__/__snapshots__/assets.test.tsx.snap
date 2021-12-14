@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Assets components Renders bar component 1`] = `
+exports[`Assets components Renders lens icon of bar component 1`] = `
 <LensIconChartBar>
   <svg
     fill="none"
@@ -21,7 +21,7 @@ exports[`Assets components Renders bar component 1`] = `
 </LensIconChartBar>
 `;
 
-exports[`Assets components Renders bar horizontal component 1`] = `
+exports[`Assets components Renders lens icon of horizontal bar component 1`] = `
 <LensIconChartBarHorizontal>
   <svg
     fill="none"
@@ -42,7 +42,7 @@ exports[`Assets components Renders bar horizontal component 1`] = `
 </LensIconChartBarHorizontal>
 `;
 
-exports[`Assets components Renders line component 1`] = `
+exports[`Assets components Renders lens icon of line component 1`] = `
 <LensIconChartLine>
   <svg
     fill="none"

@@ -8,11 +8,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { Plt } from '../plot';
-import { 
-  LAYOUT_CONFIG,
-  SAMPLE_VISUALIZATIONS,
-} from '../../../../../test/event_analytics_constants';
-import { LONG_CHART_COLOR } from '../../../../../common/constants/shared';
+import { LAYOUT_CONFIG } from '../../../../../test/event_analytics_constants';
 
 describe('Ploty base component', () => {
   configure({ adapter: new Adapter() });

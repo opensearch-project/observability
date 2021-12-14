@@ -10,13 +10,12 @@ import { waitFor } from '@testing-library/react';
 import { LensIconChartBar } from '../chart_bar';
 import { LensIconChartBarHorizontal } from '../chart_bar_horizontal';
 import { LensIconChartLine } from '../chart_line';
-import { EuiIconLegend } from '../legend';
 
 
 describe('Assets components', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders bar component', async () => {
+  it('Renders lens icon of bar component', async () => {
     
     const wrapper = mount(
       <LensIconChartBar />
@@ -29,7 +28,7 @@ describe('Assets components', () => {
     });
   });
 
-  it('Renders bar horizontal component', async () => {
+  it('Renders lens icon of horizontal bar component', async () => {
     
     const wrapper = mount(
       <LensIconChartBarHorizontal />
@@ -42,7 +41,7 @@ describe('Assets components', () => {
     });
   });
 
-  it('Renders line component', async () => {
+  it('Renders lens icon of line component', async () => {
     
     const wrapper = mount(
       <LensIconChartLine />

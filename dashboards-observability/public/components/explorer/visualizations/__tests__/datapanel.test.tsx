@@ -19,7 +19,7 @@ import {
   QUERY_FIELDS
 } from '../../../../../test/event_analytics_constants';
 
-describe('No result component', () => {
+describe('Data panel component', () => {
   configure({ adapter: new Adapter() });
 
   const explorerFields = {
@@ -28,7 +28,7 @@ describe('No result component', () => {
     [AVAILABLE_FIELDS]: SIDEBAR_AVAILABLE_FIELDS,
     [QUERIED_FIELDS]: QUERY_FIELDS
   };
-  it('Renders No result component', async () => {
+  it('Renders data panel component', async () => {
     
     const wrapper = mount(
       <DataPanel
