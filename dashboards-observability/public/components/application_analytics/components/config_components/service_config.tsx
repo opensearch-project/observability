@@ -16,15 +16,16 @@ import { optionType } from "common/constants/application_analytics";
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
+  selectedServices: Array<optionType>;
+  setSelectedServices: (services: Array<optionType>) => void;
 }
 
 export const ServiceConfig = (props: ServiceConfigProps) => {
-  const { dslService, filters, setFilters, http } = props;
+  const { dslService, filters, setFilters, http, selectedServices, setSelectedServices } = props;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
-  const [selectedServices, setSelectedServices] = useState(filters.map((f) => { return { label: f.value }}));
-
+  
   useEffect(() => {
     handleServiceMapRequest(http, dslService, serviceMap, setServiceMap);
   }, [])

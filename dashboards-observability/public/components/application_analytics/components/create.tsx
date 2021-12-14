@@ -9,8 +9,7 @@ import {
   EuiFlexGroup, 
   EuiFlexItem, 
   EuiForm, 
-  EuiFormRow, 
-  EuiHealth, 
+  EuiFormRow,
   EuiHorizontalRule, 
   EuiPage, 
   EuiPageBody, 
@@ -20,8 +19,7 @@ import {
   EuiPageHeader, 
   EuiPageHeaderSection,
   EuiSelect, 
-  EuiSpacer, 
-  EuiTableFieldDataColumnType,
+  EuiSpacer,
   EuiTitle 
 } from "@elastic/eui";
 import DSLService from "public/services/requests/dsl";  
@@ -32,15 +30,18 @@ import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from "./config_components/service_config";
 import { LogConfig } from "./config_components/log_config";
 import { PPLReferenceFlyout } from "../../../components/common/helpers";
+import { optionType } from "common/constants/application_analytics";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome } = props;
+  const { parentBreadcrumb, chrome, query, filters } = props;
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
+  const [selectedServices, setSelectedServices] = useState(filters.map((f) => { return { label: f.value }}));
+  const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
   const [state, setState] = useState({
     name: '',
     description: ''
@@ -70,76 +71,12 @@ export const CreateApp = (props: CreateAppProps) => {
       flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
     }
 
-  const dummyItems = [{id: '1', level: "Unavailable", color: "danger", conditions: "WHEN errorRate() IS ABOVE OR EQUAL TO 2%"}];
-  const tableColumns = [
-    {
-      field: 'level',
-      name: 'Level',
-      truncateText: true,
-      render: (value, record) => 
-        <EuiHealth color={record.color}>{value}</EuiHealth>
-      ,
-    },
-    {
-      field: 'conditions',
-      name: 'Conditions',
-      render: (value) => value,
-    }
-  ] as Array<
-  EuiTableFieldDataColumnType<{
-    level: string;
-    id: string;
-    color: string;
-    conditions: string;
-  }>
-  >;
-
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
       [e.target.name]: e.target.value
     });
   };
-
-  const popoverButton = (
-    <EuiButton
-      iconType="arrowDown"
-      iconSide="right"
-      onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-    >
-      Add custom level
-    </EuiButton>
-  );
-
-  const popoverContent = (
-    <EuiFlexGroup direction="column">
-      <EuiFlexGroup>
-      <EuiFlexItem>
-        <EuiFormRow label="Color">
-          <EuiSelect/>
-        </EuiFormRow>
-      </EuiFlexItem>
-      <EuiFlexItem>
-        <EuiFormRow label="Label">
-          <EuiFieldText />
-        </EuiFormRow>
-      </EuiFlexItem>
-      </EuiFlexGroup>
-      <EuiSpacer/>
-      <EuiFlexGroup alignItems="flexStart">
-        <EuiFlexItem grow={false}>
-          <EuiButton>
-          Cancel
-          </EuiButton>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiButton fill>
-          Add
-          </EuiButton>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiFlexGroup>
-  );
 
   return (
     <div style={{maxWidth: '1130px'}}>
@@ -190,9 +127,9 @@ export const CreateApp = (props: CreateAppProps) => {
           <EuiHorizontalRule />
           <LogConfig setIsFlyoutVisible={setIsFlyoutVisible} {...props} />
           <EuiHorizontalRule />
-           <ServiceConfig {...props} />
+           <ServiceConfig selectedServices={selectedServices} setSelectedServices={setSelectedServices} {...props} />
           <EuiHorizontalRule />
-            <TraceConfig {...props}/>
+            <TraceConfig selectedTraces={selectedTraces} setSelectedTraces={setSelectedTraces} {...props}/>
         </EuiPageContent>
         <EuiSpacer/>
         <EuiFlexGroup>
@@ -202,7 +139,7 @@ export const CreateApp = (props: CreateAppProps) => {
           </EuiButton>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton fill>
+          <EuiButton isDisabled={!state.name || !query || !selectedTraces.length || !selectedServices} fill>
           Create
           </EuiButton>
         </EuiFlexItem>

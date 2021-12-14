@@ -16,16 +16,17 @@ import { FilterType } from 'public/components/trace_analytics/components/common/
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
+  selectedTraces: Array<optionType>;
+  setSelectedTraces: (traces: Array<optionType>) => void;
 }
 
 export const TraceConfig = (props: TraceConfigProps) => {
-  const { dslService, query, filters, setFilters, http, startTime, endTime } = props;
+  const { dslService, query, filters, setFilters, http, startTime, endTime, selectedTraces, setSelectedTraces } = props;
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
   const [traceOptions, setTraceOptions] = useState<Array<optionType>>([]);
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
-  const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
   const [redirect, setRedirect] = useState(true);
 
   useEffect(() => {

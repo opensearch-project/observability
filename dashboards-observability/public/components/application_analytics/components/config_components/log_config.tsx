@@ -18,7 +18,7 @@ interface LogConfigProps extends AppAnalyticsComponentDeps {
 export const LogConfig = (props: LogConfigProps) => {
   const { dslService, query, setQuery, setIsFlyoutVisible } = props;
   const [logOpen, setLogOpen] = useState(false);
-  const [tempQuery, setTempQuery] = useState<string>('');
+  const tempQuery ='';
 
   const handleQueryChange = async (query: string) => setQuery(query);
 
