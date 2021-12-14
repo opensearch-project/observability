@@ -21,7 +21,6 @@ interface ISavedPanelProps {
   handleNameChange: any;
   handleOptionChange: any;
   savedObjects: SavedObjects;
-  isTextFieldInvalid: boolean;
   savePanelName: string;
   showOptionList: boolean;
 }
@@ -38,7 +37,6 @@ export const SavePanel = ({
   handleNameChange,
   handleOptionChange,
   savedObjects,
-  isTextFieldInvalid,
   savePanelName,
   showOptionList,
 }: ISavedPanelProps) => {
