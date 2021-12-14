@@ -37,10 +37,9 @@ interface CreateAppProps extends AppAnalyticsComponentDeps {
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, query, filters } = props;
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { parentBreadcrumb, chrome, query } = props;
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
-  const [selectedServices, setSelectedServices] = useState(filters.map((f) => { return { label: f.value }}));
+  const [selectedServices, setSelectedServices] = useState<Array<optionType>>([]);
   const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
   const [state, setState] = useState({
     name: '',

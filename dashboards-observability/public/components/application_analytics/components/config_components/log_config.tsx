@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiAccordion, EuiText, EuiSpacer, EuiButton, EuiFormRow, EuiFlexItem, EuiBadge } from "@elastic/eui";
+import { EuiAccordion, EuiText, EuiSpacer, EuiButton, EuiFormRow, EuiFlexItem, EuiBadge, EuiOverlayMask } from "@elastic/eui";
 import { uiSettingsService } from "../../../../../common/utils";
 import { Autocomplete } from "../../../common/search/autocomplete";
 import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
+import{ getClearModal } from "../helpers/modal_containers";
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -18,6 +19,8 @@ interface LogConfigProps extends AppAnalyticsComponentDeps {
 export const LogConfig = (props: LogConfigProps) => {
   const { dslService, query, setQuery, setIsFlyoutVisible } = props;
   const [logOpen, setLogOpen] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
   const tempQuery ='';
 
   const handleQueryChange = async (query: string) => setQuery(query);
@@ -26,7 +29,38 @@ export const LogConfig = (props: LogConfigProps) => {
     setIsFlyoutVisible(true);
   };
 
+  const onCancel = () => {
+    setIsModalVisible(false);
+  }
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  
+  const onConfirm = () => {
+    handleQueryChange('');
+    closeModal();
+  }
+
+  const clearAllModal = () => {
+    setModalLayout(
+      getClearModal(
+        onCancel, 
+        onConfirm, 
+        'Clear log source', 
+        'Are you sure you would like to clear the log source?', 
+        'Clear'
+      )
+    );
+    showModal();
+  };
+
   return (
+    <div>
     <EuiAccordion
       id="logSource"
       buttonContent={
@@ -40,7 +74,7 @@ export const LogConfig = (props: LogConfigProps) => {
         </EuiText>
         </>
       }
-      extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={() => { handleQueryChange('') }}>Clear all</EuiButton>}
+      extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>Clear</EuiButton>}
       onToggle={(isOpen) => {setLogOpen(isOpen)}}
       paddingSize="l"
     >
@@ -68,5 +102,7 @@ export const LogConfig = (props: LogConfigProps) => {
         </EuiFlexItem>
       </EuiFormRow>
     </EuiAccordion>
+    {isModalVisible && modalLayout}
+    </div>
   );
 }
