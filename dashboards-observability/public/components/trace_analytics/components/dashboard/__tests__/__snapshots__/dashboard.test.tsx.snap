@@ -4,6 +4,7 @@ exports[`Dashboard component renders dashboard 1`] = `
 <Dashboard
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -36,6 +37,7 @@ exports[`Dashboard component renders dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -202,9 +204,19 @@ exports[`Dashboard component renders dashboard 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -251,7 +263,7 @@ exports[`Dashboard component renders dashboard 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -325,7 +337,7 @@ exports[`Dashboard component renders dashboard 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -386,7 +398,7 @@ exports[`Dashboard component renders dashboard 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -913,6 +925,7 @@ exports[`Dashboard component renders dashboard 1`] = `
     filters={Array []}
     items={Array []}
     loading={false}
+    page="dashboard"
     setRedirect={[Function]}
   >
     <EuiPanel>
@@ -1977,6 +1990,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
 <Dashboard
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -2009,6 +2023,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -2171,9 +2186,19 @@ exports[`Dashboard component renders empty dashboard 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -2220,7 +2245,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -2294,7 +2319,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -2355,7 +2380,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
