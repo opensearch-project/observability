@@ -6,20 +6,20 @@
 import React from 'react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { TraceConfig } from '../config_components/trace_config';
+import { LogConfig } from '../config_components/log_config';
 import { coreStartMock } from '../../../../../test/__mocks__/coreMocks';
 import DSLService from 'public/services/requests/dsl';
 
-describe('Trace Config component', () => {
+describe('Log Config component', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders empty trace config', () => {
+  it('renders empty log config', () => {
     const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
-    const setSelectedTraces = jest.fn();
+    const setIsFlyoutVisible = jest.fn();
     const dslService = {
       http: jest.fn(),
       fetch: jest.fn(),
@@ -27,7 +27,7 @@ describe('Trace Config component', () => {
       fetchFields: jest.fn()
     } as unknown as DSLService;
     const wrapper = mount(
-      <TraceConfig
+      <LogConfig
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumb={{ text: 'test', href: 'test#/' }}
@@ -41,42 +41,34 @@ describe('Trace Config component', () => {
         setEndTime={setEndTime}
         indicesExist={true} 
         dslService={dslService}
-        selectedTraces={[]}
-        setSelectedTraces={setSelectedTraces}
+        setIsFlyoutVisible={setIsFlyoutVisible}
         />
     );
 
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders with one trace selected', () => {
+  it('renders with query', () => {
     const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
-    const setSelectedTraces = jest.fn();
+    const setIsFlyoutVisible = jest.fn();
     const dslService = {
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
       fetchFields: jest.fn()
     } as unknown as DSLService;
-    const traceFilter = [{
-      field: 'traceGroup',
-      operator: 'is',
-      value: 'test.auto',
-      inverted: false, 
-      disabled: false 
-    }];
     const wrapper = mount(
-      <TraceConfig
+      <LogConfig
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumb={{ text: 'test', href: 'test#/' }}
-        query=""
+        query="source = openserach_dashboard_sample_logs"
         setQuery={setQuery}
-        filters={traceFilter}
+        filters={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
@@ -84,8 +76,7 @@ describe('Trace Config component', () => {
         setEndTime={setEndTime}
         indicesExist={true} 
         dslService={dslService}
-        selectedTraces={[]}
-        setSelectedTraces={setSelectedTraces}
+        setIsFlyoutVisible={setIsFlyoutVisible}
         />
     );
 
