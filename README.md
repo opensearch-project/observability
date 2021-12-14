@@ -1,4 +1,4 @@
-# OpenSearch Dashboards Observability
+# OpenSearch Observability
 
 The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
 
