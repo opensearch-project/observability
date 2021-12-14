@@ -4,7 +4,7 @@ on: [pull_request, push]
 
 env:
   OPENSEARCH_VERSION: '1.2.2-SNAPSHOT'
-  OPENSEARCH_BRANCH: '1.2.2'
+  OPENSEARCH_BRANCH: '1.2'
   COMMON_UTILS_BRANCH: 'main'
 
 jobs:
