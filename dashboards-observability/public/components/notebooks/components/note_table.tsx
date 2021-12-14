@@ -27,7 +27,6 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import CSS from 'csstype';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -43,12 +42,7 @@ import {
   getSampleNotebooksModal,
 } from './helpers/modal_containers';
 import { NotebookType } from './main';
-
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
+import { pageStyles } from '../../../../common/constants/shared';
 
 type NoteTableProps = {
   loading: boolean;
