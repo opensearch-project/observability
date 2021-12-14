@@ -1,19 +1,6 @@
-<img src="https://opensearch.org/assets/img/opensearch-logo-themed.svg" height="64px">
-
-- [Observability](#observability)
-- [Code Summary](#code-summary)
-- [Plugin Components](#plugin-components)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Getting Help](#getting-help)
-- [Code of Conduct](#code-of-conduct)
-- [Security](#security)
-- [License](#license)
-- [Copyright](#copyright)
-
 # Observability
 
-Observability is collection of plugins and applications that let you visualize data-driven events by using Piped Processing Language to explore, discover, and query data stored in OpenSearch.
+The Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
 
 ## Code Summary
 
@@ -49,8 +36,6 @@ Observability is collection of plugins and applications that let you visualize d
 | [![features open][feature-badge]][feature-link]                |
 | [![enhancements open][enhancement-badge]][enhancement-link]    |
 | [![bugs open][bug-badge]][bug-link]                            |
-| [![untriaged open][untriaged-badge]][untriaged-link]           |
-| [![nolabel open][nolabel-badge]][nolabel-link]                 |
 
 [dco-badge]: https://github.com/opensearch-project/observability/actions/workflows/dco.yml/badge.svg
 [dco-badge-link]: https://github.com/opensearch-project/observability/actions/workflows/dco.yml
@@ -83,6 +68,7 @@ Observability is collection of plugins and applications that let you visualize d
 [enhancement-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> fff303a (updating readme and badges (#352))
 [untriaged-badge]: https://img.shields.io/github/issues/opensearch-project/observability/untriaged.svg
@@ -98,6 +84,8 @@ The Observability plugin has four components: Trace Analytics, Event Analytics, 
 >>>>>>> 154de24 (Rename trace-analytics to observability (#341))
 =======
 >>>>>>> fff303a (updating readme and badges (#352))
+=======
+>>>>>>> 154de24 (Rename trace-analytics to observability (#341))
 
 ### Trace Analytics
 
