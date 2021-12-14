@@ -212,6 +212,7 @@ export function Application(props: AppDetailProps) {
       )
     ];
 
+
   return (
     <div>
     <EuiPage>
