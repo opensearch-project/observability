@@ -12,7 +12,6 @@ import {
 } from 'lodash';
 import { EuiIcon } from '@elastic/eui';
 import { DocViewer } from './docViewer';
-import { DocDetailTitle } from './detailTable/docDetailTitle';
 import { IField } from '../../../../common/types/explorer';
 
 export interface IDocType { 

@@ -1,0 +1,397 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line component Renders line component 1`] = `
+<Line
+  isUniColor={true}
+  layoutConfig={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
+  name="Event counts"
+  visualizations={
+    Object {
+      "data": Object {
+        "count()": Array [
+          2549,
+          9337,
+          1173,
+        ],
+        "span(timestamp,1M)": Array [
+          "2021-05-01 00:00:00",
+          "2021-06-01 00:00:00",
+          "2021-07-01 00:00:00",
+        ],
+      },
+      "jsonData": Array [
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-05-01 00:00:00",
+        },
+        Object {
+          "count()": 9337,
+          "span(timestamp,1M)": "2021-06-01 00:00:00",
+        },
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-07-01 00:00:00",
+        },
+      ],
+      "metadata": Object {
+        "fields": Array [
+          Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          Object {
+            "name": "span(timestamp,1M)",
+            "type": "timestamp",
+          },
+        ],
+      },
+    }
+  }
+>
+  <Plt
+    config={Object {}}
+    data={
+      Array [
+        Object {
+          "name": "count()",
+          "type": "line",
+          "x": Array [
+            "2021-05-01 00:00:00",
+            "2021-06-01 00:00:00",
+            "2021-07-01 00:00:00",
+          ],
+          "y": Array [
+            2549,
+            9337,
+            1173,
+          ],
+        },
+      ]
+    }
+    layout={
+      Object {
+        "barmode": "line",
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "height": 220,
+        "margin": Object {
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
+        },
+        "paper_bgcolor": "rgba(0, 0, 0, 0)",
+        "plot_bgcolor": "rgba(0, 0, 0, 0)",
+        "showlegend": true,
+        "xaxis": Object {
+          "automargin": true,
+        },
+        "yaxis": Object {
+          "automargin": true,
+        },
+      }
+    }
+  >
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "name": "count()",
+            "type": "line",
+            "x": Array [
+              "2021-05-01 00:00:00",
+              "2021-06-01 00:00:00",
+              "2021-07-01 00:00:00",
+            ],
+            "y": Array [
+              2549,
+              9337,
+              1173,
+            ],
+          },
+        ]
+      }
+      debug={false}
+      layout={
+        Object {
+          "autosize": true,
+          "barmode": "line",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "h",
+            "traceorder": "normal",
+          },
+          "margin": Object {
+            "b": 15,
+            "l": 60,
+            "pad": 0,
+            "r": 10,
+            "t": 30,
+          },
+          "paper_bgcolor": "rgba(0, 0, 0, 0)",
+          "plot_bgcolor": "rgba(0, 0, 0, 0)",
+          "showlegend": true,
+          "xaxis": Object {
+            "automargin": true,
+          },
+          "yaxis": Object {
+            "automargin": true,
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
+    >
+      <div
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
+</Line>
+`;
+
+exports[`Line component Renders line component 2`] = `
+<Line
+  isUniColor={true}
+  layoutConfig={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
+  name="Event counts"
+  visualizations={
+    Object {
+      "data": Object {
+        "count()": Array [
+          2549,
+          9337,
+          1173,
+        ],
+        "span(timestamp,1M)": Array [
+          "2021-05-01 00:00:00",
+          "2021-06-01 00:00:00",
+          "2021-07-01 00:00:00",
+        ],
+      },
+      "jsonData": Array [
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-05-01 00:00:00",
+        },
+        Object {
+          "count()": 9337,
+          "span(timestamp,1M)": "2021-06-01 00:00:00",
+        },
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-07-01 00:00:00",
+        },
+      ],
+      "metadata": Object {
+        "fields": Array [
+          Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          Object {
+            "name": "span(timestamp,1M)",
+            "type": "timestamp",
+          },
+        ],
+      },
+    }
+  }
+>
+  <Plt
+    config={Object {}}
+    data={
+      Array [
+        Object {
+          "name": "count()",
+          "type": "line",
+          "x": Array [
+            "2021-05-01 00:00:00",
+            "2021-06-01 00:00:00",
+            "2021-07-01 00:00:00",
+          ],
+          "y": Array [
+            2549,
+            9337,
+            1173,
+          ],
+        },
+      ]
+    }
+    layout={
+      Object {
+        "barmode": "line",
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "height": 220,
+        "margin": Object {
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
+        },
+        "paper_bgcolor": "rgba(0, 0, 0, 0)",
+        "plot_bgcolor": "rgba(0, 0, 0, 0)",
+        "showlegend": true,
+        "xaxis": Object {
+          "automargin": true,
+          "autorange": true,
+          "range": Array [
+            "2021-04-27 03:45:50.6702",
+            "2021-07-04 20:14:09.3298",
+          ],
+          "type": "date",
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "autorange": true,
+          "range": Array [
+            425.69084628670123,
+            10084.309153713299,
+          ],
+          "type": "linear",
+        },
+      }
+    }
+  >
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "name": "count()",
+            "type": "line",
+            "x": Array [
+              "2021-05-01 00:00:00",
+              "2021-06-01 00:00:00",
+              "2021-07-01 00:00:00",
+            ],
+            "y": Array [
+              2549,
+              9337,
+              1173,
+            ],
+          },
+        ]
+      }
+      debug={false}
+      layout={
+        Object {
+          "autosize": true,
+          "barmode": "line",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "h",
+            "traceorder": "normal",
+          },
+          "margin": Object {
+            "b": 15,
+            "l": 60,
+            "pad": 0,
+            "r": 10,
+            "t": 30,
+          },
+          "paper_bgcolor": "rgba(0, 0, 0, 0)",
+          "plot_bgcolor": "rgba(0, 0, 0, 0)",
+          "showlegend": true,
+          "xaxis": Object {
+            "automargin": true,
+            "autorange": true,
+            "range": Array [
+              "2021-04-27 03:45:50.6702",
+              "2021-07-04 20:14:09.3298",
+            ],
+            "type": "date",
+          },
+          "yaxis": Object {
+            "automargin": true,
+            "autorange": true,
+            "range": Array [
+              425.69084628670123,
+              10084.309153713299,
+            ],
+            "type": "linear",
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
+    >
+      <div
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
+</Line>
+`;

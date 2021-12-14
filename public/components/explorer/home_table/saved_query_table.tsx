@@ -11,19 +11,19 @@ import {
 } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
 
-interface TableData {
+interface savedQueryTableProps {
   savedHistories: Array<any>;
   handleHistoryClick: (objectId: string) => void;
   handleSelectHistory: (selectedHistories: Array<any>) => void;
   isTableLoading: boolean;
 }
 
-export function Histories({
+export function SavedQueryTable({
   savedHistories,
   handleHistoryClick,
   handleSelectHistory,
   isTableLoading
-}: TableData) {
+}: savedQueryTableProps) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const pageIndexRef = useRef();

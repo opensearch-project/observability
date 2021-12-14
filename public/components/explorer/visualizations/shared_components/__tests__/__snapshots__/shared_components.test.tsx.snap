@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Shared components Renders empty placeholder component 1`] = `
+<EmptyPlaceholder
+  icon={[Function]}
+>
+  <EuiText
+    className="lnsChart__empty"
+    color="subdued"
+    size="xs"
+    textAlign="center"
+  >
+    <div
+      className="euiText euiText--extraSmall lnsChart__empty"
+    >
+      <EuiTextAlign
+        textAlign="center"
+      >
+        <div
+          className="euiTextAlign euiTextAlign--center"
+        >
+          <EuiTextColor
+            color="subdued"
+            component="div"
+          >
+            <div
+              className="euiTextColor euiTextColor--subdued"
+            >
+              <EuiIcon
+                color="subdued"
+                size="l"
+                type={[Function]}
+              >
+                <LensIconChartBar
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--large euiIcon--subdued"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--large euiIcon--subdued"
+                    fill="none"
+                    focusable="false"
+                    height={22}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 30 22"
+                    width={30}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="lensChartIcon__subdued"
+                      d="M5 7a1 1 0 011 1v13a1 1 0 01-1 1H1a1 1 0 01-1-1V8a1 1 0 011-1h4zm16-7a1 1 0 011 1v20a1 1 0 01-1 1h-4a1 1 0 01-1-1V1a1 1 0 011-1h4z"
+                    />
+                    <path
+                      className="lensChartIcon__accent"
+                      d="M13 11a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1v-9a1 1 0 011-1h4zm16-7a1 1 0 011 1v16a1 1 0 01-1 1h-4a1 1 0 01-1-1V5a1 1 0 011-1h4z"
+                    />
+                  </svg>
+                </LensIconChartBar>
+              </EuiIcon>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <p>
+                <FormattedMessage
+                  defaultMessage="No results found"
+                  id="xpack.lens.xyVisualization.noDataLabel"
+                  values={Object {}}
+                >
+                  <span>
+                    No results found
+                  </span>
+                </FormattedMessage>
+              </p>
+            </div>
+          </EuiTextColor>
+        </div>
+      </EuiTextAlign>
+    </div>
+  </EuiText>
+</EmptyPlaceholder>
+`;
+
+exports[`Shared components Renders tool bar button component 1`] = `
+<ToolbarButton
+  fontWeight="bold"
+  onClick={[MockFunction]}
+>
+  <EuiButton
+    className="lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
+    color="text"
+    contentProps={
+      Object {
+        "className": "lnsToolbarButton__content",
+      }
+    }
+    data-test-subj=""
+    iconSide="right"
+    iconType="arrowDown"
+    onClick={[MockFunction]}
+    size="s"
+    textProps={
+      Object {
+        "className": "lnsToolbarButton__text",
+      }
+    }
+  >
+    <EuiButtonDisplay
+      className="lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
+      color="text"
+      contentProps={
+        Object {
+          "className": "lnsToolbarButton__content",
+        }
+      }
+      data-test-subj=""
+      disabled={false}
+      element="button"
+      iconSide="right"
+      iconType="arrowDown"
+      isDisabled={false}
+      onClick={[MockFunction]}
+      size="s"
+      textProps={
+        Object {
+          "className": "lnsToolbarButton__text",
+        }
+      }
+      type="button"
+    >
+      <button
+        className="euiButton euiButton--text euiButton--small lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
+        data-test-subj=""
+        disabled={false}
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <EuiButtonContent
+          className="euiButton__content lnsToolbarButton__content"
+          iconSide="right"
+          iconType="arrowDown"
+          textProps={
+            Object {
+              "className": "euiButton__text lnsToolbarButton__text",
+            }
+          }
+        >
+          <span
+            className="euiButtonContent euiButtonContent--iconRight euiButton__content lnsToolbarButton__content"
+          >
+            <EuiIcon
+              className="euiButtonContent__icon"
+              size="m"
+              type="arrowDown"
+            >
+              <EuiIconEmpty
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </EuiIconEmpty>
+            </EuiIcon>
+            <span
+              className="euiButton__text lnsToolbarButton__text"
+            >
+              <WrappedComponent>
+                <div>
+                  testing
+                </div>
+              </WrappedComponent>
+            </span>
+          </span>
+        </EuiButtonContent>
+      </button>
+    </EuiButtonDisplay>
+  </EuiButton>
+</ToolbarButton>
+`;

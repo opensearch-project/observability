@@ -41,9 +41,6 @@ interface IWorkSpacePanel {
   curVisId: string;
   setCurVisId: any;
   visualizations: any;
-  savedObjects: SavedObjects;
-  onSaveVisualization: any;
-  getSavedObjects: any;
 }
 
 export function WorkspacePanel({
