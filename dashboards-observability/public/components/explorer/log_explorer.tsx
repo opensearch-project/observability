@@ -36,6 +36,7 @@ export const LogExplorer = ({
   getExistingEmptyTab,
   history,
   notifications,
+  http
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
@@ -178,17 +179,18 @@ export const LogExplorer = ({
         <>
           <Explorer
             key={`explorer_${tabId}`}
-            pplService={ pplService }
-            dslService={ dslService }
-            tabId={ tabId }
-            savedObjects={ savedObjects }
-            timestampUtils={ timestampUtils }
-            setToast={ setToast }
+            pplService={pplService}
+            dslService={dslService}
+            tabId={tabId}
+            savedObjects={savedObjects}
+            timestampUtils={timestampUtils}
+            setToast={setToast}
             history={history}
             notifications={notifications}
             savedObjectId={savedObjectId}
-            tabCreatedTypes={tabCreatedTypes}
-          />
+            tabCreatedTypes={tabCreatedTypes} 
+            http={http}
+            />
         </>)
     };
   }

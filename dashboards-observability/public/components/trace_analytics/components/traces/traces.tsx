@@ -12,17 +12,30 @@ import { filtersToDsl } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesTable } from './traces_table';
 
-interface TracesProps extends TraceAnalyticsComponentDeps {}
+interface TracesProps extends TraceAnalyticsComponentDeps {
+  appId?: string;
+  appName?: string;
+  page: 'traces' | 'app';
+}
 
 export function Traces(props: TracesProps) {
+  const { appId, appName, parentBreadcrumb, page } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
+  const breadCrumbs = page === 'app' ? 
+  [
+    {
+      text: 'Application analytics',
+      href: '#/application_analytics',
+    },
+    {
+      text: `${appName}`,
+      href: `#/application_analytics/${appId}`,
+    },
+  ] : [
+    {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',
       },
@@ -30,6 +43,12 @@ export function Traces(props: TracesProps) {
         text: 'Traces',
         href: '#/trace_analytics/traces',
       },
+  ]
+
+  useEffect(() => {
+    props.chrome.setBreadcrumbs([
+      parentBreadcrumb,
+      ...breadCrumbs
     ]);
     const validFilters = getValidFilterFields('traces');
     props.setFilters([
@@ -55,9 +74,13 @@ export function Traces(props: TracesProps) {
 
   return (
     <>
+    {page === 'app' ?
+      <EuiSpacer size="m" />
+      :
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Traces</h2>
       </EuiTitle>
+      }
       <SearchBar
         query={props.query}
         filters={props.filters}
@@ -68,7 +91,7 @@ export function Traces(props: TracesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="traces"
+        page={page}
       />
       <EuiSpacer size="m" />
       <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} />

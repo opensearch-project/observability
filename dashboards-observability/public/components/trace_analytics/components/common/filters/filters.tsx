@@ -36,7 +36,7 @@ export interface FiltersProps {
 }
 
 interface FiltersOwnProps extends FiltersProps {
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Filters(props: FiltersOwnProps) {
