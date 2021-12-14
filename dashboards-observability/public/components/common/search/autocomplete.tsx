@@ -106,7 +106,7 @@ export const Autocomplete = (props: IQueryBarProps) => {
         {...autocomplete.getInputProps({
           id: 'autocomplete-textarea',
           "data-test-subj": "searchAutocompleteTextArea",
-          placeholder: 'Enter PPL query to retrieve logs',
+          placeholder: 'Enter PPL query',
           inputElement: null
         })}
       />

@@ -13,17 +13,30 @@ import { filtersToDsl } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends TraceAnalyticsComponentDeps {}
+interface ServicesProps extends TraceAnalyticsComponentDeps {
+  appId?: string;
+  appName?: string;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
+}
 
 export function Services(props: ServicesProps) {
+  const { appId, appName, parentBreadcrumb, page } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
+  const breadCrumbs = page === 'app' ? 
+  [
+    {
+      text: 'Application analytics',
+      href: '#/application_analytics',
+    },
+    {
+      text: `${appName}`,
+      href: `#/application_analytics/${appId}`,
+    },
+  ] : [
+    {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',
       },
@@ -31,6 +44,12 @@ export function Services(props: ServicesProps) {
         text: 'Services',
         href: '#/trace_analytics/services',
       },
+  ]
+
+  useEffect(() => {
+    props.chrome.setBreadcrumbs([
+      parentBreadcrumb,
+      ...breadCrumbs
     ]);
     const validFilters = getValidFilterFields('services');
     props.setFilters([
@@ -71,9 +90,13 @@ export function Services(props: ServicesProps) {
 
   return (
     <>
+    {page==='app' ?
+      <EuiSpacer size="m" />
+      :
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Services</h2>
       </EuiTitle>
+      }
       <SearchBar
         query={props.query}
         filters={props.filters}
@@ -84,7 +107,7 @@ export function Services(props: ServicesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="services"
+        page={page}
       />
       <EuiSpacer size="m" />
       <ServicesTable

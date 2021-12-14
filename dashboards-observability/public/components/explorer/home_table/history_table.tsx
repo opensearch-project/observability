@@ -16,6 +16,7 @@ interface TableData {
   handleHistoryClick: (objectId: string) => void;
   handleSelectHistory: (selectedHistories: Array<any>) => void;
   isTableLoading: boolean;
+  selectedHistories: Array<History>;
 }
 
 export function Histories({
@@ -26,9 +27,9 @@ export function Histories({
 }: TableData) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const pageIndexRef = useRef();
+  const pageIndexRef = useRef<number>();
   pageIndexRef.current = pageIndex;
-  const pageSizeRef = useRef();
+  const pageSizeRef = useRef<number>();
   pageSizeRef.current = pageSize;
 
   const onTableChange = ({ page = {} }) => {
@@ -44,7 +45,7 @@ export function Histories({
       name: '',
       sortable: true,
       width: '40px',
-      render: (item) => {
+      render: (item: any) => {
         if (item == 'Visualization') {
           return (
             <div>
@@ -66,7 +67,7 @@ export function Histories({
       width: '70%',
       sortable: true,
       truncateText: true,
-      render: (item) => {
+      render: (item: any) => {
         return (
           <EuiLink
             onClick={() => {
