@@ -23,6 +23,7 @@ describe('Dashboard table component', () => {
         addPercentileFilter={addPercentileFilter}
         setRedirect={setRedirect}
         loading={false}
+        page="dashboard"
       />
     );
 
@@ -59,6 +60,7 @@ describe('Dashboard table component', () => {
         addPercentileFilter={addPercentileFilter}
         setRedirect={setRedirect}
         loading={false}
+        page="dashboard"
       />
     );
 

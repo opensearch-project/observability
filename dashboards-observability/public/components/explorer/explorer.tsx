@@ -72,7 +72,8 @@ export const Explorer = ({
   setToast,
   history,
   notifications,
-  savedObjectId
+  savedObjectId,
+  tabCreatedTypes
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId, };
