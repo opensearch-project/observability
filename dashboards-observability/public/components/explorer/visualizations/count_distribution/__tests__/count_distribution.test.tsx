@@ -10,7 +10,7 @@ import { waitFor } from '@testing-library/react';
 import { CountDistribution } from '../count_distribution';
 import { SAMPLE_VISUALIZATIONS } from '../../../../../../test/event_analytics_constants';
 
-describe('No result component', () => {
+describe('Count distribution component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders empty count distribution component', async () => {

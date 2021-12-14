@@ -392,12 +392,14 @@ export const DATA_GRID_ROWS = [
 ];
 
 export const SAMPLE_VISUALIZATIONS = {
-  'count()': [2549, 9337, 1173],
-  'span(timestamp,1M)': [
-    '2021-05-01 00:00:00',
-    '2021-06-01 00:00:00',
-    '2021-07-01 00:00:00'
-  ],
+  data: {
+    'count()': [2549, 9337, 1173],
+    'span(timestamp,1M)': [
+      '2021-05-01 00:00:00',
+      '2021-06-01 00:00:00',
+      '2021-07-01 00:00:00'
+    ],
+  },
   jsonData: [
     {
       'count()': 2549,
