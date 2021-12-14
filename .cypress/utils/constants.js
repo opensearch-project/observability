@@ -12,18 +12,18 @@ export const SERVICE_NAME = 'frontend-client';
 
 export const testDataSet = [
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-service-map.json',
     index: 'otel-v1-apm-service-map',
   },
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001.json',
     index: 'otel-v1-apm-span-000001',
   },
   {
-    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
-    data_url: 'https://raw.githubusercontent.com/opensearch-project/trace-analytics/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000002.json',
+    mapping_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000001-mappings.json',
+    data_url: 'https://raw.githubusercontent.com/opensearch-project/observability/main/dashboards-observability/.cypress/utils/otel-v1-apm-span-000002.json',
     index: 'otel-v1-apm-span-000002',
   },
 ]
