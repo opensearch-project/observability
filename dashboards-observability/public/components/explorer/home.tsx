@@ -48,7 +48,7 @@ import { addTab, selectQueryTabs } from './slices/query_tab_slice';
 import { init as initFields } from './slices/field_slice';
 import { init as initQuery, changeQuery } from './slices/query_slice';
 import { init as initQueryResult, selectQueryResult } from './slices/query_result_slice';
-import { Histories as EventHomeHistories } from './home_table/history_table';
+import { SavedQueryTable } from './home_table/saved_query_table';
 import { selectQueries } from './slices/query_slice';
 import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
@@ -404,7 +404,7 @@ export const Home = (props: IHomeProps) => {
             <EuiFlexGroup>
               <EuiFlexItem grow={true}>
                 {savedHistories.length > 0 ? (
-                  <EventHomeHistories
+                  <SavedQueryTable
                     savedHistories={savedHistories}
                     handleHistoryClick={handleHistoryClick}
                     isTableLoading={isTableLoading}
