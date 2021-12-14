@@ -18,9 +18,11 @@ import {
   EuiPageContentHeaderSection, 
   EuiPageHeader, 
   EuiPageHeaderSection,
+  EuiPopover,
   EuiSelect, 
   EuiSpacer,
-  EuiTitle 
+  EuiTitle, 
+  EuiToolTip
 } from "@elastic/eui";
 import DSLService from "public/services/requests/dsl";  
 import React, { useEffect, useState } from "react";
@@ -76,6 +78,24 @@ export const CreateApp = (props: CreateAppProps) => {
       ...state,
       [e.target.name]: e.target.value
     });
+  };
+
+  const isDisabled = !state.name || !query || !selectedTraces.length || !selectedServices.length;
+
+  const missingField = () => {
+    if (isDisabled) {
+      let popoverContent = '';
+      if (!state.name) {
+        popoverContent = 'Name is required.'
+      } else if (!query) {
+        popoverContent = 'Log Source is required.'
+      } else if (!selectedServices.length) {
+        popoverContent = 'Services & Entities is required.'
+      } else if (!selectedTraces.length) {
+        popoverContent = 'Trace Groups are required.'
+      }
+      return <p>{popoverContent}</p>;
+    }
   };
 
   return (
@@ -139,9 +159,11 @@ export const CreateApp = (props: CreateAppProps) => {
           </EuiButton>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton isDisabled={!state.name || !query || !selectedTraces.length || !selectedServices} fill>
+          <EuiToolTip position="top" content={missingField()}>
+          <EuiButton isDisabled={isDisabled} fill>
           Create
           </EuiButton>
+          </EuiToolTip>
         </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPageBody>
