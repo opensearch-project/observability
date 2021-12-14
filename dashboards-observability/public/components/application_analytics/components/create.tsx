@@ -18,8 +18,6 @@ import {
   EuiPageContentHeaderSection, 
   EuiPageHeader, 
   EuiPageHeaderSection,
-  EuiPopover,
-  EuiSelect, 
   EuiSpacer,
   EuiTitle, 
   EuiToolTip
