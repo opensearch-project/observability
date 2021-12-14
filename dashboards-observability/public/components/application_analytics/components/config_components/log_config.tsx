@@ -51,8 +51,8 @@ export const LogConfig = (props: LogConfigProps) => {
       getClearModal(
         onCancel, 
         onConfirm, 
-        'Clear log source', 
-        'Are you sure you would like to clear the log source?', 
+        'Clear log source?', 
+        'This will clear all information in log source configuration.', 
         'Clear'
       )
     );

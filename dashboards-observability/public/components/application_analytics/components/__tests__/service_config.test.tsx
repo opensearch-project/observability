@@ -49,7 +49,7 @@ describe('Service Config component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders with one trace selected', () => {
+  it('renders with one service selected', () => {
     const core = coreStartMock;
     const setQuery = jest.fn();
     const setFilters = jest.fn();
