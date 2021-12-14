@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`No result component Renders count distribution component with data 1`] = `
+<CountDistribution
+  countDistribution={
+    Object {
+      "count()": Array [
+        2549,
+        9337,
+        1173,
+      ],
+      "jsonData": Array [
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-05-01 00:00:00",
+        },
+        Object {
+          "count()": 9337,
+          "span(timestamp,1M)": "2021-06-01 00:00:00",
+        },
+        Object {
+          "count()": 2549,
+          "span(timestamp,1M)": "2021-07-01 00:00:00",
+        },
+      ],
+      "metadata": Object {
+        "fields": Array [
+          Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          Object {
+            "name": "span(timestamp,1M)",
+            "type": "timestamp",
+          },
+        ],
+      },
+      "span(timestamp,1M)": Array [
+        "2021-05-01 00:00:00",
+        "2021-06-01 00:00:00",
+        "2021-07-01 00:00:00",
+      ],
+    }
+  }
+/>
+`;
+
+exports[`No result component Renders empty count distribution component 1`] = `<CountDistribution />`;

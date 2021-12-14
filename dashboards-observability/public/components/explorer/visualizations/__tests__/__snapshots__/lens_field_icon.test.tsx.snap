@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Visualization field components Renders field list component 1`] = `
+<LensFieldIcon
+  type="date"
+>
+  <FieldIcon
+    className="lnsFieldListPanel__fieldIcon"
+    type="date"
+  >
+    <EuiToken
+      aria-label="date"
+      className="osdFieldIcon lnsFieldListPanel__fieldIcon"
+      iconType="tokenDate"
+      size="s"
+      title="date"
+    >
+      <span
+        className="euiToken euiToken--euiColorVis6 euiToken--square euiToken--light euiToken--small osdFieldIcon lnsFieldListPanel__fieldIcon"
+        style={Object {}}
+      >
+        <EuiIcon
+          aria-label="date"
+          size="m"
+          title="date"
+          type="tokenDate"
+        >
+          <EuiIconEmpty
+            aria-hidden={true}
+            aria-label="date"
+            className="euiIcon euiIcon--medium euiIcon-isLoading"
+            focusable="false"
+            role="img"
+            style={null}
+            title="date"
+          >
+            <svg
+              aria-hidden={true}
+              aria-label="date"
+              className="euiIcon euiIcon--medium euiIcon-isLoading"
+              focusable="false"
+              height={16}
+              role="img"
+              style={null}
+              viewBox="0 0 16 16"
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </EuiIconEmpty>
+        </EuiIcon>
+      </span>
+    </EuiToken>
+  </FieldIcon>
+</LensFieldIcon>
+`;

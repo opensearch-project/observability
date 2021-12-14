@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Doc viewer json block component Renders json block component 1`] = `
+<JsonCodeBlock
+  hit={
+    Object {
+      "Carrier": "JetBeats",
+      "avg(FlightDelayMin)": "45.957544288332315",
+    }
+  }
+>
+  <EuiCodeBlock
+    aria-label="Read only JSON view of an elasticsearch document"
+    isCopyable={true}
+    language="json"
+    paddingSize="s"
+  >
+    <EuiCodeBlockImpl
+      aria-label="Read only JSON view of an elasticsearch document"
+      inline={false}
+      isCopyable={true}
+      language="json"
+      paddingSize="s"
+    >
+      <Portal
+        containerInfo={
+          <div>
+            {
+  "Carrier": "JetBeats",
+  "avg(FlightDelayMin)": "45.957544288332315"
+}
+          </div>
+        }
+      >
+        {
+  "Carrier": "JetBeats",
+  "avg(FlightDelayMin)": "45.957544288332315"
+}
+      </Portal>
+      <EuiInnerText
+        fallback=""
+      >
+        <div
+          className="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingSmall euiCodeBlock--hasControls"
+          style={Object {}}
+        >
+          <pre
+            className="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
+            style={Object {}}
+          >
+            <code
+              aria-label="Read only JSON view of an elasticsearch document"
+              className="euiCodeBlock__code json"
+            />
+          </pre>
+          <div
+            className="euiCodeBlock__controls"
+          >
+            <div
+              className="euiCodeBlock__copyButton"
+            >
+              <EuiI18n
+                default="Copy"
+                token="euiCodeBlock.copyButton"
+              >
+                <EuiCopy
+                  afterMessage="Copied"
+                  textToCopy="{
+  \\"Carrier\\": \\"JetBeats\\",
+  \\"avg(FlightDelayMin)\\": \\"45.957544288332315\\"
+}"
+                >
+                  <EuiToolTip
+                    delay="regular"
+                    onMouseOut={[Function]}
+                    position="top"
+                  >
+                    <span
+                      className="euiToolTipAnchor"
+                      onKeyUp={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                    >
+                      <EuiButtonIcon
+                        aria-label="Copy"
+                        color="text"
+                        iconType="copy"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        size="s"
+                      >
+                        <button
+                          aria-label="Copy"
+                          className="euiButtonIcon euiButtonIcon--text"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          size="s"
+                          type="button"
+                        >
+                          <EuiIcon
+                            aria-hidden="true"
+                            className="euiButtonIcon__icon"
+                            size="m"
+                            type="copy"
+                          >
+                            <EuiIconEmpty
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                              focusable="false"
+                              role="img"
+                              style={null}
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                focusable="false"
+                                height={16}
+                                role="img"
+                                style={null}
+                                viewBox="0 0 16 16"
+                                width={16}
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </EuiIconEmpty>
+                          </EuiIcon>
+                        </button>
+                      </EuiButtonIcon>
+                    </span>
+                  </EuiToolTip>
+                </EuiCopy>
+              </EuiI18n>
+            </div>
+          </div>
+        </div>
+      </EuiInnerText>
+    </EuiCodeBlockImpl>
+  </EuiCodeBlock>
+</JsonCodeBlock>
+`;
