@@ -261,10 +261,14 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
 <<<<<<< HEAD
+<<<<<<< HEAD
             versions = ["1.1.0",opensearch_version]
 =======
             versions = ["1.1.0","1.2.1-SNAPSHOT"]
 >>>>>>> d72e632 (Update tests, builds and doc (#318))
+=======
+            versions = ["1.1.0","1.2.2-SNAPSHOT"]
+>>>>>>> 249c6b6 (bumping version to 1.2.2 (#346))
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override
