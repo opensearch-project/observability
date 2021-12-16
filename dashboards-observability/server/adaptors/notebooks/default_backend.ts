@@ -5,7 +5,7 @@
 
 import now from 'performance-now';
 import { v4 as uuid } from 'uuid';
-import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { optionsType } from '../../../common/types/notebooks';
 import {
   DefaultNotebooks,
@@ -286,7 +286,7 @@ export class DefaultBackend implements NotebookAdaptor {
     paragraphs: Array<DefaultParagraph>,
     paragraphId: string,
     paragraphInput: string,
-    paragraphType: string
+    paragraphType?: string
   ) {
     try {
       const updatedParagraphs: DefaultParagraph[] = [];
@@ -429,7 +429,7 @@ export class DefaultBackend implements NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph = async function (
-    client: ILegacyClusterClient,
+    client: ILegacyScopedClusterClient,
     request: any,
     _wreckOptions: optionsType
   ) {

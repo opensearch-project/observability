@@ -134,7 +134,7 @@ exports[`<Paragraphs /> spec renders the component 1`] = `
             Specify the input language on the first line using %[language type]. Supported languages include markdown, 
             <a
               class="euiLink euiLink--primary"
-              href="https://opensearch.org/docs/latest/observability/ppl/commands/"
+              href="https://opensearch.org/docs/latest/search-plugins/sql/index/"
               rel="noopener noreferrer"
               target="_blank"
             >

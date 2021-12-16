@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { optionsType } from '../../../common/types/notebooks';
 
 export interface NotebookAdaptor {
@@ -85,7 +85,7 @@ export interface NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph: (
-    client: ILegacyClusterClient,
+    client: ILegacyScopedClusterClient,
     request: any,
     wreckOptions: optionsType
   ) => Promise<any>;
