@@ -282,10 +282,11 @@ export class DefaultBackend implements NotebookAdaptor {
    *         paragraphId -> Id of paragraph to be updated
    *         paragraphInput -> Input to be added
    */
-  updateParagraphInput = function (
+  updateParagraph = function (
     paragraphs: Array<DefaultParagraph>,
     paragraphId: string,
-    paragraphInput: string
+    paragraphInput: string,
+    paragraphType: string
   ) {
     try {
       const updatedParagraphs: DefaultParagraph[] = [];
@@ -294,6 +295,9 @@ export class DefaultBackend implements NotebookAdaptor {
         if (paragraph.id === paragraphId) {
           updatedParagraph.dateModified = new Date().toISOString();
           updatedParagraph.input.inputText = paragraphInput;
+          if (paragraphType.length > 0) {
+            updatedParagraph.input.inputType = paragraphType;
+          }
         }
         updatedParagraphs.push(updatedParagraph);
       });
@@ -433,10 +437,11 @@ export class DefaultBackend implements NotebookAdaptor {
       const scopedClient = client.asScoped(request);
       const params = request.body;
       const opensearchClientGetResponse = await this.getNote(scopedClient, params.noteId);
-      const updatedInputParagraphs = this.updateParagraphInput(
+      const updatedInputParagraphs = this.updateParagraph(
         opensearchClientGetResponse.notebook.paragraphs,
         params.paragraphId,
-        params.paragraphInput
+        params.paragraphInput,
+        params.paragraphType
       );
       const updatedOutputParagraphs = await this.runParagraph(
         updatedInputParagraphs,
@@ -480,7 +485,7 @@ export class DefaultBackend implements NotebookAdaptor {
   ) {
     try {
       const opensearchClientGetResponse = await this.getNote(client, params.noteId);
-      const updatedInputParagraphs = this.updateParagraphInput(
+      const updatedInputParagraphs = this.updateParagraph(
         opensearchClientGetResponse.notebook.paragraphs,
         params.paragraphId,
         params.paragraphInput

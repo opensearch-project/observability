@@ -258,7 +258,7 @@ describe('Testing paragraphs', () => {
   it('Adds a dashboards visualization paragraph', () => {
     cy.contains('Add paragraph').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Dashboards visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Visualization').click();
     cy.wait(delay);
 
     cy.get('.euiButton__text').contains('Run').click();
@@ -267,13 +267,12 @@ describe('Testing paragraphs', () => {
 
     cy.get('.euiButton__text').contains('Browse').click();
     cy.wait(delay);
-    cy.get('.euiFieldSearch').focus().type('{uparrow}{uparrow}{enter}');
+    cy.get('.euiFieldSearch').focus().type('[Flights] Flight Count and Average Ticket Price{enter}');
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Select').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay);
-
     cy.get('div.visualization').should('exist');
   });
 
@@ -296,7 +295,7 @@ describe('Testing paragraphs', () => {
   it('Adds an observability visualization paragraph', () => {
     cy.contains('Add paragraph').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Observability visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Visualization').click();
     cy.wait(delay);
 
     cy.get('.euiButton__text').contains('Run').click();
@@ -305,14 +304,13 @@ describe('Testing paragraphs', () => {
 
     cy.get('.euiButton__text').contains('Browse').click();
     cy.wait(delay);
-    cy.get('.euiFieldSearch').focus().type('{uparrow}{uparrow}{enter}');
+    cy.get('.euiFieldSearch').focus().type('[Logs] Count total requests by tags{enter}');
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Select').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Run').click();
     cy.wait(delay);
-
-    cy.get('div.visualization').should('exist');
+    cy.get('h5').contains('[Logs] Count total requests by tags').should('exist');
   });
 
   it('Adds a PPL query paragraph', () => {
@@ -368,7 +366,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiContextMenuItem__text').contains('Code block').click();
     cy.wait(delay);
 
-    cy.get('.euiText').contains('[4] OpenSearch Dashboards visualization').should('exist');
+    cy.get('.euiText').contains('[4] Visualization').should('exist');
     cy.get('.euiText').contains('[5] Code block').should('exist');
   });
 
@@ -379,7 +377,7 @@ describe('Testing paragraphs', () => {
     cy.get('.euiContextMenuItem__text').contains('Move to bottom').click();
     cy.wait(delay);
 
-    cy.get('.euiText').contains('[3] OpenSearch Dashboards visualization').should('exist');
+    cy.get('.euiText').contains('[3] Visualization').should('exist');
   });
 
   it('Duplicates and renames the notebook', () => {

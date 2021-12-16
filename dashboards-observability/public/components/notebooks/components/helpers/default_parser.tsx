@@ -53,20 +53,10 @@ const parseVisualization = (paraObject: any) => {
       let visEndTime = new Date().toISOString();
       let visSavedObjId = '';
       if (vizContent !== '') {
-        if (paraObject.input.inputType === 'VISUALIZATION') {
-          const { panels, timeRange } = JSON.parse(vizContent);
-          visStartTime = timeRange.from;
-          visEndTime = timeRange.to;
-          visSavedObjId = panels['1'].explicitInput.savedObjectId;
-        } else {
-          // for OBSERVABILITY_VISUALIZATION
-          // we store {savedVisualizationId: "", timeRange: {from: "", to: ""}}
-          // in the input component of the paragraph
-          const { savedVisualizationId, timeRange } = JSON.parse(vizContent);
-          visStartTime = timeRange.from;
-          visEndTime = timeRange.to;
-          visSavedObjId = savedVisualizationId;
-        }
+        const { panels, timeRange } = JSON.parse(vizContent);
+        visStartTime = timeRange.from;
+        visEndTime = timeRange.to;
+        visSavedObjId = panels['1'].explicitInput.savedObjectId;
       }
       return {
         isViz: true,
@@ -104,7 +94,6 @@ export const defaultParagraphParser = (defaultBackendParagraphs: any) => {
         isInputHidden: false,
         isOutputHidden: false,
         showAddPara: false,
-        inputType: paraObject.input.inputType,
         isVizualisation: vizParams.isViz,
         vizObjectInput: vizParams.VizObject,
         id: index + 1,

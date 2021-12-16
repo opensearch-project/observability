@@ -402,10 +402,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   // Function to clone a paragraph
   cloneParaButton = (para: ParaType, index: number) => {
     let inputType = 'CODE';
-    if (para.inputType === 'VISUALIZATION') {
+    if (para.typeOut[0] === 'VISUALIZATION') {
       inputType = 'VISUALIZATION';
     }
-    if (para.inputType === 'OBSERVABILITY_VISUALIZATION') {
+    if (para.typeOut[0] === 'OBSERVABILITY_VISUALIZATION') {
       inputType = 'OBSERVABILITY_VISUALIZATION';
     }
     if (index !== -1) {
@@ -474,7 +474,12 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   };
 
   // Backend call to update and run contents of paragraph
-  updateRunParagraph = (para: ParaType, index: number, vizObjectInput?: string) => {
+  updateRunParagraph = (
+    para: ParaType,
+    index: number,
+    vizObjectInput?: string,
+    paraType?: string
+  ) => {
     this.showParagraphRunning(index);
     if (vizObjectInput) {
       para.inp = this.state.vizPrefix + vizObjectInput; // "%sh check"
@@ -484,6 +489,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       noteId: this.props.openedNoteId,
       paragraphId: para.uniqueId,
       paragraphInput: para.inp,
+      paragraphType: paraType || '',
     };
 
     return this.props.http
@@ -723,17 +729,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             },
           },
           {
-            name: 'Dashboards visualization',
+            name: 'Visualization',
             onClick: () => {
               this.setState({ isAddParaPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'VISUALIZATION');
-            },
-          },
-          {
-            name: 'Observability visualization',
-            onClick: () => {
-              this.setState({ isAddParaPopoverOpen: false });
-              this.addPara(this.state.paragraphs.length, '', 'OBSERVABILITY_VISUALIZATION');
             },
           },
         ],
@@ -795,17 +794,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             },
           },
           {
-            name: 'Dashboards visualization',
+            name: 'Visualization',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(0, '', 'VISUALIZATION');
-            },
-          },
-          {
-            name: 'Observability visualization',
-            onClick: () => {
-              this.setState({ isAddParaPopoverOpen: false });
-              this.addPara(this.state.paragraphs.length, '', 'OBSERVABILITY_VISUALIZATION');
             },
           },
         ],
@@ -822,17 +814,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
             },
           },
           {
-            name: 'Dashboards visualization',
+            name: 'Visualization',
             onClick: () => {
               this.setState({ isParaActionsPopoverOpen: false });
               this.addPara(this.state.paragraphs.length, '', 'VISUALIZATION');
-            },
-          },
-          {
-            name: 'Observability visualization',
-            onClick: () => {
-              this.setState({ isAddParaPopoverOpen: false });
-              this.addPara(this.state.paragraphs.length, '', 'OBSERVABILITY_VISUALIZATION');
             },
           },
         ],
@@ -1081,6 +1066,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   </EuiText>
                   <EuiSpacer size="xl" />
                   <EuiFlexGroup justifyContent="spaceEvenly">
+                    <EuiFlexItem grow={2} />
                     <EuiFlexItem grow={3}>
                       <EuiCard
                         icon={<EuiIcon size="xxl" type="editorCodeBlock" />}
@@ -1099,8 +1085,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                     <EuiFlexItem grow={3}>
                       <EuiCard
                         icon={<EuiIcon size="xxl" type="visArea" />}
-                        title="OpenSearch Dashboards visualization"
-                        description="Import OpenSearch Dashboards visualizations to the notes."
+                        title="Visualization"
+                        description="Import OpenSearch Dashboards or Observability visualizations to the notes."
                         footer={
                           <EuiButton
                             onClick={() => this.addPara(0, '', 'VISUALIZATION')}
@@ -1111,21 +1097,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                         }
                       />
                     </EuiFlexItem>
-                    <EuiFlexItem grow={3}>
-                      <EuiCard
-                        icon={<EuiIcon size="xxl" type="visBarVertical" />}
-                        title="OpenSearch Observability visualization"
-                        description="Import OpenSearch Observability visualizations to the notes."
-                        footer={
-                          <EuiButton
-                            onClick={() => this.addPara(0, '', 'OBSERVABILITY_VISUALIZATION')}
-                            style={{ marginBottom: 17 }}
-                          >
-                            Add visualization
-                          </EuiButton>
-                        }
-                      />
-                    </EuiFlexItem>
+                    <EuiFlexItem grow={2} />
                   </EuiFlexGroup>
                   <EuiSpacer size="xxl" />
                 </EuiPanel>

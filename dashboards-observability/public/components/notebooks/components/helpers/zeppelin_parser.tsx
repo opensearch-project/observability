@@ -131,7 +131,6 @@ export const zeppelinParagraphParser = (zeppelinBackendParagraphs: any) => {
         isInputHidden: false,
         isOutputHidden: false,
         showAddPara: false,
-        inputType: vizParams.VizObject ? paraObject.title : '',
         isVizualisation: vizParams.isViz,
         vizObjectInput: vizParams.VizObject,
         id: index + 1,

@@ -35,7 +35,6 @@ export type ParaType = {
   isInputHidden: boolean;
   isOutputHidden: boolean;
   showAddPara: boolean;
-  inputType: string;
   isVizualisation: boolean;
   vizObjectInput: string;
   id: number;
