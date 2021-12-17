@@ -92,6 +92,7 @@ export interface IExplorerProps {
   history: History;
   notifications: NotificationsStart;
   savedObjectId: string;
+  curSelectedTabId : React.MutableRefObject<undefined>;
   setToast: (
     title: string,
     color?: string,

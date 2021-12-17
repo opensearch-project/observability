@@ -140,6 +140,8 @@ export const LogExplorer = ({
     return newTabId;
   };
 
+  console.log("curent selected tab from log explorer ",curSelectedTabId)
+
   useEffect(() => {
     if (!isEmpty(savedObjectId)) {
       dispatchSavedObjectId();
@@ -188,6 +190,7 @@ export const LogExplorer = ({
             notifications={notifications}
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
+            curSelectedTabId={curSelectedTabIdRef}
           />
         </>)
     };

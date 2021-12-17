@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
@@ -15,6 +15,11 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiLink,
+  EuiContextMenuItem,
+  EuiButton,
+  EuiPageContentHeaderSection,
+  EuiPopover,
+  EuiContextMenuPanel,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -55,6 +60,8 @@ import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
+import { threadId } from 'worker_threads';
+// import { curSelectedTabId } from 
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -72,7 +79,8 @@ export const Explorer = ({
   setToast,
   history,
   notifications,
-  savedObjectId
+  savedObjectId,
+  curSelectedTabId
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId, };
@@ -109,13 +117,21 @@ export const Explorer = ({
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
+  const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
+  const [isLiveTailOn, setIsLiveTailOn] = useState(true);
+  const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
+
   
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
+  const isLiveTailOnRef = useRef(true);
+  const liveTailTabIdRef = useRef('');
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
+  isLiveTailOnRef.current = isLiveTailOn;
+  liveTailTabIdRef.current = liveTailTabId;
 
   let minInterval = 'y';
   const findAutoInterval = (startTime: string, endTime: string) => {
@@ -822,6 +838,64 @@ export const Explorer = ({
     }
   };
 
+  const popoverButton = (
+    <EuiButton
+      iconType="play"
+      iconSide="right"
+      onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
+      data-test-subj="eventLiveTail"
+    >
+      Live Tail
+    </EuiButton>
+  );
+
+  const sleep = (milliseconds: number | undefined) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  const popoverItems: ReactElement[] = [
+    <EuiContextMenuItem
+      key="5s"
+      // disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
+      onClick={ async () => {
+        setLiveTailTabId(curSelectedTabId);
+        setIsLiveTailOn(true);
+        setToast("Live tail On",'success');
+        setIsLiveTailPopoverOpen(false);
+          // console.log("live tail on outside loop ", isLiveTailOn);
+          // // await (isLiveTailOnRef.current == true)
+        await sleep(1500);
+        while (isLiveTailOnRef.current === true){
+          // console.log("live tail on ", isLiveTailOn);
+          fetchData();
+          // console.log("selected Content tab id", curSelectedTabId.current);
+          // console.log("live tail tab id", liveTailTabIdRef.current);
+          if (liveTailTabIdRef.current !== curSelectedTabId.current) {
+            // console.log("tab id change works");
+            setIsLiveTailOn(false);
+          }
+          await sleep(5000);
+        }  
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      5s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+    key="stop"
+    // disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
+    onClick={ () => {
+      setIsLiveTailOn(false);
+      setToast("Live tail Off",'success');
+      // console.log("live tail off ", isLiveTailOn);
+      setIsLiveTailPopoverOpen(false);
+    }}
+    data-test-subj="eventLiveTail__delay"
+  >
+    Stop
+  </EuiContextMenuItem>,
+  ];
+
   const dateRange = isEmpty(query['selectedDateRange']) ? ['now-15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];
   
@@ -847,6 +921,21 @@ export const Explorer = ({
         showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
       />
+      <EuiPageContentHeaderSection>
+                <EuiFlexGroup gutterSize="s">
+                  <EuiFlexItem>
+                    <EuiPopover
+                      panelPaddingSize="none"
+                      button={popoverButton}
+                      isOpen={isLiveTailPopoverOpen}
+                      closePopover={() => setIsLiveTailPopoverOpen(false)}
+                      // data-test-subj="eventHomeAction__popover"
+                    >
+                      <EuiContextMenuPanel items={popoverItems} />
+                    </EuiPopover>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiPageContentHeaderSection>
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={memorizedMainContentTabs[0]}
