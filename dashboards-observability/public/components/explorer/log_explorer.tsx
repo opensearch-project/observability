@@ -140,7 +140,7 @@ export const LogExplorer = ({
     return newTabId;
   };
 
-  console.log("curent selected tab from log explorer ",curSelectedTabId)
+  console.log("curent selected tab from log explorer ",curSelectedTabId);
 
   useEffect(() => {
     if (!isEmpty(savedObjectId)) {

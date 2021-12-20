@@ -20,6 +20,7 @@ import {
   EuiPageContentHeaderSection,
   EuiPopover,
   EuiContextMenuPanel,
+  EuiButtonToggle,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -118,8 +119,10 @@ export const Explorer = ({
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
-  const [isLiveTailOn, setIsLiveTailOn] = useState(true);
+  const [isLiveTailOn, setIsLiveTailOn] = useState(false);
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
+  const [liveTailName, setLiveTailName] = useState('');
+  const [toggle1On, setToggle1On] = useState(false);
 
   
   const queryRef = useRef();
@@ -127,11 +130,13 @@ export const Explorer = ({
   const explorerFieldsRef = useRef();
   const isLiveTailOnRef = useRef(true);
   const liveTailTabIdRef = useRef('');
+  const liveTailNameRef = useRef('');
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
   isLiveTailOnRef.current = isLiveTailOn;
   liveTailTabIdRef.current = liveTailTabId;
+  liveTailNameRef.current = liveTailName;
 
   let minInterval = 'y';
   const findAutoInterval = (startTime: string, endTime: string) => {
@@ -838,16 +843,28 @@ export const Explorer = ({
     }
   };
 
+  const onToggle1Change = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setToggle1On(e.target.checked);
+    setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen);
+  };
+
   const popoverButton = (
-    <EuiButton
-      iconType="play"
+    <EuiButtonToggle
+      label={toggle1On ? "" : liveTailNameRef.current}
+      iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
+      // isSelected={toggle1On}
+      onChange={onToggle1Change}
+      // onChange={() => liveTailName}
       data-test-subj="eventLiveTail"
     >
-      Live Tail
-    </EuiButton>
+    </EuiButtonToggle>
   );
+
+  const wrappedPopoverButton = useMemo(() => 
+    popoverButton,
+    [toggle1On]);
 
   const sleep = (milliseconds: number | undefined) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -856,23 +873,27 @@ export const Explorer = ({
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="5s"
-      // disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
       onClick={ async () => {
-        setLiveTailTabId(curSelectedTabId);
+        setLiveTailName("5s")
+        setLiveTailTabId(curSelectedTabId.current);
         setIsLiveTailOn(true);
         setToast("Live tail On",'success');
         setIsLiveTailPopoverOpen(false);
-          // console.log("live tail on outside loop ", isLiveTailOn);
+        // console.log("live tail on outside loop ", isLiveTailOn);
           // // await (isLiveTailOnRef.current == true)
-        await sleep(1500);
+        await sleep(2000);
+        // console.log("live tail on outside ", isLiveTailOnRef.current);
         while (isLiveTailOnRef.current === true){
-          // console.log("live tail on ", isLiveTailOn);
+          // console.log("live tail on ", isLiveTailOnRef.current);
           fetchData();
           // console.log("selected Content tab id", curSelectedTabId.current);
           // console.log("live tail tab id", liveTailTabIdRef.current);
           if (liveTailTabIdRef.current !== curSelectedTabId.current) {
+            setIsLiveTailOn(!isLiveTailOnRef.current);
+            isLiveTailOnRef.current = false;
+            setLiveTailName("")
             // console.log("tab id change works");
-            setIsLiveTailOn(false);
+            
           }
           await sleep(5000);
         }  
@@ -882,12 +903,42 @@ export const Explorer = ({
       5s
     </EuiContextMenuItem>,
     <EuiContextMenuItem
+    key="10s"
+    onClick={ async () => {
+      setLiveTailName("10s")
+      setLiveTailTabId(curSelectedTabId.current);
+      setIsLiveTailOn(true);
+      setToast("Live tail On",'success');
+      setIsLiveTailPopoverOpen(false);
+      console.log("live tail on outside loop ", isLiveTailOn);
+        // // await (isLiveTailOnRef.current == true)
+      await sleep(2000);
+      console.log("live tail on outside ", isLiveTailOnRef.current);
+      while (isLiveTailOnRef.current === true){
+        console.log("live tail on ", isLiveTailOnRef.current);
+        fetchData();
+        console.log("selected Content tab id", curSelectedTabId.current);
+        console.log("live tail tab id", liveTailTabIdRef.current);
+        if (liveTailTabIdRef.current !== curSelectedTabId.current) {
+          setIsLiveTailOn(!isLiveTailOnRef.current);
+          isLiveTailOnRef.current = false;
+          console.log("tab id change works");
+          
+        }
+        await sleep(10000);
+      }  
+    }}
+    data-test-subj="eventLiveTail__delay"
+  >
+    10s
+  </EuiContextMenuItem>,
+    <EuiContextMenuItem
     key="stop"
-    // disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
     onClick={ () => {
+      setLiveTailName("")
       setIsLiveTailOn(false);
       setToast("Live tail Off",'success');
-      // console.log("live tail off ", isLiveTailOn);
+      console.log("live tail off ", isLiveTailOnRef.current);
       setIsLiveTailPopoverOpen(false);
     }}
     data-test-subj="eventLiveTail__delay"
@@ -926,7 +977,7 @@ export const Explorer = ({
                   <EuiFlexItem>
                     <EuiPopover
                       panelPaddingSize="none"
-                      button={popoverButton}
+                      button={wrappedPopoverButton}
                       isOpen={isLiveTailPopoverOpen}
                       closePopover={() => setIsLiveTailPopoverOpen(false)}
                       // data-test-subj="eventHomeAction__popover"
