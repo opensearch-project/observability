@@ -262,7 +262,7 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = ["1.1.0","${opensearch_version}"]
+            versions = ["1.1.0","1.2.3-SNAPSHOT"]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override
