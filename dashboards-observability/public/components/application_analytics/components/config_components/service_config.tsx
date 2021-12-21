@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
+import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiOverlayMask, EuiSpacer, EuiText } from "@elastic/eui";
 import { FilterType } from "../../../trace_analytics/components/common/filters/filters";
 import { ServiceObject } from "../../../trace_analytics/components/common/plots/service_map";
 import { ServiceMap } from "../../../trace_analytics/components/services";
@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
 import { optionType } from "common/constants/application_analytics";
+import { getClearModal } from "../helpers/modal_containers";
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -25,6 +26,8 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
   
   useEffect(() => {
     handleServiceMapRequest(http, dslService, serviceMap, setServiceMap);
@@ -71,26 +74,57 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
 
   const services = Object.keys(serviceMap).map((service) => { return { label: service } });
 
+  const onCancel = () => {
+    setIsModalVisible(false);
+  }
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  
+  const onConfirm = () => {
+    clearServices();
+    closeModal();
+  }
+
+  const clearAllModal = () => {
+    setModalLayout(
+      getClearModal(
+        onCancel, 
+        onConfirm, 
+        'Clear services & entities?', 
+        'This will clear all information in services & entities configuration.', 
+        'Clear All'
+      )
+    );
+    showModal();
+  };
+
   return (
+    <div>
     <EuiAccordion
-            id="servicesEntities"
-            buttonContent={
-              <>
-                <EuiText size="s">
-                <h3>
-                Services & Entities  <EuiBadge>{selectedServices.length}</EuiBadge>
-                </h3>
-              </EuiText>
-              <EuiSpacer size="s" />
-              <EuiText size="s" color="subdued">
-                Select services & entities to include in this application
-              </EuiText>
-              </>
-              }
-            extraAction={<EuiButton size="s" disabled={!servicesOpen || !selectedServices.length} onClick={clearServices}>Clear all</EuiButton>}
-            onToggle={(isOpen) => {setServicesOpen(isOpen)}}
-            paddingSize="l"
-          >
+      id="servicesEntities"
+      buttonContent={
+        <>
+          <EuiText size="s">
+          <h3>
+          Services & Entities  <EuiBadge>{selectedServices.length}</EuiBadge>
+          </h3>
+        </EuiText>
+        <EuiSpacer size="s" />
+        <EuiText size="s" color="subdued">
+          Select services & entities to include in this application
+        </EuiText>
+        </>
+        }
+      extraAction={<EuiButton size="s" disabled={!servicesOpen || !selectedServices.length} onClick={clearAllModal}>Clear all</EuiButton>}
+      onToggle={(isOpen) => {setServicesOpen(isOpen)}}
+      paddingSize="l"
+    >
     <EuiFormRow
     label="Services & Entities"
     >
@@ -112,5 +146,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
       addFilter={addFilter}
     />
     </EuiAccordion>
+    {isModalVisible && modalLayout}
+    </div>
   );
 }
