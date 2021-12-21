@@ -51,8 +51,8 @@ export const LogConfig = (props: LogConfigProps) => {
       getClearModal(
         onCancel, 
         onConfirm, 
-        'Clear log source', 
-        'Are you sure you would like to clear the log source?', 
+        'Clear log source?', 
+        'This will clear all information in log source configuration.', 
         'Clear'
       )
     );
@@ -61,48 +61,48 @@ export const LogConfig = (props: LogConfigProps) => {
 
   return (
     <div>
-    <EuiAccordion
-      id="logSource"
-      buttonContent={
-        <>
-        <EuiText size="s">
-        <h3>Log Source</h3>
-        </EuiText>
-        <EuiSpacer size="s" />
-        <EuiText size="s" color="subdued">
-        Configure your application base query
-        </EuiText>
-        </>
-      }
-      extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>Clear</EuiButton>}
-      onToggle={(isOpen) => {setLogOpen(isOpen)}}
-      paddingSize="l"
-    >
-      <EuiFormRow
-      label="PPL Base Query"
-      helpText="The default logs view in the application will be filtered by this query."
+      <EuiAccordion
+        id="logSource"
+        buttonContent={
+          <>
+          <EuiText size="s">
+          <h3>Log Source</h3>
+          </EuiText>
+          <EuiSpacer size="s" />
+          <EuiText size="s" color="subdued">
+          Configure your application base query
+          </EuiText>
+          </>
+        }
+        extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>Clear</EuiButton>}
+        onToggle={(isOpen) => {setLogOpen(isOpen)}}
+        paddingSize="l"
       >
-        <EuiFlexItem grow={false} key="query-bar" className="query-area">
-          <Autocomplete
-            key={'autocomplete-bar'}
-            query={query}
-            tempQuery={tempQuery}
-            handleQueryChange={handleQueryChange}
-            handleQuerySearch={() => {}}
-            dslService={dslService}
-          />
-          <EuiBadge 
-            className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
-            color="hollow"
-            onClick={() => showFlyout()}
-            onClickAriaLabel={"pplLinkShowFlyout"}
-          >
-            PPL
-          </EuiBadge>
-        </EuiFlexItem>
-      </EuiFormRow>
-    </EuiAccordion>
-    {isModalVisible && modalLayout}
+        <EuiFormRow
+        label="PPL Base Query"
+        helpText="The default logs view in the application will be filtered by this query."
+        >
+          <EuiFlexItem grow={false} key="query-bar" className="query-area">
+            <Autocomplete
+              key={'autocomplete-bar'}
+              query={query}
+              tempQuery={tempQuery}
+              handleQueryChange={handleQueryChange}
+              handleQuerySearch={() => {}}
+              dslService={dslService}
+            />
+            <EuiBadge 
+              className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+              color="hollow"
+              onClick={() => showFlyout()}
+              onClickAriaLabel={"pplLinkShowFlyout"}
+            >
+              PPL
+            </EuiBadge>
+          </EuiFlexItem>
+        </EuiFormRow>
+      </EuiAccordion>
+      {isModalVisible && modalLayout}
     </div>
   );
 }
