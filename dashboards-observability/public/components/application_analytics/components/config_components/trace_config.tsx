@@ -4,7 +4,7 @@
  */
 
 import dateMath from '@elastic/datemath';
-import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from "@elastic/eui";
+import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiOverlayMask, EuiSpacer, EuiText } from "@elastic/eui";
 import { optionType } from "common/constants/application_analytics";
 import { filtersToDsl } from "../../../trace_analytics/components/common/helper_functions";
 import { handleDashboardRequest } from "../../../trace_analytics/requests/dashboard_request_handler";
@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
 import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
+import { getClearModal } from '../helpers/modal_containers';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -28,6 +29,8 @@ export const TraceConfig = (props: TraceConfigProps) => {
   const [traceOptions, setTraceOptions] = useState<Array<optionType>>([]);
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
 
   useEffect(() => {
     setLoading(true)
@@ -152,52 +155,85 @@ export const TraceConfig = (props: TraceConfigProps) => {
     setFilters(withoutTraces);
   };
 
+  const onCancel = () => {
+    setIsModalVisible(false);
+  }
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  
+  const onConfirm = () => {
+    clearTraces();
+    closeModal();
+  }
+
+  const clearAllModal = () => {
+    setModalLayout(
+      getClearModal(
+        onCancel, 
+        onConfirm, 
+        'Clear trace groups?', 
+        'This will clear all information in trace groups configuration.', 
+        'Clear all'
+      )
+    );
+    showModal();
+  };
+
   return (
-    <EuiAccordion
-      id="traceGroups"
-      buttonContent={
-        <>
-          <EuiText size="s">
-          <h3>
-          Trace Groups  <EuiBadge>{selectedTraces.length}</EuiBadge>
-          </h3>
-          </EuiText>
-          <EuiSpacer size="s" />
-          <EuiText size="s" color="subdued">
-            Constrain your application to specific trace groups
-          </EuiText>
-        </>
-        }
-      extraAction={<EuiButton size="s" disabled={!traceOpen || !selectedTraces.length} onClick={clearTraces}>Clear all</EuiButton>}
-      onToggle={(isOpen) => {setTraceOpen(isOpen)}}
-      paddingSize="l"
-    >
-      <EuiFormRow
-      label="Trace Groups"
-      helpText="Select one or multiple trace groups, or type a custom one"
+    <div>
+      <EuiAccordion
+        id="traceGroups"
+        buttonContent={
+          <>
+            <EuiText size="s">
+            <h3>
+            Trace Groups  <EuiBadge>{selectedTraces.length}</EuiBadge>
+            </h3>
+            </EuiText>
+            <EuiSpacer size="s" />
+            <EuiText size="s" color="subdued">
+              Constrain your application to specific trace groups
+            </EuiText>
+          </>
+          }
+        extraAction={<EuiButton size="s" disabled={!traceOpen || !selectedTraces.length} onClick={clearAllModal}>Clear all</EuiButton>}
+        onToggle={(isOpen) => {setTraceOpen(isOpen)}}
+        paddingSize="l"
       >
-        <EuiComboBox
-          aria-label="Select trace groups"
-          placeholder="Select or add trace groups"
-          options={traceOptions}
-          selectedOptions={selectedTraces}
-          onChange={onTraceChange}
-          onCreateOption={onCreateTrace}
-          isClearable={false}
-          data-test-subj="traceGroupsComboBox"
+        <EuiFormRow
+        label="Trace Groups"
+        helpText="Select one or multiple trace groups, or type a custom one"
+        >
+          <EuiComboBox
+            aria-label="Select trace groups"
+            placeholder="Select or add trace groups"
+            options={traceOptions}
+            selectedOptions={selectedTraces}
+            onChange={onTraceChange}
+            onCreateOption={onCreateTrace}
+            isClearable={false}
+            data-test-subj="traceGroupsComboBox"
+          />
+        </EuiFormRow>
+        <EuiSpacer />
+        <DashboardTable
+          items={traceItems}
+          // We want table to display all traces regardless of added filters
+          filters={[]}
+          addFilter={addFilter}
+          addPercentileFilter={addPercentileFilter}
+          setRedirect={setRedirect}
+          loading={loading}
+          page="app"
         />
-      </EuiFormRow>
-      <EuiSpacer />
-      <DashboardTable
-        items={traceItems}
-        // We want table to display all traces regardless of added filters
-        filters={[]}
-        addFilter={addFilter}
-        addPercentileFilter={addPercentileFilter}
-        setRedirect={setRedirect}
-        loading={loading}
-        page="app"
-      />
-    </EuiAccordion>
+      </EuiAccordion>
+      {isModalVisible && modalLayout}
+    </div>
   );
 }
