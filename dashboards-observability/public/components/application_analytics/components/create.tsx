@@ -151,7 +151,7 @@ export const CreateApp = (props: CreateAppProps) => {
         <EuiSpacer/>
         <EuiFlexGroup>
         <EuiFlexItem grow={false}>
-          <EuiButton>
+          <EuiButton href={`#/application_analytics`}>
           Cancel
           </EuiButton>
         </EuiFlexItem>
