@@ -224,18 +224,11 @@ export function Application(props: AppDetailProps) {
         </EuiPageHeader>
         <EuiTabbedContent
           className="appAnalyticsTabs"
-<<<<<<< HEAD
           initialSelectedTab={ appAnalyticsTabs[0] }
           selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
           onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
           tabs={ appAnalyticsTabs }
-=======
-          initialSelectedTab={ memorizedAppAnalyticsTabs[0] }
-          selectedTab={ memorizedAppAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
-          onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-          tabs={ memorizedAppAnalyticsTabs }
->>>>>>> f1569f2 (Application Analytics (#299))
-      />
+        />
       </EuiPageBody>
     </EuiPage>
     </div>
