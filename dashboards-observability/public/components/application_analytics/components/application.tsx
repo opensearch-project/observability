@@ -24,7 +24,7 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
-import React, { ReactChild, useMemo, useState } from 'react';
+import React, { ReactChild, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
 import { 
   TAB_CONFIG_ID_TXT_PFX, 
@@ -111,13 +111,13 @@ export function Application(props: AppDetailProps) {
   const getTrace = () => {
     return (
       <>
-      <Traces {...props} page="app" appId="id" appName="Cool Application" />
-      <EuiSpacer size='m'/>
-      <SpanDetailPanel
-        {...props}
-        traceId="id"
-        colorMap="color" 
-      />
+        <Traces {...props} page="app" appId="id" appName="Cool Application" />
+        <EuiSpacer size='m'/>
+        <SpanDetailPanel
+          {...props}
+          traceId="id"
+          colorMap="color" 
+        />
     </>
     );
   };
@@ -136,7 +136,7 @@ export function Application(props: AppDetailProps) {
         // App Analytics will not be saving queries on Log Events
         savedObjectId={''} 
         getExistingEmptyTab={getExistingEmptyTab}
-        />
+      />
     );
   };
 
@@ -173,8 +173,7 @@ export function Application(props: AppDetailProps) {
     };
   };
 
-  const getAppAnalyticsTabs = () => {
-    return [
+  const appAnalyticsTabs = [
         getAppAnalyticsTab(
           {
             tabId: TAB_OVERVIEW_ID,
@@ -211,13 +210,6 @@ export function Application(props: AppDetailProps) {
           }
         )
     ];
-  };
-  
-
-  const memorizedAppAnalyticsTabs = useMemo(() => {
-    return getAppAnalyticsTabs();
-  },
-  []);
 
   return (
     <div>
@@ -232,10 +224,10 @@ export function Application(props: AppDetailProps) {
         </EuiPageHeader>
         <EuiTabbedContent
           className="appAnalyticsTabs"
-          initialSelectedTab={ memorizedAppAnalyticsTabs[0] }
-          selectedTab={ memorizedAppAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
+          initialSelectedTab={ appAnalyticsTabs[0] }
+          selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
           onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-          tabs={ memorizedAppAnalyticsTabs }
+          tabs={ appAnalyticsTabs }
       />
       </EuiPageBody>
     </EuiPage>
