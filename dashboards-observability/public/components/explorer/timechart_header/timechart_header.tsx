@@ -15,14 +15,6 @@ export interface TimechartHeaderProps {
    */
   dateFormat?: string;
   /**
-   * Interval for the buckets of the recent request
-   */
-  bucketInterval?: {
-    scaled?: boolean;
-    description?: string;
-    scale?: number;
-  };
-  /**
    * Range of dates to be displayed
    */
   timeRange?: {
@@ -44,26 +36,10 @@ export interface TimechartHeaderProps {
 }
 
 export function TimechartHeader({
-  bucketInterval,
-  dateFormat,
-  timeRange,
   options,
-  onChangeInterval,
-  stateInterval,
+  onChangeInterval
 }: TimechartHeaderProps) {
   const [interval, setInterval] = useState(options[0].value);
-  const toMoment = useCallback(
-    (datetime: string) => {
-      if (!datetime) {
-        return '';
-      }
-      if (!dateFormat) {
-        return datetime;
-      }
-      return moment(datetime).format(dateFormat);
-    },
-    [dateFormat]
-  );
 
   const handleIntervalChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setInterval(e.target.value);

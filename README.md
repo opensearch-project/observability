@@ -1,6 +1,19 @@
-# OpenSearch Dashboards Observability
+<img src="https://opensearch.org/assets/img/opensearch-logo-themed.svg" height="64px">
 
-The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
+- [Observability](#observability)
+- [Code Summary](#code-summary)
+- [Plugin Components](#plugin-components)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Getting Help](#getting-help)
+- [Code of Conduct](#code-of-conduct)
+- [Security](#security)
+- [License](#license)
+- [Copyright](#copyright)
+
+# Observability
+
+Observability is collection of plugins and applications that let you visualize data-driven events by using Piped Processing Language to explore, discover, and query data stored in OpenSearch.
 
 ## Code Summary
 
@@ -36,40 +49,46 @@ The OpenSearch Dashboards Observability plugin has four components: Trace Analyt
 | [![features open][feature-badge]][feature-link]                |
 | [![enhancements open][enhancement-badge]][enhancement-link]    |
 | [![bugs open][bug-badge]][bug-link]                            |
+| [![untriaged open][untriaged-badge]][untriaged-link]           |
+| [![nolabel open][nolabel-badge]][nolabel-link]                 |
 
-# OpenSearch Dashboards Observability
-
-The OpenSearch Dashboards Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
-
-[dco-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml/badge.svg
-[dco-badge-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dco.yml
-[link-check-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml/badge.svg
-[link-check-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/link-checker.yml
-[dashboard-build-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml/badge.svg
-[dashboard-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/dashboards-observability-test-and-build-workflow.yml
-[opensearch-build-badge]: https://github.com/opensearch-project/trace-analytics/actions/workflows/opensearch-observability-test-and-build-workflow.yml/badge.svg
-[opensearch-build-link]: https://github.com/opensearch-project/trace-analytics/actions/workflows/opensearch-observability-test-and-build-workflow.yml
-[dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=dashboards-observability
-[opensearch-codecov-badge]: https://codecov.io/gh/opensearch-project/trace-analytics/branch/main/graphs/badge.svg?flag=opensearch-observability
-[codecov-link]: https://codecov.io/gh/opensearch-project/trace-analytics
+[dco-badge]: https://github.com/opensearch-project/observability/actions/workflows/dco.yml/badge.svg
+[dco-badge-link]: https://github.com/opensearch-project/observability/actions/workflows/dco.yml
+[link-check-badge]: https://github.com/opensearch-project/observability/actions/workflows/link-checker.yml/badge.svg
+[link-check-link]: https://github.com/opensearch-project/observability/actions/workflows/link-checker.yml
+[dashboard-build-badge]: https://github.com/opensearch-project/observability/actions/workflows/dashboards-observability-test-and-build-workflow.yml/badge.svg
+[dashboard-build-link]: https://github.com/opensearch-project/observability/actions/workflows/dashboards-observability-test-and-build-workflow.yml
+[opensearch-build-badge]: https://github.com/opensearch-project/observability/actions/workflows/opensearch-observability-test-and-build-workflow.yml/badge.svg
+[opensearch-build-link]: https://github.com/opensearch-project/observability/actions/workflows/opensearch-observability-test-and-build-workflow.yml
+[dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/observability/branch/main/graphs/badge.svg?flag=dashboards-observability
+[opensearch-codecov-badge]: https://codecov.io/gh/opensearch-project/observability/branch/main/graphs/badge.svg?flag=opensearch-observability
+[codecov-link]: https://codecov.io/gh/opensearch-project/observability
 [cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-in%20progress-yellow
 [cypress-test-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [cypress-code-badge]: https://img.shields.io/badge/Cypress%20code-blue
-[cypress-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
+[cypress-code-link]: https://github.com/opensearch-project/observability/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
 [opensearch-it-badge]: https://img.shields.io/badge/OpenSearch%20Plugin%20IT%20tests-in%20progress-yellow
 [opensearch-it-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [opensearch-it-code-badge]: https://img.shields.io/badge/OpenSearch%20IT%20code-blue
-[opensearch-it-code-link]: https://github.com/opensearch-project/trace-analytics/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
+[opensearch-it-code-link]: https://github.com/opensearch-project/observability/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
 [bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
-[bwc-tests-link]: https://github.com/opensearch-project/trace-analytics/issues/276
-[good-first-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/good%20first%20issue.svg
-[good-first-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+
-[feature-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/feature.svg
-[feature-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
-[bug-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/bug.svg
-[bug-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
-[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/trace-analytics/enhancement.svg
-[enhancement-link]: https://github.com/opensearch-project/trace-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
+[bwc-tests-link]: https://github.com/opensearch-project/observability/issues/276
+[good-first-badge]: https://img.shields.io/github/issues/opensearch-project/observability/good%20first%20issue.svg
+[good-first-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+
+[feature-badge]: https://img.shields.io/github/issues/opensearch-project/observability/feature.svg
+[feature-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
+[bug-badge]: https://img.shields.io/github/issues/opensearch-project/observability/bug.svg
+[bug-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
+[enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/observability/enhancement.svg
+[enhancement-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
+[untriaged-badge]: https://img.shields.io/github/issues/opensearch-project/observability/untriaged.svg
+[untriaged-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Auntriaged+
+[nolabel-badge]: https://img.shields.io/github/issues-search/opensearch-project/observability?color=yellow&label=no%20label%20issues&query=is%3Aopen%20is%3Aissue%20no%3Alabel
+[nolabel-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+no%3Alabel+
+
+## Plugin Components
+
+The Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
 
 ### Trace Analytics
 

@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Datagrid Doc viewer row component Renders Doc viewer row component 1`] = `
+<DocViewRow
+  doc={
+    Object {
+      "Carrier": "JetBeats",
+      "avg(FlightDelayMin)": "45.957544288332315",
+    }
+  }
+  selectedCols={
+    Array [
+      Object {
+        "name": "avg(FlightDelayMin)",
+        "type": "double",
+      },
+    ]
+  }
+>
+  <tr
+    className="osdDocTable__row"
+  >
+    <td
+      className="osdDocTableCell__toggleDetails"
+      key="grid-td-2"
+    >
+      <button
+        className="euiButtonIcon euiButtonIcon--text"
+        onClick={[Function]}
+      >
+        <EuiIcon
+          type="arrowRight"
+        >
+          <EuiIconEmpty
+            aria-hidden={true}
+            className="euiIcon euiIcon--medium euiIcon-isLoading"
+            focusable="false"
+            role="img"
+            style={null}
+          >
+            <svg
+              aria-hidden={true}
+              className="euiIcon euiIcon--medium euiIcon-isLoading"
+              focusable="false"
+              height={16}
+              role="img"
+              style={null}
+              viewBox="0 0 16 16"
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </EuiIconEmpty>
+        </EuiIcon>
+      </button>
+    </td>
+    <td
+      className="osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord"
+      key="datagrid-cell-1"
+    >
+      45.957544288332315
+    </td>
+  </tr>
+</DocViewRow>
+`;
