@@ -30,14 +30,15 @@ import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from "./config_components/service_config";
 import { LogConfig } from "./config_components/log_config";
 import { PPLReferenceFlyout } from "../../../components/common/helpers";
-import { optionType } from "common/constants/application_analytics";
+import { optionType } from "../../../../common/constants/application_analytics";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
+  createApp: (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => void;
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, query } = props;
+  const { parentBreadcrumb, chrome, query, createApp } = props;
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Array<optionType>>([]);
   const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
@@ -94,6 +95,10 @@ export const CreateApp = (props: CreateAppProps) => {
       return <p>{popoverContent}</p>;
     }
   };
+
+  const onCreate = () => {
+    createApp(state.name, state.description, query, selectedServices, selectedTraces)
+  }
 
   return (
     <div style={{maxWidth: '1130px'}}>
@@ -157,7 +162,7 @@ export const CreateApp = (props: CreateAppProps) => {
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiToolTip position="top" content={missingField()}>
-          <EuiButton isDisabled={isDisabled} fill>
+          <EuiButton isDisabled={isDisabled} onClick={onCreate} fill>
           Create
           </EuiButton>
           </EuiToolTip>
