@@ -4,7 +4,7 @@
  */
 
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactChild, useEffect, useState } from 'react';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
 import { CreateApp } from './components/create'
@@ -18,6 +18,11 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
+import { optionType, APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
+import { isNameValid } from './helpers/utils';
+import { EuiGlobalToastList } from '@elastic/eui';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import _ from 'lodash';
 
 export interface AppAnalyticsCoreDeps extends TraceAnalyticsCoreDeps {}
 
@@ -55,19 +60,15 @@ const dummyApplication: ApplicationType[] = [{
 
 export const Home = (props: HomeProps) => {
   const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
+  const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
+  const [filters, setFilters] = useState<FilterType[]>(storedFilters ? JSON.parse(storedFilters) : []);
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
-  const [filters, setFilters] = useState<FilterType[]>(
-    storedFilters ? JSON.parse(storedFilters) : []
-  );
-  const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h'
-  );
-  const [endTime, setEndTime] = useState<string>(
-    sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
-  );
+  const [startTime, setStartTime] = useState<string>(sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h');
+  const [endTime, setEndTime] = useState<string>(sessionStorage.getItem('AppAnalyticsEndTime') || 'now');
 
+  // Setting state with storage to save input when user refreshes page
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);
     sessionStorage.setItem('AppAnalyticsFilters', JSON.stringify(newFilters));
@@ -104,8 +105,49 @@ export const Home = (props: HomeProps) => {
     indicesExist,
   };
 
+  const setToast = (title: string, color = 'success', text?: ReactChild) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  // Create a new application
+  const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
+    if(!isNameValid(name)) {
+      setToast('Invalid Application name', 'danger');
+      return;
+    }
+
+    const requestBody = {
+      name: name,
+      description: description,
+      baseQuery: query,
+      servicesEntities: selectedServices.map(option => option.label),
+      traceGroups: selectedTraces.map(option => option.label),
+    }
+
+    return http
+      .post(`${APP_ANALYTICS_API_PREFIX}/application`, {
+        body: JSON.stringify(requestBody)
+      })
+      .then(async (res) => {
+        setToast(`Application "${name}" successfully created!`);
+        window.location.assign(`${parentBreadcrumb.href}${res.newAppId}`)
+      })
+      .catch((err) => {
+        setToast(`Error occurred while creating new application "${name}"`, 'danger');
+        console.error(err);
+      });
+  };
+
   return (
     <div>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={(removedToast) => {
+          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+        }}
+        toastLifeTimeMs={6000}
+      />
       <Switch>
         <Route
           exact
@@ -122,6 +164,7 @@ export const Home = (props: HomeProps) => {
           render={() => 
             <CreateApp
             dslService={dslService}
+            createApp={createApp}
             {...commonProps}
             />
           }
