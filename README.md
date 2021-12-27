@@ -116,7 +116,7 @@ Dashboards offer a solution for a few selected use cases, and are great tools if
 
 ## Documentation
 
-Please see our technical [documentation](https://opensearch.org/docs/latest/observability-plugins/index/) to learn more about its features.
+Please see our technical [documentation](https://opensearch.org/docs/latest/observability/index/) to learn more about its features.
 
 ## Contributing
 

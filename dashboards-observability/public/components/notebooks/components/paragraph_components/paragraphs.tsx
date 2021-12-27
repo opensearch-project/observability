@@ -42,7 +42,6 @@ import { ParaOutput } from './para_output';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
 import PPLService from '../../../../services/requests/ppl';
 import _ from 'lodash';
-import { parseAppUrl } from '../../../../../../../src/core/public/application/utils';
 
 /*
  * "Paragraphs" component is used to render cells of the notebook open and "add para div" between paragraphs

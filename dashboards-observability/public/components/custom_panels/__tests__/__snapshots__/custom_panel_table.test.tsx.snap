@@ -160,12 +160,12 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                    
                                   <EuiLink
                                     external={true}
-                                    href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                    href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                     target="blank"
                                   >
                                     <a
                                       className="euiLink euiLink--primary"
-                                      href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                      href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                       rel="noreferrer"
                                       target="blank"
                                     >
@@ -763,12 +763,12 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                    
                                   <EuiLink
                                     external={true}
-                                    href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                    href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                     target="blank"
                                   >
                                     <a
                                       className="euiLink euiLink--primary"
-                                      href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                      href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                       rel="noreferrer"
                                       target="blank"
                                     >
