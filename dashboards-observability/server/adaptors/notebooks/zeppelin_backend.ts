@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RequestHandlerContext } from '../../../../../src/core/server';
+import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { optionsType } from '../../../common/types/notebooks';
 import { requestor } from '../../common/helpers/notebooks/wreck_requests';
 import { NotebookAdaptor } from './notebook_adaptor';
@@ -13,7 +13,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
 
   // Gets all the notebooks available from Zeppelin Server
   // ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook
-  viewNotes = async function (_context: RequestHandlerContext, wreckOptions: optionsType) {
+  viewNotes = async function (client: ILegacyScopedClusterClient, wreckOptions: optionsType) {
     try {
       let output = [];
       const body = await requestor('GET', 'api/notebook/', wreckOptions);
@@ -29,7 +29,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook/[noteId]
    */
   fetchNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) {
@@ -46,7 +46,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook
    */
   addNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string },
     wreckOptions: optionsType
   ) {
@@ -65,7 +65,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook/[noteId]/rename
    */
   renameNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string; noteId: string },
     wreckOptions: optionsType
   ) {
@@ -88,7 +88,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook/[noteId]
    */
   cloneNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { name: string; noteId: string },
     wreckOptions: optionsType
   ) {
@@ -106,7 +106,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook
    */
   deleteNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) {
@@ -123,7 +123,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook/export/{noteid}
    */
   exportNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteId: string,
     wreckOptions: optionsType
   ) {
@@ -140,7 +140,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * ZS Endpoint => http://[zeppelin-server]:[zeppelin-port]/api/notebook/import
    */
   importNote = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     noteObj: any,
     wreckOptions: optionsType
   ) {
@@ -165,11 +165,19 @@ export class ZeppelinBackend implements NotebookAdaptor {
     params: { paragraphIndex: number; noteId: string; paragraphInput: string; inputType: string }
   ) {
     const visualizationPrefix = '%sh #vizobject:';
+    const observabilityVisualizationPrefix = '%sh #observabilityviz:';
     let paragraphText = params.paragraphInput;
 
     if (
       params.inputType === 'VISUALIZATION' &&
       params.paragraphInput.substring(0, 15) !== visualizationPrefix
+    ) {
+      paragraphText = visualizationPrefix + paragraphText;
+    }
+
+    if (
+      params.inputType === 'OBSERVABILITY_VISUALIZATION' &&
+      params.paragraphInput.substring(0, 22) !== observabilityVisualizationPrefix
     ) {
       paragraphText = visualizationPrefix + paragraphText;
     }
@@ -205,11 +213,12 @@ export class ZeppelinBackend implements NotebookAdaptor {
    */
   updateParagraph = async function (
     wreckOptions: optionsType,
-    params: { noteId: string; paragraphId: string; paragraphInput: string }
+    params: { noteId: string; paragraphId: string; paragraphInput: string; paragraphType?: string }
   ) {
     wreckOptions.payload = {
       text: params.paragraphInput,
     };
+    if (params.paragraphType !== undefined) wreckOptions.payload.title = params.paragraphType;
     try {
       const body = await requestor(
         'PUT',
@@ -308,10 +317,11 @@ export class ZeppelinBackend implements NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph = async function (
-    _context: RequestHandlerContext,
-    params: { noteId: string; paragraphId: string; paragraphInput: string },
+    client: ILegacyScopedClusterClient,
+    request: any,
     wreckOptions: optionsType
   ) {
+    const params = request.params;
     try {
       const updateInfo = await this.updateParagraph(wreckOptions, params);
       const runInfo = await this.runPara(wreckOptions, params);
@@ -329,7 +339,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateFetchParagraph = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphId: string; paragraphInput: string },
     wreckOptions: optionsType
   ) {
@@ -348,7 +358,7 @@ export class ZeppelinBackend implements NotebookAdaptor {
    *         paragraphId -> Id of the paragraph to be fetched
    */
   addFetchNewParagraph = async function (
-    _context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphIndex: number; paragraphInput: string; inputType: string },
     wreckOptions: optionsType
   ) {
@@ -368,13 +378,13 @@ export class ZeppelinBackend implements NotebookAdaptor {
    *         paragraphId -> Id of the paragraph to be deleted
    */
   deleteFetchParagraphs = async function (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string; paragraphId: string },
     wreckOptions: optionsType
   ) {
     try {
       const delinfo = await this.deleteParagraph(wreckOptions, params);
-      const notebookinfo = await this.fetchNote(context, params.noteId, wreckOptions);
+      const notebookinfo = await this.fetchNote(client, params.noteId, wreckOptions);
       return { paragraphs: notebookinfo };
     } catch (error) {
       throw new Error('Delete Paragraph Error:' + error);
@@ -386,13 +396,13 @@ export class ZeppelinBackend implements NotebookAdaptor {
    * Param: noteId -> Id of notebook to be cleared
    */
   clearAllFetchParagraphs = async function (
-    context: RequestHandlerContext,
+    client: ILegacyScopedClusterClient,
     params: { noteId: string },
     wreckOptions: optionsType
   ) {
     try {
       const clearinfo = await this.clearAllParagraphs(wreckOptions, params.noteId);
-      const notebookinfo = await this.fetchNote(context, params.noteId, wreckOptions);
+      const notebookinfo = await this.fetchNote(client, params.noteId, wreckOptions);
       return { paragraphs: notebookinfo };
     } catch (error) {
       throw new Error('Clear Paragraph Error:' + error);

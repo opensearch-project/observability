@@ -51,10 +51,11 @@ type Props = {
   fromTime: string;
   toTime: string;
   onRefresh: boolean;
-  cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
-  showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
-  removeVisualization: (visualizationId: string) => void;
+  usedInNotebooks?: boolean;
+  cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
+  showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
+  removeVisualization?: (visualizationId: string) => void;
 };
 
 export const VisualizationContainer = ({
@@ -66,8 +67,9 @@ export const VisualizationContainer = ({
   fromTime,
   toTime,
   onRefresh,
-  cloneVisualization,
   pplFilterValue,
+  usedInNotebooks,
+  cloneVisualization,
   showFlyout,
   removeVisualization,
 }: Props) => {
@@ -81,7 +83,7 @@ export const VisualizationContainer = ({
   const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
-  const popoverPanel = [
+  let popoverPanel = [
     <EuiContextMenuItem
       key="Edit"
       disabled={disablePopover}
@@ -113,6 +115,10 @@ export const VisualizationContainer = ({
       Duplicate
     </EuiContextMenuItem>,
   ];
+
+  if (usedInNotebooks){
+    popoverPanel = [popoverPanel[0]]
+  }
 
   const loadVisaulization = async () => {
     await renderSavedVisualization(

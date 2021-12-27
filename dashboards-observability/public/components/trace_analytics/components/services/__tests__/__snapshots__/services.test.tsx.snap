@@ -4,6 +4,7 @@ exports[`Services component renders empty services page 1`] = `
 <Services
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -198,9 +199,19 @@ exports[`Services component renders empty services page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -247,7 +258,7 @@ exports[`Services component renders empty services page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -321,7 +332,7 @@ exports[`Services component renders empty services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -382,7 +393,7 @@ exports[`Services component renders empty services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1112,6 +1123,7 @@ exports[`Services component renders services page 1`] = `
 <Services
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -1310,9 +1322,19 @@ exports[`Services component renders services page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -1359,7 +1381,7 @@ exports[`Services component renders services page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -1433,7 +1455,7 @@ exports[`Services component renders services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1494,7 +1516,7 @@ exports[`Services component renders services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
