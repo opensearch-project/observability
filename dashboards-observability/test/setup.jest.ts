@@ -18,3 +18,5 @@ jest.mock('@elastic/eui/lib/services/accessibility/html_id_generator', () => ({
     return () => 'random_html_id';
   },
 }));
+
+jest.setTimeout(30000);
