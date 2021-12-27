@@ -28,6 +28,7 @@ import {
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
 import { IField } from 'common/types/explorer';
+import { any, array } from 'joi';
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -43,10 +44,13 @@ export const useFetchEvents = ({
   const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
   const fields = useSelector(selectFields);
+  const [response, setResponse] = useState();
   const queriesRef = useRef();
   const fieldsRef = useRef();
+  const responseRef = useRef();
   queriesRef.current = queries;
   fieldsRef.current = fields;
+  responseRef.current = response;
 
   const fetchEvents = async (
     { query }: { query: string },
@@ -72,6 +76,7 @@ export const useFetchEvents = ({
 
   const dispatchOnGettingHis = (res: any) => {
     const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map((field: IField) => field.name);
+    setResponse(res);
     batch(() => {
       dispatch(queryResultReset({
         tabId: requestParams.tabId
@@ -103,6 +108,7 @@ export const useFetchEvents = ({
   };
 
   const dispatchOnNoHis = (res: any) => {
+    setResponse(res);
     batch(() => {
       dispatch(queryResultReset({
         tabId: requestParams.tabId
@@ -124,6 +130,33 @@ export const useFetchEvents = ({
         tabId: requestParams.tabId,
       }));
     });
+  };
+
+  const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
+    const cur = queriesRef.current;
+    console.log("cur from getLiveTail: ",cur);
+    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
+    // console.log("search query in get live tail: ",searchQuery);
+    fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
+      if (!isEmpty(res.jsonData)) {
+        if (!isEmpty(responseRef.current)){
+          res.jsonData = res.jsonData.concat(responseRef.current.jsonData);
+          res.datarows = res.datarows.concat(responseRef.current.datarows);
+          res.total = res.total + responseRef.current.total;
+          res.size = res.size + responseRef.current.size;
+          console.log("condition executed");
+          console.log("res.json data after concat: ", res.jsonData);
+        }
+        // setResponse(res);
+        dispatchOnGettingHis(res);
+        console.log("get live tail json: ",res.jsonData);
+        // return dispatchOnGettingHis(res);
+      } else {
+        console.log("res is empty for live data");
+      }
+      // when no hits and needs to get available fields to override default timestamp
+      // dispatchOnNoHis(res);
+    }, errorHandler);
   };
 
   const getEvents = (query: string = '', errorHandler?: (error: any) => void) => {
@@ -163,6 +196,7 @@ export const useFetchEvents = ({
 
   return {
     isEventsLoading,
+    getLiveTail,
     getEvents,
     getAvailableFields,
     fetchEvents

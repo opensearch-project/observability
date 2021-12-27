@@ -15,6 +15,7 @@ import {
   EuiButtonEmpty,
   EuiPopoverFooter,
   EuiBadge,
+  EuiContextMenuPanel,
 } from '@elastic/eui';
 import _ from 'lodash';
 import { DatePicker } from './date_picker';
@@ -65,6 +66,10 @@ export const Search = (props: any) => {
     showSavePanelOptionsList,
     showSaveButton = true,
     handleTimeRangePickerRefresh,
+    liveTailButton,
+    isLiveTailPopoverOpen,
+    closeLiveTailPopover,
+    popoverItems,
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -121,7 +126,7 @@ export const Search = (props: any) => {
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
         </EuiFlexItem>
-        <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
+        <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker" grow={false}>
           <DatePicker
             startTime={startTime}
             endTime={endTime}
@@ -133,6 +138,16 @@ export const Search = (props: any) => {
             handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
             handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           />
+        </EuiFlexItem>
+        <EuiFlexItem className="euiFlexItem--flexGrowZero live-tail">
+          <EuiPopover
+            panelPaddingSize="none"
+            button={liveTailButton}
+            isOpen={isLiveTailPopoverOpen}
+            closePopover={closeLiveTailPopover}
+            >
+            <EuiContextMenuPanel items={popoverItems} />
+          </EuiPopover>  
         </EuiFlexItem>
         {showSaveButton && (
           <>

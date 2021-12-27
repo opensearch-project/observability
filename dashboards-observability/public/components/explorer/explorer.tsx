@@ -87,6 +87,7 @@ export const Explorer = ({
   const requestParams = { tabId, };
   const {
     isEventsLoading,
+    getLiveTail,
     getEvents,
     getAvailableFields
   } = useFetchEvents({
@@ -144,6 +145,9 @@ export const Explorer = ({
     const momentStart = dateMath.parse(startTime)!;
     const momentEnd = dateMath.parse(endTime)!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
+    console.log("moment Start: ",momentStart);
+    console.log("moment end: ",momentEnd);
+    console.log("diff seconds: ",diffSeconds);
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
@@ -166,12 +170,14 @@ export const Explorer = ({
     ]);
   };
 
-  const composeFinalQuery = (curQuery: any, timeField: string) => {
+  console.log("explorer data variable contents: ", explorerData);
+
+  const composeFinalQuery = (curQuery: any, startTime: string, endTime: string, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
     return insertDateRangeToQuery({
       rawQuery: curQuery![RAW_QUERY],
-      startTime: curQuery![SELECTED_DATE_RANGE][0],
-      endTime: curQuery![SELECTED_DATE_RANGE][1],
+      startTime: startTime,
+      endTime: endTime,
       timeField,
     });
   };
@@ -248,6 +254,11 @@ export const Explorer = ({
     });
   };
 
+  const handleLiveTailSearch = useCallback(async () => {
+    await updateQueryInStore(tempQuery);
+    fetchLiveData();
+  }, [tempQuery]);
+
   const fetchData = async () => {
     const curQuery = queryRef.current;
     const rawQueryStr = curQuery![RAW_QUERY];
@@ -283,6 +294,7 @@ export const Explorer = ({
         hasSavedTimestamp = false;
         const timestamps = await timestampUtils.getTimestamp(curIndex);
         curTimestamp = timestamps!.default_timestamp;
+        // console.log("curTimeStamp inside fetch data: ",curTimestamp);
       }
     }
 
@@ -292,7 +304,7 @@ export const Explorer = ({
     }
 
     // compose final query
-    const finalQuery = composeFinalQuery(curQuery, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+    const finalQuery = composeFinalQuery(curQuery, curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1], curTimestamp || curQuery![SELECTED_TIMESTAMP]);
     
     await dispatch(changeQuery({
       tabId,
@@ -303,12 +315,15 @@ export const Explorer = ({
       }
     }));
 
+    // console.log("curQuery variable data: ",curQuery);
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
     } else {
       findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
+      // console.log("start time in auto interval: ",curQuery![SELECTED_DATE_RANGE][0]);
+      // console.log("end time in auto interval: ",curQuery![SELECTED_DATE_RANGE][1]);
       getEvents(undefined, (error) => {
         const formattedError = formatError(error.name, error.message, error.body.message);
         notifications.toasts.addError(formattedError, {
@@ -329,6 +344,90 @@ export const Explorer = ({
       }));
     }
   };
+
+  const fetchLiveData = async () => {
+    // console.log("enters fetch live data");
+    const curQuery = queryRef.current;
+    // console.log("curQuery in live tail: ",curQuery);
+    const rawQueryStr = curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) { 
+      // console.log("breaks here");
+      return;
+    }
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include vaild index.', 'danger');
+      // console.log("breaks here");
+      return;
+    }
+    // console.log("here");
+    let curTimestamp = '';
+    let hasSavedTimestamp = false;
+
+    // determines timestamp for search
+    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
+      const savedTimestamps = await savedObjects.fetchSavedObjects({
+        objectId: curIndex
+      }).catch((error: any) => {
+        if (error?.body?.statusCode === 403) {
+          showPermissionErrorToast();
+        }
+        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+      });
+      if (
+          savedTimestamps?.observabilityObjectList && 
+          savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
+        ) {
+        // from saved objects
+        hasSavedTimestamp = true;
+        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
+      } else {
+        // from index mappings
+        hasSavedTimestamp = false;
+        const timestamps = await timestampUtils.getTimestamp(curIndex);
+        curTimestamp = timestamps!.default_timestamp;
+        // console.log("curTimeStamp inside fetch live data: ",curTimestamp);
+      }
+    }
+
+    if (isEmpty(curTimestamp)) {
+      setToast('Index does not contain a valid time field.', 'danger');
+      return;
+    }
+
+    // compose final query
+    const finalQuery = composeFinalQuery(curQuery, 'now-2m', 'now', curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+
+    console.log("final Query in explorer: ",finalQuery);
+    
+    await dispatch(changeQuery({
+      tabId,
+      query: {
+        finalQuery,
+        [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+        [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
+        // [SELECTED_DATE_RANGE]:['now-2m','now']
+      }
+    }));
+
+    // console.log("curQuery variable data in getlive data: ",curQuery);
+    // search
+    // if (rawQueryStr.match(PPL_STATS_REGEX)) {
+    //   getVisualizations();
+    //   getAvailableFields(`search source=${curIndex}`);
+    // } else {
+      findAutoInterval('now-2m', 'now')
+      // console.log("start time in auto interval: ",curQuery![SELECTED_DATE_RANGE][0]);
+      // console.log("end time in auto interval: ",curQuery![SELECTED_DATE_RANGE][1]);
+      getLiveTail(undefined, (error) => {
+        const formattedError = formatError(error.name, error.message, error.body.message);
+        notifications.toasts.addError(formattedError, {
+          title: 'Error fetching events'
+        });
+      });
+      getCountVisualizations(minInterval);
+    // }
+  }
 
   const updateTabData = async (objectId: string) => {
     await getSavedDataById(objectId);
@@ -848,23 +947,21 @@ export const Explorer = ({
     setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen);
   };
 
-  const popoverButton = (
-    <EuiButtonToggle
-      label={toggle1On ? "" : liveTailNameRef.current}
-      iconType="arrowDown"
-      iconSide="right"
-      onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
-      // isSelected={toggle1On}
-      onChange={onToggle1Change}
-      // onChange={() => liveTailName}
-      data-test-subj="eventLiveTail"
-    >
-    </EuiButtonToggle>
-  );
-
-  const wrappedPopoverButton = useMemo(() => 
-    popoverButton,
-    [toggle1On]);
+  const wrappedPopoverButton = useMemo(() => {
+    return (
+      <EuiButtonToggle
+        label={liveTailNameRef.current}
+        iconType="arrowDown"
+        // size='s'
+        // isEmpty
+        isIconOnly={isLiveTailOn ? false : true}
+        iconSide="right"
+        onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
+        onChange={onToggle1Change}
+        data-test-subj="eventLiveTail"
+      />
+    );
+  }, [isLiveTailPopoverOpen, toggle1On, onToggle1Change, isLiveTailOn]);
 
   const sleep = (milliseconds: number | undefined) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -885,7 +982,9 @@ export const Explorer = ({
         // console.log("live tail on outside ", isLiveTailOnRef.current);
         while (isLiveTailOnRef.current === true){
           // console.log("live tail on ", isLiveTailOnRef.current);
-          fetchData();
+          handleLiveTailSearch();
+          // fetchLiveData();
+          // fetchData();
           // console.log("selected Content tab id", curSelectedTabId.current);
           // console.log("live tail tab id", liveTailTabIdRef.current);
           if (liveTailTabIdRef.current !== curSelectedTabId.current) {
@@ -895,7 +994,7 @@ export const Explorer = ({
             // console.log("tab id change works");
             
           }
-          await sleep(5000);
+          await sleep(120000);
         }  
       }}
       data-test-subj="eventLiveTail__delay"
@@ -910,20 +1009,12 @@ export const Explorer = ({
       setIsLiveTailOn(true);
       setToast("Live tail On",'success');
       setIsLiveTailPopoverOpen(false);
-      console.log("live tail on outside loop ", isLiveTailOn);
-        // // await (isLiveTailOnRef.current == true)
       await sleep(2000);
-      console.log("live tail on outside ", isLiveTailOnRef.current);
       while (isLiveTailOnRef.current === true){
-        console.log("live tail on ", isLiveTailOnRef.current);
         fetchData();
-        console.log("selected Content tab id", curSelectedTabId.current);
-        console.log("live tail tab id", liveTailTabIdRef.current);
         if (liveTailTabIdRef.current !== curSelectedTabId.current) {
           setIsLiveTailOn(!isLiveTailOnRef.current);
           isLiveTailOnRef.current = false;
-          console.log("tab id change works");
-          
         }
         await sleep(10000);
       }  
@@ -938,12 +1029,12 @@ export const Explorer = ({
       setLiveTailName("")
       setIsLiveTailOn(false);
       setToast("Live tail Off",'success');
-      console.log("live tail off ", isLiveTailOnRef.current);
+      // console.log("live tail off ", isLiveTailOnRef.current);
       setIsLiveTailPopoverOpen(false);
     }}
     data-test-subj="eventLiveTail__delay"
   >
-    Stop
+    Off
   </EuiContextMenuItem>,
   ];
 
@@ -971,22 +1062,11 @@ export const Explorer = ({
         savedObjects={savedObjects}
         showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
+        liveTailButton={wrappedPopoverButton}
+        isLiveTailPopoverOpen={isLiveTailPopoverOpen}
+        closeLiveTailPopover={() => setIsLiveTailPopoverOpen(false)}
+        popoverItems={popoverItems}
       />
-      <EuiPageContentHeaderSection>
-                <EuiFlexGroup gutterSize="s">
-                  <EuiFlexItem>
-                    <EuiPopover
-                      panelPaddingSize="none"
-                      button={wrappedPopoverButton}
-                      isOpen={isLiveTailPopoverOpen}
-                      closePopover={() => setIsLiveTailPopoverOpen(false)}
-                      // data-test-subj="eventHomeAction__popover"
-                    >
-                      <EuiContextMenuPanel items={popoverItems} />
-                    </EuiPopover>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPageContentHeaderSection>
       <EuiTabbedContent
         className="mainContentTabs"
         initialSelectedTab={memorizedMainContentTabs[0]}
