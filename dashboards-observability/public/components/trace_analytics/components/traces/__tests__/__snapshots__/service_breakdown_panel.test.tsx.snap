@@ -209,6 +209,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                       "showlegend": false,
                       "width": 200,
                       "xaxis": Object {
+                        "automargin": true,
                         "rangemode": "normal",
                         "showgrid": true,
                         "zeroline": false,
