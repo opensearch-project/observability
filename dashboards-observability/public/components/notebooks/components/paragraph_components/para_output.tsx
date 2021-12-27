@@ -75,6 +75,7 @@ export const ParaOutput = (props: {
      * Currently supports HTML, TABLE, IMG
      * TODO: add table rendering
      */
+    const dateFormat = uiSettingsService.get('dateFormat');
 
     if (typeOut !== undefined) {
       switch (typeOut) {
@@ -111,7 +112,6 @@ export const ParaOutput = (props: {
             </EuiText>
           );
         case 'VISUALIZATION':
-          const dateFormat = uiSettingsService.get('dateFormat');
           let from = moment(visInput?.timeRange?.from).format(dateFormat);
           let to = moment(visInput?.timeRange?.to).format(dateFormat);
           from = from === 'Invalid date' ? visInput.timeRange.from : from;
@@ -129,8 +129,8 @@ export const ParaOutput = (props: {
             </>
           );
         case 'OBSERVABILITY_VISUALIZATION':
-          let fromObs = moment(visInput?.timeRange?.from).format(UI_DATE_FORMAT);
-          let toObs = moment(visInput?.timeRange?.to).format(UI_DATE_FORMAT);
+          let fromObs = moment(visInput?.timeRange?.from).format(dateFormat);
+          let toObs = moment(visInput?.timeRange?.to).format(dateFormat);
           fromObs = fromObs === 'Invalid date' ? visInput.timeRange.from : fromObs;
           toObs = toObs === 'Invalid date' ? visInput.timeRange.to : toObs;
           return (
