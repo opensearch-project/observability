@@ -24,6 +24,7 @@ import {
 } from '@elastic/eui';
 import CSS from 'csstype';
 import moment from 'moment';
+import PPLService from '../../../services/requests/ppl';
 import queryString from 'query-string';
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -68,6 +69,7 @@ const pageStyles: CSS.Properties = {
  * setBreadcrumbs - sets breadcrumbs on top
  */
 type NotebookProps = {
+  pplService: PPLService;
   openedNoteId: string;
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
@@ -400,8 +402,11 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   // Function to clone a paragraph
   cloneParaButton = (para: ParaType, index: number) => {
     let inputType = 'CODE';
-    if (para.isVizualisation === true) {
+    if (para.typeOut[0] === 'VISUALIZATION') {
       inputType = 'VISUALIZATION';
+    }
+    if (para.typeOut[0] === 'OBSERVABILITY_VISUALIZATION') {
+      inputType = 'OBSERVABILITY_VISUALIZATION';
     }
     if (index !== -1) {
       return this.addPara(index, para.inp, inputType);
@@ -469,7 +474,12 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   };
 
   // Backend call to update and run contents of paragraph
-  updateRunParagraph = (para: ParaType, index: number, vizObjectInput?: string) => {
+  updateRunParagraph = (
+    para: ParaType,
+    index: number,
+    vizObjectInput?: string,
+    paraType?: string
+  ) => {
     this.showParagraphRunning(index);
     if (vizObjectInput) {
       para.inp = this.state.vizPrefix + vizObjectInput; // "%sh check"
@@ -479,6 +489,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
       noteId: this.props.openedNoteId,
       paragraphId: para.uniqueId,
       paragraphInput: para.inp,
+      paragraphType: paraType || '',
     };
 
     return this.props.http
@@ -661,7 +672,10 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
   }
 
   configureViewParameter(id: string) {
-    this.props.history.replace({ ...this.props.location, search: `view=${id}` });
+    this.props.history.replace({
+      ...this.props.location,
+      search: `view=${id}`,
+    });
   }
 
   componentDidMount() {
@@ -989,6 +1003,7 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                   >
                     <Paragraphs
                       ref={this.state.parsedPara[index].paraRef}
+                      pplService={this.props.pplService}
                       para={para}
                       setPara={(para: ParaType) => this.setPara(para, index)}
                       dateModified={this.state.paragraphs[index]?.dateModified}
@@ -1070,8 +1085,8 @@ export class Notebook extends Component<NotebookProps, NotebookState> {
                     <EuiFlexItem grow={3}>
                       <EuiCard
                         icon={<EuiIcon size="xxl" type="visArea" />}
-                        title="OpenSearch Dashboards visualization"
-                        description="Import OpenSearch Dashboards visualizations to the notes."
+                        title="Visualization"
+                        description="Import OpenSearch Dashboards or Observability visualizations to the notes."
                         footer={
                           <EuiButton
                             onClick={() => this.addPara(0, '', 'VISUALIZATION')}

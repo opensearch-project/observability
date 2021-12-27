@@ -9,6 +9,7 @@ import {
   EuiCodeBlock,
   EuiComboBox,
   EuiComboBoxOptionOption,
+  EuiSelectableOption,
   EuiFlexGroup,
   EuiFlexItem,
   EuiFormRow,
@@ -58,6 +59,7 @@ export const ParaInput = (props: {
   visOptions: EuiComboBoxOptionOption[];
   selectedVisOption: EuiComboBoxOptionOption[];
   setSelectedVisOption: (newOption: EuiComboBoxOptionOption[]) => void;
+  setVisType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { para, index, runParaError, textValueEditor, handleKeyPress } = props;
 
@@ -98,7 +100,7 @@ export const ParaInput = (props: {
 
   const renderVisInput = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectableOptions, setSelectableOptions] = useState([]);
+    const [selectableOptions, setSelectableOptions] = useState<EuiSelectableOption[]>([]);
     const [selectableError, setSelectableError] = useState(false);
 
     const onSelect = () => {
@@ -108,12 +110,16 @@ export const ParaInput = (props: {
         return;
       }
       props.setIsOutputStale(true);
+      if (selectedOptions.length > 0) props.setVisType(selectedOptions[0].className);
       props.setSelectedVisOption(selectedOptions);
       setIsModalOpen(false);
     };
 
-    const renderOption = (option, searchValue) => {
-      const visURL = `visualize#/edit/${option.key}?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+    const renderOption = (option: EuiComboBoxOptionOption, searchValue: string) => {
+      let visURL = `visualize#/edit/${option.key}?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'${props.startTime}',to:'${props.endTime}'))`;
+      if (option.className === 'OBSERVABILITY_VISUALIZATION') {
+        visURL = `#/event_analytics/explorer/${option.key}`;
+      }
       return (
         <EuiLink href={visURL} target="_blank">
           <EuiHighlight search={searchValue}>{option.label}</EuiHighlight>
@@ -132,6 +138,7 @@ export const ParaInput = (props: {
                 options={props.visOptions}
                 selectedOptions={props.selectedVisOption}
                 onChange={(newOption: EuiComboBoxOptionOption[]) => {
+                  if (newOption.length > 0) props.setVisType(newOption[0].className);
                   props.setSelectedVisOption(newOption);
                   props.setIsOutputStale(true);
                 }}
@@ -142,7 +149,10 @@ export const ParaInput = (props: {
             <EuiButton
               data-test-subj="para-input-visualization-browse-button"
               onClick={() => {
-                setSelectableOptions(props.visOptions);
+                setSelectableOptions([
+                  ...props.visOptions[0].options,
+                  ...props.visOptions[1].options,
+                ]);
                 setSelectableError(false);
                 setIsModalOpen(true);
               }}
@@ -207,7 +217,11 @@ export const ParaInput = (props: {
 
               <EuiModalFooter>
                 <EuiButtonEmpty onClick={() => setIsModalOpen(false)}>Cancel</EuiButtonEmpty>
-                <EuiButton data-test-subj="para-input-select-button" onClick={() => onSelect()} fill>
+                <EuiButton
+                  data-test-subj="para-input-select-button"
+                  onClick={() => onSelect()}
+                  fill
+                >
                   Select
                 </EuiButton>
               </EuiModalFooter>

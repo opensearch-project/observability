@@ -488,9 +488,19 @@ exports[`Search bar components renders search bar 1`] = `
       </EuiFlexItem>
       <EuiFlexItem
         grow={false}
+        style={
+          Object {
+            "maxWidth": "40vw",
+          }
+        }
       >
         <div
           className="euiFlexItem euiFlexItem--flexGrowZero"
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <EuiSuperDatePicker
             commonlyUsedRanges={

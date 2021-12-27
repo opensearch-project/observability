@@ -51,11 +51,10 @@ jobs:
           cd OpenSearch-Dashboards/plugins/dashboards-observability
           yarn osd bootstrap
 
-      # TODO enable unit tests when ready
-      - name: Test Panels
+      - name: Test all dashboards-observability modules
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
-          yarn test ./public/components/custom_panels/ --coverage
+          yarn test --coverage
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
