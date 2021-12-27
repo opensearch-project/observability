@@ -61,10 +61,7 @@ describe('<Notebook /> spec', () => {
         history={history}
       />
     );
-    await waitFor(() => {
-      expect(utils.container.firstChild).toMatchSnapshot();
-    });
-
+    expect(utils.container.firstChild).toMatchSnapshot();
     utils.getByText('Add code block').click();
     utils.getByText('Add visualization').click();
   });
