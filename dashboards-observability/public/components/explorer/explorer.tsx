@@ -62,7 +62,6 @@ import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
 import { threadId } from 'worker_threads';
-// import { curSelectedTabId } from 
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -123,7 +122,7 @@ export const Explorer = ({
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
   const [liveTailName, setLiveTailName] = useState('');
-  const [toggle1On, setToggle1On] = useState(false);
+  const [liveTailToggle, setLiveTailToggle] = useState(false);
 
   
   const queryRef = useRef();
@@ -145,9 +144,9 @@ export const Explorer = ({
     const momentStart = dateMath.parse(startTime)!;
     const momentEnd = dateMath.parse(endTime)!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
-    console.log("moment Start: ",momentStart);
-    console.log("moment end: ",momentEnd);
-    console.log("diff seconds: ",diffSeconds);
+    // console.log("moment Start: ",momentStart);
+    // console.log("moment end: ",momentEnd);
+    // console.log("diff seconds: ",diffSeconds);
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
@@ -254,21 +253,12 @@ export const Explorer = ({
     });
   };
 
-  const handleLiveTailSearch = useCallback(async () => {
+  const handleLiveTailSearch = useCallback(async (startTime: string, endTime: string) => {
     await updateQueryInStore(tempQuery);
-    fetchLiveData();
+    fetchLiveData(startTime, endTime);
   }, [tempQuery]);
 
-  const fetchData = async () => {
-    const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
-    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) return;
-    if (isEmpty(curIndex)) {
-      setToast('Query does not include vaild index.', 'danger');
-      return;
-    }
-
+  const determineTimeStamp = async (curQuery: any, curIndex: string) => {
     let curTimestamp = '';
     let hasSavedTimestamp = false;
 
@@ -294,9 +284,25 @@ export const Explorer = ({
         hasSavedTimestamp = false;
         const timestamps = await timestampUtils.getTimestamp(curIndex);
         curTimestamp = timestamps!.default_timestamp;
-        // console.log("curTimeStamp inside fetch data: ",curTimestamp);
       }
     }
+    return {
+      curTimestamp: curTimestamp, 
+      hasSavedTimestamp: hasSavedTimestamp
+    };
+  }
+
+  const fetchData = async () => {
+    const curQuery = queryRef.current;
+    const rawQueryStr = curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) return;
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include vaild index.', 'danger');
+      return;
+    }
+
+    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -315,15 +321,12 @@ export const Explorer = ({
       }
     }));
 
-    // console.log("curQuery variable data: ",curQuery);
     // search
     if (rawQueryStr.match(PPL_STATS_REGEX)) {
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
     } else {
       findAutoInterval(curQuery![SELECTED_DATE_RANGE][0], curQuery![SELECTED_DATE_RANGE][1])
-      // console.log("start time in auto interval: ",curQuery![SELECTED_DATE_RANGE][0]);
-      // console.log("end time in auto interval: ",curQuery![SELECTED_DATE_RANGE][1]);
       getEvents(undefined, (error) => {
         const formattedError = formatError(error.name, error.message, error.body.message);
         notifications.toasts.addError(formattedError, {
@@ -345,50 +348,21 @@ export const Explorer = ({
     }
   };
 
-  const fetchLiveData = async () => {
-    // console.log("enters fetch live data");
+  const fetchLiveData = async (startTime: string, endTime: string) => {
     const curQuery = queryRef.current;
-    // console.log("curQuery in live tail: ",curQuery);
     const rawQueryStr = curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) { 
-      // console.log("breaks here");
       return;
     }
+
     if (isEmpty(curIndex)) {
       setToast('Query does not include vaild index.', 'danger');
-      // console.log("breaks here");
       return;
     }
-    // console.log("here");
-    let curTimestamp = '';
-    let hasSavedTimestamp = false;
+    
+    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
-    // determines timestamp for search
-    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
-      const savedTimestamps = await savedObjects.fetchSavedObjects({
-        objectId: curIndex
-      }).catch((error: any) => {
-        if (error?.body?.statusCode === 403) {
-          showPermissionErrorToast();
-        }
-        console.log(`Unable to get saved timestamp for this index: ${error.message}`);
-      });
-      if (
-          savedTimestamps?.observabilityObjectList && 
-          savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
-        ) {
-        // from saved objects
-        hasSavedTimestamp = true;
-        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
-      } else {
-        // from index mappings
-        hasSavedTimestamp = false;
-        const timestamps = await timestampUtils.getTimestamp(curIndex);
-        curTimestamp = timestamps!.default_timestamp;
-        // console.log("curTimeStamp inside fetch live data: ",curTimestamp);
-      }
-    }
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -396,7 +370,7 @@ export const Explorer = ({
     }
 
     // compose final query
-    const finalQuery = composeFinalQuery(curQuery, 'now-2m', 'now', curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+    const finalQuery = composeFinalQuery(curQuery, startTime, endTime, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
 
     console.log("final Query in explorer: ",finalQuery);
     
@@ -406,19 +380,10 @@ export const Explorer = ({
         finalQuery,
         [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
         [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
-        // [SELECTED_DATE_RANGE]:['now-2m','now']
       }
     }));
 
-    // console.log("curQuery variable data in getlive data: ",curQuery);
-    // search
-    // if (rawQueryStr.match(PPL_STATS_REGEX)) {
-    //   getVisualizations();
-    //   getAvailableFields(`search source=${curIndex}`);
-    // } else {
-      findAutoInterval('now-2m', 'now')
-      // console.log("start time in auto interval: ",curQuery![SELECTED_DATE_RANGE][0]);
-      // console.log("end time in auto interval: ",curQuery![SELECTED_DATE_RANGE][1]);
+      findAutoInterval(startTime, endTime)
       getLiveTail(undefined, (error) => {
         const formattedError = formatError(error.name, error.message, error.body.message);
         notifications.toasts.addError(formattedError, {
@@ -426,7 +391,6 @@ export const Explorer = ({
         });
       });
       getCountVisualizations(minInterval);
-    // }
   }
 
   const updateTabData = async (objectId: string) => {
@@ -942,8 +906,8 @@ export const Explorer = ({
     }
   };
 
-  const onToggle1Change = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
-    setToggle1On(e.target.checked);
+  const onToggleChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setLiveTailToggle(e.target.checked);
     setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen);
   };
 
@@ -952,91 +916,132 @@ export const Explorer = ({
       <EuiButtonToggle
         label={liveTailNameRef.current}
         iconType="arrowDown"
-        // size='s'
-        // isEmpty
         isIconOnly={isLiveTailOn ? false : true}
         iconSide="right"
         onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
-        onChange={onToggle1Change}
+        onChange={onToggleChange}
         data-test-subj="eventLiveTail"
       />
     );
-  }, [isLiveTailPopoverOpen, toggle1On, onToggle1Change, isLiveTailOn]);
+  }, [isLiveTailPopoverOpen, liveTailToggle, onToggleChange, isLiveTailOn]);
 
   const sleep = (milliseconds: number | undefined) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
-  const popoverItems: ReactElement[] = [
-    <EuiContextMenuItem
-      key="5s"
-      onClick={ async () => {
-        setLiveTailName("5s")
-        setLiveTailTabId(curSelectedTabId.current);
-        setIsLiveTailOn(true);
-        setToast("Live tail On",'success');
-        setIsLiveTailPopoverOpen(false);
-        // console.log("live tail on outside loop ", isLiveTailOn);
-          // // await (isLiveTailOnRef.current == true)
-        await sleep(2000);
-        // console.log("live tail on outside ", isLiveTailOnRef.current);
-        while (isLiveTailOnRef.current === true){
-          // console.log("live tail on ", isLiveTailOnRef.current);
-          handleLiveTailSearch();
-          // fetchLiveData();
-          // fetchData();
-          // console.log("selected Content tab id", curSelectedTabId.current);
-          // console.log("live tail tab id", liveTailTabIdRef.current);
-          if (liveTailTabIdRef.current !== curSelectedTabId.current) {
-            setIsLiveTailOn(!isLiveTailOnRef.current);
-            isLiveTailOnRef.current = false;
-            setLiveTailName("")
-            // console.log("tab id change works");
-            
-          }
-          await sleep(120000);
-        }  
-      }}
-      data-test-subj="eventLiveTail__delay"
-    >
-      5s
-    </EuiContextMenuItem>,
-    <EuiContextMenuItem
-    key="10s"
-    onClick={ async () => {
-      setLiveTailName("10s")
-      setLiveTailTabId(curSelectedTabId.current);
-      setIsLiveTailOn(true);
-      setToast("Live tail On",'success');
-      setIsLiveTailPopoverOpen(false);
-      await sleep(2000);
-      while (isLiveTailOnRef.current === true){
-        fetchData();
+  const liveTailLoop = async (name: string, startTime: string, endTime: string, delayTime: number) => {
+    setLiveTailName(name)
+    setLiveTailTabId(curSelectedTabId.current);
+    setIsLiveTailOn(true);
+    setToast("Live tail On",'success');
+    setIsLiveTailPopoverOpen(false);
+    await sleep(2000);
+    while (isLiveTailOnRef.current === true){
+      handleLiveTailSearch(startTime, endTime);
         if (liveTailTabIdRef.current !== curSelectedTabId.current) {
           setIsLiveTailOn(!isLiveTailOnRef.current);
           isLiveTailOnRef.current = false;
+          setLiveTailName("")
         }
-        await sleep(10000);
-      }  
-    }}
-    data-test-subj="eventLiveTail__delay"
-  >
-    10s
-  </EuiContextMenuItem>,
+        await sleep(delayTime);
+    }  
+  }
+
+  const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
-    key="stop"
-    onClick={ () => {
-      setLiveTailName("")
-      setIsLiveTailOn(false);
-      setToast("Live tail Off",'success');
-      // console.log("live tail off ", isLiveTailOnRef.current);
-      setIsLiveTailPopoverOpen(false);
-    }}
-    data-test-subj="eventLiveTail__delay"
-  >
-    Off
-  </EuiContextMenuItem>,
-  ];
+      key="10s"
+      onClick={ async () => {
+        liveTailLoop("10s", 'now-10s', 'now', 10000);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      10s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="30s"
+      onClick={ async () => {
+        liveTailLoop("30s", 'now-30s', 'now', 30000);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      30s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="1m"
+      onClick={ async () => {
+        liveTailLoop("1m", 'now-1m', 'now', 60000);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      1m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="5m"
+      onClick={ async () => {
+        liveTailLoop("5m", 'now-5m', 'now', 60000*5); 
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      5m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="15m"
+      onClick={ async () => {
+        liveTailLoop("15m", 'now-15m', 'now', 60000*15);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      15m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="30m"
+      onClick={ async () => {
+        liveTailLoop("30m", 'now-30m', 'now', 60000*30);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      30m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="1h"
+      onClick={ async () => {
+        liveTailLoop("1h", 'now-1h', 'now', 60000*60);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      1h
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="2h"
+      onClick={ async () => {
+        liveTailLoop("2h", 'now-2h', 'now', 60000*120);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      2h
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="1day"
+      onClick={ async () => {
+        liveTailLoop("1d", 'now-1d', 'now', 60000*60*24);
+      }}
+      data-test-subj="eventLiveTail__delay"
+    >
+      1d
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="off"
+      onClick={ () => {
+        setLiveTailName("")
+        setIsLiveTailOn(false);
+        setToast("Live tail Off",'success');
+        setIsLiveTailPopoverOpen(false);
+      }}
+      data-test-subj="eventLiveTail__off"
+    >
+      Off
+    </EuiContextMenuItem>,
+    ];
 
   const dateRange = isEmpty(query['selectedDateRange']) ? ['now-15m', 'now'] :
    [query['selectedDateRange'][0], query['selectedDateRange'][1]];

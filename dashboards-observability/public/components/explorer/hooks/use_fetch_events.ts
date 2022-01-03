@@ -136,7 +136,6 @@ export const useFetchEvents = ({
     const cur = queriesRef.current;
     console.log("cur from getLiveTail: ",cur);
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
-    // console.log("search query in get live tail: ",searchQuery);
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
       if (!isEmpty(res.jsonData)) {
         if (!isEmpty(responseRef.current)){
@@ -144,18 +143,16 @@ export const useFetchEvents = ({
           res.datarows = res.datarows.concat(responseRef.current.datarows);
           res.total = res.total + responseRef.current.total;
           res.size = res.size + responseRef.current.size;
-          console.log("condition executed");
-          console.log("res.json data after concat: ", res.jsonData);
         }
-        // setResponse(res);
+        // console.log("res before slice: ",res.total);
+        if (res.total > 200) {
+          res = res.slice(0,200);
+        }
         dispatchOnGettingHis(res);
-        console.log("get live tail json: ",res.jsonData);
-        // return dispatchOnGettingHis(res);
-      } else {
-        console.log("res is empty for live data");
+      } 
+      if (isEmpty(res.jsonData) && isEmpty(responseRef.current)) {
+        dispatchOnNoHis(res);
       }
-      // when no hits and needs to get available fields to override default timestamp
-      // dispatchOnNoHis(res);
     }, errorHandler);
   };
 
