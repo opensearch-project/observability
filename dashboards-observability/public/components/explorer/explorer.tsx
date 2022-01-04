@@ -144,9 +144,6 @@ export const Explorer = ({
     const momentStart = dateMath.parse(startTime)!;
     const momentEnd = dateMath.parse(endTime)!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
-    // console.log("moment Start: ",momentStart);
-    // console.log("moment end: ",momentEnd);
-    // console.log("diff seconds: ",diffSeconds);
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
@@ -169,7 +166,6 @@ export const Explorer = ({
     ]);
   };
 
-  console.log("explorer data variable contents: ", explorerData);
 
   const composeFinalQuery = (curQuery: any, startTime: string, endTime: string, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
@@ -371,8 +367,6 @@ export const Explorer = ({
 
     // compose final query
     const finalQuery = composeFinalQuery(curQuery, startTime, endTime, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
-
-    console.log("final Query in explorer: ",finalQuery);
     
     await dispatch(changeQuery({
       tabId,
@@ -936,7 +930,8 @@ export const Explorer = ({
     setToast("Live tail On",'success');
     setIsLiveTailPopoverOpen(false);
     await sleep(2000);
-    while (isLiveTailOnRef.current === true){
+    let curLiveTailname = liveTailNameRef.current;
+    while (isLiveTailOnRef.current === true && curLiveTailname === liveTailNameRef.current){
       handleLiveTailSearch(startTime, endTime);
         if (liveTailTabIdRef.current !== curSelectedTabId.current) {
           setIsLiveTailOn(!isLiveTailOnRef.current);

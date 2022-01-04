@@ -134,7 +134,6 @@ export const useFetchEvents = ({
 
   const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
-    console.log("cur from getLiveTail: ",cur);
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
       if (!isEmpty(res.jsonData)) {
@@ -144,7 +143,7 @@ export const useFetchEvents = ({
           res.total = res.total + responseRef.current.total;
           res.size = res.size + responseRef.current.size;
         }
-        // console.log("res before slice: ",res.total);
+        // send only first 200 data log arrays
         if (res.total > 200) {
           res = res.slice(0,200);
         }
