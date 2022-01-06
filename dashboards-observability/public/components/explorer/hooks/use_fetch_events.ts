@@ -28,7 +28,6 @@ import {
 } from '../slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
 import { IField } from 'common/types/explorer';
-import { any, array } from 'joi';
 
 interface IFetchEventsParams {
   pplService: PPLService;
@@ -134,6 +133,7 @@ export const useFetchEvents = ({
 
   const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
+    console.log('query: ',cur);
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
       if (!isEmpty(res.jsonData)) {

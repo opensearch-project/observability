@@ -5,7 +5,7 @@
 
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { waitFor } from '@testing-library/react';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
 import { Explorer } from '../explorer';
@@ -30,6 +30,7 @@ describe.skip('Event explorer component', () => {
     history.push = jest.fn();
     const notifications = coreStartMock.notifications;
     const savedObjectId = 'JIcoln0BYMuJGDsOLTnM';
+    const curSelectedTabId = jest.fn() as unknown as MutableRefObject<undefined>;
     
   const wrapper = mount(
     <Explorer 
@@ -41,7 +42,8 @@ describe.skip('Event explorer component', () => {
       setToast={setToast}
       history={history}
       notifications={notifications}
-      savedObjectId={savedObjectId}
+      savedObjectId={savedObjectId} 
+      curSelectedTabId={curSelectedTabId}    
     />
   );
   

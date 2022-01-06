@@ -61,7 +61,6 @@ import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
-import { threadId } from 'worker_threads';
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -944,11 +943,11 @@ export const Explorer = ({
 
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
+      data-test-subj="eventLiveTail__delay10"
       key="10s"
       onClick={ async () => {
         liveTailLoop("10s", 'now-10s', 'now', 10000);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       10s
     </EuiContextMenuItem>,
@@ -957,7 +956,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("30s", 'now-30s', 'now', 30000);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       30s
     </EuiContextMenuItem>,
@@ -966,7 +964,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("1m", 'now-1m', 'now', 60000);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       1m
     </EuiContextMenuItem>,
@@ -975,7 +972,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("5m", 'now-5m', 'now', 60000*5); 
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       5m
     </EuiContextMenuItem>,
@@ -984,7 +980,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("15m", 'now-15m', 'now', 60000*15);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       15m
     </EuiContextMenuItem>,
@@ -993,7 +988,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("30m", 'now-30m', 'now', 60000*30);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       30m
     </EuiContextMenuItem>,
@@ -1002,7 +996,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("1h", 'now-1h', 'now', 60000*60);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       1h
     </EuiContextMenuItem>,
@@ -1011,7 +1004,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("2h", 'now-2h', 'now', 60000*120);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       2h
     </EuiContextMenuItem>,
@@ -1020,7 +1012,6 @@ export const Explorer = ({
       onClick={ async () => {
         liveTailLoop("1d", 'now-1d', 'now', 60000*60*24);
       }}
-      data-test-subj="eventLiveTail__delay"
     >
       1d
     </EuiContextMenuItem>,
