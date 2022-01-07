@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { uniqueId, find } from 'lodash';
 import { DragDrop } from '../drag_drop';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
@@ -14,6 +14,7 @@ import { LensIconChartBar } from '../assets/chart_bar';
 import { LensIconChartLine } from '../assets/chart_line';
 import { LensIconChartBarHorizontal } from '../assets/chart_bar_horizontal';
 import { EmptyPlaceholder } from '../shared_components/empty_placeholder';
+import { TabContext } from '../../hooks';
 import SavedObjects from '../../../../services/saved_objects/event_analytics/saved_objects';
 
 const plotlySharedlayout = {
@@ -29,12 +30,12 @@ const plotlySharedlayout = {
   legend: {
     orientation: 'v',
     traceorder: 'normal',
-  }
+  },
 };
 
 const plotlySharedConfig = {
   displaylogo: false,
-  responsive: true
+  responsive: true,
 };
 
 interface IWorkSpacePanel {
@@ -43,14 +44,11 @@ interface IWorkSpacePanel {
   visualizations: any;
 }
 
-export function WorkspacePanel({
-  curVisId,
-  setCurVisId,
-  visualizations
-}: IWorkSpacePanel) {
+export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
+  const { visualizationConfigs } = useContext(TabContext);
 
   const memorizedVisualizationTypes = useMemo(() => {
-    return ([
+    return [
       {
         id: 'bar',
         label: 'Bar',
@@ -58,16 +56,24 @@ export function WorkspacePanel({
         icon: LensIconChartBar,
         visualizationId: uniqueId('vis-bar-'),
         selection: {
-          dataLoss: 'nothing'
+          dataLoss: 'nothing',
         },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartBar }
-        /> : <Bar 
-          visualizations={ visualizations }
-          barConfig={ plotlySharedConfig }
-          layoutConfig={ plotlySharedlayout }
-        />
+        chart:
+          !visualizations || !visualizations.data ? (
+            <EmptyPlaceholder icon={LensIconChartBar} />
+          ) : (
+            <Bar
+              visualizations={visualizations}
+              barConfig={{
+                ...plotlySharedConfig,
+                ...visualizationConfigs?.config,
+              }}
+              layoutConfig={{
+                ...plotlySharedlayout,
+                ...visualizationConfigs?.layout,
+              }}
+            />
+          ),
       },
       {
         id: 'horizontal_bar',
@@ -76,16 +82,24 @@ export function WorkspacePanel({
         icon: LensIconChartBarHorizontal,
         visualizationId: uniqueId('vis-horizontal-bar-'),
         selection: {
-          dataLoss: 'nothing'
+          dataLoss: 'nothing',
         },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartBarHorizontal }
-        /> : <HorizontalBar
-          visualizations={ visualizations }
-          layoutConfig={ plotlySharedlayout }
-          horizontalConfig={ plotlySharedConfig }
-        />
+        chart:
+          !visualizations || !visualizations.data ? (
+            <EmptyPlaceholder icon={LensIconChartBarHorizontal} />
+          ) : (
+            <HorizontalBar
+              visualizations={visualizations}
+              horizontalConfig={{
+                ...plotlySharedConfig,
+                ...visualizationConfigs?.config,
+              }}
+              layoutConfig={{
+                ...plotlySharedlayout,
+                ...visualizationConfigs?.layout,
+              }}
+            />
+          ),
       },
       {
         id: 'line',
@@ -94,33 +108,38 @@ export function WorkspacePanel({
         icon: LensIconChartLine,
         visualizationId: uniqueId('vis-line-'),
         selection: {
-          dataLoss: 'nothing'
+          dataLoss: 'nothing',
         },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartLine }
-        /> : <Line
-          visualizations={ visualizations }
-          layoutConfig={ plotlySharedlayout }
-          lineConfig={ plotlySharedConfig }
-        />
-      }
-    ]);
-  }, [
-    curVisId,
-    visualizations
-  ]);
+        chart:
+          !visualizations || !visualizations.data ? (
+            <EmptyPlaceholder icon={LensIconChartLine} />
+          ) : (
+            <Line
+              visualizations={visualizations}
+              lineConfig={{
+                ...plotlySharedConfig,
+                ...visualizationConfigs?.config,
+              }}
+              layoutConfig={{
+                ...plotlySharedlayout,
+                ...visualizationConfigs?.layout,
+              }}
+            />
+          ),
+      },
+    ];
+  }, [visualizations, visualizationConfigs]);
 
   const [savePanelName, setSavePanelName] = useState<string>('');
 
   function onDrop() {}
-  
+
   const getCurChart = () => {
     return find(memorizedVisualizationTypes, (v) => {
       return v.id === curVisId;
     });
-  }
-  
+  };
+
   function renderVisualization() {
     return getCurChart()?.chart;
   }
@@ -129,13 +148,13 @@ export function WorkspacePanel({
     <WorkspacePanelWrapper
       title={''}
       emptyExpression={true}
-      setVis={ setCurVisId }
-      vis={ getCurChart() }
-      visualizationTypes={ memorizedVisualizationTypes }
-      handleSavePanelNameChange={ (name: string) => {
-        setSavePanelName(name) 
-      } }
-      savePanelName={ savePanelName }
+      setVis={setCurVisId}
+      vis={getCurChart()}
+      visualizationTypes={memorizedVisualizationTypes}
+      handleSavePanelNameChange={(name: string) => {
+        setSavePanelName(name);
+      }}
+      savePanelName={savePanelName}
     >
       <DragDrop
         className="lnsWorkspacePanel__dragDrop"
@@ -144,9 +163,7 @@ export function WorkspacePanel({
         droppable={false}
         onDrop={onDrop}
       >
-        <div>
-          { renderVisualization() }
-        </div>
+        <div>{renderVisualization()}</div>
       </DragDrop>
     </WorkspacePanelWrapper>
   );

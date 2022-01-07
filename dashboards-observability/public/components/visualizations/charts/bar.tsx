@@ -14,6 +14,7 @@ export const Bar = ({
   barConfig = {},
   layoutConfig = {},
   isUniColor = false,
+  setInitialConfig = null,
 }: any) => {
   const {
     data,
@@ -22,7 +23,7 @@ export const Bar = ({
   const stackLength = fields.length - 1;
 
   // Individual bars have different colors
-  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor 
+  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor
   // Else each stacked bar has its own color using colorway
   let marker = {};
   if (stackLength == 1 && data[fields[stackLength].name].length < 16 && !isUniColor) {
@@ -38,7 +39,7 @@ export const Bar = ({
       x: barConfig.orientation !== 'h' ? data[fields[stackLength].name] : data[field.name],
       y: barConfig.orientation !== 'h' ? data[field.name] : data[fields[stackLength].name],
       type: 'bar',
-      marker: marker,
+      marker,
       name: field.name,
       ...barConfig,
     };

@@ -11,11 +11,11 @@ const initialState = {
   [initialTabId]: {},
 };
 
-export const explorerVisualizationSlice = createSlice({
-  name: REDUX_EXPL_SLICE_VISUALIZATION,
+export const visualizationConfigSlice = createSlice({
+  name: 'explorerVizConfigs',
   initialState,
   reducers: {
-    render: (state, { payload }) => {
+    change: (state, { payload }) => {
       state[payload.tabId] = payload.data;
     },
     reset: (state, { payload }) => {
@@ -25,8 +25,8 @@ export const explorerVisualizationSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { render, reset } = explorerVisualizationSlice.actions;
+export const { change, reset } = visualizationConfigSlice.actions;
 
-export const selectExplorerVisualization = (state) => state.explorerVisualization;
+export const selectVisualizationConfig = (state) => state.explorerVisualizationConfig;
 
-export default explorerVisualizationSlice.reducer;
+export default visualizationConfigSlice.reducer;

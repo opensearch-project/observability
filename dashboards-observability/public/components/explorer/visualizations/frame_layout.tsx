@@ -22,6 +22,9 @@ export function FrameLayout(props: FrameLayoutProps) {
         <EuiPageBody className="lnsFrameLayout__pageBody" restrictWidth={false}>
           {props.workspacePanel}
         </EuiPageBody>
+        <EuiPageBody className="lnsFrameLayout__pageBody" restrictWidth={false}>
+          {props.configPanel}
+        </EuiPageBody>
       </div>
     </EuiPage>
   );

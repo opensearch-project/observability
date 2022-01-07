@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability-plugins/event-analytics/'
+export const EVENT_ANALYTICS_DOCUMENTATION_URL =
+  'https://opensearch.org/docs/latest/observability-plugins/event-analytics/';
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
@@ -32,7 +33,7 @@ export const REDIRECT_TAB = 'redirect_tab';
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
   {
-    text: 'Minute', 
+    text: 'Minute',
     value: 'm',
   },
   {
@@ -66,5 +67,4 @@ export const REDUX_EXPL_SLICE_QUERY_RESULT = 'queryResults';
 export const REDUX_EXPL_SLICE_FIELDS = 'fields';
 export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
 export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
-export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization'
-
+export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization';
