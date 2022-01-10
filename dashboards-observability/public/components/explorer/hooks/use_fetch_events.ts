@@ -11,7 +11,6 @@ import {
   useSelector
 } from 'react-redux';
 import { 
-  RAW_QUERY,
   FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
@@ -133,7 +132,6 @@ export const useFetchEvents = ({
 
   const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
-    console.log('query: ',cur);
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
     fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
       if (!isEmpty(res.jsonData)) {
@@ -145,7 +143,10 @@ export const useFetchEvents = ({
         }
         // send only first 200 data log arrays
         if (res.total > 200) {
-          res = res.slice(0,200);
+          res.jsonData = res.jsonData.slice(0,200);
+          res.datarows = res.datarows.slice(0,200);
+          res.total = 200;
+          res.size = 200;
         }
         dispatchOnGettingHis(res);
       } 
