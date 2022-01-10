@@ -16,10 +16,6 @@ import {
   EuiFlexItem,
   EuiLink,
   EuiContextMenuItem,
-  EuiButton,
-  EuiPageContentHeaderSection,
-  EuiPopover,
-  EuiContextMenuPanel,
   EuiButtonToggle,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
