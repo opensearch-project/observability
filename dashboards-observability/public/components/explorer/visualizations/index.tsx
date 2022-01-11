@@ -52,7 +52,7 @@ export const ExplorerVisualizations = ({
           setCurrentVizConfigs={setCurrentVizConfigs}
         />
       }
-      configPanel={<ConfigPanelWrapper explorerFields={explorerFields} />}
+      configPanel={<ConfigPanelWrapper explorerFields={explorerFields} vizVectors={explorerVis} />}
     />
   );
 };

@@ -11,15 +11,14 @@ import { EuiForm, EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 import { PanelItem } from './configPanelItem';
 import { ConfigEditor } from './config_editor/config_editor';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
+import { VizRawDataPanel } from './config_raw_data/config_raw_data';
 // import { PlotlyVizEditor } from '../shared_components/plotly_viz_editor';
 
 export const ConfigPanelWrapper = memo(function ConfigPanelWrapper(props: any) {
   return <LayerPanels {...props} />;
 });
 
-function LayerPanels(props: any) {
-  const { explorerFields } = props;
-
+function LayerPanels({ explorerFields, vizVectors }: any) {
   const panelItems = [
     {
       paddingTitle: 'X-axis',
@@ -35,7 +34,7 @@ function LayerPanels(props: any) {
   ];
 
   const ConfigPanelItems = (props) => {
-    const { panelItems } = props;
+    // const { panelItems } = props;
     return (
       <EuiForm className="lnsConfigPanel">
         {panelItems.map((item) => {
@@ -63,9 +62,11 @@ function LayerPanels(props: any) {
       content: <ConfigEditor spec={getDefaultSpec()} />,
     },
     {
-      id: 'setting-panel',
-      name: 'Settings',
-      content: <ConfigPanelItems panelItems={panelItems} />,
+      id: 'raw-data-panel',
+      name: 'Raw Data',
+      content: (
+        <VizRawDataPanel vizVectors={vizVectors?.jsonData} columns={vizVectors?.metadata?.fields} />
+      ),
     },
   ];
 
