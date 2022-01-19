@@ -19,3 +19,21 @@ export const APP_ANALYTICS_API_PREFIX = '/api/observability/app_analytics'
 export interface optionType {
   label: string;
 }
+
+export type ApplicationListType = {
+  name: string;
+  id: string;
+  composition: string;
+  currentAvailability: string;
+  availabilityMetrics: string;
+  dateCreated: string;
+  dateModified: string;
+};
+
+export type ApplicationType = {
+  name: string;
+  description: string;
+  query: string;
+  selectedServices: Array<string>;
+  selectedTraces: Array<string>;
+}

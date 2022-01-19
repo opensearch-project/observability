@@ -12,6 +12,7 @@ import {
     EuiHorizontalRule,
     EuiInMemoryTable,
     EuiLink,
+    EuiOverlayMask,
     EuiPage,
     EuiPageBody,
     EuiPageContent,
@@ -27,18 +28,23 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { AppAnalyticsComponentDeps, ApplicationType } from '../home';
+import { AppAnalyticsComponentDeps } from '../home';
+import { getCustomModal } from '../helpers/modal_containers';
 import { pageStyles } from '../../../../common/constants/shared';
+import { ApplicationListType } from 'common/constants/application_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
-    applications: Array<ApplicationType>;
+    applications: Array<ApplicationListType>;
+    renameApplication: (newAppName: string, appId: string) => void;
   };
 
 export function AppTable(props: AppTableProps) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedApplications, setSelectedApplications] = useState<ApplicationType[]>([]);
-  const { applications, parentBreadcrumb } = props;
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const { applications, parentBreadcrumb, renameApplication } = props;
 
   useEffect(() => {
     props.chrome.setBreadcrumbs(
@@ -50,6 +56,34 @@ export function AppTable(props: AppTableProps) {
       }
     ]);
   })
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const onRename = async (newApplicationName: string) => {
+    renameApplication(newApplicationName, selectedApplications[0].id);
+    closeModal();
+  };
+
+  const renameApp = () => {
+    setModalLayout(
+      getCustomModal(
+        onRename,
+        closeModal,
+        'Name',
+        'Rename Application',
+        'Cancel',
+        'Rename',
+        selectedApplications[0].name
+      )
+    );
+    showModal();
+  };
 
   const popoverButton = (
     <EuiButton
@@ -65,6 +99,10 @@ export function AppTable(props: AppTableProps) {
     <EuiContextMenuItem
       key="rename"
       disabled={applications.length === 0 || selectedApplications.length !== 1}
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        renameApp();
+      }}
     >
       Rename
     </EuiContextMenuItem>,
@@ -219,6 +257,7 @@ export function AppTable(props: AppTableProps) {
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
+      {isModalVisible && modalLayout}
     </div>
   );
 }
