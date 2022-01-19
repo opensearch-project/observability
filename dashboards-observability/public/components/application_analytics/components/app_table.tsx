@@ -37,6 +37,7 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
 
 export function AppTable(props: AppTableProps) {
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationType[]>([]);
   const { applications, parentBreadcrumb } = props;
 
   useEffect(() => {
@@ -63,25 +64,24 @@ export function AppTable(props: AppTableProps) {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="rename"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length !== 1}
     >
       Rename
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="duplicate"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length !== 1}
     >
       Duplicate
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length === 0}
     >
       Delete
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="addSample"
-      disabled={applications.length === 0}
     >
       Add sample application
     </EuiContextMenuItem>,
@@ -190,6 +190,9 @@ export function AppTable(props: AppTableProps) {
                 }}
                 allowNeutralSort={false}
                 isSelectable={true}
+                selection={{
+                  onSelectionChange: (items) => setSelectedApplications(items),
+                }}
               />
             ) : (
               <>
