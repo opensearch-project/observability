@@ -118,11 +118,11 @@ internal object ObservabilityIndex {
     private fun updateMappings() {
         val classLoader = ObservabilityIndex::class.java.classLoader
         val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
-        PutMappingRequest request = putMappingRequest(INDEX_NAME)
+        val request = PutMappingRequest(INDEX_NAME)
             .type("doc")
             .source(indexMappingSource, XContentType.YAML)
         try {
-            val actionFuture = client.admin().indices().mapping().put(request)
+            val actionFuture = client.admin().indices().putMapping(request)
             val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
             if (response.isAcknowledged) {
                 log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
