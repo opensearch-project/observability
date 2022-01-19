@@ -55,7 +55,48 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           }
         });
       } catch (err: any) {
-        console.error('Error occureed while creating a new application', err);
+        console.error('Error occurred while creating a new application', err);
+        return response.custom({
+          statusCode: err.statusCode || 500,
+          body: err.message,
+        });
+      }
+    }
+  );
+
+  // Renames an existing application
+  router.patch(
+    {
+      path: `${API_PREFIX}/application/rename`,
+      validate: {
+        body: schema.object({
+          appId: schema.string(),
+          name: schema.string()
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        await appAnalyticsBackend.renameApp(
+          opensearchClient,
+          request.body.appId,
+          request.body.name,
+        );
+        return response.ok({
+          body: {
+            message: 'Application Renamed',
+          },
+        });
+      } catch (err: any) {
+        console.error('Error occurred while renaming an existing application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
           body: err.message,
