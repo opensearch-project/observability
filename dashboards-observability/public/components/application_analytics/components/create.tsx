@@ -31,6 +31,7 @@ import { ServiceConfig } from "./config_components/service_config";
 import { LogConfig } from "./config_components/log_config";
 import { PPLReferenceFlyout } from "../../../components/common/helpers";
 import { optionType } from "../../../../common/constants/application_analytics";
+import _ from "lodash";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -100,6 +101,10 @@ export const CreateApp = (props: CreateAppProps) => {
     createApp(state.name, state.description, query, selectedServices, selectedTraces)
   }
 
+  const onCancel = () => {
+    window.location.assign(`${parentBreadcrumb.href}application_analytics`);
+  }
+
   return (
     <div style={{maxWidth: '1130px'}}>
     <EuiPage>
@@ -156,7 +161,7 @@ export const CreateApp = (props: CreateAppProps) => {
         <EuiSpacer/>
         <EuiFlexGroup>
         <EuiFlexItem grow={false}>
-          <EuiButton>
+          <EuiButton onClick={onCancel}>
           Cancel
           </EuiButton>
         </EuiFlexItem>
