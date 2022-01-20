@@ -8,6 +8,23 @@ import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
 
 export class AppAnalyticsAdaptor {
 
+  // Fetch all existing applications
+  fetchApps = async(client: ILegacyScopedClusterClient) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.getObject', {
+        objectType: 'application',
+      });
+      return response.observabilityObjectList.map((application: any) => ({
+        name: application.application.name,
+        id: application.objectId,
+        dateModified: application.dateModified,
+        dateCreated: application.dateCreated,
+      }));
+    } catch (err: any) {
+      throw new Error('Fetch All Applications Error: ' + err);
+    }
+  }
+
   // Create a new application
   createNewApp = async (
     client: ILegacyScopedClusterClient, 

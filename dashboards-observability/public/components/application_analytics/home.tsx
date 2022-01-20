@@ -36,18 +36,6 @@ interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
 
 export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {}
 
-const dateString = new Date().toISOString();
-
-const dummyApplication: ApplicationListType[] = [{
-  name: "Cool Application", 
-  id: "id", 
-  composition: "Payment, user_db",
-  currentAvailability: "Available",
-  availabilityMetrics: "Error rate: 0.80%, Throughput: 0.94%, Latency: 600ms",
-  dateCreated: dateString, 
-  dateModified: dateString
-}];
-
 export const Home = (props: HomeProps) => {
   const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
   const [applicationData, setApplicationData] = useState<Array<ApplicationListType>>([]);
@@ -101,6 +89,19 @@ export const Home = (props: HomeProps) => {
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
+  // Fetches all existing applications
+  const fetchApps = () => {
+    return http
+      .get(`${APP_ANALYTICS_API_PREFIX}/`)
+      .then(async (res) => {
+        setApplicationData(res.data);
+      })
+      .catch((err) => {
+        setToast('Error occured while fetching applications', 'danger');
+        console.error(err);
+      })
+  }
+
   // Create a new application
   const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
     if(!isNameValid(name)) {
@@ -117,7 +118,7 @@ export const Home = (props: HomeProps) => {
     }
 
     return http
-      .post(`${APP_ANALYTICS_API_PREFIX}/application`, {
+      .post(`${APP_ANALYTICS_API_PREFIX}/`, {
         body: JSON.stringify(requestBody)
       })
       .then(async (res) => {
@@ -143,7 +144,7 @@ export const Home = (props: HomeProps) => {
     }
 
     return http
-      .patch(`${APP_ANALYTICS_API_PREFIX}/application/rename`, {
+      .patch(`${APP_ANALYTICS_API_PREFIX}/rename`, {
         body: JSON.stringify(requestBody)
       })
       .then(async (res) => {
@@ -180,7 +181,8 @@ export const Home = (props: HomeProps) => {
             <ObservabilitySideBar>
             <AppTable 
               loading={false}
-              applications={dummyApplication}
+              applications={applicationData}
+              fetchApplications={fetchApps}
               renameApplication={renameApp}
               {...commonProps} />
             </ObservabilitySideBar>
