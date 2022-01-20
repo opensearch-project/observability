@@ -36,6 +36,7 @@ import { ApplicationListType } from 'common/constants/application_analytics';
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
     applications: Array<ApplicationListType>;
+    fetchApplications: () => void;
     renameApplication: (newAppName: string, appId: string) => void;
   };
 
@@ -44,10 +45,10 @@ export function AppTable(props: AppTableProps) {
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
   const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
-  const { applications, parentBreadcrumb, renameApplication } = props;
+  const { chrome, applications, parentBreadcrumb, fetchApplications, renameApplication } = props;
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs(
+    chrome.setBreadcrumbs(
       [
       parentBreadcrumb,
       {
@@ -55,7 +56,8 @@ export function AppTable(props: AppTableProps) {
         href: '#/application_analytics',
       }
     ]);
-  })
+    fetchApplications();
+  }, []);
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -132,36 +134,10 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/id`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`#/application_analytics/${record.id}`}>{_.truncate(record.name, { length: 100 })}</EuiLink>
       ),
-    },
-    {
-      field: 'composition',
-      name: 'Composition',
-      sortable: true,
-      truncateText: true,
-    },
-    {
-      field: 'currentAvailability',
-      name: 'Current Availability',
-      sortable: true,
-      truncateText: true,
-    },
-    {
-        field: 'availabilityMetrics',
-        name: 'Availability Metrics',
-        sortable: true,
-        truncateText: true,
-      },
-  ] as Array<
-    EuiTableFieldDataColumnType<{
-      name: string;
-      id: string;
-      composition: string;
-      currentAvailability: string;
-      availabilityMetrics: string;
-    }>
-  >;
+    }
+  ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 
   return (
     <div style={pageStyles}>

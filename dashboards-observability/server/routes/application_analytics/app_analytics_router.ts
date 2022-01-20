@@ -10,16 +10,48 @@ import {
   ResponseError,
   ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
-import { APP_ANALYTICS_API_PREFIX as API_PREFIX } from '../../../common/constants/application_analytics';
+import { APP_ANALYTICS_API_PREFIX as API_PREFIX, ApplicationListType } from '../../../common/constants/application_analytics';
 import { AppAnalyticsAdaptor } from '../../../server/adaptors/application_analytics/app_analytics_adaptor';
 
 export function registerAppAnalyticsRouter(router: IRouter) {
   const appAnalyticsBackend = new AppAnalyticsAdaptor();
+
+  // Fetches all existing applications
+  router.get(
+    {
+      path: `${API_PREFIX}/`,
+      validate: {},
+    },
+    async(
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+      let applicationsData: Array<ApplicationListType> = [];
+      try {
+        applicationsData = await appAnalyticsBackend.fetchApps(opensearchClient);
+        return response.ok({
+          body: {
+            data: applicationsData,
+          },
+        });
+      } catch (err: any) {
+        console.error('Error occurred while fetching applications', err);
+        return response.custom({
+          statusCode: err.statusCode || 500,
+          body: err.message,
+        });
+      }
+    }
+  )
   
   // Create a new application
   router.post(
     {
-      path: `${API_PREFIX}/application`,
+      path: `${API_PREFIX}/`,
       validate: {
         body: schema.object({
           name: schema.string(),
@@ -67,7 +99,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
   // Renames an existing application
   router.patch(
     {
-      path: `${API_PREFIX}/application/rename`,
+      path: `${API_PREFIX}/rename`,
       validate: {
         body: schema.object({
           appId: schema.string(),
