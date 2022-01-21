@@ -112,7 +112,6 @@ internal object ObservabilityIndex {
         }
     }
 
-
     /**
      * Check if the index mappings have changed and if they have, update them
      */
