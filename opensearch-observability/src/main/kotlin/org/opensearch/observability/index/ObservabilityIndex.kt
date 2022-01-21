@@ -87,6 +87,7 @@ internal object ObservabilityIndex {
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
         if (isIndexExists(INDEX_NAME)) {
+            // TODO: Only update mappings when they have changed so it doesn't run on every request
             updateMappings()
         } else {
             val classLoader = ObservabilityIndex::class.java.classLoader

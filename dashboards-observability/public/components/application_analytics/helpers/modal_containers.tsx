@@ -39,33 +39,3 @@ export const getClearModal = (
     </EuiOverlayMask>
   );
 };
-
-export const getCustomModal = (
-  runModal:
-    | ((value: string, value2: string, value3: string, value4: string) => void)
-    | ((value: string) => void),
-  closeModal: (
-    event?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => void,
-  labelTxt: string,
-  titletxt: string,
-  btn1txt: string,
-  btn2txt: string,
-  openPanelName?: string,
-  helpText?: string,
-  optionalArgs?: string[]
-) => {
-  return (
-    <CustomInputModal
-      runModal={runModal}
-      closeModal={closeModal}
-      labelTxt={labelTxt}
-      titletxt={titletxt}
-      btn1txt={btn1txt}
-      btn2txt={btn2txt}
-      openPanelName={openPanelName}
-      helpText={helpText}
-      optionalArgs={optionalArgs}
-    />
-  );
-};
