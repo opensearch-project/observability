@@ -129,6 +129,8 @@ internal object ObservabilityIndex {
             } else {
                 throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
+        } catch (exception: IndexNotFoundException) {
+            log.warn("$LOG_PREFIX:IndexNotFoundException:", exception)
         } catch (exception: Exception) {
             log.error("$LOG_PREFIX:Uncaught Exception:", exception)
         }   
