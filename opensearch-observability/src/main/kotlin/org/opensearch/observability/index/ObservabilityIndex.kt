@@ -130,7 +130,7 @@ internal object ObservabilityIndex {
                 throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
         } catch (exception: Exception) {
-
+            log.error("$LOG_PREFIX:Uncaught Exception:", exception)
         }   
     }
 
