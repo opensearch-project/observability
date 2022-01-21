@@ -61,7 +61,6 @@ export const ChartSwitch = ({ setVis, vis, visualizationTypes }: any) => {
                 <EuiFlexItem>
                   {i18n.translate('xpack.lens.configPanel.chartType', {
                     defaultMessage: `${vis_category}`,
-                    // defaultMessage: 'Basics',
                   })}
                 </EuiFlexItem>
               </EuiFlexGroup>
