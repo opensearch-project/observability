@@ -132,9 +132,7 @@ internal object ObservabilityIndex {
             }
         } catch (exception: IndexNotFoundException) {
             log.error("$LOG_PREFIX:IndexNotFoundException:", exception)
-        } catch (exception: Exception) {
-            log.error("$LOG_PREFIX:Uncaught Exception:", exception)
-        }   
+        }
     }
 
     /**
