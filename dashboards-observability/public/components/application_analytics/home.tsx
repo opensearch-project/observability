@@ -93,7 +93,7 @@ export const Home = (props: HomeProps) => {
   const fetchApps = () => {
     return http
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
-      .then(async (res) => {
+      .then((res) => {
         setApplicationData(res.data);
       })
       .catch((err) => {
@@ -121,7 +121,7 @@ export const Home = (props: HomeProps) => {
       .post(`${APP_ANALYTICS_API_PREFIX}/`, {
         body: JSON.stringify(requestBody)
       })
-      .then(async (res) => {
+      .then((res) => {
         setToast(`Application "${name}" successfully created!`);
         window.location.assign(`${parentBreadcrumb.href}${res.newAppId}`)
       })
@@ -147,7 +147,7 @@ export const Home = (props: HomeProps) => {
       .patch(`${APP_ANALYTICS_API_PREFIX}/rename`, {
         body: JSON.stringify(requestBody)
       })
-      .then(async (res) => {
+      .then((res) => {
         setApplicationData((prevApplicationData) => {
           const newApplicationData = [...prevApplicationData];
           const renamedApplication = newApplicationData.find(
@@ -160,6 +160,25 @@ export const Home = (props: HomeProps) => {
       })
       .catch((err) => {
         setToast('Error occurred while renaming application', 'danger');
+        console.error(err);
+      });
+  };
+
+  // Delete existing applications
+  const deleteApp = (appList: string[], toastMessage?: string) => {
+    return http
+      .delete(`${APP_ANALYTICS_API_PREFIX}/${appList.join(',')}`)
+      .then((res) => {
+        setApplicationData((prevApplicationData) => {
+          return prevApplicationData.filter((app) => !appList.includes(app.id))
+        });
+        const message = 
+          toastMessage || `Application${appList.length > 1 ? 's' : ''} successfully deleted!`;
+        setToast(message);
+        return res;
+      })
+      .catch((err: any) => {
+        setToast('Error occured while deleting application', 'danger');
         console.error(err);
       });
   };
@@ -184,6 +203,7 @@ export const Home = (props: HomeProps) => {
               applications={applicationData}
               fetchApplications={fetchApps}
               renameApplication={renameApp}
+              deleteApplication={deleteApp}
               {...commonProps} />
             </ObservabilitySideBar>
           }
