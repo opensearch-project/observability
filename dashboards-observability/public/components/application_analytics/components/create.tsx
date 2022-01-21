@@ -97,7 +97,7 @@ export const CreateApp = (props: CreateAppProps) => {
   };
 
   const onCreate = () => {
-    createApp(state.name, state.description, query, selectedServices, selectedTraces)
+    createApp(state.name, state.description, query, selectedServices, selectedTraces);
   }
 
   const onCancel = () => {
