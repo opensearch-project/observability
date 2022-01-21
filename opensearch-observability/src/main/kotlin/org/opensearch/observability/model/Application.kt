@@ -77,6 +77,7 @@ internal data class Application(
             var baseQuery: String? = null
             var servicesEntities: List<String> = listOf()
             var traceGroups: List<String> = listOf()
+
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
