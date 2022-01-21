@@ -1,0 +1,17 @@
+{ 
+  /* layout configurations */
+  layout: {
+    /* configuration options can be found: https://plotly.com/javascript/reference/layout/ */
+  }
+
+  /* figure configurations */
+  config: {
+    /* configuration options can be found: https://plotly.com/javascript/configuration-options/ */
+    scrollZoom: false
+    editable: false
+    staticPlot: false
+    displayModeBar: false
+    responsive: true
+    doubleClickDelay: false
+  }
+}

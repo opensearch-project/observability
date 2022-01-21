@@ -4,24 +4,35 @@
  */
 
 import React from 'react';
-import { take, merge } from 'lodash';
-import { Plt } from '../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../common/constants/shared';
+import { take, merge, isEmpty } from 'lodash';
+import { Plt } from '../../plotly/plot';
+import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
-export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any) => {
+export const Line = ({
+  visualizations,
+  figureConfig = {},
+  layoutConfig = {},
+  dispatch,
+  customVizData = {},
+}: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations;
   const lineLength = fields.length - 1;
-  const lineValues = take(fields, lineLength).map((field: any) => {
-    return {
-      x: data[fields[lineLength].name],
-      y: data[field.name],
-      type: 'line',
-      name: field.name,
-    };
-  });
+  let lineValues;
+  if (isEmpty(customVizData)) {
+    lineValues = take(fields, lineLength).map((field: any) => {
+      return {
+        x: data[fields[lineLength].name],
+        y: data[field.name],
+        type: 'line',
+        name: field.name,
+      };
+    });
+  } else {
+    lineValues = [...customVizData];
+  }
 
   const config = {
     barmode: 'line',
@@ -53,7 +64,8 @@ export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any
         },
         ...lineLayoutConfig,
       }}
-      config={lineConfig}
+      config={figureConfig}
+      dispatch={dispatch}
     />
   );
 };

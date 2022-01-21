@@ -3,40 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useContext } from 'react';
-import { uniqueId, find } from 'lodash';
-import { DragDrop } from '../drag_drop';
+import React, { useState, useMemo, useContext, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { find } from 'lodash';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
-import { Bar } from '../../../visualizations/charts/bar';
-import { Line } from '../../../visualizations/charts/line';
-import { HorizontalBar } from '../../../visualizations/charts/horizontal_bar';
-import { LensIconChartBar } from '../assets/chart_bar';
-import { LensIconChartLine } from '../assets/chart_line';
-import { LensIconChartBarHorizontal } from '../assets/chart_bar_horizontal';
-import { EmptyPlaceholder } from '../shared_components/empty_placeholder';
 import { TabContext } from '../../hooks';
-import SavedObjects from '../../../../services/saved_objects/event_analytics/saved_objects';
-
-const plotlySharedlayout = {
-  showlegend: true,
-  margin: {
-    l: 50,
-    r: 10,
-    b: 30,
-    t: 30,
-    pad: 0,
-  },
-  height: 500,
-  legend: {
-    orientation: 'v',
-    traceorder: 'normal',
-  },
-};
-
-const plotlySharedConfig = {
-  displaylogo: false,
-  responsive: true,
-};
+import {
+  selectVisualizationConfig,
+  change as changeVisualizationConfig,
+} from '../../slices/viualization_config_slice';
+import { getVisType } from '../../../visualizations/charts/vis_types';
+import { Visualization } from '../../../visualizations/visualization';
 
 interface IWorkSpacePanel {
   curVisId: string;
@@ -44,127 +21,66 @@ interface IWorkSpacePanel {
   visualizations: any;
 }
 
+const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line'];
+
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
-  const { visualizationConfigs } = useContext(TabContext);
+  const { tabId, dispatch } = useContext(TabContext);
+  const [savePanelName, setSavePanelName] = useState<string>('');
+  const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
+
+  const handleDispatch = useCallback(
+    (evtData) => {
+      dispatch(
+        changeVisualizationConfig({
+          tabId,
+          data: {
+            ...evtData,
+          },
+        })
+      );
+    },
+    [dispatch, tabId]
+  );
 
   const memorizedVisualizationTypes = useMemo(() => {
-    return [
-      {
-        id: 'bar',
-        label: 'Bar',
-        fullLabel: 'Bar',
-        icon: LensIconChartBar,
-        visualizationId: uniqueId('vis-bar-'),
-        selection: {
-          dataLoss: 'nothing',
-        },
-        chart:
-          !visualizations || !visualizations.data ? (
-            <EmptyPlaceholder icon={LensIconChartBar} />
-          ) : (
-            <Bar
-              visualizations={visualizations}
-              barConfig={{
-                ...plotlySharedConfig,
-                ...visualizationConfigs?.config,
-              }}
-              layoutConfig={{
-                ...plotlySharedlayout,
-                ...visualizationConfigs?.layout,
-              }}
-            />
-          ),
-      },
-      {
-        id: 'horizontal_bar',
-        label: 'H. Bar',
-        fullLabel: 'H. Bar',
-        icon: LensIconChartBarHorizontal,
-        visualizationId: uniqueId('vis-horizontal-bar-'),
-        selection: {
-          dataLoss: 'nothing',
-        },
-        chart:
-          !visualizations || !visualizations.data ? (
-            <EmptyPlaceholder icon={LensIconChartBarHorizontal} />
-          ) : (
-            <HorizontalBar
-              visualizations={visualizations}
-              horizontalConfig={{
-                ...plotlySharedConfig,
-                ...visualizationConfigs?.config,
-              }}
-              layoutConfig={{
-                ...plotlySharedlayout,
-                ...visualizationConfigs?.layout,
-              }}
-            />
-          ),
-      },
-      {
-        id: 'line',
-        label: 'Line',
-        fullLabel: 'Line',
-        icon: LensIconChartLine,
-        visualizationId: uniqueId('vis-line-'),
-        selection: {
-          dataLoss: 'nothing',
-        },
-        chart:
-          !visualizations || !visualizations.data ? (
-            <EmptyPlaceholder icon={LensIconChartLine} />
-          ) : (
-            <Line
-              visualizations={visualizations}
-              lineConfig={{
-                ...plotlySharedConfig,
-                ...visualizationConfigs?.config,
-              }}
-              layoutConfig={{
-                ...plotlySharedlayout,
-                ...visualizationConfigs?.layout,
-              }}
-            />
-          ),
-      },
-    ];
-  }, [visualizations, visualizationConfigs]);
-
-  const [savePanelName, setSavePanelName] = useState<string>('');
-
-  function onDrop() {}
-
-  const getCurChart = () => {
-    return find(memorizedVisualizationTypes, (v) => {
-      return v.id === curVisId;
+    return ENABLED_VIS_TYPES.map((vis: any) => {
+      const visDefinition = getVisType(vis);
+      const subTypes = visDefinition.subTypes;
+      return {
+        ...subTypes[vis],
+        chart: visDefinition.component,
+      };
     });
-  };
+  }, []);
 
-  function renderVisualization() {
-    return getCurChart()?.chart;
-  }
+  const getVisDefById = useCallback(
+    (visId) => {
+      return find(memorizedVisualizationTypes, (v) => {
+        return v.id === visId;
+      });
+    },
+    [memorizedVisualizationTypes]
+  );
+
+  const VisualizationPanel = useMemo(() => {
+    const visDef = getVisDefById(curVisId);
+    visDef.dispatch = handleDispatch;
+    return <Visualization vis={visDef} visData={visualizations} />;
+  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
 
   return (
     <WorkspacePanelWrapper
       title={''}
       emptyExpression={true}
       setVis={setCurVisId}
-      vis={getCurChart()}
+      vis={getVisDefById(curVisId)}
       visualizationTypes={memorizedVisualizationTypes}
       handleSavePanelNameChange={(name: string) => {
         setSavePanelName(name);
       }}
       savePanelName={savePanelName}
     >
-      <DragDrop
-        className="lnsWorkspacePanel__dragDrop"
-        data-test-subj="lnsWorkspace"
-        draggable={false}
-        droppable={false}
-        onDrop={onDrop}
-      >
-        <div>{renderVisualization()}</div>
-      </DragDrop>
+      {VisualizationPanel}
     </WorkspacePanelWrapper>
   );
 }

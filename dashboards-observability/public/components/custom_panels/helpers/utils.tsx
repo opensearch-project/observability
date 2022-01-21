@@ -8,16 +8,16 @@ import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
 import { Moment } from 'moment-timezone';
+import React from 'react';
+import { Layout } from 'react-grid-layout';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
-import React from 'react';
-import { Bar } from '../../visualizations/charts/bar';
+import { Bar } from '../../visualizations/charts/bar/bar';
 import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
-import { Line } from '../../visualizations/charts/line';
+import { Line } from '../../visualizations/charts/lines/line';
 import { CoreStart } from '../../../../../../src/core/public';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
-import { Layout } from 'react-grid-layout';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -57,10 +57,10 @@ export const mergeLayoutAndVisualizations = (
   newVisualizationList: VisualizationType[],
   setPanelVisualizations: (value: React.SetStateAction<VisualizationType[]>) => void
 ) => {
-  let newPanelVisualizations: VisualizationType[] = [];
+  const newPanelVisualizations: VisualizationType[] = [];
 
-  for (var i = 0; i < newVisualizationList.length; i++) {
-    for (var j = 0; j < layout.length; j++) {
+  for (let i = 0; i < newVisualizationList.length; i++) {
+    for (let j = 0; j < layout.length; j++) {
       if (newVisualizationList[i].id == layout[j].i) {
         newPanelVisualizations.push({
           ...newVisualizationList[i],
@@ -103,7 +103,7 @@ const queryAccumulator = (
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
 
-//PPL Service requestor
+// PPL Service requestor
 const pplServiceRequestor = async (
   pplService: PPLService,
   finalQuery: string,
@@ -127,7 +127,7 @@ const pplServiceRequestor = async (
     });
 };
 
-//Fetched Saved Visualization By Id
+// Fetched Saved Visualization By Id
 const fetchVisualizationById = async (
   http: CoreStart['http'],
   savedVisualizationId: string,

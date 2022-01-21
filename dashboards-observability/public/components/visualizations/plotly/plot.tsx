@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-dist';
 import { uiSettingsService } from '../../../../common/utils';
@@ -16,6 +16,7 @@ interface PltProps {
   onUnhoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   onClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   height?: string;
+  dispatch?: (props: any) => void;
 }
 
 export function Plt(props: PltProps) {
@@ -57,14 +58,32 @@ export function Plt(props: PltProps) {
       zeroline: false,
       rangemode: 'normal',
     },
-    ...props.layout,
     ...darkLayout,
+    ...props.layout,
   };
 
   const finalConfig = {
     displayModeBar: false,
     ...props.config,
   };
+
+  useEffect(() => {
+    if (props.dispatch) {
+      // props.dispatch({
+      //   // layout: { ...finalLayout },
+      //   // config: { ...finalConfig },
+      //   data: [...props.data],
+      // });
+    }
+    console.log(
+      'props.data: ',
+      props.data,
+      ', finalConfig: ',
+      finalConfig,
+      ', finalLayout: ',
+      finalLayout
+    );
+  }, []);
 
   return (
     <PlotComponent

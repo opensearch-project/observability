@@ -3,15 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useContext, useState } from 'react';
-import hjson from 'hjson';
+import React, { useState, useEffect } from 'react';
 import { EuiFlexGroup, EuiFlexItem, EuiButton } from '@elastic/eui';
 import { PlotlyVizEditor } from '../../shared_components/plotly_viz_editor';
-import { TabContext } from '../../../hooks';
 
-export const ConfigEditor = ({ spec, setVizConfigObj }: any) => {
-  const { tabId, dispatch, changeVisualizationConfig, setToast } = useContext(TabContext);
+export const ConfigEditor = ({ spec, onConfigUpdate, setToast }: any) => {
   const [hjsonConfig, setHjsonConfig] = useState(spec);
+
+  useEffect(() => {
+    setHjsonConfig(spec);
+  }, [spec]);
 
   return (
     <>
@@ -23,7 +24,11 @@ export const ConfigEditor = ({ spec, setVizConfigObj }: any) => {
         responsive={false}
       >
         <EuiFlexItem className="visEditorSidebar__formWrapper">
-          <PlotlyVizEditor spec={hjsonConfig} setVizConfig={setHjsonConfig} setToast={setToast} />
+          <PlotlyVizEditor
+            spec={hjsonConfig}
+            onVizConfigChange={setHjsonConfig}
+            setToast={setToast}
+          />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <div className="visEditorSidebar__controls">
@@ -35,21 +40,7 @@ export const ConfigEditor = ({ spec, setVizConfigObj }: any) => {
                   fill
                   iconType="play"
                   onClick={() => {
-                    try {
-                      dispatch(
-                        changeVisualizationConfig({
-                          tabId,
-                          data: {
-                            ...hjson.parse(hjsonConfig),
-                          },
-                        })
-                      );
-                    } catch (e) {
-                      setToast(
-                        `Invalid visualization configurations. error: ${e.message}`,
-                        'danger'
-                      );
-                    }
+                    onConfigUpdate(hjsonConfig);
                   }}
                   size="s"
                 >

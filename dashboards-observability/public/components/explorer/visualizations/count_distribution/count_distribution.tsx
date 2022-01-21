@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LONG_CHART_COLOR } from '../../../../../common/constants/shared';
 import React from 'react';
-import { Bar } from '../../../visualizations/charts/bar';
+import { LONG_CHART_COLOR } from '../../../../../common/constants/shared';
+import { Bar } from '../../../visualizations/charts/bar/bar';
 
 export const CountDistribution = ({ countDistribution }: any) => {
   if (

@@ -39,7 +39,7 @@ import compactStringify from 'json-stringify-pretty-compact';
 import hjson from 'hjson';
 import 'brace/mode/hjson';
 import { i18n } from '@osd/i18n';
-import { VegaActionsMenu } from './plotly_actions';
+import { PlotlyEditorActionsMenu } from './plotly_actions';
 
 // import { VisOptionsProps } from 'src/plugins/vis_default_editor/public';
 // import { getNotifications } from '../services';
@@ -81,7 +81,7 @@ function format(
   }
 }
 
-function PlotlyVizEditor({ spec, setVizConfig, setToast }: any) {
+function PlotlyVizEditor({ spec, onVizConfigChange, setToast }: any) {
   // const onChange = useCallback(
   //   (value: string) => {
   //     setValue('spec', value);
@@ -95,8 +95,8 @@ function PlotlyVizEditor({ spec, setVizConfig, setToast }: any) {
   // );
 
   const formatHJson = useCallback(
-    () => setVizConfig(format(spec, hjson.stringify, hjsonStringifyOptions)),
-    [setVizConfig, spec]
+    () => onVizConfigChange(format(spec, hjson.stringify, hjsonStringifyOptions)),
+    [onVizConfigChange, spec]
   );
 
   const format = (
@@ -124,15 +124,14 @@ function PlotlyVizEditor({ spec, setVizConfig, setToast }: any) {
         width="100%"
         height="auto"
         onChange={(config) => {
-          console.log('parsed viz config: ', config);
-          setVizConfig(config);
+          onVizConfigChange(config);
         }}
         value={spec}
         setOptions={aceOptions}
         isReadOnly={false}
       />
       <div className="vgaEditor__aceEditorActions">
-        <VegaActionsMenu formatHJson={formatHJson} />
+        <PlotlyEditorActionsMenu formatHJson={formatHJson} />
       </div>
     </div>
   );

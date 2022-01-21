@@ -25,7 +25,6 @@ export function WorkspacePanelWrapper({
   vis,
   visualizationTypes,
 }: any) {
-
   return (
     <>
       <div>
@@ -40,9 +39,9 @@ export function WorkspacePanelWrapper({
           <EuiFlexItem grow={false}>
             <ChartSwitch
               data-test-subj="lnsChartSwitcher"
-              setVis={ setVis }
-              vis={ vis }
-              visualizationTypes={ visualizationTypes }
+              setVis={setVis}
+              vis={vis}
+              visualizationTypes={visualizationTypes}
             />
           </EuiFlexItem>
         </EuiFlexGroup>

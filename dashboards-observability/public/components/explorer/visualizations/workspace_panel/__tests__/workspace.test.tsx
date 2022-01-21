@@ -9,26 +9,26 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { ChartSwitch } from '../chart_switch';
-import { Bar } from '../../../../visualizations/charts/bar';
-import { HorizontalBar } from '../../../../visualizations/charts/horizontal_bar'
-import { Line } from '../../../../visualizations/charts/line';
-import { LensIconChartBar } from '../../assets/chart_bar';
-import { LensIconChartBarHorizontal } from '../../assets/chart_bar_horizontal';
-import { LensIconChartLine } from '../../assets/chart_line';
-import { 
+import { Bar } from '../../../../visualizations/charts/bar/bar';
+import { HorizontalBar } from '../../../../visualizations/charts/horizontal_bar';
+import { Line } from '../../../../visualizations/charts/lines/line';
+import { LensIconChartBar } from '../../../../visualizations/assets/chart_bar';
+import { LensIconChartBarHorizontal } from '../../../../visualizations/assets/chart_bar_horizontal';
+import { LensIconChartLine } from '../../../../visualizations/assets/chart_line';
+import {
   VISUALIZATION_TYPES,
-  SAMPLE_VISUALIZATIONS
+  SAMPLE_VISUALIZATIONS,
 } from '../../../../../../test/event_analytics_constants';
 import { WorkspacePanel } from '../workspace_panel';
 import { WorkspacePanelWrapper } from '../workspace_panel_wrapper';
 
 const attachVisualizationComponents = () => {
-  VISUALIZATION_TYPES[0]['chart'] = () => <Bar />;
-  VISUALIZATION_TYPES[0]['icon'] = () => <LensIconChartBar />; 
-  VISUALIZATION_TYPES[1]['chart'] = () => <HorizontalBar />;
-  VISUALIZATION_TYPES[1]['icon'] = () => <LensIconChartBarHorizontal />;
-  VISUALIZATION_TYPES[2]['chart'] = () => <Line />;
-  VISUALIZATION_TYPES[2]['icon'] = () => <LensIconChartLine />;
+  VISUALIZATION_TYPES[0].chart = () => <Bar />;
+  VISUALIZATION_TYPES[0].icon = () => <LensIconChartBar />;
+  VISUALIZATION_TYPES[1].chart = () => <HorizontalBar />;
+  VISUALIZATION_TYPES[1].icon = () => <LensIconChartBarHorizontal />;
+  VISUALIZATION_TYPES[2].chart = () => <Line />;
+  VISUALIZATION_TYPES[2].icon = () => <LensIconChartLine />;
 };
 
 describe('Visualization chart switch components', () => {
@@ -38,7 +38,6 @@ describe('Visualization chart switch components', () => {
   });
 
   it('Renders workspace with bar component', async () => {
-    
     const setVis = jest.fn();
     const wrapper = mount(
       <ChartSwitch
@@ -47,7 +46,7 @@ describe('Visualization chart switch components', () => {
         visualizationTypes={VISUALIZATION_TYPES}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {
@@ -56,7 +55,6 @@ describe('Visualization chart switch components', () => {
   });
 
   it('Renders workspace with horionzontal bar component', async () => {
-    
     const setVis = jest.fn();
     const wrapper = mount(
       <ChartSwitch
@@ -65,7 +63,7 @@ describe('Visualization chart switch components', () => {
         visualizationTypes={VISUALIZATION_TYPES}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {
@@ -74,7 +72,6 @@ describe('Visualization chart switch components', () => {
   });
 
   it('Renders workspace with line bar component', async () => {
-    
     const setVis = jest.fn();
     const wrapper = mount(
       <ChartSwitch
@@ -83,7 +80,7 @@ describe('Visualization chart switch components', () => {
         visualizationTypes={VISUALIZATION_TYPES}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {
@@ -94,7 +91,6 @@ describe('Visualization chart switch components', () => {
 
 describe('Visualization workspace panel', () => {
   it('Renders workspace panel', async () => {
-
     const setCurVisId = jest.fn();
 
     const wrapper = mount(
@@ -104,7 +100,7 @@ describe('Visualization workspace panel', () => {
         visualizations={SAMPLE_VISUALIZATIONS}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {
@@ -115,7 +111,6 @@ describe('Visualization workspace panel', () => {
 
 describe('Visualization workspace panel wrapper', () => {
   it('Renders workspace panel wrapper', async () => {
-
     const setVis = jest.fn();
 
     const wrapper = mount(
@@ -127,7 +122,7 @@ describe('Visualization workspace panel wrapper', () => {
         emptyExpression={true}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {

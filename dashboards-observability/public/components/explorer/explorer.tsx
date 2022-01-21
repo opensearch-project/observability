@@ -95,7 +95,6 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  const visualizationConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -863,7 +862,14 @@ export const Explorer = ({
 
   return (
     <TabContext.Provider
-      value={{ tabId, dispatch, changeVisualizationConfig, visualizationConfigs, setToast }}
+      value={{
+        tabId,
+        curVisId,
+        dispatch,
+        changeVisualizationConfig,
+        explorerVisualizations,
+        setToast,
+      }}
     >
       <div className="dscAppContainer">
         <Search

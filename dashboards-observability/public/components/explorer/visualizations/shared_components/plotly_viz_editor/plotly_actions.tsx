@@ -33,14 +33,13 @@
 import React, { useState, useCallback } from 'react';
 import { EuiButtonIcon, EuiContextMenuPanel, EuiContextMenuItem, EuiPopover } from '@elastic/eui';
 import { FormattedMessage } from '@osd/i18n/react';
-import { i18n } from '@osd/i18n';
 
-interface VegaActionsMenuProps {
+interface PlotlyEditorActionsMenuProps {
   formatHJson(): void;
   // formatJson(): void;
 }
 
-function VegaActionsMenu({ formatHJson }: VegaActionsMenuProps) {
+function PlotlyEditorActionsMenu({ formatHJson }: PlotlyEditorActionsMenuProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const onButtonClick = useCallback(() => setIsPopoverOpen((isOpen) => !isOpen), []);
@@ -56,15 +55,7 @@ function VegaActionsMenu({ formatHJson }: VegaActionsMenuProps) {
 
   const closePopover = useCallback(() => setIsPopoverOpen(false), []);
 
-  const button = (
-    <EuiButtonIcon
-      iconType="wrench"
-      onClick={onButtonClick}
-      aria-label={i18n.translate('visTypeVega.editor.vegaEditorOptionsButtonAriaLabel', {
-        defaultMessage: 'Vega editor options',
-      })}
-    />
-  );
+  const button = <EuiButtonIcon iconType="wrench" onClick={onButtonClick} />;
 
   const items = [
     <EuiContextMenuItem key="hjson" onClick={onHJsonCLick}>
@@ -95,4 +86,4 @@ function VegaActionsMenu({ formatHJson }: VegaActionsMenuProps) {
   );
 }
 
-export { VegaActionsMenu };
+export { PlotlyEditorActionsMenu };
