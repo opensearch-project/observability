@@ -24,6 +24,7 @@ import org.opensearch.common.unit.TimeValue
 import org.opensearch.common.xcontent.LoggingDeprecationHandler
 import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.index.IndexNotFoundException
 import org.opensearch.index.query.QueryBuilders
 import org.opensearch.index.reindex.ReindexAction
 import org.opensearch.index.reindex.ReindexRequestBuilder
@@ -130,7 +131,7 @@ internal object ObservabilityIndex {
                 throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
         } catch (exception: IndexNotFoundException) {
-            log.warn("$LOG_PREFIX:IndexNotFoundException:", exception)
+            log.error("$LOG_PREFIX:IndexNotFoundException:", exception)
         } catch (exception: Exception) {
             log.error("$LOG_PREFIX:Uncaught Exception:", exception)
         }   
