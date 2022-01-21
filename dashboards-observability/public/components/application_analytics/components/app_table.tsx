@@ -29,7 +29,6 @@ import {
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { AppAnalyticsComponentDeps } from '../home';
-import { getClearModal } from '../helpers/modal_containers';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles } from '../../../../common/constants/shared';
