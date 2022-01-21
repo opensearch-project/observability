@@ -120,7 +120,7 @@ internal object ObservabilityIndex {
         val classLoader = ObservabilityIndex::class.java.classLoader
         val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
         val request = PutMappingRequest(INDEX_NAME)
-            .type("doc")
+            .type("_doc")
             .source(indexMappingSource, XContentType.YAML)
         try {
             val actionFuture = client.admin().indices().putMapping(request)

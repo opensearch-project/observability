@@ -168,7 +168,6 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
             exception.response
         }
         if (expectedRestStatus != null) {
-            assertEquals(expectedRestStatus, response)
             assertEquals(expectedRestStatus, response.statusLine.statusCode)
         }
         val responseBody = getResponseBody(response)
