@@ -31,7 +31,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { pageStyles } from '../../../../common/constants/shared';
-import { ApplicationListType } from '../../../../common/constants/application_analytics';
+import { ApplicationListType } from '../../../../common/types/app_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;

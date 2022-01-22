@@ -10,7 +10,8 @@ import {
   ResponseError,
   ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
-import { APP_ANALYTICS_API_PREFIX as API_PREFIX, ApplicationListType } from '../../../common/constants/application_analytics';
+import { APP_ANALYTICS_API_PREFIX as API_PREFIX } from '../../../common/constants/application_analytics';
+import { ApplicationListType } from '../../../common/types/app_analytics';
 import { AppAnalyticsAdaptor } from '../../../server/adaptors/application_analytics/app_analytics_adaptor';
 
 export function registerAppAnalyticsRouter(router: IRouter) {
