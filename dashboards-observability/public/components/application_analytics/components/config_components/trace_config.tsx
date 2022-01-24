@@ -75,6 +75,8 @@ export const TraceConfig = (props: TraceConfigProps) => {
         addedFilter.operator === filter.operator &&
         addedFilter.value === filter.value
       ) {
+        const removed = filters.filter(fil => fil.field !== addedFilter.field);
+        setFilters(removed);
         return;
       }
     }
