@@ -5,7 +5,7 @@
 
 import dateMath from '@elastic/datemath';
 import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiOverlayMask, EuiSpacer, EuiText } from "@elastic/eui";
-import { optionType } from "common/constants/application_analytics";
+import { optionType } from "../../../../../common/types/app_analytics";
 import { filtersToDsl } from "../../../trace_analytics/components/common/helper_functions";
 import { handleDashboardRequest } from "../../../trace_analytics/requests/dashboard_request_handler";
 import DSLService from "public/services/requests/dsl";
@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
 import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
-import { getClearModal } from '../helpers/modal_containers';
+import { getClearModal } from '../../helpers/modal_containers';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;

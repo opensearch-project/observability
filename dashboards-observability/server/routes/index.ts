@@ -18,6 +18,7 @@ import { registerVizRoute } from './notebooks/vizRouter';
 import QueryService from '../services/queryService';
 import { registerSqlRoute } from './notebooks/sqlRouter';
 import { registerEventAnalyticsRouter } from './event_analytics/event_analytics_router';
+import { registerAppAnalyticsRouter } from './application_analytics/app_analytics_router';
 
 
 export function setupRoutes({ router, client }: { router: IRouter; client: ILegacyClusterClient }) {
@@ -26,6 +27,7 @@ export function setupRoutes({ router, client }: { router: IRouter; client: ILega
   registerPplRoute({ router, facet: new PPLFacet(client) });
   registerDslRoute({ router, facet: new DSLFacet(client)});
   registerEventAnalyticsRouter({ router, savedObjectFacet: new SavedObjectFacet(client) });
+  registerAppAnalyticsRouter(router);
   
   // TODO remove trace analytics route when DSL route for autocomplete is added
   registerTraceAnalyticsDslRouter(router);

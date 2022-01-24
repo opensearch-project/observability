@@ -9,7 +9,7 @@ import { Autocomplete } from "../../../common/search/autocomplete";
 import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
-import{ getClearModal } from "../helpers/modal_containers";
+import{ getClearModal } from "../../helpers/modal_containers";
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
