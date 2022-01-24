@@ -77,7 +77,7 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
                 }
             }
             objectId ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
-            type ?: throw IllegalArgumentException("Object data field absent")
+            type ?: throw IllegalArgumentException("Object type field absent")
             baseObjectData ?: throw IllegalArgumentException("Object data field absent")
             return UpdateObservabilityObjectRequest(baseObjectData, type, objectId)
         }

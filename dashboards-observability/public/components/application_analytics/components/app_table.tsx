@@ -12,6 +12,7 @@ import {
     EuiHorizontalRule,
     EuiInMemoryTable,
     EuiLink,
+    EuiOverlayMask,
     EuiPage,
     EuiPageBody,
     EuiPageContent,
@@ -27,20 +28,27 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { AppAnalyticsComponentDeps, ApplicationType } from '../home';
+import { AppAnalyticsComponentDeps } from '../home';
+import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { pageStyles } from '../../../../common/constants/shared';
+import { ApplicationListType } from '../../../../common/types/app_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
-    applications: Array<ApplicationType>;
+    applications: Array<ApplicationListType>;
+    fetchApplications: () => void;
+    renameApplication: (newAppName: string, appId: string) => void;
   };
 
 export function AppTable(props: AppTableProps) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const { applications, parentBreadcrumb } = props;
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const { chrome, applications, parentBreadcrumb, fetchApplications, renameApplication } = props;
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs(
+    chrome.setBreadcrumbs(
       [
       parentBreadcrumb,
       {
@@ -48,7 +56,36 @@ export function AppTable(props: AppTableProps) {
         href: '#/application_analytics',
       }
     ]);
-  })
+    fetchApplications();
+  }, []);
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const onRename = async (newApplicationName: string) => {
+    renameApplication(newApplicationName, selectedApplications[0].id);
+    closeModal();
+  };
+
+  const renameApp = () => {
+    setModalLayout(
+      getCustomModal(
+        onRename,
+        closeModal,
+        'Name',
+        'Rename Application',
+        'Cancel',
+        'Rename',
+        selectedApplications[0].name
+      )
+    );
+    showModal();
+  };
 
   const popoverButton = (
     <EuiButton
@@ -63,25 +100,28 @@ export function AppTable(props: AppTableProps) {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="rename"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length !== 1}
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        renameApp();
+      }}
     >
       Rename
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="duplicate"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length !== 1}
     >
       Duplicate
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
-      disabled={applications.length === 0}
+      disabled={applications.length === 0 || selectedApplications.length === 0}
     >
       Delete
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="addSample"
-      disabled={applications.length === 0}
     >
       Add sample application
     </EuiContextMenuItem>,
@@ -94,36 +134,10 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/id`}>{_.truncate(value, { length: 100 })}</EuiLink>
+        <EuiLink href={`#/application_analytics/${record.id}`}>{_.truncate(record.name, { length: 100 })}</EuiLink>
       ),
-    },
-    {
-      field: 'composition',
-      name: 'Composition',
-      sortable: true,
-      truncateText: true,
-    },
-    {
-      field: 'currentAvailability',
-      name: 'Current Availability',
-      sortable: true,
-      truncateText: true,
-    },
-    {
-        field: 'availabilityMetrics',
-        name: 'Availability Metrics',
-        sortable: true,
-        truncateText: true,
-      },
-  ] as Array<
-    EuiTableFieldDataColumnType<{
-      name: string;
-      id: string;
-      composition: string;
-      currentAvailability: string;
-      availabilityMetrics: string;
-    }>
-  >;
+    }
+  ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 
   return (
     <div style={pageStyles}>
@@ -190,6 +204,9 @@ export function AppTable(props: AppTableProps) {
                 }}
                 allowNeutralSort={false}
                 isSelectable={true}
+                selection={{
+                  onSelectionChange: (items) => setSelectedApplications(items),
+                }}
               />
             ) : (
               <>
@@ -216,6 +233,7 @@ export function AppTable(props: AppTableProps) {
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
+      {isModalVisible && modalLayout}
     </div>
   );
 }

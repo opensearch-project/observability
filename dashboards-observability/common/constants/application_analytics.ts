@@ -14,6 +14,4 @@ export const TAB_TRACE_TITLE = 'Traces & Spans';
 export const TAB_LOG_TITLE = 'Log Events';
 export const TAB_CONFIG_TITLE = 'Configuration';
 
-export interface optionType {
-  label: string;
-}
+export const APP_ANALYTICS_API_PREFIX = '/api/observability/application'
