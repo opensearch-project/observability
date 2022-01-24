@@ -14,12 +14,12 @@ exports[`Services component renders empty services page 1`] = `
                 "text": "test",
               },
               Object {
-                "href": "#/trace_analytics/home",
-                "text": "Trace analytics",
+                "href": "#/application_analytics",
+                "text": "Application analytics",
               },
               Object {
-                "href": "#/trace_analytics/services",
-                "text": "Services",
+                "href": "#/application_analytics/undefined",
+                "text": "undefined",
               },
             ],
           ],
@@ -37,6 +37,7 @@ exports[`Services component renders empty services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="app"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -64,24 +65,17 @@ exports[`Services component renders empty services page 1`] = `
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >
-  <EuiTitle
-    size="l"
+  <EuiSpacer
+    size="m"
   >
-    <h2
-      className="euiTitle euiTitle--large"
-      style={
-        Object {
-          "fontWeight": 430,
-        }
-      }
-    >
-      Services
-    </h2>
-  </EuiTitle>
+    <div
+      className="euiSpacer euiSpacer--m"
+    />
+  </EuiSpacer>
   <SearchBar
     endTime="now"
     filters={Array []}
-    page="services"
+    page="app"
     query=""
     refresh={[Function]}
     setEndTime={[MockFunction]}
@@ -682,7 +676,7 @@ exports[`Services component renders empty services page 1`] = `
     </EuiSpacer>
     <Filters
       filters={Array []}
-      page="services"
+      page="app"
       setFilters={
         [MockFunction] {
           "calls": Array [
@@ -1133,12 +1127,12 @@ exports[`Services component renders services page 1`] = `
                 "text": "test",
               },
               Object {
-                "href": "#/trace_analytics/home",
-                "text": "Trace analytics",
+                "href": "#/application_analytics",
+                "text": "Application analytics",
               },
               Object {
-                "href": "#/trace_analytics/services",
-                "text": "Services",
+                "href": "#/application_analytics/undefined",
+                "text": "undefined",
               },
             ],
           ],
@@ -1156,6 +1150,7 @@ exports[`Services component renders services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="app"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -1183,24 +1178,17 @@ exports[`Services component renders services page 1`] = `
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >
-  <EuiTitle
-    size="l"
+  <EuiSpacer
+    size="m"
   >
-    <h2
-      className="euiTitle euiTitle--large"
-      style={
-        Object {
-          "fontWeight": 430,
-        }
-      }
-    >
-      Services
-    </h2>
-  </EuiTitle>
+    <div
+      className="euiSpacer euiSpacer--m"
+    />
+  </EuiSpacer>
   <SearchBar
     endTime="now"
     filters={Array []}
-    page="services"
+    page="app"
     query=""
     refresh={[Function]}
     setEndTime={[MockFunction]}
@@ -1819,7 +1807,7 @@ exports[`Services component renders services page 1`] = `
     </EuiSpacer>
     <Filters
       filters={Array []}
-      page="services"
+      page="app"
       setFilters={
         [MockFunction] {
           "calls": Array [
