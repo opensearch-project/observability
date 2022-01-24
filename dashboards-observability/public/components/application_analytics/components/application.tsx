@@ -73,7 +73,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
 }
 
 export function Application(props: AppDetailProps) {
-  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
   const [application, setApplication] = useState<ApplicationType>();
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
@@ -86,6 +86,25 @@ export function Application(props: AppDetailProps) {
       .get(`${APP_ANALYTICS_API_PREFIX}/${appId}`)
       .then((res) => {
         setApplication(res.application);
+        const serviceFilters = res.application.servicesEntities.map((ser: string) => {
+          return {
+            field: 'serviceName',
+            operator: 'is',
+            value: ser,
+            inverted: false,
+            disabled: false
+          }
+        })
+        const traceFilters = res.application.traceGroups.map((tra: string) => {
+          return {
+            field: 'traceGroup',
+            operator: 'is',
+            value: tra,
+            inverted: false,
+            disabled: false
+          }
+        })
+        setFilters([...serviceFilters, ...traceFilters]);
       })
       .catch((err) => {
         setToast('Error occurred while fetching application', 'danger');
