@@ -63,8 +63,13 @@ export class AppAnalyticsAdaptor {
     const updateApplicationBody = {
       name: name,
     };
-    try { 
-      const response = await this.updateApp(client, appId, updateApplicationBody);
+    try {
+      const response = await client.callAsCurrentUser('observability.updateObjectById', {
+        objectId: appId,
+        body: {
+          application: updateApplicationBody,
+        }
+      })
       return response.objectId;
     } catch (err: any) {
       throw new Error('Rename Application Error: ' + err);
@@ -86,7 +91,23 @@ export class AppAnalyticsAdaptor {
       });
       return response;
     } catch (err: any) {
-      throw new Error('Update Panel Error: ' + err)
+      throw new Error('Update Panel Error: ' + err);
     }
   }
+
+  // Delete existing applications
+  deleteApp = async (
+    client: ILegacyScopedClusterClient, 
+    appList: string, 
+  ) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.deleteObjectByIdList', {
+        objectIdList: appList,
+      });
+      return { status: 'OK', message: response };
+    } catch (err: any) {
+      throw new Error('Delete Application Error: ' + err);
+    }
+  }
+
 }
