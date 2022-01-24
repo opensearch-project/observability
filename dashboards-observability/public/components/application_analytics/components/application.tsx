@@ -272,6 +272,9 @@ export function Application(props: AppDetailProps) {
             <EuiTitle size="l">
               <h1>{application?.name}</h1>
             </EuiTitle>
+            <EuiText>
+              <p>{application?.description}</p>
+            </EuiText>
           </EuiPageHeaderSection>
         </EuiPageHeader>
         <EuiTabbedContent
