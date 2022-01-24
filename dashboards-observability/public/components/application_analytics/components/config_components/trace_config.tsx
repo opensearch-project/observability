@@ -75,8 +75,8 @@ export const TraceConfig = (props: TraceConfigProps) => {
         addedFilter.operator === filter.operator &&
         addedFilter.value === filter.value
       ) {
-        const removeFilter = filters.filter(fil => fil.field != addedFilter.field);
-        setFilters(removeFilter);
+        const removed = filters.filter(fil => fil.field !== addedFilter.field);
+        setFilters(removed);
         return;
       }
     }
@@ -127,9 +127,9 @@ export const TraceConfig = (props: TraceConfigProps) => {
 
   const addPercentileFilter = (condition = 'gte', additionalFilters = [] as FilterType[]) => {
     if (traceItems.length === 0 || Object.keys(percentileMap).length === 0) return;
-    for (let i = 0; i < props.filters.length; i++) {
-      if (props.filters[i].custom) {
-        const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
+    for (let i = 0; i < filters.length; i++) {
+      if (filters[i].custom) {
+        const newFilter = JSON.parse(JSON.stringify(filters[i]));
         newFilter.custom.query.bool.should.forEach((should: any) =>
           should.bool.must.forEach((must: any) => {
             const range = must?.range?.['traceGroupFields.durationInNanos'];
