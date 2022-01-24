@@ -67,7 +67,7 @@ exports[`Service view component renders service view 1`] = `
                 },
               ]
             }
-            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+            dateFormat=""
             end="now"
             isAutoRefreshOnly={false}
             isDisabled={false}

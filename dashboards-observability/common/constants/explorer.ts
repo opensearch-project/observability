@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability-plugins/event-analytics/'
+export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability/event-analytics/'
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';

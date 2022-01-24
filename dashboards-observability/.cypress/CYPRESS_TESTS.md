@@ -102,7 +102,8 @@ The observability plugin currently has 4 modules in it. Each of the modules have
 * Renders input only mode
 * Renders output only mode
 * Duplicates paragraphs
-* Adds a visualization paragraph
+* Adds a dashboards visualization paragraph
+* Adds an observability visualization paragraph
 * Adds a SQL query paragraph
 * Adds a PPL query paragraph
 * Clears outputs

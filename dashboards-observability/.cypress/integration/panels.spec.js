@@ -414,7 +414,7 @@ describe('Add samples and clean up all test data', () => {
 
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
-    cy.get('.euiButtonEmpty__text').contains('Rows per page: 10').click();
+    cy.get('span.euiButtonEmpty__text').contains('Rows per page: 10').click();
     cy.get('.euiContextMenuItem__text').contains('50 rows').click();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
     cy.wait(delay);

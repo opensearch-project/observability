@@ -4,6 +4,7 @@ exports[`Traces component renders empty traces page 1`] = `
 <Traces
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -36,6 +37,7 @@ exports[`Traces component renders empty traces page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="traces"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -198,9 +200,19 @@ exports[`Traces component renders empty traces page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -247,7 +259,7 @@ exports[`Traces component renders empty traces page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -321,7 +333,7 @@ exports[`Traces component renders empty traces page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -382,7 +394,7 @@ exports[`Traces component renders empty traces page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1108,6 +1120,7 @@ exports[`Traces component renders traces page 1`] = `
 <Traces
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -1140,6 +1153,7 @@ exports[`Traces component renders traces page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="traces"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -1306,9 +1320,19 @@ exports[`Traces component renders traces page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -1355,7 +1379,7 @@ exports[`Traces component renders traces page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -1429,7 +1453,7 @@ exports[`Traces component renders traces page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1490,7 +1514,7 @@ exports[`Traces component renders traces page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
