@@ -138,39 +138,38 @@ export function registerAppAnalyticsRouter(router: IRouter) {
     }
   );
 
-// Delete applications
-router.delete(
-  {
-    path: `${API_PREFIX}/{appList}`,
-    validate: {
-      params: schema.object({
-        appList: schema.string(),
-      }),
+  // Delete applications
+  router.delete(
+    {
+      path: `${API_PREFIX}/{appList}`,
+      validate: {
+        params: schema.object({
+          appList: schema.string(),
+        }),
+      },
     },
-  },
-  async (
-    context,
-    request,
-    response
-  ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-    const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
-      request
-    );
-    try {
-      const delResponse = await appAnalyticsBackend.deleteApp(
-        opensearchClient,
-        request.params.appList
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
       );
-      return response.ok({
-        body: delResponse,
-      });
-    } catch (err: any) {
-      return response.custom({
-        statusCode: err.statusCode || 500,
-        body: err.message,
-      });
+      try {
+        const delResponse = await appAnalyticsBackend.deleteApp(
+          opensearchClient,
+          request.params.appList
+        );
+        return response.ok({
+          body: delResponse,
+        });
+      } catch (err: any) {
+        return response.custom({
+          statusCode: err.statusCode || 500,
+          body: err.message,
+        });
+      }
     }
-  }
-);
-
+  );
 }
