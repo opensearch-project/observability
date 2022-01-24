@@ -15,22 +15,3 @@ export const TAB_LOG_TITLE = 'Log Events';
 export const TAB_CONFIG_TITLE = 'Configuration';
 
 export const APP_ANALYTICS_API_PREFIX = '/api/observability/application'
-
-export interface optionType {
-  label: string;
-}
-
-export type ApplicationListType = {
-  name: string;
-  id: string;
-  dateCreated: string;
-  dateModified: string;
-};
-
-export type ApplicationType = {
-  name: string;
-  description: string;
-  query: string;
-  selectedServices: Array<string>;
-  selectedTraces: Array<string>;
-}
