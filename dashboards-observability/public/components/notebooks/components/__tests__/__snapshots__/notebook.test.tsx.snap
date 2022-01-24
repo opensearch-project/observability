@@ -267,14 +267,14 @@ exports[`<Notebook /> spec renders the component 1`] = `
                     class="euiTitle euiTitle--small euiCard__title"
                     id="random_html_idTitle"
                   >
-                    OpenSearch Dashboards visualization
+                    Visualization
                   </span>
                   <div
                     class="euiText euiText--small euiCard__description"
                     id="random_html_idDescription"
                   >
                     <p>
-                      Import OpenSearch Dashboards visualizations to the notes.
+                      Import OpenSearch Dashboards or Observability visualizations to the notes.
                     </p>
                   </div>
                 </div>
@@ -564,14 +564,14 @@ exports[`<Notebook /> spec renders the empty component 1`] = `
                     class="euiTitle euiTitle--small euiCard__title"
                     id="random_html_idTitle"
                   >
-                    OpenSearch Dashboards visualization
+                    Visualization
                   </span>
                   <div
                     class="euiText euiText--small euiCard__description"
                     id="random_html_idDescription"
                   >
                     <p>
-                      Import OpenSearch Dashboards visualizations to the notes.
+                      Import OpenSearch Dashboards or Observability visualizations to the notes.
                     </p>
                   </div>
                 </div>

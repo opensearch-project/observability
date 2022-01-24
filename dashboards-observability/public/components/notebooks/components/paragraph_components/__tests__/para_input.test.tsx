@@ -12,6 +12,18 @@ import { ParaInput } from '../para_input';
 
 describe('<para_input /> spec', () => {
   configure({ adapter: new Adapter() });
+  const visOptions1 = Array.from({ length: 5 }, (v, k) => ({
+    label: `visualization-${k}`,
+    key: `key-${k}`,
+  }));
+  const visOptions2 = Array.from({ length: 5 }, (v, k) => ({
+    label: `visualization-${k}`,
+    key: `key-${k}`,
+  }));
+  const visOptions = [
+    { label: 'VisOptions1', options: visOptions1 },
+    { label: 'VisOptions2', options: visOptions2 },
+  ];
 
   it('renders the markdown component', () => {
     const para = sampleParsedParagraghs1[0];
@@ -21,6 +33,7 @@ describe('<para_input /> spec', () => {
     const setEndTime = jest.fn();
     const setIsOutputStale = jest.fn();
     const setSelectedVisOption = jest.fn();
+    const setVisType = jest.fn();
     const utils = render(
       <ParaInput
         para={para}
@@ -36,6 +49,7 @@ describe('<para_input /> spec', () => {
         visOptions={[]}
         selectedVisOption={[]}
         setSelectedVisOption={setSelectedVisOption}
+        setVisType={setVisType}
       />
     );
     expect(utils.container.firstChild).toMatchSnapshot();
@@ -49,10 +63,7 @@ describe('<para_input /> spec', () => {
     const setEndTime = jest.fn();
     const setIsOutputStale = jest.fn();
     const setSelectedVisOption = jest.fn();
-    const visOptions = Array.from({ length: 5 }, (v, k) => ({
-      label: `visualization-${k}`,
-      key: `key-${k}`,
-    }));
+    const setVisType = jest.fn();
     const utils = render(
       <ParaInput
         para={para}
@@ -66,8 +77,9 @@ describe('<para_input /> spec', () => {
         setEndTime={setEndTime}
         setIsOutputStale={setIsOutputStale}
         visOptions={visOptions}
-        selectedVisOption={[visOptions[0]]}
+        selectedVisOption={[visOptions1[0]]}
         setSelectedVisOption={setSelectedVisOption}
+        setVisType={setVisType}
       />
     );
     expect(utils.container.firstChild).toMatchSnapshot();
@@ -82,6 +94,7 @@ describe('<para_input /> spec', () => {
     const setEndTime = jest.fn();
     const setIsOutputStale = jest.fn();
     const setSelectedVisOption = jest.fn();
+    const setVisType = jest.fn();
     const utils = render(
       <ParaInput
         para={para}
@@ -97,6 +110,7 @@ describe('<para_input /> spec', () => {
         visOptions={[]}
         selectedVisOption={[]}
         setSelectedVisOption={setSelectedVisOption}
+        setVisType={setVisType}
       />
     );
     const textarea = utils.container.querySelectorAll('textarea#editorArea')[0];
@@ -113,10 +127,7 @@ describe('<para_input /> spec', () => {
     const setEndTime = jest.fn();
     const setIsOutputStale = jest.fn();
     const setSelectedVisOption = jest.fn();
-    const visOptions = Array.from({ length: 5 }, (v, k) => ({
-      label: `visualization-${k}`,
-      key: `key-${k}`,
-    }));
+    const setVisType = jest.fn();
     const utils = render(
       <ParaInput
         para={para}
@@ -130,8 +141,9 @@ describe('<para_input /> spec', () => {
         setEndTime={setEndTime}
         setIsOutputStale={setIsOutputStale}
         visOptions={visOptions}
-        selectedVisOption={[visOptions[0]]}
+        selectedVisOption={[visOptions2[0]]}
         setSelectedVisOption={setSelectedVisOption}
+        setVisType={setVisType}
       />
     );
     const datepicker = utils.container.querySelectorAll(

@@ -298,7 +298,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
             <EuiText
               style={
                 Object {
-                  "color": "#444444",
+                  "color": "#808080",
                   "fontSize": "14px",
                   "transform": "rotate(-90deg)",
                 }
@@ -308,7 +308,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
                 className="euiText euiText--medium"
                 style={
                   Object {
-                    "color": "#444444",
+                    "color": "#808080",
                     "fontSize": "14px",
                     "transform": "rotate(-90deg)",
                   }

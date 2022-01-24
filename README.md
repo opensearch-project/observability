@@ -81,6 +81,10 @@ Observability is collection of plugins and applications that let you visualize d
 [bug-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Abug+
 [enhancement-badge]: https://img.shields.io/github/issues/opensearch-project/observability/enhancement.svg
 [enhancement-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement+
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fff303a (updating readme and badges (#352))
 [untriaged-badge]: https://img.shields.io/github/issues/opensearch-project/observability/untriaged.svg
 [untriaged-link]: https://github.com/opensearch-project/observability/issues?q=is%3Aopen+is%3Aissue+label%3Auntriaged+
 [nolabel-badge]: https://img.shields.io/github/issues-search/opensearch-project/observability?color=yellow&label=no%20label%20issues&query=is%3Aopen%20is%3Aissue%20no%3Alabel
@@ -89,6 +93,11 @@ Observability is collection of plugins and applications that let you visualize d
 ## Plugin Components
 
 The Observability plugin has four components: Trace Analytics, Event Analytics, Operational Panels, and Notebooks.
+<<<<<<< HEAD
+=======
+>>>>>>> 154de24 (Rename trace-analytics to observability (#341))
+=======
+>>>>>>> fff303a (updating readme and badges (#352))
 
 ### Trace Analytics
 
@@ -116,7 +125,7 @@ Dashboards offer a solution for a few selected use cases, and are great tools if
 
 ## Documentation
 
-Please see our technical [documentation](https://opensearch.org/docs/latest/observability-plugins/index/) to learn more about its features.
+Please see our technical [documentation](https://opensearch.org/docs/latest/observability/index/) to learn more about its features.
 
 ## Contributing
 

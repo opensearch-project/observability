@@ -32,6 +32,7 @@ describe('Services component', () => {
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={false}
+        page="app"
       />
     );
 
@@ -58,6 +59,7 @@ describe('Services component', () => {
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={true}
+        page="app"
       />
     );
 
