@@ -4,8 +4,6 @@ on: [pull_request, push]
 
 env:
   OPENSEARCH_VERSION: '1.3.0-SNAPSHOT'
-  OPENSEARCH_BRANCH: '1.3'
-  COMMON_UTILS_BRANCH: 'main'
 
 jobs:
   build:
