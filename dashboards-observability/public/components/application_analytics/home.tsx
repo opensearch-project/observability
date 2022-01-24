@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import React, { ReactChild, useEffect, useState } from 'react';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
