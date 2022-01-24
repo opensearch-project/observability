@@ -29,7 +29,7 @@ import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from "./config_components/service_config";
 import { LogConfig } from "./config_components/log_config";
 import { PPLReferenceFlyout } from "../../../components/common/helpers";
-import { optionType } from "../../../../common/constants/application_analytics";
+import { optionType } from "../../../../common/types/app_analytics";
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;

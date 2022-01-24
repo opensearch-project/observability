@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ApplicationType } from "common/constants/application_analytics";
+import { ApplicationType } from "../../../common/types/app_analytics";
 import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
 
 export class AppAnalyticsAdaptor {
@@ -121,5 +121,4 @@ export class AppAnalyticsAdaptor {
       throw new Error('Delete Application Error: ' + err);
     }
   }
-
 }
