@@ -34,7 +34,12 @@ interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
   notifications: NotificationsStart;
 }
 
-export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {}
+export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
+  setQueryWithStorage: (newQuery: string) => void;
+  setFiltersWithStorage: (newFilters: FilterType[]) => void;
+  setStartTimeWithStorage: (newStartTime: string) => void;
+  setEndTimeWithStorage: (newEndTime: string) => void;
+}
 
 export const Home = (props: HomeProps) => {
   const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
@@ -74,13 +79,17 @@ export const Home = (props: HomeProps) => {
     http: http,
     chrome: chrome,
     query,
-    setQuery: setQueryWithStorage,
+    setQuery,
+    setQueryWithStorage,
     filters,
-    setFilters: setFiltersWithStorage,
+    setFilters,
+    setFiltersWithStorage,
     startTime,
-    setStartTime: setStartTimeWithStorage,
+    setStartTime,
+    setStartTimeWithStorage,
     endTime,
-    setEndTime: setEndTimeWithStorage,
+    setEndTime,
+    setEndTimeWithStorage,
     indicesExist,
   };
 
