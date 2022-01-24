@@ -114,7 +114,7 @@ export const Home = (props: HomeProps) => {
   // Create a new application
   const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
     const toast = isNameValid(name);
-    if (toast) {
+    if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
     }
