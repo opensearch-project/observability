@@ -12,8 +12,8 @@ import DSLService from "public/services/requests/dsl";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { AppAnalyticsComponentDeps } from "../../home";
-import { optionType } from "common/constants/application_analytics";
-import { getClearModal } from "../helpers/modal_containers";
+import { optionType } from "../../../../../common/types/app_analytics";
+import { getClearModal } from "../../helpers/modal_containers";
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;

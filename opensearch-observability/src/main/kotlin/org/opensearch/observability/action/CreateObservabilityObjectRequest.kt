@@ -64,8 +64,7 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
                     else -> {
                         val objectTypeForTag = ObservabilityObjectType.fromTagOrDefault(fieldName)
                         if (objectTypeForTag != ObservabilityObjectType.NONE && baseObjectData == null) {
-                            baseObjectData =
-                                ObservabilityObjectDataProperties.createObjectData(objectTypeForTag, parser)
+                            baseObjectData = ObservabilityObjectDataProperties.createObjectData(objectTypeForTag, parser)
                             type = objectTypeForTag
                         } else {
                             parser.skipChildren()
@@ -74,7 +73,7 @@ internal class CreateObservabilityObjectRequest : ActionRequest, ToXContentObjec
                     }
                 }
             }
-            type ?: throw IllegalArgumentException("Object data field absent")
+            type ?: throw IllegalArgumentException("Object type field absent")
             baseObjectData ?: throw IllegalArgumentException("Object data field absent")
             return CreateObservabilityObjectRequest(objectId, type, baseObjectData)
         }
