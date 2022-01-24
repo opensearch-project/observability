@@ -30,14 +30,16 @@ import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
+import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles } from '../../../../common/constants/shared';
-import { ApplicationListType } from '../../../../common/types/app_analytics';
+import { ApplicationListType } from '../../../../common/constants/application_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
     loading: boolean;
     applications: Array<ApplicationListType>;
     fetchApplications: () => void;
     renameApplication: (newAppName: string, appId: string) => void;
+    deleteApplication: (appList: string[], toastMessage?: string) => void;
   };
 
 export function AppTable(props: AppTableProps) {
@@ -45,7 +47,7 @@ export function AppTable(props: AppTableProps) {
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
   const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
-  const { chrome, applications, parentBreadcrumb, fetchApplications, renameApplication } = props;
+  const { chrome, applications, parentBreadcrumb, fetchApplications, renameApplication, deleteApplication } = props;
 
   useEffect(() => {
     chrome.setBreadcrumbs(
@@ -72,16 +74,40 @@ export function AppTable(props: AppTableProps) {
     closeModal();
   };
 
+  const onDelete = async () => {
+    const toastMessage = `Application${
+      selectedApplications.length > 1 ? 's' : ' "' + selectedApplications[0].name + '"'
+    } successfully deleted!`;
+    await deleteApplication(
+      selectedApplications.map((app) => app.id),
+      toastMessage
+    );
+    closeModal();
+  };
+
   const renameApp = () => {
     setModalLayout(
       getCustomModal(
         onRename,
         closeModal,
         'Name',
-        'Rename Application',
+        'Rename application',
         'Cancel',
         'Rename',
         selectedApplications[0].name
+      )
+    );
+    showModal();
+  };
+
+  const deleteApp = () => {
+    const applicationString = `application${selectedApplications.length > 1 ? 's' : ''}`;
+    setModalLayout(
+      getClearModal(
+        closeModal,
+        onDelete,
+        `Delete ${selectedApplications.length} ${applicationString}`,
+        `Are you sure you want to delete the selected ${selectedApplications.length} ${applicationString}?`
       )
     );
     showModal();
@@ -117,6 +143,10 @@ export function AppTable(props: AppTableProps) {
     <EuiContextMenuItem
       key="delete"
       disabled={applications.length === 0 || selectedApplications.length === 0}
+      onClick={() => {
+        setIsActionsPopoverOpen(false);
+        deleteApp();
+      }}
     >
       Delete
     </EuiContextMenuItem>,
