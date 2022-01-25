@@ -38,7 +38,7 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
 
 export const Home = (props: HomeProps) => {
   const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
-  const [applicationData, setApplicationData] = useState<Array<ApplicationListType>>([]);
+  const [applicationList, setApplicationList] = useState<Array<ApplicationListType>>([]);
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
@@ -94,10 +94,10 @@ export const Home = (props: HomeProps) => {
     return http
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then((res) => {
-        setApplicationData(res.data);
+        setApplicationList(res.data);
       })
       .catch((err) => {
-        setToast('Error occured while fetching applications', 'danger');
+        setToast('Error occurred while fetching applications', 'danger');
         console.error(err);
       })
   }
@@ -124,7 +124,9 @@ export const Home = (props: HomeProps) => {
       })
       .then((res) => {
         setToast(`Application "${name}" successfully created!`);
-        window.location.assign(`${parentBreadcrumb.href}${res.newAppId}`)
+        setFiltersWithStorage([]);
+        setQueryWithStorage('');
+        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
       })
       .catch((err) => {
         setToast(`Error occurred while creating new application "${name}"`, 'danger');
@@ -149,8 +151,8 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody)
       })
       .then((res) => {
-        setApplicationData((prevApplicationData) => {
-          const newApplicationData = [...prevApplicationData];
+        setApplicationList((prevApplicationList) => {
+          const newApplicationData = [...prevApplicationList];
           const renamedApplication = newApplicationData.find(
             (application) => application.id === appId
           );
@@ -170,8 +172,8 @@ export const Home = (props: HomeProps) => {
     return http
       .delete(`${APP_ANALYTICS_API_PREFIX}/${appList.join(',')}`)
       .then((res) => {
-        setApplicationData((prevApplicationData) => {
-          return prevApplicationData.filter((app) => !appList.includes(app.id))
+        setApplicationList((prevApplicationList) => {
+          return prevApplicationList.filter((app) => !appList.includes(app.id))
         });
         const message = 
           toastMessage || `Application${appList.length > 1 ? 's' : ''} successfully deleted!`;
@@ -201,7 +203,7 @@ export const Home = (props: HomeProps) => {
             <ObservabilitySideBar>
             <AppTable 
               loading={false}
-              applications={applicationData}
+              applications={applicationList}
               fetchApplications={fetchApps}
               renameApplication={renameApp}
               deleteApplication={deleteApp}
