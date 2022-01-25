@@ -26,8 +26,7 @@ import SavedObjects from 'public/services/saved_objects/event_analytics/saved_ob
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
-import { 
-  ApplicationType,
+import {
   APP_ANALYTICS_API_PREFIX,
   TAB_CONFIG_ID_TXT_PFX, 
   TAB_CONFIG_TITLE, 
@@ -46,6 +45,7 @@ import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
+import { ApplicationType } from 'common/types/app_analytics';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
