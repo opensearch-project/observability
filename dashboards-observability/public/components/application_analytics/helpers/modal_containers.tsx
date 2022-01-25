@@ -8,10 +8,9 @@ import {
   EuiOverlayMask,
   EuiConfirmModal,
 } from '@elastic/eui';
-import { CustomInputModal } from '../../../../public/components/custom_panels/helpers/custom_input_modal';
 
 /* The file contains helper functions for modal layouts
- * getDeleteModal - returns a confirm-modal with clear option
+ * getClearModal - returns a confirm-modal with clear option
  */
 
 export const getClearModal = (

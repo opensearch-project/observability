@@ -22,7 +22,7 @@ interface ServiceConfigProps extends AppAnalyticsComponentDeps {
 }
 
 export const ServiceConfig = (props: ServiceConfigProps) => {
-  const { dslService, filters, setFilters, http, selectedServices, setSelectedServices } = props;
+  const { dslService, filters, setFiltersWithStorage, http, selectedServices, setSelectedServices } = props;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
@@ -50,7 +50,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
       }
     }
     const newFilters = [...filters, filter];
-    setFilters(newFilters);
+    setFiltersWithStorage(newFilters);
   };
 
   const onServiceChange = (selectedServices: any) => {
@@ -64,12 +64,12 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
       }
     })
     const nonServiceFilters = filters.filter((f) => f.field !== 'serviceName');
-    setFilters([...nonServiceFilters, ...serviceFilters]);
+    setFiltersWithStorage([...nonServiceFilters, ...serviceFilters]);
   };
 
   const clearServices = () => {
     const withoutServices = filters.filter((f) => f.field !== 'serviceName')
-    setFilters(withoutServices);
+    setFiltersWithStorage(withoutServices);
   };
 
   const services = Object.keys(serviceMap).map((service) => { return { label: service } });

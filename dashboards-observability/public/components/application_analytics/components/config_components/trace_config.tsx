@@ -22,7 +22,7 @@ interface TraceConfigProps extends AppAnalyticsComponentDeps {
 }
 
 export const TraceConfig = (props: TraceConfigProps) => {
-  const { dslService, query, filters, setFilters, http, startTime, endTime, selectedTraces, setSelectedTraces } = props;
+  const { dslService, query, filters, setFiltersWithStorage, http, startTime, endTime, selectedTraces, setSelectedTraces } = props;
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
@@ -76,12 +76,12 @@ export const TraceConfig = (props: TraceConfigProps) => {
         addedFilter.value === filter.value
       ) {
         const removed = filters.filter(fil => fil.field !== addedFilter.field);
-        setFilters(removed);
+        setFiltersWithStorage(removed);
         return;
       }
     }
     const newFilters = [...filters, filter];
-    setFilters(newFilters);
+    setFiltersWithStorage(newFilters);
   };
 
   const onTraceChange = (selectedTraces: any) => {
@@ -95,7 +95,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
       }
     })
     const nonTraceFilters = filters.filter((f) => f.field !== 'traceGroup');
-    setFilters([...nonTraceFilters, ...traceFilters]);
+    setFiltersWithStorage([...nonTraceFilters, ...traceFilters]);
   };
 
   const onCreateTrace = (searchValue: string, flattenedOptions: any) => {
@@ -122,14 +122,14 @@ export const TraceConfig = (props: TraceConfigProps) => {
       setTraceOptions([...traceOptions, newTraceOption]);
     }
     // Select the option.
-    setFilters([...filters, newTraceFilter]);
+    setFiltersWithStorage([...filters, newTraceFilter]);
   };
 
   const addPercentileFilter = (condition = 'gte', additionalFilters = [] as FilterType[]) => {
     if (traceItems.length === 0 || Object.keys(percentileMap).length === 0) return;
-    for (let i = 0; i < props.filters.length; i++) {
-      if (props.filters[i].custom) {
-        const newFilter = JSON.parse(JSON.stringify(props.filters[i]));
+    for (let i = 0; i < filters.length; i++) {
+      if (filters[i].custom) {
+        const newFilter = JSON.parse(JSON.stringify(filters[i]));
         newFilter.custom.query.bool.should.forEach((should: any) =>
           should.bool.must.forEach((must: any) => {
             const range = must?.range?.['traceGroupFields.durationInNanos'];
@@ -146,7 +146,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         newFilter.value = condition === 'gte' ? '>= 95th' : '< 95th';
         const newFilters = [...filters, ...additionalFilters];
         newFilters.splice(i, 1, newFilter);
-        setFilters(newFilters);
+        setFiltersWithStorage(newFilters);
         return;
       }
     }
@@ -154,7 +154,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
 
   const clearTraces = () => {
     const withoutTraces = filters.filter((f) => f.field !== 'traceGroup')
-    setFilters(withoutTraces);
+    setFiltersWithStorage(withoutTraces);
   };
 
   const onCancel = () => {

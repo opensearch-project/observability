@@ -83,7 +83,7 @@ export function Dashboard(props: DashboardProps) {
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, page);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const latencyTrendStartTime = dateMath
       .parse(props.endTime)
@@ -93,7 +93,8 @@ export function Dashboard(props: DashboardProps) {
       props.filters,
       props.query,
       latencyTrendStartTime,
-      props.endTime
+      props.endTime,
+      page
     );
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 

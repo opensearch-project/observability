@@ -121,5 +121,4 @@ export class AppAnalyticsAdaptor {
       throw new Error('Delete Application Error: ' + err);
     }
   }
-
 }
