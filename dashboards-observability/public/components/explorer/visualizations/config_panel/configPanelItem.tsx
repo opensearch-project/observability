@@ -8,6 +8,7 @@ import { uniqueId } from 'lodash';
 import { EuiPanel, EuiTitle, EuiAccordion, EuiComboBox, EuiSpacer } from '@elastic/eui';
 
 export const PanelItem = ({ paddingTitle, advancedTitle, dropdownList, children }: any) => {
+  console.log('dropdown: ', dropdownList);
   const options = dropdownList.map((item) => {
     return {
       label: item.name,
