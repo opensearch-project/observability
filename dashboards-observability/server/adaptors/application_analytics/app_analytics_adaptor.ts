@@ -9,7 +9,7 @@ import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
 export class AppAnalyticsAdaptor {
 
   // Fetch all existing applications
-  fetchApps = async(client: ILegacyScopedClusterClient) => {
+  fetchApps = async (client: ILegacyScopedClusterClient) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'application',
@@ -22,6 +22,18 @@ export class AppAnalyticsAdaptor {
       }));
     } catch (err: any) {
       throw new Error('Fetch All Applications Error: ' + err);
+    }
+  }
+
+  // Fetch application by id
+  fetchAppById = async (client: ILegacyScopedClusterClient, appId: string) => {
+    try {
+      const response = await client.callAsCurrentUser('observability.getObjectById', {
+        objectId: appId,
+      });
+      return response.observabilityObjectList[0];
+    } catch (err: any) {
+      throw new Error('Fetch Application By Id Error: ' + err);
     }
   }
 

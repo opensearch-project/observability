@@ -24,9 +24,11 @@ import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
-import React, { ReactChild, useState } from 'react';
+import React, { ReactChild, useEffect, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
 import { 
+  ApplicationType,
+  APP_ANALYTICS_API_PREFIX,
   TAB_CONFIG_ID_TXT_PFX, 
   TAB_CONFIG_TITLE, 
   TAB_LOG_ID_TXT_PFX, 
@@ -70,13 +72,44 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   notifications: NotificationsStart;
 }
 
-
 export function Application(props: AppDetailProps) {
-  const { pplService, dslService, timestampUtils, savedObjects, http, notifications } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb } = props;
+  const [application, setApplication] = useState<ApplicationType>();
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
   const [toasts, setToasts] = useState<Array<Toast>>([]);
+
+  // Fetch application by id
+  const fetchAppById = async (appId: string) => {
+    return http
+      .get(`${APP_ANALYTICS_API_PREFIX}/${appId}`)
+      .then((res) => {
+        setApplication(res.application);
+      })
+      .catch((err) => {
+        setToast('Error occurred while fetching application', 'danger');
+        console.error(err);
+      })
+  }
+
+  useEffect(() => {
+    fetchAppById(appId);
+  }, [appId]);
+
+  useEffect(() => {
+    chrome.setBreadcrumbs([
+      parentBreadcrumb,
+      {
+        text: 'Application analytics',
+        href: '#/application_analytics',
+      },
+      {
+        text: application?.name || '',
+        href: `${parentBreadcrumb.href}${appId}`,
+      },
+    ]);
+  }, [appId, application?.name]);
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -98,20 +131,20 @@ export function Application(props: AppDetailProps) {
 
   const getOverview = () => {
     return (
-      <Dashboard {...props} page="app" appId="id" appName="Cool Application" />
+      <Dashboard {...props} page="app" appId={appId} appName={application?.name} />
     );
   };
 
   const getService = () => {
     return (
-      <Services {...props} page="app" appId="id" appName="Cool Application" />
+      <Services {...props} page="app" appId={appId} appName={application?.name} />
     );
   };
 
   const getTrace = () => {
     return (
       <>
-        <Traces {...props} page="app" appId="id" appName="Cool Application" />
+        <Traces {...props} page="app" appId={appId} appName={application?.name} />
         <EuiSpacer size='m'/>
         <SpanDetailPanel
           {...props}
@@ -218,7 +251,7 @@ export function Application(props: AppDetailProps) {
         <EuiPageHeader>
           <EuiPageHeaderSection>
             <EuiTitle size="l">
-              <h1>my-app1</h1>
+              <h1>{application?.name || ''}</h1>
             </EuiTitle>
           </EuiPageHeaderSection>
         </EuiPageHeader>

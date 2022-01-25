@@ -48,6 +48,42 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       }
     }
   )
+
+  // Fetch application by id
+  router.get(
+    {
+      path: `${API_PREFIX}/{appId}`,
+      validate: {
+        params: schema.object({
+          appId: schema.string(),
+        }),
+      },
+    },
+    async(
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+      try {
+        const appObject = await appAnalyticsBackend.fetchAppById(
+          opensearchClient,
+          request.params.appId
+        );
+        return response.ok({
+          body: appObject
+        });
+      } catch (err: any) {
+        console.error('Error occurred while fetching application', err);
+        return response.custom({
+          statusCode: err.statusCode || 500,
+          body: err.message,
+        });
+      }
+    }
+  )
   
   // Create a new application
   router.post(
