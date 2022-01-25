@@ -34,7 +34,16 @@ interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
   notifications: NotificationsStart;
 }
 
-export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {}
+export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
+  name: string;
+  description: string;
+  setNameWithStorage: (newName: string) => void;
+  setDescriptionWithStorage: (newDescription: string) => void;
+  setQueryWithStorage: (newQuery: string) => void;
+  setFiltersWithStorage: (newFilters: FilterType[]) => void;
+  setStartTimeWithStorage: (newStartTime: string) => void;
+  setEndTimeWithStorage: (newEndTime: string) => void;
+}
 
 export const Home = (props: HomeProps) => {
   const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
@@ -43,6 +52,8 @@ export const Home = (props: HomeProps) => {
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
   const [filters, setFilters] = useState<FilterType[]>(storedFilters ? JSON.parse(storedFilters) : []);
+  const [name, setName] = useState(sessionStorage.getItem('AppAnalyticsName') || '');
+  const [description, setDescription] = useState(sessionStorage.getItem('AppAnalyticsDescription') || '');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
   const [startTime, setStartTime] = useState<string>(sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h');
   const [endTime, setEndTime] = useState<string>(sessionStorage.getItem('AppAnalyticsEndTime') || 'now');
@@ -51,6 +62,14 @@ export const Home = (props: HomeProps) => {
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
     setFilters(newFilters);
     sessionStorage.setItem('AppAnalyticsFilters', JSON.stringify(newFilters));
+  };
+  const setNameWithStorage = (newName: string) => {
+    setName(newName);
+    sessionStorage.setItem('AppAnalyticsName', newName);
+  };
+  const setDescriptionWithStorage = (newDescription: string) => {
+    setDescription(newDescription);
+    sessionStorage.setItem('AppAnalyticsDescription', newDescription);
   };
   const setQueryWithStorage = (newQuery: string) => {
     setQuery(newQuery);
@@ -73,14 +92,22 @@ export const Home = (props: HomeProps) => {
     parentBreadcrumb: parentBreadcrumb,
     http: http,
     chrome: chrome,
+    name,
+    setNameWithStorage,
+    description,
+    setDescriptionWithStorage,
     query,
-    setQuery: setQueryWithStorage,
+    setQuery,
+    setQueryWithStorage,
     filters,
-    setFilters: setFiltersWithStorage,
+    setFilters,
+    setFiltersWithStorage,
     startTime,
-    setStartTime: setStartTimeWithStorage,
+    setStartTime,
+    setStartTimeWithStorage,
     endTime,
-    setEndTime: setEndTimeWithStorage,
+    setEndTime,
+    setEndTimeWithStorage,
     indicesExist,
   };
 
@@ -105,7 +132,7 @@ export const Home = (props: HomeProps) => {
   // Create a new application
   const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
     const toast = isNameValid(name);
-    if (toast) {
+    if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
     }
@@ -124,6 +151,8 @@ export const Home = (props: HomeProps) => {
       })
       .then((res) => {
         setToast(`Application "${name}" successfully created!`);
+        setNameWithStorage('');
+        setDescriptionWithStorage('');
         setFiltersWithStorage([]);
         setQueryWithStorage('');
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)

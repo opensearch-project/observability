@@ -24,7 +24,6 @@ import {
 } from "@elastic/eui";
 import DSLService from "public/services/requests/dsl";  
 import React, { useEffect, useState } from "react";
-import { ChangeEvent } from "react";
 import { AppAnalyticsComponentDeps } from "../home";
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from "./config_components/service_config";
@@ -38,14 +37,10 @@ interface CreateAppProps extends AppAnalyticsComponentDeps {
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, query, createApp } = props;
+  const { parentBreadcrumb, chrome, query, createApp, name, description, setNameWithStorage, setDescriptionWithStorage } = props;
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Array<optionType>>([]);
   const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
-  const [state, setState] = useState({
-    name: '',
-    description: ''
-  });
 
   useEffect(() => {
     chrome.setBreadcrumbs(
@@ -71,19 +66,12 @@ export const CreateApp = (props: CreateAppProps) => {
       flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
     }
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const isDisabled = !state.name || !query || !selectedTraces.length || !selectedServices.length;
+  const isDisabled = !name || !query || !selectedTraces.length || !selectedServices.length;
 
   const missingField = () => {
     if (isDisabled) {
       let popoverContent = '';
-      if (!state.name) {
+      if (!name) {
         popoverContent = 'Name is required.'
       } else if (!query) {
         popoverContent = 'Log Source is required.'
@@ -97,7 +85,7 @@ export const CreateApp = (props: CreateAppProps) => {
   };
 
   const onCreate = () => {
-    createApp(state.name, state.description, query, selectedServices, selectedTraces);
+    createApp(name, description, query, selectedServices, selectedTraces);
   }
 
   const onCancel = () => {
@@ -128,15 +116,15 @@ export const CreateApp = (props: CreateAppProps) => {
             <EuiFormRow label="Name">
               <EuiFieldText 
                 name="name"
-                value={state.name}
-                onChange={(e) => onChange(e)}
+                value={name}
+                onChange={(e) => setNameWithStorage(e.target.value)}
               />
             </EuiFormRow>
             <EuiFormRow label="Description">
               <EuiFieldText 
                 name="description"
-                value={state.description}
-                onChange={(e) => onChange(e)}
+                value={description}
+                onChange={(e) => setDescriptionWithStorage(e.target.value)}
               />
             </EuiFormRow>
           </EuiForm>

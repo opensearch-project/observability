@@ -4,16 +4,16 @@
  */
 
 import {
-    EuiPage,
-    EuiPageBody,
-    EuiPageHeader,
-    EuiPageHeaderSection,
-    EuiSpacer,
-    EuiTabbedContent,
-    EuiTabbedContentTab,
-    EuiText,
-    EuiTitle,
-  } from '@elastic/eui';
+  EuiPage,
+  EuiPageBody,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiSpacer,
+  EuiTabbedContent,
+  EuiTabbedContentTab,
+  EuiText,
+  EuiTitle,
+} from '@elastic/eui';
 import { LogExplorer } from '../../explorer/log_explorer';
 import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
@@ -26,8 +26,7 @@ import SavedObjects from 'public/services/saved_objects/event_analytics/saved_ob
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
-import { 
-  ApplicationType,
+import {
   APP_ANALYTICS_API_PREFIX,
   TAB_CONFIG_ID_TXT_PFX, 
   TAB_CONFIG_TITLE, 
@@ -46,6 +45,7 @@ import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
+import { ApplicationType } from 'common/types/app_analytics';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
@@ -73,7 +73,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
 }
 
 export function Application(props: AppDetailProps) {
-  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb } = props;
+  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
   const [application, setApplication] = useState<ApplicationType>();
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
@@ -86,6 +86,25 @@ export function Application(props: AppDetailProps) {
       .get(`${APP_ANALYTICS_API_PREFIX}/${appId}`)
       .then((res) => {
         setApplication(res.application);
+        const serviceFilters = res.application.servicesEntities.map((ser: string) => {
+          return {
+            field: 'serviceName',
+            operator: 'is',
+            value: ser,
+            inverted: false,
+            disabled: false
+          }
+        })
+        const traceFilters = res.application.traceGroups.map((tra: string) => {
+          return {
+            field: 'traceGroup',
+            operator: 'is',
+            value: tra,
+            inverted: false,
+            disabled: false
+          }
+        })
+        setFilters([...serviceFilters, ...traceFilters]);
       })
       .catch((err) => {
         setToast('Error occurred while fetching application', 'danger');
@@ -253,6 +272,9 @@ export function Application(props: AppDetailProps) {
             <EuiTitle size="l">
               <h1>{application?.name || ''}</h1>
             </EuiTitle>
+            <EuiText>
+              <p>{application?.description}</p>
+            </EuiText>
           </EuiPageHeaderSection>
         </EuiPageHeader>
         <EuiTabbedContent
@@ -261,7 +283,7 @@ export function Application(props: AppDetailProps) {
           selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
           onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
           tabs={ appAnalyticsTabs }
-      />
+        />
       </EuiPageBody>
     </EuiPage>
     </div>
