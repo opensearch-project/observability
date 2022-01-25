@@ -295,7 +295,6 @@ export const filtersToDsl = (
         filter: [],
         should: [],
         must_not: [],
-        minimum_should_match: 1,
       },
     },
     custom: {
@@ -397,6 +396,7 @@ export const filtersToDsl = (
           break;
       }
       if (page === 'app') {
+        DSL.query.bool.minimum_should_match = 1;
         DSL.query.bool.should.push(filterQuery);
       } else {
         DSL.query.bool[filter.inverted ? 'must_not' : 'must'].push(filterQuery);
