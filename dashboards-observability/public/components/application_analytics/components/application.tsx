@@ -283,7 +283,7 @@ export function Application(props: AppDetailProps) {
           selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
           onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
           tabs={ appAnalyticsTabs }
-      />
+        />
       </EuiPageBody>
     </EuiPage>
     </div>
