@@ -105,7 +105,7 @@ export function Application(props: AppDetailProps) {
         href: '#/application_analytics',
       },
       {
-        text: application?.name,
+        text: application?.name || '',
         href: `${parentBreadcrumb.href}${appId}`,
       },
     ]);
@@ -251,7 +251,7 @@ export function Application(props: AppDetailProps) {
         <EuiPageHeader>
           <EuiPageHeaderSection>
             <EuiTitle size="l">
-              <h1>{application?.name}</h1>
+              <h1>{application?.name || ''}</h1>
             </EuiTitle>
           </EuiPageHeaderSection>
         </EuiPageHeader>
