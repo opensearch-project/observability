@@ -21,7 +21,7 @@ interface IWorkSpacePanel {
   visualizations: any;
 }
 
-const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'histogram'];
+const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'histogram', 'bubble'];
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
   const { tabId, dispatch } = useContext(TabContext);

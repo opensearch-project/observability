@@ -7,6 +7,7 @@ import { barVisDefinition } from './bar/bar_type';
 import { lineVisDefinition } from './lines/line_type';
 import { pieVisDefinition } from './pie/pie_type';
 import { histogramVisDefinition } from './histogram/histogram_type';
+import { bubbleVisDefinition } from './bubble/bubble_type';
 
 export const VIS_TYPES = {
   bar: barVisDefinition,
@@ -14,6 +15,7 @@ export const VIS_TYPES = {
   line: lineVisDefinition,
   pie: pieVisDefinition,
   histogram: histogramVisDefinition,
+  bubble: bubbleVisDefinition,
 };
 
 export const getVisType = (visType: string) => {
