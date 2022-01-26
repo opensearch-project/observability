@@ -116,6 +116,13 @@ export const Home = (props: HomeProps) => {
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
+  const clearStorage = () => {
+    setNameWithStorage('');
+    setDescriptionWithStorage('');
+    setFiltersWithStorage([]);
+    setQueryWithStorage('');
+  };
+
   // Fetches all existing applications
   const fetchApps = () => {
     return http
@@ -151,10 +158,7 @@ export const Home = (props: HomeProps) => {
       })
       .then((res) => {
         setToast(`Application "${name}" successfully created!`);
-        setNameWithStorage('');
-        setDescriptionWithStorage('');
-        setFiltersWithStorage([]);
-        setQueryWithStorage('');
+        clearStorage();
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
       })
       .catch((err) => {
@@ -247,6 +251,7 @@ export const Home = (props: HomeProps) => {
             <CreateApp
             dslService={dslService}
             createApp={createApp}
+            clearStorage={clearStorage}
             {...commonProps}
             />
           }
