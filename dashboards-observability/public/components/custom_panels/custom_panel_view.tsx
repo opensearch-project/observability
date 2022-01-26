@@ -549,17 +549,21 @@ export const CustomPanelView = ({
                     </EuiButton>
                   </EuiFlexItem>
                 )}
-                <EuiFlexItem grow={false}>
-                  <EuiPopover
-                    panelPaddingSize="none"
-                    withTitle
-                    button={panelActionsButton}
-                    isOpen={panelsMenuPopover}
-                    closePopover={() => setPanelsMenuPopover(false)}
-                  >
-                    <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
-                  </EuiPopover>
-                </EuiFlexItem>
+                {
+                  page === "app" || (
+                  <EuiFlexItem grow={false}>
+                    <EuiPopover
+                      panelPaddingSize="none"
+                      withTitle
+                      button={panelActionsButton}
+                      isOpen={panelsMenuPopover}
+                      closePopover={() => setPanelsMenuPopover(false)}
+                    >
+                      <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                    </EuiPopover>
+                  </EuiFlexItem>
+                  )
+                }
                 <EuiFlexItem grow={false}>
                   <EuiPopover
                     id="addVisualizationContextMenu"
