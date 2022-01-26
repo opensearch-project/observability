@@ -24,6 +24,7 @@ import React, { useState } from 'react';
 
 type Props = {
   addVizDisabled: boolean;
+  page?: string;
   getVizContextPanels: (
     closeVizPopover?: (() => void) | undefined
   ) => {
@@ -36,7 +37,7 @@ type Props = {
   }[];
 };
 
-export const EmptyPanelView = ({ addVizDisabled, getVizContextPanels }: Props) => {
+export const EmptyPanelView = ({ addVizDisabled, page, getVizContextPanels }: Props) => {
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false);
 
   const onPopoverClick = () => {
@@ -71,18 +72,28 @@ export const EmptyPanelView = ({ addVizDisabled, getVizContextPanels }: Props) =
       </EuiText>
       <EuiSpacer size="m" />
       <EuiFlexGroup justifyContent="center">
-        <EuiFlexItem grow={false}>
-          <EuiPopover
-            id="addVisualizationContextMenu"
-            button={addVisualizationButton}
-            isOpen={isVizPopoverOpen}
-            closePopover={closeVizPopover}
-            panelPaddingSize="none"
-            anchorPosition="downLeft"
-          >
-            <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
-          </EuiPopover>
-        </EuiFlexItem>
+        {
+          page === "app" ? (
+          <EuiFlexItem grow={false}>
+            <EuiButton isDisabled={addVizDisabled}>
+              Add Visualization
+            </EuiButton>
+          </EuiFlexItem>
+          ) : (
+            <EuiFlexItem grow={false}>
+            <EuiPopover
+              id="addVisualizationContextMenu"
+              button={addVisualizationButton}
+              isOpen={isVizPopoverOpen}
+              closePopover={closeVizPopover}
+              panelPaddingSize="none"
+              anchorPosition="downLeft"
+            >
+              <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
+            </EuiPopover>
+          </EuiFlexItem>
+          )
+        }
       </EuiFlexGroup>
       <EuiSpacer size="xxl" />
     </div>

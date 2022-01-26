@@ -564,21 +564,31 @@ export const CustomPanelView = ({
                   </EuiFlexItem>
                   )
                 }
-                <EuiFlexItem grow={false}>
-                  <EuiPopover
-                    id="addVisualizationContextMenu"
-                    button={addVisualizationButton}
-                    isOpen={isVizPopoverOpen}
-                    closePopover={closeVizPopover}
-                    panelPaddingSize="none"
-                    anchorPosition="downLeft"
-                  >
-                    <EuiContextMenu
-                      initialPanelId={0}
-                      panels={getVizContextPanels(closeVizPopover)}
-                    />
-                  </EuiPopover>
-                </EuiFlexItem>
+                {
+                  page === "app" ? (
+                  <EuiFlexItem grow={false}>
+                    <EuiButton isDisabled={addVizDisabled}>
+                      Add Visualization
+                    </EuiButton>
+                  </EuiFlexItem>
+                  ) : (
+                  <EuiFlexItem grow={false}>
+                    <EuiPopover
+                      id="addVisualizationContextMenu"
+                      button={addVisualizationButton}
+                      isOpen={isVizPopoverOpen}
+                      closePopover={closeVizPopover}
+                      panelPaddingSize="none"
+                      anchorPosition="downLeft"
+                    >
+                      <EuiContextMenu
+                        initialPanelId={0}
+                        panels={getVizContextPanels(closeVizPopover)}
+                      />
+                    </EuiPopover>
+                  </EuiFlexItem>
+                  )
+                }
               </EuiFlexGroup>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -618,6 +628,7 @@ export const CustomPanelView = ({
             {panelVisualizations.length === 0 && (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
+                page={page}
                 getVizContextPanels={getVizContextPanels}
               />
             )}
