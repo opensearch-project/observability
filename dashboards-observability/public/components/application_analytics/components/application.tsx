@@ -49,6 +49,8 @@ import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
 import { ApplicationType } from '../../../../common/types/app_analytics';
+import { isNameValid } from '../../../../public/components/custom_panels/helpers/utils';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
@@ -114,7 +116,34 @@ export function Application(props: AppDetailProps) {
         setToast('Error occurred while fetching application', 'danger');
         console.error(err);
       });
+  };
+
+  // Renames an existing CustomPanel
+  const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelId: string) => {
+    if (!isNameValid(editedCustomPanelName)) {
+      setToast('Invalid Custom Panel name', 'danger');
+      return;
+    }
+    const renamePanelObject = {
+      panelId: editedCustomPanelId,
+      panelName: editedCustomPanelName,
     };
+
+    return http
+      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
+        body: JSON.stringify(renamePanelObject),
+      })
+      .then((res) => {
+        setToast(`Operational Panel successfully renamed to "${editedCustomPanelName}"`);
+      })
+      .catch((err) => {
+        setToast(
+          'Error renaming Operational Panel, please make sure you have the correct permission.',
+          'danger'
+        );
+        console.error(err.body.message);
+      });
+  };
 
   useEffect(() => {
     fetchAppById(appId);
@@ -204,7 +233,8 @@ export function Application(props: AppDetailProps) {
         pplService={pplService}
         chrome={chrome}
         parentBreadcrumb={[parentBreadcrumb]}
-        renameCustomPanel={() => undefined}
+        renameCustomPanel={renameCustomPanel}
+        // App analytics will not be cloning/deleting panels
         cloneCustomPanel={():Promise<string> => Promise.reject()}
         deleteCustomPanel={():Promise<string> => Promise.reject()}
         setToast={setToast}
