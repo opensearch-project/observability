@@ -217,6 +217,7 @@ export function Dashboard(props: DashboardProps) {
                 serviceMap={serviceMap}
                 idSelected={serviceMapIdSelected}
                 setIdSelected={setServiceMapIdSelected}
+                page={page}
               />
             </EuiFlexItem>
             <EuiFlexItem>
