@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
-  createSlice
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { forEach } from 'lodash';
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import {
@@ -13,7 +11,7 @@ import {
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   QUERIED_FIELDS,
-  REDUX_EXPL_SLICE_FIELDS
+  REDUX_EXPL_SLICE_FIELDS,
 } from '../../../../common/constants/explorer';
 import { IField } from '../../../../common/types/explorer';
 
@@ -26,8 +24,11 @@ const initialFields = {
 
 const initialState = {
   [initialTabId]: {
-    ...initialFields
-  }
+    ...initialFields,
+  },
+  'application-analytics-tab': {
+    ...initialFields,
+  },
 };
 
 export const fieldSlice = createSlice({
@@ -36,39 +37,35 @@ export const fieldSlice = createSlice({
   reducers: {
     init: (state, { payload }) => {
       state[payload.tabId] = {
-        ...initialFields
+        ...initialFields,
       };
     },
     updateFields: (state, { payload }) => {
       state[payload.tabId] = {
         ...state[payload.tabId],
-        ...payload.data
+        ...payload.data,
       };
     },
     reset: (state, { payload }) => {
       state[payload.tabId] = {
-        ...initialFields
-      }
+        ...initialFields,
+      };
     },
     remove: (state, { payload }) => {
       delete state[payload.tabId];
     },
     sortFields: (state, { payload }) => {
       forEach(payload.data, (toSort: string) => {
-        state[payload.tabId][toSort].sort((prev: IField, cur: IField) =>  prev.name.localeCompare(cur.name));
+        state[payload.tabId][toSort].sort((prev: IField, cur: IField) =>
+          prev.name.localeCompare(cur.name)
+        );
       });
-    }
+    },
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {},
 });
 
-export const {
-  init,
-  reset,
-  remove,
-  updateFields,
-  sortFields
-} = fieldSlice.actions;
+export const { init, reset, remove, updateFields, sortFields } = fieldSlice.actions;
 
 export const selectFields = (state) => state.fields;
 

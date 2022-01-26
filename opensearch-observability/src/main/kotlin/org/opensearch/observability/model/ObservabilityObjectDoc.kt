@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package org.opensearch.observability.model
 
 import org.opensearch.common.io.stream.StreamInput
@@ -89,7 +94,7 @@ data class ObservabilityObjectDoc(
             updatedTime ?: throw IllegalArgumentException("$UPDATED_TIME_FIELD field absent")
             createdTime ?: throw IllegalArgumentException("$CREATED_TIME_FIELD field absent")
             tenant = tenant ?: UserAccessManager.DEFAULT_TENANT
-            type ?: throw IllegalArgumentException("Object data field absent")
+            type ?: throw IllegalArgumentException("Object type field absent")
             objectData ?: throw IllegalArgumentException("Object data field absent")
             return ObservabilityObjectDoc(objectId, updatedTime, createdTime, tenant, access, type, objectData)
         }

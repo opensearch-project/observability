@@ -5,6 +5,7 @@
 
 import { EuiGlobalToastList } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { EmptyTabParams } from 'common/types/explorer';
 import { isEmpty } from 'lodash';
 import React, { ReactChild, useState } from 'react';
 import { HashRouter, Route, Switch, useHistory } from 'react-router-dom';
@@ -37,10 +38,10 @@ export const EventAnalytics = ({
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
-  const getExistingEmptyTab = ({ tabIds, queries, explorerData }) => {
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
     let emptyTabId = '';
-    for (let i = 0; i < tabIds.length; i++) {
-      const tid = tabIds[i];
+    for (let i = 0; i < tabIds!.length; i++) {
+      const tid = tabIds![i];
       if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
         emptyTabId = tid;
         break;
@@ -80,7 +81,6 @@ export const EventAnalytics = ({
                   timestampUtils={timestampUtils}
                   http={http}
                   setToast={setToast}
-                  chrome={chrome}
                   getExistingEmptyTab={getExistingEmptyTab}
                   history={history}
                   notifications={notifications}
@@ -106,10 +106,9 @@ export const EventAnalytics = ({
                     http={http}
                     savedObjects={savedObjects}
                     dslService={dslService}
-                    timestampUtils={timestampUtils}
+                    pplService={pplService}
                     setToast={setToast}
                     getExistingEmptyTab={getExistingEmptyTab}
-                    history={history}
                   />
                 </ObservabilitySideBar>
               );

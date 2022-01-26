@@ -22,9 +22,14 @@ import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
 
-interface DashboardProps extends TraceAnalyticsComponentDeps {}
+interface DashboardProps extends TraceAnalyticsComponentDeps {
+  appId?: string;
+  appName?: string;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
+}
 
 export function Dashboard(props: DashboardProps) {
+  const { appId, appName, page, parentBreadcrumb } = props;
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -34,19 +39,35 @@ export function Dashboard(props: DashboardProps) {
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const breadCrumbs = page === 'app' ? 
+    [
+      {
+        text: 'Application analytics',
+        href: '#/application_analytics',
+      },
+      {
+        text: `${appName}`,
+        href: `#/application_analytics/${appId}`,
+      },
+    ] : [
+      {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Dashboards',
+          href: '#/trace_analytics/home',
+        },
+    ]
+
+
   useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Dashboards',
-        href: '#/trace_analytics/home',
-      },
+    props.chrome.setBreadcrumbs(
+      [
+      parentBreadcrumb,
+      ...breadCrumbs
     ]);
-    const validFilters = getValidFilterFields('dashboard');
+    const validFilters = getValidFilterFields(page);
     props.setFilters([
       ...props.filters.map((filter) => ({
         ...filter,
@@ -62,7 +83,7 @@ export function Dashboard(props: DashboardProps) {
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, page);
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
     const latencyTrendStartTime = dateMath
       .parse(props.endTime)
@@ -72,7 +93,8 @@ export function Dashboard(props: DashboardProps) {
       props.filters,
       props.query,
       latencyTrendStartTime,
-      props.endTime
+      props.endTime,
+      page
     );
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
@@ -156,9 +178,13 @@ export function Dashboard(props: DashboardProps) {
 
   return (
     <>
+      {page === 'app' ?
+      <EuiSpacer size="m" />
+      :
       <EuiTitle size="l">
         <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
       </EuiTitle>
+      }
       <SearchBar
         query={props.query}
         filters={props.filters}
@@ -169,7 +195,7 @@ export function Dashboard(props: DashboardProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="dashboard"
+        page={page}
       />
       <EuiSpacer size="m" />
       {props.indicesExist ? (
@@ -181,6 +207,7 @@ export function Dashboard(props: DashboardProps) {
             addPercentileFilter={addPercentileFilter}
             setRedirect={setRedirect}
             loading={loading}
+            page="dashboard"
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">

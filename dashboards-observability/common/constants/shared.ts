@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import CSS from 'csstype';
+
 // Client route
 export const PPL_BASE = '/api/ppl';
 export const PPL_SEARCH = '/search';
@@ -59,3 +61,9 @@ export const PLOTLY_COLOR = [
 ];
 
 export const LONG_CHART_COLOR = PLOTLY_COLOR[1];
+
+export const pageStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1130px',
+};
