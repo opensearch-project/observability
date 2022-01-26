@@ -5,7 +5,7 @@
 
 import './search.scss';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   EuiFlexGroup,
@@ -39,7 +39,7 @@ export interface IDatePickerProps {
   setEndTime: () => void;
   setTimeRange: () => void;
   setIsOutputStale: () => void;
-  handleTimePickerChange: (timeRange: Array<string>) => any;
+  handleTimePickerChange: (timeRange: string[]) => any;
 }
 
 export const Search = (props: any) => {
@@ -65,6 +65,8 @@ export const Search = (props: any) => {
     showSavePanelOptionsList,
     showSaveButton = true,
     handleTimeRangePickerRefresh,
+    selectedSubTabId,
+    searchBarConfigs = {},
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -83,20 +85,23 @@ export const Search = (props: any) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   }
 
-  const saveButton = (
-    <EuiButton
-      iconSide="right"
-      onClick={() => {
-        setIsSavePanelOpen((staleState) => {
-          return !staleState;
-        });
-      }}
-      data-test-subj="eventExplorer__saveManagementPopover"
-      iconType="arrowDown"
-    >
-      Save
-    </EuiButton>
-  );
+  const Savebutton = useMemo(() => {
+    return (
+      <EuiButton
+        isDisabled={searchBarConfigs[selectedSubTabId]?.isSaveBtnDisabled || false}
+        iconSide="right"
+        onClick={() => {
+          setIsSavePanelOpen((staleState) => {
+            return !staleState;
+          });
+        }}
+        data-test-subj="eventExplorer__saveManagementPopover"
+        iconType="arrowDown"
+      >
+        Save
+      </EuiButton>
+    );
+  }, [searchBarConfigs, selectedSubTabId]);
 
   return (
     <div className="globalQueryBar">
@@ -110,17 +115,18 @@ export const Search = (props: any) => {
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
-          <EuiBadge 
-            className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+          <EuiBadge
+            className={`ppl-link ${
+              uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+            }`}
             color="hollow"
             onClick={() => showFlyout()}
-            onClickAriaLabel={"pplLinkShowFlyout"}
+            onClickAriaLabel={'pplLinkShowFlyout'}
           >
             PPL
           </EuiBadge>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-        </EuiFlexItem>
+        <EuiFlexItem grow={false} />
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker
             startTime={startTime}
@@ -130,7 +136,7 @@ export const Search = (props: any) => {
             setIsOutputStale={setIsOutputStale}
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
-            handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
+            handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
             handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           />
         </EuiFlexItem>
@@ -138,7 +144,7 @@ export const Search = (props: any) => {
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
-                button={saveButton}
+                button={Savebutton}
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
@@ -154,7 +160,7 @@ export const Search = (props: any) => {
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
                     <EuiFlexItem grow={false}>
-                      <EuiButtonEmpty 
+                      <EuiButtonEmpty
                         size="s"
                         onClick={() => setIsSavePanelOpen(false)}
                         data-test-subj="eventExplorer__querySaveCancel"
