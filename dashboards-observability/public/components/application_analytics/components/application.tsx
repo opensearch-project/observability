@@ -238,6 +238,9 @@ export function Application(props: AppDetailProps) {
         cloneCustomPanel={():Promise<string> => Promise.reject()}
         deleteCustomPanel={():Promise<string> => Promise.reject()}
         setToast={setToast}
+        page="app"
+        appName={application?.name}
+        appId={appId}
       />
     );
   };

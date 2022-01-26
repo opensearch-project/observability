@@ -65,6 +65,9 @@ import { PPLReferenceFlyout } from '../common/helpers';
 
 type Props = {
   panelId: string;
+  page?: string;
+  appId?: string;
+  appName?: string;
   http: CoreStart['http'];
   pplService: PPLService;
   chrome: CoreStart['chrome'];
@@ -85,6 +88,9 @@ type Props = {
 
 export const CustomPanelView = ({
   panelId,
+  page,
+  appId,
+  appName,
   http,
   pplService,
   chrome,
@@ -472,15 +478,31 @@ export const CustomPanelView = ({
     checkDisabledInputs();
   }, [panelVisualizations, editMode]);
 
-  // Edit the breadcurmb when panel name changes
+  // Edit the breadcrumb when panel name changes
   useEffect(() => {
-    chrome.setBreadcrumbs([
-      ...parentBreadcrumb,
-      {
-        text: openPanelName,
-        href: `${_.last(parentBreadcrumb).href}${panelId}`,
-      },
-    ]);
+    let newBreadcrumb;
+    if (page === "app") {
+      newBreadcrumb = [
+        ...parentBreadcrumb,
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: appName,
+          href: `${_.last(parentBreadcrumb).href}${appId}`,
+        },
+      ]
+    } else {
+      newBreadcrumb = [
+        ...parentBreadcrumb,
+        {
+          text: openPanelName,
+          href: `${_.last(parentBreadcrumb).href}${panelId}`,
+        }
+      ];
+    }
+    chrome.setBreadcrumbs(newBreadcrumb);
   }, [panelId, openPanelName]);
 
   return (
