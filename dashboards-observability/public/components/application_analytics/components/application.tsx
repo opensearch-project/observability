@@ -34,10 +34,12 @@ import {
   TAB_LOG_TITLE, 
   TAB_OVERVIEW_ID_TXT_PFX, 
   TAB_OVERVIEW_TITLE, 
+  TAB_PANEL_ID_TXT_PFX,
+  TAB_PANEL_TITLE,
   TAB_SERVICE_ID_TXT_PFX, 
   TAB_SERVICE_TITLE, 
   TAB_TRACE_ID_TXT_PFX, 
-  TAB_TRACE_TITLE 
+  TAB_TRACE_TITLE
 } from '../../../../common/constants/application_analytics';
 import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
 import { useHistory } from 'react-router-dom';
@@ -45,13 +47,15 @@ import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
-import { ApplicationType } from 'common/types/app_analytics';
+import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
+import { ApplicationType } from '../../../../common/types/app_analytics';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
+const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 
 export interface DetailTab {
@@ -109,8 +113,8 @@ export function Application(props: AppDetailProps) {
       .catch((err) => {
         setToast('Error occurred while fetching application', 'danger');
         console.error(err);
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     fetchAppById(appId);
@@ -192,6 +196,26 @@ export function Application(props: AppDetailProps) {
     );
   };
 
+  const getPanel = () => {
+    return (
+      <CustomPanelView
+        panelId={''}
+        http={http}
+        pplService={pplService}
+        chrome={chrome}
+        parentBreadcrumb={[parentBreadcrumb]}
+        // App analytics will not be renaming/cloning/deleting panels
+        renameCustomPanel={() => undefined}
+        cloneCustomPanel={():Promise<string> => Promise.reject()}
+        deleteCustomPanel={():Promise<string> => Promise.reject()}
+        setToast={setToast}
+        page="app"
+        appName={application?.name}
+        appId={appId}
+      />
+    );
+  };
+
   const getConfig = () => {
     return (
       <Configuration />
@@ -252,6 +276,13 @@ export function Application(props: AppDetailProps) {
             tabId: TAB_LOG_ID,
             tabTitle: TAB_LOG_TITLE,
             getContent: () => getLog()
+          }
+        ),
+        getAppAnalyticsTab(
+          {
+            tabId: TAB_PANEL_ID,
+            tabTitle: TAB_PANEL_TITLE,
+            getContent: () => getPanel()
           }
         ),
         getAppAnalyticsTab(
