@@ -35,7 +35,8 @@ import org.opensearch.observability.util.logger
  *       "Payment.auto",
  *       "Users.admin",
  *       "Purchase.source"
- *   ]
+ *   ],
+ *   "panelId": "rgfQfn4BCe7Q1SIYgrrj"
  * }
  * }</pre>
  */
@@ -45,7 +46,8 @@ internal data class Application(
     val description: String?,
     val baseQuery: String?,
     val servicesEntities: List<String>,
-    val traceGroups: List<String>
+    val traceGroups: List<String>,
+    val panelId: String?
 ) : BaseObjectData {
 
     internal companion object {
@@ -55,6 +57,7 @@ internal data class Application(
         private const val BASE_QUERY_TAG = "baseQuery"
         private const val SERVICES_ENTITIES_TAG = "servicesEntities"
         private const val TRACE_GROUPS_TAG = "traceGroups"
+        private const val PANEL_ID_TAG = "panelId"
 
         /**
          * reader to create instance of class from writable.
@@ -77,6 +80,7 @@ internal data class Application(
             var baseQuery: String? = null
             var servicesEntities: List<String> = listOf()
             var traceGroups: List<String> = listOf()
+            var panelIdL String? = null
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
@@ -91,13 +95,14 @@ internal data class Application(
                     BASE_QUERY_TAG -> baseQuery = parser.text()
                     SERVICES_ENTITIES_TAG -> servicesEntities = parser.stringList()
                     TRACE_GROUPS_TAG -> traceGroups = parser.stringList()
+                    PANEL_ID_TAG -> panelId = parser.text()
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Application Skipping Unknown field $fieldName")
                     }
                 }
             }
-            return Application(name, description, baseQuery, servicesEntities, traceGroups)
+            return Application(name, description, baseQuery, servicesEntities, traceGroups, panelId)
         }
     }
 
@@ -119,7 +124,8 @@ internal data class Application(
         description = input.readString(),
         baseQuery = input.readString(),
         servicesEntities = input.readStringList(),
-        traceGroups = input.readStringList()
+        traceGroups = input.readStringList(),
+        panelId = input.readString()
     )
 
     /**
@@ -131,6 +137,7 @@ internal data class Application(
         output.writeString(baseQuery)
         output.writeStringCollection(servicesEntities)
         output.writeStringCollection(traceGroups)
+        output.writeString(panelId)
     }
 
     /**
@@ -144,6 +151,7 @@ internal data class Application(
             .fieldIfNotNull(BASE_QUERY_TAG, baseQuery)
             .fieldIfNotNull(SERVICES_ENTITIES_TAG, servicesEntities)
             .fieldIfNotNull(TRACE_GROUPS_TAG, traceGroups)
+            .fieldIfNotNull(PANEL_ID_TAG, panelId)
         return builder.endObject()
     }
 }
