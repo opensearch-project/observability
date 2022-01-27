@@ -107,7 +107,7 @@ export class CustomPanelsAdaptor {
   };
 
   // Create a new Panel
-  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string) => {
+  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
     const panelBody = {
       name: panelName,
       visualizations: [],
@@ -119,6 +119,7 @@ export class CustomPanelsAdaptor {
         query: '',
         language: 'ppl',
       },
+      applicationId: appId || '',
     };
 
     try {

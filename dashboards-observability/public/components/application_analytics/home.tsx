@@ -20,9 +20,10 @@ import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
 import { optionType, ApplicationListType } from '../../../common/types/app_analytics';
 import { isNameValid } from './helpers/utils';
-import { EuiGlobalToastList } from '@elastic/eui';
+import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
+import { CUSTOM_PANELS_API_PREFIX, CUSTOM_PANELS_DOCUMENTATION_URL } from '../../../common/constants/custom_panels';
 
 export interface AppAnalyticsCoreDeps extends TraceAnalyticsCoreDeps {}
 
@@ -119,6 +120,30 @@ export const Home = (props: HomeProps) => {
     setQueryWithStorage('');
   };
 
+  const createPanelForApp = (applicationId: string, appName: string) => {
+    // Create new panel with application id field
+    return http
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
+        body: JSON.stringify({
+          panelName: `${appName}'s Panel`,
+          applicationId: applicationId,
+        }),
+      })
+      .then(async (res) => {
+        // Add panelId to application
+      })
+      .catch((err) => {
+        setToast(
+          'Please ask your administrator to enable Operational Panels for you.',
+          'danger',
+          <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
+            Documentation
+          </EuiLink>
+        );
+        console.error(err);
+      });
+  }
+
   // Fetches all existing applications
   const fetchApps = () => {
     return http
@@ -153,6 +178,7 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody)
       })
       .then((res) => {
+        createPanelForApp(res.newAppId, name);
         setToast(`Application "${name}" successfully created!`);
         clearStorage();
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
