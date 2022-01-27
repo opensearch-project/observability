@@ -34,10 +34,11 @@ import { optionType } from "../../../../common/types/app_analytics";
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   createApp: (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => void;
+  clearStorage: () => void;
 };
 
 export const CreateApp = (props: CreateAppProps) => {
-  const { parentBreadcrumb, chrome, query, createApp, name, description, setNameWithStorage, setDescriptionWithStorage } = props;
+  const { parentBreadcrumb, chrome, query, createApp, name, description, setNameWithStorage, setDescriptionWithStorage, clearStorage } = props;
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Array<optionType>>([]);
   const [selectedTraces, setSelectedTraces] = useState<Array<optionType>>([]);
@@ -89,6 +90,7 @@ export const CreateApp = (props: CreateAppProps) => {
   }
 
   const onCancel = () => {
+    clearStorage();
     window.location.assign(`${parentBreadcrumb.href}application_analytics`);
   }
 

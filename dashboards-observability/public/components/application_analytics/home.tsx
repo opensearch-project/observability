@@ -41,8 +41,6 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
   setDescriptionWithStorage: (newDescription: string) => void;
   setQueryWithStorage: (newQuery: string) => void;
   setFiltersWithStorage: (newFilters: FilterType[]) => void;
-  setStartTimeWithStorage: (newStartTime: string) => void;
-  setEndTimeWithStorage: (newEndTime: string) => void;
 }
 
 export const Home = (props: HomeProps) => {
@@ -103,17 +101,22 @@ export const Home = (props: HomeProps) => {
     setFilters,
     setFiltersWithStorage,
     startTime,
-    setStartTime,
-    setStartTimeWithStorage,
+    setStartTime: setStartTimeWithStorage,
     endTime,
-    setEndTime,
-    setEndTimeWithStorage,
+    setEndTime: setEndTimeWithStorage,
     indicesExist,
   };
 
   const setToast = (title: string, color = 'success', text?: ReactChild) => {
     if (!text) text = '';
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const clearStorage = () => {
+    setNameWithStorage('');
+    setDescriptionWithStorage('');
+    setFiltersWithStorage([]);
+    setQueryWithStorage('');
   };
 
   // Fetches all existing applications
@@ -151,10 +154,7 @@ export const Home = (props: HomeProps) => {
       })
       .then((res) => {
         setToast(`Application "${name}" successfully created!`);
-        setNameWithStorage('');
-        setDescriptionWithStorage('');
-        setFiltersWithStorage([]);
-        setQueryWithStorage('');
+        clearStorage();
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
       })
       .catch((err) => {
@@ -247,6 +247,7 @@ export const Home = (props: HomeProps) => {
             <CreateApp
             dslService={dslService}
             createApp={createApp}
+            clearStorage={clearStorage}
             {...commonProps}
             />
           }
