@@ -55,7 +55,7 @@ internal data class SavedVisualization(
     val selectedDateRange: SavedQuery.SelectedDateRange?,
     val selectedTimestamp: SavedQuery.Token?,
     val selectedFields: SavedQuery.SelectedFields?,
-    val applicationId: String?
+    val applicationId: String? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -146,7 +146,7 @@ internal data class SavedVisualization(
         selectedDateRange = input.readOptionalWriteable(SavedQuery.SelectedDateRange.reader),
         selectedTimestamp = input.readOptionalWriteable(SavedQuery.Token.reader),
         selectedFields = input.readOptionalWriteable(SavedQuery.SelectedFields.reader),
-        applicationId = input.readString()
+        applicationId = input.readOptionalString()
     )
 
     /**
@@ -160,7 +160,7 @@ internal data class SavedVisualization(
         output.writeOptionalWriteable(selectedDateRange)
         output.writeOptionalWriteable(selectedTimestamp)
         output.writeOptionalWriteable(selectedFields)
-        output.writeString(applicationId)
+        output.writeOptionalString(applicationId)
     }
 
     /**

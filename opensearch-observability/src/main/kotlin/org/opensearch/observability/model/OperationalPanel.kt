@@ -61,7 +61,7 @@ internal data class OperationalPanel(
     val visualizations: List<Visualization>?,
     val timeRange: TimeRange?,
     val queryFilter: QueryFilter?,
-    val applicationId: String?
+    val applicationId: String? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -145,7 +145,7 @@ internal data class OperationalPanel(
         visualizations = input.readList(Visualization.reader),
         timeRange = input.readOptionalWriteable(TimeRange.reader),
         queryFilter = input.readOptionalWriteable(QueryFilter.reader),
-        applicationId = input.readString()
+        applicationId = input.readOptionalString()
     )
 
     /**
@@ -156,7 +156,7 @@ internal data class OperationalPanel(
         output.writeCollection(visualizations)
         output.writeOptionalWriteable(timeRange)
         output.writeOptionalWriteable(queryFilter)
-        output.writeString(applicationId)
+        output.writeOptionalString(applicationId)
     }
 
     /**
