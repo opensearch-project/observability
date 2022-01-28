@@ -176,7 +176,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       });
   };
 
-  // Deletes an existing Operational Panel
+  // Deletes multiple existing Operational Panels
   const deleteCustomPanelList = (customPanelIdList: string[], toastMessage: string) => {
     const concatList = customPanelIdList.toString();
     return http
@@ -246,7 +246,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
 
-      let savedVisualizationIds = [];
+      let savedVisualizationIds: Array<string> = [];
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
         .then((resp) => (savedVisualizationIds = [...resp.savedVizIds]));
