@@ -5,20 +5,21 @@
 
 import './config_panel.scss';
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { isEmpty } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { EuiTabbedContent } from '@elastic/eui';
+import { EuiTabbedContent, EuiFlexGroup, EuiFlexItem, EuiButtonIcon } from '@elastic/eui';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
 } from '../../slices/viualization_config_slice';
 import { ConfigEditor } from './config_editor/config_editor';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
-import { VizDataMappingPanel } from './config_raw_data/config_raw_data';
+import { VizDataPanel } from './config_raw_data/config_raw_data';
 import { TabContext } from '../../hooks';
+import { DefaultEditorControls } from './DefaultEditorControls';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -54,6 +55,7 @@ export const ConfigPanel = ({ vizVectors }: any) => {
     setToast,
   } = useContext(TabContext);
   const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleConfigUpdate = (payload) => {
     try {
@@ -127,13 +129,10 @@ export const ConfigPanel = ({ vizVectors }: any) => {
       ),
     },
     {
-      id: 'raw-data-panel',
-      name: 'Data Mapping',
+      id: 'data-panel',
+      name: 'Data',
       content: (
-        <VizDataMappingPanel
-          queriedVizRes={explorerVisualizations}
-          customVizConfigs={customVizConfigs}
-        />
+        <VizDataPanel queriedVizRes={explorerVisualizations} customVizConfigs={customVizConfigs} />
       ),
       // content: (
       //   <ConfigEditor
@@ -153,12 +152,31 @@ export const ConfigPanel = ({ vizVectors }: any) => {
     },
   ];
 
+  const onClickCollapse = () => {
+    setIsCollapsed((staleState) => !staleState);
+  };
+
   return (
-    <EuiTabbedContent
-      id="vis-config-tabs"
-      tabs={tabs}
-      initialSelectedTab={tabs[0]}
-      autoFocus="selected"
-    />
+    <>
+      <EuiFlexGroup
+        className="visEditorSidebar"
+        direction="column"
+        justifyContent="spaceBetween"
+        gutterSize="none"
+        responsive={false}
+      >
+        <EuiFlexItem>
+          <EuiTabbedContent
+            id="vis-config-tabs"
+            tabs={tabs}
+            initialSelectedTab={tabs[0]}
+            autoFocus="selected"
+          />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <DefaultEditorControls isDirty={true} isInvalid={false} />
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </>
   );
 };

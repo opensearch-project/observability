@@ -4,21 +4,29 @@
  */
 
 import React, { useState, useMemo, useContext } from 'react';
-import { EuiForm, EuiSpacer, EuiTabbedContent } from '@elastic/eui';
+import {
+  EuiForm,
+  EuiSpacer,
+  EuiTabbedContent,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPanel,
+  EuiAccordion,
+} from '@elastic/eui';
 import { EuiInMemoryTable } from '@elastic/eui';
 import { PanelItem } from '../configPanelItem';
+import { ConfigEditor } from '../config_editor/config_editor';
 import { PlotlyVizEditor } from '../../shared_components/plotly_viz_editor';
 // import { ConfigPanelItems } from '../configPanelItem';
 
-export const VizDataMappingPanel = ({
+export const VizDataPanel = ({
   spec,
   onConfigUpdate,
   setToast,
   vizVectors,
   columns,
   customVizConfigs,
-  xaxis,
-  yaxis,
+  queriedVizRes,
 }: any) => {
   const [pagination, setPagination] = useState({ pageIndex: 0 });
   const [hjsonConfig, setHjsonConfig] = useState(spec);
@@ -26,57 +34,55 @@ export const VizDataMappingPanel = ({
     {
       paddingTitle: 'X-axis',
       advancedTitle: 'Advanced',
-      dropdownList: xaxis?.fields,
+      dropdownList: queriedVizRes?.metadata?.fields || [],
+      defaultAxis: queriedVizRes?.metadata?.fields[queriedVizRes?.metadata?.fields.length - 1],
     },
     {
       paddingTitle: 'Y-axis',
       advancedTitle: 'Advanced',
-      dropdownList: yaxis?.fields,
+      dropdownList: queriedVizRes?.metadata?.fields || [],
+      defaultAxis: queriedVizRes?.metadata?.fields[0],
     },
   ];
 
-  const ConfigPanelItems = (props) => {
-    const { panelItems } = props;
-    return (
-      <EuiForm className="lnsConfigPanel">
-        {panelItems.map((item, index) => {
-          return (
-            <section key={index}>
-              <PanelItem
-                paddingTitle={item.paddingTitle}
-                advancedTitle={item.advancedTitle}
-                dropdownList={item.dropdownList}
-              >
-                here goes advanced setting
-              </PanelItem>
-              <EuiSpacer size="s" />
-            </section>
-          );
-        })}
-      </EuiForm>
-    );
-  };
   return (
     <>
-      <ConfigPanelItems panelItems={panelItems} />
-      {/* <EuiInMemoryTable
-        items={vizVectors.map((row, index) => {
-          return {
-            ...row,
-            index,
-          };
-        })}
-        columns={columns.map((col) => {
-          return {
-            field: col.name,
-            name: col.name,
-            sortable: true,
-            truncateText: true,
-          };
-        })}
-        pagination={pagination}
-        tableCaption="Query data"
-      /> */}
+      <EuiFlexGroup
+        className="visEditorSidebar"
+        direction="column"
+        justifyContent="spaceBetween"
+        gutterSize="none"
+        responsive={false}
+      >
+        <EuiFlexItem className="visEditorSidebar__formWrapper">
+          <EuiForm className="visEditorSidebar__form">
+            <EuiPanel paddingSize="m">
+              {panelItems.map((item, index) => {
+                return (
+                  <section key={index}>
+                    <PanelItem
+                      paddingTitle={item.paddingTitle}
+                      advancedTitle={item.advancedTitle}
+                      dropdownList={item.dropdownList}
+                      defaultAxis={item.defaultAxis}
+                    >
+                      <ConfigEditor
+                        setToast={setToast}
+                        onConfigUpdate={onConfigUpdate}
+                        spec={spec}
+                      />
+                    </PanelItem>
+                    <EuiSpacer size="s" />
+                  </section>
+                );
+              })}
+              <EuiAccordion id="accordion1" buttonContent="Advanced">
+                <ConfigEditor setToast={setToast} onConfigUpdate={onConfigUpdate} spec={spec} />
+              </EuiAccordion>
+            </EuiPanel>
+          </EuiForm>
+        </EuiFlexItem>
+      </EuiFlexGroup>
     </>
   );
 };

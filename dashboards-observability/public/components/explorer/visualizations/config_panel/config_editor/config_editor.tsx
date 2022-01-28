@@ -30,7 +30,7 @@ export const ConfigEditor = ({ spec, onConfigUpdate, setToast }: any) => {
             setToast={setToast}
           />
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
+        {/* <EuiFlexItem grow={false}>
           <div className="visEditorSidebar__controls">
             <EuiFlexGroup justifyContent="spaceBetween" gutterSize="none" responsive={false}>
               <EuiFlexItem grow={false}>
@@ -49,7 +49,7 @@ export const ConfigEditor = ({ spec, onConfigUpdate, setToast }: any) => {
               </EuiFlexItem>
             </EuiFlexGroup>
           </div>
-        </EuiFlexItem>
+        </EuiFlexItem> */}
       </EuiFlexGroup>
     </>
   );
