@@ -15,6 +15,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
+import { Home as Uptime } from './uptime/home';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
@@ -50,6 +51,20 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
+              <Route
+                path="/uptime"
+                render={(props) => {
+                  return (
+                    <Uptime
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      pplService={pplService}
+                      renderProps={props}
+                    />
+                  );
+                }}
+              />
               <Route
                 path="/notebooks"
                 render={(props) => (
