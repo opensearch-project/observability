@@ -18,7 +18,7 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import { optionType, ApplicationListType } from '../../../common/types/app_analytics';
+import { optionType, ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
 import { isNameValid } from './helpers/utils';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
@@ -121,7 +121,6 @@ export const Home = (props: HomeProps) => {
   };
 
   const createPanelForApp = (applicationId: string, appName: string) => {
-    // Create new panel with application id field
     return http
       .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
         body: JSON.stringify({
@@ -129,8 +128,8 @@ export const Home = (props: HomeProps) => {
           applicationId: applicationId,
         }),
       })
-      .then(async (res) => {
-        // Add panelId to application
+      .then((res) => {
+        updateApp(applicationId, {panelId: res.newPanelId}, false);
       })
       .catch((err) => {
         setToast(
@@ -142,7 +141,8 @@ export const Home = (props: HomeProps) => {
         );
         console.error(err);
       });
-  }
+  };
+
 
   // Fetches all existing applications
   const fetchApps = () => {
@@ -155,7 +155,7 @@ export const Home = (props: HomeProps) => {
         setToast('Error occurred while fetching applications', 'danger');
         console.error(err);
       })
-  }
+  };
 
   // Create a new application
   const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
@@ -220,6 +220,28 @@ export const Home = (props: HomeProps) => {
         setToast('Error occurred while renaming application', 'danger');
         console.error(err);
       });
+  };
+
+  // Update existing application
+  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => {
+    const requestBody = {
+      appId: appId,
+      updateBody: updateAppData,
+    }
+
+    return http
+      .patch(`${APP_ANALYTICS_API_PREFIX}/`, {
+        body: JSON.stringify(requestBody)
+      })
+      .then((res) => {
+        if (edit) {
+          window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
+          setToast('Application successfully updated.');
+        }
+      }).catch((err) => {
+        setToast('Error occurred while updating application', 'danger');
+        console.error(err);
+      })
   };
 
   // Delete existing applications

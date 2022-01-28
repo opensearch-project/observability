@@ -20,4 +20,5 @@ export type ApplicationType = {
   query: string;
   selectedServices: Array<string>;
   selectedTraces: Array<string>;
+  panelId: string;
 }
