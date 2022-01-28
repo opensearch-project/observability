@@ -181,7 +181,6 @@ export const Home = (props: HomeProps) => {
         createPanelForApp(res.newAppId, name);
         setToast(`Application "${name}" successfully created!`);
         clearStorage();
-        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
       })
       .catch((err) => {
         setToast(`Error occurred while creating new application "${name}"`, 'danger');
@@ -235,9 +234,9 @@ export const Home = (props: HomeProps) => {
       })
       .then((res) => {
         if (edit) {
-          window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
           setToast('Application successfully updated.');
         }
+        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
       }).catch((err) => {
         setToast('Error occurred while updating application', 'danger');
         console.error(err);

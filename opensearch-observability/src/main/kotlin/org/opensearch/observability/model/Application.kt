@@ -45,8 +45,8 @@ internal data class Application(
     val name: String?,
     val description: String?,
     val baseQuery: String?,
-    val servicesEntities: List<String>,
-    val traceGroups: List<String>,
+    val servicesEntities: List<String>?,
+    val traceGroups: List<String>?,
     val panelId: String?
 ) : BaseObjectData {
 
@@ -78,9 +78,9 @@ internal data class Application(
             var name: String? = null
             var description: String? = null
             var baseQuery: String? = null
-            var servicesEntities: List<String> = listOf()
-            var traceGroups: List<String> = listOf()
-            var panelIdL String? = null
+            var servicesEntities: List<String>? = null
+            var traceGroups: List<String>? = null
+            var panelId: String? = null
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),

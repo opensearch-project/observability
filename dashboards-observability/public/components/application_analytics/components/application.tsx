@@ -78,7 +78,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
 
 export function Application(props: AppDetailProps) {
   const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
-  const [application, setApplication] = useState<ApplicationType>({name: '', description: '', query: '', selectedServices: [], selectedTraces: [], panelId: ''});
+  const [application, setApplication] = useState<ApplicationType>({name: '', description: '', baseQuery: '', servicesEntities: [], traceGroups: [], panelId: ''});
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
