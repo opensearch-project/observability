@@ -108,7 +108,7 @@ export class CustomPanelsAdaptor {
 
   // Create a new Panel
   createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
-    const panelBody = {
+    var panelBody: PanelType = {
       name: panelName,
       visualizations: [],
       timeRange: {
@@ -118,9 +118,11 @@ export class CustomPanelsAdaptor {
       queryFilter: {
         query: '',
         language: 'ppl',
-      },
-      applicationId: appId || '',
+      }
     };
+    if (appId) {
+      panelBody.applicationId = appId;
+    }
 
     try {
       const response = await this.indexPanel(client, panelBody);
