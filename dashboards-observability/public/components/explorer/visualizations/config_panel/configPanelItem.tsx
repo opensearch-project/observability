@@ -10,24 +10,26 @@ import { EuiPanel, EuiTitle, EuiAccordion, EuiComboBox, EuiSpacer } from '@elast
 export const PanelItem = ({
   paddingTitle,
   advancedTitle,
-  defaultAxis,
+  selectedAxis,
   dropdownList,
   children,
+  onSelectChange,
+  isSingleSelection = false,
 }: any) => {
-  console.log('defaultAxis.name: ', defaultAxis?.name);
-  console.log('{ ...defaultAxis, label: defaultAxis.name }: ', {
-    ...defaultAxis,
-    label: defaultAxis.name,
-  });
-
   const options = dropdownList.map((item) => {
     return {
       label: item.name,
     };
   });
-  const [selectedOption, setValue] = useState([{ ...defaultAxis, label: defaultAxis?.name || '' }]);
+  // const selectedOptions = selectedAxis.map((item) => {
+  //   return {
+  //     label: item.name,
+  //   };
+  // });
+  // const [selectedOption, setValue] = useState(selectedOptions);
   const handleSelect = (selectedOption) => {
-    setValue(selectedOption);
+    console.log('selectedOption: ', selectedOption);
+    onSelectChange(selectedOption);
   };
   return (
     <>
@@ -39,9 +41,9 @@ export const PanelItem = ({
         id={uniqueId('axis-select-')}
         placeholder="Select a field"
         options={options}
-        selectedOptions={selectedOption}
-        singleSelection={{ asPlainText: true }}
-        onChange={(e) => handleSelect(e)}
+        selectedOptions={selectedAxis}
+        singleSelection={isSingleSelection}
+        onChange={(options) => handleSelect(options)}
         aria-label="Use aria labels when no actual label is in use"
       />
       <EuiSpacer size="s" />

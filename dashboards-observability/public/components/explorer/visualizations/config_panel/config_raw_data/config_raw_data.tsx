@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useState, useMemo, useContext, useEffect } from 'react';
 import {
   EuiForm,
   EuiSpacer,
@@ -27,23 +27,79 @@ export const VizDataPanel = ({
   columns,
   customVizConfigs,
   queriedVizRes,
+  curVisId,
+  xaxis,
+  yaxis,
+  setXaxis,
+  setYaxis,
 }: any) => {
   const [pagination, setPagination] = useState({ pageIndex: 0 });
   const [hjsonConfig, setHjsonConfig] = useState(spec);
-  const panelItems = [
-    {
-      paddingTitle: 'X-axis',
-      advancedTitle: 'Advanced',
-      dropdownList: queriedVizRes?.metadata?.fields || [],
-      defaultAxis: queriedVizRes?.metadata?.fields[queriedVizRes?.metadata?.fields.length - 1],
-    },
-    {
-      paddingTitle: 'Y-axis',
-      advancedTitle: 'Advanced',
-      dropdownList: queriedVizRes?.metadata?.fields || [],
-      defaultAxis: queriedVizRes?.metadata?.fields[0],
-    },
-  ];
+  // const [xaxis, setXaxis] = useState([]);
+  // const [yaxis, setYaxis] = useState([]);
+  // const labelAddedFields = queriedVizRes?.metadata?.fields.map((field) => {
+  //   return {
+  //     ...field,
+  //     label: field.name,
+  //   };
+  // });
+  // useEffect(() => {
+  //   const needsRotate = curVisId === 'horizontal_bar';
+  //   if (needsRotate) {
+  //     setXaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
+  //     setYaxis([labelAddedFields[labelAddedFields.length - 1]]);
+  //   } else {
+  //     setYaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
+  //     setXaxis([labelAddedFields[labelAddedFields.length - 1]]);
+  //   }
+  // }, []);
+
+  const panelItems = useMemo(() => {
+    console.log('curVisId: ', curVisId);
+    return curVisId !== 'horizontal_bar'
+      ? [
+          {
+            paddingTitle: 'X-axis',
+            advancedTitle: 'Advanced',
+            dropdownList: queriedVizRes?.metadata?.fields || [],
+            selectedAxis: xaxis,
+            isSingleSelection: true,
+            onAxisChage: setXaxis,
+          },
+          {
+            paddingTitle: 'Y-axis',
+            advancedTitle: 'Advanced',
+            dropdownList: queriedVizRes?.metadata?.fields || [],
+            selectedAxis: yaxis,
+            isSingleSelection: false,
+            onAxisChage: setYaxis,
+          },
+        ]
+      : [
+          {
+            paddingTitle: 'X-axis',
+            advancedTitle: 'Advanced',
+            dropdownList: queriedVizRes?.metadata?.fields || [],
+            selectedAxis: xaxis,
+            isSingleSelection: false,
+            onAxisChage: setXaxis,
+          },
+          {
+            paddingTitle: 'Y-axis',
+            advancedTitle: 'Advanced',
+            dropdownList: queriedVizRes?.metadata?.fields || [],
+            isSingleSelection: true,
+            selectedAxis: yaxis,
+            onAxisChage: setYaxis,
+          },
+        ];
+  }, [curVisId, queriedVizRes?.metadata?.fields, xaxis, yaxis]);
+
+  const handleConfigChange = (changes) => {
+    onConfigUpdate({
+      ...changes,
+    });
+  };
 
   return (
     <>
@@ -64,20 +120,25 @@ export const VizDataPanel = ({
                       paddingTitle={item.paddingTitle}
                       advancedTitle={item.advancedTitle}
                       dropdownList={item.dropdownList}
-                      defaultAxis={item.defaultAxis}
-                    >
-                      <ConfigEditor
-                        setToast={setToast}
-                        onConfigUpdate={onConfigUpdate}
-                        spec={spec}
-                      />
-                    </PanelItem>
+                      selectedAxis={item.selectedAxis}
+                      isSingleSelection={item.isSingleSelection}
+                      onSelectChange={item.onAxisChage}
+                    />
                     <EuiSpacer size="s" />
                   </section>
                 );
               })}
               <EuiAccordion id="accordion1" buttonContent="Advanced">
-                <ConfigEditor setToast={setToast} onConfigUpdate={onConfigUpdate} spec={spec} />
+                <ConfigEditor
+                  setToast={setToast}
+                  onConfigUpdate={() => {
+                    // handleConfigChange({
+                    //   xaxis,
+                    //   yaxis,
+                    // });
+                  }}
+                  spec={spec}
+                />
               </EuiAccordion>
             </EuiPanel>
           </EuiForm>

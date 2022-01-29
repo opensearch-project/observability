@@ -13,7 +13,7 @@ import {
   EuiToolTip,
 } from '@elastic/eui';
 
-export const DefaultEditorControls = ({ isInvalid, isDirty }: any) => {
+export const DefaultEditorControls = ({ isInvalid, isDirty, onConfigUpdate }: any) => {
   return (
     <div className="visEditorSidebar__controls">
       <EuiFlexGroup justifyContent="spaceBetween" gutterSize="none" responsive={false}>
@@ -41,7 +41,7 @@ export const DefaultEditorControls = ({ isInvalid, isDirty }: any) => {
               disabled={!isDirty}
               fill
               iconType="play"
-              onClick={() => {}}
+              onClick={onConfigUpdate}
               size="s"
             >
               Update

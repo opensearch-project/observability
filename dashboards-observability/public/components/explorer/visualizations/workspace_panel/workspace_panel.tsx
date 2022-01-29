@@ -73,8 +73,10 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
   const VisualizationPanel = useMemo(() => {
     const visDef = getVisDefById(curVisId);
     visDef.dispatch = handleDispatch;
-    return <Visualization vis={visDef} visData={visualizations} />;
-  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
+    return (
+      <Visualization vis={visDef} visData={visualizations} customVizConfigs={customVizConfigs} />
+    );
+  }, [curVisId, visualizations, handleDispatch, getVisDefById, customVizConfigs]);
 
   return (
     <WorkspacePanelWrapper

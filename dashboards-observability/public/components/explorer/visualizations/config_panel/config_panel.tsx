@@ -5,7 +5,7 @@
 
 import './config_panel.scss';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
@@ -57,14 +57,41 @@ export const ConfigPanel = ({ vizVectors }: any) => {
   const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const [xaxis, setXaxis] = useState([]);
+  const [yaxis, setYaxis] = useState([]);
+  useEffect(() => {
+    const labelAddedFields = explorerVisualizations?.metadata?.fields.map((field) => {
+      return {
+        ...field,
+        label: field.name,
+      };
+    });
+    const needsRotate = curVisId === 'horizontal_bar';
+    if (labelAddedFields) {
+      if (needsRotate) {
+        setXaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
+        setYaxis([labelAddedFields[labelAddedFields.length - 1]]);
+      } else {
+        setYaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
+        setXaxis([labelAddedFields[labelAddedFields.length - 1]]);
+      }
+    }
+    
+  }, [explorerVisualizations]);
+
   const handleConfigUpdate = (payload) => {
+    console.log('payload:', payload);
     try {
       dispatch(
         changeVisualizationConfig({
           tabId,
           data: {
-            ...payload,
+            xaxis,
+            yaxis,
           },
+          // data: {
+          //   ...payload,
+          // },
         })
       );
     } catch (e) {
@@ -104,53 +131,49 @@ export const ConfigPanel = ({ vizVectors }: any) => {
   //   };
   // };
 
-  const tabs = [
-    {
-      id: 'style-panel',
-      name: 'Layout',
-      content: (
-        <ConfigEditor
-          // customVizConfigs={customVizConfigs}
-          onConfigUpdate={handleLayoutConfigChange}
-          // spec={getDefaultSpec(customVizConfigs)}
-          spec={
-            customVizConfigs?.layout || customVizConfigs?.config
-              ? hjson.stringify(
-                  {
-                    layout: { ...customVizConfigs?.layout },
-                    config: { ...customVizConfigs?.config },
-                  },
-                  HJSON_STRINGIFY_OPTIONS
-                )
-              : getDefaultSpec('layout')
-          }
-          setToast={setToast}
-        />
-      ),
-    },
-    {
-      id: 'data-panel',
-      name: 'Data',
-      content: (
-        <VizDataPanel queriedVizRes={explorerVisualizations} customVizConfigs={customVizConfigs} />
-      ),
-      // content: (
-      //   <ConfigEditor
-      //     // customVizConfigs={customVizConfigs}
-      //     onConfigUpdate={handleDataConfigChange}
-      //     spec={
-      //       customVizConfigs?.data
-      //         ? hjson.stringify(customVizConfigs?.data, HJSON_STRINGIFY_OPTIONS)
-      //         : getDefaultSpec('data')
-      //     }
-      //     setToast={setToast}
-      //   />
-      // ),
-      // content: (
-      //   <VizRawDataPanel spec={customVizConfigs?.data ? hjson.stringify(customVizConfigs?.data) : getDefaultSpec('data')} onConfigUpdate={handleConfigUpdate} setToast={setToast} vizVectors={vizVectors?.jsonData} columns={vizVectors?.metadata?.fields} />
-      // ),
-    },
-  ];
+  const tabs = useMemo(() => {
+    return [
+      {
+        id: 'style-panel',
+        name: 'Layout',
+        content: (
+          <ConfigEditor
+            // customVizConfigs={customVizConfigs}
+            onConfigUpdate={handleLayoutConfigChange}
+            // spec={getDefaultSpec(customVizConfigs)}
+            spec={
+              customVizConfigs?.layout || customVizConfigs?.config
+                ? hjson.stringify(
+                    {
+                      layout: { ...customVizConfigs?.layout },
+                      config: { ...customVizConfigs?.config },
+                    },
+                    HJSON_STRINGIFY_OPTIONS
+                  )
+                : getDefaultSpec('layout')
+            }
+            setToast={setToast}
+          />
+        ),
+      },
+      {
+        id: 'data-panel',
+        name: 'Data',
+        content: (
+          <VizDataPanel
+            queriedVizRes={explorerVisualizations}
+            customVizConfigs={customVizConfigs}
+            curVisId={curVisId}
+            onConfigUpdate={handleConfigUpdate}
+            xaxis={xaxis}
+            yaxis={yaxis}
+            setXaxis={setXaxis}
+            setYaxis={setYaxis}
+          />
+        ),
+      },
+    ];
+  }, [explorerVisualizations, curVisId, setToast, handleLayoutConfigChange]);
 
   const onClickCollapse = () => {
     setIsCollapsed((staleState) => !staleState);
@@ -174,7 +197,7 @@ export const ConfigPanel = ({ vizVectors }: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <DefaultEditorControls isDirty={true} isInvalid={false} />
+          <DefaultEditorControls isDirty={true} isInvalid={false} onConfigUpdate={handleConfigUpdate} />
         </EuiFlexItem>
       </EuiFlexGroup>
     </>
