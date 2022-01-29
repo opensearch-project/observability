@@ -7,13 +7,10 @@
 export const isNameValid = (name: string) => {
   let toast: string[]  = [];
   if (name.length >= 50) {
-    toast.push('Name must be less than 50 characters');
-  }
-  if (name.length === 0) {
-    toast.push('Name must be at least 1 character');
+    toast.push('Name must be less than 50 characters.');
   }
   if (name.trim().length === 0) {
-    toast.push('Name must have characters')
+    toast.push('Name must not be empty.')
   }
   return toast;
 };
