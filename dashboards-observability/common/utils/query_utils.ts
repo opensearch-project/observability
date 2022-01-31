@@ -20,6 +20,10 @@ export const getIndexPatternFromRawQuery = (query: string) : string => {
   return '';
 };
 
+const commandExists = (query: string, command: string): boolean => {
+  return new RegExp(`\\|\\s*${command}\\b`).test(query);
+}
+
 export const insertDateRangeToQuery = ({
   rawQuery,
   startTime,
@@ -42,7 +46,12 @@ export const insertDateRangeToQuery = ({
   const tokens = rawQuery.replaceAll(PPL_NEWLINE_REGEX, '').match(PPL_INDEX_INSERT_POINT_REGEX);
   
   if (isEmpty(tokens)) return finalQuery;
-  finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]}`;
+
+  let conditions = `| where ${timeField} >= '${start}' and ${timeField} <= '${end}'`;
+  if (commandExists(rawQuery, 'parse')) {
+    conditions += ` | sort - ${timeField} | head 10000`;
+  }
+  finalQuery = `${tokens![1]}=${tokens![2]} ${conditions} ${tokens![3]}`;
 
   return finalQuery;
 };
