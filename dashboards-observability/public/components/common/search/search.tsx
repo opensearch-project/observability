@@ -155,7 +155,10 @@ export const Search = (props: any) => {
                   savedObjects={savedObjects}
                   isTextFieldInvalid={isPanelTextFieldInvalid}
                   savePanelName={selectedPanelName}
-                  showOptionList={showSavePanelOptionsList}
+                  showOptionList={
+                    showSavePanelOptionsList &&
+                    searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
+                  }
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">

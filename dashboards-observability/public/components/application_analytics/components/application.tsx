@@ -53,12 +53,14 @@ const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
-const logConfig = {
+const searchBarConfigs = {
   [TAB_EVENT_ID]: {
     showSaveButton: false,
+    showSavePanelOptionsList: false,
   },
   [TAB_CHART_ID]: {
     showSaveButton: true,
+    showSavePanelOptionsList: false,
   },
 };
 
@@ -199,7 +201,7 @@ export function Application(props: AppDetailProps) {
         savedObjectId={''}
         http={http}
         showSaveButton={true}
-        searchBarConfigs={logConfig}
+        searchBarConfigs={searchBarConfigs}
       />
     );
   };

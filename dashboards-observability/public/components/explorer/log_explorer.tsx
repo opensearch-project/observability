@@ -32,6 +32,17 @@ import {
   selectQueryResult,
 } from './slices/query_result_slice';
 
+const searchBarConfigs = {
+  [TAB_EVENT_ID]: {
+    showSaveButton: true,
+    showSavePanelOptionsList: false,
+  },
+  [TAB_CHART_ID]: {
+    showSaveButton: true,
+    showSavePanelOptionsList: true,
+  },
+};
+
 export const LogExplorer = ({
   pplService,
   dslService,
@@ -198,6 +209,8 @@ export const LogExplorer = ({
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
             http={http}
+            showSaveButton={true}
+            searchBarConfigs={searchBarConfigs}
           />
         </>
       ),
@@ -215,13 +228,6 @@ export const LogExplorer = ({
 
     return res;
   }, [tabIds, tabNames, tabCreatedTypes]);
-
-  const logConfig = {
-    [TAB_EVENT_ID]: {
-      isSaveBtnDisabled: true,
-    },
-    [TAB_CHART_ID]: {},
-  };
 
   return (
     <>
