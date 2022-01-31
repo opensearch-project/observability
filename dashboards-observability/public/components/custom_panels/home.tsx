@@ -19,7 +19,7 @@ import {
   OBSERVABILITY_BASE,
   SAVED_OBJECTS,
 } from '../../../common/constants/shared';
-import { CustomPanelListType } from '../../../common/types/custom_panels';
+import { CustomPanelListType, PanelType } from '../../../common/types/custom_panels';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
@@ -62,7 +62,9 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     http
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
       .then((res) => {
-        setcustomPanelData(res.panels);
+        // Filter out panels that do not have applicationId field
+        const nonAppPanels = res.panels.filter((p: PanelType) => !p.applicationId);
+        setcustomPanelData(nonAppPanels);
       })
       .catch((err) => {
         console.error('Issue in fetching the operational panels', err.body.message);

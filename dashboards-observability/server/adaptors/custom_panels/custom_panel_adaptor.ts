@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import { CustomPanelListType, PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -71,12 +71,20 @@ export class CustomPanelsAdaptor {
         objectType: 'operationalPanel',
         maxItems: 10000,
       });
-      return response.observabilityObjectList.map((panel: any) => ({
-        name: panel.operationalPanel.name,
-        id: panel.objectId,
-        dateCreated: panel.createdTimeMs,
-        dateModified: panel.lastUpdatedTimeMs,
-      }));
+      var panelList: any[] = [];
+      for (const panel of response.observabilityObjectList) {
+        var object: CustomPanelListType = {
+          name: panel.operationalPanel.name,
+          id: panel.objectId,
+          dateCreated: panel.createdTimeMs,
+          dateModified: panel.lastUpdatedTimeMs
+        }
+        if (panel.operationalPanel.applicationId) {
+          object.applicationId = panel.operationalPanel.applicationId;
+        }
+        panelList.push(object);
+      }
+      return panelList;
     } catch (error) {
       throw new Error('View Panel List Error:' + error);
     }
