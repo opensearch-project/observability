@@ -78,7 +78,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
 
 export function Application(props: AppDetailProps) {
   const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
-  const [application, setApplication] = useState<ApplicationType>();
+  const [application, setApplication] = useState<ApplicationType>({name: '', description: '', baseQuery: '', servicesEntities: [], traceGroups: [], panelId: ''});
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
@@ -128,11 +128,11 @@ export function Application(props: AppDetailProps) {
         href: '#/application_analytics',
       },
       {
-        text: application?.name || '',
+        text: application.name,
         href: `${parentBreadcrumb.href}${appId}`,
       },
     ]);
-  }, [appId, application?.name]);
+  }, [appId, application.name]);
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -154,20 +154,20 @@ export function Application(props: AppDetailProps) {
 
   const getOverview = () => {
     return (
-      <Dashboard {...props} page="app" appId={appId} appName={application?.name} />
+      <Dashboard {...props} page="app" appId={appId} appName={application.name} />
     );
   };
 
   const getService = () => {
     return (
-      <Services {...props} page="app" appId={appId} appName={application?.name} />
+      <Services {...props} page="app" appId={appId} appName={application.name} />
     );
   };
 
   const getTrace = () => {
     return (
       <>
-        <Traces {...props} page="app" appId={appId} appName={application?.name} />
+        <Traces {...props} page="app" appId={appId} appName={application.name} />
         <EuiSpacer size='m'/>
         <SpanDetailPanel
           {...props}
@@ -199,7 +199,7 @@ export function Application(props: AppDetailProps) {
   const getPanel = () => {
     return (
       <CustomPanelView
-        panelId={''}
+        panelId={application.panelId}
         http={http}
         pplService={pplService}
         chrome={chrome}
@@ -210,7 +210,7 @@ export function Application(props: AppDetailProps) {
         deleteCustomPanel={():Promise<string> => Promise.reject()}
         setToast={setToast}
         page="app"
-        appName={application?.name}
+        appName={application.name}
         appId={appId}
       />
     );
@@ -301,10 +301,10 @@ export function Application(props: AppDetailProps) {
         <EuiPageHeader>
           <EuiPageHeaderSection>
             <EuiTitle size="l">
-              <h1>{application?.name || ''}</h1>
+              <h1>{application.name}</h1>
             </EuiTitle>
             <EuiText>
-              <p>{application?.description}</p>
+              <p>{application.description}</p>
             </EuiText>
           </EuiPageHeaderSection>
         </EuiPageHeader>

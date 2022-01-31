@@ -18,11 +18,12 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import { optionType, ApplicationListType } from '../../../common/types/app_analytics';
+import { optionType, ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
 import { isNameValid } from './helpers/utils';
-import { EuiGlobalToastList } from '@elastic/eui';
+import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
+import { CUSTOM_PANELS_API_PREFIX, CUSTOM_PANELS_DOCUMENTATION_URL } from '../../../common/constants/custom_panels';
 
 export interface AppAnalyticsCoreDeps extends TraceAnalyticsCoreDeps {}
 
@@ -119,6 +120,30 @@ export const Home = (props: HomeProps) => {
     setQueryWithStorage('');
   };
 
+  const createPanelForApp = (applicationId: string, appName: string) => {
+    return http
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
+        body: JSON.stringify({
+          panelName: `${appName}'s Panel`,
+          applicationId: applicationId,
+        }),
+      })
+      .then((res) => {
+        updateApp(applicationId, {panelId: res.newPanelId}, false);
+      })
+      .catch((err) => {
+        setToast(
+          'Please ask your administrator to enable Operational Panels for you.',
+          'danger',
+          <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
+            Documentation
+          </EuiLink>
+        );
+        console.error(err);
+      });
+  };
+
+
   // Fetches all existing applications
   const fetchApps = () => {
     return http
@@ -130,7 +155,7 @@ export const Home = (props: HomeProps) => {
         setToast('Error occurred while fetching applications', 'danger');
         console.error(err);
       })
-  }
+  };
 
   // Create a new application
   const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
@@ -153,9 +178,9 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody)
       })
       .then((res) => {
+        createPanelForApp(res.newAppId, name);
         setToast(`Application "${name}" successfully created!`);
         clearStorage();
-        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.newAppId}`)
       })
       .catch((err) => {
         setToast(`Error occurred while creating new application "${name}"`, 'danger');
@@ -194,6 +219,28 @@ export const Home = (props: HomeProps) => {
         setToast('Error occurred while renaming application', 'danger');
         console.error(err);
       });
+  };
+
+  // Update existing application
+  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => {
+    const requestBody = {
+      appId: appId,
+      updateBody: updateAppData,
+    }
+
+    return http
+      .patch(`${APP_ANALYTICS_API_PREFIX}/`, {
+        body: JSON.stringify(requestBody)
+      })
+      .then((res) => {
+        if (edit) {
+          setToast('Application successfully updated.');
+        }
+        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
+      }).catch((err) => {
+        setToast('Error occurred while updating application', 'danger');
+        console.error(err);
+      })
   };
 
   // Delete existing applications
