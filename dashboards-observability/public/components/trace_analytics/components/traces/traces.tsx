@@ -94,7 +94,7 @@ export function Traces(props: TracesProps) {
         page={page}
       />
       <EuiSpacer size="m" />
-      <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} />
+      <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} page={page}/>
     </>
   );
 }
