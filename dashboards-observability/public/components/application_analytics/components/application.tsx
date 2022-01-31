@@ -53,6 +53,14 @@ const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
+const logConfig = {
+  [TAB_EVENT_ID]: {
+    showSaveButton: false,
+  },
+  [TAB_CHART_ID]: {
+    showSaveButton: true,
+  },
+};
 
 export interface DetailTab {
   id: string;
@@ -176,13 +184,6 @@ export function Application(props: AppDetailProps) {
     );
   };
 
-  const logConfig = {
-    [TAB_EVENT_ID]: {
-      isSaveBtnDisabled: true,
-    },
-    [TAB_CHART_ID]: {},
-  };
-
   const getLog = () => {
     return (
       <Explorer
@@ -197,6 +198,7 @@ export function Application(props: AppDetailProps) {
         notifications={notifications}
         savedObjectId={''}
         http={http}
+        showSaveButton={true}
         searchBarConfigs={logConfig}
       />
     );

@@ -88,7 +88,7 @@ export const Search = (props: any) => {
   const Savebutton = useMemo(() => {
     return (
       <EuiButton
-        isDisabled={searchBarConfigs[selectedSubTabId]?.isSaveBtnDisabled || false}
+        // isDisabled={searchBarConfigs[selectedSubTabId]?.isSaveBtnDisabled || false}
         iconSide="right"
         onClick={() => {
           setIsSavePanelOpen((staleState) => {
@@ -140,7 +140,7 @@ export const Search = (props: any) => {
             handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           />
         </EuiFlexItem>
-        {showSaveButton && (
+        {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
