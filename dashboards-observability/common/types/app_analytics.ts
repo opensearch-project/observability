@@ -17,7 +17,8 @@ export type ApplicationListType = {
 export type ApplicationType = {
   name: string;
   description: string;
-  query: string;
-  selectedServices: Array<string>;
-  selectedTraces: Array<string>;
+  baseQuery: string;
+  servicesEntities: Array<string>;
+  traceGroups: Array<string>;
+  panelId: string;
 }

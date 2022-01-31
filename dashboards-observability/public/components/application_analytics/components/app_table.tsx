@@ -204,8 +204,6 @@ export function AppTable(props: AppTableProps) {
                   <EuiFlexItem>
                     <EuiButton
                       fill
-                      iconSide="left"
-                      iconType="heart"
                       href={`#/application_analytics/create`}
                       >
                       Create application
@@ -247,7 +245,7 @@ export function AppTable(props: AppTableProps) {
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false}>
+                    <EuiButton fullWidth={false} href={`#/application_analytics/create`}>
                       Create application
                     </EuiButton>
                   </EuiFlexItem>
