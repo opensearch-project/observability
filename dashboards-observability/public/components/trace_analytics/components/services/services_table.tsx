@@ -114,7 +114,7 @@ export function ServicesTable(props: {
           render: (item, row) => (
             <>
               {item === 0 || item ? (
-                page === "app" ?
+                props.page === "app" ?
                 <EuiLink>
                   <EuiI18nNumber value={item} />
                 </EuiLink>
