@@ -88,7 +88,6 @@ export const Search = (props: any) => {
   const Savebutton = useMemo(() => {
     return (
       <EuiButton
-        // isDisabled={searchBarConfigs[selectedSubTabId]?.isSaveBtnDisabled || false}
         iconSide="right"
         onClick={() => {
           setIsSavePanelOpen((staleState) => {
