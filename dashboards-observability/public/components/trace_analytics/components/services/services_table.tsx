@@ -29,6 +29,7 @@ export function ServicesTable(props: {
   refresh: () => void;
   indicesExist: boolean;
   loading: boolean;
+  page?: string;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -49,6 +50,11 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           render: (item) => (
+            props.page === "app" ?
+            <EuiLink>
+              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
+            </EuiLink>
+            :
             <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
               {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>

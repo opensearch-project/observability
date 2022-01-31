@@ -119,6 +119,7 @@ export function Services(props: ServicesProps) {
         refresh={refresh}
         indicesExist={props.indicesExist}
         loading={loading}
+        page={page}
       />
     </>
   );
