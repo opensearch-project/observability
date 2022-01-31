@@ -114,6 +114,11 @@ export function ServicesTable(props: {
           render: (item, row) => (
             <>
               {item === 0 || item ? (
+                page === "app" ?
+                <EuiLink>
+                  <EuiI18nNumber value={item} />
+                </EuiLink>
+                :
                 <EuiLink
                   onClick={() => {
                     props.setRedirect(true);
