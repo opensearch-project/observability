@@ -14,12 +14,12 @@ exports[`Dashboard component renders dashboard 1`] = `
                 "text": "test",
               },
               Object {
-                "href": "#/application_analytics",
-                "text": "Application analytics",
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
               },
               Object {
-                "href": "#/application_analytics/undefined",
-                "text": "undefined",
+                "href": "#/trace_analytics/home",
+                "text": "Dashboards",
               },
             ],
           ],
@@ -37,7 +37,7 @@ exports[`Dashboard component renders dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
-  page="app"
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -65,17 +65,24 @@ exports[`Dashboard component renders dashboard 1`] = `
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >
-  <EuiSpacer
-    size="m"
+  <EuiTitle
+    size="l"
   >
-    <div
-      className="euiSpacer euiSpacer--m"
-    />
-  </EuiSpacer>
+    <h2
+      className="euiTitle euiTitle--large"
+      style={
+        Object {
+          "fontWeight": 430,
+        }
+      }
+    >
+      Dashboard
+    </h2>
+  </EuiTitle>
   <SearchBar
     endTime="now"
     filters={Array []}
-    page="app"
+    page="dashboard"
     query=""
     refresh={[Function]}
     setEndTime={[MockFunction]}
@@ -694,7 +701,7 @@ exports[`Dashboard component renders dashboard 1`] = `
     </EuiSpacer>
     <Filters
       filters={Array []}
-      page="app"
+      page="dashboard"
       setFilters={
         [MockFunction] {
           "calls": Array [
@@ -1166,6 +1173,7 @@ exports[`Dashboard component renders dashboard 1`] = `
           <ServiceMap
             addFilter={[Function]}
             idSelected="latency"
+            page="dashboard"
             serviceMap={Object {}}
             setIdSelected={[Function]}
           >
@@ -1993,12 +2001,12 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                 "text": "test",
               },
               Object {
-                "href": "#/application_analytics",
-                "text": "Application analytics",
+                "href": "#/trace_analytics/home",
+                "text": "Trace analytics",
               },
               Object {
-                "href": "#/application_analytics/undefined",
-                "text": "undefined",
+                "href": "#/trace_analytics/home",
+                "text": "Dashboards",
               },
             ],
           ],
@@ -2016,7 +2024,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
-  page="app"
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -2044,17 +2052,24 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >
-  <EuiSpacer
-    size="m"
+  <EuiTitle
+    size="l"
   >
-    <div
-      className="euiSpacer euiSpacer--m"
-    />
-  </EuiSpacer>
+    <h2
+      className="euiTitle euiTitle--large"
+      style={
+        Object {
+          "fontWeight": 430,
+        }
+      }
+    >
+      Dashboard
+    </h2>
+  </EuiTitle>
   <SearchBar
     endTime="now"
     filters={Array []}
-    page="app"
+    page="dashboard"
     query=""
     refresh={[Function]}
     setEndTime={[MockFunction]}
@@ -2655,7 +2670,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
     </EuiSpacer>
     <Filters
       filters={Array []}
-      page="app"
+      page="dashboard"
       setFilters={
         [MockFunction] {
           "calls": Array [

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ApplicationType } from "../../../common/types/app_analytics";
+import { ApplicationListType, ApplicationType } from "../../../common/types/app_analytics";
 import { ILegacyScopedClusterClient } from "../../../../../src/core/server";
 
 export class AppAnalyticsAdaptor {
@@ -101,7 +101,7 @@ export class AppAnalyticsAdaptor {
           application: updateAppBody,
         },
       });
-      return response;
+      return response.objectId;
     } catch (err: any) {
       throw new Error('Update Panel Error: ' + err);
     }

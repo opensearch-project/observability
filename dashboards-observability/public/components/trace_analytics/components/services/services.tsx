@@ -67,7 +67,7 @@ export function Services(props: ServicesProps) {
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, props.page);
     await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
     setLoading(false);
   };

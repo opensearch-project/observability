@@ -65,6 +65,9 @@ import { PPLReferenceFlyout } from '../common/helpers';
 
 type Props = {
   panelId: string;
+  page?: string;
+  appId?: string;
+  appName?: string;
   http: CoreStart['http'];
   pplService: PPLService;
   chrome: CoreStart['chrome'];
@@ -85,6 +88,9 @@ type Props = {
 
 export const CustomPanelView = ({
   panelId,
+  page,
+  appId,
+  appName,
   http,
   pplService,
   chrome,
@@ -472,15 +478,31 @@ export const CustomPanelView = ({
     checkDisabledInputs();
   }, [panelVisualizations, editMode]);
 
-  // Edit the breadcurmb when panel name changes
+  // Edit the breadcrumb when panel name changes
   useEffect(() => {
-    chrome.setBreadcrumbs([
-      ...parentBreadcrumb,
-      {
-        text: openPanelName,
-        href: `${_.last(parentBreadcrumb).href}${panelId}`,
-      },
-    ]);
+    let newBreadcrumb;
+    if (page === "app") {
+      newBreadcrumb = [
+        ...parentBreadcrumb,
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: appName,
+          href: `${_.last(parentBreadcrumb).href}${appId}`,
+        },
+      ]
+    } else {
+      newBreadcrumb = [
+        ...parentBreadcrumb,
+        {
+          text: openPanelName,
+          href: `${_.last(parentBreadcrumb).href}${panelId}`,
+        }
+      ];
+    }
+    chrome.setBreadcrumbs(newBreadcrumb);
   }, [panelId, openPanelName]);
 
   return (
@@ -527,32 +549,46 @@ export const CustomPanelView = ({
                     </EuiButton>
                   </EuiFlexItem>
                 )}
-                <EuiFlexItem grow={false}>
-                  <EuiPopover
-                    panelPaddingSize="none"
-                    withTitle
-                    button={panelActionsButton}
-                    isOpen={panelsMenuPopover}
-                    closePopover={() => setPanelsMenuPopover(false)}
-                  >
-                    <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
-                  </EuiPopover>
-                </EuiFlexItem>
-                <EuiFlexItem grow={false}>
-                  <EuiPopover
-                    id="addVisualizationContextMenu"
-                    button={addVisualizationButton}
-                    isOpen={isVizPopoverOpen}
-                    closePopover={closeVizPopover}
-                    panelPaddingSize="none"
-                    anchorPosition="downLeft"
-                  >
-                    <EuiContextMenu
-                      initialPanelId={0}
-                      panels={getVizContextPanels(closeVizPopover)}
-                    />
-                  </EuiPopover>
-                </EuiFlexItem>
+                {
+                  page === "app" || (
+                  <EuiFlexItem grow={false}>
+                    <EuiPopover
+                      panelPaddingSize="none"
+                      withTitle
+                      button={panelActionsButton}
+                      isOpen={panelsMenuPopover}
+                      closePopover={() => setPanelsMenuPopover(false)}
+                    >
+                      <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                    </EuiPopover>
+                  </EuiFlexItem>
+                  )
+                }
+                {
+                  page === "app" ? (
+                  <EuiFlexItem grow={false}>
+                    <EuiButton isDisabled={addVizDisabled}>
+                      Add Visualization
+                    </EuiButton>
+                  </EuiFlexItem>
+                  ) : (
+                  <EuiFlexItem grow={false}>
+                    <EuiPopover
+                      id="addVisualizationContextMenu"
+                      button={addVisualizationButton}
+                      isOpen={isVizPopoverOpen}
+                      closePopover={closeVizPopover}
+                      panelPaddingSize="none"
+                      anchorPosition="downLeft"
+                    >
+                      <EuiContextMenu
+                        initialPanelId={0}
+                        panels={getVizContextPanels(closeVizPopover)}
+                      />
+                    </EuiPopover>
+                  </EuiFlexItem>
+                  )
+                }
               </EuiFlexGroup>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -592,6 +628,7 @@ export const CustomPanelView = ({
             {panelVisualizations.length === 0 && (
               <EmptyPanelView
                 addVizDisabled={addVizDisabled}
+                page={page}
                 getVizContextPanels={getVizContextPanels}
               />
             )}

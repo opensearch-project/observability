@@ -173,7 +173,7 @@ export function VisualizationsRouter(router: IRouter) {
   );
 
   // changes the position of the mentioned visualizations
-  // Also removes the visualiations not mentioned
+  // Also removes the visualizations not mentioned
   router.put(
     {
       path: `${API_PREFIX}/visualizations/edit`,

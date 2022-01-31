@@ -24,6 +24,7 @@ export type PanelType = {
   visualizations: VisualizationType[];
   timeRange: { to: string; from: string };
   queryFilter: { query: string; language: string };
+  applicationId?: string;
 };
 
 export type SavedVisualizationType = {

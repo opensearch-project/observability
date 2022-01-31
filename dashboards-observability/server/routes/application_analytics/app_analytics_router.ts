@@ -92,7 +92,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       validate: {
         body: schema.object({
           name: schema.string(),
-          description: schema.string(),
+          description: schema.maybe(schema.string()),
           baseQuery: schema.string(),
           servicesEntities: schema.arrayOf(schema.string()),
           traceGroups: schema.arrayOf(schema.string())
@@ -112,7 +112,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         const newAppId = await appAnalyticsBackend.createNewApp(
           opensearchClient,
           request.body.name,
-          request.body.description,
+          request.body.description || '',
           request.body.baseQuery,
           request.body.servicesEntities,
           request.body.traceGroups
@@ -166,6 +166,54 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         });
       } catch (err: any) {
         console.error('Error occurred while renaming an existing application', err);
+        return response.custom({
+          statusCode: err.statusCode || 500,
+          body: err.message,
+        });
+      }
+    }
+  );
+
+  // Updates an existing application
+  router.patch(
+    {
+      path: `${API_PREFIX}/`,
+      validate: {
+        body: schema.object({
+          appId: schema.string(),
+          updateBody: schema.object({
+            name: schema.maybe(schema.string()),
+            description: schema.maybe(schema.string()),
+            servicesEntities: schema.maybe(schema.arrayOf(schema.string())),
+            traceGroups: schema.maybe(schema.arrayOf(schema.string())),
+            panelId: schema.maybe(schema.string())
+          }),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        const updatedAppId = await appAnalyticsBackend.updateApp(
+          opensearchClient,
+          request.body.appId,
+          request.body.updateBody
+        );
+        return response.ok({
+          body: {
+            message: 'Application Updated',
+            updatedAppId: updatedAppId,
+          },
+        });
+      } catch (err: any) {
+        console.error('Error occurred while updating an existing application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
           body: err.message,

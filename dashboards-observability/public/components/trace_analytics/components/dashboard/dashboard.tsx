@@ -84,7 +84,7 @@ export function Dashboard(props: DashboardProps) {
   const refresh = async () => {
     setLoading(true);
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, page);
-    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
+    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime, page);
     const latencyTrendStartTime = dateMath
       .parse(props.endTime)
       ?.subtract(24, 'hours')
@@ -217,6 +217,7 @@ export function Dashboard(props: DashboardProps) {
                 serviceMap={serviceMap}
                 idSelected={serviceMapIdSelected}
                 setIdSelected={setServiceMapIdSelected}
+                page={page}
               />
             </EuiFlexItem>
             <EuiFlexItem>

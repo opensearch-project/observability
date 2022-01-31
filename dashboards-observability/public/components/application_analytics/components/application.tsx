@@ -22,7 +22,6 @@ import React, { ReactChild, useEffect, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { ApplicationType } from 'common/types/app_analytics';
 import { Explorer } from '../../explorer/explorer';
 import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
@@ -37,6 +36,8 @@ import {
   TAB_LOG_TITLE,
   TAB_OVERVIEW_ID_TXT_PFX,
   TAB_OVERVIEW_TITLE,
+  TAB_PANEL_ID_TXT_PFX,
+  TAB_PANEL_TITLE,
   TAB_SERVICE_ID_TXT_PFX,
   TAB_SERVICE_TITLE,
   TAB_TRACE_ID_TXT_PFX,
@@ -47,11 +48,14 @@ import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
+import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
+import { ApplicationType } from '../../../../common/types/app_analytics';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
+const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -95,7 +99,14 @@ export function Application(props: AppDetailProps) {
     parentBreadcrumb,
     setFilters,
   } = props;
-  const [application, setApplication] = useState<ApplicationType>();
+  const [application, setApplication] = useState<ApplicationType>({
+    name: '',
+    description: '',
+    baseQuery: '',
+    servicesEntities: [],
+    traceGroups: [],
+    panelId: '',
+  });
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
@@ -145,11 +156,11 @@ export function Application(props: AppDetailProps) {
         href: '#/application_analytics',
       },
       {
-        text: application?.name || '',
+        text: application.name,
         href: `${parentBreadcrumb.href}${appId}`,
       },
     ]);
-  }, [appId, application?.name]);
+  }, [appId, application.name]);
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -169,17 +180,17 @@ export function Application(props: AppDetailProps) {
   };
 
   const getOverview = () => {
-    return <Dashboard {...props} page="app" appId={appId} appName={application?.name} />;
+    return <Dashboard {...props} page="app" appId={appId} appName={application.name} />;
   };
 
   const getService = () => {
-    return <Services {...props} page="app" appId={appId} appName={application?.name} />;
+    return <Services {...props} page="app" appId={appId} appName={application.name} />;
   };
 
   const getTrace = () => {
     return (
       <>
-        <Traces {...props} page="app" appId={appId} appName={application?.name} />
+        <Traces {...props} page="app" appId={appId} appName={application.name} />
         <EuiSpacer size="m" />
         <SpanDetailPanel {...props} traceId="id" colorMap="color" />
       </>
@@ -202,6 +213,26 @@ export function Application(props: AppDetailProps) {
         http={http}
         showSaveButton={true}
         searchBarConfigs={searchBarConfigs}
+      />
+    );
+  };
+
+  const getPanel = () => {
+    return (
+      <CustomPanelView
+        panelId={application.panelId}
+        http={http}
+        pplService={pplService}
+        chrome={chrome}
+        parentBreadcrumb={[parentBreadcrumb]}
+        // App analytics will not be renaming/cloning/deleting panels
+        renameCustomPanel={() => undefined}
+        cloneCustomPanel={(): Promise<string> => Promise.reject()}
+        deleteCustomPanel={(): Promise<string> => Promise.reject()}
+        setToast={setToast}
+        page="app"
+        appName={application.name}
+        appId={appId}
       />
     );
   };
@@ -254,6 +285,11 @@ export function Application(props: AppDetailProps) {
       getContent: () => getLog(),
     }),
     getAppAnalyticsTab({
+      tabId: TAB_PANEL_ID,
+      tabTitle: TAB_PANEL_TITLE,
+      getContent: () => getPanel(),
+    }),
+    getAppAnalyticsTab({
       tabId: TAB_CONFIG_ID,
       tabTitle: TAB_CONFIG_TITLE,
       getContent: () => getConfig(),
@@ -267,19 +303,17 @@ export function Application(props: AppDetailProps) {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>{application?.name || ''}</h1>
+                <h1>{application.name}</h1>
               </EuiTitle>
               <EuiText>
-                <p>{application?.description}</p>
+                <p>{application.description}</p>
               </EuiText>
             </EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiTabbedContent
             className="appAnalyticsTabs"
             initialSelectedTab={appAnalyticsTabs[0]}
-            selectedTab={appAnalyticsTabs.find((tab) => {
-              tab.id === selectedTabId;
-            })}
+            selectedTab={appAnalyticsTabs.find((tab) => tab.id === selectedTabId)}
             onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
             tabs={appAnalyticsTabs}
           />

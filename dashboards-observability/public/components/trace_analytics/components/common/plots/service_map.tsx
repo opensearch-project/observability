@@ -45,12 +45,14 @@ export function ServiceMap({
   setIdSelected,
   addFilter,
   currService,
+  page
 }: {
   serviceMap: ServiceObject;
   idSelected: 'latency' | 'error_rate' | 'throughput';
   setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
+  page?: string;
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
@@ -160,7 +162,11 @@ export function ServiceMap({
   return (
     <>
       <EuiPanel>
-        <PanelTitle title="Service map" />
+        {page === "app" ?
+          <PanelTitle title="Application Composition Map" />
+        :
+          <PanelTitle title="Service map" />
+        }
         <EuiSpacer size="m" />
         <EuiButtonGroup
           options={toggleButtons}
