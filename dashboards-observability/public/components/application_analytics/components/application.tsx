@@ -49,6 +49,8 @@ import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
 import { ApplicationType } from '../../../../common/types/app_analytics';
+import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
+import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
@@ -80,6 +82,8 @@ export function Application(props: AppDetailProps) {
   const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
   const [application, setApplication] = useState<ApplicationType>({name: '', description: '', baseQuery: '', servicesEntities: [], traceGroups: [], panelId: ''});
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
+  const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
+  const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
   const [toasts, setToasts] = useState<Array<Toast>>([]);
@@ -134,6 +138,24 @@ export function Application(props: AppDetailProps) {
     ]);
   }, [appId, application.name]);
 
+  const openServiceFlyout = (serviceName: string) => {
+    setSpanFlyoutId('');
+    setServiceFlyoutName(serviceName);
+  };
+
+  const closeServiceFlyout = () => {
+    setServiceFlyoutName('');
+  }
+
+  const openSpanFlyout = (spanId: string) => {
+    setServiceFlyoutName('');
+    setSpanFlyoutId(spanId);
+  };
+
+  const closeSpanFlyout = () => {
+    setSpanFlyoutId('');
+  }
+
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
@@ -160,7 +182,7 @@ export function Application(props: AppDetailProps) {
 
   const getService = () => {
     return (
-      <Services {...props} page="app" appId={appId} appName={application.name} />
+      <Services {...props} page="app" appId={appId} appName={application.name} openServiceFlyout={openServiceFlyout} />
     );
   };
 
@@ -316,6 +338,24 @@ export function Application(props: AppDetailProps) {
           tabs={ appAnalyticsTabs }
         />
       </EuiPageBody>
+      {true && (
+        <ServiceDetailFlyout 
+          {...props} 
+          serviceName={serviceFlyoutName}
+          closeServiceFlyout={closeServiceFlyout} 
+          openSpanFlyout={openSpanFlyout}
+          setSelectedTab={setSelectedTab}
+        />
+      )}
+      {!!spanFlyoutId && (
+        <SpanDetailFlyout
+          http={http}
+          spanId={spanFlyoutId}
+          isFlyoutVisible={!!spanFlyoutId}
+          closeFlyout={closeSpanFlyout}
+          addSpanFilter={() => {}}
+        />
+      )}
     </EuiPage>
     </div>
   );

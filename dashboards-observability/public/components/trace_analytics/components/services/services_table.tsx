@@ -30,6 +30,7 @@ export function ServicesTable(props: {
   indicesExist: boolean;
   loading: boolean;
   page?: string;
+  openServiceFlyout?: any;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -51,7 +52,7 @@ export function ServicesTable(props: {
           sortable: true,
           render: (item) => (
             props.page === "app" ?
-            <EuiLink>
+            <EuiLink onClick={() => props.openServiceFlyout(item)}>
               {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>
             :

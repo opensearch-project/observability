@@ -16,6 +16,7 @@ import { ServicesTable } from './services_table';
 interface ServicesProps extends TraceAnalyticsComponentDeps {
   appId?: string;
   appName?: string;
+  openServiceFlyout?: (serviceName: string) => void;
   page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
@@ -120,6 +121,7 @@ export function Services(props: ServicesProps) {
         indicesExist={props.indicesExist}
         loading={loading}
         page={page}
+        openServiceFlyout={props.openServiceFlyout}
       />
     </>
   );
