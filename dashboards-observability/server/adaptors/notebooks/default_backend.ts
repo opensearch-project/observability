@@ -5,7 +5,7 @@
 
 import now from 'performance-now';
 import { v4 as uuid } from 'uuid';
-import { ILegacyClusterClient, ILegacyScopedClusterClient } from '../../../../../src/core/server';
+import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { optionsType } from '../../../common/types/notebooks';
 import {
   DefaultNotebooks,
@@ -282,10 +282,11 @@ export class DefaultBackend implements NotebookAdaptor {
    *         paragraphId -> Id of paragraph to be updated
    *         paragraphInput -> Input to be added
    */
-  updateParagraphInput = function (
+  updateParagraph = function (
     paragraphs: Array<DefaultParagraph>,
     paragraphId: string,
-    paragraphInput: string
+    paragraphInput: string,
+    paragraphType?: string
   ) {
     try {
       const updatedParagraphs: DefaultParagraph[] = [];
@@ -294,6 +295,9 @@ export class DefaultBackend implements NotebookAdaptor {
         if (paragraph.id === paragraphId) {
           updatedParagraph.dateModified = new Date().toISOString();
           updatedParagraph.input.inputText = paragraphInput;
+          if (paragraphType.length > 0) {
+            updatedParagraph.input.inputType = paragraphType;
+          }
         }
         updatedParagraphs.push(updatedParagraph);
       });
@@ -309,6 +313,9 @@ export class DefaultBackend implements NotebookAdaptor {
       let paragraphType = 'MARKDOWN';
       if (inputType === 'VISUALIZATION') {
         paragraphType = 'VISUALIZATION';
+      }
+      if (inputType === 'OBSERVABILITY_VISUALIZATION') {
+        paragraphType = 'OBSERVABILITY_VISUALIZATION';
       }
       if (paragraphInput.substring(0, 3) === '%sql' || paragraphInput.substring(0, 3) === '%ppl') {
         paragraphType = 'QUERY';
@@ -386,6 +393,15 @@ export class DefaultBackend implements NotebookAdaptor {
                 execution_time: `${(now() - startTime).toFixed(3)} ms`,
               },
             ];
+          } else if (paragraphs[index].input.inputType === 'OBSERVABILITY_VISUALIZATION') {
+            updatedParagraph.dateModified = new Date().toISOString();
+            updatedParagraph.output = [
+              {
+                outputType: 'OBSERVABILITY_VISUALIZATION',
+                result: '',
+                execution_time: `${(now() - startTime).toFixed(3)} ms`,
+              },
+            ];
           } else if (formatNotRecognized(paragraphs[index].input.inputText)) {
             updatedParagraph.output = [
               {
@@ -413,7 +429,7 @@ export class DefaultBackend implements NotebookAdaptor {
    *         paragraphInput -> paragraph input code
    */
   updateRunFetchParagraph = async function (
-    client: ILegacyClusterClient,
+    client: ILegacyScopedClusterClient,
     request: any,
     _wreckOptions: optionsType
   ) {
@@ -421,10 +437,11 @@ export class DefaultBackend implements NotebookAdaptor {
       const scopedClient = client.asScoped(request);
       const params = request.body;
       const opensearchClientGetResponse = await this.getNote(scopedClient, params.noteId);
-      const updatedInputParagraphs = this.updateParagraphInput(
+      const updatedInputParagraphs = this.updateParagraph(
         opensearchClientGetResponse.notebook.paragraphs,
         params.paragraphId,
-        params.paragraphInput
+        params.paragraphInput,
+        params.paragraphType
       );
       const updatedOutputParagraphs = await this.runParagraph(
         updatedInputParagraphs,
@@ -468,7 +485,7 @@ export class DefaultBackend implements NotebookAdaptor {
   ) {
     try {
       const opensearchClientGetResponse = await this.getNote(client, params.noteId);
-      const updatedInputParagraphs = this.updateParagraphInput(
+      const updatedInputParagraphs = this.updateParagraph(
         opensearchClientGetResponse.notebook.paragraphs,
         params.paragraphId,
         params.paragraphInput

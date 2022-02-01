@@ -5,6 +5,7 @@
 
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import PPLService from '../../../services/requests/ppl';
 import React, { ReactChild } from 'react';
 import { Route, Switch } from 'react-router';
 import { HashRouter, RouteComponentProps } from 'react-router-dom';
@@ -32,6 +33,7 @@ import { NoteTable } from './note_table';
 type MainProps = RouteComponentProps & {
   DashboardContainerByValueRenderer: DashboardStart['DashboardContainerByValueRenderer'];
   http: CoreStart['http'];
+  pplService: PPLService;
   notifications: CoreStart['notifications'];
   parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
@@ -307,6 +309,7 @@ export class Main extends React.Component<MainProps, MainState> {
               path="/notebooks/:id"
               render={(props) => (
                 <Notebook
+                  pplService={this.props.pplService}
                   openedNoteId={props.match.params.id}
                   DashboardContainerByValueRenderer={this.props.DashboardContainerByValueRenderer}
                   http={this.props.http}

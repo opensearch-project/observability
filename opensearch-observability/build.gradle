@@ -9,7 +9,7 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 
 buildscript {
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "1.2.2-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "1.3.0-SNAPSHOT")
         // 1.0.0 -> 1.0.0.0, and 1.0.0-SNAPSHOT -> 1.0.0.0-SNAPSHOT
         opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
@@ -21,7 +21,6 @@ buildscript {
         maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
-        jcenter()
     }
 
     dependencies {
@@ -90,7 +89,6 @@ repositories {
     maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
     mavenCentral()
     maven { url "https://plugins.gradle.org/m2/" }
-    jcenter()
 }
 
 ext {
@@ -127,7 +125,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
     compile "${group}:common-utils:${common_utils_version}"
-    compile group: 'com.google.guava', name: 'guava', version: '15.0'
+    compile group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
@@ -137,7 +135,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testCompile "org.mockito:mockito-core:3.12.4"
-    testCompile "com.google.code.gson:gson:2.8.6"
+    testCompile "com.google.code.gson:gson:2.8.9"
 
     ktlint "com.pinterest:ktlint:0.41.0"
 }
@@ -262,7 +260,7 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = ["1.1.0","1.2.2-SNAPSHOT"]
+            versions = ["1.1.0",opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override

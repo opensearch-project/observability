@@ -6,6 +6,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import PPLService from '../../../../services/requests/ppl';
 import React from 'react';
 import { HttpResponse } from '../../../../../../../src/core/public';
 import httpClientMock from '../../../../../test/__mocks__/httpClientMock';
@@ -34,7 +35,8 @@ global.fetch = jest.fn(() =>
 describe('<Notebook /> spec', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders the empty component', () => {
+  it('renders the empty component', async () => {
+    const pplService = new PPLService(httpClientMock);
     const setBreadcrumbs = jest.fn();
     const renameNotebook = jest.fn();
     const cloneNotebook = jest.fn();
@@ -45,6 +47,7 @@ describe('<Notebook /> spec', () => {
     history.replace = jest.fn();
     const utils = render(
       <Notebook
+        pplService={pplService}
         openedNoteId="mock-id"
         DashboardContainerByValueRenderer={jest.fn()}
         http={httpClientMock}
@@ -59,12 +62,12 @@ describe('<Notebook /> spec', () => {
       />
     );
     expect(utils.container.firstChild).toMatchSnapshot();
-
-    utils.getByText("Add code block").click();
-    utils.getByText("Add visualization").click();
+    utils.getByText('Add code block').click();
+    utils.getByText('Add visualization').click();
   });
 
   it('renders the component', async () => {
+    const pplService = new PPLService(httpClientMock);
     const setBreadcrumbs = jest.fn();
     const renameNotebook = jest.fn();
     const cloneNotebook = jest.fn();
@@ -77,6 +80,16 @@ describe('<Notebook /> spec', () => {
       Promise.resolve(({
         ...sampleNotebook1,
         path: sampleNotebook1.name,
+        visualizations: [
+          {
+            id: 'oiuccXwBYVazWqOO1e06',
+            name: 'Flight Count by Origin',
+            query:
+              'source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier',
+            type: 'bar',
+            timeField: 'timestamp',
+          },
+        ],
         savedVisualizations: Array.from({ length: 5 }, (v, k) => ({
           label: `vis-${k}`,
           key: `vis-${k}`,
@@ -85,6 +98,7 @@ describe('<Notebook /> spec', () => {
     );
     const utils = render(
       <Notebook
+        pplService={pplService}
         openedNoteId={sampleNotebook1.id}
         DashboardContainerByValueRenderer={jest.fn()}
         http={httpClientMock}

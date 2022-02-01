@@ -59,6 +59,7 @@ export const App = ({
                       DepsStart.dashboard.DashboardContainerByValueRenderer
                     }
                     http={http}
+                    pplService={pplService}
                     setBreadcrumbs={chrome.setBreadcrumbs}
                     parentBreadcrumb={parentBreadcrumb}
                     notifications={notifications}
