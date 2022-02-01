@@ -71,20 +71,14 @@ export class CustomPanelsAdaptor {
         objectType: 'operationalPanel',
         maxItems: 10000,
       });
-      const panelList: any[] = [];
-      for (const panel of response.observabilityObjectList) {
-        if (panel.operationalPanel.applicationId) {
-          break;
-        }
-        const panelObject: CustomPanelListType = {
-          name: panel.operationalPanel.name,
-          id: panel.objectId,
-          dateCreated: panel.createdTimeMs,
-          dateModified: panel.lastUpdatedTimeMs
-        }
-        panelList.push(panelObject);
-      }
-      return panelList;
+      return response.observabilityObjectList
+        .filter((panel: any) => !panel.operationalPanel.applicationId)
+        .map((panel: any) => ({
+        name: panel.operationalPanel.name,
+        id: panel.objectId,
+        dateCreated: panel.createdTimeMs,
+        dateModified: panel.lastUpdatedTimeMs,
+      }));
     } catch (error) {
       throw new Error('View Panel List Error:' + error);
     }

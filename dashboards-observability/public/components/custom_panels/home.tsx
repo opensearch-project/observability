@@ -19,7 +19,7 @@ import {
   OBSERVABILITY_BASE,
   SAVED_OBJECTS,
 } from '../../../common/constants/shared';
-import { CustomPanelListType, PanelType } from '../../../common/types/custom_panels';
+import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
