@@ -26,24 +26,23 @@ export function DataGrid(props: DataGridProps) {
   const [limit, setLimit] = useState(PAGE_SIZE);
   const loader = useRef<HTMLDivElement>(null);
 
-  const handleObserver = useCallback((entries) => {
-    if (entries[0].isIntersecting) {
-      setLimit((limit) => limit + PAGE_SIZE);
-    }
-  }, []);
-
   useEffect(() => {
-    if (!loader.current || limit >= rows.length + PAGE_SIZE) return;
+    if (!loader.current) return;
 
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '500px',
-      threshold: 0,
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) setLimit((limit) => limit + PAGE_SIZE);
+      },
+      {
+        root: null,
+        rootMargin: '500px',
+        threshold: 0,
+      }
+    );
     observer.observe(loader.current);
 
     return () => observer.disconnect();
-  }, [limit]);
+  }, [loader]);
 
   const getTrs = (
     docs: Array<any> = [],
@@ -54,10 +53,11 @@ export function DataGrid(props: DataGridProps) {
 
     // reset limit if no previous table rows
     if (prevTrs.length === 0 && limit !== PAGE_SIZE) setLimit(PAGE_SIZE);
+    const trs = prevTrs.slice();
 
-    const upperLimit = Math.min(prevTrs.length === 0 ? PAGE_SIZE : limit, docs.length);
-    for (let i = prevTrs.length; i < upperLimit; i++) {
-      prevTrs.push(
+    const upperLimit = Math.min(trs.length === 0 ? PAGE_SIZE : limit, docs.length);
+    for (let i = trs.length; i < upperLimit; i++) {
+      trs.push(
         <DocViewRow
           key={ uniqueId('doc_view') } 
           doc={ docs[i] }
@@ -65,7 +65,7 @@ export function DataGrid(props: DataGridProps) {
         />
       )
     }
-    return prevTrs;
+    return trs;
   };
 
   const defaultCols = [
