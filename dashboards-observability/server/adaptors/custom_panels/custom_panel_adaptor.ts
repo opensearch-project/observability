@@ -71,18 +71,18 @@ export class CustomPanelsAdaptor {
         objectType: 'operationalPanel',
         maxItems: 10000,
       });
-      var panelList: any[] = [];
+      const panelList: any[] = [];
       for (const panel of response.observabilityObjectList) {
-        var object: CustomPanelListType = {
+        const panelObject: CustomPanelListType = {
           name: panel.operationalPanel.name,
           id: panel.objectId,
           dateCreated: panel.createdTimeMs,
           dateModified: panel.lastUpdatedTimeMs
         }
         if (panel.operationalPanel.applicationId) {
-          object.applicationId = panel.operationalPanel.applicationId;
+          panelObject.applicationId = panel.operationalPanel.applicationId;
         }
-        panelList.push(object);
+        panelList.push(panelObject);
       }
       return panelList;
     } catch (error) {
