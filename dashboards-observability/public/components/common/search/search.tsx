@@ -85,22 +85,20 @@ export const Search = (props: any) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   }
 
-  const Savebutton = useMemo(() => {
-    return (
-      <EuiButton
-        iconSide="right"
-        onClick={() => {
-          setIsSavePanelOpen((staleState) => {
-            return !staleState;
-          });
-        }}
-        data-test-subj="eventExplorer__saveManagementPopover"
-        iconType="arrowDown"
-      >
-        Save
-      </EuiButton>
-    );
-  }, [searchBarConfigs, selectedSubTabId]);
+  const Savebutton = (
+    <EuiButton
+      iconSide="right"
+      onClick={() => {
+        setIsSavePanelOpen((staleState) => {
+          return !staleState;
+        });
+      }}
+      data-test-subj="eventExplorer__saveManagementPopover"
+      iconType="arrowDown"
+    >
+      Save
+    </EuiButton>
+  );
 
   return (
     <div className="globalQueryBar">
@@ -193,9 +191,4 @@ export const Search = (props: any) => {
       {flyout}
     </div>
   );
-};
-
-Search.propTypes = {
-  handleQueryChange: PropTypes.func,
-  handleQuerySearch: PropTypes.func,
 };
