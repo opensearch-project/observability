@@ -14,36 +14,37 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { LogExplorer } from '../../explorer/log_explorer';
-import { Dashboard } from '../../trace_analytics/components/dashboard';
-import { Services } from '../../trace_analytics/components/services';
-import { Traces } from '../../trace_analytics/components/traces';
-import { SpanDetailPanel } from '../../trace_analytics/components/traces/span_detail_panel';
-import { Configuration } from './configuration';
 import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { isEmpty, uniqueId } from 'lodash';
-import {
-  APP_ANALYTICS_API_PREFIX,
-  TAB_CONFIG_ID_TXT_PFX, 
-  TAB_CONFIG_TITLE, 
-  TAB_LOG_ID_TXT_PFX, 
-  TAB_LOG_TITLE, 
-  TAB_OVERVIEW_ID_TXT_PFX, 
-  TAB_OVERVIEW_TITLE, 
-  TAB_PANEL_ID_TXT_PFX,
-  TAB_PANEL_TITLE,
-  TAB_SERVICE_ID_TXT_PFX, 
-  TAB_SERVICE_TITLE, 
-  TAB_TRACE_ID_TXT_PFX, 
-  TAB_TRACE_TITLE
-} from '../../../../common/constants/application_analytics';
-import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import { Explorer } from '../../explorer/explorer';
+import { Dashboard } from '../../trace_analytics/components/dashboard';
+import { Services } from '../../trace_analytics/components/services';
+import { Traces } from '../../trace_analytics/components/traces';
+import { SpanDetailPanel } from '../../trace_analytics/components/traces/span_detail_panel';
+import { Configuration } from './configuration';
+import {
+  APP_ANALYTICS_API_PREFIX,
+  TAB_CONFIG_ID_TXT_PFX,
+  TAB_CONFIG_TITLE,
+  TAB_LOG_ID_TXT_PFX,
+  TAB_LOG_TITLE,
+  TAB_OVERVIEW_ID_TXT_PFX,
+  TAB_OVERVIEW_TITLE,
+  TAB_PANEL_ID_TXT_PFX,
+  TAB_PANEL_TITLE,
+  TAB_SERVICE_ID_TXT_PFX,
+  TAB_SERVICE_TITLE,
+  TAB_TRACE_ID_TXT_PFX,
+  TAB_TRACE_TITLE,
+} from '../../../../common/constants/application_analytics';
+import { TAB_EVENT_ID, TAB_CHART_ID } from '../../../../common/constants/explorer';
+import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
 import { RAW_QUERY } from '../../../../common/constants/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
@@ -52,13 +53,22 @@ import { ApplicationType } from '../../../../common/types/app_analytics';
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 
-
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
 const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
+const searchBarConfigs = {
+  [TAB_EVENT_ID]: {
+    showSaveButton: false,
+    showSavePanelOptionsList: false,
+  },
+  [TAB_CHART_ID]: {
+    showSaveButton: true,
+    showSavePanelOptionsList: false,
+  },
+};
 
 export interface DetailTab {
   id: string;
@@ -79,14 +89,32 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
 }
 
 export function Application(props: AppDetailProps) {
-  const { pplService, dslService, timestampUtils, savedObjects, http, notifications, appId, chrome, parentBreadcrumb, setFilters } = props;
-  const [application, setApplication] = useState<ApplicationType>({name: '', description: '', baseQuery: '', servicesEntities: [], traceGroups: [], panelId: ''});
+  const {
+    pplService,
+    dslService,
+    timestampUtils,
+    savedObjects,
+    http,
+    notifications,
+    appId,
+    chrome,
+    parentBreadcrumb,
+    setFilters,
+  } = props;
+  const [application, setApplication] = useState<ApplicationType>({
+    name: '',
+    description: '',
+    baseQuery: '',
+    servicesEntities: [],
+    traceGroups: [],
+    panelId: '',
+  });
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
   const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
   // Fetch application by id
   const fetchAppById = async (appId: string) => {
@@ -100,18 +128,18 @@ export function Application(props: AppDetailProps) {
             operator: 'is',
             value: ser,
             inverted: false,
-            disabled: false
-          }
-        })
+            disabled: false,
+          };
+        });
         const traceFilters = res.application.traceGroups.map((tra: string) => {
           return {
             field: 'traceGroup',
             operator: 'is',
             value: tra,
             inverted: false,
-            disabled: false
-          }
-        })
+            disabled: false,
+          };
+        });
         setFilters([...serviceFilters, ...traceFilters]);
       })
       .catch((err) => {
@@ -161,7 +189,7 @@ export function Application(props: AppDetailProps) {
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
   };
 
-  const getExistingEmptyTab = ({tabIds, queries, explorerData}: EmptyTabParams) => {
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
     let emptyTabId = '';
     for (let i = 0; i < tabIds!.length; i++) {
       const tid = tabIds![i];
@@ -173,11 +201,8 @@ export function Application(props: AppDetailProps) {
     return emptyTabId;
   };
 
-
   const getOverview = () => {
-    return (
-      <Dashboard {...props} page="app" appId={appId} appName={application.name} />
-    );
+    return <Dashboard {...props} page="app" appId={appId} appName={application.name} />;
   };
 
   const getService = () => {
@@ -190,30 +215,28 @@ export function Application(props: AppDetailProps) {
     return (
       <>
         <Traces {...props} page="app" appId={appId} appName={application.name} />
-        <EuiSpacer size='m'/>
-        <SpanDetailPanel
-          {...props}
-          traceId="id"
-          colorMap="color" 
-        />
-    </>
+        <EuiSpacer size="m" />
+        <SpanDetailPanel {...props} traceId="id" colorMap="color" />
+      </>
     );
   };
 
   const getLog = () => {
     return (
-      <LogExplorer 
+      <Explorer
+        key={`explorer_application-analytics-tab`}
         pplService={pplService}
         dslService={dslService}
+        tabId={'application-analytics-tab'}
         savedObjects={savedObjects}
         timestampUtils={timestampUtils}
-        http={http} 
-        history={history} 
-        notifications={notifications} 
         setToast={setToast}
-        // App Analytics will not be saving queries on Log Events
-        savedObjectId={''} 
-        getExistingEmptyTab={getExistingEmptyTab}
+        history={history}
+        notifications={notifications}
+        savedObjectId={''}
+        http={http}
+        showSaveButton={true}
+        searchBarConfigs={searchBarConfigs}
       />
     );
   };
@@ -228,8 +251,8 @@ export function Application(props: AppDetailProps) {
         parentBreadcrumb={[parentBreadcrumb]}
         // App analytics will not be renaming/cloning/deleting panels
         renameCustomPanel={() => undefined}
-        cloneCustomPanel={():Promise<string> => Promise.reject()}
-        deleteCustomPanel={():Promise<string> => Promise.reject()}
+        cloneCustomPanel={(): Promise<string> => Promise.reject()}
+        deleteCustomPanel={(): Promise<string> => Promise.reject()}
         setToast={setToast}
         page="app"
         appName={application.name}
@@ -239,82 +262,63 @@ export function Application(props: AppDetailProps) {
   };
 
   const getConfig = () => {
-    return (
-      <Configuration />
-    );
+    return <Configuration />;
   };
 
-  function getAppAnalyticsTab ({
+  function getAppAnalyticsTab({
     tabId,
     tabTitle,
-    getContent
+    getContent,
   }: {
-    tabId: string,
-    tabTitle: string,
-    getContent: () => JSX.Element
+    tabId: string;
+    tabTitle: string;
+    getContent: () => JSX.Element;
   }) {
     return {
       id: tabId,
-      name: (<>
-              <EuiText
-                size="s"
-                textAlign="left"
-                color="default"
-              >
-                <span className="tab-title">{ tabTitle }</span>
-              </EuiText>
-            </>),
-      content: (
+      name: (
         <>
-          { getContent() }
-        </>)
+          <EuiText size="s" textAlign="left" color="default">
+            <span className="tab-title">{tabTitle}</span>
+          </EuiText>
+        </>
+      ),
+      content: <>{getContent()}</>,
     };
-  };
+  }
 
   const appAnalyticsTabs = [
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_OVERVIEW_ID,
-            tabTitle: TAB_OVERVIEW_TITLE,
-            getContent: () => getOverview()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_SERVICE_ID,
-            tabTitle: TAB_SERVICE_TITLE,
-            getContent: () => getService()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_TRACE_ID,
-            tabTitle: TAB_TRACE_TITLE,
-            getContent: () => getTrace()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_LOG_ID,
-            tabTitle: TAB_LOG_TITLE,
-            getContent: () => getLog()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_PANEL_ID,
-            tabTitle: TAB_PANEL_TITLE,
-            getContent: () => getPanel()
-          }
-        ),
-        getAppAnalyticsTab(
-          {
-            tabId: TAB_CONFIG_ID,
-            tabTitle: TAB_CONFIG_TITLE,
-            getContent: () => getConfig()
-          }
-        )
-    ];
+    getAppAnalyticsTab({
+      tabId: TAB_OVERVIEW_ID,
+      tabTitle: TAB_OVERVIEW_TITLE,
+      getContent: () => getOverview(),
+    }),
+    getAppAnalyticsTab({
+      tabId: TAB_SERVICE_ID,
+      tabTitle: TAB_SERVICE_TITLE,
+      getContent: () => getService(),
+    }),
+    getAppAnalyticsTab({
+      tabId: TAB_TRACE_ID,
+      tabTitle: TAB_TRACE_TITLE,
+      getContent: () => getTrace(),
+    }),
+    getAppAnalyticsTab({
+      tabId: TAB_LOG_ID,
+      tabTitle: TAB_LOG_TITLE,
+      getContent: () => getLog(),
+    }),
+    getAppAnalyticsTab({
+      tabId: TAB_PANEL_ID,
+      tabTitle: TAB_PANEL_TITLE,
+      getContent: () => getPanel(),
+    }),
+    getAppAnalyticsTab({
+      tabId: TAB_CONFIG_ID,
+      tabTitle: TAB_CONFIG_TITLE,
+      getContent: () => getConfig(),
+    }),
+  ];
 
   return (
     <div>

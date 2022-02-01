@@ -3,17 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
-  createSlice
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/shared_state';
-import { 
+import {
   RAW_QUERY,
   FINAL_QUERY,
   SELECTED_DATE_RANGE,
   REDUX_EXPL_SLICE_QUERIES,
   INDEX,
-  SELECTED_TIMESTAMP
+  SELECTED_TIMESTAMP,
 } from '../../../../common/constants/explorer';
 
 const initialQueryState = {
@@ -21,13 +19,16 @@ const initialQueryState = {
   [FINAL_QUERY]: '',
   [INDEX]: '',
   [SELECTED_TIMESTAMP]: '',
-  [SELECTED_DATE_RANGE]: ['now-15m', 'now']
+  [SELECTED_DATE_RANGE]: ['now-15m', 'now'],
 };
 
 const initialState = {
+  'application-analytics-tab': {
+    ...initialQueryState,
+  },
   [initialTabId]: {
-    ...initialQueryState
-  }
+    ...initialQueryState,
+  },
 };
 
 export const queriesSlice = createSlice({
@@ -37,33 +38,28 @@ export const queriesSlice = createSlice({
     changeQuery: (state, { payload }) => {
       state[payload.tabId] = {
         ...state[payload.tabId],
-        ...payload.query
-      }
+        ...payload.query,
+      };
     },
     changeDateRange: (state, { payload }) => {
       state[payload.tabId] = {
         ...state[payload.tabId],
-        ...payload.data
-      }
+        ...payload.data,
+      };
     },
     init: (state, { payload }) => {
       state[payload.tabId] = {
-        ...initialQueryState
+        ...initialQueryState,
       };
     },
     remove: (state, { payload }) => {
       delete state[payload.tabId];
-    }
+    },
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {},
 });
 
-export const {
-  changeQuery,
-  changeDateRange,
-  remove,
-  init
-} = queriesSlice.actions;
+export const { changeQuery, changeDateRange, remove, init } = queriesSlice.actions;
 
 export const selectQueries = (state) => state.queries;
 
