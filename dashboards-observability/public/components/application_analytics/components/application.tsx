@@ -342,7 +342,7 @@ export function Application(props: AppDetailProps) {
           tabs={ appAnalyticsTabs }
         />
       </EuiPageBody>
-      {true && (
+      {serviceFlyoutName && (
         <ServiceDetailFlyout 
           {...props} 
           serviceName={serviceFlyoutName}
@@ -351,7 +351,7 @@ export function Application(props: AppDetailProps) {
           setSelectedTab={setSelectedTab}
         />
       )}
-      {!!spanFlyoutId && (
+      {spanFlyoutId && (
         <SpanDetailFlyout
           http={http}
           spanId={spanFlyoutId}

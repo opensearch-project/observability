@@ -41,11 +41,12 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
       </EuiText>;
     
     const descriptionComponent = 
-    <EuiText size="s" style={{ wordBreak: 'break-all', wordWrap: 'break-word', whiteSpace: 'pre-line' }}>
-      <b>{description}</b>
-    </EuiText>;
+      <EuiText size="s" style={{ wordBreak: 'break-all', wordWrap: 'break-word', whiteSpace: 'pre-line' }}>
+        <b>{description}</b>
+      </EuiText>;
+
     return (
-      <>
+      <div key={`list-item-${title}`}>
         <EuiDescriptionList
           listItems={[
             {
@@ -58,11 +59,11 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           compressed
         />
         <EuiSpacer size="s" />
-      </>
+      </div>
     )
   };
   
-  const renderContent = () => {
+  const renderContent = useMemo(() => {
     if (!serviceName) return '-';
     const overviewList = [
       getListItem('Name', serviceName),
@@ -76,63 +77,61 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
 
     return (
       <>
-      <EuiText size="m">
-        <span className="panel-title">Overview</span>
-      </EuiText>
-      <EuiSpacer size="s" />
-        {overviewList}
-      <EuiSpacer size="xs"/>
-      <EuiHorizontalRule margin="s" />
-      <ServiceMap
-        serviceMap={serviceMap}
-        idSelected={serviceMapIdSelected}
-        setIdSelected={setServiceMapIdSelected}
-        currService={serviceName}
-      />
-      <EuiSpacer size="xs"/>
-      <EuiHorizontalRule margin="s"/>
-      <EuiText size="m">
-        <span className="panel-title">Spans</span>
-        {total === 0 || total ? (
-          <span className="panel-title-count">{` (${total})`}</span>
-        ) : null}
-      </EuiText>
-      <EuiHorizontalRule margin="m" />
-      <SpanDetailTable
-        http={http}
-        hiddenColumns={['serviceName']}
-        DSL={DSL}
-        openFlyout={openSpanFlyout}
-        setTotal={setTotal}
-      />
-    </>
+        <EuiText size="m">
+          <span className="panel-title">Overview</span>
+        </EuiText>
+        <EuiSpacer size="s" />
+          {overviewList}
+        <EuiSpacer size="xs"/>
+        <EuiHorizontalRule margin="s" />
+        <ServiceMap
+          serviceMap={serviceMap}
+          idSelected={serviceMapIdSelected}
+          setIdSelected={setServiceMapIdSelected}
+          currService={serviceName}
+        />
+        <EuiSpacer size="xs"/>
+        <EuiHorizontalRule margin="s"/>
+        <EuiText size="m">
+          <span className="panel-title">Spans</span>
+          {total === 0 || total ? (
+            <span className="panel-title-count">{` (${total})`}</span>
+          ) : null}
+        </EuiText>
+        <EuiHorizontalRule margin="m" />
+        <SpanDetailTable
+          http={http}
+          hiddenColumns={['serviceName']}
+          DSL={DSL}
+          openFlyout={openSpanFlyout}
+          setTotal={setTotal}
+        />
+      </>
     )
-  }
+  }, [serviceName, fields, serviceMap, DSL])
 
   useEffect(() => {
-    const DSL = filtersToDsl(filters, query, startTime, endTime);
+    const DSL = filtersToDsl(filters, query, startTime, endTime, 'app');
     handleServiceViewRequest(serviceName, http, DSL, fields, setFields);
     handleServiceMapRequest(http, DSL, serviceMap, setServiceMap, serviceName);
-    const spanDSL = filtersToDsl(filters, query, startTime, endTime);
+    const spanDSL = filtersToDsl(filters, query, startTime, endTime, 'app');
     spanDSL.query.bool.must.push({
       term: {
         serviceName: serviceName,
       },
     });
     setDSL(spanDSL);
-  }, [startTime, endTime, serviceName]);
-
-  const content = useMemo(() => {console.log('here'); return renderContent();}, [fields, serviceMap, DSL]);
+  }, [serviceName, startTime, endTime]);
 
   return (
     <EuiFlyout onClose={closeServiceFlyout} size="s">
-      <EuiFlyoutHeader>
+      <EuiFlyoutHeader hasBorder>
         <EuiTitle>
           <h2>Service detail</h2>
         </EuiTitle>
       </EuiFlyoutHeader>
       <EuiFlyoutBody>
-        {content}
+        {renderContent}
       </EuiFlyoutBody>
     </EuiFlyout>
   )
