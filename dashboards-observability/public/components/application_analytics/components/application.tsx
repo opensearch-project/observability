@@ -322,45 +322,45 @@ export function Application(props: AppDetailProps) {
 
   return (
     <div>
-    <EuiPage>
-      <EuiPageBody component="div">
-        <EuiPageHeader>
-          <EuiPageHeaderSection>
-            <EuiTitle size="l">
-              <h1>{application.name}</h1>
-            </EuiTitle>
-            <EuiText>
-              <p>{application.description}</p>
-            </EuiText>
-          </EuiPageHeaderSection>
-        </EuiPageHeader>
-        <EuiTabbedContent
-          className="appAnalyticsTabs"
-          initialSelectedTab={ appAnalyticsTabs[0] }
-          selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
-          onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-          tabs={ appAnalyticsTabs }
-        />
-      </EuiPageBody>
-      {serviceFlyoutName && (
-        <ServiceDetailFlyout 
-          {...props} 
-          serviceName={serviceFlyoutName}
-          closeServiceFlyout={closeServiceFlyout} 
-          openSpanFlyout={openSpanFlyout}
-          setSelectedTab={setSelectedTab}
-        />
-      )}
-      {spanFlyoutId && (
-        <SpanDetailFlyout
-          http={http}
-          spanId={spanFlyoutId}
-          isFlyoutVisible={!!spanFlyoutId}
-          closeFlyout={closeSpanFlyout}
-          addSpanFilter={() => {}}
-        />
-      )}
-    </EuiPage>
+      <EuiPage>
+        <EuiPageBody component="div">
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>{application.name}</h1>
+              </EuiTitle>
+              <EuiText>
+                <p>{application.description}</p>
+              </EuiText>
+            </EuiPageHeaderSection>
+          </EuiPageHeader>
+          <EuiTabbedContent
+            className="appAnalyticsTabs"
+            initialSelectedTab={ appAnalyticsTabs[0] }
+            selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
+            onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
+            tabs={ appAnalyticsTabs }
+          />
+        </EuiPageBody>
+        {serviceFlyoutName && (
+          <ServiceDetailFlyout 
+            {...props} 
+            serviceName={serviceFlyoutName}
+            closeServiceFlyout={closeServiceFlyout} 
+            openSpanFlyout={openSpanFlyout}
+            setSelectedTab={setSelectedTab}
+          />
+        )}
+        {spanFlyoutId && (
+          <SpanDetailFlyout
+            http={http}
+            spanId={spanFlyoutId}
+            isFlyoutVisible={!!spanFlyoutId}
+            closeFlyout={closeSpanFlyout}
+            addSpanFilter={() => {}}
+          />
+        )}
+      </EuiPage>
     </div>
   );
 }

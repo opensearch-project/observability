@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import { CustomPanelListType, PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -71,7 +71,9 @@ export class CustomPanelsAdaptor {
         objectType: 'operationalPanel',
         maxItems: 10000,
       });
-      return response.observabilityObjectList.map((panel: any) => ({
+      return response.observabilityObjectList
+        .filter((panel: any) => !panel.operationalPanel.applicationId)
+        .map((panel: any) => ({
         name: panel.operationalPanel.name,
         id: panel.objectId,
         dateCreated: panel.createdTimeMs,
