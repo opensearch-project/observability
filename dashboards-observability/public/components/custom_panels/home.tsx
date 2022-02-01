@@ -62,9 +62,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     http
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
       .then((res) => {
-        // Filter out panels that do not have applicationId field
-        const nonAppPanels = res.panels.filter((p: PanelType) => !p.applicationId);
-        setcustomPanelData(nonAppPanels);
+        setcustomPanelData(res.panels);
       })
       .catch((err) => {
         console.error('Issue in fetching the operational panels', err.body.message);
