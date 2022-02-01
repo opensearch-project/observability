@@ -8,6 +8,7 @@ export type CustomPanelListType = {
   id: string;
   dateCreated: number;
   dateModified: number;
+  applicationId?: string;
 };
 
 export type VisualizationType = {
