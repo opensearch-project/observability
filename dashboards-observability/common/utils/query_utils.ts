@@ -24,7 +24,8 @@ const commandExists = (query: string, command: string): boolean => {
   return new RegExp(`\\|\\s*${command}\\b`).test(query);
 }
 
-export const insertDateRangeToQuery = ({
+// insert time filter command and additional commands based on raw query
+export const preprocessQuery = ({
   rawQuery,
   startTime,
   endTime,
@@ -51,6 +52,7 @@ export const insertDateRangeToQuery = ({
   if (commandExists(rawQuery, 'parse')) {
     conditions += ` | sort - ${timeField} | head 10000`;
   }
+
   finalQuery = `${tokens![1]}=${tokens![2]} ${conditions} ${tokens![3]}`;
 
   return finalQuery;
