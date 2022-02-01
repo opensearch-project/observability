@@ -33,11 +33,11 @@ export function DataGrid(props: DataGridProps) {
   }, []);
 
   useEffect(() => {
-    if (!loader.current || limit >= rows.length) return;
+    if (!loader.current || limit >= rows.length + PAGE_SIZE) return;
 
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: '20px',
+      rootMargin: '500px',
       threshold: 0,
     });
     observer.observe(loader.current);
@@ -50,7 +50,12 @@ export function DataGrid(props: DataGridProps) {
     explorerFields: Array<IField>,
     prevTrs: any[] = [],
   ) => {
-    const upperLimit = Math.min(limit, docs.length);
+    if (prevTrs.length >= docs.length) return prevTrs;
+
+    // reset limit if no previous table rows
+    if (prevTrs.length === 0 && limit !== PAGE_SIZE) setLimit(PAGE_SIZE);
+
+    const upperLimit = Math.min(prevTrs.length === 0 ? PAGE_SIZE : limit, docs.length);
     for (let i = prevTrs.length; i < upperLimit; i++) {
       prevTrs.push(
         <DocViewRow
@@ -84,7 +89,7 @@ export function DataGrid(props: DataGridProps) {
           </>
       );
     } else {
-      tableHeadContent = fields.map(selField => {
+      tableHeadContent = fields.map((selField: any) => {
         return (
           <th key={ uniqueId('datagrid-header-')}>{ selField.name }</th>
         );
@@ -106,8 +111,8 @@ export function DataGrid(props: DataGridProps) {
   );
   const [QueriedtableRows, setQueriedtableRows] = useState<any[]>([]);
   useEffect(() => {
-    setQueriedtableRows((prev) => getTrs(rows, explorerFields.queriedFields, prev))
-  }, [ rows, explorerFields.queriedFields, limit ]);
+    setQueriedtableRows(getTrs(rows, explorerFields.queriedFields));
+  }, [ rows, explorerFields.queriedFields ]);
 
   const headers = useMemo(
     () => getHeaders(explorerFields.selectedFields),
@@ -115,9 +120,15 @@ export function DataGrid(props: DataGridProps) {
   );
   const [tableRows, setTableRows] = useState<any[]>([]);
   useEffect(() => {
-    const dataToRender = explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 ? rowsAll : rows
-    setTableRows((prev) => getTrs(dataToRender, explorerFields.selectedFields, prev))
-  }, [ rows, explorerFields.selectedFields, limit ]);
+    const dataToRender = explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 ? rowsAll : rows;
+    setTableRows(getTrs(dataToRender, explorerFields.selectedFields));
+  }, [ rows, explorerFields.selectedFields ]);
+
+  useEffect(() => {
+    setQueriedtableRows((prev) => getTrs(rows, explorerFields.queriedFields, prev));
+    const dataToRender = explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 ? rowsAll : rows;
+    setTableRows((prev) => getTrs(dataToRender, explorerFields.selectedFields, prev));
+  }, [limit]);
 
   return (
     <>
@@ -143,7 +154,7 @@ export function DataGrid(props: DataGridProps) {
           explorerFields?.queriedFields?.length > 0 &&
           explorerFields.selectedFields?.length === 0
         ) ? null : (
-          <table 
+          <table
             className="osd-table table"
             data-test-subj="docTable">
             <thead>
