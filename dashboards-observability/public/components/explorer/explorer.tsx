@@ -74,6 +74,7 @@ export const Explorer = ({
   notifications,
   savedObjectId,
   searchBarConfigs,
+  appId = '',
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -493,6 +494,7 @@ export const Explorer = ({
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}
+                  isOverridingTimestamp={isOverridingTimestamp}
                   isFieldToggleButtonDisabled={
                     isEmpty(explorerData.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
@@ -689,6 +691,8 @@ export const Explorer = ({
       dateRange: currQuery![SELECTED_DATE_RANGE],
       name: selectedPanelNameRef.current,
       timestamp: currQuery![SELECTED_TIMESTAMP],
+      objectId: '',
+      type: ''
     };
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
@@ -798,6 +802,7 @@ export const Explorer = ({
             type: curVisId,
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
+            applicationId: appId
           })
           .then((res: any) => {
             batch(() => {

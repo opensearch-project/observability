@@ -109,7 +109,7 @@ export const Home = (props: IHomeProps) => {
       sortOrder: 'desc',
       fromIndex: 0,
     });
-    const nonAppVisualizations = res['observabilityObjectList'].filter((object: any) => !object.savedVisualization.applicationId);
+    const nonAppVisualizations = res['observabilityObjectList'].filter((object: any) => object.savedVisualization && !object.savedVisualization.application_id);
     setSavedHistories(nonAppVisualizations);
   };
 

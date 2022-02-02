@@ -211,8 +211,8 @@ export function Application(props: AppDetailProps) {
         notifications={notifications}
         savedObjectId={''}
         http={http}
-        showSaveButton={true}
         searchBarConfigs={searchBarConfigs}
+        appId={appId}
       />
     );
   };

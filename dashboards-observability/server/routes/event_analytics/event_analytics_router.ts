@@ -116,6 +116,7 @@ export const registerEventAnalyticsRouter = ({
           type: schema.string(),
           name: schema.string(),
           description: schema.string(),
+          application_id: schema.maybe(schema.string()),
         })
     })}
   },
@@ -203,6 +204,7 @@ export const registerEventAnalyticsRouter = ({
           type: schema.string(),
           name: schema.string(),
           description: schema.string(),
+          application_id: schema.maybe(schema.string()),
         })
     })}
   },
