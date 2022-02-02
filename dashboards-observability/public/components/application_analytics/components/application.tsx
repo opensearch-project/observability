@@ -21,7 +21,6 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { Explorer } from '../../explorer/explorer';
 import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
@@ -49,6 +48,7 @@ import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
 import { ApplicationType } from '../../../../common/types/app_analytics';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -144,6 +144,21 @@ export function Application(props: AppDetailProps) {
       });
   };
 
+  // Add visualization to application's panel
+  const addVisualizationToPanel = async (visualizationId: string, visualizationName: string) => {
+    return http
+      .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
+        body: JSON.stringify({
+          panelId: application.panelId,
+          savedVisualizationId: visualizationId,
+        }),
+      })
+      .catch((err) => {
+        setToasts(`Error in adding ${visualizationName} visualization to the panel`, 'danger');
+        console.error(err);
+      });
+  }
+
   useEffect(() => {
     fetchAppById(appId);
   }, [appId]);
@@ -196,6 +211,7 @@ export function Application(props: AppDetailProps) {
         http={http}
         searchBarConfigs={searchBarConfigs}
         appId={appId}
+        addVisualizationToPanel={addVisualizationToPanel}
       />
     );
   };

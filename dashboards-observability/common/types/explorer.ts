@@ -102,4 +102,5 @@ export interface IExplorerProps {
   tabCreatedTypes?: any;
   searchBarConfigs?: any;
   appId?: string;
+  addVisualizationToPanel: (visualizationId: string, visualizationName: string) => Promise<void>;
 }
