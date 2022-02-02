@@ -822,7 +822,9 @@ export const Explorer = ({
                 })
               );
             });
-            history.replace(`/event_analytics/explorer/${res.objectId}`);
+            if (tabId !== "application-analytics-tab") {
+              history.replace(`/event_analytics/explorer/${res.objectId}`);
+            }
             setToast(
               `New visualization '${selectedPanelNameRef.current}' has been successfully saved.`,
               'success'

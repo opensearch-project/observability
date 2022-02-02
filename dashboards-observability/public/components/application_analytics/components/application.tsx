@@ -19,7 +19,7 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { isEmpty, uniqueId } from 'lodash';
+import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { Explorer } from '../../explorer/explorer';
@@ -44,8 +44,7 @@ import {
   TAB_TRACE_TITLE,
 } from '../../../../common/constants/application_analytics';
 import { TAB_EVENT_ID, TAB_CHART_ID } from '../../../../common/constants/explorer';
-import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
-import { RAW_QUERY } from '../../../../common/constants/explorer';
+import { IQueryTab } from '../../../../common/types/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
@@ -84,6 +83,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
+  setToasts: (title: string, color?: string, text?: ReactChild) => void;
 }
 
 export function Application(props: AppDetailProps) {
@@ -98,6 +98,7 @@ export function Application(props: AppDetailProps) {
     chrome,
     parentBreadcrumb,
     setFilters,
+    setToasts,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     name: '',
@@ -110,7 +111,6 @@ export function Application(props: AppDetailProps) {
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
-  const [toasts, setToasts] = useState<Toast[]>([]);
 
   // Fetch application by id
   const fetchAppById = async (appId: string) => {
@@ -139,7 +139,7 @@ export function Application(props: AppDetailProps) {
         setFilters([...serviceFilters, ...traceFilters]);
       })
       .catch((err) => {
-        setToast('Error occurred while fetching application', 'danger');
+        setToasts('Error occurred while fetching application', 'danger');
         console.error(err);
       });
   };
@@ -161,23 +161,6 @@ export function Application(props: AppDetailProps) {
       },
     ]);
   }, [appId, application.name]);
-
-  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
-  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
-    let emptyTabId = '';
-    for (let i = 0; i < tabIds!.length; i++) {
-      const tid = tabIds![i];
-      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
-        emptyTabId = tid;
-        break;
-      }
-    }
-    return emptyTabId;
-  };
 
   const getOverview = () => {
     return <Dashboard {...props} page="app" appId={appId} appName={application.name} />;
@@ -206,7 +189,7 @@ export function Application(props: AppDetailProps) {
         tabId={'application-analytics-tab'}
         savedObjects={savedObjects}
         timestampUtils={timestampUtils}
-        setToast={setToast}
+        setToast={setToasts}
         history={history}
         notifications={notifications}
         savedObjectId={''}
@@ -229,7 +212,7 @@ export function Application(props: AppDetailProps) {
         renameCustomPanel={() => undefined}
         cloneCustomPanel={(): Promise<string> => Promise.reject()}
         deleteCustomPanel={(): Promise<string> => Promise.reject()}
-        setToast={setToast}
+        setToast={setToasts}
         page="app"
         appName={application.name}
         appId={appId}
