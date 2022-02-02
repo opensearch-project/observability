@@ -49,6 +49,8 @@ import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
 import { ApplicationType } from '../../../../common/types/app_analytics';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
+import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -109,6 +111,8 @@ export function Application(props: AppDetailProps) {
     panelId: '',
   });
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
+  const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
+  const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
@@ -177,12 +181,49 @@ export function Application(props: AppDetailProps) {
     ]);
   }, [appId, application.name]);
 
+  const openServiceFlyout = (serviceName: string) => {
+    setSpanFlyoutId('');
+    setServiceFlyoutName(serviceName);
+  };
+
+  const closeServiceFlyout = () => {
+    setServiceFlyoutName('');
+  }
+
+  const openSpanFlyout = (spanId: string) => {
+    setServiceFlyoutName('');
+    setSpanFlyoutId(spanId);
+  };
+
+  const closeSpanFlyout = () => {
+    setSpanFlyoutId('');
+  }
+
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
+    let emptyTabId = '';
+    for (let i = 0; i < tabIds!.length; i++) {
+      const tid = tabIds![i];
+      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
+        emptyTabId = tid;
+        break;
+      }
+    }
+    return emptyTabId;
+  };
+
   const getOverview = () => {
     return <Dashboard {...props} page="app" appId={appId} appName={application.name} />;
   };
 
   const getService = () => {
-    return <Services {...props} page="app" appId={appId} appName={application.name} />;
+    return (
+      <Services {...props} page="app" appId={appId} appName={application.name} openServiceFlyout={openServiceFlyout} />
+    );
   };
 
   const getTrace = () => {
@@ -311,12 +352,30 @@ export function Application(props: AppDetailProps) {
           </EuiPageHeader>
           <EuiTabbedContent
             className="appAnalyticsTabs"
-            initialSelectedTab={appAnalyticsTabs[0]}
-            selectedTab={appAnalyticsTabs.find((tab) => tab.id === selectedTabId)}
-            onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
-            tabs={appAnalyticsTabs}
+            initialSelectedTab={ appAnalyticsTabs[0] }
+            selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
+            onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
+            tabs={ appAnalyticsTabs }
           />
         </EuiPageBody>
+        {serviceFlyoutName && (
+          <ServiceDetailFlyout 
+            {...props} 
+            serviceName={serviceFlyoutName}
+            closeServiceFlyout={closeServiceFlyout} 
+            openSpanFlyout={openSpanFlyout}
+            setSelectedTab={setSelectedTab}
+          />
+        )}
+        {spanFlyoutId && (
+          <SpanDetailFlyout
+            http={http}
+            spanId={spanFlyoutId}
+            isFlyoutVisible={!!spanFlyoutId}
+            closeFlyout={closeSpanFlyout}
+            addSpanFilter={() => {}}
+          />
+        )}
       </EuiPage>
     </div>
   );
