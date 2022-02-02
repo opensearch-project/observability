@@ -900,6 +900,7 @@ exports[`Traces component renders empty traces page 1`] = `
     indicesExist={false}
     items={Array []}
     loading={false}
+    page="traces"
     refresh={[Function]}
   >
     <EuiPanel>
@@ -2039,6 +2040,7 @@ exports[`Traces component renders traces page 1`] = `
     indicesExist={true}
     items={Array []}
     loading={false}
+    page="traces"
     refresh={[Function]}
   >
     <EuiPanel>

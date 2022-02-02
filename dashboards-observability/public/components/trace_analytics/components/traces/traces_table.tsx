@@ -27,6 +27,7 @@ export function TracesTable(props: {
   refresh: (sort?: PropertySort) => void;
   indicesExist: boolean;
   loading: boolean;
+  page?: string;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -50,6 +51,15 @@ export function TracesTable(props: {
           render: (item) => (
             <EuiFlexGroup gutterSize="s" alignItems="center">
               <EuiFlexItem grow={10}>
+                {props.page === "app" ? 
+                <EuiLink >
+                  {item.length < 24 ? (
+                    item
+                  ) : (
+                    <div title={item}>{_.truncate(item, { length: 24 })}</div>
+                  )}
+                </EuiLink>
+                :
                 <EuiLink href={`#/trace_analytics/traces/${encodeURIComponent(item)}`}>
                   {item.length < 24 ? (
                     item
@@ -57,6 +67,7 @@ export function TracesTable(props: {
                     <div title={item}>{_.truncate(item, { length: 24 })}</div>
                   )}
                 </EuiLink>
+                }
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiCopy textToCopy={item}>

@@ -29,6 +29,8 @@ export function ServicesTable(props: {
   refresh: () => void;
   indicesExist: boolean;
   loading: boolean;
+  page?: string;
+  openServiceFlyout?: any;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -49,6 +51,11 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           render: (item) => (
+            props.page === "app" ?
+            <EuiLink onClick={() => props.openServiceFlyout(item)}>
+              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
+            </EuiLink>
+            :
             <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
               {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
             </EuiLink>
@@ -108,6 +115,11 @@ export function ServicesTable(props: {
           render: (item, row) => (
             <>
               {item === 0 || item ? (
+                props.page === "app" ?
+                <EuiLink>
+                  <EuiI18nNumber value={item} />
+                </EuiLink>
+                :
                 <EuiLink
                   onClick={() => {
                     props.setRedirect(true);
