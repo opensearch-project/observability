@@ -344,6 +344,7 @@ export const Home = (props: HomeProps) => {
               savedObjects={savedObjects}
               timestampUtils={timestampUtils}
               notifications={notifications}
+              setToasts={setToast}
               {...commonProps}
             />
           )}

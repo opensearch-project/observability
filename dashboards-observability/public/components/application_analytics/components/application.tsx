@@ -23,7 +23,6 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { Explorer } from '../../explorer/explorer';
 import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
@@ -51,6 +50,7 @@ import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
 import { ApplicationType } from '../../../../common/types/app_analytics';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 
@@ -87,6 +87,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
+  setToasts: (title: string, color?: string, text?: ReactChild) => void;
 }
 
 export function Application(props: AppDetailProps) {
@@ -101,6 +102,7 @@ export function Application(props: AppDetailProps) {
     chrome,
     parentBreadcrumb,
     setFilters,
+    setToasts,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     name: '',
@@ -115,7 +117,6 @@ export function Application(props: AppDetailProps) {
   const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
-  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -149,10 +150,25 @@ export function Application(props: AppDetailProps) {
         setFilters([...serviceFilters, ...traceFilters]);
       })
       .catch((err) => {
-        setToast('Error occurred while fetching application', 'danger');
+        setToasts('Error occurred while fetching application', 'danger');
         console.error(err);
       });
   };
+
+  // Add visualization to application's panel
+  const addVisualizationToPanel = async (visualizationId: string, visualizationName: string) => {
+    return http
+      .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
+        body: JSON.stringify({
+          panelId: application.panelId,
+          savedVisualizationId: visualizationId,
+        }),
+      })
+      .catch((err) => {
+        setToasts(`Error in adding ${visualizationName} visualization to the panel`, 'danger');
+        console.error(err);
+      });
+  }
 
   useEffect(() => {
     fetchAppById(appId);
@@ -225,12 +241,14 @@ export function Application(props: AppDetailProps) {
         tabId={'application-analytics-tab'}
         savedObjects={savedObjects}
         timestampUtils={timestampUtils}
-        setToast={setToast}
+        setToast={setToasts}
         history={history}
         notifications={notifications}
         savedObjectId={''}
         http={http}
         searchBarConfigs={searchBarConfigs}
+        appId={appId}
+        addVisualizationToPanel={addVisualizationToPanel}
       />
     );
   };
@@ -247,7 +265,7 @@ export function Application(props: AppDetailProps) {
         renameCustomPanel={() => undefined}
         cloneCustomPanel={(): Promise<string> => Promise.reject()}
         deleteCustomPanel={(): Promise<string> => Promise.reject()}
-        setToast={setToast}
+        setToast={setToasts}
         page="app"
         appName={application.name}
         appId={appId}

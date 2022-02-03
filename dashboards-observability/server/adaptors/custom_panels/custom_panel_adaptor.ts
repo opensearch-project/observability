@@ -205,13 +205,17 @@ export class CustomPanelsAdaptor {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'savedVisualization',
       });
-      return response.observabilityObjectList.map((visualization: any) => ({
-        id: visualization.objectId,
-        name: visualization.savedVisualization.name,
-        query: visualization.savedVisualization.query,
-        type: visualization.savedVisualization.type,
-        timeField: visualization.savedVisualization.selected_timestamp.name,
-      }));
+      return response.observabilityObjectList
+        .filter((visualization: any) => {
+          return !!!visualization.savedVisualization.application_id;
+        })
+        .map((visualization: any) => ({
+          id: visualization.objectId,
+          name: visualization.savedVisualization.name,
+          query: visualization.savedVisualization.query,
+          type: visualization.savedVisualization.type,
+          timeField: visualization.savedVisualization.selected_timestamp.name,
+        }));
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
     }
@@ -240,7 +244,6 @@ export class CustomPanelsAdaptor {
   };
 
   //Get All Visualizations from a Panel
-  //Add Visualization
   getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {

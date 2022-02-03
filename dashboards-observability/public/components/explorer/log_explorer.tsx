@@ -209,7 +209,6 @@ export const LogExplorer = ({
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
             http={http}
-            showSaveButton={true}
             searchBarConfigs={searchBarConfigs}
           />
         </>

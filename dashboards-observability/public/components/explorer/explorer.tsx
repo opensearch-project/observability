@@ -76,6 +76,8 @@ export const Explorer = ({
   notifications,
   savedObjectId,
   searchBarConfigs,
+  appId = '',
+  addVisualizationToPanel,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -803,6 +805,7 @@ export const Explorer = ({
             type: curVisId,
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
+            applicationId: appId
           })
           .then((res: any) => {
             batch(() => {
@@ -822,7 +825,11 @@ export const Explorer = ({
                 })
               );
             });
-            history.replace(`/event_analytics/explorer/${res.objectId}`);
+            if (tabId === "application-analytics-tab") {
+              addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
+            } else {
+              history.replace(`/event_analytics/explorer/${res.objectId}`);
+            }
             setToast(
               `New visualization '${selectedPanelNameRef.current}' has been successfully saved.`,
               'success'
