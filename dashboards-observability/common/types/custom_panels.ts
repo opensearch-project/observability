@@ -34,6 +34,7 @@ export type SavedVisualizationType = {
   query: string;
   type: string;
   timeField: string;
+  application_id?: string;
 };
 
 export type pplResponse = {
