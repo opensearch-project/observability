@@ -100,4 +100,7 @@ export interface IExplorerProps {
   ) => void;
   http: CoreStart['http'];
   tabCreatedTypes?: any;
+  searchBarConfigs?: any;
+  appId?: string;
+  addVisualizationToPanel: (visualizationId: string, visualizationName: string) => Promise<void>;
 }
