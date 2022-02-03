@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
+import { History } from 'history';
+import {
   RAW_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
@@ -12,58 +13,57 @@ import {
   INDEX,
   FINAL_QUERY,
   SELECTED_TIMESTAMP,
-  SELECTED_DATE_RANGE
- } from '../constants/explorer';
- import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
- import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
- import TimestampUtils from '../../public/services/timestamp/timestamp';
- import PPLService from '../../public/services/requests/ppl';
- import DSLService from '../../public/services/requests/dsl';
- import { History } from 'history';
+  SELECTED_DATE_RANGE,
+} from '../constants/explorer';
+import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
+import TimestampUtils from '../../public/services/timestamp/timestamp';
+import PPLService from '../../public/services/requests/ppl';
+import DSLService from '../../public/services/requests/dsl';
 
 export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
-  content: React.ReactNode
+  content: React.ReactNode;
 }
 
 export interface IField {
   name: string;
-  type: string
+  type: string;
 }
 
 export interface ITabQueryResults {
-  [tabId: string]: any
+  [tabId: string]: any;
 }
 
 export interface ITabQueries {
-  [tabId: string]: IQuery
+  [tabId: string]: IQuery;
 }
 
 export interface IQuery {
   [RAW_QUERY]: string;
   [FINAL_QUERY]: string;
   [INDEX]: string;
-  [SELECTED_DATE_RANGE]: Array<string>;
+  [SELECTED_DATE_RANGE]: string[];
   [SELECTED_TIMESTAMP]: string;
 }
 
 export interface IExplorerTabFields {
-  [tabId: string]: IExplorerFields
+  [tabId: string]: IExplorerFields;
 }
 
 export interface IExplorerFields {
-  [SELECTED_FIELDS]: Array<IField>;
-  [UNSELECTED_FIELDS]: Array<IField>;
-  [AVAILABLE_FIELDS]: Array<IField>;
-  [QUERIED_FIELDS]: Array<IField>;
+  [SELECTED_FIELDS]: IField[];
+  [UNSELECTED_FIELDS]: IField[];
+  [AVAILABLE_FIELDS]: IField[];
+  [QUERIED_FIELDS]: IField[];
 }
 
-export type EmptyTabParams = {
-  tabIds: Array<string> | undefined,
-  queries: any | undefined,
-  explorerData: any | undefined
-};
+export interface EmptyTabParams {
+  tabIds: string[] | undefined;
+  queries: any | undefined;
+  explorerData: any | undefined;
+}
 
 export interface ILogExplorerProps {
   pplService: PPLService;
@@ -100,4 +100,5 @@ export interface IExplorerProps {
   ) => void;
   http: CoreStart['http'];
   tabCreatedTypes?: any;
+  searchBarConfigs?: any;
 }

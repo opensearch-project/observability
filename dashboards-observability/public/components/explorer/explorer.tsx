@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -231,7 +233,7 @@ export const Explorer = ({
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr: string = curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
@@ -493,6 +495,7 @@ export const Explorer = ({
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}
+                  isOverridingTimestamp={isOverridingTimestamp}
                   isFieldToggleButtonDisabled={
                     isEmpty(explorerData.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
@@ -584,16 +587,16 @@ export const Explorer = ({
   };
 
   function getMainContentTab({
-    tabId,
+    tabID,
     tabTitle,
     getContent,
   }: {
-    tabId: string;
+    tabID: string;
     tabTitle: string;
     getContent: () => JSX.Element;
   }) {
     return {
-      id: tabId,
+      id: tabID,
       name: (
         <>
           <EuiText size="s" textAlign="left" color="default">
@@ -622,12 +625,12 @@ export const Explorer = ({
   const getMainContentTabs = () => {
     return [
       getMainContentTab({
-        tabId: TAB_EVENT_ID,
+        tabID: TAB_EVENT_ID,
         tabTitle: TAB_EVENT_TITLE,
         getContent: () => getMainContent(),
       }),
       getMainContentTab({
-        tabId: TAB_CHART_ID,
+        tabID: TAB_CHART_ID,
         tabTitle: TAB_CHART_TITLE,
         getContent: () => getExplorerVis(),
       }),
@@ -650,12 +653,12 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
-  const updateQueryInStore = async (query: string) => {
+  const updateQueryInStore = async (updateQuery: string) => {
     await dispatch(
       changeQuery({
         tabId,
         query: {
-          [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
+          [RAW_QUERY]: updateQuery.replaceAll(PPL_NEWLINE_REGEX, ''),
         },
       })
     );
@@ -666,8 +669,8 @@ export const Explorer = ({
     fetchData();
   }, [tempQuery]);
 
-  const handleQueryChange = async (query: string) => {
-    setTempQuery(query);
+  const handleQueryChange = async (newQuery: string) => {
+    setTempQuery(newQuery);
   };
 
   const handleSavingObject = async () => {
@@ -689,6 +692,8 @@ export const Explorer = ({
       dateRange: currQuery![SELECTED_DATE_RANGE],
       name: selectedPanelNameRef.current,
       timestamp: currQuery![SELECTED_TIMESTAMP],
+      objectId: '',
+      type: '',
     };
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);

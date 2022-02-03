@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -44,6 +45,12 @@ export function ServiceView(props: ServiceViewProps) {
   >('latency');
   const [redirect, setRedirect] = useState(false);
 
+  const refresh = () => {
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, props.serviceName);
+  };
+
   useEffect(() => {
     props.chrome.setBreadcrumbs([
       props.parentBreadcrumb,
@@ -65,12 +72,6 @@ export function ServiceView(props: ServiceViewProps) {
   useEffect(() => {
     if (!redirect) refresh();
   }, [props.startTime, props.endTime, props.serviceName]);
-
-  const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, props.serviceName);
-  };
 
   const renderTitle = (
     serviceName: string,
@@ -226,22 +227,22 @@ export function ServiceView(props: ServiceViewProps) {
   };
 
   useEffect(() => {
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    DSL.query.bool.must.push({
+    const spanDSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    spanDSL.query.bool.must.push({
       term: {
         serviceName: props.serviceName,
       },
     });
     spanFilters.map(({ field, value }) => {
       if (value != null) {
-        DSL.query.bool.must.push({
+        spanDSL.query.bool.must.push({
           term: {
             [field]: value,
           },
         });
       }
     });
-    setDSL(DSL);
+    setDSL(spanDSL);
   }, [props.startTime, props.endTime, props.serviceName, spanFilters]);
 
   const addSpanFilter = (field: string, value: any) => {

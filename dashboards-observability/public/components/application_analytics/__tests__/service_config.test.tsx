@@ -20,12 +20,16 @@ describe('Service Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setSelectedServices = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const wrapper = mount(
       <ServiceConfig
         http={core.http}
@@ -39,11 +43,17 @@ describe('Service Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         selectedServices={[]}
         setSelectedServices={setSelectedServices}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -56,19 +66,25 @@ describe('Service Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setSelectedServices = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const serviceFilter = [{
-      field: 'serviceName',
-      operator: 'is',
-      value: 'User',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const serviceFilter = [
+      {
+        field: 'serviceName',
+        operator: 'is',
+        value: 'User',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const wrapper = mount(
       <ServiceConfig
         http={core.http}
@@ -82,11 +98,17 @@ describe('Service Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         selectedServices={[]}
         setSelectedServices={setSelectedServices}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();

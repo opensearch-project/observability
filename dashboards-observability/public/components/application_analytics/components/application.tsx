@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -19,7 +21,7 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { isEmpty, uniqueId } from 'lodash';
+import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import { Explorer } from '../../explorer/explorer';
@@ -44,8 +46,7 @@ import {
   TAB_TRACE_TITLE,
 } from '../../../../common/constants/application_analytics';
 import { TAB_EVENT_ID, TAB_CHART_ID } from '../../../../common/constants/explorer';
-import { EmptyTabParams, IQueryTab } from '../../../../common/types/explorer';
-import { RAW_QUERY } from '../../../../common/constants/explorer';
+import { IQueryTab } from '../../../../common/types/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
@@ -116,10 +117,15 @@ export function Application(props: AppDetailProps) {
   const history = useHistory();
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
   // Fetch application by id
-  const fetchAppById = async (appId: string) => {
+  const fetchAppById = async (applicationId: string) => {
     return http
-      .get(`${APP_ANALYTICS_API_PREFIX}/${appId}`)
+      .get(`${APP_ANALYTICS_API_PREFIX}/${applicationId}`)
       .then((res) => {
         setApplication(res.application);
         const serviceFilters = res.application.servicesEntities.map((ser: string) => {
@@ -173,7 +179,7 @@ export function Application(props: AppDetailProps) {
 
   const closeServiceFlyout = () => {
     setServiceFlyoutName('');
-  }
+  };
 
   const openSpanFlyout = (spanId: string) => {
     setServiceFlyoutName('');
@@ -182,23 +188,6 @@ export function Application(props: AppDetailProps) {
 
   const closeSpanFlyout = () => {
     setSpanFlyoutId('');
-  }
-
-  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
-  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
-    let emptyTabId = '';
-    for (let i = 0; i < tabIds!.length; i++) {
-      const tid = tabIds![i];
-      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
-        emptyTabId = tid;
-        break;
-      }
-    }
-    return emptyTabId;
   };
 
   const getOverview = () => {
@@ -207,7 +196,13 @@ export function Application(props: AppDetailProps) {
 
   const getService = () => {
     return (
-      <Services {...props} page="app" appId={appId} appName={application.name} openServiceFlyout={openServiceFlyout} />
+      <Services
+        {...props}
+        page="app"
+        appId={appId}
+        appName={application.name}
+        openServiceFlyout={openServiceFlyout}
+      />
     );
   };
 
@@ -235,7 +230,6 @@ export function Application(props: AppDetailProps) {
         notifications={notifications}
         savedObjectId={''}
         http={http}
-        showSaveButton={true}
         searchBarConfigs={searchBarConfigs}
       />
     );
@@ -336,17 +330,19 @@ export function Application(props: AppDetailProps) {
           </EuiPageHeader>
           <EuiTabbedContent
             className="appAnalyticsTabs"
-            initialSelectedTab={ appAnalyticsTabs[0] }
-            selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
-            onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-            tabs={ appAnalyticsTabs }
+            initialSelectedTab={appAnalyticsTabs[0]}
+            selectedTab={appAnalyticsTabs.find((tab) => {
+              return tab.id === selectedTabId;
+            })}
+            onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+            tabs={appAnalyticsTabs}
           />
         </EuiPageBody>
         {serviceFlyoutName && (
-          <ServiceDetailFlyout 
-            {...props} 
+          <ServiceDetailFlyout
+            {...props}
             serviceName={serviceFlyoutName}
-            closeServiceFlyout={closeServiceFlyout} 
+            closeServiceFlyout={closeServiceFlyout}
             openSpanFlyout={openSpanFlyout}
             setSelectedTab={setSelectedTab}
           />

@@ -20,12 +20,16 @@ describe('Log Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setIsFlyoutVisible = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const wrapper = mount(
       <LogConfig
         http={core.http}
@@ -39,10 +43,16 @@ describe('Log Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         setIsFlyoutVisible={setIsFlyoutVisible}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -55,12 +65,16 @@ describe('Log Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setIsFlyoutVisible = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const wrapper = mount(
       <LogConfig
         http={core.http}
@@ -74,10 +88,16 @@ describe('Log Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         setIsFlyoutVisible={setIsFlyoutVisible}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();

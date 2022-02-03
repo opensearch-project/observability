@@ -4,10 +4,7 @@
  */
 
 import React from 'react';
-import {
-  EuiOverlayMask,
-  EuiConfirmModal,
-} from '@elastic/eui';
+import { EuiOverlayMask, EuiConfirmModal } from '@elastic/eui';
 
 /* The file contains helper functions for modal layouts
  * getClearModal - returns a confirm-modal with clear option

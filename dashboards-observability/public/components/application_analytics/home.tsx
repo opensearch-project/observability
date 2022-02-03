@@ -1,31 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import React, { ReactChild, useEffect, useState } from 'react';
-import { AppTable } from './components/app_table';
-import { Application } from './components/application';
-import { CreateApp } from './components/create'
-import { Route, RouteComponentProps, Switch } from 'react-router';
-import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
-import { FilterType } from '../trace_analytics/components/common/filters/filters';
+import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
+import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
+import _ from 'lodash';
+import { AppTable } from './components/app_table';
+import { Application } from './components/application';
+import { CreateApp } from './components/create';
+import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
+import { FilterType } from '../trace_analytics/components/common/filters/filters';
 import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import { optionType, ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
+import {
+  OptionType,
+  ApplicationListType,
+  ApplicationType,
+} from '../../../common/types/app_analytics';
 import { isNameValid } from './helpers/utils';
-import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
-import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import _ from 'lodash';
-import { CUSTOM_PANELS_API_PREFIX, CUSTOM_PANELS_DOCUMENTATION_URL } from '../../../common/constants/custom_panels';
+import {
+  CUSTOM_PANELS_API_PREFIX,
+  CUSTOM_PANELS_DOCUMENTATION_URL,
+} from '../../../common/constants/custom_panels';
 
-export interface AppAnalyticsCoreDeps extends TraceAnalyticsCoreDeps {}
+export type AppAnalyticsCoreDeps = TraceAnalyticsCoreDeps;
 
 interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
   pplService: PPLService;
@@ -45,17 +54,34 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
 }
 
 export const Home = (props: HomeProps) => {
-  const { pplService, dslService, timestampUtils, savedObjects, parentBreadcrumb, http, chrome, notifications } = props;
-  const [applicationList, setApplicationList] = useState<Array<ApplicationListType>>([]);
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
+  const {
+    pplService,
+    dslService,
+    timestampUtils,
+    savedObjects,
+    parentBreadcrumb,
+    http,
+    chrome,
+    notifications,
+  } = props;
+  const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const [indicesExist, setIndicesExist] = useState(true);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
-  const [filters, setFilters] = useState<FilterType[]>(storedFilters ? JSON.parse(storedFilters) : []);
+  const [filters, setFilters] = useState<FilterType[]>(
+    storedFilters ? JSON.parse(storedFilters) : []
+  );
   const [name, setName] = useState(sessionStorage.getItem('AppAnalyticsName') || '');
-  const [description, setDescription] = useState(sessionStorage.getItem('AppAnalyticsDescription') || '');
+  const [description, setDescription] = useState(
+    sessionStorage.getItem('AppAnalyticsDescription') || ''
+  );
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
-  const [startTime, setStartTime] = useState<string>(sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h');
-  const [endTime, setEndTime] = useState<string>(sessionStorage.getItem('AppAnalyticsEndTime') || 'now');
+  const [startTime, setStartTime] = useState<string>(
+    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h'
+  );
+  const [endTime, setEndTime] = useState<string>(
+    sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
+  );
 
   // Setting state with storage to save input when user refreshes page
   const setFiltersWithStorage = (newFilters: FilterType[]) => {
@@ -82,15 +108,15 @@ export const Home = (props: HomeProps) => {
     setEndTime(newEndTime);
     sessionStorage.setItem('AppAnalyticsEndTime', newEndTime);
   };
-  
+
   useEffect(() => {
     handleIndicesExistRequest(http, setIndicesExist);
   }, []);
 
   const commonProps: AppAnalyticsComponentDeps = {
-    parentBreadcrumb: parentBreadcrumb,
-    http: http,
-    chrome: chrome,
+    parentBreadcrumb,
+    http,
+    chrome,
     name,
     setNameWithStorage,
     description,
@@ -125,11 +151,11 @@ export const Home = (props: HomeProps) => {
       .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
         body: JSON.stringify({
           panelName: `${appName}'s Panel`,
-          applicationId: applicationId,
+          applicationId,
         }),
       })
       .then((res) => {
-        updateApp(applicationId, {panelId: res.newPanelId}, false);
+        updateApp(applicationId, { panelId: res.newPanelId }, false);
       })
       .catch((err) => {
         setToast(
@@ -143,7 +169,6 @@ export const Home = (props: HomeProps) => {
       });
   };
 
-
   // Fetches all existing applications
   const fetchApps = () => {
     return http
@@ -154,55 +179,61 @@ export const Home = (props: HomeProps) => {
       .catch((err) => {
         setToast('Error occurred while fetching applications', 'danger');
         console.error(err);
-      })
+      });
   };
 
   // Create a new application
-  const createApp = (name: string, description: string, query: string, selectedServices: Array<optionType>, selectedTraces: Array<optionType>) => {
-    const toast = isNameValid(name);
+  const createApp = (
+    appName: string,
+    appDescription: string,
+    baseQuery: string,
+    selectedServices: OptionType[],
+    selectedTraces: OptionType[]
+  ) => {
+    const toast = isNameValid(appName);
     if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
     }
 
     const requestBody = {
-      name: name,
-      description: description,
-      baseQuery: query,
-      servicesEntities: selectedServices.map(option => option.label),
-      traceGroups: selectedTraces.map(option => option.label),
-    }
+      name: appName,
+      description: appDescription,
+      baseQuery,
+      servicesEntities: selectedServices.map((option) => option.label),
+      traceGroups: selectedTraces.map((option) => option.label),
+    };
 
     return http
       .post(`${APP_ANALYTICS_API_PREFIX}/`, {
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       })
       .then((res) => {
-        createPanelForApp(res.newAppId, name);
-        setToast(`Application "${name}" successfully created!`);
+        createPanelForApp(res.newAppId, appName);
+        setToast(`Application "${appName}" successfully created!`);
         clearStorage();
       })
       .catch((err) => {
-        setToast(`Error occurred while creating new application "${name}"`, 'danger');
+        setToast(`Error occurred while creating new application "${appName}"`, 'danger');
         console.error(err);
       });
   };
 
   // Rename an existing application
   const renameApp = (newAppName: string, appId: string) => {
-    if(!isNameValid(newAppName)) {
+    if (!isNameValid(newAppName)) {
       setToast('Invalid Application name', 'danger');
       return;
     }
 
     const requestBody = {
-      appId: appId,
+      appId,
       name: newAppName,
-    }
+    };
 
     return http
       .patch(`${APP_ANALYTICS_API_PREFIX}/rename`, {
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       })
       .then((res) => {
         setApplicationList((prevApplicationList) => {
@@ -224,23 +255,24 @@ export const Home = (props: HomeProps) => {
   // Update existing application
   const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => {
     const requestBody = {
-      appId: appId,
+      appId,
       updateBody: updateAppData,
-    }
+    };
 
     return http
       .patch(`${APP_ANALYTICS_API_PREFIX}/`, {
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       })
       .then((res) => {
         if (edit) {
           setToast('Application successfully updated.');
         }
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setToast('Error occurred while updating application', 'danger');
         console.error(err);
-      })
+      });
   };
 
   // Delete existing applications
@@ -249,9 +281,9 @@ export const Home = (props: HomeProps) => {
       .delete(`${APP_ANALYTICS_API_PREFIX}/${appList.join(',')}`)
       .then((res) => {
         setApplicationList((prevApplicationList) => {
-          return prevApplicationList.filter((app) => !appList.includes(app.id))
+          return prevApplicationList.filter((app) => !appList.includes(app.id));
         });
-        const message = 
+        const message =
           toastMessage || `Application${appList.length > 1 ? 's' : ''} successfully deleted!`;
         setToast(message);
         return res;
@@ -275,34 +307,35 @@ export const Home = (props: HomeProps) => {
         <Route
           exact
           path={['/', '/application_analytics']}
-          render={() => 
+          render={() => (
             <ObservabilitySideBar>
-            <AppTable 
-              loading={false}
-              applications={applicationList}
-              fetchApplications={fetchApps}
-              renameApplication={renameApp}
-              deleteApplication={deleteApp}
-              {...commonProps} />
+              <AppTable
+                loading={false}
+                applications={applicationList}
+                fetchApplications={fetchApps}
+                renameApplication={renameApp}
+                deleteApplication={deleteApp}
+                {...commonProps}
+              />
             </ObservabilitySideBar>
-          }
+          )}
         />
         <Route
           exact
           path={'/application_analytics/create'}
-          render={() => 
+          render={() => (
             <CreateApp
-            dslService={dslService}
-            createApp={createApp}
-            clearStorage={clearStorage}
-            {...commonProps}
+              dslService={dslService}
+              createApp={createApp}
+              clearStorage={clearStorage}
+              {...commonProps}
             />
-          }
+          )}
         />
         <Route
           exact
           path={'/application_analytics/:id+'}
-          render={(routerProps) => 
+          render={(routerProps) => (
             <Application
               disabled={false}
               appId={decodeURIComponent(routerProps.match.params.id)}
@@ -313,9 +346,9 @@ export const Home = (props: HomeProps) => {
               notifications={notifications}
               {...commonProps}
             />
-          }
+          )}
         />
       </Switch>
     </div>
-  )
+  );
 };
