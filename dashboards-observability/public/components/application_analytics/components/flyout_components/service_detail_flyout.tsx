@@ -6,7 +6,6 @@
 
 import _ from 'lodash';
 import {
-  EuiDescriptionList,
   EuiFlyout,
   EuiFlyoutBody,
   EuiFlyoutHeader,
@@ -25,8 +24,9 @@ import { ServiceMap } from '../../../../../public/components/trace_analytics/com
 import { ServiceObject } from '../../../../../public/components/trace_analytics/components/common/plots/service_map';
 import { SpanDetailTable } from '../../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { TraceAnalyticsComponentDeps } from '../../../../../public/components/trace_analytics/home';
+import { getListItem } from '../../helpers/utils';
 
-export interface ServiceFlyoutProps extends TraceAnalyticsComponentDeps {
+interface ServiceFlyoutProps extends TraceAnalyticsComponentDeps {
   serviceName: string;
   closeServiceFlyout: () => void;
   openSpanFlyout: (spanId: string) => void;
@@ -51,40 +51,6 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
     'latency' | 'error_rate' | 'throughput'
   >('latency');
-
-  const getListItem = (title: string, description: string) => {
-    const titleComponent = (
-      <EuiText size="s" color="subdued" style={{ wordBreak: 'break-all', wordWrap: 'break-word' }}>
-        {title}
-      </EuiText>
-    );
-
-    const descriptionComponent = (
-      <EuiText
-        size="s"
-        style={{ wordBreak: 'break-all', wordWrap: 'break-word', whiteSpace: 'pre-line' }}
-      >
-        <b>{description}</b>
-      </EuiText>
-    );
-
-    return (
-      <div key={`list-item-${title}`}>
-        <EuiDescriptionList
-          listItems={[
-            {
-              title: titleComponent,
-              description: descriptionComponent || '-',
-            },
-          ]}
-          type="column"
-          align="center"
-          compressed
-        />
-        <EuiSpacer size="s" />
-      </div>
-    );
-  };
 
   const renderContent = useMemo(() => {
     if (!serviceName) return '-';
@@ -135,7 +101,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           <span className="panel-title">Spans</span>
           {total === 0 || total ? <span className="panel-title-count">{` (${total})`}</span> : null}
         </EuiText>
-        <EuiHorizontalRule margin="m" />
+        <EuiSpacer size="s" />
         <SpanDetailTable
           http={http}
           hiddenColumns={['serviceName']}

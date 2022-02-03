@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -52,6 +54,7 @@ import { CustomPanelView } from '../../../../public/components/custom_panels/cus
 import { ApplicationType } from '../../../../common/types/app_analytics';
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
+import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -111,15 +114,16 @@ export function Application(props: AppDetailProps) {
   });
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
+  const [traceFlyoutId, setTraceFlyoutId] = useState<string>('');
   const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   // Fetch application by id
-  const fetchAppById = async (appId: string) => {
+  const fetchAppById = async (applicationId: string) => {
     return http
-      .get(`${APP_ANALYTICS_API_PREFIX}/${appId}`)
+      .get(`${APP_ANALYTICS_API_PREFIX}/${applicationId}`)
       .then((res) => {
         setApplication(res.application);
         const serviceFilters = res.application.servicesEntities.map((ser: string) => {
@@ -168,21 +172,33 @@ export function Application(props: AppDetailProps) {
 
   const openServiceFlyout = (serviceName: string) => {
     setSpanFlyoutId('');
+    setTraceFlyoutId('');
     setServiceFlyoutName(serviceName);
   };
 
   const closeServiceFlyout = () => {
     setServiceFlyoutName('');
-  }
+  };
 
   const openSpanFlyout = (spanId: string) => {
     setServiceFlyoutName('');
+    setTraceFlyoutId('');
     setSpanFlyoutId(spanId);
   };
 
   const closeSpanFlyout = () => {
     setSpanFlyoutId('');
-  }
+  };
+
+  const openTraceFlyout = (traceId: string) => {
+    setServiceFlyoutName('');
+    setSpanFlyoutId('');
+    setTraceFlyoutId(traceId);
+  };
+
+  const closeTraceFlyout = () => {
+    setTraceFlyoutId('');
+  };
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -207,14 +223,26 @@ export function Application(props: AppDetailProps) {
 
   const getService = () => {
     return (
-      <Services {...props} page="app" appId={appId} appName={application.name} openServiceFlyout={openServiceFlyout} />
+      <Services
+        {...props}
+        page="app"
+        appId={appId}
+        appName={application.name}
+        openServiceFlyout={openServiceFlyout}
+      />
     );
   };
 
   const getTrace = () => {
     return (
       <>
-        <Traces {...props} page="app" appId={appId} appName={application.name} />
+        <Traces
+          {...props}
+          page="app"
+          appId={appId}
+          appName={application.name}
+          openTraceFlyout={openTraceFlyout}
+        />
         <EuiSpacer size="m" />
         <SpanDetailPanel {...props} traceId="id" colorMap="color" />
       </>
@@ -336,17 +364,19 @@ export function Application(props: AppDetailProps) {
           </EuiPageHeader>
           <EuiTabbedContent
             className="appAnalyticsTabs"
-            initialSelectedTab={ appAnalyticsTabs[0] }
-            selectedTab={ appAnalyticsTabs.find(tab => { tab.id === selectedTabId }) }
-            onTabClick={ (selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab) }
-            tabs={ appAnalyticsTabs }
+            initialSelectedTab={appAnalyticsTabs[0]}
+            selectedTab={appAnalyticsTabs.find((tab) => {
+              return tab.id === selectedTabId;
+            })}
+            onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+            tabs={appAnalyticsTabs}
           />
         </EuiPageBody>
         {serviceFlyoutName && (
-          <ServiceDetailFlyout 
-            {...props} 
+          <ServiceDetailFlyout
+            {...props}
             serviceName={serviceFlyoutName}
-            closeServiceFlyout={closeServiceFlyout} 
+            closeServiceFlyout={closeServiceFlyout}
             openSpanFlyout={openSpanFlyout}
             setSelectedTab={setSelectedTab}
           />
@@ -358,6 +388,14 @@ export function Application(props: AppDetailProps) {
             isFlyoutVisible={!!spanFlyoutId}
             closeFlyout={closeSpanFlyout}
             addSpanFilter={() => {}}
+          />
+        )}
+        {traceFlyoutId && (
+          <TraceDetailFlyout
+            {...props}
+            http={http}
+            traceId={traceFlyoutId}
+            closeTraceFlyout={closeTraceFlyout}
           />
         )}
       </EuiPage>
