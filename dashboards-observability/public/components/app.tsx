@@ -54,11 +54,13 @@ export const App = ({
               <Route
                 path="/uptime"
                 render={(props) => {
+                  chrome.setBreadcrumbs([parentBreadcrumb, { text: 'Uptime', href: '#/uptime/', }])
                   return (
                     <Uptime
                       http={http}
                       chrome={chrome}
-                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      // setBreadcrumbs={chrome.setBreadcrumbs}
+                      parentBreadcrumb={parentBreadcrumb}
                       pplService={pplService}
                       renderProps={props}
                     />
