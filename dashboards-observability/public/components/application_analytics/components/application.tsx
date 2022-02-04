@@ -120,11 +120,6 @@ export function Application(props: AppDetailProps) {
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
-  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
   // Fetch application by id
   const fetchAppById = async (applicationId: string) => {
     return http
@@ -170,7 +165,7 @@ export function Application(props: AppDetailProps) {
         setToasts(`Error in adding ${visualizationName} visualization to the panel`, 'danger');
         console.error(err);
       });
-  }
+  };
 
   useEffect(() => {
     fetchAppById(appId);
@@ -218,23 +213,6 @@ export function Application(props: AppDetailProps) {
 
   const closeTraceFlyout = () => {
     setTraceFlyoutId('');
-  };
-
-  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
-    if (!text) text = '';
-    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
-  };
-
-  const getExistingEmptyTab = ({ tabIds, queries, explorerData }: EmptyTabParams) => {
-    let emptyTabId = '';
-    for (let i = 0; i < tabIds!.length; i++) {
-      const tid = tabIds![i];
-      if (isEmpty(queries[tid][RAW_QUERY]) && isEmpty(explorerData[tid])) {
-        emptyTabId = tid;
-        break;
-      }
-    }
-    return emptyTabId;
   };
 
   const getOverview = () => {

@@ -805,7 +805,7 @@ export const Explorer = ({
             type: curVisId,
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
-            applicationId: appId
+            applicationId: appId,
           })
           .then((res: any) => {
             batch(() => {
@@ -825,7 +825,7 @@ export const Explorer = ({
                 })
               );
             });
-            if (tabId === "application-analytics-tab") {
+            if (tabId === 'application-analytics-tab') {
               addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
             } else {
               history.replace(`/event_analytics/explorer/${res.objectId}`);
