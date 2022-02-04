@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -20,7 +21,11 @@ import {
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { TRACES_MAX_NUM } from '../../../../../common/constants/trace_analytics';
-import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common/helper_functions';
+import {
+  MissingConfigurationMessage,
+  NoMatchMessage,
+  PanelTitle,
+} from '../common/helper_functions';
 
 export function TracesTable(props: {
   items: any[];
@@ -28,6 +33,7 @@ export function TracesTable(props: {
   indicesExist: boolean;
   loading: boolean;
   page?: string;
+  openTraceFlyout?: any;
 }) {
   const renderTitleBar = (totalItems?: number) => {
     return (
@@ -51,23 +57,23 @@ export function TracesTable(props: {
           render: (item) => (
             <EuiFlexGroup gutterSize="s" alignItems="center">
               <EuiFlexItem grow={10}>
-                {props.page === "app" ? 
-                <EuiLink >
-                  {item.length < 24 ? (
-                    item
-                  ) : (
-                    <div title={item}>{_.truncate(item, { length: 24 })}</div>
-                  )}
-                </EuiLink>
-                :
-                <EuiLink href={`#/trace_analytics/traces/${encodeURIComponent(item)}`}>
-                  {item.length < 24 ? (
-                    item
-                  ) : (
-                    <div title={item}>{_.truncate(item, { length: 24 })}</div>
-                  )}
-                </EuiLink>
-                }
+                {props.page === 'app' ? (
+                  <EuiLink onClick={() => props.openTraceFlyout(item)}>
+                    {item.length < 24 ? (
+                      item
+                    ) : (
+                      <div title={item}>{_.truncate(item, { length: 24 })}</div>
+                    )}
+                  </EuiLink>
+                ) : (
+                  <EuiLink href={`#/trace_analytics/traces/${encodeURIComponent(item)}`}>
+                    {item.length < 24 ? (
+                      item
+                    ) : (
+                      <div title={item}>{_.truncate(item, { length: 24 })}</div>
+                    )}
+                  </EuiLink>
+                )}
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiCopy textToCopy={item}>
@@ -161,7 +167,7 @@ export function TracesTable(props: {
     },
   });
 
-  const onTableChange = async ({ page, sort }) => {
+  const onTableChange = async ({ page, sort }: { page: any; sort: any }) => {
     if (typeof sort?.field !== 'string') return;
 
     // maps table column key to DSL aggregation name

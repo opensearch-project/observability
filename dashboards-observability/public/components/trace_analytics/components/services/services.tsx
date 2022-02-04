@@ -26,32 +26,31 @@ export function Services(props: ServicesProps) {
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const breadCrumbs = page === 'app' ? 
-  [
-    {
-      text: 'Application analytics',
-      href: '#/application_analytics',
-    },
-    {
-      text: `${appName}`,
-      href: `#/application_analytics/${appId}`,
-    },
-  ] : [
-    {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Services',
-        href: '#/trace_analytics/services',
-      },
-  ]
+  const breadCrumbs =
+    page === 'app'
+      ? [
+          {
+            text: 'Application analytics',
+            href: '#/application_analytics',
+          },
+          {
+            text: `${appName}`,
+            href: `#/application_analytics/${appId}`,
+          },
+        ]
+      : [
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Services',
+            href: '#/trace_analytics/services',
+          },
+        ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      parentBreadcrumb,
-      ...breadCrumbs
-    ]);
+    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
     const validFilters = getValidFilterFields('services');
     props.setFilters([
       ...props.filters.map((filter) => ({
@@ -68,7 +67,13 @@ export function Services(props: ServicesProps) {
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, props.page);
+    const DSL = filtersToDsl(
+      props.filters,
+      props.query,
+      props.startTime,
+      props.endTime,
+      props.page
+    );
     await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
     setLoading(false);
   };
@@ -91,13 +96,13 @@ export function Services(props: ServicesProps) {
 
   return (
     <>
-    {page==='app' ?
-      <EuiSpacer size="m" />
-      :
-      <EuiTitle size="l">
-        <h2 style={{ fontWeight: 430 }}>Services</h2>
-      </EuiTitle>
-      }
+      {page === 'app' ? (
+        <EuiSpacer size="m" />
+      ) : (
+        <EuiTitle size="l">
+          <h2 style={{ fontWeight: 430 }}>Services</h2>
+        </EuiTitle>
+      )}
       <SearchBar
         query={props.query}
         filters={props.filters}
