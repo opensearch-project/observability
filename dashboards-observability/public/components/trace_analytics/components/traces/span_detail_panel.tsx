@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -21,11 +22,7 @@ import { PanelTitle } from '../common/helper_functions';
 import { SpanDetailFlyout } from './span_detail_flyout';
 import { SpanDetailTable } from './span_detail_table';
 
-export function SpanDetailPanel(props: {
-  http: HttpSetup;
-  traceId: string;
-  colorMap: any;
-}) {
+export function SpanDetailPanel(props: { http: HttpSetup; traceId: string; colorMap: any }) {
   const [data, setData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -59,7 +56,7 @@ export function SpanDetailPanel(props: {
   };
 
   const spanFiltersToDSL = () => {
-    const DSL: any = {
+    const spanDSL: any = {
       query: {
         bool: {
           must: [
@@ -77,14 +74,14 @@ export function SpanDetailPanel(props: {
     };
     spanFilters.map(({ field, value }) => {
       if (value != null) {
-        DSL.query.bool.must.push({
+        spanDSL.query.bool.must.push({
           term: {
             [field]: value,
           },
         });
       }
     });
-    return DSL;
+    return spanDSL;
   };
 
   useEffect(() => {
@@ -93,9 +90,9 @@ export function SpanDetailPanel(props: {
 
   const refresh = _.debounce(() => {
     if (_.isEmpty(props.colorMap)) return;
-    const DSL = spanFiltersToDSL();
-    setDSL(DSL);
-    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, DSL);
+    const newDSL = spanFiltersToDSL();
+    setDSL(newDSL);
+    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, newDSL);
   }, 150);
 
   const getSpanDetailLayout = (plotTraces: Plotly.Data[], maxX: number): Partial<Plotly.Layout> => {
@@ -137,7 +134,7 @@ export function SpanDetailPanel(props: {
 
   const [currentSpan, setCurrentSpan] = useState('');
 
-  const onClick = (event) => {
+  const onClick = (event: any) => {
     if (!event?.points) return;
     const point = event.points[0];
     setCurrentSpan(point.data.spanId);
@@ -163,7 +160,7 @@ export function SpanDetailPanel(props: {
     dragLayer.style.cursor = 'pointer';
   };
 
-  const onUnhover = (pr) => {
+  const onUnhover = () => {
     const dragLayer = document.getElementsByClassName('nsewdrag')?.[0];
     dragLayer.style.cursor = '';
   };
