@@ -139,7 +139,7 @@ export function SpanDetailPanel(props: {
 
   const [currentSpan, setCurrentSpan] = useState('');
 
-  const onClick = (event: { points: any[] }) => {
+  const onClick = (event: any) => {
     if (!event?.points) return;
     const point = event.points[0];
     setCurrentSpan(point.data.spanId);
@@ -165,7 +165,7 @@ export function SpanDetailPanel(props: {
     dragLayer.style.cursor = 'pointer';
   };
 
-  const onUnhover = (pr: any) => {
+  const onUnhover = () => {
     const dragLayer = document.getElementsByClassName('nsewdrag')?.[0];
     dragLayer.style.cursor = '';
   };

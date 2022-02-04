@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -16,40 +17,40 @@ interface TracesProps extends TraceAnalyticsComponentDeps {
   appId?: string;
   appName?: string;
   page: 'traces' | 'app';
+  openTraceFlyout?: (traceId: string) => void;
 }
 
 export function Traces(props: TracesProps) {
-  const { appId, appName, parentBreadcrumb, page } = props;
+  const { appId, appName, parentBreadcrumb, page, openTraceFlyout } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const breadCrumbs = page === 'app' ? 
-  [
-    {
-      text: 'Application analytics',
-      href: '#/application_analytics',
-    },
-    {
-      text: `${appName}`,
-      href: `#/application_analytics/${appId}`,
-    },
-  ] : [
-    {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Traces',
-        href: '#/trace_analytics/traces',
-      },
-  ]
+  const breadCrumbs =
+    page === 'app'
+      ? [
+          {
+            text: 'Application analytics',
+            href: '#/application_analytics',
+          },
+          {
+            text: `${appName}`,
+            href: `#/application_analytics/${appId}`,
+          },
+        ]
+      : [
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Traces',
+            href: '#/trace_analytics/traces',
+          },
+        ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      parentBreadcrumb,
-      ...breadCrumbs
-    ]);
+    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
     const validFilters = getValidFilterFields('traces');
     props.setFilters([
       ...props.filters.map((filter) => ({
@@ -66,7 +67,13 @@ export function Traces(props: TracesProps) {
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, props.page);
+    const DSL = filtersToDsl(
+      props.filters,
+      props.query,
+      props.startTime,
+      props.endTime,
+      props.page
+    );
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime, props.page);
     await handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
     setLoading(false);
@@ -74,13 +81,13 @@ export function Traces(props: TracesProps) {
 
   return (
     <>
-    {page === 'app' ?
-      <EuiSpacer size="m" />
-      :
-      <EuiTitle size="l">
-        <h2 style={{ fontWeight: 430 }}>Traces</h2>
-      </EuiTitle>
-      }
+      {page === 'app' ? (
+        <EuiSpacer size="m" />
+      ) : (
+        <EuiTitle size="l">
+          <h2 style={{ fontWeight: 430 }}>Traces</h2>
+        </EuiTitle>
+      )}
       <SearchBar
         query={props.query}
         filters={props.filters}
@@ -94,7 +101,14 @@ export function Traces(props: TracesProps) {
         page={page}
       />
       <EuiSpacer size="m" />
-      <TracesTable items={tableItems} refresh={refresh} indicesExist={props.indicesExist} loading={loading} page={page}/>
+      <TracesTable
+        items={tableItems}
+        refresh={refresh}
+        indicesExist={props.indicesExist}
+        loading={loading}
+        page={page}
+        openTraceFlyout={openTraceFlyout}
+      />
     </>
   );
 }

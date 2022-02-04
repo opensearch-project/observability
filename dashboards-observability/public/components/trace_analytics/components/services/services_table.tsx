@@ -18,7 +18,11 @@ import {
 import _ from 'lodash';
 import React, { useMemo } from 'react';
 import { FilterType } from '../common/filters/filters';
-import { MissingConfigurationMessage, NoMatchMessage, PanelTitle } from '../common/helper_functions';
+import {
+  MissingConfigurationMessage,
+  NoMatchMessage,
+  PanelTitle,
+} from '../common/helper_functions';
 
 export function ServicesTable(props: {
   items: any[];
@@ -50,16 +54,24 @@ export function ServicesTable(props: {
           name: 'Name',
           align: 'left',
           sortable: true,
-          render: (item) => (
-            props.page === "app" ?
-            <EuiLink onClick={() => props.openServiceFlyout(item)}>
-              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
-            </EuiLink>
-            :
-            <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
-              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
-            </EuiLink>
-          ),
+          render: (item) =>
+            props.page === 'app' ? (
+              <EuiLink onClick={() => props.openServiceFlyout(item)}>
+                {item.length < 24 ? (
+                  item
+                ) : (
+                  <div title={item}>{_.truncate(item, { length: 24 })}</div>
+                )}
+              </EuiLink>
+            ) : (
+              <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
+                {item.length < 24 ? (
+                  item
+                ) : (
+                  <div title={item}>{_.truncate(item, { length: 24 })}</div>
+                )}
+              </EuiLink>
+            ),
         },
         {
           field: 'average_latency',
@@ -115,26 +127,27 @@ export function ServicesTable(props: {
           render: (item, row) => (
             <>
               {item === 0 || item ? (
-                props.page === "app" ?
-                <EuiLink>
-                  <EuiI18nNumber value={item} />
-                </EuiLink>
-                :
-                <EuiLink
-                  onClick={() => {
-                    props.setRedirect(true);
-                    props.addFilter({
-                      field: 'serviceName',
-                      operator: 'is',
-                      value: row.name,
-                      inverted: false,
-                      disabled: false,
-                    });
-                    location.assign('#/trace_analytics/traces');
-                  }}
-                >
-                  <EuiI18nNumber value={item} />
-                </EuiLink>
+                props.page === 'app' ? (
+                  <EuiLink>
+                    <EuiI18nNumber value={item} />
+                  </EuiLink>
+                ) : (
+                  <EuiLink
+                    onClick={() => {
+                      props.setRedirect(true);
+                      props.addFilter({
+                        field: 'serviceName',
+                        operator: 'is',
+                        value: row.name,
+                        inverted: false,
+                        disabled: false,
+                      });
+                      location.assign('#/trace_analytics/traces');
+                    }}
+                  >
+                    <EuiI18nNumber value={item} />
+                  </EuiLink>
+                )
               ) : (
                 '-'
               )}
