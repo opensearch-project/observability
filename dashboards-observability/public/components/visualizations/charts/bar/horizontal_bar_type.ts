@@ -25,6 +25,14 @@ export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) =>
     editor: null,
     schemas: [
       {
+        name: 'Type',
+        onChangeHandler: 'setVisType',
+        isSingleSelection: true,
+        options: ['bar', 'group', 'stack'],
+        component: null,
+        mapTo: 'selectedVisType',
+      },
+      {
         name: 'X-axis',
         onChangeHandler: 'setXaxisSelections',
         isSingleSelection: false,

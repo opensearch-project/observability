@@ -21,16 +21,10 @@ export const PanelItem = ({
       label: item.name,
     };
   });
-  // const selectedOptions = selectedAxis.map((item) => {
-  //   return {
-  //     label: item.name,
-  //   };
-  // });
-  // const [selectedOption, setValue] = useState(selectedOptions);
   const handleSelect = (selectedOption) => {
-    console.log('selectedOption: ', selectedOption);
     onSelectChange(selectedOption);
   };
+
   return (
     <>
       <EuiTitle size="xxs">
@@ -46,10 +40,6 @@ export const PanelItem = ({
         onChange={(options) => handleSelect(options)}
         aria-label="Use aria labels when no actual label is in use"
       />
-      <EuiSpacer size="s" />
-      {/* <EuiAccordion id="accordion1" buttonContent={advancedTitle}>
-        <EuiPanel color="subdued">{children}</EuiPanel>
-      </EuiAccordion> */}
     </>
   );
 };

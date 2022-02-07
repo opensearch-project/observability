@@ -75,6 +75,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
   const [axeSelections, setAxeSelections] = useState({
     xaxis: [],
     yaxis: [],
+    selectedVisType: [{ label: vis.type }],
   });
 
   useEffect(() => {
@@ -138,36 +139,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
     setToast,
   ]);
 
-  // const handleDataConfigChange = (hjsonConfig) => {
-  //   const payload = {
-  //     data: [...hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS)],
-  //   };
-  //   handleConfigUpdate(payload);
-  // };
-
-  // const getParsedLayoutConfig = (hjsonConfig) => {
-  //   const jsonConfig = hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS);
-  //   console.log('jsonConfig: ', jsonConfig);
-  //   const output = Mustache.render(CONFIG_LAYOUT_TEMPLATE, jsonConfig);
-  //   // const renderedConfig = Mustache.render(CONFIG_TEMPLATE, { ...jsonConfig.config });
-  //   console.log('typeof output: ', typeof output);
-  //   return {
-  //     ...JSON.parse(output),
-  //   };
-  //   // console.log('JSON.parse(renderedConfig): ', JSON.parse(renderedConfig));
-  //   // try {
-  //   //   const payload = {
-  //   //     ...JSON.parse(output),
-  //   //     // ...Object(renderedConfig),
-  //   //   };
-  //   //   handleConfigUpdate(payload);
-  //   // } catch (e) {
-  //   //   console.log(e.message);
-  //   // }
-  // };
-
   const setXaxisSelections = (selections) => {
-    console.log('x selections: ', selections);
     setAxeSelections((staleState) => {
       return {
         ...staleState,
@@ -177,7 +149,6 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
   };
 
   const setYaxisSelections = (selections) => {
-    console.log('y selections: ', selections);
     setAxeSelections((staleState) => {
       return {
         ...staleState,
@@ -190,9 +161,19 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
     setHjsonLayoutConfig(config);
   };
 
+  const setVisType = (selectedVisType: string) => {
+    setAxeSelections((staleState) => {
+      return {
+        ...staleState,
+        selectedVisType: [...selectedVisType],
+      };
+    });
+  };
+
   const handlers = {
     setXaxisSelections: () => setXaxisSelections,
     setYaxisSelections: () => setYaxisSelections,
+    setVisType: () => setVisType,
   };
 
   const dimensions = useMemo(() => {
@@ -201,7 +182,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
       const params = {
         paddingTitle: schema.name,
         advancedTitle: 'advancedTitle',
-        dropdownList: fields,
+        dropdownList: schema?.options?.map((option) => ({ name: option })) || fields,
         onSelectChange: handlers[schema.onChangeHandler](),
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: axeSelections[schema.mapTo],
