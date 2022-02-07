@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import { EuiDescriptionList, EuiSpacer, EuiText } from '@elastic/eui';
 import React from 'react';
 

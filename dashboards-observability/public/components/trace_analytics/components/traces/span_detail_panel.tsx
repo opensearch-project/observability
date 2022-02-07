@@ -22,7 +22,12 @@ import { PanelTitle } from '../common/helper_functions';
 import { SpanDetailFlyout } from './span_detail_flyout';
 import { SpanDetailTable } from './span_detail_table';
 
-export function SpanDetailPanel(props: { http: HttpSetup; traceId: string; colorMap: any }) {
+export function SpanDetailPanel(props: {
+  http: HttpSetup;
+  traceId: string;
+  colorMap: any;
+  page?: string;
+}) {
   const [data, setData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -54,6 +59,13 @@ export function SpanDetailPanel(props: { http: HttpSetup; traceId: string; color
       setSpanFiltersWithStorage(newFilters);
     }
   };
+
+  const refresh = _.debounce(() => {
+    if (_.isEmpty(props.colorMap)) return;
+    const refreshDSL = spanFiltersToDSL();
+    setDSL(refreshDSL);
+    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
+  }, 150);
 
   const spanFiltersToDSL = () => {
     const spanDSL: any = {
@@ -87,13 +99,6 @@ export function SpanDetailPanel(props: { http: HttpSetup; traceId: string; color
   useEffect(() => {
     refresh();
   }, [props.colorMap, spanFilters]);
-
-  const refresh = _.debounce(() => {
-    if (_.isEmpty(props.colorMap)) return;
-    const newDSL = spanFiltersToDSL();
-    setDSL(newDSL);
-    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, newDSL);
-  }, 150);
 
   const getSpanDetailLayout = (plotTraces: Plotly.Data[], maxX: number): Partial<Plotly.Layout> => {
     // get unique labels from traces

@@ -1,50 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import dateMath from '@elastic/datemath';
-import { EuiAccordion, EuiBadge, EuiButton, EuiComboBox, EuiFormRow, EuiOverlayMask, EuiSpacer, EuiText } from "@elastic/eui";
-import { optionType } from "../../../../../common/types/app_analytics";
-import { filtersToDsl } from "../../../trace_analytics/components/common/helper_functions";
-import { handleDashboardRequest } from "../../../trace_analytics/requests/dashboard_request_handler";
-import DSLService from "public/services/requests/dsl";
-import React, { useEffect, useState } from "react";
-import { AppAnalyticsComponentDeps } from "../../home";
-import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
+import {
+  EuiAccordion,
+  EuiBadge,
+  EuiButton,
+  EuiComboBox,
+  EuiFormRow,
+  EuiOverlayMask,
+  EuiSpacer,
+  EuiText,
+} from '@elastic/eui';
+import DSLService from 'public/services/requests/dsl';
+import React, { useEffect, useState } from 'react';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
+import { OptionType } from '../../../../../common/types/app_analytics';
+import { filtersToDsl } from '../../../trace_analytics/components/common/helper_functions';
+import { handleDashboardRequest } from '../../../trace_analytics/requests/dashboard_request_handler';
+import { AppAnalyticsComponentDeps } from '../../home';
+import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { getClearModal } from '../../helpers/modal_containers';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
-  selectedTraces: Array<optionType>;
-  setSelectedTraces: (traces: Array<optionType>) => void;
+  selectedTraces: OptionType[];
+  setSelectedTraces: (traces: OptionType[]) => void;
 }
 
 export const TraceConfig = (props: TraceConfigProps) => {
-  const { dslService, query, filters, setFiltersWithStorage, http, startTime, endTime, selectedTraces, setSelectedTraces } = props;
+  const {
+    dslService,
+    query,
+    filters,
+    setFiltersWithStorage,
+    http,
+    startTime,
+    endTime,
+    selectedTraces,
+    setSelectedTraces,
+  } = props;
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
-  const [traceOptions, setTraceOptions] = useState<Array<optionType>>([]);
+  const [traceOptions, setTraceOptions] = useState<OptionType[]>([]);
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const timeFilterDSL = filtersToDsl([], '', startTime, endTime);
-    const latencyTrendStartTime = dateMath
-      .parse(endTime)
-      ?.subtract(24, 'hours')
-      .toISOString()!;
-    const latencyTrendDSL = filtersToDsl(
-      filters,
-      query,
-      latencyTrendStartTime,
-      endTime
-    );
+    const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
+    const latencyTrendDSL = filtersToDsl(filters, query, latencyTrendStartTime, endTime);
     handleDashboardRequest(
       http,
       dslService,
@@ -55,18 +67,26 @@ export const TraceConfig = (props: TraceConfigProps) => {
       setPercentileMap
     ).then(() => setLoading(false));
     setRedirect(false);
-    }, [])
+  }, []);
 
-  useEffect (() => {
-    const toOptions = traceItems.map((item: any) => { return { label: item.dashboard_trace_group_name }});
+  useEffect(() => {
+    const toOptions = traceItems.map((item: any) => {
+      return { label: item.dashboard_trace_group_name };
+    });
     setTraceOptions(toOptions);
-  }, [traceItems])
+  }, [traceItems]);
 
-  useEffect (() => {
-    const filteredOptions = filters.filter(f => f.field === 'traceGroup').map((f) => { return { label: f.value }});
-    const noDups = filteredOptions.filter((t, index) => { return filteredOptions.findIndex(trace => trace.label === t.label) === index });
+  useEffect(() => {
+    const filteredOptions = filters
+      .filter((f) => f.field === 'traceGroup')
+      .map((f) => {
+        return { label: f.value };
+      });
+    const noDups = filteredOptions.filter((t, index) => {
+      return filteredOptions.findIndex((trace) => trace.label === t.label) === index;
+    });
     setSelectedTraces(noDups);
-  }, [filters])
+  }, [filters]);
 
   const addFilter = (filter: FilterType) => {
     for (const addedFilter of filters) {
@@ -75,7 +95,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         addedFilter.operator === filter.operator &&
         addedFilter.value === filter.value
       ) {
-        const removed = filters.filter(fil => fil.field !== addedFilter.field);
+        const removed = filters.filter((fil) => fil.field !== addedFilter.field);
         setFiltersWithStorage(removed);
         return;
       }
@@ -84,16 +104,16 @@ export const TraceConfig = (props: TraceConfigProps) => {
     setFiltersWithStorage(newFilters);
   };
 
-  const onTraceChange = (selectedTraces: any) => {
-    const traceFilters = selectedTraces.map((option: optionType) => { 
+  const onTraceChange = (newTraces: any) => {
+    const traceFilters = newTraces.map((option: OptionType) => {
       return {
-        field: 'traceGroup', 
-        operator: 'is', 
-        value: option.label, 
-        inverted: false, 
-        disabled: false 
-      }
-    })
+        field: 'traceGroup',
+        operator: 'is',
+        value: option.label,
+        inverted: false,
+        disabled: false,
+      };
+    });
     const nonTraceFilters = filters.filter((f) => f.field !== 'traceGroup');
     setFiltersWithStorage([...nonTraceFilters, ...traceFilters]);
   };
@@ -104,19 +124,19 @@ export const TraceConfig = (props: TraceConfigProps) => {
       return;
     }
     const newTraceOption = {
-      label: searchValue
-    }
+      label: searchValue,
+    };
     const newTraceFilter = {
       field: 'traceGroup',
       operator: 'is',
       value: searchValue,
-      inverted: false, 
-      disabled: false 
+      inverted: false,
+      disabled: false,
     };
     // Create the option if it doesn't exist.
     if (
       flattenedOptions.findIndex(
-        (option: optionType) => option.label.trim().toLowerCase() === normalizedSearchValue
+        (option: OptionType) => option.label.trim().toLowerCase() === normalizedSearchValue
       ) === -1
     ) {
       setTraceOptions([...traceOptions, newTraceOption]);
@@ -150,16 +170,16 @@ export const TraceConfig = (props: TraceConfigProps) => {
         return;
       }
     }
-  }
+  };
 
   const clearTraces = () => {
-    const withoutTraces = filters.filter((f) => f.field !== 'traceGroup')
+    const withoutTraces = filters.filter((f) => f.field !== 'traceGroup');
     setFiltersWithStorage(withoutTraces);
   };
 
   const onCancel = () => {
     setIsModalVisible(false);
-  }
+  };
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -168,19 +188,19 @@ export const TraceConfig = (props: TraceConfigProps) => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  
+
   const onConfirm = () => {
     clearTraces();
     closeModal();
-  }
+  };
 
   const clearAllModal = () => {
     setModalLayout(
       getClearModal(
-        onCancel, 
-        onConfirm, 
-        'Clear trace groups?', 
-        'This will clear all information in trace groups configuration.', 
+        onCancel,
+        onConfirm,
+        'Clear trace groups?',
+        'This will clear all information in trace groups configuration.',
         'Clear all'
       )
     );
@@ -194,23 +214,33 @@ export const TraceConfig = (props: TraceConfigProps) => {
         buttonContent={
           <>
             <EuiText size="s">
-            <h3>
-            Trace Groups  <EuiBadge>{selectedTraces.length}</EuiBadge>
-            </h3>
+              <h3>
+                Trace Groups <EuiBadge>{selectedTraces.length}</EuiBadge>
+              </h3>
             </EuiText>
             <EuiSpacer size="s" />
             <EuiText size="s" color="subdued">
               Constrain your application to specific trace groups
             </EuiText>
           </>
-          }
-        extraAction={<EuiButton size="s" disabled={!traceOpen || !selectedTraces.length} onClick={clearAllModal}>Clear all</EuiButton>}
-        onToggle={(isOpen) => {setTraceOpen(isOpen)}}
+        }
+        extraAction={
+          <EuiButton
+            size="s"
+            disabled={!traceOpen || !selectedTraces.length}
+            onClick={clearAllModal}
+          >
+            Clear all
+          </EuiButton>
+        }
+        onToggle={(isOpen) => {
+          setTraceOpen(isOpen);
+        }}
         paddingSize="l"
       >
         <EuiFormRow
-        label="Trace Groups"
-        helpText="Select one or multiple trace groups, or type a custom one"
+          label="Trace Groups"
+          helpText="Select one or multiple trace groups, or type a custom one"
         >
           <EuiComboBox
             aria-label="Select trace groups"
@@ -238,4 +268,4 @@ export const TraceConfig = (props: TraceConfigProps) => {
       {isModalVisible && modalLayout}
     </div>
   );
-}
+};

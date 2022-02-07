@@ -3,13 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiAccordion, EuiText, EuiSpacer, EuiButton, EuiFormRow, EuiFlexItem, EuiBadge, EuiOverlayMask } from "@elastic/eui";
-import { uiSettingsService } from "../../../../../common/utils";
-import { Autocomplete } from "../../../common/search/autocomplete";
-import DSLService from "public/services/requests/dsl";
-import React, { useState } from "react";
-import { AppAnalyticsComponentDeps } from "../../home";
-import{ getClearModal } from "../../helpers/modal_containers";
+import {
+  EuiAccordion,
+  EuiText,
+  EuiSpacer,
+  EuiButton,
+  EuiFormRow,
+  EuiFlexItem,
+  EuiBadge,
+  EuiOverlayMask,
+} from '@elastic/eui';
+import DSLService from 'public/services/requests/dsl';
+import React, { useState } from 'react';
+import { uiSettingsService } from '../../../../../common/utils';
+import { Autocomplete } from '../../../common/search/autocomplete';
+import { AppAnalyticsComponentDeps } from '../../home';
+import { getClearModal } from '../../helpers/modal_containers';
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -20,10 +29,10 @@ export const LogConfig = (props: LogConfigProps) => {
   const { dslService, query, setQueryWithStorage, setIsFlyoutVisible } = props;
   const [logOpen, setLogOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
-  const tempQuery ='';
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
+  const tempQuery = '';
 
-  const handleQueryChange = async (query: string) => setQueryWithStorage(query);
+  const handleQueryChange = async (newQuery: string) => setQueryWithStorage(newQuery);
 
   const showFlyout = () => {
     setIsFlyoutVisible(true);
@@ -31,7 +40,7 @@ export const LogConfig = (props: LogConfigProps) => {
 
   const onCancel = () => {
     setIsModalVisible(false);
-  }
+  };
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -40,19 +49,19 @@ export const LogConfig = (props: LogConfigProps) => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  
+
   const onConfirm = () => {
     handleQueryChange('');
     closeModal();
-  }
+  };
 
   const clearAllModal = () => {
     setModalLayout(
       getClearModal(
-        onCancel, 
-        onConfirm, 
-        'Clear log source?', 
-        'This will clear all information in log source configuration.', 
+        onCancel,
+        onConfirm,
+        'Clear log source?',
+        'This will clear all information in log source configuration.',
         'Clear'
       )
     );
@@ -65,22 +74,28 @@ export const LogConfig = (props: LogConfigProps) => {
         id="logSource"
         buttonContent={
           <>
-          <EuiText size="s">
-          <h3>Log Source</h3>
-          </EuiText>
-          <EuiSpacer size="s" />
-          <EuiText size="s" color="subdued">
-          Configure your application base query
-          </EuiText>
+            <EuiText size="s">
+              <h3>Log Source</h3>
+            </EuiText>
+            <EuiSpacer size="s" />
+            <EuiText size="s" color="subdued">
+              Configure your application base query
+            </EuiText>
           </>
         }
-        extraAction={<EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>Clear</EuiButton>}
-        onToggle={(isOpen) => {setLogOpen(isOpen)}}
+        extraAction={
+          <EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>
+            Clear
+          </EuiButton>
+        }
+        onToggle={(isOpen) => {
+          setLogOpen(isOpen);
+        }}
         paddingSize="l"
       >
         <EuiFormRow
-        label="PPL Base Query"
-        helpText="The default logs view in the application will be filtered by this query."
+          label="PPL Base Query"
+          helpText="The default logs view in the application will be filtered by this query."
         >
           <EuiFlexItem grow={false} key="query-bar" className="query-area">
             <Autocomplete
@@ -91,11 +106,13 @@ export const LogConfig = (props: LogConfigProps) => {
               handleQuerySearch={() => {}}
               dslService={dslService}
             />
-            <EuiBadge 
-              className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+            <EuiBadge
+              className={`ppl-link ${
+                uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+              }`}
               color="hollow"
               onClick={() => showFlyout()}
-              onClickAriaLabel={"pplLinkShowFlyout"}
+              onClickAriaLabel={'pplLinkShowFlyout'}
             >
               PPL
             </EuiBadge>
@@ -105,4 +122,4 @@ export const LogConfig = (props: LogConfigProps) => {
       {isModalVisible && modalLayout}
     </div>
   );
-}
+};

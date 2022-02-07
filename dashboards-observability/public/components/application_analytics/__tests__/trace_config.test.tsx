@@ -20,12 +20,16 @@ describe('Trace Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setSelectedTraces = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const wrapper = mount(
       <TraceConfig
         http={core.http}
@@ -39,11 +43,17 @@ describe('Trace Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         selectedTraces={[]}
         setSelectedTraces={setSelectedTraces}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -56,19 +66,25 @@ describe('Trace Config component', () => {
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
     const setSelectedTraces = jest.fn();
-    const dslService = {
+    const setNameWithStorage = jest.fn();
+    const setDescriptionWithStorage = jest.fn();
+    const setQueryWithStorage = jest.fn();
+    const setFiltersWithStorage = jest.fn();
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const traceFilter = [{
-      field: 'traceGroup',
-      operator: 'is',
-      value: 'test.auto',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const traceFilter = [
+      {
+        field: 'traceGroup',
+        operator: 'is',
+        value: 'test.auto',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const wrapper = mount(
       <TraceConfig
         http={core.http}
@@ -82,11 +98,17 @@ describe('Trace Config component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         dslService={dslService}
         selectedTraces={[]}
         setSelectedTraces={setSelectedTraces}
-        />
+        name=""
+        description=""
+        setNameWithStorage={setNameWithStorage}
+        setDescriptionWithStorage={setDescriptionWithStorage}
+        setQueryWithStorage={setQueryWithStorage}
+        setFiltersWithStorage={setFiltersWithStorage}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();

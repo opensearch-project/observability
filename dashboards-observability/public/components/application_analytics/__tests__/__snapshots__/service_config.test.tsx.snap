@@ -8,6 +8,7 @@ exports[`Service Config component renders empty service config 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -20,6 +21,7 @@ exports[`Service Config component renders empty service config 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -28,9 +30,13 @@ exports[`Service Config component renders empty service config 1`] = `
   }
   query=""
   selectedServices={Array []}
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setSelectedServices={
     [MockFunction] {
       "calls": Array [
@@ -58,7 +64,7 @@ exports[`Service Config component renders empty service config 1`] = `
             size="s"
           >
             <h3>
-              Services & Entities  
+              Services & Entities 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -145,7 +151,7 @@ exports[`Service Config component renders empty service config 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Services & Entities  
+                    Services & Entities 
                     <EuiBadge>
                       <EuiInnerText>
                         <span
@@ -1048,6 +1054,7 @@ exports[`Service Config component renders with one service selected 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -1070,6 +1077,7 @@ exports[`Service Config component renders with one service selected 1`] = `
   }
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -1078,9 +1086,13 @@ exports[`Service Config component renders with one service selected 1`] = `
   }
   query=""
   selectedServices={Array []}
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setSelectedServices={
     [MockFunction] {
       "calls": Array [
@@ -1112,7 +1124,7 @@ exports[`Service Config component renders with one service selected 1`] = `
             size="s"
           >
             <h3>
-              Services & Entities  
+              Services & Entities 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -1204,7 +1216,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Services & Entities  
+                    Services & Entities 
                     <EuiBadge>
                       <EuiInnerText>
                         <span

@@ -3,22 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface optionType {
+export interface OptionType {
   label: string;
 }
 
-export type ApplicationListType = {
+export interface ApplicationListType {
   name: string;
   id: string;
   dateCreated: string;
   dateModified: string;
-};
+}
 
-export type ApplicationType = {
+export interface ApplicationType {
   name: string;
   description: string;
   baseQuery: string;
-  servicesEntities: Array<string>;
-  traceGroups: Array<string>;
+  servicesEntities: string[];
+  traceGroups: string[];
   panelId: string;
 }

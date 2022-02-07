@@ -8,6 +8,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -20,6 +21,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -28,9 +30,13 @@ exports[`Trace Config component renders empty trace config 1`] = `
   }
   query=""
   selectedTraces={Array []}
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setSelectedTraces={
     [MockFunction] {
       "calls": Array [
@@ -58,7 +64,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
             size="s"
           >
             <h3>
-              Trace Groups  
+              Trace Groups 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -145,7 +151,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace Groups  
+                    Trace Groups 
                     <EuiBadge>
                       <EuiInnerText>
                         <span
@@ -770,6 +776,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -792,6 +799,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
   }
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -800,9 +808,13 @@ exports[`Trace Config component renders with one trace selected 1`] = `
   }
   query=""
   selectedTraces={Array []}
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setSelectedTraces={
     [MockFunction] {
       "calls": Array [
@@ -834,7 +846,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
             size="s"
           >
             <h3>
-              Trace Groups  
+              Trace Groups 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -926,7 +938,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace Groups  
+                    Trace Groups 
                     <EuiBadge>
                       <EuiInnerText>
                         <span
