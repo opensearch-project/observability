@@ -55,6 +55,7 @@ export function AppTable(props: AppTableProps) {
     fetchApplications,
     renameApplication,
     deleteApplication,
+    setFilters,
   } = props;
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export function AppTable(props: AppTableProps) {
         href: '#/application_analytics',
       },
     ]);
+    setFilters([]);
     fetchApplications();
   }, []);
 
