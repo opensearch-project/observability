@@ -105,4 +105,6 @@ export interface IExplorerProps {
   addVisualizationToPanel?: any;
   startTime?: string;
   endTime?: string;
+  setStartTime?: any;
+  setEndTime?: any;
 }

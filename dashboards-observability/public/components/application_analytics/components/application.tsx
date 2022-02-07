@@ -270,6 +270,8 @@ export function Application(props: AppDetailProps) {
         addVisualizationToPanel={addVisualizationToPanel}
         startTime={startTime}
         endTime={endTime}
+        setStartTime={setStartTime}
+        setEndTime={setEndTime}
       />
     );
   };
