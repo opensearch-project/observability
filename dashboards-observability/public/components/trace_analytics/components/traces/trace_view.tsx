@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -45,7 +46,7 @@ export function TraceView(props: TraceViewProps) {
     );
   };
 
-  const renderOverview = (fields) => {
+  const renderOverview = (fields: any) => {
     return (
       <EuiPanel>
         <PanelTitle title="Overview" />
@@ -130,6 +131,12 @@ export function TraceView(props: TraceViewProps) {
   const [payloadData, setPayloadData] = useState('');
   const [colorMap, setColorMap] = useState({});
 
+  const refresh = async () => {
+    handleTraceViewRequest(props.traceId, props.http, fields, setFields);
+    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
+    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
+  };
+
   useEffect(() => {
     props.chrome.setBreadcrumbs([
       props.parentBreadcrumb,
@@ -148,12 +155,6 @@ export function TraceView(props: TraceViewProps) {
     ]);
     refresh();
   }, []);
-
-  const refresh = async () => {
-    handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
-    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
-  };
 
   return (
     <>

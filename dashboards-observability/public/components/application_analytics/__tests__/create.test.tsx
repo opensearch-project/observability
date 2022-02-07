@@ -26,12 +26,12 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const utils = render(
       <CreateApp
         http={core.http}
@@ -45,7 +45,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -73,12 +73,12 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const utils = render(
       <CreateApp
         http={core.http}
@@ -92,7 +92,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name="Chic Application"
         description="This is my chic application."
         setNameWithStorage={setNameWithStorage}
@@ -120,12 +120,12 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const utils = render(
       <CreateApp
         http={core.http}
@@ -139,7 +139,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -170,12 +170,12 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
     const utils = render(
       <CreateApp
         http={core.http}
@@ -189,7 +189,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -220,19 +220,21 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const serviceFilters = [{
-      field: 'serviceName',
-      operator: 'is',
-      value: 'User',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const serviceFilters = [
+      {
+        field: 'serviceName',
+        operator: 'is',
+        value: 'User',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const utils = render(
       <CreateApp
         http={core.http}
@@ -246,7 +248,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -277,19 +279,21 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const serviceFilters = [{
-      field: 'serviceName',
-      operator: 'is',
-      value: 'User',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const serviceFilters = [
+      {
+        field: 'serviceName',
+        operator: 'is',
+        value: 'User',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const utils = render(
       <CreateApp
         http={core.http}
@@ -303,7 +307,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -334,19 +338,21 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const traceFilters = [{
-      field: 'traceGroup',
-      operator: 'is',
-      value: 'test.auto',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const traceFilters = [
+      {
+        field: 'traceGroup',
+        operator: 'is',
+        value: 'test.auto',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const utils = render(
       <CreateApp
         http={core.http}
@@ -360,7 +366,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -391,19 +397,21 @@ describe('Create Page', () => {
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
     const clearStorage = jest.fn();
-    const dslService = {
+    const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
       fetchIndices: jest.fn(),
-      fetchFields: jest.fn()
-    } as unknown as DSLService;
-    const traceFilters = [{
-      field: 'traceGroup',
-      operator: 'is',
-      value: 'test.auto',
-      inverted: false, 
-      disabled: false 
-    }];
+      fetchFields: jest.fn(),
+    } as unknown) as DSLService;
+    const traceFilters = [
+      {
+        field: 'traceGroup',
+        operator: 'is',
+        value: 'test.auto',
+        inverted: false,
+        disabled: false,
+      },
+    ];
     const utils = render(
       <CreateApp
         http={core.http}
@@ -417,7 +425,7 @@ describe('Create Page', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true} 
+        indicesExist={true}
         name=""
         description=""
         setNameWithStorage={setNameWithStorage}
@@ -435,5 +443,4 @@ describe('Create Page', () => {
 
     expect(utils).toMatchSnapshot();
   });
-
 });

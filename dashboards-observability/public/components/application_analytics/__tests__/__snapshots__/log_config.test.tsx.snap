@@ -8,6 +8,7 @@ exports[`Log Config component renders empty log config 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -20,6 +21,7 @@ exports[`Log Config component renders empty log config 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -27,10 +29,14 @@ exports[`Log Config component renders empty log config 1`] = `
     }
   }
   query=""
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
   setIsFlyoutVisible={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >
@@ -398,6 +404,7 @@ exports[`Log Config component renders with query 1`] = `
       "setBreadcrumbs": [MockFunction],
     }
   }
+  description=""
   dslService={
     Object {
       "fetch": [MockFunction],
@@ -410,6 +417,7 @@ exports[`Log Config component renders with query 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  name=""
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -417,10 +425,14 @@ exports[`Log Config component renders with query 1`] = `
     }
   }
   query="source = openserach_dashboard_sample_logs"
+  setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
   setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
   setIsFlyoutVisible={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
   setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
   setStartTime={[MockFunction]}
   startTime="now-5m"
 >

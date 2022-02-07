@@ -1,30 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-    EuiButton,
-    EuiContextMenuItem,
-    EuiContextMenuPanel,
-    EuiFlexGroup,
-    EuiFlexItem,
-    EuiHorizontalRule,
-    EuiInMemoryTable,
-    EuiLink,
-    EuiOverlayMask,
-    EuiPage,
-    EuiPageBody,
-    EuiPageContent,
-    EuiPageContentHeader,
-    EuiPageContentHeaderSection,
-    EuiPageHeader,
-    EuiPageHeaderSection,
-    EuiPopover,
-    EuiSpacer,
-    EuiTableFieldDataColumnType,
-    EuiText,
-    EuiTitle,
+  EuiButton,
+  EuiContextMenuItem,
+  EuiContextMenuPanel,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHorizontalRule,
+  EuiInMemoryTable,
+  EuiLink,
+  EuiOverlayMask,
+  EuiPage,
+  EuiPageBody,
+  EuiPageContent,
+  EuiPageContentHeader,
+  EuiPageContentHeaderSection,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiPopover,
+  EuiSpacer,
+  EuiTableFieldDataColumnType,
+  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -35,28 +36,34 @@ import { pageStyles } from '../../../../common/constants/shared';
 import { ApplicationListType } from '../../../../common/types/app_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
-    loading: boolean;
-    applications: Array<ApplicationListType>;
-    fetchApplications: () => void;
-    renameApplication: (newAppName: string, appId: string) => void;
-    deleteApplication: (appList: string[], toastMessage?: string) => void;
-  };
+  loading: boolean;
+  applications: ApplicationListType[];
+  fetchApplications: () => void;
+  renameApplication: (newAppName: string, appId: string) => void;
+  deleteApplication: (appList: string[], toastMessage?: string) => void;
+}
 
 export function AppTable(props: AppTableProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
   const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
-  const { chrome, applications, parentBreadcrumb, fetchApplications, renameApplication, deleteApplication } = props;
+  const {
+    chrome,
+    applications,
+    parentBreadcrumb,
+    fetchApplications,
+    renameApplication,
+    deleteApplication,
+  } = props;
 
   useEffect(() => {
-    chrome.setBreadcrumbs(
-      [
+    chrome.setBreadcrumbs([
       parentBreadcrumb,
       {
         text: 'Application analytics',
         href: '#/application_analytics',
-      }
+      },
     ]);
     fetchApplications();
   }, []);
@@ -150,11 +157,7 @@ export function AppTable(props: AppTableProps) {
     >
       Delete
     </EuiContextMenuItem>,
-    <EuiContextMenuItem
-      key="addSample"
-    >
-      Add sample application
-    </EuiContextMenuItem>,
+    <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
   ];
 
   const tableColumns = [
@@ -164,9 +167,11 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/${record.id}`}>{_.truncate(record.name, { length: 100 })}</EuiLink>
+        <EuiLink href={`#/application_analytics/${record.id}`}>
+          {_.truncate(record.name, { length: 100 })}
+        </EuiLink>
       ),
-    }
+    },
   ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 
   return (
@@ -202,10 +207,7 @@ export function AppTable(props: AppTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton
-                      fill
-                      href={`#/application_analytics/create`}
-                      >
+                    <EuiButton fill href={`#/application_analytics/create`}>
                       Create application
                     </EuiButton>
                   </EuiFlexItem>
@@ -250,9 +252,7 @@ export function AppTable(props: AppTableProps) {
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false}>
-                      Add sample applications
-                    </EuiButton>
+                    <EuiButton fullWidth={false}>Add sample applications</EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
                 <EuiSpacer size="xxl" />
