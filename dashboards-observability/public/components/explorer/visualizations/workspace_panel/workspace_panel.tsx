@@ -65,6 +65,7 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
   );
 
   const VisualizationPanel = useMemo(() => {
+    console.log('visualizations before passed in: ', visualizations);
     return <Visualization visualizations={visualizations} />;
   }, [curVisId, visualizations, handleDispatch, getVisDefById]);
 

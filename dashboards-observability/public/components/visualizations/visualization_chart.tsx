@@ -48,5 +48,6 @@ export const VisualizationChart = ({ visualizations }: IVisualizationChart) => {
   //     }
   //   });
   // }
+
   return <Visualization visualizations={visualizations} />;
 };

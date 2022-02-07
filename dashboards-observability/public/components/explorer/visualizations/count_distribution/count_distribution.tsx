@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { LONG_CHART_COLOR } from '../../../../../common/constants/shared';
-import { Bar } from '../../../visualizations/charts/bar/bar';
+import { Plt } from '../../../visualizations/plotly/plot';
 
 export const CountDistribution = ({ countDistribution }: any) => {
   if (
@@ -16,25 +16,36 @@ export const CountDistribution = ({ countDistribution }: any) => {
   )
     return null;
 
-  const layout = {
-    showlegend: true,
-    margin: {
-      l: 60,
-      r: 10,
-      b: 15,
-      t: 30,
-      pad: 0,
+  const {
+    data,
+    metadata: { fields },
+  } = countDistribution;
+
+  const finalData = [
+    {
+      x: [...data[fields[1].name]],
+      y: [...data[fields[0].name]],
+      type: 'bar',
+      name: fields[0],
+      orientation: 'v',
     },
-    height: 220,
-    colorway: [LONG_CHART_COLOR],
-  };
+  ];
 
   return (
-    <Bar
-      visualizations={countDistribution}
-      name="Event counts"
-      layoutConfig={layout}
-      isUniColor={true}
+    <Plt
+      data={finalData}
+      layout={{
+        showlegend: true,
+        margin: {
+          l: 60,
+          r: 10,
+          b: 15,
+          t: 30,
+          pad: 0,
+        },
+        height: 220,
+        colorway: [LONG_CHART_COLOR],
+      }}
     />
   );
 };
