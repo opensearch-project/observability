@@ -78,6 +78,8 @@ export const Explorer = ({
   searchBarConfigs,
   appId = '',
   addVisualizationToPanel,
+  startTime,
+  endTime,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -865,10 +867,12 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query.selectedDateRange)
-    ? ['now-15m', 'now']
-    : [query.selectedDateRange[0], query.selectedDateRange[1]];
-
+  const dateRange =
+    isEmpty(startTime) || isEmpty(endTime)
+      ? isEmpty(query.selectedDateRange)
+        ? ['now-15m', 'now']
+        : [query.selectedDateRange[0], query.selectedDateRange[1]]
+      : [startTime, endTime];
   return (
     <div className="dscAppContainer">
       <Search
