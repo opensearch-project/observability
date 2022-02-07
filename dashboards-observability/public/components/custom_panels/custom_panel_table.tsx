@@ -29,6 +29,8 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { ReactElement, useEffect, useState } from 'react';
+import moment from 'moment';
+import _ from 'lodash';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import {
   CREATE_PANEL_MESSAGE,
@@ -36,8 +38,6 @@ import {
 } from '../../../common/constants/custom_panels';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
-import moment from 'moment';
-import _ from 'lodash';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 import { pageStyles } from '../../../common/constants/shared';
@@ -57,10 +57,10 @@ import { pageStyles } from '../../../common/constants/shared';
  * deleteCustomPanelList: delete function for the panels
  */
 
-type Props = {
+interface Props {
   loading: boolean;
   fetchCustomPanels: () => void;
-  customPanels: Array<CustomPanelListType>;
+  customPanels: CustomPanelListType[];
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   parentBreadcrumb: EuiBreadcrumb[];
@@ -68,7 +68,7 @@ type Props = {
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
   addSamplePanels: () => void;
-};
+}
 
 export const CustomPanelTable = ({
   loading,
@@ -83,7 +83,7 @@ export const CustomPanelTable = ({
   addSamplePanels,
 }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [selectedCustomPanels, setselectedCustomPanels] = useState<CustomPanelListType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -316,8 +316,8 @@ export const CustomPanelTable = ({
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton 
-                      fill 
+                    <EuiButton
+                      fill
                       onClick={() => createPanel()}
                       data-test-subj="customPanels__createNewPanels"
                     >
