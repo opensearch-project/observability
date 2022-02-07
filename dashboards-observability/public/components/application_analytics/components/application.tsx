@@ -104,6 +104,8 @@ export function Application(props: AppDetailProps) {
     parentBreadcrumb,
     startTime,
     endTime,
+    setStartTime,
+    setEndTime,
     setFilters,
     setToasts,
   } = props;
@@ -288,6 +290,10 @@ export function Application(props: AppDetailProps) {
         page="app"
         appName={application.name}
         appId={appId}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
+        setEndTime={setEndTime}
       />
     );
   };

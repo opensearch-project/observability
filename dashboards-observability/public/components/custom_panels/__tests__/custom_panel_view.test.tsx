@@ -32,6 +32,10 @@ describe('Panels View Component', () => {
     const pplService = new PPLService(httpClientMock);
     const core = coreStartMock;
     const parentBreadcrumb = panelBreadCrumbs;
+    const start = 'now-30m';
+    const end = 'now';
+    const setStart = jest.fn();
+    const setEnd = jest.fn();
     const renameCustomPanel = jest.fn();
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
@@ -48,6 +52,10 @@ describe('Panels View Component', () => {
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        startTime={start}
+        endTime={end}
+        setStartTime={setStart}
+        setEndTime={setEnd}
       />
     );
     wrapper.update();
@@ -76,6 +84,10 @@ describe('Panels View Component', () => {
     const pplService = new PPLService(httpClientMock);
     const core = coreStartMock;
     const parentBreadcrumb = panelBreadCrumbs;
+    const start = 'now-30m';
+    const end = 'now';
+    const setStart = jest.fn();
+    const setEnd = jest.fn();
     const renameCustomPanel = jest.fn();
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
@@ -92,6 +104,10 @@ describe('Panels View Component', () => {
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        startTime={start}
+        endTime={end}
+        setStartTime={setStart}
+        setEndTime={setEnd}
       />
     );
     wrapper.update();
