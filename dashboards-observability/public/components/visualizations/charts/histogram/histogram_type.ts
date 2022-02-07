@@ -10,22 +10,38 @@ import { LensIconChartLine } from '../../assets/chart_line';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const histogramVisDefinition = {
+export const createHistogramVisDefinition = (params = {}) => ({
   name: 'histogram',
   type: 'histogram',
-  subTypes: {
-    histogram: {
-      id: 'histogram',
-      label: 'Histogram',
-      fullLabel: 'Histogram',
-      category: VIS_CATEGORY.STATISTIC,
-      selection: {
-        dataLoss: 'nothing',
-      },
-      icon: LensIconChartLine,
-    },
+  id: 'histogram',
+  label: 'Histogram',
+  fullLabel: 'Histogram',
+  category: VIS_CATEGORY.STATISTIC,
+  selection: {
+    dataLoss: 'nothing',
   },
-  defaults: {
+  valueSeries: 'yaxis',
+  icon: LensIconChartLine,
+  editorConfig: {
+    editor: null,
+    schemas: [
+      {
+        name: 'X-axis',
+        onChangeHandler: 'setXaxisSelections',
+        isSingleSelection: false,
+        component: null,
+        mapTo: 'xaxis',
+      },
+      {
+        name: 'Y-axis',
+        onChangeHandler: 'setYaxisSelections',
+        isSingleSelection: true,
+        component: null,
+        mapTo: 'yaxis',
+      },
+    ],
+  },
+  visConfig: {
     layout: {
       ...sharedConfigs.layout,
     },
@@ -34,4 +50,4 @@ export const histogramVisDefinition = {
     },
   },
   component: Histogram,
-};
+});

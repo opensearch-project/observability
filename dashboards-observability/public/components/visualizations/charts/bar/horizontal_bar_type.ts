@@ -1,40 +1,39 @@
-/*
- * Copyright OpenSearch Contributors
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Line } from './line';
+import { Bar } from './bar';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartLine } from '../../assets/chart_line';
+import { LensIconChartBarHorizontal } from '../../../visualizations/assets/chart_bar_horizontal';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const createLineTypeDefinition = (params: any = {}) => ({
-  name: 'line',
-  type: 'line',
-  id: 'line',
-  label: 'Line',
-  fullLabel: 'Line',
-  category: VIS_CATEGORY.BASICS,
+export interface BarTypeParams {}
+
+export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) => ({
+  id: 'horizontal_bar',
+  label: 'H. Bar',
+  type: 'bar',
+  fullLabel: 'H. Bar',
   selection: {
     dataLoss: 'nothing',
   },
-  icon: LensIconChartLine,
-  valueSeries: 'yaxis',
+  category: VIS_CATEGORY.BASICS,
+  icon: LensIconChartBarHorizontal,
+  orientation: 'h',
+  component: Bar,
+  categoryAxis: 'yaxis',
+  seriesAxis: 'xaxis',
   editorConfig: {
     editor: null,
     schemas: [
       {
         name: 'X-axis',
-        isSingleSelection: true,
         onChangeHandler: 'setXaxisSelections',
+        isSingleSelection: false,
         component: null,
         mapTo: 'xaxis',
       },
       {
         name: 'Y-axis',
-        isSingleSelection: false,
+        isSingleSelection: true,
         onChangeHandler: 'setYaxisSelections',
         component: null,
         mapTo: 'yaxis',
@@ -48,6 +47,6 @@ export const createLineTypeDefinition = (params: any = {}) => ({
     config: {
       ...sharedConfigs.config,
     },
+    isUniColor: false,
   },
-  component: Line,
 });

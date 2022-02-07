@@ -6,45 +6,53 @@
 import { Bar } from './bar';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartBar } from '../../assets/chart_bar';
-import { LensIconChartBarHorizontal } from '../../../visualizations/assets/chart_bar_horizontal';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const barVisDefinition = {
+export interface BarTypeParams {}
+
+export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
   name: 'bar',
   type: 'bar',
-  subTypes: {
-    bar: {
-      id: 'bar',
-      label: 'Bar',
-      fullLabel: 'Bar',
-      selection: {
-        dataLoss: 'nothing',
-      },
-      category: VIS_CATEGORY.BASICS,
-      icon: LensIconChartBar,
-      orientation: 'v',
-    },
-    horizontal_bar: {
-      id: 'horizontal_bar',
-      label: 'H. Bar',
-      fullLabel: 'H. Bar',
-      selection: {
-        dataLoss: 'nothing',
-      },
-      category: VIS_CATEGORY.BASICS,
-      icon: LensIconChartBarHorizontal,
-      orientation: 'h',
-    },
+  id: 'bar',
+  label: 'Bar',
+  fullLabel: 'Bar',
+  selection: {
+    dataLoss: 'nothing',
   },
-  defaults: {
+  category: VIS_CATEGORY.BASICS,
+  icon: LensIconChartBar,
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
+  orientation: 'v',
+  component: Bar,
+  editorConfig: {
+    editor: null,
+    schemas: [
+      {
+        name: 'X-axis',
+        isSingleSelection: true,
+        onChangeHandler: 'setXaxisSelections',
+        component: null,
+        mapTo: 'xaxis',
+      },
+      {
+        name: 'Y-axis',
+        isSingleSelection: false,
+        onChangeHandler: 'setYaxisSelections',
+        component: null,
+        mapTo: 'yaxis',
+      },
+    ],
+  },
+  visConfig: {
     layout: {
       ...sharedConfigs.layout,
     },
     config: {
       ...sharedConfigs.config,
     },
+    isUniColor: false,
   },
-  component: Bar,
-};
+});

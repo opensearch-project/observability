@@ -16,14 +16,36 @@ export const Histogram = ({
   customVizData = {},
 }: any) => {
   const {
-    data,
+    data = {},
     metadata: { fields },
-  } = visualizations;
+  } = visualizations.data.rawResponse;
+  const { defaultAxes } = visualizations.data.defaultAxes;
+  const {
+    xaxis = null,
+    yaxis = null,
+    layout = {},
+    // config = {},
+  } = visualizations.data.customVizConfigs;
   const lineLength = fields.length - 1;
+  let filteredFields =
+    defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
+      ? defaultAxes.yaxis
+      : take(fields, lineLength > 0 ? lineLength : 1);
+  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
+    filteredFields = fields.filter((field) => {
+      // if (isVertical) {
+      return (
+        field.name !== xaxis[0].label && !isEmpty(yaxis.filter((item) => item.label === field.name))
+      );
+    });
+    // } else {
+  }
+
   const lineValues = take(fields, lineLength).map((field: any) => {
     return {
       // x: data[fields[lineLength].name],
-      y: data[field.name],
+      // y: data[field.name],
+      x: data[xaxis ? xaxis[0]?.label : fields[lineLength].name],
       type: 'histogram',
       name: field.name,
     };

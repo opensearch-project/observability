@@ -5,7 +5,7 @@
 
 import './config_panel.scss';
 
-import React, { useContext, useMemo, useState, useEffect } from 'react';
+import React, { useContext, useMemo, useState, useEffect, useCallback } from 'react';
 import { isEmpty } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
@@ -14,12 +14,14 @@ import { EuiTabbedContent, EuiFlexGroup, EuiFlexItem, EuiButtonIcon } from '@ela
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
+  reset as resetVisualizationConfig,
 } from '../../slices/viualization_config_slice';
 import { ConfigEditor } from './config_editor/config_editor';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
-import { VizDataPanel } from './config_raw_data/config_raw_data';
+import { VizDataPanel as DefaultVisEditor } from './config_raw_data/config_raw_data';
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
+import { PanelItem } from './configPanelItem';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -45,7 +47,7 @@ const HJSON_STRINGIFY_OPTIONS = {
   bracesSameLine: true,
 };
 
-export const ConfigPanel = ({ vizVectors }: any) => {
+export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
   const {
     tabId,
     curVisId,
@@ -54,11 +56,27 @@ export const ConfigPanel = ({ vizVectors }: any) => {
     explorerVisualizations,
     setToast,
   } = useContext(TabContext);
-  const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
+  const { data, vis } = visualizations;
+  const { fields } = visualizations?.data?.rawResponse?.metadata || { fields: [] };
+  const { rawResponse, customVizConfigs } = data;
+  const VisEditor = vis?.editorConfig?.editor || DefaultVisEditor;
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [hjsonLayoutConfig, setHjsonLayoutConfig] = useState(() => {
+    return customVizConfigs?.layout || customVizConfigs?.config
+      ? hjson.stringify(
+          {
+            layout: { ...customVizConfigs?.layout },
+            config: { ...customVizConfigs?.config },
+          },
+          HJSON_STRINGIFY_OPTIONS
+        )
+      : getDefaultSpec();
+  });
+  const [axeSelections, setAxeSelections] = useState({
+    xaxis: [],
+    yaxis: [],
+  });
 
-  const [xaxis, setXaxis] = useState([]);
-  const [yaxis, setYaxis] = useState([]);
   useEffect(() => {
     const labelAddedFields = explorerVisualizations?.metadata?.fields.map((field) => {
       return {
@@ -69,78 +87,149 @@ export const ConfigPanel = ({ vizVectors }: any) => {
     const needsRotate = curVisId === 'horizontal_bar';
     if (labelAddedFields) {
       if (needsRotate) {
-        setXaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
-        setYaxis([labelAddedFields[labelAddedFields.length - 1]]);
+        setAxeSelections((staleState) => {
+          return {
+            ...staleState,
+            xaxis: labelAddedFields.slice(0, labelAddedFields.length - 1),
+            yaxis: [labelAddedFields[labelAddedFields.length - 1]],
+          };
+        });
       } else {
-        setYaxis(labelAddedFields.slice(0, labelAddedFields.length - 1));
-        setXaxis([labelAddedFields[labelAddedFields.length - 1]]);
+        setAxeSelections((staleState) => {
+          return {
+            ...staleState,
+            xaxis: [labelAddedFields[labelAddedFields.length - 1]],
+            yaxis: labelAddedFields.slice(0, labelAddedFields.length - 1),
+          };
+        });
       }
     }
-    
-  }, [explorerVisualizations]);
+  }, [curVisId, explorerVisualizations]);
 
-  const handleConfigUpdate = (payload) => {
-    console.log('payload:', payload);
+  const getParsedLayoutConfig = useCallback(
+    (hjsonConfig) =>
+      JSON.parse(
+        Mustache.render(CONFIG_LAYOUT_TEMPLATE, hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS))
+      ),
+    []
+  );
+
+  const handleConfigUpdate = useCallback(() => {
     try {
       dispatch(
         changeVisualizationConfig({
           tabId,
           data: {
-            xaxis,
-            yaxis,
+            ...axeSelections,
+            ...getParsedLayoutConfig(hjsonLayoutConfig),
           },
-          // data: {
-          //   ...payload,
-          // },
         })
       );
     } catch (e) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
-  };
+  }, [
+    tabId,
+    hjsonLayoutConfig,
+    axeSelections,
+    getParsedLayoutConfig,
+    changeVisualizationConfig,
+    dispatch,
+    setToast,
+  ]);
 
-  const handleDataConfigChange = (hjsonConfig) => {
-    const payload = {
-      data: [...hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS)],
-    };
-    handleConfigUpdate(payload);
-  };
-
-  const handleLayoutConfigChange = (hjsonConfig) => {
-    const jsonConfig = hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS);
-    console.log('jsonConfig: ', jsonConfig);
-    const output = Mustache.render(CONFIG_LAYOUT_TEMPLATE, jsonConfig);
-    // const renderedConfig = Mustache.render(CONFIG_TEMPLATE, { ...jsonConfig.config });
-    console.log('typeof output: ', typeof output);
-    // console.log('JSON.parse(renderedConfig): ', JSON.parse(renderedConfig));
-    try {
-      const payload = {
-        ...JSON.parse(output),
-        // ...Object(renderedConfig),
-      };
-      handleConfigUpdate(payload);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  // const getSpec = (jsonSpec) => {
-  //   if (isEmpty()) return getDefaultSpec();
-  //   return {
-
+  // const handleDataConfigChange = (hjsonConfig) => {
+  //   const payload = {
+  //     data: [...hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS)],
   //   };
+  //   handleConfigUpdate(payload);
   // };
+
+  // const getParsedLayoutConfig = (hjsonConfig) => {
+  //   const jsonConfig = hjson.parse(hjsonConfig, HJSON_PARSE_OPTIONS);
+  //   console.log('jsonConfig: ', jsonConfig);
+  //   const output = Mustache.render(CONFIG_LAYOUT_TEMPLATE, jsonConfig);
+  //   // const renderedConfig = Mustache.render(CONFIG_TEMPLATE, { ...jsonConfig.config });
+  //   console.log('typeof output: ', typeof output);
+  //   return {
+  //     ...JSON.parse(output),
+  //   };
+  //   // console.log('JSON.parse(renderedConfig): ', JSON.parse(renderedConfig));
+  //   // try {
+  //   //   const payload = {
+  //   //     ...JSON.parse(output),
+  //   //     // ...Object(renderedConfig),
+  //   //   };
+  //   //   handleConfigUpdate(payload);
+  //   // } catch (e) {
+  //   //   console.log(e.message);
+  //   // }
+  // };
+
+  const setXaxisSelections = (selections) => {
+    console.log('x selections: ', selections);
+    setAxeSelections((staleState) => {
+      return {
+        ...staleState,
+        xaxis: [...selections],
+      };
+    });
+  };
+
+  const setYaxisSelections = (selections) => {
+    console.log('y selections: ', selections);
+    setAxeSelections((staleState) => {
+      return {
+        ...staleState,
+        yaxis: [...selections],
+      };
+    });
+  };
+
+  const handleLayoutConfigChange = (config) => {
+    setHjsonLayoutConfig(config);
+  };
+
+  const handlers = {
+    setXaxisSelections: () => setXaxisSelections,
+    setYaxisSelections: () => setYaxisSelections,
+  };
+
+  const dimensions = useMemo(() => {
+    return vis.editorConfig.schemas.map((schema, index) => {
+      const DimensionComponent = schema.component || PanelItem;
+      const params = {
+        paddingTitle: schema.name,
+        advancedTitle: 'advancedTitle',
+        dropdownList: fields,
+        onSelectChange: handlers[schema.onChangeHandler](),
+        isSingleSelection: schema.isSingleSelection,
+        selectedAxis: axeSelections[schema.mapTo],
+      };
+      return <DimensionComponent key={`viz-series-${index}`} {...params} />;
+    });
+  }, [vis, handlers, fields, axeSelections, curVisId]);
 
   const tabs = useMemo(() => {
     return [
+      {
+        id: 'data-panel',
+        name: 'Data',
+        content: (
+          <VisEditor
+            visualizations={visualizations}
+            curVisId={curVisId}
+            onConfigUpdate={handleConfigUpdate}
+            dimensions={dimensions}
+          />
+        ),
+      },
       {
         id: 'style-panel',
         name: 'Layout',
         content: (
           <ConfigEditor
-            // customVizConfigs={customVizConfigs}
-            onConfigUpdate={handleLayoutConfigChange}
-            // spec={getDefaultSpec(customVizConfigs)}
+            onConfigEditorChange={handleLayoutConfigChange}
             spec={
               customVizConfigs?.layout || customVizConfigs?.config
                 ? hjson.stringify(
@@ -150,25 +239,9 @@ export const ConfigPanel = ({ vizVectors }: any) => {
                     },
                     HJSON_STRINGIFY_OPTIONS
                   )
-                : getDefaultSpec('layout')
+                : hjsonLayoutConfig
             }
             setToast={setToast}
-          />
-        ),
-      },
-      {
-        id: 'data-panel',
-        name: 'Data',
-        content: (
-          <VizDataPanel
-            queriedVizRes={explorerVisualizations}
-            customVizConfigs={customVizConfigs}
-            curVisId={curVisId}
-            onConfigUpdate={handleConfigUpdate}
-            xaxis={xaxis}
-            yaxis={yaxis}
-            setXaxis={setXaxis}
-            setYaxis={setYaxis}
           />
         ),
       },
@@ -177,6 +250,14 @@ export const ConfigPanel = ({ vizVectors }: any) => {
 
   const onClickCollapse = () => {
     setIsCollapsed((staleState) => !staleState);
+  };
+
+  const handleDiscardConfig = () => {
+    dispatch(
+      resetVisualizationConfig({
+        tabId,
+      })
+    );
   };
 
   return (
@@ -197,7 +278,12 @@ export const ConfigPanel = ({ vizVectors }: any) => {
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <DefaultEditorControls isDirty={true} isInvalid={false} onConfigUpdate={handleConfigUpdate} />
+          <DefaultEditorControls
+            isDirty={true}
+            isInvalid={false}
+            onConfigUpdate={handleConfigUpdate}
+            onConfigDiscard={handleDiscardConfig}
+          />
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

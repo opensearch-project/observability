@@ -10,22 +10,38 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const pieVisDefinition = {
+export const createPieTypeDefinition = (params: any) => ({
   name: 'pie',
   type: 'pie',
-  subTypes: {
-    pie: {
-      id: 'pie',
-      label: 'Pie',
-      fullLabel: 'Pie',
-      category: VIS_CATEGORY.BASICS,
-      selection: {
-        dataLoss: 'nothing',
-      },
-      icon: LensIconChartPie,
-    },
+  id: 'pie',
+  label: 'Pie',
+  fullLabel: 'Pie',
+  category: VIS_CATEGORY.BASICS,
+  selection: {
+    dataLoss: 'nothing',
   },
-  defaults: {
+  valueSeries: 'yaxis',
+  icon: LensIconChartPie,
+  editorConfig: {
+    editor: null,
+    schemas: [
+      {
+        name: 'Label',
+        onChangeHandler: 'setXaxisSelections',
+        isSingleSelection: false,
+        component: null,
+        mapTo: 'xaxis',
+      },
+      {
+        name: 'Value',
+        onChangeHandler: 'setYaxisSelections',
+        isSingleSelection: true,
+        component: null,
+        mapTo: 'yaxis',
+      },
+    ],
+  },
+  visConfig: {
     layout: {
       ...sharedConfigs.layout,
     },
@@ -34,4 +50,4 @@ export const pieVisDefinition = {
     },
   },
   component: Pie,
-};
+});

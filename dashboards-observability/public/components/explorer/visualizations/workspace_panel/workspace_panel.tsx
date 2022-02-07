@@ -4,14 +4,10 @@
  */
 
 import React, { useState, useMemo, useContext, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { find } from 'lodash';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 import { TabContext } from '../../hooks';
-import {
-  selectVisualizationConfig,
-  change as changeVisualizationConfig,
-} from '../../slices/viualization_config_slice';
+import { change as changeVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getVisType } from '../../../visualizations/charts/vis_types';
 import { Visualization } from '../../../visualizations/visualization';
 
@@ -27,14 +23,14 @@ const ENABLED_VIS_TYPES = [
   'line',
   'pie',
   'histogram',
-  'bubble',
-  'heatmap',
+  'data_table',
+  // 'bubble',
+  // 'heatmap',
 ];
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
   const { tabId, dispatch } = useContext(TabContext);
   const [savePanelName, setSavePanelName] = useState<string>('');
-  const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const handleDispatch = useCallback(
     (evtData) => {
@@ -51,12 +47,10 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
   );
 
   const memorizedVisualizationTypes = useMemo(() => {
-    return ENABLED_VIS_TYPES.map((vis: any) => {
-      const visDefinition = getVisType(vis);
-      const subTypes = visDefinition.subTypes;
+    return ENABLED_VIS_TYPES.map((vs: any) => {
+      const visDefinition = getVisType(vs);
       return {
-        ...subTypes[vis],
-        chart: visDefinition.component,
+        ...visDefinition,
       };
     });
   }, []);
@@ -71,12 +65,8 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
   );
 
   const VisualizationPanel = useMemo(() => {
-    const visDef = getVisDefById(curVisId);
-    visDef.dispatch = handleDispatch;
-    return (
-      <Visualization vis={visDef} visData={visualizations} customVizConfigs={customVizConfigs} />
-    );
-  }, [curVisId, visualizations, handleDispatch, getVisDefById, customVizConfigs]);
+    return <Visualization visualizations={visualizations} />;
+  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
 
   return (
     <WorkspacePanelWrapper

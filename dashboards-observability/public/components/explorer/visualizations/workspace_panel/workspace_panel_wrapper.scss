@@ -24,20 +24,20 @@
   }
 
   .lnsWorkspacePanelWrapper__pageContentBody {
-    @include euiScrollBar;
-    flex-grow: 1;
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    overflow: auto;
+    // @include euiScrollBar;
+    // flex-grow: 1;
+    // display: flex;
+    // align-items: stretch;
+    // justify-content: stretch;
+    // overflow: auto;
 
-    > * {
-      flex: 1 1 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+    // > * {
+    //   flex: 1 1 100%;
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   overflow: hidden;
+    // }
   }
 }
 

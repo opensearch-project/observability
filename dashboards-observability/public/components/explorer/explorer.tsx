@@ -5,7 +5,7 @@
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
+import { isEmpty, cloneDeep, isEqual, has, reduce, take } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
 import {
   EuiText,
@@ -60,6 +60,7 @@ import {
 } from './slices/viualization_config_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
 import { TabContext } from './hooks';
+import { getVisType } from '../visualizations/charts/vis_types';
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -95,6 +96,7 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -608,6 +610,34 @@ export const Explorer = ({
     };
   }
 
+  const getDefaultXYAxisLabels = (vizFields: string[]) => {
+    if (isEmpty(vizFields)) return {};
+    return {
+      xaxis: [vizFields[vizFields.length - 1]] || [],
+      yaxis: take(vizFields, vizFields.length - 1 > 0 ? vizFields.length - 1 : 1) || [],
+    };
+  };
+
+  const visualizations = useMemo(() => {
+    console.log('customVizConfigs: ', customVizConfigs);
+    return {
+      data: {
+        rawResponse: { ...explorerVisualizations },
+        query: { ...query },
+        fields: { ...explorerFields },
+        customVizConfigs: { ...customVizConfigs },
+        defaultAxes: {
+          ...getDefaultXYAxisLabels(explorerVisualizations?.metadata?.fields),
+        },
+      },
+      vis: {
+        ...getVisType(curVisId),
+      },
+    };
+  }, [curVisId, explorerVisualizations, explorerFields, query, customVizConfigs]);
+
+  console.log('explorer visualizations: ', visualizations);
+
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
@@ -618,6 +648,7 @@ export const Explorer = ({
         explorerData={explorerData}
         handleAddField={handleAddField}
         handleRemoveField={handleRemoveField}
+        visualizations={visualizations}
       />
     );
   };
@@ -649,6 +680,7 @@ export const Explorer = ({
     explorerVisualizations,
     selectedContentTabId,
     isOverridingTimestamp,
+    visualizations,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);

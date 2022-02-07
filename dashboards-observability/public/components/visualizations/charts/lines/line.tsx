@@ -16,23 +16,33 @@ export const Line = ({
   customVizData = {},
 }: any) => {
   const {
-    data,
+    data = {},
     metadata: { fields },
-  } = visualizations;
+  } = visualizations.data.rawResponse;
+  const { defaultAxes } = visualizations.data.defaultAxes;
+  const { xaxis, yaxis, layout = {} } = visualizations.data.customVizConfigs;
   const lineLength = fields.length - 1;
-  let lineValues;
-  if (isEmpty(customVizData)) {
-    lineValues = take(fields, lineLength).map((field: any) => {
-      return {
-        x: data[fields[lineLength].name],
-        y: data[field.name],
-        type: 'line',
-        name: field.name,
-      };
+  let filteredFields =
+    defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
+      ? defaultAxes.yaxis
+      : take(fields, lineLength > 0 ? lineLength : 1);
+  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
+    filteredFields = fields.filter((field) => {
+      // if (isVertical) {
+      return (
+        field.name !== xaxis[0].label && !isEmpty(yaxis.filter((item) => item.label === field.name))
+      );
     });
-  } else {
-    lineValues = [...customVizData];
+    // } else {
   }
+  const lineValues = take(filteredFields, lineLength).map((field: any) => {
+    return {
+      x: data[xaxis ? xaxis[0]?.label : fields[lineLength].name],
+      y: data[field.name],
+      type: 'line',
+      name: field.name,
+    };
+  });
 
   const config = {
     barmode: 'line',
