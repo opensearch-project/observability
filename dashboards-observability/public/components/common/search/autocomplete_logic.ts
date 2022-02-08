@@ -66,6 +66,7 @@ const getFields = async (dslService: DSLService): Promise<void> => {
       }
       fieldList.push(element);
     }
+  }
 };
 
 const getDataValues = async (
