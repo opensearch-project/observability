@@ -55,6 +55,9 @@ export function AppTable(props: AppTableProps) {
     fetchApplications,
     renameApplication,
     deleteApplication,
+    setFilters,
+    setStartTime,
+    setEndTime,
   } = props;
 
   useEffect(() => {
@@ -65,8 +68,15 @@ export function AppTable(props: AppTableProps) {
         href: '#/application_analytics',
       },
     ]);
+    clear();
     fetchApplications();
   }, []);
+
+  const clear = () => {
+    setFilters([]);
+    setStartTime('now-24M');
+    setEndTime('now');
+  };
 
   const closeModal = () => {
     setIsModalVisible(false);
