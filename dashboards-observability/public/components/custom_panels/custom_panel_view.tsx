@@ -6,7 +6,6 @@
 import {
   EuiBreadcrumb,
   EuiButton,
-  EuiButtonIcon,
   EuiContextMenu,
   EuiContextMenuPanelDescriptor,
   EuiFieldText,
@@ -22,7 +21,6 @@ import {
   EuiPopover,
   EuiSpacer,
   EuiSuperDatePicker,
-  EuiText,
   EuiTitle,
   OnTimeChangeProps,
   ShortDate,
@@ -63,7 +61,7 @@ import { PPLReferenceFlyout } from '../common/helpers';
  * setToast: create Toast function
  */
 
-type Props = {
+interface Props {
   panelId: string;
   page?: string;
   appId?: string;
@@ -84,7 +82,11 @@ type Props = {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
-};
+  startTime: string;
+  endTime: string;
+  setStartTime: any;
+  setEndTime: any;
+}
 
 export const CustomPanelView = ({
   panelId,
@@ -95,6 +97,10 @@ export const CustomPanelView = ({
   pplService,
   chrome,
   parentBreadcrumb,
+  startTime,
+  endTime,
+  setStartTime,
+  setEndTime,
   renameCustomPanel,
   deleteCustomPanel,
   cloneCustomPanel,
@@ -109,10 +115,10 @@ export const CustomPanelView = ({
   const [addVizDisabled, setAddVizDisabled] = useState(false);
   const [editDisabled, setEditDisabled] = useState(false);
   const [dateDisabled, setDateDisabled] = useState(false);
-  const [panelVisualizations, setPanelVisualizations] = useState<Array<VisualizationType>>([]);
+  const [panelVisualizations, setPanelVisualizations] = useState<VisualizationType[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />); // Modal Layout
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false); // Add Visualization Popover
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false); // Add Visualization Flyout
   const [isFlyoutReplacement, setisFlyoutReplacement] = useState<boolean | undefined>(false);
@@ -133,8 +139,6 @@ export const CustomPanelView = ({
 
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
-  const [start, setStart] = useState<ShortDate>('now-30m');
-  const [end, setEnd] = useState<ShortDate>('now');
 
   const getVizContextPanels = (closeVizPopover?: () => void) => {
     return [
@@ -175,8 +179,8 @@ export const CustomPanelView = ({
         setOpenPanelName(res.operationalPanel.name);
         setPanelCreatedTime(res.createdTimeMs);
         setPPLFilterValue(res.operationalPanel.queryFilter.query);
-        setStart(res.operationalPanel.timeRange.from);
-        setEnd(res.operationalPanel.timeRange.to);
+        setStartTime(startTime ? startTime : res.operationalPanel.timeRange.from);
+        setEndTime(endTime ? endTime : res.operationalPanel.timeRange.to);
         setPanelVisualizations(res.operationalPanel.visualizations);
       })
       .catch((err) => {
@@ -205,7 +209,7 @@ export const CustomPanelView = ({
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') onRefreshFilters(start, end);
+    if (e.key === 'Enter') onRefreshFilters(startTime, endTime);
   };
 
   const onDatePickerChange = (props: OnTimeChangeProps) => {
@@ -214,8 +218,8 @@ export const CustomPanelView = ({
       props.end,
       recentlyUsedRanges,
       setRecentlyUsedRanges,
-      setStart,
-      setEnd
+      setStartTime,
+      setEndTime
     );
     onRefreshFilters(props.start, props.end);
   };
@@ -334,8 +338,8 @@ export const CustomPanelView = ({
     }
   };
 
-  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
-    if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
+  const onRefreshFilters = (start: ShortDate, end: ShortDate) => {
+    if (!isDateValid(convertDateTime(start), convertDateTime(end, false), setToast)) {
       return;
     }
 
@@ -347,8 +351,8 @@ export const CustomPanelView = ({
       panelId: panelId,
       query: pplFilterValue,
       language: 'ppl',
-      to: endTime,
-      from: startTime,
+      to: end,
+      from: start,
     };
 
     http
@@ -413,8 +417,8 @@ export const CustomPanelView = ({
         panelId={panelId}
         closeFlyout={closeFlyout}
         pplFilterValue={pplFilterValue}
-        start={start}
-        end={end}
+        start={startTime}
+        end={endTime}
         setToast={setToast}
         http={http}
         pplService={pplService}
@@ -616,8 +620,8 @@ export const CustomPanelView = ({
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
                   dateFormat={uiSettingsService.get('dateFormat')}
-                  start={start}
-                  end={end}
+                  start={startTime}
+                  end={endTime}
                   onTimeChange={onDatePickerChange}
                   recentlyUsedRanges={recentlyUsedRanges}
                   isDisabled={dateDisabled}
@@ -640,8 +644,8 @@ export const CustomPanelView = ({
               setPanelVisualizations={setPanelVisualizations}
               editMode={editMode}
               pplService={pplService}
-              startTime={start}
-              endTime={end}
+              startTime={startTime}
+              endTime={endTime}
               onRefresh={onRefresh}
               cloneVisualization={cloneVisualization}
               pplFilterValue={pplFilterValue}

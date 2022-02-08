@@ -102,6 +102,10 @@ export function Application(props: AppDetailProps) {
     appId,
     chrome,
     parentBreadcrumb,
+    startTime,
+    endTime,
+    setStartTime,
+    setEndTime,
     setFilters,
     setToasts,
   } = props;
@@ -264,6 +268,10 @@ export function Application(props: AppDetailProps) {
         searchBarConfigs={searchBarConfigs}
         appId={appId}
         addVisualizationToPanel={addVisualizationToPanel}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
+        setEndTime={setEndTime}
       />
     );
   };
@@ -284,6 +292,10 @@ export function Application(props: AppDetailProps) {
         page="app"
         appName={application.name}
         appId={appId}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
+        setEndTime={setEndTime}
       />
     );
   };

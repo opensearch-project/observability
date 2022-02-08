@@ -110,7 +110,7 @@ export class CustomPanelsAdaptor {
 
   // Create a new Panel
   createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
-    var panelBody: PanelType = {
+    const panelBody: PanelType = {
       name: panelName,
       visualizations: [],
       timeRange: {
@@ -120,10 +120,14 @@ export class CustomPanelsAdaptor {
       queryFilter: {
         query: '',
         language: 'ppl',
-      }
+      },
     };
     if (appId) {
       panelBody.applicationId = appId;
+      panelBody.timeRange = {
+        to: 'now',
+        from: 'now-24M',
+      };
     }
 
     try {

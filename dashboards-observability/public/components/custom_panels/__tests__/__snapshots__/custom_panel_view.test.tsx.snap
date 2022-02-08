@@ -72,6 +72,7 @@ exports[`Panels View Component renders panel view container with visualizations 
   }
   cloneCustomPanel={[MockFunction]}
   deleteCustomPanel={[MockFunction]}
+  endTime="now"
   http={[MockFunction]}
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
@@ -93,7 +94,10 @@ exports[`Panels View Component renders panel view container with visualizations 
     }
   }
   renameCustomPanel={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setStartTime={[MockFunction]}
   setToast={[MockFunction]}
+  startTime="now-30m"
 >
   <div>
     <EuiPage>
@@ -1536,24 +1540,8 @@ exports[`Panels View Component renders panel view container with visualizations 
           Array [],
           Array [],
           Array [],
-          Array [],
-          Array [],
         ],
         "results": Array [
-          Object {
-            "type": "return",
-            "value": Observable {
-              "_isScalar": false,
-              "_subscribe": [Function],
-            },
-          },
-          Object {
-            "type": "return",
-            "value": Observable {
-              "_isScalar": false,
-              "_subscribe": [Function],
-            },
-          },
           Object {
             "type": "return",
             "value": Observable {
@@ -1683,6 +1671,7 @@ exports[`Panels View Component renders panel view container with visualizations 
   }
   cloneCustomPanel={[MockFunction]}
   deleteCustomPanel={[MockFunction]}
+  endTime="now"
   http={[MockFunction]}
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
@@ -1704,7 +1693,38 @@ exports[`Panels View Component renders panel view container with visualizations 
     }
   }
   renameCustomPanel={[MockFunction]}
+  setEndTime={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "now",
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setStartTime={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "now-30m",
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
   setToast={[MockFunction]}
+  startTime="now-30m"
 >
   <div>
     <EuiPage>
@@ -2942,24 +2962,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                           Array [],
                           Array [],
                           Array [],
-                          Array [],
-                          Array [],
                         ],
                         "results": Array [
-                          Object {
-                            "type": "return",
-                            "value": Observable {
-                              "_isScalar": false,
-                              "_subscribe": [Function],
-                            },
-                          },
-                          Object {
-                            "type": "return",
-                            "value": Observable {
-                              "_isScalar": false,
-                              "_subscribe": [Function],
-                            },
-                          },
                           Object {
                             "type": "return",
                             "value": Observable {
@@ -3294,6 +3298,7 @@ exports[`Panels View Component renders panel view container without visualizatio
   }
   cloneCustomPanel={[MockFunction]}
   deleteCustomPanel={[MockFunction]}
+  endTime="now"
   http={[MockFunction]}
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
@@ -3315,7 +3320,10 @@ exports[`Panels View Component renders panel view container without visualizatio
     }
   }
   renameCustomPanel={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setStartTime={[MockFunction]}
   setToast={[MockFunction]}
+  startTime="now-30m"
 >
   <div>
     <EuiPage>
