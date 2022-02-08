@@ -3,9 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getDataValueQuery } from './queries/data_queries';
 import DSLService from 'public/services/requests/dsl';
-import { firstCommand, statsCommands, numberTypes, pipeCommands, dataItem, fieldItem, indexItem, AutocompleteItem } from '../../../../common/constants/autocomplete';
+import { getDataValueQuery } from './queries/data_queries';
+import {
+  firstCommand,
+  statsCommands,
+  numberTypes,
+  pipeCommands,
+  dataItem,
+  fieldItem,
+  indexItem,
+  AutocompleteItem,
+} from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
 let currField: string = '';
@@ -24,7 +33,9 @@ const dataValuesFromBackend: dataItem[] = [];
 
 const getIndices = async (dslService: DSLService): Promise<void> => {
   if (indicesFromBackend.length === 0) {
-    const indices = (await dslService.fetchIndices()).filter(({ index } : { index: any }) => !index.startsWith('.'));
+    const indices = (await dslService.fetchIndices()).filter(
+      ({ index }: { index: any }) => !index.startsWith('.')
+    );
     for (let i = 0; i < indices.length; i++) {
       indicesFromBackend.push({
         label: indices[i].index,
@@ -38,8 +49,12 @@ const getFields = async (dslService: DSLService): Promise<void> => {
   if (currIndex !== '') {
     const res = await dslService.fetchFields(currIndex);
     fieldsFromBackend.length = 0;
-    for (const element in res?.[currIndex].mappings.properties) {
-      if (res?.[currIndex].mappings.properties[element].properties || res?.[currIndex].mappings.properties[element].fields) {
+    for (let i = 0; i < res?.[currIndex].mappings.properties.length; i++) {
+      const element = res?.[currIndex].mappings.properties[i];
+      if (
+        res?.[currIndex].mappings.properties[element].properties ||
+        res?.[currIndex].mappings.properties[element].fields
+      ) {
         fieldsFromBackend.push({ label: element, type: 'string' });
       } else if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
         fieldsFromBackend.push({ label: element, type: 'string' });
@@ -51,7 +66,6 @@ const getFields = async (dslService: DSLService): Promise<void> => {
       }
       fieldList.push(element);
     }
-  }
 };
 
 const getDataValues = async (
@@ -60,7 +74,9 @@ const getDataValues = async (
   fieldType: string,
   dslService: DSLService
 ): Promise<dataItem[]> => {
-  const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets || [];
+  const res =
+    (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets ||
+    [];
   dataValuesFromBackend.length = 0;
   res.forEach((e: any) => {
     if (fieldType === 'string') {
@@ -78,7 +94,10 @@ const getDataValues = async (
   return dataValuesFromBackend;
 };
 
-export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: any }, dslService: DSLService) => {
+export const onItemSelect = async (
+  { setQuery, item }: { setQuery: any; item: any },
+  dslService: DSLService
+) => {
   if (fieldsFromBackend.length === 0 && indexList.includes(item.itemName)) {
     currIndex = item.itemName;
     getFields(dslService);
@@ -90,7 +109,9 @@ export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: an
 const fillSuggestions = (str: string, word: string, items: any): AutocompleteItem[] => {
   const lowerWord = word.toLowerCase();
   const filteredList = items.filter(
-    (item: { label: string }) => item.label.toLowerCase().startsWith(lowerWord) && lowerWord.localeCompare(item.label.toLowerCase())
+    (item: { label: string }) =>
+      item.label.toLowerCase().startsWith(lowerWord) &&
+      lowerWord.localeCompare(item.label.toLowerCase())
   );
   const suggestionList = [];
   for (let i = 0; i < filteredList.length; i++) {
@@ -113,7 +134,10 @@ const getFirstPipe = async (str: string, dslService: DSLService): Promise<Autoco
 };
 
 // Main logic behind autocomplete (Based on most recent inputs)
-export const getSuggestions = async (str: string, dslService: DSLService): Promise<AutocompleteItem[] | undefined> => {
+export const getSuggestions = async (
+  str: string,
+  dslService: DSLService
+): Promise<AutocompleteItem[] | undefined> => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
   const lowerPrefix = prefix.toLowerCase();
@@ -139,82 +163,101 @@ export const getSuggestions = async (str: string, dslService: DSLService): Promi
       }
       if (inMatch) {
         inMatch = true;
-        return fillSuggestions(
-          str, 
-          prefix,
-          dataValuesFromBackend
-        );
+        return fillSuggestions(str, prefix, dataValuesFromBackend);
       }
       return fullSuggestions;
-    } else if (
-      splittedModel[splittedModel.length - 2] === 'source'
-    ) {
+    } else if (splittedModel[splittedModel.length - 2] === 'source') {
       return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+        ({ label }) =>
+          label.toLowerCase().startsWith(lowerPrefix) &&
+          lowerPrefix.localeCompare(label.toLowerCase())
       );
-    } else if (
-      (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source')
-    ) {
+    } else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
       return fillSuggestions(str, prefix, indicesFromBackend);
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+        ({ label }) =>
+          label.toLowerCase().startsWith(lowerPrefix) &&
+          lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
     } else if (nextStats === splittedModel.length - 1) {
-      if (statsCommands.filter(c => c.label === splittedModel[splittedModel.length - 2]).length > 0) {
+      if (
+        statsCommands.filter((c) => c.label === splittedModel[splittedModel.length - 2]).length > 0
+      ) {
         if (splittedModel[splittedModel.length - 2] === 'count()') {
           return [
-            { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' }
-          ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+            {
+              label: str + 'by',
+              input: str,
+              suggestion: 'by'.substring(prefix.length),
+              itemName: 'by',
+            },
+          ].filter(
+            ({ label }) =>
+              label.toLowerCase().startsWith(lowerPrefix) &&
+              lowerPrefix.localeCompare(label.toLowerCase())
           );
         } else {
-        const numberFields = fieldsFromBackend.filter(
-          (field: { label: string, type: string }) =>
-            field.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(field.label.toLowerCase()) && numberTypes.includes(field.type)
-        );
-        for (let i = 0; i < numberFields.length; i++) {
-          var field: {label: string} = numberFields[i];
-          fullSuggestions.push({
-            label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ' )',
-            input: str,
-            suggestion: field.label.substring(prefix.length) + ' )',
-            itemName: field.label + ' )',
-          });
-        }
-        return fullSuggestions;
+          const numberFields = fieldsFromBackend.filter(
+            (field: { label: string; type: string }) =>
+              field.label.toLowerCase().startsWith(lowerPrefix) &&
+              lowerPrefix.localeCompare(field.label.toLowerCase()) &&
+              numberTypes.includes(field.type)
+          );
+          for (let i = 0; i < numberFields.length; i++) {
+            const field: { label: string } = numberFields[i];
+            fullSuggestions.push({
+              label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ' )',
+              input: str,
+              suggestion: field.label.substring(prefix.length) + ' )',
+              itemName: field.label + ' )',
+            });
+          }
+          return fullSuggestions;
         }
       }
-    } else if (nextStats === splittedModel.length - 2 && splittedModel[splittedModel.length - 3] === 'count()') {
+    } else if (
+      nextStats === splittedModel.length - 2 &&
+      splittedModel[splittedModel.length - 3] === 'count()'
+    ) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (nextStats === splittedModel.length - 3) {
       if (splittedModel[splittedModel.length - 3] === 'by') {
-          return [
-            { label: str + '|', input: str, suggestion: '|', itemName: '|' }
-            ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
-            );
+        return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
+          ({ label }) =>
+            label.toLowerCase().startsWith(lowerPrefix) &&
+            lowerPrefix.localeCompare(label.toLowerCase())
+        );
       } else {
         return [
-        { label: str + 'by', input: str, suggestion: 'by'.substring(prefix.length), itemName: 'by' },
-        { label: str + '|', input: str, suggestion: '|', itemName: '|' }
-        ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+          {
+            label: str + 'by',
+            input: str,
+            suggestion: 'by'.substring(prefix.length),
+            itemName: 'by',
+          },
+          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+        ].filter(
+          ({ label }) =>
+            label.toLowerCase().startsWith(lowerPrefix) &&
+            lowerPrefix.localeCompare(label.toLowerCase())
         );
       }
     } else if (nextStats === splittedModel.length - 4) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
-    }
-    else if (splittedModel[splittedModel.length - 2] === 'fields') {
+    } else if (splittedModel[splittedModel.length - 2] === 'fields') {
       inFieldsCommaLoop = true;
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (splittedModel[splittedModel.length - 2] === 'dedup') {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (splittedModel[splittedModel.length - 2] === 'where') {
       nextWhere = splittedModel.length;
-      return fillSuggestions(str, prefix, [{label: 'match('}, ...fieldsFromBackend]);
+      return fillSuggestions(str, prefix, [{ label: 'match(' }, ...fieldsFromBackend]);
     } else if (splittedModel[splittedModel.length - 2] === 'match(') {
       inMatch = true;
       return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -226,25 +269,34 @@ export const getSuggestions = async (str: string, dslService: DSLService): Promi
         itemName: '=',
       });
       currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field: {label: string, type: string}) => field.label === currField)?.type || '';
+      currFieldType =
+        fieldsFromBackend.find(
+          (field: { label: string; type: string }) => field.label === currField
+        )?.type || '';
       await getDataValues(currIndex, currField, currFieldType, dslService);
-      return fullSuggestions.filter((suggestion: { label: string }) => suggestion.label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(suggestion.label.toLowerCase()));
-    }  else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
+      return fullSuggestions.filter(
+        (suggestion: { label: string }) =>
+          suggestion.label.toLowerCase().startsWith(lowerPrefix) &&
+          lowerPrefix.localeCompare(suggestion.label.toLowerCase())
+      );
+    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
       await getDataValues(currIndex, currField, currFieldType, dslService);
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ','}].filter(
+      return [{ label: str + ',', input: str, suggestion: ',', itemName: ',' }].filter(
         ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     } else if (nextWhere === splittedModel.length - 2) {
-        return fillSuggestions(
-          str,
-          prefix,
-          dataValuesFromBackend
-        );
-    } else if (nextWhere === splittedModel.length - 3 || nextStats === splittedModel.length - 5 || nextWhere === splittedModel.length - 5) {
+      return fillSuggestions(str, prefix, dataValuesFromBackend);
+    } else if (
+      nextWhere === splittedModel.length - 3 ||
+      nextStats === splittedModel.length - 5 ||
+      nextWhere === splittedModel.length - 5
+    ) {
       return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase())
+        ({ label }) =>
+          label.toLowerCase().startsWith(lowerPrefix) &&
+          lowerPrefix.localeCompare(label.toLowerCase())
       );
     } else if (inFieldsCommaLoop) {
       return [
@@ -255,11 +307,15 @@ export const getSuggestions = async (str: string, dslService: DSLService): Promi
           itemName: ',',
         },
         { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-      ].filter(({ label }) => label.toLowerCase().startsWith(lowerPrefix) && lowerPrefix.localeCompare(label.toLowerCase()));
-    }  else if (inMatch) {
+      ].filter(
+        ({ label }) =>
+          label.toLowerCase().startsWith(lowerPrefix) &&
+          lowerPrefix.localeCompare(label.toLowerCase())
+      );
+    } else if (inMatch) {
       inMatch = false;
       return [{ label: str + ')', input: str, suggestion: ')', itemName: ')' }].filter(
-      ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
       );
     }
     return [];
