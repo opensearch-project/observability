@@ -78,6 +78,10 @@ export const Explorer = ({
   searchBarConfigs,
   appId = '',
   addVisualizationToPanel,
+  startTime,
+  endTime,
+  setStartTime,
+  setEndTime,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -116,10 +120,10 @@ export const Explorer = ({
 
   // const SearchBar = searchBar;
   let minInterval = 'y';
-  const findAutoInterval = (startTime: string, endTime: string) => {
-    if (startTime?.length === 0 || endTime?.length === 0 || startTime === endTime) return 'd';
-    const momentStart = dateMath.parse(startTime)!;
-    const momentEnd = dateMath.parse(endTime)!;
+  const findAutoInterval = (start: string, end: string) => {
+    if (start?.length === 0 || end?.length === 0 || start === end) return 'd';
+    const momentStart = dateMath.parse(start)!;
+    const momentEnd = dateMath.parse(end)!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
 
     // less than 1 second
@@ -347,15 +351,20 @@ export const Explorer = ({
     toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
   const handleTimePickerChange = async (timeRange: string[]) => {
-    await dispatch(
-      changeDateRange({
-        tabId: requestParams.tabId,
-        data: {
-          [RAW_QUERY]: queryRef.current![RAW_QUERY],
-          [SELECTED_DATE_RANGE]: timeRange,
-        },
-      })
-    );
+    if (tabId === 'application-analytics-tab') {
+      setStartTime(timeRange[0]);
+      setEndTime(timeRange[1]);
+    } else {
+      await dispatch(
+        changeDateRange({
+          tabId: requestParams.tabId,
+          data: {
+            [RAW_QUERY]: queryRef.current![RAW_QUERY],
+            [SELECTED_DATE_RANGE]: timeRange,
+          },
+        })
+      );
+    }
   };
 
   const showPermissionErrorToast = () => {
@@ -865,10 +874,12 @@ export const Explorer = ({
     }
   };
 
-  const dateRange = isEmpty(query.selectedDateRange)
-    ? ['now-15m', 'now']
-    : [query.selectedDateRange[0], query.selectedDateRange[1]];
-
+  const dateRange =
+    isEmpty(startTime) || isEmpty(endTime)
+      ? isEmpty(query.selectedDateRange)
+        ? ['now-15m', 'now']
+        : [query.selectedDateRange[0], query.selectedDateRange[1]]
+      : [startTime, endTime];
   return (
     <div className="dscAppContainer">
       <Search
