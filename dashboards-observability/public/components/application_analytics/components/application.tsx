@@ -6,10 +6,12 @@
  */
 
 import {
+  EuiHorizontalRule,
   EuiPage,
   EuiPageBody,
   EuiPageHeader,
   EuiPageHeaderSection,
+  EuiPanel,
   EuiSpacer,
   EuiTabbedContent,
   EuiTabbedContentTab,
@@ -23,11 +25,15 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
+import {
+  filtersToDsl,
+  PanelTitle,
+} from '../../../../public/components/trace_analytics/components/common/helper_functions';
+import { SpanDetailTable } from '../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { Explorer } from '../../explorer/explorer';
 import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
 import { Traces } from '../../trace_analytics/components/traces';
-import { SpanDetailPanel } from '../../trace_analytics/components/traces/span_detail_panel';
 import { Configuration } from './configuration';
 import {
   APP_ANALYTICS_API_PREFIX,
@@ -102,6 +108,15 @@ export function Application(props: AppDetailProps) {
     appId,
     chrome,
     parentBreadcrumb,
+<<<<<<< Updated upstream
+=======
+    startTime,
+    endTime,
+    query,
+    filters,
+    setStartTime,
+    setEndTime,
+>>>>>>> Stashed changes
     setFilters,
     setToasts,
   } = props;
@@ -117,6 +132,8 @@ export function Application(props: AppDetailProps) {
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
   const [traceFlyoutId, setTraceFlyoutId] = useState<string>('');
   const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
+  const [spanDSL, setSpanDSL] = useState<any>({});
+  const [totalSpans, setTotalSpans] = useState<number>(0);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
@@ -185,6 +202,11 @@ export function Application(props: AppDetailProps) {
     ]);
   }, [appId, application.name]);
 
+  useEffect(() => {
+    const DSL = filtersToDsl(filters, query, startTime, endTime, 'app');
+    setSpanDSL(DSL);
+  }, [filters, query, startTime, endTime]);
+
   const openServiceFlyout = (serviceName: string) => {
     setSpanFlyoutId('');
     setTraceFlyoutId('');
@@ -242,7 +264,17 @@ export function Application(props: AppDetailProps) {
           openTraceFlyout={openTraceFlyout}
         />
         <EuiSpacer size="m" />
-        <SpanDetailPanel {...props} traceId="id" colorMap="color" />
+        <EuiPanel>
+          <PanelTitle title="Spans" totalItems={totalSpans} />
+          <EuiHorizontalRule margin="m" />
+          <SpanDetailTable
+            http={http}
+            hiddenColumns={[]}
+            openFlyout={setSpanFlyoutId}
+            DSL={spanDSL}
+            setTotal={setTotalSpans}
+          />
+        </EuiPanel>
       </>
     );
   };
