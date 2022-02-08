@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -27,6 +29,9 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { ChangeEvent } from 'react';
+import moment from 'moment';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import {
@@ -38,10 +43,7 @@ import { PanelGrid } from './panel_modules/panel_grid';
 import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
 import { isDateValid, convertDateTime, onTimeChange, isPPLFilterValid } from './helpers/utils';
-import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
-import { ChangeEvent } from 'react';
-import moment from 'moment';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 import { uiSettingsService } from '../../../common/utils';
 import { PPLReferenceFlyout } from '../common/helpers';
@@ -86,6 +88,7 @@ interface Props {
   endTime: string;
   setStartTime: any;
   setEndTime: any;
+  switchToEvent?: any;
 }
 
 export const CustomPanelView = ({
@@ -105,6 +108,7 @@ export const CustomPanelView = ({
   deleteCustomPanel,
   cloneCustomPanel,
   setToast,
+  switchToEvent,
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -293,7 +297,7 @@ export const CustomPanelView = ({
 
   // toggle between panel edit mode
   const editPanel = (editType: string) => {
-    editMode ? setEditMode(false) : setEditMode(true);
+    setEditMode(!editMode);
     if (editType === 'cancel') fetchCustomPanel();
     setEditActionType(editType);
   };
@@ -348,7 +352,7 @@ export const CustomPanelView = ({
     }
 
     const panelFilterBody = {
-      panelId: panelId,
+      panelId,
       query: pplFilterValue,
       language: 'ppl',
       to: end,
@@ -372,8 +376,8 @@ export const CustomPanelView = ({
     http
       .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
         body: JSON.stringify({
-          panelId: panelId,
-          savedVisualizationId: savedVisualizationId,
+          panelId,
+          savedVisualizationId,
         }),
       })
       .then(async (res) => {
@@ -386,7 +390,7 @@ export const CustomPanelView = ({
       });
   };
 
-  //Add Visualization Button
+  // Add Visualization Button
   const addVisualizationButton = (
     <EuiButton
       iconType="arrowDown"
@@ -485,7 +489,7 @@ export const CustomPanelView = ({
   // Edit the breadcrumb when panel name changes
   useEffect(() => {
     let newBreadcrumb;
-    if (page === "app") {
+    if (page === 'app') {
       newBreadcrumb = [
         ...parentBreadcrumb,
         {
@@ -496,14 +500,14 @@ export const CustomPanelView = ({
           text: appName,
           href: `${_.last(parentBreadcrumb).href}${appId}`,
         },
-      ]
+      ];
     } else {
       newBreadcrumb = [
         ...parentBreadcrumb,
         {
           text: openPanelName,
           href: `${_.last(parentBreadcrumb).href}${panelId}`,
-        }
+        },
       ];
     }
     chrome.setBreadcrumbs(newBreadcrumb);
@@ -553,8 +557,7 @@ export const CustomPanelView = ({
                     </EuiButton>
                   </EuiFlexItem>
                 )}
-                {
-                  page === "app" || (
+                {page === 'app' || (
                   <EuiFlexItem grow={false}>
                     <EuiPopover
                       panelPaddingSize="none"
@@ -566,16 +569,14 @@ export const CustomPanelView = ({
                       <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
                     </EuiPopover>
                   </EuiFlexItem>
-                  )
-                }
-                {
-                  page === "app" ? (
+                )}
+                {page === 'app' ? (
                   <EuiFlexItem grow={false}>
-                    <EuiButton isDisabled={addVizDisabled}>
+                    <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
                       Add Visualization
                     </EuiButton>
                   </EuiFlexItem>
-                  ) : (
+                ) : (
                   <EuiFlexItem grow={false}>
                     <EuiPopover
                       id="addVisualizationContextMenu"
@@ -591,8 +592,7 @@ export const CustomPanelView = ({
                       />
                     </EuiPopover>
                   </EuiFlexItem>
-                  )
-                }
+                )}
               </EuiFlexGroup>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -634,6 +634,7 @@ export const CustomPanelView = ({
                 addVizDisabled={addVizDisabled}
                 page={page}
                 getVizContextPanels={getVizContextPanels}
+                switchToEvent={switchToEvent}
               />
             )}
             <PanelGrid

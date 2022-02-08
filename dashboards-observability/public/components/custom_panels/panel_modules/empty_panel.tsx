@@ -22,22 +22,28 @@ import React, { useState } from 'react';
  * getVizContextPanels -> Function to populate the add visualization popover
  */
 
-type Props = {
+interface Props {
   addVizDisabled: boolean;
   page?: string;
   getVizContextPanels: (
     closeVizPopover?: (() => void) | undefined
-  ) => {
+  ) => Array<{
     id: number;
     title: string;
-    items: {
+    items: Array<{
       name: string;
       onClick: () => void;
-    }[];
-  }[];
-};
+    }>;
+  }>;
+  switchToEvent?: any;
+}
 
-export const EmptyPanelView = ({ addVizDisabled, page, getVizContextPanels }: Props) => {
+export const EmptyPanelView = ({
+  addVizDisabled,
+  page,
+  getVizContextPanels,
+  switchToEvent,
+}: Props) => {
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false);
 
   const onPopoverClick = () => {
@@ -48,7 +54,7 @@ export const EmptyPanelView = ({ addVizDisabled, page, getVizContextPanels }: Pr
     setVizPopoverOpen(false);
   };
 
-  //Add Visualization Button
+  // Add Visualization Button
   const addVisualizationButton = (
     <EuiButton
       iconType="arrowDown"
@@ -72,15 +78,14 @@ export const EmptyPanelView = ({ addVizDisabled, page, getVizContextPanels }: Pr
       </EuiText>
       <EuiSpacer size="m" />
       <EuiFlexGroup justifyContent="center">
-        {
-          page === "app" ? (
+        {page === 'app' ? (
           <EuiFlexItem grow={false}>
-            <EuiButton isDisabled={addVizDisabled}>
+            <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
               Add Visualization
             </EuiButton>
           </EuiFlexItem>
-          ) : (
-            <EuiFlexItem grow={false}>
+        ) : (
+          <EuiFlexItem grow={false}>
             <EuiPopover
               id="addVisualizationContextMenu"
               button={addVisualizationButton}
@@ -92,8 +97,7 @@ export const EmptyPanelView = ({ addVizDisabled, page, getVizContextPanels }: Pr
               <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
             </EuiPopover>
           </EuiFlexItem>
-          )
-        }
+        )}
       </EuiFlexGroup>
       <EuiSpacer size="xxl" />
     </div>
