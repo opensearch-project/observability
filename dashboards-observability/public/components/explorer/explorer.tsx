@@ -622,7 +622,7 @@ export const Explorer = ({
     console.log('customVizConfigs: ', customVizConfigs);
     return {
       data: {
-        rawResponse: { ...explorerVisualizations },
+        rawVizData: { ...explorerVisualizations },
         query: { ...query },
         fields: { ...explorerFields },
         customVizConfigs: { ...customVizConfigs },

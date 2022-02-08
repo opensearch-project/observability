@@ -3,42 +3,42 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Histogram } from './histogram';
+import { Gauge } from './gauge';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartLine } from '../../assets/chart_line';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const createHistogramVisDefinition = (params = {}) => ({
-  name: 'histogram',
-  type: 'histogram',
-  id: 'histogram',
-  label: 'Histogram',
-  fullLabel: 'Histogram',
+export const createGaugeTypeDefinition = (params: any = {}) => ({
+  name: 'Guage',
+  type: 'indicator',
+  id: 'guage',
+  label: 'Guage',
+  fullLabel: 'Guage',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
-  valueSeries: 'yaxis',
   icon: LensIconChartLine,
+  valueSeries: 'yaxis',
   editorConfig: {
     editor: null,
     schemas: [
       {
-        name: 'X-axis',
+        name: 'Value',
+        isSingleSelection: true,
         onChangeHandler: 'setXaxisSelections',
-        isSingleSelection: false,
         component: null,
         mapTo: 'xaxis',
       },
-      {
-        name: 'Y-axis',
-        onChangeHandler: 'setYaxisSelections',
-        isSingleSelection: true,
-        component: null,
-        mapTo: 'yaxis',
-      },
+      // {
+      //   name: 'Guage',
+      //   isSingleSelection: false,
+      //   onChangeHandler: 'setYaxisSelections',
+      //   component: null,
+      //   mapTo: 'yaxis',
+      // },
     ],
   },
   visConfig: {
@@ -49,5 +49,5 @@ export const createHistogramVisDefinition = (params = {}) => ({
       ...sharedConfigs.config,
     },
   },
-  component: Histogram,
+  component: Gauge,
 });

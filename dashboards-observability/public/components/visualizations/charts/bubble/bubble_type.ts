@@ -10,22 +10,18 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const bubbleVisDefinition = {
+export const createBubbleVisDefinition = () => ({
   name: 'bubble',
   type: 'bubble',
-  subTypes: {
-    bubble: {
-      id: 'bubble',
-      label: 'Bubble',
-      fullLabel: 'Bubble',
-      category: VIS_CATEGORY.BASICS,
-      selection: {
-        dataLoss: 'nothing',
-      },
-      icon: LensIconChartPie,
-    },
+  id: 'bubble',
+  label: 'Bubble',
+  fullLabel: 'Bubble',
+  category: VIS_CATEGORY.BASICS,
+  selection: {
+    dataLoss: 'nothing',
   },
-  defaults: {
+  icon: LensIconChartPie,
+  visConfig: {
     layout: {
       ...sharedConfigs.layout,
     },
@@ -34,4 +30,4 @@ export const bubbleVisDefinition = {
     },
   },
   component: Bubble,
-};
+});

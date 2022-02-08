@@ -18,7 +18,7 @@ export const HeatMap = ({
   const {
     data,
     metadata: { fields },
-  } = visualizations;
+  } = visualizations.data.rawVizData;
   // const lineLength = fields.length - 1;
   // // let lineValues;
   // // if (isEmpty(customVizData)) {

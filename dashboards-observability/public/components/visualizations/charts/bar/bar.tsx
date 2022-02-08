@@ -14,7 +14,10 @@ export const Bar = ({
   visUserConfig = { layout: {}, config: {} },
 }: any) => {
   const { vis } = visualizations;
-  const { data = {}, metadata: { fields } = { fields: [] } } = visualizations?.data?.rawResponse;
+  const {
+    data,
+    metadata: { fields },
+  } = visualizations.data.rawVizData;
   const { isUniColor } = vis.visConfig;
   const lastIndex = fields.length - 1;
   const {

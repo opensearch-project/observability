@@ -12,7 +12,7 @@ export const Pie = ({ visualizations, dispatch }: any) => {
   const {
     data,
     metadata: { fields },
-  } = visualizations.data.rawResponse;
+  } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data.defaultAxes;
   const {
     xaxis = null,

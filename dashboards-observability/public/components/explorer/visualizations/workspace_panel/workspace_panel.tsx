@@ -24,8 +24,9 @@ const ENABLED_VIS_TYPES = [
   'pie',
   'histogram',
   'data_table',
-  // 'bubble',
-  // 'heatmap',
+  'guage',
+  'bubble',
+  'heatmap',
 ];
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {

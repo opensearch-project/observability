@@ -10,22 +10,37 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const mapsVisDefinition = {
+export const createMapsVisDefinition = () => ({
   name: 'heatmap',
   type: 'heatmap',
-  subTypes: {
-    heatmap: {
-      id: 'heatmap',
-      label: 'Heatmap',
-      fullLabel: 'Hubble',
-      category: VIS_CATEGORY.MAPS,
-      selection: {
-        dataLoss: 'nothing',
-      },
-      icon: LensIconChartPie,
-    },
+  id: 'heatmap',
+  label: 'Heatmap',
+  fullLabel: 'Hubble',
+  category: VIS_CATEGORY.BASICS,
+  selection: {
+    dataLoss: 'nothing',
   },
-  defaults: {
+  icon: LensIconChartPie,
+  editorConfig: {
+    editor: null,
+    schemas: [
+      {
+        name: 'X-axis',
+        isSingleSelection: true,
+        onChangeHandler: 'setXaxisSelections',
+        component: null,
+        mapTo: 'xaxis',
+      },
+      {
+        name: 'Y-axis',
+        isSingleSelection: false,
+        onChangeHandler: 'setYaxisSelections',
+        component: null,
+        mapTo: 'yaxis',
+      },
+    ],
+  },
+  visConfig: {
     layout: {
       ...sharedConfigs.layout,
     },
@@ -34,4 +49,4 @@ export const mapsVisDefinition = {
     },
   },
   component: HeatMap,
-};
+});

@@ -10,7 +10,13 @@ import { isEmpty } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { EuiTabbedContent, EuiFlexGroup, EuiFlexItem, EuiButtonIcon } from '@elastic/eui';
+import {
+  EuiTabbedContent,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiButtonIcon,
+  EuiSpacer,
+} from '@elastic/eui';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -57,8 +63,8 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
     setToast,
   } = useContext(TabContext);
   const { data, vis } = visualizations;
-  const { fields } = visualizations?.data?.rawResponse?.metadata || { fields: [] };
-  const { rawResponse, customVizConfigs } = data;
+  const { fields } = visualizations?.data?.rawVizData?.metadata || { fields: [] };
+  const { rawVizData, customVizConfigs } = data;
   const VisEditor = vis?.editorConfig?.editor || DefaultVisEditor;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [hjsonLayoutConfig, setHjsonLayoutConfig] = useState(() => {
@@ -187,7 +193,12 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: axeSelections[schema.mapTo],
       };
-      return <DimensionComponent key={`viz-series-${index}`} {...params} />;
+      return (
+        <>
+          <DimensionComponent key={`viz-series-${index}`} {...params} />
+          <EuiSpacer size="s" />
+        </>
+      );
     });
   }, [vis, handlers, fields, axeSelections, curVisId]);
 

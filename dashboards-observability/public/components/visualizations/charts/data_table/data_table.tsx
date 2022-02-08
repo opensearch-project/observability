@@ -11,7 +11,7 @@ export const DataTable = ({ visualizations, visAxes }: any) => {
     data = {},
     jsonData = {},
     metadata: { fields },
-  } = visualizations.data.rawResponse;
+  } = visualizations.data.rawVizData;
 
   const colunms = fields.map((field) => {
     return {
