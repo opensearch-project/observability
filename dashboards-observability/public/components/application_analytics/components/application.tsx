@@ -272,6 +272,7 @@ export function Application(props: AppDetailProps) {
         endTime={endTime}
         setStartTime={setStartTime}
         setEndTime={setEndTime}
+        appBaseQuery={application.baseQuery}
       />
     );
   };

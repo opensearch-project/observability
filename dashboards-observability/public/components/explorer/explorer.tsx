@@ -77,6 +77,7 @@ export const Explorer = ({
   savedObjectId,
   searchBarConfigs,
   appId = '',
+  appBaseQuery = '',
   addVisualizationToPanel,
   startTime,
   endTime,
@@ -903,6 +904,8 @@ export const Explorer = ({
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
         selectedSubTabId={selectedContentTabId}
         searchBarConfigs={searchBarConfigs}
+        tabId={tabId}
+        baseQuery={appBaseQuery}
       />
       <EuiTabbedContent
         className="mainContentTabs"
