@@ -210,7 +210,7 @@ export const onItemSelect = async ({ setQuery, item }: { setQuery: any, item: an
       else if (splittedModel[splittedModel.length - 2] === 'fields') {
         inFieldsCommaLoop = true;
         return fillSuggestions(str, prefix, fieldsFromBackend);
-      } else if (splittedModel[splittedModel.length - 2] === 'dedup') {
+      } else if (['dedup', 'parse'].includes(splittedModel[splittedModel.length - 2])) {
         return fillSuggestions(str, prefix, fieldsFromBackend);
       } else if (splittedModel[splittedModel.length - 2] === 'where') {
         nextWhere = splittedModel.length;

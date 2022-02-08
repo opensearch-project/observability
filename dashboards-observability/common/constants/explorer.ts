@@ -28,6 +28,7 @@ export const SAVED_OBJECT_TYPE = 'objectType';
 export const TAB_CREATED_TYPE = 'tabCreatedType';
 export const NEW_TAB = 'newTab';
 export const REDIRECT_TAB = 'redirect_tab';
+export const PAGE_SIZE = 50;
 
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
