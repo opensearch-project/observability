@@ -6,7 +6,7 @@
 import React from 'react';
 import { EuiInMemoryTable } from '@elastic/eui';
 
-export const DataTable = ({ visualizations, visAxes }: any) => {
+export const DataTable = ({ visualizations }: any) => {
   const {
     data = {},
     jsonData = {},

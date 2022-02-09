@@ -25,7 +25,7 @@ const ENABLED_VIS_TYPES = [
   'histogram',
   'data_table',
   'guage',
-  'bubble',
+  // 'bubble',
   'heatmap',
 ];
 

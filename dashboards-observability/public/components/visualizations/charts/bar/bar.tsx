@@ -8,11 +8,7 @@ import { isEmpty, take } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
-export const Bar = ({
-  visualizations,
-  // valueAxes,
-  visUserConfig = { layout: {}, config: {} },
-}: any) => {
+export const Bar = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
   const {
     data,
@@ -20,12 +16,7 @@ export const Bar = ({
   } = visualizations.data.rawVizData;
   const { isUniColor } = vis.visConfig;
   const lastIndex = fields.length - 1;
-  const {
-    xaxis = [],
-    yaxis = [],
-    layout = {},
-    config = {},
-  } = visualizations?.data?.customVizConfigs;
+  const { xaxis = [], yaxis = [] } = visualizations?.data?.customVizConfigs;
   const isVertical = vis.orientation !== 'h';
   const { defaultAxes } = visualizations.data;
 
@@ -53,8 +44,6 @@ export const Bar = ({
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
-  console.log('valueSeries: ', valueSeries);
-
   // determine category axis
 
   const bars = valueSeries.map((field: any) => {
@@ -72,38 +61,15 @@ export const Bar = ({
     };
   });
 
-  // const bars = valueAxes.map((field: any) => {
-  //   return {
-  //     x: isVertical ? data[xaxis ? xaxis[0]?.name : fields[lastIndex].name] : data[field.name],
-  //     y: isVertical ? data[field.name] : data[xaxis ? xaxis[0]?.name : fields[lastIndex].name],
-  //     type: vis.type,
-  //     marker,
-  //     name: field.name,
-  //     orientation: visualizations.vis.orientation,
-  //   };
-  // });
-
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
     data[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
 
-  const finalFigureConfig = useMemo(() => {
-    return {
-      ...vis.visConfig.config,
-      ...visUserConfig.config,
-      ...config,
-    };
-  }, [config, vis, visUserConfig.config]);
+  const finalFigureLayout = {
+    colorway: plotlyColorway,
+    ...layout,
+  };
 
-  const finalFigureLayout = useMemo(() => {
-    return {
-      ...vis.visConfig.layout,
-      ...visUserConfig.layout,
-      colorway: plotlyColorway,
-      ...layout,
-    };
-  }, [layout, vis, plotlyColorway, visUserConfig.layout]);
-
-  return <Plt data={bars} layout={finalFigureLayout} config={finalFigureConfig} />;
+  return <Plt data={bars} layout={finalFigureLayout} config={config} />;
 };

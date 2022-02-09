@@ -12,7 +12,7 @@ interface IVisualizationProps {}
 export const Visualization = ({ visualizations }: IVisualizationProps) => {
   return (
     <>
-      {visualizations?.data?.rawVizData?.size && visualizations?.vis?.visConfig ? (
+      {visualizations?.data?.rawVizData?.size ? (
         <VisualizationChart visualizations={visualizations} />
       ) : (
         <EmptyPlaceholder icon={visualizations.vis.icon} />

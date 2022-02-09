@@ -66,7 +66,6 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
   const { fields } = visualizations?.data?.rawVizData?.metadata || { fields: [] };
   const { rawVizData, customVizConfigs } = data;
   const VisEditor = vis?.editorConfig?.editor || DefaultVisEditor;
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [hjsonLayoutConfig, setHjsonLayoutConfig] = useState(() => {
     return customVizConfigs?.layout || customVizConfigs?.config
       ? hjson.stringify(
@@ -78,7 +77,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         )
       : getDefaultSpec();
   });
-  const [axeSelections, setAxeSelections] = useState({
+  const [vizConfigs, setVizConfigs] = useState({
     xaxis: [],
     yaxis: [],
     selectedVisType: [{ label: vis.type }],
@@ -94,7 +93,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
     const needsRotate = curVisId === 'horizontal_bar';
     if (labelAddedFields) {
       if (needsRotate) {
-        setAxeSelections((staleState) => {
+        setVizConfigs((staleState) => {
           return {
             ...staleState,
             xaxis: labelAddedFields.slice(0, labelAddedFields.length - 1),
@@ -102,7 +101,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
           };
         });
       } else {
-        setAxeSelections((staleState) => {
+        setVizConfigs((staleState) => {
           return {
             ...staleState,
             xaxis: [labelAddedFields[labelAddedFields.length - 1]],
@@ -127,7 +126,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         changeVisualizationConfig({
           tabId,
           data: {
-            ...axeSelections,
+            ...vizConfigs,
             ...getParsedLayoutConfig(hjsonLayoutConfig),
           },
         })
@@ -138,48 +137,24 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
   }, [
     tabId,
     hjsonLayoutConfig,
-    axeSelections,
+    vizConfigs,
     getParsedLayoutConfig,
     changeVisualizationConfig,
     dispatch,
     setToast,
   ]);
 
-  const setXaxisSelections = (selections) => {
-    setAxeSelections((staleState) => {
-      return {
-        ...staleState,
-        xaxis: [...selections],
-      };
-    });
-  };
+  const handleLayoutConfigChange = (config: string) => setHjsonLayoutConfig(config);
 
-  const setYaxisSelections = (selections) => {
-    setAxeSelections((staleState) => {
-      return {
-        ...staleState,
-        yaxis: [...selections],
-      };
-    });
-  };
-
-  const handleLayoutConfigChange = (config) => {
-    setHjsonLayoutConfig(config);
-  };
-
-  const setVisType = (selectedVisType: string) => {
-    setAxeSelections((staleState) => {
-      return {
-        ...staleState,
-        selectedVisType: [...selectedVisType],
-      };
-    });
-  };
-
-  const handlers = {
-    setXaxisSelections: () => setXaxisSelections,
-    setYaxisSelections: () => setYaxisSelections,
-    setVisType: () => setVisType,
+  const handleConfigChange = (configSchema) => {
+    return (configChanges) => {
+      setVizConfigs((staleState) => {
+        return {
+          ...staleState,
+          [configSchema]: configChanges,
+        };
+      });
+    };
   };
 
   const dimensions = useMemo(() => {
@@ -189,9 +164,9 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         paddingTitle: schema.name,
         advancedTitle: 'advancedTitle',
         dropdownList: schema?.options?.map((option) => ({ name: option })) || fields,
-        onSelectChange: handlers[schema.onChangeHandler](),
+        onSelectChange: handleConfigChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
-        selectedAxis: axeSelections[schema.mapTo],
+        selectedAxis: vizConfigs[schema.mapTo],
       };
       return (
         <>
@@ -200,7 +175,7 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         </>
       );
     });
-  }, [vis, handlers, fields, axeSelections, curVisId]);
+  }, [vis, fields, vizConfigs, curVisId]);
 
   const tabs = useMemo(() => {
     return [
@@ -222,27 +197,13 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         content: (
           <ConfigEditor
             onConfigEditorChange={handleLayoutConfigChange}
-            spec={
-              customVizConfigs?.layout || customVizConfigs?.config
-                ? hjson.stringify(
-                    {
-                      layout: { ...customVizConfigs?.layout },
-                      config: { ...customVizConfigs?.config },
-                    },
-                    HJSON_STRINGIFY_OPTIONS
-                  )
-                : hjsonLayoutConfig
-            }
+            spec={hjsonLayoutConfig}
             setToast={setToast}
           />
         ),
       },
     ];
   }, [explorerVisualizations, curVisId, setToast, handleLayoutConfigChange]);
-
-  const onClickCollapse = () => {
-    setIsCollapsed((staleState) => !staleState);
-  };
 
   const handleDiscardConfig = () => {
     dispatch(

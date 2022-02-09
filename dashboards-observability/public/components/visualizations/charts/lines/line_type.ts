@@ -6,6 +6,7 @@
 import { Line } from './line';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartLine } from '../../assets/chart_line';
+import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -21,7 +22,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  valueSeries: 'yaxis',
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
   editorConfig: {
     editor: null,
     schemas: [
@@ -44,9 +46,33 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
+      ...{
+        colorway: PLOTLY_COLOR,
+        plot_bgcolor: 'rgba(0, 0, 0, 0)',
+        paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        xaxis: {
+          fixedrange: true,
+          showgrid: false,
+          visible: true,
+        },
+        yaxis: {
+          fixedrange: true,
+          showgrid: false,
+          visible: true,
+        },
+      },
     },
     config: {
       ...sharedConfigs.config,
+      ...{
+        barmode: 'line',
+        xaxis: {
+          automargin: true,
+        },
+        yaxis: {
+          automargin: true,
+        },
+      },
     },
   },
   component: Line,

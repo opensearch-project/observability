@@ -8,81 +8,48 @@ import { take, merge, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
-export const Histogram = ({
-  visualizations,
-  figureConfig = {},
-  layoutConfig = {},
-  dispatch,
-  customVizData = {},
-}: any) => {
+export const Histogram = ({ visualizations, layout, config }: any) => {
+  const { vis } = visualizations;
   const {
     data = {},
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data.defaultAxes;
-  const {
-    xaxis = null,
-    yaxis = null,
-    layout = {},
-    // config = {},
-  } = visualizations.data.customVizConfigs;
-  const lineLength = fields.length - 1;
-  let filteredFields =
-    defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
-      ? defaultAxes.yaxis
-      : take(fields, lineLength > 0 ? lineLength : 1);
+  const { xaxis = null, yaxis = null } = visualizations.data.customVizConfigs;
+  const lastIndex = fields.length - 1;
+  // let filteredFields =
+  //   defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
+  //     ? defaultAxes.yaxis
+  //     : take(fields, lineLength > 0 ? lineLength : 1);
+  // if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
+  //   filteredFields = fields.filter((field) => {
+  //     // if (isVertical) {
+  //     return (
+  //       field.name !== xaxis[0].label && !isEmpty(yaxis.filter((item) => item.label === field.name))
+  //     );
+  //   });
+  //   // } else {
+  // }
+
+  let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    filteredFields = fields.filter((field) => {
-      // if (isVertical) {
-      return (
-        field.name !== xaxis[0].label && !isEmpty(yaxis.filter((item) => item.label === field.name))
-      );
-    });
-    // } else {
+    valueSeries = [
+      ...visualizations?.data?.customVizConfigs[vis.seriesAxis].map((item) => ({
+        ...item,
+        name: item.label,
+      })),
+    ];
+  } else {
+    valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
-  const lineValues = take(fields, lineLength).map((field: any) => {
+  const hisValues = valueSeries.map((field: any) => {
     return {
-      // x: data[fields[lineLength].name],
-      // y: data[field.name],
-      x: data[xaxis ? xaxis[0]?.label : fields[lineLength].name],
+      x: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
       type: 'histogram',
       name: field.name,
     };
   });
 
-  const config = {
-    barmode: 'line',
-    xaxis: {
-      automargin: true,
-    },
-    yaxis: {
-      automargin: true,
-    },
-  };
-  const lineLayoutConfig = merge(config, layoutConfig);
-
-  return (
-    <Plt
-      data={lineValues}
-      layout={{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        ...lineLayoutConfig,
-      }}
-      config={figureConfig}
-      dispatch={dispatch}
-    />
-  );
+  return <Plt data={hisValues} layout={layout} config={config} />;
 };

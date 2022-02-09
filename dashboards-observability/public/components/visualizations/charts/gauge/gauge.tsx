@@ -4,40 +4,67 @@
  */
 
 import React from 'react';
+import { isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 
-export const Gauge = ({ visualizations }: any) => {
+export const Gauge = ({ visualizations, layout, config }: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { xaxis } = visualizations.data.customVizConfigs;
+  const { xaxis, yaxis } = visualizations.data.customVizConfigs;
 
-  const guageData = [
-    {
+  let guageData = xaxis || fields;
+  guageData = guageData.map((field, index) => {
+    return {
       type: 'indicator',
       mode: 'gauge+number+delta',
-      value: data[fields[0].name][0] || 0,
+      value: data[field.name][0] || 0,
       title: {
-        text: fields[0].name,
+        text: field.name,
         font: { size: 24 },
       },
       gauge: {
-        bar: { color: 'darkblue' },
-        bgcolor: 'white',
-        borderwidth: 2,
-        bordercolor: 'gray',
+        // bar: { color: 'darkblue' },
+        // bgcolor: 'white',
+        // borderwidth: 2,
+        // bordercolor: 'gray',
       },
-    },
-  ];
+      domain: { row: 0, column: index },
+    };
+  });
 
-  const layout = {
-    width: 500,
-    height: 400,
-    margin: { t: 25, r: 25, l: 25, b: 25 },
-    paper_bgcolor: 'lavender',
-    font: { color: 'darkblue', family: 'Arial' },
+  // const guageData = [
+  //   {
+  //     type: 'indicator',
+  //     mode: 'gauge+number+delta',
+  //     value: data[fields[0].name][0] || 0,
+  //     title: {
+  //       text: fields[0].name,
+  //       font: { size: 24 },
+  //     },
+  //     gauge: {
+  //       bar: { color: 'darkblue' },
+  //       bgcolor: 'white',
+  //       borderwidth: 2,
+  //       bordercolor: 'gray',
+  //     },
+  //   },
+  // ];
+
+  const guageLayout = {
+    // width: 500,
+    // height: 400,
+    // margin: { t: 25, r: 25, l: 25, b: 25 },
+    // paper_bgcolor: 'lavender',
+    // font: { color: 'darkblue', family: 'Arial' },
+    grid: { rows: 1, columns: guageData.length, pattern: 'independent' },
   };
 
-  return <Plt data={guageData} layout={layout} />;
+  const finalLayout = {
+    ...guageLayout,
+    ...layout,
+  };
+
+  return <Plt data={guageData} layout={finalLayout} config={config} />;
 };

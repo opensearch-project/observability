@@ -6,6 +6,7 @@
 import { Pie } from './pie';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartPie } from '../../assets/chart_pie';
+import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -20,7 +21,8 @@ export const createPieTypeDefinition = (params: any) => ({
   selection: {
     dataLoss: 'nothing',
   },
-  valueSeries: 'yaxis',
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
   icon: LensIconChartPie,
   editorConfig: {
     editor: null,
@@ -44,6 +46,21 @@ export const createPieTypeDefinition = (params: any) => ({
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
+      ...{
+        colorway: PLOTLY_COLOR,
+        plot_bgcolor: 'rgba(0, 0, 0, 0)',
+        paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        xaxis: {
+          fixedrange: true,
+          showgrid: false,
+          visible: true,
+        },
+        yaxis: {
+          fixedrange: true,
+          showgrid: false,
+          visible: true,
+        },
+      },
     },
     config: {
       ...sharedConfigs.config,

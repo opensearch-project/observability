@@ -25,6 +25,14 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
   editorConfig: {
     editor: null,
     schemas: [
+      // {
+      //   name: 'Value',
+      //   isSingleSelection: true,
+      //   onChangeHandler: 'setXaxisSelections',
+      //   component: null,
+      //   mapTo: 'xaxis',
+      //   options: [],
+      // },
       {
         name: 'Value',
         isSingleSelection: true,

@@ -39,7 +39,7 @@ export interface IDatePickerProps {
   setEndTime: () => void;
   setTimeRange: () => void;
   setIsOutputStale: () => void;
-  handleTimePickerChange: (timeRange: Array<string>) => any;
+  handleTimePickerChange: (timeRange: string[]) => any;
 }
 
 export const Search = (props: any) => {
@@ -110,17 +110,18 @@ export const Search = (props: any) => {
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
           />
-          <EuiBadge 
-            className={`ppl-link ${uiSettingsService.get('theme:darkMode') ? "ppl-link-dark" : "ppl-link-light"}`}
+          <EuiBadge
+            className={`ppl-link ${
+              uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+            }`}
             color="hollow"
             onClick={() => showFlyout()}
-            onClickAriaLabel={"pplLinkShowFlyout"}
+            onClickAriaLabel={'pplLinkShowFlyout'}
           >
             PPL
           </EuiBadge>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-        </EuiFlexItem>
+        <EuiFlexItem grow={false} />
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker">
           <DatePicker
             startTime={startTime}
@@ -130,7 +131,7 @@ export const Search = (props: any) => {
             setIsOutputStale={setIsOutputStale}
             liveStreamChecked={props.liveStreamChecked}
             onLiveStreamChange={props.onLiveStreamChange}
-            handleTimePickerChange={(timeRange: Array<string>) => handleTimePickerChange(timeRange)}
+            handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
             handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           />
         </EuiFlexItem>
@@ -154,7 +155,7 @@ export const Search = (props: any) => {
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
                     <EuiFlexItem grow={false}>
-                      <EuiButtonEmpty 
+                      <EuiButtonEmpty
                         size="s"
                         onClick={() => setIsSavePanelOpen(false)}
                         data-test-subj="eventExplorer__querySaveCancel"

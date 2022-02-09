@@ -32,7 +32,6 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
     schemas: [
       {
         name: 'Type',
-        onChangeHandler: 'setVisType',
         isSingleSelection: true,
         component: null,
         options: ['bar', 'group'],
@@ -41,14 +40,12 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
       {
         name: 'X-axis',
         isSingleSelection: true,
-        onChangeHandler: 'setXaxisSelections',
         component: null,
         mapTo: 'xaxis',
       },
       {
         name: 'Y-axis',
         isSingleSelection: false,
-        onChangeHandler: 'setYaxisSelections',
         component: null,
         mapTo: 'yaxis',
       },
