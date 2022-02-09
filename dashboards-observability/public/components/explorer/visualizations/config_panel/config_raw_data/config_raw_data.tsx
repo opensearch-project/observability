@@ -4,24 +4,59 @@
  */
 
 import React from 'react';
-import { EuiForm, EuiFlexGroup, EuiFlexItem, EuiPanel } from '@elastic/eui';
+import {
+  EuiForm,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPanel,
+  EuiFormRow,
+  EuiAccordion,
+} from '@elastic/eui';
+import {
+  ConfigPanelOptions,
+  ConfigChartOptions,
+  ConfigDataLinks,
+  ConfigThresholds,
+} from '../config_editor/config_controls';
 
 export const VizDataPanel = ({ dimensions }: any) => {
   return (
     <div className="visEditorSidebar__config">
-      <EuiFlexGroup
-        className="visEditorSidebar"
-        direction="column"
-        justifyContent="spaceBetween"
-        gutterSize="none"
-        responsive={false}
-      >
-        <EuiFlexItem className="visEditorSidebar__formWrapper">
-          <EuiForm className="visEditorSidebar__form">
-            <EuiPanel paddingSize="m">{dimensions}</EuiPanel>
-          </EuiForm>
-        </EuiFlexItem>
-      </EuiFlexGroup>
+      <EuiPanel>
+        <EuiForm className="visEditorSidebar__form">
+          <EuiFormRow>
+            <ConfigPanelOptions />
+          </EuiFormRow>
+          <EuiFormRow>
+            <EuiAccordion
+              id="configPanel__ValueOptions"
+              buttonContent="Value options"
+              paddingSize="s"
+            >
+              {dimensions}
+            </EuiAccordion>
+          </EuiFormRow>
+          <EuiFormRow>
+            <EuiAccordion
+              id="configPanel__chartOptions"
+              buttonContent="Chart options"
+              paddingSize="s"
+            >
+              <ConfigChartOptions />
+            </EuiAccordion>
+          </EuiFormRow>
+          <EuiFormRow>
+            <EuiAccordion id="configPanel__dataLinks" buttonContent="Data links" paddingSize="s">
+              <ConfigDataLinks />
+            </EuiAccordion>
+          </EuiFormRow>
+          <EuiFormRow>
+            <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
+              <ConfigThresholds />
+            </EuiAccordion>
+          </EuiFormRow>
+        </EuiForm>
+      </EuiPanel>
     </div>
   );
 };

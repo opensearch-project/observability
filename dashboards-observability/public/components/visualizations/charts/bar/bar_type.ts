@@ -6,7 +6,6 @@
 import { Bar } from './bar';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartBar } from '../../assets/chart_bar';
-import { ConfigPanelOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -31,12 +30,12 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
   editorConfig: {
     editor: null,
     schemas: [
-      {
-        name: 'Panel Options',
-        type: 'form',
-        component: ConfigPanelOptions,
-        mapTo: 'panelOptions',
-      },
+      // {
+      //   name: 'Panel Options',
+      //   type: 'form',
+      //   component: ConfigPanelOptions,
+      //   mapTo: 'panelOptions',
+      // },
       {
         name: 'Type',
         isSingleSelection: true,
@@ -57,6 +56,7 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
         mapTo: 'yaxis',
       },
     ],
+    chartOptions: [],
   },
   visConfig: {
     layout: {

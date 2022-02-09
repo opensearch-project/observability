@@ -28,6 +28,7 @@ import { VizDataPanel as DefaultVisEditor } from './config_raw_data/config_raw_d
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { PanelItem } from './configPanelItem';
+import { ConfigValueOptions } from './config_editor/config_controls';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {

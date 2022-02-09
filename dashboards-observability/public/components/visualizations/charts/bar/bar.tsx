@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { isEmpty, take } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
