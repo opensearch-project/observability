@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-dist';
 import { uiSettingsService } from '../../../../common/utils';
@@ -66,24 +66,6 @@ export function Plt(props: PltProps) {
     displayModeBar: false,
     ...props.config,
   };
-
-  useEffect(() => {
-    if (props.dispatch) {
-      // props.dispatch({
-      //   // layout: { ...finalLayout },
-      //   // config: { ...finalConfig },
-      //   data: [...props.data],
-      // });
-    }
-    console.log(
-      'props.data: ',
-      props.data,
-      ', finalConfig: ',
-      finalConfig,
-      ', finalLayout: ',
-      finalLayout
-    );
-  }, []);
 
   return (
     <PlotComponent

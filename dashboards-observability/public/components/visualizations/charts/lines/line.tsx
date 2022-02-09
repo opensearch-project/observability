@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
-import { take, merge, isEmpty } from 'lodash';
+import React from 'react';
+import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
