@@ -109,21 +109,16 @@ export const onItemSelect = async (
 // Function to create the array of objects to be suggested
 const fillSuggestions = (str: string, word: string, items: any): AutocompleteItem[] => {
   const lowerWord = word.toLowerCase();
-  const filteredList = items.filter(
-    (item: { label: string }) =>
-      item.label.toLowerCase().startsWith(lowerWord) &&
-      lowerWord.localeCompare(item.label.toLowerCase())
-  );
   const suggestionList = [];
-  for (let i = 0; i < filteredList.length; i++) {
+  for (let i = 0; i < items.length; i++) {
     suggestionList.push({
-      label: str.substring(0, str.lastIndexOf(word)) + filteredList[i].label,
+      label: str.substring(0, str.lastIndexOf(word)) + items[i].label,
       input: str,
-      suggestion: filteredList[i].label.substring(word.length),
-      itemName: filteredList[i].label,
+      suggestion: items[i].label.substring(word.length),
+      itemName: items[i].label,
     });
   }
-  return suggestionList;
+  return filterSuggestions(suggestionList, lowerWord);
 };
 
 // Function for the first command in query, also needs to get available indices
@@ -132,6 +127,14 @@ const getFirstPipe = async (str: string, dslService: DSLService): Promise<Autoco
   const prefix = splittedModel[splittedModel.length - 1];
   getIndices(dslService);
   return fillSuggestions(str, prefix, firstCommand);
+};
+
+// Function to filter out currently inputed suggestions
+const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
+  return suggestions.filter(
+    ({ label }) =>
+      label.toLowerCase().startsWith(prefix) && prefix.localeCompare(label.toLowerCase())
+  );
 };
 
 // Main logic behind autocomplete (Based on most recent inputs)
@@ -150,6 +153,7 @@ export const getSuggestions = async (
     currIndex = '';
     return getFirstPipe(str, dslService);
   } else if (splittedModel.length > 1) {
+    // Suggest commands after pipe
     if (splittedModel[splittedModel.length - 2] === '|') {
       inFieldsCommaLoop = false;
       inMatch = false;
@@ -159,30 +163,34 @@ export const getSuggestions = async (
       currFieldType = '';
       return fillSuggestions(str, prefix, pipeCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
+      // Suggest more fields if in fields command
       if (inFieldsCommaLoop) {
         return fillSuggestions(str, prefix, fieldsFromBackend);
       }
+      // Suggest data values if in match command
       if (inMatch) {
         inMatch = true;
         return fillSuggestions(str, prefix, dataValuesFromBackend);
       }
       return fullSuggestions;
+      // Suggest = after source
     } else if (splittedModel[splittedModel.length - 2] === 'source') {
-      return [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }].filter(
-        ({ label }) =>
-          label.toLowerCase().startsWith(lowerPrefix) &&
-          lowerPrefix.localeCompare(label.toLowerCase())
+      return filterSuggestions(
+        [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }],
+        lowerPrefix
       );
+      // Suggest indices after source =
     } else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
       return fillSuggestions(str, prefix, indicesFromBackend);
+      // Suggest pipe after setting source
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
       currIndex = splittedModel[splittedModel.length - 2];
       getFields(dslService);
-      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) =>
-          label.toLowerCase().startsWith(lowerPrefix) &&
-          lowerPrefix.localeCompare(label.toLowerCase())
+      return filterSuggestions(
+        [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
+        lowerPrefix
       );
+      // Suggest stats commands after stats
     } else if (splittedModel[splittedModel.length - 2] === 'stats') {
       nextStats = splittedModel.length;
       return fillSuggestions(str, prefix, statsCommands);
@@ -190,25 +198,23 @@ export const getSuggestions = async (
       if (
         statsCommands.filter((c) => c.label === splittedModel[splittedModel.length - 2]).length > 0
       ) {
+        // Suggest by after count()
         if (splittedModel[splittedModel.length - 2] === 'count()') {
-          return [
-            {
-              label: str + 'by',
-              input: str,
-              suggestion: 'by'.substring(prefix.length),
-              itemName: 'by',
-            },
-          ].filter(
-            ({ label }) =>
-              label.toLowerCase().startsWith(lowerPrefix) &&
-              lowerPrefix.localeCompare(label.toLowerCase())
+          return filterSuggestions(
+            [
+              {
+                label: str + 'by',
+                input: str,
+                suggestion: 'by'.substring(prefix.length),
+                itemName: 'by',
+              },
+            ],
+            lowerPrefix
           );
+          // Suggest fields with number type after other stats commands
         } else {
-          const numberFields = fieldsFromBackend.filter(
-            (field: { label: string; type: string }) =>
-              field.label.toLowerCase().startsWith(lowerPrefix) &&
-              lowerPrefix.localeCompare(field.label.toLowerCase()) &&
-              numberTypes.includes(field.type)
+          const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
+            numberTypes.includes(field.type)
           );
           for (let i = 0; i < numberFields.length; i++) {
             const field: { label: string } = numberFields[i];
@@ -219,49 +225,56 @@ export const getSuggestions = async (
               itemName: field.label + ' )',
             });
           }
-          return fullSuggestions;
+          return filterSuggestions(fullSuggestions, lowerPrefix);
         }
       }
+      // Suggest fields after count() by
     } else if (
       nextStats === splittedModel.length - 2 &&
       splittedModel[splittedModel.length - 3] === 'count()'
     ) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
     } else if (nextStats === splittedModel.length - 3) {
+      // Suggest pipe after count() by [field]
       if (splittedModel[splittedModel.length - 3] === 'by') {
-        return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-          ({ label }) =>
-            label.toLowerCase().startsWith(lowerPrefix) &&
-            lowerPrefix.localeCompare(label.toLowerCase())
+        return filterSuggestions(
+          [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
+          lowerPrefix
         );
+        // Suggest by and pipe after stats command for grouping or to start new command
       } else {
-        return [
-          {
-            label: str + 'by',
-            input: str,
-            suggestion: 'by'.substring(prefix.length),
-            itemName: 'by',
-          },
-          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-        ].filter(
-          ({ label }) =>
-            label.toLowerCase().startsWith(lowerPrefix) &&
-            lowerPrefix.localeCompare(label.toLowerCase())
+        return filterSuggestions(
+          [
+            {
+              label: str + 'by',
+              input: str,
+              suggestion: 'by'.substring(prefix.length),
+              itemName: 'by',
+            },
+            { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+          ],
+          lowerPrefix
         );
       }
+      // Suggest fields after stats command for grouping
     } else if (nextStats === splittedModel.length - 4) {
       return fillSuggestions(str, prefix, fieldsFromBackend);
+      // Suggest fields after fields
     } else if (splittedModel[splittedModel.length - 2] === 'fields') {
       inFieldsCommaLoop = true;
       return fillSuggestions(str, prefix, fieldsFromBackend);
+      // Suggest fields after dedup
     } else if (splittedModel[splittedModel.length - 2] === 'dedup') {
       return fillSuggestions(str, prefix, fieldsFromBackend);
+      // Suggest 'match(' or fields after where
     } else if (splittedModel[splittedModel.length - 2] === 'where') {
       nextWhere = splittedModel.length;
       return fillSuggestions(str, prefix, [{ label: 'match(' }, ...fieldsFromBackend]);
+      // Suggest fields after match(
     } else if (splittedModel[splittedModel.length - 2] === 'match(') {
       inMatch = true;
       return fillSuggestions(str, prefix, fieldsFromBackend);
+      // Suggest = after where [field]
     } else if (nextWhere === splittedModel.length - 1) {
       fullSuggestions.push({
         label: str + '=',
@@ -275,48 +288,49 @@ export const getSuggestions = async (
           (field: { label: string; type: string }) => field.label === currField
         )?.type || '';
       await getDataValues(currIndex, currField, currFieldType, dslService);
-      return fullSuggestions.filter(
-        (suggestion: { label: string }) =>
-          suggestion.label.toLowerCase().startsWith(lowerPrefix) &&
-          lowerPrefix.localeCompare(suggestion.label.toLowerCase())
-      );
+      return filterSuggestions(fullSuggestions, lowerPrefix);
+      // Suggest , after match([field]
     } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
       await getDataValues(currIndex, currField, currFieldType, dslService);
-      return [{ label: str + ',', input: str, suggestion: ',', itemName: ',' }].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+      return filterSuggestions(
+        [{ label: str + ',', input: str, suggestion: ',', itemName: ',' }],
+        lowerPrefix
       );
+      // Suggest data values after where [field] =
     } else if (nextWhere === splittedModel.length - 2) {
       return fillSuggestions(str, prefix, dataValuesFromBackend);
+      // Suggest pipe after where or stats command is finished
     } else if (
       nextWhere === splittedModel.length - 3 ||
       nextStats === splittedModel.length - 5 ||
       nextWhere === splittedModel.length - 5
     ) {
-      return [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }].filter(
-        ({ label }) =>
-          label.toLowerCase().startsWith(lowerPrefix) &&
-          lowerPrefix.localeCompare(label.toLowerCase())
+      return filterSuggestions(
+        [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
+        lowerPrefix
       );
+      // Suggest , after first field in fields command
     } else if (inFieldsCommaLoop) {
-      return [
-        {
-          label: str.substring(0, str.length - 1) + ',',
-          input: str.substring(0, str.length - 1),
-          suggestion: ',',
-          itemName: ',',
-        },
-        { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-      ].filter(
-        ({ label }) =>
-          label.toLowerCase().startsWith(lowerPrefix) &&
-          lowerPrefix.localeCompare(label.toLowerCase())
+      return filterSuggestions(
+        [
+          {
+            label: str.substring(0, str.length - 1) + ',',
+            input: str.substring(0, str.length - 1),
+            suggestion: ',',
+            itemName: ',',
+          },
+          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+        ],
+        lowerPrefix
       );
+      // Suggest ) after match([field], [data])
     } else if (inMatch) {
       inMatch = false;
-      return [{ label: str + ')', input: str, suggestion: ')', itemName: ')' }].filter(
-        ({ suggestion }) => suggestion.startsWith(prefix) && prefix !== suggestion
+      return filterSuggestions(
+        [{ label: str + ')', input: str, suggestion: ')', itemName: ')' }],
+        lowerPrefix
       );
     }
     return [];
