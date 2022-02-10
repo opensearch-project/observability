@@ -6,13 +6,15 @@
 import React, { useState } from 'react';
 import { i18n } from '@osd/i18n';
 import { isEqual } from 'lodash';
-import { 
+import {
   EuiPopover,
   EuiButtonIcon,
   EuiToolTip,
   EuiButton,
   EuiMark,
-  EuiLoadingSpinner
+  EuiLoadingSpinner,
+  EuiPopoverTitle,
+  EuiPanel,
 } from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
@@ -22,7 +24,7 @@ interface IFieldProps {
   field: IField;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
-  handleOverrideTimestamp: (timestamp: { name: string, type: string }) => void;
+  handleOverrideTimestamp: (timestamp: { name: string; type: string }) => void;
   selected: boolean;
   showToggleButton: boolean;
   showTimestampOverrideButton: boolean;
@@ -31,7 +33,6 @@ interface IFieldProps {
 }
 
 export const Field = (props: IFieldProps) => {
-
   const {
     field,
     selectedTimestamp,
@@ -40,27 +41,23 @@ export const Field = (props: IFieldProps) => {
     selected,
     isFieldToggleButtonDisabled = false,
     showTimestampOverrideButton = true,
-    onToggleField
+    onToggleField,
   } = props;
 
   const [isFieldDetailsOpen, setIsFieldDetailsOpen] = useState(false);
 
-  const addLabelAria = i18n.translate(
-    'addButtonAriaLabel', {
+  const addLabelAria = i18n.translate('addButtonAriaLabel', {
     defaultMessage: 'Add {field} to table',
     values: { field: field.name },
   });
-  const removeLabelAria = i18n.translate(
-    'removeButtonAriaLabel',
-    {
-      defaultMessage: 'Remove {field} from table',
-      values: { field: field.name },
-    }
-  );
+  const removeLabelAria = i18n.translate('removeButtonAriaLabel', {
+    defaultMessage: 'Remove {field} from table',
+    values: { field: field.name },
+  });
 
   const togglePopover = () => {
-    setIsFieldDetailsOpen(!isFieldDetailsOpen);
-  }
+    setIsFieldDetailsOpen((staleState) => !staleState);
+  };
 
   const toggleField = (field: IField) => {
     onToggleField(field);
@@ -69,54 +66,54 @@ export const Field = (props: IFieldProps) => {
   const getFieldActionDOM = () => {
     return (
       <>
-        <EuiToolTip
-          id="override-timestamp"
-          delay="long"
-          content="Override default timestamp"
-        >
+        <EuiToolTip id="override-timestamp" delay="long" content="Override default timestamp">
           <>
-            { showTimestampOverrideButton && isEqual(field.type, 'timestamp') ?
-              isEqual(selectedTimestamp, field.name) ? 
-              <EuiMark>Default Timestamp</EuiMark> :
-              isOverridingTimestamp ? 
-              <EuiLoadingSpinner className="override_timestamp_loading" size='m' /> :
-              <EuiButtonIcon
-                aria-labelledby="override_timestamp"
-                className="dscSidebarItem__action"
-                size="s"
-                color="text"
-                iconType="inputOutput"
-                onClick={() => handleOverrideTimestamp(field)}
-                data-test-subj="eventExplorer__overrideDefaultTimestamp"
-              >
-                Override
-              </EuiButtonIcon> : null
-            }
+            {showTimestampOverrideButton && isEqual(field.type, 'timestamp') ? (
+              isEqual(selectedTimestamp, field.name) ? (
+                <EuiMark>Default Timestamp</EuiMark>
+              ) : isOverridingTimestamp ? (
+                <EuiLoadingSpinner className="override_timestamp_loading" size="m" />
+              ) : (
+                <EuiButtonIcon
+                  aria-labelledby="override_timestamp"
+                  className="dscSidebarItem__action"
+                  size="s"
+                  color="text"
+                  iconType="inputOutput"
+                  onClick={() => handleOverrideTimestamp(field)}
+                  data-test-subj="eventExplorer__overrideDefaultTimestamp"
+                >
+                  Override
+                </EuiButtonIcon>
+              )
+            ) : null}
           </>
         </EuiToolTip>
         <EuiToolTip
           delay="long"
           content={
-            isFieldToggleButtonDisabled ? "Toggle button is disabled on query contains 'stats' or no hits for the search" :
-            selected ? "Remove field from table" : "Add field as column"
+            isFieldToggleButtonDisabled
+              ? "Toggle button is disabled on query contains 'stats' or no hits for the search"
+              : selected
+              ? 'Remove field from table'
+              : 'Add field as column'
           }
         >
           <>
-          {
-            isFieldToggleButtonDisabled ? (
+            {isFieldToggleButtonDisabled ? (
               <EuiButtonIcon
                 className="dscSidebarItem__action"
                 color="ghost"
                 display="fill"
                 isDisabled
-                iconType={ selected ? "cross": "plusInCircleFilled" }
+                iconType={selected ? 'cross' : 'plusInCircleFilled'}
                 data-test-subj={`fieldToggle-${field.name}`}
-                aria-label={ selected ? removeLabelAria : addLabelAria }
+                aria-label={selected ? removeLabelAria : addLabelAria}
               />
             ) : (
               <EuiButtonIcon
-                color={ selected ? "danger" : "primary" }
-                iconType={ selected ? "cross": "plusInCircleFilled" }
+                color={selected ? 'danger' : 'primary'}
+                iconType={selected ? 'cross' : 'plusInCircleFilled'}
                 className="dscSidebarItem__action"
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   if (e.type === 'click') {
@@ -127,12 +124,11 @@ export const Field = (props: IFieldProps) => {
                   toggleField(field);
                 }}
                 data-test-subj={`fieldToggle-${field.name}`}
-                aria-label={ selected ? removeLabelAria : addLabelAria }
+                aria-label={selected ? removeLabelAria : addLabelAria}
               />
-            )
-          }
+            )}
           </>
-      </EuiToolTip>
+        </EuiToolTip>
       </>
     );
   };
@@ -141,33 +137,33 @@ export const Field = (props: IFieldProps) => {
     <EuiPopover
       ownFocus
       display="block"
-      isOpen={ isFieldDetailsOpen }
-      closePopover={ () => togglePopover }
+      isOpen={isFieldDetailsOpen}
+      closePopover={() => togglePopover}
       anchorPosition="rightUp"
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
-        <FieldButton 
+        <FieldButton
           size="s"
           className="dscSidebarItem"
-          isActive={ isFieldDetailsOpen }
+          isActive={isFieldDetailsOpen}
           dataTestSubj={`field-${field.name}-showDetails`}
-          fieldIcon={<FieldIcon
-                      type={isEqual(field.type, 'timestamp') ? 'date' : field.type}
-                    />}
-          fieldName={ <span
-                        data-test-subj={`field-${field.name}`}
-                        title={field.name}
-                        className="dscSidebarField__name"
-                      >
-                        { field.name }
-                      </span> 
-                    }
-          fieldAction={ getFieldActionDOM() }
-          onClick={() => {}}
+          fieldIcon={<FieldIcon type={isEqual(field.type, 'timestamp') ? 'date' : field.type} />}
+          fieldName={
+            <span
+              data-test-subj={`field-${field.name}`}
+              title={field.name}
+              className="dscSidebarField__name"
+            >
+              {field.name}
+            </span>
+          }
+          fieldAction={getFieldActionDOM()}
+          onClick={togglePopover}
         />
       }
     >
-      details
+      <EuiPopoverTitle>{field.name}</EuiPopoverTitle>
+      top 5 values
     </EuiPopover>
   );
 };
