@@ -37,7 +37,12 @@ export const ExplorerVisualizations = ({
           <EuiResizableButton />
 
           <EuiResizablePanel initialSize={30} minSize="200px">
-            <ConfigPanel vizVectors={explorerVis} visualizations={visualizations} />
+            <ConfigPanel
+              vizVectors={explorerVis}
+              visualizations={visualizations}
+              curVisId={curVisId}
+              setCurVisId={setCurVisId}
+            />
           </EuiResizablePanel>
         </>
       )}

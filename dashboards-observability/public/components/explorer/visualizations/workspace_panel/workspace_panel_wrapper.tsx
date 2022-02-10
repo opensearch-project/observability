@@ -14,6 +14,7 @@ import {
   EuiPageContentHeader,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiSpacer,
 } from '@elastic/eui';
 import { ChartSwitch } from './chart_switch';
 
@@ -27,7 +28,7 @@ export function WorkspacePanelWrapper({
 }: any) {
   return (
     <>
-      <div>
+      {/* <div>
         <EuiFlexGroup
           gutterSize="m"
           direction="row"
@@ -45,7 +46,8 @@ export function WorkspacePanelWrapper({
             />
           </EuiFlexItem>
         </EuiFlexGroup>
-      </div>
+      </div> */}
+      <EuiSpacer size="s" />
       <EuiPageContent className="lnsWorkspacePanelWrapper">
         {(!emptyExpression || title) && (
           <EuiPageContentHeader

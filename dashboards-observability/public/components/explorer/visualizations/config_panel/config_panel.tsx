@@ -6,7 +6,7 @@
 import './config_panel.scss';
 
 import React, { useContext, useMemo, useState, useEffect, useCallback } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, find } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
 import { batch, useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,9 @@ import {
   EuiFlexItem,
   EuiButtonIcon,
   EuiSpacer,
+  EuiComboBox,
+  EuiPanel,
+  EuiIcon,
 } from '@elastic/eui';
 import {
   selectVisualizationConfig,
@@ -29,6 +32,7 @@ import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { PanelItem } from './configPanelItem';
 import { ConfigValueOptions } from './config_editor/config_controls';
+import { getVisType } from '../../../visualizations/charts/vis_types';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -54,7 +58,19 @@ const HJSON_STRINGIFY_OPTIONS = {
   bracesSameLine: true,
 };
 
-export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
+const ENABLED_VIS_TYPES = [
+  'bar',
+  'horizontal_bar',
+  'line',
+  'pie',
+  'histogram',
+  'data_table',
+  'guage',
+  // 'bubble',
+  'heatmap',
+];
+
+export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) => {
   const {
     tabId,
     curVisId,
@@ -214,6 +230,35 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
     );
   };
 
+  const memorizedVisualizationTypes = useMemo(() => {
+    return ENABLED_VIS_TYPES.map((vs: any) => {
+      const visDefinition = getVisType(vs);
+      return {
+        ...visDefinition,
+      };
+    });
+  }, []);
+
+  const vizSelectableItemRenderer = (option, searchValue, contentClassName) => {
+    const { icon, label } = option;
+    return (
+      <div className="configPanel__vizSelector-item">
+        <EuiIcon className="lnsChartSwitch__chartIcon" type={icon || 'empty'} size="m" />
+        &nbsp;&nbsp;
+        <span>{label}</span>
+      </div>
+    );
+  };
+
+  const getSelectedVisDById = useCallback(
+    (visId) => {
+      return find(memorizedVisualizationTypes, (v) => {
+        return v.id === visId;
+      });
+    },
+    [memorizedVisualizationTypes]
+  );
+
   return (
     <>
       <EuiFlexGroup
@@ -224,12 +269,34 @@ export const ConfigPanel = ({ vizVectors, visualizations }: any) => {
         responsive={false}
       >
         <EuiFlexItem>
-          <EuiTabbedContent
-            id="vis-config-tabs"
-            tabs={tabs}
-            initialSelectedTab={tabs[0]}
-            autoFocus="selected"
-          />
+          <EuiSpacer size="s" />
+          <EuiPanel paddingSize="s">
+            <EuiComboBox
+              aria-label="config chart selector"
+              placeholder="Select a chart"
+              options={memorizedVisualizationTypes}
+              selectedOptions={[getSelectedVisDById(curVisId)]}
+              singleSelection
+              onChange={(visType) => {
+                setCurVisId(visType[0].id);
+              }}
+              fullWidth
+              compressed
+              // onCreateOption={onCreateOption}
+              renderOption={vizSelectableItemRenderer}
+            />
+          </EuiPanel>
+          <EuiSpacer size="xs" />
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiPanel paddingSize="s">
+            <EuiTabbedContent
+              id="vis-config-tabs"
+              tabs={tabs}
+              initialSelectedTab={tabs[0]}
+              autoFocus="selected"
+            />
+          </EuiPanel>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <DefaultEditorControls

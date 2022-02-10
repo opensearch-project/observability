@@ -11,7 +11,7 @@ const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
-  name: 'Guage',
+  name: 'Gauge',
   type: 'indicator',
   id: 'guage',
   label: 'Guage',

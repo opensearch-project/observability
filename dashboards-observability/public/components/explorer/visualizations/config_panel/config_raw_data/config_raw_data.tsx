@@ -22,41 +22,39 @@ import {
 export const VizDataPanel = ({ dimensions }: any) => {
   return (
     <div className="visEditorSidebar__config">
-      <EuiPanel>
-        <EuiForm className="visEditorSidebar__form">
-          <EuiFormRow>
-            <ConfigPanelOptions />
-          </EuiFormRow>
-          <EuiFormRow>
-            <EuiAccordion
-              id="configPanel__ValueOptions"
-              buttonContent="Value options"
-              paddingSize="s"
-            >
-              {dimensions}
-            </EuiAccordion>
-          </EuiFormRow>
-          <EuiFormRow>
-            <EuiAccordion
-              id="configPanel__chartOptions"
-              buttonContent="Chart options"
-              paddingSize="s"
-            >
-              <ConfigChartOptions />
-            </EuiAccordion>
-          </EuiFormRow>
-          <EuiFormRow>
-            <EuiAccordion id="configPanel__dataLinks" buttonContent="Data links" paddingSize="s">
-              <ConfigDataLinks />
-            </EuiAccordion>
-          </EuiFormRow>
-          <EuiFormRow>
-            <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
-              <ConfigThresholds />
-            </EuiAccordion>
-          </EuiFormRow>
-        </EuiForm>
-      </EuiPanel>
+      <EuiForm className="visEditorSidebar__form">
+        <EuiFormRow>
+          <ConfigPanelOptions />
+        </EuiFormRow>
+        <EuiFormRow>
+          <EuiAccordion
+            id="configPanel__ValueOptions"
+            buttonContent="Value options"
+            paddingSize="s"
+          >
+            {dimensions}
+          </EuiAccordion>
+        </EuiFormRow>
+        <EuiFormRow>
+          <EuiAccordion
+            id="configPanel__chartOptions"
+            buttonContent="Chart options"
+            paddingSize="s"
+          >
+            <ConfigChartOptions />
+          </EuiAccordion>
+        </EuiFormRow>
+        <EuiFormRow>
+          <EuiAccordion id="configPanel__dataLinks" buttonContent="Data links" paddingSize="s">
+            <ConfigDataLinks />
+          </EuiAccordion>
+        </EuiFormRow>
+        <EuiFormRow>
+          <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
+            <ConfigThresholds />
+          </EuiAccordion>
+        </EuiFormRow>
+      </EuiForm>
     </div>
   );
 };
