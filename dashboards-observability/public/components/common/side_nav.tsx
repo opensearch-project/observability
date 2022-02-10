@@ -84,9 +84,9 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
           href: '#/notebooks',
         },
         {
-          name: 'Uptime',
+          name: 'Synthetics',
           id: 5,
-          href: '#/uptime',
+          href: '#/synthetics',
         },
       ],
     },
