@@ -270,22 +270,19 @@ export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) =>
       >
         <EuiFlexItem>
           <EuiSpacer size="s" />
-          <EuiPanel paddingSize="s">
-            <EuiComboBox
-              aria-label="config chart selector"
-              placeholder="Select a chart"
-              options={memorizedVisualizationTypes}
-              selectedOptions={[getSelectedVisDById(curVisId)]}
-              singleSelection
-              onChange={(visType) => {
-                setCurVisId(visType[0].id);
-              }}
-              fullWidth
-              compressed
-              // onCreateOption={onCreateOption}
-              renderOption={vizSelectableItemRenderer}
-            />
-          </EuiPanel>
+          <EuiComboBox
+            aria-label="config chart selector"
+            placeholder="Select a chart"
+            options={memorizedVisualizationTypes}
+            selectedOptions={[getSelectedVisDById(curVisId)]}
+            singleSelection
+            onChange={(visType) => {
+              setCurVisId(visType[0].id);
+            }}
+            fullWidth
+            // onCreateOption={onCreateOption}
+            renderOption={vizSelectableItemRenderer}
+          />
           <EuiSpacer size="xs" />
         </EuiFlexItem>
         <EuiFlexItem>

@@ -5,6 +5,7 @@
 
 import React, { useState, useMemo, useContext, useCallback } from 'react';
 import { find } from 'lodash';
+import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 import { TabContext } from '../../hooks';
 import { change as changeVisualizationConfig } from '../../slices/viualization_config_slice';
@@ -25,8 +26,28 @@ const ENABLED_VIS_TYPES = [
   'histogram',
   'data_table',
   'guage',
-  // 'bubble',
   'heatmap',
+  // 'timeseries',
+  // 'logs',
+  // 'stat',
+  // 'state_timeline',
+  // 'status_history',
+  // 'graph',
+  // 'text',
+  // 'alert_list',
+  // 'dashboard_list',
+  // 'news',
+  // 'flowcharting',
+  // 'annotation_list',
+  // 'candle_stick',
+  // 'geomap',
+  // 'clock',
+  // 'treemap',
+  // 'discreet',
+  // 'node_graph',
+  // 'plugin_list',
+  // 'world_map_panel',
+  // 'poly_stat',
 ];
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
@@ -66,23 +87,44 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
   );
 
   const VisualizationPanel = useMemo(() => {
-    console.log('visualizations before passed in: ', visualizations);
     return <Visualization visualizations={visualizations} />;
   }, [curVisId, visualizations, handleDispatch, getVisDefById]);
 
   return (
-    <WorkspacePanelWrapper
-      title={''}
-      emptyExpression={true}
-      setVis={setCurVisId}
-      vis={getVisDefById(curVisId)}
-      visualizationTypes={memorizedVisualizationTypes}
-      handleSavePanelNameChange={(name: string) => {
-        setSavePanelName(name);
-      }}
-      savePanelName={savePanelName}
-    >
-      {VisualizationPanel}
-    </WorkspacePanelWrapper>
+    <>
+      <EuiFlexGroup
+        className="visEditorSidebar"
+        direction="column"
+        justifyContent="spaceBetween"
+        gutterSize="none"
+        responsive={false}
+      >
+        <EuiFlexItem>
+          <EuiSpacer size="s" />
+          <EuiFlexGroup
+            className="visEditorSidebar"
+            direction="rowReverse"
+            gutterSize="none"
+            responsive={false}
+          >
+            <EuiFlexItem grow={false}>
+              <EuiPanel paddingSize="s">
+                <EuiSwitch
+                  label={'Table view'}
+                  checked={false}
+                  onChange={() => {}}
+                  aria-describedby={'table view switcher'}
+                  compressed
+                />
+              </EuiPanel>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+          <EuiSpacer size="s" />
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiPanel paddingSize="s">{VisualizationPanel}</EuiPanel>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </>
   );
 }
