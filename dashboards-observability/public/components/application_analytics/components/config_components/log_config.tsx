@@ -75,7 +75,7 @@ export const LogConfig = (props: LogConfigProps) => {
         buttonContent={
           <>
             <EuiText size="s">
-              <h3>Log Source</h3>
+              <h3>Log source</h3>
             </EuiText>
             <EuiSpacer size="s" />
             <EuiText size="s" color="subdued">
