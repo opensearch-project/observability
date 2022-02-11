@@ -281,9 +281,11 @@ exports[`Log Config component renders empty log config 1`] = `
                                 "http": [MockFunction],
                               }
                             }
+                            getSuggestions={[Function]}
                             handleQueryChange={[Function]}
                             handleQuerySearch={[Function]}
                             key="autocomplete-bar"
+                            onItemSelect={[Function]}
                             query=""
                             tempQuery=""
                           >
@@ -682,9 +684,11 @@ exports[`Log Config component renders with query 1`] = `
                                 "http": [MockFunction],
                               }
                             }
+                            getSuggestions={[Function]}
                             handleQueryChange={[Function]}
                             handleQuerySearch={[Function]}
                             key="autocomplete-bar"
+                            onItemSelect={[Function]}
                             query="source = openserach_dashboard_sample_logs"
                             tempQuery=""
                           >

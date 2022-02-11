@@ -59,6 +59,11 @@ import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
+import {
+  getFullSuggestions,
+  getSuggestionsAfterSource,
+  onItemSelect,
+} from '../common/search/autocomplete_logic';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -86,11 +91,11 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const { isEventsLoading, getEvents, getAvailableFields } = useFetchEvents({
+  const { getEvents, getAvailableFields } = useFetchEvents({
     pplService,
     requestParams,
   });
-  const { isVisLoading, getVisualizations, getCountVisualizations } = useFetchVisualizations({
+  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({
     pplService,
     requestParams,
   });
@@ -111,6 +116,8 @@ export const Explorer = ({
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
+
+  const fromAppAnalytics = tabId === 'application-analytics-tab';
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -352,7 +359,7 @@ export const Explorer = ({
     toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
   const handleTimePickerChange = async (timeRange: string[]) => {
-    if (tabId === 'application-analytics-tab') {
+    if (fromAppAnalytics) {
       setStartTime(timeRange[0]);
       setEndTime(timeRange[1]);
     } else {
@@ -835,7 +842,7 @@ export const Explorer = ({
                 })
               );
             });
-            if (tabId === 'application-analytics-tab') {
+            if (fromAppAnalytics) {
               addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
             } else {
               history.replace(`/event_analytics/explorer/${res.objectId}`);
@@ -885,7 +892,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={query[RAW_QUERY]}
+        query={fromAppAnalytics ? appBaseQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -904,6 +911,8 @@ export const Explorer = ({
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
         selectedSubTabId={selectedContentTabId}
         searchBarConfigs={searchBarConfigs}
+        getSuggestions={fromAppAnalytics ? getSuggestionsAfterSource : getFullSuggestions}
+        onItemSelect={onItemSelect}
         tabId={tabId}
         baseQuery={appBaseQuery}
       />

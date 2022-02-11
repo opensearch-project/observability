@@ -67,6 +67,8 @@ export const Search = (props: any) => {
     handleTimeRangePickerRefresh,
     selectedSubTabId,
     searchBarConfigs = {},
+    getSuggestions,
+    onItemSelect,
     tabId,
     baseQuery,
   } = props;
@@ -122,6 +124,8 @@ export const Search = (props: any) => {
             handleQueryChange={handleQueryChange}
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
+            getSuggestions={getSuggestions}
+            onItemSelect={onItemSelect}
           />
           <EuiBadge
             className={`ppl-link ${
