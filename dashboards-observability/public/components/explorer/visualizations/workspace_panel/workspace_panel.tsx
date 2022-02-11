@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useContext, useCallback } from 'react';
+import React, { useState, useMemo, useContext, useCallback, useEffect } from 'react';
 import { find } from 'lodash';
 import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
@@ -52,7 +52,15 @@ const ENABLED_VIS_TYPES = [
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
   const { tabId, dispatch } = useContext(TabContext);
-  const [savePanelName, setSavePanelName] = useState<string>('');
+  const [tableViewState, setIsOnTableView] = useState({
+    isTableViewOn: false,
+    lastVizId: 'bar',
+  });
+
+  useEffect(() => {
+    if (tableViewState.isTableViewOn) setCurVisId('data_table');
+    else setCurVisId(tableViewState.lastVizId);
+  }, [tableViewState.isTableViewOn]);
 
   const handleDispatch = useCallback(
     (evtData) => {
@@ -88,7 +96,7 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
 
   const VisualizationPanel = useMemo(() => {
     return <Visualization visualizations={visualizations} />;
-  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
+  }, [curVisId, visualizations, handleDispatch, getVisDefById, tableViewState.isTableViewOn]);
 
   return (
     <>
@@ -110,9 +118,14 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
             <EuiFlexItem grow={false}>
               <EuiPanel paddingSize="s">
                 <EuiSwitch
-                  label={'Table view'}
-                  checked={false}
-                  onChange={() => {}}
+                  label="Table view"
+                  checked={tableViewState.isTableViewOn}
+                  onChange={() => {
+                    setIsOnTableView((staleState) => ({
+                      ...staleState,
+                      isTableViewOn: !staleState.isTableViewOn,
+                    }));
+                  }}
                   aria-describedby={'table view switcher'}
                   compressed
                 />
