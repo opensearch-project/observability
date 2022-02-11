@@ -326,7 +326,7 @@ export function Application(props: AppDetailProps) {
   };
 
   const getConfig = () => {
-    return <Configuration />;
+    return <Configuration application={application} />;
   };
 
   function getAppAnalyticsTab({
