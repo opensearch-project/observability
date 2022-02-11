@@ -297,6 +297,7 @@ export function Application(props: AppDetailProps) {
         endTime={endTime}
         setStartTime={setStartTime}
         setEndTime={setEndTime}
+        appBaseQuery={application.baseQuery}
       />
     );
   };
@@ -321,8 +322,13 @@ export function Application(props: AppDetailProps) {
         endTime={endTime}
         setStartTime={setStartTime}
         setEndTime={setEndTime}
+        switchToEvent={switchToEvent}
       />
     );
+  };
+
+  const switchToEvent = () => {
+    setSelectedTab(TAB_LOG_ID);
   };
 
   const getConfig = () => {
