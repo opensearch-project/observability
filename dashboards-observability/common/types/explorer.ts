@@ -107,4 +107,5 @@ export interface IExplorerProps {
   endTime?: string;
   setStartTime?: any;
   setEndTime?: any;
+  appBaseQuery: string;
 }
