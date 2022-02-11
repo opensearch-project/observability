@@ -82,7 +82,7 @@ export const Explorer = ({
   savedObjectId,
   searchBarConfigs,
   appId = '',
-  baseQuery = '',
+  appBaseQuery = '',
   addVisualizationToPanel,
   startTime,
   endTime,
@@ -892,7 +892,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={fromAppAnalytics ? baseQuery : query[RAW_QUERY]}
+        query={fromAppAnalytics ? appBaseQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -913,6 +913,8 @@ export const Explorer = ({
         searchBarConfigs={searchBarConfigs}
         getSuggestions={fromAppAnalytics ? getSuggestionsAfterSource : getFullSuggestions}
         onItemSelect={onItemSelect}
+        tabId={tabId}
+        baseQuery={appBaseQuery}
       />
       <EuiTabbedContent
         className="mainContentTabs"
