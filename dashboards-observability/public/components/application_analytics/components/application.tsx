@@ -292,6 +292,7 @@ export function Application(props: AppDetailProps) {
         http={http}
         searchBarConfigs={searchBarConfigs}
         appId={appId}
+        baseQuery={application.baseQuery}
         addVisualizationToPanel={addVisualizationToPanel}
         startTime={startTime}
         endTime={endTime}

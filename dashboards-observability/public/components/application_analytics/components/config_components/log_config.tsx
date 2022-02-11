@@ -15,6 +15,10 @@ import {
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { useState } from 'react';
+import {
+  getFullSuggestions,
+  onItemSelect,
+} from '../../../../../public/components/common/search/autocomplete_logic';
 import { uiSettingsService } from '../../../../../common/utils';
 import { Autocomplete } from '../../../common/search/autocomplete';
 import { AppAnalyticsComponentDeps } from '../../home';
@@ -105,6 +109,8 @@ export const LogConfig = (props: LogConfigProps) => {
               handleQueryChange={handleQueryChange}
               handleQuerySearch={() => {}}
               dslService={dslService}
+              getSuggestions={getFullSuggestions}
+              onItemSelect={onItemSelect}
             />
             <EuiBadge
               className={`ppl-link ${
