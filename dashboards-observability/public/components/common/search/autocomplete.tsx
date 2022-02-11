@@ -9,13 +9,26 @@ import $ from 'jquery';
 import React, { useMemo, useState } from 'react';
 import { AutocompleteState, createAutocomplete } from '@algolia/autocomplete-core';
 import { EuiTextArea } from '@elastic/eui';
+import DSLService from 'public/services/requests/dsl';
 import { IQueryBarProps } from './search';
 import { uiSettingsService } from '../../../../common/utils';
 import { AutocompleteItem } from '../../../../common/constants/autocomplete';
-import { getSuggestions, onItemSelect } from './autocomplete_logic';
 
-export const Autocomplete = (props: IQueryBarProps) => {
-  const { query, tempQuery, handleQueryChange, handleQuerySearch, dslService } = props;
+interface AutocompleteProps extends IQueryBarProps {
+  getSuggestions: (query: string, dslService: DSLService) => Promise<AutocompleteItem[]>;
+  onItemSelect: any;
+}
+
+export const Autocomplete = (props: AutocompleteProps) => {
+  const {
+    query,
+    tempQuery,
+    handleQueryChange,
+    handleQuerySearch,
+    dslService,
+    getSuggestions,
+    onItemSelect,
+  } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
     collections: [],

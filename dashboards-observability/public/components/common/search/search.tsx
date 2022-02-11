@@ -5,8 +5,7 @@
 
 import './search.scss';
 
-import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import {
   EuiFlexGroup,
   EuiButton,
@@ -67,6 +66,8 @@ export const Search = (props: any) => {
     handleTimeRangePickerRefresh,
     selectedSubTabId,
     searchBarConfigs = {},
+    getSuggestions,
+    onItemSelect,
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -111,6 +112,8 @@ export const Search = (props: any) => {
             handleQueryChange={handleQueryChange}
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
+            getSuggestions={getSuggestions}
+            onItemSelect={onItemSelect}
           />
           <EuiBadge
             className={`ppl-link ${

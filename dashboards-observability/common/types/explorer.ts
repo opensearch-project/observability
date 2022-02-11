@@ -102,6 +102,7 @@ export interface IExplorerProps {
   tabCreatedTypes?: any;
   searchBarConfigs?: any;
   appId?: string;
+  baseQuery?: string;
   addVisualizationToPanel?: any;
   startTime?: string;
   endTime?: string;

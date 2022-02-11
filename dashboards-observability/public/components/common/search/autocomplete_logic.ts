@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -10,10 +11,24 @@ import {
   statsCommands,
   numberTypes,
   pipeCommands,
-  dataItem,
-  fieldItem,
-  indexItem,
+  DataItem,
+  FieldItem,
+  IndexItem,
   AutocompleteItem,
+  regexForIndex,
+  regexForSuggestion,
+  PIPE_AFTER_WHERE,
+  DATA_AFTER_EQUAL,
+  EMPTY_REGEX,
+  EQUAL_AFTER_FIELD,
+  MATCH_FIELD_AFTER_WHERE,
+  FIELD_AFTER_MATCH,
+  COMMA_AFTER_FIELD,
+  DATA_AFTER_COMMA,
+  CLOSE_AFTER_DATA,
+  PIPE_AFTER_MATCH,
+  FIELD_AFTER_DEDUP,
+  PIPE_AFTER_FIELD,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -27,9 +42,9 @@ let nextStats: number = Number.MAX_SAFE_INTEGER;
 
 const indexList: string[] = [];
 const fieldList: string[] = [];
-const fieldsFromBackend: fieldItem[] = [];
-const indicesFromBackend: indexItem[] = [];
-const dataValuesFromBackend: dataItem[] = [];
+const fieldsFromBackend: FieldItem[] = [];
+const indicesFromBackend: IndexItem[] = [];
+const dataValuesFromBackend: DataItem[] = [];
 
 const getIndices = async (dslService: DSLService): Promise<void> => {
   if (indicesFromBackend.length === 0) {
@@ -49,8 +64,12 @@ const getFields = async (dslService: DSLService): Promise<void> => {
   if (currIndex !== '') {
     const res = await dslService.fetchFields(currIndex);
     fieldsFromBackend.length = 0;
-    for (let i = 0; i < res?.[currIndex].mappings.properties.length; i++) {
-      const element = res?.[currIndex].mappings.properties[i];
+    if (!res) {
+      return;
+    }
+    const resFieldList = Object.keys(res?.[currIndex].mappings.properties);
+    for (let i = 0; i < resFieldList.length; i++) {
+      const element = resFieldList[i];
       if (
         res?.[currIndex].mappings.properties[element].properties ||
         res?.[currIndex].mappings.properties[element].fields
@@ -74,7 +93,7 @@ const getDataValues = async (
   field: string,
   fieldType: string,
   dslService: DSLService
-): Promise<dataItem[]> => {
+): Promise<DataItem[]> => {
   const res =
     (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets ||
     [];
@@ -132,16 +151,16 @@ const getFirstPipe = async (str: string, dslService: DSLService): Promise<Autoco
 // Function to filter out currently inputed suggestions
 const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
   return suggestions.filter(
-    ({ label }) =>
-      label.toLowerCase().startsWith(prefix) && prefix.localeCompare(label.toLowerCase())
+    ({ itemName }) =>
+      itemName.toLowerCase().startsWith(prefix) && prefix.localeCompare(itemName.toLowerCase())
   );
 };
 
 // Main logic behind autocomplete (Based on most recent inputs)
-export const getSuggestions = async (
+export const getFullSuggestions = async (
   str: string,
   dslService: DSLService
-): Promise<AutocompleteItem[] | undefined> => {
+): Promise<AutocompleteItem[]> => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
   const lowerPrefix = prefix.toLowerCase();
@@ -335,4 +354,85 @@ export const getSuggestions = async (
     }
     return [];
   }
+  return [];
+};
+
+const parseForIndex = (query: string) => {
+  for (let i = 0; i < regexForIndex.length; i++) {
+    const groupArray = regexForIndex[i].exec(query);
+    if (groupArray) {
+      return groupArray[1];
+    }
+  }
+  return '';
+};
+
+const parseForNextSuggestion = (command: string) => {
+  for (let i = 0; i < regexForSuggestion.length; i++) {
+    const groupArray = regexForSuggestion[i].exec(command);
+    if (groupArray) {
+      return regexForSuggestion[i];
+    }
+  }
+};
+
+export const getSuggestionsAfterSource = async (currQuery: string, dslService: DSLService) => {
+  const splitSpaceQuery = currQuery.split(' ');
+  const splitPipeQuery = currQuery.split('|');
+
+  const lastWord = splitSpaceQuery[splitSpaceQuery.length - 1];
+  const lastCommand = splitPipeQuery[splitPipeQuery.length - 1];
+
+  if (lastCommand.split(' ')[0] === 'source') {
+    currIndex = parseForIndex(currQuery);
+    getFields(dslService);
+    currField = '';
+    currFieldType = '';
+    return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
+  } else {
+    const next = parseForNextSuggestion(lastCommand);
+    switch (next) {
+      case PIPE_AFTER_FIELD:
+        return fillSuggestions(currQuery, lastWord, [
+          { label: '|' },
+          { label: 'keepempty=true' },
+          { label: 'consecutive=true' },
+        ]);
+      case CLOSE_AFTER_DATA:
+        console.log('close after data');
+        return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
+      case COMMA_AFTER_FIELD:
+        console.log('comma after field');
+        currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
+        currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+        await getDataValues(currIndex, currField, currFieldType, dslService);
+        return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+      case FIELD_AFTER_MATCH:
+      case FIELD_AFTER_DEDUP:
+        console.log('field after match/dedup');
+        return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+      case PIPE_AFTER_WHERE:
+      case PIPE_AFTER_MATCH:
+        console.log('pipe after where/match');
+        return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
+      case DATA_AFTER_EQUAL:
+      case DATA_AFTER_COMMA:
+        console.log('data after equal/comma');
+        return fillSuggestions(currQuery, lastWord, dataValuesFromBackend);
+      case EQUAL_AFTER_FIELD:
+        console.log('equal after field');
+        currField = EQUAL_AFTER_FIELD.exec(lastCommand)![1];
+        currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+        await getDataValues(currIndex, currField, currFieldType, dslService);
+        return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
+      case MATCH_FIELD_AFTER_WHERE:
+        console.log('match and field after where');
+        return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
+      case EMPTY_REGEX:
+        console.log('empty regex');
+        return fillSuggestions(currQuery, lastWord, pipeCommands);
+    }
+  }
+
+  return [];
 };
