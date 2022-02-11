@@ -117,6 +117,8 @@ export const Explorer = ({
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
 
+  const fromAppAnalytics = tabId === 'application-analytics-tab';
+
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
@@ -357,7 +359,7 @@ export const Explorer = ({
     toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
   const handleTimePickerChange = async (timeRange: string[]) => {
-    if (tabId === 'application-analytics-tab') {
+    if (fromAppAnalytics) {
       setStartTime(timeRange[0]);
       setEndTime(timeRange[1]);
     } else {
@@ -840,7 +842,7 @@ export const Explorer = ({
                 })
               );
             });
-            if (tabId === 'application-analytics-tab') {
+            if (fromAppAnalytics) {
               addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
             } else {
               history.replace(`/event_analytics/explorer/${res.objectId}`);
@@ -890,7 +892,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={tabId === 'application-analytics-tab' ? baseQuery : query[RAW_QUERY]}
+        query={fromAppAnalytics ? baseQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -909,9 +911,7 @@ export const Explorer = ({
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
         selectedSubTabId={selectedContentTabId}
         searchBarConfigs={searchBarConfigs}
-        getSuggestions={
-          tabId === 'application-analytics-tab' ? getSuggestionsAfterSource : getFullSuggestions
-        }
+        getSuggestions={fromAppAnalytics ? getSuggestionsAfterSource : getFullSuggestions}
         onItemSelect={onItemSelect}
       />
       <EuiTabbedContent

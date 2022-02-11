@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -399,37 +398,29 @@ export const getSuggestionsAfterSource = async (currQuery: string, dslService: D
           { label: 'consecutive=true' },
         ]);
       case CLOSE_AFTER_DATA:
-        console.log('close after data');
         return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
       case COMMA_AFTER_FIELD:
-        console.log('comma after field');
         currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
       case FIELD_AFTER_MATCH:
       case FIELD_AFTER_DEDUP:
-        console.log('field after match/dedup');
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
-        console.log('pipe after where/match');
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_EQUAL:
       case DATA_AFTER_COMMA:
-        console.log('data after equal/comma');
         return fillSuggestions(currQuery, lastWord, dataValuesFromBackend);
       case EQUAL_AFTER_FIELD:
-        console.log('equal after field');
         currField = EQUAL_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
       case MATCH_FIELD_AFTER_WHERE:
-        console.log('match and field after where');
         return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
       case EMPTY_REGEX:
-        console.log('empty regex');
         return fillSuggestions(currQuery, lastWord, pipeCommands);
     }
   }
