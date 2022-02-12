@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo, useContext, useCallback, useEffect } from 'react';
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
 import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
 import { TabContext } from '../../hooks';
@@ -112,6 +112,7 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
               <EuiPanel paddingSize="s">
                 <EuiSwitch
                   label="Table view"
+                  disabled={isEmpty(visualizations?.data?.rawVizData)}
                   checked={isTableViewOn}
                   onChange={() => {
                     setIsTableViewOn((staleState) => !staleState);
