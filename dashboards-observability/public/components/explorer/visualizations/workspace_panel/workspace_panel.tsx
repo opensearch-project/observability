@@ -11,6 +11,7 @@ import { TabContext } from '../../hooks';
 import { change as changeVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getVisType } from '../../../visualizations/charts/vis_types';
 import { Visualization } from '../../../visualizations/visualization';
+import { DataTable } from '../../../visualizations/charts/data_table/data_table';
 
 interface IWorkSpacePanel {
   curVisId: string;
@@ -24,7 +25,7 @@ const ENABLED_VIS_TYPES = [
   'line',
   'pie',
   'histogram',
-  'data_table',
+  // 'data_table',
   'guage',
   'heatmap',
   // 'timeseries',
@@ -52,24 +53,7 @@ const ENABLED_VIS_TYPES = [
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
   const { tabId, dispatch } = useContext(TabContext);
-  const [tableViewState, setTableViewState] = useState({
-    isTableViewOn: false,
-    lastVizId: 'bar',
-  });
-
-  useEffect(() => {
-    if (curVisId !== 'data_table') {
-      setTableViewState((staleState) => ({
-        ...staleState,
-        lastVizId: curVisId,
-      }));
-    }
-  }, [curVisId]);
-
-  useEffect(() => {
-    if (tableViewState.isTableViewOn) setCurVisId('data_table');
-    else setCurVisId(tableViewState.lastVizId);
-  }, [tableViewState.isTableViewOn]);
+  const [isTableViewOn, setIsTableViewOn] = useState(false);
 
   const handleDispatch = useCallback(
     (evtData) => {
@@ -105,7 +89,7 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
 
   const VisualizationPanel = useMemo(() => {
     return <Visualization visualizations={visualizations} />;
-  }, [curVisId, visualizations, handleDispatch, getVisDefById, tableViewState.isTableViewOn]);
+  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
 
   return (
     <>
@@ -128,12 +112,9 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
               <EuiPanel paddingSize="s">
                 <EuiSwitch
                   label="Table view"
-                  checked={tableViewState.isTableViewOn}
+                  checked={isTableViewOn}
                   onChange={() => {
-                    setTableViewState((staleState) => ({
-                      ...staleState,
-                      isTableViewOn: !staleState.isTableViewOn,
-                    }));
+                    setIsTableViewOn((staleState) => !staleState);
                   }}
                   aria-describedby={'table view switcher'}
                   compressed
@@ -144,7 +125,9 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
           <EuiSpacer size="s" />
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiPanel paddingSize="s">{VisualizationPanel}</EuiPanel>
+          <EuiPanel paddingSize="s">
+            {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
+          </EuiPanel>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>
