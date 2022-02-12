@@ -30,12 +30,6 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
   editorConfig: {
     editor: null,
     schemas: [
-      // {
-      //   name: 'Panel Options',
-      //   type: 'form',
-      //   component: ConfigPanelOptions,
-      //   mapTo: 'panelOptions',
-      // },
       {
         name: 'Type',
         isSingleSelection: true,

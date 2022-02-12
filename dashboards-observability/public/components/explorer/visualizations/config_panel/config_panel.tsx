@@ -81,14 +81,14 @@ export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) =>
   } = useContext(TabContext);
   const { data, vis } = visualizations;
   const { fields } = visualizations?.data?.rawVizData?.metadata || { fields: [] };
-  const { rawVizData, customVizConfigs } = data;
+  const { rawVizData, userConfigs } = data;
   const VisEditor = vis?.editorConfig?.editor || DefaultVisEditor;
   const [hjsonLayoutConfig, setHjsonLayoutConfig] = useState(() => {
-    return customVizConfigs?.layout || customVizConfigs?.config
+    return userConfigs?.layout || userConfigs?.config
       ? hjson.stringify(
           {
-            layout: { ...customVizConfigs?.layout },
-            config: { ...customVizConfigs?.config },
+            layout: { ...userConfigs?.layout },
+            config: { ...userConfigs?.config },
           },
           HJSON_STRINGIFY_OPTIONS
         )

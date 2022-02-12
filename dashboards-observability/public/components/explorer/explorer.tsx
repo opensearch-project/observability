@@ -61,6 +61,7 @@ import {
 import { IExplorerProps } from '../../../common/types/explorer';
 import { TabContext } from './hooks';
 import { getVisType } from '../visualizations/charts/vis_types';
+import { getVizContainerProps } from '../visualizations/charts/helpers';
 
 const TAB_EVENT_ID = 'main-content-events';
 const TAB_CHART_ID = 'main-content-vis';
@@ -610,30 +611,22 @@ export const Explorer = ({
     };
   }
 
-  const getDefaultXYAxisLabels = (vizFields: string[]) => {
-    if (isEmpty(vizFields)) return {};
-    return {
-      xaxis: [vizFields[vizFields.length - 1]] || [],
-      yaxis: take(vizFields, vizFields.length - 1 > 0 ? vizFields.length - 1 : 1) || [],
-    };
-  };
+  // const getDefaultXYAxisLabels = (vizFields: string[]) => {
+  //   if (isEmpty(vizFields)) return {};
+  //   return {
+  //     xaxis: [vizFields[vizFields.length - 1]] || [],
+  //     yaxis: take(vizFields, vizFields.length - 1 > 0 ? vizFields.length - 1 : 1) || [],
+  //   };
+  // };
 
   const visualizations = useMemo(() => {
-    console.log('customVizConfigs: ', customVizConfigs);
-    return {
-      data: {
-        rawVizData: { ...explorerVisualizations },
-        query: { ...query },
-        fields: { ...explorerFields },
-        customVizConfigs: { ...customVizConfigs },
-        defaultAxes: {
-          ...getDefaultXYAxisLabels(explorerVisualizations?.metadata?.fields),
-        },
-      },
-      vis: {
-        ...getVisType(curVisId),
-      },
-    };
+    return getVizContainerProps({
+      vizId: curVisId,
+      rawVizData: explorerVisualizations,
+      query,
+      indexFields: explorerFields,
+      userConfigs: customVizConfigs,
+    });
   }, [curVisId, explorerVisualizations, explorerFields, query, customVizConfigs]);
 
   console.log('explorer visualizations: ', visualizations);

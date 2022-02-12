@@ -31,22 +31,21 @@ export const ExplorerVisualizations = ({
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={20} minSize="100px">
-            <Sidebar
-              explorerFields={explorerFields}
-              explorerData={explorerData}
-              selectedTimestamp={visualizations.data.query[SELECTED_TIMESTAMP]}
-              handleOverrideTimestamp={handleOverrideTimestamp}
-              handleAddField={(field: IField) => handleAddField(field)}
-              handleRemoveField={(field: IField) => handleRemoveField(field)}
-              isFieldToggleButtonDisabled={
-                isEmpty(explorerData.jsonData) ||
-                !isEmpty(visualizations.data.query[RAW_QUERY].match(PPL_STATS_REGEX))
-              }
-            />
+          <EuiResizablePanel initialSize={15} minSize="100px">
+            <div className="dscFieldChooser">
+              <Sidebar
+                explorerFields={explorerFields}
+                explorerData={explorerData}
+                selectedTimestamp={visualizations.data.query[SELECTED_TIMESTAMP]}
+                handleOverrideTimestamp={handleOverrideTimestamp}
+                handleAddField={(field: IField) => handleAddField(field)}
+                handleRemoveField={(field: IField) => handleRemoveField(field)}
+                isFieldToggleButtonDisabled={true}
+              />
+            </div>
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={50} minSize="30%">
+          <EuiResizablePanel initialSize={55} minSize="30%">
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}

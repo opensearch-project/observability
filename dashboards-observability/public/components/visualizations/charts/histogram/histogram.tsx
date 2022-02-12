@@ -15,7 +15,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data.defaultAxes;
-  const { xaxis = null, yaxis = null } = visualizations.data.customVizConfigs;
+  const { xaxis = null, yaxis = null } = visualizations.data.userConfigs;
   const lastIndex = fields.length - 1;
   // let filteredFields =
   //   defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
@@ -34,7 +34,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [
-      ...visualizations?.data?.customVizConfigs[vis.seriesAxis].map((item) => ({
+      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
         ...item,
         name: item.label,
       })),

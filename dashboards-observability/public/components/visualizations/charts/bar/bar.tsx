@@ -16,7 +16,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { isUniColor } = vis.visConfig;
   const lastIndex = fields.length - 1;
-  const { xaxis = [], yaxis = [] } = visualizations?.data?.customVizConfigs;
+  const { xaxis = [], yaxis = [] } = visualizations?.data?.userConfigs;
   const isVertical = vis.orientation !== 'h';
   const { defaultAxes } = visualizations.data;
 
@@ -35,7 +35,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [
-      ...visualizations?.data?.customVizConfigs[vis.seriesAxis].map((item) => ({
+      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
         ...item,
         name: item.label,
       })),

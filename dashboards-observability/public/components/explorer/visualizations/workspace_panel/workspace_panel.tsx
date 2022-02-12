@@ -52,10 +52,19 @@ const ENABLED_VIS_TYPES = [
 
 export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
   const { tabId, dispatch } = useContext(TabContext);
-  const [tableViewState, setIsOnTableView] = useState({
+  const [tableViewState, setTableViewState] = useState({
     isTableViewOn: false,
     lastVizId: 'bar',
   });
+
+  useEffect(() => {
+    if (curVisId !== 'data_table') {
+      setTableViewState((staleState) => ({
+        ...staleState,
+        lastVizId: curVisId,
+      }));
+    }
+  }, [curVisId]);
 
   useEffect(() => {
     if (tableViewState.isTableViewOn) setCurVisId('data_table');
@@ -121,7 +130,7 @@ export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkS
                   label="Table view"
                   checked={tableViewState.isTableViewOn}
                   onChange={() => {
-                    setIsOnTableView((staleState) => ({
+                    setTableViewState((staleState) => ({
                       ...staleState,
                       isTableViewOn: !staleState.isTableViewOn,
                     }));

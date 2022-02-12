@@ -14,13 +14,13 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { vis } = visualizations;
   const { defaultAxes } = visualizations.data;
-  const { xaxis = [], yaxis = [] } = visualizations?.data?.customVizConfigs;
+  const { xaxis = [], yaxis = [] } = visualizations?.data?.userConfigs;
   const lastIndex = fields.length - 1;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [
-      ...visualizations?.data?.customVizConfigs[vis.seriesAxis].map((item) => ({
+      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
         ...item,
         name: item.label,
       })),

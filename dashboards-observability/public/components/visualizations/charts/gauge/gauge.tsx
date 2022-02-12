@@ -11,7 +11,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { xaxis, yaxis } = visualizations.data.customVizConfigs;
+  const { xaxis, yaxis } = visualizations.data.userConfigs;
 
   let guageData = xaxis || fields;
   guageData = guageData.map((field, index) => {
