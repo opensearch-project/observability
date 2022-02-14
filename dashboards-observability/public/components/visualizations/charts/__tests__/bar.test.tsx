@@ -13,7 +13,7 @@ import {
   SAMPLE_VISUALIZATIONS,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Bar component', () => {
+describe.skip('Bar component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders bar component', async () => {

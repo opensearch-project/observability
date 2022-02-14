@@ -31,7 +31,7 @@ const attachVisualizationComponents = () => {
   VISUALIZATION_TYPES[2].icon = () => <LensIconChartLine />;
 };
 
-describe('Visualization chart switch components', () => {
+describe.skip('Visualization chart switch components', () => {
   configure({ adapter: new Adapter() });
   beforeAll(() => {
     attachVisualizationComponents();
@@ -89,7 +89,7 @@ describe('Visualization chart switch components', () => {
   });
 });
 
-describe('Visualization workspace panel', () => {
+describe.skip('Visualization workspace panel', () => {
   it('Renders workspace panel', async () => {
     const setCurVisId = jest.fn();
 
@@ -109,7 +109,7 @@ describe('Visualization workspace panel', () => {
   });
 });
 
-describe('Visualization workspace panel wrapper', () => {
+describe.skip('Visualization workspace panel wrapper', () => {
   it('Renders workspace panel wrapper', async () => {
     const setVis = jest.fn();
 

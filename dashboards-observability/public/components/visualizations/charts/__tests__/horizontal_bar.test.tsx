@@ -8,16 +8,15 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { HorizontalBar } from '../horizontal_bar';
-import { 
+import {
   LAYOUT_CONFIG,
-  SAMPLE_VISUALIZATIONS
+  SAMPLE_VISUALIZATIONS,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Horizontal bar component', () => {
+describe.skip('Horizontal bar component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders horizontal bar component', async () => {
-    
     const wrapper = mount(
       <HorizontalBar
         visualizations={SAMPLE_VISUALIZATIONS}
@@ -26,7 +25,7 @@ describe('Horizontal bar component', () => {
         isUniColor={true}
       />
     );
-    
+
     wrapper.update();
 
     await waitFor(() => {

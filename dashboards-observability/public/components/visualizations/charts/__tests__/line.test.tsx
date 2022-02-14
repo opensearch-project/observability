@@ -13,7 +13,7 @@ import {
   SAMPLE_VISUALIZATIONS,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Line component', () => {
+describe.skip('Line component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders line component', async () => {
