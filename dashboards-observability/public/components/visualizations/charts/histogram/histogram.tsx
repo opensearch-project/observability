@@ -17,19 +17,6 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations.data.defaultAxes;
   const { xaxis = null, yaxis = null } = visualizations.data.userConfigs;
   const lastIndex = fields.length - 1;
-  // let filteredFields =
-  //   defaultAxes?.yaxis && defaultAxes?.yaxis?.length > 0
-  //     ? defaultAxes.yaxis
-  //     : take(fields, lineLength > 0 ? lineLength : 1);
-  // if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-  //   filteredFields = fields.filter((field) => {
-  //     // if (isVertical) {
-  //     return (
-  //       field.name !== xaxis[0].label && !isEmpty(yaxis.filter((item) => item.label === field.name))
-  //     );
-  //   });
-  //   // } else {
-  // }
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -40,7 +27,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
       })),
     ];
   } else {
-    valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+    valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
   const hisValues = valueSeries.map((field: any) => {

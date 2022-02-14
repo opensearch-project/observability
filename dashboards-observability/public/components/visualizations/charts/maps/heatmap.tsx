@@ -13,20 +13,6 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  // const lineLength = fields.length - 1;
-  // // let lineValues;
-  // // if (isEmpty(customVizData)) {
-  // const lineValues = take(fields, lineLength).map((field: any) => {
-  //   return {
-  //     values: data[field.name],
-  //     labels: data[fields[lineLength].name],
-  //     type: 'heatmap',
-  //     name: field.name,
-  //   };
-  // });
-  // } else {
-  //   lineValues = [...customVizData];
-  // }
 
   const heapMapData = [
     {

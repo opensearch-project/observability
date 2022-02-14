@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Plt } from '../../plotly/plot';
+import { Plt } from '../../../plotly/plot';
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
   const {

@@ -19,77 +19,11 @@ interface IWorkSpacePanel {
   visualizations: any;
 }
 
-const ENABLED_VIS_TYPES = [
-  'bar',
-  'horizontal_bar',
-  'line',
-  'pie',
-  'histogram',
-  // 'data_table',
-  'guage',
-  'heatmap',
-  // 'timeseries',
-  // 'logs',
-  // 'stat',
-  // 'state_timeline',
-  // 'status_history',
-  // 'graph',
-  // 'text',
-  // 'alert_list',
-  // 'dashboard_list',
-  // 'news',
-  // 'flowcharting',
-  // 'annotation_list',
-  // 'candle_stick',
-  // 'geomap',
-  // 'clock',
-  // 'treemap',
-  // 'discreet',
-  // 'node_graph',
-  // 'plugin_list',
-  // 'world_map_panel',
-  // 'poly_stat',
-];
-
-export function WorkspacePanel({ curVisId, setCurVisId, visualizations }: IWorkSpacePanel) {
-  const { tabId, dispatch } = useContext(TabContext);
+export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
   const [isTableViewOn, setIsTableViewOn] = useState(false);
-
-  const handleDispatch = useCallback(
-    (evtData) => {
-      dispatch(
-        changeVisualizationConfig({
-          tabId,
-          data: {
-            ...evtData,
-          },
-        })
-      );
-    },
-    [dispatch, tabId]
-  );
-
-  const memorizedVisualizationTypes = useMemo(() => {
-    return ENABLED_VIS_TYPES.map((vs: any) => {
-      const visDefinition = getVisType(vs);
-      return {
-        ...visDefinition,
-      };
-    });
-  }, []);
-
-  const getVisDefById = useCallback(
-    (visId) => {
-      return find(memorizedVisualizationTypes, (v) => {
-        return v.id === visId;
-      });
-    },
-    [memorizedVisualizationTypes]
-  );
-
   const VisualizationPanel = useMemo(() => {
     return <Visualization visualizations={visualizations} />;
-  }, [curVisId, visualizations, handleDispatch, getVisDefById]);
+  }, [visualizations]);
 
   return (
     <>

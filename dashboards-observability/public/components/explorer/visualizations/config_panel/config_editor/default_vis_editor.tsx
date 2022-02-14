@@ -3,16 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
-import {
-  EuiForm,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiPanel,
-  EuiSpacer,
-  EuiFormRow,
-  EuiAccordion,
-} from '@elastic/eui';
+import React from 'react';
+import { EuiForm, EuiFormRow, EuiAccordion } from '@elastic/eui';
 import {
   ConfigPanelOptions,
   ConfigChartOptions,
@@ -20,39 +12,54 @@ import {
   ConfigThresholds,
 } from './config_controls';
 
-export const VizDataPanel = ({ dimensions }: any) => {
+export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, tabProps }: any) => {
+  const handleConfigEditing = (sectionName) => {
+    return (changes) => {
+      onConfigChange({
+        ...vizState,
+        [sectionName]: changes,
+      });
+    };
+  };
+
+  const dynamicContent = tabProps.sections.map((section) => {
+    const Editor = section.editor;
+    return (
+      <EuiFormRow>
+        <Editor
+          visualizations={visualizations}
+          schemas={section.schemas}
+          handleConfigChange={() => {}}
+          vizState={vizState[section.mapTo] ? vizState[section.mapTo] : {}}
+        />
+      </EuiFormRow>
+    );
+  });
+
   return (
     <div className="visEditorSidebar__config">
       <EuiForm className="visEditorSidebar__form">
         <EuiFormRow>
-          <ConfigPanelOptions />
+          <ConfigPanelOptions configState={vizState?.panelOptions} />
         </EuiFormRow>
-        <EuiFormRow>
-          <EuiAccordion
-            id="configPanel__ValueOptions"
-            buttonContent="Value options"
-            paddingSize="s"
-          >
-            {dimensions}
-          </EuiAccordion>
-        </EuiFormRow>
+        {dynamicContent}
         <EuiFormRow>
           <EuiAccordion
             id="configPanel__chartOptions"
             buttonContent="Chart options"
             paddingSize="s"
           >
-            <ConfigChartOptions />
+            <ConfigChartOptions configState={vizState?.chartOptions} />
           </EuiAccordion>
         </EuiFormRow>
         <EuiFormRow>
           <EuiAccordion id="configPanel__dataLinks" buttonContent="Data links" paddingSize="s">
-            <ConfigDataLinks />
+            <ConfigDataLinks configState={vizState?.dataLinks} />
           </EuiAccordion>
         </EuiFormRow>
         <EuiFormRow>
           <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
-            <ConfigThresholds />
+            <ConfigThresholds configState={vizState?.thresholds} />
           </EuiAccordion>
         </EuiFormRow>
       </EuiForm>

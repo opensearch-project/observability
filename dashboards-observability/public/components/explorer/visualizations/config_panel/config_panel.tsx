@@ -27,7 +27,7 @@ import {
 } from '../../slices/viualization_config_slice';
 import { ConfigEditor } from './config_editor/config_editor';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
-import { VizDataPanel as DefaultVisEditor } from './config_raw_data/config_raw_data';
+import { VizDataPanel as DefaultVisEditor } from './config_editor/default_vis_editor';
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { PanelItem } from './configPanelItem';
@@ -64,13 +64,14 @@ const ENABLED_VIS_TYPES = [
   'line',
   'pie',
   'histogram',
-  'data_table',
-  'guage',
-  // 'bubble',
+  'gauge',
+  'candle_stick',
+  'tree_map',
+  'bubble',
   'heatmap',
 ];
 
-export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   const {
     tabId,
     curVisId,
@@ -174,53 +175,31 @@ export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) =>
     };
   };
 
-  const dimensions = useMemo(() => {
-    return vis.editorConfig.schemas.map((schema, index) => {
-      const DimensionComponent = schema.component || PanelItem;
-      const params = {
-        paddingTitle: schema.name,
-        advancedTitle: 'advancedTitle',
-        dropdownList: schema?.options?.map((option) => ({ name: option })) || fields,
-        onSelectChange: handleConfigChange(schema.mapTo),
-        isSingleSelection: schema.isSingleSelection,
-        selectedAxis: vizConfigs[schema.mapTo],
-      };
-      return (
-        <>
-          <DimensionComponent key={`viz-series-${index}`} {...params} />
-          <EuiSpacer size="s" />
-        </>
-      );
-    });
-  }, [vis, fields, vizConfigs, curVisId]);
+  const params = {
+    dataConfig: {
+      visualizations,
+      curVisId,
+      onConfigChange: handleConfigChange('dataConfig'),
+      vizState: vizConfigs.dataConfig,
+    },
+    layoutConfig: {
+      onConfigChange: handleConfigChange('layoutConfig'),
+      spec: hjsonLayoutConfig,
+      setToast,
+      vizState: vizConfigs.layoutConfig,
+    },
+  };
 
   const tabs = useMemo(() => {
-    return [
-      {
-        id: 'data-panel',
-        name: 'Data',
-        content: (
-          <VisEditor
-            visualizations={visualizations}
-            curVisId={curVisId}
-            onConfigUpdate={handleConfigUpdate}
-            dimensions={dimensions}
-          />
-        ),
-      },
-      {
-        id: 'style-panel',
-        name: 'Layout',
-        content: (
-          <ConfigEditor
-            onConfigEditorChange={handleLayoutConfigChange}
-            spec={hjsonLayoutConfig}
-            setToast={setToast}
-          />
-        ),
-      },
-    ];
-  }, [explorerVisualizations, curVisId, setToast, handleLayoutConfigChange]);
+    return vis.editorConfig.panelTabs.map((tab) => {
+      const Editor = tab.editor;
+      return {
+        id: tab.id,
+        name: tab.name,
+        content: <Editor {...params[tab.mapTo]} tabProps={{ ...tab }} />,
+      };
+    });
+  }, [vis.editorConfig.panelTabs, params]);
 
   const handleDiscardConfig = () => {
     dispatch(
@@ -280,7 +259,6 @@ export const ConfigPanel = ({ vizVectors, visualizations, setCurVisId }: any) =>
               setCurVisId(visType[0].id);
             }}
             fullWidth
-            // onCreateOption={onCreateOption}
             renderOption={vizSelectableItemRenderer}
           />
           <EuiSpacer size="xs" />

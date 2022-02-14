@@ -3,26 +3,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Bubble } from './bubble';
-import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartPie } from '../../assets/chart_pie';
-import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
-import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import { Gauge } from './gauge';
+import { getPlotlySharedConfigs, getPlotlyCategory } from '../../shared/shared_configs';
+import { LensIconChartLine } from '../../../assets/chart_line';
+import { VizDataPanel } from '../../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
+import { ConfigEditor } from '../../../../explorer/visualizations/config_panel/config_editor/config_editor';
+import { ConfigValueOptions } from '../../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const createBubbleVisDefinition = () => ({
-  name: 'bubble',
-  type: 'bubble',
-  id: 'bubble',
-  label: 'Bubble',
-  fullLabel: 'Bubble',
+export const createGaugeTypeDefinition = (params: any = {}) => ({
+  name: 'Gauge',
+  type: 'indicator',
+  id: 'gauge',
+  label: 'Gauge',
+  fullLabel: 'Gauge',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
+  icon: LensIconChartLine,
+  valueSeries: 'yaxis',
   editorConfig: {
     panelTabs: [
       {
@@ -38,16 +40,11 @@ export const createBubbleVisDefinition = () => ({
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'X-axis',
+                name: 'Value',
                 isSingleSelection: true,
+                onChangeHandler: 'setXaxisSelections',
                 component: null,
                 mapTo: 'xaxis',
-              },
-              {
-                name: 'Y-axis',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
               },
             ],
           },
@@ -62,7 +59,6 @@ export const createBubbleVisDefinition = () => ({
       },
     ],
   },
-  icon: LensIconChartPie,
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
@@ -71,5 +67,5 @@ export const createBubbleVisDefinition = () => ({
       ...sharedConfigs.config,
     },
   },
-  component: Bubble,
+  component: Gauge,
 });

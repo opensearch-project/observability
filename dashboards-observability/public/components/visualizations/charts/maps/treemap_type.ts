@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Bubble } from './bubble';
+import { TreeMap } from './treemaps';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartPie } from '../../assets/chart_pie';
+import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
 import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
@@ -13,16 +13,23 @@ import { ConfigValueOptions } from '../../../explorer/visualizations/config_pane
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const createBubbleVisDefinition = () => ({
-  name: 'bubble',
-  type: 'bubble',
-  id: 'bubble',
-  label: 'Bubble',
-  fullLabel: 'Bubble',
-  category: VIS_CATEGORY.BASICS,
+export interface BarTypeParams {}
+
+export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
+  name: 'tree_map',
+  type: 'tree_map',
+  id: 'tree_map',
+  label: 'Tree Map',
+  fullLabel: 'Tree Map',
   selection: {
     dataLoss: 'nothing',
   },
+  category: VIS_CATEGORY.BASICS,
+  icon: LensIconChartBar,
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
+  orientation: 'v',
+  component: TreeMap,
   editorConfig: {
     panelTabs: [
       {
@@ -62,7 +69,6 @@ export const createBubbleVisDefinition = () => ({
       },
     ],
   },
-  icon: LensIconChartPie,
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
@@ -70,6 +76,6 @@ export const createBubbleVisDefinition = () => ({
     config: {
       ...sharedConfigs.config,
     },
+    isUniColor: false,
   },
-  component: Bubble,
 });

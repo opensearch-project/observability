@@ -611,14 +611,6 @@ export const Explorer = ({
     };
   }
 
-  // const getDefaultXYAxisLabels = (vizFields: string[]) => {
-  //   if (isEmpty(vizFields)) return {};
-  //   return {
-  //     xaxis: [vizFields[vizFields.length - 1]] || [],
-  //     yaxis: take(vizFields, vizFields.length - 1 > 0 ? vizFields.length - 1 : 1) || [],
-  //   };
-  // };
-
   const visualizations = useMemo(() => {
     return getVizContainerProps({
       vizId: curVisId,
@@ -628,8 +620,6 @@ export const Explorer = ({
       userConfigs: customVizConfigs,
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, customVizConfigs]);
-
-  console.log('explorer visualizations: ', visualizations);
 
   const getExplorerVis = () => {
     return (

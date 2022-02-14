@@ -3,26 +3,33 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Bubble } from './bubble';
-import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartPie } from '../../assets/chart_pie';
-import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
-import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import { CandleStick } from './candle_stick';
+import { getPlotlySharedConfigs, getPlotlyCategory } from '../../shared/shared_configs';
+import { LensIconChartBar } from '../../../assets/chart_bar';
+import { VizDataPanel } from '../../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
+import { ConfigEditor } from '../../../../explorer/visualizations/config_panel/config_editor/config_editor';
+import { ConfigValueOptions } from '../../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export const createBubbleVisDefinition = () => ({
-  name: 'bubble',
-  type: 'bubble',
-  id: 'bubble',
-  label: 'Bubble',
-  fullLabel: 'Bubble',
-  category: VIS_CATEGORY.BASICS,
+export interface BarTypeParams {}
+
+export const createCandleStickDefinition = (params: BarTypeParams = {}) => ({
+  name: 'candle_stick',
+  type: 'candle_stick',
+  id: 'candle_stick',
+  label: 'Candle Stick',
+  fullLabel: 'Candle Stick',
   selection: {
     dataLoss: 'nothing',
   },
+  category: VIS_CATEGORY.BASICS,
+  icon: LensIconChartBar,
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
+  orientation: 'v',
+  component: CandleStick,
   editorConfig: {
     panelTabs: [
       {
@@ -62,7 +69,6 @@ export const createBubbleVisDefinition = () => ({
       },
     ],
   },
-  icon: LensIconChartPie,
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
@@ -70,6 +76,6 @@ export const createBubbleVisDefinition = () => ({
     config: {
       ...sharedConfigs.config,
     },
+    isUniColor: false,
   },
-  component: Bubble,
 });

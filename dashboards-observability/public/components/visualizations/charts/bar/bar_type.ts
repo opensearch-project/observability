@@ -6,6 +6,9 @@
 import { Bar } from './bar';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartBar } from '../../assets/chart_bar';
+import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
+import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
+import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -28,29 +31,43 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
   orientation: 'v',
   component: Bar,
   editorConfig: {
-    editor: null,
-    schemas: [
+    panelTabs: [
       {
-        name: 'Type',
-        isSingleSelection: true,
-        component: null,
-        options: ['bar', 'group'],
-        mapTo: 'selectedVisType',
+        id: 'data-panel',
+        name: 'Data',
+        mapTo: 'dataConfig',
+        editor: VizDataPanel,
+        sections: [
+          {
+            id: 'value_options',
+            name: 'Value options',
+            editor: ConfigValueOptions,
+            mapTo: 'valueOptions',
+            schemas: [
+              {
+                name: 'X-axis',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'xaxis',
+              },
+              {
+                name: 'Y-axis',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'yaxis',
+              },
+            ],
+          },
+        ],
       },
       {
-        name: 'X-axis',
-        isSingleSelection: true,
-        component: null,
-        mapTo: 'xaxis',
-      },
-      {
-        name: 'Y-axis',
-        isSingleSelection: false,
-        component: null,
-        mapTo: 'yaxis',
+        id: 'style-panel',
+        name: 'Layout',
+        mapTo: 'layoutConfig',
+        editor: ConfigEditor,
+        content: [],
       },
     ],
-    chartOptions: [],
   },
   visConfig: {
     layout: {

@@ -39,38 +39,5 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     };
   });
 
-  return (
-    <Plt
-      data={pies}
-      layout={layout}
-      config={config}
-      // layout={{
-      //   colorway: PLOTLY_COLOR,
-      //   plot_bgcolor: 'rgba(0, 0, 0, 0)',
-      //   paper_bgcolor: 'rgba(0, 0, 0, 0)',
-      //   xaxis: {
-      //     fixedrange: true,
-      //     showgrid: false,
-      //     visible: true,
-      //   },
-      //   yaxis: {
-      //     fixedrange: true,
-      //     showgrid: false,
-      //     visible: true,
-      //   },
-      //   ...layout,
-      // }}
-      // config={{
-      //   barmode: 'pie',
-      //   xaxis: {
-      //     automargin: true,
-      //   },
-      //   yaxis: {
-      //     automargin: true,
-      //   },
-      //   ...config,
-      // }}
-      // dispatch={dispatch}
-    />
-  );
+  return <Plt data={pies} layout={layout} config={config} />;
 };

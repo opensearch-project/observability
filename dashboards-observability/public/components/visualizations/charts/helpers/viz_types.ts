@@ -23,7 +23,6 @@ export const getVizContainerProps = ({
   indexFields = {},
   userConfigs = {},
 }: any) => {
-  console.log('props vizId: ', vizId);
   return {
     data: {
       rawVizData: { ...rawVizData },
