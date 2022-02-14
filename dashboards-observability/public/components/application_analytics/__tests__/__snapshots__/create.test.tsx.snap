@@ -28,7 +28,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -188,7 +189,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -749,7 +750,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -1212,7 +1213,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -1372,7 +1374,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -1933,7 +1935,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -2334,7 +2336,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -2494,7 +2497,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -3054,7 +3057,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -3429,7 +3432,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -3589,7 +3593,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -4149,7 +4153,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -4583,7 +4587,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -4743,7 +4748,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -5336,7 +5341,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -5678,7 +5683,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -5838,7 +5844,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -6431,7 +6437,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -6830,7 +6836,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -6985,7 +6992,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -7526,7 +7533,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -7863,7 +7870,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -8018,7 +8026,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -8559,7 +8567,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -8953,7 +8961,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -9113,7 +9122,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -9675,7 +9684,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -10017,7 +10026,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -10177,7 +10187,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -10739,7 +10749,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -11140,7 +11150,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -11300,7 +11311,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -11893,7 +11904,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -12235,7 +12246,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -12395,7 +12407,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -12988,7 +13000,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -13389,7 +13401,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -13549,7 +13562,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -14109,7 +14122,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -14484,7 +14497,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -14644,7 +14658,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -15204,7 +15218,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -15641,7 +15655,8 @@ Object {
                 <h1
                   class="euiTitle euiTitle--large"
                 >
-                  Create application
+                  Create
+                   application
                 </h1>
               </div>
             </div>
@@ -15801,7 +15816,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Log Source
+                            Log source
                           </h3>
                         </div>
                         <div
@@ -16362,7 +16377,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace Groups 
+                            Trace groups 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -16821,7 +16836,8 @@ Object {
               <h1
                 class="euiTitle euiTitle--large"
               >
-                Create application
+                Create
+                 application
               </h1>
             </div>
           </div>
@@ -16981,7 +16997,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Log Source
+                          Log source
                         </h3>
                       </div>
                       <div
@@ -17542,7 +17558,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace Groups 
+                          Trace groups 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"

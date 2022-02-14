@@ -64,7 +64,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
             size="s"
           >
             <h3>
-              Trace Groups 
+              Trace groups 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -151,7 +151,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace Groups 
+                    Trace groups 
                     <EuiBadge>
                       <EuiInnerText>
                         <span
@@ -846,7 +846,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
             size="s"
           >
             <h3>
-              Trace Groups 
+              Trace groups 
               <EuiBadge>
                 0
               </EuiBadge>
@@ -938,7 +938,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace Groups 
+                    Trace groups 
                     <EuiBadge>
                       <EuiInnerText>
                         <span

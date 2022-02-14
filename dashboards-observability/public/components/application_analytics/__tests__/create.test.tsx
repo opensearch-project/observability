@@ -25,6 +25,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -55,6 +57,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
 
@@ -72,6 +77,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -102,6 +109,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
 
@@ -119,6 +129,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -149,9 +161,12 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
-    utils.getByText('Log Source').click();
+    utils.getByText('Log source').click();
     utils.getByText('Clear').click();
     utils.getByText('Cancel').click();
 
@@ -169,6 +184,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -199,9 +216,12 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
-    utils.getByText('Log Source').click();
+    utils.getByText('Log source').click();
     utils.getByText('Clear').click();
     utils.getByText('Clear').click();
 
@@ -219,6 +239,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -258,6 +280,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -278,6 +303,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -317,6 +344,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -337,6 +367,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -376,6 +408,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();
@@ -396,6 +431,8 @@ describe('Create Page', () => {
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
     const createApp = jest.fn();
+    const setToasts = jest.fn();
+    const updateApp = jest.fn();
     const clearStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
@@ -435,6 +472,9 @@ describe('Create Page', () => {
         dslService={dslService}
         createApp={createApp}
         clearStorage={clearStorage}
+        setToasts={setToasts}
+        updateApp={updateApp}
+        existingAppId=""
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();
