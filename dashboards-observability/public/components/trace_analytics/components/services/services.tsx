@@ -25,29 +25,29 @@ export function Services(props: ServicesProps) {
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
+  const appServices = page === 'app';
 
-  const breadCrumbs =
-    page === 'app'
-      ? [
-          {
-            text: 'Application analytics',
-            href: '#/application_analytics',
-          },
-          {
-            text: `${appName}`,
-            href: `#/application_analytics/${appId}`,
-          },
-        ]
-      : [
-          {
-            text: 'Trace analytics',
-            href: '#/trace_analytics/home',
-          },
-          {
-            text: 'Services',
-            href: '#/trace_analytics/services',
-          },
-        ];
+  const breadCrumbs = appServices
+    ? [
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: `${appName}`,
+          href: `#/application_analytics/${appId}`,
+        },
+      ]
+    : [
+        {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Services',
+          href: '#/trace_analytics/services',
+        },
+      ];
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
@@ -96,7 +96,7 @@ export function Services(props: ServicesProps) {
 
   return (
     <>
-      {page === 'app' ? (
+      {appServices ? (
         <EuiSpacer size="m" />
       ) : (
         <EuiTitle size="l">
@@ -104,7 +104,7 @@ export function Services(props: ServicesProps) {
         </EuiTitle>
       )}
       <SearchBar
-        query={props.query}
+        query={appServices ? '' : props.query}
         filters={props.filters}
         setFilters={props.setFilters}
         setQuery={props.setQuery}

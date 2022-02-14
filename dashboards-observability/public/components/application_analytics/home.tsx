@@ -183,25 +183,19 @@ export const Home = (props: HomeProps) => {
   };
 
   // Create a new application
-  const createApp = (
-    appName: string,
-    appDescription: string,
-    baseQuery: string,
-    selectedServices: OptionType[],
-    selectedTraces: OptionType[]
-  ) => {
-    const toast = isNameValid(appName);
+  const createApp = (application: ApplicationType) => {
+    const toast = isNameValid(application.name);
     if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
     }
 
     const requestBody = {
-      name: appName,
-      description: appDescription,
-      baseQuery,
-      servicesEntities: selectedServices.map((option) => option.label),
-      traceGroups: selectedTraces.map((option) => option.label),
+      name: application.name,
+      description: application.description,
+      baseQuery: application.baseQuery,
+      servicesEntities: application.servicesEntities,
+      traceGroups: application.traceGroups,
     };
 
     return http
@@ -209,12 +203,12 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody),
       })
       .then((res) => {
-        createPanelForApp(res.newAppId, appName);
-        setToast(`Application "${appName}" successfully created!`);
+        createPanelForApp(res.newAppId, application.name);
+        setToast(`Application "${application.name}" successfully created!`);
         clearStorage();
       })
       .catch((err) => {
-        setToast(`Error occurred while creating new application "${appName}"`, 'danger');
+        setToast(`Error occurred while creating new application "${application.name}"`, 'danger');
         console.error(err);
       });
   };
@@ -322,12 +316,15 @@ export const Home = (props: HomeProps) => {
         />
         <Route
           exact
-          path={'/application_analytics/create'}
-          render={() => (
+          path={['/application_analytics/create', '/application_analytics/edit/:id+']}
+          render={(routerProps) => (
             <CreateApp
               dslService={dslService}
               createApp={createApp}
+              updateApp={updateApp}
+              setToasts={setToast}
               clearStorage={clearStorage}
+              existingAppId={decodeURIComponent(routerProps.match.params.id) || ''}
               {...commonProps}
             />
           )}

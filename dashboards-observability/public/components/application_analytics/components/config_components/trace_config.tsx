@@ -215,7 +215,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
           <>
             <EuiText size="s">
               <h3>
-                Trace Groups <EuiBadge>{selectedTraces.length}</EuiBadge>
+                Trace groups <EuiBadge>{selectedTraces.length}</EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />

@@ -25,29 +25,29 @@ export function Traces(props: TracesProps) {
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
+  const appTraces = page === 'app';
 
-  const breadCrumbs =
-    page === 'app'
-      ? [
-          {
-            text: 'Application analytics',
-            href: '#/application_analytics',
-          },
-          {
-            text: `${appName}`,
-            href: `#/application_analytics/${appId}`,
-          },
-        ]
-      : [
-          {
-            text: 'Trace analytics',
-            href: '#/trace_analytics/home',
-          },
-          {
-            text: 'Traces',
-            href: '#/trace_analytics/traces',
-          },
-        ];
+  const breadCrumbs = appTraces
+    ? [
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: `${appName}`,
+          href: `#/application_analytics/${appId}`,
+        },
+      ]
+    : [
+        {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Traces',
+          href: '#/trace_analytics/traces',
+        },
+      ];
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
@@ -81,7 +81,7 @@ export function Traces(props: TracesProps) {
 
   return (
     <>
-      {page === 'app' ? (
+      {appTraces ? (
         <EuiSpacer size="m" />
       ) : (
         <EuiTitle size="l">
@@ -89,7 +89,7 @@ export function Traces(props: TracesProps) {
         </EuiTitle>
       )}
       <SearchBar
-        query={props.query}
+        query={appTraces ? '' : props.query}
         filters={props.filters}
         setFilters={props.setFilters}
         setQuery={props.setQuery}

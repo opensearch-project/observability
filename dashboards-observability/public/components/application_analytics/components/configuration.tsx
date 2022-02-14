@@ -4,63 +4,34 @@
  */
 
 import {
+  EuiBreadcrumb,
   EuiButton,
+  EuiCode,
+  EuiDescriptionList,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
-  EuiInMemoryTable,
   EuiPage,
   EuiPageBody,
   EuiPageContent,
+  EuiPageContentBody,
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
-  EuiTableFieldDataColumnType,
+  EuiSpacer,
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
+import { ApplicationType } from 'common/types/app_analytics';
 import React from 'react';
 
-const dummy = [
-  {
-    level: 'Available',
-    definition: 'error rate below or equal to 1%',
-    id: '1',
-  },
-];
+interface ConfigProps {
+  appId: string;
+  application: ApplicationType;
+  parentBreadcrumb: EuiBreadcrumb;
+}
 
-const dummyLogSources = [{ logName: 'index_1' }, { logName: 'ingest_logs_all' }];
-
-const dummyServicesEntities = [
-  { serviceName: 'Payment' },
-  { serviceName: 'Users' },
-  { serviceName: 'Purchase' },
-];
-
-const dummyTraceGroups = [
-  { traceGroup: 'Payment.auto' },
-  { traceGroup: 'Users.admin' },
-  { traceGroup: 'Purchase.source' },
-];
-
-export const Configuration = () => {
-  const tableColumns = [
-    {
-      field: 'level',
-      name: 'Level',
-      render: (value) => value,
-    },
-    {
-      field: 'definition',
-      name: 'Definition',
-      render: (value) => value,
-    },
-  ] as Array<
-    EuiTableFieldDataColumnType<{
-      level: string;
-      id: string;
-      definition: string;
-    }>
-  >;
+export const Configuration = (props: ConfigProps) => {
+  const { appId, application, parentBreadcrumb } = props;
 
   return (
     <div>
@@ -69,77 +40,56 @@ export const Configuration = () => {
           <EuiPageContent>
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
-                <EuiTitle size="s">
-                  <h3>Composition</h3>
+                <EuiTitle>
+                  <h3 style={{ paddingTop: '10px' }}>Configuration details</h3>
                 </EuiTitle>
               </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
                 <EuiFlexGroup gutterSize="s">
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => {}}>
-                      Edit composition
+                    <EuiButton
+                      fill
+                      onClick={() => {
+                        window.location.assign(
+                          `${parentBreadcrumb.href}application_analytics/edit/${appId}`
+                        );
+                      }}
+                    >
+                      Edit
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule margin="m" />
-            <EuiFlexGroup>
-              <EuiFlexItem>
-                <EuiText>
-                  <h5>Log Sources</h5>
-                  <ul style={{ listStyleType: 'none' }}>
-                    {dummyLogSources.map(function (item, index) {
-                      return <li key={index}>{item.logName}</li>;
-                    })}
-                  </ul>
-                </EuiText>
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <EuiText>
-                  <h5>Services & Entities</h5>
-                  <ul style={{ listStyleType: 'none' }}>
-                    {dummyServicesEntities.map(function (item, index) {
-                      return <li key={index}>{item.serviceName}</li>;
-                    })}
-                  </ul>
-                </EuiText>
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <EuiText>
-                  <h5>Trace groups</h5>
-                  <ul style={{ listStyleType: 'none' }}>
-                    {dummyTraceGroups.map(function (item, index) {
-                      return <li key={index}>{item.traceGroup}</li>;
-                    })}
-                  </ul>
-                </EuiText>
-              </EuiFlexItem>
-            </EuiFlexGroup>
-          </EuiPageContent>
-        </EuiPageBody>
-      </EuiPage>
-      <EuiPage>
-        <EuiPageBody component="div">
-          <EuiPageContent>
-            <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
-                <EuiTitle size="s">
-                  <h3>Availability</h3>
-                </EuiTitle>
-              </EuiPageContentHeaderSection>
-              <EuiPageContentHeaderSection>
-                <EuiFlexGroup gutterSize="s">
-                  <EuiFlexItem>
-                    <EuiButton fill onClick={() => {}}>
-                      Edit availability
-                    </EuiButton>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPageContentHeaderSection>
-            </EuiPageContentHeader>
-            <EuiHorizontalRule margin="m" />
-            <EuiInMemoryTable items={dummy} columns={tableColumns} />
+            <EuiPageContentBody>
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Log source</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  <p>
+                    <EuiCode>{application.baseQuery}</EuiCode>
+                  </p>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Services & Entities</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  {application.servicesEntities.join(', ')}
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Trace groups</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  {application.traceGroups.join(', ')}
+                </EuiFlexItem>
+                <EuiFlexItem />
+              </EuiFlexGroup>
+            </EuiPageContentBody>
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
