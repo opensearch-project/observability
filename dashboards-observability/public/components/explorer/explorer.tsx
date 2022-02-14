@@ -50,7 +50,7 @@ import {
   TAB_CHART_ID,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery } from '../../../common/utils';
+import { getIndexPatternFromRawQuery, insertDateRangeToQuery } from '../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from './hooks';
 import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
@@ -157,7 +157,7 @@ export const Explorer = ({
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
     if (isEmpty(curQuery![RAW_QUERY])) return '';
-    return preprocessQuery({
+    return insertDateRangeToQuery({
       rawQuery: curQuery![RAW_QUERY],
       startTime: curQuery![SELECTED_DATE_RANGE][0],
       endTime: curQuery![SELECTED_DATE_RANGE][1],
