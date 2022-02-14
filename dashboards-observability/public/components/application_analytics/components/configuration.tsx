@@ -4,69 +4,92 @@
  */
 
 import {
+  EuiBreadcrumb,
   EuiButton,
+  EuiCode,
+  EuiDescriptionList,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
   EuiPage,
   EuiPageBody,
   EuiPageContent,
+  EuiPageContentBody,
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
   EuiSpacer,
-  EuiTableFieldDataColumnType,
   EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
 import React from 'react';
 
 interface ConfigProps {
+  appId: string;
   application: ApplicationType;
+  parentBreadcrumb: EuiBreadcrumb;
 }
 
 export const Configuration = (props: ConfigProps) => {
-  const { application } = props;
+  const { appId, application, parentBreadcrumb } = props;
+
   return (
     <div>
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageContent>
             <EuiPageContentHeader>
-              <EuiPageContentHeaderSection />
+              <EuiPageContentHeaderSection>
+                <EuiTitle>
+                  <h3 style={{ paddingTop: '10px' }}>Configuration details</h3>
+                </EuiTitle>
+              </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
                 <EuiFlexGroup gutterSize="s">
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => {}}>
-                      Edit application
+                    <EuiButton
+                      fill
+                      onClick={() => {
+                        window.location.assign(
+                          `${parentBreadcrumb.href}application_analytics/edit/${appId}`
+                        );
+                      }}
+                    >
+                      Edit
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule margin="m" />
-            <EuiFlexGroup direction="column">
-              <EuiFlexItem>
-                <EuiText>
-                  <h4>Log source</h4>
-                </EuiText>
-                <EuiSpacer size="m" />
-                <EuiText>{application.baseQuery}</EuiText>
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <EuiText>
-                  <h4>Services & Entities</h4>
-                </EuiText>
-                <EuiSpacer size="m" />
-                {application.servicesEntities.join(', ')}
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <EuiText>
-                  <h4>Trace groups</h4>
-                </EuiText>
-                <EuiSpacer size="m" />
-                {application.traceGroups.join(', ')}
-              </EuiFlexItem>
-            </EuiFlexGroup>
+            <EuiPageContentBody>
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Log source</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  <p>
+                    <EuiCode>{application.baseQuery}</EuiCode>
+                  </p>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Services & Entities</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  {application.servicesEntities.join(', ')}
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Trace groups</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  {application.traceGroups.join(', ')}
+                </EuiFlexItem>
+                <EuiFlexItem />
+              </EuiFlexGroup>
+            </EuiPageContentBody>
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>

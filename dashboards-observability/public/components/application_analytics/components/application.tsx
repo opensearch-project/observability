@@ -36,7 +36,6 @@ import { Services } from '../../trace_analytics/components/services';
 import { Traces } from '../../trace_analytics/components/traces';
 import { Configuration } from './configuration';
 import {
-  APP_ANALYTICS_API_PREFIX,
   TAB_CONFIG_ID_TXT_PFX,
   TAB_CONFIG_TITLE,
   TAB_LOG_ID_TXT_PFX,
@@ -60,6 +59,7 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
+import { fetchAppById } from '../helpers/utils';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -134,38 +134,6 @@ export function Application(props: AppDetailProps) {
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
-  // Fetch application by id
-  const fetchAppById = async (applicationId: string) => {
-    return http
-      .get(`${APP_ANALYTICS_API_PREFIX}/${applicationId}`)
-      .then((res) => {
-        setApplication(res.application);
-        const serviceFilters = res.application.servicesEntities.map((ser: string) => {
-          return {
-            field: 'serviceName',
-            operator: 'is',
-            value: ser,
-            inverted: false,
-            disabled: false,
-          };
-        });
-        const traceFilters = res.application.traceGroups.map((tra: string) => {
-          return {
-            field: 'traceGroup',
-            operator: 'is',
-            value: tra,
-            inverted: false,
-            disabled: false,
-          };
-        });
-        setFilters([...serviceFilters, ...traceFilters]);
-      })
-      .catch((err) => {
-        setToasts('Error occurred while fetching application', 'danger');
-        console.error(err);
-      });
-  };
-
   // Add visualization to application's panel
   const addVisualizationToPanel = async (visualizationId: string, visualizationName: string) => {
     return http
@@ -182,7 +150,7 @@ export function Application(props: AppDetailProps) {
   };
 
   useEffect(() => {
-    fetchAppById(appId);
+    fetchAppById(http, appId, setApplication, setFilters, setToasts);
   }, [appId]);
 
   useEffect(() => {
@@ -326,7 +294,9 @@ export function Application(props: AppDetailProps) {
   };
 
   const getConfig = () => {
-    return <Configuration application={application} />;
+    return (
+      <Configuration appId={appId} parentBreadcrumb={parentBreadcrumb} application={application} />
+    );
   };
 
   function getAppAnalyticsTab({
