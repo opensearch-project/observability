@@ -24,41 +24,55 @@ import {
   EuiToolTip,
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
-import React, { useEffect, useState } from 'react';
+import React, { ReactChild, useEffect, useState } from 'react';
 import { AppAnalyticsComponentDeps } from '../home';
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
 import { LogConfig } from './config_components/log_config';
 import { PPLReferenceFlyout } from '../../../components/common/helpers';
-import { OptionType } from '../../../../common/types/app_analytics';
+import { ApplicationType, OptionType } from '../../../../common/types/app_analytics';
+import { fetchAppById } from '../helpers/utils';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
-  createApp: (
-    name: string,
-    description: string,
-    query: string,
-    selectedServices: OptionType[],
-    selectedTraces: OptionType[]
-  ) => void;
+  setToasts: (title: string, color?: string, text?: ReactChild) => void;
+  createApp: (app: ApplicationType) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => void;
   clearStorage: () => void;
+  existingAppId: string;
 }
 
 export const CreateApp = (props: CreateAppProps) => {
   const {
     parentBreadcrumb,
     chrome,
+    http,
     query,
-    createApp,
     name,
     description,
+    createApp,
+    updateApp,
+    setToasts,
     setNameWithStorage,
     setDescriptionWithStorage,
+    setQueryWithStorage,
+    setFilters,
     clearStorage,
+    existingAppId,
   } = props;
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<OptionType[]>([]);
   const [selectedTraces, setSelectedTraces] = useState<OptionType[]>([]);
+
+  const editMode = !!existingAppId;
+  const [existingApp, setExistingApp] = useState<ApplicationType>({
+    name: '',
+    description: '',
+    baseQuery: '',
+    servicesEntities: [],
+    traceGroups: [],
+    panelId: '',
+  });
 
   useEffect(() => {
     chrome.setBreadcrumbs([
@@ -68,11 +82,23 @@ export const CreateApp = (props: CreateAppProps) => {
         href: '#/application_analytics',
       },
       {
-        text: 'Create',
-        href: '#/application_analytics/create',
+        text: editMode ? 'Edit' : 'Create',
+        href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
       },
     ]);
   }, []);
+
+  useEffect(() => {
+    if (editMode) {
+      fetchAppById(http, existingAppId, setExistingApp, setFilters, setToasts);
+    }
+  }, [existingAppId]);
+
+  useEffect(() => {
+    setNameWithStorage(existingApp.name);
+    setDescriptionWithStorage(existingApp.description);
+    setQueryWithStorage(existingApp.baseQuery);
+  }, [existingApp]);
 
   const closeFlyout = () => {
     setIsFlyoutVisible(false);
@@ -102,7 +128,25 @@ export const CreateApp = (props: CreateAppProps) => {
   };
 
   const onCreate = () => {
-    createApp(name, description, query, selectedServices, selectedTraces);
+    const appData = {
+      name,
+      description,
+      baseQuery: query,
+      servicesEntities: selectedServices.map((option) => option.label),
+      traceGroups: selectedTraces.map((option) => option.label),
+      panelId: '',
+    };
+    createApp(appData);
+  };
+
+  const onUpdate = () => {
+    const appData = {
+      name,
+      description,
+      servicesEntities: selectedServices.map((option) => option.label),
+      traceGroups: selectedTraces.map((option) => option.label),
+    };
+    updateApp(existingAppId, appData, true);
   };
 
   const onCancel = () => {
@@ -117,7 +161,7 @@ export const CreateApp = (props: CreateAppProps) => {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>Create application</h1>
+                <h1>{editMode ? 'Edit' : 'Create'} application</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -178,8 +222,8 @@ export const CreateApp = (props: CreateAppProps) => {
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
-                <EuiButton isDisabled={isDisabled} onClick={onCreate} fill>
-                  Create
+                <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
+                  {editMode ? 'Edit' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>

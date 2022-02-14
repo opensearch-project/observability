@@ -10,12 +10,18 @@ import { TraceAnalyticsComponentDeps } from '../../home';
 import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
-  handleDashboardThroughputPltRequest
+  handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl, getPercentileFilter, milliToNanoSec, minFixedInterval, MissingConfigurationMessage } from '../common/helper_functions';
+import {
+  filtersToDsl,
+  getPercentileFilter,
+  milliToNanoSec,
+  minFixedInterval,
+  MissingConfigurationMessage,
+} from '../common/helper_functions';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ThroughputPlt } from '../common/plots/throughput_plt';
@@ -34,23 +40,27 @@ export function Dashboard(props: DashboardProps) {
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
+    'latency' | 'error_rate' | 'throughput'
+  >('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
+  const appOverview = page === 'app';
 
-  const breadCrumbs = page === 'app' ? 
-    [
-      {
-        text: 'Application analytics',
-        href: '#/application_analytics',
-      },
-      {
-        text: `${appName}`,
-        href: `#/application_analytics/${appId}`,
-      },
-    ] : [
-      {
+  const breadCrumbs = appOverview
+    ? [
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: `${appName}`,
+          href: `#/application_analytics/${appId}`,
+        },
+      ]
+    : [
+        {
           text: 'Trace analytics',
           href: '#/trace_analytics/home',
         },
@@ -58,15 +68,10 @@ export function Dashboard(props: DashboardProps) {
           text: 'Dashboards',
           href: '#/trace_analytics/home',
         },
-    ]
-
+      ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs(
-      [
-      parentBreadcrumb,
-      ...breadCrumbs
-    ]);
+    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
     const validFilters = getValidFilterFields(page);
     props.setFilters([
       ...props.filters.map((filter) => ({
@@ -178,15 +183,15 @@ export function Dashboard(props: DashboardProps) {
 
   return (
     <>
-      {page === 'app' ?
-      <EuiSpacer size="m" />
-      :
-      <EuiTitle size="l">
-        <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
-      </EuiTitle>
-      }
+      {appOverview ? (
+        <EuiSpacer size="m" />
+      ) : (
+        <EuiTitle size="l">
+          <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
+        </EuiTitle>
+      )}
       <SearchBar
-        query={props.query}
+        query={appOverview ? '' : props.query}
         filters={props.filters}
         setFilters={props.setFilters}
         setQuery={props.setQuery}

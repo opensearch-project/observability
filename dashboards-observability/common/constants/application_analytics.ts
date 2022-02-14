@@ -16,4 +16,4 @@ export const TAB_LOG_TITLE = 'Log Events';
 export const TAB_PANEL_TITLE = 'Panels';
 export const TAB_CONFIG_TITLE = 'Configuration';
 
-export const APP_ANALYTICS_API_PREFIX = '/api/observability/application'
+export const APP_ANALYTICS_API_PREFIX = '/api/observability/application';
