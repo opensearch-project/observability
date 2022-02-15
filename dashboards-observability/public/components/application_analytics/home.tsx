@@ -77,7 +77,7 @@ export const Home = (props: HomeProps) => {
   );
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
   const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24M'
+    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h'
   );
   const [endTime, setEndTime] = useState<string>(
     sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
