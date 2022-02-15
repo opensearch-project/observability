@@ -9,6 +9,7 @@ import org.opensearch.ResourceAlreadyExistsException
 import org.opensearch.ResourceNotFoundException
 import org.opensearch.action.DocWriteResponse
 import org.opensearch.action.admin.indices.create.CreateIndexRequest
+import org.opensearch.action.admin.indices.mapping.put.PutMappingRequest
 import org.opensearch.action.bulk.BulkRequest
 import org.opensearch.action.delete.DeleteRequest
 import org.opensearch.action.get.GetRequest
@@ -23,6 +24,7 @@ import org.opensearch.common.unit.TimeValue
 import org.opensearch.common.xcontent.LoggingDeprecationHandler
 import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.index.IndexNotFoundException
 import org.opensearch.index.query.QueryBuilders
 import org.opensearch.index.reindex.ReindexAction
 import org.opensearch.index.reindex.ReindexRequestBuilder
@@ -84,7 +86,10 @@ internal object ObservabilityIndex {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
-        if (!isIndexExists(INDEX_NAME)) {
+        if (isIndexExists(INDEX_NAME)) {
+            // TODO: Only update mappings when they have changed so it doesn't run on every request
+            updateMappings()
+        } else {
             val classLoader = ObservabilityIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
             val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
@@ -105,6 +110,28 @@ internal object ObservabilityIndex {
                     throw exception
                 }
             }
+        }
+    }
+
+    /**
+     * Check if the index mappings have changed and if they have, update them
+     */
+    private fun updateMappings() {
+        val classLoader = ObservabilityIndex::class.java.classLoader
+        val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
+        val request = PutMappingRequest(INDEX_NAME)
+            .type("_doc")
+            .source(indexMappingSource, XContentType.YAML)
+        try {
+            val actionFuture = client.admin().indices().putMapping(request)
+            val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
+            if (response.isAcknowledged) {
+                log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
+            } else {
+                throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
+            }
+        } catch (exception: IndexNotFoundException) {
+            log.error("$LOG_PREFIX:IndexNotFoundException:", exception)
         }
     }
 

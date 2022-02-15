@@ -37,6 +37,7 @@ exports[`Services component renders empty services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="services"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -900,6 +901,7 @@ exports[`Services component renders empty services page 1`] = `
     indicesExist={false}
     items={Array []}
     loading={false}
+    page="services"
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}
@@ -1156,6 +1158,7 @@ exports[`Services component renders services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="services"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -2042,6 +2045,7 @@ exports[`Services component renders services page 1`] = `
     indicesExist={true}
     items={Array []}
     loading={false}
+    page="services"
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}

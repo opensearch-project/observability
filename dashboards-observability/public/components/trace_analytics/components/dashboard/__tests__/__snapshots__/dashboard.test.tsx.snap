@@ -37,6 +37,7 @@ exports[`Dashboard component renders dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -924,6 +925,7 @@ exports[`Dashboard component renders dashboard 1`] = `
     filters={Array []}
     items={Array []}
     loading={false}
+    page="dashboard"
     setRedirect={[Function]}
   >
     <EuiPanel>
@@ -1171,6 +1173,7 @@ exports[`Dashboard component renders dashboard 1`] = `
           <ServiceMap
             addFilter={[Function]}
             idSelected="latency"
+            page="dashboard"
             serviceMap={Object {}}
             setIdSelected={[Function]}
           >
@@ -2021,6 +2024,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="dashboard"
   parentBreadcrumb={
     Object {
       "href": "test#/",

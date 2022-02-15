@@ -10,43 +10,69 @@ import { TraceAnalyticsComponentDeps } from '../../home';
 import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
-  handleDashboardThroughputPltRequest
+  handleDashboardThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl, getPercentileFilter, milliToNanoSec, minFixedInterval, MissingConfigurationMessage } from '../common/helper_functions';
+import {
+  filtersToDsl,
+  getPercentileFilter,
+  milliToNanoSec,
+  minFixedInterval,
+  MissingConfigurationMessage,
+} from '../common/helper_functions';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { SearchBar } from '../common/search_bar';
 import { DashboardTable } from './dashboard_table';
 
-interface DashboardProps extends TraceAnalyticsComponentDeps {}
+interface DashboardProps extends TraceAnalyticsComponentDeps {
+  appId?: string;
+  appName?: string;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
+}
 
 export function Dashboard(props: DashboardProps) {
+  const { appId, appName, page, parentBreadcrumb } = props;
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
-  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<'latency' | 'error_rate' | 'throughput'>('latency');
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
+    'latency' | 'error_rate' | 'throughput'
+  >('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
+  const appOverview = page === 'app';
+
+  const breadCrumbs = appOverview
+    ? [
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: `${appName}`,
+          href: `#/application_analytics/${appId}`,
+        },
+      ]
+    : [
+        {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Dashboards',
+          href: '#/trace_analytics/home',
+        },
+      ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Dashboards',
-        href: '#/trace_analytics/home',
-      },
-    ]);
-    const validFilters = getValidFilterFields('dashboard');
+    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
+    const validFilters = getValidFilterFields(page);
     props.setFilters([
       ...props.filters.map((filter) => ({
         ...filter,
@@ -62,8 +88,8 @@ export function Dashboard(props: DashboardProps) {
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, page);
+    const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime, page);
     const latencyTrendStartTime = dateMath
       .parse(props.endTime)
       ?.subtract(24, 'hours')
@@ -72,7 +98,8 @@ export function Dashboard(props: DashboardProps) {
       props.filters,
       props.query,
       latencyTrendStartTime,
-      props.endTime
+      props.endTime,
+      page
     );
     const fixedInterval = minFixedInterval(props.startTime, props.endTime);
 
@@ -156,11 +183,15 @@ export function Dashboard(props: DashboardProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
-      </EuiTitle>
+      {appOverview ? (
+        <EuiSpacer size="m" />
+      ) : (
+        <EuiTitle size="l">
+          <h2 style={{ fontWeight: 430 }}>Dashboard</h2>
+        </EuiTitle>
+      )}
       <SearchBar
-        query={props.query}
+        query={appOverview ? '' : props.query}
         filters={props.filters}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
@@ -169,7 +200,7 @@ export function Dashboard(props: DashboardProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="dashboard"
+        page={page}
       />
       <EuiSpacer size="m" />
       {props.indicesExist ? (
@@ -181,6 +212,7 @@ export function Dashboard(props: DashboardProps) {
             addPercentileFilter={addPercentileFilter}
             setRedirect={setRedirect}
             loading={loading}
+            page="dashboard"
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">
@@ -190,6 +222,7 @@ export function Dashboard(props: DashboardProps) {
                 serviceMap={serviceMap}
                 idSelected={serviceMapIdSelected}
                 setIdSelected={setServiceMapIdSelected}
+                page={page}
               />
             </EuiFlexItem>
             <EuiFlexItem>
