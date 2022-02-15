@@ -42,8 +42,8 @@ import {
   TAB_LOG_TITLE,
   TAB_OVERVIEW_ID_TXT_PFX,
   TAB_OVERVIEW_TITLE,
-  TAB_PANEL_ID_TXT_PFX,
-  TAB_PANEL_TITLE,
+  TAB_METRIC_ID_TXT_PFX,
+  TAB_METRIC_TITLE,
   TAB_SERVICE_ID_TXT_PFX,
   TAB_SERVICE_TITLE,
   TAB_TRACE_ID_TXT_PFX,
@@ -65,7 +65,7 @@ const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
-const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
+const TAB_METRIC_ID = uniqueId(TAB_METRIC_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -373,8 +373,8 @@ export function Application(props: AppDetailProps) {
       getContent: () => getLog(),
     }),
     getAppAnalyticsTab({
-      tabId: TAB_PANEL_ID,
-      tabTitle: TAB_PANEL_TITLE,
+      tabId: TAB_METRIC_ID,
+      tabTitle: TAB_METRIC_TITLE,
       getContent: () => getPanel(),
     }),
     getAppAnalyticsTab({
