@@ -372,7 +372,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Create New Panel
+                                              Create panel
                                             </span>
                                           </span>
                                         </EuiButtonContent>
@@ -499,7 +499,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     <span
                                       className="euiButton__text"
                                     >
-                                      Create new panel
+                                      Create panel
                                     </span>
                                   </span>
                                 </EuiButtonContent>
@@ -982,7 +982,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Create New Panel
+                                              Create panel
                                             </span>
                                           </span>
                                         </EuiButtonContent>
