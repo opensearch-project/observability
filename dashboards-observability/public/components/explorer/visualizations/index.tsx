@@ -37,7 +37,7 @@ export const ExplorerVisualizations = ({
               <Sidebar
                 explorerFields={explorerFields}
                 explorerData={explorerData}
-                selectedTimestamp={visualizations.data.query[SELECTED_TIMESTAMP]}
+                selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
                 handleOverrideTimestamp={handleOverrideTimestamp}
                 handleAddField={(field: IField) => handleAddField(field)}
                 handleRemoveField={(field: IField) => handleRemoveField(field)}

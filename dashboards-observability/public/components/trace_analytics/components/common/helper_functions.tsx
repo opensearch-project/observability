@@ -285,7 +285,8 @@ export const filtersToDsl = (
   filters: FilterType[],
   query: string,
   startTime: string,
-  endTime: string
+  endTime: string,
+  page?: string,
 ) => {
   const DSL: any = {
     query: {
@@ -394,7 +395,12 @@ export const filtersToDsl = (
         default:
           break;
       }
-      DSL.query.bool[filter.inverted ? 'must_not' : 'must'].push(filterQuery);
+      if (page === 'app') {
+        DSL.query.bool.minimum_should_match = 1;
+        DSL.query.bool.should.push(filterQuery);
+      } else {
+        DSL.query.bool[filter.inverted ? 'must_not' : 'must'].push(filterQuery);
+      }
     });
 
   return DSL;

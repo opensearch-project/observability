@@ -15,7 +15,7 @@ export const Visualization = ({ visualizations }: IVisualizationProps) => {
       {visualizations?.data?.rawVizData?.size ? (
         <VisualizationChart visualizations={visualizations} />
       ) : (
-        <EmptyPlaceholder icon={visualizations.vis.icon} />
+        <EmptyPlaceholder icon={visualizations?.vis?.icon} />
       )}
     </>
   );

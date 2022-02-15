@@ -22,7 +22,18 @@ const initialQueryState = {
   [SELECTED_DATE_RANGE]: ['now-15m', 'now'],
 };
 
+const appBaseQueryState = {
+  [RAW_QUERY]: '',
+  [FINAL_QUERY]: '',
+  [INDEX]: '',
+  [SELECTED_TIMESTAMP]: '',
+  [SELECTED_DATE_RANGE]: ['now-24M', 'now'],
+};
+
 const initialState = {
+  'application-analytics-tab': {
+    ...appBaseQueryState,
+  },
   [initialTabId]: {
     ...initialQueryState,
   },

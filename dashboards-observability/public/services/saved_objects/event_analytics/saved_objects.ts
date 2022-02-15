@@ -58,10 +58,11 @@ export default class SavedObjects {
     timestamp,
     name = '',
     chartType = '',
-    description = ''
+    description = '',
+    applicationId = ''
   }: any) {
 
-    const objRequest = {
+    const objRequest: any = {
       object: {
         query,
         selected_date_range: {
@@ -84,6 +85,10 @@ export default class SavedObjects {
 
     if (!isEmpty(chartType)) {
       objRequest['object']['type'] = chartType;
+    }
+
+    if (!isEmpty(applicationId)) {
+      objRequest['object']['application_id'] = applicationId;
     }
 
     return objRequest;
@@ -231,7 +236,8 @@ export default class SavedObjects {
       dateRange: params.dateRange,
       chartType: params.type,
       name: params.name,
-      timestamp: params.timestamp
+      timestamp: params.timestamp,
+      applicationId: params.applicationId
     });
 
     return await this.http.post(

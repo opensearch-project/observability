@@ -31,6 +31,7 @@ internal object RestTag {
     const val SAVED_QUERY_FIELD = "savedQuery"
     const val SAVED_VISUALIZATION_FIELD = "savedVisualization"
     const val OPERATIONAL_PANEL_FIELD = "operationalPanel"
+    const val APPLICATION_FIELD = "application"
     const val TIMESTAMP_FIELD = "timestamp"
     private val INCLUDE_ID = Pair(OBJECT_ID_FIELD, "true")
     private val EXCLUDE_ACCESS = Pair(ACCESS_LIST_FIELD, "false")

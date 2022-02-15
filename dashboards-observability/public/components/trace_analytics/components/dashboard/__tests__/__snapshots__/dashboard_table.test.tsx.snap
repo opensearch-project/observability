@@ -32,6 +32,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
     ]
   }
   loading={false}
+  page="dashboard"
   setRedirect={[MockFunction]}
 >
   <EuiPanel>
@@ -3242,6 +3243,7 @@ exports[`Dashboard table component renders empty dashboard table message 1`] = `
   filters={Array []}
   items={Array []}
   loading={false}
+  page="dashboard"
   setRedirect={[MockFunction]}
 >
   <EuiPanel>
