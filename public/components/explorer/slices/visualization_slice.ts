@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
-  createSlice
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import { REDUX_EXPL_SLICE_VISUALIZATION } from '../../../../common/constants/explorer';
 
 const initialState = {
-  [initialTabId]: {}
+  [initialTabId]: {},
+  'application-analytics-tab': {},
 };
 
 export const explorerVisualizationSlice = createSlice({
@@ -24,13 +23,10 @@ export const explorerVisualizationSlice = createSlice({
       state[payload.tabId] = {};
     },
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {},
 });
 
-export const {
-  render,
-  reset
-} = explorerVisualizationSlice.actions;
+export const { render, reset } = explorerVisualizationSlice.actions;
 
 export const selectExplorerVisualization = (state) => state.explorerVisualization;
 

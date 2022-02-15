@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
-  createSlice
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { initialTabId } from '../../../framework/redux/store/shared_state';
 import { REDUX_EXPL_SLICE_COUNT_DISTRIBUTION } from '../../../../common/constants/explorer';
 
 const initialState = {
-  [initialTabId]: {}
+  [initialTabId]: {},
+  'application-analytics-tab': {},
 };
 
 export const countDistributionSlice = createSlice({
@@ -19,16 +18,14 @@ export const countDistributionSlice = createSlice({
   reducers: {
     render: (state, { payload }) => {
       state[payload.tabId] = {
-        ...payload.data
+        ...payload.data,
       };
-    }
+    },
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {},
 });
 
-export const {
-  render
-} = countDistributionSlice.actions;
+export const { render } = countDistributionSlice.actions;
 
 export const selectCountDistribution = (state) => state.countDistribution;
 
