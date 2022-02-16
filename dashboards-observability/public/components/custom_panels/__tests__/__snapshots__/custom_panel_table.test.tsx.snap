@@ -156,7 +156,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                 <div
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using Piped Processing Language queries.
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
                                    
                                   <EuiLink
                                     external={true}
@@ -759,7 +759,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                 <div
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using Piped Processing Language queries.
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
                                    
                                   <EuiLink
                                     external={true}
