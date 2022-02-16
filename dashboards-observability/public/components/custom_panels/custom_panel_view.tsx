@@ -65,7 +65,7 @@ import { PPLReferenceFlyout } from '../common/helpers';
 
 interface Props {
   panelId: string;
-  page?: string;
+  page: 'app' | 'operationalPanels';
   appId?: string;
   appName?: string;
   http: CoreStart['http'];
@@ -623,20 +623,24 @@ export const CustomPanelView = ({
                   isDisabled={dateDisabled}
                 />
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiButton
-                  iconType="pencil"
-                  onClick={() => editPanel('edit')}
-                  disabled={editDisabled}
-                >
-                  Edit
-                </EuiButton>
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
-                  Add
-                </EuiButton>
-              </EuiFlexItem>
+              {appMetrics && (
+                <>
+                  <EuiFlexItem grow={false}>
+                    <EuiButton
+                      iconType="pencil"
+                      onClick={() => editPanel('edit')}
+                      disabled={editDisabled}
+                    >
+                      Edit
+                    </EuiButton>
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>
+                    <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
+                      Add
+                    </EuiButton>
+                  </EuiFlexItem>
+                </>
+              )}
             </EuiFlexGroup>
             <EuiSpacer size="l" />
             {panelVisualizations.length === 0 && (
