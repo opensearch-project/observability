@@ -17,6 +17,7 @@ import { AutocompleteItem } from '../../../../common/constants/autocomplete';
 interface AutocompleteProps extends IQueryBarProps {
   getSuggestions: (query: string, dslService: DSLService) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
+  isDisabled?: boolean;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -28,6 +29,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     dslService,
     getSuggestions,
     onItemSelect,
+    isDisabled,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -106,6 +108,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
           placeholder: 'Enter PPL query',
           inputElement: null,
         })}
+        disabled={isDisabled}
       />
       {autocompleteState.isOpen && (
         <div

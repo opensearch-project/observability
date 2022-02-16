@@ -27,10 +27,11 @@ import { getClearModal } from '../../helpers/modal_containers';
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   setIsFlyoutVisible: any;
+  editMode: boolean;
 }
 
 export const LogConfig = (props: LogConfigProps) => {
-  const { dslService, query, setQueryWithStorage, setIsFlyoutVisible } = props;
+  const { dslService, query, setQueryWithStorage, setIsFlyoutVisible, editMode } = props;
   const [logOpen, setLogOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
@@ -83,12 +84,17 @@ export const LogConfig = (props: LogConfigProps) => {
             </EuiText>
             <EuiSpacer size="s" />
             <EuiText size="s" color="subdued">
-              Configure your application base query
+              Configure your application base query (This can not be changed once application is
+              created)
             </EuiText>
           </>
         }
         extraAction={
-          <EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>
+          <EuiButton
+            size="s"
+            disabled={!logOpen || !query.length || editMode}
+            onClick={clearAllModal}
+          >
             Clear
           </EuiButton>
         }
@@ -111,6 +117,7 @@ export const LogConfig = (props: LogConfigProps) => {
               dslService={dslService}
               getSuggestions={getFullSuggestions}
               onItemSelect={onItemSelect}
+              isDisabled={editMode}
             />
             <EuiBadge
               className={`ppl-link ${

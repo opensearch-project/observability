@@ -201,7 +201,7 @@ export const CreateApp = (props: CreateAppProps) => {
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiHorizontalRule />
-            <LogConfig setIsFlyoutVisible={setIsFlyoutVisible} {...props} />
+            <LogConfig editMode={editMode} setIsFlyoutVisible={setIsFlyoutVisible} {...props} />
             <EuiHorizontalRule />
             <ServiceConfig
               selectedServices={selectedServices}
