@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -68,8 +70,6 @@ import {
   onItemSelect,
 } from '../common/search/autocomplete_logic';
 
-// const TAB_EVENT_ID = 'main-content-events';
-// const TAB_CHART_ID = 'main-content-vis';
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
   [SAVED_VISUALIZATION]: TAB_CHART_ID,
@@ -86,7 +86,6 @@ export const Explorer = ({
   notifications,
   savedObjectId,
   curSelectedTabId,
-  savedObjectId,
   searchBarConfigs,
   appId = '',
   appBaseQuery = '',
@@ -129,7 +128,7 @@ export const Explorer = ({
   const [liveTailName, setLiveTailName] = useState('Live');
   const [liveTailToggle, setLiveTailToggle] = useState(false);
 
-  const fromAppAnalytics = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId === 'application-analytics-tab';
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -144,7 +143,6 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
-  // const SearchBar = searchBar;
   let minInterval = 'y';
   const findAutoInterval = (start: string, end: string) => {
     if (start?.length === 0 || end?.length === 0 || start === end) return 'd';
@@ -467,22 +465,23 @@ export const Explorer = ({
   const handleRemoveField = (field: IField) =>
     toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
-    const handleTimePickerChange = async (timeRange: string[]) => {
-      if (fromAppAnalytics) {
-        setStartTime(timeRange[0]);
-        setEndTime(timeRange[1]);
-      } else {
-        await dispatch(
-          changeDateRange({
-            tabId: requestParams.tabId,
-            data: {
-              [RAW_QUERY]: queryRef.current![RAW_QUERY],
-              [SELECTED_DATE_RANGE]: timeRange,
-            },
-          })
-        );
-      }
-    };
+
+  const handleTimePickerChange = async (timeRange: string[]) => {
+    if (appLogEvents) {
+      setStartTime(timeRange[0]);
+      setEndTime(timeRange[1]);
+    } else {
+      await dispatch(
+        changeDateRange({
+          tabId: requestParams.tabId,
+          data: {
+            [RAW_QUERY]: queryRef.current![RAW_QUERY],
+            [SELECTED_DATE_RANGE]: timeRange,
+          },
+        })
+      );
+    }
+  };
 
   const showPermissionErrorToast = () => {
     setToast(
@@ -623,6 +622,7 @@ export const Explorer = ({
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}
+                  isOverridingTimestamp={isOverridingTimestamp}
                   isFieldToggleButtonDisabled={
                     isEmpty(explorerData.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
@@ -656,7 +656,7 @@ export const Explorer = ({
                         <EuiFlexItem grow={false}>
                           <HitsCounter
                             hits={reduce(
-                              countDistribution['data']['count()'],
+                              countDistribution.data['count()'],
                               (sum, n) => {
                                 return sum + n;
                               },
@@ -791,12 +791,13 @@ export const Explorer = ({
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
-  const updateQueryInStore = async (query: string) => {
+
+  const updateQueryInStore = async (updateQuery: string) => {
     await dispatch(
       changeQuery({
         tabId,
         query: {
-          [RAW_QUERY]: query.replaceAll(PPL_NEWLINE_REGEX, ''),
+          [RAW_QUERY]: updateQuery.replaceAll(PPL_NEWLINE_REGEX, ''),
         },
       })
     );
@@ -836,7 +837,7 @@ export const Explorer = ({
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params['objectId'] = currQuery![SAVED_OBJECT_ID];
+        params.objectId = currQuery![SAVED_OBJECT_ID];
         await savedObjects
           .updateSavedQueryById(params)
           .then((res: any) => {
@@ -862,7 +863,7 @@ export const Explorer = ({
         savedObjects
           .createSavedQuery(params)
           .then((res: any) => {
-            history.replace(`/event_analytics/explorer/${res['objectId']}`);
+            history.replace(`/event_analytics/explorer/${res.objectId}`);
             setToast(
               `New query '${selectedPanelNameRef.current}' has been successfully saved.`,
               'success'
@@ -872,7 +873,7 @@ export const Explorer = ({
                 changeQuery({
                   tabId,
                   query: {
-                    [SAVED_OBJECT_ID]: res['objectId'],
+                    [SAVED_OBJECT_ID]: res.objectId,
                     [SAVED_OBJECT_TYPE]: SAVED_QUERY,
                   },
                 })
@@ -884,7 +885,7 @@ export const Explorer = ({
                 })
               );
             });
-            history.replace(`/event_analytics/explorer/${res['objectId']}`);
+            history.replace(`/event_analytics/explorer/${res.objectId}`);
             return res;
           })
           .catch((error: any) => {
@@ -909,8 +910,8 @@ export const Explorer = ({
       let savingVisRes;
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params['objectId'] = currQuery![SAVED_OBJECT_ID];
-        params['type'] = curVisId;
+        params.objectId = currQuery![SAVED_OBJECT_ID];
+        params.type = curVisId;
         savingVisRes = await savedObjects
           .updateSavedVisualizationById(params)
           .then((res: any) => {
@@ -941,6 +942,7 @@ export const Explorer = ({
             type: curVisId,
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
+            applicationId: appId,
           })
           .then((res: any) => {
             batch(() => {
@@ -948,7 +950,7 @@ export const Explorer = ({
                 changeQuery({
                   tabId,
                   query: {
-                    [SAVED_OBJECT_ID]: res['objectId'],
+                    [SAVED_OBJECT_ID]: res.objectId,
                     [SAVED_OBJECT_TYPE]: SAVED_VISUALIZATION,
                   },
                 })
@@ -960,7 +962,7 @@ export const Explorer = ({
                 })
               );
             });
-            if (fromAppAnalytics) {
+            if (appLogEvents) {
               addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
             } else {
               history.replace(`/event_analytics/explorer/${res.objectId}`);
@@ -1161,7 +1163,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={fromAppAnalytics ? appBaseQuery : query[RAW_QUERY]}
+        query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -1184,6 +1186,12 @@ export const Explorer = ({
         popoverItems={popoverItems}
         isLiveTailOn={isLiveTailOnRef.current}
         totalHits={countDistribution}
+        selectedSubTabId={selectedContentTabId}
+        searchBarConfigs={searchBarConfigs}
+        getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
+        onItemSelect={onItemSelect}
+        tabId={tabId}
+        baseQuery={appBaseQuery}
       />
       <EuiTabbedContent
         className="mainContentTabs"

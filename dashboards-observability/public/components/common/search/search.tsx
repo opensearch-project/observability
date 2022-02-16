@@ -5,8 +5,8 @@
 
 import './search.scss';
 
+
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-// import PropTypes from 'prop-types';
 import {
   EuiFlexGroup,
   EuiButton,
@@ -101,7 +101,8 @@ export const Search = (props: any) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   };
 
-  const SaveButton = (
+
+  const Savebutton = (
     <EuiButton
       iconSide="right"
       onClick={() => {
@@ -162,14 +163,15 @@ export const Search = (props: any) => {
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
         {tabId === 'application-analytics-tab' && (
-            <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
-              <EuiToolTip position="top" content={baseQuery}>
-                <EuiBadge className="base-query-popover" color="hollow">
-                  Base Query
-                </EuiBadge>
-              </EuiToolTip>
-            </EuiFlexItem>
-          )}
+
+          <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
+            <EuiToolTip position="top" content={baseQuery}>
+              <EuiBadge className="base-query-popover" color="hollow">
+                Base Query
+              </EuiBadge>
+            </EuiToolTip>
+          </EuiFlexItem>
+        )}
         <EuiFlexItem key="search-bar" className="search-area">
           <Autocomplete
             key={'autocomplete-search-bar'}
@@ -232,7 +234,7 @@ export const Search = (props: any) => {
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
-                button={SaveButton}
+                button={Savebutton}
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
@@ -246,7 +248,7 @@ export const Search = (props: any) => {
                   showOptionList={
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
-                  }                
+                  }
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
@@ -282,9 +284,4 @@ export const Search = (props: any) => {
       {flyout}
     </div>
   );
-};
-
-Search.propTypes = {
-  handleQueryChange: PropTypes.func,
-  handleQuerySearch: PropTypes.func,
 };

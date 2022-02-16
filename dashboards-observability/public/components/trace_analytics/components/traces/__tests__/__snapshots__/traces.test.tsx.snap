@@ -2,6 +2,7 @@
 
 exports[`Traces component renders empty traces page 1`] = `
 <Traces
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -37,6 +38,7 @@ exports[`Traces component renders empty traces page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="traces"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -79,6 +81,7 @@ exports[`Traces component renders empty traces page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="traces"
@@ -681,6 +684,7 @@ exports[`Traces component renders empty traces page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="traces"
       setFilters={
@@ -899,6 +903,7 @@ exports[`Traces component renders empty traces page 1`] = `
     indicesExist={false}
     items={Array []}
     loading={false}
+    page="traces"
     refresh={[Function]}
   >
     <EuiPanel>
@@ -1117,6 +1122,7 @@ exports[`Traces component renders empty traces page 1`] = `
 
 exports[`Traces component renders traces page 1`] = `
 <Traces
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -1152,6 +1158,7 @@ exports[`Traces component renders traces page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="traces"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -1194,6 +1201,7 @@ exports[`Traces component renders traces page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="traces"
@@ -1814,6 +1822,7 @@ exports[`Traces component renders traces page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="traces"
       setFilters={
@@ -2037,6 +2046,7 @@ exports[`Traces component renders traces page 1`] = `
     indicesExist={true}
     items={Array []}
     loading={false}
+    page="traces"
     refresh={[Function]}
   >
     <EuiPanel>

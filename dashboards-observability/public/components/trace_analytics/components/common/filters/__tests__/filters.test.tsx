@@ -14,7 +14,9 @@ describe('Filter component', () => {
 
   it('renders filters', () => {
     const setFilters = jest.fn();
-    const wrapper = mount(<Filters page="dashboard" filters={[]} setFilters={setFilters} />);
+    const wrapper = mount(
+      <Filters page="dashboard" filters={[]} setFilters={setFilters} appConfigs={[]} />
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

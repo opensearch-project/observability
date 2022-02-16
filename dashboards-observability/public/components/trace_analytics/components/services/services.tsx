@@ -13,25 +13,44 @@ import { filtersToDsl } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 
-interface ServicesProps extends TraceAnalyticsComponentDeps {}
+interface ServicesProps extends TraceAnalyticsComponentDeps {
+  appId?: string;
+  appName?: string;
+  openServiceFlyout?: (serviceName: string) => void;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
+}
 
 export function Services(props: ServicesProps) {
+  const { appId, appName, parentBreadcrumb, page } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
+  const appServices = page === 'app';
+
+  const breadCrumbs = appServices
+    ? [
+        {
+          text: 'Application analytics',
+          href: '#/application_analytics',
+        },
+        {
+          text: `${appName}`,
+          href: `#/application_analytics/${appId}`,
+        },
+      ]
+    : [
+        {
+          text: 'Trace analytics',
+          href: '#/trace_analytics/home',
+        },
+        {
+          text: 'Services',
+          href: '#/trace_analytics/services',
+        },
+      ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
-      {
-        text: 'Trace analytics',
-        href: '#/trace_analytics/home',
-      },
-      {
-        text: 'Services',
-        href: '#/trace_analytics/services',
-      },
-    ]);
+    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
     const validFilters = getValidFilterFields('services');
     props.setFilters([
       ...props.filters.map((filter) => ({
@@ -44,11 +63,18 @@ export function Services(props: ServicesProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters]);
+  }, [props.filters, props.appConfigs]);
 
   const refresh = async () => {
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const DSL = filtersToDsl(
+      props.filters,
+      props.query,
+      props.startTime,
+      props.endTime,
+      props.page,
+      appServices ? props.appConfigs : []
+    );
     await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
     setLoading(false);
   };
@@ -71,12 +97,17 @@ export function Services(props: ServicesProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h2 style={{ fontWeight: 430 }}>Services</h2>
-      </EuiTitle>
+      {appServices ? (
+        <EuiSpacer size="m" />
+      ) : (
+        <EuiTitle size="l">
+          <h2 style={{ fontWeight: 430 }}>Services</h2>
+        </EuiTitle>
+      )}
       <SearchBar
-        query={props.query}
+        query={appServices ? '' : props.query}
         filters={props.filters}
+        appConfigs={props.appConfigs}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}
@@ -84,7 +115,7 @@ export function Services(props: ServicesProps) {
         endTime={props.endTime}
         setEndTime={props.setEndTime}
         refresh={refresh}
-        page="services"
+        page={page}
       />
       <EuiSpacer size="m" />
       <ServicesTable
@@ -96,6 +127,8 @@ export function Services(props: ServicesProps) {
         refresh={refresh}
         indicesExist={props.indicesExist}
         loading={loading}
+        page={page}
+        openServiceFlyout={props.openServiceFlyout}
       />
     </>
   );

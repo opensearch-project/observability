@@ -26,12 +26,14 @@ describe('Services component', () => {
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={false}
+        page="services"
       />
     );
 
@@ -52,12 +54,14 @@ describe('Services component', () => {
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={true}
+        page="services"
       />
     );
 

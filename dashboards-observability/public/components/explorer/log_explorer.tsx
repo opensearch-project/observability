@@ -26,7 +26,6 @@ import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slice
 import { selectQueries } from './slices/query_slice';
 import { init as initFields, remove as removefields } from './slices/field_slice';
 import { init as initQuery, remove as removeQuery, changeQuery } from './slices/query_slice';
-import { init as initQueryResult, remove as removeQueryResult, selectQueryResult } from './slices/query_result_slice';
 import {
   init as initQueryResult,
   remove as removeQueryResult,
@@ -56,7 +55,6 @@ export const LogExplorer = ({
   notifications,
   http,
 }: ILogExplorerProps) => {
-
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs).queryTabIds;
   const tabNames = useSelector(selectQueryTabs).tabNames;
@@ -78,7 +76,7 @@ export const LogExplorer = ({
   useEffect(() => {
     const newLink = $(
       '<a class="linkNewTag" data-test-subj="eventExplorer__addNewTab">+ Add new</a>'
-    ).on('click', () => {      
+    ).on('click', () => {
       addNewTab(NEW_TAB);
     });
     $('.queryTabs > .euiTabs').append(newLink);
@@ -91,11 +89,10 @@ export const LogExplorer = ({
     history.replace(
       `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`
     );
-        dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
+    dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
-  
+
   const handleTabClose = (TabIdToBeClosed: string) => {
-    
     if (tabIds.length === 1) {
       setToast('Have to have at least one tab', 'danger');
       return;
@@ -126,7 +123,6 @@ export const LogExplorer = ({
   };
 
   const addNewTab = async (where: string) => {
-    
     // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
@@ -157,7 +153,6 @@ export const LogExplorer = ({
   };
 
   const dispatchSavedObjectId = async () => {
-
     const emptyTabId = getExistingEmptyTab({
       tabIds: tabIdsRef.current,
       queries: queryRef.current,
@@ -174,7 +169,7 @@ export const LogExplorer = ({
     }
   }, []);
 
-  function getQueryTab ({
+  function getQueryTab({
     tabTitle,
     tabId,
     handleTabClose,
@@ -218,7 +213,8 @@ export const LogExplorer = ({
             http={http}
             searchBarConfigs={searchBarConfigs}
           />
-        </>)
+        </>
+      ),
     };
   }
 

@@ -33,6 +33,7 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
   loading: boolean;
+  page: 'dashboard' | 'app';
 }) {
   const getVarianceProps = (items: any[]) => {
     if (items.length === 0) {
@@ -317,7 +318,7 @@ export function DashboardTable(props: {
         ),
         align: 'right',
         sortable: true,
-        render: (item, row) => (
+        render: props.page === 'dashboard' ? (item, row) => (
           <EuiLink
             data-test-subj="dashboard-table-traces-button"
             onClick={() => {
@@ -334,7 +335,7 @@ export function DashboardTable(props: {
           >
             <EuiI18nNumber value={item} />
           </EuiLink>
-        ),
+        ) : (item) => item
       },
     ] as Array<EuiTableFieldDataColumnType<any>>;
 
@@ -371,7 +372,7 @@ export function DashboardTable(props: {
   };
 
   const varianceProps = useMemo(() => getVarianceProps(props.items), [props.items]);
-  const columns = useMemo(() => getColumns(), [props.items]);
+  const columns = useMemo(() => getColumns(), [props.items, props.filters]);
   const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
 
   const [sorting, setSorting] = useState<{ sort: PropertySort }>({
