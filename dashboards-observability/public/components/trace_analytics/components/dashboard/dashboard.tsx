@@ -87,8 +87,6 @@ export function Dashboard(props: DashboardProps) {
   }, [props.filters, props.startTime, props.endTime, props.appConfigs]);
 
   const refresh = async () => {
-    console.log('appOverview is ' + JSON.stringify(appOverview));
-    console.log('appConfigs are ' + JSON.stringify(props.appConfigs));
     setLoading(true);
     const DSL = filtersToDsl(
       appOverview ? props.appConfigs : props.filters,

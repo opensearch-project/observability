@@ -51,6 +51,7 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
   setDescriptionWithStorage: (newDescription: string) => void;
   setQueryWithStorage: (newQuery: string) => void;
   setFiltersWithStorage: (newFilters: FilterType[]) => void;
+  setAppConfigs: (newAppConfigs: FilterType[]) => void;
 }
 
 export const Home = (props: HomeProps) => {
@@ -67,6 +68,7 @@ export const Home = (props: HomeProps) => {
   const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [indicesExist, setIndicesExist] = useState(true);
+  const [appConfigs, setAppConfigs] = useState<FilterType[]>([]);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
   const [filters, setFilters] = useState<FilterType[]>(
     storedFilters ? JSON.parse(storedFilters) : []
@@ -124,8 +126,9 @@ export const Home = (props: HomeProps) => {
     query,
     setQuery,
     setQueryWithStorage,
-    appConfigs: filters,
-    filters: [],
+    appConfigs,
+    setAppConfigs,
+    filters,
     setFilters,
     setFiltersWithStorage,
     startTime,

@@ -111,11 +111,10 @@ export function Application(props: AppDetailProps) {
     startTime,
     endTime,
     query,
-    filters,
     appConfigs,
+    setAppConfigs,
     setStartTime,
     setEndTime,
-    setFilters,
     setToasts,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
@@ -151,7 +150,7 @@ export function Application(props: AppDetailProps) {
   };
 
   useEffect(() => {
-    fetchAppById(http, appId, setApplication, setFilters, setToasts);
+    fetchAppById(http, appId, setApplication, setAppConfigs, setToasts);
   }, [appId]);
 
   useEffect(() => {
