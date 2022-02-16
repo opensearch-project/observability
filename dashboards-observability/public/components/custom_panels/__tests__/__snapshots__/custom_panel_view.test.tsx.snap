@@ -74,6 +74,7 @@ exports[`Panels View Component renders panel view container with visualizations 
   deleteCustomPanel={[MockFunction]}
   endTime="now"
   http={[MockFunction]}
+  page="operationalPanels"
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
     Array [
@@ -1119,6 +1120,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                 <EmptyPanelView
                   addVizDisabled={false}
                   getVizContextPanels={[Function]}
+                  page="operationalPanels"
                 >
                   <div>
                     <EuiSpacer
@@ -1673,6 +1675,7 @@ exports[`Panels View Component renders panel view container with visualizations 
   deleteCustomPanel={[MockFunction]}
   endTime="now"
   http={[MockFunction]}
+  page="operationalPanels"
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
     Array [
@@ -2746,6 +2749,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                 <EmptyPanelView
                   addVizDisabled={false}
                   getVizContextPanels={[Function]}
+                  page="operationalPanels"
                 >
                   <div>
                     <EuiSpacer
@@ -3300,6 +3304,7 @@ exports[`Panels View Component renders panel view container without visualizatio
   deleteCustomPanel={[MockFunction]}
   endTime="now"
   http={[MockFunction]}
+  page="operationalPanels"
   panelId="L8Sx53wBDp0rvEg3yoLb"
   parentBreadcrumb={
     Array [
@@ -4317,6 +4322,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                 <EmptyPanelView
                   addVizDisabled={false}
                   getVizContextPanels={[Function]}
+                  page="operationalPanels"
                 >
                   <div>
                     <EuiSpacer
