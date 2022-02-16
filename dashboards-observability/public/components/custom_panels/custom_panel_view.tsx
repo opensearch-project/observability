@@ -629,13 +629,17 @@ export const CustomPanelView = ({
                     <EuiButton
                       iconType="pencil"
                       onClick={() => editPanel('edit')}
-                      disabled={editDisabled}
+                      isDisabled={editDisabled}
                     >
                       Edit
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
-                    <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
+                    <EuiButton
+                      iconType="plusInCircle"
+                      onClick={switchToEvent}
+                      isDisabled={addVizDisabled}
+                    >
                       Add
                     </EuiButton>
                   </EuiFlexItem>
