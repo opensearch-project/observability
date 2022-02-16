@@ -64,7 +64,7 @@ export const CreateApp = (props: CreateAppProps) => {
   const [selectedServices, setSelectedServices] = useState<OptionType[]>([]);
   const [selectedTraces, setSelectedTraces] = useState<OptionType[]>([]);
 
-  const editMode = !!existingAppId;
+  const editMode = existingAppId !== 'undefined';
   const [existingApp, setExistingApp] = useState<ApplicationType>({
     name: '',
     description: '',
@@ -89,7 +89,7 @@ export const CreateApp = (props: CreateAppProps) => {
   }, []);
 
   useEffect(() => {
-    if (editMode) {
+    if (editMode && existingAppId) {
       fetchAppById(http, existingAppId, setExistingApp, setFilters, setToasts);
     }
   }, [existingAppId]);
