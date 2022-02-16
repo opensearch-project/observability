@@ -42,8 +42,8 @@ import {
   TAB_LOG_TITLE,
   TAB_OVERVIEW_ID_TXT_PFX,
   TAB_OVERVIEW_TITLE,
-  TAB_PANEL_ID_TXT_PFX,
-  TAB_PANEL_TITLE,
+  TAB_METRIC_ID_TXT_PFX,
+  TAB_METRIC_TITLE,
   TAB_SERVICE_ID_TXT_PFX,
   TAB_SERVICE_TITLE,
   TAB_TRACE_ID_TXT_PFX,
@@ -65,7 +65,7 @@ const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
 const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
 const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
-const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
+const TAB_METRIC_ID = uniqueId(TAB_METRIC_ID_TXT_PFX);
 const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -114,8 +114,8 @@ export function Application(props: AppDetailProps) {
     filters,
     appConfigs,
     setAppConfigs,
-    setStartTime,
-    setEndTime,
+    setStartTimeWithStorage,
+    setEndTimeWithStorage,
     setToasts,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
@@ -134,6 +134,14 @@ export function Application(props: AppDetailProps) {
   const [totalSpans, setTotalSpans] = useState<number>(0);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
+
+  const setStartTimeForApp = (newStartTime: string) => {
+    setStartTimeWithStorage(newStartTime, `${application.name}StartTime`);
+  };
+
+  const setEndTimeForApp = (newEndTime: string) => {
+    setEndTimeWithStorage(newEndTime, `${application.name}EndTime`);
+  };
 
   // Add visualization to application's panel
   const addVisualizationToPanel = async (visualizationId: string, visualizationName: string) => {
@@ -166,6 +174,8 @@ export function Application(props: AppDetailProps) {
         href: `${parentBreadcrumb.href}${appId}`,
       },
     ]);
+    setStartTimeForApp(sessionStorage.getItem(`${application.name}StartTime`) || 'now-24h');
+    setEndTimeForApp(sessionStorage.getItem(`${application.name}EndTime`) || 'now');
   }, [appId, application.name]);
 
   useEffect(() => {
@@ -204,7 +214,16 @@ export function Application(props: AppDetailProps) {
   };
 
   const getOverview = () => {
-    return <Dashboard {...props} page="app" appId={appId} appName={application.name} />;
+    return (
+      <Dashboard
+        {...props}
+        page="app"
+        appId={appId}
+        appName={application.name}
+        setStartTime={setStartTimeForApp}
+        setEndTime={setEndTimeForApp}
+      />
+    );
   };
 
   const getService = () => {
@@ -215,6 +234,8 @@ export function Application(props: AppDetailProps) {
         appId={appId}
         appName={application.name}
         openServiceFlyout={openServiceFlyout}
+        setStartTime={setStartTimeForApp}
+        setEndTime={setEndTimeForApp}
       />
     );
   };
@@ -228,6 +249,8 @@ export function Application(props: AppDetailProps) {
           appId={appId}
           appName={application.name}
           openTraceFlyout={openTraceFlyout}
+          setStartTime={setStartTimeForApp}
+          setEndTime={setEndTimeForApp}
         />
         <EuiSpacer size="m" />
         <EuiPanel>
@@ -265,8 +288,8 @@ export function Application(props: AppDetailProps) {
         addVisualizationToPanel={addVisualizationToPanel}
         startTime={startTime}
         endTime={endTime}
-        setStartTime={setStartTime}
-        setEndTime={setEndTime}
+        setStartTime={setStartTimeForApp}
+        setEndTime={setEndTimeForApp}
         appBaseQuery={application.baseQuery}
       />
     );
@@ -290,8 +313,8 @@ export function Application(props: AppDetailProps) {
         appId={appId}
         startTime={startTime}
         endTime={endTime}
-        setStartTime={setStartTime}
-        setEndTime={setEndTime}
+        setStartTime={setStartTimeForApp}
+        setEndTime={setEndTimeForApp}
         switchToEvent={switchToEvent}
       />
     );
@@ -351,8 +374,8 @@ export function Application(props: AppDetailProps) {
       getContent: () => getLog(),
     }),
     getAppAnalyticsTab({
-      tabId: TAB_PANEL_ID,
-      tabTitle: TAB_PANEL_TITLE,
+      tabId: TAB_METRIC_ID,
+      tabTitle: TAB_METRIC_TITLE,
       getContent: () => getPanel(),
     }),
     getAppAnalyticsTab({

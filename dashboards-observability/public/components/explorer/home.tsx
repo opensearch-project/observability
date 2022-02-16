@@ -45,7 +45,7 @@ import {
   EVENT_ANALYTICS,
   SAVED_OBJECTS,
 } from '../../../common/constants/shared';
-import { EmptyTabParams } from '../../../common/types/explorer';
+import { EmptyTabParams, SavedQueryRes, SavedVizRes } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
@@ -114,10 +114,12 @@ export const Home = (props: IHomeProps) => {
       sortOrder: 'desc',
       fromIndex: 0,
     });
-    const nonAppVisualizations = res.observabilityObjectList.filter(
-      (object: any) => object.savedVisualization && !object.savedVisualization.application_id
+    const nonAppObjects = res.observabilityObjectList.filter(
+      (object: SavedQueryRes | SavedVizRes) =>
+        (object.savedVisualization && !object.savedVisualization.application_id) ||
+        object.savedQuery
     );
-    setSavedHistories(nonAppVisualizations);
+    setSavedHistories(nonAppObjects);
   };
 
   const deleteHistoryList = async () => {

@@ -27,7 +27,7 @@ const appBaseQueryState = {
   [FINAL_QUERY]: '',
   [INDEX]: '',
   [SELECTED_TIMESTAMP]: '',
-  [SELECTED_DATE_RANGE]: ['now-24M', 'now'],
+  [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
 };
 
 const initialState = {
