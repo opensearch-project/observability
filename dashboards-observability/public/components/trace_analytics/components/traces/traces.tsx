@@ -63,12 +63,12 @@ export function Traces(props: TracesProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters]);
+  }, [props.filters, props.appConfigs]);
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
     const DSL = filtersToDsl(
-      props.filters,
+      appTraces ? props.appConfigs : props.filters,
       props.query,
       props.startTime,
       props.endTime,
@@ -91,6 +91,7 @@ export function Traces(props: TracesProps) {
       <SearchBar
         query={appTraces ? '' : props.query}
         filters={props.filters}
+        appConfigs={props.appConfigs}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}

@@ -84,18 +84,26 @@ export function Dashboard(props: DashboardProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters, props.startTime, props.endTime]);
+  }, [props.filters, props.startTime, props.endTime, props.appConfigs]);
 
   const refresh = async () => {
+    console.log('appOverview is ' + JSON.stringify(appOverview));
+    console.log('appConfigs are ' + JSON.stringify(props.appConfigs));
     setLoading(true);
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime, page);
+    const DSL = filtersToDsl(
+      appOverview ? props.appConfigs : props.filters,
+      props.query,
+      props.startTime,
+      props.endTime,
+      page
+    );
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime, page);
     const latencyTrendStartTime = dateMath
       .parse(props.endTime)
       ?.subtract(24, 'hours')
       .toISOString()!;
     const latencyTrendDSL = filtersToDsl(
-      props.filters,
+      appOverview ? props.appConfigs : props.filters,
       props.query,
       latencyTrendStartTime,
       props.endTime,
@@ -193,6 +201,7 @@ export function Dashboard(props: DashboardProps) {
       <SearchBar
         query={appOverview ? '' : props.query}
         filters={props.filters}
+        appConfigs={props.appConfigs}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}
