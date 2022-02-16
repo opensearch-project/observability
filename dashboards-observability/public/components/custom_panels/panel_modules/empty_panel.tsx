@@ -24,7 +24,7 @@ import React, { useState } from 'react';
 
 interface Props {
   addVizDisabled: boolean;
-  page?: string;
+  page: 'app' | 'operationalPanel';
   getVizContextPanels: (
     closeVizPopover?: (() => void) | undefined
   ) => Array<{

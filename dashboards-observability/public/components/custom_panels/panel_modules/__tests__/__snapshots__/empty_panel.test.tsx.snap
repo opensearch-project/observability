@@ -18,6 +18,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
       ],
     }
   }
+  page="operationalPanel"
 >
   <div>
     <EuiSpacer
@@ -233,6 +234,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
       ],
     }
   }
+  page="operationalPanel"
 >
   <div>
     <EuiSpacer
