@@ -18,13 +18,31 @@ import {
   NEW_TAB,
   TAB_CREATED_TYPE,
   REDIRECT_TAB,
-  NEW_SELECTED_QUERY_TAB
+  NEW_SELECTED_QUERY_TAB,
+  TAB_EVENT_ID,
+  TAB_CHART_ID,
 } from '../../../common/constants/explorer';
 import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
 import { init as initFields, remove as removefields } from './slices/field_slice';
 import { init as initQuery, remove as removeQuery, changeQuery } from './slices/query_slice';
 import { init as initQueryResult, remove as removeQueryResult, selectQueryResult } from './slices/query_result_slice';
+import {
+  init as initQueryResult,
+  remove as removeQueryResult,
+  selectQueryResult,
+} from './slices/query_result_slice';
+
+const searchBarConfigs = {
+  [TAB_EVENT_ID]: {
+    showSaveButton: true,
+    showSavePanelOptionsList: false,
+  },
+  [TAB_CHART_ID]: {
+    showSaveButton: true,
+    showSavePanelOptionsList: true,
+  },
+};
 
 export const LogExplorer = ({
   pplService,
@@ -36,13 +54,14 @@ export const LogExplorer = ({
   getExistingEmptyTab,
   history,
   notifications,
+  http,
 }: ILogExplorerProps) => {
 
   const dispatch = useDispatch();
-  const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
-  const tabNames = useSelector(selectQueryTabs)['tabNames'];
+  const tabIds = useSelector(selectQueryTabs).queryTabIds;
+  const tabNames = useSelector(selectQueryTabs).tabNames;
   const queries = useSelector(selectQueries);
-  const curSelectedTabId = useSelector(selectQueryTabs)['selectedQueryTab'];
+  const curSelectedTabId = useSelector(selectQueryTabs).selectedQueryTab;
   const explorerData = useSelector(selectQueryResult);
   const queryRef = useRef();
   const tabIdsRef = useRef();
@@ -57,18 +76,22 @@ export const LogExplorer = ({
 
   // Append add-new-tab link to the end of the tab list, and remove it once tabs state changes
   useEffect(() => {
-    const newLink = $('<a class="linkNewTag" data-test-subj="eventExplorer__addNewTab">+ Add new</a>').on('click', () => {
+    const newLink = $(
+      '<a class="linkNewTag" data-test-subj="eventExplorer__addNewTab">+ Add new</a>'
+    ).on('click', () => {      
       addNewTab(NEW_TAB);
     });
     $('.queryTabs > .euiTabs').append(newLink);
     return () => {
       $('.queryTabs > .euiTabs .linkNewTag').remove();
-    }
+    };
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    history.replace(`/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`);
-    dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
+    history.replace(
+      `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`
+    );
+        dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
   
   const handleTabClose = (TabIdToBeClosed: string) => {
@@ -90,13 +113,15 @@ export const LogExplorer = ({
     }
 
     batch(() => {
-      dispatch(removeQuery({ tabId: TabIdToBeClosed, }));
-      dispatch(removefields({ tabId: TabIdToBeClosed, }));
-      dispatch(removeQueryResult({ tabId: TabIdToBeClosed, }));
-      dispatch(removeTab({ 
-        tabId: TabIdToBeClosed,
-        [NEW_SELECTED_QUERY_TAB]: newIdToFocus
-      }));
+      dispatch(removeQuery({ tabId: TabIdToBeClosed }));
+      dispatch(removefields({ tabId: TabIdToBeClosed }));
+      dispatch(removeQueryResult({ tabId: TabIdToBeClosed }));
+      dispatch(
+        removeTab({
+          tabId: TabIdToBeClosed,
+          [NEW_SELECTED_QUERY_TAB]: newIdToFocus,
+        })
+      );
     });
   };
 
@@ -107,22 +132,24 @@ export const LogExplorer = ({
 
     // create a new tab
     await batch(() => {
-      dispatch(initQuery({ tabId, }));
-      dispatch(initQueryResult({ tabId, }));
-      dispatch(initFields({ tabId, }));
-      dispatch(addTab({ tabId, }));
-      dispatch(changeQuery({
-        tabId,
-        query: {
-          [TAB_CREATED_TYPE]: where
-        }
-      }));
+      dispatch(initQuery({ tabId }));
+      dispatch(initQueryResult({ tabId }));
+      dispatch(initFields({ tabId }));
+      dispatch(addTab({ tabId }));
+      dispatch(
+        changeQuery({
+          tabId,
+          query: {
+            [TAB_CREATED_TYPE]: where,
+          },
+        })
+      );
     });
 
-    setTabCreatedTypes(staleState => {
+    setTabCreatedTypes((staleState) => {
       return {
         ...staleState,
-        [tabId]: where
+        [tabId]: where,
       };
     });
 
@@ -134,7 +161,7 @@ export const LogExplorer = ({
     const emptyTabId = getExistingEmptyTab({
       tabIds: tabIdsRef.current,
       queries: queryRef.current,
-      explorerData: explorerDataRef.current
+      explorerData: explorerDataRef.current,
     });
     const newTabId = emptyTabId ? emptyTabId : await addNewTab(REDIRECT_TAB);
     return newTabId;
@@ -152,44 +179,44 @@ export const LogExplorer = ({
     tabId,
     handleTabClose,
   }: {
-    tabTitle: string,
-    tabId: string,
-    handleTabClose: (TabIdToBeClosed: string) => void,
+    tabTitle: string;
+    tabId: string;
+    handleTabClose: (TabIdToBeClosed: string) => void;
   }) {
     return {
       id: tabId,
-      name: (<>
-              <EuiText
-                size="s"
-                textAlign="left"
-                color="default"
-              >
-                <span className="tab-title">{ tabTitle }</span>
-                <EuiIcon 
-                  type="cross"
-                  onClick={ (e) => {
-                    e.stopPropagation();
-                    handleTabClose(tabId);
-                  } }
-                  data-test-subj="eventExplorer__tabClose"
-                />
-              </EuiText>
-            </>),
+      name: (
+        <>
+          <EuiText size="s" textAlign="left" color="default">
+            <span className="tab-title">{tabTitle}</span>
+            <EuiIcon
+              type="cross"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleTabClose(tabId);
+              }}
+              data-test-subj="eventExplorer__tabClose"
+            />
+          </EuiText>
+        </>
+      ),
       content: (
         <>
           <Explorer
             key={`explorer_${tabId}`}
-            pplService={ pplService }
-            dslService={ dslService }
-            tabId={ tabId }
-            savedObjects={ savedObjects }
-            timestampUtils={ timestampUtils }
-            setToast={ setToast }
+            pplService={pplService}
+            dslService={dslService}
+            tabId={tabId}
+            savedObjects={savedObjects}
+            timestampUtils={timestampUtils}
+            setToast={setToast}
             history={history}
             notifications={notifications}
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
             curSelectedTabId={curSelectedTabIdRef}
+            http={http}
+            searchBarConfigs={searchBarConfigs}
           />
         </>)
     };
@@ -197,30 +224,24 @@ export const LogExplorer = ({
 
   const memorizedTabs = useMemo(() => {
     const res = map(tabIds, (tabId) => {
-      return getQueryTab(
-        {
-          tabTitle: tabNames[tabId] || TAB_TITLE,
-          tabId,
-          handleTabClose,
-        }
-      );
+      return getQueryTab({
+        tabTitle: tabNames[tabId] || TAB_TITLE,
+        tabId,
+        handleTabClose,
+      });
     });
 
     return res;
-  }, [ 
-    tabIds,
-    tabNames,
-    tabCreatedTypes
-  ]);
+  }, [tabIds, tabNames, tabCreatedTypes]);
 
   return (
     <>
       <EuiTabbedContent
         id="queryTabs"
         className="queryTabs"
-        tabs={ memorizedTabs }
-        selectedTab={ memorizedTabs.find(tab => tab.id === curSelectedTabId) }
-        onTabClick={ (selectedTab: EuiTabbedContentTab) => handleTabClick(selectedTab) }
+        tabs={memorizedTabs}
+        selectedTab={memorizedTabs.find((tab) => tab.id === curSelectedTabId)}
+        onTabClick={(selectedTab: EuiTabbedContentTab) => handleTabClick(selectedTab)}
         data-test-subj="eventExplorer__topLevelTabbing"
       />
     </>
