@@ -74,7 +74,7 @@ export function AppTable(props: AppTableProps) {
 
   const clear = () => {
     setFilters([]);
-    setStartTime('now-24M');
+    setStartTime('now-24h');
     setEndTime('now');
   };
 

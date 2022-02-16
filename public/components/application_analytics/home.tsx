@@ -23,11 +23,7 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import {
-  OptionType,
-  ApplicationListType,
-  ApplicationType,
-} from '../../../common/types/app_analytics';
+import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
 import { isNameValid } from './helpers/utils';
 import {
   CUSTOM_PANELS_API_PREFIX,
@@ -51,6 +47,8 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
   setDescriptionWithStorage: (newDescription: string) => void;
   setQueryWithStorage: (newQuery: string) => void;
   setFiltersWithStorage: (newFilters: FilterType[]) => void;
+  setStartTimeWithStorage: (newStartTime: string, itemName?: string) => void;
+  setEndTimeWithStorage: (newEndTime: string, itemName?: string) => void;
 }
 
 export const Home = (props: HomeProps) => {
@@ -77,7 +75,7 @@ export const Home = (props: HomeProps) => {
   );
   const [query, setQuery] = useState<string>(sessionStorage.getItem('AppAnalyticsQuery') || '');
   const [startTime, setStartTime] = useState<string>(
-    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24M'
+    sessionStorage.getItem('AppAnalyticsStartTime') || 'now-24h'
   );
   const [endTime, setEndTime] = useState<string>(
     sessionStorage.getItem('AppAnalyticsEndTime') || 'now'
@@ -100,13 +98,16 @@ export const Home = (props: HomeProps) => {
     setQuery(newQuery);
     sessionStorage.setItem('AppAnalyticsQuery', newQuery);
   };
-  const setStartTimeWithStorage = (newStartTime: string) => {
+  const setStartTimeWithStorage = (
+    newStartTime: string,
+    itemName: string = 'AppAnalyticsStartTime'
+  ) => {
     setStartTime(newStartTime);
-    sessionStorage.setItem('AppAnalyticsStartTime', newStartTime);
+    sessionStorage.setItem(itemName, newStartTime);
   };
-  const setEndTimeWithStorage = (newEndTime: string) => {
+  const setEndTimeWithStorage = (newEndTime: string, itemName: string = 'AppAnalyticsEndTime') => {
     setEndTime(newEndTime);
-    sessionStorage.setItem('AppAnalyticsEndTime', newEndTime);
+    sessionStorage.setItem(itemName, newEndTime);
   };
 
   useEffect(() => {
@@ -129,8 +130,10 @@ export const Home = (props: HomeProps) => {
     setFiltersWithStorage,
     startTime,
     setStartTime: setStartTimeWithStorage,
+    setStartTimeWithStorage,
     endTime,
     setEndTime: setEndTimeWithStorage,
+    setEndTimeWithStorage,
     indicesExist,
   };
 
@@ -184,7 +187,10 @@ export const Home = (props: HomeProps) => {
 
   // Create a new application
   const createApp = (application: ApplicationType) => {
-    const toast = isNameValid(application.name);
+    const toast = isNameValid(
+      application.name,
+      applicationList.map((obj) => obj.name)
+    );
     if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
@@ -215,7 +221,12 @@ export const Home = (props: HomeProps) => {
 
   // Rename an existing application
   const renameApp = (newAppName: string, appId: string) => {
-    if (!isNameValid(newAppName)) {
+    if (
+      !isNameValid(
+        newAppName,
+        applicationList.map((obj) => obj.name)
+      )
+    ) {
       setToast('Invalid Application name', 'danger');
       return;
     }
