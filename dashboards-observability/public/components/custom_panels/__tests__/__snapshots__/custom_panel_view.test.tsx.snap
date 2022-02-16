@@ -1143,7 +1143,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                             className="euiTextAlign euiTextAlign--center"
                           >
                             <h2>
-                              Start by adding your first visualization
+                              Start by adding 
+                              your first visualization
                             </h2>
                             <EuiSpacer
                               size="m"
@@ -1166,7 +1167,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                                   <div
                                     className="euiTextColor euiTextColor--subdued"
                                   >
-                                    Use PPL Queries to fetch & filter Observability Data and Create Visualizations
+                                    Use PPL Queries to fetch & filter observability data and create
+                                     visualizations
                                   </div>
                                 </EuiTextColor>
                               </div>
@@ -2772,7 +2774,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                             className="euiTextAlign euiTextAlign--center"
                           >
                             <h2>
-                              Start by adding your first visualization
+                              Start by adding 
+                              your first visualization
                             </h2>
                             <EuiSpacer
                               size="m"
@@ -2795,7 +2798,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                                   <div
                                     className="euiTextColor euiTextColor--subdued"
                                   >
-                                    Use PPL Queries to fetch & filter Observability Data and Create Visualizations
+                                    Use PPL Queries to fetch & filter observability data and create
+                                     visualizations
                                   </div>
                                 </EuiTextColor>
                               </div>
@@ -4345,7 +4349,8 @@ exports[`Panels View Component renders panel view container without visualizatio
                             className="euiTextAlign euiTextAlign--center"
                           >
                             <h2>
-                              Start by adding your first visualization
+                              Start by adding 
+                              your first visualization
                             </h2>
                             <EuiSpacer
                               size="m"
@@ -4368,7 +4373,8 @@ exports[`Panels View Component renders panel view container without visualizatio
                                   <div
                                     className="euiTextColor euiTextColor--subdued"
                                   >
-                                    Use PPL Queries to fetch & filter Observability Data and Create Visualizations
+                                    Use PPL Queries to fetch & filter observability data and create
+                                     visualizations
                                   </div>
                                 </EuiTextColor>
                               </div>

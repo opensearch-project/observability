@@ -41,7 +41,8 @@ exports[`Empty panel view component renders empty panel view with disabled popov
             className="euiTextAlign euiTextAlign--center"
           >
             <h2>
-              Start by adding your first visualization
+              Start by adding 
+              your first visualization
             </h2>
             <EuiSpacer
               size="m"
@@ -64,7 +65,8 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                   <div
                     className="euiTextColor euiTextColor--subdued"
                   >
-                    Use PPL Queries to fetch & filter Observability Data and Create Visualizations
+                    Use PPL Queries to fetch & filter observability data and create
+                     visualizations
                   </div>
                 </EuiTextColor>
               </div>
@@ -257,7 +259,8 @@ exports[`Empty panel view component renders empty panel view with enabled popove
             className="euiTextAlign euiTextAlign--center"
           >
             <h2>
-              Start by adding your first visualization
+              Start by adding 
+              your first visualization
             </h2>
             <EuiSpacer
               size="m"
@@ -280,7 +283,8 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                   <div
                     className="euiTextColor euiTextColor--subdued"
                   >
-                    Use PPL Queries to fetch & filter Observability Data and Create Visualizations
+                    Use PPL Queries to fetch & filter observability data and create
+                     visualizations
                   </div>
                 </EuiTextColor>
               </div>
