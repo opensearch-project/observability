@@ -13,11 +13,12 @@ import {
 } from './config_controls';
 
 export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, tabProps }: any) => {
-  const handleConfigEditing = (sectionName) => {
+  const handleConfigEditing = (stateFieldName) => {
     return (changes) => {
+      console.log('VizDataPanel changes: ', changes);
       onConfigChange({
         ...vizState,
-        [sectionName]: changes,
+        [stateFieldName]: changes,
       });
     };
   };
@@ -29,8 +30,9 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
         <Editor
           visualizations={visualizations}
           schemas={section.schemas}
-          handleConfigChange={() => {}}
+          handleConfigChange={handleConfigEditing(section.mapTo)}
           vizState={vizState[section.mapTo] ? vizState[section.mapTo] : {}}
+          sectionName={section.name}
         />
       </EuiFormRow>
     );
@@ -43,25 +45,6 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
           <ConfigPanelOptions configState={vizState?.panelOptions} />
         </EuiFormRow>
         {dynamicContent}
-        <EuiFormRow>
-          <EuiAccordion
-            id="configPanel__chartOptions"
-            buttonContent="Chart options"
-            paddingSize="s"
-          >
-            <ConfigChartOptions configState={vizState?.chartOptions} />
-          </EuiAccordion>
-        </EuiFormRow>
-        <EuiFormRow>
-          <EuiAccordion id="configPanel__dataLinks" buttonContent="Data links" paddingSize="s">
-            <ConfigDataLinks configState={vizState?.dataLinks} />
-          </EuiAccordion>
-        </EuiFormRow>
-        <EuiFormRow>
-          <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
-            <ConfigThresholds configState={vizState?.thresholds} />
-          </EuiAccordion>
-        </EuiFormRow>
       </EuiForm>
     </div>
   );

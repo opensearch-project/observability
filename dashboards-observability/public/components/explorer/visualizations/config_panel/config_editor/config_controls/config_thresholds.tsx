@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { EuiButton } from '@elastic/eui';
+import { EuiButton, EuiAccordion } from '@elastic/eui';
 
 export const ConfigThresholds = (props: any) => {
   return (
-    <>
+    <EuiAccordion id="configPanel__thresholds" buttonContent="Thresholds" paddingSize="s">
       <EuiButton size="s">+ Add threadshold</EuiButton>
-    </>
+    </EuiAccordion>
   );
 };

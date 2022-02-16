@@ -8,7 +8,12 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import {
+  ConfigValueOptions,
+  ConfigChartOptions,
+  ConfigDataLinks,
+  ConfigThresholds,
+} from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -57,6 +62,48 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
                 mapTo: 'yaxis',
               },
             ],
+          },
+          {
+            id: 'chart_options',
+            name: 'Chart options',
+            editor: ConfigValueOptions,
+            mapTo: 'chartOptions',
+            schemas: [
+              {
+                name: 'Orientation',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'orientation',
+                props: {
+                  dropdownList: [{ name: 'Vertical' }, { name: 'Horizontal' }],
+                  defaultSelections: [{ name: 'Vertical' }],
+                },
+              },
+              {
+                name: 'Mode',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'mode',
+                props: {
+                  dropdownList: [{ name: 'Default' }, { name: 'Group' }, { name: 'Stack' }],
+                  defaultSelections: [{ name: 'Default' }],
+                },
+              },
+            ],
+          },
+          {
+            id: 'data_links',
+            name: 'Data links',
+            editor: ConfigDataLinks,
+            mapTo: 'dataLinks',
+            schemas: [],
+          },
+          {
+            id: 'thresholds',
+            name: 'Thresholds',
+            editor: ConfigThresholds,
+            mapTo: 'thresholds',
+            schemas: [],
           },
         ],
       },

@@ -16,11 +16,13 @@ export const PanelItem = ({
   onSelectChange,
   isSingleSelection = false,
 }: any) => {
+  console.log('dropdownList: ', dropdownList);
   const options = dropdownList.map((item) => {
     return {
       label: item.name,
     };
   });
+  console.log('options: ', options);
   const handleSelect = (selectedOption) => {
     onSelectChange(selectedOption);
   };

@@ -12,15 +12,16 @@ export const ConfigValueOptions = ({
   schemas,
   vizState,
   handleConfigChange,
+  sectionName,
 }: any) => {
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const handleConfigurationChange = useCallback(
-    (confName) => {
+    (stateFiledName) => {
       return (changes) => {
         handleConfigChange({
           ...vizState,
-          [confName]: changes,
+          [stateFiledName]: changes,
         });
       };
     },
@@ -37,6 +38,7 @@ export const ConfigValueOptions = ({
         onSelectChange: handleConfigurationChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: vizState[schema.mapTo],
+        ...schema.props,
       };
       return (
         <>
@@ -48,7 +50,7 @@ export const ConfigValueOptions = ({
   }, [schemas, fields, vizState, handleConfigurationChange]);
 
   return (
-    <EuiAccordion id="configPanel__valueOptions" buttonContent="Value options" paddingSize="s">
+    <EuiAccordion id={`configPanel__${sectionName}`} buttonContent={sectionName} paddingSize="s">
       {dimensions}
     </EuiAccordion>
   );

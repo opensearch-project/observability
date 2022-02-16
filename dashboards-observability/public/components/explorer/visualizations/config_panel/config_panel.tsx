@@ -166,6 +166,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
 
   const handleConfigChange = (configSchema) => {
     return (configChanges) => {
+      console.log('config panel: ', configChanges);
       setVizConfigs((staleState) => {
         return {
           ...staleState,

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   EuiButton,
   EuiCheckboxGroup,
@@ -24,23 +24,39 @@ import {
 const helpText =
   'Repeat this panel for each value in the selected variable. This is not visible while in edit mode. You need to go back to dashboard and then update the variable or reload the dashboard.';
 
-export const ConfigPanelOptions = (props: any) => {
+export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
+  const handleConfigurationChange = useCallback(
+    (stateFiledName) => {
+      return (changes) => {
+        handleConfigChange({
+          ...vizState,
+          [stateFiledName]: changes,
+        });
+      };
+    },
+    [handleConfigChange, vizState]
+  );
+
   return (
     <EuiAccordion id="configPanel__panelOptions" buttonContent="Panel options" paddingSize="s">
       <EuiForm component="form">
         <EuiFormRow label="Title" helpText="Name your visualization">
-          <EuiFieldText name="first" />
+          <EuiFieldText name="first" onChange={handleConfigurationChange('title')} />
         </EuiFormRow>
         <EuiFormRow label="Description">
           <EuiTextArea
             placeholder="Visualization description"
             aria-label="Use aria labels when no actual label is in use"
             value={''}
-            onChange={(e) => {}}
+            onChange={handleConfigurationChange('description')}
           />
         </EuiFormRow>
         <EuiFormRow label="Transparent background">
-          <EuiSwitch label="" checked={false} onChange={(e) => {}} />
+          <EuiSwitch
+            label=""
+            checked={false}
+            onChange={handleConfigurationChange('tansparentBackground')}
+          />
         </EuiFormRow>
         <EuiSpacer size="s" />
         <EuiAccordion id="configPanel__panelOptions_" buttonContent="Panel Links" paddingSize="s">
