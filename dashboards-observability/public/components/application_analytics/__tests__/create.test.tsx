@@ -59,7 +59,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
 
@@ -111,7 +111,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
 
@@ -163,7 +163,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Log source').click();
@@ -218,7 +218,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Log source').click();
@@ -282,7 +282,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -346,7 +346,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -410,7 +410,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();
@@ -474,7 +474,7 @@ describe('Create Page', () => {
         clearStorage={clearStorage}
         setToasts={setToasts}
         updateApp={updateApp}
-        existingAppId=""
+        existingAppId="undefined"
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();
