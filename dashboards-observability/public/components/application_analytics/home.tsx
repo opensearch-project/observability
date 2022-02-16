@@ -225,7 +225,10 @@ export const Home = (props: HomeProps) => {
 
   // Rename an existing application
   const renameApp = (newAppName: string, appId: string) => {
-    const toast = isNameValid(newAppName, applicationList.map((obj) => obj.name);
+    const toast = isNameValid(
+      newAppName,
+      applicationList.map((obj) => obj.name)
+    );
     if (toast.length > 0) {
       setToast(toast.join(', '), 'danger');
       return;
