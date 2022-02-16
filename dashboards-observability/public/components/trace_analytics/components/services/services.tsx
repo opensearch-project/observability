@@ -68,11 +68,12 @@ export function Services(props: ServicesProps) {
   const refresh = async () => {
     setLoading(true);
     const DSL = filtersToDsl(
-      appServices ? props.appConfigs : props.filters,
+      props.filters,
       props.query,
       props.startTime,
       props.endTime,
-      props.page
+      props.page,
+      appServices ? props.appConfigs : []
     );
     await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
     setLoading(false);

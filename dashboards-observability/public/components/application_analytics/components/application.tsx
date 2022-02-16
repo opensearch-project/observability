@@ -111,6 +111,7 @@ export function Application(props: AppDetailProps) {
     startTime,
     endTime,
     query,
+    filters,
     appConfigs,
     setAppConfigs,
     setStartTime,
@@ -168,9 +169,9 @@ export function Application(props: AppDetailProps) {
   }, [appId, application.name]);
 
   useEffect(() => {
-    const DSL = filtersToDsl(appConfigs, query, startTime, endTime, 'app');
+    const DSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
     setSpanDSL(DSL);
-  }, [appConfigs, query, startTime, endTime]);
+  }, [filters, appConfigs, query, startTime, endTime]);
 
   const openServiceFlyout = (serviceName: string) => {
     setSpanFlyoutId('');
