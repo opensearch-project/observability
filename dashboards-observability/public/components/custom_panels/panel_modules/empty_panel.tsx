@@ -80,8 +80,8 @@ export const EmptyPanelView = ({
       <EuiFlexGroup justifyContent="center">
         {page === 'app' ? (
           <EuiFlexItem grow={false}>
-            <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
-              Add Visualization
+            <EuiButton iconType="plusInCircle" onClick={switchToEvent} isDisabled={addVizDisabled}>
+              Add
             </EuiButton>
           </EuiFlexItem>
         ) : (
