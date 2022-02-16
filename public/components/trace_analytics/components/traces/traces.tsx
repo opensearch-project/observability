@@ -63,7 +63,7 @@ export function Traces(props: TracesProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters]);
+  }, [props.filters, props.appConfigs]);
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
@@ -72,7 +72,8 @@ export function Traces(props: TracesProps) {
       props.query,
       props.startTime,
       props.endTime,
-      props.page
+      props.page,
+      appTraces ? props.appConfigs : []
     );
     const timeFilterDSL = filtersToDsl([], '', props.startTime, props.endTime, props.page);
     await handleTracesRequest(props.http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
@@ -91,6 +92,7 @@ export function Traces(props: TracesProps) {
       <SearchBar
         query={appTraces ? '' : props.query}
         filters={props.filters}
+        appConfigs={props.appConfigs}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}

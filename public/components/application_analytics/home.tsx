@@ -47,6 +47,7 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
   setDescriptionWithStorage: (newDescription: string) => void;
   setQueryWithStorage: (newQuery: string) => void;
   setFiltersWithStorage: (newFilters: FilterType[]) => void;
+  setAppConfigs: (newAppConfigs: FilterType[]) => void;
   setStartTimeWithStorage: (newStartTime: string, itemName?: string) => void;
   setEndTimeWithStorage: (newEndTime: string, itemName?: string) => void;
 }
@@ -65,6 +66,7 @@ export const Home = (props: HomeProps) => {
   const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [indicesExist, setIndicesExist] = useState(true);
+  const [appConfigs, setAppConfigs] = useState<FilterType[]>([]);
   const storedFilters = sessionStorage.getItem('AppAnalyticsFilters');
   const [filters, setFilters] = useState<FilterType[]>(
     storedFilters ? JSON.parse(storedFilters) : []
@@ -125,6 +127,8 @@ export const Home = (props: HomeProps) => {
     query,
     setQuery,
     setQueryWithStorage,
+    appConfigs,
+    setAppConfigs,
     filters,
     setFilters,
     setFiltersWithStorage,
@@ -221,13 +225,12 @@ export const Home = (props: HomeProps) => {
 
   // Rename an existing application
   const renameApp = (newAppName: string, appId: string) => {
-    if (
-      !isNameValid(
-        newAppName,
-        applicationList.map((obj) => obj.name)
-      )
-    ) {
-      setToast('Invalid Application name', 'danger');
+    const toast = isNameValid(
+      newAppName,
+      applicationList.map((obj) => obj.name)
+    );
+    if (toast.length > 0) {
+      setToast(toast.join(', '), 'danger');
       return;
     }
 

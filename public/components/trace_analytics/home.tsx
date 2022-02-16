@@ -73,6 +73,7 @@ export const Home = (props: HomeProps) => {
     query,
     setQuery: setQueryWithStorage,
     filters,
+    appConfigs: [],
     setFilters: setFiltersWithStorage,
     startTime,
     setStartTime: setStartTimeWithStorage,
@@ -117,7 +118,7 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/services"
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Services page='services' {...commonProps} />
+            <Services page="services" {...commonProps} />
           </ObservabilitySideBar>
         )}
       />
