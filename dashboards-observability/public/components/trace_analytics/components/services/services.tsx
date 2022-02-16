@@ -63,7 +63,7 @@ export function Services(props: ServicesProps) {
 
   useEffect(() => {
     if (!redirect && props.indicesExist) refresh();
-  }, [props.filters]);
+  }, [props.filters, props.appConfigs]);
 
   const refresh = async () => {
     setLoading(true);
@@ -72,7 +72,8 @@ export function Services(props: ServicesProps) {
       props.query,
       props.startTime,
       props.endTime,
-      props.page
+      props.page,
+      appServices ? props.appConfigs : []
     );
     await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
     setLoading(false);
@@ -106,6 +107,7 @@ export function Services(props: ServicesProps) {
       <SearchBar
         query={appServices ? '' : props.query}
         filters={props.filters}
+        appConfigs={props.appConfigs}
         setFilters={props.setFilters}
         setQuery={props.setQuery}
         startTime={props.startTime}
