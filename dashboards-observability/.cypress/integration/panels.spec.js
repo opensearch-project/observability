@@ -86,7 +86,7 @@ describe('Testing panels table', () => {
   });
 
   it('Displays error toast for invalid panel name', () => {
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('.euiButton__text')
       .contains(/^Create$/)
@@ -97,7 +97,7 @@ describe('Testing panels table', () => {
   });
 
   it('Creates a panel and redirects to the panel', () => {
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_PANEL);
     cy.get('.euiButton__text')
@@ -164,7 +164,7 @@ describe('Testing panels table', () => {
     cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
 
     // keep a panel for testing
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_PANEL);
     cy.get('.euiButton__text')
