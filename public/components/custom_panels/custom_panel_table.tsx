@@ -297,7 +297,7 @@ export const CustomPanelTable = ({
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
                   Use Operational panels to create and view different visualizations on ingested
-                  observability data, using Piped Processing Language queries.{' '}
+                  observability data, using PPL (Piped Processing Language) queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
                   </EuiLink>
@@ -321,7 +321,7 @@ export const CustomPanelTable = ({
                       onClick={() => createPanel()}
                       data-test-subj="customPanels__createNewPanels"
                     >
-                      Create New Panel
+                      Create panel
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -382,7 +382,7 @@ export const CustomPanelTable = ({
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} onClick={() => createPanel()}>
-                      Create new panel
+                      Create panel
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>

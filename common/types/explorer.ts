@@ -110,3 +110,39 @@ export interface IExplorerProps {
   setEndTime?: any;
   appBaseQuery: string;
 }
+
+export interface SavedQuery {
+  description: string;
+  name: string;
+  query: string;
+  selected_date_range: { start: string; end: string; text: string };
+  selected_fields: { text: string; tokens: [{ name: string; type: string }] };
+  selected_timestamp: { name: string; type: string };
+}
+
+export interface SavedVisualization {
+  description: string;
+  name: string;
+  query: string;
+  selected_date_range: { start: string; end: string; text: string };
+  selected_fields: { text: string; tokens: [] };
+  selected_timestamp: { name: string; type: string };
+  type: string;
+  application_id?: string;
+}
+
+export interface SavedQueryRes {
+  createdTimeMs: number;
+  lastUpdatedTimeMs: number;
+  objectId: string;
+  savedQuery: SavedQuery;
+  tenant: string;
+}
+
+export interface SavedVizRes {
+  createdTimeMs: number;
+  lastUpdatedTimeMs: number;
+  objectId: string;
+  savedVisualization: SavedVisualization;
+  tenant: string;
+}
