@@ -11,13 +11,16 @@ import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/applicati
 import { HttpSetup } from '../../../../../../src/core/public';
 
 // Name validation
-export const isNameValid = (name: string) => {
+export const isNameValid = (name: string, existingNames: string[]) => {
   const toast: string[] = [];
   if (name.length >= 50) {
     toast.push('Name must be less than 50 characters.');
   }
   if (name.trim().length === 0) {
     toast.push('Name must not be empty.');
+  }
+  if (existingNames.includes(name)) {
+    toast.push('Name must be unique.');
   }
   return toast;
 };

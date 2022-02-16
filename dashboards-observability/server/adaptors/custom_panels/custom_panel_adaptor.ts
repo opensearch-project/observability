@@ -126,7 +126,7 @@ export class CustomPanelsAdaptor {
       panelBody.applicationId = appId;
       panelBody.timeRange = {
         to: 'now',
-        from: 'now-24M',
+        from: 'now-24h',
       };
     }
 
