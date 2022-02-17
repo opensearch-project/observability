@@ -70,7 +70,7 @@ export const Search = (props: any) => {
     getSuggestions,
     onItemSelect,
     tabId,
-    baseQuery,
+    baseQuery = '',
   } = props;
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
@@ -121,6 +121,7 @@ export const Search = (props: any) => {
             key={'autocomplete-search-bar'}
             query={query}
             tempQuery={tempQuery}
+            baseQuery={baseQuery}
             handleQueryChange={handleQueryChange}
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}

@@ -15,8 +15,13 @@ import { uiSettingsService } from '../../../../common/utils';
 import { AutocompleteItem } from '../../../../common/constants/autocomplete';
 
 interface AutocompleteProps extends IQueryBarProps {
-  getSuggestions: (query: string, dslService: DSLService) => Promise<AutocompleteItem[]>;
+  getSuggestions: (
+    base: string,
+    query: string,
+    dslService: DSLService
+  ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
+  baseQuery: string;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -28,6 +33,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     dslService,
     getSuggestions,
     onItemSelect,
+    baseQuery,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -77,7 +83,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             sourceId: 'querySuggestions',
             // eslint-disable-next-line no-shadow
             async getItems({ query }) {
-              const suggestions = await getSuggestions(query, dslService);
+              const suggestions = await getSuggestions(baseQuery, query, dslService);
               return suggestions;
             },
             onSelect: ({ setQuery, item }) => {

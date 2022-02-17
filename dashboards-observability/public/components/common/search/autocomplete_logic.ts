@@ -157,6 +157,7 @@ const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
 
 // Main logic behind autocomplete (Based on most recent inputs)
 export const getFullSuggestions = async (
+  base: string,
   str: string,
   dslService: DSLService
 ): Promise<AutocompleteItem[]> => {
@@ -375,53 +376,58 @@ const parseForNextSuggestion = (command: string) => {
   }
 };
 
-export const getSuggestionsAfterSource = async (currQuery: string, dslService: DSLService) => {
-  const splitSpaceQuery = currQuery.split(' ');
-  const splitPipeQuery = currQuery.split('|');
+export const getSuggestionsAfterSource = async (
+  base: string,
+  currQuery: string,
+  dslService: DSLService
+) => {
+  const fullQuery = base + ' ' + currQuery;
+  const splitSpaceQuery = fullQuery.split(' ');
+  const splitPipeQuery = fullQuery.split('|');
 
   const lastWord = splitSpaceQuery[splitSpaceQuery.length - 1];
   const lastCommand = splitPipeQuery[splitPipeQuery.length - 1];
 
   if (lastCommand.split(' ')[0] === 'source') {
-    currIndex = parseForIndex(currQuery);
+    currIndex = parseForIndex(fullQuery);
     getFields(dslService);
     currField = '';
     currFieldType = '';
-    return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
+    return fillSuggestions(fullQuery, lastWord, [{ label: '|' }]);
   } else {
     const next = parseForNextSuggestion(lastCommand);
     switch (next) {
       case PIPE_AFTER_FIELD:
-        return fillSuggestions(currQuery, lastWord, [
+        return fillSuggestions(fullQuery, lastWord, [
           { label: '|' },
           { label: 'keepempty=true' },
           { label: 'consecutive=true' },
         ]);
       case CLOSE_AFTER_DATA:
-        return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
+        return fillSuggestions(fullQuery, lastWord, [{ label: ')' }]);
       case COMMA_AFTER_FIELD:
         currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
-        return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+        return fillSuggestions(fullQuery, lastWord, [{ label: ',' }]);
       case FIELD_AFTER_MATCH:
       case FIELD_AFTER_DEDUP:
-        return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+        return fillSuggestions(fullQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
-        return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
+        return fillSuggestions(fullQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_EQUAL:
       case DATA_AFTER_COMMA:
-        return fillSuggestions(currQuery, lastWord, dataValuesFromBackend);
+        return fillSuggestions(fullQuery, lastWord, dataValuesFromBackend);
       case EQUAL_AFTER_FIELD:
         currField = EQUAL_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
-        return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
+        return fillSuggestions(fullQuery, lastWord, [{ label: '=' }]);
       case MATCH_FIELD_AFTER_WHERE:
-        return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
+        return fillSuggestions(fullQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
       case EMPTY_REGEX:
-        return fillSuggestions(currQuery, lastWord, pipeCommands);
+        return fillSuggestions(fullQuery, lastWord, pipeCommands);
     }
   }
 
