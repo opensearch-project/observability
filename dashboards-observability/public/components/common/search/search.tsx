@@ -126,20 +126,33 @@ export const Search = (props: any) => {
 
   // }
 
-  useEffect(() => {
-    console.log("entering loop");
-    if (isLiveTailOn && totalHits?.data) {
-      let hits = reduce(
-                totalHits['data']['count()'],
-                (sum, n) => {
-                  return sum + n;
-                },
-                liveHitsRef.current
-              )
-      console.log("hits in use effect", hits);
-      setLiveHits(hits);
+//   useEffect(() => {
+//     console.log("entering loop");
+//     if (isLiveTailOn && totalHits?.data) {
+//       let hits = reduce(
+//                 totalHits['data']['count()'],
+//                 (sum, n) => {
+//                   return sum + n;
+//                 },
+//                 liveHitsRef.current
+//               )
+//       console.log("hits in use effect", hits);
+//       setLiveHits(hits);
+//     }
+//   } , []);
+  
+  
+const accuhits = useMemo(() => {
+     if (isLiveTailOn) return totalHits['data'].length || 0;
+     return reduce(
+        totalHits['data']['count()'],
+        (sum, n) => {
+          return sum + n;
+        },
+        liveHits
+      )
     }
-  } , []);
+  } , [isLiveTailOn, totalHits?.data, liveHits]);
 
   // const need = () => {
   // const hits = reduce(
@@ -197,16 +210,14 @@ export const Search = (props: any) => {
         <EuiFlexItem grow={false} />
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker" grow={false}>
           {isLiveTailOn && totalHits?.data ? (
-            // {totalHits?.data && (
             <EuiFlexGroup justifyContent="center" alignItems="center">
               <EuiFlexItem grow={false}>
                 <HitsCounter
-                  hits={liveHitsRef.current}
+                  hits={accuhits}
                   showResetButton={false}
                   onResetQuery={() => { } } />
               </EuiFlexItem>
             </EuiFlexGroup>
-            // )}
           ) : (
             <DatePicker
               startTime={startTime}
