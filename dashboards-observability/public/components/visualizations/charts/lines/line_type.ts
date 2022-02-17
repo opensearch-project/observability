@@ -9,7 +9,10 @@ import { LensIconChartLine } from '../../assets/chart_line';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import {
+  ConfigValueOptions,
+  ConfigThresholds,
+} from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -54,6 +57,21 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 mapTo: 'yaxis',
               },
             ],
+          },
+          {
+            id: 'chart_options',
+            name: 'Chart options',
+            editor: ConfigValueOptions,
+            mapTo: 'chartOptions',
+            schemas: [],
+          },
+          {
+            id: 'thresholds',
+            name: 'Thresholds',
+            editor: ConfigThresholds,
+            mapTo: 'thresholds',
+            defaultState: [],
+            schemas: [],
           },
         ],
       },

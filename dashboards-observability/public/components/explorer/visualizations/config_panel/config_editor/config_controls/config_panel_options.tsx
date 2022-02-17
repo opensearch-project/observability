@@ -25,6 +25,7 @@ const helpText =
   'Repeat this panel for each value in the selected variable. This is not visible while in edit mode. You need to go back to dashboard and then update the variable or reload the dashboard.';
 
 export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
+  console.log('ConfigPanelOptions viz: ', vizState);
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
@@ -40,18 +41,18 @@ export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
   return (
     <EuiAccordion id="configPanel__panelOptions" buttonContent="Panel options" paddingSize="s">
       <EuiForm component="form">
-        <EuiFormRow label="Title" helpText="Name your visualization">
+        <EuiFormRow fullWidth label="Title" helpText="Name your visualization">
           <EuiFieldText name="first" onChange={handleConfigurationChange('title')} />
         </EuiFormRow>
         <EuiFormRow label="Description">
           <EuiTextArea
             placeholder="Visualization description"
             aria-label="Use aria labels when no actual label is in use"
-            value={''}
-            onChange={handleConfigurationChange('description')}
+            value={vizState?.description || ''}
+            onChange={(e) => handleConfigurationChange('description')(e.target.value)}
           />
         </EuiFormRow>
-        <EuiFormRow label="Transparent background">
+        {/* <EuiFormRow label="Transparent background">
           <EuiSwitch
             label=""
             checked={false}
@@ -75,7 +76,7 @@ export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
           <EuiFormRow label="" helpText={<span>{helpText}</span>}>
             <EuiSelect />
           </EuiFormRow>
-        </EuiAccordion>
+        </EuiAccordion> */}
       </EuiForm>
     </EuiAccordion>
   );

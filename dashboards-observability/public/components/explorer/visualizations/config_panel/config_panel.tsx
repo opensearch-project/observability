@@ -60,7 +60,7 @@ const HJSON_STRINGIFY_OPTIONS = {
 
 const ENABLED_VIS_TYPES = [
   'bar',
-  'horizontal_bar',
+  // 'horizontal_bar',
   'line',
   'pie',
   'histogram',

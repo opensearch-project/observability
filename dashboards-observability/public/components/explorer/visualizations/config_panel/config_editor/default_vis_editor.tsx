@@ -25,13 +25,14 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
 
   const dynamicContent = tabProps.sections.map((section) => {
     const Editor = section.editor;
+    console.log('section: ', section);
     return (
-      <EuiFormRow>
+      <EuiFormRow fullWidth>
         <Editor
           visualizations={visualizations}
           schemas={section.schemas}
           handleConfigChange={handleConfigEditing(section.mapTo)}
-          vizState={vizState[section.mapTo] ? vizState[section.mapTo] : {}}
+          vizState={vizState[section.mapTo] || section.defaultState || {}}
           sectionName={section.name}
         />
       </EuiFormRow>
@@ -42,7 +43,11 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
     <div className="visEditorSidebar__config">
       <EuiForm className="visEditorSidebar__form">
         <EuiFormRow>
-          <ConfigPanelOptions configState={vizState?.panelOptions} />
+          <ConfigPanelOptions
+            vizState={vizState?.panelOptions}
+            visualizations={visualizations}
+            handleConfigChange={handleConfigEditing('panelOptions')}
+          />
         </EuiFormRow>
         {dynamicContent}
       </EuiForm>

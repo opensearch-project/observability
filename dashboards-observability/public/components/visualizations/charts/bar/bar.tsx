@@ -16,9 +16,23 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { isUniColor } = vis.visConfig;
   const lastIndex = fields.length - 1;
-  const { xaxis = [], yaxis = [] } = visualizations?.data?.userConfigs;
-  const isVertical = vis.orientation !== 'h';
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const xaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.xaxis
+      : [];
+  const yaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.yaxis
+      : [];
+  // const { xaxis = [], yaxis = [] } = dataConfig?.valueOptions;
+  const barOrientation =
+    dataConfig?.chartOptions?.orientation && dataConfig.chartOptions.orientation[0].orientationId
+      ? dataConfig.chartOptions.orientation[0].orientationId
+      : visualizations.vis.orientation;
   const { defaultAxes } = visualizations.data;
+
+  const isVertical = barOrientation === 'v';
 
   // Individual bars have different colors
   // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor
@@ -34,18 +48,12 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [
-      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
-        ...item,
-        name: item.label,
-      })),
-    ];
+    valueSeries = isVertical ? [...yaxis] : [...xaxis];
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
   // determine category axis
-
   const bars = valueSeries.map((field: any) => {
     return {
       x: isVertical
@@ -57,7 +65,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       type: vis.type,
       marker,
       name: field.name,
-      orientation: visualizations.vis.orientation,
+      orientation: barOrientation,
     };
   });
 
@@ -65,10 +73,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
     data[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
-
   const finalFigureLayout = {
     colorway: plotlyColorway,
     ...layout,
+    barmode:
+      dataConfig?.chartOptions?.mode && dataConfig.chartOptions.mode[0].modeId
+        ? dataConfig.chartOptions.mode[0].modeId
+        : '',
   };
 
   return <Plt data={bars} layout={finalFigureLayout} config={config} />;

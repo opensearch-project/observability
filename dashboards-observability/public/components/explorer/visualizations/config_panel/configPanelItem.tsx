@@ -14,15 +14,15 @@ export const PanelItem = ({
   dropdownList,
   children,
   onSelectChange,
+  vizState,
   isSingleSelection = false,
 }: any) => {
-  console.log('dropdownList: ', dropdownList);
   const options = dropdownList.map((item) => {
     return {
+      ...item,
       label: item.name,
     };
   });
-  console.log('options: ', options);
   const handleSelect = (selectedOption) => {
     onSelectChange(selectedOption);
   };
@@ -39,7 +39,7 @@ export const PanelItem = ({
         options={options}
         selectedOptions={selectedAxis}
         singleSelection={isSingleSelection}
-        onChange={(options) => handleSelect(options)}
+        onChange={onSelectChange}
         aria-label="Use aria labels when no actual label is in use"
       />
     </>

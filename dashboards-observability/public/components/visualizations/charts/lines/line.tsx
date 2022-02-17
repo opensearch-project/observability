@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { take, isEmpty } from 'lodash';
+import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 
 export const Line = ({ visualizations, layout, config }: any) => {
@@ -14,17 +14,20 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { vis } = visualizations;
   const { defaultAxes } = visualizations.data;
-  const { xaxis = [], yaxis = [] } = visualizations?.data?.userConfigs;
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const xaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.xaxis
+      : [];
+  const yaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.yaxis
+      : [];
   const lastIndex = fields.length - 1;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [
-      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
-        ...item,
-        name: item.label,
-      })),
-    ];
+    valueSeries = [...yaxis];
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
@@ -33,10 +36,35 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return {
       x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
       y: data[field.name],
+      text: dataConfig.thresholds ? dataConfig.thresholds.map((thr) => thr.name) : [],
       type: 'line',
       name: field.name,
     };
   });
 
-  return <Plt data={lineValues} layout={layout} config={config} />;
+  const finalLayout = {
+    ...layout,
+  };
+
+  // threshold(s)
+  if (dataConfig.thresholds) {
+    finalLayout.shapes = [
+      ...dataConfig.thresholds.map((thr) => {
+        return {
+          type: 'line',
+          x0: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+          y0: thr.value,
+          x1: last(data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+          y1: thr.value,
+          line: {
+            color: thr.color,
+            width: 4,
+            dash: 'dashdot',
+          },
+        };
+      }),
+    ];
+  }
+
+  return <Plt data={lineValues} layout={finalLayout} config={config} />;
 };

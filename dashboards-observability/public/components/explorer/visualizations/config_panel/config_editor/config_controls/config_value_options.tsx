@@ -19,6 +19,7 @@ export const ConfigValueOptions = ({
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
+        console.log('inner config: ', changes);
         handleConfigChange({
           ...vizState,
           [stateFiledName]: changes,
@@ -34,10 +35,13 @@ export const ConfigValueOptions = ({
       const params = {
         paddingTitle: schema.name,
         advancedTitle: 'advancedTitle',
-        dropdownList: schema?.options?.map((option) => ({ name: option })) || fields,
+        dropdownList:
+          schema?.options?.map((option) => ({ name: option })) ||
+          fields.map((item) => ({ ...item })),
         onSelectChange: handleConfigurationChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: vizState[schema.mapTo],
+        vizState,
         ...schema.props,
       };
       return (

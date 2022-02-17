@@ -18,6 +18,7 @@ export const ConfigChartOptions = ({
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
+        console.log('chart options:');
         handleConfigChange({
           ...vizState,
           [stateFiledName]: changes,

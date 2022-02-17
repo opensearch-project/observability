@@ -75,7 +75,10 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
                 component: null,
                 mapTo: 'orientation',
                 props: {
-                  dropdownList: [{ name: 'Vertical' }, { name: 'Horizontal' }],
+                  dropdownList: [
+                    { name: 'Vertical', orientationId: 'v' },
+                    { name: 'Horizontal', orientationId: 'h' },
+                  ],
                   defaultSelections: [{ name: 'Vertical' }],
                 },
               },
@@ -85,7 +88,11 @@ export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
                 component: null,
                 mapTo: 'mode',
                 props: {
-                  dropdownList: [{ name: 'Default' }, { name: 'Group' }, { name: 'Stack' }],
+                  dropdownList: [
+                    { name: 'Default', modeId: '' },
+                    { name: 'Group', modeId: 'group' },
+                    { name: 'Stack', modeId: 'stack' },
+                  ],
                   defaultSelections: [{ name: 'Default' }],
                 },
               },
