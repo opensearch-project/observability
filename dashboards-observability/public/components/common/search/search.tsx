@@ -5,7 +5,6 @@
 
 import './search.scss';
 
-
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   EuiFlexGroup,
@@ -73,7 +72,7 @@ export const Search = (props: any) => {
     closeLiveTailPopover,
     popoverItems,
     isLiveTailOn,
-    totalHits,
+    countDistribution,
     selectedSubTabId,
     searchBarConfigs = {},
     getSuggestions,
@@ -101,8 +100,7 @@ export const Search = (props: any) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   };
 
-
-  const Savebutton = (
+  const SaveButton = (
     <EuiButton
       iconSide="right"
       onClick={() => {
@@ -116,62 +114,32 @@ export const Search = (props: any) => {
       Save
     </EuiButton>
   );
-  
-  // console.log("countDistribution in search: ", totalHits);
-  
-  // const need = () => {
-  //   if (isLiveTailOn && totalHits?.data) {
-      
-  //   }
 
-  // }
-
-  useEffect(() => {
-    console.log("entering loop");
-    if (isLiveTailOn && totalHits?.data) {
-      let hits = reduce(
-                totalHits['data']['count()'],
-                (sum, n) => {
-                  return sum + n;
-                },
-                liveHitsRef.current
-              )
-      console.log("hits in use effect", hits);
+  const totalHits = useMemo(() => {
+   if (isLiveTailOn && countDistribution?.data) {    
+    let hits = reduce(
+      countDistribution['data']['count()'],
+      (sum, n) => {
+        return sum + n;
+      },
+      liveHits
+      )
       setLiveHits(hits);
-    }
-  } , []);
-
-  // const need = () => {
-  // const hits = reduce(
-  //                 totalHits['data']['count()'],
-  //                 (sum, n) => {
-  //                   return sum + n;
-  //                 },
-  //                 liveHits
-  //               );
-  //       console.log("hits in use effect", hits);
-  //       setLiveHits(hits);
-  //       return liveHits;
-  // };
-
-
-  console.log("live hits",liveHits);
-  // console.log("total hits in search:", totalHits);
-  // console.log("is live tail on in search: ",isLiveTailOn);
+      return hits
+  }} , [countDistribution?.data]);
 
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
         {tabId === 'application-analytics-tab' && (
-
-          <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
-            <EuiToolTip position="top" content={baseQuery}>
-              <EuiBadge className="base-query-popover" color="hollow">
-                Base Query
-              </EuiBadge>
-            </EuiToolTip>
-          </EuiFlexItem>
-        )}
+            <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
+              <EuiToolTip position="top" content={baseQuery}>
+                <EuiBadge className="base-query-popover" color="hollow">
+                  Base Query
+                </EuiBadge>
+              </EuiToolTip>
+            </EuiFlexItem>
+          )}
         <EuiFlexItem key="search-bar" className="search-area">
           <Autocomplete
             key={'autocomplete-search-bar'}
@@ -196,17 +164,18 @@ export const Search = (props: any) => {
         </EuiFlexItem>
         <EuiFlexItem grow={false} />
         <EuiFlexItem className="euiFlexItem--flexGrowZero event-date-picker" grow={false}>
-          {isLiveTailOn && totalHits?.data ? (
-            // {totalHits?.data && (
+          {isLiveTailOn && countDistribution?.data ? (
             <EuiFlexGroup justifyContent="center" alignItems="center">
+              <EuiText size="s" textAlign="left" color="default">
+                <h3>Live - </h3>
+              </EuiText>
               <EuiFlexItem grow={false}>
                 <HitsCounter
-                  hits={liveHitsRef.current}
+                  hits={totalHits}
                   showResetButton={false}
                   onResetQuery={() => { } } />
               </EuiFlexItem>
             </EuiFlexGroup>
-            // )}
           ) : (
             <DatePicker
               startTime={startTime}
@@ -230,11 +199,12 @@ export const Search = (props: any) => {
               <EuiContextMenuPanel items={popoverItems} />
             </EuiPopover>
           </EuiFlexItem>
+          {/*  */}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
-                button={Savebutton}
+                button={SaveButton}
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
@@ -248,7 +218,7 @@ export const Search = (props: any) => {
                   showOptionList={
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
-                  }
+                  }                
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
@@ -285,3 +255,4 @@ export const Search = (props: any) => {
     </div>
   );
 };
+
