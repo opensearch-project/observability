@@ -24,7 +24,7 @@ import React, { useState } from 'react';
 
 interface Props {
   addVizDisabled: boolean;
-  page?: string;
+  page: 'app' | 'operationalPanel';
   getVizContextPanels: (
     closeVizPopover?: (() => void) | undefined
   ) => Array<{
@@ -45,6 +45,7 @@ export const EmptyPanelView = ({
   switchToEvent,
 }: Props) => {
   const [isVizPopoverOpen, setVizPopoverOpen] = useState(false);
+  const appMetrics = page === 'app';
 
   const onPopoverClick = () => {
     setVizPopoverOpen(!isVizPopoverOpen);
@@ -70,18 +71,19 @@ export const EmptyPanelView = ({
     <div>
       <EuiSpacer size="xxl" />
       <EuiText textAlign="center">
-        <h2>Start by adding your first visualization</h2>
+        <h2>Start by adding {appMetrics ? 'metrics' : 'your first visualization'}</h2>
         <EuiSpacer size="m" />
         <EuiText color="subdued" size="m">
-          Use PPL Queries to fetch &amp; filter Observability Data and Create Visualizations
+          Use PPL Queries to fetch &amp; filter observability data and create
+          {appMetrics ? ' metrics' : ' visualizations'}
         </EuiText>
       </EuiText>
       <EuiSpacer size="m" />
       <EuiFlexGroup justifyContent="center">
-        {page === 'app' ? (
+        {appMetrics ? (
           <EuiFlexItem grow={false}>
-            <EuiButton isDisabled={addVizDisabled} onClick={switchToEvent}>
-              Add Visualization
+            <EuiButton iconType="plusInCircle" onClick={switchToEvent} isDisabled={addVizDisabled}>
+              Add metric
             </EuiButton>
           </EuiFlexItem>
         ) : (

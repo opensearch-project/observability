@@ -56,6 +56,7 @@ describe('Panels View Component', () => {
         endTime={end}
         setStartTime={setStart}
         setEndTime={setEnd}
+        page="operationalPanels"
       />
     );
     wrapper.update();
@@ -108,6 +109,7 @@ describe('Panels View Component', () => {
         endTime={end}
         setStartTime={setStart}
         setEndTime={setEnd}
+        page="operationalPanels"
       />
     );
     wrapper.update();

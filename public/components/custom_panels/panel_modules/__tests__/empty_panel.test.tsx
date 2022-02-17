@@ -14,7 +14,11 @@ describe('Empty panel view component', () => {
   it('renders empty panel view with disabled popover', () => {
     const getVizContextPanels = jest.fn();
     const wrapper = mount(
-      <EmptyPanelView addVizDisabled={true} getVizContextPanels={getVizContextPanels} />
+      <EmptyPanelView
+        page="operationalPanel"
+        addVizDisabled={true}
+        getVizContextPanels={getVizContextPanels}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -24,11 +28,14 @@ describe('Empty panel view component', () => {
   it('renders empty panel view with enabled popover', () => {
     const getVizContextPanels = jest.fn();
     const wrapper = mount(
-      <EmptyPanelView addVizDisabled={false} getVizContextPanels={getVizContextPanels} />
+      <EmptyPanelView
+        page="operationalPanel"
+        addVizDisabled={false}
+        getVizContextPanels={getVizContextPanels}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.find('EuiButton').prop('disabled')).toBe(false);
   });
-
 });
