@@ -199,7 +199,6 @@ export const Search = (props: any) => {
               <EuiContextMenuPanel items={popoverItems} />
             </EuiPopover>
           </EuiFlexItem>
-          {/*  */}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
