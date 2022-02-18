@@ -128,6 +128,12 @@ export const FIELD_AFTER_COMMA = new RegExp('^\\s*rename\\s+((,\\s*)?\\S+\\s+as\
 // Regex for head command
 export const PIPE_AFTER_HEAD = new RegExp('^\\s*head\\s+\\d+\\s+');
 
+// Regex for sort command
+export const PLUS_MINUS_FIELD_AFTER_SORT = new RegExp('^\\s*sort(\\s+\\d+)?\\s+\\S*$');
+export const FIELD_AFTER_PLUS_MINUS_SORT = new RegExp('^\\s*sort(\\s+\\d+)?((,\\s*)?\\s+(\\+|\\-)?\\s*\\S+\\s*)*\\s+(\\+|\\-)\\s*\\S*$');
+export const PIPE_COMMA_AFTER_SORT_FIELD = new RegExp('^\\s*sort(\\s+\\d+)?((,\\s*)?\\s+(\\+|\\-)?\\s*\\S+\\s*)*\\s+\\S+\\s+$')
+export const PLUS_MINUS_FIELD_IN_FIELDS_LOOP = new RegExp('^\\s*sort(\\s+\\d+)?((,\\s*)?\\s+(\\+|\\-)?\\s*\\S+\\s*)*,\\s+\\S*$');
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   MATCH_FIELD_AFTER_WHERE,
@@ -163,6 +169,10 @@ export const regexForSuggestion = [
   FIELD_AFTER_COMMA,
   AS_AFTER_FIELD,
   PIPE_AFTER_HEAD,
+  PLUS_MINUS_FIELD_AFTER_SORT,
+  FIELD_AFTER_PLUS_MINUS_SORT,
+  PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
+  PIPE_COMMA_AFTER_SORT_FIELD,
 ];
 
 export const regexForIndex = [

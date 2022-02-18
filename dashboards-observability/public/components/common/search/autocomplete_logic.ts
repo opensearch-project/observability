@@ -51,6 +51,10 @@ import {
   PIPE_COMMA_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
   PIPE_AFTER_HEAD,
+  PLUS_MINUS_FIELD_AFTER_SORT,
+  FIELD_AFTER_PLUS_MINUS_SORT,
+  PIPE_COMMA_AFTER_SORT_FIELD,
+  PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -432,8 +436,11 @@ export const getSuggestionsAfterSource = async (
         ]);
       case PIPE_COMMA_AFTER_FIELDS:
       case PIPE_COMMA_AFTER_RENAME_FIELD:
+      case PIPE_COMMA_AFTER_SORT_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }, { label: '|' }]);
       case PLUS_MINUS_FIELD_AFTER_FIELDS:
+      case PLUS_MINUS_FIELD_AFTER_SORT:
+      case PLUS_MINUS_FIELD_IN_FIELDS_LOOP:
         return fillSuggestions(currQuery, lastWord, [
           { label: '+' },
           { label: '-' },
@@ -480,6 +487,7 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_BY:
       case FIELD_AFTER_RENAME:
       case FIELD_AFTER_COMMA:
+      case FIELD_AFTER_PLUS_MINUS_SORT:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
