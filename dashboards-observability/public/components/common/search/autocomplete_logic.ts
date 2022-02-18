@@ -27,12 +27,10 @@ import {
   DATA_AFTER_COMMA,
   CLOSE_AFTER_DATA,
   PIPE_AFTER_MATCH,
-  FIELD_AFTER_DEDUP,
   FIELD_IN_FIELD_LOOP,
   PIPE_COMMA_AFTER_FIELD,
   PIPE_AFTER_KEEP_EMPTY,
   PIPE_AFTER_CONSECUTIVE,
-  FIELD_AFTER_EVAL,
   EQUAL_AFTER_EVAL_FIELD,
   FIELD_AFTER_EVAL_EQUAL,
   MATH_AFTER_FIELD,
@@ -41,12 +39,10 @@ import {
   FIELD_AFTER_PLUS_MINUS,
   PIPE_COMMA_AFTER_FIELDS,
   FIELD_IN_FIELDS_LOOP,
-  FIELD_AFTER_RARE,
-  FIELD_IN_RARE_FIELD_LOOP,
+  RARE_TOP_FIELD_LOOP,
   PIPE_COMMA_BY_AFTER_FIELD,
   FIELD_AFTER_BY,
   PIPE_AFTER_GROUP_BY,
-  FIELD_AFTER_RENAME,
   AS_AFTER_FIELD,
   PIPE_COMMA_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
@@ -55,6 +51,7 @@ import {
   FIELD_AFTER_PLUS_MINUS_SORT,
   PIPE_COMMA_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
+  FIELD_AFTER_COMMAND,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -475,17 +472,14 @@ export const getSuggestionsAfterSource = async (
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndex, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+      case FIELD_AFTER_COMMAND:
       case FIELD_AFTER_MATCH:
-      case FIELD_AFTER_DEDUP:
       case FIELD_IN_FIELD_LOOP:
-      case FIELD_AFTER_EVAL:
       case FIELD_AFTER_EVAL_EQUAL:
       case FIELD_AFTER_PLUS_MINUS:
       case FIELD_IN_FIELDS_LOOP:
-      case FIELD_AFTER_RARE:
-      case FIELD_IN_RARE_FIELD_LOOP:
+      case RARE_TOP_FIELD_LOOP:
       case FIELD_AFTER_BY:
-      case FIELD_AFTER_RENAME:
       case FIELD_AFTER_COMMA:
       case FIELD_AFTER_PLUS_MINUS_SORT:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
