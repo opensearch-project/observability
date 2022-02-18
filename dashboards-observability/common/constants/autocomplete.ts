@@ -147,6 +147,9 @@ export const FIELD_AFTER_COMMA = new RegExp(
   '^\\s*rename\\s+((,\\s*)?\\S+\\s+as\\s+\\S+\\s*)+\\s*,\\s+\\S*$'
 );
 
+// Regex for head command
+export const PIPE_AFTER_HEAD = new RegExp('^\\s*head\\s+\\d+\\s+');
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   MATCH_FIELD_AFTER_WHERE,
@@ -181,6 +184,7 @@ export const regexForSuggestion = [
   PIPE_COMMA_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
   AS_AFTER_FIELD,
+  PIPE_AFTER_HEAD,
 ];
 
 export const regexForIndex = [

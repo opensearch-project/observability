@@ -50,6 +50,7 @@ import {
   AS_AFTER_FIELD,
   PIPE_COMMA_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
+  PIPE_AFTER_HEAD,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -485,6 +486,7 @@ export const getSuggestionsAfterSource = async (
       case PIPE_AFTER_KEEP_EMPTY:
       case PIPE_AFTER_CONSECUTIVE:
       case PIPE_AFTER_GROUP_BY:
+      case PIPE_AFTER_HEAD:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:
