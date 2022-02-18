@@ -25,18 +25,6 @@ export const ConfigThresholds = ({
   handleConfigChange,
   sectionName = 'Thresholds',
 }: any) => {
-  console.log('threash vizState: ', vizState);
-  // const { thresholds = [] } = vizState;
-
-  // const handleConfigEditing = useCallback(
-  //   (secName) => {
-  //     return (changes) => {
-  //       handleConfigChange([...changes]);
-  //     };
-  //   },
-  //   [vizState, handleConfigChange]
-  // );
-
   const getThresholdUnit = () => {
     return {
       thid: uniqueId('thr'),

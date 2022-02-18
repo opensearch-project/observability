@@ -52,31 +52,6 @@ export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
             onChange={(e) => handleConfigurationChange('description')(e.target.value)}
           />
         </EuiFormRow>
-        {/* <EuiFormRow label="Transparent background">
-          <EuiSwitch
-            label=""
-            checked={false}
-            onChange={handleConfigurationChange('tansparentBackground')}
-          />
-        </EuiFormRow>
-        <EuiSpacer size="s" />
-        <EuiAccordion id="configPanel__panelOptions_" buttonContent="Panel Links" paddingSize="s">
-          <EuiSpacer size="s" />
-          <EuiFormRow label="">
-            <EuiButton size="s">+ Add link</EuiButton>
-          </EuiFormRow>
-        </EuiAccordion>
-        <EuiSpacer size="s" />
-        <EuiAccordion
-          id="configPanel__panelOptions_"
-          buttonContent="Repeat options"
-          paddingSize="s"
-        >
-          <EuiSpacer size="s" />
-          <EuiFormRow label="" helpText={<span>{helpText}</span>}>
-            <EuiSelect />
-          </EuiFormRow>
-        </EuiAccordion> */}
       </EuiForm>
     </EuiAccordion>
   );

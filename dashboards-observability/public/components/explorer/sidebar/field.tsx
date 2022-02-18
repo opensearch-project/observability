@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { i18n } from '@osd/i18n';
-import { isEqual } from 'lodash';
+import { isEqual, toUpper, upperFirst } from 'lodash';
 import {
   EuiPopover,
   EuiButtonIcon,
@@ -15,10 +15,14 @@ import {
   EuiLoadingSpinner,
   EuiPopoverTitle,
   EuiPanel,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiTitle,
 } from '@elastic/eui';
 import { FieldButton } from '../../common/field_button';
 import { FieldIcon } from '../../common/field_icon';
 import { IField } from '../../../../common/types/explorer';
+import { FieldInsights } from './field_insights';
 
 interface IFieldProps {
   field: IField;
@@ -34,6 +38,7 @@ interface IFieldProps {
 
 export const Field = (props: IFieldProps) => {
   const {
+    query,
     field,
     selectedTimestamp,
     isOverridingTimestamp,
@@ -138,7 +143,7 @@ export const Field = (props: IFieldProps) => {
       ownFocus
       display="block"
       isOpen={isFieldDetailsOpen}
-      closePopover={() => togglePopover}
+      closePopover={() => setIsFieldDetailsOpen(false)}
       anchorPosition="rightUp"
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
@@ -162,8 +167,16 @@ export const Field = (props: IFieldProps) => {
         />
       }
     >
-      <EuiPopoverTitle>{field.name}</EuiPopoverTitle>
-      top 5 values
+      <EuiFlexGroup justifyContent="spaceBetween">
+        <EuiFlexItem>
+          <EuiTitle size="xs">
+            <h4>{toUpper(field.name)}</h4>
+          </EuiTitle>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>{upperFirst(field.type)}</EuiFlexItem>
+      </EuiFlexGroup>
+
+      <FieldInsights field={field} query={query} />
     </EuiPopover>
   );
 };

@@ -15,7 +15,6 @@ import {
 export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, tabProps }: any) => {
   const handleConfigEditing = (stateFieldName) => {
     return (changes) => {
-      console.log('VizDataPanel changes: ', changes);
       onConfigChange({
         ...vizState,
         [stateFieldName]: changes,
@@ -25,7 +24,6 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
 
   const dynamicContent = tabProps.sections.map((section) => {
     const Editor = section.editor;
-    console.log('section: ', section);
     return (
       <EuiFormRow fullWidth>
         <Editor

@@ -18,6 +18,7 @@ import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 
 export const ExplorerVisualizations = ({
+  query,
   curVisId,
   setCurVisId,
   explorerVis,
@@ -35,6 +36,7 @@ export const ExplorerVisualizations = ({
           <EuiResizablePanel initialSize={15} minSize="100px">
             <div className="dscFieldChooser">
               <Sidebar
+                query={query}
                 explorerFields={explorerFields}
                 explorerData={explorerData}
                 selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}

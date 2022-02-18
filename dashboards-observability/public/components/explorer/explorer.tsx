@@ -516,6 +516,7 @@ export const Explorer = ({
             {!isSidebarClosed && (
               <div className="dscFieldChooser">
                 <Sidebar
+                  query={query}
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
@@ -648,6 +649,7 @@ export const Explorer = ({
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
+        query={query}
         curVisId={curVisId}
         setCurVisId={setCurVisId}
         explorerFields={explorerFields}
@@ -688,6 +690,7 @@ export const Explorer = ({
     selectedContentTabId,
     isOverridingTimestamp,
     visualizations,
+    query,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -918,6 +921,7 @@ export const Explorer = ({
         changeVisualizationConfig,
         explorerVisualizations,
         setToast,
+        pplService,
       }}
     >
       <div className="dscAppContainer">

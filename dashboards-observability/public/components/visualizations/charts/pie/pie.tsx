@@ -15,17 +15,20 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
-  const { xaxis = null, yaxis = null } = visualizations.data.userConfigs;
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const xaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.xaxis
+      : [];
+  const yaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.yaxis
+      : [];
   const lastIndex = fields.length - 1;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [
-      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
-        ...item,
-        name: item.label,
-      })),
-    ];
+    valueSeries = [...yaxis];
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }

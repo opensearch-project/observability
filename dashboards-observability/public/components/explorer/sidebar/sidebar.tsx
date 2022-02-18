@@ -10,6 +10,7 @@ import { isEmpty } from 'lodash';
 import { EuiTitle, EuiSpacer, EuiButtonIcon, EuiFieldSearch } from '@elastic/eui';
 import { i18n } from '@osd/i18n';
 import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
+import { cssNumber } from 'jquery';
 import { Field } from './field';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 
@@ -26,6 +27,7 @@ interface ISidebarProps {
 
 export const Sidebar = (props: ISidebarProps) => {
   const {
+    query,
     explorerFields,
     explorerData,
     selectedTimestamp,
@@ -85,6 +87,7 @@ export const Sidebar = (props: ISidebarProps) => {
                             className="dscSidebar__item"
                           >
                             <Field
+                              query={query}
                               field={field}
                               selectedTimestamp={selectedTimestamp}
                               handleOverrideTimestamp={handleOverrideTimestamp}
@@ -124,6 +127,7 @@ export const Sidebar = (props: ISidebarProps) => {
                         className="dscSidebar__item"
                       >
                         <Field
+                          query={query}
                           field={field}
                           selectedTimestamp={selectedTimestamp}
                           isOverridingTimestamp={isOverridingTimestamp}
@@ -187,6 +191,7 @@ export const Sidebar = (props: ISidebarProps) => {
                           className="dscSidebar__item"
                         >
                           <Field
+                            query={query}
                             field={field}
                             selectedTimestamp={selectedTimestamp}
                             isOverridingTimestamp={isOverridingTimestamp}
