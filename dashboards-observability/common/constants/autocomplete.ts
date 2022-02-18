@@ -135,6 +135,18 @@ export const PIPE_AFTER_GROUP_BY = new RegExp(
   '^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*\\s+by\\s+\\S+\\s+$'
 );
 
+// Regex for rename command
+export const FIELD_AFTER_RENAME = new RegExp('^\\s*rename\\s+\\S*$');
+export const AS_AFTER_FIELD = new RegExp(
+  '^\\s*rename\\s+((,\\s*)?\\S+\\s+as\\s+\\S+\\s*)*\\s*(,\\s*)?\\S+\\s+\\S*$'
+);
+export const PIPE_COMMA_AFTER_RENAME_FIELD = new RegExp(
+  '^\\s*rename\\s+((,\\s*)?\\S+\\s+as\\s+\\S+\\s*)+$'
+);
+export const FIELD_AFTER_COMMA = new RegExp(
+  '^\\s*rename\\s+((,\\s*)?\\S+\\s+as\\s+\\S+\\s*)+\\s*,\\s+\\S*$'
+);
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   MATCH_FIELD_AFTER_WHERE,
@@ -165,6 +177,10 @@ export const regexForSuggestion = [
   FIELD_IN_RARE_FIELD_LOOP,
   FIELD_AFTER_BY,
   PIPE_AFTER_GROUP_BY,
+  FIELD_AFTER_RENAME,
+  PIPE_COMMA_AFTER_RENAME_FIELD,
+  FIELD_AFTER_COMMA,
+  AS_AFTER_FIELD,
 ];
 
 export const regexForIndex = [

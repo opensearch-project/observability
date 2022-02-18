@@ -46,6 +46,10 @@ import {
   PIPE_COMMA_BY_AFTER_FIELD,
   FIELD_AFTER_BY,
   PIPE_AFTER_GROUP_BY,
+  FIELD_AFTER_RENAME,
+  AS_AFTER_FIELD,
+  PIPE_COMMA_AFTER_RENAME_FIELD,
+  FIELD_AFTER_COMMA,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -417,6 +421,8 @@ export const getSuggestionsAfterSource = async (
   console.log(next);
   if (next) {
     switch (next) {
+      case AS_AFTER_FIELD:
+        return fillSuggestions(currQuery, lastWord, [{ label: 'as' }]);
       case PIPE_COMMA_BY_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [
           { label: ',' },
@@ -424,6 +430,7 @@ export const getSuggestionsAfterSource = async (
           { label: 'by' },
         ]);
       case PIPE_COMMA_AFTER_FIELDS:
+      case PIPE_COMMA_AFTER_RENAME_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }, { label: '|' }]);
       case PLUS_MINUS_FIELD_AFTER_FIELDS:
         return fillSuggestions(currQuery, lastWord, [
@@ -470,6 +477,8 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_RARE:
       case FIELD_IN_RARE_FIELD_LOOP:
       case FIELD_AFTER_BY:
+      case FIELD_AFTER_RENAME:
+      case FIELD_AFTER_COMMA:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
