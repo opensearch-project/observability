@@ -116,7 +116,7 @@ export const FIELD_IN_FIELDS_LOOP = new RegExp('^\\s*fields\\s+((\\+|\\-)\\s+)?\
 export const FIELD_AFTER_RARE = new RegExp('^\\s*rare\\s+\\S*$');
 export const PIPE_COMMA_BY_AFTER_FIELD = new RegExp('^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*\\s+\\S*$');
 export const FIELD_IN_RARE_FIELD_LOOP = new RegExp('^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*,\\s*\\S*$');
-export const FIELD_AFTER_BY = new RegExp('^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*\\s+by\\s+$');
+export const FIELD_AFTER_BY = new RegExp('^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*\\s+by\\s+\\S*$');
 export const PIPE_AFTER_GROUP_BY = new RegExp('^\\s*rare\\s+\\S+\\s*(,\\s*\\S+\\s*)*\\s+by\\s+\\S+\\s+$');
 
 // Regex for rename command
