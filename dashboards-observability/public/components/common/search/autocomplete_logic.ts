@@ -28,9 +28,8 @@ import {
   CLOSE_AFTER_DATA,
   PIPE_AFTER_MATCH,
   FIELD_AFTER_DEDUP,
-  PIPE_COMMA_AFTER_FIELD,
   FIELD_IN_FIELD_LOOP,
-  PIPE_COMMA_AFTER_FIELD_LOOP,
+  PIPE_COMMA_AFTER_FIELD,
   PIPE_AFTER_KEEP_EMPTY,
   PIPE_AFTER_CONSECUTIVE,
   FIELD_AFTER_EVAL,
@@ -38,6 +37,10 @@ import {
   FIELD_AFTER_EVAL_EQUAL,
   MATH_AFTER_FIELD,
   PIPE_MATH_AFTER_EXPRESSIONS,
+  PLUS_MINUS_FIELD_AFTER_FIELDS,
+  FIELD_AFTER_PLUS_MINUS,
+  PIPE_COMMA_AFTER_FIELDS,
+  FIELD_IN_FIELDS_LOOP,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -406,8 +409,17 @@ export const getSuggestionsAfterSource = async (
     return fillSuggestions(currQuery, lastWord, pipeCommands);
   }
   const next = parseForNextSuggestion(lastCommand);
+  console.log(next);
   if (next) {
     switch (next) {
+      case PIPE_COMMA_AFTER_FIELDS:
+        return fillSuggestions(currQuery, lastWord, [{ label: ',' }, { label: '|' }]);
+      case PLUS_MINUS_FIELD_AFTER_FIELDS:
+        return fillSuggestions(currQuery, lastWord, [
+          { label: '+' },
+          { label: '-' },
+          ...fieldsFromBackend,
+        ]);
       case PIPE_MATH_AFTER_EXPRESSIONS:
         return fillSuggestions(currQuery, lastWord, [
           { label: '|' },
@@ -424,7 +436,6 @@ export const getSuggestionsAfterSource = async (
           { label: '/' },
         ]);
       case PIPE_COMMA_AFTER_FIELD:
-      case PIPE_COMMA_AFTER_FIELD_LOOP:
         return fillSuggestions(currQuery, lastWord, [
           { label: ',' },
           { label: '|' },
@@ -443,6 +454,8 @@ export const getSuggestionsAfterSource = async (
       case FIELD_IN_FIELD_LOOP:
       case FIELD_AFTER_EVAL:
       case FIELD_AFTER_EVAL_EQUAL:
+      case FIELD_AFTER_PLUS_MINUS:
+      case FIELD_IN_FIELDS_LOOP:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:

@@ -86,11 +86,8 @@ export const PIPE_AFTER_MATCH = new RegExp(
 );
 // Regex for dedup command
 export const FIELD_AFTER_DEDUP = new RegExp('^\\s*dedup\\s*\\S*$');
-export const PIPE_COMMA_AFTER_FIELD = new RegExp('^\\s*dedup\\s*\\S+\\s+\\S*$');
 export const FIELD_IN_FIELD_LOOP = new RegExp('^\\s*dedup\\s*\\S+\\s*(,\\s*\\S+\\s*)*,\\s*\\S*$');
-export const PIPE_COMMA_AFTER_FIELD_LOOP = new RegExp(
-  '^\\s*dedup\\s*\\S+\\s*(,\\s*\\S+)+\\s+\\S*$'
-);
+export const PIPE_COMMA_AFTER_FIELD = new RegExp('^\\s*dedup\\s*\\S+\\s*(,\\s*\\S+\\s*)*\\s+$');
 export const PIPE_AFTER_KEEP_EMPTY = new RegExp(
   '^\\s*dedup\\s*\\S+\\s*(,\\s*\\S+\\s*)*\\s*keepempty=true\\s+$'
 );
@@ -107,21 +104,30 @@ export const PIPE_MATH_AFTER_EXPRESSIONS = new RegExp(
   '^\\s*eval\\s+(\\S+\\s*=\\s*\\S+(\\s*(\\+|\\-|\\*|\\/)\\s*\\S+)+)+\\s+$'
 );
 
+// Regex for field command
+export const PLUS_MINUS_FIELD_AFTER_FIELDS = new RegExp('^\\s*fields\\s+\\S*$');
+export const FIELD_AFTER_PLUS_MINUS = new RegExp('^\\s*fields\\s+\\+|\\-\\s*\\S*$');
+export const PIPE_COMMA_AFTER_FIELDS = new RegExp(
+  '^\\s*fields\\s+((\\+|\\-)\\s+)?\\S+\\s*(,\\s*\\S+\\s*)*\\s+$'
+);
+export const FIELD_IN_FIELDS_LOOP = new RegExp(
+  '^\\s*fields\\s+((\\+|\\-)\\s+)?\\S+\\s*(,\\s*\\S+\\s*)*,\\s*\\S*$'
+);
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   MATCH_FIELD_AFTER_WHERE,
+  FIELD_AFTER_MATCH,
   EQUAL_AFTER_WHERE_FIELD,
   DATA_AFTER_WHERE_EQUAL,
   PIPE_AFTER_WHERE,
-  FIELD_AFTER_MATCH,
   COMMA_AFTER_FIELD,
   DATA_AFTER_COMMA,
   CLOSE_AFTER_DATA,
   PIPE_AFTER_MATCH,
   FIELD_AFTER_DEDUP,
-  PIPE_COMMA_AFTER_FIELD,
   FIELD_IN_FIELD_LOOP,
-  PIPE_COMMA_AFTER_FIELD_LOOP,
+  PIPE_COMMA_AFTER_FIELD,
   PIPE_AFTER_KEEP_EMPTY,
   PIPE_AFTER_CONSECUTIVE,
   FIELD_AFTER_EVAL,
@@ -129,6 +135,10 @@ export const regexForSuggestion = [
   FIELD_AFTER_EVAL_EQUAL,
   MATH_AFTER_FIELD,
   PIPE_MATH_AFTER_EXPRESSIONS,
+  PLUS_MINUS_FIELD_AFTER_FIELDS,
+  PIPE_COMMA_AFTER_FIELDS,
+  FIELD_IN_FIELDS_LOOP,
+  FIELD_AFTER_PLUS_MINUS,
 ];
 
 export const regexForIndex = [
