@@ -101,7 +101,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         ];
       },
     });
-  }, [query]);
+  }, [baseQuery, query]);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({ id: 'autocomplete-root' })}>
