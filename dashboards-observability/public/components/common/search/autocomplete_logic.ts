@@ -41,6 +41,11 @@ import {
   FIELD_AFTER_PLUS_MINUS,
   PIPE_COMMA_AFTER_FIELDS,
   FIELD_IN_FIELDS_LOOP,
+  FIELD_AFTER_RARE,
+  FIELD_IN_RARE_FIELD_LOOP,
+  PIPE_COMMA_BY_AFTER_FIELD,
+  FIELD_AFTER_BY,
+  PIPE_AFTER_GROUP_BY,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -412,6 +417,12 @@ export const getSuggestionsAfterSource = async (
   console.log(next);
   if (next) {
     switch (next) {
+      case PIPE_COMMA_BY_AFTER_FIELD:
+        return fillSuggestions(currQuery, lastWord, [
+          { label: ',' },
+          { label: '|' },
+          { label: 'by' },
+        ]);
       case PIPE_COMMA_AFTER_FIELDS:
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }, { label: '|' }]);
       case PLUS_MINUS_FIELD_AFTER_FIELDS:
@@ -456,11 +467,15 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_EVAL_EQUAL:
       case FIELD_AFTER_PLUS_MINUS:
       case FIELD_IN_FIELDS_LOOP:
+      case FIELD_AFTER_RARE:
+      case FIELD_IN_RARE_FIELD_LOOP:
+      case FIELD_AFTER_BY:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
       case PIPE_AFTER_KEEP_EMPTY:
       case PIPE_AFTER_CONSECUTIVE:
+      case PIPE_AFTER_GROUP_BY:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:
