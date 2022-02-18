@@ -78,6 +78,7 @@ export const Explorer = ({
   savedObjects,
   timestampUtils,
   setToast,
+  http,
   history,
   notifications,
   savedObjectId,
@@ -593,9 +594,11 @@ export const Explorer = ({
                     </h2>
                     <div className="dscDiscover">
                       <DataGrid
+                        http={http}
                         rows={explorerData.jsonData}
                         rowsAll={explorerData.jsonDataAll}
                         explorerFields={explorerFields}
+                        timeStampField={queryRef.current![SELECTED_TIMESTAMP]}
                       />
                       <a tabIndex={0} id="discoverBottomMarker">
                         &#8203;

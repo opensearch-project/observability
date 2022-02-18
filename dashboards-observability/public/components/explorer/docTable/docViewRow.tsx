@@ -3,17 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './docView.scss';
 import React, { useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach } from 'lodash';
-import { EuiIcon } from '@elastic/eui';
+import { EuiIcon, EuiLink } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
+import { HttpStart } from '../../../../../../src/core/public';
+import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
+import { isValidTraceId } from './trace_block/trace_block';
 
 export interface IDocType {
   [key: string]: string;
 }
 
 interface IDocViewRowProps {
+  http: HttpStart;
   doc: IDocType;
   selectedCols: Array<IField>;
   timeStampField: string;
@@ -21,7 +26,7 @@ interface IDocViewRowProps {
 }
 
 export const DocViewRow = (props: IDocViewRowProps) => {
-  const { doc, selectedCols, timeStampField, explorerFields } = props;
+  const { http, doc, selectedCols, timeStampField, explorerFields } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
 
@@ -42,11 +47,18 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         <span>
           <dl className="source truncate-by-height">
             {toPairs(doc).map((entry: Array<string>) => {
+              const isTraceField = entry[0] === OTEL_TRACE_ID;
               return (
                 <span key={uniqueId('grid-desc')}>
                   <dt>{entry[0]}:</dt>
                   <dd>
-                    <span>{entry[1]}</span>
+                    <span>
+                      {isTraceField && isValidTraceId(entry[1]) ? (
+                        <EuiLink href={`#/trace_analytics/traces/${entry[1]}`}>{entry[1]}</EuiLink>
+                      ) : (
+                        entry[1]
+                      )}
+                    </span>
                   </dd>
                 </span>
               );
@@ -75,7 +87,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
             toggleDetailOpen();
           }}
         >
-          {detailsOpen ? <EuiIcon type="arrowDown" /> : <EuiIcon type="arrowRight" />}
+          {detailsOpen ? <EuiIcon type="arrowLeft" /> : <EuiIcon type="arrowRight" />}
         </button>
       </td>
     );
@@ -122,7 +134,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
 
     // Add detail toggling column
     cols.unshift(getExpColapTd());
-    // console.log('cols', cols);
     return cols;
   };
 
@@ -134,11 +145,12 @@ export const DocViewRow = (props: IDocViewRowProps) => {
   if (detailsOpen) {
     flyout = (
       <DocFlyout
+        http={http}
         detailsOpen={detailsOpen}
         setDetailsOpen={setDetailsOpen}
         doc={doc}
         timeStampField={timeStampField}
-        memorizedTds={memorizedTds}
+        memorizedTds={memorizedTds.slice(1)}
         explorerFields={explorerFields}
       ></DocFlyout>
     );
@@ -146,7 +158,9 @@ export const DocViewRow = (props: IDocViewRowProps) => {
 
   return (
     <>
-      <tr className="osdDocTable__row">{memorizedTds}</tr>
+      <tr className={detailsOpen ? 'osdDocTable__row selected-event-row' : 'osdDocTable__row'}>
+        {memorizedTds}
+      </tr>
       {flyout}
     </>
   );

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
 import {
   EuiFlexGroup,
@@ -15,8 +15,11 @@ import {
 import { DocViewTable } from './detailTable/docDetailTable';
 import { JsonCodeBlock } from './json_code_block/json_code_block';
 import { IDocType } from './docViewRow';
+import { HttpSetup } from '../../../../../../src/core/public';
+import { TraceBlock } from './trace_block/trace_block';
 
 interface IDocViewerProps {
+  http: HttpSetup;
   hit: IDocType;
 }
 
@@ -48,7 +51,7 @@ export function DocViewer(props: IDocViewerProps) {
       {
         id: _.uniqueId('doc_viewer_tab_'),
         name: 'Traces',
-        component: (tabProps: any) => <></>,
+        component: (tabProps: any) => <TraceBlock http={props.http} {...tabProps} />,
         otherProps: {},
       },
       {
@@ -67,10 +70,7 @@ export function DocViewer(props: IDocViewerProps) {
         id: tab.id,
         name: tab.name,
         content: (
-          <EuiPanel
-            paddingSize="s"
-            style={{ width: '100%', maxHeight: '64vh', overflowY: 'scroll' }}
-          >
+          <EuiPanel paddingSize="s">
             <EuiFlexGroup>
               <EuiFlexItem>
                 <Component hit={props.hit} {...tab.otherProps} />{' '}

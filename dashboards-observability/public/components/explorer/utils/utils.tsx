@@ -7,8 +7,10 @@ import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { uniqueId } from 'lodash';
 import React from 'react';
 import { DocViewRow } from '../docTable';
+import { HttpStart } from '../../../../../../src/core/public';
 
 export const getTrs = (
+  http: HttpStart,
   explorerFields: Array<IField>,
   limit: number,
   setLimit: React.Dispatch<React.SetStateAction<number>>,
@@ -28,6 +30,7 @@ export const getTrs = (
   for (let i = trs.length; i < upperLimit; i++) {
     trs.push(
       <DocViewRow
+        http={http}
         key={uniqueId('doc_view')}
         doc={docs[i]}
         selectedCols={explorerFields}
@@ -39,9 +42,7 @@ export const getTrs = (
   return trs;
 };
 
-const defaultCols = ['', 'Time', '_source'];
-
-export const getHeaders = (fields: any) => {
+export const getHeaders = (fields: any, defaultCols: string[], isFlyout?: boolean) => {
   let tableHeadContent = null;
   if (!fields || fields.length === 0) {
     tableHeadContent = (
@@ -55,7 +56,9 @@ export const getHeaders = (fields: any) => {
     tableHeadContent = fields.map((selField: any) => {
       return <th key={uniqueId('datagrid-header-')}>{selField.name}</th>;
     });
-    tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')}></th>);
+    if (!isFlyout) {
+      tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')}></th>);
+    }
   }
 
   return <tr className="osdDocTableHeader">{tableHeadContent}</tr>;

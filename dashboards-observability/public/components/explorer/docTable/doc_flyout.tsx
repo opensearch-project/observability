@@ -3,28 +3,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './docView.scss';
 import { FlyoutContainers } from '../../common/flyout_containers';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IDocType } from './docViewRow';
 import { DocViewer } from './docViewer';
 import {
+  EuiButton,
   EuiButtonIcon,
-  EuiCodeBlock,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiFlyoutBody,
+  EuiFlyoutFooter,
   EuiFlyoutHeader,
-  EuiHorizontalRule,
-  EuiPanel,
-  EuiText,
   EuiTitle,
 } from '@elastic/eui';
 import { uiSettingsService } from '../../../../common/utils';
 import moment from 'moment';
-import { IExplorerFields, IField } from '../../../../common/types/explorer';
-import { getHeaders, getTrs } from '../utils';
-import { PAGE_SIZE } from '../../../../common/constants/explorer';
+import { IExplorerFields } from '../../../../common/types/explorer';
+import { getHeaders } from '../utils';
+import { DEFAULT_COLUMNS } from '../../../../common/constants/explorer';
+import { HttpSetup } from '../../../../../../src/core/public';
 
 type Props = {
+  http: HttpSetup;
   detailsOpen: boolean;
   setDetailsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   doc: IDocType;
@@ -34,6 +36,7 @@ type Props = {
 };
 
 export const DocFlyout = ({
+  http,
   detailsOpen,
   setDetailsOpen,
   doc,
@@ -41,7 +44,7 @@ export const DocFlyout = ({
   memorizedTds,
   explorerFields,
 }: Props) => {
-  const [toggleSize, setToggleSize] = useState(false);
+  const [toggleSize, setToggleSize] = useState(true);
 
   const closeFlyout = () => {
     setDetailsOpen(false);
@@ -76,27 +79,36 @@ export const DocFlyout = ({
   );
 
   const flyoutBody = (
-    <div>
-      {explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 && (
-        <table className="osd-table table" data-test-subj="docTable">
-          <thead>{getHeaders(explorerFields.selectedFields)}</thead>
-          <tbody>{memorizedTds}</tbody>
-        </table>
-      )}
-      {explorerFields?.queriedFields &&
-      explorerFields?.queriedFields?.length > 0 &&
-      explorerFields.selectedFields?.length === 0 ? null : (
-        <table className="osd-table table" data-test-subj="docTable">
-          <thead>{getHeaders(explorerFields.selectedFields)}</thead>
-          <tbody>{memorizedTds}</tbody>
-        </table>
-      )}
-      <EuiHorizontalRule margin="s" />
-      <DocViewer hit={doc} />
-    </div>
+    <EuiFlyoutBody>
+      <div className="dscTable dscTableFixedScroll">
+        {explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 && (
+          <table className="osd-table table doc-flyout">
+            <thead>
+              {getHeaders(explorerFields.queriedFields, DEFAULT_COLUMNS.slice(1), true)}
+            </thead>
+            <tbody>{memorizedTds}</tbody>
+          </table>
+        )}
+        {explorerFields?.queriedFields &&
+        explorerFields?.queriedFields?.length > 0 &&
+        explorerFields.selectedFields?.length === 0 ? null : (
+          <table className="osd-table table doc-flyout">
+            <thead>
+              {getHeaders(explorerFields.selectedFields, DEFAULT_COLUMNS.slice(1), true)}
+            </thead>
+            <tbody>{memorizedTds}</tbody>
+          </table>
+        )}
+      </div>
+      <DocViewer http={http} hit={doc} />
+    </EuiFlyoutBody>
   );
 
-  const flyoutFooter = <></>;
+  const flyoutFooter = (
+    <EuiFlyoutFooter>
+      <EuiButton onClick={closeFlyout}>Close</EuiButton>
+    </EuiFlyoutFooter>
+  );
 
   return (
     <FlyoutContainers
