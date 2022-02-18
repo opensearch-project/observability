@@ -108,7 +108,7 @@ export const PIPE_MATH_AFTER_EXPRESSIONS = new RegExp('^\\s*eval\\s+(\\S+\\s*=\\
 
 // Regex for fields command
 export const PLUS_MINUS_FIELD_AFTER_FIELDS = new RegExp('^\\s*fields\\s+\\S*$');
-export const FIELD_AFTER_PLUS_MINUS = new RegExp('^\\s*fields\\s+\\+|\\-\\s*\\S*$');
+export const FIELD_AFTER_PLUS_MINUS = new RegExp('^\\s*fields\\s+(\\+|\\-)\\s*\\S*$');
 export const PIPE_COMMA_AFTER_FIELDS = new RegExp('^\\s*fields\\s+((\\+|\\-)\\s+)?\\S+\\s*(,\\s*\\S+\\s*)*\\s+$');
 export const FIELD_IN_FIELDS_LOOP = new RegExp('^\\s*fields\\s+((\\+|\\-)\\s+)?\\S+\\s*(,\\s*\\S+\\s*)*,\\s*\\S*$');
 
@@ -150,9 +150,9 @@ export const regexForSuggestion = [
   MATH_AFTER_FIELD,
   PIPE_MATH_AFTER_EXPRESSIONS,
   PLUS_MINUS_FIELD_AFTER_FIELDS,
+  FIELD_AFTER_PLUS_MINUS,
   PIPE_COMMA_AFTER_FIELDS,
   FIELD_IN_FIELDS_LOOP,
-  FIELD_AFTER_PLUS_MINUS,
   FIELD_AFTER_RARE,
   PIPE_COMMA_BY_AFTER_FIELD,
   FIELD_IN_RARE_FIELD_LOOP,
