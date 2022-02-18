@@ -4,28 +4,12 @@
  */
 
 import React, { useCallback } from 'react';
-import {
-  EuiButton,
-  EuiCheckboxGroup,
-  EuiFieldText,
-  EuiForm,
-  EuiFormRow,
-  EuiFilePicker,
-  EuiLink,
-  EuiRange,
-  EuiSelect,
-  EuiSpacer,
-  EuiSwitch,
-  EuiText,
-  EuiTextArea,
-  EuiAccordion,
-} from '@elastic/eui';
+import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
 
 const helpText =
   'Repeat this panel for each value in the selected variable. This is not visible while in edit mode. You need to go back to dashboard and then update the variable or reload the dashboard.';
 
 export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
-  console.log('ConfigPanelOptions viz: ', vizState);
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {

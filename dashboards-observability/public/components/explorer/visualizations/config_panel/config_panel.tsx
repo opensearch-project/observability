@@ -69,6 +69,7 @@ const ENABLED_VIS_TYPES = [
   'tree_map',
   'bubble',
   'heatmap',
+  'text',
 ];
 
 export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
