@@ -22,7 +22,6 @@ import {
   EMPTY_REGEX,
   EQUAL_AFTER_WHERE_FIELD,
   MATCH_FIELD_AFTER_WHERE,
-  FIELD_AFTER_MATCH,
   COMMA_AFTER_FIELD,
   DATA_AFTER_COMMA,
   CLOSE_AFTER_DATA,
@@ -52,13 +51,12 @@ import {
   PIPE_COMMA_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
-  AGGREGATION_AFTER_STATS,
   FIELD_AFTER_STATS_GROUP_BY,
   FIELD_AFTER_AGGREGATION,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
-  AGGREGATION_LOOP_AFTER_COMMA,
+  AGGREGATION_FOR_STATS,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -430,8 +428,7 @@ export const getSuggestionsAfterSource = async (
   console.log(next);
   if (next) {
     switch (next) {
-      case AGGREGATION_AFTER_STATS:
-      case AGGREGATION_LOOP_AFTER_COMMA:
+      case AGGREGATION_FOR_STATS:
         return fillSuggestions(currQuery, lastWord, statsCommands);
       case AS_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: 'as' }]);
@@ -485,7 +482,6 @@ export const getSuggestionsAfterSource = async (
         await getDataValues(currIndex, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
       case FIELD_AFTER_COMMAND:
-      case FIELD_AFTER_MATCH:
       case FIELD_IN_FIELD_LOOP:
       case FIELD_AFTER_EVAL_EQUAL:
       case FIELD_AFTER_PLUS_MINUS:
