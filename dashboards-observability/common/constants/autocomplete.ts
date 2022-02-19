@@ -131,6 +131,15 @@ export const FIELD_AFTER_PLUS_MINUS_SORT = new RegExp('^\\s*sort(\\s+\\d+)?((,\\
 export const PIPE_COMMA_AFTER_SORT_FIELD = new RegExp('^\\s*sort(\\s+\\d+)?((,\\s*)?\\s+(\\+|\\-)?\\s*\\S+\\s*)*\\s+\\S+\\s+$')
 export const PLUS_MINUS_FIELD_IN_FIELDS_LOOP = new RegExp('^\\s*sort(\\s+\\d+)?((,\\s*)?\\s+(\\+|\\-)?\\s*\\S+\\s*)*,\\s+\\S*$');
 
+// Regex for stats command
+export const AGGREGATION_AFTER_STATS = new RegExp('^\\s*stats\\s+\\S*$');
+export const FIELD_AFTER_STATS_GROUP_BY = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))+\\s+by\\s+\\S*$');
+export const FIELD_AFTER_AGGREGATION = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))*(,\\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S*$');
+export const CLOSE_AFTER_FIELD = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))*(,\\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s+$');
+export const PIPE_COMMA_BY_AFTER_AGGREGATION = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))+\\s+\\S*$');
+export const PIPE_AFTER_STATS_GROUP_BY = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))+\\s+by\\s+\\S+\\s+$');
+export const AGGREGATION_LOOP_AFTER_COMMA = new RegExp('^\\s*stats\\s+((,\\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\\(\\s*\\S+\\s*\\)\\s*)|((,\\s*)?count\\(\\)\\s*))+\\s+,\\s*\\S*$');
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   FIELD_AFTER_COMMAND,
@@ -167,6 +176,13 @@ export const regexForSuggestion = [
   FIELD_AFTER_PLUS_MINUS_SORT,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   PIPE_COMMA_AFTER_SORT_FIELD,
+  AGGREGATION_AFTER_STATS,
+  FIELD_AFTER_STATS_GROUP_BY,
+  FIELD_AFTER_AGGREGATION,
+  CLOSE_AFTER_FIELD,
+  PIPE_COMMA_BY_AFTER_AGGREGATION,
+  PIPE_AFTER_STATS_GROUP_BY,
+  AGGREGATION_LOOP_AFTER_COMMA,
 ];
 
 export const regexForIndex = [

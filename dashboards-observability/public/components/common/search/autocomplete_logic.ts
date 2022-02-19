@@ -52,6 +52,13 @@ import {
   PIPE_COMMA_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
+  AGGREGATION_AFTER_STATS,
+  FIELD_AFTER_STATS_GROUP_BY,
+  FIELD_AFTER_AGGREGATION,
+  CLOSE_AFTER_FIELD,
+  PIPE_COMMA_BY_AFTER_AGGREGATION,
+  PIPE_AFTER_STATS_GROUP_BY,
+  AGGREGATION_LOOP_AFTER_COMMA,
 } from '../../../../common/constants/autocomplete';
 
 let currIndex: string = '';
@@ -423,9 +430,13 @@ export const getSuggestionsAfterSource = async (
   console.log(next);
   if (next) {
     switch (next) {
+      case AGGREGATION_AFTER_STATS:
+      case AGGREGATION_LOOP_AFTER_COMMA:
+        return fillSuggestions(currQuery, lastWord, statsCommands);
       case AS_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: 'as' }]);
       case PIPE_COMMA_BY_AFTER_FIELD:
+      case PIPE_COMMA_BY_AFTER_AGGREGATION:
         return fillSuggestions(currQuery, lastWord, [
           { label: ',' },
           { label: '|' },
@@ -466,6 +477,7 @@ export const getSuggestionsAfterSource = async (
           { label: 'consecutive=true' },
         ]);
       case CLOSE_AFTER_DATA:
+      case CLOSE_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
       case COMMA_AFTER_FIELD:
         currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
@@ -482,6 +494,8 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_BY:
       case FIELD_AFTER_COMMA:
       case FIELD_AFTER_PLUS_MINUS_SORT:
+      case FIELD_AFTER_STATS_GROUP_BY:
+      case FIELD_AFTER_AGGREGATION:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
@@ -489,6 +503,7 @@ export const getSuggestionsAfterSource = async (
       case PIPE_AFTER_CONSECUTIVE:
       case PIPE_AFTER_GROUP_BY:
       case PIPE_AFTER_HEAD:
+      case PIPE_AFTER_STATS_GROUP_BY:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:
