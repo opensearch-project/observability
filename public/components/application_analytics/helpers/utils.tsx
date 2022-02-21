@@ -1,8 +1,9 @@
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
+
 import { EuiDescriptionList, EuiSpacer, EuiText } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
