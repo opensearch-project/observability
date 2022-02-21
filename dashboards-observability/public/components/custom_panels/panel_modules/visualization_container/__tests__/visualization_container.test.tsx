@@ -16,7 +16,7 @@ import {
   samplePPLResponse,
 } from '../../../../../../test/panels_constants';
 
-describe('Visualization Container Component', () => {
+describe.skip('Visualization Container Component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders add visualization container', async () => {

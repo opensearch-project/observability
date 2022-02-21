@@ -4,27 +4,39 @@
  */
 
 import React from 'react';
-import { take, merge } from 'lodash';
-import { Plt } from '../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../common/constants/shared';
+import { take, merge, isEmpty } from 'lodash';
+import { Plt } from '../../plotly/plot';
+import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
-export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any) => {
+export const Bubble = ({
+  visualizations,
+  figureConfig = {},
+  layoutConfig = {},
+  dispatch,
+  customVizData = {},
+}: any) => {
   const {
     data,
     metadata: { fields },
-  } = visualizations;
+  } = visualizations.data.rawVizData;
   const lineLength = fields.length - 1;
+  // let lineValues;
+  // if (isEmpty(customVizData)) {
   const lineValues = take(fields, lineLength).map((field: any) => {
     return {
-      x: data[fields[lineLength].name],
-      y: data[field.name],
-      type: 'line',
+      x: data[field.name],
+      y: data[fields[lineLength].name],
+      mode: 'markers',
+      // type: 'pie',
       name: field.name,
     };
   });
+  // } else {
+  //   lineValues = [...customVizData];
+  // }
 
   const config = {
-    barmode: 'line',
+    // barmode: 'pie',
     xaxis: {
       automargin: true,
     },
@@ -53,7 +65,8 @@ export const Line = ({ visualizations, lineConfig = {}, layoutConfig = {} }: any
         },
         ...lineLayoutConfig,
       }}
-      config={lineConfig}
+      config={figureConfig}
+      dispatch={dispatch}
     />
   );
 };

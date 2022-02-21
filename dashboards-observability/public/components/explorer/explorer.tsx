@@ -58,7 +58,14 @@ import { selectFields, updateFields, sortFields } from './slices/field_slice';
 import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
+import {
+  selectVisualizationConfig,
+  change as changeVisualizationConfig,
+} from './slices/viualization_config_slice';
+import { change as updateVizConfig } from './slices/viualization_config_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
+import { TabContext } from './hooks';
+import { getVizContainerProps } from '../visualizations/charts/helpers';
 import {
   getFullSuggestions,
   getSuggestionsAfterSource,
@@ -105,6 +112,7 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  const userVizConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -221,6 +229,13 @@ export const Explorer = ({
             updateTabName({
               tabId,
               tabName: objectData.name,
+            })
+          );
+          // fill saved user configs
+          await dispatch(
+            updateVizConfig({
+              tabId,
+              data: JSON.parse(objectData.user_configs),
             })
           );
         });
@@ -508,6 +523,7 @@ export const Explorer = ({
             {!isSidebarClosed && (
               <div className="dscFieldChooser">
                 <Sidebar
+                  query={query}
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
@@ -627,9 +643,20 @@ export const Explorer = ({
     };
   }
 
+  const visualizations = useMemo(() => {
+    return getVizContainerProps({
+      vizId: curVisId,
+      rawVizData: explorerVisualizations,
+      query,
+      indexFields: explorerFields,
+      userConfigs: userVizConfigs,
+    });
+  }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
+
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
+        query={query}
         curVisId={curVisId}
         setCurVisId={setCurVisId}
         explorerFields={explorerFields}
@@ -637,6 +664,7 @@ export const Explorer = ({
         explorerData={explorerData}
         handleAddField={handleAddField}
         handleRemoveField={handleRemoveField}
+        visualizations={visualizations}
       />
     );
   };
@@ -668,6 +696,8 @@ export const Explorer = ({
     explorerVisualizations,
     selectedContentTabId,
     isOverridingTimestamp,
+    visualizations,
+    query,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -705,21 +735,19 @@ export const Explorer = ({
       return;
     }
     setIsPanelTextFieldInvalid(false);
-    const params = {
-      query: currQuery![RAW_QUERY],
-      fields: currFields![SELECTED_FIELDS],
-      dateRange: currQuery![SELECTED_DATE_RANGE],
-      name: selectedPanelNameRef.current,
-      timestamp: currQuery![SELECTED_TIMESTAMP],
-      objectId: '',
-      type: '',
-    };
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
         await savedObjects
-          .updateSavedQueryById(params)
+          .updateSavedQueryById({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: '',
+          })
           .then((res: any) => {
             setToast(
               `Query '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -741,7 +769,15 @@ export const Explorer = ({
       } else {
         // create new saved query
         savedObjects
-          .createSavedQuery(params)
+          .createSavedQuery({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: '',
+            type: '',
+          })
           .then((res: any) => {
             history.replace(`/event_analytics/explorer/${res.objectId}`);
             setToast(
@@ -790,10 +826,19 @@ export const Explorer = ({
       let savingVisRes;
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
-        params.type = curVisId;
+        // params.objectId = currQuery![SAVED_OBJECT_ID];
+        // params.type = curVisId;
         savingVisRes = await savedObjects
-          .updateSavedVisualizationById(params)
+          .updateSavedVisualizationById({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: curVisId,
+            userConfigs: JSON.stringify(userVizConfigs),
+          })
           .then((res: any) => {
             setToast(
               `Visualization '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -823,6 +868,7 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
+            userConfigs: JSON.stringify(userVizConfigs),
           })
           .then((res: any) => {
             batch(() => {
@@ -888,41 +934,54 @@ export const Explorer = ({
         ? ['now-15m', 'now']
         : [query.selectedDateRange[0], query.selectedDateRange[1]]
       : [startTime, endTime];
+
   return (
-    <div className="dscAppContainer">
-      <Search
-        key="search-component"
-        query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
-        tempQuery={tempQuery}
-        handleQueryChange={handleQueryChange}
-        handleQuerySearch={handleQuerySearch}
-        dslService={dslService}
-        startTime={dateRange[0]}
-        endTime={dateRange[1]}
-        handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
-        selectedPanelName={selectedPanelNameRef.current}
-        selectedCustomPanelOptions={selectedCustomPanelOptions}
-        setSelectedPanelName={setSelectedPanelName}
-        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
-        handleSavingObject={handleSavingObject}
-        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
-        savedObjects={savedObjects}
-        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
-        handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
-        selectedSubTabId={selectedContentTabId}
-        searchBarConfigs={searchBarConfigs}
-        getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
-        onItemSelect={onItemSelect}
-        tabId={tabId}
-        baseQuery={appBaseQuery}
-      />
-      <EuiTabbedContent
-        className="mainContentTabs"
-        initialSelectedTab={memorizedMainContentTabs[0]}
-        selectedTab={memorizedMainContentTabs.find((tab) => tab.id === selectedContentTabId)}
-        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
-        tabs={memorizedMainContentTabs}
-      />
-    </div>
+    <TabContext.Provider
+      value={{
+        tabId,
+        curVisId,
+        dispatch,
+        changeVisualizationConfig,
+        explorerVisualizations,
+        setToast,
+        pplService,
+      }}
+    >
+      <div className="dscAppContainer">
+        <Search
+          key="search-component"
+          query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
+          tempQuery={tempQuery}
+          handleQueryChange={handleQueryChange}
+          handleQuerySearch={handleQuerySearch}
+          dslService={dslService}
+          startTime={dateRange[0]}
+          endTime={dateRange[1]}
+          handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
+          selectedPanelName={selectedPanelNameRef.current}
+          selectedCustomPanelOptions={selectedCustomPanelOptions}
+          setSelectedPanelName={setSelectedPanelName}
+          setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
+          handleSavingObject={handleSavingObject}
+          isPanelTextFieldInvalid={isPanelTextFieldInvalid}
+          savedObjects={savedObjects}
+          showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
+          handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
+          selectedSubTabId={selectedContentTabId}
+          searchBarConfigs={searchBarConfigs}
+          getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
+          onItemSelect={onItemSelect}
+          tabId={tabId}
+          baseQuery={appBaseQuery}
+        />
+        <EuiTabbedContent
+          className="mainContentTabs"
+          initialSelectedTab={memorizedMainContentTabs[0]}
+          selectedTab={memorizedMainContentTabs.find((tab) => tab.id === selectedContentTabId)}
+          onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+          tabs={memorizedMainContentTabs}
+        />
+      </div>
+    </TabContext.Provider>
   );
 };

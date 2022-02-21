@@ -14,6 +14,7 @@ import {
   EuiPageContentHeader,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiSpacer,
 } from '@elastic/eui';
 import { ChartSwitch } from './chart_switch';
 
@@ -25,10 +26,9 @@ export function WorkspacePanelWrapper({
   vis,
   visualizationTypes,
 }: any) {
-
   return (
     <>
-      <div>
+      {/* <div>
         <EuiFlexGroup
           gutterSize="m"
           direction="row"
@@ -40,13 +40,14 @@ export function WorkspacePanelWrapper({
           <EuiFlexItem grow={false}>
             <ChartSwitch
               data-test-subj="lnsChartSwitcher"
-              setVis={ setVis }
-              vis={ vis }
-              visualizationTypes={ visualizationTypes }
+              setVis={setVis}
+              vis={vis}
+              visualizationTypes={visualizationTypes}
             />
           </EuiFlexItem>
         </EuiFlexGroup>
-      </div>
+      </div> */}
+      <EuiSpacer size="s" />
       <EuiPageContent className="lnsWorkspacePanelWrapper">
         {(!emptyExpression || title) && (
           <EuiPageContentHeader

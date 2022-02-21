@@ -8,7 +8,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
-import { Explorer } from '../explorer';
+// import { Explorer } from '../explorer';
 import PPLService from '../../../services/requests/ppl';
 import DSLService from '../../../services/requests/dsl';
 import SavedObjects from '../../../services/saved_objects/event_analytics/saved_objects';
@@ -30,25 +30,25 @@ describe.skip('Event explorer component', () => {
     history.push = jest.fn();
     const notifications = coreStartMock.notifications;
     const savedObjectId = 'JIcoln0BYMuJGDsOLTnM';
-    
-  const wrapper = mount(
-    <Explorer 
-      pplService={pplService}
-      dslService={dslService}
-      tabId={tabId}
-      savedObjects={savedObjects}
-      timestampUtils={timestampUtils}
-      setToast={setToast}
-      history={history}
-      notifications={notifications}
-      savedObjectId={savedObjectId}
-    />
-  );
-  
-  wrapper.update();
 
-  await waitFor(() => {
-    expect(wrapper).toMatchSnapshot();
-  });
+    const wrapper = mount(
+      <Explorer
+        pplService={pplService}
+        dslService={dslService}
+        tabId={tabId}
+        savedObjects={savedObjects}
+        timestampUtils={timestampUtils}
+        setToast={setToast}
+        history={history}
+        notifications={notifications}
+        savedObjectId={savedObjectId}
+      />
+    );
+
+    wrapper.update();
+
+    await waitFor(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });
