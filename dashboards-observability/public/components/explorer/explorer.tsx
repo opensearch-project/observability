@@ -62,6 +62,7 @@ import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
 } from './slices/viualization_config_slice';
+import { change as updateVizConfig } from './slices/viualization_config_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
 import { TabContext } from './hooks';
 import { getVisType } from '../visualizations/charts/vis_types';
@@ -229,6 +230,13 @@ export const Explorer = ({
             updateTabName({
               tabId,
               tabName: objectData.name,
+            })
+          );
+          // fill saved user configs
+          await dispatch(
+            updateVizConfig({
+              tabId,
+              data: JSON.parse(objectData.user_configs),
             })
           );
         });
@@ -731,9 +739,16 @@ export const Explorer = ({
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
         await savedObjects
-          .updateSavedQueryById(params)
+          .updateSavedQueryById({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: '',
+          })
           .then((res: any) => {
             setToast(
               `Query '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -755,7 +770,15 @@ export const Explorer = ({
       } else {
         // create new saved query
         savedObjects
-          .createSavedQuery(params)
+          .createSavedQuery({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: '',
+            type: '',
+          })
           .then((res: any) => {
             history.replace(`/event_analytics/explorer/${res.objectId}`);
             setToast(
@@ -815,7 +838,7 @@ export const Explorer = ({
             timestamp: currQuery![SELECTED_TIMESTAMP],
             objectId: currQuery![SAVED_OBJECT_ID],
             type: curVisId,
-            user_configs: JSON.stringify(userVizConfigs),
+            userConfigs: JSON.stringify(userVizConfigs),
           })
           .then((res: any) => {
             setToast(
@@ -846,7 +869,7 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
-            user_configs: JSON.stringify(userVizConfigs),
+            userConfigs: JSON.stringify(userVizConfigs),
           })
           .then((res: any) => {
             batch(() => {

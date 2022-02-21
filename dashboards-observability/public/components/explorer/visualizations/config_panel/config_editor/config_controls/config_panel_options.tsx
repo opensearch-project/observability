@@ -6,8 +6,7 @@
 import React, { useCallback } from 'react';
 import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
 
-const helpText =
-  'Repeat this panel for each value in the selected variable. This is not visible while in edit mode. You need to go back to dashboard and then update the variable or reload the dashboard.';
+const helpText = 'Name your visualization.';
 
 export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
   const handleConfigurationChange = useCallback(
@@ -25,7 +24,7 @@ export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
   return (
     <EuiAccordion id="configPanel__panelOptions" buttonContent="Panel options" paddingSize="s">
       <EuiForm component="form">
-        <EuiFormRow fullWidth label="Title" helpText="Name your visualization">
+        <EuiFormRow fullWidth label="Title" helpText={`${helpText}`}>
           <EuiFieldText name="first" onChange={handleConfigurationChange('title')} />
         </EuiFormRow>
         <EuiFormRow label="Description">

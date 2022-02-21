@@ -10,7 +10,6 @@ import { VizDataPanel } from '../../../explorer/visualizations/config_panel/conf
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
 import {
   ConfigValueOptions,
-  ConfigChartOptions,
   ConfigDataLinks,
   ConfigThresholds,
 } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';

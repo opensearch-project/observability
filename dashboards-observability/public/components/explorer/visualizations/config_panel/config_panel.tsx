@@ -6,32 +6,23 @@
 import './config_panel.scss';
 
 import React, { useContext, useMemo, useState, useEffect, useCallback } from 'react';
-import { isEmpty, find } from 'lodash';
+import { find } from 'lodash';
 import hjson from 'hjson';
 import Mustache from 'mustache';
-import { batch, useDispatch, useSelector } from 'react-redux';
 import {
   EuiTabbedContent,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiButtonIcon,
   EuiSpacer,
   EuiComboBox,
   EuiPanel,
   EuiIcon,
 } from '@elastic/eui';
-import {
-  selectVisualizationConfig,
-  change as changeVisualizationConfig,
-  reset as resetVisualizationConfig,
-} from '../../slices/viualization_config_slice';
-import { ConfigEditor } from './config_editor/config_editor';
+import { reset as resetVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { VizDataPanel as DefaultVisEditor } from './config_editor/default_vis_editor';
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
-import { PanelItem } from './configPanelItem';
-import { ConfigValueOptions } from './config_editor/config_controls';
 import { getVisType } from '../../../visualizations/charts/vis_types';
 
 const CONFIG_LAYOUT_TEMPLATE = `
@@ -58,7 +49,7 @@ const HJSON_STRINGIFY_OPTIONS = {
   bracesSameLine: true,
 };
 
-const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'histogram', 'gauge', 'heatmap', 'text'];
+const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'gauge', 'heatmap', 'text'];
 
 export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   const {
@@ -155,7 +146,6 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
 
   const handleConfigChange = (configSchema) => {
     return (configChanges) => {
-      console.log('config panel: ', configChanges);
       setVizConfigs((staleState) => {
         return {
           ...staleState,

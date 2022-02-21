@@ -56,7 +56,7 @@ export default class SavedObjects {
     chartType = '',
     description = '',
     applicationId = '',
-    user_configs = '',
+    userConfigs = '',
   }: any) {
     const objRequest: any = {
       object: {
@@ -87,8 +87,8 @@ export default class SavedObjects {
       objRequest.object.application_id = applicationId;
     }
 
-    if (!isEmpty(user_configs)) {
-      objRequest.object.user_configs = user_configs;
+    if (!isEmpty(userConfigs)) {
+      objRequest.object.user_configs = userConfigs;
     }
 
     return objRequest;
@@ -165,10 +165,12 @@ export default class SavedObjects {
       chartType: params.type,
       name: params.name,
       timestamp: params.timestamp,
-      user_configs: params.user_configs,
+      userConfigs: params.userConfigs,
     });
 
     finalParams.object_id = params.objectId;
+
+    console.log('update finalParams: ', finalParams);
 
     return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
@@ -224,7 +226,7 @@ export default class SavedObjects {
       name: params.name,
       timestamp: params.timestamp,
       applicationId: params.applicationId,
-      user_configs: params.user_configs,
+      userConfigs: params.userConfigs,
     });
 
     console.log('createSavedVisualization params: ', finalParams);

@@ -25,7 +25,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
       ? dataConfig?.valueOptions.yaxis
       : [];
-  // const { xaxis = [], yaxis = [] } = dataConfig?.valueOptions;
   const barOrientation =
     dataConfig?.chartOptions?.orientation && dataConfig.chartOptions.orientation[0].orientationId
       ? dataConfig.chartOptions.orientation[0].orientationId

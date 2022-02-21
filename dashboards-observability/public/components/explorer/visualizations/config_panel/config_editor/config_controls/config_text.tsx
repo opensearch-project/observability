@@ -10,7 +10,6 @@ export const ConfigText = ({ visualizations, schemas, vizState, handleConfigChan
   const handleTextChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
-        console.log('text changes: ', changes);
         handleConfigChange({
           ...vizState,
           [stateFiledName]: changes,

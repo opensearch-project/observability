@@ -97,7 +97,7 @@ internal data class SavedVisualization(
             var selectedTimestamp: SavedQuery.Token? = null
             var selectedFields: SavedQuery.SelectedFields? = null
             var applicationId: String? = null
-            var userConfigs: String? = null 
+            var userConfigs: String? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()

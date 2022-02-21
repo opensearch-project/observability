@@ -32,6 +32,5 @@ export const VIS_TYPES = {
 };
 
 export const getVisType = (visType: string, params: any = {}) => {
-  console.log('visType: ', visType);
   return VIS_TYPES[visType](params);
 };

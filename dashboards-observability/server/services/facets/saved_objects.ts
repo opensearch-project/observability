@@ -45,7 +45,6 @@ export default class SavedObjectFacet {
           },
         },
       };
-      console.log('create params: ', params);
       const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res.success = true;
       res.data = savedRes;

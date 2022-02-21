@@ -4,13 +4,8 @@
  */
 
 import React from 'react';
-import { EuiForm, EuiFormRow, EuiAccordion } from '@elastic/eui';
-import {
-  ConfigPanelOptions,
-  ConfigChartOptions,
-  ConfigDataLinks,
-  ConfigThresholds,
-} from './config_controls';
+import { EuiForm, EuiFormRow } from '@elastic/eui';
+import { ConfigPanelOptions } from './config_controls';
 
 export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, tabProps }: any) => {
   const handleConfigEditing = (stateFieldName) => {
