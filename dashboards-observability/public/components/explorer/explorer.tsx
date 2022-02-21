@@ -341,7 +341,7 @@ export const Explorer = ({
   useEffect(() => {
     if (queryRef.current!.isLoaded) return;
     let objectId;
-    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
+    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
     } else {
       objectId = queryRef.current!.savedObjectId || savedObjectId;
