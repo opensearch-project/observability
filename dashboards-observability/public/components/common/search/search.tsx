@@ -73,6 +73,8 @@ export const Search = (props: any) => {
     baseQuery = '',
   } = props;
 
+  const appLogEvents = tabId === 'application-analytics-tab';
+
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
@@ -107,7 +109,7 @@ export const Search = (props: any) => {
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
-        {tabId === 'application-analytics-tab' && (
+        {appLogEvents && (
           <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
             <EuiToolTip position="top" content={baseQuery}>
               <EuiBadge className="base-query-popover" color="hollow">
@@ -127,6 +129,7 @@ export const Search = (props: any) => {
             dslService={dslService}
             getSuggestions={getSuggestions}
             onItemSelect={onItemSelect}
+            tabId={tabId}
           />
           <EuiBadge
             className={`ppl-link ${

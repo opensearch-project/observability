@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BaseItem } from "@algolia/autocomplete-core";
+
 export const firstCommand = [{ label: 'source' }];
 
 export const pipeCommands = [
@@ -43,7 +45,7 @@ export const numberTypes = [
   'unsigned_long',
 ];
 
-export interface AutocompleteItem {
+export interface AutocompleteItem extends BaseItem {
   input: string;
   itemName: string;
   label: string;

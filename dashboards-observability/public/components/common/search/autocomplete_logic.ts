@@ -425,7 +425,6 @@ export const getSuggestionsAfterSource = async (
     return fillSuggestions(currQuery, lastWord, pipeCommands);
   }
   const next = parseForNextSuggestion(lastCommand);
-  console.log(next);
   if (next) {
     switch (next) {
       case AGGREGATION_FOR_STATS:

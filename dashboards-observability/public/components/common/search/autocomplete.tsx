@@ -22,6 +22,7 @@ interface AutocompleteProps extends IQueryBarProps {
   ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
   baseQuery: string;
+  tabId: string;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -34,6 +35,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     getSuggestions,
     onItemSelect,
     baseQuery,
+    tabId,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -46,6 +48,8 @@ export const Autocomplete = (props: AutocompleteProps) => {
     status: 'idle',
   });
 
+  const appLogEvents = tabId === 'application-analytics-tab';
+
   const searchBar = document.getElementById('autocomplete-textarea');
 
   searchBar?.addEventListener('keydown', function (e) {
@@ -57,6 +61,10 @@ export const Autocomplete = (props: AutocompleteProps) => {
       $('#autocomplete-textarea').unbind('keydown');
     };
   });
+
+  const depArray = appLogEvents
+    ? [baseQuery, query, dslService, autocompleteState]
+    : [baseQuery, query, dslService];
 
   const autocomplete = useMemo(() => {
     return createAutocomplete<
@@ -101,7 +109,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         ];
       },
     });
-  }, [baseQuery, query]);
+  }, depArray);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({ id: 'autocomplete-root' })}>

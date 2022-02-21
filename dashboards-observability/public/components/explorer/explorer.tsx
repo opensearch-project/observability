@@ -156,9 +156,12 @@ export const Explorer = ({
   };
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
-    if (isEmpty(curQuery![RAW_QUERY])) return '';
+    const fullQuery = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
+    if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
-      rawQuery: curQuery![RAW_QUERY],
+      rawQuery: fullQuery,
       startTime: curQuery![SELECTED_DATE_RANGE][0],
       endTime: curQuery![SELECTED_DATE_RANGE][1],
       timeField,
@@ -247,7 +250,9 @@ export const Explorer = ({
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
@@ -430,7 +435,9 @@ export const Explorer = ({
 
   const handleOverrideTimestamp = async (timestamp: IField) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     const requests = {
       index: curIndex,
@@ -892,7 +899,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={query[RAW_QUERY]}
+        query={appLogEvents ? tempQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
