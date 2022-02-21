@@ -25,7 +25,6 @@ export const createMapsVisDefinition = () => ({
   },
   icon: LensIconChartPie,
   editorConfig: {
-    // editor: null,
     panelTabs: [
       {
         id: 'data-panel',
@@ -40,16 +39,10 @@ export const createMapsVisDefinition = () => ({
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'X-axis',
+                name: 'Z-axis',
                 isSingleSelection: true,
                 component: null,
-                mapTo: 'xaxis',
-              },
-              {
-                name: 'Y-axis',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
+                mapTo: 'zaxis',
               },
             ],
           },
