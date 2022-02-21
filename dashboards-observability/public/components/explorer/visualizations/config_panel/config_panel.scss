@@ -34,16 +34,6 @@ $vis-editor-sidebar-min-width: 350px;
 
 .visEditorSidebar__config {
   padding: $euiSizeS;
-
-  // > * {
-  //   flex-grow: 0;
-  // }
-
-  // @include euiBreakpoint('l', 'xl') {
-  //   @include flex-parent(1, 1, 1px);
-  //   @include euiScrollBar;
-  //   overflow: auto;
-  // }
 }
 
 .visEditorSidebar__config-isHidden {

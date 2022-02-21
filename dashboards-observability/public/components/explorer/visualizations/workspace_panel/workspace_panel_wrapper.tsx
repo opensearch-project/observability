@@ -8,45 +8,11 @@ import './workspace_panel_wrapper.scss';
 import React from 'react';
 import { i18n } from '@osd/i18n';
 import classNames from 'classnames';
-import {
-  EuiPageContent,
-  EuiPageContentBody,
-  EuiPageContentHeader,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
-} from '@elastic/eui';
-import { ChartSwitch } from './chart_switch';
+import { EuiPageContent, EuiPageContentBody, EuiPageContentHeader, EuiSpacer } from '@elastic/eui';
 
-export function WorkspacePanelWrapper({
-  children,
-  title,
-  emptyExpression,
-  setVis,
-  vis,
-  visualizationTypes,
-}: any) {
+export function WorkspacePanelWrapper({ children, title, emptyExpression }: any) {
   return (
     <>
-      {/* <div>
-        <EuiFlexGroup
-          gutterSize="m"
-          direction="row"
-          responsive={false}
-          wrap={true}
-          className="lnsWorkspacePanelWrapper__toolbar"
-          justifyContent="spaceBetween"
-        >
-          <EuiFlexItem grow={false}>
-            <ChartSwitch
-              data-test-subj="lnsChartSwitcher"
-              setVis={setVis}
-              vis={vis}
-              visualizationTypes={visualizationTypes}
-            />
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </div> */}
       <EuiSpacer size="s" />
       <EuiPageContent className="lnsWorkspacePanelWrapper">
         {(!emptyExpression || title) && (

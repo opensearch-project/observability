@@ -38,14 +38,7 @@ import { EuiCodeEditor } from '@elastic/eui';
 import compactStringify from 'json-stringify-pretty-compact';
 import hjson from 'hjson';
 import 'brace/mode/hjson';
-import { i18n } from '@osd/i18n';
 import { PlotlyEditorActionsMenu } from './plotly_actions';
-
-// import { VisOptionsProps } from 'src/plugins/vis_default_editor/public';
-// import { getNotifications } from '../services';
-// import { VisParams } from '../vega_fn';
-// import { VegaHelpMenu } from './vega_help_menu';
-// import { VegaActionsMenu } from './vega_actions_menu';
 
 const aceOptions = {
   maxLines: Infinity,
@@ -61,39 +54,7 @@ const hjsonStringifyOptions = {
   keepWsc: true,
 };
 
-function format(
-  value: string,
-  stringify: typeof hjson.stringify | typeof compactStringify,
-  options?: any
-) {
-  try {
-    const spec = hjson.parse(value, { legacyRoot: false, keepWsc: true });
-    return stringify(spec, options);
-  } catch (err) {
-    // This is a common case - user tries to format an invalid HJSON text
-    getNotifications().toasts.addError(err, {
-      title: i18n.translate('visTypeVega.editor.formatError', {
-        defaultMessage: 'Error formatting spec',
-      }),
-    });
-
-    return value;
-  }
-}
-
 function PlotlyVizEditor({ spec, onVizConfigChange, setToast }: any) {
-  // const onChange = useCallback(
-  //   (value: string) => {
-  //     setValue('spec', value);
-  //   },
-  //   [setValue]
-  // );
-
-  // const formatJson = useCallback(
-  //   () => setValue('spec', format(spec, compactStringify)),
-  //   [setValue, stateParams.spec]
-  // );
-
   const formatHJson = useCallback(
     () => onVizConfigChange(format(spec, hjson.stringify, hjsonStringifyOptions)),
     [onVizConfigChange, spec]

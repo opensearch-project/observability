@@ -36,7 +36,6 @@ import { FormattedMessage } from '@osd/i18n/react';
 
 interface PlotlyEditorActionsMenuProps {
   formatHJson(): void;
-  // formatJson(): void;
 }
 
 function PlotlyEditorActionsMenu({ formatHJson }: PlotlyEditorActionsMenuProps) {
@@ -47,11 +46,6 @@ function PlotlyEditorActionsMenu({ formatHJson }: PlotlyEditorActionsMenuProps) 
     formatHJson();
     setIsPopoverOpen(false);
   }, [formatHJson]);
-
-  // const onJsonCLick = useCallback(() => {
-  //   formatJson();
-  //   setIsPopoverOpen(false);
-  // }, [formatJson]);
 
   const closePopover = useCallback(() => setIsPopoverOpen(false), []);
 
@@ -64,12 +58,6 @@ function PlotlyEditorActionsMenu({ formatHJson }: PlotlyEditorActionsMenuProps) 
         defaultMessage="Reformat as HJSON"
       />
     </EuiContextMenuItem>,
-    // <EuiContextMenuItem key="json" onClick={onJsonCLick}>
-    //   <FormattedMessage
-    //     id="visTypeVega.editor.reformatAsJSONButtonLabel"
-    //     defaultMessage="Reformat as JSON, delete comments"
-    //   />
-    // </EuiContextMenuItem>,
   ];
 
   return (

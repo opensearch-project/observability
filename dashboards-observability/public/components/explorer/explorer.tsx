@@ -826,8 +826,6 @@ export const Explorer = ({
       let savingVisRes;
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        // params.objectId = currQuery![SAVED_OBJECT_ID];
-        // params.type = curVisId;
         savingVisRes = await savedObjects
           .updateSavedVisualizationById({
             query: currQuery![RAW_QUERY],
