@@ -12,6 +12,8 @@ import {
   EuiFlexItem,
   EuiBadge,
   EuiOverlayMask,
+  EuiCallOut,
+  EuiFlexGroup,
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { useState } from 'react';
@@ -84,8 +86,7 @@ export const LogConfig = (props: LogConfigProps) => {
             </EuiText>
             <EuiSpacer size="s" />
             <EuiText size="s" color="subdued">
-              Configure your application base query (This can not be changed once application is
-              created)
+              Configure your application base query
             </EuiText>
           </>
         }
@@ -103,34 +104,43 @@ export const LogConfig = (props: LogConfigProps) => {
         }}
         paddingSize="l"
       >
-        <EuiFormRow
-          label="PPL Base Query"
-          helpText="The default logs view in the application will be filtered by this query."
-        >
-          <EuiFlexItem grow={false} key="query-bar" className="query-area">
-            <Autocomplete
-              key={'autocomplete-bar'}
-              query={query}
-              tempQuery={tempQuery}
-              handleQueryChange={handleQueryChange}
-              handleQuerySearch={() => {}}
-              dslService={dslService}
-              getSuggestions={getFullSuggestions}
-              onItemSelect={onItemSelect}
-              isDisabled={editMode}
-            />
-            <EuiBadge
-              className={`ppl-link ${
-                uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
-              }`}
-              color="hollow"
-              onClick={() => showFlyout()}
-              onClickAriaLabel={'pplLinkShowFlyout'}
-            >
-              PPL
-            </EuiBadge>
+        <EuiFlexGroup direction="column" gutterSize="s">
+          <EuiFlexItem>
+            <EuiCallOut iconType={'iInCircle'} size="s">
+              You can't change the base query after the application is created.
+            </EuiCallOut>
           </EuiFlexItem>
-        </EuiFormRow>
+          <EuiFlexItem>
+            <EuiFormRow
+              label="PPL Base Query"
+              helpText="The default logs view in the application will be filtered by this query."
+            >
+              <EuiFlexItem grow={false} key="query-bar" className="query-area">
+                <Autocomplete
+                  key={'autocomplete-bar'}
+                  query={query}
+                  tempQuery={tempQuery}
+                  handleQueryChange={handleQueryChange}
+                  handleQuerySearch={() => {}}
+                  dslService={dslService}
+                  getSuggestions={getFullSuggestions}
+                  onItemSelect={onItemSelect}
+                  isDisabled={editMode}
+                />
+                <EuiBadge
+                  className={`ppl-link ${
+                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+                  }`}
+                  color="hollow"
+                  onClick={() => showFlyout()}
+                  onClickAriaLabel={'pplLinkShowFlyout'}
+                >
+                  PPL
+                </EuiBadge>
+              </EuiFlexItem>
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </EuiAccordion>
       {isModalVisible && modalLayout}
     </div>
