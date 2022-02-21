@@ -15,8 +15,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { dataConfig = {} } = visualizations?.data?.userConfigs;
 
-  const xaxisField = fields[fields.length - 1];
-  const yaxisField = fields[fields.length - 2];
+  const xaxisField = fields[fields.length - 2];
+  const yaxisField = fields[fields.length - 1];
   const zMetrics =
     dataConfig?.valueOptions && dataConfig?.valueOptions.zaxis
       ? dataConfig?.valueOptions.zaxis[0]

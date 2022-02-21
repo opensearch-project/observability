@@ -112,7 +112,7 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  const customVizConfigs = useSelector(selectVisualizationConfig)[tabId];
+  const userVizConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -642,9 +642,9 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: customVizConfigs,
+      userConfigs: userVizConfigs,
     });
-  }, [curVisId, explorerVisualizations, explorerFields, query, customVizConfigs]);
+  }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
   const getExplorerVis = () => {
     return (
@@ -728,15 +728,6 @@ export const Explorer = ({
       return;
     }
     setIsPanelTextFieldInvalid(false);
-    const params = {
-      query: currQuery![RAW_QUERY],
-      fields: currFields![SELECTED_FIELDS],
-      dateRange: currQuery![SELECTED_DATE_RANGE],
-      name: selectedPanelNameRef.current,
-      timestamp: currQuery![SELECTED_TIMESTAMP],
-      objectId: '',
-      type: '',
-    };
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
@@ -813,10 +804,19 @@ export const Explorer = ({
       let savingVisRes;
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
-        params.type = curVisId;
+        // params.objectId = currQuery![SAVED_OBJECT_ID];
+        // params.type = curVisId;
         savingVisRes = await savedObjects
-          .updateSavedVisualizationById(params)
+          .updateSavedVisualizationById({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: curVisId,
+            user_configs: JSON.stringify(userVizConfigs),
+          })
           .then((res: any) => {
             setToast(
               `Visualization '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -846,6 +846,7 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
+            user_configs: JSON.stringify(userVizConfigs),
           })
           .then((res: any) => {
             batch(() => {

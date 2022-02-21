@@ -58,19 +58,7 @@ const HJSON_STRINGIFY_OPTIONS = {
   bracesSameLine: true,
 };
 
-const ENABLED_VIS_TYPES = [
-  'bar',
-  // 'horizontal_bar',
-  'line',
-  'pie',
-  'histogram',
-  'gauge',
-  'candle_stick',
-  'tree_map',
-  'bubble',
-  'heatmap',
-  'text',
-];
+const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'histogram', 'gauge', 'heatmap', 'text'];
 
 export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   const {
