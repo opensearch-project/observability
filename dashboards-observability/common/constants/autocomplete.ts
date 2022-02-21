@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BaseItem } from "@algolia/autocomplete-core";
+import { BaseItem } from '@algolia/autocomplete-core';
 
 export const firstCommand = [{ label: 'source' }];
 
