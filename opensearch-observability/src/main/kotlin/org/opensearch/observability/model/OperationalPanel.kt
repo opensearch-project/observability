@@ -51,8 +51,6 @@ import org.opensearch.observability.util.logger
  *       "language": "ppl"
  *     },
  *     "applicationId": "KE1Ie34BbsTr-CsB4G6Y"
- *     "userConfigs": "{\"selectedVisType\":[{\"label\":\"bar\"}],\"dataConfig\":
- *      {\"valueOptions\":{\"zaxis\":[{\"name\":\"count()\",\"type\":\"integer\",\"label\":\"count()\"}]}}}"
  *   }
  * }
  * }</pre>
@@ -63,8 +61,7 @@ internal data class OperationalPanel(
     val visualizations: List<Visualization>?,
     val timeRange: TimeRange?,
     val queryFilter: QueryFilter?,
-    val applicationId: String? = null,
-    var userConfigs: String? = null 
+    val applicationId: String? = null
 ) : BaseObjectData {
 
     internal companion object {
@@ -74,8 +71,6 @@ internal data class OperationalPanel(
         private const val TIME_RANGE_TAG = "timeRange"
         private const val QUERY_FILTER_TAG = "queryFilter"
         private const val APPLICATION_ID_TAG = "applicationId"
-        private const val USER_CONFIGS_TAG = "user_configs"
-        
 
         /**
          * reader to create instance of class from writable.
@@ -112,7 +107,6 @@ internal data class OperationalPanel(
             var timeRange: TimeRange? = null
             var queryFilter: QueryFilter? = null
             var applicationId: String? = null
-            var userConfigs: String? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -123,14 +117,13 @@ internal data class OperationalPanel(
                     TIME_RANGE_TAG -> timeRange = TimeRange.parse(parser)
                     QUERY_FILTER_TAG -> queryFilter = QueryFilter.parse(parser)
                     APPLICATION_ID_TAG -> applicationId = parser.text()
-                    USER_CONFIGS_TAG -> userConfigs = parser.text()
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:OperationalPanel Skipping Unknown field $fieldName")
                     }
                 }
             }
-            return OperationalPanel(name, visualizations, timeRange, queryFilter, applicationId, userConfigs)
+            return OperationalPanel(name, visualizations, timeRange, queryFilter, applicationId)
         }
     }
 
@@ -152,8 +145,7 @@ internal data class OperationalPanel(
         visualizations = input.readList(Visualization.reader),
         timeRange = input.readOptionalWriteable(TimeRange.reader),
         queryFilter = input.readOptionalWriteable(QueryFilter.reader),
-        applicationId = input.readOptionalString(),
-        userConfigs = input.readOptionalString()
+        applicationId = input.readOptionalString()
     )
 
     /**
@@ -165,7 +157,6 @@ internal data class OperationalPanel(
         output.writeOptionalWriteable(timeRange)
         output.writeOptionalWriteable(queryFilter)
         output.writeOptionalString(applicationId)
-        output.writeOptionalString(userConfigs)
     }
 
     /**
@@ -184,7 +175,6 @@ internal data class OperationalPanel(
         builder.fieldIfNotNull(TIME_RANGE_TAG, timeRange)
             .fieldIfNotNull(QUERY_FILTER_TAG, queryFilter)
             .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
-            .fieldIfNotNull(APPLICATION_ID_TAG, userConfigs)
         return builder.endObject()
     }
 
