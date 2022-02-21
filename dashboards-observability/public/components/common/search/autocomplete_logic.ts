@@ -185,6 +185,7 @@ const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
 };
 
 // Main logic behind autocomplete (Based on most recent inputs)
+// base is a dummy parameter that is added to match the getSuggestion prop's function signature
 export const getFullSuggestions = async (
   base: string,
   str: string,
