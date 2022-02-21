@@ -126,7 +126,7 @@ export class CustomPanelsAdaptor {
       panelBody.applicationId = appId;
       panelBody.timeRange = {
         to: 'now',
-        from: 'now-24M',
+        from: 'now-24h',
       };
     }
 
@@ -134,7 +134,7 @@ export class CustomPanelsAdaptor {
       const response = await this.indexPanel(client, panelBody);
       return response.objectId;
     } catch (error) {
-      throw new Error('Create New Panel Error:' + error);
+      throw new Error('Create Panel Error:' + error);
     }
   };
 
@@ -409,7 +409,7 @@ export class CustomPanelsAdaptor {
       };
       return [fetchResponse];
     } catch (error) {
-      throw new Error('Create New Panel Error:' + error);
+      throw new Error('Create Panel Error:' + error);
     }
   };
 }

@@ -3,13 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useContext, useCallback, useEffect } from 'react';
-import { find, isEmpty } from 'lodash';
+import React, { useState, useMemo } from 'react';
+import { isEmpty } from 'lodash';
 import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
-import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
-import { TabContext } from '../../hooks';
-import { change as changeVisualizationConfig } from '../../slices/viualization_config_slice';
-import { getVisType } from '../../../visualizations/charts/vis_types';
 import { Visualization } from '../../../visualizations/visualization';
 import { DataTable } from '../../../visualizations/charts/data_table/data_table';
 

@@ -59,7 +59,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     changeVisualizationConfig,
     explorerVisualizations,
     setToast,
-  } = useContext(TabContext);
+  } = useContext<any>(TabContext);
   const { data, vis } = visualizations;
   const { fields } = visualizations?.data?.rawVizData?.metadata || { fields: [] };
   const { rawVizData, userConfigs } = data;

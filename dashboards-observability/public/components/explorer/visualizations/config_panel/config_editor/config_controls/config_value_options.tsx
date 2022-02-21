@@ -19,7 +19,6 @@ export const ConfigValueOptions = ({
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
-        console.log('inner config: ', changes);
         handleConfigChange({
           ...vizState,
           [stateFiledName]: changes,

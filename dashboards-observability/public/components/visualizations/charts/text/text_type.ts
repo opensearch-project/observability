@@ -8,12 +8,7 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartLine } from '../../assets/chart_line';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
-import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import {
-  ConfigValueOptions,
-  ConfigThresholds,
-  ConfigText,
-} from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import { ConfigText } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();

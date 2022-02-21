@@ -18,7 +18,6 @@ export const ConfigChartOptions = ({
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
-        console.log('chart options:');
         handleConfigChange({
           ...vizState,
           [stateFiledName]: changes,
@@ -38,10 +37,8 @@ export const ConfigChartOptions = ({
         onSelectChange: handleConfigurationChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: vizState[schema.mapTo],
-        // selectedAxis: vizState[schema.mapTo] || schema.props?.defaultSelections || [],
         ...schema.props,
       };
-      console.log('params: ', params);
       return (
         <>
           <DimensionComponent key={`viz-series-${index}`} {...params} />

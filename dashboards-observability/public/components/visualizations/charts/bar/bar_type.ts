@@ -17,9 +17,7 @@ import {
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-export interface BarTypeParams {}
-
-export const createBarTypeDefinition = (params: BarTypeParams = {}) => ({
+export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
   id: 'bar',

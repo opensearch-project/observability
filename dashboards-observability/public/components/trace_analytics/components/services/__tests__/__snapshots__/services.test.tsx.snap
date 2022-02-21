@@ -2,6 +2,7 @@
 
 exports[`Services component renders empty services page 1`] = `
 <Services
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -80,6 +81,7 @@ exports[`Services component renders empty services page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="services"
@@ -682,6 +684,7 @@ exports[`Services component renders empty services page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="services"
       setFilters={
@@ -1123,6 +1126,7 @@ exports[`Services component renders empty services page 1`] = `
 
 exports[`Services component renders services page 1`] = `
 <Services
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -1201,6 +1205,7 @@ exports[`Services component renders services page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="services"
@@ -1821,6 +1826,7 @@ exports[`Services component renders services page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="services"
       setFilters={

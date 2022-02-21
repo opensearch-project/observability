@@ -3,18 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { uniqueId } from 'lodash';
-import { EuiPanel, EuiTitle, EuiAccordion, EuiComboBox, EuiSpacer } from '@elastic/eui';
+import { EuiTitle, EuiComboBox, EuiSpacer } from '@elastic/eui';
 
 export const PanelItem = ({
   paddingTitle,
-  advancedTitle,
   selectedAxis,
   dropdownList,
-  children,
   onSelectChange,
-  vizState,
   isSingleSelection = false,
 }: any) => {
   const options = dropdownList.map((item) => {
@@ -23,9 +20,6 @@ export const PanelItem = ({
       label: item.name,
     };
   });
-  const handleSelect = (selectedOption) => {
-    onSelectChange(selectedOption);
-  };
 
   return (
     <>

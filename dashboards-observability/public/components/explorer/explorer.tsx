@@ -7,7 +7,7 @@
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce, take } from 'lodash';
+import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
 import {
   EuiText,
@@ -65,7 +65,6 @@ import {
 import { change as updateVizConfig } from './slices/viualization_config_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
 import { TabContext } from './hooks';
-import { getVisType } from '../visualizations/charts/vis_types';
 import { getVizContainerProps } from '../visualizations/charts/helpers';
 import {
   getFullSuggestions,
@@ -126,7 +125,7 @@ export const Explorer = ({
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
 
-  const fromAppAnalytics = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId === 'application-analytics-tab';
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -375,7 +374,7 @@ export const Explorer = ({
     toggleFields(field, SELECTED_FIELDS, AVAILABLE_FIELDS);
 
   const handleTimePickerChange = async (timeRange: string[]) => {
-    if (fromAppAnalytics) {
+    if (appLogEvents) {
       setStartTime(timeRange[0]);
       setEndTime(timeRange[1]);
     } else {
@@ -889,7 +888,7 @@ export const Explorer = ({
                 })
               );
             });
-            if (fromAppAnalytics) {
+            if (appLogEvents) {
               addVisualizationToPanel(res.objectId, selectedPanelNameRef.current);
             } else {
               history.replace(`/event_analytics/explorer/${res.objectId}`);
@@ -951,7 +950,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={fromAppAnalytics ? appBaseQuery : query[RAW_QUERY]}
+          query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}
@@ -970,7 +969,7 @@ export const Explorer = ({
           handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
           selectedSubTabId={selectedContentTabId}
           searchBarConfigs={searchBarConfigs}
-          getSuggestions={fromAppAnalytics ? getSuggestionsAfterSource : getFullSuggestions}
+          getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
           onItemSelect={onItemSelect}
           tabId={tabId}
           baseQuery={appBaseQuery}

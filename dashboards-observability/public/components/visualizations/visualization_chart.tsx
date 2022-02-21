@@ -10,7 +10,6 @@ interface IVisualizationChart {}
 
 export const VisualizationChart = ({ visualizations }: IVisualizationChart) => {
   const { data, vis } = visualizations;
-  const { defaultAxes } = data;
   const {
     metadata: { fields },
   } = visualizations?.data?.rawVizData;
