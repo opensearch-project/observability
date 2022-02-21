@@ -206,6 +206,7 @@ export const CreateApp = (props: CreateAppProps) => {
             <ServiceConfig
               selectedServices={selectedServices}
               setSelectedServices={setSelectedServices}
+              page={'appCreate'}
               {...props}
             />
             <EuiHorizontalRule />

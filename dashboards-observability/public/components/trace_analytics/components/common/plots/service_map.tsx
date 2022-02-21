@@ -45,7 +45,7 @@ export function ServiceMap({
   setIdSelected,
   addFilter,
   currService,
-  page
+  page,
 }: {
   serviceMap: ServiceObject;
   idSelected: 'latency' | 'error_rate' | 'throughput';
@@ -121,7 +121,9 @@ export function ServiceMap({
           inverted: false,
           disabled: false,
         });
-        window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+        if (page !== 'appCreate') {
+          window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+        }
       }
     },
     hoverNode: (event: any) => {},
@@ -162,11 +164,11 @@ export function ServiceMap({
   return (
     <>
       <EuiPanel>
-        {page === "app" ?
+        {page === 'app' ? (
           <PanelTitle title="Application Composition Map" />
-        :
+        ) : (
           <PanelTitle title="Service map" />
-        }
+        )}
         <EuiSpacer size="m" />
         <EuiButtonGroup
           options={toggleButtons}
