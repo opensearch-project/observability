@@ -438,6 +438,7 @@ export function Application(props: AppDetailProps) {
             http={http}
             traceId={traceFlyoutId}
             closeTraceFlyout={closeTraceFlyout}
+            openSpanFlyout={openSpanFlyout}
           />
         )}
       </EuiPage>
