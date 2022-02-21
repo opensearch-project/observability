@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable prettier/prettier */
 
 import { BaseItem } from '@algolia/autocomplete-core';
 
