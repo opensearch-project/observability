@@ -236,8 +236,13 @@ export function Application(props: AppDetailProps) {
         openServiceFlyout={openServiceFlyout}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
+        switchToTrace={switchToTrace}
       />
     );
+  };
+
+  const switchToTrace = () => {
+    setSelectedTab(TAB_TRACE_ID);
   };
 
   const getTrace = () => {

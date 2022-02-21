@@ -17,6 +17,7 @@ interface ServicesProps extends TraceAnalyticsComponentDeps {
   appId?: string;
   appName?: string;
   openServiceFlyout?: (serviceName: string) => void;
+  switchToTrace?: () => void;
   page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
@@ -129,6 +130,7 @@ export function Services(props: ServicesProps) {
         loading={loading}
         page={page}
         openServiceFlyout={props.openServiceFlyout}
+        switchToTrace={props.switchToTrace}
       />
     </>
   );
