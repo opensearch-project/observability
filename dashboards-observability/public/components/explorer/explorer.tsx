@@ -956,7 +956,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
+          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}
