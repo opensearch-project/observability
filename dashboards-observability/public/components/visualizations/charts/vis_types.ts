@@ -12,7 +12,6 @@ import { createBubbleVisDefinition } from './bubble/bubble_type';
 import { createMapsVisDefinition } from './maps/heatmap_type';
 import { createDatatableTypeDefinition } from './data_table/data_table_type';
 import { createGaugeTypeDefinition } from './financial/gauge/gauge_type';
-import { createCandleStickDefinition } from './financial/candle_stick/candle_stick_type';
 import { createTreeMapDefinition } from './maps/treemap_type';
 import { createTextTypeDefinition } from './text/text_type';
 
@@ -26,7 +25,6 @@ export const VIS_TYPES = {
   gauge: createGaugeTypeDefinition,
   bubble: createBubbleVisDefinition,
   heatmap: createMapsVisDefinition,
-  candle_stick: createCandleStickDefinition,
   tree_map: createTreeMapDefinition,
   text: createTextTypeDefinition,
 };
