@@ -8,7 +8,11 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../../shared/shared_c
 import { LensIconChartLine } from '../../../assets/chart_line';
 import { VizDataPanel } from '../../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import { ConfigValueOptions } from '../../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import {
+  ConfigValueOptions,
+  ConfigThresholds,
+  ConfigGaugeValueOptions,
+} from '../../../../explorer/visualizations/config_panel/config_editor/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -36,17 +40,32 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
           {
             id: 'value_options',
             name: 'Value options',
-            editor: ConfigValueOptions,
+            editor: ConfigGaugeValueOptions,
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'Value',
+                name: 'Series',
                 isSingleSelection: true,
                 onChangeHandler: 'setXaxisSelections',
                 component: null,
-                mapTo: 'xaxis',
+                mapTo: 'series',
+              },
+              {
+                name: 'Value',
+                isSingleSelection: false,
+                onChangeHandler: 'setYaxisSelections',
+                component: null,
+                mapTo: 'value',
               },
             ],
+          },
+          {
+            id: 'thresholds',
+            name: 'Thresholds',
+            editor: ConfigThresholds,
+            mapTo: 'thresholds',
+            defaultState: [],
+            schemas: [],
           },
         ],
       },

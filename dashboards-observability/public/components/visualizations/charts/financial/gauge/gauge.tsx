@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { indexOf } from 'lodash';
 import { Plt } from '../../../plotly/plot';
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
@@ -11,19 +12,52 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { xaxis, yaxis } = visualizations.data.userConfigs;
+  const { dataConfig } = visualizations.data.userConfigs;
+  const xaxis =
+    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
+      ? dataConfig?.valueOptions.xaxis
+      : [];
+  const series =
+    dataConfig?.valueOptions && dataConfig?.valueOptions?.series
+      ? dataConfig.valueOptions.series
+      : dataConfig?.valueOptions.xaxis;
 
-  let guageData = xaxis || fields;
-  guageData = guageData.map((field, index) => {
+  const value =
+    dataConfig?.valueOptions && dataConfig?.valueOptions?.value
+      ? dataConfig.valueOptions.value
+      : [];
+
+  let guageData = [];
+  const numericalTypes = ['short', 'integer', 'long', 'float', 'double'];
+  if (series && series[0]) {
+    if (indexOf(numericalTypes, series[0].type) > 0) {
+      guageData = [...value.map((val) => ({ field_name: series[0].name, value: val.name }))];
+    } else if (value) {
+      value.map((val) => {
+        const selectedSeriesIndex = indexOf(data[series[0].name], val.name);
+        fields.map((field) => {
+          if (field.name !== series[0].name) {
+            guageData.push({
+              field_name: field.name,
+              value: data[field.name][selectedSeriesIndex],
+            });
+          }
+        });
+      });
+    }
+  }
+
+  guageData = guageData.map((gauge, index) => {
     return {
       type: 'indicator',
       mode: 'gauge+number+delta',
-      value: data[field.name][0] || 0,
+      value: gauge.value || 0,
       title: {
-        text: field.name,
+        text: gauge.field_name,
         font: { size: 24 },
       },
       domain: { row: 0, column: index },
+      gauge: {},
     };
   });
 
