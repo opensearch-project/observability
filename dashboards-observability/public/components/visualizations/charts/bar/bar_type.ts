@@ -48,7 +48,7 @@ export const createBarTypeDefinition = (params: any) => ({
             schemas: [
               {
                 name: 'X-axis',
-                isSingleSelection: true,
+                isSingleSelection: false,
                 component: null,
                 mapTo: 'xaxis',
               },
@@ -94,20 +94,6 @@ export const createBarTypeDefinition = (params: any) => ({
                 },
               },
             ],
-          },
-          {
-            id: 'data_links',
-            name: 'Data links',
-            editor: ConfigDataLinks,
-            mapTo: 'dataLinks',
-            schemas: [],
-          },
-          {
-            id: 'thresholds',
-            name: 'Thresholds',
-            editor: ConfigThresholds,
-            mapTo: 'thresholds',
-            schemas: [],
           },
         ],
       },

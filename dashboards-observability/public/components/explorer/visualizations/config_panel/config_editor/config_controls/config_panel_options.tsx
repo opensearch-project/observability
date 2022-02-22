@@ -8,7 +8,9 @@ import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@e
 
 const helpText = 'Name your visualization.';
 
-export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
+export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizState }: any) => {
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
@@ -25,13 +27,16 @@ export const ConfigPanelOptions = ({ handleConfigChange, vizState }: any) => {
     <EuiAccordion id="configPanel__panelOptions" buttonContent="Panel options" paddingSize="s">
       <EuiForm component="form">
         <EuiFormRow fullWidth label="Title" helpText={`${helpText}`}>
-          <EuiFieldText name="first" onChange={handleConfigurationChange('title')} />
+          <EuiFieldText
+            name="first"
+            onChange={(e) => handleConfigurationChange('title')(e.target.value)}
+            placeholder={dataConfig.panelOptions?.title || vizState?.title || 'title'}
+          />
         </EuiFormRow>
         <EuiFormRow label="Description">
           <EuiTextArea
-            placeholder="Visualization description"
             aria-label="Use aria labels when no actual label is in use"
-            value={vizState?.description || ''}
+            placeholder={dataConfig.panelOptions?.description || 'Visualization description'}
             onChange={(e) => handleConfigurationChange('description')(e.target.value)}
           />
         </EuiFormRow>
