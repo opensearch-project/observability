@@ -56,9 +56,9 @@ internal object ObservabilityIndex {
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
     private const val MAPPING_TYPE = "_doc"
 
+    private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
-    private var mappingsUpdated: Boolean = false
 
     private val searchHitParser = object : SearchResults.SearchHitParser<ObservabilityObjectDoc> {
         override fun parse(searchHit: SearchHit): ObservabilityObjectDoc {
