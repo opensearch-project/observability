@@ -273,6 +273,7 @@ exports[`Log Config component renders empty log config 1`] = `
                           onFocus={[Function]}
                         >
                           <Autocomplete
+                            baseQuery=""
                             dslService={
                               Object {
                                 "fetch": [MockFunction],
@@ -287,6 +288,7 @@ exports[`Log Config component renders empty log config 1`] = `
                             key="autocomplete-bar"
                             onItemSelect={[Function]}
                             query=""
+                            tabId="application-analytics-tab"
                             tempQuery=""
                           >
                             <div
@@ -676,6 +678,7 @@ exports[`Log Config component renders with query 1`] = `
                           onFocus={[Function]}
                         >
                           <Autocomplete
+                            baseQuery=""
                             dslService={
                               Object {
                                 "fetch": [MockFunction],
@@ -690,6 +693,7 @@ exports[`Log Config component renders with query 1`] = `
                             key="autocomplete-bar"
                             onItemSelect={[Function]}
                             query="source = openserach_dashboard_sample_logs"
+                            tabId="application-analytics-tab"
                             tempQuery=""
                           >
                             <div
