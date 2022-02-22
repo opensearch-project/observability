@@ -100,6 +100,13 @@
   margin-bottom: $euiSizeS;
 }
 
+.dscSidebarItem__fieldPopoverPanel {
+  min-width: 300px;
+  max-width: 400px;
+  max-height: 400px;
+  overflow: scroll;
+}
+
 .override_timestamp_loading {
   vertical-align: middle;
 }

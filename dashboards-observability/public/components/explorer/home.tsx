@@ -407,7 +407,6 @@ export const Home = (props: IHomeProps) => {
                       button={popoverButton}
                       isOpen={isActionsPopoverOpen}
                       closePopover={() => setIsActionsPopoverOpen(false)}
-                      // data-test-subj="eventHomeAction__popover"
                     >
                       <EuiContextMenuPanel items={popoverItems} />
                     </EuiPopover>

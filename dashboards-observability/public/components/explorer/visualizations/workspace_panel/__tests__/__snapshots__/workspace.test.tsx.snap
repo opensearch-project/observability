@@ -3520,9 +3520,7 @@ exports[`Visualization workspace panel wrapper Renders workspace panel wrapper 1
   title=""
   vis={
     Object {
-      "chart": [Function],
       "fullLabel": "H. Bar",
-      "icon": [Function],
       "id": "horizontal_bar",
       "label": "H. Bar",
       "selection": Object {
@@ -3534,9 +3532,7 @@ exports[`Visualization workspace panel wrapper Renders workspace panel wrapper 1
   visualizationTypes={
     Array [
       Object {
-        "chart": [Function],
         "fullLabel": "Bar",
-        "icon": [Function],
         "id": "bar",
         "label": "bar",
         "selection": Object {
@@ -3545,9 +3541,7 @@ exports[`Visualization workspace panel wrapper Renders workspace panel wrapper 1
         "visualizationId": "vis-bar-6636",
       },
       Object {
-        "chart": [Function],
         "fullLabel": "H. Bar",
-        "icon": [Function],
         "id": "horizontal_bar",
         "label": "H. Bar",
         "selection": Object {
@@ -3556,9 +3550,7 @@ exports[`Visualization workspace panel wrapper Renders workspace panel wrapper 1
         "visualizationId": "vis-bar-6637",
       },
       Object {
-        "chart": [Function],
         "fullLabel": "Line",
-        "icon": [Function],
         "id": "line",
         "label": "line",
         "selection": Object {
@@ -3569,294 +3561,13 @@ exports[`Visualization workspace panel wrapper Renders workspace panel wrapper 1
     ]
   }
 >
-  <div>
-    <EuiFlexGroup
-      className="lnsWorkspacePanelWrapper__toolbar"
-      direction="row"
-      gutterSize="m"
-      justifyContent="spaceBetween"
-      responsive={false}
-      wrap={true}
-    >
-      <div
-        className="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--wrap lnsWorkspacePanelWrapper__toolbar"
-      >
-        <EuiFlexItem
-          grow={false}
-        >
-          <div
-            className="euiFlexItem euiFlexItem--flexGrowZero"
-          >
-            <ChartSwitch
-              data-test-subj="lnsChartSwitcher"
-              vis={
-                Object {
-                  "chart": [Function],
-                  "fullLabel": "H. Bar",
-                  "icon": [Function],
-                  "id": "horizontal_bar",
-                  "label": "H. Bar",
-                  "selection": Object {
-                    "dataLoss": "nothing",
-                  },
-                  "visualizationId": "vis-bar-6637",
-                }
-              }
-              visualizationTypes={
-                Array [
-                  Object {
-                    "chart": [Function],
-                    "fullLabel": "Bar",
-                    "icon": [Function],
-                    "id": "bar",
-                    "label": "bar",
-                    "selection": Object {
-                      "dataLoss": "nothing",
-                    },
-                    "visualizationId": "vis-bar-6636",
-                  },
-                  Object {
-                    "chart": [Function],
-                    "fullLabel": "H. Bar",
-                    "icon": [Function],
-                    "id": "horizontal_bar",
-                    "label": "H. Bar",
-                    "selection": Object {
-                      "dataLoss": "nothing",
-                    },
-                    "visualizationId": "vis-bar-6637",
-                  },
-                  Object {
-                    "chart": [Function],
-                    "fullLabel": "Line",
-                    "icon": [Function],
-                    "id": "line",
-                    "label": "line",
-                    "selection": Object {
-                      "dataLoss": "nothing",
-                    },
-                    "visualizationId": "vis-bar-6638",
-                  },
-                ]
-              }
-            >
-              <div
-                className="lnsChartSwitch__header"
-              >
-                <EuiPopover
-                  anchorPosition="downLeft"
-                  button={
-                    <ToolbarButton
-                      data-test-subj="lnsChartSwitchPopover"
-                      fontWeight="bold"
-                      onClick={[Function]}
-                    >
-                      <VisualizationSummary
-                        chart={[Function]}
-                        fullLabel="H. Bar"
-                        icon={[Function]}
-                        id="horizontal_bar"
-                        label="H. Bar"
-                        selection={
-                          Object {
-                            "dataLoss": "nothing",
-                          }
-                        }
-                        visualizationId="vis-bar-6637"
-                      />
-                    </ToolbarButton>
-                  }
-                  closePopover={[Function]}
-                  display="inlineBlock"
-                  hasArrow={true}
-                  id="lnsChartSwitchPopover"
-                  initialFocus=".lnsChartSwitch__popoverPanel"
-                  isOpen={false}
-                  ownFocus={true}
-                  panelClassName="lnsChartSwitch__popoverPanel"
-                  panelPaddingSize="s"
-                >
-                  <EuiOutsideClickDetector
-                    isDisabled={true}
-                    onOutsideClick={[Function]}
-                  >
-                    <div
-                      className="euiPopover euiPopover--anchorDownLeft"
-                      id="lnsChartSwitchPopover"
-                      onKeyDown={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseUp={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchStart={[Function]}
-                    >
-                      <div
-                        className="euiPopover__anchor"
-                      >
-                        <ToolbarButton
-                          data-test-subj="lnsChartSwitchPopover"
-                          fontWeight="bold"
-                          onClick={[Function]}
-                        >
-                          <EuiButton
-                            className="lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
-                            color="text"
-                            contentProps={
-                              Object {
-                                "className": "lnsToolbarButton__content",
-                              }
-                            }
-                            data-test-subj="lnsChartSwitchPopover"
-                            iconSide="right"
-                            iconType="arrowDown"
-                            onClick={[Function]}
-                            size="s"
-                            textProps={
-                              Object {
-                                "className": "lnsToolbarButton__text",
-                              }
-                            }
-                          >
-                            <EuiButtonDisplay
-                              className="lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
-                              color="text"
-                              contentProps={
-                                Object {
-                                  "className": "lnsToolbarButton__content",
-                                }
-                              }
-                              data-test-subj="lnsChartSwitchPopover"
-                              disabled={false}
-                              element="button"
-                              iconSide="right"
-                              iconType="arrowDown"
-                              isDisabled={false}
-                              onClick={[Function]}
-                              size="s"
-                              textProps={
-                                Object {
-                                  "className": "lnsToolbarButton__text",
-                                }
-                              }
-                              type="button"
-                            >
-                              <button
-                                className="euiButton euiButton--text euiButton--small lnsToolbarButton lnsToolbarButton--bold lnsToolbarButton--s"
-                                data-test-subj="lnsChartSwitchPopover"
-                                disabled={false}
-                                onClick={[Function]}
-                                type="button"
-                              >
-                                <EuiButtonContent
-                                  className="euiButton__content lnsToolbarButton__content"
-                                  iconSide="right"
-                                  iconType="arrowDown"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text lnsToolbarButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content lnsToolbarButton__content"
-                                  >
-                                    <EuiIcon
-                                      className="euiButtonContent__icon"
-                                      size="m"
-                                      type="arrowDown"
-                                    >
-                                      <EuiIconArrowDown
-                                        aria-hidden={true}
-                                        className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                        focusable="false"
-                                        role="img"
-                                        style={null}
-                                      >
-                                        <svg
-                                          aria-hidden={true}
-                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                          focusable="false"
-                                          height={16}
-                                          role="img"
-                                          style={null}
-                                          viewBox="0 0 16 16"
-                                          width={16}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                            fillRule="non-zero"
-                                          />
-                                        </svg>
-                                      </EuiIconArrowDown>
-                                    </EuiIcon>
-                                    <span
-                                      className="euiButton__text lnsToolbarButton__text"
-                                    >
-                                      <VisualizationSummary
-                                        chart={[Function]}
-                                        fullLabel="H. Bar"
-                                        icon={[Function]}
-                                        id="horizontal_bar"
-                                        label="H. Bar"
-                                        selection={
-                                          Object {
-                                            "dataLoss": "nothing",
-                                          }
-                                        }
-                                        visualizationId="vis-bar-6637"
-                                      >
-                                        <EuiIcon
-                                          className="lnsChartSwitch__summaryIcon"
-                                          size="l"
-                                          type={[Function]}
-                                        >
-                                          <Component
-                                            aria-hidden={true}
-                                            className="euiIcon euiIcon--large lnsChartSwitch__summaryIcon"
-                                            focusable="false"
-                                            role="img"
-                                            style={null}
-                                          >
-                                            <LensIconChartBarHorizontal>
-                                              <svg
-                                                fill="none"
-                                                height={22}
-                                                viewBox="0 0 30 22"
-                                                width={30}
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  className="lensChartIcon__subdued"
-                                                  d="M29 16a1 1 0 011 1v4a1 1 0 01-1 1H1a1 1 0 01-1-1v-4a1 1 0 011-1h28zM22 0a1 1 0 011 1v4a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h21z"
-                                                />
-                                                <path
-                                                  className="lensChartIcon__accent"
-                                                  d="M0 9a1 1 0 011-1h15a1 1 0 011 1v4a1 1 0 01-1 1H1a1 1 0 01-1-1V9z"
-                                                />
-                                              </svg>
-                                            </LensIconChartBarHorizontal>
-                                          </Component>
-                                        </EuiIcon>
-                                        H. Bar
-                                      </VisualizationSummary>
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </ToolbarButton>
-                      </div>
-                    </div>
-                  </EuiOutsideClickDetector>
-                </EuiPopover>
-              </div>
-            </ChartSwitch>
-          </div>
-        </EuiFlexItem>
-      </div>
-    </EuiFlexGroup>
-  </div>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
   <EuiPageContent
     className="lnsWorkspacePanelWrapper"
   >

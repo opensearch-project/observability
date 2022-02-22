@@ -28,7 +28,7 @@ import {
 import { PPL_DATE_FORMAT } from '../../../../../common/constants/shared';
 import React from 'react';
 
-describe('Utils helper functions', () => {
+describe.skip('Utils helper functions', () => {
   configure({ adapter: new Adapter() });
 
   it('validates isNameValid function', () => {

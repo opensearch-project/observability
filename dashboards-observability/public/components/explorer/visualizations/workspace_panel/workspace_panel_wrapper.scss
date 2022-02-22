@@ -22,23 +22,6 @@
   .lnsWorkspacePanelWrapper__pageContentHeader--unsaved {
     color: $euiTextSubduedColor;
   }
-
-  .lnsWorkspacePanelWrapper__pageContentBody {
-    @include euiScrollBar;
-    flex-grow: 1;
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    overflow: auto;
-
-    > * {
-      flex: 1 1 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-  }
 }
 
 .lnsWorkspacePanel__dragDrop {

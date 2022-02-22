@@ -5,43 +5,43 @@
 
 import React from 'react';
 import { merge } from 'lodash';
-import { Bar } from './bar';
+import { Bar } from './bar/bar';
 
 interface IBarTrace {
-  xvalues: Array<any>;
-  yvalues: Array<any>;
+  xvalues: any[];
+  yvalues: any[];
   mode: string;
   name: string;
 }
 
 export interface IStackedBarProps {
   name: string;
-  barValues: Array<IBarTrace>;
+  barValues: IBarTrace[];
   layoutConfig?: any;
 }
 
-export const HorizontalBar = ({ visualizations, horizontalConfig, layoutConfig = {} }: any) => {
-  const horizontalBarConfig = merge(
-    {
-      orientation: 'h',
-    },
-    horizontalConfig
-  );
-
-  const horizontalBarLayoutConfig = merge(
-    {
-      yaxis: {
-        automargin: true,
-      },
-    },
-    layoutConfig
-  );
+export const HorizontalBar = ({
+  visualizations,
+  layoutConfig = {},
+  dispatch,
+  customVizData,
+}: any) => {
+  // const horizontalBarLayoutConfig = merge(
+  //   {
+  //     yaxis: {
+  //       automargin: true,
+  //     },
+  //   },
+  //   layoutConfig
+  // );
 
   return (
     <Bar
       visualizations={visualizations}
-      barConfig={horizontalBarConfig}
-      layoutConfig={horizontalBarLayoutConfig}
+      orientation="h"
+      layoutConfig={layoutConfig}
+      dispatch={dispatch}
+      customVizData={customVizData}
     />
   );
 };
