@@ -60,7 +60,6 @@ describe('Service Config component', () => {
         setAppConfigs={setAppConfigs}
         setStartTimeWithStorage={setStartTimeWithStorage}
         setEndTimeWithStorage={setEndTimeWithStorage}
-        page="appCreate"
       />
     );
 
@@ -123,7 +122,6 @@ describe('Service Config component', () => {
         setAppConfigs={setAppConfigs}
         setStartTimeWithStorage={setStartTimeWithStorage}
         setEndTimeWithStorage={setEndTimeWithStorage}
-        page="appCreate"
       />
     );
 
