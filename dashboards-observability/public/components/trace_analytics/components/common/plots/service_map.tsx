@@ -52,7 +52,7 @@ export function ServiceMap({
   setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
-  page?: string;
+  page: 'app' | 'appCreate' | 'dashboard' | 'traces' | 'services' | 'serviceView' | 'detailFlyout';
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);

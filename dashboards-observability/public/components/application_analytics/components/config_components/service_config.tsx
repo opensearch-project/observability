@@ -29,7 +29,6 @@ interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   selectedServices: OptionType[];
   setSelectedServices: (services: OptionType[]) => void;
-  page?: string;
 }
 
 export const ServiceConfig = (props: ServiceConfigProps) => {
@@ -40,7 +39,6 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     http,
     selectedServices,
     setSelectedServices,
-    page,
   } = props;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
@@ -181,7 +179,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
           idSelected={serviceMapIdSelected}
           setIdSelected={setServiceMapIdSelected}
           addFilter={addFilter}
-          page={page}
+          page={'appCreate'}
         />
       </EuiAccordion>
       {isModalVisible && modalLayout}
