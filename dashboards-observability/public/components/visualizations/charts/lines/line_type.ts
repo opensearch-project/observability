@@ -63,7 +63,22 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             name: 'Chart options',
             editor: ConfigValueOptions,
             mapTo: 'chartOptions',
-            schemas: [],
+            schemas: [
+              {
+                name: 'Mode',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'mode',
+                props: {
+                  dropdownList: [
+                    { name: 'Markers', modeId: 'markers' },
+                    { name: 'Lines', modeId: 'lines' },
+                    { name: 'Lines + Markers', modeId: 'lines+markers' },
+                  ],
+                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
+                },
+              },
+            ],
           },
           {
             id: 'thresholds',

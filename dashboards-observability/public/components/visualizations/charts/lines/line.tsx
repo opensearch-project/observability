@@ -24,6 +24,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.valueOptions.yaxis
       : [];
   const lastIndex = fields.length - 1;
+  const mode =
+    dataConfig?.chartOptions && dataConfig?.chartOptions.mode
+      ? dataConfig?.chartOptions.mode[0].modeId
+      : 'line';
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -36,9 +40,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return {
       x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
       y: data[field.name],
-      text: dataConfig.thresholds ? dataConfig.thresholds.map((thr) => thr.name) : [],
+      // text: dataConfig.thresholds ? dataConfig.thresholds.map((thr) => thr.name) : [],
       type: 'line',
       name: field.name,
+      mode,
     };
   });
 
