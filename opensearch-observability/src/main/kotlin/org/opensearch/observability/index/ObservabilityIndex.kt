@@ -109,8 +109,8 @@ internal object ObservabilityIndex {
                     throw exception
                 }
             }
-        }
-        if (!this.mappingsUpdated) {
+            this.mappingsUpdated = true
+        } else if (!this.mappingsUpdated) {
             updateMappings()
         }
     }
