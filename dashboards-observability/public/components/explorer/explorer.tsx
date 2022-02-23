@@ -78,6 +78,7 @@ export const Explorer = ({
   savedObjects,
   timestampUtils,
   setToast,
+  http,
   history,
   notifications,
   savedObjectId,
@@ -274,7 +275,7 @@ export const Explorer = ({
           if (error?.body?.statusCode === 403) {
             showPermissionErrorToast();
           }
-          console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
         });
       if (
         savedTimestamps?.observabilityObjectList &&
@@ -593,9 +594,13 @@ export const Explorer = ({
                     </h2>
                     <div className="dscDiscover">
                       <DataGrid
+                        http={http}
+                        pplService={pplService}
                         rows={explorerData.jsonData}
                         rowsAll={explorerData.jsonDataAll}
                         explorerFields={explorerFields}
+                        timeStampField={queryRef.current![SELECTED_TIMESTAMP]}
+                        rawQuery={queryRef.current![RAW_QUERY]}
                       />
                       <a tabIndex={0} id="discoverBottomMarker">
                         &#8203;
