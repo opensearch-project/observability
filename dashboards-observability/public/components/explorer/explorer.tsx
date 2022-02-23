@@ -2,6 +2,9 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
+
 
 import './explorer.scss'
 import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
@@ -328,7 +331,9 @@ export const Explorer = ({
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
