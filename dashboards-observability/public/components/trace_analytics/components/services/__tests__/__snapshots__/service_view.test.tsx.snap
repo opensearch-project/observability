@@ -219,6 +219,7 @@ exports[`Service view component renders service view 1`] = `
       <ServiceMap
         currService="order"
         idSelected="latency"
+        page="serviceView"
         serviceMap={Object {}}
         setIdSelected={[Function]}
       />

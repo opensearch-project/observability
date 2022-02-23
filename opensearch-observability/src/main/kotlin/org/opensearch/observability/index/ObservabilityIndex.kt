@@ -56,6 +56,7 @@ internal object ObservabilityIndex {
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
     private const val MAPPING_TYPE = "_doc"
 
+    private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
 
@@ -79,6 +80,7 @@ internal object ObservabilityIndex {
     fun initialize(client: Client, clusterService: ClusterService) {
         this.client = SecureIndexClient(client)
         this.clusterService = clusterService
+        this.mappingsUpdated = false
     }
 
     /**
@@ -86,10 +88,7 @@ internal object ObservabilityIndex {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
-        if (isIndexExists(INDEX_NAME)) {
-            // TODO: Only update mappings when they have changed so it doesn't run on every request
-            updateMappings()
-        } else {
+        if (!isIndexExists(INDEX_NAME)) {
             val classLoader = ObservabilityIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
             val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
@@ -110,6 +109,9 @@ internal object ObservabilityIndex {
                     throw exception
                 }
             }
+            this.mappingsUpdated = true
+        } else if (!this.mappingsUpdated) {
+            updateMappings()
         }
     }
 
@@ -130,6 +132,7 @@ internal object ObservabilityIndex {
             } else {
                 throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
+            this.mappingsUpdated = true
         } catch (exception: IndexNotFoundException) {
             log.error("$LOG_PREFIX:IndexNotFoundException:", exception)
         }

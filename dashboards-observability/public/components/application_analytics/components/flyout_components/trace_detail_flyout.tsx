@@ -29,10 +29,11 @@ import { SpanDetailPanel } from '../../../../../public/components/trace_analytic
 interface TraceFlyoutProps extends TraceAnalyticsComponentDeps {
   traceId: string;
   closeTraceFlyout: () => void;
+  openSpanFlyout: (spanId: string) => void;
 }
 
 export function TraceDetailFlyout(props: TraceFlyoutProps) {
-  const { traceId, http, closeTraceFlyout } = props;
+  const { traceId, http, closeTraceFlyout, openSpanFlyout } = props;
   const [fields, setFields] = useState<any>({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');
@@ -71,7 +72,13 @@ export function TraceDetailFlyout(props: TraceFlyoutProps) {
         <ServiceBreakdownPanel data={serviceBreakdownData} />
         <EuiSpacer size="xs" />
         <EuiHorizontalRule margin="s" />
-        <SpanDetailPanel traceId={traceId} http={http} colorMap={colorMap} />
+        <SpanDetailPanel
+          traceId={traceId}
+          http={http}
+          colorMap={colorMap}
+          page="app"
+          openSpanFlyout={openSpanFlyout}
+        />
         <EuiSpacer size="xs" />
         <EuiHorizontalRule margin="s" />
         <EuiText size="m">
