@@ -27,6 +27,12 @@ describe('Search bar', () => {
     const getFullSuggestions = jest.fn();
     const onItemSelect = jest.fn();
     const dateRange = ['now-15m', 'now'];
+    const liveTailButton = jest.fn();
+    const isLiveTailPopoverOpen = jest.fn();
+    const closeLiveTailPopover = jest.fn();
+    const popoverItems = jest.fn();
+    const isLiveTailOn = jest.fn();
+    const countDistribution = jest.fn();
     const utils = render(
       <Search
         key="search-component"
@@ -49,6 +55,12 @@ describe('Search bar', () => {
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
         getSuggestions={getFullSuggestions}
         onItemSelect={onItemSelect}
+        liveTailButton={liveTailButton}
+        isLiveTailPopoverOpen={isLiveTailPopoverOpen}
+        closeLiveTailPopover={closeLiveTailPopover}
+        popoverItems={popoverItems}
+        isLiveTailOn={isLiveTailOn}
+        countDistribution={countDistribution}
       />
     );
 

@@ -162,6 +162,7 @@ export const LogExplorer = ({
     return newTabId;
   };
 
+
   useEffect(() => {
     if (!isEmpty(savedObjectId)) {
       dispatchSavedObjectId();
@@ -208,6 +209,7 @@ export const LogExplorer = ({
             notifications={notifications}
             savedObjectId={savedObjectId}
             tabCreatedTypes={tabCreatedTypes}
+            curSelectedTabId={curSelectedTabIdRef}
             http={http}
             searchBarConfigs={searchBarConfigs}
           />
