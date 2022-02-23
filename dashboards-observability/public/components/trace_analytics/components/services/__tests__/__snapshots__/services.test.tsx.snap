@@ -2,8 +2,10 @@
 
 exports[`Services component renders empty services page 1`] = `
 <Services
+  appConfigs={Array []}
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -36,6 +38,7 @@ exports[`Services component renders empty services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={false}
+  page="services"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -78,6 +81,7 @@ exports[`Services component renders empty services page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="services"
@@ -198,9 +202,19 @@ exports[`Services component renders empty services page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -247,7 +261,7 @@ exports[`Services component renders empty services page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -321,7 +335,7 @@ exports[`Services component renders empty services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -382,7 +396,7 @@ exports[`Services component renders empty services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -670,6 +684,7 @@ exports[`Services component renders empty services page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="services"
       setFilters={
@@ -889,6 +904,7 @@ exports[`Services component renders empty services page 1`] = `
     indicesExist={false}
     items={Array []}
     loading={false}
+    page="services"
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}
@@ -1110,8 +1126,10 @@ exports[`Services component renders empty services page 1`] = `
 
 exports[`Services component renders services page 1`] = `
 <Services
+  appConfigs={Array []}
   chrome={
     Object {
+      "getIsNavDrawerLocked$": [MockFunction],
       "setBreadcrumbs": [MockFunction] {
         "calls": Array [
           Array [
@@ -1144,6 +1162,7 @@ exports[`Services component renders services page 1`] = `
   filters={Array []}
   http={[MockFunction]}
   indicesExist={true}
+  page="services"
   parentBreadcrumb={
     Object {
       "href": "test#/",
@@ -1186,6 +1205,7 @@ exports[`Services component renders services page 1`] = `
     </h2>
   </EuiTitle>
   <SearchBar
+    appConfigs={Array []}
     endTime="now"
     filters={Array []}
     page="services"
@@ -1310,9 +1330,19 @@ exports[`Services component renders services page 1`] = `
         </EuiFlexItem>
         <EuiFlexItem
           grow={false}
+          style={
+            Object {
+              "maxWidth": "40vw",
+            }
+          }
         >
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
+            style={
+              Object {
+                "maxWidth": "40vw",
+              }
+            }
           >
             <EuiSuperDatePicker
               commonlyUsedRanges={
@@ -1359,7 +1389,7 @@ exports[`Services component renders services page 1`] = `
                   },
                 ]
               }
-              dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+              dateFormat=""
               end="now"
               isAutoRefreshOnly={false}
               isDisabled={false}
@@ -1433,7 +1463,7 @@ exports[`Services component renders services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1494,7 +1524,7 @@ exports[`Services component renders services page 1`] = `
                                 },
                               ]
                             }
-                            dateFormat="MMM D, YYYY @ HH:mm:ss.SSS"
+                            dateFormat=""
                             end="now"
                             isAutoRefreshOnly={false}
                             isDisabled={false}
@@ -1796,6 +1826,7 @@ exports[`Services component renders services page 1`] = `
       />
     </EuiSpacer>
     <Filters
+      appConfigs={Array []}
       filters={Array []}
       page="services"
       setFilters={
@@ -2020,6 +2051,7 @@ exports[`Services component renders services page 1`] = `
     indicesExist={true}
     items={Array []}
     loading={false}
+    page="services"
     refresh={[Function]}
     serviceQuery=""
     setRedirect={[Function]}

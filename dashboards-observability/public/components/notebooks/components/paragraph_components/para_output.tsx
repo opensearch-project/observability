@@ -7,7 +7,10 @@ import { EuiCodeBlock, EuiSpacer, EuiText } from '@elastic/eui';
 import MarkdownRender from '@nteract/markdown';
 import { Media } from '@nteract/outputs';
 import moment from 'moment';
+import { VisualizationContainer } from '../../../../components/custom_panels/panel_modules/visualization_container';
+import PPLService from '../../../../services/requests/ppl';
 import React, { useState } from 'react';
+import { CoreStart } from '../../../../../../../src/core/public';
 import {
   DashboardContainerInput,
   DashboardStart,
@@ -26,6 +29,8 @@ import { QueryDataGridMemo } from './para_query_grid';
  * https://components.nteract.io/#outputs
  */
 export const ParaOutput = (props: {
+  http: CoreStart['http'];
+  pplService: PPLService;
   para: ParaType;
   visInput: DashboardContainerInput;
   setVisInput: (input: DashboardContainerInput) => void;
@@ -70,6 +75,7 @@ export const ParaOutput = (props: {
      * Currently supports HTML, TABLE, IMG
      * TODO: add table rendering
      */
+    const dateFormat = uiSettingsService.get('dateFormat');
 
     if (typeOut !== undefined) {
       switch (typeOut) {
@@ -106,7 +112,6 @@ export const ParaOutput = (props: {
             </EuiText>
           );
         case 'VISUALIZATION':
-          const dateFormat = uiSettingsService.get('dateFormat');
           let from = moment(visInput?.timeRange?.from).format(dateFormat);
           let to = moment(visInput?.timeRange?.to).format(dateFormat);
           from = from === 'Invalid date' ? visInput.timeRange.from : from;
@@ -121,6 +126,32 @@ export const ParaOutput = (props: {
                 input={visInput}
                 onInputUpdated={setVisInput}
               />
+            </>
+          );
+        case 'OBSERVABILITY_VISUALIZATION':
+          let fromObs = moment(visInput?.timeRange?.from).format(dateFormat);
+          let toObs = moment(visInput?.timeRange?.to).format(dateFormat);
+          fromObs = fromObs === 'Invalid date' ? visInput.timeRange.from : fromObs;
+          toObs = toObs === 'Invalid date' ? visInput.timeRange.to : toObs;
+          return (
+            <>
+              <EuiText size="s" style={{ marginLeft: 9 }}>
+                {`${fromObs} - ${toObs}`}
+              </EuiText>
+              <div style={{ height: '300px', width: '100%' }}>
+                <VisualizationContainer
+                  http={props.http}
+                  editMode={false}
+                  visualizationId={''}
+                  savedVisualizationId={para.visSavedObjId}
+                  pplService={props.pplService}
+                  fromTime={para.visStartTime}
+                  toTime={para.visEndTime}
+                  onRefresh={false}
+                  pplFilterValue={''}
+                  usedInNotebooks={true}
+                />
+              </div>
             </>
           );
         case 'HTML':
@@ -144,14 +175,11 @@ export const ParaOutput = (props: {
 
   const { para, DashboardContainerByValueRenderer, visInput, setVisInput } = props;
 
-  return (
-    !para.isOutputHidden ? (
-      <>
-        {para.typeOut.map((typeOut: string, tIdx: number) => {
-          return outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx])
-        }
-        )}
-      </>
-    ) : null
-  );
+  return !para.isOutputHidden ? (
+    <>
+      {para.typeOut.map((typeOut: string, tIdx: number) => {
+        return outputBody(para.uniqueId + '_paraOutputBody', typeOut, para.out[tIdx]);
+      })}
+    </>
+  ) : null;
 };

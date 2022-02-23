@@ -16,7 +16,7 @@ import {
   EuiPopoverTitle,
   EuiTextColor,
 } from '@elastic/eui';
-import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FilterEditPopover } from './filter_edit_popover';
 import { getFilterFields, getValidFilterFields } from './filter_helpers';
 
@@ -32,11 +32,12 @@ export interface FilterType {
 
 export interface FiltersProps {
   filters: FilterType[];
+  appConfigs: FilterType[];
   setFilters: (filters: FilterType[]) => void;
 }
 
 interface FiltersOwnProps extends FiltersProps {
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Filters(props: FiltersOwnProps) {

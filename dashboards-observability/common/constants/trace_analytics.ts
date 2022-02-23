@@ -11,7 +11,7 @@ export const SERVICE_MAP_MAX_NODES = 500;
 // size limit when requesting edge related queries, not necessarily the number of edges
 export const SERVICE_MAP_MAX_EDGES = 1000;
 export const TRACES_MAX_NUM = 3000;
-export const TRACE_ANALYTICS_DOCUMENTATION_LINK = 'https://opensearch.org/docs/latest/observability-plugins/trace/index/';
+export const TRACE_ANALYTICS_DOCUMENTATION_LINK = 'https://opensearch.org/docs/latest/observability/trace/index/';
 
 export const TRACE_ANALYTICS_INDICES_ROUTE = '/api/observability/trace_analytics/indices';
 export const TRACE_ANALYTICS_DSL_ROUTE = '/api/observability/trace_analytics/query';

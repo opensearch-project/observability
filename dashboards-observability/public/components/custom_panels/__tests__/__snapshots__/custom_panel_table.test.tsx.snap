@@ -156,16 +156,16 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                 <div
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using Piped Processing Language queries.
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
                                    
                                   <EuiLink
                                     external={true}
-                                    href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                    href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                     target="blank"
                                   >
                                     <a
                                       className="euiLink euiLink--primary"
-                                      href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                      href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                       rel="noreferrer"
                                       target="blank"
                                     >
@@ -372,7 +372,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Create New Panel
+                                              Create panel
                                             </span>
                                           </span>
                                         </EuiButtonContent>
@@ -499,7 +499,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     <span
                                       className="euiButton__text"
                                     >
-                                      Create new panel
+                                      Create panel
                                     </span>
                                   </span>
                                 </EuiButtonContent>
@@ -759,16 +759,16 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                 <div
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using Piped Processing Language queries.
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
                                    
                                   <EuiLink
                                     external={true}
-                                    href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                    href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                     target="blank"
                                   >
                                     <a
                                       className="euiLink euiLink--primary"
-                                      href="https://opensearch.org/docs/latest/observability-plugins/operational-panels/"
+                                      href="https://opensearch.org/docs/latest/observability/operational-panels/"
                                       rel="noreferrer"
                                       target="blank"
                                     >
@@ -982,7 +982,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Create New Panel
+                                              Create panel
                                             </span>
                                           </span>
                                         </EuiButtonContent>

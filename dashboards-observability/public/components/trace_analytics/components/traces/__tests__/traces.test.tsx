@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Traces } from '..';
 import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
@@ -27,12 +26,14 @@ describe('Traces component', () => {
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={false}
+        page="traces"
       />
     );
 
@@ -53,12 +54,14 @@ describe('Traces component', () => {
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={true}
+        page="traces"
       />
     );
 

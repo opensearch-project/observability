@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiDataGrid, EuiDataGridColumn, EuiLink, EuiText } from '@elastic/eui';
 import _ from 'lodash';
@@ -103,8 +104,8 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
   );
 
   const renderCellValue = useMemo(() => {
-    return ({ rowIndex, columnId }) => {
-      let adjustedRowIndex = rowIndex - tableParams.page * tableParams.size;
+    return ({ rowIndex, columnId }: { rowIndex: number; columnId: string }) => {
+      const adjustedRowIndex = rowIndex - tableParams.page * tableParams.size;
       if (!items.hasOwnProperty(adjustedRowIndex)) return '-';
       const value = items[adjustedRowIndex][columnId];
       if (value == null || value === '') return '-';
@@ -142,10 +143,12 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
   );
 
   const onChangeItemsPerPage = useCallback((size) => setTableParams({ ...tableParams, size }), [
-    tableParams, setTableParams,
+    tableParams,
+    setTableParams,
   ]);
   const onChangePage = useCallback((page) => setTableParams({ ...tableParams, page }), [
-    tableParams, setTableParams,
+    tableParams,
+    setTableParams,
   ]);
 
   return (
@@ -161,8 +164,8 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
           pageIndex: tableParams.page,
           pageSize: tableParams.size,
           pageSizeOptions: [10, 50, 100],
-          onChangeItemsPerPage: onChangeItemsPerPage,
-          onChangePage: onChangePage,
+          onChangeItemsPerPage,
+          onChangePage,
         }}
       />
       {total === 0 && <NoMatchMessage size="xl" />}

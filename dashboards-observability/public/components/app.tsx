@@ -11,6 +11,7 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
+import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
@@ -51,6 +52,24 @@ export const App = ({
           <>
             <Switch>
               <Route
+                path={'/application_analytics'}
+                render={(props) => {
+                  return (
+                    <ApplicationAnalyticsHome
+                    {...props}
+                    chrome={chrome}
+                    http={http}
+                    notifications={notifications}
+                    parentBreadcrumb={parentBreadcrumb}
+                    pplService={pplService}
+                    dslService={dslService}
+                    savedObjects={savedObjects}
+                    timestampUtils={timestampUtils}
+                  />
+                  )
+                }}
+              />
+              <Route
                 path="/notebooks"
                 render={(props) => (
                   <NotebooksHome
@@ -59,6 +78,7 @@ export const App = ({
                       DepsStart.dashboard.DashboardContainerByValueRenderer
                     }
                     http={http}
+                    pplService={pplService}
                     setBreadcrumbs={chrome.setBreadcrumbs}
                     parentBreadcrumb={parentBreadcrumb}
                     notifications={notifications}
@@ -108,7 +128,7 @@ export const App = ({
                     />
                   );
                 }}
-              />
+              />  
             </Switch>
           </>
         </I18nProvider>

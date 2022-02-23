@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ParaType } from "../../../../../common/types/notebooks";
+import { ParaType } from '../../../../../common/types/notebooks';
 
 // Get the type of output and result in a default notebook paragraph
 // Param: Default Backend Paragraph
@@ -45,7 +45,7 @@ const parseInputType = (paraObject: any) => {
 // Param: Default Backend Paragraph
 const parseVisualization = (paraObject: any) => {
   try {
-    if (paraObject.input.inputType === 'VISUALIZATION') {
+    if (paraObject.input.inputType.includes('VISUALIZATION')) {
       let vizContent = paraObject.input.inputText;
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - 30);
@@ -55,7 +55,7 @@ const parseVisualization = (paraObject: any) => {
       if (vizContent !== '') {
         const { panels, timeRange } = JSON.parse(vizContent);
         visStartTime = timeRange.from;
-        visEndTime = timeRange.to
+        visEndTime = timeRange.to;
         visSavedObjId = panels['1'].explicitInput.savedObjectId;
       }
       return {

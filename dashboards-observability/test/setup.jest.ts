@@ -10,6 +10,25 @@ configure({ testIdAttribute: 'data-test-subj' });
 
 window.URL.createObjectURL = () => '';
 HTMLCanvasElement.prototype.getContext = () => '';
+window.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+
+  disconnect() {
+    return null;
+  }
+
+  observe() {
+    return null;
+  }
+
+  takeRecords() {
+    return null;
+  }
+
+  unobserve() {
+    return null;
+  }
+};
 
 jest.mock('@elastic/eui/lib/components/form/form_row/make_id', () => () => 'random-id');
 
@@ -18,3 +37,5 @@ jest.mock('@elastic/eui/lib/services/accessibility/html_id_generator', () => ({
     return () => 'random_html_id';
   },
 }));
+
+jest.setTimeout(30000);

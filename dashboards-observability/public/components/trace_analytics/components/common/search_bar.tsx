@@ -11,9 +11,9 @@ import {
   EuiSpacer,
   EuiSuperDatePicker,
 } from '@elastic/eui';
-import { uiSettingsService } from '../../../../../common/utils';
 import _ from 'lodash';
 import React, { useState } from 'react';
+import { uiSettingsService } from '../../../../../common/utils';
 import { Filters, FiltersProps } from './filters/filters';
 
 export const renderDatePicker = (
@@ -47,7 +47,7 @@ export interface SearchBarProps extends FiltersProps {
 
 interface SearchBarOwnProps extends SearchBarProps {
   refresh: () => void;
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
   datepickerOnly?: boolean;
 }
 
@@ -93,7 +93,12 @@ export function SearchBar(props: SearchBarOwnProps) {
       {!props.datepickerOnly && (
         <>
           <EuiSpacer size="s" />
-          <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />
+          <Filters
+            page={props.page}
+            filters={props.filters}
+            setFilters={props.setFilters}
+            appConfigs={props.appConfigs}
+          />
         </>
       )}
     </>

@@ -2,10 +2,12 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import _ from 'lodash';
 import moment from 'moment';
 import { v1 as uuid } from 'uuid';
+import { HttpSetup } from '../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../common/constants/trace_analytics';
 import { nanoToMilliSec } from '../components/common/helper_functions';
 import { SpanSearchParams } from '../components/traces/span_detail_table';
@@ -17,17 +19,24 @@ import {
   getSpansQuery,
   getTraceGroupPercentilesQuery,
   getTracesQuery,
-  getValidTraceIdsQuery
+  getValidTraceIdsQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
 
-export const handleValidTraceIds = (http, DSL) => {
+export const handleValidTraceIds = (http: HttpSetup, DSL: any) => {
   return handleDslRequest(http, {}, getValidTraceIdsQuery(DSL))
-    .then((response) => response.aggregations.traces.buckets.map((bucket) => bucket.key))
+    .then((response) => response.aggregations.traces.buckets.map((bucket: any) => bucket.key))
     .catch((error) => console.error(error));
 };
 
-export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setItems, sort?) => {
+export const handleTracesRequest = async (
+  http: HttpSetup,
+  DSL: any,
+  timeFilterDSL: any,
+  items: any,
+  setItems: (items: any) => void,
+  sort?: any
+) => {
   const binarySearch = (arr: number[], target: number) => {
     if (!arr) return Number.NaN;
     let low = 0;
@@ -48,8 +57,8 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     getTraceGroupPercentilesQuery()
   ).then((response) => {
     const map: any = {};
-    response.aggregations.trace_group_name.buckets.forEach((traceGroup) => {
-      map[traceGroup.key] = Object.values(traceGroup.percentiles.values).map((value: number) =>
+    response.aggregations.trace_group_name.buckets.forEach((traceGroup: any) => {
+      map[traceGroup.key] = Object.values(traceGroup.percentiles.values).map((value: any) =>
         nanoToMilliSec(value)
       );
     });
@@ -59,7 +68,7 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
   return handleDslRequest(http, DSL, getTracesQuery(undefined, sort))
     .then((response) => {
       return Promise.all(
-        response.aggregations.traces.buckets.map((bucket) => {
+        response.aggregations.traces.buckets.map((bucket: any) => {
           return {
             trace_id: bucket.key,
             trace_group: bucket.trace_group.buckets[0]?.key,
@@ -81,7 +90,12 @@ export const handleTracesRequest = async (http, DSL, timeFilterDSL, items, setIt
     .catch((error) => console.error(error));
 };
 
-export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
+export const handleTraceViewRequest = (
+  traceId: string,
+  http: HttpSetup,
+  fields: {},
+  setFields: (fields: any) => void
+) => {
   handleDslRequest(http, null, getTracesQuery(traceId))
     .then(async (response) => {
       const bucket = response.aggregations.traces.buckets[0];
@@ -105,10 +119,10 @@ export const handleTraceViewRequest = (traceId, http, fields, setFields) => {
 
 // setColorMap sets serviceName to color mappings
 export const handleServicesPieChartRequest = async (
-  traceId,
-  http,
-  setServiceBreakdownData,
-  setColorMap
+  traceId: string,
+  http: HttpSetup,
+  setServiceBreakdownData: (serviceBreakdownData: any) => void,
+  setColorMap: (colorMap: any) => void
 ) => {
   const colors = [
     '#7492e7',
@@ -124,12 +138,12 @@ export const handleServicesPieChartRequest = async (
     '#a783e1',
     '#5978e3',
   ];
-  const colorMap = {};
+  const colorMap: any = {};
   let index = 0;
   await handleDslRequest(http, null, getServiceBreakdownQuery(traceId))
     .then((response) =>
       Promise.all(
-        response.aggregations.service_type.buckets.map((bucket) => {
+        response.aggregations.service_type.buckets.map((bucket: any) => {
           colorMap[bucket.key] = colors[index++ % colors.length];
           return {
             name: bucket.key,
@@ -166,11 +180,11 @@ export const handleServicesPieChartRequest = async (
 };
 
 export const handleSpansGanttRequest = (
-  traceId,
-  http,
-  setSpanDetailData,
-  colorMap,
-  spanFiltersDSL
+  traceId: string,
+  http: HttpSetup,
+  setSpanDetailData: (spanDetailData: any) => void,
+  colorMap: any,
+  spanFiltersDSL: any
 ) => {
   handleDslRequest(http, spanFiltersDSL, getSpanDetailQuery(traceId))
     .then((response) => hitsToSpanDetailData(response.hits.hits, colorMap))
@@ -178,7 +192,11 @@ export const handleSpansGanttRequest = (
     .catch((error) => console.error(error));
 };
 
-export const handleSpansFlyoutRequest = (http, spanId, setItems) => {
+export const handleSpansFlyoutRequest = (
+  http: HttpSetup,
+  spanId: string,
+  setItems: (items: any) => void
+) => {
   handleDslRequest(http, null, getSpanFlyoutQuery(spanId))
     .then((response) => {
       setItems(response?.hits.hits?.[0]?._source);
@@ -186,14 +204,18 @@ export const handleSpansFlyoutRequest = (http, spanId, setItems) => {
     .catch((error) => console.error(error));
 };
 
-const hitsToSpanDetailData = async (hits, colorMap) => {
-  const data = { gantt: [], table: [], ganttMaxX: 0 };
+const hitsToSpanDetailData = async (hits: any, colorMap: any) => {
+  const data: { gantt: any[]; table: any[]; ganttMaxX: number } = {
+    gantt: [],
+    table: [],
+    ganttMaxX: 0,
+  };
   if (hits.length === 0) return data;
 
   const minStartTime = nanoToMilliSec(hits[hits.length - 1].sort[0]);
   let maxEndTime = 0;
 
-  hits.forEach((hit) => {
+  hits.forEach((hit: any) => {
     const startTime = nanoToMilliSec(hit.sort[0]) - minStartTime;
     const duration = _.round(nanoToMilliSec(hit._source.durationInNanos), 2);
     const serviceName = _.get(hit, ['_source', 'serviceName']);
@@ -247,22 +269,27 @@ const hitsToSpanDetailData = async (hits, colorMap) => {
   return data;
 };
 
-export const handlePayloadRequest = (traceId, http, payloadData, setPayloadData) => {
+export const handlePayloadRequest = (
+  traceId: string,
+  http: HttpSetup,
+  payloadData: any,
+  setPayloadData: (payloadData: any) => void
+) => {
   handleDslRequest(http, null, getPayloadQuery(traceId))
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
     .catch((error) => console.error(error));
 };
 
 export const handleSpansRequest = (
-  http,
-  setItems,
-  setTotal,
+  http: HttpSetup,
+  setItems: (items: any) => void,
+  setTotal: (total: number) => void,
   spanSearchParams: SpanSearchParams,
-  DSL,
+  DSL: any
 ) => {
   handleDslRequest(http, DSL, getSpansQuery(spanSearchParams))
     .then((response) => {
-      setItems(response.hits.hits.map((hit) => hit._source));
+      setItems(response.hits.hits.map((hit: any) => hit._source));
       setTotal(response.hits.total?.value || 0);
     })
     .catch((error) => console.error(error));

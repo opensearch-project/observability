@@ -256,7 +256,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
             "timestamp": "2021-05-24 00:00:00",
           }
         }
-        key="doc_view8"
+        key="doc_view11"
         selectedCols={
           Array [
             Object {
@@ -356,7 +356,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
             "timestamp": "2021-05-24 18:27:00",
           }
         }
-        key="doc_view9"
+        key="doc_view12"
         selectedCols={
           Array [
             Object {
@@ -426,5 +426,6 @@ exports[`Datagrid component Renders data grid component 1`] = `
       </DocViewRow>
     </tbody>
   </table>
+  <div />
 </DataGrid>
 `;

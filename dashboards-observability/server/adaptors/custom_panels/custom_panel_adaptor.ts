@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import { CustomPanelListType, PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -71,7 +71,9 @@ export class CustomPanelsAdaptor {
         objectType: 'operationalPanel',
         maxItems: 10000,
       });
-      return response.observabilityObjectList.map((panel: any) => ({
+      return response.observabilityObjectList
+        .filter((panel: any) => !panel.operationalPanel.applicationId)
+        .map((panel: any) => ({
         name: panel.operationalPanel.name,
         id: panel.objectId,
         dateCreated: panel.createdTimeMs,
@@ -107,8 +109,8 @@ export class CustomPanelsAdaptor {
   };
 
   // Create a new Panel
-  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string) => {
-    const panelBody = {
+  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
+    const panelBody: PanelType = {
       name: panelName,
       visualizations: [],
       timeRange: {
@@ -120,12 +122,19 @@ export class CustomPanelsAdaptor {
         language: 'ppl',
       },
     };
+    if (appId) {
+      panelBody.applicationId = appId;
+      panelBody.timeRange = {
+        to: 'now',
+        from: 'now-24h',
+      };
+    }
 
     try {
       const response = await this.indexPanel(client, panelBody);
       return response.objectId;
     } catch (error) {
-      throw new Error('Create New Panel Error:' + error);
+      throw new Error('Create Panel Error:' + error);
     }
   };
 
@@ -200,13 +209,17 @@ export class CustomPanelsAdaptor {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'savedVisualization',
       });
-      return response.observabilityObjectList.map((visualization: any) => ({
-        id: visualization.objectId,
-        name: visualization.savedVisualization.name,
-        query: visualization.savedVisualization.query,
-        type: visualization.savedVisualization.type,
-        timeField: visualization.savedVisualization.selected_timestamp.name,
-      }));
+      return response.observabilityObjectList
+        .filter((visualization: any) => {
+          return !!!visualization.savedVisualization.application_id;
+        })
+        .map((visualization: any) => ({
+          id: visualization.objectId,
+          name: visualization.savedVisualization.name,
+          query: visualization.savedVisualization.query,
+          type: visualization.savedVisualization.type,
+          timeField: visualization.savedVisualization.selected_timestamp.name,
+        }));
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
     }
@@ -235,7 +248,6 @@ export class CustomPanelsAdaptor {
   };
 
   //Get All Visualizations from a Panel
-  //Add Visualization
   getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {
@@ -397,7 +409,7 @@ export class CustomPanelsAdaptor {
       };
       return [fetchResponse];
     } catch (error) {
-      throw new Error('Create New Panel Error:' + error);
+      throw new Error('Create Panel Error:' + error);
     }
   };
 }

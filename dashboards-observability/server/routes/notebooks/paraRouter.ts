@@ -30,6 +30,7 @@ export function registerParaRoute(router: IRouter) {
           noteId: schema.string(),
           paragraphId: schema.string(),
           paragraphInput: schema.string(),
+          paragraphType: schema.string(),
         }),
       },
     },

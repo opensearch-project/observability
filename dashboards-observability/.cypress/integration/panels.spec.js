@@ -86,7 +86,7 @@ describe('Testing panels table', () => {
   });
 
   it('Displays error toast for invalid panel name', () => {
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('.euiButton__text')
       .contains(/^Create$/)
@@ -97,7 +97,7 @@ describe('Testing panels table', () => {
   });
 
   it('Creates a panel and redirects to the panel', () => {
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_PANEL);
     cy.get('.euiButton__text')
@@ -164,7 +164,7 @@ describe('Testing panels table', () => {
     cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
 
     // keep a panel for testing
-    cy.get('.euiButton__text').contains('Create new panel').click();
+    cy.get('.euiButton__text').contains('Create panel').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').type(TEST_PANEL);
     cy.get('.euiButton__text')
@@ -414,7 +414,7 @@ describe('Add samples and clean up all test data', () => {
 
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
-    cy.get('.euiButtonEmpty__text').contains('Rows per page: 10').click();
+    cy.get('span.euiButtonEmpty__text').contains('Rows per page: 10').click();
     cy.get('.euiContextMenuItem__text').contains('50 rows').click();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
     cy.wait(delay);

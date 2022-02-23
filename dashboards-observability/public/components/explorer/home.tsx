@@ -31,17 +31,21 @@ import {
   EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
-import { 
+import {
   RAW_QUERY,
   TAB_ID_TXT_PFX,
   SELECTED_DATE_RANGE,
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_CREATED_TYPE,
   NEW_TAB,
-  REDIRECT_TAB
+  REDIRECT_TAB,
 } from '../../../common/constants/explorer';
-import { OBSERVABILITY_BASE, EVENT_ANALYTICS, SAVED_OBJECTS } from '../../../common/constants/shared';
-import { EmptyTabParams } from '../../../common/types/explorer';
+import {
+  OBSERVABILITY_BASE,
+  EVENT_ANALYTICS,
+  SAVED_OBJECTS,
+} from '../../../common/constants/shared';
+import { EmptyTabParams, SavedQueryRes, SavedVizRes } from '../../../common/types/explorer';
 import { HttpStart } from '../../../../../src/core/public';
 import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 import { addTab, selectQueryTabs } from './slices/query_tab_slice';
@@ -54,6 +58,7 @@ import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
+import { getFullSuggestions, onItemSelect } from '../common/search/autocomplete_logic';
 
 interface IHomeProps {
   pplService: any;
@@ -76,7 +81,7 @@ export const Home = (props: IHomeProps) => {
 
   const queries = useSelector(selectQueries);
   const explorerData = useSelector(selectQueryResult);
-  const tabIds = useSelector(selectQueryTabs)['queryTabIds'];
+  const tabIds = useSelector(selectQueryTabs).queryTabIds;
   const queryRef = useRef();
   const tabIdsRef = useRef();
   const explorerDataRef = useRef();
@@ -85,12 +90,12 @@ export const Home = (props: IHomeProps) => {
   explorerDataRef.current = explorerData;
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>(['now-15m', 'now']);
-  const [savedHistories, setSavedHistories] = useState([]);
-  const [selectedHisotries, setSelectedHisotries] = useState([]);
+  const [selectedDateRange, setSelectedDateRange] = useState<string[]>(['now-15m', 'now']);
+  const [savedHistories, setSavedHistories] = useState<any[]>([]);
+  const [selectedHistories, setSelectedHistories] = useState<any[]>([]);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const selectedDateRangeRef = useRef();
   selectedDateRangeRef.current = selectedDateRange;
@@ -109,11 +114,16 @@ export const Home = (props: IHomeProps) => {
       sortOrder: 'desc',
       fromIndex: 0,
     });
-    setSavedHistories(res['observabilityObjectList']);
+    const nonAppObjects = res.observabilityObjectList.filter(
+      (object: SavedQueryRes | SavedVizRes) =>
+        (object.savedVisualization && !object.savedVisualization.application_id) ||
+        object.savedQuery
+    );
+    setSavedHistories(nonAppObjects);
   };
 
   const deleteHistoryList = async () => {
-    const objectIdsToDelete = selectedHisotries.map((history) => history.data.objectId);
+    const objectIdsToDelete = selectedHistories.map((history) => history.data.objectId);
     await savedObjects
       .deleteSavedObjectsList({ objectIdList: objectIdsToDelete })
       .then(async (res) => {
@@ -133,15 +143,15 @@ export const Home = (props: IHomeProps) => {
   };
 
   const addNewTab = async () => {
-    //get a new tabId
+    // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
     // create a new tab
     await batch(() => {
-      dispatch(initQuery({ tabId, }));
-      dispatch(initQueryResult({ tabId, }));
-      dispatch(initFields({ tabId, }));
-      dispatch(addTab({ tabId, }));
+      dispatch(initQuery({ tabId }));
+      dispatch(initQueryResult({ tabId }));
+      dispatch(initFields({ tabId }));
+      dispatch(addTab({ tabId }));
     });
 
     return tabId;
@@ -153,18 +163,20 @@ export const Home = (props: IHomeProps) => {
 
   const dispatchInitialData = (tabId: string) => {
     batch(() => {
-      dispatch(changeQuery({
-        tabId,
-        query: {
-          [RAW_QUERY]: searchQuery,
-          [SELECTED_DATE_RANGE]: selectedDateRangeRef.current,
-          [TAB_CREATED_TYPE]: NEW_TAB
-        }
-      }));
+      dispatch(
+        changeQuery({
+          tabId,
+          query: {
+            [RAW_QUERY]: searchQuery,
+            [SELECTED_DATE_RANGE]: selectedDateRangeRef.current,
+            [TAB_CREATED_TYPE]: NEW_TAB,
+          },
+        })
+      );
       dispatch(setSelectedQueryTab({ tabId }));
     });
   };
-  
+
   const handleQuerySearch = async () => {
     const emptyTabId = getExistingEmptyTab({
       tabIds: tabIdsRef.current,
@@ -182,23 +194,24 @@ export const Home = (props: IHomeProps) => {
 
   const handleQueryChange = async (query: string) => setSearchQuery(query);
 
-  const handleTimePickerChange = async (timeRange: Array<string>) =>
-    setSelectedDateRange(timeRange);
+  const handleTimePickerChange = async (timeRange: string[]) => setSelectedDateRange(timeRange);
 
   const handleHistoryClick = async (objectId: string) => {
     const emptyTabId = getExistingEmptyTab({
       tabIds: tabIdsRef.current,
       queries: queryRef.current,
-      explorerData: explorerDataRef.current
+      explorerData: explorerDataRef.current,
     });
     const newTabId = emptyTabId ? emptyTabId : await addNewTab();
     batch(() => {
-      dispatch(changeQuery({
-        tabId: newTabId,
-        query: {
-          [TAB_CREATED_TYPE]: REDIRECT_TAB
-        }
-      }));
+      dispatch(
+        changeQuery({
+          tabId: newTabId,
+          query: {
+            [TAB_CREATED_TYPE]: REDIRECT_TAB,
+          },
+        })
+      );
       dispatch(setSelectedQueryTab({ tabId: newTabId }));
     });
     // redirect to explorer
@@ -260,11 +273,11 @@ export const Home = (props: IHomeProps) => {
             fromIndex: 0,
           });
           setSavedHistories((staleHistoryList) => {
-            return [...res['observabilityObjectList'], ...staleHistoryList];
+            return [...res.observabilityObjectList, ...staleHistoryList];
           });
         });
       setToast(`Sample events added successfully.`);
-    } catch (error) {
+    } catch (error: any) {
       setToast(`Cannot add sample events data, error: ${error}`, 'danger');
       console.error(error.body.message);
     } finally {
@@ -284,13 +297,13 @@ export const Home = (props: IHomeProps) => {
   );
 
   const deleteHistory = () => {
-    const customPanelString = `${selectedHisotries.length > 1 ? 'histories' : 'history'}`;
+    const customPanelString = `${selectedHistories.length > 1 ? 'histories' : 'history'}`;
     setModalLayout(
       <DeletePanelModal
         onConfirm={deleteHistoryList}
         onCancel={closeModal}
-        title={`Delete ${selectedHisotries.length} ${customPanelString}`}
-        message={`Are you sure you want to delete the selected ${selectedHisotries.length} ${customPanelString}?`}
+        title={`Delete ${selectedHistories.length} ${customPanelString}`}
+        message={`Are you sure you want to delete the selected ${selectedHistories.length} ${customPanelString}?`}
       />
     );
     showModal();
@@ -299,7 +312,7 @@ export const Home = (props: IHomeProps) => {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="delete"
-      disabled={savedHistories.length === 0 || selectedHisotries.length === 0}
+      disabled={savedHistories.length === 0 || selectedHistories.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
         deleteHistory();
@@ -359,6 +372,8 @@ export const Home = (props: IHomeProps) => {
                   setEndTime={() => {}}
                   showSaveButton={false}
                   runButtonText="New Query"
+                  getSuggestions={getFullSuggestions}
+                  onItemSelect={onItemSelect}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -408,8 +423,8 @@ export const Home = (props: IHomeProps) => {
                     savedHistories={savedHistories}
                     handleHistoryClick={handleHistoryClick}
                     isTableLoading={isTableLoading}
-                    handleSelectHistory={setSelectedHisotries}
-                    selectedHisotries={selectedHisotries}
+                    handleSelectHistory={setSelectedHistories}
+                    selectedHistories={selectedHistories}
                   />
                 ) : (
                   <>
@@ -435,7 +450,7 @@ export const Home = (props: IHomeProps) => {
                         </EuiButton>
                       </EuiFlexItem>
                       <EuiFlexItem grow={false}>
-                        <EuiButton 
+                        <EuiButton
                           fullWidth={false}
                           onClick={() => addSampledata()}
                           data-test-subj="actionAddSamples"

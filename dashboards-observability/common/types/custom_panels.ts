@@ -8,6 +8,7 @@ export type CustomPanelListType = {
   id: string;
   dateCreated: number;
   dateModified: number;
+  applicationId?: string;
 };
 
 export type VisualizationType = {
@@ -24,6 +25,7 @@ export type PanelType = {
   visualizations: VisualizationType[];
   timeRange: { to: string; from: string };
   queryFilter: { query: string; language: string };
+  applicationId?: string;
 };
 
 export type SavedVisualizationType = {
@@ -32,6 +34,7 @@ export type SavedVisualizationType = {
   query: string;
   type: string;
   timeField: string;
+  application_id?: string;
 };
 
 export type pplResponse = {

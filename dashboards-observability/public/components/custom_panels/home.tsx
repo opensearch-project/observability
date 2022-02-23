@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
+import { EuiBreadcrumb, EuiGlobalToastList, EuiLink, ShortDate } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
@@ -49,6 +49,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [loading, setLoading] = useState(false);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
+  const [start, setStart] = useState<ShortDate>('now-30m');
+  const [end, setEnd] = useState<ShortDate>('now');
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -176,7 +178,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       });
   };
 
-  // Deletes an existing Operational Panel
+  // Deletes multiple existing Operational Panels
   const deleteCustomPanelList = (customPanelIdList: string[], toastMessage: string) => {
     const concatList = customPanelIdList.toString();
     return http
@@ -246,7 +248,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
 
-      let savedVisualizationIds = [];
+      let savedVisualizationIds: Array<string> = [];
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
         .then((resp) => (savedVisualizationIds = [...resp.savedVizIds]));
@@ -315,6 +317,11 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
+              startTime={start}
+              endTime={end}
+              setStartTime={setStart}
+              setEndTime={setEnd}
+              page="operationalPanels"
             />
           );
         }}
