@@ -20,7 +20,7 @@ export const ConfigText = ({ visualizations, schemas, vizState, handleConfigChan
   );
 
   return (
-    <EuiAccordion id="configPanel__textOptions" buttonContent="Text" paddingSize="s">
+    <EuiAccordion initialIsOpen id="configPanel__textOptions" buttonContent="Text" paddingSize="s">
       <EuiMarkdownEditor
         aria-label="EUI markdown editor demo"
         placeholder="Your markdown here..."

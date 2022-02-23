@@ -49,7 +49,12 @@ export const ConfigChartOptions = ({
   }, [schemas, fields, vizState, handleConfigurationChange]);
 
   return (
-    <EuiAccordion id="configPanel__chartOptions" buttonContent="Chart options" paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id="configPanel__chartOptions"
+      buttonContent="Chart options"
+      paddingSize="s"
+    >
       {dimensions}
     </EuiAccordion>
   );

@@ -68,7 +68,12 @@ export const ConfigGaugeValueOptions = ({
   }, [schemas, fields, vizState, handleConfigurationChange]);
 
   return (
-    <EuiAccordion id={`configPanel__${sectionName}`} buttonContent={sectionName} paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id={`configPanel__${sectionName}`}
+      buttonContent={sectionName}
+      paddingSize="s"
+    >
       {dimensions}
     </EuiAccordion>
   );

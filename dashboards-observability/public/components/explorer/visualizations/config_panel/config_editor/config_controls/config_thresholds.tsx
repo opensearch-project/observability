@@ -67,7 +67,12 @@ export const ConfigThresholds = ({
   );
 
   return (
-    <EuiAccordion id={`configPanel__${sectionName}`} buttonContent={sectionName} paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id={`configPanel__${sectionName}`}
+      buttonContent={sectionName}
+      paddingSize="s"
+    >
       <EuiButton fullWidth size="s" onClick={handleAddThreshold}>
         + Add threadshold
       </EuiButton>

@@ -8,7 +8,12 @@ import { EuiAccordion } from '@elastic/eui';
 
 export const ConfigVisualizationSelector = ({ children }: any) => {
   return (
-    <EuiAccordion id="configPanel__valueOptions" buttonContent="Value options" paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id="configPanel__valueOptions"
+      buttonContent="Value options"
+      paddingSize="s"
+    >
       {children}
     </EuiAccordion>
   );

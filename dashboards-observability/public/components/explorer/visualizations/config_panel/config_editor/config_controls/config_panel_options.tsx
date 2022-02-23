@@ -24,7 +24,12 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
   );
 
   return (
-    <EuiAccordion id="configPanel__panelOptions" buttonContent="Panel options" paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id="configPanel__panelOptions"
+      buttonContent="Panel options"
+      paddingSize="s"
+    >
       <EuiForm component="form">
         <EuiFormRow fullWidth label="Title" helpText={`${helpText}`}>
           <EuiFieldText
