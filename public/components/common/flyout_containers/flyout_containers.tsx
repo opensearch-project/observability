@@ -22,6 +22,7 @@ type Props = {
   flyoutBody: JSX.Element;
   flyoutFooter: JSX.Element;
   ariaLabel: string;
+  size?: string;
 };
 
 export const FlyoutContainers = ({
@@ -30,10 +31,17 @@ export const FlyoutContainers = ({
   flyoutBody,
   flyoutFooter,
   ariaLabel,
+  size,
 }: Props) => {
   return (
     <div>
-      <EuiFlyout ownFocus={false} onClose={() => closeFlyout()} aria-labelledby={ariaLabel}>
+      <EuiFlyout
+        className="observability-flyout"
+        ownFocus={false}
+        onClose={() => closeFlyout()}
+        size={size ? size : 'm'}
+        aria-labelledby={ariaLabel}
+      >
         {flyoutHeader}
         {flyoutBody}
         {flyoutFooter}

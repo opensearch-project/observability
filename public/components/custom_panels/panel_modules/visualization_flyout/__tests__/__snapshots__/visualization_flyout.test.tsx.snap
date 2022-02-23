@@ -87,8 +87,10 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
     <div>
       <EuiFlyout
         aria-labelledby="addVisualizationFlyout"
+        className="observability-flyout"
         onClose={[Function]}
         ownFocus={false}
+        size="m"
       >
         <EuiWindowEvent
           event="keydown"
@@ -209,7 +211,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                           >
                             <div
                               aria-labelledby="addVisualizationFlyout"
-                              class="euiFlyout euiFlyout--medium"
+                              class="euiFlyout euiFlyout--medium observability-flyout"
                               role="dialog"
                               tabindex="0"
                             >
@@ -346,7 +348,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                             >
                               <div
                                 aria-labelledby="addVisualizationFlyout"
-                                class="euiFlyout euiFlyout--medium"
+                                class="euiFlyout euiFlyout--medium observability-flyout"
                                 role="dialog"
                                 tabindex="0"
                               >
@@ -483,7 +485,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                               >
                                 <div
                                   aria-labelledby="addVisualizationFlyout"
-                                  class="euiFlyout euiFlyout--medium"
+                                  class="euiFlyout euiFlyout--medium observability-flyout"
                                   role="dialog"
                                   tabindex="0"
                                 >
@@ -608,7 +610,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                 >
                                   <div
                                     aria-labelledby="addVisualizationFlyout"
-                                    class="euiFlyout euiFlyout--medium"
+                                    class="euiFlyout euiFlyout--medium observability-flyout"
                                     role="dialog"
                                     tabindex="0"
                                   >
@@ -748,7 +750,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                         >
                           <div
                             aria-labelledby="addVisualizationFlyout"
-                            className="euiFlyout euiFlyout--medium"
+                            className="euiFlyout euiFlyout--medium observability-flyout"
                             role="dialog"
                             tabIndex={0}
                           >
@@ -1145,8 +1147,10 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
     <div>
       <EuiFlyout
         aria-labelledby="addVisualizationFlyout"
+        className="observability-flyout"
         onClose={[Function]}
         ownFocus={false}
+        size="m"
       >
         <EuiWindowEvent
           event="keydown"
@@ -1267,7 +1271,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                           >
                             <div
                               aria-labelledby="addVisualizationFlyout"
-                              class="euiFlyout euiFlyout--medium"
+                              class="euiFlyout euiFlyout--medium observability-flyout"
                               role="dialog"
                               tabindex="0"
                             >
@@ -1408,7 +1412,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                             >
                               <div
                                 aria-labelledby="addVisualizationFlyout"
-                                class="euiFlyout euiFlyout--medium"
+                                class="euiFlyout euiFlyout--medium observability-flyout"
                                 role="dialog"
                                 tabindex="0"
                               >
@@ -1549,7 +1553,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                               >
                                 <div
                                   aria-labelledby="addVisualizationFlyout"
-                                  class="euiFlyout euiFlyout--medium"
+                                  class="euiFlyout euiFlyout--medium observability-flyout"
                                   role="dialog"
                                   tabindex="0"
                                 >
@@ -1678,7 +1682,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                 >
                                   <div
                                     aria-labelledby="addVisualizationFlyout"
-                                    class="euiFlyout euiFlyout--medium"
+                                    class="euiFlyout euiFlyout--medium observability-flyout"
                                     role="dialog"
                                     tabindex="0"
                                   >
@@ -1822,7 +1826,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                         >
                           <div
                             aria-labelledby="addVisualizationFlyout"
-                            className="euiFlyout euiFlyout--medium"
+                            className="euiFlyout euiFlyout--medium observability-flyout"
                             role="dialog"
                             tabIndex={0}
                           >
