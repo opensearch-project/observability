@@ -8,19 +8,22 @@ import './data_grid.scss';
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { IExplorerFields } from '../../../common/types/explorer';
 import { DEFAULT_COLUMNS, PAGE_SIZE } from '../../../common/constants/explorer';
-import { getHeaders, getTrs } from './utils';
+import { getHeaders, getTrs, populateDataGrid } from './utils';
 import { HttpSetup } from '../../../../../src/core/public';
+import PPLService from '../../services/requests/ppl';
 
 interface DataGridProps {
   http: HttpSetup;
+  pplService: PPLService;
   rows: Array<any>;
   rowsAll: Array<any>;
   explorerFields: IExplorerFields;
   timeStampField: string;
+  rawQuery: string;
 }
 
 export function DataGrid(props: DataGridProps) {
-  const { http, rows, rowsAll, explorerFields, timeStampField } = props;
+  const { http, pplService, rows, rowsAll, explorerFields, timeStampField, rawQuery } = props;
   const [limit, setLimit] = useState(PAGE_SIZE);
   const loader = useRef<HTMLDivElement>(null);
 
@@ -56,6 +59,8 @@ export function DataGrid(props: DataGridProps) {
         PAGE_SIZE,
         timeStampField,
         explorerFields,
+        pplService,
+        rawQuery,
         rows
       )
     );
@@ -77,6 +82,8 @@ export function DataGrid(props: DataGridProps) {
         PAGE_SIZE,
         timeStampField,
         explorerFields,
+        pplService,
+        rawQuery,
         dataToRender
       )
     );
@@ -92,6 +99,8 @@ export function DataGrid(props: DataGridProps) {
         PAGE_SIZE,
         timeStampField,
         explorerFields,
+        pplService,
+        rawQuery,
         rows,
         prev
       )
@@ -107,6 +116,8 @@ export function DataGrid(props: DataGridProps) {
         PAGE_SIZE,
         timeStampField,
         explorerFields,
+        pplService,
+        rawQuery,
         dataToRender,
         prev
       )
@@ -115,20 +126,7 @@ export function DataGrid(props: DataGridProps) {
 
   return (
     <>
-      {explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 && (
-        <table className="osd-table table" data-test-subj="docTable">
-          <thead>{Queriedheaders}</thead>
-          <tbody>{QueriedtableRows}</tbody>
-        </table>
-      )}
-      {explorerFields?.queriedFields &&
-      explorerFields?.queriedFields?.length > 0 &&
-      explorerFields.selectedFields?.length === 0 ? null : (
-        <table className="osd-table table" data-test-subj="docTable">
-          <thead>{headers}</thead>
-          <tbody>{tableRows}</tbody>
-        </table>
-      )}
+      {populateDataGrid(explorerFields, Queriedheaders, QueriedtableRows, headers, tableRows)}
       <div ref={loader} />
     </>
   );

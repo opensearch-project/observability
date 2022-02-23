@@ -29,7 +29,7 @@ export default class DSLFacet {
       res['data'] = dslDataSource;
     }
     catch (err: any) {
-      console.log(err);
+      console.error(err);
       res['data'] = err.body;
     }
     return res;

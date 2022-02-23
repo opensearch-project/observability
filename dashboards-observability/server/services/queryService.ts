@@ -29,7 +29,7 @@ export default class QueryService {
         },
       };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return {
         data: {
           ok: false,

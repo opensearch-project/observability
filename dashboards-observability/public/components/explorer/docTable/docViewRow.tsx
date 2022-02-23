@@ -6,12 +6,15 @@
 import './docView.scss';
 import React, { useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach } from 'lodash';
-import { EuiIcon, EuiLink } from '@elastic/eui';
+import { EuiCheckbox, EuiFlexItem, EuiIcon, EuiLink } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
 import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
 import { isValidTraceId } from './trace_block/trace_block';
+import { useEffect } from 'react';
+import { SurroundingFlyout } from './surrounding_flyout';
+import PPLService from '../../../services/requests/ppl';
 
 export interface IDocType {
   [key: string]: string;
@@ -23,12 +26,16 @@ interface IDocViewRowProps {
   selectedCols: Array<IField>;
   timeStampField: string;
   explorerFields: IExplorerFields;
+  pplService: PPLService;
+  rawQuery: string;
 }
 
 export const DocViewRow = (props: IDocViewRowProps) => {
-  const { http, doc, selectedCols, timeStampField, explorerFields } = props;
+  const { http, doc, selectedCols, timeStampField, explorerFields, pplService, rawQuery } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
+  const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
+  const [openTraces, setOpenTraces] = useState<boolean>(false);
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
@@ -39,7 +46,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     );
   };
 
-  const getDlTmpl = (conf: { doc: IDocType }) => {
+  const getDlTmpl = (conf: { doc: IDocType }, isFlyout: boolean) => {
     const { doc } = conf;
 
     return (
@@ -53,8 +60,8 @@ export const DocViewRow = (props: IDocViewRowProps) => {
                   <dt>{entry[0]}:</dt>
                   <dd>
                     <span>
-                      {isTraceField && isValidTraceId(entry[1]) ? (
-                        <EuiLink href={`#/trace_analytics/traces/${entry[1]}`}>{entry[1]}</EuiLink>
+                      {isTraceField && isValidTraceId(entry[1]) && !isFlyout ? (
+                        <EuiLink onClick={tracesFlyout}>{entry[1]}</EuiLink>
                       ) : (
                         entry[1]
                       )}
@@ -69,13 +76,23 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     );
   };
 
-  const getDiscoverSourceLikeDOM = (doc: IDocType) => {
-    return getDlTmpl({ doc });
+  const tracesFlyout = () => {
+    setOpenTraces(true);
+    if (!detailsOpen) toggleDetailOpen();
+  };
+
+  const getDiscoverSourceLikeDOM = (doc: IDocType, isFlyout: boolean) => {
+    return getDlTmpl({ doc }, isFlyout);
   };
 
   const toggleDetailOpen = () => {
-    const newState = !detailsOpen;
-    setDetailsOpen(newState);
+    if (surroundingEventsOpen) {
+      setSurroundingEventsOpen(false);
+      setDetailsOpen(false);
+    } else {
+      const newState = !detailsOpen;
+      setDetailsOpen(newState);
+    }
   };
 
   const getExpColapTd = () => {
@@ -87,13 +104,17 @@ export const DocViewRow = (props: IDocViewRowProps) => {
             toggleDetailOpen();
           }}
         >
-          {detailsOpen ? <EuiIcon type="arrowLeft" /> : <EuiIcon type="arrowRight" />}
+          {detailsOpen || surroundingEventsOpen ? (
+            <EuiIcon type="arrowLeft" />
+          ) : (
+            <EuiIcon type="arrowRight" />
+          )}
         </button>
       </td>
     );
   };
 
-  const getTds = (doc: IDocType, selectedCols: Array<IField>) => {
+  const getTds = (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => {
     const cols = [];
     const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
@@ -107,7 +128,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
           })
         );
       }
-      const _sourceLikeDOM = getDiscoverSourceLikeDOM(doc);
+      const _sourceLikeDOM = getDiscoverSourceLikeDOM(doc, isFlyout);
       cols.push(
         getTdTmpl({
           clsName: fieldClsName,
@@ -138,8 +159,8 @@ export const DocViewRow = (props: IDocViewRowProps) => {
   };
 
   const memorizedTds = useMemo(() => {
-    return getTds(doc, selectedCols);
-  }, [doc, selectedCols, detailsOpen]);
+    return getTds(doc, selectedCols, false);
+  }, [doc, selectedCols, detailsOpen, surroundingEventsOpen]);
 
   let flyout;
   if (detailsOpen) {
@@ -150,15 +171,45 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         setDetailsOpen={setDetailsOpen}
         doc={doc}
         timeStampField={timeStampField}
-        memorizedTds={memorizedTds.slice(1)}
+        memorizedTds={getTds(doc, selectedCols, true).slice(1)}
         explorerFields={explorerFields}
+        openTraces={openTraces}
+        setOpenTraces={setOpenTraces}
+        setSurroundingEventsOpen={setSurroundingEventsOpen}
       ></DocFlyout>
+    );
+  }
+
+  if (surroundingEventsOpen) {
+    flyout = (
+      <SurroundingFlyout
+        http={http}
+        detailsOpen={detailsOpen}
+        setDetailsOpen={setDetailsOpen}
+        doc={doc}
+        timeStampField={timeStampField}
+        memorizedTds={getTds(doc, selectedCols, true).slice(1)}
+        explorerFields={explorerFields}
+        openTraces={openTraces}
+        setOpenTraces={setOpenTraces}
+        setSurroundingEventsOpen={setSurroundingEventsOpen}
+        pplService={pplService}
+        rawQuery={rawQuery}
+        selectedCols={selectedCols}
+        getTds={getTds}
+      />
     );
   }
 
   return (
     <>
-      <tr className={detailsOpen ? 'osdDocTable__row selected-event-row' : 'osdDocTable__row'}>
+      <tr
+        className={
+          detailsOpen || surroundingEventsOpen
+            ? 'osdDocTable__row selected-event-row'
+            : 'osdDocTable__row'
+        }
+      >
         {memorizedTds}
       </tr>
       {flyout}

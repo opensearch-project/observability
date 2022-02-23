@@ -21,6 +21,7 @@ import { TraceBlock } from './trace_block/trace_block';
 interface IDocViewerProps {
   http: HttpSetup;
   hit: IDocType;
+  openTraces: boolean;
 }
 
 export function DocViewer(props: IDocViewerProps) {
@@ -92,7 +93,7 @@ export function DocViewer(props: IDocViewerProps) {
     <div className="osdDocViewer">
       <EuiTabbedContent
         tabs={tabs}
-        selectedTab={curSelectedTab || tabs[0]}
+        selectedTab={curSelectedTab || (props.openTraces ? tabs[2] : tabs[0])}
         onTabClick={(selectedTab: EuiTabbedContentTab) => setCurSelectedTab(selectedTab)}
       />
     </div>

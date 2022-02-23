@@ -21,7 +21,7 @@ import {
 import { uiSettingsService } from '../../../../common/utils';
 import moment from 'moment';
 import { IExplorerFields } from '../../../../common/types/explorer';
-import { getHeaders } from '../utils';
+import { getHeaders, populateDataGrid } from '../utils';
 import { DEFAULT_COLUMNS } from '../../../../common/constants/explorer';
 import { HttpSetup } from '../../../../../../src/core/public';
 
@@ -33,6 +33,9 @@ type Props = {
   timeStampField: string;
   memorizedTds: JSX.Element[];
   explorerFields: IExplorerFields;
+  openTraces: boolean;
+  setOpenTraces: React.Dispatch<React.SetStateAction<boolean>>;
+  setSurroundingEventsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DocFlyout = ({
@@ -43,11 +46,20 @@ export const DocFlyout = ({
   timeStampField,
   memorizedTds,
   explorerFields,
+  openTraces,
+  setOpenTraces,
+  setSurroundingEventsOpen,
 }: Props) => {
   const [toggleSize, setToggleSize] = useState(true);
 
   const closeFlyout = () => {
     setDetailsOpen(false);
+    setOpenTraces(false);
+  };
+
+  const openSurroundingFlyout = () => {
+    setSurroundingEventsOpen(true);
+    closeFlyout();
   };
 
   const flyoutHeader = (
@@ -62,8 +74,8 @@ export const DocFlyout = ({
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButtonIcon
+            className="events-flyout-resize"
             color="text"
-            style={{ position: 'absolute', right: '50px', top: '17px', zIndex: 3 }}
             size="m"
             aria-label="Resize"
             title="Resize"
@@ -74,41 +86,29 @@ export const DocFlyout = ({
             }}
           />
         </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButton onClick={openSurroundingFlyout} className="header-button">
+            View surrounding events
+          </EuiButton>
+        </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlyoutHeader>
   );
 
   const flyoutBody = (
     <EuiFlyoutBody>
-      <div className="dscTable dscTableFixedScroll">
-        {explorerFields?.queriedFields && explorerFields.queriedFields.length > 0 && (
-          <table className="osd-table table doc-flyout">
-            <thead>
-              {getHeaders(explorerFields.queriedFields, DEFAULT_COLUMNS.slice(1), true)}
-            </thead>
-            <tbody>{memorizedTds}</tbody>
-          </table>
-        )}
-        {explorerFields?.queriedFields &&
-        explorerFields?.queriedFields?.length > 0 &&
-        explorerFields.selectedFields?.length === 0 ? null : (
-          <table className="osd-table table doc-flyout">
-            <thead>
-              {getHeaders(explorerFields.selectedFields, DEFAULT_COLUMNS.slice(1), true)}
-            </thead>
-            <tbody>{memorizedTds}</tbody>
-          </table>
-        )}
-      </div>
-      <DocViewer http={http} hit={doc} />
+      {populateDataGrid(
+        explorerFields,
+        getHeaders(explorerFields.queriedFields, DEFAULT_COLUMNS.slice(1), true),
+        <tr className="osdDocTable__row">{memorizedTds}</tr>,
+        getHeaders(explorerFields.selectedFields, DEFAULT_COLUMNS.slice(1), true),
+        <tr className="osdDocTable__row">{memorizedTds}</tr>
+      )}
+      <DocViewer http={http} hit={doc} openTraces={openTraces} />
     </EuiFlyoutBody>
   );
 
-  const flyoutFooter = (
-    <EuiFlyoutFooter>
-      <EuiButton onClick={closeFlyout}>Close</EuiButton>
-    </EuiFlyoutFooter>
-  );
+  const flyoutFooter = <></>;
 
   return (
     <FlyoutContainers
