@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './flyout_container.scss';
 import { EuiFlyout } from '@elastic/eui';
 import React from 'react';
 
