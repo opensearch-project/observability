@@ -75,6 +75,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const finalFigureLayout = {
     colorway: plotlyColorway,
     ...layout,
+    title: dataConfig?.panelOptions?.title || '',
     barmode:
       dataConfig?.chartOptions?.mode && dataConfig.chartOptions.mode[0].modeId
         ? dataConfig.chartOptions.mode[0].modeId

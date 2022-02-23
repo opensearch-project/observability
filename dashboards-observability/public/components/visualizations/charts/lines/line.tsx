@@ -49,6 +49,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
   const finalLayout = {
     ...layout,
+    title: dataConfig?.panelOptions?.title || '',
   };
 
   // threshold(s)

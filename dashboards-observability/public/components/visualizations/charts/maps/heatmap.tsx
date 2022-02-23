@@ -57,5 +57,14 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     },
   ];
 
-  return <Plt data={heapMapData} layout={layout} config={config} />;
+  return (
+    <Plt
+      data={heapMapData}
+      layout={{
+        ...layout,
+        title: dataConfig?.panelOptions?.title || '',
+      }}
+      config={config}
+    />
+  );
 };

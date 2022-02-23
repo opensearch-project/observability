@@ -20,7 +20,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const series =
     dataConfig?.valueOptions && dataConfig?.valueOptions?.series
       ? dataConfig.valueOptions.series
-      : dataConfig?.valueOptions.xaxis;
+      : [];
 
   const value =
     dataConfig?.valueOptions && dataConfig?.valueOptions?.value
@@ -68,6 +68,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const finalLayout = {
     ...guageLayout,
     ...layout,
+    title: dataConfig?.panelOptions?.title || '',
   };
 
   return <Plt data={guageData} layout={finalLayout} config={config} />;

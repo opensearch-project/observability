@@ -42,5 +42,14 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     };
   });
 
-  return <Plt data={pies} layout={layout} config={config} />;
+  return (
+    <Plt
+      data={pies}
+      layout={{
+        ...layout,
+        title: dataConfig?.panelOptions?.title || '',
+      }}
+      config={config}
+    />
+  );
 };
