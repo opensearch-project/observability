@@ -179,6 +179,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
           idSelected={serviceMapIdSelected}
           setIdSelected={setServiceMapIdSelected}
           addFilter={addFilter}
+          page="appCreate"
         />
       </EuiAccordion>
       {isModalVisible && modalLayout}

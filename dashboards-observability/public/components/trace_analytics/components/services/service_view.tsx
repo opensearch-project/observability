@@ -314,6 +314,7 @@ export function ServiceView(props: ServiceViewProps) {
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
             currService={props.serviceName}
+            page="serviceView"
           />
           <EuiSpacer />
           <EuiPanel>
