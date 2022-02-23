@@ -7,9 +7,22 @@
 import { EuiDescriptionList, EuiSpacer, EuiText } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
-import React, { ReactChild } from 'react';
+import React, { Dispatch, ReactChild } from 'react';
+import { batch } from 'react-redux';
+import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
 import { HttpSetup } from '../../../../../../src/core/public';
+import { init as initFields, remove as removefields } from '../../explorer/slices/field_slice';
+import {
+  init as initQuery,
+  remove as removeQuery,
+  changeQuery,
+} from '../../explorer/slices/query_slice';
+import {
+  init as initQueryResult,
+  remove as removeQueryResult,
+} from '../../explorer/slices/query_result_slice';
+import { addTab, removeTab } from '../../explorer/slices/query_tab_slice';
 
 // Name validation
 export const isNameValid = (name: string, existingNames: string[]) => {
@@ -96,4 +109,41 @@ export const fetchAppById = async (
       setToasts('Error occurred while fetching application', 'danger');
       console.error(err);
     });
+};
+
+// Remove tab data when closed
+export const removeTabData = (
+  dispatch: Dispatch<any>,
+  TabIdToBeClosed: string,
+  newIdToFocus: string
+) => {
+  batch(() => {
+    dispatch(removeQuery({ tabId: TabIdToBeClosed }));
+    dispatch(removefields({ tabId: TabIdToBeClosed }));
+    dispatch(removeQueryResult({ tabId: TabIdToBeClosed }));
+    dispatch(
+      removeTab({
+        tabId: TabIdToBeClosed,
+        [NEW_SELECTED_QUERY_TAB]: newIdToFocus,
+      })
+    );
+  });
+};
+
+// Create a new tab and initialize its data
+export const initializeTabData = async (dispatch: Dispatch<any>, tabId: string, where: string) => {
+  await batch(() => {
+    dispatch(initQuery({ tabId }));
+    dispatch(initQueryResult({ tabId }));
+    dispatch(initFields({ tabId }));
+    dispatch(addTab({ tabId }));
+    dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [TAB_CREATED_TYPE]: where,
+        },
+      })
+    );
+  });
 };

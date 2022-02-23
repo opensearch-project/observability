@@ -5,7 +5,7 @@
 
 import './log_explorer.scss';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector, batch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId, map, isEmpty } from 'lodash';
 import $ from 'jquery';
 import { EuiIcon, EuiText, EuiTabbedContentTab, EuiTabbedContent } from '@elastic/eui';
@@ -16,21 +16,14 @@ import {
   TAB_ID_TXT_PFX,
   SAVED_OBJECT_ID,
   NEW_TAB,
-  TAB_CREATED_TYPE,
   REDIRECT_TAB,
-  NEW_SELECTED_QUERY_TAB,
   TAB_EVENT_ID,
   TAB_CHART_ID,
 } from '../../../common/constants/explorer';
-import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
+import { selectQueryTabs, setSelectedQueryTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
-import { init as initFields, remove as removefields } from './slices/field_slice';
-import { init as initQuery, remove as removeQuery, changeQuery } from './slices/query_slice';
-import {
-  init as initQueryResult,
-  remove as removeQueryResult,
-  selectQueryResult,
-} from './slices/query_result_slice';
+import { selectQueryResult } from './slices/query_result_slice';
+import { initializeTabData, removeTabData } from '../application_analytics/helpers/utils';
 
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -108,18 +101,7 @@ export const LogExplorer = ({
         newIdToFocus = tabIds[index - 1];
       }
     }
-
-    batch(() => {
-      dispatch(removeQuery({ tabId: TabIdToBeClosed }));
-      dispatch(removefields({ tabId: TabIdToBeClosed }));
-      dispatch(removeQueryResult({ tabId: TabIdToBeClosed }));
-      dispatch(
-        removeTab({
-          tabId: TabIdToBeClosed,
-          [NEW_SELECTED_QUERY_TAB]: newIdToFocus,
-        })
-      );
-    });
+    removeTabData(dispatch, TabIdToBeClosed, newIdToFocus);
   };
 
   const addNewTab = async (where: string) => {
@@ -127,20 +109,7 @@ export const LogExplorer = ({
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
     // create a new tab
-    await batch(() => {
-      dispatch(initQuery({ tabId }));
-      dispatch(initQueryResult({ tabId }));
-      dispatch(initFields({ tabId }));
-      dispatch(addTab({ tabId }));
-      dispatch(
-        changeQuery({
-          tabId,
-          query: {
-            [TAB_CREATED_TYPE]: where,
-          },
-        })
-      );
-    });
+    await initializeTabData(dispatch, tabId, where);
 
     setTabCreatedTypes((staleState) => {
       return {

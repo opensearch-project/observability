@@ -71,3 +71,5 @@ export const REDUX_EXPL_SLICE_FIELDS = 'fields';
 export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
 export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
 export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization';
+
+export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab-.+/;

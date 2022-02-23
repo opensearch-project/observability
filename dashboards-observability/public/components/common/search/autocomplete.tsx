@@ -48,7 +48,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     status: 'idle',
   });
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const searchBar = document.getElementById('autocomplete-textarea');
 

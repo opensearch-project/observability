@@ -73,7 +73,7 @@ export const Search = (props: any) => {
     baseQuery = '',
   } = props;
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);

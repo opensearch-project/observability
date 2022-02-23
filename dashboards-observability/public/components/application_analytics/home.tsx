@@ -14,6 +14,8 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
+import { useDispatch } from 'react-redux';
+import { NEW_TAB } from '../../../common/constants/explorer';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
 import { CreateApp } from './components/create';
@@ -24,7 +26,7 @@ import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
 import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
-import { isNameValid } from './helpers/utils';
+import { initializeTabData, isNameValid, removeTabData } from './helpers/utils';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
@@ -63,6 +65,7 @@ export const Home = (props: HomeProps) => {
     chrome,
     notifications,
   } = props;
+  const dispatch = useDispatch();
   const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [indicesExist, setIndicesExist] = useState(true);
@@ -212,8 +215,10 @@ export const Home = (props: HomeProps) => {
       .post(`${APP_ANALYTICS_API_PREFIX}/`, {
         body: JSON.stringify(requestBody),
       })
-      .then((res) => {
+      .then(async (res) => {
         createPanelForApp(res.newAppId, application.name);
+        const tabId = `application-analytics-tab-${res.newAppId}`;
+        await initializeTabData(dispatch, tabId, NEW_TAB);
         setToast(`Application "${application.name}" successfully created!`);
         clearStorage();
       })
@@ -291,6 +296,10 @@ export const Home = (props: HomeProps) => {
         setApplicationList((prevApplicationList) => {
           return prevApplicationList.filter((app) => !appList.includes(app.id));
         });
+        // TODO: Delete associated panels and visualizations
+        for (let i = 0; i < appList.length; i++) {
+          removeTabData(dispatch, appList[i], '');
+        }
         const message =
           toastMessage || `Application${appList.length > 1 ? 's' : ''} successfully deleted!`;
         setToast(message);

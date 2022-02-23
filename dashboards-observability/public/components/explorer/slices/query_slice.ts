@@ -12,6 +12,7 @@ import {
   REDUX_EXPL_SLICE_QUERIES,
   INDEX,
   SELECTED_TIMESTAMP,
+  APP_ANALYTICS_TAB_ID_REGEX,
 } from '../../../../common/constants/explorer';
 
 const initialQueryState = {
@@ -56,9 +57,9 @@ export const queriesSlice = createSlice({
       };
     },
     init: (state, { payload }) => {
-      state[payload.tabId] = {
-        ...initialQueryState,
-      };
+      state[payload.tabId] = payload.tabId.match(APP_ANALYTICS_TAB_ID_REGEX)
+        ? appBaseQueryState
+        : initialQueryState;
     },
     remove: (state, { payload }) => {
       delete state[payload.tabId];

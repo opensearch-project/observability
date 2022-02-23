@@ -279,7 +279,8 @@ export function Application(props: AppDetailProps) {
         key={`explorer_application-analytics-tab`}
         pplService={pplService}
         dslService={dslService}
-        tabId={'application-analytics-tab'}
+        tabId={`application-analytics-tab-${appId}`}
+        // tabId={'application-analytics-tab'}
         savedObjects={savedObjects}
         timestampUtils={timestampUtils}
         setToast={setToasts}
