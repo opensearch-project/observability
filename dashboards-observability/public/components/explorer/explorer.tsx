@@ -393,7 +393,9 @@ export const Explorer = ({
 
   const fetchLiveData = async (startTime: string, endTime: string) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) {
       return;
@@ -537,7 +539,9 @@ export const Explorer = ({
 
   const handleOverrideTimestamp = async (timestamp: IField) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     const requests = {
       index: curIndex,
@@ -694,7 +698,10 @@ export const Explorer = ({
                         <div className='liveStream'>
                           <EuiSpacer size='m'/>
                           <EuiLoadingSpinner size="l"/>
-                          <EuiText textAlign='center'> Live streaming</EuiText>
+                          <EuiText textAlign='center' 
+                            data-test-subj="LiveStreamIndicator_on"> 
+                            <strong>Live streaming</strong>
+                          </EuiText>
                           <EuiSpacer size='m'/>
                         </div>
                       )}
@@ -711,7 +718,7 @@ export const Explorer = ({
                 </div>
               </div>
             ) : (
-              <NoResults />
+              <NoResults/>
             )}
           </div>
         </div>
@@ -1008,8 +1015,6 @@ export const Explorer = ({
       <EuiButtonToggle
         label={liveTailNameRef.current}
         iconType={isLiveTailOn ? "" : "play"}
-        // iconType="arrowDown"
-        // isIconOnly={isLiveTailOn ? false : true}
         isLoading={isLiveTailOn ? true : false}
         iconSide="left"
         onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
@@ -1122,14 +1127,6 @@ export const Explorer = ({
       2h
     </EuiContextMenuItem>,
     <EuiContextMenuItem
-      key="custom"
-      onClick={async () => {
-        // liveTailLoop('1d', 'now-1d', 'now', 60000 * 60 * 24);
-      }}
-    >
-      custom
-    </EuiContextMenuItem>,
-    <EuiContextMenuItem
       key="stop"
       onClick={() => {
         setLiveTailName('Live');
@@ -1154,7 +1151,7 @@ export const Explorer = ({
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={fromAppAnalytics ? appBaseQuery : query[RAW_QUERY]}
+        query={appLogEvents ? tempQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -1188,4 +1185,3 @@ export const Explorer = ({
     </div>
   );
 };
-
