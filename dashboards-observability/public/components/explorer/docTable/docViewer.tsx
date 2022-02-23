@@ -55,12 +55,6 @@ export function DocViewer(props: IDocViewerProps) {
         component: (tabProps: any) => <TraceBlock http={props.http} {...tabProps} />,
         otherProps: {},
       },
-      {
-        id: _.uniqueId('doc_viewer_tab_'),
-        name: 'Metrics',
-        component: (tabProps: any) => <></>,
-        otherProps: {},
-      },
     ];
   };
 
