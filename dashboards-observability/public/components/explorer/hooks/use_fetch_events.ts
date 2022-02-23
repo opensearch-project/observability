@@ -141,13 +141,6 @@ export const useFetchEvents = ({
           res.total = res.total + responseRef.current.total;
           res.size = res.size + responseRef.current.size;
         }
-        // // send only first 200 data log arrays
-        // if (res.total > 200) {
-        //   res.jsonData = res.jsonData.slice(0,200);
-        //   res.datarows = res.datarows.slice(0,200);
-        //   res.total = 200;
-        //   res.size = 200;
-        // }
         dispatchOnGettingHis(res);
       } 
       if (isEmpty(res.jsonData) && isEmpty(responseRef.current)) {
