@@ -102,7 +102,7 @@ export const Search = (props: any) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   };
 
-  const SaveButton = (
+  const Savebutton = (
     <EuiButton
       iconSide="right"
       onClick={() => {
@@ -207,7 +207,7 @@ export const Search = (props: any) => {
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
               <EuiPopover
-                button={SaveButton}
+                button={Savebutton}
                 isOpen={isSavePanelOpen}
                 closePopover={() => setIsSavePanelOpen(false)}
               >
@@ -221,7 +221,7 @@ export const Search = (props: any) => {
                   showOptionList={
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
-                  }                
+                  }
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
@@ -258,4 +258,3 @@ export const Search = (props: any) => {
     </div>
   );
 };
-

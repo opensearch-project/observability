@@ -27,9 +27,11 @@ export function SpanDetailPanel(props: {
   traceId: string;
   colorMap: any;
   page?: string;
+  openSpanFlyout?: any;
 }) {
   const [data, setData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
+  const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
     storedFilters ? JSON.parse(storedFilters) : []
   );
@@ -142,7 +144,11 @@ export function SpanDetailPanel(props: {
   const onClick = (event: any) => {
     if (!event?.points) return;
     const point = event.points[0];
-    setCurrentSpan(point.data.spanId);
+    if (fromApp) {
+      props.openSpanFlyout(point.data.spanId);
+    } else {
+      setCurrentSpan(point.data.spanId);
+    }
   };
 
   const renderFilters = useMemo(() => {
@@ -188,7 +194,13 @@ export function SpanDetailPanel(props: {
         http={props.http}
         hiddenColumns={['traceId', 'traceGroup']}
         DSL={DSL}
-        openFlyout={(spanId: string) => setCurrentSpan(spanId)}
+        openFlyout={(spanId: string) => {
+          if (fromApp) {
+            props.openSpanFlyout(spanId);
+          } else {
+            setCurrentSpan(spanId);
+          }
+        }}
       />
     ),
     [DSL, setCurrentSpan]

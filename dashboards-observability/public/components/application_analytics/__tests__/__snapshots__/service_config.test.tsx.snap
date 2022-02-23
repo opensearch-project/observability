@@ -2,6 +2,7 @@
 
 exports[`Service Config component renders empty service config 1`] = `
 <ServiceConfig
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -30,8 +31,10 @@ exports[`Service Config component renders empty service config 1`] = `
   }
   query=""
   selectedServices={Array []}
+  setAppConfigs={[MockFunction]}
   setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
   setFilters={[MockFunction]}
   setFiltersWithStorage={[MockFunction]}
   setNameWithStorage={[MockFunction]}
@@ -53,6 +56,7 @@ exports[`Service Config component renders empty service config 1`] = `
     }
   }
   setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
   startTime="now-5m"
 >
   <div>
@@ -512,6 +516,7 @@ exports[`Service Config component renders empty service config 1`] = `
                 <ServiceMap
                   addFilter={[Function]}
                   idSelected="latency"
+                  page="appCreate"
                   serviceMap={Object {}}
                   setIdSelected={[Function]}
                 >
@@ -1048,6 +1053,7 @@ exports[`Service Config component renders empty service config 1`] = `
 
 exports[`Service Config component renders with one service selected 1`] = `
 <ServiceConfig
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -1086,8 +1092,10 @@ exports[`Service Config component renders with one service selected 1`] = `
   }
   query=""
   selectedServices={Array []}
+  setAppConfigs={[MockFunction]}
   setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
   setFilters={[MockFunction]}
   setFiltersWithStorage={[MockFunction]}
   setNameWithStorage={[MockFunction]}
@@ -1113,6 +1121,7 @@ exports[`Service Config component renders with one service selected 1`] = `
     }
   }
   setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
   startTime="now-5m"
 >
   <div>
@@ -1582,6 +1591,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                 <ServiceMap
                   addFilter={[Function]}
                   idSelected="latency"
+                  page="appCreate"
                   serviceMap={Object {}}
                   setIdSelected={[Function]}
                 >
