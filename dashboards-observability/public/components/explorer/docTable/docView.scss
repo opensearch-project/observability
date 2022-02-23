@@ -1,0 +1,43 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.selected-event-row {
+  background-color: rgba(5, 143, 244, 0.1);
+}
+
+.doc-flyout table {
+  width: 100%;
+  display: inline-block;
+  overflow-x: scroll;
+}
+
+.doc-flyout td.eui-textNoWrap {
+  padding-top: 1.25vh;
+}
+
+.doc-flyout td {
+  vertical-align: top;
+  padding: 0.5vh;
+}
+
+.compare-checkbox {
+  padding: 8px;
+}
+
+.header-button {
+  margin-right: 55px;
+}
+
+.cnt-picker {
+  width: 80px;
+  text-align: center;
+}
+
+.events-flyout-resize {
+  position: absolute;
+  right: 50px;
+  top: 17px;
+  z-index: 3;
+}

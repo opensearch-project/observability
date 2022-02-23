@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 
 import React, { ReactChild, useEffect, useState } from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';

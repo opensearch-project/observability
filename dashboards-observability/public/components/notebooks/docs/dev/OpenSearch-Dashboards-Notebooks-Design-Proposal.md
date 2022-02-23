@@ -275,4 +275,4 @@ OpenSearch Dashboards Notebooks enable data-driven, interactive data analytics a
 
 ### **8.1** [More Zeppelin and Backend Adaptor](Zeppelin_backend_adaptor.md)
 
-### **8.2** [Nteract.io](http://nteract.io/) React components: [components.nteract.io](https://components.nteract.io/)
+### **8.2** [Nteract.io](https://nteract.io/) React components: [components.nteract.io](https://components.nteract.io/)

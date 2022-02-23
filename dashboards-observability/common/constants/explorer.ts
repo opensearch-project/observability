@@ -5,6 +5,8 @@
 
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability/event-analytics/';
+export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
+  'https://opentelemetry.io/docs/reference/specification/logs/overview/#log-correlation';
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
@@ -32,7 +34,8 @@ export const TAB_CREATED_TYPE = 'tabCreatedType';
 export const NEW_TAB = 'newTab';
 export const REDIRECT_TAB = 'redirect_tab';
 export const PAGE_SIZE = 50;
-
+export const DEFAULT_COLUMNS = ['', 'Time', '_source'];
+export const OTEL_TRACE_ID = 'traceId';
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
   {

@@ -35,8 +35,10 @@ describe('renders autocomplete', function () {
   const utils = render(
     <Autocomplete
       key={'autocomplete-search-bar'}
+      tabId={'application-analytics-tab'}
       query={query}
       tempQuery={tempQuery}
+      baseQuery={''}
       handleQueryChange={handleQueryChange}
       handleQuerySearch={handleQuerySearch}
       dslService={dslService}
@@ -105,7 +107,7 @@ describe('autocomplete logic', function () {
         itemName: 'source',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetchIndices).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
@@ -120,7 +122,7 @@ describe('autocomplete logic', function () {
         itemName: 'source',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
   it('suggests = after source', async () => {
@@ -133,7 +135,7 @@ describe('autocomplete logic', function () {
         itemName: '=',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -147,7 +149,7 @@ describe('autocomplete logic', function () {
         itemName: 'test_index',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -161,7 +163,7 @@ describe('autocomplete logic', function () {
         itemName: 'test_index',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -175,7 +177,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetchFields).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
@@ -190,7 +192,7 @@ describe('autocomplete logic', function () {
         itemName: c.label,
       };
     }) as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -204,7 +206,7 @@ describe('autocomplete logic', function () {
         itemName: 'str_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -218,7 +220,7 @@ describe('autocomplete logic', function () {
         itemName: '=',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetch).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
@@ -233,7 +235,7 @@ describe('autocomplete logic', function () {
         itemName: '"data"',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -247,7 +249,7 @@ describe('autocomplete logic', function () {
         itemName: '"data"',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -261,7 +263,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -275,7 +277,7 @@ describe('autocomplete logic', function () {
         itemName: 'bool_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -289,7 +291,7 @@ describe('autocomplete logic', function () {
         itemName: '=',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetch).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
@@ -310,7 +312,7 @@ describe('autocomplete logic', function () {
         itemName: 'False',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -324,7 +326,7 @@ describe('autocomplete logic', function () {
         itemName: 'False',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -338,7 +340,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -352,7 +354,7 @@ describe('autocomplete logic', function () {
         itemName: 'match(',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -378,7 +380,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -392,7 +394,7 @@ describe('autocomplete logic', function () {
         itemName: ',',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetch).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
@@ -407,7 +409,7 @@ describe('autocomplete logic', function () {
         itemName: '24',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -421,7 +423,7 @@ describe('autocomplete logic', function () {
         itemName: ')',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -435,7 +437,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -449,7 +451,7 @@ describe('autocomplete logic', function () {
         itemName: c.label,
       };
     }) as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -463,7 +465,7 @@ describe('autocomplete logic', function () {
         itemName: 'by',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -489,7 +491,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -503,7 +505,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -517,7 +519,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field )',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -537,7 +539,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -563,7 +565,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -577,7 +579,7 @@ describe('autocomplete logic', function () {
         itemName: 'fields',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -603,7 +605,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -623,7 +625,7 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -649,7 +651,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -663,7 +665,7 @@ describe('autocomplete logic', function () {
         itemName: 'dedup',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -689,7 +691,7 @@ describe('autocomplete logic', function () {
         itemName: 'num_field',
       },
     ] as AutocompleteItem[];
-    const suggestion = await getFullSuggestions(input, dslService);
+    const suggestion = await getFullSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
 });
