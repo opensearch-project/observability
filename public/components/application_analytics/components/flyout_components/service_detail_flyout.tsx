@@ -95,6 +95,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           idSelected={serviceMapIdSelected}
           setIdSelected={setServiceMapIdSelected}
           currService={serviceName}
+          page="detailFlyout"
         />
         <EuiSpacer size="xs" />
         <EuiHorizontalRule margin="s" />
