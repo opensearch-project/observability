@@ -3,24 +3,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
-import { 
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPanel,
   EuiTabbedContent,
-  EuiTabbedContentTab
+  EuiTabbedContentTab,
 } from '@elastic/eui';
 import { DocViewTable } from './detailTable/docDetailTable';
 import { JsonCodeBlock } from './json_code_block/json_code_block';
 import { IDocType } from './docViewRow';
-
-const TABS = ['Table', 'JSON'];
+import { HttpSetup } from '../../../../../../src/core/public';
+import { TraceBlock } from './trace_block/trace_block';
 
 interface IDocViewerProps {
-  hit: IDocType
+  http: HttpSetup;
+  hit: IDocType;
+  openTraces: boolean;
 }
 
 export function DocViewer(props: IDocViewerProps) {
-
   const [curSelectedTab, setCurSelectedTab] = useState<EuiTabbedContentTab | null>(null);
 
   // can be passed in later
@@ -29,20 +33,28 @@ export function DocViewer(props: IDocViewerProps) {
       {
         id: _.uniqueId('doc_viewer_tab_'),
         name: 'Table',
-        component: (tabProps: any) => <DocViewTable
-                                    filter={ () => {} }
-                                    onAddColumn={ () => {} }
-                                    onRemoveColumn={ () => {} }
-                                    { ...tabProps }
-                                  />,
-        otherProps: {}
+        component: (tabProps: any) => (
+          <DocViewTable
+            filter={() => {}}
+            onAddColumn={() => {}}
+            onRemoveColumn={() => {}}
+            {...tabProps}
+          />
+        ),
+        otherProps: {},
       },
       {
         id: _.uniqueId('doc_viewer_tab_'),
         name: 'JSON',
-        component: (tabProps: any) => <JsonCodeBlock { ...tabProps }/>,
-        otherProps: {}
-      }
+        component: (tabProps: any) => <JsonCodeBlock {...tabProps} />,
+        otherProps: {},
+      },
+      {
+        id: _.uniqueId('doc_viewer_tab_'),
+        name: 'Traces',
+        component: (tabProps: any) => <TraceBlock http={props.http} {...tabProps} />,
+        otherProps: {},
+      },
     ];
   };
 
@@ -52,11 +64,18 @@ export function DocViewer(props: IDocViewerProps) {
       return {
         id: tab.id,
         name: tab.name,
-        content: <Component hit={ props.hit } { ...tab.otherProps }/>
-      }
+        content: (
+          <EuiPanel paddingSize="s">
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                <Component hit={props.hit} {...tab.otherProps} />{' '}
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiPanel>
+        ),
+      };
     });
-  }, [ props.hit ]);
-
+  }, [props.hit]);
 
   if (!tabs.length) {
     // There there's a minimum of 2 tabs active in Discover.
@@ -66,10 +85,10 @@ export function DocViewer(props: IDocViewerProps) {
 
   return (
     <div className="osdDocViewer">
-      <EuiTabbedContent 
-        tabs={tabs} 
-        selectedTab={ curSelectedTab || tabs[0]}
-        onTabClick={ (selectedTab: EuiTabbedContentTab) => setCurSelectedTab(selectedTab) }
+      <EuiTabbedContent
+        tabs={tabs}
+        selectedTab={curSelectedTab || (props.openTraces ? tabs[2] : tabs[0])}
+        onTabClick={(selectedTab: EuiTabbedContentTab) => setCurSelectedTab(selectedTab)}
       />
     </div>
   );

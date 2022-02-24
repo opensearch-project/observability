@@ -34,11 +34,10 @@ export const preprocessQuery = ({
   timeField?: string;
   isLiveQuery: boolean;
 }) => {
-
-  let finalQuery = '';
+  let finalQuery = "";
 
   if (isEmpty(rawQuery)) return finalQuery;
-    
+
   // convert to moment
   const start = datemath.parse(startTime)?.format(DATE_PICKER_FORMAT);
   const end = datemath.parse(endTime)?.format(DATE_PICKER_FORMAT);
