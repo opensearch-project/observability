@@ -4,7 +4,11 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { CustomPanelListType, PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import {
+  CustomPanelListType,
+  PanelType,
+  VisualizationType,
+} from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -74,11 +78,11 @@ export class CustomPanelsAdaptor {
       return response.observabilityObjectList
         .filter((panel: any) => !panel.operationalPanel.applicationId)
         .map((panel: any) => ({
-        name: panel.operationalPanel.name,
-        id: panel.objectId,
-        dateCreated: panel.createdTimeMs,
-        dateModified: panel.lastUpdatedTimeMs,
-      }));
+          name: panel.operationalPanel.name,
+          id: panel.objectId,
+          dateCreated: panel.createdTimeMs,
+          dateModified: panel.lastUpdatedTimeMs,
+        }));
     } catch (error) {
       throw new Error('View Panel List Error:' + error);
     }
@@ -109,7 +113,11 @@ export class CustomPanelsAdaptor {
   };
 
   // Create a new Panel
-  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
+  createNewPanel = async (
+    client: ILegacyScopedClusterClient,
+    panelName: string,
+    appId?: string
+  ) => {
     const panelBody: PanelType = {
       name: panelName,
       visualizations: [],
@@ -241,6 +249,11 @@ export class CustomPanelsAdaptor {
         query: visualization.savedVisualization.query,
         type: visualization.savedVisualization.type,
         timeField: visualization.savedVisualization.selected_timestamp.name,
+        selected_date_range: visualization.savedVisualization.selected_date_range,
+        selected_fields: visualization.savedVisualization.selected_fields,
+        user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
+          ? visualization.savedVisualization.user_configs
+          : {},
       };
     } catch (error) {
       throw new Error('Fetch Saved Visualizations By Id Error:' + error);
