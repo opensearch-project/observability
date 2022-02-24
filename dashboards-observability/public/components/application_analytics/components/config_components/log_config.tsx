@@ -25,6 +25,7 @@ import { uiSettingsService } from '../../../../../common/utils';
 import { Autocomplete } from '../../../common/search/autocomplete';
 import { AppAnalyticsComponentDeps } from '../../home';
 import { getClearModal } from '../../helpers/modal_containers';
+import '../../app_analytics.scss';
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -106,16 +107,21 @@ export const LogConfig = (props: LogConfigProps) => {
       >
         <EuiFlexGroup direction="column" gutterSize="s">
           <EuiFlexItem>
-            <EuiCallOut iconType={'iInCircle'} size="s">
-              You can't change the base query after the application is created.
+            <EuiCallOut iconType={'iInCircle'} size="s" style={{ maxWidth: '900px' }}>
+              You can&apos;t change the base query after the application is created.
             </EuiCallOut>
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiFormRow
-              label="PPL Base Query"
+              label="Base Query"
               helpText="The default logs view in the application will be filtered by this query."
             >
-              <EuiFlexItem grow={false} key="query-bar" className="query-area">
+              <EuiFlexItem
+                grow={false}
+                key="query-bar"
+                className="query-area"
+                style={{ minWidth: '900px' }}
+              >
                 <Autocomplete
                   key={'autocomplete-bar'}
                   query={query}
