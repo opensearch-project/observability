@@ -12,12 +12,11 @@ import React from 'react';
 import { Layout } from 'react-grid-layout';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
-import { Bar } from '../../visualizations/charts/bar/bar';
-import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
-import { Line } from '../../visualizations/charts/lines/line';
 import { CoreStart } from '../../../../../../src/core/public';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
+import { Visualization } from '../../visualizations/visualization';
+import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -188,6 +187,7 @@ export const renderSavedVisualization = async (
   setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
+  setVisualizationMetaData: React.Dispatch<React.SetStateAction<undefined>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>
 ) => {
@@ -209,6 +209,8 @@ export const renderSavedVisualization = async (
   if (visualization.type) {
     setVisualizationType(visualization.type);
   }
+
+  setVisualizationMetaData(visualization);
 
   getQueryResponse(
     pplService,
@@ -284,39 +286,20 @@ export const isPPLFilterValid = (
   return true;
 };
 
-// This function renders the visualzation based of its type
-export const displayVisualization = (data: any, type: string, editMode?: boolean) => {
-  if (data === undefined) return;
-
-  const layoutObject = {
-    xaxis: {
-      fixedrange: editMode ? true : false,
-      showgrid: false,
-    },
-    yaxis: {
-      fixedrange: editMode ? true : false,
-      showgrid: false,
-    },
-  };
-
-  let vizComponent!: JSX.Element;
-  switch (type) {
-    case 'bar': {
-      vizComponent = <Bar visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    case 'horizontal_bar': {
-      vizComponent = <HorizontalBar visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    case 'line': {
-      vizComponent = <Line visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    default: {
-      vizComponent = <></>;
-      break;
-    }
+// Renders visualization in the vizualization container component
+export const displayVisualization = (metaData: any, data: any, type: string) => {
+  if (metaData === undefined || metaData === {}) {
+    return <></>;
   }
-  return vizComponent;
+  return (
+    <Visualization
+      visualizations={getVizContainerProps({
+        vizId: type,
+        rawVizData: data,
+        query: metaData.query,
+        indexFields: {},
+        user_configs: metaData.hasOwnProperty ? metaData.user_configs : {},
+      })}
+    />
+  );
 };
