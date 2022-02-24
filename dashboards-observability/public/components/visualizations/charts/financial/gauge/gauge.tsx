@@ -5,8 +5,10 @@
 
 import React, { useMemo } from 'react';
 import { indexOf } from 'lodash';
+import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
 import { NUMERICAL_FIELDS } from '../../../../../../common/constants/shared';
+import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
   const {
@@ -25,14 +27,17 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       ? dataConfig.valueOptions.value
       : [];
 
-  let guageData = useMemo(() => {
-    let calculatedGaugeData = [];
-    if (series && series[0]) {
+  const guageData = useMemo(() => {
+    let calculatedGaugeData: Plotly.Data[] = [];
+    if (series && series[0] && value && value[0]) {
       if (indexOf(NUMERICAL_FIELDS, series[0].type) > 0) {
         calculatedGaugeData = [
-          ...value.map((val) => ({ field_name: series[0].name, value: val.name })),
+          ...data[value[0].name].map((dimesionSlice, index) => ({
+            field_name: dimesionSlice,
+            value: data[series[0].name][index],
+          })),
         ];
-      } else if (value) {
+      } else {
         value.map((val) => {
           const selectedSeriesIndex = indexOf(data[series[0].name], val.name);
           fields.map((field) => {
@@ -45,33 +50,43 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           });
         });
       }
+      return calculatedGaugeData.map((gauge, index) => {
+        return {
+          type: 'indicator',
+          mode: 'gauge+number+delta',
+          value: gauge.value || 0,
+          title: {
+            text: gauge.field_name,
+            font: { size: 14 },
+          },
+          domain: {
+            row: Math.floor(index / PLOTLY_GAUGE_COLUMN_NUMBER),
+            column: index % PLOTLY_GAUGE_COLUMN_NUMBER,
+          },
+          gauge: {
+            ...(dataConfig.thresholds && {
+              threshold: {
+                line: { color: dataConfig.thresholds[0].color || 'red', width: 4 },
+                thickness: 0.75,
+                value: dataConfig.thresholds[0].value || 0,
+              },
+            }),
+          },
+        };
+      });
     }
-    return calculatedGaugeData;
-  }, [series, value, data, fields]);
+  }, [series, value, data, fields, dataConfig.thresholds]);
 
-  guageData = guageData.map((gauge, index) => {
+  const finalLayout = useMemo(() => {
     return {
-      type: 'indicator',
-      mode: 'gauge+number+delta',
-      value: gauge.value || 0,
-      title: {
-        text: gauge.field_name,
-        font: { size: 24 },
+      grid: {
+        rows: Math.floor(guageData.length / PLOTLY_GAUGE_COLUMN_NUMBER),
+        columns: PLOTLY_GAUGE_COLUMN_NUMBER,
+        pattern: 'independent',
       },
-      domain: { row: 0, column: index },
-      gauge: {},
+      ...layout,
     };
-  });
-
-  const guageLayout = {
-    grid: { rows: 1, columns: guageData.length, pattern: 'independent' },
-  };
-
-  const finalLayout = {
-    ...guageLayout,
-    ...layout,
-    title: dataConfig?.panelOptions?.title || '',
-  };
+  }, [layout, guageData.length]);
 
   return <Plt data={guageData} layout={finalLayout} config={config} />;
 };
