@@ -67,12 +67,12 @@ export interface DataItem {
   doc_count: any;
 }
 
-const JUST_SEARCH_REGEX = /\s*search\s+source\s*=\s*(\S+)/;
-const SEARCH_WHERE_REGEX = /\s*search\s+source\s*=\s*(\S+)\s*\|\s*where\s+\S+\s*=\s*\S+/;
-const SEARCH_MATCH_REGEX = /\s*search\s+source\s*=\s*(\S+)\s*\|\s*where\s+match\(\S+,\s*\S+\)/;
-const JUST_SOURCE_REGEX = /\s*source\s*=\s*(\S+)/;
-const SOURCE_WHERE_REGEX = /\s*source\s*=\s*(\S+)\s*\|\s*where\s+\S+\s*=\s*\S+/;
-const SOURCE_MATCH_REGEX = /\s*source\s*=\s*(\S+)\s*\|\s*where\s+match\(\S+,\s*\S+\)/;
+const JUST_SEARCH_REGEX = /\s*search\s+source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*/;
+const SEARCH_WHERE_REGEX = /\s*search\s+source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*\s*\|\s*where\s+\S+\s*=\s*\S+/;
+const SEARCH_MATCH_REGEX = /\s*search\s+source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*\s*\|\s*where\s+match\(\S+,\s*\S+\)/;
+const JUST_SOURCE_REGEX = /\s*source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*/;
+const SOURCE_WHERE_REGEX = /\s*source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*\s*\|\s*where\s+\S+\s*=\s*\S+/;
+const SOURCE_MATCH_REGEX = /\s*source\s*=\s*[^\\\/\?\"\<\>\|\s\,\#]*(\s*,\s*[^\\\/\?\"\<\>\|\s\,\#]+)*\s*\|\s*where\s+match\(\S+,\s*\S+\)/;
 export const EMPTY_REGEX = /^\s*\S*$/;
 export const FIELD_AFTER_COMMAND = /^\s*(dedup|eval|rare|top|rename|where\s+match\()\s+\S*$/;
 
