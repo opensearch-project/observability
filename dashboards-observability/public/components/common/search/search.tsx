@@ -69,9 +69,11 @@ export const Search = (props: any) => {
     searchBarConfigs = {},
     getSuggestions,
     onItemSelect,
-    tabId,
-    baseQuery,
+    tabId = '',
+    baseQuery = '',
   } = props;
+
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
@@ -107,7 +109,7 @@ export const Search = (props: any) => {
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
-        {tabId === 'application-analytics-tab' && (
+        {appLogEvents && (
           <EuiFlexItem style={{ minWidth: 110 }} grow={false}>
             <EuiToolTip position="top" content={baseQuery}>
               <EuiBadge className="base-query-popover" color="hollow">
@@ -121,11 +123,13 @@ export const Search = (props: any) => {
             key={'autocomplete-search-bar'}
             query={query}
             tempQuery={tempQuery}
+            baseQuery={baseQuery}
             handleQueryChange={handleQueryChange}
             handleQuerySearch={handleQuerySearch}
             dslService={dslService}
             getSuggestions={getSuggestions}
             onItemSelect={onItemSelect}
+            tabId={tabId}
           />
           <EuiBadge
             className={`ppl-link ${

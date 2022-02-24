@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
@@ -50,7 +50,7 @@ import {
   TAB_CHART_ID,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery } from '../../../common/utils';
+import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from './hooks';
 import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
@@ -125,7 +125,7 @@ export const Explorer = ({
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -164,9 +164,10 @@ export const Explorer = ({
   };
 
   const composeFinalQuery = (curQuery: any, timeField: string) => {
-    if (isEmpty(curQuery![RAW_QUERY])) return '';
+    const fullQuery = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
+    if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
-      rawQuery: curQuery![RAW_QUERY],
+      rawQuery: fullQuery,
       startTime: curQuery![SELECTED_DATE_RANGE][0],
       endTime: curQuery![SELECTED_DATE_RANGE][1],
       timeField,
@@ -262,7 +263,7 @@ export const Explorer = ({
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = curQuery![RAW_QUERY];
+    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
@@ -356,7 +357,7 @@ export const Explorer = ({
   useEffect(() => {
     if (queryRef.current!.isLoaded) return;
     let objectId;
-    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
+    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
     } else {
       objectId = queryRef.current!.savedObjectId || savedObjectId;
@@ -445,7 +446,7 @@ export const Explorer = ({
 
   const handleOverrideTimestamp = async (timestamp: IField) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     const requests = {
       index: curIndex,
@@ -650,6 +651,7 @@ export const Explorer = ({
       query,
       indexFields: explorerFields,
       userConfigs: userVizConfigs,
+      appData: { fromApp: appLogEvents },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -828,7 +830,7 @@ export const Explorer = ({
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
         savingVisRes = await savedObjects
           .updateSavedVisualizationById({
-            query: currQuery![RAW_QUERY],
+            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
             fields: currFields![SELECTED_FIELDS],
             dateRange: currQuery![SELECTED_DATE_RANGE],
             name: selectedPanelNameRef.current,
@@ -859,7 +861,7 @@ export const Explorer = ({
         // create new saved visualization
         savingVisRes = await savedObjects
           .createSavedVisualization({
-            query: currQuery![RAW_QUERY],
+            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
             fields: currFields![SELECTED_FIELDS],
             dateRange: currQuery![SELECTED_DATE_RANGE],
             type: curVisId,
@@ -948,7 +950,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
+          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}

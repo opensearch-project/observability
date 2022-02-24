@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import _ from 'lodash';
 import {
@@ -95,6 +95,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           idSelected={serviceMapIdSelected}
           setIdSelected={setServiceMapIdSelected}
           currService={serviceName}
+          page="detailFlyout"
         />
         <EuiSpacer size="xs" />
         <EuiHorizontalRule margin="s" />

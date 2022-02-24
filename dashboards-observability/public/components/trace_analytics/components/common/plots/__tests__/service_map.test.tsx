@@ -19,6 +19,7 @@ describe('Service map component', () => {
         serviceMap={TEST_SERVICE_MAP}
         idSelected="latency"
         setIdSelected={setServiceMapIdSelected}
+        page="dashboard"
       />
     );
     expect(wrapper).toMatchSnapshot();
