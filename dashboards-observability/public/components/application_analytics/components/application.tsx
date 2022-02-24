@@ -49,7 +49,7 @@ import {
   TAB_TRACE_ID_TXT_PFX,
   TAB_TRACE_TITLE,
 } from '../../../../common/constants/application_analytics';
-import { TAB_EVENT_ID, TAB_CHART_ID } from '../../../../common/constants/explorer';
+import { TAB_EVENT_ID, TAB_CHART_ID, NEW_TAB } from '../../../../common/constants/explorer';
 import { IQueryTab } from '../../../../common/types/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
@@ -59,7 +59,8 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
-import { fetchAppById } from '../helpers/utils';
+import { fetchAppById, initializeTabData } from '../helpers/utils';
+import { useDispatch } from 'react-redux';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -126,6 +127,7 @@ export function Application(props: AppDetailProps) {
     traceGroups: [],
     panelId: '',
   });
+  const dispatch = useDispatch();
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
   const [traceFlyoutId, setTraceFlyoutId] = useState<string>('');
@@ -160,6 +162,8 @@ export function Application(props: AppDetailProps) {
 
   useEffect(() => {
     fetchAppById(http, appId, setApplication, setAppConfigs, setToasts);
+    const tabId = `application-analytics-tab-${appId}`;
+    initializeTabData(dispatch, tabId, NEW_TAB);
   }, [appId]);
 
   useEffect(() => {
@@ -280,7 +284,6 @@ export function Application(props: AppDetailProps) {
         pplService={pplService}
         dslService={dslService}
         tabId={`application-analytics-tab-${appId}`}
-        // tabId={'application-analytics-tab'}
         savedObjects={savedObjects}
         timestampUtils={timestampUtils}
         setToast={setToasts}

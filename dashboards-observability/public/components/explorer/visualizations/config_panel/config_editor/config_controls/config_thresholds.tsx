@@ -36,7 +36,6 @@ export const ConfigThresholds = ({
     };
   };
 
-  // search returns positive number for successful and -1 for unsuccessful
   const hasSpanInApp =
     visualizations.data.query.finalQuery.search(PPL_SPAN_REGEX) > 0 &&
     visualizations.data.appData.fromApp;

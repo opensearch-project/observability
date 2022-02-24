@@ -69,7 +69,7 @@ export const Search = (props: any) => {
     searchBarConfigs = {},
     getSuggestions,
     onItemSelect,
-    tabId,
+    tabId = '',
     baseQuery = '',
   } = props;
 

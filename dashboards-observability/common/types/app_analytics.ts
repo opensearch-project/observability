@@ -10,6 +10,7 @@ export interface OptionType {
 export interface ApplicationListType {
   name: string;
   id: string;
+  panelId: string;
   dateCreated: string;
   dateModified: string;
 }

@@ -32,9 +32,6 @@ const appBaseQueryState = {
 };
 
 const initialState = {
-  'application-analytics-tab': {
-    ...appBaseQueryState,
-  },
   [initialTabId]: {
     ...initialQueryState,
   },

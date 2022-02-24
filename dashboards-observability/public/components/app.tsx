@@ -56,17 +56,17 @@ export const App = ({
                 render={(props) => {
                   return (
                     <ApplicationAnalyticsHome
-                    {...props}
-                    chrome={chrome}
-                    http={http}
-                    notifications={notifications}
-                    parentBreadcrumb={parentBreadcrumb}
-                    pplService={pplService}
-                    dslService={dslService}
-                    savedObjects={savedObjects}
-                    timestampUtils={timestampUtils}
-                  />
-                  )
+                      {...props}
+                      chrome={chrome}
+                      http={http}
+                      notifications={notifications}
+                      parentBreadcrumb={parentBreadcrumb}
+                      pplService={pplService}
+                      dslService={dslService}
+                      savedObjects={savedObjects}
+                      timestampUtils={timestampUtils}
+                    />
+                  );
                 }}
               />
               <Route
@@ -128,7 +128,7 @@ export const App = ({
                     />
                   );
                 }}
-              />  
+              />
             </Switch>
           </>
         </I18nProvider>

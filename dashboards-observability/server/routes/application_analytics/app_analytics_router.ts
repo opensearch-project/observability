@@ -23,7 +23,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       path: `${API_PREFIX}/`,
       validate: {},
     },
-    async(
+    async (
       context,
       request,
       response
@@ -31,7 +31,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
-      let applicationsData: Array<ApplicationListType> = [];
+      let applicationsData: ApplicationListType[] = [];
       try {
         applicationsData = await appAnalyticsBackend.fetchApps(opensearchClient);
         return response.ok({
@@ -47,7 +47,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         });
       }
     }
-  )
+  );
 
   // Fetch application by id
   router.get(
@@ -59,7 +59,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         }),
       },
     },
-    async(
+    async (
       context,
       request,
       response
@@ -73,7 +73,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           request.params.appId
         );
         return response.ok({
-          body: appObject
+          body: appObject,
         });
       } catch (err: any) {
         console.error('Error occurred while fetching application', err);
@@ -83,8 +83,8 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         });
       }
     }
-  )
-  
+  );
+
   // Create a new application
   router.post(
     {
@@ -95,11 +95,11 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           description: schema.maybe(schema.string()),
           baseQuery: schema.string(),
           servicesEntities: schema.arrayOf(schema.string()),
-          traceGroups: schema.arrayOf(schema.string())
+          traceGroups: schema.arrayOf(schema.string()),
         }),
       },
     },
-    async(
+    async (
       context,
       request,
       response
@@ -121,7 +121,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           body: {
             message: 'Application Created',
             newAppId: newAppId,
-          }
+          },
         });
       } catch (err: any) {
         console.error('Error occurred while creating a new application', err);
@@ -140,7 +140,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       validate: {
         body: schema.object({
           appId: schema.string(),
-          name: schema.string()
+          name: schema.string(),
         }),
       },
     },
@@ -157,7 +157,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         await appAnalyticsBackend.renameApp(
           opensearchClient,
           request.body.appId,
-          request.body.name,
+          request.body.name
         );
         return response.ok({
           body: {
@@ -186,7 +186,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
             description: schema.maybe(schema.string()),
             servicesEntities: schema.maybe(schema.arrayOf(schema.string())),
             traceGroups: schema.maybe(schema.arrayOf(schema.string())),
-            panelId: schema.maybe(schema.string())
+            panelId: schema.maybe(schema.string()),
           }),
         }),
       },

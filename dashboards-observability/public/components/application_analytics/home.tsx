@@ -13,9 +13,9 @@ import SavedObjects from 'public/services/saved_objects/event_analytics/saved_ob
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { NEW_TAB } from '../../../common/constants/explorer';
+import { VisualizationType } from 'common/types/custom_panels';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
 import { CreateApp } from './components/create';
@@ -26,7 +26,7 @@ import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
 import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
-import { initializeTabData, isNameValid, removeTabData } from './helpers/utils';
+import { isNameValid, removeTabData } from './helpers/utils';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
@@ -179,6 +179,43 @@ export const Home = (props: HomeProps) => {
       });
   };
 
+  const deletePanelForApp = (appPanelId: string) => {
+    const concatList = [appPanelId].toString();
+    return http.delete(`${CUSTOM_PANELS_API_PREFIX}/panelList/` + concatList).catch((err) => {
+      setToast(
+        'Error occurred while deleting Operational Panels, please make sure you have the correct permission.',
+        'danger'
+      );
+      console.error(err.body.message);
+    });
+  };
+
+  const fetchPanelsVizIdList = async (appPanelId: string) => {
+    await http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
+      .then((res) => {
+        return res.operationalPanel.visualizations.map((viz: VisualizationType) => viz.id);
+      })
+      .catch((err) => {
+        console.error('Error occurred while fetching visualizations for panel', err);
+      });
+  };
+
+  const deleteSavedVisualizationsForPanel = async (appPanelId: string) => {
+    const savedVizIdsToDelete = fetchPanelsVizIdList(appPanelId);
+    if (!isEmpty(savedVizIdsToDelete)) {
+      await savedObjects
+        .deleteSavedObjectsList({ objectIdList: savedVizIdsToDelete })
+        .then((res) => {
+          deletePanelForApp(appPanelId);
+        })
+        .catch((err) => {
+          setToast('Error occurred while deleting Saved Visualizations', 'danger');
+          console.error(err);
+        });
+    }
+  };
+
   // Fetches all existing applications
   const fetchApps = () => {
     return http
@@ -217,8 +254,6 @@ export const Home = (props: HomeProps) => {
       })
       .then(async (res) => {
         createPanelForApp(res.newAppId, application.name);
-        const tabId = `application-analytics-tab-${res.newAppId}`;
-        await initializeTabData(dispatch, tabId, NEW_TAB);
         setToast(`Application "${application.name}" successfully created!`);
         clearStorage();
       })
@@ -289,17 +324,23 @@ export const Home = (props: HomeProps) => {
   };
 
   // Delete existing applications
-  const deleteApp = (appList: string[], toastMessage?: string) => {
+  const deleteApp = (appList: string[], panelList: string[], toastMessage?: string) => {
     return http
       .delete(`${APP_ANALYTICS_API_PREFIX}/${appList.join(',')}`)
       .then((res) => {
         setApplicationList((prevApplicationList) => {
           return prevApplicationList.filter((app) => !appList.includes(app.id));
         });
-        // TODO: Delete associated panels and visualizations
+
         for (let i = 0; i < appList.length; i++) {
           removeTabData(dispatch, appList[i], '');
         }
+
+        for (let i = 0; i < panelList.length; i++) {
+          deleteSavedVisualizationsForPanel(panelList[i]);
+          deletePanelForApp(panelList[i]);
+        }
+
         const message =
           toastMessage || `Application${appList.length > 1 ? 's' : ''} successfully deleted!`;
         setToast(message);

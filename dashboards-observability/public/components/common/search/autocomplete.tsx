@@ -35,7 +35,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     getSuggestions,
     onItemSelect,
     baseQuery,
-    tabId,
+    tabId = '',
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({

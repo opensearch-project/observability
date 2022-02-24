@@ -651,7 +651,7 @@ export const Explorer = ({
       query,
       indexFields: explorerFields,
       userConfigs: userVizConfigs,
-      appData: { appFrom: appLogEvents },
+      appData: { fromApp: appLogEvents },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
