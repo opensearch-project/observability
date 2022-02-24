@@ -386,3 +386,29 @@ describe('Search fields in sidebar', () => {
     cy.get('[data-test-subj="field-OriginAirportID"]').should('exist');
   });
 });
+
+describe('Switch on and off livetail', () => {
+  it('Switch on and off in live tail', () => {
+    landOnEventExplorer();
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
+
+    cy.get('[data-test-subj=eventLiveTail]').click();
+    cy.get('[data-test-subj=eventLiveTail__delay10]').click();
+    cy.wait(delay * 2);
+    cy
+      .get('.euiToastHeader__title')
+      .contains('On')
+      .should('exist');
+
+    cy.get('[data-test-subj=eventLiveTail]').click();
+    cy.get('[data-test-subj=eventLiveTail__off').click();
+    cy.wait(delay * 2);
+    cy
+      .get('.euiToastHeader__title')
+      .contains('Off')
+      .should('exist');
+
+  });
+});

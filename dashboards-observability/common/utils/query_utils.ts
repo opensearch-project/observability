@@ -26,11 +26,13 @@ export const preprocessQuery = ({
   startTime,
   endTime,
   timeField,
+  isLiveQuery,
 }: {
   rawQuery: string;
   startTime: string;
   endTime: string;
   timeField?: string;
+  isLiveQuery: boolean;
 }) => {
   let finalQuery = "";
 
@@ -39,16 +41,18 @@ export const preprocessQuery = ({
   // convert to moment
   const start = datemath.parse(startTime)?.format(DATE_PICKER_FORMAT);
   const end = datemath.parse(endTime)?.format(DATE_PICKER_FORMAT);
-  const tokens = rawQuery
-    .replaceAll(PPL_NEWLINE_REGEX, "")
-    .match(PPL_INDEX_INSERT_POINT_REGEX);
-
+  const tokens = rawQuery.replaceAll(PPL_NEWLINE_REGEX, '').match(PPL_INDEX_INSERT_POINT_REGEX);
+  
   if (isEmpty(tokens)) return finalQuery;
+
   finalQuery = `${tokens![1]}=${
     tokens![2]
   } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${
     tokens![3]
   }`;
-
+  if (isLiveQuery){
+    finalQuery = finalQuery + ` | sort - ${timeField}`;
+  }
   return finalQuery;
-};
+}
+  
