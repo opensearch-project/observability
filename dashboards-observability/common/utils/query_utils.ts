@@ -45,15 +45,14 @@ export const preprocessQuery = ({
   
   if (isEmpty(tokens)) return finalQuery;
 
+  finalQuery = `${tokens![1]}=${
+    tokens![2]
+  } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${
+    tokens![3]
+  }`;
   if (isLiveQuery){
-    finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]} | sort - ${timeField}`;
-  } else {
-    finalQuery = `${tokens![1]}=${
-      tokens![2]
-    } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${
-      tokens![3]
-    }`;
-  };
-  return finalQuery; 
+    finalQuery = finalQuery + ` | sort - ${timeField}`;
+  }
+  return finalQuery;
 }
   
