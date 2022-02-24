@@ -3,26 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isEmpty } from 'lodash';
-import datemath from '@elastic/datemath';
-import { DATE_PICKER_FORMAT } from '../../common/constants/explorer';
+import datemath from "@elastic/datemath";
+import { isEmpty } from "lodash";
+import { DATE_PICKER_FORMAT } from "../../common/constants/explorer";
 import {
-  PPL_INDEX_REGEX,
   PPL_INDEX_INSERT_POINT_REGEX,
-  PPL_NEWLINE_REGEX
-} from '../../common/constants/shared';
+  PPL_INDEX_REGEX,
+  PPL_NEWLINE_REGEX,
+} from "../../common/constants/shared";
 
-export const getIndexPatternFromRawQuery = (query: string) : string => {
+export const getIndexPatternFromRawQuery = (query: string): string => {
   const matches = query.match(PPL_INDEX_REGEX);
   if (matches) {
     return matches[2];
   }
-  return '';
+  return "";
 };
-
-const commandExists = (query: string, command: string): boolean => {
-  return new RegExp(`\\|\\s*${command}\\b`).test(query);
-}
 
 // insert time filter command and additional commands based on raw query
 export const preprocessQuery = ({
@@ -30,11 +26,13 @@ export const preprocessQuery = ({
   startTime,
   endTime,
   timeField,
+  isLiveQuery,
 }: {
   rawQuery: string;
   startTime: string;
   endTime: string;
   timeField?: string;
+  isLiveQuery: boolean;
 }) => {
 
   let finalQuery = '';
@@ -48,12 +46,15 @@ export const preprocessQuery = ({
   
   if (isEmpty(tokens)) return finalQuery;
 
-  let conditions = `| where ${timeField} >= '${start}' and ${timeField} <= '${end}'`;
-  if (commandExists(rawQuery, 'parse')) {
-    conditions += ` | sort - ${timeField} | head 10000`;
-  }
-
-  finalQuery = `${tokens![1]}=${tokens![2]} ${conditions} ${tokens![3]}`;
-
-  return finalQuery;
-};
+  if (isLiveQuery){
+    finalQuery = `${tokens![1]}=${tokens![2]} | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]} | sort - ${timeField}`;
+  } else {
+    finalQuery = `${tokens![1]}=${
+      tokens![2]
+    } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${
+      tokens![3]
+    }`;
+  };
+  return finalQuery; 
+}
+  

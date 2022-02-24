@@ -64,7 +64,6 @@ import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
 import { IExplorerProps } from '../../../common/types/explorer';
-import { insertDateRangeAndSortToQuery } from '../../../common/utils/live_tail';
 import {
   getFullSuggestions,
   getSuggestionsAfterSource,
@@ -177,7 +176,8 @@ export const Explorer = ({
     curQuery: any,
     startTime: string,
     endTime: string,
-    timeField: string
+    timeField: string,
+    isLiveQuery: boolean,
   ) => {
     const fullQuery = appBaseQuery
     ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
@@ -188,24 +188,7 @@ export const Explorer = ({
       startTime: startTime,
       endTime: endTime,
       timeField,
-    });
-  };
-
-  const composeLiveTailQuery = (
-    curQuery: any,
-    startTime: string,
-    endTime: string,
-    timeField: string
-  ) => {
-    const fullQuery = appBaseQuery
-    ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
-    : curQuery![RAW_QUERY];
-    if (isEmpty(fullQuery)) return '';
-    return insertDateRangeAndSortToQuery({
-      rawQuery: fullQuery,
-      startTime: startTime,
-      endTime: endTime,
-      timeField,
+      isLiveQuery,
     });
   };
 
@@ -357,7 +340,8 @@ export const Explorer = ({
       curQuery,
       curQuery![SELECTED_DATE_RANGE][0],
       curQuery![SELECTED_DATE_RANGE][1],
-      curTimestamp || curQuery![SELECTED_TIMESTAMP]
+      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      isLiveTailOnRef.current
     );
 
     await dispatch(
@@ -423,11 +407,12 @@ export const Explorer = ({
     }
 
     // compose final query
-    const finalQuery = composeLiveTailQuery(
+    const finalQuery = composeFinalQuery(
       curQuery,
       startTime,
       endTime,
-      curTimestamp || curQuery![SELECTED_TIMESTAMP]
+      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      isLiveTailOnRef.current
     );
 
     await dispatch(
