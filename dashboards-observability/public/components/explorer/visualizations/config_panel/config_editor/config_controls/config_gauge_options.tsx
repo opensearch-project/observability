@@ -68,7 +68,7 @@ export const ConfigGaugeValueOptions = ({
         </>
       );
     });
-  }, [schemas, fields, vizState, handleConfigurationChange]);
+  }, [schemas, vizState, handleConfigurationChange, dropdownLists]);
 
   return (
     <EuiAccordion
