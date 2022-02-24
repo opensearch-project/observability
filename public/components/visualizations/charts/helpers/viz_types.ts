@@ -22,9 +22,11 @@ export const getVizContainerProps = ({
   query = {},
   indexFields = {},
   userConfigs = {},
+  appData = {},
 }: any) => {
   return {
     data: {
+      appData: { ...appData },
       rawVizData: { ...rawVizData },
       query: { ...query },
       indexFields: { ...indexFields },

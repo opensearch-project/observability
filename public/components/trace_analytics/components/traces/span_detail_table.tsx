@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiDataGrid, EuiDataGridColumn, EuiLink, EuiText } from '@elastic/eui';
 import _ from 'lodash';

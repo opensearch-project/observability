@@ -35,7 +35,9 @@ export function ServicesTable(props: {
   loading: boolean;
   page?: string;
   openServiceFlyout?: any;
+  switchToTrace?: any;
 }) {
+  const appServices = props.page === 'app';
   const renderTitleBar = (totalItems?: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
@@ -55,7 +57,7 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           render: (item) =>
-            props.page === 'app' ? (
+            appServices ? (
               <EuiLink onClick={() => props.openServiceFlyout(item)}>
                 {item.length < 24 ? (
                   item
@@ -127,27 +129,25 @@ export function ServicesTable(props: {
           render: (item, row) => (
             <>
               {item === 0 || item ? (
-                props.page === 'app' ? (
-                  <EuiLink>
-                    <EuiI18nNumber value={item} />
-                  </EuiLink>
-                ) : (
-                  <EuiLink
-                    onClick={() => {
-                      props.setRedirect(true);
-                      props.addFilter({
-                        field: 'serviceName',
-                        operator: 'is',
-                        value: row.name,
-                        inverted: false,
-                        disabled: false,
-                      });
+                <EuiLink
+                  onClick={() => {
+                    props.setRedirect(true);
+                    props.addFilter({
+                      field: 'serviceName',
+                      operator: 'is',
+                      value: row.name,
+                      inverted: false,
+                      disabled: false,
+                    });
+                    if (appServices) {
+                      props.switchToTrace();
+                    } else {
                       location.assign('#/trace_analytics/traces');
-                    }}
-                  >
-                    <EuiI18nNumber value={item} />
-                  </EuiLink>
-                )
+                    }
+                  }}
+                >
+                  <EuiI18nNumber value={item} />
+                </EuiLink>
               ) : (
                 '-'
               )}

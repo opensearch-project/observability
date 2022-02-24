@@ -34,9 +34,12 @@ export const LogConfig = (props: LogConfigProps) => {
   const [logOpen, setLogOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const tempQuery = '';
+  const [tempQuery, setTempQuery] = useState<string>('');
 
-  const handleQueryChange = async (newQuery: string) => setQueryWithStorage(newQuery);
+  const handleQueryChange = async (newQuery: string) => {
+    setTempQuery(newQuery);
+    setQueryWithStorage(newQuery);
+  };
 
   const showFlyout = () => {
     setIsFlyoutVisible(true);
@@ -106,11 +109,13 @@ export const LogConfig = (props: LogConfigProps) => {
               key={'autocomplete-bar'}
               query={query}
               tempQuery={tempQuery}
+              baseQuery=""
               handleQueryChange={handleQueryChange}
               handleQuerySearch={() => {}}
               dslService={dslService}
               getSuggestions={getFullSuggestions}
               onItemSelect={onItemSelect}
+              tabId={'application-analytics-tab'}
             />
             <EuiBadge
               className={`ppl-link ${

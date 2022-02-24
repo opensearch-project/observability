@@ -17,6 +17,7 @@ import {
   EuiFieldText,
 } from '@elastic/eui';
 import { uniqueId, isEmpty } from 'lodash';
+import { PPL_SPAN_REGEX } from '../../../../../../../common/constants/shared';
 
 export const ConfigThresholds = ({
   visualizations,
@@ -25,6 +26,7 @@ export const ConfigThresholds = ({
   handleConfigChange,
   sectionName = 'Thresholds',
 }: any) => {
+  let addButtonText = '+ Add threadshold';
   const getThresholdUnit = () => {
     return {
       thid: uniqueId('thr'),
@@ -33,6 +35,14 @@ export const ConfigThresholds = ({
       value: 0,
     };
   };
+
+  const hasSpanInApp =
+    visualizations.data.query.finalQuery.search(PPL_SPAN_REGEX) > 0 &&
+    visualizations.data.appData.fromApp;
+  if (hasSpanInApp) {
+    sectionName = 'Availability Levels';
+    addButtonText = '+ Add availability level';
+  }
 
   const handleAddThreshold = useCallback(() => {
     let res = vizState;
@@ -69,7 +79,7 @@ export const ConfigThresholds = ({
   return (
     <EuiAccordion id={`configPanel__${sectionName}`} buttonContent={sectionName} paddingSize="s">
       <EuiButton fullWidth size="s" onClick={handleAddThreshold}>
-        + Add threadshold
+        {addButtonText}
       </EuiButton>
       <EuiSpacer size="s" />
       {!isEmpty(vizState) &&

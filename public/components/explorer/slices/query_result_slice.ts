@@ -10,7 +10,6 @@ import { REDUX_EXPL_SLICE_QUERY_RESULT } from '../../../../common/constants/expl
 
 const initialState = {
   [initialTabId]: {},
-  'application-analytics-tab': {},
 };
 
 export const queryResultSlice = createSlice({

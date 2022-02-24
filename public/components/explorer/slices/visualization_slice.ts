@@ -9,7 +9,6 @@ import { REDUX_EXPL_SLICE_VISUALIZATION } from '../../../../common/constants/exp
 
 const initialState = {
   [initialTabId]: {},
-  'application-analytics-tab': {},
 };
 
 export const explorerVisualizationSlice = createSlice({

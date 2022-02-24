@@ -26,7 +26,7 @@ export const EventAnalytics = ({
   ...props
 }: any) => {
   const history = useHistory();
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const eventAnalyticsBreadcrumb = {
     text: 'Event analytics',
