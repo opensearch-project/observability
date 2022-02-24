@@ -28,6 +28,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -60,6 +63,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
 
@@ -80,6 +87,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -112,6 +122,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
 
@@ -132,6 +146,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -164,6 +181,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Log source').click();
@@ -187,6 +208,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -219,6 +243,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Log source').click();
@@ -242,6 +270,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -283,6 +314,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -306,6 +341,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -347,6 +385,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Select services & entities to include in this application').click();
@@ -370,6 +412,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -411,6 +456,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();
@@ -434,6 +483,9 @@ describe('Create Page', () => {
     const setToasts = jest.fn();
     const updateApp = jest.fn();
     const clearStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -475,6 +527,10 @@ describe('Create Page', () => {
         setToasts={setToasts}
         updateApp={updateApp}
         existingAppId="undefined"
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
       />
     );
     utils.getByText('Constrain your application to specific trace groups').click();

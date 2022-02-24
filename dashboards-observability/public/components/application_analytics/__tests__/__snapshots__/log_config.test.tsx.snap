@@ -2,6 +2,7 @@
 
 exports[`Log Config component renders empty log config 1`] = `
 <LogConfig
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -17,6 +18,7 @@ exports[`Log Config component renders empty log config 1`] = `
       "http": [MockFunction],
     }
   }
+  editMode={false}
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
@@ -29,8 +31,10 @@ exports[`Log Config component renders empty log config 1`] = `
     }
   }
   query=""
+  setAppConfigs={[MockFunction]}
   setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
   setFilters={[MockFunction]}
   setFiltersWithStorage={[MockFunction]}
   setIsFlyoutVisible={[MockFunction]}
@@ -38,6 +42,7 @@ exports[`Log Config component renders empty log config 1`] = `
   setQuery={[MockFunction]}
   setQueryWithStorage={[MockFunction]}
   setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
   startTime="now-5m"
 >
   <div>
@@ -222,172 +227,234 @@ exports[`Log Config component renders empty log config 1`] = `
               <div
                 className="euiAccordion__padding--l"
               >
-                <EuiFormRow
-                  describedByIds={Array []}
-                  display="row"
-                  fullWidth={false}
-                  hasChildLabel={true}
-                  hasEmptyLabelSpace={false}
-                  helpText="The default logs view in the application will be filtered by this query."
-                  label="PPL Base Query"
-                  labelType="label"
+                <EuiFlexGroup
+                  direction="column"
+                  gutterSize="s"
                 >
                   <div
-                    className="euiFormRow"
-                    id="random_html_id-row"
+                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                   >
-                    <div
-                      className="euiFormRow__labelWrapper"
-                    >
-                      <EuiFormLabel
-                        className="euiFormRow__label"
-                        htmlFor="random_html_id"
-                        isFocused={false}
-                        type="label"
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
                       >
-                        <label
-                          className="euiFormLabel euiFormRow__label"
-                          htmlFor="random_html_id"
+                        <EuiCallOut
+                          iconType="iInCircle"
+                          size="s"
+                          style={
+                            Object {
+                              "maxWidth": "900px",
+                            }
+                          }
                         >
-                          PPL Base Query
-                        </label>
-                      </EuiFormLabel>
-                    </div>
-                    <div
-                      className="euiFormRow__fieldWrapper"
-                    >
-                      <EuiFlexItem
-                        aria-describedby="random_html_id-help"
-                        className="query-area"
-                        grow={false}
-                        id="random_html_id"
-                        key="query-bar"
-                        onBlur={[Function]}
-                        onFocus={[Function]}
-                      >
-                        <div
-                          aria-describedby="random_html_id-help"
-                          className="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                          id="random_html_id"
-                          onBlur={[Function]}
-                          onFocus={[Function]}
-                        >
-                          <Autocomplete
-                            dslService={
+                          <div
+                            className="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style={
                               Object {
-                                "fetch": [MockFunction],
-                                "fetchFields": [MockFunction],
-                                "fetchIndices": [MockFunction],
-                                "http": [MockFunction],
+                                "maxWidth": "900px",
                               }
                             }
-                            getSuggestions={[Function]}
-                            handleQueryChange={[Function]}
-                            handleQuerySearch={[Function]}
-                            key="autocomplete-bar"
-                            onItemSelect={[Function]}
-                            query=""
-                            tempQuery=""
+                          >
+                            <EuiText
+                              size="xs"
+                            >
+                              <div
+                                className="euiText euiText--extraSmall"
+                              >
+                                You can't change the base query after the application is created.
+                              </div>
+                            </EuiText>
+                          </div>
+                        </EuiCallOut>
+                      </div>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="The default logs view in the application will be filtered by this query."
+                          label="Base Query"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
                           >
                             <div
-                              aria-expanded={false}
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-0-label"
-                              className="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              className="euiFormRow__labelWrapper"
                             >
-                              <EuiTextArea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-0-label"
-                                autoCapitalize="off"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoFocus={false}
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterKeyHint="search"
-                                id="autocomplete-textarea"
-                                maxLength={512}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                placeholder="Enter PPL query"
-                                spellCheck="false"
-                                type="search"
-                                value=""
+                              <EuiFormLabel
+                                className="euiFormRow__label"
+                                htmlFor="random_html_id"
+                                isFocused={false}
+                                type="label"
                               >
-                                <EuiValidatableControl>
-                                  <textarea
-                                    aria-autocomplete="both"
-                                    aria-labelledby="autocomplete-0-label"
-                                    autoCapitalize="off"
-                                    autoComplete="off"
-                                    autoCorrect="off"
-                                    autoFocus={false}
-                                    className="euiTextArea euiTextArea--resizeVertical"
-                                    data-test-subj="searchAutocompleteTextArea"
-                                    enterKeyHint="search"
-                                    id="autocomplete-textarea"
-                                    maxLength={512}
-                                    onBlur={[Function]}
-                                    onChange={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onKeyDown={[Function]}
-                                    placeholder="Enter PPL query"
-                                    rows={6}
-                                    spellCheck="false"
-                                    type="search"
-                                    value=""
-                                  />
-                                </EuiValidatableControl>
-                              </EuiTextArea>
-                            </div>
-                          </Autocomplete>
-                          <EuiBadge
-                            className="ppl-link ppl-link-light"
-                            color="hollow"
-                            onClick={[Function]}
-                            onClickAriaLabel="pplLinkShowFlyout"
-                          >
-                            <EuiInnerText>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                disabled={false}
-                                onClick={[Function]}
-                                title="PPL"
-                              >
-                                <span
-                                  className="euiBadge__content"
+                                <label
+                                  className="euiFormLabel euiFormRow__label"
+                                  htmlFor="random_html_id"
                                 >
-                                  <span
-                                    className="euiBadge__text"
+                                  Base Query
+                                </label>
+                              </EuiFormLabel>
+                            </div>
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help"
+                                className="query-area"
+                                grow={false}
+                                id="random_html_id"
+                                key="query-bar"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": "900px",
+                                  }
+                                }
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  className="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": "900px",
+                                    }
+                                  }
+                                >
+                                  <Autocomplete
+                                    dslService={
+                                      Object {
+                                        "fetch": [MockFunction],
+                                        "fetchFields": [MockFunction],
+                                        "fetchIndices": [MockFunction],
+                                        "http": [MockFunction],
+                                      }
+                                    }
+                                    getSuggestions={[Function]}
+                                    handleQueryChange={[Function]}
+                                    handleQuerySearch={[Function]}
+                                    isDisabled={false}
+                                    key="autocomplete-bar"
+                                    onItemSelect={[Function]}
+                                    query=""
+                                    tempQuery=""
                                   >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
-                            </EuiInnerText>
-                          </EuiBadge>
-                        </div>
-                      </EuiFlexItem>
-                      <EuiFormHelpText
-                        className="euiFormRow__text"
-                        id="random_html_id-help"
-                      >
-                        <div
-                          className="euiFormHelpText euiFormRow__text"
-                          id="random_html_id-help"
-                        >
-                          The default logs view in the application will be filtered by this query.
-                        </div>
-                      </EuiFormHelpText>
-                    </div>
+                                    <div
+                                      aria-expanded={false}
+                                      aria-haspopup="listbox"
+                                      aria-labelledby="autocomplete-0-label"
+                                      className="aa-Autocomplete"
+                                      id="autocomplete-root"
+                                      role="combobox"
+                                    >
+                                      <EuiTextArea
+                                        aria-autocomplete="both"
+                                        aria-labelledby="autocomplete-0-label"
+                                        autoCapitalize="off"
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoFocus={false}
+                                        data-test-subj="searchAutocompleteTextArea"
+                                        disabled={false}
+                                        enterKeyHint="search"
+                                        id="autocomplete-textarea"
+                                        maxLength={512}
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        placeholder="Enter PPL query"
+                                        spellCheck="false"
+                                        type="search"
+                                        value=""
+                                      >
+                                        <EuiValidatableControl>
+                                          <textarea
+                                            aria-autocomplete="both"
+                                            aria-labelledby="autocomplete-0-label"
+                                            autoCapitalize="off"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoFocus={false}
+                                            className="euiTextArea euiTextArea--resizeVertical"
+                                            data-test-subj="searchAutocompleteTextArea"
+                                            disabled={false}
+                                            enterKeyHint="search"
+                                            id="autocomplete-textarea"
+                                            maxLength={512}
+                                            onBlur={[Function]}
+                                            onChange={[Function]}
+                                            onClick={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder="Enter PPL query"
+                                            rows={6}
+                                            spellCheck="false"
+                                            type="search"
+                                            value=""
+                                          />
+                                        </EuiValidatableControl>
+                                      </EuiTextArea>
+                                    </div>
+                                  </Autocomplete>
+                                  <EuiBadge
+                                    className="ppl-link ppl-link-light"
+                                    color="hollow"
+                                    onClick={[Function]}
+                                    onClickAriaLabel="pplLinkShowFlyout"
+                                  >
+                                    <EuiInnerText>
+                                      <button
+                                        aria-label="pplLinkShowFlyout"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        title="PPL"
+                                      >
+                                        <span
+                                          className="euiBadge__content"
+                                        >
+                                          <span
+                                            className="euiBadge__text"
+                                          >
+                                            PPL
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </EuiInnerText>
+                                  </EuiBadge>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                      </div>
+                    </EuiFlexItem>
                   </div>
-                </EuiFormRow>
+                </EuiFlexGroup>
               </div>
             </div>
           </EuiResizeObserver>
@@ -400,6 +467,7 @@ exports[`Log Config component renders empty log config 1`] = `
 
 exports[`Log Config component renders with query 1`] = `
 <LogConfig
+  appConfigs={Array []}
   chrome={
     Object {
       "getIsNavDrawerLocked$": [MockFunction],
@@ -415,6 +483,7 @@ exports[`Log Config component renders with query 1`] = `
       "http": [MockFunction],
     }
   }
+  editMode={false}
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
@@ -427,8 +496,10 @@ exports[`Log Config component renders with query 1`] = `
     }
   }
   query="source = openserach_dashboard_sample_logs"
+  setAppConfigs={[MockFunction]}
   setDescriptionWithStorage={[MockFunction]}
   setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
   setFilters={[MockFunction]}
   setFiltersWithStorage={[MockFunction]}
   setIsFlyoutVisible={[MockFunction]}
@@ -436,6 +507,7 @@ exports[`Log Config component renders with query 1`] = `
   setQuery={[MockFunction]}
   setQueryWithStorage={[MockFunction]}
   setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
   startTime="now-5m"
 >
   <div>
@@ -625,172 +697,234 @@ exports[`Log Config component renders with query 1`] = `
               <div
                 className="euiAccordion__padding--l"
               >
-                <EuiFormRow
-                  describedByIds={Array []}
-                  display="row"
-                  fullWidth={false}
-                  hasChildLabel={true}
-                  hasEmptyLabelSpace={false}
-                  helpText="The default logs view in the application will be filtered by this query."
-                  label="PPL Base Query"
-                  labelType="label"
+                <EuiFlexGroup
+                  direction="column"
+                  gutterSize="s"
                 >
                   <div
-                    className="euiFormRow"
-                    id="random_html_id-row"
+                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                   >
-                    <div
-                      className="euiFormRow__labelWrapper"
-                    >
-                      <EuiFormLabel
-                        className="euiFormRow__label"
-                        htmlFor="random_html_id"
-                        isFocused={false}
-                        type="label"
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
                       >
-                        <label
-                          className="euiFormLabel euiFormRow__label"
-                          htmlFor="random_html_id"
+                        <EuiCallOut
+                          iconType="iInCircle"
+                          size="s"
+                          style={
+                            Object {
+                              "maxWidth": "900px",
+                            }
+                          }
                         >
-                          PPL Base Query
-                        </label>
-                      </EuiFormLabel>
-                    </div>
-                    <div
-                      className="euiFormRow__fieldWrapper"
-                    >
-                      <EuiFlexItem
-                        aria-describedby="random_html_id-help"
-                        className="query-area"
-                        grow={false}
-                        id="random_html_id"
-                        key="query-bar"
-                        onBlur={[Function]}
-                        onFocus={[Function]}
-                      >
-                        <div
-                          aria-describedby="random_html_id-help"
-                          className="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                          id="random_html_id"
-                          onBlur={[Function]}
-                          onFocus={[Function]}
-                        >
-                          <Autocomplete
-                            dslService={
+                          <div
+                            className="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style={
                               Object {
-                                "fetch": [MockFunction],
-                                "fetchFields": [MockFunction],
-                                "fetchIndices": [MockFunction],
-                                "http": [MockFunction],
+                                "maxWidth": "900px",
                               }
                             }
-                            getSuggestions={[Function]}
-                            handleQueryChange={[Function]}
-                            handleQuerySearch={[Function]}
-                            key="autocomplete-bar"
-                            onItemSelect={[Function]}
-                            query="source = openserach_dashboard_sample_logs"
-                            tempQuery=""
+                          >
+                            <EuiText
+                              size="xs"
+                            >
+                              <div
+                                className="euiText euiText--extraSmall"
+                              >
+                                You can't change the base query after the application is created.
+                              </div>
+                            </EuiText>
+                          </div>
+                        </EuiCallOut>
+                      </div>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="The default logs view in the application will be filtered by this query."
+                          label="Base Query"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
                           >
                             <div
-                              aria-expanded={false}
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-1-label"
-                              className="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              className="euiFormRow__labelWrapper"
                             >
-                              <EuiTextArea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-1-label"
-                                autoCapitalize="off"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoFocus={false}
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterKeyHint="search"
-                                id="autocomplete-textarea"
-                                maxLength={512}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                placeholder="Enter PPL query"
-                                spellCheck="false"
-                                type="search"
-                                value="source = openserach_dashboard_sample_logs"
+                              <EuiFormLabel
+                                className="euiFormRow__label"
+                                htmlFor="random_html_id"
+                                isFocused={false}
+                                type="label"
                               >
-                                <EuiValidatableControl>
-                                  <textarea
-                                    aria-autocomplete="both"
-                                    aria-labelledby="autocomplete-1-label"
-                                    autoCapitalize="off"
-                                    autoComplete="off"
-                                    autoCorrect="off"
-                                    autoFocus={false}
-                                    className="euiTextArea euiTextArea--resizeVertical"
-                                    data-test-subj="searchAutocompleteTextArea"
-                                    enterKeyHint="search"
-                                    id="autocomplete-textarea"
-                                    maxLength={512}
-                                    onBlur={[Function]}
-                                    onChange={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onKeyDown={[Function]}
-                                    placeholder="Enter PPL query"
-                                    rows={6}
-                                    spellCheck="false"
-                                    type="search"
-                                    value="source = openserach_dashboard_sample_logs"
-                                  />
-                                </EuiValidatableControl>
-                              </EuiTextArea>
-                            </div>
-                          </Autocomplete>
-                          <EuiBadge
-                            className="ppl-link ppl-link-light"
-                            color="hollow"
-                            onClick={[Function]}
-                            onClickAriaLabel="pplLinkShowFlyout"
-                          >
-                            <EuiInnerText>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                disabled={false}
-                                onClick={[Function]}
-                                title="PPL"
-                              >
-                                <span
-                                  className="euiBadge__content"
+                                <label
+                                  className="euiFormLabel euiFormRow__label"
+                                  htmlFor="random_html_id"
                                 >
-                                  <span
-                                    className="euiBadge__text"
+                                  Base Query
+                                </label>
+                              </EuiFormLabel>
+                            </div>
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help"
+                                className="query-area"
+                                grow={false}
+                                id="random_html_id"
+                                key="query-bar"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": "900px",
+                                  }
+                                }
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  className="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": "900px",
+                                    }
+                                  }
+                                >
+                                  <Autocomplete
+                                    dslService={
+                                      Object {
+                                        "fetch": [MockFunction],
+                                        "fetchFields": [MockFunction],
+                                        "fetchIndices": [MockFunction],
+                                        "http": [MockFunction],
+                                      }
+                                    }
+                                    getSuggestions={[Function]}
+                                    handleQueryChange={[Function]}
+                                    handleQuerySearch={[Function]}
+                                    isDisabled={false}
+                                    key="autocomplete-bar"
+                                    onItemSelect={[Function]}
+                                    query="source = openserach_dashboard_sample_logs"
+                                    tempQuery=""
                                   >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
-                            </EuiInnerText>
-                          </EuiBadge>
-                        </div>
-                      </EuiFlexItem>
-                      <EuiFormHelpText
-                        className="euiFormRow__text"
-                        id="random_html_id-help"
-                      >
-                        <div
-                          className="euiFormHelpText euiFormRow__text"
-                          id="random_html_id-help"
-                        >
-                          The default logs view in the application will be filtered by this query.
-                        </div>
-                      </EuiFormHelpText>
-                    </div>
+                                    <div
+                                      aria-expanded={false}
+                                      aria-haspopup="listbox"
+                                      aria-labelledby="autocomplete-1-label"
+                                      className="aa-Autocomplete"
+                                      id="autocomplete-root"
+                                      role="combobox"
+                                    >
+                                      <EuiTextArea
+                                        aria-autocomplete="both"
+                                        aria-labelledby="autocomplete-1-label"
+                                        autoCapitalize="off"
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoFocus={false}
+                                        data-test-subj="searchAutocompleteTextArea"
+                                        disabled={false}
+                                        enterKeyHint="search"
+                                        id="autocomplete-textarea"
+                                        maxLength={512}
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        placeholder="Enter PPL query"
+                                        spellCheck="false"
+                                        type="search"
+                                        value="source = openserach_dashboard_sample_logs"
+                                      >
+                                        <EuiValidatableControl>
+                                          <textarea
+                                            aria-autocomplete="both"
+                                            aria-labelledby="autocomplete-1-label"
+                                            autoCapitalize="off"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoFocus={false}
+                                            className="euiTextArea euiTextArea--resizeVertical"
+                                            data-test-subj="searchAutocompleteTextArea"
+                                            disabled={false}
+                                            enterKeyHint="search"
+                                            id="autocomplete-textarea"
+                                            maxLength={512}
+                                            onBlur={[Function]}
+                                            onChange={[Function]}
+                                            onClick={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder="Enter PPL query"
+                                            rows={6}
+                                            spellCheck="false"
+                                            type="search"
+                                            value="source = openserach_dashboard_sample_logs"
+                                          />
+                                        </EuiValidatableControl>
+                                      </EuiTextArea>
+                                    </div>
+                                  </Autocomplete>
+                                  <EuiBadge
+                                    className="ppl-link ppl-link-light"
+                                    color="hollow"
+                                    onClick={[Function]}
+                                    onClickAriaLabel="pplLinkShowFlyout"
+                                  >
+                                    <EuiInnerText>
+                                      <button
+                                        aria-label="pplLinkShowFlyout"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        title="PPL"
+                                      >
+                                        <span
+                                          className="euiBadge__content"
+                                        >
+                                          <span
+                                            className="euiBadge__text"
+                                          >
+                                            PPL
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </EuiInnerText>
+                                  </EuiBadge>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                      </div>
+                    </EuiFlexItem>
                   </div>
-                </EuiFormRow>
+                </EuiFlexGroup>
               </div>
             </div>
           </EuiResizeObserver>
