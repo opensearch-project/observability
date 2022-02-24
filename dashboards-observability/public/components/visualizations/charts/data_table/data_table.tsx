@@ -100,5 +100,4 @@ export const DataTable = ({ visualizations }: any) => {
       }}
     />
   );
-  // return <EuiInMemoryTable items={jsonData} columns={colunms} pagination={true} />;
 };

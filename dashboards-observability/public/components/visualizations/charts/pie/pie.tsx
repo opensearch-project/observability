@@ -15,7 +15,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
     dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
       ? dataConfig?.valueOptions.xaxis
@@ -42,14 +42,16 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     };
   });
 
-  return (
-    <Plt
-      data={pies}
-      layout={{
-        ...layout,
-        title: dataConfig?.panelOptions?.title || '',
-      }}
-      config={config}
-    />
-  );
+  const mergedLayout = {
+    ...layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+  };
+
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={pies} layout={mergedLayout} config={mergedConfigs} />;
 };

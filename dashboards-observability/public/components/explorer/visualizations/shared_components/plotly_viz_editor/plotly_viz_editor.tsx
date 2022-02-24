@@ -54,7 +54,7 @@ const hjsonStringifyOptions = {
   keepWsc: true,
 };
 
-function PlotlyVizEditor({ spec, onVizConfigChange, setToast }: any) {
+function PlotlyVizEditor({ spec, onVizConfigChange, setToast, vizState, userConfigs = {} }: any) {
   const formatHJson = useCallback(
     () => onVizConfigChange(format(spec, hjson.stringify, hjsonStringifyOptions)),
     [onVizConfigChange, spec]

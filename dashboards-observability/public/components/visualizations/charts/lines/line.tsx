@@ -14,7 +14,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { vis } = visualizations;
   const { defaultAxes } = visualizations.data;
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
     dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
       ? dataConfig?.valueOptions.xaxis
@@ -40,21 +40,21 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return {
       x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
       y: data[field.name],
-      // text: dataConfig.thresholds ? dataConfig.thresholds.map((thr) => thr.name) : [],
       type: 'line',
       name: field.name,
       mode,
     };
   });
 
-  const finalLayout = {
+  const mergedLayout = {
     ...layout,
-    title: dataConfig?.panelOptions?.title || '',
+    ...layoutConfig.layout,
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
   // threshold(s)
   if (dataConfig.thresholds) {
-    finalLayout.shapes = [
+    mergedLayout.shapes = [
       ...dataConfig.thresholds.map((thr) => {
         return {
           type: 'line',
@@ -72,5 +72,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
     ];
   }
 
-  return <Plt data={lineValues} layout={finalLayout} config={config} />;
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={lineValues} layout={mergedLayout} config={mergedConfigs} />;
 };

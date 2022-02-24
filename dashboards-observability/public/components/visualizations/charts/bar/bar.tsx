@@ -16,7 +16,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { isUniColor } = vis.visConfig;
   const lastIndex = fields.length - 1;
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
     dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
       ? dataConfig?.valueOptions.xaxis
@@ -72,15 +72,22 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
     data[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
-  const finalFigureLayout = {
+
+  const mergedLayout = {
     colorway: plotlyColorway,
     ...layout,
-    title: dataConfig?.panelOptions?.title || '',
+    ...(layoutConfig.layout && layoutConfig.layout),
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode:
       dataConfig?.chartOptions?.mode && dataConfig.chartOptions.mode[0].modeId
         ? dataConfig.chartOptions.mode[0].modeId
         : '',
   };
 
-  return <Plt data={bars} layout={finalFigureLayout} config={config} />;
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={bars} layout={mergedLayout} config={mergedConfigs} />;
 };

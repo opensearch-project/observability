@@ -16,7 +16,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
 
-  const { dataConfig } = visualizations.data.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
 
   const series =
     dataConfig?.valueOptions && dataConfig?.valueOptions?.series
@@ -81,7 +81,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     return calculatedGaugeData;
   }, [series, value, data, fields, thresholds]);
 
-  const finalLayout = useMemo(() => {
+  const mergedLayout = useMemo(() => {
     return {
       grid: {
         rows: Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER),
@@ -89,8 +89,15 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
         pattern: 'independent',
       },
       ...layout,
+      ...(layoutConfig.layout && layoutConfig.layout),
+      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     };
-  }, [layout, gaugeData.length]);
+  }, [layout, gaugeData.length, layoutConfig.layout, dataConfig?.panelOptions?.title]);
 
-  return <Plt data={gaugeData} layout={finalLayout} config={config} />;
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />;
 };

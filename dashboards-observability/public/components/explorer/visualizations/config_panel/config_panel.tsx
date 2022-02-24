@@ -20,7 +20,6 @@ import {
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
-import { VizDataPanel as DefaultVisEditor } from './config_editor/default_vis_editor';
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { getVisType } from '../../../visualizations/charts/vis_types';
@@ -45,37 +44,36 @@ const HJSON_PARSE_OPTIONS = {
 
 const HJSON_STRINGIFY_OPTIONS = {
   keepWsc: true,
-  condense: 1,
+  condense: 0,
   bracesSameLine: true,
 };
 
 const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'gauge', 'heatmap', 'text'];
 
 export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
-  const {
-    tabId,
-    curVisId,
-    dispatch,
-    changeVisualizationConfig,
-    explorerVisualizations,
-    setToast,
-  } = useContext<any>(TabContext);
+  const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
+    TabContext
+  );
   const { data, vis } = visualizations;
-  const { fields } = visualizations?.data?.rawVizData?.metadata || { fields: [] };
-  const { rawVizData, userConfigs } = data;
-  const VisEditor = vis?.editorConfig?.editor || DefaultVisEditor;
-  const [hjsonLayoutConfig, setHjsonLayoutConfig] = useState(() => {
-    return userConfigs?.layout || userConfigs?.config
-      ? hjson.stringify(
-          {
-            layout: { ...userConfigs?.layout },
-            config: { ...userConfigs?.config },
-          },
-          HJSON_STRINGIFY_OPTIONS
-        )
-      : getDefaultSpec();
+  const { userConfigs } = data;
+
+  useEffect(() => {
+    setVizConfigs((staleState) => {
+      return {
+        ...staleState,
+        layoutConfig: userConfigs?.layoutConfig
+          ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
+          : getDefaultSpec(),
+      };
+    });
+  }, [userConfigs?.layoutConfig]);
+
+  const [vizConfigs, setVizConfigs] = useState({
+    dataConfig: {},
+    layoutConfig: userConfigs?.layoutConfig
+      ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
+      : getDefaultSpec(),
   });
-  const [vizConfigs, setVizConfigs] = useState({});
 
   const getParsedLayoutConfig = useCallback(
     (hjsonConfig) =>
@@ -92,26 +90,17 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
           tabId,
           vizId: curVisId,
           data: {
-            ...vizConfigs,
-            ...getParsedLayoutConfig(hjsonLayoutConfig),
+            ...{
+              ...vizConfigs,
+              layoutConfig: hjson.parse(vizConfigs.layoutConfig),
+            },
           },
         })
       );
     } catch (e) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
-  }, [
-    tabId,
-    hjsonLayoutConfig,
-    vizConfigs,
-    getParsedLayoutConfig,
-    changeVisualizationConfig,
-    dispatch,
-    setToast,
-    curVisId,
-  ]);
-
-  const handleLayoutConfigChange = (config: string) => setHjsonLayoutConfig(config);
+  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId]);
 
   const handleConfigChange = (configSchema) => {
     return (configChanges) => {
@@ -132,10 +121,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
       vizState: vizConfigs.dataConfig,
     },
     layoutConfig: {
-      onConfigChange: handleConfigChange('layoutConfig'),
-      spec: hjsonLayoutConfig,
+      onConfigEditorChange: handleConfigChange('layoutConfig'),
+      spec: vizConfigs.layoutConfig,
       setToast,
-      vizState: vizConfigs.layoutConfig,
     },
   };
 
@@ -167,7 +155,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     });
   }, []);
 
-  const vizSelectableItemRenderer = (option, searchValue, contentClassName) => {
+  const vizSelectableItemRenderer = (option) => {
     const { icon, label } = option;
     return (
       <div className="configPanel__vizSelector-item">

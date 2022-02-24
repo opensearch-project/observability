@@ -12,7 +12,7 @@ Welcome to text editor!
 
 With text editor, you are able to add text description(s) to your dashboards.`;
 
-export const Text = ({ visualizations, layout, config }: any) => {
+export const Text = ({ visualizations }: any) => {
   const { dataConfig = {} } = visualizations?.data?.userConfigs;
 
   return (

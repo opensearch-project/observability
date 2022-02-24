@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { uniq, chunk, zip } from 'lodash';
+import React, { useMemo } from 'react';
+import { uniq, has } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
@@ -13,7 +13,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = '' } = visualizations?.data?.userConfigs;
 
   const xaxisField = fields[fields.length - 2];
   const yaxisField = fields[fields.length - 1];
@@ -25,46 +25,64 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const uniqueXaxis = uniq(data[xaxisField.name]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
-  const heapMapZaxis = [];
-  const buckets = {};
 
-  for (let i = 0; i < data[xaxisField.name].length; i++) {
-    buckets[`${data[xaxisField.name][i]},${data[yaxisField.name][i]}`] = data[zMetrics.name][i];
-  }
+  const calculatedHeapMapZaxis = useMemo(() => {
+    const heapMapZaxis = [];
+    const buckets = {};
 
-  for (let i = 0; i < uniqueYaxisLength; i++) {
-    const innerBuckets = [];
-    for (let j = 0; j < uniqueXaxisLength; j++) {
-      innerBuckets.push(null);
+    // maps bukcets to metrics
+    for (let i = 0; i < data[xaxisField.name].length; i++) {
+      buckets[`${data[xaxisField.name][i]},${data[yaxisField.name][i]}`] = data[zMetrics.name][i];
     }
-    heapMapZaxis.push(innerBuckets);
-  }
 
-  for (let i = 0; i < uniqueYaxisLength; i++) {
-    for (let j = 0; j < uniqueXaxisLength; j++) {
-      if (buckets[`${uniqueXaxis[j]},${uniqueYaxis[i]}`]) {
-        heapMapZaxis[i][j] = buckets[`${uniqueXaxis[j]},${uniqueYaxis[i]}`];
+    // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
+    for (let i = 0; i < uniqueYaxisLength; i++) {
+      const innerBuckets = [];
+      for (let j = 0; j < uniqueXaxisLength; j++) {
+        innerBuckets.push(null);
+      }
+      heapMapZaxis.push(innerBuckets);
+    }
+
+    // fill in each bucket
+    for (let i = 0; i < uniqueYaxisLength; i++) {
+      for (let j = 0; j < uniqueXaxisLength; j++) {
+        if (has(buckets, `${uniqueXaxis[j]},${uniqueYaxis[i]}`)) {
+          heapMapZaxis[i][j] = buckets[`${uniqueXaxis[j]},${uniqueYaxis[i]}`];
+        }
       }
     }
-  }
+    return heapMapZaxis;
+  }, [
+    data,
+    uniqueYaxis,
+    uniqueXaxis,
+    uniqueYaxisLength,
+    uniqueXaxisLength,
+    xaxisField,
+    yaxisField,
+    zMetrics,
+  ]);
 
   const heapMapData = [
     {
-      z: heapMapZaxis,
+      z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
       type: 'heatmap',
     },
   ];
 
-  return (
-    <Plt
-      data={heapMapData}
-      layout={{
-        ...layout,
-        title: dataConfig?.panelOptions?.title || '',
-      }}
-      config={config}
-    />
-  );
+  const mergedLayout = {
+    ...layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || zMetrics.name || '',
+  };
+
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={heapMapData} layout={mergedLayout} config={mergedConfigs} />;
 };
