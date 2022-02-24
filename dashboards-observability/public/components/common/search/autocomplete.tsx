@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import './search.scss';
 import $ from 'jquery';
@@ -15,9 +15,15 @@ import { uiSettingsService } from '../../../../common/utils';
 import { AutocompleteItem } from '../../../../common/constants/autocomplete';
 
 interface AutocompleteProps extends IQueryBarProps {
-  getSuggestions: (query: string, dslService: DSLService) => Promise<AutocompleteItem[]>;
+  getSuggestions: (
+    base: string,
+    query: string,
+    dslService: DSLService
+  ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
   isDisabled?: boolean;
+  baseQuery: string;
+  tabId: string;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -30,6 +36,8 @@ export const Autocomplete = (props: AutocompleteProps) => {
     getSuggestions,
     onItemSelect,
     isDisabled,
+    baseQuery,
+    tabId,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -42,6 +50,8 @@ export const Autocomplete = (props: AutocompleteProps) => {
     status: 'idle',
   });
 
+  const appLogEvents = tabId === 'application-analytics-tab';
+
   const searchBar = document.getElementById('autocomplete-textarea');
 
   searchBar?.addEventListener('keydown', function (e) {
@@ -53,6 +63,10 @@ export const Autocomplete = (props: AutocompleteProps) => {
       $('#autocomplete-textarea').unbind('keydown');
     };
   });
+
+  const depArray = appLogEvents
+    ? [baseQuery, query, dslService, autocompleteState]
+    : [baseQuery, query, dslService];
 
   const autocomplete = useMemo(() => {
     return createAutocomplete<
@@ -79,7 +93,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             sourceId: 'querySuggestions',
             // eslint-disable-next-line no-shadow
             async getItems({ query }) {
-              const suggestions = await getSuggestions(query, dslService);
+              const suggestions = await getSuggestions(baseQuery, query, dslService);
               return suggestions;
             },
             onSelect: ({ setQuery, item }) => {
@@ -97,7 +111,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         ];
       },
     });
-  }, [query]);
+  }, depArray);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({ id: 'autocomplete-root' })}>

@@ -321,6 +321,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               endTime={end}
               setStartTime={setStart}
               setEndTime={setEnd}
+              page="operationalPanels"
             />
           );
         }}

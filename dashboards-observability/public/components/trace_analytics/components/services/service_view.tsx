@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBadge,
@@ -314,6 +314,7 @@ export function ServiceView(props: ServiceViewProps) {
             idSelected={serviceMapIdSelected}
             setIdSelected={setServiceMapIdSelected}
             currService={props.serviceName}
+            page="serviceView"
           />
           <EuiSpacer />
           <EuiPanel>

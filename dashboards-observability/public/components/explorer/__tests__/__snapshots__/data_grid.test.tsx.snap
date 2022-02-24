@@ -180,252 +180,484 @@ exports[`Datagrid component Renders data grid component 1`] = `
   }
   rowsAll={Array []}
 >
-  <table
-    className="osd-table table"
-    data-test-subj="docTable"
+  <div
+    className="dscTable dscTableFixedScroll"
   >
-    <thead>
-      <tr
-        className="osdDocTableHeader"
-      >
-        <th
-          key="datagrid-header-7"
-        />
-        <th
-          key="datagrid-header-1"
-        >
-          double_per_ip_bytes
-        </th>
-        <th
-          key="datagrid-header-2"
-        >
-          host
-        </th>
-        <th
-          key="datagrid-header-3"
-        >
-          ip_count
-        </th>
-        <th
-          key="datagrid-header-4"
-        >
-          per_ip_bytes
-        </th>
-        <th
-          key="datagrid-header-5"
-        >
-          resp_code
-        </th>
-        <th
-          key="datagrid-header-6"
-        >
-          sum_bytes
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <DocViewRow
-        doc={
-          Object {
-            "AvgTicketPrice": 841.2656,
-            "Cancelled": "false",
-            "Carrier": "OpenSearch Dashboards Airlines",
-            "Dest": "Sydney Kingsford Smith International Airport",
-            "DestAirportID": "SYD",
-            "DestCityName": "Sydney",
-            "DestCountry": "AU",
-            "DestLocation": "{\\"lat\\":-33.94609833,\\"lon\\":151.177002}",
-            "DestRegion": "SE-BD",
-            "DestWeather": "Rain",
-            "DistanceKilometers": 16492.326,
-            "DistanceMiles": 10247.856,
-            "FlightDelay": "false",
-            "FlightDelayMin": 0,
-            "FlightDelayType": "No Delay",
-            "FlightNum": "9HY9SWR",
-            "FlightTimeHour": "17.179506930998397",
-            "FlightTimeMin": 1030.7704,
-            "Origin": "Frankfurt am Main Airport",
-            "OriginAirportID": "FRA",
-            "OriginCityName": "Frankfurt am Main",
-            "OriginCountry": "DE",
-            "OriginLocation": "{\\"lat\\":50.033333,\\"lon\\":8.570556}",
-            "OriginRegion": "DE-HE",
-            "OriginWeather": "Sunny",
-            "dayOfWeek": 0,
-            "timestamp": "2021-05-24 00:00:00",
-          }
-        }
-        key="doc_view11"
-        selectedCols={
-          Array [
-            Object {
-              "name": "double_per_ip_bytes",
-              "type": "long",
-            },
-            Object {
-              "name": "host",
-              "type": "text",
-            },
-            Object {
-              "name": "ip_count",
-              "type": "integer",
-            },
-            Object {
-              "name": "per_ip_bytes",
-              "type": "long",
-            },
-            Object {
-              "name": "resp_code",
-              "type": "text",
-            },
-            Object {
-              "name": "sum_bytes",
-              "type": "long",
-            },
-          ]
-        }
-      >
+    <table
+      className="osd-table table"
+      data-test-subj="docTable"
+    >
+      <thead>
         <tr
-          className="osdDocTable__row"
+          className="osdDocTableHeader"
         >
-          <td
-            className="osdDocTableCell__toggleDetails"
-            key="grid-td-13"
+          <th
+            key="datagrid-header-7"
+          />
+          <th
+            key="datagrid-header-1"
           >
-            <button
-              className="euiButtonIcon euiButtonIcon--text"
-              onClick={[Function]}
+            double_per_ip_bytes
+          </th>
+          <th
+            key="datagrid-header-2"
+          >
+            host
+          </th>
+          <th
+            key="datagrid-header-3"
+          >
+            ip_count
+          </th>
+          <th
+            key="datagrid-header-4"
+          >
+            per_ip_bytes
+          </th>
+          <th
+            key="datagrid-header-5"
+          >
+            resp_code
+          </th>
+          <th
+            key="datagrid-header-6"
+          >
+            sum_bytes
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <DocViewRow
+          doc={
+            Object {
+              "AvgTicketPrice": 841.2656,
+              "Cancelled": "false",
+              "Carrier": "OpenSearch Dashboards Airlines",
+              "Dest": "Sydney Kingsford Smith International Airport",
+              "DestAirportID": "SYD",
+              "DestCityName": "Sydney",
+              "DestCountry": "AU",
+              "DestLocation": "{\\"lat\\":-33.94609833,\\"lon\\":151.177002}",
+              "DestRegion": "SE-BD",
+              "DestWeather": "Rain",
+              "DistanceKilometers": 16492.326,
+              "DistanceMiles": 10247.856,
+              "FlightDelay": "false",
+              "FlightDelayMin": 0,
+              "FlightDelayType": "No Delay",
+              "FlightNum": "9HY9SWR",
+              "FlightTimeHour": "17.179506930998397",
+              "FlightTimeMin": 1030.7704,
+              "Origin": "Frankfurt am Main Airport",
+              "OriginAirportID": "FRA",
+              "OriginCityName": "Frankfurt am Main",
+              "OriginCountry": "DE",
+              "OriginLocation": "{\\"lat\\":50.033333,\\"lon\\":8.570556}",
+              "OriginRegion": "DE-HE",
+              "OriginWeather": "Sunny",
+              "dayOfWeek": 0,
+              "timestamp": "2021-05-24 00:00:00",
+            }
+          }
+          explorerFields={
+            Object {
+              "availableFields": Array [
+                Object {
+                  "name": "agent",
+                  "type": "string",
+                },
+                Object {
+                  "name": "bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "clientip",
+                  "type": "ip",
+                },
+                Object {
+                  "name": "event",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "extension",
+                  "type": "string",
+                },
+                Object {
+                  "name": "geo",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "host",
+                  "type": "string",
+                },
+                Object {
+                  "name": "index",
+                  "type": "string",
+                },
+                Object {
+                  "name": "ip",
+                  "type": "ip",
+                },
+                Object {
+                  "name": "machine",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "memory",
+                  "type": "double",
+                },
+                Object {
+                  "name": "message",
+                  "type": "string",
+                },
+                Object {
+                  "name": "phpmemory",
+                  "type": "long",
+                },
+                Object {
+                  "name": "referer",
+                  "type": "string",
+                },
+                Object {
+                  "name": "request",
+                  "type": "string",
+                },
+                Object {
+                  "name": "response",
+                  "type": "string",
+                },
+                Object {
+                  "name": "tags",
+                  "type": "string",
+                },
+                Object {
+                  "name": "timestamp",
+                  "type": "timestamp",
+                },
+                Object {
+                  "name": "url",
+                  "type": "string",
+                },
+                Object {
+                  "name": "utc_time",
+                  "type": "timestamp",
+                },
+              ],
+              "queriedFields": Array [
+                Object {
+                  "name": "double_per_ip_bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "host",
+                  "type": "text",
+                },
+                Object {
+                  "name": "ip_count",
+                  "type": "integer",
+                },
+                Object {
+                  "name": "per_ip_bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "resp_code",
+                  "type": "text",
+                },
+                Object {
+                  "name": "sum_bytes",
+                  "type": "long",
+                },
+              ],
+              "selectedFields": Array [],
+              "unselectedFields": Array [],
+            }
+          }
+          key="doc_view11"
+          selectedCols={
+            Array [
+              Object {
+                "name": "double_per_ip_bytes",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "ip_count",
+                "type": "integer",
+              },
+              Object {
+                "name": "per_ip_bytes",
+                "type": "long",
+              },
+              Object {
+                "name": "resp_code",
+                "type": "text",
+              },
+              Object {
+                "name": "sum_bytes",
+                "type": "long",
+              },
+            ]
+          }
+        >
+          <tr
+            className="osdDocTable__row"
+          >
+            <td
+              className="osdDocTableCell__toggleDetails"
+              key="grid-td-13"
             >
-              <EuiIcon
-                type="arrowRight"
+              <button
+                className="euiButtonIcon euiButtonIcon--text"
+                onClick={[Function]}
               >
-                <EuiIconEmpty
-                  aria-hidden={true}
-                  className="euiIcon euiIcon--medium euiIcon-isLoading"
-                  focusable="false"
-                  role="img"
-                  style={null}
+                <EuiIcon
+                  type="arrowRight"
                 >
-                  <svg
+                  <EuiIconEmpty
                     aria-hidden={true}
                     className="euiIcon euiIcon--medium euiIcon-isLoading"
                     focusable="false"
-                    height={16}
                     role="img"
                     style={null}
-                    viewBox="0 0 16 16"
-                    width={16}
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                </EuiIconEmpty>
-              </EuiIcon>
-            </button>
-          </td>
-        </tr>
-      </DocViewRow>
-      <DocViewRow
-        doc={
-          Object {
-            "AvgTicketPrice": 882.98267,
-            "Cancelled": "false",
-            "Carrier": "Logstash Airways",
-            "Dest": "Venice Marco Polo Airport",
-            "DestAirportID": "VE05",
-            "DestCityName": "Venice",
-            "DestCountry": "IT",
-            "DestLocation": "{\\"lat\\":45.505299,\\"lon\\":12.3519}",
-            "DestRegion": "IT-34",
-            "DestWeather": "Sunny",
-            "DistanceKilometers": 8823.4,
-            "DistanceMiles": 5482.6064,
-            "FlightDelay": "false",
-            "FlightDelayMin": 0,
-            "FlightDelayType": "No Delay",
-            "FlightNum": "X98CCZO",
-            "FlightTimeHour": "7.73982468459836",
-            "FlightTimeMin": 464.3895,
-            "Origin": "Cape Town International Airport",
-            "OriginAirportID": "CPT",
-            "OriginCityName": "Cape Town",
-            "OriginCountry": "ZA",
-            "OriginLocation": "{\\"lat\\":-33.96480179,\\"lon\\":18.60169983}",
-            "OriginRegion": "SE-BD",
-            "OriginWeather": "Clear",
-            "dayOfWeek": 0,
-            "timestamp": "2021-05-24 18:27:00",
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+              </button>
+            </td>
+          </tr>
+        </DocViewRow>
+        <DocViewRow
+          doc={
+            Object {
+              "AvgTicketPrice": 882.98267,
+              "Cancelled": "false",
+              "Carrier": "Logstash Airways",
+              "Dest": "Venice Marco Polo Airport",
+              "DestAirportID": "VE05",
+              "DestCityName": "Venice",
+              "DestCountry": "IT",
+              "DestLocation": "{\\"lat\\":45.505299,\\"lon\\":12.3519}",
+              "DestRegion": "IT-34",
+              "DestWeather": "Sunny",
+              "DistanceKilometers": 8823.4,
+              "DistanceMiles": 5482.6064,
+              "FlightDelay": "false",
+              "FlightDelayMin": 0,
+              "FlightDelayType": "No Delay",
+              "FlightNum": "X98CCZO",
+              "FlightTimeHour": "7.73982468459836",
+              "FlightTimeMin": 464.3895,
+              "Origin": "Cape Town International Airport",
+              "OriginAirportID": "CPT",
+              "OriginCityName": "Cape Town",
+              "OriginCountry": "ZA",
+              "OriginLocation": "{\\"lat\\":-33.96480179,\\"lon\\":18.60169983}",
+              "OriginRegion": "SE-BD",
+              "OriginWeather": "Clear",
+              "dayOfWeek": 0,
+              "timestamp": "2021-05-24 18:27:00",
+            }
           }
-        }
-        key="doc_view12"
-        selectedCols={
-          Array [
+          explorerFields={
             Object {
-              "name": "double_per_ip_bytes",
-              "type": "long",
-            },
-            Object {
-              "name": "host",
-              "type": "text",
-            },
-            Object {
-              "name": "ip_count",
-              "type": "integer",
-            },
-            Object {
-              "name": "per_ip_bytes",
-              "type": "long",
-            },
-            Object {
-              "name": "resp_code",
-              "type": "text",
-            },
-            Object {
-              "name": "sum_bytes",
-              "type": "long",
-            },
-          ]
-        }
-      >
-        <tr
-          className="osdDocTable__row"
+              "availableFields": Array [
+                Object {
+                  "name": "agent",
+                  "type": "string",
+                },
+                Object {
+                  "name": "bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "clientip",
+                  "type": "ip",
+                },
+                Object {
+                  "name": "event",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "extension",
+                  "type": "string",
+                },
+                Object {
+                  "name": "geo",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "host",
+                  "type": "string",
+                },
+                Object {
+                  "name": "index",
+                  "type": "string",
+                },
+                Object {
+                  "name": "ip",
+                  "type": "ip",
+                },
+                Object {
+                  "name": "machine",
+                  "type": "struct",
+                },
+                Object {
+                  "name": "memory",
+                  "type": "double",
+                },
+                Object {
+                  "name": "message",
+                  "type": "string",
+                },
+                Object {
+                  "name": "phpmemory",
+                  "type": "long",
+                },
+                Object {
+                  "name": "referer",
+                  "type": "string",
+                },
+                Object {
+                  "name": "request",
+                  "type": "string",
+                },
+                Object {
+                  "name": "response",
+                  "type": "string",
+                },
+                Object {
+                  "name": "tags",
+                  "type": "string",
+                },
+                Object {
+                  "name": "timestamp",
+                  "type": "timestamp",
+                },
+                Object {
+                  "name": "url",
+                  "type": "string",
+                },
+                Object {
+                  "name": "utc_time",
+                  "type": "timestamp",
+                },
+              ],
+              "queriedFields": Array [
+                Object {
+                  "name": "double_per_ip_bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "host",
+                  "type": "text",
+                },
+                Object {
+                  "name": "ip_count",
+                  "type": "integer",
+                },
+                Object {
+                  "name": "per_ip_bytes",
+                  "type": "long",
+                },
+                Object {
+                  "name": "resp_code",
+                  "type": "text",
+                },
+                Object {
+                  "name": "sum_bytes",
+                  "type": "long",
+                },
+              ],
+              "selectedFields": Array [],
+              "unselectedFields": Array [],
+            }
+          }
+          key="doc_view12"
+          selectedCols={
+            Array [
+              Object {
+                "name": "double_per_ip_bytes",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "ip_count",
+                "type": "integer",
+              },
+              Object {
+                "name": "per_ip_bytes",
+                "type": "long",
+              },
+              Object {
+                "name": "resp_code",
+                "type": "text",
+              },
+              Object {
+                "name": "sum_bytes",
+                "type": "long",
+              },
+            ]
+          }
         >
-          <td
-            className="osdDocTableCell__toggleDetails"
-            key="grid-td-14"
+          <tr
+            className="osdDocTable__row"
           >
-            <button
-              className="euiButtonIcon euiButtonIcon--text"
-              onClick={[Function]}
+            <td
+              className="osdDocTableCell__toggleDetails"
+              key="grid-td-14"
             >
-              <EuiIcon
-                type="arrowRight"
+              <button
+                className="euiButtonIcon euiButtonIcon--text"
+                onClick={[Function]}
               >
-                <EuiIconEmpty
-                  aria-hidden={true}
-                  className="euiIcon euiIcon--medium euiIcon-isLoading"
-                  focusable="false"
-                  role="img"
-                  style={null}
+                <EuiIcon
+                  type="arrowRight"
                 >
-                  <svg
+                  <EuiIconEmpty
                     aria-hidden={true}
                     className="euiIcon euiIcon--medium euiIcon-isLoading"
                     focusable="false"
-                    height={16}
                     role="img"
                     style={null}
-                    viewBox="0 0 16 16"
-                    width={16}
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                </EuiIconEmpty>
-              </EuiIcon>
-            </button>
-          </td>
-        </tr>
-      </DocViewRow>
-    </tbody>
-  </table>
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+              </button>
+            </td>
+          </tr>
+        </DocViewRow>
+      </tbody>
+    </table>
+  </div>
   <div />
 </DataGrid>
 `;

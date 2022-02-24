@@ -11,7 +11,6 @@ import {
   useSelector
 } from 'react-redux';
 import { 
-  RAW_QUERY,
   FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
@@ -43,10 +42,13 @@ export const useFetchEvents = ({
   const [isEventsLoading, setIsEventsLoading] = useState(false);
   const queries = useSelector(selectQueries);
   const fields = useSelector(selectFields);
+  const [response, setResponse] = useState();
   const queriesRef = useRef();
   const fieldsRef = useRef();
+  const responseRef = useRef();
   queriesRef.current = queries;
   fieldsRef.current = fields;
+  responseRef.current = response;
 
   const fetchEvents = async (
     { query }: { query: string },
@@ -72,6 +74,7 @@ export const useFetchEvents = ({
 
   const dispatchOnGettingHis = (res: any) => {
     const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map((field: IField) => field.name);
+    setResponse(res);
     batch(() => {
       dispatch(queryResultReset({
         tabId: requestParams.tabId
@@ -103,6 +106,7 @@ export const useFetchEvents = ({
   };
 
   const dispatchOnNoHis = (res: any) => {
+    setResponse(res);
     batch(() => {
       dispatch(queryResultReset({
         tabId: requestParams.tabId
@@ -124,6 +128,25 @@ export const useFetchEvents = ({
         tabId: requestParams.tabId,
       }));
     });
+  };
+
+  const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
+    const cur = queriesRef.current;
+    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
+    fetchEvents({ query: searchQuery }, 'jdbc', (res: any) => {
+      if (!isEmpty(res.jsonData)) {
+        if (!isEmpty(responseRef.current)){
+          res.jsonData = res.jsonData.concat(responseRef.current.jsonData);
+          res.datarows = res.datarows.concat(responseRef.current.datarows);
+          res.total = res.total + responseRef.current.total;
+          res.size = res.size + responseRef.current.size;
+        }
+        dispatchOnGettingHis(res);
+      } 
+      if (isEmpty(res.jsonData) && isEmpty(responseRef.current)) {
+        dispatchOnNoHis(res);
+      }
+    }, errorHandler);
   };
 
   const getEvents = (query: string = '', errorHandler?: (error: any) => void) => {
@@ -163,6 +186,7 @@ export const useFetchEvents = ({
 
   return {
     isEventsLoading,
+    getLiveTail,
     getEvents,
     getAvailableFields,
     fetchEvents

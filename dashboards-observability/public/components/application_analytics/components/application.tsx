@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 
 import {
   EuiHorizontalRule,
@@ -236,8 +236,13 @@ export function Application(props: AppDetailProps) {
         openServiceFlyout={openServiceFlyout}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
+        switchToTrace={switchToTrace}
       />
     );
+  };
+
+  const switchToTrace = () => {
+    setSelectedTab(TAB_TRACE_ID);
   };
 
   const getTrace = () => {
@@ -433,6 +438,7 @@ export function Application(props: AppDetailProps) {
             http={http}
             traceId={traceFlyoutId}
             closeTraceFlyout={closeTraceFlyout}
+            openSpanFlyout={openSpanFlyout}
           />
         )}
       </EuiPage>

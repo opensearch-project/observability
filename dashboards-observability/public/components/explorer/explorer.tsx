@@ -1,14 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+
+import './explorer.scss'
+import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
+import { EuiLoadingSpinner, EuiSpacer } from '@elastic/eui';
 import {
   EuiText,
   EuiButtonIcon,
@@ -17,6 +20,8 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiLink,
+  EuiContextMenuItem,
+  EuiButtonToggle,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -77,9 +82,11 @@ export const Explorer = ({
   savedObjects,
   timestampUtils,
   setToast,
+  http,
   history,
   notifications,
   savedObjectId,
+  curSelectedTabId,
   searchBarConfigs,
   appId = '',
   appBaseQuery = '',
@@ -91,11 +98,11 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const { getEvents, getAvailableFields } = useFetchEvents({
+  const { getLiveTail, getEvents, getAvailableFields } = useFetchEvents({
     pplService,
     requestParams,
   });
-  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({
+  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({    
     pplService,
     requestParams,
   });
@@ -116,15 +123,26 @@ export const Explorer = ({
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
+  const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
+  const [isLiveTailOn, setIsLiveTailOn] = useState(false);
+  const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
+  const [liveTailName, setLiveTailName] = useState('Live');
+  const [liveTailToggle, setLiveTailToggle] = useState(false);
 
   const appLogEvents = tabId === 'application-analytics-tab';
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
+  const isLiveTailOnRef = useRef(false);
+  const liveTailTabIdRef = useRef('');
+  const liveTailNameRef = useRef('Live');
   queryRef.current = query;
   selectedPanelNameRef.current = selectedPanelName;
   explorerFieldsRef.current = explorerFields;
+  isLiveTailOnRef.current = isLiveTailOn;
+  liveTailTabIdRef.current = liveTailTabId;
+  liveTailNameRef.current = liveTailName;
 
   // const SearchBar = searchBar;
   let minInterval = 'y';
@@ -155,13 +173,23 @@ export const Explorer = ({
     ]);
   };
 
-  const composeFinalQuery = (curQuery: any, timeField: string) => {
-    if (isEmpty(curQuery![RAW_QUERY])) return '';
+  const composeFinalQuery = (
+    curQuery: any,
+    startTime: string,
+    endTime: string,
+    timeField: string,
+    isLiveQuery: boolean,
+  ) => {
+    const fullQuery = appBaseQuery
+    ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+    : curQuery![RAW_QUERY];
+    if (isEmpty(fullQuery)) return ''; 
     return preprocessQuery({
-      rawQuery: curQuery![RAW_QUERY],
-      startTime: curQuery![SELECTED_DATE_RANGE][0],
-      endTime: curQuery![SELECTED_DATE_RANGE][1],
+      rawQuery: fullQuery,
+      startTime: startTime,
+      endTime: endTime,
       timeField,
+      isLiveQuery,
     });
   };
 
@@ -245,16 +273,15 @@ export const Explorer = ({
       });
   };
 
-  const fetchData = async () => {
-    const curQuery = queryRef.current;
-    const rawQueryStr: string = curQuery![RAW_QUERY];
-    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) return;
-    if (isEmpty(curIndex)) {
-      setToast('Query does not include vaild index.', 'danger');
-      return;
-    }
+  const handleLiveTailSearch = useCallback(
+    async (startTime: string, endTime: string) => {
+      await updateQueryInStore(tempQuery);
+      fetchLiveData(startTime, endTime);
+    },
+    [tempQuery]
+  );
 
+  const determineTimeStamp = async (curQuery: any, curIndex: string) => {
     let curTimestamp = '';
     let hasSavedTimestamp = false;
 
@@ -268,7 +295,7 @@ export const Explorer = ({
           if (error?.body?.statusCode === 403) {
             showPermissionErrorToast();
           }
-          console.log(`Unable to get saved timestamp for this index: ${error.message}`);
+          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
         });
       if (
         savedTimestamps?.observabilityObjectList &&
@@ -284,6 +311,25 @@ export const Explorer = ({
         curTimestamp = timestamps!.default_timestamp;
       }
     }
+    return {
+      curTimestamp: curTimestamp,
+      hasSavedTimestamp: hasSavedTimestamp,
+    };
+  };
+
+  const fetchData = async () => {
+    const curQuery = queryRef.current;
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) return;
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include vaild index.', 'danger');
+      return;
+    }
+
+    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -291,7 +337,13 @@ export const Explorer = ({
     }
 
     // compose final query
-    const finalQuery = composeFinalQuery(curQuery, curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+    const finalQuery = composeFinalQuery(
+      curQuery,
+      curQuery![SELECTED_DATE_RANGE][0],
+      curQuery![SELECTED_DATE_RANGE][1],
+      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      isLiveTailOnRef.current
+    );
 
     await dispatch(
       changeQuery({
@@ -333,6 +385,58 @@ export const Explorer = ({
     }
   };
 
+  const fetchLiveData = async (startTime: string, endTime: string) => {
+    const curQuery = queryRef.current;
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) {
+      return;
+    }
+
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include vaild index.', 'danger');
+      return;
+    }
+
+    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
+
+    if (isEmpty(curTimestamp)) {
+      setToast('Index does not contain a valid time field.', 'danger');
+      return;
+    }
+
+    // compose final query
+    const finalQuery = composeFinalQuery(
+      curQuery,
+      startTime,
+      endTime,
+      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      isLiveTailOnRef.current
+    );
+
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          finalQuery,
+          [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+          [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
+        },
+      })
+    );
+
+    findAutoInterval(startTime, endTime);
+    getLiveTail(undefined, (error) => {
+      const formattedError = formatError(error.name, error.message, error.body.message);
+      notifications.toasts.addError(formattedError, {
+        title: 'Error fetching events',
+      });
+    });
+    getCountVisualizations(minInterval);
+  };
+
   const updateTabData = async (objectId: string) => {
     await getSavedDataById(objectId);
     await fetchData();
@@ -341,7 +445,7 @@ export const Explorer = ({
   useEffect(() => {
     if (queryRef.current!.isLoaded) return;
     let objectId;
-    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB) {
+    if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
     } else {
       objectId = queryRef.current!.savedObjectId || savedObjectId;
@@ -430,7 +534,9 @@ export const Explorer = ({
 
   const handleOverrideTimestamp = async (timestamp: IField) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = curQuery![RAW_QUERY];
+    const rawQueryStr: string = appBaseQuery
+      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
+      : curQuery![RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     const requests = {
       index: curIndex,
@@ -584,10 +690,25 @@ export const Explorer = ({
                       />
                     </h2>
                     <div className="dscDiscover">
+                      {isLiveTailOnRef.current && (
+                        <div className='liveStream'>
+                          <EuiSpacer size='m'/>
+                          <EuiLoadingSpinner size="l"/>
+                          <EuiText textAlign='center' 
+                            data-test-subj="LiveStreamIndicator_on"> 
+                            <strong>Live streaming</strong>
+                          </EuiText>
+                          <EuiSpacer size='m'/>
+                        </div>
+                      )}
                       <DataGrid
+                        http={http}
+                        pplService={pplService}
                         rows={explorerData.jsonData}
                         rowsAll={explorerData.jsonDataAll}
                         explorerFields={explorerFields}
+                        timeStampField={queryRef.current![SELECTED_TIMESTAMP]}
+                        rawQuery={queryRef.current![RAW_QUERY]}
                       />
                       <a tabIndex={0} id="discoverBottomMarker">
                         &#8203;
@@ -668,6 +789,7 @@ export const Explorer = ({
     explorerVisualizations,
     selectedContentTabId,
     isOverridingTimestamp,
+    isLiveTailOnRef.current,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -882,17 +1004,155 @@ export const Explorer = ({
     }
   };
 
+  const onToggleChange = (e: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setLiveTailToggle(e.target.checked);
+    setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen);
+  };
+
+  const wrappedPopoverButton = useMemo(() => {
+    return (
+      <EuiButtonToggle
+        label={liveTailNameRef.current}
+        iconType={isLiveTailOn ? "" : "play"}
+        isLoading={isLiveTailOn ? true : false}
+        iconSide="left"
+        onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
+        onChange={onToggleChange}
+        data-test-subj="eventLiveTail"
+      />
+    );
+  }, [isLiveTailPopoverOpen, liveTailToggle, onToggleChange, isLiveTailOn]);
+
+  const sleep = (milliseconds: number | undefined) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
+
+  const liveTailLoop = async (
+    name: string,
+    startTime: string,
+    endTime: string,
+    delayTime: number
+  ) => {
+    setLiveTailName(name);
+    setLiveTailTabId(curSelectedTabId.current);
+    setIsLiveTailOn(true);
+    setToast('Live tail On', 'success');
+    setIsLiveTailPopoverOpen(false);
+    await sleep(2000);
+    let curLiveTailname = liveTailNameRef.current;
+    while (isLiveTailOnRef.current === true && curLiveTailname === liveTailNameRef.current) {
+      handleLiveTailSearch(startTime, endTime);
+      if (liveTailTabIdRef.current !== curSelectedTabId.current) {
+        setIsLiveTailOn(!isLiveTailOnRef.current);
+        isLiveTailOnRef.current = false;
+        setLiveTailName('');
+      }
+      await sleep(delayTime);
+    }
+  };
+
+  const popoverItems: ReactElement[] = [
+    <EuiContextMenuItem
+      key="5s"
+      onClick={async () => {
+        liveTailLoop('5s', 'now-5s', 'now', 5000);
+      }}
+    >
+      5s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      data-test-subj="eventLiveTail__delay10"
+      key="10s"
+      onClick={async () => {
+        liveTailLoop('10s', 'now-10s', 'now', 10000);
+      }}
+    >
+      10s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="30s"
+      onClick={async () => {
+        liveTailLoop('30s', 'now-30s', 'now', 30000);
+      }}
+    >
+      30s
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="1m"
+      onClick={async () => {
+        liveTailLoop('1m', 'now-1m', 'now', 60000);
+      }}
+    >
+      1m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="5m"
+      onClick={async () => {
+        liveTailLoop('5m', 'now-5m', 'now', 60000 * 5);
+      }}
+    >
+      5m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="15m"
+      onClick={async () => {
+        liveTailLoop('15m', 'now-15m', 'now', 60000 * 15);
+      }}
+    >
+      15m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="30m"
+      onClick={async () => {
+        liveTailLoop('30m', 'now-30m', 'now', 60000 * 30);
+      }}
+    >
+      30m
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="1h"
+      onClick={async () => {
+        liveTailLoop('1h', 'now-1h', 'now', 60000 * 60);
+      }}
+    >
+      1h
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="2h"
+      onClick={async () => {
+        liveTailLoop('2h', 'now-2h', 'now', 60000 * 120);
+      }}
+    >
+      2h
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="stop"
+      onClick={() => {
+        setLiveTailName('Live');
+        setIsLiveTailOn(false);
+        setToast('Live tail Off', 'success');
+        setIsLiveTailPopoverOpen(false);
+      }}
+      data-test-subj="eventLiveTail__off"
+    >
+      Stop
+    </EuiContextMenuItem>,
+  ];
+
   const dateRange =
     isEmpty(startTime) || isEmpty(endTime)
       ? isEmpty(query.selectedDateRange)
         ? ['now-15m', 'now']
         : [query.selectedDateRange[0], query.selectedDateRange[1]]
       : [startTime, endTime];
+      
   return (
     <div className="dscAppContainer">
       <Search
         key="search-component"
-        query={appLogEvents ? appBaseQuery : query[RAW_QUERY]}
+        query={appLogEvents ? tempQuery : query[RAW_QUERY]}
         tempQuery={tempQuery}
         handleQueryChange={handleQueryChange}
         handleQuerySearch={handleQuerySearch}
@@ -909,6 +1169,12 @@ export const Explorer = ({
         savedObjects={savedObjects}
         showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
         handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
+        liveTailButton={wrappedPopoverButton}
+        isLiveTailPopoverOpen={isLiveTailPopoverOpen}
+        closeLiveTailPopover={() => setIsLiveTailPopoverOpen(false)}
+        popoverItems={popoverItems}
+        isLiveTailOn={isLiveTailOnRef.current}
+        countDistribution={countDistribution}
         selectedSubTabId={selectedContentTabId}
         searchBarConfigs={searchBarConfigs}
         getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
