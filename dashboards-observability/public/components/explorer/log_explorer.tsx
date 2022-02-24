@@ -31,6 +31,7 @@ import {
   remove as removeQueryResult,
   selectQueryResult,
 } from './slices/query_result_slice';
+import { init as initVisualizationConfig, reset as resetVisualizationConfig } from './slices/viualization_config_slice';
 
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -113,6 +114,7 @@ export const LogExplorer = ({
       dispatch(removeQuery({ tabId: TabIdToBeClosed }));
       dispatch(removefields({ tabId: TabIdToBeClosed }));
       dispatch(removeQueryResult({ tabId: TabIdToBeClosed }));
+      dispatch(resetVisualizationConfig({ tabId: TabIdToBeClosed }));
       dispatch(
         removeTab({
           tabId: TabIdToBeClosed,
@@ -132,6 +134,7 @@ export const LogExplorer = ({
       dispatch(initQueryResult({ tabId }));
       dispatch(initFields({ tabId }));
       dispatch(addTab({ tabId }));
+      dispatch(initVisualizationConfig({ tabId }));
       dispatch(
         changeQuery({
           tabId,

@@ -16,19 +16,26 @@ export const visualizationConfigSlice = createSlice({
   initialState,
   reducers: {
     change: (state, { payload }) => {
-      state[payload.tabId] = {
-        ...state[payload.tabId],
-        ...payload.data,
+      const { tabId, vizId, data } = payload;
+      state[tabId] = {
+        ...state[tabId],
+        [vizId]: {
+          ...state[tabId][vizId],
+          ...data,
+        },
       };
     },
     reset: (state, { payload }) => {
+      state[payload.tabId] = {};
+    },
+    init: (state, { payload }) => {
       state[payload.tabId] = {};
     },
   },
   extraReducers: (builder) => {},
 });
 
-export const { change, reset } = visualizationConfigSlice.actions;
+export const { change, reset, init } = visualizationConfigSlice.actions;
 
 export const selectVisualizationConfig = (state) => state.explorerVisualizationConfig;
 

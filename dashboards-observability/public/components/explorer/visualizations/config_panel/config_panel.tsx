@@ -75,40 +75,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         )
       : getDefaultSpec();
   });
-  const [vizConfigs, setVizConfigs] = useState({
-    xaxis: [],
-    yaxis: [],
-    selectedVisType: [{ label: vis.type }],
-  });
-
-  useEffect(() => {
-    const labelAddedFields = explorerVisualizations?.metadata?.fields.map((field) => {
-      return {
-        ...field,
-        label: field.name,
-      };
-    });
-    const needsRotate = curVisId === 'horizontal_bar';
-    if (labelAddedFields) {
-      if (needsRotate) {
-        setVizConfigs((staleState) => {
-          return {
-            ...staleState,
-            xaxis: labelAddedFields.slice(0, labelAddedFields.length - 1),
-            yaxis: [labelAddedFields[labelAddedFields.length - 1]],
-          };
-        });
-      } else {
-        setVizConfigs((staleState) => {
-          return {
-            ...staleState,
-            xaxis: [labelAddedFields[labelAddedFields.length - 1]],
-            yaxis: labelAddedFields.slice(0, labelAddedFields.length - 1),
-          };
-        });
-      }
-    }
-  }, [curVisId, explorerVisualizations]);
+  const [vizConfigs, setVizConfigs] = useState({});
 
   const getParsedLayoutConfig = useCallback(
     (hjsonConfig) =>
@@ -123,6 +90,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
       dispatch(
         changeVisualizationConfig({
           tabId,
+          vizId: curVisId,
           data: {
             ...vizConfigs,
             ...getParsedLayoutConfig(hjsonLayoutConfig),
@@ -140,6 +108,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     changeVisualizationConfig,
     dispatch,
     setToast,
+    curVisId,
   ]);
 
   const handleLayoutConfigChange = (config: string) => setHjsonLayoutConfig(config);

@@ -236,12 +236,15 @@ export const Explorer = ({
             })
           );
           // fill saved user configs
-          await dispatch(
-            updateVizConfig({
-              tabId,
-              data: JSON.parse(objectData.user_configs),
-            })
-          );
+          if (objectData?.type) {
+            await dispatch(
+              updateVizConfig({
+                tabId,
+                vizId: objectData?.type,
+                data: JSON.parse(objectData.user_configs),
+              })
+            );
+          }
         });
 
         // populate name field in save panel for default name
@@ -661,7 +664,7 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: userVizConfigs,
+      userConfigs: userVizConfigs[curVisId],
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -847,7 +850,7 @@ export const Explorer = ({
             timestamp: currQuery![SELECTED_TIMESTAMP],
             objectId: currQuery![SAVED_OBJECT_ID],
             type: curVisId,
-            userConfigs: JSON.stringify(userVizConfigs),
+            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
           })
           .then((res: any) => {
             setToast(
@@ -878,7 +881,7 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
-            userConfigs: JSON.stringify(userVizConfigs),
+            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
           })
           .then((res: any) => {
             batch(() => {

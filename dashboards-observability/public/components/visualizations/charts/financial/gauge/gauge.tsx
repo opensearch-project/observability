@@ -15,6 +15,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
+
   const { dataConfig } = visualizations.data.userConfigs;
 
   const series =
@@ -27,7 +28,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       ? dataConfig.valueOptions.value
       : [];
 
-  const guageData = useMemo(() => {
+  const thresholds = dataConfig?.thresholds || [];
+
+  const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
     if (series && series[0] && value && value[0]) {
       if (indexOf(NUMERICAL_FIELDS, series[0].type) > 0) {
@@ -64,29 +67,30 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
             column: index % PLOTLY_GAUGE_COLUMN_NUMBER,
           },
           gauge: {
-            ...(dataConfig.thresholds && {
+            ...(thresholds && {
               threshold: {
-                line: { color: dataConfig.thresholds[0].color || 'red', width: 4 },
+                line: { color: thresholds[0]?.color || 'red', width: 4 },
                 thickness: 0.75,
-                value: dataConfig.thresholds[0].value || 0,
+                value: thresholds[0]?.value || 0,
               },
             }),
           },
         };
       });
     }
-  }, [series, value, data, fields, dataConfig.thresholds]);
+    return calculatedGaugeData;
+  }, [series, value, data, fields, thresholds]);
 
   const finalLayout = useMemo(() => {
     return {
       grid: {
-        rows: Math.floor(guageData.length / PLOTLY_GAUGE_COLUMN_NUMBER),
+        rows: Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER),
         columns: PLOTLY_GAUGE_COLUMN_NUMBER,
         pattern: 'independent',
       },
       ...layout,
     };
-  }, [layout, guageData.length]);
+  }, [layout, gaugeData.length]);
 
-  return <Plt data={guageData} layout={finalLayout} config={config} />;
+  return <Plt data={gaugeData} layout={finalLayout} config={config} />;
 };
