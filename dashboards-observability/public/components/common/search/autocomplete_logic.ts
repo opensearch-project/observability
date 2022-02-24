@@ -52,7 +52,7 @@ import {
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
   FIELD_AFTER_STATS_GROUP_BY,
-  FIELD_AFTER_AGGREGATION,
+  NUM_FIELD_AFTER_AGGREGATION,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
@@ -491,8 +491,12 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_COMMA:
       case FIELD_AFTER_PLUS_MINUS_SORT:
       case FIELD_AFTER_STATS_GROUP_BY:
-      case FIELD_AFTER_AGGREGATION:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+      case NUM_FIELD_AFTER_AGGREGATION:
+        const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
+          numberTypes.includes(field.type)
+        );
+        return fillSuggestions(currQuery, lastWord, numberFields);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
       case PIPE_AFTER_KEEP_EMPTY:
