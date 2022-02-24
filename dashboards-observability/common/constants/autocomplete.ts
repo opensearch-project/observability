@@ -79,12 +79,12 @@ export const FIELD_AFTER_COMMAND = /^\s*(dedup|eval|rare|top|rename|where\s+matc
 // Regex for where command
 export const MATCH_FIELD_AFTER_WHERE = /^\s*where\s+\S*$/;
 export const EQUAL_AFTER_WHERE_FIELD = /^\s*where\s+(\S+)\s+$/;
-export const DATA_AFTER_WHERE_EQUAL = /^\s*where\s+\S+\s*=\s*\S*$/;
-export const PIPE_AFTER_WHERE = /^\s*where\s+\S+\s*=\s*\S+\s+$/;
+export const DATA_AFTER_WHERE_EQUAL = /^\s*where\s+\S+\s*=\s*(("(\w|\s)*)|(\d*\.?\d*)|\w*)$/;
+export const PIPE_AFTER_WHERE = /^\s*where\s+\S+\s*=\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s+$/;
 export const COMMA_AFTER_FIELD = /^\s*where\s+match\(\s*(\S+)\s+$/;
-export const DATA_AFTER_COMMA = /^\s*where\s+match\(\s*\S+\s*,\s*$/;
-export const CLOSE_AFTER_DATA = /^\s*where\s+match\(\s*\S+\s*,\s*\S+\s+$/;
-export const PIPE_AFTER_MATCH = /^\s*where\s+match\(\s*\S+\s*,\s*\S+\s*\S+\s*\)\s*$/;
+export const DATA_AFTER_COMMA = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)*)|(\d*\.?\d*)|\w*)$/;
+export const CLOSE_AFTER_DATA = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s+$/;
+export const PIPE_AFTER_MATCH = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s*\)\s*$/;
 
 // Regex for dedup command
 export const FIELD_IN_FIELD_LOOP = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*,\s*\S*$/;
