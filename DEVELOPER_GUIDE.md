@@ -2,6 +2,19 @@
 
 So you want to contribute code to this project? Excellent! We're glad you're here. Here's what you need to do.
 
+### Install Prerequisites
+
+#### JDK 11
+
+OpenSearch builds using Java 11 at a minimum. This means you must have a JDK 11
+installed with the environment variable `JAVA_HOME` referencing the path to Java home
+for your JDK 11 installation, e.g. `JAVA_HOME=/usr/lib/jvm/jdk-11`.
+
+By default, tests use the same runtime as `JAVA_HOME`. However, since OpenSearch
+supports JDK 8, the build supports compiling with JDK 11 and testing on a different
+version of JDK runtime. To do this, set `RUNTIME_JAVA_HOME` pointing to the Java home of
+another JDK installation, e.g. `RUNTIME_JAVA_HOME=/usr/lib/jvm/jdk-8`.
+
 ### Setup
 
 1. Download OpenSearch for the version that matches the [OpenSearch Dashboards version specified in package.json](./dashboards-observability/package.json#L5).
