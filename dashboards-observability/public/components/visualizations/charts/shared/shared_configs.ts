@@ -11,12 +11,12 @@ export const getPlotlySharedConfigs = () => {
       showlegend: true,
       margin: {
         l: 50,
-        r: 10,
+        r: 30,
         b: 30,
-        t: 30,
+        t: 50,
         pad: 0,
       },
-      // height: 500,
+      height: 500,
       legend: {
         orientation: 'v',
         traceorder: 'normal',
@@ -31,11 +31,6 @@ export const getPlotlySharedConfigs = () => {
 
 enum VIS_CATEGORY {
   BASICS = 'Visualizations',
-  // STATISTIC = 'statistic',
-  // SCIENTIFIC = 'scientific',
-  // FINANCIAL = 'financial',
-  // MAPS = 'maps',
-  // THREED = '3d',
 }
 
 export const getPlotlyCategory = (type = 'enum') => {

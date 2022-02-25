@@ -53,6 +53,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           });
         });
       }
+
       return calculatedGaugeData.map((gauge, index) => {
         return {
           type: 'indicator',
@@ -82,10 +83,11 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   }, [series, value, data, fields, thresholds]);
 
   const mergedLayout = useMemo(() => {
+    const isAtleastOneFullRow = Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER) > 0;
     return {
       grid: {
-        rows: Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER),
-        columns: PLOTLY_GAUGE_COLUMN_NUMBER,
+        rows: Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER) + 1,
+        columns: isAtleastOneFullRow ? PLOTLY_GAUGE_COLUMN_NUMBER : gaugeData.length,
         pattern: 'independent',
       },
       ...layout,
