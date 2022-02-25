@@ -57,8 +57,9 @@ import {
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
-  NUM_FIELD_AFTER_SPAN,
-  COMMA_AFTER_SPAN_FIELD,
+  FIELD_AFTER_SPAN,
+  CLOSE_AFTER_SPAN,
+  PIPE_AFTER_SPAN,
 } from '../../../../common/constants/autocomplete';
 
 // let currIndex: string = '';
@@ -490,17 +491,24 @@ export const getSuggestionsAfterSource = async (
         ]);
       case CLOSE_AFTER_DATA:
       case CLOSE_AFTER_FIELD:
+      case CLOSE_AFTER_SPAN:
         return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
       case COMMA_AFTER_FIELD:
         currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndices, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
-      case COMMA_AFTER_SPAN_FIELD:
-        currField = COMMA_AFTER_SPAN_FIELD.exec(lastCommand)![-1];
-        currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-        await getDataValues(currIndices, currField, currFieldType, dslService);
-        return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+      case FIELD_AFTER_SPAN:
+        const matchArray = FIELD_AFTER_SPAN.exec(lastCommand);
+        const tempField = matchArray![matchArray!.length - 1];
+        if (fieldList.includes(tempField)) {
+          currField = tempField;
+          currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+          await getDataValues(currIndices, currField, currFieldType, dslService);
+          return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+        } else {
+          return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+        }
       case FIELD_AFTER_COMMAND:
       case FIELD_IN_FIELD_LOOP:
       case FIELD_AFTER_EVAL_EQUAL:
@@ -514,7 +522,6 @@ export const getSuggestionsAfterSource = async (
       case FIELD_SPAN_AFTER_GROUP_BY:
         return fillSuggestions(currQuery, lastWord, [{ label: 'span(' }, ...fieldsFromBackend]);
       case NUM_FIELD_AFTER_AGGREGATION:
-      case NUM_FIELD_AFTER_SPAN:
         const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
           numberTypes.includes(field.type)
         );
@@ -526,6 +533,7 @@ export const getSuggestionsAfterSource = async (
       case PIPE_AFTER_GROUP_BY:
       case PIPE_AFTER_HEAD:
       case PIPE_AFTER_STATS_GROUP_BY:
+      case PIPE_AFTER_SPAN:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:

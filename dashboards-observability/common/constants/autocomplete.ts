@@ -127,8 +127,9 @@ export const PLUS_MINUS_FIELD_IN_FIELDS_LOOP = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|
 // Regex for stats command
 export const FIELD_SPAN_AFTER_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S*$/;
 export const NUM_FIELD_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))*(,\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S*$/;
-export const NUM_FIELD_AFTER_SPAN =  /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]*$/;
-export const COMMA_AFTER_SPAN_FIELD = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*$/;
+export const FIELD_AFTER_SPAN =  /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*([^\s,]*)\s*$/;
+export const CLOSE_AFTER_SPAN = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s+$/;
+export const PIPE_AFTER_SPAN = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*(("(\w|\s)*")|(\d*\.?\d*)|\w*)\s*\)\s*$/;
 export const CLOSE_AFTER_FIELD = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))*(,\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s+$/;
 export const PIPE_COMMA_BY_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+\S*$/;
 export const PIPE_AFTER_STATS_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S+\s+$/;
@@ -171,8 +172,9 @@ export const regexForSuggestion = [
   PIPE_COMMA_AFTER_SORT_FIELD,
   FIELD_SPAN_AFTER_GROUP_BY,
   NUM_FIELD_AFTER_AGGREGATION,
-  NUM_FIELD_AFTER_SPAN,
-  COMMA_AFTER_SPAN_FIELD,
+  FIELD_AFTER_SPAN,
+  CLOSE_AFTER_SPAN,
+  PIPE_AFTER_SPAN,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
