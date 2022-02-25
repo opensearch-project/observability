@@ -5,7 +5,7 @@
 
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { waitFor } from '@testing-library/react';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
 // import { Explorer } from '../explorer';
