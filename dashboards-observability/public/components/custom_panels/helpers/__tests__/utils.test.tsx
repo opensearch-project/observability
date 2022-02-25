@@ -37,9 +37,11 @@ describe('Utils helper functions', () => {
   });
 
   it('validates convertDateTime function', () => {
-    expect(convertDateTime('now')).toBe(moment().format(PPL_DATE_FORMAT));
-    expect(convertDateTime('now-y', true)).toBe(
-      moment().subtract(1, 'years').format(PPL_DATE_FORMAT)
+    expect(convertDateTime('2022-01-30T18:44:40.577Z')).toBe(
+      moment('2022-01-30T18:44:40.577Z').format(PPL_DATE_FORMAT)
+    );
+    expect(convertDateTime('2022-02-25T19:18:33.075Z', true)).toBe(
+      moment('2022-02-25T19:18:33.075Z').format(PPL_DATE_FORMAT)
     );
   });
 
@@ -54,24 +56,44 @@ describe('Utils helper functions', () => {
     const setStart = jest.fn();
     const setEnd = jest.fn();
     const recentlyUsedRanges: DurationRange[] = [];
-    onTimeChange('now-y', 'now', recentlyUsedRanges, setRecentlyUsedRanges, setStart, setEnd);
-    expect(setRecentlyUsedRanges).toHaveBeenCalledWith([{ start: 'now-y', end: 'now' }]);
-    expect(setStart).toHaveBeenCalledWith('now-y');
-    expect(setEnd).toHaveBeenCalledWith('now');
+    onTimeChange(
+      '2022-01-30T18:44:40.577Z',
+      '2022-02-25T19:18:33.075Z',
+      recentlyUsedRanges,
+      setRecentlyUsedRanges,
+      setStart,
+      setEnd
+    );
+    expect(setRecentlyUsedRanges).toHaveBeenCalledWith([
+      { start: '2022-01-30T18:44:40.577Z', end: '2022-02-25T19:18:33.075Z' },
+    ]);
+    expect(setStart).toHaveBeenCalledWith('2022-01-30T18:44:40.577Z');
+    expect(setEnd).toHaveBeenCalledWith('2022-02-25T19:18:33.075Z');
   });
 
   it('validates isDateValid function', () => {
     const setToast = jest.fn();
-    expect(isDateValid(convertDateTime('now-y'), convertDateTime('now', false), setToast)).toBe(
-      true
-    );
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now', false), setToast)).toBe(true);
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now-15m', false), setToast)).toBe(
-      false
-    );
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now-1d', false), setToast)).toBe(
-      false
-    );
+    expect(
+      isDateValid(
+        convertDateTime('2022-01-30T18:44:40.577Z'),
+        convertDateTime('2022-02-25T19:18:33.075Z', false),
+        setToast
+      )
+    ).toBe(true);
+    expect(
+      isDateValid(
+        convertDateTime('2022-01-30T18:44:40.577Z'),
+        convertDateTime('2022-01-30T18:44:40.577Z', false),
+        setToast
+      )
+    ).toBe(true);
+    expect(
+      isDateValid(
+        convertDateTime('2022-02-25T19:18:33.075Z'),
+        convertDateTime('2022-01-30T18:44:40.577Z', false),
+        setToast
+      )
+    ).toBe(false);
   });
 
   it('validates isPPLFilterValid function', () => {
