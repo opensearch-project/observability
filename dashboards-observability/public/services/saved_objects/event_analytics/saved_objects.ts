@@ -229,6 +229,8 @@ export default class SavedObjects {
       description: params.description,
     });
 
+    console.log('createSavedVisualization params: ', finalParams);
+
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
       {

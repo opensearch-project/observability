@@ -9,7 +9,6 @@ import { REDUX_EXPL_SLICE_COUNT_DISTRIBUTION } from '../../../../common/constant
 
 const initialState = {
   [initialTabId]: {},
-  'application-analytics-tab': {},
 };
 
 export const countDistributionSlice = createSlice({

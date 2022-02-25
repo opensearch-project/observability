@@ -77,6 +77,7 @@ export const VisualizationContainer = ({
   const [disablePopover, setDisablePopover] = useState(false);
   const [visualizationTitle, setVisualizationTitle] = useState('');
   const [visualizationType, setVisualizationType] = useState('');
+  const [visualizationMetaData, setVisualizationMetaData] = useState();
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
@@ -116,8 +117,8 @@ export const VisualizationContainer = ({
     </EuiContextMenuItem>,
   ];
 
-  if (usedInNotebooks){
-    popoverPanel = [popoverPanel[0]]
+  if (usedInNotebooks) {
+    popoverPanel = [popoverPanel[0]];
   }
 
   const loadVisaulization = async () => {
@@ -131,6 +132,7 @@ export const VisualizationContainer = ({
       setVisualizationTitle,
       setVisualizationType,
       setVisualizationData,
+      setVisualizationMetaData,
       setIsLoading,
       setIsError
     );
@@ -150,7 +152,7 @@ export const VisualizationContainer = ({
             </EuiText>
           </div>
         ) : (
-          displayVisualization(visualizationData, visualizationType, editMode)
+          displayVisualization(visualizationMetaData, visualizationData, visualizationType)
         )}
       </div>
     ),

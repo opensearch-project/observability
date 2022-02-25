@@ -91,6 +91,7 @@ export const VisaulizationFlyout = ({
   const [newVisualizationTitle, setNewVisualizationTitle] = useState('');
   const [newVisualizationType, setNewVisualizationType] = useState('');
   const [newVisualizationTimeField, setNewVisualizationTimeField] = useState('');
+  const [previewMetaData, setPreviewMetaData] = useState();
   const [pplQuery, setPPLQuery] = useState('');
   const [previewData, setPreviewData] = useState<pplResponse>({} as pplResponse);
   const [previewArea, setPreviewArea] = useState(<></>);
@@ -315,7 +316,7 @@ export const VisaulizationFlyout = ({
               </div>
             ) : (
               <div className="visualization-div-preview">
-                {displayVisualization(previewData, newVisualizationType)}
+                {displayVisualization(previewMetaData, previewData, newVisualizationType)}
               </div>
             )}
           </EuiFlexItem>
@@ -333,6 +334,7 @@ export const VisaulizationFlyout = ({
         setPPLQuery(visualization.query);
         setNewVisualizationTitle(visualization.name);
         setNewVisualizationType(visualization.type);
+        setPreviewMetaData(visualization);
         setNewVisualizationTimeField(visualization.timeField);
         break;
       }

@@ -26,9 +26,6 @@ const initialState = {
   [initialTabId]: {
     ...initialFields,
   },
-  'application-analytics-tab': {
-    ...initialFields,
-  },
 };
 
 export const fieldSlice = createSlice({

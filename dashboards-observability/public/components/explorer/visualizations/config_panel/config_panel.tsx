@@ -20,6 +20,10 @@ import {
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
+<<<<<<< HEAD
+=======
+import { VizDataPanel as DefaultVisEditor } from './config_editor/default_vis_editor';
+>>>>>>> synced
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { getVisType } from '../../../visualizations/charts/vis_types';
@@ -153,7 +157,11 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     });
   }, []);
 
+<<<<<<< HEAD
   const vizSelectableItemRenderer = (option) => {
+=======
+  const vizSelectableItemRenderer = (option, searchValue, contentClassName) => {
+>>>>>>> synced
     const { icon, label } = option;
     return (
       <div className="configPanel__vizSelector-item">

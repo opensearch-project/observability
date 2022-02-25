@@ -40,7 +40,7 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
   applications: ApplicationListType[];
   fetchApplications: () => void;
   renameApplication: (newAppName: string, appId: string) => void;
-  deleteApplication: (appList: string[], toastMessage?: string) => void;
+  deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
 }
 
 export function AppTable(props: AppTableProps) {
@@ -92,14 +92,15 @@ export function AppTable(props: AppTableProps) {
   };
 
   const onDelete = async () => {
+    closeModal();
     const toastMessage = `Application${
       selectedApplications.length > 1 ? 's' : ' "' + selectedApplications[0].name + '"'
     } successfully deleted!`;
     await deleteApplication(
       selectedApplications.map((app) => app.id),
+      selectedApplications.map((app) => app.panelId),
       toastMessage
     );
-    closeModal();
   };
 
   const renameApp = () => {
