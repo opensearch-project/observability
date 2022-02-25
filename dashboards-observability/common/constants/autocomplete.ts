@@ -81,13 +81,13 @@ export const MATCH_FIELD_AFTER_WHERE = /^\s*where\s+\S*$/;
 export const EQUAL_AFTER_WHERE_FIELD = /^\s*where\s+(\S+)\s+$/;
 export const DATA_AFTER_WHERE_EQUAL = /^\s*where\s+\S+\s*=\s*(("(\w|\s)*)|(\d*\.?\d*)|\w*)$/;
 export const PIPE_AFTER_WHERE = /^\s*where\s+\S+\s*=\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s+$/;
-export const COMMA_AFTER_FIELD = /^\s*where\s+match\(\s*(\S+)\s+$/;
+export const COMMA_AFTER_FIELD = /^\s*where\s+match\(\s*([^\s,]+)\s*$/;
 export const DATA_AFTER_COMMA = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)*)|(\d*\.?\d*)|\w*)$/;
 export const CLOSE_AFTER_DATA = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s+$/;
 export const PIPE_AFTER_MATCH = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s)+")|(\d+\.?\d*)|\w+)\s*\)\s*$/;
 
 // Regex for dedup command
-export const FIELD_IN_FIELD_LOOP = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*,\s*\S*$/;
+export const FIELD_IN_FIELD_LOOP = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*,\s*([^\s,]*)$/;
 export const PIPE_COMMA_AFTER_FIELD = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s+$/;
 export const PIPE_AFTER_KEEP_EMPTY = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s*keepempty=true\s+$/;
 export const PIPE_AFTER_CONSECUTIVE = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s*consecutive=true\s+$/;
@@ -125,8 +125,10 @@ export const PIPE_COMMA_AFTER_SORT_FIELD = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?
 export const PLUS_MINUS_FIELD_IN_FIELDS_LOOP = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?\s*\S+\s*)*,\s+\S*$/;
 
 // Regex for stats command
-export const FIELD_AFTER_STATS_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S*$/;
+export const FIELD_SPAN_AFTER_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S*$/;
 export const NUM_FIELD_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))*(,\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S*$/;
+export const NUM_FIELD_AFTER_SPAN =  /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]*$/;
+export const COMMA_AFTER_SPAN_FIELD = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*$/;
 export const CLOSE_AFTER_FIELD = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))*(,\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s+$/;
 export const PIPE_COMMA_BY_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+\S*$/;
 export const PIPE_AFTER_STATS_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S+\s+$/;
@@ -167,8 +169,10 @@ export const regexForSuggestion = [
   FIELD_AFTER_PLUS_MINUS_SORT,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   PIPE_COMMA_AFTER_SORT_FIELD,
-  FIELD_AFTER_STATS_GROUP_BY,
+  FIELD_SPAN_AFTER_GROUP_BY,
   NUM_FIELD_AFTER_AGGREGATION,
+  NUM_FIELD_AFTER_SPAN,
+  COMMA_AFTER_SPAN_FIELD,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,

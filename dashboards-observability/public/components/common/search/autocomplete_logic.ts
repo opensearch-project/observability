@@ -51,12 +51,14 @@ import {
   PIPE_COMMA_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
-  FIELD_AFTER_STATS_GROUP_BY,
+  FIELD_SPAN_AFTER_GROUP_BY,
   NUM_FIELD_AFTER_AGGREGATION,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
+  NUM_FIELD_AFTER_SPAN,
+  COMMA_AFTER_SPAN_FIELD,
 } from '../../../../common/constants/autocomplete';
 
 // let currIndex: string = '';
@@ -494,6 +496,11 @@ export const getSuggestionsAfterSource = async (
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
         await getDataValues(currIndices, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+      case COMMA_AFTER_SPAN_FIELD:
+        currField = COMMA_AFTER_SPAN_FIELD.exec(lastCommand)![-1];
+        currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+        await getDataValues(currIndices, currField, currFieldType, dslService);
+        return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
       case FIELD_AFTER_COMMAND:
       case FIELD_IN_FIELD_LOOP:
       case FIELD_AFTER_EVAL_EQUAL:
@@ -503,9 +510,11 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_BY:
       case FIELD_AFTER_COMMA:
       case FIELD_AFTER_PLUS_MINUS_SORT:
-      case FIELD_AFTER_STATS_GROUP_BY:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+      case FIELD_SPAN_AFTER_GROUP_BY:
+        return fillSuggestions(currQuery, lastWord, [{ label: 'span(' }, ...fieldsFromBackend]);
       case NUM_FIELD_AFTER_AGGREGATION:
+      case NUM_FIELD_AFTER_SPAN:
         const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
           numberTypes.includes(field.type)
         );
