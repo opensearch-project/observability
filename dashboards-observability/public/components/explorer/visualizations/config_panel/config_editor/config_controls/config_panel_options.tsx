@@ -35,13 +35,15 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
           <EuiFieldText
             name="first"
             onChange={(e) => handleConfigurationChange('title')(e.target.value)}
-            placeholder={dataConfig.panelOptions?.title || vizState?.title || 'title'}
+            value={vizState?.title || ''}
+            placeholder={'Title'}
           />
         </EuiFormRow>
         <EuiFormRow label="Description">
           <EuiTextArea
             aria-label="Use aria labels when no actual label is in use"
-            placeholder={dataConfig.panelOptions?.description || 'Visualization description'}
+            placeholder={'Description'}
+            value={vizState?.description || ''}
             onChange={(e) => handleConfigurationChange('description')(e.target.value)}
           />
         </EuiFormRow>

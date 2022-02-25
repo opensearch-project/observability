@@ -57,23 +57,21 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   const { data, vis } = visualizations;
   const { userConfigs } = data;
 
-  useEffect(() => {
-    setVizConfigs((staleState) => {
-      return {
-        ...staleState,
-        layoutConfig: userConfigs?.layoutConfig
-          ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
-          : getDefaultSpec(),
-      };
-    });
-  }, [userConfigs?.layoutConfig]);
-
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
     layoutConfig: userConfigs?.layoutConfig
       ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
       : getDefaultSpec(),
   });
+
+  useEffect(() => {
+    setVizConfigs({
+      ...userConfigs,
+      layoutConfig: userConfigs?.layoutConfig
+        ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
+        : getDefaultSpec(),
+    });
+  }, [userConfigs, curVisId]);
 
   const getParsedLayoutConfig = useCallback(
     (hjsonConfig) =>

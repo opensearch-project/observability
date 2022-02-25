@@ -839,6 +839,7 @@ export const Explorer = ({
         return;
       }
       let savingVisRes;
+      const vizDescription = userVizConfigs[curVisId]?.dataConfig?.panelOptions?.description || '';
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
         savingVisRes = await savedObjects
@@ -851,6 +852,7 @@ export const Explorer = ({
             objectId: currQuery![SAVED_OBJECT_ID],
             type: curVisId,
             userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            description: vizDescription,
           })
           .then((res: any) => {
             setToast(
@@ -882,6 +884,7 @@ export const Explorer = ({
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
             userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            description: vizDescription,
           })
           .then((res: any) => {
             batch(() => {

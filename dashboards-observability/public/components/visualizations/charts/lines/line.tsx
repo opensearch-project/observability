@@ -46,7 +46,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         mode,
       };
     });
-  }, [data, xaxis, fields, lastIndex]);
+  }, [data, xaxis, fields, lastIndex, mode]);
 
   // threshold(s)
   const calculatedLayout = useMemo(() => {

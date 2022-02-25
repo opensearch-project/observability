@@ -166,11 +166,10 @@ export default class SavedObjects {
       name: params.name,
       timestamp: params.timestamp,
       userConfigs: params.userConfigs,
+      description: params.description,
     });
 
     finalParams.object_id = params.objectId;
-
-    console.log('update finalParams: ', finalParams);
 
     return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
@@ -227,9 +226,8 @@ export default class SavedObjects {
       timestamp: params.timestamp,
       applicationId: params.applicationId,
       userConfigs: params.userConfigs,
+      description: params.description,
     });
-
-    console.log('createSavedVisualization params: ', finalParams);
 
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
