@@ -640,7 +640,7 @@ export const CustomPanelView = ({
                       onClick={switchToEvent}
                       isDisabled={addVizDisabled}
                     >
-                      Add metric
+                      Add
                     </EuiButton>
                   </EuiFlexItem>
                 </>
