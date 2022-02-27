@@ -31,14 +31,6 @@ export const getPlotlySharedConfigs = () => {
 
 enum VIS_CATEGORY {
   BASICS = 'Visualizations',
-<<<<<<< HEAD
-=======
-  // STATISTIC = 'statistic',
-  // SCIENTIFIC = 'scientific',
-  // FINANCIAL = 'financial',
-  // MAPS = 'maps',
-  // THREED = '3d',
->>>>>>> synced
 }
 
 export const getPlotlyCategory = (type = 'enum') => {
