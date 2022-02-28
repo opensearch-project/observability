@@ -8,6 +8,7 @@ import { FlyoutContainers } from '../../common/flyout_containers';
 import React, { useEffect, useState } from 'react';
 import { IDocType } from './docViewRow';
 import {
+  EuiButton,
   EuiButtonEmpty,
   EuiButtonIcon,
   EuiCallOut,
@@ -20,6 +21,7 @@ import {
   EuiSpacer,
   EuiText,
   EuiTitle,
+  EuiToolTip,
 } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { getHeaders, fetchSurroundingData, rangeNumDocs, populateDataGrid } from '../utils';
@@ -42,6 +44,8 @@ type Props = {
   rawQuery: string;
   selectedCols: IField[];
   getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[];
+  toggleSize: boolean;
+  setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const SurroundingFlyout = ({
@@ -59,8 +63,9 @@ export const SurroundingFlyout = ({
   rawQuery,
   selectedCols,
   getTds,
+  toggleSize,
+  setToggleSize,
 }: Props) => {
-  const [toggleSize, setToggleSize] = useState(true);
   const [numNewEvents, setNumNewEvents] = useState(5);
   const [valueOldEvents, setNumOldEvents] = useState(5);
   const [loadingNewEvents, setLoadingNewEvents] = useState(false);
@@ -72,6 +77,12 @@ export const SurroundingFlyout = ({
 
   const closeFlyout = () => {
     setDetailsOpen(false);
+    setOpenTraces(false);
+    setSurroundingEventsOpen(false);
+  };
+
+  const openDetailsFlyout = () => {
+    setDetailsOpen(true);
     setOpenTraces(false);
     setSurroundingEventsOpen(false);
   };
@@ -138,9 +149,11 @@ export const SurroundingFlyout = ({
   const flyoutHeader = (
     <EuiFlyoutHeader hasBorder>
       <EuiFlexGroup>
-        <EuiFlexItem grow={false}>
+        <EuiFlexItem>
           <EuiTitle size="s">
-            <h2 id="surroundingFyout">View surrounding events</h2>
+            <h2 id="surroundingFyout" className="vertical-center">
+              View surrounding events
+            </h2>
           </EuiTitle>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
@@ -156,6 +169,16 @@ export const SurroundingFlyout = ({
               setToggleSize((isOn) => !isOn);
             }}
           />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButton
+            onClick={openDetailsFlyout}
+            className="header-button"
+            iconType="sortRight"
+            iconSide="right"
+          >
+            View event details
+          </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlyoutHeader>

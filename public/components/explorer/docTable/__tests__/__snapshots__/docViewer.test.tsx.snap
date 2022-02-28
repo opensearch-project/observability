@@ -29,12 +29,13 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                       "avg(FlightDelayMin)": "45.957544288332315",
                     }
                   }
+                  logTraceId=""
                 />
                  
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPanel>,
-          "id": "doc_viewer_tab_2",
+          "id": "doc_viewer_tab_5",
           "name": "Table",
         }
       }
@@ -53,12 +54,13 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                         "avg(FlightDelayMin)": "45.957544288332315",
                       }
                     }
+                    logTraceId=""
                   />
                    
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_2",
+            "id": "doc_viewer_tab_5",
             "name": "Table",
           },
           Object {
@@ -74,12 +76,13 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                         "avg(FlightDelayMin)": "45.957544288332315",
                       }
                     }
+                    logTraceId=""
                   />
                    
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_3",
+            "id": "doc_viewer_tab_6",
             "name": "JSON",
           },
           Object {
@@ -95,13 +98,19 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                         "avg(FlightDelayMin)": "45.957544288332315",
                       }
                     }
+                    logTraceId=""
                   />
                    
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_4",
-            "name": "Traces",
+            "id": "doc_viewer_tab_7",
+            "name": <React.Fragment>
+              <span>
+                Traces
+              </span>
+              <React.Fragment />
+            </React.Fragment>,
           },
         ]
       }
@@ -117,9 +126,9 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
           >
             <EuiTab
               aria-controls="random_html_id"
-              id="doc_viewer_tab_2"
+              id="doc_viewer_tab_5"
               isSelected={true}
-              key="doc_viewer_tab_2"
+              key="doc_viewer_tab_5"
               onClick={[Function]}
             >
               <button
@@ -127,7 +136,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 aria-selected={true}
                 className="euiTab euiTab-isSelected"
                 disabled={false}
-                id="doc_viewer_tab_2"
+                id="doc_viewer_tab_5"
                 onClick={[Function]}
                 role="tab"
                 type="button"
@@ -141,9 +150,9 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
             </EuiTab>
             <EuiTab
               aria-controls="random_html_id"
-              id="doc_viewer_tab_3"
+              id="doc_viewer_tab_6"
               isSelected={false}
-              key="doc_viewer_tab_3"
+              key="doc_viewer_tab_6"
               onClick={[Function]}
             >
               <button
@@ -151,7 +160,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 aria-selected={false}
                 className="euiTab"
                 disabled={false}
-                id="doc_viewer_tab_3"
+                id="doc_viewer_tab_6"
                 onClick={[Function]}
                 role="tab"
                 type="button"
@@ -165,9 +174,9 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
             </EuiTab>
             <EuiTab
               aria-controls="random_html_id"
-              id="doc_viewer_tab_4"
+              id="doc_viewer_tab_7"
               isSelected={false}
-              key="doc_viewer_tab_4"
+              key="doc_viewer_tab_7"
               onClick={[Function]}
             >
               <button
@@ -175,7 +184,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 aria-selected={false}
                 className="euiTab"
                 disabled={false}
-                id="doc_viewer_tab_4"
+                id="doc_viewer_tab_7"
                 onClick={[Function]}
                 role="tab"
                 type="button"
@@ -183,14 +192,16 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 <span
                   className="euiTab__content"
                 >
-                  Traces
+                  <span>
+                    Traces
+                  </span>
                 </span>
               </button>
             </EuiTab>
           </div>
         </EuiTabs>
         <div
-          aria-labelledby="doc_viewer_tab_2"
+          aria-labelledby="doc_viewer_tab_5"
           id="random_html_id"
           role="tabpanel"
         >
@@ -215,6 +226,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                             "avg(FlightDelayMin)": "45.957544288332315",
                           }
                         }
+                        logTraceId=""
                       >
                         <DocViewTable
                           filter={[Function]}
@@ -224,6 +236,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                               "avg(FlightDelayMin)": "45.957544288332315",
                             }
                           }
+                          logTraceId=""
                           onAddColumn={[Function]}
                           onRemoveColumn={[Function]}
                         >

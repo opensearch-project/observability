@@ -329,7 +329,7 @@ discover-app {
 
 .dscCollapsibleSidebar {
   position: relative;
-  z-index: $euiZLevel1;
+  z-index: 1;
 
   .dscCollapsibleSidebar__collapseButton {
     position: absolute;

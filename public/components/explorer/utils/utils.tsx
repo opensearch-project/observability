@@ -9,7 +9,12 @@ import React from 'react';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
-import { PPL_INDEX_REGEX } from '../../../../common/constants/shared';
+import {
+  PPL_DATE_FORMAT,
+  PPL_INDEX_REGEX,
+  PPL_STATS_REGEX,
+} from '../../../../common/constants/shared';
+import moment from 'moment';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -162,6 +167,7 @@ export const fetchSurroundingData = async (
 ) => {
   let resultCount = 0;
   let isErred = false;
+  const pplEventTime = moment(eventTime).format(PPL_DATE_FORMAT);
   setLoadingData(true);
   setIsError('');
 
@@ -196,8 +202,8 @@ export const fetchSurroundingData = async (
   if (resultCount !== numDocs && !isErred) {
     const errorMessage =
       resultCount !== 0
-        ? `Could only find ${resultCount} ${typeOfDocs} events!`
-        : `Could not find any ${typeOfDocs} events!`;
+        ? `Could only find ${resultCount} ${typeOfDocs} event${resultCount === 1 ? '' : 's'}!`
+        : `Could not find any ${typeOfDocs} event!`;
     setIsError(errorMessage);
   }
 
@@ -207,4 +213,9 @@ export const fetchSurroundingData = async (
 // contains 0 <= value <= 10000
 export const rangeNumDocs = (value: number) => {
   return value > 10000 ? 10000 : value < 0 ? 0 : value;
+};
+
+// check traceId Byte Size
+export const isValidTraceId = (traceId: string) => {
+  return new Blob([traceId]).size === 32;
 };
