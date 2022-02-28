@@ -3,7 +3,11 @@ Copyright OpenSearch Contributors
 SPDX-License-Identifier: Apache-2.0
 """
 
-import requests
+import logging
+from urllib.parse import urlencode
+import pycurl
+import certifi
+from io import BytesIO
 
 DEBUG = False
 import datetime
@@ -12,67 +16,83 @@ import datetime
 # needed to do that in its state. It's single method (ping) can be called without needing to
 # pass any information in, which is needed to store it in a job process for the scheduler
 class Ping:
-    def __init__(self, client, host, suite_id, suite_name, 
-                 response_status, method, headers, req_json):
-        if DEBUG: print("initialize ping")
+    def __init__(self, client, host, suite_id, suites):
         self.client = client
         self.host = host
         self.suite_id = suite_id
-        self.suite_name = suite_name
-        self.response_status = response_status
-        self.method = method
-        self.headers = headers
-        self.req_json = req_json
+        self.suites = suites
+        self.return_headers = {}
+
+        self.buffer = BytesIO()
+        conn = pycurl.Curl()
+        self.conn = conn
+        conn.setopt(conn.URL, host)
+        conn.setopt(conn.CAINFO, certifi.where())
+        conn.setopt(conn.WRITEDATA, self.buffer)
+        # header function grabs response headers and formats them as a dict
+        conn.setopt(conn.HEADERFUNCTION, self.headers_to_json)
+        conn.setopt(conn.CONNECTTIMEOUT, suites['timeoutSeconds'])
+        conn.setopt(conn.MAXREDIRS, suites['maxRedirects'])
+        conn.setopt(conn.FOLLOWLOCATION, False)
+        conn.setopt(conn.HTTPHEADER, [str(k) + ': ' + str(v) for k, v in list(suites["request"]["headers"].items())])
+        if (suites["request"]["method"] == 'POST'):
+            conn.setopt(conn.POSTFIELDS, urlencode(suites["request"]["json"]))
+
+    def headers_to_json(self, header):
+        header = header.decode('iso-8859-1')
+        if ':' not in header:
+            return
+        name, value = header.split(':', 1)
+        name = name.strip()
+        value = value.strip()
+        name = name.lower()
+        self.return_headers[name] = value
 
     def ping(self):
-        print("Sent ping for: " + self.host)
+        logging.info("Sent ping for: " + self.host)
 
-        start = datetime.datetime.now().timestamp() * 1000
-        r = None
+        # clear past response headers and response data
+        self.buffer.flush()
+        self.return_headers = {}
+
+        # send ping out
+        start = datetime.datetime.now().timestamp()
         # TODO: figure out a better method for the different types of calls
-        if (self.method == "GET"):
-            r = requests.get(self.host, allow_redirects=False, 
-                             stream=True, headers=self.headers)
-        elif (self.method == "POST"):
-            r = requests.post(self.host, allow_redirects=False,
-                              stream=True, headers=self.headers, json=self.req_json)
-        end = datetime.datetime.now().timestamp() * 1000
-        if DEBUG: print("     " + r.url + " : " + str(r.status_code) + ", "
-                        + ('UP' if r.status_code in self.response_status else 'DOWN'))
-        
-        if (r == None):
-            raise Exception("No response returned, something went wrong")
+        self.conn.perform()
+        end = datetime.datetime.now().timestamp()
+
+        status = self.conn.getinfo(self.conn.RESPONSE_CODE)
 
         # these are all the fields that go in with the index
         log = {
-            "testSuiteName": self.suite_name,
+            "testSuiteName": self.suites['name'],
             "syntheticsSuiteId": self.suite_id,
-            "status": ("UP" if r.status_code in self.response_status else "DOWN"),
-            "type": "http",
-            "URL": r.url,
+            "status": ("UP" if status in self.suites["response"]["status"] else "DOWN"),
+            "type": self.suites['type'],
+            "URL": self.host,
             "request": {
-                "method": "GET",
-                "headers": {},
-                "body": ""
+                "method": self.suites["request"]["method"],
+                "headers": self.suites["request"]["headers"],
+                "body": self.suites["request"]["json"]
             },
             "response": {
-                "status": r.status_code,
-                "headers": dict(r.headers),
-                "body": r.text
+                "status": status,
+                "headers": self.return_headers,
+                "body": "Not implemented" # r.data.decode('utf-8')
             },
-            "startTime": start,
-            "endTime": end,
-            "dnsTimeMs": "N/A",
-            "ConnectionTimeMs": (end - start),
-            "sslTimeMs": 0,
-            "ttfbMs": "N/A",
-            "downloadTimeMs": "N/A",
-            "contentSizeKB": "N/A"
+            "startTime": (start * 1000),
+            "endTime": (end * 1000),
+            "dnsTimeMs": (self.conn.getinfo(self.conn.NAMELOOKUP_TIME) * 1000),
+            "ConnectionTimeMs": (self.conn.getinfo(self.conn.CONNECT_TIME) * 1000),
+            "sslTimeMs": (self.conn.getinfo(self.conn.APPCONNECT_TIME) * 1000),
+            "ttfbMs": (self.conn.getinfo(self.conn.STARTTRANSFER_TIME) * 1000),
+            "downloadTimeMs": (self.conn.getinfo(self.conn.TOTAL_TIME) * 1000),
+            "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000)
         }
 
         response = self.client.index(
-            index='synthetics-logs',
+            index='observability-synthetics-logs',
             body=log,
             refresh=True
         )
-        if DEBUG: print("   Doc Index resp: " + str(response))
+        if DEBUG: logging.info("   Doc Index resp: " + str(response))
