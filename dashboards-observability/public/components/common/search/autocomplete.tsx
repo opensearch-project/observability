@@ -143,12 +143,9 @@ export const Autocomplete = (props: AutocompleteProps) => {
             return (
               <div
                 key={`scrollable-${index}`}
-                className="aa-PanelLayout aa-Panel--scrollable"
-                style={
-                  uiSettingsService.get('theme:darkMode')
-                    ? { backgroundColor: '#1D1E24', border: '2px groove #383444' }
-                    : {}
-                }
+                className={`aa-PanelLayout aa-Panel--scrollable ${
+                  uiSettingsService.get('theme:darkMode') ? 'aa-Panel--scrollable-dark' : ''
+                }`}
               >
                 <div key={`source-${index}`} className="aa-Source">
                   {items.length > 0 && (
@@ -158,14 +155,13 @@ export const Autocomplete = (props: AutocompleteProps) => {
                         return (
                           <li
                             key={item.__autocomplete_id}
-                            className="aa-Item"
+                            className={`aa-Item ${
+                              uiSettingsService.get('theme:darkMode') ? 'aa-Item-dark' : ''
+                            }`}
                             {...autocomplete.getItemProps({
                               item,
                               source,
                             })}
-                            style={
-                              uiSettingsService.get('theme:darkMode') ? { color: '#DFE5EF' } : {}
-                            }
                           >
                             <div className="aa-ItemWrapper">
                               <div className="aa-ItemContent">

@@ -110,7 +110,7 @@ export const LogConfig = (props: LogConfigProps) => {
       >
         <EuiFlexGroup direction="column" gutterSize="s">
           <EuiFlexItem>
-            <EuiCallOut iconType={'iInCircle'} size="s" style={{ maxWidth: '900px' }}>
+            <EuiCallOut id="baseQueryCallout" iconType={'iInCircle'} size="s">
               You can&apos;t change the base query after the application is created.
             </EuiCallOut>
           </EuiFlexItem>
@@ -119,12 +119,7 @@ export const LogConfig = (props: LogConfigProps) => {
               label="Base Query"
               helpText="The default logs view in the application will be filtered by this query."
             >
-              <EuiFlexItem
-                grow={false}
-                key="query-bar"
-                className="query-area"
-                style={{ minWidth: '900px' }}
-              >
+              <EuiFlexItem grow={false} key="query-bar" className="query-area">
                 <Autocomplete
                   key={'autocomplete-bar'}
                   query={query}
@@ -139,8 +134,10 @@ export const LogConfig = (props: LogConfigProps) => {
                   tabId={'application-analytics-tab'}
                 />
                 <EuiBadge
-                  className={`ppl-link ${
-                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+                  className={`ppl-create-link ${
+                    uiSettingsService.get('theme:darkMode')
+                      ? 'ppl-create-link-dark'
+                      : 'ppl-create-link-light'
                   }`}
                   color="hollow"
                   onClick={() => showFlyout()}
