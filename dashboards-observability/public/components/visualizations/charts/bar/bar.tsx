@@ -81,7 +81,9 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode:
-      dataConfig?.chartOptions?.mode && dataConfig.chartOptions.mode[0].modeId
+      dataConfig?.chartOptions?.mode && 
+      dataConfig.chartOptions.mode[0] &&
+      dataConfig.chartOptions.mode[0].modeId
         ? dataConfig.chartOptions.mode[0].modeId
         : '',
   };
