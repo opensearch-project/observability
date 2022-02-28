@@ -21,6 +21,7 @@ interface AutocompleteProps extends IQueryBarProps {
     dslService: DSLService
   ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
+  isDisabled?: boolean;
   baseQuery: string;
   tabId: string;
 }
@@ -34,6 +35,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     dslService,
     getSuggestions,
     onItemSelect,
+    isDisabled,
     baseQuery,
     tabId,
   } = props;
@@ -120,6 +122,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
           placeholder: 'Enter PPL query',
           inputElement: null,
         })}
+        disabled={isDisabled}
       />
       {autocompleteState.isOpen && (
         <div
