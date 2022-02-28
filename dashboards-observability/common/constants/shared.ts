@@ -71,3 +71,5 @@ export const pageStyles: CSS.Properties = {
 };
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
+
+export const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'gauge', 'heatmap', 'text'];

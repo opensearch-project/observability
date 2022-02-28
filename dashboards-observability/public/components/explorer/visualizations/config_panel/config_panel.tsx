@@ -23,6 +23,7 @@ import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { TabContext } from '../../hooks';
 import { DefaultEditorControls } from './DefaultEditorControls';
 import { getVisType } from '../../../visualizations/charts/vis_types';
+import { ENABLED_VIS_TYPES } from '../../../../../common/constants/shared';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -47,8 +48,6 @@ const HJSON_STRINGIFY_OPTIONS = {
   condense: 0,
   bracesSameLine: true,
 };
-
-const ENABLED_VIS_TYPES = ['bar', 'line', 'pie', 'gauge', 'heatmap', 'text'];
 
 export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
