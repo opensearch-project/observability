@@ -83,7 +83,7 @@ export const EmptyPanelView = ({
         {appMetrics ? (
           <EuiFlexItem grow={false}>
             <EuiButton iconType="plusInCircle" onClick={switchToEvent} isDisabled={addVizDisabled}>
-              Add metric
+              Add
             </EuiButton>
           </EuiFlexItem>
         ) : (

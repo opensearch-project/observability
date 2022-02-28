@@ -51,15 +51,18 @@ import {
   PIPE_COMMA_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
-  FIELD_AFTER_STATS_GROUP_BY,
-  FIELD_AFTER_AGGREGATION,
+  FIELD_SPAN_AFTER_GROUP_BY,
+  NUM_FIELD_AFTER_AGGREGATION,
   CLOSE_AFTER_FIELD,
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
+  FIELD_AFTER_SPAN,
+  CLOSE_AFTER_SPAN,
+  PIPE_AFTER_SPAN,
 } from '../../../../common/constants/autocomplete';
 
-let currIndex: string = '';
+let currIndices: string[] = [];
 let currField: string = '';
 let currFieldType: string = '';
 
@@ -89,57 +92,66 @@ const getIndices = async (dslService: DSLService): Promise<void> => {
 };
 
 const getFields = async (dslService: DSLService): Promise<void> => {
-  if (currIndex !== '') {
-    const res = await dslService.fetchFields(currIndex);
+  if (!isEmpty(currIndices)) {
     fieldsFromBackend.length = 0;
-    if (!res) {
-      return;
-    }
-    const resFieldList = Object.keys(res?.[currIndex].mappings.properties);
-    for (let i = 0; i < resFieldList.length; i++) {
-      const element = resFieldList[i];
-      if (
-        res?.[currIndex].mappings.properties[element].properties ||
-        res?.[currIndex].mappings.properties[element].fields
-      ) {
-        fieldsFromBackend.push({ label: element, type: 'string' });
-      } else if (res?.[currIndex].mappings.properties[element].type === 'keyword') {
-        fieldsFromBackend.push({ label: element, type: 'string' });
-      } else {
-        fieldsFromBackend.push({
-          label: element,
-          type: res?.[currIndex].mappings.properties[element].type,
-        });
+    for (let i = 0; i < currIndices.length; i++) {
+      const index = currIndices[i];
+      const res = await dslService.fetchFields(index);
+      if (!res) {
+        return;
       }
-      fieldList.push(element);
+      const resFieldList = Object.keys(res?.[index].mappings.properties);
+      for (let j = 0; j < resFieldList.length; j++) {
+        const element = resFieldList[j];
+        if (
+          res?.[index].mappings.properties[element].properties ||
+          res?.[index].mappings.properties[element].fields
+        ) {
+          fieldsFromBackend.push({ label: element, type: 'string' });
+        } else if (res?.[index].mappings.properties[element].type === 'keyword') {
+          fieldsFromBackend.push({ label: element, type: 'string' });
+        } else {
+          fieldsFromBackend.push({
+            label: element,
+            type: res?.[index].mappings.properties[element].type,
+          });
+        }
+        fieldList.push(element);
+      }
     }
   }
 };
 
 const getDataValues = async (
-  index: string,
+  indices: string[],
   field: string,
   fieldType: string,
   dslService: DSLService
 ): Promise<DataItem[]> => {
-  const res =
-    (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags?.buckets ||
-    [];
-  dataValuesFromBackend.length = 0;
-  res.forEach((e: any) => {
-    if (fieldType === 'string') {
-      dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
-    } else if (fieldType === 'boolean') {
-      if (e.key === 1) {
-        dataValuesFromBackend.push({ label: 'True', doc_count: e.doc_count });
-      } else {
-        dataValuesFromBackend.push({ label: 'False', doc_count: e.doc_count });
-      }
-    } else if (fieldType !== 'geo_point') {
-      dataValuesFromBackend.push({ label: String(e.key), doc_count: e.doc_count });
+  for (let i = 0; i < indices.length; i++) {
+    const index = indices[i];
+    const res = (await dslService.fetch(getDataValueQuery(index, field)))?.aggregations?.top_tags
+      ?.buckets;
+    if (isEmpty(res)) {
+      continue;
     }
-  });
-  return dataValuesFromBackend;
+    dataValuesFromBackend.length = 0;
+    res.forEach((e: any) => {
+      if (fieldType === 'string') {
+        dataValuesFromBackend.push({ label: '"' + e.key + '"', doc_count: e.doc_count });
+      } else if (fieldType === 'boolean') {
+        if (e.key === 1) {
+          dataValuesFromBackend.push({ label: 'True', doc_count: e.doc_count });
+        } else {
+          dataValuesFromBackend.push({ label: 'False', doc_count: e.doc_count });
+        }
+      } else if (fieldType !== 'geo_point') {
+        dataValuesFromBackend.push({ label: String(e.key), doc_count: e.doc_count });
+      }
+    });
+    return dataValuesFromBackend;
+  }
+  return [];
 };
 
 export const onItemSelect = async (
@@ -147,7 +159,7 @@ export const onItemSelect = async (
   dslService: DSLService
 ) => {
   if (fieldsFromBackend.length === 0 && indexList.includes(item.itemName)) {
-    currIndex = item.itemName;
+    currIndices = [item.itemName];
     getFields(dslService);
   }
   setQuery(item.label + ' ');
@@ -199,7 +211,7 @@ export const getFullSuggestions = async (
   // Check the last full word in the query, then suggest inputs based off that
   if (splittedModel.length === 1) {
     currField = '';
-    currIndex = '';
+    currIndices = [];
     return getFirstPipe(str, dslService);
   } else if (splittedModel.length > 1) {
     // Suggest commands after pipe
@@ -233,7 +245,7 @@ export const getFullSuggestions = async (
       return fillSuggestions(str, prefix, indicesFromBackend);
       // Suggest pipe after setting source
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-      currIndex = splittedModel[splittedModel.length - 2];
+      currIndices = [splittedModel[splittedModel.length - 2]];
       getFields(dslService);
       return filterSuggestions(
         [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
@@ -336,13 +348,13 @@ export const getFullSuggestions = async (
         fieldsFromBackend.find(
           (field: { label: string; type: string }) => field.label === currField
         )?.type || '';
-      await getDataValues(currIndex, currField, currFieldType, dslService);
+      await getDataValues(currIndices, currField, currFieldType, dslService);
       return filterSuggestions(fullSuggestions, lowerPrefix);
       // Suggest , after match([field]
     } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
       currField = splittedModel[splittedModel.length - 2];
       currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-      await getDataValues(currIndex, currField, currFieldType, dslService);
+      await getDataValues(currIndices, currField, currFieldType, dslService);
       return filterSuggestions(
         [{ label: str + ',', input: str, suggestion: ',', itemName: ',' }],
         lowerPrefix
@@ -387,14 +399,17 @@ export const getFullSuggestions = async (
   return [];
 };
 
-const parseForIndex = (query: string) => {
+const parseForIndices = (query: string) => {
   for (let i = 0; i < regexForIndex.length; i++) {
     const groupArray = regexForIndex[i].exec(query);
     if (groupArray) {
-      return groupArray[1];
+      const afterEqual = query.substring(query.indexOf('=') + 1);
+      const beforePipe = afterEqual.substring(0, afterEqual.indexOf('|')) || afterEqual;
+      const noSpaces = beforePipe.replaceAll(/\s/g, '');
+      return noSpaces.split(',');
     }
   }
-  return '';
+  return [];
 };
 
 const parseForNextSuggestion = (command: string) => {
@@ -418,8 +433,8 @@ export const getSuggestionsAfterSource = async (
   const lastWord = splitSpaceQuery[splitSpaceQuery.length - 1];
   const lastCommand = splitPipeQuery[splitPipeQuery.length - 1];
 
-  if (isEmpty(currQuery)) {
-    currIndex = parseForIndex(base);
+  if (isEmpty(currQuery) || isEmpty(currIndices)) {
+    currIndices = parseForIndices(base);
     getFields(dslService);
     currField = '';
     currFieldType = '';
@@ -475,12 +490,24 @@ export const getSuggestionsAfterSource = async (
         ]);
       case CLOSE_AFTER_DATA:
       case CLOSE_AFTER_FIELD:
+      case CLOSE_AFTER_SPAN:
         return fillSuggestions(currQuery, lastWord, [{ label: ')' }]);
       case COMMA_AFTER_FIELD:
         currField = COMMA_AFTER_FIELD.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-        await getDataValues(currIndex, currField, currFieldType, dslService);
+        await getDataValues(currIndices, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+      case FIELD_AFTER_SPAN:
+        const matchArray = FIELD_AFTER_SPAN.exec(lastCommand);
+        const tempField = matchArray![matchArray!.length - 1];
+        if (fieldList.includes(tempField)) {
+          currField = tempField;
+          currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
+          await getDataValues(currIndices, currField, currFieldType, dslService);
+          return fillSuggestions(currQuery, lastWord, [{ label: ',' }]);
+        } else {
+          return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+        }
       case FIELD_AFTER_COMMAND:
       case FIELD_IN_FIELD_LOOP:
       case FIELD_AFTER_EVAL_EQUAL:
@@ -490,9 +517,14 @@ export const getSuggestionsAfterSource = async (
       case FIELD_AFTER_BY:
       case FIELD_AFTER_COMMA:
       case FIELD_AFTER_PLUS_MINUS_SORT:
-      case FIELD_AFTER_STATS_GROUP_BY:
-      case FIELD_AFTER_AGGREGATION:
         return fillSuggestions(currQuery, lastWord, fieldsFromBackend);
+      case FIELD_SPAN_AFTER_GROUP_BY:
+        return fillSuggestions(currQuery, lastWord, [{ label: 'span(' }, ...fieldsFromBackend]);
+      case NUM_FIELD_AFTER_AGGREGATION:
+        const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
+          numberTypes.includes(field.type)
+        );
+        return fillSuggestions(currQuery, lastWord, numberFields);
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
       case PIPE_AFTER_KEEP_EMPTY:
@@ -500,6 +532,7 @@ export const getSuggestionsAfterSource = async (
       case PIPE_AFTER_GROUP_BY:
       case PIPE_AFTER_HEAD:
       case PIPE_AFTER_STATS_GROUP_BY:
+      case PIPE_AFTER_SPAN:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:
@@ -508,7 +541,7 @@ export const getSuggestionsAfterSource = async (
       case EQUAL_AFTER_EVAL_FIELD:
         currField = next.exec(lastCommand)![1];
         currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-        await getDataValues(currIndex, currField, currFieldType, dslService);
+        await getDataValues(currIndices, currField, currFieldType, dslService);
         return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
       case MATCH_FIELD_AFTER_WHERE:
         return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);

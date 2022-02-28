@@ -152,12 +152,12 @@ export function AppTable(props: AppTableProps) {
     >
       Rename
     </EuiContextMenuItem>,
-    <EuiContextMenuItem
-      key="duplicate"
-      disabled={applications.length === 0 || selectedApplications.length !== 1}
-    >
-      Duplicate
-    </EuiContextMenuItem>,
+    // <EuiContextMenuItem
+    //   key="duplicate"
+    //   disabled={applications.length === 0 || selectedApplications.length !== 1}
+    // >
+    //   Duplicate
+    // </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
       disabled={applications.length === 0 || selectedApplications.length === 0}
@@ -168,7 +168,7 @@ export function AppTable(props: AppTableProps) {
     >
       Delete
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
+    // <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
   ];
 
   const tableColumns = [
