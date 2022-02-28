@@ -9,7 +9,12 @@ import React from 'react';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
-import { PPL_INDEX_REGEX, PPL_STATS_REGEX } from '../../../../common/constants/shared';
+import {
+  PPL_DATE_FORMAT,
+  PPL_INDEX_REGEX,
+  PPL_STATS_REGEX,
+} from '../../../../common/constants/shared';
+import moment from 'moment';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -162,6 +167,7 @@ export const fetchSurroundingData = async (
 ) => {
   let resultCount = 0;
   let isErred = false;
+  const pplEventTime = moment(eventTime).format(PPL_DATE_FORMAT);
   setLoadingData(true);
   setIsError('');
 

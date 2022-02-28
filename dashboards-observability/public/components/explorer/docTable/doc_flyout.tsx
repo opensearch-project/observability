@@ -74,7 +74,11 @@ export const DocFlyout = ({
         <EuiFlexItem>
           <EuiTitle size="s">
             <h2 id="eventsDocFyout" className="vertical-center">
-              Event: {moment(doc[timeStampField]).format(uiSettingsService.get('dateFormat'))}
+              {doc.hasOwnProperty(timeStampField)
+                ? `Event: ${moment(doc[timeStampField]).format(
+                    uiSettingsService.get('dateFormat')
+                  )}`
+                : `Event Details`}
             </h2>
           </EuiTitle>
         </EuiFlexItem>
@@ -98,6 +102,8 @@ export const DocFlyout = ({
             content={
               rawQuery.match(PPL_STATS_REGEX) ? (
                 <p>Cannot view surrounding events with `stats` command in PPL query</p>
+              ) : !doc.hasOwnProperty(timeStampField) ? (
+                <p>Cannot view surrounding events without time field in query response</p>
               ) : (
                 <p>View surrounding events based on timestamp</p>
               )
@@ -106,7 +112,7 @@ export const DocFlyout = ({
             <EuiButton
               onClick={openSurroundingFlyout}
               className="header-button"
-              isDisabled={rawQuery.match(PPL_STATS_REGEX)}
+              isDisabled={rawQuery.match(PPL_STATS_REGEX) || !doc.hasOwnProperty(timeStampField)}
             >
               View surrounding events
             </EuiButton>
@@ -125,7 +131,7 @@ export const DocFlyout = ({
         getHeaders(explorerFields.selectedFields, DEFAULT_COLUMNS.slice(1), true),
         <tr className="osdDocTable__row">{memorizedTds}</tr>
       )}
-      <DocViewer http={http} hit={doc} openTraces={openTraces}/>
+      <DocViewer http={http} hit={doc} openTraces={openTraces} />
     </EuiFlyoutBody>
   );
 
