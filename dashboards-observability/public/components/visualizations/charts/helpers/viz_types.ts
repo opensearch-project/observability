@@ -4,9 +4,21 @@
  */
 
 import { isEmpty, take } from 'lodash';
-import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
-import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
 import { getVisType } from '../vis_types';
+import { IVisualizationContainerProps, IField, IQuery } from '../../../../../common/types/explorer';
+
+interface IVizContainerProps {
+  vizId: string;
+  appData?: { fromApp: boolean };
+  rawVizData?: any;
+  query?: IQuery;
+  indexFields?: IField[];
+  userConfigs?: any;
+  defaultAxes?: {
+    xaxis: IField[];
+    yaxis: IField[];
+  };
+}
 
 const getDefaultXYAxisLabels = (vizFields: string[]) => {
   if (isEmpty(vizFields)) return {};
@@ -23,7 +35,7 @@ export const getVizContainerProps = ({
   indexFields = {},
   userConfigs = {},
   appData = {},
-}: any) => {
+}: IVizContainerProps): IVisualizationContainerProps => {
   return {
     data: {
       appData: { ...appData },
@@ -39,19 +51,4 @@ export const getVizContainerProps = ({
       ...getVisType(vizId),
     },
   };
-};
-
-export const getDefaultVizConfigPanelTabs = () => {
-  return [
-    {
-      id: 'data-panel',
-      name: 'Data',
-      editor: VizDataPanel,
-    },
-    {
-      id: 'style-panel',
-      name: 'Layout',
-      editor: ConfigEditor,
-    },
-  ];
 };

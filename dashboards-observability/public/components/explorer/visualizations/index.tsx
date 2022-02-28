@@ -8,14 +8,25 @@ import './app.scss';
 import _ from 'lodash';
 
 import React from 'react';
-import { EuiText, EuiResizableContainer } from '@elastic/eui';
-import { isEmpty } from 'lodash';
-import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../common/constants/explorer';
-import { PPL_STATS_REGEX } from '../../../../common/constants/shared';
-import { IField } from '../../../../common/types/explorer';
+import { EuiResizableContainer } from '@elastic/eui';
+import { SELECTED_TIMESTAMP } from '../../../../common/constants/explorer';
+import { IField, IQuery, IVisualizationContainerProps } from '../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
+
+interface IExplorerVisualizationsProps {
+  query: IQuery;
+  curVisId: string;
+  setCurVisId: (visId: string) => void;
+  explorerVis: any;
+  explorerFields: IField[];
+  explorerData: any;
+  handleAddField: (field: IField) => void;
+  handleRemoveField: (field: IField) => void;
+  visualizations: IVisualizationContainerProps;
+  handleOverrideTimestamp: (field: IField) => void;
+}
 
 export const ExplorerVisualizations = ({
   query,
@@ -28,7 +39,7 @@ export const ExplorerVisualizations = ({
   handleRemoveField,
   visualizations,
   handleOverrideTimestamp,
-}: any) => {
+}: IExplorerVisualizationsProps) => {
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (

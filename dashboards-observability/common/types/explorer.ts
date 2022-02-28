@@ -4,6 +4,7 @@
  */
 
 import { History } from 'history';
+import Plotly from 'plotly.js-dist';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -146,4 +147,68 @@ export interface SavedVizRes {
   objectId: string;
   savedVisualization: SavedVisualization;
   tenant: string;
+}
+
+export interface IVisualizationContainerPropsData {
+  appData?: { fromApp: boolean };
+  rawVizData?: any;
+  query?: IQuery;
+  indexFields?: IField[];
+  userConfigs?: any;
+  defaultAxes?: {
+    xaxis: IField[];
+    yaxis: IField[];
+  };
+}
+
+export interface IVisualizationContainerPropsVis {
+  vis: IVisualizationTypeDefination;
+}
+
+export interface IConfigPanelTab {
+  id: string;
+  name: string;
+  mapTo: string;
+  editor: React.ReactNode;
+  sections: IConfigPanelOptions[];
+  props?: any;
+}
+
+export interface IConfigPanelOptions {
+  id: string;
+  name: string;
+  mapTo: string;
+  editor: React.ReactNode;
+  schemas: IConfigPanelOptionSection[];
+}
+
+export interface IConfigPanelOptionSection {
+  name: string;
+  component: null;
+  mapTo: 'mode';
+  props?: any;
+  isSingleSelection?: boolean;
+}
+
+export interface IVisualizationTypeDefination {
+  name: string;
+  type: string;
+  id: string;
+  label: string;
+  fullLabel: string;
+  category: string;
+  icon: React.ReactNode;
+  editorConfig: {
+    panelTabs: IConfigPanelTab;
+  };
+  visConfig: {
+    layout: Partial<Plotly.Layout>;
+    config: Partial<Plotly.Config>;
+  };
+  component: React.ReactNode;
+}
+
+export interface IVisualizationContainerProps {
+  data: IVisualizationContainerPropsData;
+  vis: IVisualizationContainerPropsVis;
 }

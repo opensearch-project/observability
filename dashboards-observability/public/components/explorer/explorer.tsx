@@ -67,7 +67,7 @@ import {
   change as changeVisualizationConfig,
 } from './slices/viualization_config_slice';
 import { change as updateVizConfig } from './slices/viualization_config_slice';
-import { IExplorerProps } from '../../../common/types/explorer';
+import { IExplorerProps, IVisualizationContainerProps } from '../../../common/types/explorer';
 import { TabContext } from './hooks';
 import { getVizContainerProps } from '../visualizations/charts/helpers';
 import {
@@ -749,7 +749,7 @@ export const Explorer = ({
     };
   }
 
-  const visualizations = useMemo(() => {
+  const visualizations: IVisualizationContainerProps = useMemo(() => {
     return getVizContainerProps({
       vizId: curVisId,
       rawVizData: explorerVisualizations,
