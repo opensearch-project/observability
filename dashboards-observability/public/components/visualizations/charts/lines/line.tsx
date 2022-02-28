@@ -15,19 +15,19 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.xaxis
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
+      ? dataConfig.valueOptions.xaxis
       : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.yaxis
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
+      ? dataConfig.valueOptions.yaxis
       : [];
   const lastIndex = fields.length - 1;
   const mode =
     dataConfig?.chartOptions && 
-    dataConfig?.chartOptions.mode && 
-    dataConfig?.chartOptions.mode[0]
-      ? dataConfig?.chartOptions.mode[0].modeId
+    dataConfig.chartOptions.mode && 
+    dataConfig.chartOptions.mode[0]
+      ? dataConfig.chartOptions.mode[0].modeId
       : 'line';
 
   let valueSeries;
