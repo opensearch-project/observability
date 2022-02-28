@@ -240,20 +240,12 @@ exports[`Log Config component renders empty log config 1`] = `
                       >
                         <EuiCallOut
                           iconType="iInCircle"
+                          id="baseQueryCallout"
                           size="s"
-                          style={
-                            Object {
-                              "maxWidth": "900px",
-                            }
-                          }
                         >
                           <div
                             className="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style={
-                              Object {
-                                "maxWidth": "900px",
-                              }
-                            }
+                            id="baseQueryCallout"
                           >
                             <EuiText
                               size="xs"
@@ -314,11 +306,6 @@ exports[`Log Config component renders empty log config 1`] = `
                                 key="query-bar"
                                 onBlur={[Function]}
                                 onFocus={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": "900px",
-                                  }
-                                }
                               >
                                 <div
                                   aria-describedby="random_html_id-help"
@@ -326,11 +313,6 @@ exports[`Log Config component renders empty log config 1`] = `
                                   id="random_html_id"
                                   onBlur={[Function]}
                                   onFocus={[Function]}
-                                  style={
-                                    Object {
-                                      "minWidth": "900px",
-                                    }
-                                  }
                                 >
                                   <Autocomplete
                                     baseQuery=""
@@ -412,7 +394,7 @@ exports[`Log Config component renders empty log config 1`] = `
                                     </div>
                                   </Autocomplete>
                                   <EuiBadge
-                                    className="ppl-link ppl-link-light"
+                                    className="ppl-create-link ppl-create-link-light"
                                     color="hollow"
                                     onClick={[Function]}
                                     onClickAriaLabel="pplLinkShowFlyout"
@@ -420,7 +402,7 @@ exports[`Log Config component renders empty log config 1`] = `
                                     <EuiInnerText>
                                       <button
                                         aria-label="pplLinkShowFlyout"
-                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                         disabled={false}
                                         onClick={[Function]}
                                         title="PPL"
@@ -712,20 +694,12 @@ exports[`Log Config component renders with query 1`] = `
                       >
                         <EuiCallOut
                           iconType="iInCircle"
+                          id="baseQueryCallout"
                           size="s"
-                          style={
-                            Object {
-                              "maxWidth": "900px",
-                            }
-                          }
                         >
                           <div
                             className="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style={
-                              Object {
-                                "maxWidth": "900px",
-                              }
-                            }
+                            id="baseQueryCallout"
                           >
                             <EuiText
                               size="xs"
@@ -786,11 +760,6 @@ exports[`Log Config component renders with query 1`] = `
                                 key="query-bar"
                                 onBlur={[Function]}
                                 onFocus={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": "900px",
-                                  }
-                                }
                               >
                                 <div
                                   aria-describedby="random_html_id-help"
@@ -798,11 +767,6 @@ exports[`Log Config component renders with query 1`] = `
                                   id="random_html_id"
                                   onBlur={[Function]}
                                   onFocus={[Function]}
-                                  style={
-                                    Object {
-                                      "minWidth": "900px",
-                                    }
-                                  }
                                 >
                                   <Autocomplete
                                     baseQuery=""
@@ -884,7 +848,7 @@ exports[`Log Config component renders with query 1`] = `
                                     </div>
                                   </Autocomplete>
                                   <EuiBadge
-                                    className="ppl-link ppl-link-light"
+                                    className="ppl-create-link ppl-create-link-light"
                                     color="hollow"
                                     onClick={[Function]}
                                     onClickAriaLabel="pplLinkShowFlyout"
@@ -892,7 +856,7 @@ exports[`Log Config component renders with query 1`] = `
                                     <EuiInnerText>
                                       <button
                                         aria-label="pplLinkShowFlyout"
-                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                         disabled={false}
                                         onClick={[Function]}
                                         title="PPL"

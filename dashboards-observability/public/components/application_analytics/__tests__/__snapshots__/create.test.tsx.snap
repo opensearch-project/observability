@@ -241,7 +241,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -274,7 +274,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -305,7 +304,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -1449,7 +1448,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -1482,7 +1481,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -1513,7 +1511,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -2596,7 +2594,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -2629,7 +2627,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -2658,7 +2655,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -3715,7 +3712,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -3748,7 +3745,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -3777,7 +3773,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -4893,7 +4889,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -4926,7 +4922,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -4955,7 +4950,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -6012,7 +6007,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -6045,7 +6040,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -6074,7 +6068,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -7183,7 +7177,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -7216,7 +7210,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -7245,7 +7238,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -8240,7 +8233,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -8273,7 +8266,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -8302,7 +8294,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -9359,7 +9351,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -9392,7 +9384,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -9423,7 +9414,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -10447,7 +10438,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -10480,7 +10471,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -10511,7 +10501,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -11594,7 +11584,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -11627,7 +11617,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -11656,7 +11645,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -12713,7 +12702,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -12746,7 +12735,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -12775,7 +12763,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -13891,7 +13879,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -13924,7 +13912,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -13953,7 +13940,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -15010,7 +14997,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -15043,7 +15030,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -15072,7 +15058,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -16190,7 +16176,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -16223,7 +16209,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -16254,7 +16239,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -17394,7 +17379,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -17427,7 +17412,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -17458,7 +17442,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
                                   title="PPL"
                                 >
                                   <span
