@@ -12,21 +12,22 @@ export const Line = ({ visualizations, layout, config }: any) => {
     data = {},
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { vis } = visualizations;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.xaxis
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
+      ? dataConfig.valueOptions.xaxis
       : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.yaxis
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
+      ? dataConfig.valueOptions.yaxis
       : [];
   const lastIndex = fields.length - 1;
   const mode =
-    dataConfig?.chartOptions && dataConfig?.chartOptions.mode
-      ? dataConfig?.chartOptions.mode[0].modeId
+    dataConfig?.chartOptions && 
+    dataConfig.chartOptions.mode && 
+    dataConfig.chartOptions.mode[0]
+      ? dataConfig.chartOptions.mode[0].modeId
       : 'line';
 
   let valueSeries;
@@ -46,7 +47,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         mode,
       };
     });
-  }, [data, xaxis, fields, lastIndex, mode]);
+  }, [data, xaxis, yaxis, fields, lastIndex, mode]);
 
   // threshold(s)
   const calculatedLayout = useMemo(() => {

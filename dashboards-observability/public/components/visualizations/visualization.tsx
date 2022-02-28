@@ -11,7 +11,6 @@ import { EmptyPlaceholder } from '../../components/explorer/visualizations/share
 interface IVisualizationProps {}
 
 export const Visualization = ({ visualizations }: IVisualizationProps) => {
-
   const { data, vis } = visualizations;
   const { metadata = {} } = visualizations?.data?.rawVizData;
   const { fields = [] } = metadata;
@@ -20,7 +19,7 @@ export const Visualization = ({ visualizations }: IVisualizationProps) => {
   const isVizDataValid = data && vis && visualizations?.data?.rawVizData;
 
   // check fields
-  const isVizFieldValid = fields && isArray(fields) && fields.length > 0
+  const isVizFieldValid = fields && isArray(fields) && fields.length > 0;
 
   return (
     <>
