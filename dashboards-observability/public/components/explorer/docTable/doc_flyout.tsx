@@ -17,6 +17,7 @@ import {
   EuiFlyoutFooter,
   EuiFlyoutHeader,
   EuiTitle,
+  EuiToolTip,
 } from '@elastic/eui';
 import { uiSettingsService } from '../../../../common/utils';
 import moment from 'moment';
@@ -24,6 +25,7 @@ import { IExplorerFields } from '../../../../common/types/explorer';
 import { getHeaders, populateDataGrid } from '../utils';
 import { DEFAULT_COLUMNS } from '../../../../common/constants/explorer';
 import { HttpSetup } from '../../../../../../src/core/public';
+import { PPL_STATS_REGEX } from '../../../../common/constants/shared';
 
 type Props = {
   http: HttpSetup;
@@ -34,6 +36,9 @@ type Props = {
   memorizedTds: JSX.Element[];
   explorerFields: IExplorerFields;
   openTraces: boolean;
+  rawQuery: string;
+  toggleSize: boolean;
+  setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenTraces: React.Dispatch<React.SetStateAction<boolean>>;
   setSurroundingEventsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -47,11 +52,12 @@ export const DocFlyout = ({
   memorizedTds,
   explorerFields,
   openTraces,
+  rawQuery,
+  toggleSize,
+  setToggleSize,
   setOpenTraces,
   setSurroundingEventsOpen,
 }: Props) => {
-  const [toggleSize, setToggleSize] = useState(true);
-
   const closeFlyout = () => {
     setDetailsOpen(false);
     setOpenTraces(false);
@@ -67,8 +73,8 @@ export const DocFlyout = ({
       <EuiFlexGroup>
         <EuiFlexItem>
           <EuiTitle size="s">
-            <h2 id="eventsDocFyout">
-              Time: {moment(doc[timeStampField]).format(uiSettingsService.get('dateFormat'))}
+            <h2 id="eventsDocFyout" className="vertical-center">
+              Event: {moment(doc[timeStampField]).format(uiSettingsService.get('dateFormat'))}
             </h2>
           </EuiTitle>
         </EuiFlexItem>
@@ -87,9 +93,24 @@ export const DocFlyout = ({
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton onClick={openSurroundingFlyout} className="header-button">
-            View surrounding events
-          </EuiButton>
+          <EuiToolTip
+            position="bottom"
+            content={
+              rawQuery.match(PPL_STATS_REGEX) ? (
+                <p>Cannot view surrounding events with `stats` command in PPL query</p>
+              ) : (
+                <p>View surrounding events based on timestamp</p>
+              )
+            }
+          >
+            <EuiButton
+              onClick={openSurroundingFlyout}
+              className="header-button"
+              isDisabled={rawQuery.match(PPL_STATS_REGEX)}
+            >
+              View surrounding events
+            </EuiButton>
+          </EuiToolTip>
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlyoutHeader>
@@ -104,7 +125,7 @@ export const DocFlyout = ({
         getHeaders(explorerFields.selectedFields, DEFAULT_COLUMNS.slice(1), true),
         <tr className="osdDocTable__row">{memorizedTds}</tr>
       )}
-      <DocViewer http={http} hit={doc} openTraces={openTraces} />
+      <DocViewer http={http} hit={doc} openTraces={openTraces}/>
     </EuiFlyoutBody>
   );
 
