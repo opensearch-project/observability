@@ -3,29 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { 
-  has,
-  isEmpty,
-  isArray
-} from 'lodash';
-import { 
+import { has, isEmpty, isArray } from 'lodash';
+import { IField } from 'common/types/explorer';
+import {
   OBSERVABILITY_BASE,
   EVENT_ANALYTICS,
   SAVED_OBJECTS,
   SAVED_QUERY,
-  SAVED_VISUALIZATION
+  SAVED_VISUALIZATION,
 } from '../../../../common/constants/shared';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
-import { IField } from 'common/types/explorer';
 
 const CONCAT_FIELDS = ['objectIdList', 'objectType'];
 
 interface ISavedObjectRequestParams {
   objectId?: string;
-  objectIdList?: Array<string> | string;
-  objectType?: Array<string> | string;
+  objectIdList?: string[] | string;
+  objectType?: string[] | string;
   sortField?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
   fromIndex?: number;
   maxItems?: number;
   name?: string;
@@ -34,24 +30,24 @@ interface ISavedObjectRequestParams {
 }
 
 interface ISelectedPanelsParams {
-  selectedCustomPanels: Array<any>
-  savedVisualizationId: string
+  selectedCustomPanels: any[];
+  savedVisualizationId: string;
 }
 
 interface IBulkUpdateSavedVisualizationRquest {
   query: string;
-  fields: Array<IField>;
-  dateRange: Array<string>;
+  fields: IField[];
+  dateRange: string[];
   type: string;
   name: string;
-  savedObjectList: Array<any>;
+  savedObjectList: any[];
 }
 
+// eslint-disable-next-line import/no-default-export
 export default class SavedObjects {
-  
   constructor(private readonly http: any) {}
 
-  buildRequestBody ({
+  buildRequestBody({
     query,
     fields,
     dateRange,
@@ -59,111 +55,102 @@ export default class SavedObjects {
     name = '',
     chartType = '',
     description = '',
-    applicationId = ''
+    applicationId = '',
+    userConfigs = '',
   }: any) {
-
     const objRequest: any = {
       object: {
         query,
         selected_date_range: {
           start: dateRange[0] || 'now/15m',
           end: dateRange[1] || 'now',
-          text: ''
+          text: '',
         },
         selected_timestamp: {
-          'name': timestamp || '',
-          'type': 'timestamp'
+          name: timestamp || '',
+          type: 'timestamp',
         },
         selected_fields: {
           tokens: fields,
-          text: ''
+          text: '',
         },
         name: name || '',
-        description: description || ''
-      }
+        description: description || '',
+      },
     };
 
     if (!isEmpty(chartType)) {
-      objRequest['object']['type'] = chartType;
+      objRequest.object.type = chartType;
     }
 
     if (!isEmpty(applicationId)) {
-      objRequest['object']['application_id'] = applicationId;
+      objRequest.object.application_id = applicationId;
+    }
+
+    if (!isEmpty(userConfigs)) {
+      objRequest.object.user_configs = userConfigs;
     }
 
     return objRequest;
   }
 
-  private stringifyList(
-    targetObj: any,
-    key: string,
-    joinBy: string
-  ) {
+  private stringifyList(targetObj: any, key: string, joinBy: string) {
     if (has(targetObj, key) && isArray(targetObj[key])) {
       targetObj[key] = targetObj[key].join(joinBy);
     }
     return targetObj;
   }
-  
-  async fetchSavedObjects(params: ISavedObjectRequestParams) {
 
+  async fetchSavedObjects(params: ISavedObjectRequestParams) {
     // turn array into string. exmaple objectType ['savedQuery', 'savedVisualization'] =>
     // 'savedQuery,savedVisualization'
     CONCAT_FIELDS.map((arrayField) => {
-      this.stringifyList(
-        params,
-        arrayField,
-        ','
-      );
+      this.stringifyList(params, arrayField, ',');
     });
 
-    return await this.http.get(
-      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, 
-      {
-        query: {
-          ...params
-        },
-      }
-    );
+    return await this.http.get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, {
+      query: {
+        ...params,
+      },
+    });
   }
 
   async fetchCustomPanels() {
     return await this.http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`);
   }
 
-  async bulkUpdateCustomPanel (params: ISelectedPanelsParams) {
+  async bulkUpdateCustomPanel(params: ISelectedPanelsParams) {
     const finalParams = {
       panelId: '',
       savedVisualizationId: params.savedVisualizationId,
     };
 
     return await Promise.all(
-      params['selectedCustomPanels'].map((panel) => {
-        finalParams['panelId'] = panel['panel']['id'];
+      params.selectedCustomPanels.map((panel) => {
+        finalParams.panelId = panel.panel.id;
         return this.http.post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
-          body: JSON.stringify(finalParams)
+          body: JSON.stringify(finalParams),
         });
       })
     );
-  };
+  }
 
   async bulkUpdateSavedVisualization(params: IBulkUpdateSavedVisualizationRquest) {
-
     const finalParams = this.buildRequestBody({
       query: params.query,
       fields: params.fields,
       dateRange: params.dateRange,
       chartType: params.type,
-      name: params.name
+      name: params.name,
     });
 
     return await Promise.all(
       params.savedObjectList.map((objectToUpdate) => {
-        finalParams['object_id'] = objectToUpdate['saved_object']['objectId'];
+        finalParams.object_id = objectToUpdate.saved_object.objectId;
         return this.http.put(
           `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
           {
-            body: JSON.stringify(finalParams)
+            body: JSON.stringify(finalParams),
           }
         );
       })
@@ -177,15 +164,17 @@ export default class SavedObjects {
       dateRange: params.dateRange,
       chartType: params.type,
       name: params.name,
-      timestamp: params.timestamp
+      timestamp: params.timestamp,
+      userConfigs: params.userConfigs,
+      description: params.description,
     });
 
-    finalParams['object_id'] = params.objectId;
+    finalParams.object_id = params.objectId;
 
     return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
@@ -197,21 +186,20 @@ export default class SavedObjects {
       dateRange: params.dateRange,
       chartType: params.type,
       name: params.name,
-      timestamp: params.timestamp
+      timestamp: params.timestamp,
     });
 
-    finalParams['object_id'] = params.objectId;
+    finalParams.object_id = params.objectId;
 
     return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
 
   async createSavedQuery(params: any) {
-    
     const finalParams = this.buildRequestBody({
       query: params.query,
       fields: params.fields,
@@ -223,13 +211,12 @@ export default class SavedObjects {
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_QUERY}`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
 
   async createSavedVisualization(params: any) {
-
     const finalParams = this.buildRequestBody({
       query: params.query,
       fields: params.fields,
@@ -237,13 +224,15 @@ export default class SavedObjects {
       chartType: params.type,
       name: params.name,
       timestamp: params.timestamp,
-      applicationId: params.applicationId
+      applicationId: params.applicationId,
+      userConfigs: params.userConfigs,
+      description: params.description,
     });
 
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}${SAVED_VISUALIZATION}`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
@@ -259,7 +248,7 @@ export default class SavedObjects {
     return await this.http.post(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
@@ -271,29 +260,25 @@ export default class SavedObjects {
         name: params.name,
         index: params.index,
         type: params.type,
-        dsl_type: params.dsl_type
-      }
-    }
+        dsl_type: params.dsl_type,
+      },
+    };
     return await this.http.put(
       `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/timestamp`,
       {
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify(finalParams),
       }
     );
   }
 
   async deleteSavedObjectsList(deleteObjectRequest: any) {
     const finalParams = {
-      objectIdList: deleteObjectRequest.objectIdList.join(',')
+      objectIdList: deleteObjectRequest.objectIdList.join(','),
     };
-    return await this.http.delete(
-      `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
-      {
-        body: JSON.stringify(finalParams)
-      }
-    );
+    return await this.http.delete(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, {
+      body: JSON.stringify(finalParams),
+    });
   }
 
   deleteSavedObjectsByIdList(deleteObjectRequesList: any) {}
-
 }

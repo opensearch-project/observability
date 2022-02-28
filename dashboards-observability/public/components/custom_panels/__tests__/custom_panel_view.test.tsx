@@ -20,7 +20,7 @@ import PPLService from '../../../../public/services/requests/ppl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
 
-describe('Panels View Component', () => {
+describe.skip('Panels View Component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders panel view container without visualizations', async () => {

@@ -4,7 +4,11 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { CustomPanelListType, PanelType, VisualizationType } from '../../../common/types/custom_panels';
+import {
+  CustomPanelListType,
+  PanelType,
+  VisualizationType,
+} from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -33,7 +37,7 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //update a panel
+  // update a panel
   updatePanel = async function (
     client: ILegacyScopedClusterClient,
     panelId: string,
@@ -74,11 +78,11 @@ export class CustomPanelsAdaptor {
       return response.observabilityObjectList
         .filter((panel: any) => !panel.operationalPanel.applicationId)
         .map((panel: any) => ({
-        name: panel.operationalPanel.name,
-        id: panel.objectId,
-        dateCreated: panel.createdTimeMs,
-        dateModified: panel.lastUpdatedTimeMs,
-      }));
+          name: panel.operationalPanel.name,
+          id: panel.objectId,
+          dateCreated: panel.createdTimeMs,
+          dateModified: panel.lastUpdatedTimeMs,
+        }));
     } catch (error) {
       throw new Error('View Panel List Error:' + error);
     }
@@ -109,7 +113,11 @@ export class CustomPanelsAdaptor {
   };
 
   // Create a new Panel
-  createNewPanel = async (client: ILegacyScopedClusterClient, panelName: string, appId?: string) => {
+  createNewPanel = async (
+    client: ILegacyScopedClusterClient,
+    panelName: string,
+    appId?: string
+  ) => {
     const panelBody: PanelType = {
       name: panelName,
       visualizations: [],
@@ -187,12 +195,12 @@ export class CustomPanelsAdaptor {
   ) => {
     const updatePanelBody = {
       timeRange: {
-        to: to,
-        from: from,
+        to,
+        from,
       },
       queryFilter: {
-        query: query,
-        language: language,
+        query,
+        language,
       },
     };
     try {
@@ -241,13 +249,18 @@ export class CustomPanelsAdaptor {
         query: visualization.savedVisualization.query,
         type: visualization.savedVisualization.type,
         timeField: visualization.savedVisualization.selected_timestamp.name,
+        selected_date_range: visualization.savedVisualization.selected_date_range,
+        selected_fields: visualization.savedVisualization.selected_fields,
+        user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
+          ? JSON.parse(visualization.savedVisualization.user_configs)
+          : {},
       };
     } catch (error) {
       throw new Error('Fetch Saved Visualizations By Id Error:' + error);
     }
   };
 
-  //Get All Visualizations from a Panel
+  // Get All Visualizations from a Panel
   getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {
@@ -311,7 +324,7 @@ export class CustomPanelsAdaptor {
     return { x: 0, y: maxY + maxYH, w: 6, h: 4 };
   };
 
-  //Add Visualization in the  Panel
+  // Add Visualization in the  Panel
   addVisualization = async (
     client: ILegacyScopedClusterClient,
     panelId: string,
@@ -344,7 +357,7 @@ export class CustomPanelsAdaptor {
         ...visualizationsList,
         {
           id: 'panel_viz_' + uuidv4(),
-          savedVisualizationId: savedVisualizationId,
+          savedVisualizationId,
           ...newDimensions,
         },
       ];
@@ -357,21 +370,21 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //Edits all Visualizations in the Panel
+  // Edits all Visualizations in the Panel
   editVisualization = async (
     client: ILegacyScopedClusterClient,
     panelId: string,
-    visualizationParams: {
+    visualizationParams: Array<{
       i: string;
       x: number;
       y: number;
       w: number;
       h: number;
-    }[]
+    }>
   ) => {
     try {
       const allPanelVisualizations = await this.getVisualizations(client, panelId);
-      let filteredPanelVisualizations = <Array<VisualizationType>>[];
+      const filteredPanelVisualizations = <VisualizationType[]>[];
 
       for (let i = 0; i < allPanelVisualizations.length; i++) {
         for (let j = 0; j < visualizationParams.length; j++) {

@@ -31,6 +31,8 @@ import {
   remove as removeQueryResult,
   selectQueryResult,
 } from './slices/query_result_slice';
+import { init as initVisualizationConfig, reset as resetVisualizationConfig } from './slices/viualization_config_slice';
+import { initializeTabData, removeTabData } from '../application_analytics/helpers/utils';
 
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -108,18 +110,7 @@ export const LogExplorer = ({
         newIdToFocus = tabIds[index - 1];
       }
     }
-
-    batch(() => {
-      dispatch(removeQuery({ tabId: TabIdToBeClosed }));
-      dispatch(removefields({ tabId: TabIdToBeClosed }));
-      dispatch(removeQueryResult({ tabId: TabIdToBeClosed }));
-      dispatch(
-        removeTab({
-          tabId: TabIdToBeClosed,
-          [NEW_SELECTED_QUERY_TAB]: newIdToFocus,
-        })
-      );
-    });
+    removeTabData(dispatch, TabIdToBeClosed, newIdToFocus);
   };
 
   const addNewTab = async (where: string) => {
@@ -127,20 +118,7 @@ export const LogExplorer = ({
     const tabId = uniqueId(TAB_ID_TXT_PFX);
 
     // create a new tab
-    await batch(() => {
-      dispatch(initQuery({ tabId }));
-      dispatch(initQueryResult({ tabId }));
-      dispatch(initFields({ tabId }));
-      dispatch(addTab({ tabId }));
-      dispatch(
-        changeQuery({
-          tabId,
-          query: {
-            [TAB_CREATED_TYPE]: where,
-          },
-        })
-      );
-    });
+    await initializeTabData(dispatch, tabId, where);
 
     setTabCreatedTypes((staleState) => {
       return {

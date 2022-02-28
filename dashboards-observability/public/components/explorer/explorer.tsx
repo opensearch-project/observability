@@ -5,8 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 
-
-import './explorer.scss'
+import './explorer.scss';
 import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
@@ -55,7 +54,7 @@ import {
   TAB_CHART_ID,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery } from '../../../common/utils';
+import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from './hooks';
 import { changeQuery, changeDateRange, selectQueries } from './slices/query_slice';
 import { selectQueryResult } from './slices/query_result_slice';
@@ -63,7 +62,14 @@ import { selectFields, updateFields, sortFields } from './slices/field_slice';
 import { updateTabName } from './slices/query_tab_slice';
 import { selectCountDistribution } from './slices/count_distribution_slice';
 import { selectExplorerVisualization } from './slices/visualization_slice';
-import { IExplorerProps } from '../../../common/types/explorer';
+import {
+  selectVisualizationConfig,
+  change as changeVisualizationConfig,
+} from './slices/viualization_config_slice';
+import { change as updateVizConfig } from './slices/viualization_config_slice';
+import { IExplorerProps, IVisualizationContainerProps } from '../../../common/types/explorer';
+import { TabContext } from './hooks';
+import { getVizContainerProps } from '../visualizations/charts/helpers';
 import {
   getFullSuggestions,
   getSuggestionsAfterSource,
@@ -102,7 +108,7 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({    
+  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({
     pplService,
     requestParams,
   });
@@ -112,6 +118,7 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  const userVizConfigs = useSelector(selectVisualizationConfig)[tabId];
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -129,7 +136,7 @@ export const Explorer = ({
   const [liveTailName, setLiveTailName] = useState('Live');
   const [liveTailToggle, setLiveTailToggle] = useState(false);
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -178,16 +185,14 @@ export const Explorer = ({
     startTime: string,
     endTime: string,
     timeField: string,
-    isLiveQuery: boolean,
+    isLiveQuery: boolean
   ) => {
-    const fullQuery = appBaseQuery
-    ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
-    : curQuery![RAW_QUERY];
-    if (isEmpty(fullQuery)) return ''; 
+    const fullQuery = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
+    if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
       rawQuery: fullQuery,
-      startTime: startTime,
-      endTime: endTime,
+      startTime,
+      endTime,
       timeField,
       isLiveQuery,
     });
@@ -251,6 +256,16 @@ export const Explorer = ({
               tabName: objectData.name,
             })
           );
+          // fill saved user configs
+          if (objectData?.type) {
+            await dispatch(
+              updateVizConfig({
+                tabId,
+                vizId: objectData?.type,
+                data: JSON.parse(objectData.user_configs),
+              })
+            );
+          }
         });
 
         // populate name field in save panel for default name
@@ -272,14 +287,6 @@ export const Explorer = ({
         });
       });
   };
-
-  const handleLiveTailSearch = useCallback(
-    async (startTime: string, endTime: string) => {
-      await updateQueryInStore(tempQuery);
-      fetchLiveData(startTime, endTime);
-    },
-    [tempQuery]
-  );
 
   const determineTimeStamp = async (curQuery: any, curIndex: string) => {
     let curTimestamp = '';
@@ -312,16 +319,14 @@ export const Explorer = ({
       }
     }
     return {
-      curTimestamp: curTimestamp,
-      hasSavedTimestamp: hasSavedTimestamp,
+      curTimestamp,
+      hasSavedTimestamp,
     };
   };
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = appBaseQuery
-      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
-      : curQuery![RAW_QUERY];
+    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
     if (isEmpty(curIndex)) {
@@ -329,7 +334,7 @@ export const Explorer = ({
       return;
     }
 
-    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
+    const { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -387,9 +392,7 @@ export const Explorer = ({
 
   const fetchLiveData = async (startTime: string, endTime: string) => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = appBaseQuery
-      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
-      : curQuery![RAW_QUERY];
+    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) {
       return;
@@ -400,7 +403,7 @@ export const Explorer = ({
       return;
     }
 
-    let { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
+    const { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -534,9 +537,7 @@ export const Explorer = ({
 
   const handleOverrideTimestamp = async (timestamp: IField) => {
     const curQuery = queryRef.current;
-    const rawQueryStr: string = appBaseQuery
-      ? appBaseQuery + '| ' + curQuery![RAW_QUERY]
-      : curQuery![RAW_QUERY];
+    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     const requests = {
       index: curIndex,
@@ -614,6 +615,7 @@ export const Explorer = ({
             {!isSidebarClosed && (
               <div className="dscFieldChooser">
                 <Sidebar
+                  query={query}
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
@@ -691,14 +693,13 @@ export const Explorer = ({
                     </h2>
                     <div className="dscDiscover">
                       {isLiveTailOnRef.current && (
-                        <div className='liveStream'>
-                          <EuiSpacer size='m'/>
-                          <EuiLoadingSpinner size="l"/>
-                          <EuiText textAlign='center' 
-                            data-test-subj="LiveStreamIndicator_on"> 
+                        <div className="liveStream">
+                          <EuiSpacer size="m" />
+                          <EuiLoadingSpinner size="l" />
+                          <EuiText textAlign="center" data-test-subj="LiveStreamIndicator_on">
                             <strong>Live streaming</strong>
                           </EuiText>
-                          <EuiSpacer size='m'/>
+                          <EuiSpacer size="m" />
                         </div>
                       )}
                       <DataGrid
@@ -748,9 +749,21 @@ export const Explorer = ({
     };
   }
 
+  const visualizations: IVisualizationContainerProps = useMemo(() => {
+    return getVizContainerProps({
+      vizId: curVisId,
+      rawVizData: explorerVisualizations,
+      query,
+      indexFields: explorerFields,
+      userConfigs: userVizConfigs[curVisId],
+      appData: { fromApp: appLogEvents },
+    });
+  }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
+
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
+        query={query}
         curVisId={curVisId}
         setCurVisId={setCurVisId}
         explorerFields={explorerFields}
@@ -758,6 +771,7 @@ export const Explorer = ({
         explorerData={explorerData}
         handleAddField={handleAddField}
         handleRemoveField={handleRemoveField}
+        visualizations={visualizations}
       />
     );
   };
@@ -789,6 +803,8 @@ export const Explorer = ({
     explorerVisualizations,
     selectedContentTabId,
     isOverridingTimestamp,
+    visualizations,
+    query,
     isLiveTailOnRef.current,
   ]);
 
@@ -827,21 +843,19 @@ export const Explorer = ({
       return;
     }
     setIsPanelTextFieldInvalid(false);
-    const params = {
-      query: currQuery![RAW_QUERY],
-      fields: currFields![SELECTED_FIELDS],
-      dateRange: currQuery![SELECTED_DATE_RANGE],
-      name: selectedPanelNameRef.current,
-      timestamp: currQuery![SELECTED_TIMESTAMP],
-      objectId: '',
-      type: '',
-    };
     if (isEqual(selectedContentTabId, TAB_EVENT_ID)) {
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_QUERY);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
         await savedObjects
-          .updateSavedQueryById(params)
+          .updateSavedQueryById({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: '',
+          })
           .then((res: any) => {
             setToast(
               `Query '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -863,7 +877,15 @@ export const Explorer = ({
       } else {
         // create new saved query
         savedObjects
-          .createSavedQuery(params)
+          .createSavedQuery({
+            query: currQuery![RAW_QUERY],
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: '',
+            type: '',
+          })
           .then((res: any) => {
             history.replace(`/event_analytics/explorer/${res.objectId}`);
             setToast(
@@ -910,12 +932,21 @@ export const Explorer = ({
         return;
       }
       let savingVisRes;
+      const vizDescription = userVizConfigs[curVisId]?.dataConfig?.panelOptions?.description || '';
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        params.objectId = currQuery![SAVED_OBJECT_ID];
-        params.type = curVisId;
         savingVisRes = await savedObjects
-          .updateSavedVisualizationById(params)
+          .updateSavedVisualizationById({
+            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
+            fields: currFields![SELECTED_FIELDS],
+            dateRange: currQuery![SELECTED_DATE_RANGE],
+            name: selectedPanelNameRef.current,
+            timestamp: currQuery![SELECTED_TIMESTAMP],
+            objectId: currQuery![SAVED_OBJECT_ID],
+            type: curVisId,
+            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            description: vizDescription,
+          })
           .then((res: any) => {
             setToast(
               `Visualization '${selectedPanelNameRef.current}' has been successfully updated.`,
@@ -938,13 +969,15 @@ export const Explorer = ({
         // create new saved visualization
         savingVisRes = await savedObjects
           .createSavedVisualization({
-            query: currQuery![RAW_QUERY],
+            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
             fields: currFields![SELECTED_FIELDS],
             dateRange: currQuery![SELECTED_DATE_RANGE],
             type: curVisId,
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
+            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            description: vizDescription,
           })
           .then((res: any) => {
             batch(() => {
@@ -1015,7 +1048,7 @@ export const Explorer = ({
     return (
       <EuiButtonToggle
         label={liveTailNameRef.current}
-        iconType={isLiveTailOn ? "" : "play"}
+        iconType={isLiveTailOn ? '' : 'play'}
         isLoading={isLiveTailOn ? true : false}
         iconSide="left"
         onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
@@ -1041,7 +1074,7 @@ export const Explorer = ({
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
     await sleep(2000);
-    let curLiveTailname = liveTailNameRef.current;
+    const curLiveTailname = liveTailNameRef.current;
     while (isLiveTailOnRef.current === true && curLiveTailname === liveTailNameRef.current) {
       handleLiveTailSearch(startTime, endTime);
       if (liveTailTabIdRef.current !== curSelectedTabId.current) {
@@ -1147,48 +1180,68 @@ export const Explorer = ({
         ? ['now-15m', 'now']
         : [query.selectedDateRange[0], query.selectedDateRange[1]]
       : [startTime, endTime];
-      
+
+  const handleLiveTailSearch = useCallback(
+    async (startTime: string, endTime: string) => {
+      await updateQueryInStore(tempQuery);
+      fetchLiveData(startTime, endTime);
+    },
+    [tempQuery]
+  );
+
   return (
-    <div className="dscAppContainer">
-      <Search
-        key="search-component"
-        query={appLogEvents ? tempQuery : query[RAW_QUERY]}
-        tempQuery={tempQuery}
-        handleQueryChange={handleQueryChange}
-        handleQuerySearch={handleQuerySearch}
-        dslService={dslService}
-        startTime={dateRange[0]}
-        endTime={dateRange[1]}
-        handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
-        selectedPanelName={selectedPanelNameRef.current}
-        selectedCustomPanelOptions={selectedCustomPanelOptions}
-        setSelectedPanelName={setSelectedPanelName}
-        setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
-        handleSavingObject={handleSavingObject}
-        isPanelTextFieldInvalid={isPanelTextFieldInvalid}
-        savedObjects={savedObjects}
-        showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
-        handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
-        liveTailButton={wrappedPopoverButton}
-        isLiveTailPopoverOpen={isLiveTailPopoverOpen}
-        closeLiveTailPopover={() => setIsLiveTailPopoverOpen(false)}
-        popoverItems={popoverItems}
-        isLiveTailOn={isLiveTailOnRef.current}
-        countDistribution={countDistribution}
-        selectedSubTabId={selectedContentTabId}
-        searchBarConfigs={searchBarConfigs}
-        getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
-        onItemSelect={onItemSelect}
-        tabId={tabId}
-        baseQuery={appBaseQuery}
-      />
-      <EuiTabbedContent
-        className="mainContentTabs"
-        initialSelectedTab={memorizedMainContentTabs[0]}
-        selectedTab={memorizedMainContentTabs.find((tab) => tab.id === selectedContentTabId)}
-        onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
-        tabs={memorizedMainContentTabs}
-      />
-    </div>
+    <TabContext.Provider
+      value={{
+        tabId,
+        curVisId,
+        dispatch,
+        changeVisualizationConfig,
+        explorerVisualizations,
+        setToast,
+        pplService,
+      }}
+    >
+      <div className="dscAppContainer">
+        <Search
+          key="search-component"
+          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
+          tempQuery={tempQuery}
+          handleQueryChange={handleQueryChange}
+          handleQuerySearch={handleQuerySearch}
+          dslService={dslService}
+          startTime={dateRange[0]}
+          endTime={dateRange[1]}
+          handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
+          selectedPanelName={selectedPanelNameRef.current}
+          selectedCustomPanelOptions={selectedCustomPanelOptions}
+          setSelectedPanelName={setSelectedPanelName}
+          setSelectedCustomPanelOptions={setSelectedCustomPanelOptions}
+          handleSavingObject={handleSavingObject}
+          isPanelTextFieldInvalid={isPanelTextFieldInvalid}
+          savedObjects={savedObjects}
+          showSavePanelOptionsList={isEqual(selectedContentTabId, TAB_CHART_ID)}
+          handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
+          liveTailButton={wrappedPopoverButton}
+          isLiveTailPopoverOpen={isLiveTailPopoverOpen}
+          closeLiveTailPopover={() => setIsLiveTailPopoverOpen(false)}
+          popoverItems={popoverItems}
+          isLiveTailOn={isLiveTailOnRef.current}
+          countDistribution={countDistribution}
+          selectedSubTabId={selectedContentTabId}
+          searchBarConfigs={searchBarConfigs}
+          getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
+          onItemSelect={onItemSelect}
+          tabId={tabId}
+          baseQuery={appBaseQuery}
+        />
+        <EuiTabbedContent
+          className="mainContentTabs"
+          initialSelectedTab={memorizedMainContentTabs[0]}
+          selectedTab={memorizedMainContentTabs.find((tab) => tab.id === selectedContentTabId)}
+          onTabClick={(selectedTab: EuiTabbedContentTab) => handleContentTabClick(selectedTab)}
+          tabs={memorizedMainContentTabs}
+        />
+      </div>
+    </TabContext.Provider>
   );
 };

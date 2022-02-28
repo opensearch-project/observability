@@ -61,7 +61,7 @@ internal data class OperationalPanel(
     val visualizations: List<Visualization>?,
     val timeRange: TimeRange?,
     val queryFilter: QueryFilter?,
-    val applicationId: String? = null,
+    val applicationId: String? = null
 ) : BaseObjectData {
 
     internal companion object {

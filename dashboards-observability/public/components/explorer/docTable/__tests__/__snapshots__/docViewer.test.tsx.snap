@@ -34,7 +34,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPanel>,
-          "id": "doc_viewer_tab_1",
+          "id": "doc_viewer_tab_2",
           "name": "Table",
         }
       }
@@ -58,7 +58,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_1",
+            "id": "doc_viewer_tab_2",
             "name": "Table",
           },
           Object {
@@ -79,7 +79,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_2",
+            "id": "doc_viewer_tab_3",
             "name": "JSON",
           },
           Object {
@@ -100,7 +100,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPanel>,
-            "id": "doc_viewer_tab_3",
+            "id": "doc_viewer_tab_4",
             "name": "Traces",
           },
         ]
@@ -117,39 +117,15 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
           >
             <EuiTab
               aria-controls="random_html_id"
-              id="doc_viewer_tab_1"
+              id="doc_viewer_tab_2"
               isSelected={true}
-              key="doc_viewer_tab_1"
+              key="doc_viewer_tab_2"
               onClick={[Function]}
             >
               <button
                 aria-controls="random_html_id"
                 aria-selected={true}
                 className="euiTab euiTab-isSelected"
-                disabled={false}
-                id="doc_viewer_tab_1"
-                onClick={[Function]}
-                role="tab"
-                type="button"
-              >
-                <span
-                  className="euiTab__content"
-                >
-                  Table
-                </span>
-              </button>
-            </EuiTab>
-            <EuiTab
-              aria-controls="random_html_id"
-              id="doc_viewer_tab_2"
-              isSelected={false}
-              key="doc_viewer_tab_2"
-              onClick={[Function]}
-            >
-              <button
-                aria-controls="random_html_id"
-                aria-selected={false}
-                className="euiTab"
                 disabled={false}
                 id="doc_viewer_tab_2"
                 onClick={[Function]}
@@ -159,7 +135,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 <span
                   className="euiTab__content"
                 >
-                  JSON
+                  Table
                 </span>
               </button>
             </EuiTab>
@@ -183,6 +159,30 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                 <span
                   className="euiTab__content"
                 >
+                  JSON
+                </span>
+              </button>
+            </EuiTab>
+            <EuiTab
+              aria-controls="random_html_id"
+              id="doc_viewer_tab_4"
+              isSelected={false}
+              key="doc_viewer_tab_4"
+              onClick={[Function]}
+            >
+              <button
+                aria-controls="random_html_id"
+                aria-selected={false}
+                className="euiTab"
+                disabled={false}
+                id="doc_viewer_tab_4"
+                onClick={[Function]}
+                role="tab"
+                type="button"
+              >
+                <span
+                  className="euiTab__content"
+                >
                   Traces
                 </span>
               </button>
@@ -190,7 +190,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
           </div>
         </EuiTabs>
         <div
-          aria-labelledby="doc_viewer_tab_1"
+          aria-labelledby="doc_viewer_tab_2"
           id="random_html_id"
           role="tabpanel"
         >
