@@ -42,7 +42,7 @@ import './visualization_container.scss';
  * removeVisualization: function to remove all the visualizations
  */
 
-type Props = {
+interface Props {
   http: CoreStart['http'];
   editMode: boolean;
   visualizationId: string;
@@ -56,7 +56,7 @@ type Props = {
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
-};
+}
 
 export const VisualizationContainer = ({
   http,
@@ -156,7 +156,7 @@ export const VisualizationContainer = ({
         )}
       </div>
     ),
-    [onRefresh, isLoading, isError, visualizationData, visualizationType]
+    [onRefresh, isLoading, isError, visualizationData, visualizationType, visualizationMetaData]
   );
 
   useEffect(() => {

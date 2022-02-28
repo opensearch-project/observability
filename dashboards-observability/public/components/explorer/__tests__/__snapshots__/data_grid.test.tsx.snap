@@ -192,35 +192,35 @@ exports[`Datagrid component Renders data grid component 1`] = `
           className="osdDocTableHeader"
         >
           <th
-            key="datagrid-header-7"
+            key="datagrid-header-8"
           />
           <th
-            key="datagrid-header-1"
+            key="datagrid-header-2"
           >
             double_per_ip_bytes
           </th>
           <th
-            key="datagrid-header-2"
+            key="datagrid-header-3"
           >
             host
           </th>
           <th
-            key="datagrid-header-3"
+            key="datagrid-header-4"
           >
             ip_count
           </th>
           <th
-            key="datagrid-header-4"
+            key="datagrid-header-5"
           >
             per_ip_bytes
           </th>
           <th
-            key="datagrid-header-5"
+            key="datagrid-header-6"
           >
             resp_code
           </th>
           <th
-            key="datagrid-header-6"
+            key="datagrid-header-7"
           >
             sum_bytes
           </th>
@@ -373,7 +373,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
               "unselectedFields": Array [],
             }
           }
-          key="doc_view11"
+          key="doc_view12"
           selectedCols={
             Array [
               Object {
@@ -408,7 +408,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
           >
             <td
               className="osdDocTableCell__toggleDetails"
-              key="grid-td-13"
+              key="grid-td-14"
             >
               <button
                 className="euiButtonIcon euiButtonIcon--text"
@@ -587,7 +587,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
               "unselectedFields": Array [],
             }
           }
-          key="doc_view12"
+          key="doc_view13"
           selectedCols={
             Array [
               Object {
@@ -622,7 +622,7 @@ exports[`Datagrid component Renders data grid component 1`] = `
           >
             <td
               className="osdDocTableCell__toggleDetails"
-              key="grid-td-14"
+              key="grid-td-15"
             >
               <button
                 className="euiButtonIcon euiButtonIcon--text"

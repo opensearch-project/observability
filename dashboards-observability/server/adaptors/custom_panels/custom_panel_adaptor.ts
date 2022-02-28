@@ -37,7 +37,7 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //update a panel
+  // update a panel
   updatePanel = async function (
     client: ILegacyScopedClusterClient,
     panelId: string,
@@ -195,12 +195,12 @@ export class CustomPanelsAdaptor {
   ) => {
     const updatePanelBody = {
       timeRange: {
-        to: to,
-        from: from,
+        to,
+        from,
       },
       queryFilter: {
-        query: query,
-        language: language,
+        query,
+        language,
       },
     };
     try {
@@ -252,7 +252,7 @@ export class CustomPanelsAdaptor {
         selected_date_range: visualization.savedVisualization.selected_date_range,
         selected_fields: visualization.savedVisualization.selected_fields,
         user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
-          ? visualization.savedVisualization.user_configs
+          ? JSON.parse(visualization.savedVisualization.user_configs)
           : {},
       };
     } catch (error) {
@@ -260,7 +260,7 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //Get All Visualizations from a Panel
+  // Get All Visualizations from a Panel
   getVisualizations = async (client: ILegacyScopedClusterClient, panelId: string) => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {
@@ -324,7 +324,7 @@ export class CustomPanelsAdaptor {
     return { x: 0, y: maxY + maxYH, w: 6, h: 4 };
   };
 
-  //Add Visualization in the  Panel
+  // Add Visualization in the  Panel
   addVisualization = async (
     client: ILegacyScopedClusterClient,
     panelId: string,
@@ -357,7 +357,7 @@ export class CustomPanelsAdaptor {
         ...visualizationsList,
         {
           id: 'panel_viz_' + uuidv4(),
-          savedVisualizationId: savedVisualizationId,
+          savedVisualizationId,
           ...newDimensions,
         },
       ];
@@ -370,21 +370,21 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  //Edits all Visualizations in the Panel
+  // Edits all Visualizations in the Panel
   editVisualization = async (
     client: ILegacyScopedClusterClient,
     panelId: string,
-    visualizationParams: {
+    visualizationParams: Array<{
       i: string;
       x: number;
       y: number;
       w: number;
       h: number;
-    }[]
+    }>
   ) => {
     try {
       const allPanelVisualizations = await this.getVisualizations(client, panelId);
-      let filteredPanelVisualizations = <Array<VisualizationType>>[];
+      const filteredPanelVisualizations = <VisualizationType[]>[];
 
       for (let i = 0; i < allPanelVisualizations.length; i++) {
         for (let j = 0; j < visualizationParams.length; j++) {

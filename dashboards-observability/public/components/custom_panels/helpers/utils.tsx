@@ -296,9 +296,9 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
       visualizations={getVizContainerProps({
         vizId: type,
         rawVizData: data,
-        query: metaData.query,
+        query: {},
         indexFields: {},
-        user_configs: metaData.hasOwnProperty ? metaData.user_configs : {},
+        userConfigs: metaData.user_configs,
       })}
     />
   );
