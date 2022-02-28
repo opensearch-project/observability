@@ -19,7 +19,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const xaxis =
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
+    dataConfig?.valueOptions && dataConfig.valueOptions.yaxis ? dataConfig.valueOptions.yaxis : [];
   const type = dataConfig?.chartOptions?.mode ? dataConfig?.chartOptions?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
 
