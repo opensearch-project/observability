@@ -62,7 +62,6 @@ import {
   PIPE_AFTER_SPAN,
 } from '../../../../common/constants/autocomplete';
 
-// let currIndex: string = '';
 let currIndices: string[] = [];
 let currField: string = '';
 let currFieldType: string = '';
