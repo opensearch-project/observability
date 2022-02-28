@@ -24,6 +24,9 @@ describe('Log Config component', () => {
     const setDescriptionWithStorage = jest.fn();
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -52,6 +55,11 @@ describe('Log Config component', () => {
         setDescriptionWithStorage={setDescriptionWithStorage}
         setQueryWithStorage={setQueryWithStorage}
         setFiltersWithStorage={setFiltersWithStorage}
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
+        editMode={false}
       />
     );
 
@@ -69,6 +77,9 @@ describe('Log Config component', () => {
     const setDescriptionWithStorage = jest.fn();
     const setQueryWithStorage = jest.fn();
     const setFiltersWithStorage = jest.fn();
+    const setAppConfigs = jest.fn();
+    const setStartTimeWithStorage = jest.fn();
+    const setEndTimeWithStorage = jest.fn();
     const dslService = ({
       http: jest.fn(),
       fetch: jest.fn(),
@@ -97,6 +108,11 @@ describe('Log Config component', () => {
         setDescriptionWithStorage={setDescriptionWithStorage}
         setQueryWithStorage={setQueryWithStorage}
         setFiltersWithStorage={setFiltersWithStorage}
+        appConfigs={[]}
+        setAppConfigs={setAppConfigs}
+        setStartTimeWithStorage={setStartTimeWithStorage}
+        setEndTimeWithStorage={setEndTimeWithStorage}
+        editMode={false}
       />
     );
 
