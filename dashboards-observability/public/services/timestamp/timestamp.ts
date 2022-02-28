@@ -16,8 +16,6 @@ export default class TimestampUtils {
   async getTimestamp(index: string) {
     const indexMappings = await this.getIndexMappings(index);
 
-    console.log('indexMappings: ', indexMappings);
-
     if (indexMappings?.[index]?.mappings?.properties) {
       const fieldMappings = indexMappings[index].mappings.properties;
       const timestamps = {
