@@ -135,19 +135,18 @@ export function getServiceMapGraph(
       };
     }
 
-    const message =
-      { latency: 'Average latency: ', error_rate: 'Error rate: ', throughput: 'Throughput: ' }[
-        idSelected
-      ] +
-      (value! >= 0
-        ? value + (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '')
-        : 'N/A');
+    let hover = service;
+    hover += `\n\nAverage latency: ${map[service].latency}ms`;
+    hover += `\nError rate: ${map[service].error_rate}%`;
+    hover += `\nThroughput: ${map[service].throughput}`;
+    if (map[service].throughputPerMinute != null)
+      hover += ` (${map[service].throughputPerMinute} per minute)`;
 
     return {
       id: map[service].id,
       label: service,
       size: service === currService ? 30 : 15,
-      title: `${service}\n\n${message}`,
+      title: hover,
       ...styleOptions,
     };
   });

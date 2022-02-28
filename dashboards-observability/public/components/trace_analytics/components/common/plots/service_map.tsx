@@ -35,6 +35,7 @@ export interface ServiceObject {
     latency?: number;
     error_rate?: number;
     throughput?: number;
+    throughputPerMinute?: number;
     relatedServices?: string[]; // services appear in the same traces this service appears
   };
 }

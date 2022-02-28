@@ -10,6 +10,7 @@ import { handleServicesRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
 import { filtersToDsl } from '../common/helper_functions';
+import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesTable } from './services_table';
 
@@ -24,6 +25,10 @@ interface ServicesProps extends TraceAnalyticsComponentDeps {
 export function Services(props: ServicesProps) {
   const { appId, appName, parentBreadcrumb, page } = props;
   const [tableItems, setTableItems] = useState([]);
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
+    'latency' | 'error_rate' | 'throughput'
+  >('latency');
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
   const appServices = page === 'app';
@@ -76,7 +81,7 @@ export function Services(props: ServicesProps) {
       props.page,
       appServices ? props.appConfigs : []
     );
-    await handleServicesRequest(props.http, DSL, tableItems, setTableItems, null, serviceQuery);
+    await handleServicesRequest(props.http, DSL, tableItems, setTableItems, setServiceMap, serviceQuery);
     setLoading(false);
   };
 
@@ -131,6 +136,14 @@ export function Services(props: ServicesProps) {
         page={page}
         openServiceFlyout={props.openServiceFlyout}
         switchToTrace={props.switchToTrace}
+      />
+      <EuiSpacer size="m" />
+      <ServiceMap
+        addFilter={addFilter}
+        serviceMap={serviceMap}
+        idSelected={serviceMapIdSelected}
+        setIdSelected={setServiceMapIdSelected}
+        page={page}
       />
     </>
   );

@@ -13,6 +13,8 @@ import {
   getServicesQuery,
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
+import dateMath from '@elastic/datemath';
+import moment from 'moment';
 
 export const handleServicesRequest = async (
   http,
@@ -53,6 +55,15 @@ export const handleServicesRequest = async (
 };
 
 export const handleServiceMapRequest = async (http, DSL, items?, setItems?, currService?) => {
+  let minutesInDateRange: number;
+  const startTime = DSL?.custom?.timeFilter?.[0]?.range?.startTime;
+  if (startTime) {
+    const gte = dateMath.parse(startTime.gte)!;
+    const lte = dateMath.parse(startTime.lte)!;
+    minutesInDateRange = lte.diff(gte, 'minutes', true);
+  }
+
+
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery())
@@ -115,6 +126,8 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     map[bucket.key].latency = bucket.average_latency.value;
     map[bucket.key].error_rate = _.round(bucket.error_rate.value, 2) || 0;
     map[bucket.key].throughput = bucket.doc_count;
+    if (minutesInDateRange != null)
+      map[bucket.key].throughputPerMinute = _.round(bucket.doc_count / minutesInDateRange, 2);
   });
 
   if (currService) {
