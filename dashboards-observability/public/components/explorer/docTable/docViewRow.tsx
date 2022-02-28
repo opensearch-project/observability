@@ -14,6 +14,7 @@ import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
 import { useEffect } from 'react';
 import { SurroundingFlyout } from './surrounding_flyout';
 import PPLService from '../../../services/requests/ppl';
+import { isValidTraceId } from '../utils';
 
 export interface IDocType {
   [key: string]: string;
@@ -36,11 +37,6 @@ export const DocViewRow = (props: IDocViewRowProps) => {
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(true);
-  const [logTraceId, setLogTraceId] = useState('');
-
-  const isValidTraceId = (traceId: string) => {
-    return new Blob([traceId]).size === 32;
-  };
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
