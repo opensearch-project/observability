@@ -234,75 +234,98 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-3-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-3-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                >
-                                  source = openserach_dashboard_sample_logs
-                                </textarea>
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-3-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-3-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    >
+                                      source = openserach_dashboard_sample_logs
+                                    </textarea>
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1419,75 +1442,98 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-3-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-3-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              >
-                                source = openserach_dashboard_sample_logs
-                              </textarea>
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-3-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-3-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  >
+                                    source = openserach_dashboard_sample_logs
+                                  </textarea>
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2543,73 +2589,96 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-7-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-7-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                />
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-7-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-7-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    />
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -3639,73 +3708,96 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-7-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-7-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              />
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-7-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-7-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  />
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -4794,73 +4886,96 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-5-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-5-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                />
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-5-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-5-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    />
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -5890,73 +6005,96 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-5-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-5-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              />
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-5-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-5-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  />
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -7038,73 +7176,96 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-0-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-0-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                />
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-0-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-0-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    />
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -8072,73 +8233,96 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-0-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-0-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              />
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-0-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-0-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  />
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -9168,75 +9352,98 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-1-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-1-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                >
-                                  source = openserach_dashboard_sample_logs
-                                </textarea>
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-1-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-1-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    >
+                                      source = openserach_dashboard_sample_logs
+                                    </textarea>
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -10233,75 +10440,98 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-1-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-1-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              >
-                                source = openserach_dashboard_sample_logs
-                              </textarea>
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-1-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-1-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  >
+                                    source = openserach_dashboard_sample_logs
+                                  </textarea>
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -11357,73 +11587,96 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-4-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-4-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                />
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-4-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-4-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    />
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -12453,73 +12706,96 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-4-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-4-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              />
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-4-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-4-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  />
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -13608,73 +13884,96 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-6-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-6-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                />
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-6-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-6-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    />
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -14704,73 +15003,96 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-6-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-6-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              />
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-6-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-6-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  />
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -15861,75 +16183,98 @@ Object {
                         class="euiAccordion__padding--l"
                       >
                         <div
-                          class="euiFormRow"
-                          id="random_html_id-row"
+                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                         >
                           <div
-                            class="euiFormRow__labelWrapper"
-                          >
-                            <label
-                              class="euiFormLabel euiFormRow__label"
-                              for="random_html_id"
-                            >
-                              PPL Base Query
-                            </label>
-                          </div>
-                          <div
-                            class="euiFormRow__fieldWrapper"
+                            class="euiFlexItem"
                           >
                             <div
-                              aria-describedby="random_html_id-help"
-                              class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                              id="random_html_id"
+                              class="euiCallOut euiCallOut--primary euiCallOut--small"
+                              style="max-width: 900px;"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                aria-labelledby="autocomplete-2-label"
-                                class="aa-Autocomplete"
-                                id="autocomplete-root"
-                                role="combobox"
+                                class="euiText euiText--extraSmall"
                               >
-                                <textarea
-                                  aria-autocomplete="both"
-                                  aria-labelledby="autocomplete-2-label"
-                                  autocapitalize="off"
-                                  autocomplete="off"
-                                  autocorrect="off"
-                                  class="euiTextArea euiTextArea--resizeVertical"
-                                  data-test-subj="searchAutocompleteTextArea"
-                                  enterkeyhint="search"
-                                  id="autocomplete-textarea"
-                                  maxlength="512"
-                                  placeholder="Enter PPL query"
-                                  rows="6"
-                                  spellcheck="false"
-                                  type="search"
-                                >
-                                  source = openserach_dashboard_sample_logs
-                                </textarea>
+                                You can't change the base query after the application is created.
                               </div>
-                              <button
-                                aria-label="pplLinkShowFlyout"
-                                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                                title="PPL"
-                              >
-                                <span
-                                  class="euiBadge__content"
-                                >
-                                  <span
-                                    class="euiBadge__text"
-                                  >
-                                    PPL
-                                  </span>
-                                </span>
-                              </button>
                             </div>
+                          </div>
+                          <div
+                            class="euiFlexItem"
+                          >
                             <div
-                              class="euiFormHelpText euiFormRow__text"
-                              id="random_html_id-help"
+                              class="euiFormRow"
+                              id="random_html_id-row"
                             >
-                              The default logs view in the application will be filtered by this query.
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label"
+                                  for="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help"
+                                  class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  style="min-width: 900px;"
+                                >
+                                  <div
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    aria-labelledby="autocomplete-2-label"
+                                    class="aa-Autocomplete"
+                                    id="autocomplete-root"
+                                    role="combobox"
+                                  >
+                                    <textarea
+                                      aria-autocomplete="both"
+                                      aria-labelledby="autocomplete-2-label"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="euiTextArea euiTextArea--resizeVertical"
+                                      data-test-subj="searchAutocompleteTextArea"
+                                      enterkeyhint="search"
+                                      id="autocomplete-textarea"
+                                      maxlength="512"
+                                      placeholder="Enter PPL query"
+                                      rows="6"
+                                      spellcheck="false"
+                                      type="search"
+                                    >
+                                      source = openserach_dashboard_sample_logs
+                                    </textarea>
+                                  </div>
+                                  <button
+                                    aria-label="pplLinkShowFlyout"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                    title="PPL"
+                                  >
+                                    <span
+                                      class="euiBadge__content"
+                                    >
+                                      <span
+                                        class="euiBadge__text"
+                                      >
+                                        PPL
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -17042,75 +17387,98 @@ Object {
                       class="euiAccordion__padding--l"
                     >
                       <div
-                        class="euiFormRow"
-                        id="random_html_id-row"
+                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
                       >
                         <div
-                          class="euiFormRow__labelWrapper"
-                        >
-                          <label
-                            class="euiFormLabel euiFormRow__label"
-                            for="random_html_id"
-                          >
-                            PPL Base Query
-                          </label>
-                        </div>
-                        <div
-                          class="euiFormRow__fieldWrapper"
+                          class="euiFlexItem"
                         >
                           <div
-                            aria-describedby="random_html_id-help"
-                            class="euiFlexItem euiFlexItem--flexGrowZero query-area"
-                            id="random_html_id"
+                            class="euiCallOut euiCallOut--primary euiCallOut--small"
+                            style="max-width: 900px;"
                           >
                             <div
-                              aria-expanded="false"
-                              aria-haspopup="listbox"
-                              aria-labelledby="autocomplete-2-label"
-                              class="aa-Autocomplete"
-                              id="autocomplete-root"
-                              role="combobox"
+                              class="euiText euiText--extraSmall"
                             >
-                              <textarea
-                                aria-autocomplete="both"
-                                aria-labelledby="autocomplete-2-label"
-                                autocapitalize="off"
-                                autocomplete="off"
-                                autocorrect="off"
-                                class="euiTextArea euiTextArea--resizeVertical"
-                                data-test-subj="searchAutocompleteTextArea"
-                                enterkeyhint="search"
-                                id="autocomplete-textarea"
-                                maxlength="512"
-                                placeholder="Enter PPL query"
-                                rows="6"
-                                spellcheck="false"
-                                type="search"
-                              >
-                                source = openserach_dashboard_sample_logs
-                              </textarea>
+                              You can't change the base query after the application is created.
                             </div>
-                            <button
-                              aria-label="pplLinkShowFlyout"
-                              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
-                              title="PPL"
-                            >
-                              <span
-                                class="euiBadge__content"
-                              >
-                                <span
-                                  class="euiBadge__text"
-                                >
-                                  PPL
-                                </span>
-                              </span>
-                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="euiFlexItem"
+                        >
                           <div
-                            class="euiFormHelpText euiFormRow__text"
-                            id="random_html_id-help"
+                            class="euiFormRow"
+                            id="random_html_id-row"
                           >
-                            The default logs view in the application will be filtered by this query.
+                            <div
+                              class="euiFormRow__labelWrapper"
+                            >
+                              <label
+                                class="euiFormLabel euiFormRow__label"
+                                for="random_html_id"
+                              >
+                                Base Query
+                              </label>
+                            </div>
+                            <div
+                              class="euiFormRow__fieldWrapper"
+                            >
+                              <div
+                                aria-describedby="random_html_id-help"
+                                class="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                id="random_html_id"
+                                style="min-width: 900px;"
+                              >
+                                <div
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  aria-labelledby="autocomplete-2-label"
+                                  class="aa-Autocomplete"
+                                  id="autocomplete-root"
+                                  role="combobox"
+                                >
+                                  <textarea
+                                    aria-autocomplete="both"
+                                    aria-labelledby="autocomplete-2-label"
+                                    autocapitalize="off"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="euiTextArea euiTextArea--resizeVertical"
+                                    data-test-subj="searchAutocompleteTextArea"
+                                    enterkeyhint="search"
+                                    id="autocomplete-textarea"
+                                    maxlength="512"
+                                    placeholder="Enter PPL query"
+                                    rows="6"
+                                    spellcheck="false"
+                                    type="search"
+                                  >
+                                    source = openserach_dashboard_sample_logs
+                                  </textarea>
+                                </div>
+                                <button
+                                  aria-label="pplLinkShowFlyout"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                  title="PPL"
+                                >
+                                  <span
+                                    class="euiBadge__content"
+                                  >
+                                    <span
+                                      class="euiBadge__text"
+                                    >
+                                      PPL
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="euiFormHelpText euiFormRow__text"
+                                id="random_html_id-help"
+                              >
+                                The default logs view in the application will be filtered by this query.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

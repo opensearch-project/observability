@@ -12,6 +12,8 @@ import {
   EuiFlexItem,
   EuiBadge,
   EuiOverlayMask,
+  EuiCallOut,
+  EuiFlexGroup,
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { useState } from 'react';
@@ -23,14 +25,16 @@ import { uiSettingsService } from '../../../../../common/utils';
 import { Autocomplete } from '../../../common/search/autocomplete';
 import { AppAnalyticsComponentDeps } from '../../home';
 import { getClearModal } from '../../helpers/modal_containers';
+import '../../app_analytics.scss';
 
 interface LogConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   setIsFlyoutVisible: any;
+  editMode: boolean;
 }
 
 export const LogConfig = (props: LogConfigProps) => {
-  const { dslService, query, setQueryWithStorage, setIsFlyoutVisible } = props;
+  const { dslService, query, setQueryWithStorage, setIsFlyoutVisible, editMode } = props;
   const [logOpen, setLogOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
@@ -91,7 +95,11 @@ export const LogConfig = (props: LogConfigProps) => {
           </>
         }
         extraAction={
-          <EuiButton size="s" disabled={!logOpen || !query.length} onClick={clearAllModal}>
+          <EuiButton
+            size="s"
+            disabled={!logOpen || !query.length || editMode}
+            onClick={clearAllModal}
+          >
             Clear
           </EuiButton>
         }
@@ -100,35 +108,50 @@ export const LogConfig = (props: LogConfigProps) => {
         }}
         paddingSize="l"
       >
-        <EuiFormRow
-          label="PPL Base Query"
-          helpText="The default logs view in the application will be filtered by this query."
-        >
-          <EuiFlexItem grow={false} key="query-bar" className="query-area">
-            <Autocomplete
-              key={'autocomplete-bar'}
-              query={query}
-              tempQuery={tempQuery}
-              baseQuery=""
-              handleQueryChange={handleQueryChange}
-              handleQuerySearch={() => {}}
-              dslService={dslService}
-              getSuggestions={getFullSuggestions}
-              onItemSelect={onItemSelect}
-              tabId={'application-analytics-tab'}
-            />
-            <EuiBadge
-              className={`ppl-link ${
-                uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
-              }`}
-              color="hollow"
-              onClick={() => showFlyout()}
-              onClickAriaLabel={'pplLinkShowFlyout'}
-            >
-              PPL
-            </EuiBadge>
+        <EuiFlexGroup direction="column" gutterSize="s">
+          <EuiFlexItem>
+            <EuiCallOut iconType={'iInCircle'} size="s" style={{ maxWidth: '900px' }}>
+              You can&apos;t change the base query after the application is created.
+            </EuiCallOut>
           </EuiFlexItem>
-        </EuiFormRow>
+          <EuiFlexItem>
+            <EuiFormRow
+              label="Base Query"
+              helpText="The default logs view in the application will be filtered by this query."
+            >
+              <EuiFlexItem
+                grow={false}
+                key="query-bar"
+                className="query-area"
+                style={{ minWidth: '900px' }}
+              >
+                <Autocomplete
+                  key={'autocomplete-bar'}
+                  query={query}
+                  tempQuery={tempQuery}
+                  baseQuery=""
+                  handleQueryChange={handleQueryChange}
+                  handleQuerySearch={() => {}}
+                  dslService={dslService}
+                  getSuggestions={getFullSuggestions}
+                  onItemSelect={onItemSelect}
+                  isDisabled={editMode}
+                  tabId={'application-analytics-tab'}
+                />
+                <EuiBadge
+                  className={`ppl-link ${
+                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+                  }`}
+                  color="hollow"
+                  onClick={() => showFlyout()}
+                  onClickAriaLabel={'pplLinkShowFlyout'}
+                >
+                  PPL
+                </EuiBadge>
+              </EuiFlexItem>
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </EuiAccordion>
       {isModalVisible && modalLayout}
     </div>
