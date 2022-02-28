@@ -4,16 +4,20 @@
  */
 
 import React, { useMemo } from 'react';
-import { uniq, has } from 'lodash';
+import { uniq, has, isArray, isEmpty } from 'lodash';
+import Plotly from 'plotly.js-dist';
 import { Plt } from '../../plotly/plot';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { EmptyPlaceholder } from '../../../../components/explorer/visualizations/shared_components/empty_placeholder';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { dataConfig = {}, layoutConfig = '' } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+
+  if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.icon} />;
 
   const xaxisField = fields[fields.length - 2];
   const yaxisField = fields[fields.length - 1];
@@ -26,7 +30,17 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
 
-  const calculatedHeapMapZaxis = useMemo(() => {
+  if (
+    isEmpty(xaxisField) ||
+    isEmpty(yaxisField) ||
+    isEmpty(zMetrics) ||
+    isEmpty(data[xaxisField.name]) ||
+    isEmpty(data[yaxisField.name]) ||
+    isEmpty(data[zMetrics.name])
+  )
+    return <EmptyPlaceholder icon={visualizations?.vis?.icon} />;
+
+  const calculatedHeapMapZaxis: Plotly.Data[] = useMemo(() => {
     const heapMapZaxis = [];
     const buckets = {};
 
@@ -52,6 +66,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
         }
       }
     }
+
     return heapMapZaxis;
   }, [
     data,
