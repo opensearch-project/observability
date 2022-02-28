@@ -45,9 +45,30 @@ exports[`Count distribution component Renders count distribution component with 
     }
   }
 >
-  <Bar
-    isUniColor={true}
-    layoutConfig={
+  <Plt
+    data={
+      Array [
+        Object {
+          "name": Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          "orientation": "v",
+          "type": "bar",
+          "x": Array [
+            "2021-05-01 00:00:00",
+            "2021-06-01 00:00:00",
+            "2021-07-01 00:00:00",
+          ],
+          "y": Array [
+            2549,
+            9337,
+            1173,
+          ],
+        },
+      ]
+    }
+    layout={
       Object {
         "colorway": Array [
           "#8C55A3",
@@ -63,57 +84,21 @@ exports[`Count distribution component Renders count distribution component with 
         "showlegend": true,
       }
     }
-    name="Event counts"
-    visualizations={
-      Object {
-        "data": Object {
-          "count()": Array [
-            2549,
-            9337,
-            1173,
-          ],
-          "span(timestamp,1M)": Array [
-            "2021-05-01 00:00:00",
-            "2021-06-01 00:00:00",
-            "2021-07-01 00:00:00",
-          ],
-        },
-        "jsonData": Array [
-          Object {
-            "count()": 2549,
-            "span(timestamp,1M)": "2021-05-01 00:00:00",
-          },
-          Object {
-            "count()": 9337,
-            "span(timestamp,1M)": "2021-06-01 00:00:00",
-          },
-          Object {
-            "count()": 2549,
-            "span(timestamp,1M)": "2021-07-01 00:00:00",
-          },
-        ],
-        "metadata": Object {
-          "fields": Array [
-            Object {
-              "name": "count()",
-              "type": "integer",
-            },
-            Object {
-              "name": "span(timestamp,1M)",
-              "type": "timestamp",
-            },
-          ],
-        },
-      }
-    }
   >
-    <Plt
-      config={Object {}}
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
       data={
         Array [
           Object {
-            "marker": Object {},
-            "name": "count()",
+            "name": Object {
+              "name": "count()",
+              "type": "integer",
+            },
+            "orientation": "v",
             "type": "bar",
             "x": Array [
               "2021-05-01 00:00:00",
@@ -128,12 +113,20 @@ exports[`Count distribution component Renders count distribution component with 
           },
         ]
       }
+      debug={false}
       layout={
         Object {
+          "autosize": true,
+          "barmode": "stack",
           "colorway": Array [
             "#8C55A3",
           ],
           "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "h",
+            "traceorder": "normal",
+          },
           "margin": Object {
             "b": 15,
             "l": 60,
@@ -144,87 +137,35 @@ exports[`Count distribution component Renders count distribution component with 
           "showlegend": true,
           "xaxis": Object {
             "automargin": true,
+            "rangemode": "normal",
+            "showgrid": true,
+            "zeroline": false,
           },
           "yaxis": Object {
-            "automargin": true,
+            "rangemode": "normal",
+            "showgrid": true,
+            "zeroline": false,
           },
         }
       }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
     >
-      <PlotlyComponent
-        config={
-          Object {
-            "displayModeBar": false,
-          }
-        }
-        data={
-          Array [
-            Object {
-              "marker": Object {},
-              "name": "count()",
-              "type": "bar",
-              "x": Array [
-                "2021-05-01 00:00:00",
-                "2021-06-01 00:00:00",
-                "2021-07-01 00:00:00",
-              ],
-              "y": Array [
-                2549,
-                9337,
-                1173,
-              ],
-            },
-          ]
-        }
-        debug={false}
-        layout={
-          Object {
-            "autosize": true,
-            "barmode": "stack",
-            "colorway": Array [
-              "#8C55A3",
-            ],
-            "height": 220,
-            "hovermode": "closest",
-            "legend": Object {
-              "orientation": "h",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 15,
-              "l": 60,
-              "pad": 0,
-              "r": 10,
-              "t": 30,
-            },
-            "showlegend": true,
-            "xaxis": Object {
-              "automargin": true,
-            },
-            "yaxis": Object {
-              "automargin": true,
-            },
-          }
-        }
+      <div
         style={
           Object {
             "height": "100%",
             "width": "100%",
           }
         }
-        useResizeHandler={true}
-      >
-        <div
-          style={
-            Object {
-              "height": "100%",
-              "width": "100%",
-            }
-          }
-        />
-      </PlotlyComponent>
-    </Plt>
-  </Bar>
+      />
+    </PlotlyComponent>
+  </Plt>
 </CountDistribution>
 `;
 
@@ -273,9 +214,30 @@ exports[`Count distribution component Renders count distribution component with 
     }
   }
 >
-  <Bar
-    isUniColor={true}
-    layoutConfig={
+  <Plt
+    data={
+      Array [
+        Object {
+          "name": Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          "orientation": "v",
+          "type": "bar",
+          "x": Array [
+            "2021-05-01 00:00:00",
+            "2021-06-01 00:00:00",
+            "2021-07-01 00:00:00",
+          ],
+          "y": Array [
+            2549,
+            9337,
+            1173,
+          ],
+        },
+      ]
+    }
+    layout={
       Object {
         "colorway": Array [
           "#8C55A3",
@@ -291,56 +253,21 @@ exports[`Count distribution component Renders count distribution component with 
         "showlegend": true,
       }
     }
-    name="Event counts"
-    visualizations={
-      Object {
-        "data": Object {
-          "count()": Array [
-            2549,
-            9337,
-            1173,
-          ],
-          "span(timestamp,1M)": Array [
-            "2021-05-01 00:00:00",
-            "2021-06-01 00:00:00",
-            "2021-07-01 00:00:00",
-          ],
-        },
-        "jsonData": Array [
-          Object {
-            "count()": 2549,
-            "span(timestamp,1M)": "2021-05-01 00:00:00",
-          },
-          Object {
-            "count()": 9337,
-            "span(timestamp,1M)": "2021-06-01 00:00:00",
-          },
-          Object {
-            "count()": 2549,
-            "span(timestamp,1M)": "2021-07-01 00:00:00",
-          },
-        ],
-        "metadata": Object {
-          "fields": Array [
-            Object {
-              "name": "count()",
-              "type": "integer",
-            },
-            Object {
-              "name": "span(timestamp,1M)",
-              "type": "timestamp",
-            },
-          ],
-        },
-      }
-    }
   >
-    <Plt
-      config={Object {}}
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
       data={
         Array [
           Object {
-            "name": "count()",
+            "name": Object {
+              "name": "count()",
+              "type": "integer",
+            },
+            "orientation": "v",
             "type": "bar",
             "x": Array [
               "2021-05-01 00:00:00",
@@ -355,12 +282,20 @@ exports[`Count distribution component Renders count distribution component with 
           },
         ]
       }
+      debug={false}
       layout={
         Object {
+          "autosize": true,
+          "barmode": "stack",
           "colorway": Array [
             "#8C55A3",
           ],
           "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "h",
+            "traceorder": "normal",
+          },
           "margin": Object {
             "b": 15,
             "l": 60,
@@ -376,105 +311,42 @@ exports[`Count distribution component Renders count distribution component with 
               "2021-04-16",
               "2021-07-16",
             ],
+            "rangemode": "normal",
+            "showgrid": true,
             "type": "date",
+            "zeroline": false,
           },
           "yaxis": Object {
-            "automargin": true,
             "autorange": true,
             "range": Array [
               0,
               9828.421052631578,
             ],
+            "rangemode": "normal",
+            "showgrid": true,
             "type": "linear",
+            "zeroline": false,
           },
         }
       }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
     >
-      <PlotlyComponent
-        config={
-          Object {
-            "displayModeBar": false,
-          }
-        }
-        data={
-          Array [
-            Object {
-              "name": "count()",
-              "type": "bar",
-              "x": Array [
-                "2021-05-01 00:00:00",
-                "2021-06-01 00:00:00",
-                "2021-07-01 00:00:00",
-              ],
-              "y": Array [
-                2549,
-                9337,
-                1173,
-              ],
-            },
-          ]
-        }
-        debug={false}
-        layout={
-          Object {
-            "autosize": true,
-            "barmode": "stack",
-            "colorway": Array [
-              "#8C55A3",
-            ],
-            "height": 220,
-            "hovermode": "closest",
-            "legend": Object {
-              "orientation": "h",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 15,
-              "l": 60,
-              "pad": 0,
-              "r": 10,
-              "t": 30,
-            },
-            "showlegend": true,
-            "xaxis": Object {
-              "automargin": true,
-              "autorange": true,
-              "range": Array [
-                "2021-04-16",
-                "2021-07-16",
-              ],
-              "type": "date",
-            },
-            "yaxis": Object {
-              "automargin": true,
-              "autorange": true,
-              "range": Array [
-                0,
-                9828.421052631578,
-              ],
-              "type": "linear",
-            },
-          }
-        }
+      <div
         style={
           Object {
             "height": "100%",
             "width": "100%",
           }
         }
-        useResizeHandler={true}
-      >
-        <div
-          style={
-            Object {
-              "height": "100%",
-              "width": "100%",
-            }
-          }
-        />
-      </PlotlyComponent>
-    </Plt>
-  </Bar>
+      />
+    </PlotlyComponent>
+  </Plt>
 </CountDistribution>
 `;
 

@@ -16,16 +16,16 @@ export const Observability = (
   pplService: any,
   dslService: any,
   savedObjects: any,
-  timestampUtils: any,
+  timestampUtils: any
 ) => {
   ReactDOM.render(
     <App
-      CoreStart={ CoreStart }
-      DepsStart={DepsStart} 
-      pplService={ pplService }
-      dslService ={ dslService }
-      savedObjects={ savedObjects }
-      timestampUtils={ timestampUtils }
+      CoreStart={CoreStart}
+      DepsStart={DepsStart}
+      pplService={pplService}
+      dslService={dslService}
+      savedObjects={savedObjects}
+      timestampUtils={timestampUtils}
     />,
     AppMountParameters.element
   );

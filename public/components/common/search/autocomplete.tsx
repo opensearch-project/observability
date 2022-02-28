@@ -37,7 +37,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     onItemSelect,
     isDisabled,
     baseQuery,
-    tabId,
+    tabId = '',
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -50,7 +50,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     status: 'idle',
   });
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
 
   const searchBar = document.getElementById('autocomplete-textarea');
 

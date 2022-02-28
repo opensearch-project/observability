@@ -4,8 +4,6 @@
  */
 
 import { uniqueId } from 'lodash';
-import { 
-  TAB_ID_TXT_PFX
-} from '../../../../common/constants/explorer'
+import { TAB_ID_TXT_PFX } from '../../../../common/constants/explorer';
 
 export const initialTabId: string = uniqueId(TAB_ID_TXT_PFX);

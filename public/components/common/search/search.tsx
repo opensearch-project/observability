@@ -5,7 +5,7 @@
 
 import './search.scss';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   EuiFlexGroup,
   EuiButton,
@@ -26,6 +26,7 @@ import { SavePanel } from '../../explorer/save_panel';
 import { PPLReferenceFlyout } from '../helpers';
 import { uiSettingsService } from '../../../../common/utils';
 import { HitsCounter } from '../../explorer/hits_counter';
+import { APP_ANALYTICS_TAB_ID_REGEX } from '../../../../common/constants/explorer';
 export interface IQueryBarProps {
   query: string;
   tempQuery: string;
@@ -77,11 +78,11 @@ export const Search = (props: any) => {
     searchBarConfigs = {},
     getSuggestions,
     onItemSelect,
-    tabId,
+    tabId = '',
     baseQuery = '',
   } = props;
 
-  const appLogEvents = tabId === 'application-analytics-tab';
+  const appLogEvents = tabId.match(APP_ANALYTICS_TAB_ID_REGEX);
 
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);

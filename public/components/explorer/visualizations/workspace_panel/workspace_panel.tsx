@@ -4,38 +4,10 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { uniqueId, find } from 'lodash';
-import { DragDrop } from '../drag_drop';
-import { WorkspacePanelWrapper } from './workspace_panel_wrapper';
-import { Bar } from '../../../visualizations/charts/bar';
-import { Line } from '../../../visualizations/charts/line';
-import { HorizontalBar } from '../../../visualizations/charts/horizontal_bar';
-import { LensIconChartBar } from '../assets/chart_bar';
-import { LensIconChartLine } from '../assets/chart_line';
-import { LensIconChartBarHorizontal } from '../assets/chart_bar_horizontal';
-import { EmptyPlaceholder } from '../shared_components/empty_placeholder';
-import SavedObjects from '../../../../services/saved_objects/event_analytics/saved_objects';
-
-const plotlySharedlayout = {
-  showlegend: true,
-  margin: {
-    l: 50,
-    r: 10,
-    b: 30,
-    t: 30,
-    pad: 0,
-  },
-  height: 500,
-  legend: {
-    orientation: 'v',
-    traceorder: 'normal',
-  }
-};
-
-const plotlySharedConfig = {
-  displaylogo: false,
-  responsive: true
-};
+import { isEmpty } from 'lodash';
+import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
+import { Visualization } from '../../../visualizations/visualization';
+import { DataTable } from '../../../visualizations/charts/data_table/data_table';
 
 interface IWorkSpacePanel {
   curVisId: string;
@@ -43,111 +15,52 @@ interface IWorkSpacePanel {
   visualizations: any;
 }
 
-export function WorkspacePanel({
-  curVisId,
-  setCurVisId,
-  visualizations
-}: IWorkSpacePanel) {
-
-  const memorizedVisualizationTypes = useMemo(() => {
-    return ([
-      {
-        id: 'bar',
-        label: 'Bar',
-        fullLabel: 'Bar',
-        icon: LensIconChartBar,
-        visualizationId: uniqueId('vis-bar-'),
-        selection: {
-          dataLoss: 'nothing'
-        },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartBar }
-        /> : <Bar 
-          visualizations={ visualizations }
-          barConfig={ plotlySharedConfig }
-          layoutConfig={ plotlySharedlayout }
-        />
-      },
-      {
-        id: 'horizontal_bar',
-        label: 'H. Bar',
-        fullLabel: 'H. Bar',
-        icon: LensIconChartBarHorizontal,
-        visualizationId: uniqueId('vis-horizontal-bar-'),
-        selection: {
-          dataLoss: 'nothing'
-        },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartBarHorizontal }
-        /> : <HorizontalBar
-          visualizations={ visualizations }
-          layoutConfig={ plotlySharedlayout }
-          horizontalConfig={ plotlySharedConfig }
-        />
-      },
-      {
-        id: 'line',
-        label: 'Line',
-        fullLabel: 'Line',
-        icon: LensIconChartLine,
-        visualizationId: uniqueId('vis-line-'),
-        selection: {
-          dataLoss: 'nothing'
-        },
-        chart: (!visualizations || !visualizations.data) ? 
-        <EmptyPlaceholder
-          icon={ LensIconChartLine }
-        /> : <Line
-          visualizations={ visualizations }
-          layoutConfig={ plotlySharedlayout }
-          lineConfig={ plotlySharedConfig }
-        />
-      }
-    ]);
-  }, [
-    curVisId,
-    visualizations
-  ]);
-
-  const [savePanelName, setSavePanelName] = useState<string>('');
-
-  function onDrop() {}
-  
-  const getCurChart = () => {
-    return find(memorizedVisualizationTypes, (v) => {
-      return v.id === curVisId;
-    });
-  }
-  
-  function renderVisualization() {
-    return getCurChart()?.chart;
-  }
+export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
+  const [isTableViewOn, setIsTableViewOn] = useState(false);
+  const VisualizationPanel = useMemo(() => {
+    return <Visualization visualizations={visualizations} />;
+  }, [visualizations]);
 
   return (
-    <WorkspacePanelWrapper
-      title={''}
-      emptyExpression={true}
-      setVis={ setCurVisId }
-      vis={ getCurChart() }
-      visualizationTypes={ memorizedVisualizationTypes }
-      handleSavePanelNameChange={ (name: string) => {
-        setSavePanelName(name) 
-      } }
-      savePanelName={ savePanelName }
-    >
-      <DragDrop
-        className="lnsWorkspacePanel__dragDrop"
-        data-test-subj="lnsWorkspace"
-        draggable={false}
-        droppable={false}
-        onDrop={onDrop}
+    <>
+      <EuiFlexGroup
+        className="visEditorSidebar"
+        direction="column"
+        justifyContent="spaceBetween"
+        gutterSize="none"
+        responsive={false}
       >
-        <div>
-          { renderVisualization() }
-        </div>
-      </DragDrop>
-    </WorkspacePanelWrapper>
+        <EuiFlexItem>
+          <EuiSpacer size="s" />
+          <EuiFlexGroup
+            className="visEditorSidebar"
+            direction="rowReverse"
+            gutterSize="none"
+            responsive={false}
+          >
+            <EuiFlexItem grow={false}>
+              <EuiPanel paddingSize="s">
+                <EuiSwitch
+                  label="Table view"
+                  disabled={isEmpty(visualizations?.data?.rawVizData)}
+                  checked={isTableViewOn}
+                  onChange={() => {
+                    setIsTableViewOn((staleState) => !staleState);
+                  }}
+                  aria-describedby={'table view switcher'}
+                  compressed
+                />
+              </EuiPanel>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+          <EuiSpacer size="s" />
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiPanel paddingSize="s">
+            {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
+          </EuiPanel>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </>
   );
 }
