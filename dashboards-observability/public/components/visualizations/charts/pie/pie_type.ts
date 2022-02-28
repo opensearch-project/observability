@@ -51,9 +51,30 @@ export const createPieTypeDefinition = (params: any) => ({
               {
                 name: 'Value',
                 onChangeHandler: 'setYaxisSelections',
-                isSingleSelection: true,
+                isSingleSelection: false,
                 component: null,
                 mapTo: 'yaxis',
+              },
+            ],
+          },
+          {
+            id: 'chart_options',
+            name: 'Chart options',
+            editor: ConfigValueOptions,
+            mapTo: 'chartOptions',
+            schemas: [
+              {
+                name: 'Mode',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'mode',
+                props: {
+                  dropdownList: [
+                    { name: 'Pie', modeId: 'pie' },
+                    { name: 'Donut', modeId: 'donut' },
+                  ],
+                  defaultSelections: [{ name: 'Pie', modeId: 'pie' }],
+                },
               },
             ],
           },
