@@ -131,7 +131,7 @@ export const CustomPanelView = ({
   const [editActionType, setEditActionType] = useState('');
   const [isHelpFlyoutVisible, setHelpIsFlyoutVisible] = useState(false);
 
-  const appMetrics = page === 'app';
+  const appPanel = page === 'app';
 
   const closeHelpFlyout = () => {
     setAddVizDisabled(false);
@@ -491,7 +491,7 @@ export const CustomPanelView = ({
   // Edit the breadcrumb when panel name changes
   useEffect(() => {
     let newBreadcrumb;
-    if (appMetrics) {
+    if (appPanel) {
       newBreadcrumb = [
         ...parentBreadcrumb,
         {
@@ -520,7 +520,7 @@ export const CustomPanelView = ({
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>
-            {appMetrics || (
+            {appPanel || (
               <EuiPageHeaderSection>
                 <EuiTitle size="l">
                   <h1>{openPanelName}</h1>
@@ -531,7 +531,7 @@ export const CustomPanelView = ({
                 Created on {moment(panelCreatedTime).format(UI_DATE_FORMAT)}
               </EuiPageHeaderSection>
             )}
-            {appMetrics || (
+            {appPanel || (
               <EuiPageHeaderSection>
                 <EuiFlexGroup gutterSize="s">
                   {editMode ? (
@@ -623,14 +623,10 @@ export const CustomPanelView = ({
                   isDisabled={dateDisabled}
                 />
               </EuiFlexItem>
-              {appMetrics && (
+              {appPanel && (
                 <>
                   <EuiFlexItem grow={false}>
-                    <EuiButton
-                      iconType="pencil"
-                      onClick={() => editPanel('edit')}
-                      isDisabled={editDisabled}
-                    >
+                    <EuiButton iconType="pencil" onClick={() => {}} isDisabled={editDisabled}>
                       Edit
                     </EuiButton>
                   </EuiFlexItem>
@@ -640,7 +636,7 @@ export const CustomPanelView = ({
                       onClick={switchToEvent}
                       isDisabled={addVizDisabled}
                     >
-                      Add metric
+                      Add
                     </EuiButton>
                   </EuiFlexItem>
                 </>

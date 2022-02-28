@@ -95,9 +95,11 @@ export const CreateApp = (props: CreateAppProps) => {
   }, [existingAppId]);
 
   useEffect(() => {
-    setNameWithStorage(existingApp.name);
-    setDescriptionWithStorage(existingApp.description);
-    setQueryWithStorage(existingApp.baseQuery);
+    if (editMode) {
+      setNameWithStorage(existingApp.name);
+      setDescriptionWithStorage(existingApp.description);
+      setQueryWithStorage(existingApp.baseQuery);
+    }
   }, [existingApp]);
 
   const closeFlyout = () => {
