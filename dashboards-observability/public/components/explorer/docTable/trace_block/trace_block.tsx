@@ -4,7 +4,7 @@
  */
 
 import { TraceDetailRender } from '../../../application_analytics/components/flyout_components/trace_detail_render';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { EuiCallOut, EuiLink } from '@elastic/eui';
 import { TRACE_ANALYTICS_DOCUMENTATION_LINK } from '../../../../../common/constants/trace_analytics';
@@ -13,20 +13,16 @@ import {
   OTEL_TRACE_ID,
 } from '../../../../../common/constants/explorer';
 import { IDocType } from '../docViewRow';
+import { isValidTraceId } from '../../utils';
 
 interface props {
   http: HttpSetup;
   hit: IDocType;
+  logTraceId: string;
 }
 
-export const isValidTraceId = (traceId: string) => {
-  return new Blob([traceId]).size === 32;
-};
-
-export const TraceBlock = ({ http, hit }: props) => {
-  let traceId = hit.hasOwnProperty(OTEL_TRACE_ID) ? hit[OTEL_TRACE_ID] : '';
-
-  if (traceId == '' || !isValidTraceId(traceId)) {
+export const TraceBlock = ({ http, hit, logTraceId }: props) => {
+  if (logTraceId === '' || !isValidTraceId(logTraceId)) {
     return (
       <>
         <EuiCallOut iconType="help" title="No Trace Id found in the event.">
@@ -46,5 +42,6 @@ export const TraceBlock = ({ http, hit }: props) => {
       </>
     );
   }
-  return <TraceDetailRender traceId={traceId} http={http} />;
+
+  return <TraceDetailRender traceId={logTraceId} http={http} />;
 };

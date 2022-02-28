@@ -3,4 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { getTrs, getHeaders, fetchSurroundingData, rangeNumDocs, populateDataGrid } from './utils';
+export {
+  getTrs,
+  getHeaders,
+  fetchSurroundingData,
+  rangeNumDocs,
+  populateDataGrid,
+  isValidTraceId,
+} from './utils';

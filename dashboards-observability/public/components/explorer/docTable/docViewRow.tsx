@@ -11,10 +11,10 @@ import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
 import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
-import { isValidTraceId } from './trace_block/trace_block';
 import { useEffect } from 'react';
 import { SurroundingFlyout } from './surrounding_flyout';
 import PPLService from '../../../services/requests/ppl';
+import { isValidTraceId } from '../utils';
 
 export interface IDocType {
   [key: string]: string;
@@ -36,6 +36,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
+  const [flyoutToggleSize, setFlyoutToggleSize] = useState(true);
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
@@ -174,6 +175,9 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         memorizedTds={getTds(doc, selectedCols, true).slice(1)}
         explorerFields={explorerFields}
         openTraces={openTraces}
+        rawQuery={rawQuery}
+        toggleSize={flyoutToggleSize}
+        setToggleSize={setFlyoutToggleSize}
         setOpenTraces={setOpenTraces}
         setSurroundingEventsOpen={setSurroundingEventsOpen}
       ></DocFlyout>
@@ -197,6 +201,8 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         rawQuery={rawQuery}
         selectedCols={selectedCols}
         getTds={getTds}
+        toggleSize={flyoutToggleSize}
+        setToggleSize={setFlyoutToggleSize}
       />
     );
   }
