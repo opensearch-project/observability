@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import { EuiTitle, EuiComboBox, EuiSpacer } from '@elastic/eui';
 
 export const PanelItem = ({
@@ -32,6 +32,7 @@ export const PanelItem = ({
         placeholder="Select a field"
         options={options}
         selectedOptions={selectedAxis}
+        isInvalid={isEmpty(selectedAxis)}
         singleSelection={isSingleSelection}
         onChange={onSelectChange}
         aria-label="Use aria labels when no actual label is in use"

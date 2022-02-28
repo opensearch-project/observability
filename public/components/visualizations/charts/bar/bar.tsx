@@ -18,15 +18,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.xaxis
-      : [];
+    dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.xaxis
-      ? dataConfig?.valueOptions.yaxis
-      : [];
+    dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
   const barOrientation =
-    dataConfig?.chartOptions?.orientation && dataConfig.chartOptions.orientation[0].orientationId
+    dataConfig?.chartOptions?.orientation &&
+    dataConfig.chartOptions.orientation[0] &&
+    dataConfig.chartOptions.orientation[0].orientationId
       ? dataConfig.chartOptions.orientation[0].orientationId
       : visualizations.vis.orientation;
   const { defaultAxes } = visualizations.data;
@@ -79,7 +77,9 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode:
-      dataConfig?.chartOptions?.mode && dataConfig.chartOptions.mode[0].modeId
+      dataConfig?.chartOptions?.mode &&
+      dataConfig.chartOptions.mode[0] &&
+      dataConfig.chartOptions.mode[0].modeId
         ? dataConfig.chartOptions.mode[0].modeId
         : '',
   };
