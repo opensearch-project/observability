@@ -13,6 +13,7 @@ export const pipeCommands = [
   { label: 'eval' },
   { label: 'fields' },
   { label: 'head' },
+  { label: 'parse' },
   { label: 'rare' },
   { label: 'rename' },
   { label: 'sort' },

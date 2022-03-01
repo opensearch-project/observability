@@ -327,6 +327,9 @@ export const getFullSuggestions = async (
       // Suggest fields after dedup
     } else if (splittedModel[splittedModel.length - 2] === 'dedup') {
       return fillSuggestions(str, prefix, fieldsFromBackend);
+      // Suggest only string fields after parse
+    } else if (splittedModel[splittedModel.length - 2] === 'parse') {
+      return fillSuggestions(str, prefix, fieldsFromBackend.filter(field => field.type === 'string'));
       // Suggest 'match(' or fields after where
     } else if (splittedModel[splittedModel.length - 2] === 'where') {
       nextWhere = splittedModel.length;
