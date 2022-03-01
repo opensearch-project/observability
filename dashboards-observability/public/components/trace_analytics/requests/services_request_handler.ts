@@ -63,7 +63,6 @@ export const handleServiceMapRequest = async (http, DSL, items?, setItems?, curr
     minutesInDateRange = lte.diff(gte, 'minutes', true);
   }
 
-
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery())

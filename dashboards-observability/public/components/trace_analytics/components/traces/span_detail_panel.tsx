@@ -28,8 +28,9 @@ export function SpanDetailPanel(props: {
   colorMap: any;
   page?: string;
   openSpanFlyout?: any;
+  data: { gantt: any[], table: any[], ganttMaxX: number };
+  setData: (data: { gantt: any[], table: any[], ganttMaxX: number }) => void;
 }) {
-  const [data, setData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -66,7 +67,7 @@ export function SpanDetailPanel(props: {
     if (_.isEmpty(props.colorMap)) return;
     const refreshDSL = spanFiltersToDSL();
     setDSL(refreshDSL);
-    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
+    handleSpansGanttRequest(props.traceId, props.http, props.setData, props.colorMap, refreshDSL);
   }, 150);
 
   const spanFiltersToDSL = () => {
@@ -134,9 +135,9 @@ export function SpanDetailPanel(props: {
     };
   };
 
-  const layout = useMemo(() => getSpanDetailLayout(data.gantt, data.ganttMaxX), [
-    data.gantt,
-    data.ganttMaxX,
+  const layout = useMemo(() => getSpanDetailLayout(props.data.gantt, props.data.ganttMaxX), [
+    props.data.gantt,
+    props.data.ganttMaxX,
   ]);
 
   const [currentSpan, setCurrentSpan] = useState('');
@@ -211,7 +212,7 @@ export function SpanDetailPanel(props: {
       <EuiPanel>
         <EuiFlexGroup>
           <EuiFlexItem>
-            <PanelTitle title="Spans" totalItems={data.gantt.length / 2} />
+            <PanelTitle title="Spans" totalItems={props.data.gantt.length / 2} />
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiButtonGroup
@@ -234,7 +235,7 @@ export function SpanDetailPanel(props: {
         <div style={{ overflowY: 'auto', maxHeight: 500 }}>
           {toggleIdSelected === 'timeline' ? (
             <Plt
-              data={data.gantt}
+              data={props.data.gantt}
               layout={layout}
               onClickHandler={onClick}
               onHoverHandler={onHover}

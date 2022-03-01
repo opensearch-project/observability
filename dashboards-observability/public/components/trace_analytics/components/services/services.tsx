@@ -81,7 +81,14 @@ export function Services(props: ServicesProps) {
       props.page,
       appServices ? props.appConfigs : []
     );
-    await handleServicesRequest(props.http, DSL, tableItems, setTableItems, setServiceMap, serviceQuery);
+    await handleServicesRequest(
+      props.http,
+      DSL,
+      tableItems,
+      setTableItems,
+      setServiceMap,
+      serviceQuery
+    );
     setLoading(false);
   };
 

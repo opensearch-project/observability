@@ -18,14 +18,17 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { TraceAnalyticsCoreDeps } from '../../home';
+import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import {
   handlePayloadRequest,
   handleServicesPieChartRequest,
   handleTraceViewRequest,
 } from '../../requests/traces_request_handler';
-import { PanelTitle } from '../common/helper_functions';
+import { filtersToDsl, PanelTitle } from '../common/helper_functions';
+import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ServiceBreakdownPanel } from './service_breakdown_panel';
 import { SpanDetailPanel } from './span_detail_panel';
 
@@ -34,6 +37,7 @@ interface TraceViewProps extends TraceAnalyticsCoreDeps {
 }
 
 export function TraceView(props: TraceViewProps) {
+  const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (
       <>
@@ -130,12 +134,55 @@ export function TraceView(props: TraceViewProps) {
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');
   const [colorMap, setColorMap] = useState({});
+  const [ganttData, setGanttData] = useState<{ gantt: any[]; table: any[]; ganttMaxX: number }>({
+    gantt: [],
+    table: [],
+    ganttMaxX: 0,
+  });
+  const [serviceMap, setServiceMap] = useState<ServiceObject>({});
+  const [traceFilteredServiceMap, setTraceFilteredServiceMap] = useState<ServiceObject>({});
+  const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
+    'latency' | 'error_rate' | 'throughput'
+  >('latency');
 
   const refresh = async () => {
+    const DSL = filtersToDsl([], '', 'now', 'now', page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
+    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
+    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
   };
+
+  useEffect(() => {
+    if (!Object.keys(serviceMap).length || !ganttData.table.length) return;
+    const services: any = {};
+    ganttData.table.forEach((service: any) => {
+      if (!services[service.service_name]) {
+        services[service.service_name] = {
+          latency: 0,
+          errors: 0,
+          throughput: 0,
+        };
+      }
+      services[service.service_name].latency += service.latency;
+      if (service.error) services[service.service_name].errors++;
+      services[service.service_name].throughput++;
+    });
+    const filteredServiceMap: ServiceObject = {};
+    Object.entries(services).forEach(([serviceName, service]: [string, any]) => {
+      filteredServiceMap[serviceName] = serviceMap[serviceName];
+      filteredServiceMap[serviceName].latency = _.round(service.latency / service.throughput, 2);
+      filteredServiceMap[serviceName].error_rate = _.round(
+        (service.errors / service.throughput) * 100,
+        2
+      );
+      filteredServiceMap[serviceName].throughput = service.throughput;
+      filteredServiceMap[serviceName].destServices = filteredServiceMap[
+        serviceName
+      ].destServices.filter((destService) => services[destService]);
+    });
+    setTraceFilteredServiceMap(filteredServiceMap);
+  }, [serviceMap, ganttData]);
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([
@@ -172,7 +219,13 @@ export function TraceView(props: TraceViewProps) {
               <ServiceBreakdownPanel data={serviceBreakdownData} />
             </EuiFlexItem>
             <EuiFlexItem grow={7}>
-              <SpanDetailPanel traceId={props.traceId} http={props.http} colorMap={colorMap} />
+              <SpanDetailPanel
+                traceId={props.traceId}
+                http={props.http}
+                colorMap={colorMap}
+                data={ganttData}
+                setData={setGanttData}
+              />
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />
@@ -190,6 +243,15 @@ export function TraceView(props: TraceViewProps) {
               </EuiCodeBlock>
             ) : null}
           </EuiPanel>
+          <EuiSpacer />
+
+          <ServiceMap
+            addFilter={undefined}
+            serviceMap={traceFilteredServiceMap}
+            idSelected={serviceMapIdSelected}
+            setIdSelected={setServiceMapIdSelected}
+            page={page}
+          />
         </EuiPageBody>
       </EuiPage>
     </>
