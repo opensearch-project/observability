@@ -3,21 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- .ppl-create-link {
-  border: unset;
-  position: absolute;
-  top: 103px;
-  right: 140px;
-  background-color: transparent;
-}
-.ppl-create-link-light {
-  color: #006BB4;
-}
-
-.ppl-create-link-dark {
-  color: #1BA9F5;
-}
-
 .query-area {
   width: 900px;
 }
@@ -26,6 +11,10 @@
   overflow: visible;
   position: relative;
   z-index: 10;
+  .ppl-link {
+    top: 103px;
+    right: 140px;
+  }
 }
 
 #baseQueryCallout {

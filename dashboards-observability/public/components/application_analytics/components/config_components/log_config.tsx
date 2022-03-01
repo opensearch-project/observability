@@ -134,10 +134,8 @@ export const LogConfig = (props: LogConfigProps) => {
                   tabId={'application-analytics-tab'}
                 />
                 <EuiBadge
-                  className={`ppl-create-link ${
-                    uiSettingsService.get('theme:darkMode')
-                      ? 'ppl-create-link-dark'
-                      : 'ppl-create-link-light'
+                  className={`ppl-link ${
+                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
                   }`}
                   color="hollow"
                   onClick={() => showFlyout()}
