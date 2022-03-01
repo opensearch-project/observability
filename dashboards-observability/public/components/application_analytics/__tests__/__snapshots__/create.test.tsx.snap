@@ -304,7 +304,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -1511,7 +1511,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -2655,7 +2655,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -3773,7 +3773,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -4950,7 +4950,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -6068,7 +6068,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -7238,7 +7238,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -8294,7 +8294,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -9414,7 +9414,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -10501,7 +10501,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -11645,7 +11645,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -12763,7 +12763,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -13940,7 +13940,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -15058,7 +15058,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span
@@ -16239,7 +16239,7 @@ Object {
                                   </div>
                                   <button
                                     aria-label="pplLinkShowFlyout"
-                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                    class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                     title="PPL"
                                   >
                                     <span
@@ -17442,7 +17442,7 @@ Object {
                                 </div>
                                 <button
                                   aria-label="pplLinkShowFlyout"
-                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                  class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                   title="PPL"
                                 >
                                   <span

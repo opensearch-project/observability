@@ -394,7 +394,7 @@ exports[`Log Config component renders empty log config 1`] = `
                                     </div>
                                   </Autocomplete>
                                   <EuiBadge
-                                    className="ppl-create-link ppl-create-link-light"
+                                    className="ppl-link ppl-link-light"
                                     color="hollow"
                                     onClick={[Function]}
                                     onClickAriaLabel="pplLinkShowFlyout"
@@ -402,7 +402,7 @@ exports[`Log Config component renders empty log config 1`] = `
                                     <EuiInnerText>
                                       <button
                                         aria-label="pplLinkShowFlyout"
-                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                         disabled={false}
                                         onClick={[Function]}
                                         title="PPL"
@@ -848,7 +848,7 @@ exports[`Log Config component renders with query 1`] = `
                                     </div>
                                   </Autocomplete>
                                   <EuiBadge
-                                    className="ppl-create-link ppl-create-link-light"
+                                    className="ppl-link ppl-link-light"
                                     color="hollow"
                                     onClick={[Function]}
                                     onClickAriaLabel="pplLinkShowFlyout"
@@ -856,7 +856,7 @@ exports[`Log Config component renders with query 1`] = `
                                     <EuiInnerText>
                                       <button
                                         aria-label="pplLinkShowFlyout"
-                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-create-link ppl-create-link-light"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
                                         disabled={false}
                                         onClick={[Function]}
                                         title="PPL"
