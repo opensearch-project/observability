@@ -118,7 +118,7 @@ export const Explorer = ({
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-  const userVizConfigs = useSelector(selectVisualizationConfig)[tabId];
+  const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
 
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
@@ -755,7 +755,7 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: userVizConfigs[curVisId],
+      userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
