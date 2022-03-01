@@ -240,20 +240,12 @@ exports[`Log Config component renders empty log config 1`] = `
                       >
                         <EuiCallOut
                           iconType="iInCircle"
+                          id="baseQueryCallout"
                           size="s"
-                          style={
-                            Object {
-                              "maxWidth": "900px",
-                            }
-                          }
                         >
                           <div
                             className="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style={
-                              Object {
-                                "maxWidth": "900px",
-                              }
-                            }
+                            id="baseQueryCallout"
                           >
                             <EuiText
                               size="xs"
@@ -314,11 +306,6 @@ exports[`Log Config component renders empty log config 1`] = `
                                 key="query-bar"
                                 onBlur={[Function]}
                                 onFocus={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": "900px",
-                                  }
-                                }
                               >
                                 <div
                                   aria-describedby="random_html_id-help"
@@ -326,11 +313,6 @@ exports[`Log Config component renders empty log config 1`] = `
                                   id="random_html_id"
                                   onBlur={[Function]}
                                   onFocus={[Function]}
-                                  style={
-                                    Object {
-                                      "minWidth": "900px",
-                                    }
-                                  }
                                 >
                                   <Autocomplete
                                     baseQuery=""
@@ -712,20 +694,12 @@ exports[`Log Config component renders with query 1`] = `
                       >
                         <EuiCallOut
                           iconType="iInCircle"
+                          id="baseQueryCallout"
                           size="s"
-                          style={
-                            Object {
-                              "maxWidth": "900px",
-                            }
-                          }
                         >
                           <div
                             className="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style={
-                              Object {
-                                "maxWidth": "900px",
-                              }
-                            }
+                            id="baseQueryCallout"
                           >
                             <EuiText
                               size="xs"
@@ -786,11 +760,6 @@ exports[`Log Config component renders with query 1`] = `
                                 key="query-bar"
                                 onBlur={[Function]}
                                 onFocus={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": "900px",
-                                  }
-                                }
                               >
                                 <div
                                   aria-describedby="random_html_id-help"
@@ -798,11 +767,6 @@ exports[`Log Config component renders with query 1`] = `
                                   id="random_html_id"
                                   onBlur={[Function]}
                                   onFocus={[Function]}
-                                  style={
-                                    Object {
-                                      "minWidth": "900px",
-                                    }
-                                  }
                                 >
                                   <Autocomplete
                                     baseQuery=""
