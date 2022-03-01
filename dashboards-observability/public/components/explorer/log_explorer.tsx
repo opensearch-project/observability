@@ -16,22 +16,13 @@ import {
   TAB_ID_TXT_PFX,
   SAVED_OBJECT_ID,
   NEW_TAB,
-  TAB_CREATED_TYPE,
   REDIRECT_TAB,
-  NEW_SELECTED_QUERY_TAB,
   TAB_EVENT_ID,
   TAB_CHART_ID,
 } from '../../../common/constants/explorer';
-import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
+import { selectQueryTabs, setSelectedQueryTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
-import { init as initFields, remove as removefields } from './slices/field_slice';
-import { init as initQuery, remove as removeQuery, changeQuery } from './slices/query_slice';
-import {
-  init as initQueryResult,
-  remove as removeQueryResult,
-  selectQueryResult,
-} from './slices/query_result_slice';
-import { init as initVisualizationConfig, reset as resetVisualizationConfig } from './slices/viualization_config_slice';
+import { selectQueryResult } from './slices/query_result_slice';
 import { initializeTabData, removeTabData } from '../application_analytics/helpers/utils';
 
 const searchBarConfigs = {
@@ -139,7 +130,6 @@ export const LogExplorer = ({
     const newTabId = emptyTabId ? emptyTabId : await addNewTab(REDIRECT_TAB);
     return newTabId;
   };
-
 
   useEffect(() => {
     if (!isEmpty(savedObjectId)) {

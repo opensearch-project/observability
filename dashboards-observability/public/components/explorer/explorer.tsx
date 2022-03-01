@@ -52,6 +52,8 @@ import {
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_EVENT_ID,
   TAB_CHART_ID,
+  INDEX,
+  FINAL_QUERY,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../common/utils';
@@ -226,12 +228,15 @@ export const Explorer = ({
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
+        const currQuery = appLogEvents
+          ? objectData?.query.replace(appBaseQuery + '| ', '')
+          : objectData?.query || '';
         batch(async () => {
           await dispatch(
             changeQuery({
               tabId,
               query: {
-                [RAW_QUERY]: objectData?.query || '',
+                [RAW_QUERY]: currQuery,
                 [SELECTED_TIMESTAMP]: objectData?.selected_timestamp?.name || 'timestamp',
                 [SAVED_OBJECT_ID]: objectId,
                 [SAVED_OBJECT_TYPE]: savedType,
@@ -459,6 +464,33 @@ export const Explorer = ({
       fetchData();
     }
   }, []);
+
+  useEffect(() => {
+    if (appLogEvents) {
+      if (savedObjectId) {
+        updateTabData(savedObjectId);
+      } else {
+        emptyTab();
+      }
+    }
+  }, [savedObjectId]);
+
+  const emptyTab = async () => {
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [RAW_QUERY]: '',
+          [FINAL_QUERY]: '',
+          [INDEX]: '',
+          [SELECTED_TIMESTAMP]: '',
+          [SAVED_OBJECT_ID]: '',
+          [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
+        },
+      })
+    );
+    await fetchData();
+  };
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
@@ -1208,7 +1240,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
+          query={query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}

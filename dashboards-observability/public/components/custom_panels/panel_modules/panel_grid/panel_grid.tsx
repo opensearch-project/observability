@@ -48,11 +48,14 @@ type Props = {
   pplService: PPLService;
   startTime: string;
   endTime: string;
+  fromApp?: boolean;
+  switchToEditViz?: any;
   onRefresh: boolean;
   cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
   showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   editActionType: string;
+  setEditVizId?: any;
 };
 
 export const PanelGrid = ({
@@ -65,6 +68,8 @@ export const PanelGrid = ({
   pplService,
   startTime,
   endTime,
+  fromApp = false,
+  switchToEditViz,
   onRefresh,
   cloneVisualization,
   pplFilterValue,
@@ -95,6 +100,8 @@ export const PanelGrid = ({
           fromTime={startTime}
           toTime={endTime}
           onRefresh={onRefresh}
+          fromApp={fromApp}
+          switchToEditViz={switchToEditViz}
           cloneVisualization={cloneVisualization}
           pplFilterValue={pplFilterValue}
           showFlyout={showFlyout}

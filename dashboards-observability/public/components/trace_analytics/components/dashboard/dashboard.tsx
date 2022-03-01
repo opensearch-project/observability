@@ -31,11 +31,12 @@ import { DashboardTable } from './dashboard_table';
 interface DashboardProps extends TraceAnalyticsComponentDeps {
   appId?: string;
   appName?: string;
+  switchToEditViz?: any;
   page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Dashboard(props: DashboardProps) {
-  const { appId, appName, page, parentBreadcrumb } = props;
+  const { appId, appName, page, parentBreadcrumb, switchToEditViz } = props;
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -80,6 +81,9 @@ export function Dashboard(props: DashboardProps) {
       })),
     ]);
     setRedirect(false);
+    if (appOverview) {
+      switchToEditViz('');
+    }
   }, []);
 
   useEffect(() => {
