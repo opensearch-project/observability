@@ -944,7 +944,9 @@ export const Explorer = ({
             timestamp: currQuery![SELECTED_TIMESTAMP],
             objectId: currQuery![SAVED_OBJECT_ID],
             type: curVisId,
-            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            userConfigs: userVizConfigs.hasOwnProperty(curVisId)
+              ? JSON.stringify(userVizConfigs[curVisId])
+              : JSON.stringify({}),
             description: vizDescription,
           })
           .then((res: any) => {
@@ -976,7 +978,9 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
-            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            userConfigs: userVizConfigs.hasOwnProperty(curVisId)
+              ? JSON.stringify(userVizConfigs[curVisId])
+              : JSON.stringify({}),
             description: vizDescription,
           })
           .then((res: any) => {
