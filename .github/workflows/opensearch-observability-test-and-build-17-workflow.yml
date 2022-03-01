@@ -8,27 +8,27 @@ env:
   COMMON_UTILS_BRANCH: 'main'
 
 jobs:
-build:
-  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Set up JDK 1.11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
+    steps:
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-    - name: Build with Gradle 
-      run: |
-        cd opensearch-observability
-        ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} --build-cache
+      - name: Build with Gradle 
+        run: |
+          cd opensearch-observability
+          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} --build-cache
 
-    - name: Set up JDK 1.17
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 17
-      
-    - name: Test with Java 17
-      run: |
-        cd opensearch-observability
-        ./gradlew test -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} --build-cache
+      - name: Set up JDK 1.17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 17
+        
+      - name: Test with Java 17
+        run: |
+          cd opensearch-observability
+          ./gradlew test -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} --build-cache
