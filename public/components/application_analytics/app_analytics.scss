@@ -3,17 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- .ppl-link {
-  border: unset;
-  position: absolute;
-  top: 103px;
-  right: 140px;
-  background-color: transparent;
-}
-.ppl-link-light {
-  color: #006BB4;
+.query-area {
+  width: 900px;
 }
 
-.ppl-link-dark {
-  color: #1BA9F5;
+#logSource {
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+  .ppl-link {
+    top: 103px;
+    right: 140px;
+  }
+}
+
+#baseQueryCallout {
+  max-width: 900px;
 }

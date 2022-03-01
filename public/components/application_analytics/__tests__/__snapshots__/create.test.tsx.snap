@@ -241,7 +241,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -274,7 +274,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -1449,7 +1448,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -1482,7 +1481,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -2596,7 +2594,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -2629,7 +2627,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -3715,7 +3712,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -3748,7 +3745,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -4893,7 +4889,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -4926,7 +4922,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -6012,7 +6007,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -6045,7 +6040,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -7183,7 +7177,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -7216,7 +7210,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -8240,7 +8233,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -8273,7 +8266,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -9359,7 +9351,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -9392,7 +9384,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -10447,7 +10438,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -10480,7 +10471,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -11594,7 +11584,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -11627,7 +11617,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -12713,7 +12702,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -12746,7 +12735,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -13891,7 +13879,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -13924,7 +13912,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -15010,7 +14997,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -15043,7 +15030,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
@@ -16190,7 +16176,7 @@ Object {
                           >
                             <div
                               class="euiCallOut euiCallOut--primary euiCallOut--small"
-                              style="max-width: 900px;"
+                              id="baseQueryCallout"
                             >
                               <div
                                 class="euiText euiText--extraSmall"
@@ -16223,7 +16209,6 @@ Object {
                                   aria-describedby="random_html_id-help"
                                   class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
-                                  style="min-width: 900px;"
                                 >
                                   <div
                                     aria-expanded="false"
@@ -17394,7 +17379,7 @@ Object {
                         >
                           <div
                             class="euiCallOut euiCallOut--primary euiCallOut--small"
-                            style="max-width: 900px;"
+                            id="baseQueryCallout"
                           >
                             <div
                               class="euiText euiText--extraSmall"
@@ -17427,7 +17412,6 @@ Object {
                                 aria-describedby="random_html_id-help"
                                 class="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                 id="random_html_id"
-                                style="min-width: 900px;"
                               >
                                 <div
                                   aria-expanded="false"
