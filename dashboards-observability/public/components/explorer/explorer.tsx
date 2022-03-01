@@ -182,8 +182,8 @@ export const Explorer = ({
 
   const composeFinalQuery = (
     curQuery: any,
-    startTime: string,
-    endTime: string,
+    startingTime: string,
+    endingTime: string,
     timeField: string,
     isLiveQuery: boolean
   ) => {
@@ -191,8 +191,8 @@ export const Explorer = ({
     if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
       rawQuery: fullQuery,
-      startTime,
-      endTime,
+      startTime: startingTime,
+      endTime: endingTime,
       timeField,
       isLiveQuery,
     });
@@ -469,17 +469,16 @@ export const Explorer = ({
     if (appLogEvents) {
       setStartTime(timeRange[0]);
       setEndTime(timeRange[1]);
-    } else {
-      await dispatch(
-        changeDateRange({
-          tabId: requestParams.tabId,
-          data: {
-            [RAW_QUERY]: queryRef.current![RAW_QUERY],
-            [SELECTED_DATE_RANGE]: timeRange,
-          },
-        })
-      );
     }
+    await dispatch(
+      changeDateRange({
+        tabId: requestParams.tabId,
+        data: {
+          [RAW_QUERY]: queryRef.current![RAW_QUERY],
+          [SELECTED_DATE_RANGE]: timeRange,
+        },
+      })
+    );
   };
 
   const showPermissionErrorToast = () => {

@@ -6,6 +6,7 @@
 import { isEmpty, isEqual, map } from 'lodash';
 import DSLService from '../requests/dsl';
 
+// eslint-disable-next-line import/no-default-export
 export default class TimestampUtils {
   constructor(private dslService: DSLService) {}
 
