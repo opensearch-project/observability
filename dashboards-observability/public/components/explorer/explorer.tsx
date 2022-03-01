@@ -976,7 +976,9 @@ export const Explorer = ({
             name: selectedPanelNameRef.current,
             timestamp: currQuery![SELECTED_TIMESTAMP],
             applicationId: appId,
-            userConfigs: JSON.stringify(userVizConfigs[curVisId]),
+            userConfigs: userVizConfigs[curVisId]
+              ? JSON.stringify(userVizConfigs[curVisId])
+              : JSON.stringify({}),
             description: vizDescription,
           })
           .then((res: any) => {
