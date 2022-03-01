@@ -21,6 +21,7 @@ import {
   NEW_SELECTED_QUERY_TAB,
   TAB_EVENT_ID,
   TAB_CHART_ID,
+  APP_ANALYTICS_TAB_ID_REGEX,
 } from '../../../common/constants/explorer';
 import { selectQueryTabs, addTab, setSelectedQueryTab, removeTab } from './slices/query_tab_slice';
 import { selectQueries } from './slices/query_slice';
@@ -198,11 +199,13 @@ export const LogExplorer = ({
 
   const memorizedTabs = useMemo(() => {
     const res = map(tabIds, (tabId) => {
-      return getQueryTab({
-        tabTitle: tabNames[tabId] || TAB_TITLE,
-        tabId,
-        handleTabClose,
-      });
+      if (!tabId.match(APP_ANALYTICS_TAB_ID_REGEX)) {
+        return getQueryTab({
+          tabTitle: tabNames[tabId] || TAB_TITLE,
+          tabId,
+          handleTabClose,
+        });
+      }
     });
 
     return res;
