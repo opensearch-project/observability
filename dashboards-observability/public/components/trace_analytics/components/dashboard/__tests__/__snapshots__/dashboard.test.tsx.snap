@@ -1175,6 +1175,7 @@ exports[`Dashboard component renders dashboard 1`] = `
         >
           <ServiceMap
             addFilter={[Function]}
+            currService=""
             idSelected="latency"
             page="dashboard"
             serviceMap={Object {}}

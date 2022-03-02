@@ -151,6 +151,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'order\n\nAverage latency: 90.1ms\nError rate: 4.17%\nThroughput: 48',
         borderWidth: 0,
         color: 'rgba(158, 134, 192, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 2,
@@ -159,6 +162,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'analytics-service\n\nAverage latency: 12.99ms\nError rate: 0%\nThroughput: 37',
         borderWidth: 0,
         color: 'rgba(210, 202, 224, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 3,
@@ -167,6 +173,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'database\n\nAverage latency: 49.54ms\nError rate: 3.77%\nThroughput: 53',
         borderWidth: 0,
         color: 'rgba(187, 171, 212, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 4,
@@ -175,6 +184,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'frontend-client\n\nAverage latency: 207.71ms\nError rate: 7.41%\nThroughput: 27',
         borderWidth: 0,
         color: 'rgba(78, 42, 122, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 5,
@@ -183,6 +195,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'inventory\n\nAverage latency: 183.52ms\nError rate: 3.23%\nThroughput: 31',
         borderWidth: 0,
         color: 'rgba(95, 61, 138, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 6,
@@ -191,6 +206,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'authentication\n\nAverage latency: 139.09ms\nError rate: 8.33%\nThroughput: 12',
         borderWidth: 0,
         color: 'rgba(125, 95, 166, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 7,
@@ -199,6 +217,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'payment\n\nAverage latency: 134.36ms\nError rate: 9.09%\nThroughput: 11',
         borderWidth: 0,
         color: 'rgba(129, 99, 169, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
       {
         id: 8,
@@ -207,6 +228,9 @@ export const TEST_SERVICE_MAP_GRAPH = {
         title: 'recommendation\n\nAverage latency: 176.97ms\nError rate: 6.25%\nThroughput: 16',
         borderWidth: 0,
         color: 'rgba(100, 66, 143, 1)',
+        font: {
+          color: 'rgba(72, 122, 180, 1)',
+        },
       },
     ],
     edges: [

@@ -5,6 +5,7 @@
 
 import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiTitle } from '@elastic/eui';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { TraceAnalyticsComponentDeps } from '../../home';
 import {
@@ -44,6 +45,7 @@ export function Dashboard(props: DashboardProps) {
     'latency' | 'error_rate' | 'throughput'
   >('latency');
   const [percentileMap, setPercentileMap] = useState<{ [traceGroup: string]: number[] }>({});
+  const [filteredService, setFilteredService] = useState('');
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
   const appOverview = page === 'app';
@@ -83,10 +85,18 @@ export function Dashboard(props: DashboardProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect && props.indicesExist) refresh();
+    let newFilteredService = '';
+    for (const filter of props.filters) {
+      if (filter.field === 'serviceName') {
+        newFilteredService = filter.value;
+        break;
+      }
+    }
+    setFilteredService(newFilteredService);
+    if (!redirect && props.indicesExist) refresh(newFilteredService);
   }, [props.filters, props.startTime, props.endTime, props.appConfigs]);
 
-  const refresh = async () => {
+  const refresh = async (currService?: string) => {
     setLoading(true);
     const DSL = filtersToDsl(
       props.filters,
@@ -133,16 +143,29 @@ export function Dashboard(props: DashboardProps) {
       errorRatePltItems,
       setErrorRatePltItems
     );
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
+    // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
+    const serviceMapDSL = _.cloneDeep(DSL);
+    serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
+      (must: any) => must?.term?.serviceName == null
+    );
+    handleServiceMapRequest(
+      props.http,
+      serviceMapDSL,
+      serviceMap,
+      setServiceMap,
+      currService || filteredService
+    );
   };
 
   const addFilter = (filter: FilterType) => {
-    for (const addedFilter of props.filters) {
-      if (
-        addedFilter.field === filter.field &&
-        addedFilter.operator === filter.operator &&
-        addedFilter.value === filter.value
-      ) {
+    for (let i = 0; i < props.filters.length; i++) {
+      const addedFilter = props.filters[i];
+      if ( addedFilter.field === filter.field) {
+        if (addedFilter.operator === filter.operator && addedFilter.value === filter.value)
+          return;
+        const newFilters = [...props.filters];
+        newFilters.splice(i, 1, filter);
+        props.setFilters(newFilters);
         return;
       }
     }
@@ -230,6 +253,7 @@ export function Dashboard(props: DashboardProps) {
                 serviceMap={serviceMap}
                 idSelected={serviceMapIdSelected}
                 setIdSelected={setServiceMapIdSelected}
+                currService={filteredService}
                 page={page}
               />
             </EuiFlexItem>
