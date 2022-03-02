@@ -3,11 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './workspace_panel.scss';
+
 import React, { useState, useMemo } from 'react';
 import { isEmpty } from 'lodash';
 import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
 import { Visualization } from '../../../visualizations/visualization';
 import { DataTable } from '../../../visualizations/charts/data_table/data_table';
+import { uiSettingsService } from '../../../../../common/utils';
 
 interface IWorkSpacePanel {
   curVisId: string;
@@ -30,7 +33,11 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
         gutterSize="none"
         responsive={false}
       >
-        <EuiFlexItem>
+        <EuiFlexItem
+          className={
+            uiSettingsService.get('theme:darkMode') ? 'ws__header-dark' : 'ws__header-light'
+          }
+        >
           <EuiSpacer size="s" />
           <EuiFlexGroup
             className="visEditorSidebar"
@@ -47,7 +54,7 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
                   onChange={() => {
                     setIsTableViewOn((staleState) => !staleState);
                   }}
-                  aria-describedby={'table view switcher'}
+                  aria-describedby="table view switcher"
                   compressed
                 />
               </EuiPanel>
