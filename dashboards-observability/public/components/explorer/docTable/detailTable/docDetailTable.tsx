@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { isNil, isEmpty } from 'lodash';
 import { DocViewTableRow } from './table_row';
 
 export interface FieldMapping {
@@ -57,7 +58,7 @@ export function DocViewTable({
             return preKey.toLowerCase().localeCompare(nextKey.toLowerCase());
           })
           .map((field) => {
-            const value = hit[field];
+            const value = hit[field] === 'null' ? '' : hit[field];
             const toggleColumn =
               onRemoveColumn && onAddColumn && Array.isArray(columns)
                 ? () => {
