@@ -832,7 +832,7 @@ export const Explorer = ({
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
-    if (isEmpty(currQuery![RAW_QUERY])) {
+    if (isEmpty(currQuery![RAW_QUERY]) && isEmpty(appBaseQuery)) {
       setToast('No query to save.', 'danger');
       return;
     }
@@ -926,7 +926,10 @@ export const Explorer = ({
         // update custom panel - query
       }
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
-      if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
+      if (
+        (isEmpty(currQuery![RAW_QUERY]) && isEmpty(appBaseQuery)) ||
+        isEmpty(explorerVisualizations)
+      ) {
         setToast(`There is no query or(and) visualization to save`, 'danger');
         return;
       }
