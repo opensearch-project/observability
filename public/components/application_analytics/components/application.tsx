@@ -25,6 +25,7 @@ import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   filtersToDsl,
   PanelTitle,
@@ -60,7 +61,6 @@ import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 import { fetchAppById, initializeTabData } from '../helpers/utils';
-import { useDispatch } from 'react-redux';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -134,6 +134,7 @@ export function Application(props: AppDetailProps) {
   const [spanFlyoutId, setSpanFlyoutId] = useState<string>('');
   const [spanDSL, setSpanDSL] = useState<any>({});
   const [totalSpans, setTotalSpans] = useState<number>(0);
+  const [editVizId, setEditVizId] = useState<string>('');
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
@@ -226,6 +227,7 @@ export function Application(props: AppDetailProps) {
         appName={application.name}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
+        switchToEditViz={switchToEditViz}
       />
     );
   };
@@ -241,6 +243,7 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         switchToTrace={switchToTrace}
+        switchToEditViz={switchToEditViz}
       />
     );
   };
@@ -260,6 +263,7 @@ export function Application(props: AppDetailProps) {
           openTraceFlyout={openTraceFlyout}
           setStartTime={setStartTimeForApp}
           setEndTime={setEndTimeForApp}
+          switchToEditViz={switchToEditViz}
         />
         <EuiSpacer size="m" />
         <EuiPanel>
@@ -289,7 +293,7 @@ export function Application(props: AppDetailProps) {
         setToast={setToasts}
         history={history}
         notifications={notifications}
-        savedObjectId={''}
+        savedObjectId={editVizId}
         http={http}
         searchBarConfigs={searchBarConfigs}
         appId={appId}
@@ -325,6 +329,7 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         switchToEvent={switchToEvent}
+        switchToEditViz={switchToEditViz}
       />
     );
   };
@@ -333,9 +338,23 @@ export function Application(props: AppDetailProps) {
     setSelectedTab(TAB_LOG_ID);
   };
 
+  const switchToEditViz = (savedVizId: string) => {
+    if (savedVizId) {
+      setEditVizId(savedVizId);
+      switchToEvent();
+    } else {
+      setEditVizId('');
+    }
+  };
+
   const getConfig = () => {
     return (
-      <Configuration appId={appId} parentBreadcrumb={parentBreadcrumb} application={application} />
+      <Configuration
+        appId={appId}
+        parentBreadcrumb={parentBreadcrumb}
+        application={application}
+        switchToEditViz={switchToEditViz}
+      />
     );
   };
 

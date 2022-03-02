@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBreadcrumb,
@@ -22,16 +23,20 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface ConfigProps {
   appId: string;
   application: ApplicationType;
   parentBreadcrumb: EuiBreadcrumb;
+  switchToEditViz: (savedVizId: string) => void;
 }
 
 export const Configuration = (props: ConfigProps) => {
-  const { appId, application, parentBreadcrumb } = props;
+  const { appId, application, parentBreadcrumb, switchToEditViz } = props;
+  useEffect(() => {
+    switchToEditViz('');
+  }, []);
 
   return (
     <div>
