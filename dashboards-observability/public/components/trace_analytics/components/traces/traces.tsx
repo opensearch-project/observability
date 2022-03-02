@@ -18,10 +18,11 @@ interface TracesProps extends TraceAnalyticsComponentDeps {
   appName?: string;
   page: 'traces' | 'app';
   openTraceFlyout?: (traceId: string) => void;
+  switchToEditViz?: any;
 }
 
 export function Traces(props: TracesProps) {
-  const { appId, appName, parentBreadcrumb, page, openTraceFlyout } = props;
+  const { appId, appName, parentBreadcrumb, page, openTraceFlyout, switchToEditViz } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,9 @@ export function Traces(props: TracesProps) {
       })),
     ]);
     setRedirect(false);
+    if (appTraces) {
+      switchToEditViz('');
+    }
   }, []);
 
   useEffect(() => {

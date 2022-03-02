@@ -89,6 +89,7 @@ interface Props {
   setStartTime: any;
   setEndTime: any;
   switchToEvent?: any;
+  switchToEditViz?: any;
 }
 
 export const CustomPanelView = ({
@@ -109,6 +110,7 @@ export const CustomPanelView = ({
   cloneCustomPanel,
   setToast,
   switchToEvent,
+  switchToEditViz,
 }: Props) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -477,6 +479,13 @@ export const CustomPanelView = ({
     },
   ];
 
+  // Set saved object id to empty when redirect away from events tab
+  useEffect(() => {
+    if (appPanel) {
+      switchToEditViz('');
+    }
+  });
+
   // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
@@ -626,7 +635,11 @@ export const CustomPanelView = ({
               {appPanel && (
                 <>
                   <EuiFlexItem grow={false}>
-                    <EuiButton iconType="pencil" onClick={() => {}} isDisabled={editDisabled}>
+                    <EuiButton
+                      iconType="pencil"
+                      onClick={() => editPanel('edit')}
+                      isDisabled={editDisabled}
+                    >
                       Edit
                     </EuiButton>
                   </EuiFlexItem>
@@ -661,11 +674,13 @@ export const CustomPanelView = ({
               pplService={pplService}
               startTime={startTime}
               endTime={endTime}
+              fromApp={appPanel}
               onRefresh={onRefresh}
               cloneVisualization={cloneVisualization}
               pplFilterValue={pplFilterValue}
               showFlyout={showFlyout}
               editActionType={editActionType}
+              switchToEditViz={switchToEditViz}
             />
           </EuiPageContentBody>
         </EuiPageBody>
