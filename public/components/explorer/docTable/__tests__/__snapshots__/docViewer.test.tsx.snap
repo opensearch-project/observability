@@ -247,85 +247,6 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                               <DocViewTableRow
                                 displayNoMappingWarning={false}
                                 displayUnderscoreWarning={false}
-                                field="Carrier"
-                                fieldType="string"
-                                isCollapsed={false}
-                                isCollapsible={false}
-                                isColumnActive={false}
-                                key="Carrier"
-                                onFilter={[Function]}
-                                onToggleCollapse={[Function]}
-                                value="JetBeats"
-                                valueRaw="JetBeats"
-                              >
-                                <tr
-                                  data-test-subj="tableDocViewRow-Carrier"
-                                  key="Carrier"
-                                >
-                                  <td
-                                    className="osdDocViewer__field"
-                                  >
-                                    <FieldName
-                                      fieldName="Carrier"
-                                      fieldType="string"
-                                      scripted={false}
-                                    >
-                                      <EuiFlexGroup
-                                        alignItems="center"
-                                        gutterSize="s"
-                                        responsive={false}
-                                      >
-                                        <div
-                                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
-                                        >
-                                          <EuiFlexItem
-                                            className="eui-textTruncate"
-                                          >
-                                            <div
-                                              className="euiFlexItem eui-textTruncate"
-                                            >
-                                              <EuiToolTip
-                                                anchorClassName="eui-textTruncate"
-                                                content="Carrier"
-                                                delay="long"
-                                                position="top"
-                                              >
-                                                <span
-                                                  className="euiToolTipAnchor eui-textTruncate"
-                                                  onKeyUp={[Function]}
-                                                  onMouseOut={[Function]}
-                                                  onMouseOver={[Function]}
-                                                >
-                                                  <span
-                                                    onBlur={[Function]}
-                                                    onFocus={[Function]}
-                                                  >
-                                                    Carrier
-                                                  </span>
-                                                </span>
-                                              </EuiToolTip>
-                                            </div>
-                                          </EuiFlexItem>
-                                        </div>
-                                      </EuiFlexGroup>
-                                    </FieldName>
-                                  </td>
-                                  <td>
-                                    <div
-                                      className="osdDocViewer__value"
-                                      dangerouslySetInnerHTML={
-                                        Object {
-                                          "__html": "JetBeats",
-                                        }
-                                      }
-                                      data-test-subj="tableDocViewRow-Carrier-value"
-                                    />
-                                  </td>
-                                </tr>
-                              </DocViewTableRow>
-                              <DocViewTableRow
-                                displayNoMappingWarning={false}
-                                displayUnderscoreWarning={false}
                                 field="avg(FlightDelayMin)"
                                 fieldType="string"
                                 isCollapsed={false}
@@ -398,6 +319,85 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
                                         }
                                       }
                                       data-test-subj="tableDocViewRow-avg(FlightDelayMin)-value"
+                                    />
+                                  </td>
+                                </tr>
+                              </DocViewTableRow>
+                              <DocViewTableRow
+                                displayNoMappingWarning={false}
+                                displayUnderscoreWarning={false}
+                                field="Carrier"
+                                fieldType="string"
+                                isCollapsed={false}
+                                isCollapsible={false}
+                                isColumnActive={false}
+                                key="Carrier"
+                                onFilter={[Function]}
+                                onToggleCollapse={[Function]}
+                                value="JetBeats"
+                                valueRaw="JetBeats"
+                              >
+                                <tr
+                                  data-test-subj="tableDocViewRow-Carrier"
+                                  key="Carrier"
+                                >
+                                  <td
+                                    className="osdDocViewer__field"
+                                  >
+                                    <FieldName
+                                      fieldName="Carrier"
+                                      fieldType="string"
+                                      scripted={false}
+                                    >
+                                      <EuiFlexGroup
+                                        alignItems="center"
+                                        gutterSize="s"
+                                        responsive={false}
+                                      >
+                                        <div
+                                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                        >
+                                          <EuiFlexItem
+                                            className="eui-textTruncate"
+                                          >
+                                            <div
+                                              className="euiFlexItem eui-textTruncate"
+                                            >
+                                              <EuiToolTip
+                                                anchorClassName="eui-textTruncate"
+                                                content="Carrier"
+                                                delay="long"
+                                                position="top"
+                                              >
+                                                <span
+                                                  className="euiToolTipAnchor eui-textTruncate"
+                                                  onKeyUp={[Function]}
+                                                  onMouseOut={[Function]}
+                                                  onMouseOver={[Function]}
+                                                >
+                                                  <span
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    Carrier
+                                                  </span>
+                                                </span>
+                                              </EuiToolTip>
+                                            </div>
+                                          </EuiFlexItem>
+                                        </div>
+                                      </EuiFlexGroup>
+                                    </FieldName>
+                                  </td>
+                                  <td>
+                                    <div
+                                      className="osdDocViewer__value"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "JetBeats",
+                                        }
+                                      }
+                                      data-test-subj="tableDocViewRow-Carrier-value"
                                     />
                                   </td>
                                 </tr>
