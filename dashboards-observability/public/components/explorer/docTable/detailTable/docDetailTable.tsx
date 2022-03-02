@@ -4,7 +4,6 @@
  */
 
 import React, { useState } from 'react';
-import { isNil, isEmpty } from 'lodash';
 import { DocViewTableRow } from './table_row';
 
 export interface FieldMapping {
