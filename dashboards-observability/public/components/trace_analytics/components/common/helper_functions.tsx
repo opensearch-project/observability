@@ -135,26 +135,25 @@ export function getServiceMapGraph(
       };
     }
 
-    const message =
-      { latency: 'Average latency: ', error_rate: 'Error rate: ', throughput: 'Throughput: ' }[
-        idSelected
-      ] +
-      (value! >= 0
-        ? value + (idSelected === 'latency' ? 'ms' : idSelected === 'error_rate' ? '%' : '')
-        : 'N/A');
+    let hover = service;
+    hover += `\n\nAverage latency: ${map[service].latency! >= 0 ? map[service].latency + 'ms' : 'N/A'}`;
+    hover += `\nError rate: ${map[service].error_rate! >= 0 ? map[service].error_rate + '%' : 'N/A'}`;
+    hover += `\nThroughput: ${map[service].throughput! >= 0 ? map[service].throughput : 'N/A'}`;
+    if (map[service].throughputPerMinute != null)
+      hover += ` (${map[service].throughputPerMinute} per minute)`;
 
     return {
       id: map[service].id,
       label: service,
       size: service === currService ? 30 : 15,
-      title: `${service}\n\n${message}`,
+      title: hover,
       ...styleOptions,
     };
   });
   const edges: Array<{ from: number; to: number; color: string }> = [];
   const edgeColor = uiSettingsService.get('theme:darkMode') ? '255, 255, 255' : '0, 0, 0';
   Object.keys(map).map((service) => {
-    map[service].targetServices.map((target) => {
+    map[service].targetServices.filter((target) => map[target]).map((target) => {
       edges.push({
         from: map[service].id,
         to: map[target].id,
