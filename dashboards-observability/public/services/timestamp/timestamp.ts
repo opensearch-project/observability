@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isEmpty, isEqual, map } from 'lodash';
+import { forEach, isEmpty, isEqual, map, values, keys } from 'lodash';
 import DSLService from '../requests/dsl';
 
+// eslint-disable-next-line import/no-default-export
 export default class TimestampUtils {
   constructor(private dslService: DSLService) {}
 
@@ -15,27 +16,32 @@ export default class TimestampUtils {
 
   async getTimestamp(index: string) {
     const indexMappings = await this.getIndexMappings(index);
+    const timestamps = {
+      default_timestamp: '',
+    };
 
-    if (indexMappings?.[index]?.mappings?.properties) {
-      const fieldMappings = indexMappings[index].mappings.properties;
-      const timestamps = {
-        default_timestamp: '',
-        available_timestamps: [] as string[],
-      };
-      map(fieldMappings, (mapping, field) => {
-        if (
-          mapping.type &&
-          this.isTimeField(mapping.type) &&
-          isEmpty(timestamps.default_timestamp)
-        ) {
-          timestamps.default_timestamp = field;
-        } else if (mapping.type && this.isTimeField(mapping.type)) {
-          timestamps.available_timestamps.push(field);
+    // expect indexes to have the same schema, then go over the mapping to find timestamp
+    const mappingValues = values(indexMappings);
+    for (let i = 0; i < keys(indexMappings).length; i++) {
+      const fieldMapping = mappingValues[i]?.mappings?.properties || {};
+      if (!isEmpty(fieldMapping)) {
+        const mfields = keys(fieldMapping);
+        const mvalues = values(fieldMapping);
+        for (let j = 0; j < mfields.length; j++) {
+          if (
+            mvalues[j].type &&
+            this.isTimeField(mvalues[j].type) &&
+            isEmpty(timestamps.default_timestamp)
+          ) {
+            timestamps.default_timestamp = mfields[j];
+            break;
+          }
         }
-      });
-
-      return timestamps;
+      }
+      if (timestamps.default_timestamp) break;
     }
+
+    return timestamps;
   }
 
   async getIndexMappings(index: string) {
