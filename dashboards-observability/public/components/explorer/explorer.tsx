@@ -104,7 +104,7 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const { getLiveTail, getEvents, getAvailableFields } = useFetchEvents({
+  const { getLiveTail, getEvents, getAvailableFields, isEventsLoading } = useFetchEvents({
     pplService,
     requestParams,
   });
@@ -350,7 +350,7 @@ export const Explorer = ({
       isLiveTailOnRef.current
     );
 
-    await dispatch(
+    dispatch(
       changeQuery({
         tabId,
         query: {
@@ -419,7 +419,7 @@ export const Explorer = ({
       isLiveTailOnRef.current
     );
 
-    await dispatch(
+    dispatch(
       changeQuery({
         tabId,
         query: {
@@ -646,7 +646,9 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {explorerData && !isEmpty(explorerData.jsonData) ? (
+            {isEventsLoading ? (
+              <EuiLoadingSpinner className="explorer-data-loading" size="m" />
+            ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
                 <div className="dscResults">
                   {countDistribution?.data && (
@@ -805,6 +807,7 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
+    isEventsLoading,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
