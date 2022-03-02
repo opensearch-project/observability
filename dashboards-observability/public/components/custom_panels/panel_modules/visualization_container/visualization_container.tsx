@@ -53,6 +53,8 @@ interface Props {
   onRefresh: boolean;
   pplFilterValue: string;
   usedInNotebooks?: boolean;
+  fromApp?: boolean;
+  switchToEditViz?: any;
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
@@ -69,6 +71,8 @@ export const VisualizationContainer = ({
   onRefresh,
   pplFilterValue,
   usedInNotebooks,
+  fromApp,
+  switchToEditViz,
   cloneVisualization,
   showFlyout,
   removeVisualization,
@@ -90,7 +94,11 @@ export const VisualizationContainer = ({
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();
-        window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+        if (fromApp) {
+          switchToEditViz(savedVisualizationId);
+        } else {
+          window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+        }
       }}
     >
       Edit

@@ -19,7 +19,6 @@ $vis-editor-sidebar-min-width: 350px;
 
 .visEditorSidebar {
   min-width: $vis-editor-sidebar-min-width;
-  background: #F5F7FA;
 
   // a hack for IE, issue: https://github.com/elastic/kibana/issues/66586
   > .visEditorSidebar__formWrapper {

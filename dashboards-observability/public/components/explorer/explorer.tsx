@@ -52,6 +52,8 @@ import {
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_EVENT_ID,
   TAB_CHART_ID,
+  INDEX,
+  FINAL_QUERY,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../common/utils';
@@ -182,8 +184,8 @@ export const Explorer = ({
 
   const composeFinalQuery = (
     curQuery: any,
-    startTime: string,
-    endTime: string,
+    startingTime: string,
+    endingTime: string,
     timeField: string,
     isLiveQuery: boolean
   ) => {
@@ -191,8 +193,8 @@ export const Explorer = ({
     if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
       rawQuery: fullQuery,
-      startTime,
-      endTime,
+      startTime: startingTime,
+      endTime: endingTime,
       timeField,
       isLiveQuery,
     });
@@ -226,12 +228,15 @@ export const Explorer = ({
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
+        const currQuery = appLogEvents
+          ? objectData?.query.replace(appBaseQuery + '| ', '')
+          : objectData?.query || '';
         batch(async () => {
           await dispatch(
             changeQuery({
               tabId,
               query: {
-                [RAW_QUERY]: objectData?.query || '',
+                [RAW_QUERY]: currQuery,
                 [SELECTED_TIMESTAMP]: objectData?.selected_timestamp?.name || 'timestamp',
                 [SAVED_OBJECT_ID]: objectId,
                 [SAVED_OBJECT_TYPE]: savedType,
@@ -460,6 +465,33 @@ export const Explorer = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (appLogEvents) {
+      if (savedObjectId) {
+        updateTabData(savedObjectId);
+      } else {
+        emptyTab();
+      }
+    }
+  }, [savedObjectId]);
+
+  const emptyTab = async () => {
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [RAW_QUERY]: '',
+          [FINAL_QUERY]: '',
+          [INDEX]: '',
+          [SELECTED_TIMESTAMP]: '',
+          [SAVED_OBJECT_ID]: '',
+          [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
+        },
+      })
+    );
+    await fetchData();
+  };
+
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
   const handleRemoveField = (field: IField) =>
@@ -469,17 +501,16 @@ export const Explorer = ({
     if (appLogEvents) {
       setStartTime(timeRange[0]);
       setEndTime(timeRange[1]);
-    } else {
-      await dispatch(
-        changeDateRange({
-          tabId: requestParams.tabId,
-          data: {
-            [RAW_QUERY]: queryRef.current![RAW_QUERY],
-            [SELECTED_DATE_RANGE]: timeRange,
-          },
-        })
-      );
     }
+    await dispatch(
+      changeDateRange({
+        tabId: requestParams.tabId,
+        data: {
+          [RAW_QUERY]: queryRef.current![RAW_QUERY],
+          [SELECTED_DATE_RANGE]: timeRange,
+        },
+      })
+    );
   };
 
   const showPermissionErrorToast = () => {
@@ -1208,7 +1239,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
+          query={query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}
