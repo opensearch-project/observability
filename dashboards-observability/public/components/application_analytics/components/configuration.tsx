@@ -7,7 +7,6 @@ import {
   EuiBreadcrumb,
   EuiButton,
   EuiCode,
-  EuiDescriptionList,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -78,14 +77,22 @@ export const Configuration = (props: ConfigProps) => {
                     <h4>Services & Entities</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
-                  {application.servicesEntities.join(', ')}
+                  <ul>
+                    {application.servicesEntities.map((group) => (
+                      <li>{decodeURI(group)}</li>
+                    ))}
+                  </ul>
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiText>
                     <h4>Trace groups</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
-                  {application.traceGroups.join(', ')}
+                  <ul>
+                    {application.traceGroups.map((group) => (
+                      <li>{decodeURI(group)}</li>
+                    ))}
+                  </ul>
                 </EuiFlexItem>
                 <EuiFlexItem />
               </EuiFlexGroup>
