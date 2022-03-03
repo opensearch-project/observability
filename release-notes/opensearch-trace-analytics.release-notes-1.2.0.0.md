@@ -31,6 +31,8 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Support dark mode for notebooks and other style improvements ([#206](https://github.com/opensearch-project/trace-analytics/pull/206))
 * Add toggle dark mode in observability side bar ([#209](https://github.com/opensearch-project/trace-analytics/pull/209))
 * Panel bug fixes4 and PPL Reference Manual ([#211](https://github.com/opensearch-project/trace-analytics/pull/211))
+* Added Samples, help text, standardized tables ([#217](https://github.com/opensearch-project/trace-analytics/pull/217))
+* Autocomplete for data values ([#245](https://github.com/opensearch-project/trace-analytics/pull/245))
 
 ### Enhancements
 * Adding plugin backend adaptor ([#126](https://github.com/opensearch-project/trace-analytics/pull/126))
@@ -52,6 +54,18 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Suggestions are shown in dark mode if settings change ([#187](https://github.com/opensearch-project/trace-analytics/pull/187))
 * Case insensitive Autocomplete ([#207](https://github.com/opensearch-project/trace-analytics/pull/207))
 * Adjust wording and margin for dark toggle button ([#210](https://github.com/opensearch-project/trace-analytics/pull/210))
+* Space after field for more balanced looking query ([#213](https://github.com/opensearch-project/trace-analytics/pull/213))
+* Add border around suggestions ([#214](https://github.com/opensearch-project/trace-analytics/pull/214))
+* Suggestions width match search bar ([#220](https://github.com/opensearch-project/trace-analytics/pull/220))
+* search bar related changes ([#222](https://github.com/opensearch-project/trace-analytics/pull/222))
+* Add some space between last paragraph and action button ([#225](https://github.com/opensearch-project/trace-analytics/pull/225))
+* Add event analytics permission toast ([#226](https://github.com/opensearch-project/trace-analytics/pull/226))
+* Homepage moved to event analytics ([#227](https://github.com/opensearch-project/trace-analytics/pull/227))
+* Source as the only first command ([#235](https://github.com/opensearch-project/trace-analytics/pull/235))
+* Run query with shift enter ([#239](https://github.com/opensearch-project/trace-analytics/pull/239))
+* Add correct erroring in Event Analytics ([#248](https://github.com/opensearch-project/trace-analytics/pull/248))
+* changed error message ([#257](https://github.com/opensearch-project/trace-analytics/pull/257))
+* Feature ppl link ([#258](https://github.com/opensearch-project/trace-analytics/pull/258))
 
 ### Bug Fixes
 * Redirect legacy notebooks URL to current observability one ([#141](https://github.com/opensearch-project/trace-analytics/pull/141))
@@ -66,6 +80,21 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Update plugin ID and bug fixes ([#195](https://github.com/opensearch-project/trace-analytics/pull/195))
 * Feature autocomplete fix ([#208](https://github.com/opensearch-project/trace-analytics/pull/208))
 * Use parent height instead of view port height for nav bar ([#212](https://github.com/opensearch-project/trace-analytics/pull/212))
+* Correct suggestions after count command ([#215](https://github.com/opensearch-project/trace-analytics/pull/215))
+* Explorer fixes ([#216](https://github.com/opensearch-project/trace-analytics/pull/216))
+* Add missing itemName properties ([#218](https://github.com/opensearch-project/trace-analytics/pull/218))
+* Tab issue and run button ([#219](https://github.com/opensearch-project/trace-analytics/pull/219))
+* Fixed emoji renders for in PPL manual ([#221](https://github.com/opensearch-project/trace-analytics/pull/221))
+* Throw exception if object type is inconsistent in update request ([#224](https://github.com/opensearch-project/trace-analytics/pull/224))
+* Suggestions loaded after selection ([#228](https://github.com/opensearch-project/trace-analytics/pull/228))
+* Panels backend call fix ([#232](https://github.com/opensearch-project/trace-analytics/pull/232))
+* resolved conflicts and fixes ([#233](https://github.com/opensearch-project/trace-analytics/pull/233))
+* Remove resetting query for autocomplete ([#234](https://github.com/opensearch-project/trace-analytics/pull/234))
+* Update notebooks url redirect to use plugin id ([#242](https://github.com/opensearch-project/trace-analytics/pull/242))
+* tab close issue ([#243](https://github.com/opensearch-project/trace-analytics/pull/243))
+* Fix undefined field error and where suggestions ([#246](https://github.com/opensearch-project/trace-analytics/pull/246))
+* switching tab tirgger unnecessary requests fix ([#247](https://github.com/opensearch-project/trace-analytics/pull/247))
+* Panels bug fix4 ([#249](https://github.com/opensearch-project/trace-analytics/pull/249))
 
 ### Infrastructure
 * Refactor trace analytics UT and IT, sync main branch ([#107](https://github.com/opensearch-project/trace-analytics/pull/107))
@@ -73,9 +102,14 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.2.0
 * Bump immer from 9.0.5 to 9.0.6 ([#136](https://github.com/opensearch-project/trace-analytics/pull/136))
 * Update data modal and enable CI ([#148](https://github.com/opensearch-project/trace-analytics/pull/148))
 * Add integration tests for observability backend plugin ([#180](https://github.com/opensearch-project/trace-analytics/pull/180))
+* Bump ansi-regex to 5.0.1 ([#241](https://github.com/opensearch-project/trace-analytics/pull/241))
+* Add support for codeowners to repo ([#244](https://github.com/opensearch-project/trace-analytics/pull/244))
+* Panels cypress test ([#256](https://github.com/opensearch-project/trace-analytics/pull/256))
 
 ### Documentation
 * Update docs for observability ([#188](https://github.com/opensearch-project/trace-analytics/pull/188))
+* Add copyright to all files ([#231](https://github.com/opensearch-project/trace-analytics/pull/231))
+* PPL manual update ([#236](https://github.com/opensearch-project/trace-analytics/pull/236))
 
 ### Maintenance
 * Bump observability version for OpenSearch 1.2 release ([#189](https://github.com/opensearch-project/trace-analytics/pull/189))

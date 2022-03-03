@@ -111,7 +111,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     };
 
     return http
-      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
         body: JSON.stringify(renamePanelObject),
       })
       .then((res) => {
