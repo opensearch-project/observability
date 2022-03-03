@@ -339,15 +339,20 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) return;
+    if (isEmpty(rawQueryStr)) {
+      setHasLoaded(true);
+      return;
+    }
     if (isEmpty(curIndex)) {
-      setToast('Query does not include vaild index.', 'danger');
+      setHasLoaded(true);
+      setToast('Query does not include valid index.', 'danger');
       return;
     }
 
     const { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
 
     if (isEmpty(curTimestamp)) {
+      setHasLoaded(true);
       setToast('Index does not contain a valid time field.', 'danger');
       return;
     }
@@ -823,6 +828,7 @@ export const Explorer = ({
     query,
     isLiveTailOnRef.current,
     isLoading,
+    hasLoaded,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
