@@ -82,7 +82,7 @@ export const CreateApp = (props: CreateAppProps) => {
         href: '#/application_analytics',
       },
       {
-        text: editMode ? 'Edit' : 'Create',
+        text: editMode ? 'Save' : 'Create',
         href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
       },
     ]);

@@ -8,6 +8,7 @@ import {
   sampleVisualizations,
 } from '../../common/helpers/events_explorer/sample_savedObjects';
 
+// eslint-disable-next-line import/no-default-export
 export default class SavedObjectFacet {
   constructor(private client: any) {
     this.client = client;

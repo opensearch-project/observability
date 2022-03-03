@@ -23,11 +23,12 @@ interface ServicesProps extends TraceAnalyticsComponentDeps {
   appName?: string;
   openServiceFlyout?: (serviceName: string) => void;
   switchToTrace?: () => void;
+  switchToEditViz?: any;
   page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Services(props: ServicesProps) {
-  const { appId, appName, parentBreadcrumb, page } = props;
+  const { appId, appName, parentBreadcrumb, page, switchToEditViz } = props;
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -70,6 +71,9 @@ export function Services(props: ServicesProps) {
       })),
     ]);
     setRedirect(false);
+    if (appServices) {
+      switchToEditViz('');
+    }
   }, []);
 
   useEffect(() => {
