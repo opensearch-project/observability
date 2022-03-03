@@ -288,9 +288,9 @@ export const registerEventAnalyticsRouter = ({
 
   router.delete(
     {
-      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/{objectIdList}`,
       validate: {
-        body: schema.object({
+        params: schema.object({
           objectIdList: schema.string()
         }),
       },
