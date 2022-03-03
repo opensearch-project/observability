@@ -370,7 +370,7 @@ export const Explorer = ({
       isLiveTailOnRef.current
     );
 
-    dispatch(
+    await dispatch(
       changeQuery({
         tabId,
         query: {
@@ -439,7 +439,7 @@ export const Explorer = ({
       isLiveTailOnRef.current
     );
 
-    dispatch(
+    await dispatch(
       changeQuery({
         tabId,
         query: {
