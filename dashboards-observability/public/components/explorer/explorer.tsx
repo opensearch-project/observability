@@ -108,7 +108,7 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({
+  const { getVisualizations, getCountVisualizations, isVisLoading } = useFetchVisualizations({
     pplService,
     requestParams,
   });
@@ -120,6 +120,8 @@ export const Explorer = ({
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -179,6 +181,15 @@ export const Explorer = ({
       ...TIME_INTERVAL_OPTIONS,
     ]);
   };
+
+  useEffect(() => {
+    if (!isEventsLoading && !isVisLoading) {
+      setIsLoading(false);
+    } else if (isEventsLoading || isVisLoading) {
+      setIsLoading(true);
+      setHasLoaded(true);
+    }
+  }, [isEventsLoading, isVisLoading]);
 
   const composeFinalQuery = (
     curQuery: any,
@@ -446,7 +457,11 @@ export const Explorer = ({
   };
 
   useEffect(() => {
-    if (queryRef.current!.isLoaded) return;
+    if (queryRef.current!.isLoaded) {
+      setIsLoading(false);
+      setHasLoaded(true);
+      return;
+    }
     let objectId;
     if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
@@ -646,7 +661,7 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {isEventsLoading ? (
+            {isLoading || !hasLoaded ? (
               <EuiLoadingSpinner className="explorer-data-loading" size="m" />
             ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
@@ -807,7 +822,7 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
-    isEventsLoading,
+    isLoading,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
