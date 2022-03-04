@@ -95,6 +95,7 @@ export const App = ({
                       chrome={chrome}
                       parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
                       pplService={pplService}
+                      dslService={dslService}
                       renderProps={props}
                     />
                   );

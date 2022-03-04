@@ -133,6 +133,10 @@ export const PIPE_COMMA_BY_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|ma
 export const PIPE_AFTER_STATS_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S+\s+$/;
 export const AGGREGATION_FOR_STATS= /^\s*stats\s+(((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+,\s*)?\S*$/;
 
+// Regex for parse command
+export const STRING_FIELD_AFTER_PARSE = /^\s*parse\s+\S*$/;
+export const PIPE_AFTER_PARSE = /^\s*parse\s+\S+\s+$/;
+
 export const regexForSuggestion = [
   EMPTY_REGEX,
   FIELD_AFTER_COMMAND,
@@ -177,6 +181,8 @@ export const regexForSuggestion = [
   PIPE_COMMA_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
+  STRING_FIELD_AFTER_PARSE,
+  PIPE_AFTER_PARSE,
 ];
 
 export const regexForIndex = [
