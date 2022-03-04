@@ -233,7 +233,7 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelId
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
@@ -272,7 +272,7 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelIdList
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
