@@ -61,7 +61,7 @@ describe('Creating visualizations', () => {
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.wait(delay * 2);
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[0]);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
@@ -254,8 +254,8 @@ describe('Testing a panel', () => {
   });
 
   it('Add ppl filter to panel', () => {
-    cy.get('.euiFieldText--fullWidth').invoke('attr', 'placeholder').should('contain', 'where');
-    cy.get('.euiFieldText--fullWidth').type(PPL_FILTER);
+    cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
+    cy.get('.euiTextArea').type(PPL_FILTER);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');

@@ -5,15 +5,15 @@
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 
+import './custom_panels.scss';
 import {
+  EuiBadge,
   EuiBreadcrumb,
   EuiButton,
   EuiContextMenu,
   EuiContextMenuPanelDescriptor,
-  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiLink,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -30,15 +30,15 @@ import {
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
-import { ChangeEvent } from 'react';
 import moment from 'moment';
+import DSLService from '../../services/requests/dsl';
 import { CoreStart } from '../../../../../src/core/public';
 import { EmptyPanelView } from './panel_modules/empty_panel';
 import {
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
 } from '../../../common/constants/custom_panels';
-import { VisualizationType } from '../../../common/types/custom_panels';
+import { SavedVisualizationType, VisualizationType } from '../../../common/types/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
 import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
@@ -47,6 +47,12 @@ import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 import { uiSettingsService } from '../../../common/utils';
 import { PPLReferenceFlyout } from '../common/helpers';
+import { Autocomplete } from '../common/search/autocomplete';
+import {
+  getSuggestionsAfterSource,
+  onItemSelect,
+  parseForIndices,
+} from '../common/search/autocomplete_logic';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -70,12 +76,10 @@ interface Props {
   appName?: string;
   http: CoreStart['http'];
   pplService: PPLService;
+  dslService: DSLService;
   chrome: CoreStart['chrome'];
   parentBreadcrumb: EuiBreadcrumb[];
-  renameCustomPanel: (
-    editedCustomPanelName: string,
-    editedCustomPanelId: string
-  ) => Promise<void> | undefined;
+  renameCustomPanel: (editedCustomPanelName: string, editedCustomPanelId: string) => Promise<void>;
   deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
   cloneCustomPanel: (clonedCustomPanelName: string, clonedCustomPanelId: string) => Promise<string>;
   setToast: (
@@ -99,6 +103,7 @@ export const CustomPanelView = ({
   appName,
   http,
   pplService,
+  dslService,
   chrome,
   parentBreadcrumb,
   startTime,
@@ -115,6 +120,7 @@ export const CustomPanelView = ({
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [pplFilterValue, setPPLFilterValue] = useState('');
+  const [baseQuery, setBaseQuery] = useState('');
   const [onRefresh, setOnRefresh] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(true);
@@ -204,8 +210,8 @@ export const CustomPanelView = ({
     setVizPopoverOpen(false);
   };
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPPLFilterValue(e.target.value);
+  const handleQueryChange = (newQuery: string) => {
+    setPPLFilterValue(newQuery);
   };
 
   const closeModal = () => {
@@ -214,10 +220,6 @@ export const CustomPanelView = ({
 
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') onRefreshFilters(startTime, endTime);
   };
 
   const onDatePickerChange = (props: OnTimeChangeProps) => {
@@ -344,6 +346,29 @@ export const CustomPanelView = ({
       setAddVizDisabled(true);
       setDateDisabled(true);
     }
+  };
+
+  const buildBaseQuery = async () => {
+    const indices: string[] = [];
+    for (let i = 0; i < panelVisualizations.length; i++) {
+      const visualizationId = panelVisualizations[i].savedVisualizationId;
+      await http
+        .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/${visualizationId}`)
+        .then((res) => {
+          const visData: SavedVisualizationType = res.visualization;
+          const moreIndices = parseForIndices(visData.query);
+          for (let j = 0; j < moreIndices.length; j++) {
+            if (!indices.includes(moreIndices[j])) {
+              indices.push(moreIndices[j]);
+            }
+          }
+        })
+        .catch((err) => {
+          console.error('Issue in fetching the saved Visualization by Id', err);
+        });
+    }
+    setBaseQuery('source = ' + indices.join(', '));
+    return;
   };
 
   const onRefreshFilters = (start: ShortDate, end: ShortDate) => {
@@ -495,7 +520,13 @@ export const CustomPanelView = ({
   // Disabled when there no visualizations in panels or when the panel is in edit mode
   useEffect(() => {
     checkDisabledInputs();
-  }, [panelVisualizations, editMode]);
+  }, [editMode]);
+
+  // Build base query with all of the indices included in the current visualizations
+  useEffect(() => {
+    checkDisabledInputs();
+    buildBaseQuery();
+  }, [panelVisualizations]);
 
   // Edit the breadcrumb when panel name changes
   useEffect(() => {
@@ -526,7 +557,7 @@ export const CustomPanelView = ({
 
   return (
     <div>
-      <EuiPage>
+      <EuiPage id="panelView">
         <EuiPageBody component="div">
           <EuiPageHeader>
             {appPanel || (
@@ -604,23 +635,32 @@ export const CustomPanelView = ({
           <EuiPageContentBody>
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem>
-                <EuiFieldText
-                  placeholder="Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
-                  value={pplFilterValue}
-                  fullWidth={true}
-                  onChange={onChange}
-                  onKeyPress={onKeyPress}
-                  disabled={inputDisabled}
-                  append={
-                    <EuiLink
-                      aria-label="ppl-info"
-                      onClick={showHelpFlyout}
-                      style={{ padding: '10px' }}
-                    >
-                      PPL
-                    </EuiLink>
+                <Autocomplete
+                  key={'autocomplete-search-bar'}
+                  query={pplFilterValue}
+                  tempQuery={pplFilterValue}
+                  baseQuery={baseQuery}
+                  handleQueryChange={handleQueryChange}
+                  handleQuerySearch={() => onRefreshFilters(startTime, endTime)}
+                  dslService={dslService}
+                  getSuggestions={getSuggestionsAfterSource}
+                  onItemSelect={onItemSelect}
+                  tabId={'panels-filter'}
+                  placeholder={
+                    "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   }
+                  restrictedCommands={[{ label: 'where' }]}
                 />
+                <EuiBadge
+                  className={`ppl-link ${
+                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
+                  }`}
+                  color="hollow"
+                  onClick={() => showHelpFlyout()}
+                  onClickAriaLabel={'ppl-info'}
+                >
+                  PPL
+                </EuiBadge>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker

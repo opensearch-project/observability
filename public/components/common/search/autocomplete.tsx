@@ -18,12 +18,15 @@ interface AutocompleteProps extends IQueryBarProps {
   getSuggestions: (
     base: string,
     query: string,
-    dslService: DSLService
+    dslService: DSLService,
+    restrictedCommands: Array<{ label: string }>
   ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
   isDisabled?: boolean;
   baseQuery: string;
   tabId: string;
+  placeholder?: string;
+  restrictedCommands?: Array<{ label: string }>;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -38,6 +41,8 @@ export const Autocomplete = (props: AutocompleteProps) => {
     isDisabled,
     baseQuery,
     tabId = '',
+    placeholder = 'Enter PPL query',
+    restrictedCommands = [],
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -51,6 +56,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
   });
 
   const appLogEvents = tabId.startsWith('application-analytics-tab');
+  const panelsFilter = tabId === 'panels-filter';
 
   const searchBar = document.getElementById('autocomplete-textarea');
 
@@ -64,9 +70,10 @@ export const Autocomplete = (props: AutocompleteProps) => {
     };
   });
 
-  const depArray = appLogEvents
-    ? [baseQuery, query, dslService, autocompleteState]
-    : [baseQuery, query, dslService];
+  const depArray =
+    appLogEvents || panelsFilter
+      ? [baseQuery, query, dslService, autocompleteState]
+      : [baseQuery, query, dslService];
 
   const autocomplete = useMemo(() => {
     return createAutocomplete<
@@ -93,7 +100,12 @@ export const Autocomplete = (props: AutocompleteProps) => {
             sourceId: 'querySuggestions',
             // eslint-disable-next-line no-shadow
             async getItems({ query }) {
-              const suggestions = await getSuggestions(baseQuery, query, dslService);
+              const suggestions = await getSuggestions(
+                baseQuery,
+                query,
+                dslService,
+                restrictedCommands
+              );
               return suggestions;
             },
             onSelect: ({ setQuery, item }) => {
@@ -119,7 +131,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         {...autocomplete.getInputProps({
           id: 'autocomplete-textarea',
           'data-test-subj': 'searchAutocompleteTextArea',
-          placeholder: 'Enter PPL query',
+          placeholder,
           inputElement: null,
         })}
         disabled={isDisabled}
