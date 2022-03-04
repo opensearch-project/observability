@@ -133,7 +133,7 @@ export default class SavedObjectFacet {
     };
     try {
       const params = {
-        objectIdList: request.body.objectIdList,
+        objectIdList: request.params.objectIdList,
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res.success = true;
