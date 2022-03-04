@@ -1130,6 +1130,7 @@ exports[`Services component renders empty services page 1`] = `
   </EuiSpacer>
   <ServiceMap
     addFilter={[Function]}
+    currService=""
     idSelected="latency"
     page="services"
     serviceMap={Object {}}
@@ -2734,6 +2735,7 @@ exports[`Services component renders services page 1`] = `
   </EuiSpacer>
   <ServiceMap
     addFilter={[Function]}
+    currService=""
     idSelected="latency"
     page="services"
     serviceMap={Object {}}
