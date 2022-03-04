@@ -4,7 +4,7 @@
  */
 
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
-  'https://opensearch.org/docs/latest/observability/event-analytics/';
+  'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
   'https://opentelemetry.io/docs/reference/specification/logs/overview/#log-correlation';
 export const RAW_QUERY = 'rawQuery';
