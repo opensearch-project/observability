@@ -22,7 +22,6 @@ import {
   EuiContextMenuItem,
   EuiButtonToggle,
 } from '@elastic/eui';
-import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
 import { CountDistribution } from './visualizations/count_distribution';
@@ -77,6 +76,7 @@ import {
   getSuggestionsAfterSource,
   onItemSelect,
 } from '../common/search/autocomplete_logic';
+import { formatError, findAutoInterval } from './utils';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -114,14 +114,13 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-
+  const appLogEvents = tabId.startsWith('application-analytics-tab');
   const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
-
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -131,15 +130,13 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  const [minInterval, setMinInterval] = useState('y');
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
   const [liveTailName, setLiveTailName] = useState('Live');
   const [liveTailToggle, setLiveTailToggle] = useState(false);
-
-  const appLogEvents = tabId.startsWith('application-analytics-tab');
-
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
@@ -153,34 +150,11 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
-  // const SearchBar = searchBar;
-  let minInterval = 'y';
-  const findAutoInterval = (start: string, end: string) => {
-    if (start?.length === 0 || end?.length === 0 || start === end) return 'd';
-    const momentStart = dateMath.parse(start)!;
-    const momentEnd = dateMath.parse(end)!;
-    const diffSeconds = momentEnd.unix() - momentStart.unix();
-
-    // less than 1 second
-    if (diffSeconds <= 1) minInterval = 'ms';
-    // less than 2 minutes
-    else if (diffSeconds <= 60 * 2) minInterval = 's';
-    // less than 2 hours
-    else if (diffSeconds <= 3600 * 2) minInterval = 'm';
-    // less than 2 days
-    else if (diffSeconds <= 86400 * 2) minInterval = 'h';
-    // less than 1 month
-    else if (diffSeconds <= 86400 * 31) minInterval = 'd';
-    // less than 3 months
-    else if (diffSeconds <= 86400 * 93) minInterval = 'w';
-    // less than 1 year
-    else if (diffSeconds <= 86400 * 366) minInterval = 'M';
-
-    setTimeIntervalOptions([
-      { text: 'Auto', value: 'auto_' + minInterval },
-      ...TIME_INTERVAL_OPTIONS,
-    ]);
-  };
+  useEffect(() => {
+    const [minTimeInterval, timeIntervalUnitOptions] = findAutoInterval(startTime, endTime);
+    setMinInterval(minTimeInterval);
+    setTimeIntervalOptions(timeIntervalUnitOptions);
+  }, [startTime, endTime]);
 
   const composeFinalQuery = (
     curQuery: any,
@@ -200,23 +174,6 @@ export const Explorer = ({
     });
   };
 
-  const formatError = (name: string, message: string, details: string) => {
-    return {
-      name,
-      message,
-      body: {
-        attributes: {
-          error: {
-            caused_by: {
-              type: '',
-              reason: details,
-            },
-          },
-        },
-      },
-    };
-  };
-
   const getSavedDataById = async (objectId: string) => {
     // load saved query/visualization if object id exists
     await savedObjects
@@ -231,6 +188,8 @@ export const Explorer = ({
         const currQuery = appLogEvents
           ? objectData?.query.replace(appBaseQuery + '| ', '')
           : objectData?.query || '';
+
+        // update redux
         batch(async () => {
           await dispatch(
             changeQuery({
@@ -273,7 +232,7 @@ export const Explorer = ({
           }
         });
 
-        // populate name field in save panel for default name
+        // update UI state with saved data
         setSelectedPanelName(objectData?.name || '');
         setCurVisId(objectData?.type || 'bar');
         setTempQuery((staleTempQuery: string) => {
@@ -283,7 +242,6 @@ export const Explorer = ({
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
           : TYPE_TAB_MAPPING[SAVED_VISUALIZATION];
         setSelectedContentTab(tabToBeFocused);
-
         fetchData();
       })
       .catch((error) => {
@@ -293,40 +251,15 @@ export const Explorer = ({
       });
   };
 
-  const determineTimeStamp = async (curQuery: any, curIndex: string) => {
-    let curTimestamp = '';
-    let hasSavedTimestamp = false;
-
-    // determines timestamp for search
-    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
-      const savedTimestamps = await savedObjects
-        .fetchSavedObjects({
-          objectId: curIndex,
-        })
-        .catch((error: any) => {
-          if (error?.body?.statusCode === 403) {
-            showPermissionErrorToast();
-          }
-          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
-        });
-      if (
-        savedTimestamps?.observabilityObjectList &&
-        savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
-      ) {
-        // from saved objects
-        hasSavedTimestamp = true;
-        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
-      } else {
-        // from index mappings
-        hasSavedTimestamp = false;
-        const timestamps = await timestampUtils.getTimestamp(curIndex);
-        curTimestamp = timestamps!.default_timestamp;
-      }
+  const getTimestampByIndexPattern = async (
+    curQuery: any,
+    indexPattern: string
+  ): Promise<string> => {
+    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(indexPattern, prevIndex)) {
+      const timestamps = await timestampUtils.getTimestamp(indexPattern);
+      return timestamps!.default_timestamp;
     }
-    return {
-      curTimestamp,
-      hasSavedTimestamp,
-    };
+    return curQuery![SELECTED_TIMESTAMP];
   };
 
   const fetchData = async () => {
@@ -339,7 +272,8 @@ export const Explorer = ({
       return;
     }
 
-    const { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
+    const curTimestamp =
+      curQuery![SELECTED_TIMESTAMP] || (await getTimestampByIndexPattern(curQuery, curIndex));
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -361,7 +295,6 @@ export const Explorer = ({
         query: {
           finalQuery,
           [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
-          [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
         },
       })
     );
@@ -408,7 +341,8 @@ export const Explorer = ({
       return;
     }
 
-    const { curTimestamp, hasSavedTimestamp } = await determineTimeStamp(curQuery, curIndex);
+    const curTimestamp =
+      curQuery![SELECTED_TIMESTAMP] || (await getTimestampByIndexPattern(curQuery, curIndex));
 
     if (isEmpty(curTimestamp)) {
       setToast('Index does not contain a valid time field.', 'danger');
@@ -430,7 +364,6 @@ export const Explorer = ({
         query: {
           finalQuery,
           [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
-          [HAS_SAVED_TIMESTAMP]: hasSavedTimestamp,
         },
       })
     );
@@ -570,12 +503,6 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    const requests = {
-      index: curIndex,
-      name: timestamp.name,
-      type: timestamp.type,
-      dsl_type: 'date',
-    };
     if (isEmpty(rawQueryStr) || isEmpty(curIndex)) {
       setToast('Cannot override timestamp because there was no valid index found.', 'danger');
       return;
@@ -583,54 +510,16 @@ export const Explorer = ({
 
     setIsOverridingTimestamp(true);
 
-    let saveTimestampRes;
-    if (curQuery![HAS_SAVED_TIMESTAMP]) {
-      saveTimestampRes = await savedObjects
-        .updateTimestamp({
-          ...requests,
-        })
-        .then((res: any) => {
-          setToast(`Timestamp has been overridden successfully.`, 'success');
-          return res;
-        })
-        .catch((error: any) => {
-          notifications.toasts.addError(error, {
-            title: 'Cannot override timestamp',
-          });
-        })
-        .finally(() => {
-          setIsOverridingTimestamp(false);
-        });
-    } else {
-      saveTimestampRes = await savedObjects
-        .createSavedTimestamp({
-          ...requests,
-        })
-        .then((res: any) => {
-          setToast(`Timestamp has been overridden successfully.`, 'success');
-          return res;
-        })
-        .catch((error: any) => {
-          notifications.toasts.addError(error, {
-            title: 'Cannot override timestamp',
-          });
-        })
-        .finally(() => {
-          setIsOverridingTimestamp(false);
-        });
-    }
-
-    if (!has(saveTimestampRes, 'objectId')) return;
-
     await dispatch(
       changeQuery({
         tabId,
         query: {
-          [SELECTED_TIMESTAMP]: '',
+          [SELECTED_TIMESTAMP]: timestamp?.name || '',
         },
       })
     );
 
+    setIsOverridingTimestamp(false);
     handleQuerySearch();
   };
 

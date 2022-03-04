@@ -10,7 +10,7 @@ export const DataTable = ({ visualizations }: any) => {
   const {
     data: vizData,
     jsonData,
-    metadata: { fields },
+    metadata: { fields = [] },
   } = visualizations.data.rawVizData;
 
   const raw_data = [...jsonData];
