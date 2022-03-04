@@ -70,7 +70,7 @@ describe('Testing trace view', () => {
     cy.contains('03/25/2021 10:21:22').should('exist');
     cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');
 
-    cy.get('div.js-plotly-plot').should('have.length', 2);
+    cy.get('div.js-plotly-plot').should('have.length.gte', 2);
     cy.get('text[data-unformatted="database <br>mysql.APM "]').should('exist');
     cy.contains(`"${SPAN_ID}"`).should('exist');
   });
