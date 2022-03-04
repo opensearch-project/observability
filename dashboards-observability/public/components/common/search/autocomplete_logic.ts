@@ -60,6 +60,8 @@ import {
   FIELD_AFTER_SPAN,
   CLOSE_AFTER_SPAN,
   PIPE_AFTER_SPAN,
+  STRING_FIELD_AFTER_PARSE,
+  PIPE_AFTER_PARSE,
 } from '../../../../common/constants/autocomplete';
 
 let currIndices: string[] = [];
@@ -201,7 +203,8 @@ const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
 export const getFullSuggestions = async (
   base: string,
   str: string,
-  dslService: DSLService
+  dslService: DSLService,
+  restrictedCommands: Array<{ label: string }>
 ): Promise<AutocompleteItem[]> => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
@@ -329,7 +332,11 @@ export const getFullSuggestions = async (
       return fillSuggestions(str, prefix, fieldsFromBackend);
       // Suggest only string fields after parse
     } else if (splittedModel[splittedModel.length - 2] === 'parse') {
-      return fillSuggestions(str, prefix, fieldsFromBackend.filter(field => field.type === 'string'));
+      return fillSuggestions(
+        str,
+        prefix,
+        fieldsFromBackend.filter((field) => field.type === 'string')
+      );
       // Suggest 'match(' or fields after where
     } else if (splittedModel[splittedModel.length - 2] === 'where') {
       nextWhere = splittedModel.length;
@@ -402,7 +409,7 @@ export const getFullSuggestions = async (
   return [];
 };
 
-const parseForIndices = (query: string) => {
+export const parseForIndices = (query: string) => {
   for (let i = 0; i < regexForIndex.length; i++) {
     const groupArray = regexForIndex[i].exec(query);
     if (groupArray) {
@@ -427,7 +434,8 @@ const parseForNextSuggestion = (command: string) => {
 export const getSuggestionsAfterSource = async (
   base: string,
   currQuery: string,
-  dslService: DSLService
+  dslService: DSLService,
+  restrictedCommands: Array<{ label: string }> = []
 ) => {
   const fullQuery = base + '| ' + currQuery;
   const splitSpaceQuery = fullQuery.split(' ');
@@ -441,7 +449,7 @@ export const getSuggestionsAfterSource = async (
     getFields(dslService);
     currField = '';
     currFieldType = '';
-    return fillSuggestions(currQuery, lastWord, pipeCommands);
+    return fillSuggestions(currQuery, lastWord, restrictedCommands || pipeCommands);
   }
   const next = parseForNextSuggestion(lastCommand);
   if (next) {
@@ -528,6 +536,12 @@ export const getSuggestionsAfterSource = async (
           numberTypes.includes(field.type)
         );
         return fillSuggestions(currQuery, lastWord, numberFields);
+      case STRING_FIELD_AFTER_PARSE:
+        return fillSuggestions(
+          currQuery,
+          lastWord,
+          fieldsFromBackend.filter((field) => field.type === 'string')
+        );
       case PIPE_AFTER_WHERE:
       case PIPE_AFTER_MATCH:
       case PIPE_AFTER_KEEP_EMPTY:
@@ -536,6 +550,7 @@ export const getSuggestionsAfterSource = async (
       case PIPE_AFTER_HEAD:
       case PIPE_AFTER_STATS_GROUP_BY:
       case PIPE_AFTER_SPAN:
+      case PIPE_AFTER_PARSE:
         return fillSuggestions(currQuery, lastWord, [{ label: '|' }]);
       case DATA_AFTER_WHERE_EQUAL:
       case DATA_AFTER_COMMA:
@@ -549,7 +564,7 @@ export const getSuggestionsAfterSource = async (
       case MATCH_FIELD_AFTER_WHERE:
         return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
       case EMPTY_REGEX:
-        return fillSuggestions(currQuery, lastWord, pipeCommands);
+        return fillSuggestions(currQuery, lastWord, restrictedCommands || pipeCommands);
     }
   }
 
