@@ -364,7 +364,7 @@ export const CustomPanelView = ({
     };
 
     http
-      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/filter`, {
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels/filter`, {
         body: JSON.stringify(panelFilterBody),
       })
       .then((res) => {
