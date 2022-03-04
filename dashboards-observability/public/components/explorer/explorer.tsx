@@ -321,8 +321,7 @@ export const Explorer = ({
           console.error(`Unable to get saved timestamp for this index: ${error.message}`);
         });
       if (savedTimestamps.statusCode === 404) {
-        console.error(`Unable to get saved timestamp for this index: ${savedTimestamps.msg}`);
-        return { curTimestamp: '', hasSavedTimestamp: false };
+        console.error(`Saved timestamp for this index is not found: ${savedTimestamps.msg}`);
       }
       if (
         savedTimestamps?.observabilityObjectList &&
