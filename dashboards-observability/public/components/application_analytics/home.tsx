@@ -314,6 +314,7 @@ export const Home = (props: HomeProps) => {
       .then((res) => {
         if (edit) {
           setToast('Application successfully updated.');
+          clearStorage();
         }
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
       })
