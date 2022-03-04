@@ -111,3 +111,10 @@ export const SAVE_QUERY1 = 'Mock Flight Events Overview';
 export const SAVE_QUERY2 = 'Mock Flight count by destination';
 export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
 export const SAVE_QUERY4 = 'Mock Flight peek';
+
+export const supressResizeObserverIssue = () => {
+  // exception is thrown on loading EuiDataGrid in cypress only, ignore for now
+  cy.on('uncaught:exception', (err, runnable) => {
+    if (err.message.includes('ResizeObserver loop')) return false;
+  });
+};
