@@ -35,7 +35,6 @@ export interface ServiceObject {
     latency?: number;
     error_rate?: number;
     throughput?: number;
-    throughputPerMinute?: number;
     relatedServices?: string[]; // services appear in the same traces this service appears
   };
 }
@@ -53,7 +52,7 @@ export function ServiceMap({
   setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
-  page: 'app' | 'appCreate' | 'dashboard' | 'traces' | 'services' | 'serviceView' | 'detailFlyout' | 'traceView';
+  page: 'app' | 'appCreate' | 'dashboard' | 'traces' | 'services' | 'serviceView' | 'detailFlyout';
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);

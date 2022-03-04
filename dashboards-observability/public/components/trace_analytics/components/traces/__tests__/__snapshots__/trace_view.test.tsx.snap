@@ -130,15 +130,7 @@ exports[`Trace view component renders trace view 1`] = `
         >
           <SpanDetailPanel
             colorMap={Object {}}
-            data={
-              Object {
-                "gantt": Array [],
-                "ganttMaxX": 0,
-                "table": Array [],
-              }
-            }
             http={[MockFunction]}
-            setData={[Function]}
             traceId="test"
           />
         </EuiFlexItem>
@@ -156,13 +148,6 @@ exports[`Trace view component renders trace view 1`] = `
           margin="m"
         />
       </EuiPanel>
-      <EuiSpacer />
-      <ServiceMap
-        idSelected="latency"
-        page="traceView"
-        serviceMap={Object {}}
-        setIdSelected={[Function]}
-      />
     </EuiPageBody>
   </EuiPage>
 </Fragment>
