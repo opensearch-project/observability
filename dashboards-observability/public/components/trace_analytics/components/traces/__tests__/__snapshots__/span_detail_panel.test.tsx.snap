@@ -60,6 +60,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
       ],
     }
   }
+  setData={[MockFunction]}
 >
   <EuiPanel>
     <div

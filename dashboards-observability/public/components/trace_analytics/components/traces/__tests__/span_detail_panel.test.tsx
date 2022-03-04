@@ -51,7 +51,7 @@ describe('Service breakdown panel component', () => {
       ],
       ganttMaxX: 19.91,
     };
-    const wrapper = mount(<SpanDetailPanel data={data} />);
+    const wrapper = mount(<SpanDetailPanel data={data} setData={jest.fn()} />);
     expect(wrapper).toMatchSnapshot();
   });
 });
