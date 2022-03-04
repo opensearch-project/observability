@@ -99,13 +99,15 @@ export function DocViewer(props: IDocViewerProps) {
   useEffect(() => {
     const traceId = props.hit.hasOwnProperty(OTEL_TRACE_ID) ? props.hit[OTEL_TRACE_ID] : '';
     setLogTraceId(traceId);
-    setTracesLink(
-      traceId !== '' && isValidTraceId(traceId) ? (
-        <EuiLink className="trace-link" href={`#/trace_analytics/traces/${traceId}`} external />
-      ) : (
-        <></>
-      )
-    );
+    if (traceId !== '' && isValidTraceId(traceId))
+      setTracesLink(
+        <EuiLink
+          className="trace-link"
+          href={`#/trace_analytics/traces/${traceId}`}
+          target="_blank"
+          external
+        />
+      );
   }, []);
 
   return (

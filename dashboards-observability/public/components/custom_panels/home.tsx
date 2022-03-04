@@ -49,8 +49,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
   const [toasts, setToasts] = useState<Array<Toast>>([]);
   const [loading, setLoading] = useState(false);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
-  const [start, setStart] = useState<ShortDate>('now-30m');
-  const [end, setEnd] = useState<ShortDate>('now');
+  const [start, setStart] = useState<ShortDate>('');
+  const [end, setEnd] = useState<ShortDate>('');
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -113,7 +113,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     };
 
     return http
-      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
         body: JSON.stringify(renamePanelObject),
       })
       .then((res) => {

@@ -126,7 +126,7 @@ export function PanelsRouter(router: IRouter) {
   );
 
   // rename an existing panel
-  router.patch(
+  router.post(
     {
       path: `${API_PREFIX}/panels/rename`,
       validate: {
@@ -290,7 +290,7 @@ export function PanelsRouter(router: IRouter) {
   );
 
   // replaces the ppl query filter in panel
-  router.patch(
+  router.post(
     {
       path: `${API_PREFIX}/panels/filter`,
       validate: {
