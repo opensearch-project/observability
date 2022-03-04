@@ -5,13 +5,7 @@
 
 import React from 'react';
 import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
-import {
-  EuiCallOut,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
-  EuiText,
-} from '@elastic/eui';
+import { EuiCallOut, EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiText } from '@elastic/eui';
 
 export const NoResults = () => {
   return (
@@ -33,22 +27,22 @@ export const NoResults = () => {
               data-test-subj="discoverNoResults"
             />
             <>
-            <EuiSpacer size="xl" />
-            <EuiText>
-              <h2 data-test-subj="discoverNoResultsTimefilter">
-                <FormattedMessage
-                  id="discover.noResults.expandYourTimeRangeTitle"
-                  defaultMessage="Expand your time range or modify your query"
-                />
-              </h2>
-              <p>
-                <FormattedMessage
-                  id="discover.noResults.queryMayNotMatchTitle"
-                  defaultMessage="Your query may not match anything in the current time range, or there may not be any data at all in
+              <EuiSpacer size="xl" />
+              <EuiText>
+                <h2 data-test-subj="discoverNoResultsTimefilter">
+                  <FormattedMessage
+                    id="discover.noResults.expandYourTimeRangeTitle"
+                    defaultMessage="Expand your time range or modify your query"
+                  />
+                </h2>
+                <p>
+                  <FormattedMessage
+                    id="discover.noResults.queryMayNotMatchTitle"
+                    defaultMessage="Your query may not match anything in the current time range, or there may not be any data at all in
                     the currently selected time range. Try change time range, query filters or choose different time fields"
-                />
-              </p>
-            </EuiText>
+                  />
+                </p>
+              </EuiText>
             </>
           </EuiFlexItem>
         </EuiFlexGroup>

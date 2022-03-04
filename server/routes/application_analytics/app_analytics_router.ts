@@ -134,7 +134,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
   );
 
   // Renames an existing application
-  router.patch(
+  router.put(
     {
       path: `${API_PREFIX}/rename`,
       validate: {
@@ -175,7 +175,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
   );
 
   // Updates an existing application
-  router.patch(
+  router.put(
     {
       path: `${API_PREFIX}/`,
       validate: {
