@@ -8,6 +8,7 @@ import {
   evalCmd,
   fieldsCmd,
   headCmd,
+  parseCmd,
   rareCmd,
   renameCmd,
   searchCmd,
@@ -68,6 +69,10 @@ export const Group1 = {
     {
       label: 'head',
       value: headCmd,
+    },
+    {
+      label: 'parse',
+      value: parseCmd,
     },
     {
       label: 'rare',
