@@ -70,9 +70,10 @@ export const Autocomplete = (props: AutocompleteProps) => {
     };
   });
 
-  const depArray = appLogEvents
-    ? [baseQuery, query, dslService, autocompleteState]
-    : [baseQuery, query, dslService];
+  const depArray =
+    appLogEvents || panelsFilter
+      ? [baseQuery, query, dslService, autocompleteState]
+      : [baseQuery, query, dslService];
 
   const autocomplete = useMemo(() => {
     return createAutocomplete<
@@ -87,7 +88,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         setAutocompleteState({
           ...state,
         });
-        handleQueryChange(panelsFilter ? autocompleteState.query : state.query);
+        handleQueryChange(state.query);
       },
       initialState: {
         ...autocompleteState,

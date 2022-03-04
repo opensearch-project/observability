@@ -254,8 +254,8 @@ describe('Testing a panel', () => {
   });
 
   it('Add ppl filter to panel', () => {
-    cy.get('.euiFieldText--fullWidth').invoke('attr', 'placeholder').should('contain', 'where');
-    cy.get('.euiFieldText--fullWidth').type(PPL_FILTER);
+    cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
+    cy.get('.euiTextArea').type(PPL_FILTER);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');
