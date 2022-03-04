@@ -84,7 +84,7 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  //Create a new panel
+  // Create a new panel
   router.post(
     {
       path: `${API_PREFIX}/panels`,
@@ -107,12 +107,12 @@ export function PanelsRouter(router: IRouter) {
         const newPanelId = await customPanelBackend.createNewPanel(
           opensearchNotebooksClient,
           request.body.panelName,
-          request.body.applicationId || '',
+          request.body.applicationId || ''
         );
         return response.ok({
           body: {
             message: 'Panel Created',
-            newPanelId: newPanelId,
+            newPanelId,
           },
         });
       } catch (error: any) {
@@ -235,7 +235,7 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelId
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
@@ -274,7 +274,7 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelIdList
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
