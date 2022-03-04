@@ -61,7 +61,7 @@ describe('Creating visualizations', () => {
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.wait(delay * 2);
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[0]);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
