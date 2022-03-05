@@ -4,7 +4,7 @@
  */
 
 import './docView.scss';
-import React, { useMemo, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach } from 'lodash';
 import { EuiCheckbox, EuiFlexItem, EuiIcon, EuiLink } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
@@ -23,20 +23,41 @@ export interface IDocType {
 interface IDocViewRowProps {
   http: HttpStart;
   doc: IDocType;
+  docId: string;
   selectedCols: Array<IField>;
   timeStampField: string;
   explorerFields: IExplorerFields;
   pplService: PPLService;
   rawQuery: string;
+  onFlyoutOpen: (docId: string) => void;
 }
 
-export const DocViewRow = (props: IDocViewRowProps) => {
-  const { http, doc, selectedCols, timeStampField, explorerFields, pplService, rawQuery } = props;
+export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
+  const {
+    http,
+    doc,
+    docId,
+    selectedCols,
+    timeStampField,
+    explorerFields,
+    pplService,
+    rawQuery,
+    onFlyoutOpen,
+  } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(true);
+
+  useImperativeHandle(ref, () => ({
+    closeAllFlyouts(openDocId: string) {
+      if (openDocId !== docId && (detailsOpen || surroundingEventsOpen)) {
+        setSurroundingEventsOpen(false);
+        setDetailsOpen(false);
+      }
+    },
+  }));
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
@@ -207,6 +228,12 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     );
   }
 
+  useEffect(() => {
+    if (detailsOpen) {
+      onFlyoutOpen(docId);
+    }
+  }, [detailsOpen]);
+
   return (
     <>
       <tr
@@ -221,4 +248,4 @@ export const DocViewRow = (props: IDocViewRowProps) => {
       {flyout}
     </>
   );
-};
+});
