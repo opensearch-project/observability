@@ -5,15 +5,21 @@
 /* eslint-disable no-console */
 
 import { EuiDescriptionList, EuiSpacer, EuiText } from '@elastic/eui';
-import { ApplicationType } from 'common/types/app_analytics';
+import { ApplicationListType, ApplicationType } from 'common/types/app_analytics';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
 import React, { Dispatch, ReactChild } from 'react';
 import { batch } from 'react-redux';
+import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { VisualizationType } from '../../../../common/types/custom_panels';
 import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
 import { HttpSetup } from '../../../../../../src/core/public';
 import { init as initFields, remove as removefields } from '../../explorer/slices/field_slice';
-import { init as initVisualizationConfig, reset as resetVisualizationConfig } from '../../explorer/slices/viualization_config_slice';
+import {
+  init as initVisualizationConfig,
+  reset as resetVisualizationConfig,
+} from '../../explorer/slices/viualization_config_slice';
 import {
   init as initQuery,
   remove as removeQuery,
@@ -149,4 +155,49 @@ export const initializeTabData = async (dispatch: Dispatch<any>, tabId: string, 
       })
     );
   });
+};
+
+export const fetchPanelsVizIdList = async (http: HttpSetup, appPanelId: string) => {
+  return await http
+    .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
+    .then((res) => {
+      const visIds = res.operationalPanel.visualizations.map(
+        (viz: VisualizationType) => viz.savedVisualizationId
+      );
+      return visIds;
+    })
+    .catch((err) => {
+      console.error('Error occurred while fetching visualizations for panel', err);
+      return [];
+    });
+};
+
+export const calculateAvailability = async (http: HttpSetup, application: ApplicationListType) => {
+  const panelId = application.panelId;
+  if (!panelId) return '';
+  // Get all visualizations for this panel
+  const savedVisualizationsIds = await fetchPanelsVizIdList(http, panelId);
+  if (!savedVisualizationsIds) return '';
+  for (let i = 0; i < savedVisualizationsIds.length; i++) {
+    const visualizationId = savedVisualizationsIds[i];
+    const visData = await fetchVisualizationById(http, visualizationId, (value: string) =>
+      console.error(value)
+    );
+    if (visData.user_configs.dataConfig?.hasOwnProperty('thresholds')) {
+      const thresholds = visData.user_configs.dataConfig.thresholds;
+      for (let j = 0; j < thresholds.length; j++) {
+        const threshold = thresholds[j];
+        // Check each visualizations for if the availability level is set
+        if (threshold.hasOwnProperty('expression')) {
+          // If the availability level is set then get the current value of the visualization
+          return threshold.expression;
+        }
+      }
+    }
+  }
+
+  // Use the expression (<, >, =) to evaluate the label
+  // Return label if condition is met
+  // If not continue to the next availability level
+  return panelId;
 };

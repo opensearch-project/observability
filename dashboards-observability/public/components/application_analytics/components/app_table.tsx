@@ -4,6 +4,7 @@
  */
 /* eslint-disable react-hooks/exhaustive-deps */
 
+import '../app_analytics.scss';
 import {
   EuiButton,
   EuiContextMenuItem,
@@ -26,6 +27,7 @@ import {
   EuiTableFieldDataColumnType,
   EuiText,
   EuiTitle,
+  EuiToolTip,
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -44,11 +46,8 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
 }
 
 export function AppTable(props: AppTableProps) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
   const {
+    http,
     chrome,
     applications,
     parentBreadcrumb,
@@ -59,6 +58,11 @@ export function AppTable(props: AppTableProps) {
     setStartTime,
     setEndTime,
   } = props;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const createButtonText = 'Create application';
 
   useEffect(() => {
     chrome.setBreadcrumbs([
@@ -183,6 +187,22 @@ export function AppTable(props: AppTableProps) {
         </EuiLink>
       ),
     },
+    {
+      field: 'composition',
+      name: 'Composition',
+      sortable: false,
+      truncateText: true,
+      render: (value) => (
+        <EuiToolTip content={value.join(', ')}>
+          <EuiText id="compositionColumn">{value.join(', ')}</EuiText>
+        </EuiToolTip>
+      ),
+    },
+    {
+      field: 'availability',
+      name: 'Current Availability',
+      sortable: true,
+    },
   ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 
   return (
@@ -219,7 +239,7 @@ export function AppTable(props: AppTableProps) {
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <EuiButton fill href={`#/application_analytics/create`}>
-                      Create application
+                      {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -259,12 +279,12 @@ export function AppTable(props: AppTableProps) {
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} href={`#/application_analytics/create`}>
-                      Create application
+                      {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>
-                  <EuiFlexItem grow={false}>
+                  {/* <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false}>Add sample applications</EuiButton>
-                  </EuiFlexItem>
+                  </EuiFlexItem> */}
                 </EuiFlexGroup>
                 <EuiSpacer size="xxl" />
               </>

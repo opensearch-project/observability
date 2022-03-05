@@ -11,8 +11,10 @@ export interface ApplicationListType {
   name: string;
   id: string;
   panelId: string;
+  composition: string[];
   dateCreated: string;
   dateModified: string;
+  availability: string;
 }
 
 export interface ApplicationType {
