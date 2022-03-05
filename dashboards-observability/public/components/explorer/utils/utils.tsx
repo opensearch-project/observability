@@ -46,6 +46,7 @@ export const getTrs = (
   const upperLimit = Math.min(trs.length === 0 ? PAGE_SIZE : limit, docs.length);
   let tempRefs = rowRefs;
   for (let i = trs.length; i < upperLimit; i++) {
+    const docId = uniqueId('doc_view');
     const tempRowRef = React.createRef<{
       closeAllFlyouts(openDocId: string): void;
     }>();
@@ -54,8 +55,8 @@ export const getTrs = (
       <DocViewRow
         ref={tempRowRef}
         http={http}
-        key={uniqueId('doc_view')}
-        docId={uniqueId('doc_view')}
+        key={docId}
+        docId={docId}
         doc={docs[i]}
         selectedCols={explorerFields}
         timeStampField={timeStampField}

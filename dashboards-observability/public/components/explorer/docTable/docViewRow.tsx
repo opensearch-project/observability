@@ -6,7 +6,7 @@
 import './docView.scss';
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach } from 'lodash';
-import { EuiCheckbox, EuiFlexItem, EuiIcon, EuiLink } from '@elastic/eui';
+import { EuiIcon, EuiLink } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
@@ -184,9 +184,8 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
     return getTds(doc, selectedCols, false);
   }, [doc, selectedCols, detailsOpen, surroundingEventsOpen]);
 
-  let flyout;
-  if (detailsOpen) {
-    flyout = (
+  const memorizedDocFlyout = useMemo(() => {
+    return (
       <DocFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -203,10 +202,20 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         setSurroundingEventsOpen={setSurroundingEventsOpen}
       ></DocFlyout>
     );
-  }
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    rawQuery,
+    flyoutToggleSize,
+  ]);
 
-  if (surroundingEventsOpen) {
-    flyout = (
+  const memorizedSurroundingFlyout = useMemo(() => {
+    return (
       <SurroundingFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -226,6 +235,27 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         setToggleSize={setFlyoutToggleSize}
       />
     );
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    pplService,
+    rawQuery,
+    selectedCols,
+    flyoutToggleSize,
+  ]);
+
+  let flyout;
+  if (detailsOpen) {
+    flyout = memorizedDocFlyout;
+  }
+
+  if (surroundingEventsOpen) {
+    flyout = memorizedSurroundingFlyout;
   }
 
   useEffect(() => {
