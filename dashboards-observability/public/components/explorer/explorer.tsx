@@ -106,11 +106,11 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const { getLiveTail, getEvents, getAvailableFields } = useFetchEvents({
+  const { getLiveTail, getEvents, getAvailableFields, isEventsLoading } = useFetchEvents({
     pplService,
     requestParams,
   });
-  const { getVisualizations, getCountVisualizations } = useFetchVisualizations({
+  const { getVisualizations, getCountVisualizations, isVisLoading } = useFetchVisualizations({
     pplService,
     requestParams,
   });
@@ -121,6 +121,12 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
+<<<<<<< HEAD
+=======
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
+>>>>>>> main
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -155,6 +161,15 @@ export const Explorer = ({
     setMinInterval(minTimeInterval);
     setTimeIntervalOptions(timeIntervalUnitOptions);
   }, [startTime, endTime]);
+
+  useEffect(() => {
+    if (!isEventsLoading && !isVisLoading) {
+      setIsLoading(false);
+    } else if (isEventsLoading || isVisLoading) {
+      setIsLoading(true);
+      setHasLoaded(true);
+    }
+  }, [isEventsLoading, isVisLoading]);
 
   const composeFinalQuery = (
     curQuery: any,
@@ -251,6 +266,7 @@ export const Explorer = ({
       });
   };
 
+<<<<<<< HEAD
   const getTimestampByIndexPattern = async (
     curQuery: any,
     indexPattern: string
@@ -258,6 +274,40 @@ export const Explorer = ({
     if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(indexPattern, prevIndex)) {
       const timestamps = await timestampUtils.getTimestamp(indexPattern);
       return timestamps!.default_timestamp;
+=======
+  const determineTimeStamp = async (curQuery: any, curIndex: string) => {
+    let curTimestamp = '';
+    let hasSavedTimestamp = false;
+
+    // determines timestamp for search
+    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
+      const savedTimestamps = await savedObjects
+        .fetchSavedObjects({
+          objectId: curIndex,
+        })
+        .catch((error: any) => {
+          if (error?.body?.statusCode === 403) {
+            showPermissionErrorToast();
+          }
+          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
+        });
+      if (savedTimestamps.statusCode === 404) {
+        console.error(`Saved timestamp for this index is not found: ${savedTimestamps.msg}`);
+      }
+      if (
+        savedTimestamps?.observabilityObjectList &&
+        savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
+      ) {
+        // from saved objects
+        hasSavedTimestamp = true;
+        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
+      } else {
+        // from index mappings
+        hasSavedTimestamp = false;
+        const timestamps = await timestampUtils.getTimestamp(curIndex);
+        curTimestamp = timestamps!.default_timestamp;
+      }
+>>>>>>> main
     }
     return curQuery![SELECTED_TIMESTAMP];
   };
@@ -266,9 +316,13 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) return;
+    if (isEmpty(rawQueryStr)) {
+      setHasLoaded(true);
+      return;
+    }
     if (isEmpty(curIndex)) {
-      setToast('Query does not include vaild index.', 'danger');
+      setHasLoaded(true);
+      setToast('Query does not include valid index.', 'danger');
       return;
     }
 
@@ -276,6 +330,7 @@ export const Explorer = ({
       curQuery![SELECTED_TIMESTAMP] || (await getTimestampByIndexPattern(curQuery, curIndex));
 
     if (isEmpty(curTimestamp)) {
+      setHasLoaded(true);
       setToast('Index does not contain a valid time field.', 'danger');
       return;
     }
@@ -384,7 +439,11 @@ export const Explorer = ({
   };
 
   useEffect(() => {
-    if (queryRef.current!.isLoaded) return;
+    if (queryRef.current!.isLoaded) {
+      setIsLoading(false);
+      setHasLoaded(true);
+      return;
+    }
     let objectId;
     if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
@@ -567,7 +626,9 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {explorerData && !isEmpty(explorerData.jsonData) ? (
+            {isLoading || !hasLoaded ? (
+              <EuiLoadingSpinner className="explorer-data-loading" size="m" />
+            ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
                 <div className="dscResults">
                   {countDistribution?.data && (
@@ -726,6 +787,8 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
+    isLoading,
+    hasLoaded,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -753,7 +816,7 @@ export const Explorer = ({
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
-    if (isEmpty(currQuery![RAW_QUERY])) {
+    if (isEmpty(currQuery![RAW_QUERY]) && isEmpty(appBaseQuery)) {
       setToast('No query to save.', 'danger');
       return;
     }
@@ -847,7 +910,10 @@ export const Explorer = ({
         // update custom panel - query
       }
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
-      if (isEmpty(currQuery![RAW_QUERY]) || isEmpty(explorerVisualizations)) {
+      if (
+        (isEmpty(currQuery![RAW_QUERY]) && isEmpty(appBaseQuery)) ||
+        isEmpty(explorerVisualizations)
+      ) {
         setToast(`There is no query or(and) visualization to save`, 'danger');
         return;
       }

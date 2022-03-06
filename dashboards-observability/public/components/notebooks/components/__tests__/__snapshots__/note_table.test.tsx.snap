@@ -58,7 +58,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                  
                 <a
                   class="euiLink euiLink--primary"
-                  href="https://opensearch.org/docs/latest/observability/notebooks/"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
                   rel="noreferrer"
                   target="blank"
                 >
@@ -971,7 +971,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
                  
                 <a
                   class="euiLink euiLink--primary"
-                  href="https://opensearch.org/docs/latest/observability/notebooks/"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
                   rel="noreferrer"
                   target="blank"
                 >

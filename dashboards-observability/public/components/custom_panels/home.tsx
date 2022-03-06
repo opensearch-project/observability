@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import { EuiBreadcrumb, EuiGlobalToastList, EuiLink, ShortDate } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
@@ -9,6 +10,8 @@ import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
 import { StaticContext } from 'react-router';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import PPLService from '../../services/requests/ppl';
+import DSLService from '../../services/requests/dsl';
 import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
@@ -36,21 +39,29 @@ import { isNameValid } from './helpers/utils';
  * renderProps: Props from router
  */
 
-type Props = {
+interface Props {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   parentBreadcrumb: EuiBreadcrumb[];
-  pplService: any;
+  pplService: PPLService;
+  dslService: DSLService;
   renderProps: RouteComponentProps<any, StaticContext, any>;
-};
+}
 
-export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }: Props) => {
-  const [customPanelData, setcustomPanelData] = useState<Array<CustomPanelListType>>([]);
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
+export const Home = ({
+  http,
+  chrome,
+  parentBreadcrumb,
+  pplService,
+  dslService,
+  renderProps,
+}: Props) => {
+  const [customPanelData, setcustomPanelData] = useState<CustomPanelListType[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const [loading, setLoading] = useState(false);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
-  const [start, setStart] = useState<ShortDate>('now-30m');
-  const [end, setEnd] = useState<ShortDate>('now');
+  const [start, setStart] = useState<ShortDate>('');
+  const [end, setEnd] = useState<ShortDate>('');
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -113,7 +124,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     };
 
     return http
-      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
         body: JSON.stringify(renamePanelObject),
       })
       .then((res) => {
@@ -248,7 +259,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
 
-      let savedVisualizationIds: Array<string> = [];
+      let savedVisualizationIds: string[] = [];
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
         .then((resp) => (savedVisualizationIds = [...resp.savedVizIds]));
@@ -256,14 +267,14 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       await http
         .post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
           body: JSON.stringify({
-            savedVisualizationIds: savedVisualizationIds,
+            savedVisualizationIds,
           }),
         })
         .then((res) => {
           setcustomPanelData([...customPanelData, ...res.demoPanelsData]);
         });
       setToast(`Sample panels successfully added.`);
-    } catch (err) {
+    } catch (err: any) {
       setToast('Error adding sample panels.', 'danger');
       console.error(err.body.message);
     } finally {
@@ -311,6 +322,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               panelId={props.match.params.id}
               http={http}
               pplService={pplService}
+              dslService={dslService}
               chrome={chrome}
               parentBreadcrumb={parentBreadcrumb}
               renameCustomPanel={renameCustomPanel}

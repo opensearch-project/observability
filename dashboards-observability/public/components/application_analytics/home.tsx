@@ -280,7 +280,7 @@ export const Home = (props: HomeProps) => {
     };
 
     return http
-      .patch(`${APP_ANALYTICS_API_PREFIX}/rename`, {
+      .put(`${APP_ANALYTICS_API_PREFIX}/rename`, {
         body: JSON.stringify(requestBody),
       })
       .then((res) => {
@@ -308,12 +308,13 @@ export const Home = (props: HomeProps) => {
     };
 
     return http
-      .patch(`${APP_ANALYTICS_API_PREFIX}/`, {
+      .put(`${APP_ANALYTICS_API_PREFIX}/`, {
         body: JSON.stringify(requestBody),
       })
       .then((res) => {
         if (edit) {
           setToast('Application successfully updated.');
+          clearStorage();
         }
         window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
       })

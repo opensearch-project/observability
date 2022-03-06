@@ -16,6 +16,8 @@ import {
   SAMPLE_VISUALIZATIONS_NAMES,
 } from '../utils/panel_constants';
 
+import { supressResizeObserverIssue } from '../utils/constants';
+
 const moveToEventsHome = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/`);
   cy.wait(delay * 3);
@@ -55,12 +57,13 @@ describe('Creating visualizations', () => {
     cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[0]);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay);
-    cy.get('.tab-title').contains('Visualizations').click();
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
-    cy.wait(delay);
-    cy.get('.euiFieldText').type(PPL_VISUALIZATIONS_NAMES[0]);
-    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    supressResizeObserverIssue();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.wait(delay * 2);
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.wait(delay * 2);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[0]);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
@@ -69,12 +72,13 @@ describe('Creating visualizations', () => {
     cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[1]);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay);
-    cy.get('.tab-title').contains('Visualizations').click();
+    supressResizeObserverIssue();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.wait(delay);
-    cy.get('.euiFieldText').type(PPL_VISUALIZATIONS_NAMES[1]);
-    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[1]);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
@@ -250,8 +254,8 @@ describe('Testing a panel', () => {
   });
 
   it('Add ppl filter to panel', () => {
-    cy.get('.euiFieldText--fullWidth').invoke('attr', 'placeholder').should('contain', 'where');
-    cy.get('.euiFieldText--fullWidth').type(PPL_FILTER);
+    cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
+    cy.get('.euiTextArea').type(PPL_FILTER);
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');
@@ -342,18 +346,17 @@ describe('Testing a panel', () => {
     cy.get('.euiContextMenuItem__text').contains('Create New Visualization').click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
-
     cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[2]);
     cy.get('.euiButton__text').contains('Refresh').click();
-    cy.wait(delay);
-    cy.get('.tab-title').contains('Visualizations').click();
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
-    cy.wait(delay);
-    cy.get('.euiComboBox__input').type(TEST_PANEL);
+
+    supressResizeObserverIssue();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.wait(delay * 2);
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TEST_PANEL);
     cy.get(`input[value="${TEST_PANEL}"]`).click();
-    cy.get('.euiFieldText').type(PPL_VISUALIZATIONS_NAMES[2]);
-    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[2]);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     moveToTestPanel();
@@ -366,14 +369,18 @@ describe('Testing a panel', () => {
     moveToTestPanel();
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
     cy.get('button[aria-label="actionMenuButton"]').eq(0).click();
+    supressResizeObserverIssue();
     cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Edit').click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.wait(delay);
-    cy.get('.euiFieldText').focus().clear().type(NEW_VISUALIZATION_NAME);
-    cy.get('.euiPopoverFooter>.euiFlexGroup>:nth-child(2)').contains('Save').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .clear()
+      .type(NEW_VISUALIZATION_NAME);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     moveToTestPanel();
@@ -414,7 +421,7 @@ describe('Add samples and clean up all test data', () => {
 
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
-    cy.get('span.euiButtonEmpty__text').contains('Rows per page: 10').click();
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
     cy.get('.euiContextMenuItem__text').contains('50 rows').click();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
     cy.wait(delay);
