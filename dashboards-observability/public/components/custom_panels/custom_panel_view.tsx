@@ -561,7 +561,7 @@ export const CustomPanelView = ({
 
   return (
     <div>
-      <EuiPage id="panelView">
+      <EuiPage id={`panelView${appPanel ? 'InApp' : ''}`}>
         <EuiPageBody component="div">
           <EuiPageHeader>
             {appPanel || (
