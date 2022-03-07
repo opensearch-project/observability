@@ -19,14 +19,14 @@ interface AutocompleteProps extends IQueryBarProps {
     base: string,
     query: string,
     dslService: DSLService,
-    restrictedCommands: Array<{ label: string }>
+    possibleCommands: Array<{ label: string }>
   ) => Promise<AutocompleteItem[]>;
   onItemSelect: any;
   isDisabled?: boolean;
   baseQuery: string;
   tabId: string;
   placeholder?: string;
-  restrictedCommands?: Array<{ label: string }>;
+  possibleCommands?: Array<{ label: string }>;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -42,7 +42,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     baseQuery,
     tabId = '',
     placeholder = 'Enter PPL query',
-    restrictedCommands = [],
+    possibleCommands,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -104,7 +104,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                 baseQuery,
                 query,
                 dslService,
-                restrictedCommands
+                possibleCommands
               );
               return suggestions;
             },
