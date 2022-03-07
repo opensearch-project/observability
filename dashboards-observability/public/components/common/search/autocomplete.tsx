@@ -6,7 +6,7 @@
 
 import './search.scss';
 import $ from 'jquery';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AutocompleteState, createAutocomplete } from '@algolia/autocomplete-core';
 import { EuiTextArea } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
@@ -58,17 +58,19 @@ export const Autocomplete = (props: AutocompleteProps) => {
   const appLogEvents = tabId.startsWith('application-analytics-tab');
   const panelsFilter = tabId === 'panels-filter';
 
-  // const searchBar = document.getElementById('autocomplete-textarea');
+  useEffect(() => {
+    const searchBar = document.getElementById('autocomplete-textarea');
 
-  // searchBar?.addEventListener('keydown', (e) => {
-  //   const keyCode = e.which || e.keyCode;
-  //   if (keyCode === 13 && e.shiftKey) {
-  //     handleQuerySearch();
-  //   }
-  //   return () => {
-  //     $('#autocomplete-textarea').unbind('keydown');
-  //   };
-  // });
+    searchBar?.addEventListener('keydown', (e) => {
+      const keyCode = e.which || e.keyCode;
+      if (keyCode === 13 && e.shiftKey) {
+        handleQuerySearch();
+      }
+      return () => {
+        $('#autocomplete-textarea').unbind('keydown');
+      };
+    });
+  }, []);
 
   const depArray =
     appLogEvents || panelsFilter
