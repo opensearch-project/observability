@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Datagrid Doc viewer row component Renders Doc viewer row component 1`] = `
-<DocViewRow
+<ForwardRef
   doc={
     Object {
       "Carrier": "JetBeats",
@@ -60,5 +60,5 @@ exports[`Datagrid Doc viewer row component Renders Doc viewer row component 1`] 
       45.957544288332315
     </td>
   </tr>
-</DocViewRow>
+</ForwardRef>
 `;

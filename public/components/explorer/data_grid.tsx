@@ -5,7 +5,7 @@
 
 import './data_grid.scss';
 
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef, RefObject } from 'react';
 import { IExplorerFields } from '../../../common/types/explorer';
 import { DEFAULT_COLUMNS, PAGE_SIZE } from '../../../common/constants/explorer';
 import { getHeaders, getTrs, populateDataGrid } from './utils';
@@ -26,6 +26,7 @@ export function DataGrid(props: DataGridProps) {
   const { http, pplService, rows, rowsAll, explorerFields, timeStampField, rawQuery } = props;
   const [limit, setLimit] = useState(PAGE_SIZE);
   const loader = useRef<HTMLDivElement>(null);
+  const [rowRefs, setRowRefs] = useState<RefObject<{closeAllFlyouts(openDocId: string): void}>[]>([]);
 
   useEffect(() => {
     if (!loader.current) return;
@@ -45,6 +46,12 @@ export function DataGrid(props: DataGridProps) {
     return () => observer.disconnect();
   }, [loader]);
 
+  const onFlyoutOpen = (docId: string) => {
+    rowRefs.forEach((rowRef) => {
+      rowRef.current?.closeAllFlyouts(docId);
+    });
+  };
+
   const Queriedheaders = useMemo(() => getHeaders(explorerFields.queriedFields, DEFAULT_COLUMNS), [
     explorerFields.queriedFields,
   ]);
@@ -61,6 +68,9 @@ export function DataGrid(props: DataGridProps) {
         explorerFields,
         pplService,
         rawQuery,
+        rowRefs,
+        setRowRefs,
+        onFlyoutOpen,
         rows
       )
     );
@@ -84,6 +94,9 @@ export function DataGrid(props: DataGridProps) {
         explorerFields,
         pplService,
         rawQuery,
+        rowRefs,
+        setRowRefs,
+        onFlyoutOpen,
         dataToRender
       )
     );
@@ -101,6 +114,9 @@ export function DataGrid(props: DataGridProps) {
         explorerFields,
         pplService,
         rawQuery,
+        rowRefs,
+        setRowRefs,
+        onFlyoutOpen,
         rows,
         prev
       )
@@ -118,6 +134,9 @@ export function DataGrid(props: DataGridProps) {
         explorerFields,
         pplService,
         rawQuery,
+        rowRefs,
+        setRowRefs,
+        onFlyoutOpen,
         dataToRender,
         prev
       )
