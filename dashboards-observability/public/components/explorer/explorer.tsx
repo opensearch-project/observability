@@ -31,7 +31,7 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab } from '../../../common/types/explorer';
+import { IField, IQueryTab, IDefaultTimestampState } from '../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -121,12 +121,8 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
-<<<<<<< HEAD
-=======
-
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
->>>>>>> main
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -266,51 +262,9 @@ export const Explorer = ({
       });
   };
 
-<<<<<<< HEAD
-  const getTimestampByIndexPattern = async (
-    curQuery: any,
+  const getDefaultTimestampByIndexPattern = async (
     indexPattern: string
-  ): Promise<string> => {
-    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(indexPattern, prevIndex)) {
-      const timestamps = await timestampUtils.getTimestamp(indexPattern);
-      return timestamps!.default_timestamp;
-=======
-  const determineTimeStamp = async (curQuery: any, curIndex: string) => {
-    let curTimestamp = '';
-    let hasSavedTimestamp = false;
-
-    // determines timestamp for search
-    if (isEmpty(curQuery![SELECTED_TIMESTAMP]) || !isEqual(curIndex, prevIndex)) {
-      const savedTimestamps = await savedObjects
-        .fetchSavedObjects({
-          objectId: curIndex,
-        })
-        .catch((error: any) => {
-          if (error?.body?.statusCode === 403) {
-            showPermissionErrorToast();
-          }
-          console.error(`Unable to get saved timestamp for this index: ${error.message}`);
-        });
-      if (savedTimestamps.statusCode === 404) {
-        console.error(`Saved timestamp for this index is not found: ${savedTimestamps.msg}`);
-      }
-      if (
-        savedTimestamps?.observabilityObjectList &&
-        savedTimestamps?.observabilityObjectList[0]?.timestamp?.name
-      ) {
-        // from saved objects
-        hasSavedTimestamp = true;
-        curTimestamp = savedTimestamps.observabilityObjectList[0].timestamp.name;
-      } else {
-        // from index mappings
-        hasSavedTimestamp = false;
-        const timestamps = await timestampUtils.getTimestamp(curIndex);
-        curTimestamp = timestamps!.default_timestamp;
-      }
->>>>>>> main
-    }
-    return curQuery![SELECTED_TIMESTAMP];
-  };
+  ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
   const fetchData = async () => {
     const curQuery = queryRef.current;
@@ -320,19 +274,25 @@ export const Explorer = ({
       setHasLoaded(true);
       return;
     }
+
     if (isEmpty(curIndex)) {
       setHasLoaded(true);
       setToast('Query does not include valid index.', 'danger');
       return;
     }
 
-    const curTimestamp =
-      curQuery![SELECTED_TIMESTAMP] || (await getTimestampByIndexPattern(curQuery, curIndex));
+    let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
 
     if (isEmpty(curTimestamp)) {
-      setHasLoaded(true);
-      setToast('Index does not contain a valid time field.', 'danger');
-      return;
+      const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
+      if (isEmpty(defaultTimestamp.default_timestamp)) {
+        setToast(defaultTimestamp.message, 'danger');
+        return;
+      }
+      curTimestamp = defaultTimestamp.default_timestamp;
+      if (defaultTimestamp.hasSchemaConflict) {
+        setToast(defaultTimestamp.message, 'danger');
+      }
     }
 
     // compose final query
@@ -340,7 +300,7 @@ export const Explorer = ({
       curQuery,
       curQuery![SELECTED_DATE_RANGE][0],
       curQuery![SELECTED_DATE_RANGE][1],
-      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      curTimestamp,
       isLiveTailOnRef.current
     );
 
@@ -349,7 +309,7 @@ export const Explorer = ({
         tabId,
         query: {
           finalQuery,
-          [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+          [SELECTED_TIMESTAMP]: curTimestamp,
         },
       })
     );
@@ -370,7 +330,7 @@ export const Explorer = ({
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
-    setPrevIndex(curTimestamp || curQuery![SELECTED_TIMESTAMP]);
+    setPrevIndex(curTimestamp);
     if (!queryRef.current!.isLoaded) {
       dispatch(
         changeQuery({
@@ -396,12 +356,18 @@ export const Explorer = ({
       return;
     }
 
-    const curTimestamp =
-      curQuery![SELECTED_TIMESTAMP] || (await getTimestampByIndexPattern(curQuery, curIndex));
+    let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
 
     if (isEmpty(curTimestamp)) {
-      setToast('Index does not contain a valid time field.', 'danger');
-      return;
+      const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
+      if (isEmpty(defaultTimestamp.default_timestamp)) {
+        setToast(defaultTimestamp.message, 'danger');
+        return;
+      }
+      curTimestamp = defaultTimestamp.default_timestamp;
+      if (defaultTimestamp.hasSchemaConflict) {
+        setToast(defaultTimestamp.message, 'danger');
+      }
     }
 
     // compose final query
@@ -409,7 +375,7 @@ export const Explorer = ({
       curQuery,
       startTime,
       endTime,
-      curTimestamp || curQuery![SELECTED_TIMESTAMP],
+      curTimestamp,
       isLiveTailOnRef.current
     );
 
@@ -418,7 +384,7 @@ export const Explorer = ({
         tabId,
         query: {
           finalQuery,
-          [SELECTED_TIMESTAMP]: curTimestamp || curQuery![SELECTED_TIMESTAMP],
+          [SELECTED_TIMESTAMP]: curTimestamp,
         },
       })
     );
