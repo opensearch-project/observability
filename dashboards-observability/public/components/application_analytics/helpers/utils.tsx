@@ -9,6 +9,7 @@ import { ApplicationListType, ApplicationType } from 'common/types/app_analytics
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
 import React, { Dispatch, ReactChild } from 'react';
 import { batch } from 'react-redux';
+import PPLService from 'public/services/requests/ppl';
 import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { VisualizationType } from '../../../../common/types/custom_panels';
@@ -172,7 +173,11 @@ export const fetchPanelsVizIdList = async (http: HttpSetup, appPanelId: string) 
     });
 };
 
-export const calculateAvailability = async (http: HttpSetup, application: ApplicationListType) => {
+export const calculateAvailability = async (
+  http: HttpSetup,
+  pplService: PPLService,
+  application: ApplicationListType
+) => {
   const panelId = application.panelId;
   if (!panelId) return '';
   // Get all visualizations for this panel
@@ -184,20 +189,41 @@ export const calculateAvailability = async (http: HttpSetup, application: Applic
       console.error(value)
     );
     if (visData.user_configs.dataConfig?.hasOwnProperty('thresholds')) {
-      const thresholds = visData.user_configs.dataConfig.thresholds;
+      const thresholds = visData.user_configs.dataConfig.thresholds.reverse();
+      let currValue = '';
+      await pplService
+        .fetch({
+          query: visData.query,
+          format: 'viz',
+        })
+        .then((res) => {
+          const counts = res.data['count()'];
+          currValue = counts[counts.length - 1];
+        })
+        .catch((err) => {
+          console.error(err);
+        });
       for (let j = 0; j < thresholds.length; j++) {
         const threshold = thresholds[j];
-        // Check each visualizations for if the availability level is set
         if (threshold.hasOwnProperty('expression')) {
-          // If the availability level is set then get the current value of the visualization
-          return threshold.expression;
+          const expression = threshold.expression;
+          switch (expression) {
+            case '>':
+              if (currValue > threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+            case '<':
+              if (currValue < threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+            case '=':
+              if (currValue === threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+          }
         }
       }
     }
   }
-
-  // Use the expression (<, >, =) to evaluate the label
-  // Return label if condition is met
-  // If not continue to the next availability level
   return panelId;
 };

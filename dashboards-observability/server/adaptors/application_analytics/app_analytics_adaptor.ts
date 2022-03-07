@@ -23,9 +23,9 @@ export class AppAnalyticsAdaptor {
           id: application.objectId,
           panelId: application.application.panelId,
           composition: decodedComposition,
-          availability: '',
-          dateModified: application.updatedTime,
-          dateCreated: application.createdTime,
+          availability: {},
+          dateModified: application.lastUpdatedTimeMs,
+          dateCreated: application.createdTimeMs,
         };
       });
     } catch (err: any) {

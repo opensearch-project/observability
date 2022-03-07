@@ -6,6 +6,7 @@
 
 import '../app_analytics.scss';
 import {
+  EuiBadge,
   EuiButton,
   EuiContextMenuItem,
   EuiContextMenuPanel,
@@ -31,10 +32,11 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
+import moment from 'moment';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { getClearModal } from '../helpers/modal_containers';
-import { pageStyles } from '../../../../common/constants/shared';
+import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import { ApplicationListType } from '../../../../common/types/app_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
@@ -202,6 +204,13 @@ export function AppTable(props: AppTableProps) {
       field: 'availability',
       name: 'Current Availability',
       sortable: true,
+      render: (value, record) => <EuiBadge color={value.color}>{value.name}</EuiBadge>,
+    },
+    {
+      field: 'dateModified',
+      name: 'Date Modified',
+      sortable: true,
+      render: (value) => <EuiText>{moment(value).format(UI_DATE_FORMAT)}</EuiText>,
     },
   ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 

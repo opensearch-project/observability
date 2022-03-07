@@ -14,7 +14,7 @@ export interface ApplicationListType {
   composition: string[];
   dateCreated: string;
   dateModified: string;
-  availability: string;
+  availability: { name: string; color: string };
 }
 
 export interface ApplicationType {

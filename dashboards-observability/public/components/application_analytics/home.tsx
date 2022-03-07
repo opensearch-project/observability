@@ -215,7 +215,7 @@ export const Home = (props: HomeProps) => {
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then(async (res) => {
         for (let i = 0; i < res.data.length; i++) {
-          res.data[i].availability = await calculateAvailability(http, res.data[i]);
+          res.data[i].availability = await calculateAvailability(http, pplService, res.data[i]);
         }
         setApplicationList(res.data);
       })
