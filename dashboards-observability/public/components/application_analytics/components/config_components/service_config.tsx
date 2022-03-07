@@ -125,7 +125,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         onConfirm,
         'Clear services & entities?',
         'This will clear all information in services & entities configuration.',
-        'Clear All'
+        'Clear all'
       )
     );
     showModal();

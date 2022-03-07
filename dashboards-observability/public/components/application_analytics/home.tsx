@@ -374,6 +374,7 @@ export const Home = (props: HomeProps) => {
                 fetchApplications={fetchApps}
                 renameApplication={renameApp}
                 deleteApplication={deleteApp}
+                clearStorage={clearStorage}
                 {...commonProps}
               />
             </ObservabilitySideBar>

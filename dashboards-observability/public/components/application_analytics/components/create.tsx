@@ -177,14 +177,14 @@ export const CreateApp = (props: CreateAppProps) => {
             </EuiPageContentHeader>
             <EuiHorizontalRule />
             <EuiForm component="form">
-              <EuiFormRow label="Name">
+              <EuiFormRow label="Name" data-test-subj="nameFormRow">
                 <EuiFieldText
                   name="name"
                   value={name}
                   onChange={(e) => setNameWithStorage(e.target.value)}
                 />
               </EuiFormRow>
-              <EuiFormRow label="Description">
+              <EuiFormRow label="Description" data-test-subj="descriptionFormRow">
                 <EuiFieldText
                   name="description"
                   value={description}
