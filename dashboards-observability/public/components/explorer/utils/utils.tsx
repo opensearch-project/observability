@@ -9,11 +9,7 @@ import React from 'react';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
-import {
-  PPL_DATE_FORMAT,
-  PPL_INDEX_REGEX,
-  PPL_STATS_REGEX,
-} from '../../../../common/constants/shared';
+import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import moment from 'moment';
 
 // Create Individual table rows for events datagrid and flyouts
@@ -27,6 +23,17 @@ export const getTrs = (
   explorerFieldsFull: IExplorerFields,
   pplService: PPLService,
   rawQuery: string,
+  rowRefs: React.RefObject<{
+    closeAllFlyouts(openDocId: string): void;
+  }>[],
+  setRowRefs: React.Dispatch<
+    React.SetStateAction<
+      React.RefObject<{
+        closeAllFlyouts(openDocId: string): void;
+      }>[]
+    >
+  >,
+  onFlyoutOpen: (docId: string) => void,
   docs: Array<any> = [],
   prevTrs: any[] = []
 ) => {
@@ -37,20 +44,30 @@ export const getTrs = (
   const trs = prevTrs.slice();
 
   const upperLimit = Math.min(trs.length === 0 ? PAGE_SIZE : limit, docs.length);
+  let tempRefs = rowRefs;
   for (let i = trs.length; i < upperLimit; i++) {
+    const docId = uniqueId('doc_view');
+    const tempRowRef = React.createRef<{
+      closeAllFlyouts(openDocId: string): void;
+    }>();
+    tempRefs.push(tempRowRef);
     trs.push(
       <DocViewRow
+        ref={tempRowRef}
         http={http}
-        key={uniqueId('doc_view')}
+        key={docId}
+        docId={docId}
         doc={docs[i]}
         selectedCols={explorerFields}
         timeStampField={timeStampField}
         explorerFields={explorerFieldsFull}
         pplService={pplService}
         rawQuery={rawQuery}
+        onFlyoutOpen={onFlyoutOpen}
       />
     );
   }
+  setRowRefs(tempRefs);
   return trs;
 };
 

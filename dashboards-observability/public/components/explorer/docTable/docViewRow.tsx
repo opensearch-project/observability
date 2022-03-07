@@ -4,9 +4,9 @@
  */
 
 import './docView.scss';
-import React, { useMemo, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach } from 'lodash';
-import { EuiCheckbox, EuiFlexItem, EuiIcon, EuiLink } from '@elastic/eui';
+import { EuiIcon, EuiLink } from '@elastic/eui';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
@@ -23,20 +23,41 @@ export interface IDocType {
 interface IDocViewRowProps {
   http: HttpStart;
   doc: IDocType;
+  docId: string;
   selectedCols: Array<IField>;
   timeStampField: string;
   explorerFields: IExplorerFields;
   pplService: PPLService;
   rawQuery: string;
+  onFlyoutOpen: (docId: string) => void;
 }
 
-export const DocViewRow = (props: IDocViewRowProps) => {
-  const { http, doc, selectedCols, timeStampField, explorerFields, pplService, rawQuery } = props;
+export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
+  const {
+    http,
+    doc,
+    docId,
+    selectedCols,
+    timeStampField,
+    explorerFields,
+    pplService,
+    rawQuery,
+    onFlyoutOpen,
+  } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(true);
+
+  useImperativeHandle(ref, () => ({
+    closeAllFlyouts(openDocId: string) {
+      if (openDocId !== docId && (detailsOpen || surroundingEventsOpen)) {
+        setSurroundingEventsOpen(false);
+        setDetailsOpen(false);
+      }
+    },
+  }));
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
@@ -163,9 +184,8 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     return getTds(doc, selectedCols, false);
   }, [doc, selectedCols, detailsOpen, surroundingEventsOpen]);
 
-  let flyout;
-  if (detailsOpen) {
-    flyout = (
+  const memorizedDocFlyout = useMemo(() => {
+    return (
       <DocFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -182,10 +202,20 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         setSurroundingEventsOpen={setSurroundingEventsOpen}
       ></DocFlyout>
     );
-  }
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    rawQuery,
+    flyoutToggleSize,
+  ]);
 
-  if (surroundingEventsOpen) {
-    flyout = (
+  const memorizedSurroundingFlyout = useMemo(() => {
+    return (
       <SurroundingFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -205,7 +235,34 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         setToggleSize={setFlyoutToggleSize}
       />
     );
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    pplService,
+    rawQuery,
+    selectedCols,
+    flyoutToggleSize,
+  ]);
+
+  let flyout;
+  if (detailsOpen) {
+    flyout = memorizedDocFlyout;
   }
+
+  if (surroundingEventsOpen) {
+    flyout = memorizedSurroundingFlyout;
+  }
+
+  useEffect(() => {
+    if (detailsOpen) {
+      onFlyoutOpen(docId);
+    }
+  }, [detailsOpen]);
 
   return (
     <>
@@ -221,4 +278,4 @@ export const DocViewRow = (props: IDocViewRowProps) => {
       {flyout}
     </>
   );
-};
+});
