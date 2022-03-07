@@ -20,7 +20,7 @@ export function TraceDetailFlyout(props: TraceFlyoutProps) {
     <TraceDetailRender traceId={traceId} http={http} openSpanFlyout={openSpanFlyout} />
   );
   return (
-    <EuiFlyout onClose={closeTraceFlyout} size="s">
+    <EuiFlyout onClose={closeTraceFlyout} size="m">
       <EuiFlyoutHeader hasBorder>
         <EuiTitle>
           <h2>Trace detail</h2>
