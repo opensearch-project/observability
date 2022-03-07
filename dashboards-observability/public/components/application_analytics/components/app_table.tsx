@@ -204,7 +204,13 @@ export function AppTable(props: AppTableProps) {
       field: 'availability',
       name: 'Current Availability',
       sortable: true,
-      render: (value, record) => <EuiBadge color={value.color}>{value.name}</EuiBadge>,
+      render: (value, record) => {
+        if (value.name && value.color) {
+          return <EuiBadge color={value.color}>{value.name}</EuiBadge>;
+        } else {
+          return <EuiText>Undefined</EuiText>;
+        }
+      },
     },
     {
       field: 'dateModified',
