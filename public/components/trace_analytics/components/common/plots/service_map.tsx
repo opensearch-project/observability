@@ -53,7 +53,15 @@ export function ServiceMap({
   setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
-  page: 'app' | 'appCreate' | 'dashboard' | 'traces' | 'services' | 'serviceView' | 'detailFlyout' | 'traceView';
+  page:
+    | 'app'
+    | 'appCreate'
+    | 'dashboard'
+    | 'traces'
+    | 'services'
+    | 'serviceView'
+    | 'detailFlyout'
+    | 'traceView';
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
@@ -122,7 +130,7 @@ export function ServiceMap({
           inverted: false,
           disabled: false,
         });
-        if (page !== 'appCreate') {
+        if (!['appCreate', 'detailFlyout'].includes(page)) {
           window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
         }
       }
