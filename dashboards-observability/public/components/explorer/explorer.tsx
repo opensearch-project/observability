@@ -399,6 +399,9 @@ export const Explorer = ({
     getCountVisualizations(minInterval);
   };
 
+  const isIndexPatternChanged = (currentQuery: string, prevTabQuery: string) =>
+    !isEqual(getIndexPatternFromRawQuery(currentQuery), getIndexPatternFromRawQuery(prevTabQuery));
+
   const updateTabData = async (objectId: string) => {
     await getSavedDataById(objectId);
     await fetchData();
@@ -429,6 +432,7 @@ export const Explorer = ({
         updateTabData(savedObjectId);
       } else {
         emptyTab();
+        fetchData();
       }
     }
   }, [savedObjectId]);
@@ -447,7 +451,6 @@ export const Explorer = ({
         },
       })
     );
-    await fetchData();
   };
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
@@ -770,10 +773,29 @@ export const Explorer = ({
     );
   };
 
+  const updateCurrentTimeStamp = async (timestamp: string) => {
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [SELECTED_TIMESTAMP]: timestamp,
+        },
+      })
+    );
+  };
+
   const handleQuerySearch = useCallback(async () => {
+    // clear previous selected timestamp when index pattern changes
+    if (
+      !isEmpty(tempQuery) &&
+      !isEmpty(query[RAW_QUERY]) &&
+      isIndexPatternChanged(tempQuery, query[RAW_QUERY])
+    ) {
+      await updateCurrentTimeStamp('');
+    }
     await updateQueryInStore(tempQuery);
     fetchData();
-  }, [tempQuery]);
+  }, [tempQuery, query[RAW_QUERY]]);
 
   const handleQueryChange = async (newQuery: string) => {
     setTempQuery(newQuery);
