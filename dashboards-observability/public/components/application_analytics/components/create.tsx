@@ -82,7 +82,7 @@ export const CreateApp = (props: CreateAppProps) => {
         href: '#/application_analytics',
       },
       {
-        text: editMode ? 'Save' : 'Create',
+        text: editMode ? 'Edit' : 'Create',
         href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
       },
     ]);
@@ -177,14 +177,14 @@ export const CreateApp = (props: CreateAppProps) => {
             </EuiPageContentHeader>
             <EuiHorizontalRule />
             <EuiForm component="form">
-              <EuiFormRow label="Name">
+              <EuiFormRow label="Name" data-test-subj="nameFormRow">
                 <EuiFieldText
                   name="name"
                   value={name}
                   onChange={(e) => setNameWithStorage(e.target.value)}
                 />
               </EuiFormRow>
-              <EuiFormRow label="Description">
+              <EuiFormRow label="Description" data-test-subj="descriptionFormRow">
                 <EuiFieldText
                   name="description"
                   value={description}
@@ -225,7 +225,7 @@ export const CreateApp = (props: CreateAppProps) => {
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
                 <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
-                  {editMode ? 'Edit' : 'Create'}
+                  {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>

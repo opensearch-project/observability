@@ -335,7 +335,6 @@ export const Home = (props: HomeProps) => {
 
         for (let i = 0; i < panelList.length; i++) {
           deleteSavedVisualizationsForPanel(panelList[i]);
-          deletePanelForApp(panelList[i]);
         }
 
         const message =
@@ -370,6 +369,7 @@ export const Home = (props: HomeProps) => {
                 fetchApplications={fetchApps}
                 renameApplication={renameApp}
                 deleteApplication={deleteApp}
+                clearStorage={clearStorage}
                 {...commonProps}
               />
             </ObservabilitySideBar>

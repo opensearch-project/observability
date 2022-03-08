@@ -118,6 +118,7 @@ export function Application(props: AppDetailProps) {
     setStartTimeWithStorage,
     setEndTimeWithStorage,
     setToasts,
+    setFilters,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     name: '',
@@ -144,6 +145,23 @@ export function Application(props: AppDetailProps) {
 
   const setEndTimeForApp = (newEndTime: string) => {
     setEndTimeWithStorage(newEndTime, `${application.name}EndTime`);
+  };
+
+  const addSpanFilter = (field: string, value: any) => {
+    const newFilters = [...filters];
+    const index = newFilters.findIndex(({ field: filterField }) => field === filterField);
+    if (index === -1) {
+      newFilters.push({ field, operator: 'is', value, inverted: false, disabled: false });
+    } else {
+      newFilters.splice(index, 1, {
+        field,
+        operator: 'is',
+        value,
+        inverted: false,
+        disabled: false,
+      });
+    }
+    setFilters(newFilters);
   };
 
   // Add visualization to application's panel
@@ -452,7 +470,7 @@ export function Application(props: AppDetailProps) {
             spanId={spanFlyoutId}
             isFlyoutVisible={!!spanFlyoutId}
             closeFlyout={closeSpanFlyout}
-            addSpanFilter={() => {}}
+            addSpanFilter={addSpanFilter}
           />
         )}
         {traceFlyoutId && (
