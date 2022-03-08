@@ -701,7 +701,7 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {isLoading || !hasLoaded ? (
+            {!isLiveTailOnRef.current && (isLoading || !hasLoaded) ? (
               <EuiLoadingSpinner className="explorer-data-loading" size="m" />
             ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
