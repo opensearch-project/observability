@@ -4,14 +4,15 @@
  */
 
 import './docView.scss';
+import moment from 'moment';
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
-import { toPairs, uniqueId, has, forEach } from 'lodash';
+import { toPairs, uniqueId, has, forEach, isEqual } from 'lodash';
 import { EuiIcon, EuiLink } from '@elastic/eui';
 import { useEffect } from 'react';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
-import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
+import { OTEL_TRACE_ID, DATE_PICKER_FORMAT } from '../../../../common/constants/explorer';
 import { SurroundingFlyout } from './surrounding_flyout';
 import PPLService from '../../../services/requests/ppl';
 import { isValidTraceId } from '../utils';
@@ -146,7 +147,7 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         cols.push(
           getTdTmpl({
             clsName: timestampClsName,
-            content: doc[timeStampField],
+            content: moment.utc(doc[timeStampField]).local().format(DATE_PICKER_FORMAT),
           })
         );
       }
@@ -169,7 +170,9 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         cols.push(
           getTdTmpl({
             clsName: fieldClsName,
-            content: val,
+            content: isEqual(key, timeStampField)
+              ? moment.utc(val).local().format(DATE_PICKER_FORMAT)
+              : val,
           })
         );
       });
