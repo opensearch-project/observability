@@ -82,7 +82,7 @@ export const CreateApp = (props: CreateAppProps) => {
         href: '#/application_analytics',
       },
       {
-        text: editMode ? 'Save' : 'Create',
+        text: editMode ? 'Edit' : 'Create',
         href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
       },
     ]);
@@ -225,7 +225,7 @@ export const CreateApp = (props: CreateAppProps) => {
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
                 <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
-                  {editMode ? 'Edit' : 'Create'}
+                  {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>
