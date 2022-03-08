@@ -23,6 +23,7 @@ export const createBarTypeDefinition = (params: any) => ({
   id: 'bar',
   label: 'Bar',
   fullLabel: 'Bar',
+  iconType: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
   },

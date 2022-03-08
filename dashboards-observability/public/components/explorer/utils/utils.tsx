@@ -284,9 +284,4 @@ export const findAutoInterval = (start: string = '', end: string = '') => {
   else if (diffSeconds <= 86400 * 366) minInterval = 'M';
 
   return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
-
-  // setTimeIntervalOptions([
-  //   { text: 'Auto', value: 'auto_' + minInterval },
-  //   ...TIME_INTERVAL_OPTIONS,
-  // ]);
 };

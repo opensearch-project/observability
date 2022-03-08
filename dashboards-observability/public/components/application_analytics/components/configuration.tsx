@@ -83,7 +83,7 @@ export const Configuration = (props: ConfigProps) => {
                   </EuiText>
                   <EuiSpacer size="m" />
                   <EuiText size="m">
-                    <ul>
+                    <ul aria-label="List of services and entities">
                       {application.servicesEntities.map((group) => (
                         <li>{decodeURI(group)}</li>
                       ))}
@@ -96,7 +96,7 @@ export const Configuration = (props: ConfigProps) => {
                   </EuiText>
                   <EuiSpacer size="m" />
                   <EuiText size="m">
-                    <ul>
+                    <ul aria-label="List of trace groups">
                       {application.traceGroups.map((group) => (
                         <li>{decodeURI(group)}</li>
                       ))}

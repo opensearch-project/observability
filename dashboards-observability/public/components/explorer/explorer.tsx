@@ -247,7 +247,7 @@ export const Explorer = ({
         setSelectedPanelName(objectData?.name || '');
         setCurVisId(objectData?.type || 'bar');
         setTempQuery((staleTempQuery: string) => {
-          return objectData?.query || staleTempQuery;
+          return appLogEvents ? currQuery : objectData?.query || staleTempQuery;
         });
         const tabToBeFocused = isSavedQuery
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
