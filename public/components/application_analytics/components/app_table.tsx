@@ -45,6 +45,7 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
   fetchApplications: () => void;
   renameApplication: (newAppName: string, appId: string) => void;
   deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
+  clearStorage: () => void;
 }
 
 export function AppTable(props: AppTableProps) {
@@ -59,6 +60,7 @@ export function AppTable(props: AppTableProps) {
     setFilters,
     setStartTime,
     setEndTime,
+    clearStorage,
   } = props;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
@@ -82,6 +84,7 @@ export function AppTable(props: AppTableProps) {
     setFilters([]);
     setStartTime('now-24h');
     setEndTime('now');
+    clearStorage();
   };
 
   const closeModal = () => {

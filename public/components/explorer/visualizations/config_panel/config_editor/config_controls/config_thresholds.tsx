@@ -112,6 +112,8 @@ export const ConfigThresholds = ({
                     <EuiFieldText
                       onChange={handleThresholdChange(thr.thid, 'name')}
                       value={thr.name || ''}
+                      arial-label="Input threshold name"
+                      data-test-subj="nameFieldText"
                     />
                   </EuiFlexItem>
                   {hasSpanInApp && (
@@ -120,6 +122,8 @@ export const ConfigThresholds = ({
                         options={expressionOptions}
                         value={thr.expression || ''}
                         onChange={handleThresholdChange(thr.thid, 'expression')}
+                        aria-label="Select threshold expression"
+                        data-test-subj="expressionSelect"
                       />
                     </EuiFlexItem>
                   )}
@@ -129,7 +133,8 @@ export const ConfigThresholds = ({
                       placeholder="Placeholder text"
                       value={thr.value || 0}
                       onChange={handleThresholdChange(thr.thid, 'value')}
-                      aria-label="Use aria labels when no actual label is in use"
+                      aria-label="Input threshold value"
+                      data-test-subj="valueFieldNumber"
                     />
                   </EuiFlexItem>
                   <EuiFlexItem grow={1}>
