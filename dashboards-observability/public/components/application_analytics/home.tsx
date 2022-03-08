@@ -15,7 +15,6 @@ import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _, { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { VisualizationType } from 'common/types/custom_panels';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
 import { CreateApp } from './components/create';
@@ -26,7 +25,12 @@ import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
 import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
-import { isNameValid, removeTabData } from './helpers/utils';
+import {
+  calculateAvailability,
+  fetchPanelsVizIdList,
+  isNameValid,
+  removeTabData,
+} from './helpers/utils';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
@@ -190,21 +194,10 @@ export const Home = (props: HomeProps) => {
     });
   };
 
-  const fetchPanelsVizIdList = async (appPanelId: string) => {
-    await http
-      .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
-      .then((res) => {
-        return res.operationalPanel.visualizations.map((viz: VisualizationType) => viz.id);
-      })
-      .catch((err) => {
-        console.error('Error occurred while fetching visualizations for panel', err);
-      });
-  };
-
   const deleteSavedVisualizationsForPanel = async (appPanelId: string) => {
-    const savedVizIdsToDelete = fetchPanelsVizIdList(appPanelId);
+    const savedVizIdsToDelete = await fetchPanelsVizIdList(http, appPanelId);
     if (!isEmpty(savedVizIdsToDelete)) {
-      await savedObjects
+      savedObjects
         .deleteSavedObjectsList({ objectIdList: savedVizIdsToDelete })
         .then((res) => {
           deletePanelForApp(appPanelId);
@@ -220,7 +213,10 @@ export const Home = (props: HomeProps) => {
   const fetchApps = () => {
     return http
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
-      .then((res) => {
+      .then(async (res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          res.data[i].availability = await calculateAvailability(http, pplService, res.data[i]);
+        }
         setApplicationList(res.data);
       })
       .catch((err) => {

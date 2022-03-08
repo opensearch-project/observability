@@ -197,7 +197,7 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
           fetchSuccess({
             tabId: requestParams.tabId,
             data: {
-              jsonDataAll: res['jsonData'],
+              jsonDataAll: res.jsonData,
             },
           })
         );

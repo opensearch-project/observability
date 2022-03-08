@@ -20,7 +20,6 @@ import { HttpSetup } from '../../../../../../src/core/public';
 import { TraceBlock } from './trace_block/trace_block';
 import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
 import { isValidTraceId } from '../utils';
-import { log } from 'util';
 
 interface IDocViewerProps {
   http: HttpSetup;

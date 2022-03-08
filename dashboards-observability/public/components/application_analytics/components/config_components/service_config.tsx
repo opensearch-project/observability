@@ -98,7 +98,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
   };
 
   const services = Object.keys(serviceMap).map((service) => {
-    return { label: service };
+    return { label: decodeURI(service) };
   });
 
   const onCancel = () => {

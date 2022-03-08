@@ -20,3 +20,10 @@
 #baseQueryCallout {
   max-width: 900px;
 }
+
+#compositionColumn {
+  width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
