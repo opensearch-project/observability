@@ -5,7 +5,7 @@
 
 import './docView.scss';
 import { FlyoutContainers } from '../../common/flyout_containers';
-import React, { useState } from 'react';
+import React from 'react';
 import { IDocType } from './docViewRow';
 import { DocViewer } from './docViewer';
 import {
@@ -14,7 +14,6 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiFlyoutBody,
-  EuiFlyoutFooter,
   EuiFlyoutHeader,
   EuiTitle,
   EuiToolTip,

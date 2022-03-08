@@ -204,7 +204,7 @@ export const getFullSuggestions = async (
   base: string,
   str: string,
   dslService: DSLService,
-  restrictedCommands: Array<{ label: string }>
+  possibleCommands: Array<{ label: string }>
 ): Promise<AutocompleteItem[]> => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
@@ -435,7 +435,7 @@ export const getSuggestionsAfterSource = async (
   base: string,
   currQuery: string,
   dslService: DSLService,
-  restrictedCommands: Array<{ label: string }> = []
+  possibleCommands: Array<{ label: string }> = pipeCommands
 ) => {
   const fullQuery = base + '| ' + currQuery;
   const splitSpaceQuery = fullQuery.split(' ');
@@ -449,7 +449,7 @@ export const getSuggestionsAfterSource = async (
     getFields(dslService);
     currField = '';
     currFieldType = '';
-    return fillSuggestions(currQuery, lastWord, restrictedCommands || pipeCommands);
+    return fillSuggestions(currQuery, lastWord, possibleCommands);
   }
   const next = parseForNextSuggestion(lastCommand);
   if (next) {
@@ -564,7 +564,7 @@ export const getSuggestionsAfterSource = async (
       case MATCH_FIELD_AFTER_WHERE:
         return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
       case EMPTY_REGEX:
-        return fillSuggestions(currQuery, lastWord, restrictedCommands || pipeCommands);
+        return fillSuggestions(currQuery, lastWord, possibleCommands);
     }
   }
 

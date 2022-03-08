@@ -595,7 +595,7 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {isLoading || !hasLoaded ? (
+            {!isLiveTailOnRef.current && (isLoading || !hasLoaded) ? (
               <EuiLoadingSpinner className="explorer-data-loading" size="m" />
             ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
@@ -1182,7 +1182,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={query[RAW_QUERY]}
+          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}

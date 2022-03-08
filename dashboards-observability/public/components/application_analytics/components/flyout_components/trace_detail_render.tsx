@@ -4,6 +4,7 @@
  */
 
 import { EuiText, EuiSpacer, EuiHorizontalRule, EuiCodeBlock } from '@elastic/eui';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ServiceBreakdownPanel } from '../../../trace_analytics/components/traces/service_breakdown_panel';
 import { SpanDetailPanel } from '../../../trace_analytics/components/traces/span_detail_panel';
 import {
@@ -11,17 +12,16 @@ import {
   handleServicesPieChartRequest,
   handlePayloadRequest,
 } from '../../../trace_analytics/requests/traces_request_handler';
-import React, { useEffect, useMemo, useState } from 'react';
 import { HttpStart } from '../../../../../../../src/core/public';
 import { getListItem } from '../../helpers/utils';
 
-type props = {
+interface TraceDetailRenderProps {
   traceId: string;
   http: HttpStart;
   openSpanFlyout: (spanId: string) => void;
-};
+}
 
-export const TraceDetailRender = ({ traceId, http, openSpanFlyout }: props) => {
+export const TraceDetailRender = ({ traceId, http, openSpanFlyout }: TraceDetailRenderProps) => {
   const [fields, setFields] = useState<any>({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');
