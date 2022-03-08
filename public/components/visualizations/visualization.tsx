@@ -26,7 +26,7 @@ export const Visualization = ({ visualizations }: IVisualizationProps) => {
       {isVizDataValid && isVizFieldValid ? (
         <VisualizationChart visualizations={visualizations} />
       ) : (
-        <EmptyPlaceholder icon={visualizations?.vis?.icon} />
+        <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
       )}
     </>
   );

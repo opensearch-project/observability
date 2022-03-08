@@ -19,6 +19,7 @@ export const createMapsVisDefinition = () => ({
   id: 'heatmap',
   label: 'Heatmap',
   fullLabel: 'Hubble',
+  iconType: 'heatmap',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
