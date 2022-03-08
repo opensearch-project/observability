@@ -4,8 +4,8 @@
  */
 
 import React, { useMemo, useState, useContext, useEffect } from 'react';
-import { indexOf, last, forEach } from 'lodash';
-import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiLink, EuiBasicTable } from '@elastic/eui';
+import { indexOf, last } from 'lodash';
+import { EuiFlexGroup, EuiFlexItem, EuiLink, EuiBasicTable } from '@elastic/eui';
 import { getIndexPatternFromRawQuery } from '../../../../common/utils/query_utils';
 import { TabContext } from '../hooks/use_tab_context';
 
@@ -91,7 +91,7 @@ export const FieldInsights = ({ field, query }: any) => {
         });
         if (res.length > 2) {
           const statsRes = last(res);
-          if (!statsRes.metadata) return;
+          if (!statsRes?.metadata) return;
           numericalOnlyReports.map((rep, index) => {
             const fieldName = statsRes.metadata?.fields[index]?.name;
             setReportContent((staleState) => {
