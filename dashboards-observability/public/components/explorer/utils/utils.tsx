@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { uniqueId } from 'lodash';
 import React from 'react';
+import moment from 'moment';
+import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
-import moment from 'moment';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
   http: HttpStart,
-  explorerFields: Array<IField>,
+  explorerFields: IField[],
   limit: number,
   setLimit: React.Dispatch<React.SetStateAction<number>>,
   PAGE_SIZE: number,
@@ -23,18 +23,22 @@ export const getTrs = (
   explorerFieldsFull: IExplorerFields,
   pplService: PPLService,
   rawQuery: string,
-  rowRefs: React.RefObject<{
-    closeAllFlyouts(openDocId: string): void;
-  }>[],
+  rowRefs: Array<
+    React.RefObject<{
+      closeAllFlyouts(openDocId: string): void;
+    }>
+  >,
   setRowRefs: React.Dispatch<
     React.SetStateAction<
-      React.RefObject<{
-        closeAllFlyouts(openDocId: string): void;
-      }>[]
+      Array<
+        React.RefObject<{
+          closeAllFlyouts(openDocId: string): void;
+        }>
+      >
     >
   >,
   onFlyoutOpen: (docId: string) => void,
-  docs: Array<any> = [],
+  docs: any[] = [],
   prevTrs: any[] = []
 ) => {
   if (prevTrs.length >= docs.length) return prevTrs;
@@ -44,7 +48,7 @@ export const getTrs = (
   const trs = prevTrs.slice();
 
   const upperLimit = Math.min(trs.length === 0 ? PAGE_SIZE : limit, docs.length);
-  let tempRefs = rowRefs;
+  const tempRefs = rowRefs;
   for (let i = trs.length; i < upperLimit; i++) {
     const docId = uniqueId('doc_view');
     const tempRowRef = React.createRef<{
@@ -88,7 +92,7 @@ export const getHeaders = (fields: any, defaultCols: string[], isFlyout?: boolea
     });
 
     if (!isFlyout) {
-      tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')}></th>);
+      tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')} />);
     }
   }
 
@@ -161,7 +165,7 @@ const composeFinalQuery = (
 const createTds = (
   docs: IDocType[],
   selectedCols: IField[],
-  getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[]
+  getTds: (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => JSX.Element[]
 ) => {
   return docs.map((doc: IDocType) => (
     <tr className="osdDocTable__row"> {getTds(doc, selectedCols, true).slice(1)}</tr>
@@ -180,7 +184,7 @@ export const fetchSurroundingData = async (
   setIsError: React.Dispatch<React.SetStateAction<string>>,
   setLoadingData: React.Dispatch<React.SetStateAction<boolean>>,
   selectedCols: IField[],
-  getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[]
+  getTds: (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => JSX.Element[]
 ) => {
   let resultCount = 0;
   let isErred = false;
