@@ -6,10 +6,12 @@
 import { uniqueId } from 'lodash';
 import React from 'react';
 import moment from 'moment';
+import dateMath from '@elastic/datemath';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
+import { TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 
 // Create Individual table rows for events datagrid and flyouts
@@ -239,4 +241,47 @@ export const rangeNumDocs = (value: number) => {
 // check traceId Byte Size
 export const isValidTraceId = (traceId: string) => {
   return new Blob([traceId]).size === 32;
+};
+
+export const formatError = (name: string, message: string, details: string) => {
+  return {
+    name,
+    message,
+    body: {
+      attributes: {
+        error: {
+          caused_by: {
+            type: '',
+            reason: details,
+          },
+        },
+      },
+    },
+  };
+};
+
+export const findAutoInterval = (start: string = '', end: string = '') => {
+  let minInterval = 'y';
+  if (start?.length === 0 || end?.length === 0 || start === end)
+    return ['d', [...TIME_INTERVAL_OPTIONS]];
+  const momentStart = dateMath.parse(start)!;
+  const momentEnd = dateMath.parse(end)!;
+  const diffSeconds = momentEnd.unix() - momentStart.unix();
+
+  // less than 1 second
+  if (diffSeconds <= 1) minInterval = 'ms';
+  // less than 2 minutes
+  else if (diffSeconds <= 60 * 2) minInterval = 's';
+  // less than 2 hours
+  else if (diffSeconds <= 3600 * 2) minInterval = 'm';
+  // less than 2 days
+  else if (diffSeconds <= 86400 * 2) minInterval = 'h';
+  // less than 1 month
+  else if (diffSeconds <= 86400 * 31) minInterval = 'd';
+  // less than 3 months
+  else if (diffSeconds <= 86400 * 93) minInterval = 'w';
+  // less than 1 year
+  else if (diffSeconds <= 86400 * 366) minInterval = 'M';
+
+  return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
 };

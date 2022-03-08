@@ -13,7 +13,6 @@ import {
   SAVE_QUERY3,
   SAVE_QUERY4,
 } from '../utils/constants';
-
 import { supressResizeObserverIssue } from '../utils/constants';
 
 const landOnEventHome = () => {
@@ -282,7 +281,9 @@ describe('Override default timestamp for an index', () => {
     cy.get('[data-test-subj="eventExplorer__overrideDefaultTimestamp"]').click();
     cy.wait(delay);
 
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.get('[data-attr-field="utc_time"] [data-test-subj="eventFields__default-timestamp-mark"')
+    .contains('Default Timestamp').should('exist');
+    cy.get('[data-attr-field="timestamp"] [data-test-subj="eventFields__default-timestamp-mark"').should('not.exist');
   });
 });
 
