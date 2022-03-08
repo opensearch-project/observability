@@ -5,15 +5,22 @@
 /* eslint-disable no-console */
 
 import { EuiDescriptionList, EuiSpacer, EuiText } from '@elastic/eui';
-import { ApplicationType } from 'common/types/app_analytics';
+import { ApplicationListType, ApplicationType } from 'common/types/app_analytics';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
 import React, { Dispatch, ReactChild } from 'react';
 import { batch } from 'react-redux';
+import PPLService from 'public/services/requests/ppl';
+import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { VisualizationType } from '../../../../common/types/custom_panels';
 import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
 import { HttpSetup } from '../../../../../../src/core/public';
 import { init as initFields, remove as removefields } from '../../explorer/slices/field_slice';
-import { init as initVisualizationConfig, reset as resetVisualizationConfig } from '../../explorer/slices/viualization_config_slice';
+import {
+  init as initVisualizationConfig,
+  reset as resetVisualizationConfig,
+} from '../../explorer/slices/viualization_config_slice';
 import {
   init as initQuery,
   remove as removeQuery,
@@ -149,4 +156,74 @@ export const initializeTabData = async (dispatch: Dispatch<any>, tabId: string, 
       })
     );
   });
+};
+
+export const fetchPanelsVizIdList = async (http: HttpSetup, appPanelId: string) => {
+  return await http
+    .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
+    .then((res) => {
+      const visIds = res.operationalPanel.visualizations.map(
+        (viz: VisualizationType) => viz.savedVisualizationId
+      );
+      return visIds;
+    })
+    .catch((err) => {
+      console.error('Error occurred while fetching visualizations for panel', err);
+      return [];
+    });
+};
+
+export const calculateAvailability = async (
+  http: HttpSetup,
+  pplService: PPLService,
+  application: ApplicationListType
+) => {
+  const panelId = application.panelId;
+  if (!panelId) return '';
+  // Get all visualizations for this panel
+  const savedVisualizationsIds = await fetchPanelsVizIdList(http, panelId);
+  if (!savedVisualizationsIds) return '';
+  for (let i = 0; i < savedVisualizationsIds.length; i++) {
+    const visualizationId = savedVisualizationsIds[i];
+    const visData = await fetchVisualizationById(http, visualizationId, (value: string) =>
+      console.error(value)
+    );
+    if (visData.user_configs.dataConfig?.hasOwnProperty('thresholds')) {
+      const thresholds = visData.user_configs.dataConfig.thresholds.reverse();
+      let currValue = '';
+      await pplService
+        .fetch({
+          query: visData.query,
+          format: 'viz',
+        })
+        .then((res) => {
+          const counts = res.data['count()'];
+          currValue = counts[counts.length - 1];
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      for (let j = 0; j < thresholds.length; j++) {
+        const threshold = thresholds[j];
+        if (threshold.hasOwnProperty('expression')) {
+          const expression = threshold.expression;
+          switch (expression) {
+            case '>':
+              if (currValue > threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+            case '<':
+              if (currValue < threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+            case '=':
+              if (currValue === threshold.value) {
+                return { name: threshold.name, color: threshold.color };
+              }
+          }
+        }
+      }
+    }
+  }
+  return panelId;
 };

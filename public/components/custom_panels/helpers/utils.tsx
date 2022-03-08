@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
@@ -118,7 +119,7 @@ const pplServiceRequestor = async (
       setVisualizationData(res);
     })
     .catch((error: Error) => {
-      setIsError(error.stack);
+      setIsError(error.stack || 'Issue in fetching visualization');
       console.error(error);
     })
     .finally(() => {
@@ -127,10 +128,10 @@ const pplServiceRequestor = async (
 };
 
 // Fetched Saved Visualization By Id
-const fetchVisualizationById = async (
+export const fetchVisualizationById = async (
   http: CoreStart['http'],
   savedVisualizationId: string,
-  setIsError: React.Dispatch<React.SetStateAction<string>>
+  setIsError: (value: string) => void
 ) => {
   let savedVisualization = {} as SavedVisualizationType;
   await http

@@ -33,7 +33,7 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
   loading: boolean;
-  page: 'dashboard' | 'app';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }) {
   const getVarianceProps = (items: any[]) => {
     if (items.length === 0) {
@@ -318,24 +318,27 @@ export function DashboardTable(props: {
         ),
         align: 'right',
         sortable: true,
-        render: props.page === 'dashboard' ? (item, row) => (
-          <EuiLink
-            data-test-subj="dashboard-table-traces-button"
-            onClick={() => {
-              props.setRedirect(true);
-              props.addFilter({
-                field: 'traceGroup',
-                operator: 'is',
-                value: row.dashboard_trace_group_name,
-                inverted: false,
-                disabled: false,
-              });
-              location.assign('#/trace_analytics/traces');
-            }}
-          >
-            <EuiI18nNumber value={item} />
-          </EuiLink>
-        ) : (item) => item
+        render:
+          props.page === 'app'
+            ? (item) => item
+            : (item, row) => (
+                <EuiLink
+                  data-test-subj="dashboard-table-traces-button"
+                  onClick={() => {
+                    props.setRedirect(true);
+                    props.addFilter({
+                      field: 'traceGroup',
+                      operator: 'is',
+                      value: row.dashboard_trace_group_name,
+                      inverted: false,
+                      disabled: false,
+                    });
+                    location.assign('#/trace_analytics/traces');
+                  }}
+                >
+                  <EuiI18nNumber value={item} />
+                </EuiLink>
+              ),
       },
     ] as Array<EuiTableFieldDataColumnType<any>>;
 
