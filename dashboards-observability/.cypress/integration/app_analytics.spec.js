@@ -119,7 +119,6 @@ describe('Creating application', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
     cy.get('.euiAccordion').contains('Services & Entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
-    cy.wait(delay);
     cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
     cy.get('.euiBadge').contains('1').should('exist');
     cy.get('.euiAccordion').contains('Trace groups').click();
@@ -287,8 +286,7 @@ describe('Viewing application', () => {
 
   it('Shows base query', () => {
     cy.get('.euiTab').contains('Log Events').click();
-    cy.get('.euiBadge__text').contains('Base Query').trigger('mouseover');
-    cy.get('.euiToolTipPopover').should('contain', 'source = opensearch_dashboards_sample_data_flights ');
+    cy.get('.euiBadge__text').contains('Base Query').should('exist');
   });
 
   it('Saves visualization to panel', () => {
