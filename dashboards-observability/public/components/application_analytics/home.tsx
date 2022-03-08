@@ -335,7 +335,6 @@ export const Home = (props: HomeProps) => {
 
         for (let i = 0; i < panelList.length; i++) {
           deleteSavedVisualizationsForPanel(panelList[i]);
-          deletePanelForApp(panelList[i]);
         }
 
         const message =
