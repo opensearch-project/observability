@@ -23,6 +23,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
   id: 'gauge',
   label: 'Gauge',
   fullLabel: 'Gauge',
+  iconType: 'visGauge',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',

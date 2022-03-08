@@ -23,6 +23,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   id: 'line',
   label: 'Line',
   fullLabel: 'Line',
+  iconType: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',

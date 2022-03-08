@@ -144,7 +144,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   };
 
   const memorizedVisualizationTypes = useMemo(() => {
-    return ENABLED_VIS_TYPES.map((vs: any) => {
+    return ENABLED_VIS_TYPES.map((vs: string) => {
       const visDefinition = getVisType(vs);
       return {
         ...visDefinition,
@@ -153,10 +153,11 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
   }, []);
 
   const vizSelectableItemRenderer = (option) => {
-    const { icon, label } = option;
+    const { iconType, label } = option;
+
     return (
       <div className="configPanel__vizSelector-item">
-        <EuiIcon className="lnsChartSwitch__chartIcon" type={icon || 'empty'} size="m" />
+        <EuiIcon className="lnsChartSwitch__chartIcon" type={iconType || 'empty'} size="m" />
         &nbsp;&nbsp;
         <span>{label}</span>
       </div>
