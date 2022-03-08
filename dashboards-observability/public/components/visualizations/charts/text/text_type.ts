@@ -19,6 +19,7 @@ export const createTextTypeDefinition = (params: any = {}) => ({
   id: 'text',
   label: 'Text',
   fullLabel: 'Text',
+  iconType: 'visText',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',

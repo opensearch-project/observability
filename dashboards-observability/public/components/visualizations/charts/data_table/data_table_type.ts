@@ -15,6 +15,7 @@ export const createDatatableTypeDefinition = (params: any = {}) => ({
   id: 'data_table',
   label: 'Data Table',
   fullLabel: 'Data Table',
+  iconType: 'visTable',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',

@@ -20,6 +20,7 @@ export const createPieTypeDefinition = (params: any) => ({
   id: 'pie',
   label: 'Pie',
   fullLabel: 'Pie',
+  iconType: 'visPie',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
