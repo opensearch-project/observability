@@ -255,7 +255,20 @@ describe('Testing a panel', () => {
 
   it('Add ppl filter to panel', () => {
     cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
-    cy.get('.euiTextArea').type(PPL_FILTER);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]')
+      .click()
+      .wait(1500)
+      .type('where Carrier ')
+      .wait(1500)
+      .type('= ')
+      .wait(1500)
+      .type("'OpenSearch-Air'")
+      .wait(1500)
+      .type('| where Dest ')
+      .wait(1500)
+      .type('= ')
+      .wait(1500)
+      .type("'Munich Airport'");
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');
@@ -273,7 +286,7 @@ describe('Testing a panel', () => {
     cy.get('h5')
       .contains(PPL_VISUALIZATIONS_NAMES[1])
       .trigger('mousedown', { which: 1 })
-      .trigger('mousemove', { clientX: 900, clientY: 0 })
+      .trigger('mousemove', { clientX: 1100, clientY: 0 })
       .trigger('mouseup', { force: true });
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Save').click();
@@ -291,12 +304,12 @@ describe('Testing a panel', () => {
     cy.get('.react-resizable-handle')
       .eq(1)
       .trigger('mousedown', { which: 1 })
-      .trigger('mousemove', { clientX: 1600, clientY: 500 })
+      .trigger('mousemove', { clientX: 2000, clientY: 800 })
       .trigger('mouseup', { force: true });
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Save').click();
     cy.wait(delay * 3);
-    cy.get('div.react-grid-layout>div').eq(1).invoke('height').should('match', new RegExp('310'));
+    cy.get('div.react-grid-layout>div').eq(1).invoke('height').should('match', new RegExp('470'));
     cy.wait(delay);
   });
 
