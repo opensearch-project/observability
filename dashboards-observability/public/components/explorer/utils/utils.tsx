@@ -190,13 +190,13 @@ export const fetchSurroundingData = async (
 ) => {
   let resultCount = 0;
   let isErred = false;
-  const pplEventTime = moment(eventTime).format(PPL_DATE_FORMAT);
+  const pplEventTime = moment(eventTime).utc().format(PPL_DATE_FORMAT);
   setLoadingData(true);
   setIsError('');
 
   let finalQuery = '';
   try {
-    finalQuery = composeFinalQuery(rawQuery, timeStampField, eventTime, numDocs, typeOfDocs);
+    finalQuery = composeFinalQuery(rawQuery, timeStampField, pplEventTime, numDocs, typeOfDocs);
   } catch (error) {
     const errorMessage = 'Issue in building surrounding data query';
     setIsError(errorMessage);
