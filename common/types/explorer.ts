@@ -212,3 +212,9 @@ export interface IVisualizationContainerProps {
   data: IVisualizationContainerPropsData;
   vis: IVisualizationContainerPropsVis;
 }
+
+export interface IDefaultTimestampState {
+  hasSchemaConflict: boolean;
+  default_timestamp: string;
+  message: string;
+}
