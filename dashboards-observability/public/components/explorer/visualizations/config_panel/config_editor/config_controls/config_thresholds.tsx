@@ -34,7 +34,7 @@ export const ConfigThresholds = ({
       name: '',
       color: '#FC0505',
       value: 0,
-      expression: '=',
+      ...(hasSpanInApp && { expression: '=' }),
     };
   };
 

@@ -164,9 +164,8 @@ export function Dashboard(props: DashboardProps) {
   const addFilter = (filter: FilterType) => {
     for (let i = 0; i < props.filters.length; i++) {
       const addedFilter = props.filters[i];
-      if ( addedFilter.field === filter.field) {
-        if (addedFilter.operator === filter.operator && addedFilter.value === filter.value)
-          return;
+      if (addedFilter.field === filter.field) {
+        if (addedFilter.operator === filter.operator && addedFilter.value === filter.value) return;
         const newFilters = [...props.filters];
         newFilters.splice(i, 1, filter);
         props.setFilters(newFilters);
@@ -247,7 +246,7 @@ export function Dashboard(props: DashboardProps) {
             addPercentileFilter={addPercentileFilter}
             setRedirect={setRedirect}
             loading={loading}
-            page="dashboard"
+            page={page}
           />
           <EuiSpacer />
           <EuiFlexGroup alignItems="baseline">
