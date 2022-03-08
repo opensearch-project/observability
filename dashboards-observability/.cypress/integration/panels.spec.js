@@ -257,17 +257,17 @@ describe('Testing a panel', () => {
     cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]')
       .click()
-      .wait(1000)
+      .wait(1500)
       .type('where Carrier ')
-      .wait(1000)
+      .wait(1500)
       .type('= ')
-      .wait(1000)
+      .wait(1500)
       .type("'OpenSearch-Air'")
-      .wait(1000)
+      .wait(1500)
       .type('| where Dest ')
-      .wait(1000)
+      .wait(1500)
       .type('= ')
-      .wait(1000)
+      .wait(1500)
       .type("'Munich Airport'");
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
