@@ -4,14 +4,15 @@
  */
 
 import './docView.scss';
+import moment from 'moment';
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
-import { toPairs, uniqueId, has, forEach } from 'lodash';
+import { toPairs, uniqueId, has, forEach, isEqual } from 'lodash';
 import { EuiIcon, EuiLink } from '@elastic/eui';
+import { useEffect } from 'react';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
-import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
-import { useEffect } from 'react';
+import { OTEL_TRACE_ID, DATE_PICKER_FORMAT } from '../../../../common/constants/explorer';
 import { SurroundingFlyout } from './surrounding_flyout';
 import PPLService from '../../../services/requests/ppl';
 import { isValidTraceId } from '../utils';
@@ -24,7 +25,7 @@ interface IDocViewRowProps {
   http: HttpStart;
   doc: IDocType;
   docId: string;
-  selectedCols: Array<IField>;
+  selectedCols: IField[];
   timeStampField: string;
   explorerFields: IExplorerFields;
   pplService: PPLService;
@@ -75,7 +76,7 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
       <div className="truncate-by-height">
         <span>
           <dl className="source truncate-by-height">
-            {toPairs(doc).map((entry: Array<string>) => {
+            {toPairs(doc).map((entry: string[]) => {
               const isTraceField = entry[0] === OTEL_TRACE_ID;
               return (
                 <span key={uniqueId('grid-desc')}>
@@ -136,17 +137,17 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
     );
   };
 
-  const getTds = (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => {
+  const getTds = (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => {
     const cols = [];
     const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
     // No field is selected
     if (!selectedCols || selectedCols.length === 0) {
-      if (has(doc, 'timestamp')) {
+      if (has(doc, timeStampField)) {
         cols.push(
           getTdTmpl({
             clsName: timestampClsName,
-            content: doc['timestamp'],
+            content: moment.utc(doc[timeStampField]).local().format(DATE_PICKER_FORMAT),
           })
         );
       }
@@ -169,7 +170,9 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         cols.push(
           getTdTmpl({
             clsName: fieldClsName,
-            content: val,
+            content: isEqual(key, timeStampField)
+              ? moment.utc(val).local().format(DATE_PICKER_FORMAT)
+              : val,
           })
         );
       });
@@ -200,7 +203,7 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         setToggleSize={setFlyoutToggleSize}
         setOpenTraces={setOpenTraces}
         setSurroundingEventsOpen={setSurroundingEventsOpen}
-      ></DocFlyout>
+      />
     );
   }, [
     http,
