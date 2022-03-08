@@ -75,7 +75,9 @@ export const Field = (props: IFieldProps) => {
           <>
             {showTimestampOverrideButton && isEqual(field.type, 'timestamp') ? (
               isEqual(selectedTimestamp, field.name) ? (
-                <EuiMark>Default Timestamp</EuiMark>
+                <EuiMark data-test-subj="eventFields__default-timestamp-mark">
+                  Default Timestamp
+                </EuiMark>
               ) : isOverridingTimestamp ? (
                 <EuiLoadingSpinner className="override_timestamp_loading" size="m" />
               ) : (
