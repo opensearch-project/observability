@@ -5,69 +5,30 @@
 
 /// <reference types="cypress" />
 
+import {
+  delay,
+  moveToHomePage,
+  moveToCreatePage,
+  moveToApplication,
+  moveToEditPage,
+  changeTimeTo24,
+  expectMessageOnHover,
+  baseQuery,
+  name,
+  description,
+  service_one,
+  service_two,
+  trace_one,
+  trace_two,
+  trace_three,
+  spanQueryPartOne,
+  spanQueryPartTwo,
+  spanQueryPartThree,
+  visName,
+  composition,
+  newName,
+} from '../utils/panel_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
-
-const delay = 700;
-
-const moveToHomePage = () => {
-  cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 3);
-  cy.get('.euiTitle').contains('Applications').should('exist');
-};
-
-const moveToCreatePage = () => {
-  cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 2);
-  cy.get('.euiButton__text').contains('Create application').click();
-  supressResizeObserverIssue();
-  cy.wait(delay);
-  cy.get('.euiTitle').contains('Create application').should('exist');
-};
-
-const moveToApplication = () => {
-  cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 5);
-  cy.get('.euiLink').contains(name).click();
-  cy.wait(delay);
-  cy.get('.euiTitle').contains(name).should('exist');
-  changeTimeTo24('years');
-};
-
-const moveToEditPage = () => {
-  moveToApplication();
-  cy.get('.euiTab').contains('Configuration').click();
-  cy.get('.euiButton').contains('Edit').click();
-  supressResizeObserverIssue();
-  cy.wait(delay);
-  cy.get('.euiTitle').contains('Edit application');
-};
-
-const changeTimeTo24 = (timeUnit) => {
-  cy.get('#QuickSelectPopover').click();
-  cy.get('[aria-label="Time unit"]').select(timeUnit);
-  cy.get('.euiButton').contains('Apply').click();
-  cy.wait(delay);
-};
-
-const expectMessageOnHover = (message) => {
-  cy.get('.euiToolTipAnchor').contains('Create').click({ force: true });
-  cy.get('.euiToolTipPopover').contains(message).should('exist');
-};
-
-const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
-const name = 'Cypress';
-const description = 'This is my application for cypress testing.';
-const service_one = 'order';
-const service_two = 'payment';
-const trace_one = 'HTTP POST';
-const trace_two = 'HTTP GET';
-const trace_three = 'client_pay_order';
-const spanQueryPartOne = 'where DestCityName ';
-const spanQueryPartTwo = '= "Venice" | stats count() by span( timestamp ';
-const spanQueryPartThree = ', 6h )';
-const visName = 'Flights to Venice';
-const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
-const newName = 'Monterey Cypress';
 
 describe('Creating application', () => {
   beforeEach(() => {
