@@ -1,6 +1,6 @@
 import { Bar } from './bar';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartBarHorizontal } from '../../../visualizations/assets/chart_bar_horizontal';
+import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
 import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
@@ -12,18 +12,20 @@ export interface BarTypeParams {}
 
 export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) => ({
   id: 'horizontal_bar',
-  label: 'H. Bar',
+  name: 'horizontal_bar',
   type: 'bar',
-  fullLabel: 'H. Bar',
+  label: 'Bar',
+  fullLabel: 'Bar',
+  iconType: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
-  icon: LensIconChartBarHorizontal,
+  icon: LensIconChartBar,
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
   orientation: 'h',
   component: Bar,
-  categoryAxis: 'yaxis',
-  seriesAxis: 'xaxis',
   editorConfig: {
     panelTabs: [
       {
@@ -39,26 +41,50 @@ export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) =>
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'Type',
-                onChangeHandler: 'setVisType',
-                isSingleSelection: true,
-                options: ['bar', 'group', 'stack'],
-                component: null,
-                mapTo: 'selectedVisType',
-              },
-              {
                 name: 'X-axis',
-                onChangeHandler: 'setXaxisSelections',
                 isSingleSelection: false,
                 component: null,
                 mapTo: 'xaxis',
               },
               {
                 name: 'Y-axis',
-                isSingleSelection: true,
-                onChangeHandler: 'setYaxisSelections',
+                isSingleSelection: false,
                 component: null,
                 mapTo: 'yaxis',
+              },
+            ],
+          },
+          {
+            id: 'chart_options',
+            name: 'Chart options',
+            editor: ConfigValueOptions,
+            mapTo: 'chartOptions',
+            schemas: [
+              {
+                name: 'Orientation',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'orientation',
+                props: {
+                  dropdownList: [
+                    { name: 'Vertical', orientationId: 'v' },
+                    { name: 'Horizontal', orientationId: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Horizontal', orientationId: 'h' }],
+                },
+              },
+              {
+                name: 'Mode',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'mode',
+                props: {
+                  dropdownList: [
+                    { name: 'Group', modeId: 'group' },
+                    { name: 'Stack', modeId: 'stack' },
+                  ],
+                  defaultSelections: [{ name: 'Group', modeId: 'group' }],
+                },
               },
             ],
           },

@@ -61,6 +61,11 @@ export const createMapsVisDefinition = () => ({
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
+      ...{
+        plot_bgcolor: 'rgba(0, 0, 0, 0)',
+        paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        margin: { left: 60 },
+      },
     },
     config: {
       ...sharedConfigs.config,
