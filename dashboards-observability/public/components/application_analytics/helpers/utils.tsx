@@ -10,6 +10,7 @@ import { FilterType } from 'public/components/trace_analytics/components/common/
 import React, { Dispatch, ReactChild } from 'react';
 import { batch } from 'react-redux';
 import PPLService from 'public/services/requests/ppl';
+import { preprocessQuery } from '../../../../common/utils/query_utils';
 import { SPAN_REGEX } from '../../../../common/constants/shared';
 import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
@@ -210,10 +211,17 @@ export const calculateAvailability = async (
     // If there are thresholds, we get the current value
     if (visData.user_configs.dataConfig?.hasOwnProperty('thresholds')) {
       const thresholds = visData.user_configs.dataConfig.thresholds.reverse();
-      let currValue = '';
+      let currValue = Number.MIN_VALUE;
+      const finalQuery = preprocessQuery({
+        rawQuery: visData.query,
+        startTime: visData.selected_date_range.start,
+        endTime: visData.selected_date_range.end,
+        timeField: visData.timeField,
+        isLiveQuery: false,
+      });
       await pplService
         .fetch({
-          query: visData.query,
+          query: finalQuery,
           format: 'viz',
         })
         .then((res) => {
@@ -237,7 +245,7 @@ export const calculateAvailability = async (
               const expression = threshold.expression;
               switch (expression) {
                 case '>':
-                  if (currValue > threshold.value) {
+                  if (currValue > parseFloat(threshold.value)) {
                     availability = {
                       name: threshold.name,
                       color: threshold.color,
@@ -247,7 +255,7 @@ export const calculateAvailability = async (
                   }
                   break;
                 case '<':
-                  if (currValue < threshold.value) {
+                  if (currValue < parseFloat(threshold.value)) {
                     availability = {
                       name: threshold.name,
                       color: threshold.color,
@@ -257,7 +265,7 @@ export const calculateAvailability = async (
                   }
                   break;
                 case '=':
-                  if (currValue === threshold.value) {
+                  if (currValue === parseFloat(threshold.value)) {
                     availability = {
                       name: threshold.name,
                       color: threshold.color,
