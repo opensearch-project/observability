@@ -28,7 +28,6 @@ import {
   composition,
   newName,
 } from '../utils/app_constants';
-import { supressResizeObserverIssue } from '../utils/constants';
 
 describe('Creating application', () => {
   beforeEach(() => {
