@@ -5,7 +5,6 @@
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import './custom_panels.scss';
 import {
   EuiBadge,
   EuiBreadcrumb,
