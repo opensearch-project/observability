@@ -111,19 +111,15 @@ export const CreateApp = (props: CreateAppProps) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   }
 
-  const isDisabled = !name || !query || !selectedTraces.length || !selectedServices.length;
+  const isDisabled = !name || (!query && !selectedTraces.length && !selectedServices.length);
 
   const missingField = () => {
     if (isDisabled) {
       let popoverContent = '';
       if (!name) {
         popoverContent = 'Name is required.';
-      } else if (!query) {
-        popoverContent = 'Log Source is required.';
-      } else if (!selectedServices.length) {
-        popoverContent = 'Services & Entities is required.';
-      } else if (!selectedTraces.length) {
-        popoverContent = 'Trace Groups are required.';
+      } else if (!query && !selectedServices.length && !selectedTraces.length) {
+        popoverContent = 'Provide at least one log source, service, entity or trace group.';
       }
       return <p>{popoverContent}</p>;
     }

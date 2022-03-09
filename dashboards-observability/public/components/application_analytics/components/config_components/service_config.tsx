@@ -139,7 +139,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
           <>
             <EuiText size="s">
               <h3>
-                Services & Entities <EuiBadge>{selectedServices.length}</EuiBadge>
+                Services & entities <EuiBadge>{selectedServices.length}</EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />
@@ -162,7 +162,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         }}
         paddingSize="l"
       >
-        <EuiFormRow label="Services & Entities">
+        <EuiFormRow label="Services & entities">
           <EuiComboBox
             aria-label="Select services and entities"
             placeholder="Select services and entities"
