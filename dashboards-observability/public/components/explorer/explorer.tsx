@@ -78,7 +78,7 @@ import {
   getSuggestionsAfterSource,
   onItemSelect,
 } from '../common/search/autocomplete_logic';
-import { formatError, findAutoInterval } from './utils';
+import { formatError } from './utils';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -123,8 +123,6 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -134,7 +132,6 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
-  const [minInterval, setMinInterval] = useState('y');
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -158,20 +155,34 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
-  useEffect(() => {
-    const [minTimeInterval, timeIntervalUnitOptions] = findAutoInterval(startTime, endTime);
-    setMinInterval(minTimeInterval);
-    setTimeIntervalOptions(timeIntervalUnitOptions);
-  }, [startTime, endTime]);
-
-  useEffect(() => {
-    if (!isEventsLoading && !isVisLoading) {
-      setIsLoading(false);
-    } else if (isEventsLoading || isVisLoading) {
-      setIsLoading(true);
-      setHasLoaded(true);
-    }
-  }, [isEventsLoading, isVisLoading]);
+  let minInterval = 'y';
+  const findAutoInterval = (start: string = '', end: string = '') => {
+    if (start?.length === 0 || end?.length === 0 || start === end)
+      return ['d', [...TIME_INTERVAL_OPTIONS]];
+    const momentStart = dateMath.parse(start)!;
+    const momentEnd = dateMath.parse(end)!;
+    const diffSeconds = momentEnd.unix() - momentStart.unix();
+  
+    // less than 1 second
+    if (diffSeconds <= 1) minInterval = 'ms';
+    // less than 2 minutes
+    else if (diffSeconds <= 60 * 2) minInterval = 's';
+    // less than 2 hours
+    else if (diffSeconds <= 3600 * 2) minInterval = 'm';
+    // less than 2 days
+    else if (diffSeconds <= 86400 * 2) minInterval = 'h';
+    // less than 1 month
+    else if (diffSeconds <= 86400 * 31) minInterval = 'd';
+    // less than 3 months
+    else if (diffSeconds <= 86400 * 93) minInterval = 'w';
+    // less than 1 year
+    else if (diffSeconds <= 86400 * 366) minInterval = 'M';
+  
+    setTimeIntervalOptions([
+      { text: 'Auto', value: 'auto_' + minInterval },
+      ...TIME_INTERVAL_OPTIONS,
+    ]);
+  };
 
   useEffect(() => {
     document.addEventListener("visibilitychange", function() {
@@ -287,13 +298,9 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) {
-      setHasLoaded(true);
-      return;
-    }
+    if (isEmpty(rawQueryStr)) return;
 
     if (isEmpty(curIndex)) {
-      setHasLoaded(true);
       setToast('Query does not include valid index.', 'danger');
       return;
     }
@@ -425,11 +432,7 @@ export const Explorer = ({
   };
 
   useEffect(() => {
-    if (queryRef.current!.isLoaded) {
-      setIsLoading(false);
-      setHasLoaded(true);
-      return;
-    }
+    if (queryRef.current!.isLoaded) return;
     let objectId;
     if (queryRef.current![TAB_CREATED_TYPE] === NEW_TAB || appLogEvents) {
       objectId = queryRef.current!.savedObjectId || '';
@@ -625,9 +628,7 @@ export const Explorer = ({
             />
           </div>
           <div className={`dscWrapper ${mainSectionClassName}`}>
-            {!isLiveTailOnRef.current && (isLoading || !hasLoaded) ? (
-              <EuiLoadingSpinner className="explorer-data-loading" size="m" />
-            ) : explorerData && !isEmpty(explorerData.jsonData) ? (
+            {explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
                 <div className="dscResults">
                   {countDistribution?.data && !isLiveTailOnRef.current && (
@@ -796,8 +797,6 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
-    isLoading,
-    hasLoaded,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
