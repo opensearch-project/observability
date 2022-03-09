@@ -70,6 +70,7 @@ let currFieldType: string = '';
 
 let inFieldsCommaLoop: boolean = false;
 let inMatch: boolean = false;
+let inIndexLoop: boolean = false;
 let nextWhere: number = Number.MAX_SAFE_INTEGER;
 let nextStats: number = Number.MAX_SAFE_INTEGER;
 
@@ -221,12 +222,17 @@ export const getFullSuggestions = async (
     if (splittedModel[splittedModel.length - 2] === '|') {
       inFieldsCommaLoop = false;
       inMatch = false;
+      inIndexLoop = false;
       nextWhere = Number.MAX_SAFE_INTEGER;
       nextStats = Number.MAX_SAFE_INTEGER;
       currField = '';
       currFieldType = '';
       return fillSuggestions(str, prefix, possibleCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
+      // Suggest more indices if in index loop
+      if (inIndexLoop) {
+        return fillSuggestions(str, prefix, indicesFromBackend);
+      }
       // Suggest more fields if in fields command
       if (inFieldsCommaLoop) {
         return fillSuggestions(str, prefix, fieldsFromBackend);
@@ -248,10 +254,14 @@ export const getFullSuggestions = async (
       return fillSuggestions(str, prefix, indicesFromBackend);
       // Suggest pipe after setting source
     } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-      currIndices = [splittedModel[splittedModel.length - 2]];
+      currIndices.push(splittedModel[splittedModel.length - 2]);
       getFields(dslService);
+      inIndexLoop = true;
       return filterSuggestions(
-        [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
+        [
+          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
+          { label: str + ',', input: str, suggestion: ',', itemName: ',' },
+        ],
         lowerPrefix
       );
       // Suggest stats commands after stats
