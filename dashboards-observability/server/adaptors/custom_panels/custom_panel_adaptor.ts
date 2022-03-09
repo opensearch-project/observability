@@ -211,6 +211,22 @@ export class CustomPanelsAdaptor {
     }
   };
 
+  // parses fetched saved visualization 
+  parseSavedVisualizations = (visualization: any) => {
+    return {
+      id: visualization.objectId,
+      name: visualization.savedVisualization.name,
+      query: visualization.savedVisualization.query,
+      type: visualization.savedVisualization.type,
+      timeField: visualization.savedVisualization.selected_timestamp.name,
+      selected_date_range: visualization.savedVisualization.selected_date_range,
+      selected_fields: visualization.savedVisualization.selected_fields,
+      user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
+        ? JSON.parse(visualization.savedVisualization.user_configs)
+        : {},
+    };
+  };
+
   // gets all saved visualizations
   getAllSavedVisualizations = async (client: ILegacyScopedClusterClient) => {
     try {
@@ -221,13 +237,7 @@ export class CustomPanelsAdaptor {
         .filter((visualization: any) => {
           return !!!visualization.savedVisualization.application_id;
         })
-        .map((visualization: any) => ({
-          id: visualization.objectId,
-          name: visualization.savedVisualization.name,
-          query: visualization.savedVisualization.query,
-          type: visualization.savedVisualization.type,
-          timeField: visualization.savedVisualization.selected_timestamp.name,
-        }));
+        .map((visualization: any) => this.parseSavedVisualizations(visualization));
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
     }
@@ -243,18 +253,7 @@ export class CustomPanelsAdaptor {
         objectId: savedVisualizationId,
       });
       const visualization = response.observabilityObjectList[0];
-      return {
-        id: visualization.objectId,
-        name: visualization.savedVisualization.name,
-        query: visualization.savedVisualization.query,
-        type: visualization.savedVisualization.type,
-        timeField: visualization.savedVisualization.selected_timestamp.name,
-        selected_date_range: visualization.savedVisualization.selected_date_range,
-        selected_fields: visualization.savedVisualization.selected_fields,
-        user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
-          ? JSON.parse(visualization.savedVisualization.user_configs)
-          : {},
-      };
+      return this.parseSavedVisualizations(visualization);
     } catch (error) {
       throw new Error('Fetch Saved Visualizations By Id Error:' + error);
     }
