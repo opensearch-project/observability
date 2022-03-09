@@ -6,7 +6,6 @@
 import { HeatMap } from './heatmap';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartPie } from '../../assets/chart_pie';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
 import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
@@ -63,9 +62,9 @@ export const createMapsVisDefinition = () => ({
     layout: {
       ...sharedConfigs.layout,
       ...{
-        colorway: PLOTLY_COLOR,
         plot_bgcolor: 'rgba(0, 0, 0, 0)',
         paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        margin: { left: 60 },
       },
     },
     config: {
