@@ -176,6 +176,12 @@ describe('autocomplete logic', function () {
         suggestion: '|',
         itemName: '|',
       },
+      {
+        label: 'source = test_index ,',
+        input,
+        suggestion: ',',
+        itemName: ',',
+      },
     ] as AutocompleteItem[];
     const suggestion = await getFullSuggestions('', input, dslService);
     expect(dslService.fetchFields).toBeCalled();

@@ -330,6 +330,31 @@ exports[`Log Config component renders empty log config 1`] = `
                                     isDisabled={false}
                                     key="autocomplete-bar"
                                     onItemSelect={[Function]}
+                                    possibleCommands={
+                                      Array [
+                                        Object {
+                                          "label": "dedup",
+                                        },
+                                        Object {
+                                          "label": "eval",
+                                        },
+                                        Object {
+                                          "label": "fields",
+                                        },
+                                        Object {
+                                          "label": "parse",
+                                        },
+                                        Object {
+                                          "label": "rename",
+                                        },
+                                        Object {
+                                          "label": "sort",
+                                        },
+                                        Object {
+                                          "label": "where",
+                                        },
+                                      ]
+                                    }
                                     query=""
                                     tabId="application-analytics-tab"
                                     tempQuery=""
@@ -784,6 +809,31 @@ exports[`Log Config component renders with query 1`] = `
                                     isDisabled={false}
                                     key="autocomplete-bar"
                                     onItemSelect={[Function]}
+                                    possibleCommands={
+                                      Array [
+                                        Object {
+                                          "label": "dedup",
+                                        },
+                                        Object {
+                                          "label": "eval",
+                                        },
+                                        Object {
+                                          "label": "fields",
+                                        },
+                                        Object {
+                                          "label": "parse",
+                                        },
+                                        Object {
+                                          "label": "rename",
+                                        },
+                                        Object {
+                                          "label": "sort",
+                                        },
+                                        Object {
+                                          "label": "where",
+                                        },
+                                      ]
+                                    }
                                     query="source = openserach_dashboard_sample_logs"
                                     tabId="application-analytics-tab"
                                     tempQuery=""
