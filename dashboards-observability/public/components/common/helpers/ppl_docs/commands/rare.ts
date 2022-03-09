@@ -69,4 +69,7 @@ PPL query:
     | M        | 25       |
     | M        | 29       |
     +----------+----------+
+
+#### Limitation
+The \`rare\` command is not rewritten to OpenSearch DSL, it is only executed on the coordination node.
 `;
