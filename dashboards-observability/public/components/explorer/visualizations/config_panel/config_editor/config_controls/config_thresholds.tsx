@@ -16,8 +16,9 @@ import {
   EuiFlexItem,
   EuiFieldText,
   EuiSelect,
+  htmlIdGenerator,
 } from '@elastic/eui';
-import { uniqueId, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { PPL_SPAN_REGEX } from '../../../../../../../common/constants/shared';
 
 export const ConfigThresholds = ({
@@ -30,11 +31,11 @@ export const ConfigThresholds = ({
   let addButtonText = '+ Add threadshold';
   const getThresholdUnit = () => {
     return {
-      thid: uniqueId('thr'),
+      thid: htmlIdGenerator('thr'),
       name: '',
       color: '#FC0505',
       value: 0,
-      expression: '=',
+      ...(hasSpanInApp && { expression: '=' }),
     };
   };
 
@@ -66,7 +67,7 @@ export const ConfigThresholds = ({
             if (thrId !== th.thid) return th;
             return {
               ...th,
-              [thrName]: event?.target?.value || event,
+              [thrName]: event?.target?.value || '',
             };
           }),
         ]);
@@ -102,38 +103,53 @@ export const ConfigThresholds = ({
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
-                    <EuiColorPicker
-                      fullWidth
-                      onChange={handleThresholdChange(thr.thid, 'color')}
-                      color={thr.color}
-                    />
+                    <EuiFormRow helpText="color">
+                      <EuiColorPicker
+                        fullWidth
+                        onChange={handleThresholdChange(thr.thid, 'color')}
+                        color={thr.color}
+                      />
+                    </EuiFormRow>
                   </EuiFlexItem>
                   <EuiFlexItem grow={5}>
-                    <EuiFieldText
-                      onChange={handleThresholdChange(thr.thid, 'name')}
-                      value={thr.name || ''}
-                    />
+                    <EuiFormRow helpText="name">
+                      <EuiFieldText
+                        onChange={handleThresholdChange(thr.thid, 'name')}
+                        value={thr.name || ''}
+                        arial-label="Input threshold name"
+                        data-test-subj="nameFieldText"
+                      />
+                    </EuiFormRow>
                   </EuiFlexItem>
                   {hasSpanInApp && (
-                    <EuiFlexItem grow={4}>
-                      <EuiSelect
-                        options={expressionOptions}
-                        value={thr.expression || ''}
-                        onChange={handleThresholdChange(thr.thid, 'expression')}
-                      />
-                    </EuiFlexItem>
+                    <EuiFormRow helpText="expression">
+                      <EuiFlexItem grow={4}>
+                        <EuiSelect
+                          options={expressionOptions}
+                          value={thr.expression || ''}
+                          onChange={handleThresholdChange(thr.thid, 'expression')}
+                          aria-label="Select threshold expression"
+                          data-test-subj="expressionSelect"
+                        />
+                      </EuiFlexItem>
+                    </EuiFormRow>
                   )}
                   <EuiFlexItem grow={5}>
-                    <EuiFieldNumber
-                      fullWidth
-                      placeholder="Placeholder text"
-                      value={thr.value || 0}
-                      onChange={handleThresholdChange(thr.thid, 'value')}
-                      aria-label="Use aria labels when no actual label is in use"
-                    />
+                    <EuiFormRow helpText="value">
+                      <EuiFieldNumber
+                        fullWidth
+                        placeholder="threshold value"
+                        value={thr.value || 0}
+                        onChange={handleThresholdChange(thr.thid, 'value')}
+                        aria-label="Input threshold value"
+                        data-test-subj="valueFieldNumber"
+                      />
+                    </EuiFormRow>
                   </EuiFlexItem>
                   <EuiFlexItem grow={1}>
-                    <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
+                    <EuiFormRow>
+                      <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
+                    </EuiFormRow>
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiFormRow>

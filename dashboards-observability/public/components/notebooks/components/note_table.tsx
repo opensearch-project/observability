@@ -44,11 +44,11 @@ import {
 import { NotebookType } from './main';
 import { pageStyles } from '../../../../common/constants/shared';
 
-type NoteTableProps = {
+interface NoteTableProps {
   loading: boolean;
   fetchNotebooks: () => void;
   addSampleNotebooks: () => void;
-  notebooks: Array<NotebookType>;
+  notebooks: NotebookType[];
   createNotebook: (newNoteName: string) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => void;
@@ -56,13 +56,13 @@ type NoteTableProps = {
   parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   setToast: (title: string, color?: string, text?: string) => void;
-};
+}
 
 export function NoteTable(props: NoteTableProps) {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedNotebooks, setSelectedNotebooks] = useState<Array<NotebookType>>([]);
+  const [selectedNotebooks, setSelectedNotebooks] = useState<NotebookType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { notebooks, createNotebook, renameNotebook, cloneNotebook, deleteNotebook } = props;
 

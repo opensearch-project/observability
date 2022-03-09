@@ -17,7 +17,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.icon} />;
+  if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   const xaxisField = fields[fields.length - 2];
   const yaxisField = fields[fields.length - 1];
@@ -38,7 +38,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(data[yaxisField.name]) ||
     isEmpty(data[zMetrics.name])
   )
-    return <EmptyPlaceholder icon={visualizations?.vis?.icon} />;
+    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+
+  const colorScaleValues = [...PLOTLY_COLOR.map((clr, index) => [index, clr])];
 
   const calculatedHeapMapZaxis: Plotly.Data[] = useMemo(() => {
     const heapMapZaxis = [];
@@ -84,6 +86,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
+      colorscale: colorScaleValues,
       type: 'heatmap',
     },
   ];

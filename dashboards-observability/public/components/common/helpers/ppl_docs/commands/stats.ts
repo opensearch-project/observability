@@ -334,4 +334,20 @@ PPL query:
     | 1            | 20         |
     | 3            | 30         |
     +--------------+------------+
+
+### Example 9: Calculate the count by a gender and span
+
+The example gets the count of age by the interval of 10 years and group by gender.
+
+PPL query::
+
+    os> source=accounts | stats count() as cnt by span(age, 5) as age_span, gender
+    fetched rows / total rows = 3/3
+    +-------+------------+----------+
+    | cnt   | age_span   | gender   |
+    |-------+------------+----------|
+    | 1     | 25         | F        |
+    | 2     | 30         | M        |
+    | 1     | 35         | M        |
+    +-------+------------+----------+
 `;

@@ -71,7 +71,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
 
   useEffect(() => {
     const toOptions = traceItems.map((item: any) => {
-      return { label: item.dashboard_trace_group_name };
+      return { label: decodeURI(item.dashboard_trace_group_name) };
     });
     setTraceOptions(toOptions);
   }, [traceItems]);

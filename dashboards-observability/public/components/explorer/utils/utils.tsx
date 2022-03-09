@@ -3,23 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { uniqueId } from 'lodash';
 import React from 'react';
+import moment from 'moment';
+import dateMath from '@elastic/datemath';
+import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocViewRow, IDocType } from '../docTable';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
-import {
-  PPL_DATE_FORMAT,
-  PPL_INDEX_REGEX,
-  PPL_STATS_REGEX,
-} from '../../../../common/constants/shared';
-import moment from 'moment';
+import { TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
+import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
   http: HttpStart,
-  explorerFields: Array<IField>,
+  explorerFields: IField[],
   limit: number,
   setLimit: React.Dispatch<React.SetStateAction<number>>,
   PAGE_SIZE: number,
@@ -27,7 +25,22 @@ export const getTrs = (
   explorerFieldsFull: IExplorerFields,
   pplService: PPLService,
   rawQuery: string,
-  docs: Array<any> = [],
+  rowRefs: Array<
+    React.RefObject<{
+      closeAllFlyouts(openDocId: string): void;
+    }>
+  >,
+  setRowRefs: React.Dispatch<
+    React.SetStateAction<
+      Array<
+        React.RefObject<{
+          closeAllFlyouts(openDocId: string): void;
+        }>
+      >
+    >
+  >,
+  onFlyoutOpen: (docId: string) => void,
+  docs: any[] = [],
   prevTrs: any[] = []
 ) => {
   if (prevTrs.length >= docs.length) return prevTrs;
@@ -37,20 +50,30 @@ export const getTrs = (
   const trs = prevTrs.slice();
 
   const upperLimit = Math.min(trs.length === 0 ? PAGE_SIZE : limit, docs.length);
+  const tempRefs = rowRefs;
   for (let i = trs.length; i < upperLimit; i++) {
+    const docId = uniqueId('doc_view');
+    const tempRowRef = React.createRef<{
+      closeAllFlyouts(openDocId: string): void;
+    }>();
+    tempRefs.push(tempRowRef);
     trs.push(
       <DocViewRow
+        ref={tempRowRef}
         http={http}
-        key={uniqueId('doc_view')}
+        key={docId}
+        docId={docId}
         doc={docs[i]}
         selectedCols={explorerFields}
         timeStampField={timeStampField}
         explorerFields={explorerFieldsFull}
         pplService={pplService}
         rawQuery={rawQuery}
+        onFlyoutOpen={onFlyoutOpen}
       />
     );
   }
+  setRowRefs(tempRefs);
   return trs;
 };
 
@@ -71,7 +94,7 @@ export const getHeaders = (fields: any, defaultCols: string[], isFlyout?: boolea
     });
 
     if (!isFlyout) {
-      tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')}></th>);
+      tableHeadContent.unshift(<th key={uniqueId('datagrid-header-')} />);
     }
   }
 
@@ -133,8 +156,8 @@ const composeFinalQuery = (
   }
   const indexPartOfQuery = indexMatchArray[0];
   const filterPartOfQuery = rawQuery.replace(PPL_INDEX_REGEX, '');
-  const timeSymbol = typeOfDocs == 'new' ? '>' : '<';
-  const sortSymbol = typeOfDocs == 'new' ? '+' : '-';
+  const timeSymbol = typeOfDocs === 'new' ? '>' : '<';
+  const sortSymbol = typeOfDocs === 'new' ? '+' : '-';
   const timeQueryFilter = ` | where ${timeStampField} ${timeSymbol} '${eventTime}'`;
   const sortFilter = ` | sort ${sortSymbol} ${timeStampField} | head ${numDocs}`;
 
@@ -144,7 +167,7 @@ const composeFinalQuery = (
 const createTds = (
   docs: IDocType[],
   selectedCols: IField[],
-  getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[]
+  getTds: (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => JSX.Element[]
 ) => {
   return docs.map((doc: IDocType) => (
     <tr className="osdDocTable__row"> {getTds(doc, selectedCols, true).slice(1)}</tr>
@@ -163,17 +186,17 @@ export const fetchSurroundingData = async (
   setIsError: React.Dispatch<React.SetStateAction<string>>,
   setLoadingData: React.Dispatch<React.SetStateAction<boolean>>,
   selectedCols: IField[],
-  getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[]
+  getTds: (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => JSX.Element[]
 ) => {
   let resultCount = 0;
   let isErred = false;
-  const pplEventTime = moment(eventTime).format(PPL_DATE_FORMAT);
+  const pplEventTime = moment.utc(eventTime).format(PPL_DATE_FORMAT);
   setLoadingData(true);
   setIsError('');
 
   let finalQuery = '';
   try {
-    finalQuery = composeFinalQuery(rawQuery, timeStampField, eventTime, numDocs, typeOfDocs);
+    finalQuery = composeFinalQuery(rawQuery, timeStampField, pplEventTime, numDocs, typeOfDocs);
   } catch (error) {
     const errorMessage = 'Issue in building surrounding data query';
     setIsError(errorMessage);
@@ -218,4 +241,47 @@ export const rangeNumDocs = (value: number) => {
 // check traceId Byte Size
 export const isValidTraceId = (traceId: string) => {
   return new Blob([traceId]).size === 32;
+};
+
+export const formatError = (name: string, message: string, details: string) => {
+  return {
+    name,
+    message,
+    body: {
+      attributes: {
+        error: {
+          caused_by: {
+            type: '',
+            reason: details,
+          },
+        },
+      },
+    },
+  };
+};
+
+export const findAutoInterval = (start: string = '', end: string = '') => {
+  let minInterval = 'y';
+  if (start?.length === 0 || end?.length === 0 || start === end)
+    return ['d', [...TIME_INTERVAL_OPTIONS]];
+  const momentStart = dateMath.parse(start)!;
+  const momentEnd = dateMath.parse(end)!;
+  const diffSeconds = momentEnd.unix() - momentStart.unix();
+
+  // less than 1 second
+  if (diffSeconds <= 1) minInterval = 'ms';
+  // less than 2 minutes
+  else if (diffSeconds <= 60 * 2) minInterval = 's';
+  // less than 2 hours
+  else if (diffSeconds <= 3600 * 2) minInterval = 'm';
+  // less than 2 days
+  else if (diffSeconds <= 86400 * 2) minInterval = 'h';
+  // less than 1 month
+  else if (diffSeconds <= 86400 * 31) minInterval = 'd';
+  // less than 3 months
+  else if (diffSeconds <= 86400 * 93) minInterval = 'w';
+  // less than 1 year
+  else if (diffSeconds <= 86400 * 366) minInterval = 'M';
+
+  return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
 };

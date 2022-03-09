@@ -15,7 +15,6 @@ import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _, { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { VisualizationType } from 'common/types/custom_panels';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
 import { CreateApp } from './components/create';
@@ -26,7 +25,12 @@ import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
 import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
-import { isNameValid, removeTabData } from './helpers/utils';
+import {
+  calculateAvailability,
+  fetchPanelsVizIdList,
+  isNameValid,
+  removeTabData,
+} from './helpers/utils';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
@@ -165,7 +169,7 @@ export const Home = (props: HomeProps) => {
         }),
       })
       .then((res) => {
-        updateApp(applicationId, { panelId: res.newPanelId }, false);
+        updateApp(applicationId, { panelId: res.newPanelId }, 'addPanel');
       })
       .catch((err) => {
         setToast(
@@ -190,21 +194,10 @@ export const Home = (props: HomeProps) => {
     });
   };
 
-  const fetchPanelsVizIdList = async (appPanelId: string) => {
-    await http
-      .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
-      .then((res) => {
-        return res.operationalPanel.visualizations.map((viz: VisualizationType) => viz.id);
-      })
-      .catch((err) => {
-        console.error('Error occurred while fetching visualizations for panel', err);
-      });
-  };
-
   const deleteSavedVisualizationsForPanel = async (appPanelId: string) => {
-    const savedVizIdsToDelete = fetchPanelsVizIdList(appPanelId);
+    const savedVizIdsToDelete = await fetchPanelsVizIdList(http, appPanelId);
     if (!isEmpty(savedVizIdsToDelete)) {
-      await savedObjects
+      savedObjects
         .deleteSavedObjectsList({ objectIdList: savedVizIdsToDelete })
         .then((res) => {
           deletePanelForApp(appPanelId);
@@ -220,7 +213,16 @@ export const Home = (props: HomeProps) => {
   const fetchApps = () => {
     return http
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
-      .then((res) => {
+      .then(async (res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          res.data[i].availability = await calculateAvailability(
+            http,
+            pplService,
+            res.data[i],
+            res.data[i].availability.mainVisId,
+            () => {}
+          );
+        }
         setApplicationList(res.data);
       })
       .catch((err) => {
@@ -246,6 +248,7 @@ export const Home = (props: HomeProps) => {
       baseQuery: application.baseQuery,
       servicesEntities: application.servicesEntities,
       traceGroups: application.traceGroups,
+      availabilityVisId: '',
     };
 
     return http
@@ -301,7 +304,7 @@ export const Home = (props: HomeProps) => {
   };
 
   // Update existing application
-  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => {
+  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, type: string) => {
     const requestBody = {
       appId,
       updateBody: updateAppData,
@@ -312,11 +315,15 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody),
       })
       .then((res) => {
-        if (edit) {
+        if (type === 'update') {
           setToast('Application successfully updated.');
           clearStorage();
         }
-        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
+        if (type !== 'editAvailability') {
+          window.location.assign(
+            `${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`
+          );
+        }
       })
       .catch((err) => {
         setToast('Error occurred while updating application', 'danger');
@@ -339,7 +346,6 @@ export const Home = (props: HomeProps) => {
 
         for (let i = 0; i < panelList.length; i++) {
           deleteSavedVisualizationsForPanel(panelList[i]);
-          deletePanelForApp(panelList[i]);
         }
 
         const message =
@@ -374,6 +380,7 @@ export const Home = (props: HomeProps) => {
                 fetchApplications={fetchApps}
                 renameApplication={renameApp}
                 deleteApplication={deleteApp}
+                clearStorage={clearStorage}
                 {...commonProps}
               />
             </ObservabilitySideBar>
@@ -385,6 +392,7 @@ export const Home = (props: HomeProps) => {
           render={(routerProps) => (
             <CreateApp
               dslService={dslService}
+              pplService={pplService}
               createApp={createApp}
               updateApp={updateApp}
               setToasts={setToast}
@@ -407,6 +415,7 @@ export const Home = (props: HomeProps) => {
               timestampUtils={timestampUtils}
               notifications={notifications}
               setToasts={setToast}
+              updateApp={updateApp}
               {...commonProps}
             />
           )}

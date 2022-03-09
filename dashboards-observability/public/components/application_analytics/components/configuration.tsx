@@ -17,25 +17,42 @@ import {
   EuiPageContentBody,
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
+  EuiSelect,
+  EuiSelectOption,
   EuiSpacer,
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface ConfigProps {
   appId: string;
   application: ApplicationType;
   parentBreadcrumb: EuiBreadcrumb;
+  visWithAvailability: EuiSelectOption[];
   switchToEditViz: (savedVizId: string) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
 }
 
 export const Configuration = (props: ConfigProps) => {
-  const { appId, application, parentBreadcrumb, switchToEditViz } = props;
+  const {
+    appId,
+    application,
+    parentBreadcrumb,
+    visWithAvailability,
+    updateApp,
+    switchToEditViz,
+  } = props;
+  const [availabilityVisId, setAvailabilityVisId] = useState(application.availabilityVisId || '');
   useEffect(() => {
     switchToEditViz('');
   }, []);
+
+  const onAvailabilityVisChange = (event: any) => {
+    setAvailabilityVisId(event.target.value);
+    updateApp(appId, { availabilityVisId: event.target.value }, 'editAvailability');
+  };
 
   return (
     <div>
@@ -79,13 +96,13 @@ export const Configuration = (props: ConfigProps) => {
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiText>
-                    <h4>Services & Entities</h4>
+                    <h4>Services & entities</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
                   <EuiText size="m">
-                    <ul>
+                    <ul aria-label="List of services and entities">
                       {application.servicesEntities.map((group) => (
-                        <li>{decodeURI(group)}</li>
+                        <li key={`${decodeURI(group)}-item`}>{decodeURI(group)}</li>
                       ))}
                     </ul>
                   </EuiText>
@@ -96,14 +113,24 @@ export const Configuration = (props: ConfigProps) => {
                   </EuiText>
                   <EuiSpacer size="m" />
                   <EuiText size="m">
-                    <ul>
+                    <ul aria-label="List of trace groups">
                       {application.traceGroups.map((group) => (
-                        <li>{decodeURI(group)}</li>
+                        <li key={`${decodeURI(group)}-item`}>{decodeURI(group)}</li>
                       ))}
                     </ul>
                   </EuiText>
                 </EuiFlexItem>
-                <EuiFlexItem />
+                <EuiFlexItem>
+                  <EuiText>
+                    <h4>Availability</h4>
+                  </EuiText>
+                  <EuiSpacer size="m" />
+                  <EuiSelect
+                    options={visWithAvailability}
+                    value={availabilityVisId}
+                    onChange={onAvailabilityVisChange}
+                  />
+                </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPageContentBody>
           </EuiPageContent>

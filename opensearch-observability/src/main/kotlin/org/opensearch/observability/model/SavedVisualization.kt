@@ -43,8 +43,7 @@ import org.opensearch.observability.util.logger
  *   "name": "Logs between dates",
  *   "description": "some descriptions related to this query",
  *   "application_id": "KE1Ie34BbsTr-CsB4G6Y",
- *   "userConfigs": "{\"selectedVisType\":[{\"label\":\"bar\"}],\"dataConfig\":
- *   {\"valueOptions\":{\"zaxis\":[{\"name\":\"count()\",\"type\":\"integer\",\"label\":\"count()\"}]}}}"
+ *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}"
  * }
  * }</pre>
  */

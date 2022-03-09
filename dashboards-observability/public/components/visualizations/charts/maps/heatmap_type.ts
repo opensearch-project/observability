@@ -19,6 +19,7 @@ export const createMapsVisDefinition = () => ({
   id: 'heatmap',
   label: 'Heatmap',
   fullLabel: 'Hubble',
+  iconType: 'heatmap',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
@@ -60,6 +61,11 @@ export const createMapsVisDefinition = () => ({
   visConfig: {
     layout: {
       ...sharedConfigs.layout,
+      ...{
+        plot_bgcolor: 'rgba(0, 0, 0, 0)',
+        paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        margin: { left: 60 },
+      },
     },
     config: {
       ...sharedConfigs.config,

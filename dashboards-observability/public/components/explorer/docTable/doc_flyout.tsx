@@ -4,30 +4,29 @@
  */
 
 import './docView.scss';
-import { FlyoutContainers } from '../../common/flyout_containers';
-import React, { useState } from 'react';
-import { IDocType } from './docViewRow';
-import { DocViewer } from './docViewer';
+import React from 'react';
 import {
   EuiButton,
   EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
   EuiFlyoutBody,
-  EuiFlyoutFooter,
   EuiFlyoutHeader,
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
-import { uiSettingsService } from '../../../../common/utils';
 import moment from 'moment';
+import { FlyoutContainers } from '../../common/flyout_containers';
+import { IDocType } from './docViewRow';
+import { DocViewer } from './docViewer';
+import { uiSettingsService } from '../../../../common/utils';
 import { IExplorerFields } from '../../../../common/types/explorer';
 import { getHeaders, populateDataGrid } from '../utils';
 import { DEFAULT_COLUMNS } from '../../../../common/constants/explorer';
 import { HttpSetup } from '../../../../../../src/core/public';
 import { PPL_STATS_REGEX } from '../../../../common/constants/shared';
 
-type Props = {
+interface Props {
   http: HttpSetup;
   detailsOpen: boolean;
   setDetailsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,7 +40,7 @@ type Props = {
   setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenTraces: React.Dispatch<React.SetStateAction<boolean>>;
   setSurroundingEventsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 export const DocFlyout = ({
   http,
@@ -145,6 +144,6 @@ export const DocFlyout = ({
       flyoutFooter={flyoutFooter}
       ariaLabel={'eventsDocFyout'}
       size={toggleSize ? 'm' : 'l'}
-    ></FlyoutContainers>
+    />
   );
 };

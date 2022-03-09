@@ -5,7 +5,6 @@
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import './custom_panels.scss';
 import {
   EuiBadge,
   EuiBreadcrumb,
@@ -14,6 +13,7 @@ import {
   EuiContextMenuPanelDescriptor,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -42,7 +42,13 @@ import { SavedVisualizationType, VisualizationType } from '../../../common/types
 import { PanelGrid } from './panel_modules/panel_grid';
 import { DeletePanelModal, getCustomModal } from './helpers/modal_containers';
 import PPLService from '../../services/requests/ppl';
-import { isDateValid, convertDateTime, onTimeChange, isPPLFilterValid } from './helpers/utils';
+import {
+  isDateValid,
+  convertDateTime,
+  onTimeChange,
+  isPPLFilterValid,
+  fetchVisualizationById,
+} from './helpers/utils';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { VisaulizationFlyout } from './panel_modules/visualization_flyout';
 import { uiSettingsService } from '../../../common/utils';
@@ -352,20 +358,18 @@ export const CustomPanelView = ({
     const indices: string[] = [];
     for (let i = 0; i < panelVisualizations.length; i++) {
       const visualizationId = panelVisualizations[i].savedVisualizationId;
-      await http
-        .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/${visualizationId}`)
-        .then((res) => {
-          const visData: SavedVisualizationType = res.visualization;
-          const moreIndices = parseForIndices(visData.query);
-          for (let j = 0; j < moreIndices.length; j++) {
-            if (!indices.includes(moreIndices[j])) {
-              indices.push(moreIndices[j]);
-            }
-          }
-        })
-        .catch((err) => {
-          console.error('Issue in fetching the saved Visualization by Id', err);
-        });
+      // TODO: create route to get list of visualizations in one call
+      const visData: SavedVisualizationType = await fetchVisualizationById(
+        http,
+        visualizationId,
+        (value: string) => setToast(value, 'danger')
+      );
+      const moreIndices = parseForIndices(visData.query);
+      for (let j = 0; j < moreIndices.length; j++) {
+        if (!indices.includes(moreIndices[j])) {
+          indices.push(moreIndices[j]);
+        }
+      }
     }
     setBaseQuery('source = ' + indices.join(', '));
     return;
@@ -557,7 +561,7 @@ export const CustomPanelView = ({
 
   return (
     <div>
-      <EuiPage id="panelView">
+      <EuiPage id={`panelView${appPanel ? 'InApp' : ''}`}>
         <EuiPageBody component="div">
           <EuiPageHeader>
             {appPanel || (
@@ -649,18 +653,18 @@ export const CustomPanelView = ({
                   placeholder={
                     "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   }
-                  restrictedCommands={[{ label: 'where' }]}
+                  possibleCommands={[{ label: 'where' }]}
+                  append={
+                    <EuiLink
+                      aria-label="ppl-info"
+                      onClick={showHelpFlyout}
+                      style={{ padding: '10px' }}
+                    >
+                      PPL
+                    </EuiLink>
+                  }
+                  inputDisabled={inputDisabled}
                 />
-                <EuiBadge
-                  className={`ppl-link ${
-                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
-                  }`}
-                  color="hollow"
-                  onClick={() => showHelpFlyout()}
-                  onClickAriaLabel={'ppl-info'}
-                >
-                  PPL
-                </EuiBadge>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker

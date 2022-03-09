@@ -4,7 +4,9 @@
  */
 /* eslint-disable react-hooks/exhaustive-deps */
 
+import '../app_analytics.scss';
 import {
+  EuiBadge,
   EuiButton,
   EuiContextMenuItem,
   EuiContextMenuPanel,
@@ -26,13 +28,15 @@ import {
   EuiTableFieldDataColumnType,
   EuiText,
   EuiTitle,
+  EuiToolTip,
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
+import moment from 'moment';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { getClearModal } from '../helpers/modal_containers';
-import { pageStyles } from '../../../../common/constants/shared';
+import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import { ApplicationListType } from '../../../../common/types/app_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
@@ -41,14 +45,12 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
   fetchApplications: () => void;
   renameApplication: (newAppName: string, appId: string) => void;
   deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
+  clearStorage: () => void;
 }
 
 export function AppTable(props: AppTableProps) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
   const {
+    http,
     chrome,
     applications,
     parentBreadcrumb,
@@ -58,7 +60,13 @@ export function AppTable(props: AppTableProps) {
     setFilters,
     setStartTime,
     setEndTime,
+    clearStorage,
   } = props;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const createButtonText = 'Create application';
 
   useEffect(() => {
     chrome.setBreadcrumbs([
@@ -76,6 +84,7 @@ export function AppTable(props: AppTableProps) {
     setFilters([]);
     setStartTime('now-24h');
     setEndTime('now');
+    clearStorage();
   };
 
   const closeModal = () => {
@@ -183,6 +192,35 @@ export function AppTable(props: AppTableProps) {
         </EuiLink>
       ),
     },
+    {
+      field: 'composition',
+      name: 'Composition',
+      sortable: false,
+      truncateText: true,
+      render: (value) => (
+        <EuiToolTip content={value.join(', ')}>
+          <EuiText id="compositionColumn">{value.join(', ')}</EuiText>
+        </EuiToolTip>
+      ),
+    },
+    {
+      field: 'availability',
+      name: 'Current Availability',
+      sortable: true,
+      render: (value, record) => {
+        if (value.name) {
+          return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
+        } else {
+          return <EuiText>Undefined</EuiText>;
+        }
+      },
+    },
+    {
+      field: 'dateModified',
+      name: 'Date Modified',
+      sortable: true,
+      render: (value) => <EuiText>{moment(value).format(UI_DATE_FORMAT)}</EuiText>,
+    },
   ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
 
   return (
@@ -219,7 +257,7 @@ export function AppTable(props: AppTableProps) {
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <EuiButton fill href={`#/application_analytics/create`}>
-                      Create application
+                      {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -259,12 +297,12 @@ export function AppTable(props: AppTableProps) {
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false} href={`#/application_analytics/create`}>
-                      Create application
+                      {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>
-                  <EuiFlexItem grow={false}>
+                  {/* <EuiFlexItem grow={false}>
                     <EuiButton fullWidth={false}>Add sample applications</EuiButton>
-                  </EuiFlexItem>
+                  </EuiFlexItem> */}
                 </EuiFlexGroup>
                 <EuiSpacer size="xxl" />
               </>

@@ -4,14 +4,15 @@
  */
 
 import './docView.scss';
-import React, { useMemo, useState } from 'react';
-import { toPairs, uniqueId, has, forEach } from 'lodash';
-import { EuiCheckbox, EuiFlexItem, EuiIcon, EuiLink } from '@elastic/eui';
+import moment from 'moment';
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import { toPairs, uniqueId, has, forEach, isEqual } from 'lodash';
+import { EuiIcon, EuiLink } from '@elastic/eui';
+import { useEffect } from 'react';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
 import { HttpStart } from '../../../../../../src/core/public';
-import { OTEL_TRACE_ID } from '../../../../common/constants/explorer';
-import { useEffect } from 'react';
+import { OTEL_TRACE_ID, DATE_PICKER_FORMAT } from '../../../../common/constants/explorer';
 import { SurroundingFlyout } from './surrounding_flyout';
 import PPLService from '../../../services/requests/ppl';
 import { isValidTraceId } from '../utils';
@@ -23,20 +24,41 @@ export interface IDocType {
 interface IDocViewRowProps {
   http: HttpStart;
   doc: IDocType;
-  selectedCols: Array<IField>;
+  docId: string;
+  selectedCols: IField[];
   timeStampField: string;
   explorerFields: IExplorerFields;
   pplService: PPLService;
   rawQuery: string;
+  onFlyoutOpen: (docId: string) => void;
 }
 
-export const DocViewRow = (props: IDocViewRowProps) => {
-  const { http, doc, selectedCols, timeStampField, explorerFields, pplService, rawQuery } = props;
+export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
+  const {
+    http,
+    doc,
+    docId,
+    selectedCols,
+    timeStampField,
+    explorerFields,
+    pplService,
+    rawQuery,
+    onFlyoutOpen,
+  } = props;
 
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(true);
+
+  useImperativeHandle(ref, () => ({
+    closeAllFlyouts(openDocId: string) {
+      if (openDocId !== docId && (detailsOpen || surroundingEventsOpen)) {
+        setSurroundingEventsOpen(false);
+        setDetailsOpen(false);
+      }
+    },
+  }));
 
   const getTdTmpl = (conf: { clsName: string; content: React.ReactDOM | string }) => {
     const { clsName, content } = conf;
@@ -54,7 +76,7 @@ export const DocViewRow = (props: IDocViewRowProps) => {
       <div className="truncate-by-height">
         <span>
           <dl className="source truncate-by-height">
-            {toPairs(doc).map((entry: Array<string>) => {
+            {toPairs(doc).map((entry: string[]) => {
               const isTraceField = entry[0] === OTEL_TRACE_ID;
               return (
                 <span key={uniqueId('grid-desc')}>
@@ -115,17 +137,17 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     );
   };
 
-  const getTds = (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => {
+  const getTds = (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => {
     const cols = [];
     const fieldClsName = 'osdDocTableCell__dataField eui-textBreakAll eui-textBreakWord';
     const timestampClsName = 'eui-textNoWrap';
     // No field is selected
     if (!selectedCols || selectedCols.length === 0) {
-      if (has(doc, 'timestamp')) {
+      if (has(doc, timeStampField)) {
         cols.push(
           getTdTmpl({
             clsName: timestampClsName,
-            content: doc['timestamp'],
+            content: moment.utc(doc[timeStampField]).local().format(DATE_PICKER_FORMAT),
           })
         );
       }
@@ -148,7 +170,9 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         cols.push(
           getTdTmpl({
             clsName: fieldClsName,
-            content: val,
+            content: isEqual(key, timeStampField)
+              ? moment.utc(val).local().format(DATE_PICKER_FORMAT)
+              : val,
           })
         );
       });
@@ -163,9 +187,8 @@ export const DocViewRow = (props: IDocViewRowProps) => {
     return getTds(doc, selectedCols, false);
   }, [doc, selectedCols, detailsOpen, surroundingEventsOpen]);
 
-  let flyout;
-  if (detailsOpen) {
-    flyout = (
+  const memorizedDocFlyout = useMemo(() => {
+    return (
       <DocFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -180,12 +203,22 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         setToggleSize={setFlyoutToggleSize}
         setOpenTraces={setOpenTraces}
         setSurroundingEventsOpen={setSurroundingEventsOpen}
-      ></DocFlyout>
+      />
     );
-  }
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    rawQuery,
+    flyoutToggleSize,
+  ]);
 
-  if (surroundingEventsOpen) {
-    flyout = (
+  const memorizedSurroundingFlyout = useMemo(() => {
+    return (
       <SurroundingFlyout
         http={http}
         detailsOpen={detailsOpen}
@@ -205,7 +238,34 @@ export const DocViewRow = (props: IDocViewRowProps) => {
         setToggleSize={setFlyoutToggleSize}
       />
     );
+  }, [
+    http,
+    detailsOpen,
+    doc,
+    timeStampField,
+    selectedCols,
+    explorerFields,
+    openTraces,
+    pplService,
+    rawQuery,
+    selectedCols,
+    flyoutToggleSize,
+  ]);
+
+  let flyout;
+  if (detailsOpen) {
+    flyout = memorizedDocFlyout;
   }
+
+  if (surroundingEventsOpen) {
+    flyout = memorizedSurroundingFlyout;
+  }
+
+  useEffect(() => {
+    if (detailsOpen) {
+      onFlyoutOpen(docId);
+    }
+  }, [detailsOpen]);
 
   return (
     <>
@@ -221,4 +281,4 @@ export const DocViewRow = (props: IDocViewRowProps) => {
       {flyout}
     </>
   );
-};
+});

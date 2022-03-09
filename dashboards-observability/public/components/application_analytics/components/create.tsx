@@ -25,6 +25,7 @@ import {
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { ReactChild, useEffect, useState } from 'react';
+import PPLService from 'public/services/requests/ppl';
 import { AppAnalyticsComponentDeps } from '../home';
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
@@ -35,9 +36,10 @@ import { fetchAppById } from '../helpers/utils';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
+  pplService: PPLService;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
   createApp: (app: ApplicationType) => void;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   clearStorage: () => void;
   existingAppId: string;
 }
@@ -50,6 +52,7 @@ export const CreateApp = (props: CreateAppProps) => {
     query,
     name,
     description,
+    pplService,
     createApp,
     updateApp,
     setToasts,
@@ -72,6 +75,7 @@ export const CreateApp = (props: CreateAppProps) => {
     servicesEntities: [],
     traceGroups: [],
     panelId: '',
+    availabilityVisId: '',
   });
 
   useEffect(() => {
@@ -82,7 +86,7 @@ export const CreateApp = (props: CreateAppProps) => {
         href: '#/application_analytics',
       },
       {
-        text: editMode ? 'Save' : 'Create',
+        text: editMode ? 'Edit' : 'Create',
         href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
       },
     ]);
@@ -90,7 +94,15 @@ export const CreateApp = (props: CreateAppProps) => {
 
   useEffect(() => {
     if (editMode && existingAppId) {
-      fetchAppById(http, existingAppId, setExistingApp, setFilters, setToasts);
+      fetchAppById(
+        http,
+        pplService,
+        existingAppId,
+        setExistingApp,
+        setFilters,
+        () => {},
+        setToasts
+      );
     }
   }, [existingAppId]);
 
@@ -111,19 +123,15 @@ export const CreateApp = (props: CreateAppProps) => {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
   }
 
-  const isDisabled = !name || !query || !selectedTraces.length || !selectedServices.length;
+  const isDisabled = !name || (!query && !selectedTraces.length && !selectedServices.length);
 
   const missingField = () => {
     if (isDisabled) {
       let popoverContent = '';
       if (!name) {
         popoverContent = 'Name is required.';
-      } else if (!query) {
-        popoverContent = 'Log Source is required.';
-      } else if (!selectedServices.length) {
-        popoverContent = 'Services & Entities is required.';
-      } else if (!selectedTraces.length) {
-        popoverContent = 'Trace Groups are required.';
+      } else if (!query && !selectedServices.length && !selectedTraces.length) {
+        popoverContent = 'Provide at least one log source, service, entity or trace group.';
       }
       return <p>{popoverContent}</p>;
     }
@@ -137,6 +145,7 @@ export const CreateApp = (props: CreateAppProps) => {
       servicesEntities: selectedServices.map((option) => option.label),
       traceGroups: selectedTraces.map((option) => option.label),
       panelId: '',
+      availabilityVisId: '',
     };
     createApp(appData);
   };
@@ -148,7 +157,7 @@ export const CreateApp = (props: CreateAppProps) => {
       servicesEntities: selectedServices.map((option) => option.label),
       traceGroups: selectedTraces.map((option) => option.label),
     };
-    updateApp(existingAppId, appData, true);
+    updateApp(existingAppId, appData, 'update');
   };
 
   const onCancel = () => {
@@ -177,14 +186,14 @@ export const CreateApp = (props: CreateAppProps) => {
             </EuiPageContentHeader>
             <EuiHorizontalRule />
             <EuiForm component="form">
-              <EuiFormRow label="Name">
+              <EuiFormRow label="Name" data-test-subj="nameFormRow">
                 <EuiFieldText
                   name="name"
                   value={name}
                   onChange={(e) => setNameWithStorage(e.target.value)}
                 />
               </EuiFormRow>
-              <EuiFormRow label="Description">
+              <EuiFormRow label="Description" data-test-subj="descriptionFormRow">
                 <EuiFieldText
                   name="description"
                   value={description}
@@ -225,7 +234,7 @@ export const CreateApp = (props: CreateAppProps) => {
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
                 <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
-                  {editMode ? 'Edit' : 'Create'}
+                  {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>

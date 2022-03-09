@@ -13,7 +13,6 @@ import {
   SAVE_QUERY3,
   SAVE_QUERY4,
 } from '../utils/constants';
-
 import { supressResizeObserverIssue } from '../utils/constants';
 
 const landOnEventHome = () => {
@@ -49,6 +48,33 @@ describe('Adding sample data and visualization', () => {
       .contains(/(Add|View) data/)
       .click();
     cy.wait(delay);
+  });
+});
+
+describe('Open flyout for a data row to see details', () => {
+  beforeEach(() => {
+    landOnEventExplorer();
+  });
+
+  it('Should be able to open flyout and see data, json and traces', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
+    cy.get('.observability-flyout').should('exist');
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('JSON').click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Traces').click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Table').click();
+  });
+
+  it('Should be able to see srrounding docs', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
+    cy.get('.observability-flyout').should('exist');
+    cy.get('.observability-flyout span.euiButton__text').contains('View surrounding events').click();
+    cy.get('.observability-flyout #surroundingFyout').contains('View surrounding events').should('exist');
   });
 });
 
@@ -265,6 +291,7 @@ describe('Saves a query on explorer page', () => {
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY3);
     cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TESTING_PANEL);
     cy.get(`input[value="${TESTING_PANEL}"]`).click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
 
@@ -282,7 +309,9 @@ describe('Override default timestamp for an index', () => {
     cy.get('[data-test-subj="eventExplorer__overrideDefaultTimestamp"]').click();
     cy.wait(delay);
 
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.get('[data-attr-field="utc_time"] [data-test-subj="eventFields__default-timestamp-mark"')
+    .contains('Default Timestamp').should('exist');
+    cy.get('[data-attr-field="timestamp"] [data-test-subj="eventFields__default-timestamp-mark"').should('not.exist');
   });
 });
 
@@ -353,5 +382,64 @@ describe('Switch on and off livetail', () => {
     cy.get('[data-test-subj=eventLiveTail__off').click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('Off').should('exist');
+  });
+});
+
+describe('Live tail stop automatically', () => {
+  it('Moving to other tab should stop live tail automatically', () => {
+    landOnEventExplorer();
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
+
+    cy.get('[data-test-subj=eventLiveTail]').click();
+    cy.get('[data-test-subj=eventLiveTail__delay10]').click();
+    cy.wait(delay * 2);
+    cy.get('.euiToastHeader__title').contains('On').should('exist');
+  });
+
+  it('Add a new tab', () => {
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .then((lists) => {
+        const initialLength = Cypress.$(lists).length;
+        cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+          .find('button.euiTab')
+          .should('have.length', initialLength + 1);
+  });
+});
+
+  it('Click to switch to another tab', () => {
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .first()
+      .click();
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .first()
+      .should('have.class', 'euiTab-isSelected');
+});
+
+  it('Close current selected tab', () => {
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .then((lists) => {
+        const initialLength = Cypress.$(lists).length;
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"] button.euiTab').eq(1).click();
+        cy.get('button.euiTab-isSelected [data-test-subj="eventExplorer__tabClose"]').click();
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+          .find('button.euiTab')
+          .should('have.length', initialLength - 1);
+      });
+  });
+
+  it('Live tail should be stopped', () => {
+    cy.get('.euiButton__text').contains('Live');
   });
 });

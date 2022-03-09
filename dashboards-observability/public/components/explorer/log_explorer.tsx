@@ -88,7 +88,7 @@ export const LogExplorer = ({
 
   const handleTabClose = (TabIdToBeClosed: string) => {
     if (tabIds.length === 1) {
-      setToast('Have to have at least one tab', 'danger');
+      setToast('Cannot close last tab.', 'danger');
       return;
     }
 
