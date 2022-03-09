@@ -96,7 +96,7 @@ export const Configuration = (props: ConfigProps) => {
                 </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiText>
-                    <h4>Services & Entities</h4>
+                    <h4>Services & entities</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
                   <EuiText size="m">

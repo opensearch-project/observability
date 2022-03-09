@@ -38,15 +38,18 @@ describe('Creating application', () => {
   it('Disables create button if missing fields', () => {
     expectMessageOnHover('Name is required.');
     cy.get('[data-test-subj="nameFormRow"]').type(name);
-    expectMessageOnHover('Log Source is required.');
+    expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
-    expectMessageOnHover('Services & Entities is required.');
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiButton').contains('Create').should('not.be.disabled');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear();
+    expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
     cy.get('.euiBadge').contains('1').should('exist');
-    expectMessageOnHover('Trace Groups are required.');
+    cy.get('.euiButton').contains('Create').should('not.be.disabled');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
     cy.get('.euiAccordion').contains('Trace groups').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').type('http');
     cy.get('.euiFilterSelectItem').contains(trace_one).trigger('click');
@@ -78,7 +81,7 @@ describe('Creating application', () => {
     cy.get('[data-test-subj="descriptionFormRow"]').type('This application is for testing.');
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
     cy.get('.euiBadge').contains('1').should('exist');
@@ -106,7 +109,7 @@ describe('Creating application', () => {
     cy.get('[data-test-subj="descriptionFormRow"]').type(description);
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
     cy.get('.euiBadge').contains('1').should('exist');
@@ -132,7 +135,7 @@ describe('Creating application', () => {
     cy.get('.euiButton').contains('Clear').click();
     cy.get('.euiButton--danger').contains('Clear').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain.value', '');
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
     cy.get('.euiBadge').contains('1').should('exist');
@@ -142,7 +145,7 @@ describe('Creating application', () => {
     cy.get('.euiButton--danger').contains('Clear all').click();
     cy.get('.euiBadge').contains('1').should('not.exist');
     cy.get('.euiBadge').contains('0').should('exist');
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('.euiAccordion').contains('Trace groups').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').type('http');
     cy.get('.euiFilterSelectItem').contains(trace_one).trigger('click');
@@ -321,7 +324,7 @@ describe('Editing application', () => {
     cy.get('[data-test-subj="comboBoxToggleListButton"]').filter(':visible').click();
     cy.get('.euiFilterSelectItem').contains(trace_three).trigger('click');
     cy.get('.euiBadge').contains('3').should('exist');
-    cy.get('.euiAccordion').contains('Services & Entities').click();
+    cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.get('.euiFilterSelectItem').contains(service_two).trigger('click');
     cy.get('.euiBadge').contains('2').should('exist');

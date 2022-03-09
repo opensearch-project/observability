@@ -8,7 +8,7 @@ import './search.scss';
 import $ from 'jquery';
 import React, { useEffect, useMemo, useState } from 'react';
 import { AutocompleteState, createAutocomplete } from '@algolia/autocomplete-core';
-import { EuiTextArea } from '@elastic/eui';
+import { EuiFieldText, EuiTextArea } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import { IQueryBarProps } from './search';
 import { uiSettingsService } from '../../../../common/utils';
@@ -27,6 +27,8 @@ interface AutocompleteProps extends IQueryBarProps {
   tabId: string;
   placeholder?: string;
   possibleCommands?: Array<{ label: string }>;
+  append?: any;
+  inputDisabled?: boolean;
 }
 
 export const Autocomplete = (props: AutocompleteProps) => {
@@ -43,6 +45,8 @@ export const Autocomplete = (props: AutocompleteProps) => {
     tabId = '',
     placeholder = 'Enter PPL query',
     possibleCommands,
+    append,
+    inputDisabled,
   } = props;
 
   const [autocompleteState, setAutocompleteState] = useState<AutocompleteState<AutocompleteItem>>({
@@ -127,16 +131,20 @@ export const Autocomplete = (props: AutocompleteProps) => {
     });
   }, depArray);
 
+  const TextArea = panelsFilter ? EuiFieldText : EuiTextArea;
+
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({ id: 'autocomplete-root' })}>
-      <EuiTextArea
+      <TextArea
         {...autocomplete.getInputProps({
           id: 'autocomplete-textarea',
           'data-test-subj': 'searchAutocompleteTextArea',
           placeholder,
           inputElement: null,
         })}
-        disabled={isDisabled}
+        {...(panelsFilter
+          ? { append, fullWidth: true, disabled: inputDisabled }
+          : { disabled: isDisabled })}
       />
       {autocompleteState.isOpen && (
         <div
