@@ -40,6 +40,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
+  const colorScaleValues = [...PLOTLY_COLOR.map((clr, index) => [index, clr])];
+
   const calculatedHeapMapZaxis: Plotly.Data[] = useMemo(() => {
     const heapMapZaxis = [];
     const buckets = {};
@@ -84,6 +86,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
+      colorscale: colorScaleValues,
       type: 'heatmap',
     },
   ];

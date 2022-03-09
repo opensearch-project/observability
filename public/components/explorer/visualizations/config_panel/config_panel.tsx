@@ -173,6 +173,10 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     [memorizedVisualizationTypes]
   );
 
+  const vizTypeList = useMemo(() => {
+    return memorizedVisualizationTypes.filter((type) => type.id !== 'horizontal_bar');
+  }, [memorizedVisualizationTypes]);
+
   return (
     <>
       <EuiFlexGroup
@@ -187,7 +191,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
           <EuiComboBox
             aria-label="config chart selector"
             placeholder="Select a chart"
-            options={memorizedVisualizationTypes}
+            options={vizTypeList}
             selectedOptions={[getSelectedVisDById(curVisId)]}
             singleSelection
             onChange={(visType) => {
