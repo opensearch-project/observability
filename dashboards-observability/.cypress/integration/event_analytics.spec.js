@@ -51,6 +51,33 @@ describe('Adding sample data and visualization', () => {
   });
 });
 
+describe('Open flyout for a data row to see details', () => {
+  beforeEach(() => {
+    landOnEventExplorer();
+  });
+
+  it('Should be able to open flyout and see data, json and traces', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
+    cy.get('.observability-flyout').should('exist');
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('JSON').click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Traces').click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Table').click();
+  });
+
+  it('Should be able to see srrounding docs', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
+    cy.get('.observability-flyout').should('exist');
+    cy.get('.observability-flyout span.euiButton__text').contains('View surrounding events').click();
+    cy.get('.observability-flyout #surroundingFyout').contains('View surrounding events').should('exist');
+  });
+});
+
 describe('Search a query on event home', () => {
   it('Search a query and redirect to explorer to display result data', () => {
     landOnEventHome();
@@ -264,6 +291,7 @@ describe('Saves a query on explorer page', () => {
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY3);
     cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TESTING_PANEL);
     cy.get(`input[value="${TESTING_PANEL}"]`).click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
 
