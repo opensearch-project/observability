@@ -156,8 +156,8 @@ const composeFinalQuery = (
   }
   const indexPartOfQuery = indexMatchArray[0];
   const filterPartOfQuery = rawQuery.replace(PPL_INDEX_REGEX, '');
-  const timeSymbol = typeOfDocs == 'new' ? '>' : '<';
-  const sortSymbol = typeOfDocs == 'new' ? '+' : '-';
+  const timeSymbol = typeOfDocs === 'new' ? '>' : '<';
+  const sortSymbol = typeOfDocs === 'new' ? '+' : '-';
   const timeQueryFilter = ` | where ${timeStampField} ${timeSymbol} '${eventTime}'`;
   const sortFilter = ` | sort ${sortSymbol} ${timeStampField} | head ${numDocs}`;
 
@@ -190,13 +190,13 @@ export const fetchSurroundingData = async (
 ) => {
   let resultCount = 0;
   let isErred = false;
-  const pplEventTime = moment(eventTime).format(PPL_DATE_FORMAT);
+  const pplEventTime = moment.utc(eventTime).format(PPL_DATE_FORMAT);
   setLoadingData(true);
   setIsError('');
 
   let finalQuery = '';
   try {
-    finalQuery = composeFinalQuery(rawQuery, timeStampField, eventTime, numDocs, typeOfDocs);
+    finalQuery = composeFinalQuery(rawQuery, timeStampField, pplEventTime, numDocs, typeOfDocs);
   } catch (error) {
     const errorMessage = 'Issue in building surrounding data query';
     setIsError(errorMessage);

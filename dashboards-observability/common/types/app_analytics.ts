@@ -14,7 +14,7 @@ export interface ApplicationListType {
   composition: string[];
   dateCreated: string;
   dateModified: string;
-  availability: { name: string; color: string };
+  availability: { name: string; color: string; mainVisId: string };
 }
 
 export interface ApplicationType {
@@ -24,4 +24,5 @@ export interface ApplicationType {
   servicesEntities: string[];
   traceGroups: string[];
   panelId: string;
+  availabilityVisId: string;
 }

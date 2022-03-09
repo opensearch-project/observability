@@ -4,9 +4,7 @@
  */
 
 import './docView.scss';
-import { FlyoutContainers } from '../../common/flyout_containers';
 import React, { useEffect, useState } from 'react';
-import { IDocType } from './docViewRow';
 import {
   EuiButton,
   EuiButtonEmpty,
@@ -23,13 +21,15 @@ import {
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
+import { FlyoutContainers } from '../../common/flyout_containers';
+import { IDocType } from './docViewRow';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
 import { getHeaders, fetchSurroundingData, rangeNumDocs, populateDataGrid } from '../utils';
 import { DEFAULT_COLUMNS } from '../../../../common/constants/explorer';
 import { HttpSetup } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
 
-type Props = {
+interface Props {
   http: HttpSetup;
   detailsOpen: boolean;
   setDetailsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,10 +43,10 @@ type Props = {
   pplService: PPLService;
   rawQuery: string;
   selectedCols: IField[];
-  getTds: (doc: IDocType, selectedCols: Array<IField>, isFlyout: boolean) => JSX.Element[];
+  getTds: (doc: IDocType, selectedCols: IField[], isFlyout: boolean) => JSX.Element[];
   toggleSize: boolean;
   setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 export const SurroundingFlyout = ({
   http,
@@ -274,6 +274,6 @@ export const SurroundingFlyout = ({
       flyoutFooter={flyoutFooter}
       ariaLabel={'surroundingFyout'}
       size={toggleSize ? 'm' : 'l'}
-    ></FlyoutContainers>
+    />
   );
 };
