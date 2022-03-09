@@ -10,7 +10,7 @@ export const getPlotlySharedConfigs = () => {
     layout: {
       showlegend: true,
       margin: {
-        l: 50,
+        l: 60,
         r: 30,
         b: 30,
         t: 50,
