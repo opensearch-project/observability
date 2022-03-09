@@ -653,7 +653,7 @@ export const CustomPanelView = ({
                   placeholder={
                     "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   }
-                  restrictedCommands={[{ label: 'where' }]}
+                  possibleCommands={[{ label: 'where' }]}
                 />
                 <EuiBadge
                   className={`ppl-link ${

@@ -204,7 +204,7 @@ export const getFullSuggestions = async (
   base: string,
   str: string,
   dslService: DSLService,
-  possibleCommands: Array<{ label: string }>
+  possibleCommands: Array<{ label: string }> = pipeCommands
 ): Promise<AutocompleteItem[]> => {
   const splittedModel = str.split(' ');
   const prefix = splittedModel[splittedModel.length - 1];
@@ -225,7 +225,7 @@ export const getFullSuggestions = async (
       nextStats = Number.MAX_SAFE_INTEGER;
       currField = '';
       currFieldType = '';
-      return fillSuggestions(str, prefix, pipeCommands);
+      return fillSuggestions(str, prefix, possibleCommands);
     } else if (splittedModel[splittedModel.length - 2].includes(',')) {
       // Suggest more fields if in fields command
       if (inFieldsCommaLoop) {
