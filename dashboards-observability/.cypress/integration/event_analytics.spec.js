@@ -384,3 +384,62 @@ describe('Switch on and off livetail', () => {
     cy.get('.euiToastHeader__title').contains('Off').should('exist');
   });
 });
+
+describe('Live tail stop automatically', () => {
+  it('Moving to other tab should stop live tail automatically', () => {
+    landOnEventExplorer();
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
+
+    cy.get('[data-test-subj=eventLiveTail]').click();
+    cy.get('[data-test-subj=eventLiveTail__delay10]').click();
+    cy.wait(delay * 2);
+    cy.get('.euiToastHeader__title').contains('On').should('exist');
+  });
+
+  it('Add a new tab', () => {
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .then((lists) => {
+        const initialLength = Cypress.$(lists).length;
+        cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+          .find('button.euiTab')
+          .should('have.length', initialLength + 1);
+  });
+});
+
+  it('Click to switch to another tab', () => {
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .first()
+      .click();
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .first()
+      .should('have.class', 'euiTab-isSelected');
+});
+
+  it('Close current selected tab', () => {
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+      .find('button.euiTab')
+      .then((lists) => {
+        const initialLength = Cypress.$(lists).length;
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"] button.euiTab').eq(1).click();
+        cy.get('button.euiTab-isSelected [data-test-subj="eventExplorer__tabClose"]').click();
+        cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+          .find('button.euiTab')
+          .should('have.length', initialLength - 1);
+      });
+  });
+
+  it('Live tail should be stopped', () => {
+    cy.get('.euiButton__text').contains('Live');
+  });
+});
