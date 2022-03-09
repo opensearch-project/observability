@@ -30,8 +30,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
-
-  // threshold(s)
+  
   const [calculatedLayout, lineValues] = useMemo(() => {
     
     let calculatedLineValues = valueSeries.map((field: any) => {
@@ -62,7 +61,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           thresholdTraces.x.push(
             data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
           );
-          thresholdTraces.y.push(thr.value * (1 + 0.08));
+          thresholdTraces.y.push(thr.value * (1 + 0.06));
           thresholdTraces.text.push(thr.name);
           return {
             type: 'line',

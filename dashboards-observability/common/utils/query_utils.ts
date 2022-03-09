@@ -39,8 +39,8 @@ export const preprocessQuery = ({
   if (isEmpty(rawQuery)) return finalQuery;
 
   // convert to moment
-  const start = datemath.parse(startTime)?.format(DATE_PICKER_FORMAT);
-  const end = datemath.parse(endTime)?.format(DATE_PICKER_FORMAT);
+  const start = datemath.parse(startTime)?.utc().format(DATE_PICKER_FORMAT);
+  const end = datemath.parse(endTime)?.utc().format(DATE_PICKER_FORMAT);
   const tokens = rawQuery.replaceAll(PPL_NEWLINE_REGEX, '').match(PPL_INDEX_INSERT_POINT_REGEX);
 
   if (isEmpty(tokens)) return finalQuery;

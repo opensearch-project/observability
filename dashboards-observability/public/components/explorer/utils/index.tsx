@@ -10,4 +10,6 @@ export {
   rangeNumDocs,
   populateDataGrid,
   isValidTraceId,
+  formatError,
+  findAutoInterval,
 } from './utils';
