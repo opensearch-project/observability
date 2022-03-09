@@ -67,7 +67,7 @@ export const ConfigThresholds = ({
             if (thrId !== th.thid) return th;
             return {
               ...th,
-              [thrName]: event?.target?.value || '',
+              [thrName]: (thrName === 'color' ? event : event?.target?.value) || '',
             };
           }),
         ]);
@@ -139,7 +139,7 @@ export const ConfigThresholds = ({
                       <EuiFieldNumber
                         fullWidth
                         placeholder="threshold value"
-                        value={thr.value || 0}
+                        value={thr.value}
                         onChange={handleThresholdChange(thr.thid, 'value')}
                         aria-label="Input threshold value"
                         data-test-subj="valueFieldNumber"

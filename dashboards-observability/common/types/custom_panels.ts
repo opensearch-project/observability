@@ -33,6 +33,7 @@ export interface SavedVisualizationType {
   name: string;
   query: string;
   type: string;
+  selected_date_range: { start: string; end: string; text: string };
   timeField: string;
   application_id?: string;
   user_configs: any;
