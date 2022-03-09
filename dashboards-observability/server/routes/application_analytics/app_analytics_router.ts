@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import { schema } from '@osd/config-schema';
 import {
@@ -96,6 +97,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           baseQuery: schema.string(),
           servicesEntities: schema.arrayOf(schema.string()),
           traceGroups: schema.arrayOf(schema.string()),
+          availabilityVisId: schema.maybe(schema.string()),
         }),
       },
     },
@@ -115,12 +117,13 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           request.body.description || '',
           request.body.baseQuery,
           request.body.servicesEntities,
-          request.body.traceGroups
+          request.body.traceGroups,
+          request.body.availabilityVisId || ''
         );
         return response.ok({
           body: {
             message: 'Application Created',
-            newAppId: newAppId,
+            newAppId,
           },
         });
       } catch (err: any) {
@@ -187,6 +190,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
             servicesEntities: schema.maybe(schema.arrayOf(schema.string())),
             traceGroups: schema.maybe(schema.arrayOf(schema.string())),
             panelId: schema.maybe(schema.string()),
+            availabilityVisId: schema.maybe(schema.string()),
           }),
         }),
       },
@@ -209,7 +213,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
         return response.ok({
           body: {
             message: 'Application Updated',
-            updatedAppId: updatedAppId,
+            updatedAppId,
           },
         });
       } catch (err: any) {
