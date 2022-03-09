@@ -378,7 +378,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -445,7 +445,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -1587,7 +1587,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -1654,7 +1654,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -2733,7 +2733,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -2800,7 +2800,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -3853,7 +3853,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -3920,7 +3920,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -5032,7 +5032,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -5102,7 +5102,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -6152,7 +6152,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -6222,7 +6222,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -7319,7 +7319,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -7386,7 +7386,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -8377,7 +8377,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -8444,7 +8444,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -9504,7 +9504,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -9571,7 +9571,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -10201,8 +10201,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
-                    disabled=""
+                    class="euiButton euiButton--primary euiButton--fill"
                     type="button"
                   >
                     <span
@@ -10593,7 +10592,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -10660,7 +10659,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -11290,8 +11289,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
-                  disabled=""
+                  class="euiButton euiButton--primary euiButton--fill"
                   type="button"
                 >
                   <span
@@ -11739,7 +11737,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -11809,7 +11807,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -12859,7 +12857,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -12929,7 +12927,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -14038,7 +14036,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -14105,7 +14103,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -15158,7 +15156,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -15225,7 +15223,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
@@ -16341,7 +16339,7 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & Entities 
+                            Services & entities 
                             <span
                               class="euiBadge euiBadge--iconLeft"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -16408,7 +16406,7 @@ Object {
                               class="euiFormLabel euiFormRow__label"
                               for="random_html_id"
                             >
-                              Services & Entities
+                              Services & entities
                             </label>
                           </div>
                           <div
@@ -17546,7 +17544,7 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & Entities 
+                          Services & entities 
                           <span
                             class="euiBadge euiBadge--iconLeft"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
@@ -17613,7 +17611,7 @@ Object {
                             class="euiFormLabel euiFormRow__label"
                             for="random_html_id"
                           >
-                            Services & Entities
+                            Services & entities
                           </label>
                         </div>
                         <div
