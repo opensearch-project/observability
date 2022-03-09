@@ -37,6 +37,7 @@ describe('Visualization Flyout Component', () => {
         http={httpClientMock}
         pplService={pplService}
         isFlyoutReplacement={isFlyoutReplacement}
+        appPanel={false}
       />
     );
 
@@ -68,6 +69,7 @@ describe('Visualization Flyout Component', () => {
         pplService={pplService}
         isFlyoutReplacement={isFlyoutReplacement}
         replaceVisualizationId={replaceVisualizationId}
+        appPanel={false}
       />
     );
 

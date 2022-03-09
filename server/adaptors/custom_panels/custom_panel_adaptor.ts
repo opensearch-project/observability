@@ -4,11 +4,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import {
-  CustomPanelListType,
-  PanelType,
-  VisualizationType,
-} from '../../../common/types/custom_panels';
+import { PanelType, VisualizationType } from '../../../common/types/custom_panels';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 import { createDemoPanel } from '../../common/helpers/custom_panels/sample_panels';
 
@@ -211,7 +207,7 @@ export class CustomPanelsAdaptor {
     }
   };
 
-  // parses fetched saved visualization 
+  // parses fetched saved visualization
   parseSavedVisualizations = (visualization: any) => {
     return {
       id: visualization.objectId,
@@ -224,6 +220,9 @@ export class CustomPanelsAdaptor {
       user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
         ? JSON.parse(visualization.savedVisualization.user_configs)
         : {},
+      ...(visualization.savedVisualization.application_id
+        ? { application_id: visualization.savedVisualization.application_id }
+        : {}),
     };
   };
 
@@ -233,11 +232,9 @@ export class CustomPanelsAdaptor {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'savedVisualization',
       });
-      return response.observabilityObjectList
-        .filter((visualization: any) => {
-          return !!!visualization.savedVisualization.application_id;
-        })
-        .map((visualization: any) => this.parseSavedVisualizations(visualization));
+      return response.observabilityObjectList.map((visualization: any) =>
+        this.parseSavedVisualizations(visualization)
+      );
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
     }
@@ -334,13 +331,13 @@ export class CustomPanelsAdaptor {
       const allPanelVisualizations = await this.getVisualizations(client, panelId);
 
       let newDimensions;
-      let visualizationsList = <VisualizationType[]>[];
+      let visualizationsList = [] as VisualizationType[];
       if (oldVisualizationId === undefined) {
         newDimensions = this.getNewVizDimensions(allPanelVisualizations);
         visualizationsList = allPanelVisualizations;
       } else {
         allPanelVisualizations.map((visualization: VisualizationType) => {
-          if (visualization.id != oldVisualizationId) {
+          if (visualization.id !== oldVisualizationId) {
             visualizationsList.push(visualization);
           } else {
             newDimensions = {
@@ -383,7 +380,7 @@ export class CustomPanelsAdaptor {
   ) => {
     try {
       const allPanelVisualizations = await this.getVisualizations(client, panelId);
-      const filteredPanelVisualizations = <VisualizationType[]>[];
+      const filteredPanelVisualizations = [] as VisualizationType[];
 
       for (let i = 0; i < allPanelVisualizations.length; i++) {
         for (let j = 0; j < visualizationParams.length; j++) {

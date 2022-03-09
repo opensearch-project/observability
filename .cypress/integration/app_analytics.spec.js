@@ -27,7 +27,7 @@ import {
   visName,
   composition,
   newName,
-} from '../utils/panel_constants';
+} from '../utils/app_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
 describe('Creating application', () => {
@@ -214,6 +214,7 @@ describe('Viewing application', () => {
 
   it('Opens trace detail flyout when Trace ID is clicked', () => {
     cy.get('.euiTab').contains('Traces & Spans').click();
+    supressResizeObserverIssue();
     cy.wait(delay);
     cy.get('[title="03f9c770db5ee2f1caac0afc36db49ba"]').click();
     cy.get('.euiFlyout').contains('Trace detail').should('be.visible');

@@ -140,7 +140,10 @@ export const Paragraphs = forwardRef((props: ParagraphProps, ref) => {
     await http
       .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations`)
       .then((res) => {
-        opt2 = res.visualizations.map((vizObject) => ({
+        const noAppVisualizations = res.visualizations.filter((vis) => {
+          return !!!vis.application_id;
+        });
+        opt2 = noAppVisualizations.map((vizObject) => ({
           label: vizObject.name,
           key: vizObject.id,
           className: 'OBSERVABILITY_VISUALIZATION',

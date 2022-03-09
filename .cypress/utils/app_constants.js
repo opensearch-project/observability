@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { supressResizeObserverIssue } from './constants';
+
 export const delay = 700;
 
 export const moveToHomePage = () => {
