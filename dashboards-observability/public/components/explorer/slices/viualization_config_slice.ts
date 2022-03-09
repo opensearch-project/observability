@@ -17,10 +17,14 @@ export const visualizationConfigSlice = createSlice({
   reducers: {
     change: (state, { payload }) => {
       const { tabId, vizId, data } = payload;
+      let curVizPrevState = {};
+      if (state[tabId] && state[tabId][vizId]) {
+        curVizPrevState = { ...state[tabId][vizId] };
+      }
       state[tabId] = {
         ...state[tabId],
         [vizId]: {
-          ...state[tabId][vizId],
+          ...curVizPrevState,
           ...data,
         },
       };
