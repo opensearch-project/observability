@@ -113,20 +113,16 @@ export const VisualizationContainer = ({
     >
       Replace
     </EuiContextMenuItem>,
-    ...(fromApp
-      ? []
-      : [
-          <EuiContextMenuItem
-            key="Duplicate"
-            disabled={disablePopover}
-            onClick={() => {
-              closeActionsMenu();
-              cloneVisualization(visualizationTitle, savedVisualizationId);
-            }}
-          >
-            Duplicate
-          </EuiContextMenuItem>,
-        ]),
+    <EuiContextMenuItem
+      key="Duplicate"
+      disabled={disablePopover}
+      onClick={() => {
+        closeActionsMenu();
+        cloneVisualization(visualizationTitle, savedVisualizationId);
+      }}
+    >
+      Duplicate
+    </EuiContextMenuItem>,
   ];
 
   if (usedInNotebooks) {
