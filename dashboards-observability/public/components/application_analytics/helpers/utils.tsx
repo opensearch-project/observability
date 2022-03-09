@@ -196,7 +196,7 @@ export const calculateAvailability = async (
   const panelId = application.panelId;
   if (!panelId) return availability;
   // Fetches saved visualizations associated to application's panel
-  const savedVisualizationsIds = await fetchPanelsVizIdList(http, panelId);
+  const savedVisualizationsIds = (await fetchPanelsVizIdList(http, panelId)).reverse();
   if (!savedVisualizationsIds) return availability;
   const visWithAvailability = [];
   let availabilityFound = false;
