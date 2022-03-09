@@ -322,27 +322,26 @@ export function DashboardTable(props: {
         ),
         align: 'right',
         sortable: true,
-        render:
-          props.page === 'app'
-            ? (item) => item
-            : (item, row) => (
-                <EuiLink
-                  data-test-subj="dashboard-table-traces-button"
-                  onClick={() => {
-                    props.setRedirect(true);
-                    props.addFilter({
-                      field: 'traceGroup',
-                      operator: 'is',
-                      value: row.dashboard_trace_group_name,
-                      inverted: false,
-                      disabled: false,
-                    });
-                    location.assign('#/trace_analytics/traces');
-                  }}
-                >
-                  <EuiI18nNumber value={item} />
-                </EuiLink>
-              ),
+        render: (item, row) => (
+          <EuiLink
+            data-test-subj="dashboard-table-traces-button"
+            onClick={() => {
+              props.addFilter({
+                field: 'traceGroup',
+                operator: 'is',
+                value: row.dashboard_trace_group_name,
+                inverted: false,
+                disabled: false,
+              });
+              if (props.page !== 'app') {
+                props.setRedirect(true);
+                location.assign('#/trace_analytics/traces');
+              }
+            }}
+          >
+            <EuiI18nNumber value={item} />
+          </EuiLink>
+        ),
       },
     ] as Array<EuiTableFieldDataColumnType<any>>;
 

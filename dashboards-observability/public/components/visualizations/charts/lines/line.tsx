@@ -15,18 +15,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const xaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
-      ? dataConfig.valueOptions.xaxis
-      : [];
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis
-      ? dataConfig.valueOptions.yaxis
-      : [];
+    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
   const lastIndex = fields.length - 1;
   const mode =
-    dataConfig?.chartOptions && 
-    dataConfig.chartOptions.mode && 
-    dataConfig.chartOptions.mode[0]
+    dataConfig?.chartOptions && dataConfig.chartOptions.mode && dataConfig.chartOptions.mode[0]
       ? dataConfig.chartOptions.mode[0].modeId
       : 'line';
 
@@ -36,9 +30,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
-
-  const lineValues = useMemo(() => {
-    return valueSeries.map((field: any) => {
+  
+  const [calculatedLayout, lineValues] = useMemo(() => {
+    
+    let calculatedLineValues = valueSeries.map((field: any) => {
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
@@ -47,10 +42,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         mode,
       };
     });
-  }, [data, xaxis, yaxis, fields, lastIndex, mode]);
-
-  // threshold(s)
-  const calculatedLayout = useMemo(() => {
+    
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
@@ -69,7 +61,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           thresholdTraces.x.push(
             data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
           );
-          thresholdTraces.y.push(thr.value * (1 + 0.005));
+          thresholdTraces.y.push(thr.value * (1 + 0.06));
           thresholdTraces.text.push(thr.name);
           return {
             type: 'line',
@@ -78,6 +70,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
             x1: last(data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
             y1: thr.value,
             name: thr.name || '',
+            opacity: 0.7,
             line: {
               color: thr.color,
               width: 4,
@@ -86,10 +79,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
           };
         }),
       ];
-      lineValues.push(thresholdTraces);
+      calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }
-    return mergedLayout;
-  }, [data, fields, lastIndex, layout, layoutConfig, lineValues, xaxis]);
+    return [mergedLayout, calculatedLineValues];
+  }, [data, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
 
   const mergedConfigs = {
     ...config,

@@ -22,6 +22,7 @@ import {
   EuiContextMenuItem,
   EuiButtonToggle,
 } from '@elastic/eui';
+import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
 import { Search } from '../common/search/search';
 import { CountDistribution } from './visualizations/count_distribution';
@@ -53,6 +54,7 @@ import {
   TAB_CHART_ID,
   INDEX,
   FINAL_QUERY,
+  DATE_PICKER_FORMAT,
 } from '../../../common/constants/explorer';
 import { PPL_STATS_REGEX, PPL_NEWLINE_REGEX } from '../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../common/utils';
@@ -139,6 +141,10 @@ export const Explorer = ({
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
   const [liveTailName, setLiveTailName] = useState('Live');
   const [liveTailToggle, setLiveTailToggle] = useState(false);
+  const [liveHits, setLiveHits] = useState(0);
+  const [browserTabFocus, setBrowserTabFocus] = useState(true);
+  const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
+
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
@@ -166,6 +172,17 @@ export const Explorer = ({
       setHasLoaded(true);
     }
   }, [isEventsLoading, isVisLoading]);
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange", function() {
+      if (document.hidden) {
+        setBrowserTabFocus(false);
+      }
+      else {
+        setBrowserTabFocus(true);
+      }
+    });
+  });
 
   const composeFinalQuery = (
     curQuery: any,
@@ -551,6 +568,19 @@ export const Explorer = ({
     handleQuerySearch();
   };
 
+  const totalHits: number = useMemo(() => {
+    if (isLiveTailOn && countDistribution?.data) {    
+     let hits = reduce(
+       countDistribution['data']['count()'],
+       (sum, n) => {
+         return sum + n;
+       },
+       liveHits
+       )
+       setLiveHits(hits);
+       return hits
+   }} , [countDistribution?.data]);
+
   const getMainContent = () => {
     return (
       <main className="container-fluid">
@@ -600,7 +630,7 @@ export const Explorer = ({
             ) : explorerData && !isEmpty(explorerData.jsonData) ? (
               <div className="dscWrapper__content">
                 <div className="dscResults">
-                  {countDistribution?.data && (
+                  {countDistribution?.data && !isLiveTailOnRef.current && (
                     <>
                       <EuiFlexGroup justifyContent="center" alignItems="center">
                         <EuiFlexItem grow={false}>
@@ -643,14 +673,24 @@ export const Explorer = ({
                     </h2>
                     <div className="dscDiscover">
                       {isLiveTailOnRef.current && (
-                        <div className="liveStream">
-                          <EuiSpacer size="m" />
-                          <EuiLoadingSpinner size="l" />
-                          <EuiText textAlign="center" data-test-subj="LiveStreamIndicator_on">
-                            <strong>Live streaming</strong>
-                          </EuiText>
-                          <EuiSpacer size="m" />
-                        </div>
+                          <>
+                            <EuiSpacer size="m" />
+                            <EuiFlexGroup justifyContent="center" alignItems="center" gutterSize='m'>
+                              <EuiLoadingSpinner size="l" />
+                              <EuiText textAlign="center" data-test-subj="LiveStreamIndicator_on">
+                                <strong>&nbsp;&nbsp;Live streaming</strong>
+                              </EuiText>
+                              <EuiFlexItem grow={false}>
+                                <HitsCounter
+                                  hits={totalHits}
+                                  showResetButton={false}
+                                  onResetQuery={() => { } } />
+                              </EuiFlexItem>
+                              <EuiFlexItem grow={false}>
+                                since {liveTimestamp}
+                              </EuiFlexItem>
+                            </EuiFlexGroup><EuiSpacer size="m" />
+                          </>
                       )}
                       <DataGrid
                         http={http}
@@ -1026,8 +1066,7 @@ export const Explorer = ({
     return (
       <EuiButtonToggle
         label={liveTailNameRef.current}
-        iconType={isLiveTailOn ? '' : 'play'}
-        isLoading={isLiveTailOn ? true : false}
+        iconType={isLiveTailOn ? 'stop' : 'play'}
         iconSide="left"
         onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
         onChange={onToggleChange}
@@ -1051,20 +1090,44 @@ export const Explorer = ({
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
+    setLiveTimestamp(dateMath.parse(endTime)?.utc().format(DATE_PICKER_FORMAT));
+    setLiveHits(0);
     await sleep(2000);
     const curLiveTailname = liveTailNameRef.current;
     while (isLiveTailOnRef.current === true && curLiveTailname === liveTailNameRef.current) {
       handleLiveTailSearch(startTime, endTime);
       if (liveTailTabIdRef.current !== curSelectedTabId.current) {
-        setIsLiveTailOn(!isLiveTailOnRef.current);
+        setIsLiveTailOn(false);
         isLiveTailOnRef.current = false;
-        setLiveTailName('');
+        setLiveTailName('Live');
+        setLiveHits(0);
       }
       await sleep(delayTime);
     }
   };
 
+  useEffect(() => {
+    if ((isEqual(selectedContentTabId, TAB_CHART_ID)) || (!browserTabFocus)) {
+      setLiveTailName('Live');
+      setIsLiveTailOn(false);
+      setLiveHits(0);
+    }
+  }, [selectedContentTabId, browserTabFocus]);
+
   const popoverItems: ReactElement[] = [
+    <EuiContextMenuItem
+      key="stop"
+      onClick={() => {
+        setLiveTailName('Live');
+        setIsLiveTailOn(false);
+        setToast('Live tail Off', 'success');
+        setLiveHits(0);
+        setIsLiveTailPopoverOpen(false);
+      }}
+      data-test-subj="eventLiveTail__off"
+    >
+      Stop
+    </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="5s"
       onClick={async () => {
@@ -1138,18 +1201,6 @@ export const Explorer = ({
     >
       2h
     </EuiContextMenuItem>,
-    <EuiContextMenuItem
-      key="stop"
-      onClick={() => {
-        setLiveTailName('Live');
-        setIsLiveTailOn(false);
-        setToast('Live tail Off', 'success');
-        setIsLiveTailPopoverOpen(false);
-      }}
-      data-test-subj="eventLiveTail__off"
-    >
-      Stop
-    </EuiContextMenuItem>,
   ];
 
   const dateRange =
@@ -1204,7 +1255,6 @@ export const Explorer = ({
           closeLiveTailPopover={() => setIsLiveTailPopoverOpen(false)}
           popoverItems={popoverItems}
           isLiveTailOn={isLiveTailOnRef.current}
-          countDistribution={countDistribution}
           selectedSubTabId={selectedContentTabId}
           searchBarConfigs={searchBarConfigs}
           getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}

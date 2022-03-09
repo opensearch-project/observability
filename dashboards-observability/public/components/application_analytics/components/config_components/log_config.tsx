@@ -79,6 +79,16 @@ export const LogConfig = (props: LogConfigProps) => {
     showModal();
   };
 
+  const allowedCommands = [
+    { label: 'dedup' },
+    { label: 'eval' },
+    { label: 'fields' },
+    { label: 'parse' },
+    { label: 'rename' },
+    { label: 'sort' },
+    { label: 'where' },
+  ];
+
   return (
     <div>
       <EuiAccordion
@@ -132,6 +142,7 @@ export const LogConfig = (props: LogConfigProps) => {
                   onItemSelect={onItemSelect}
                   isDisabled={editMode}
                   tabId={'application-analytics-tab'}
+                  possibleCommands={allowedCommands}
                 />
                 <EuiBadge
                   className={`ppl-link ${
