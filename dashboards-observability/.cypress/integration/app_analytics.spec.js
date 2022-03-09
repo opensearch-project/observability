@@ -27,7 +27,7 @@ import {
   visName,
   composition,
   newName,
-} from '../utils/panel_constants';
+} from '../utils/app_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
 describe('Creating application', () => {
