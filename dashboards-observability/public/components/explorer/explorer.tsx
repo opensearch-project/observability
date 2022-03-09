@@ -687,7 +687,7 @@ export const Explorer = ({
                                   onResetQuery={() => { } } />
                               </EuiFlexItem>
                               <EuiFlexItem grow={false}>
-                                <strong>since {liveTimestamp}</strong>
+                                since {liveTimestamp}
                               </EuiFlexItem>
                             </EuiFlexGroup><EuiSpacer size="m" />
                           </>
@@ -1096,7 +1096,7 @@ export const Explorer = ({
     const curLiveTailname = liveTailNameRef.current;
     while (isLiveTailOnRef.current === true && curLiveTailname === liveTailNameRef.current) {
       handleLiveTailSearch(startTime, endTime);
-      if ((liveTailTabIdRef.current !== curSelectedTabId.current)) {
+      if (liveTailTabIdRef.current !== curSelectedTabId.current) {
         setIsLiveTailOn(false);
         isLiveTailOnRef.current = false;
         setLiveTailName('Live');
