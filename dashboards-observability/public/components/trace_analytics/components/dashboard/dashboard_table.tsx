@@ -112,7 +112,11 @@ export function DashboardTable(props: {
                 })
               }
             >
-              {item.length < 48 ? item : <div title={item}>{_.truncate(item, { length: 48 })}</div>}
+              {item.length < 48 ? (
+                decodeURI(item)
+              ) : (
+                <div title={item}>{_.truncate(decodeURI(item), { length: 48 })}</div>
+              )}
             </EuiLink>
           ) : (
             '-'
