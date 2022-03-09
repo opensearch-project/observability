@@ -462,6 +462,8 @@ export const CustomPanelView = ({
         setPanelVisualizations={setPanelVisualizations}
         isFlyoutReplacement={isFlyoutReplacement}
         replaceVisualizationId={replaceVisualizationId}
+        appPanel={appPanel}
+        appId={appId}
       />
     );
   }

@@ -217,17 +217,16 @@ export class CustomPanelsAdaptor {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'savedVisualization',
       });
-      return response.observabilityObjectList
-        .filter((visualization: any) => {
-          return !!!visualization.savedVisualization.application_id;
-        })
-        .map((visualization: any) => ({
-          id: visualization.objectId,
-          name: visualization.savedVisualization.name,
-          query: visualization.savedVisualization.query,
-          type: visualization.savedVisualization.type,
-          timeField: visualization.savedVisualization.selected_timestamp.name,
-        }));
+      return response.observabilityObjectList.map((visualization: any) => ({
+        id: visualization.objectId,
+        name: visualization.savedVisualization.name,
+        query: visualization.savedVisualization.query,
+        type: visualization.savedVisualization.type,
+        timeField: visualization.savedVisualization.selected_timestamp.name,
+        ...(visualization.savedVisualization.application_id
+          ? { application_id: visualization.savedVisualization.application_id }
+          : {}),
+      }));
     } catch (error) {
       throw new Error('View Saved Visualizations Error:' + error);
     }
