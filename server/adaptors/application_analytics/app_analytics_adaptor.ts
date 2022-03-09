@@ -23,7 +23,11 @@ export class AppAnalyticsAdaptor {
           id: application.objectId,
           panelId: application.application.panelId,
           composition: decodedComposition,
-          availability: {},
+          availability: {
+            name: '',
+            color: '',
+            mainVisId: application.application.availabilityVisId || '',
+          },
           dateModified: application.lastUpdatedTimeMs,
           dateCreated: application.createdTimeMs,
         };
@@ -34,7 +38,7 @@ export class AppAnalyticsAdaptor {
   };
 
   // Fetch application by id
-  fetchAppById = async (client: ILegacyScopedClusterClient, appId: string) => {
+  fetchAppById = async (client: ILegacyScopedClusterClient, appId: string): Promise<ApplicationType> => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {
         objectId: appId,
@@ -52,7 +56,8 @@ export class AppAnalyticsAdaptor {
     description: string,
     baseQuery: string,
     servicesEntities: string[],
-    traceGroups: string[]
+    traceGroups: string[],
+    availabilityVisId: string
   ) => {
     const appBody = {
       name,
@@ -60,6 +65,7 @@ export class AppAnalyticsAdaptor {
       baseQuery,
       servicesEntities,
       traceGroups,
+      availabilityVisId,
     };
 
     try {
