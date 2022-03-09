@@ -14,6 +14,7 @@ import {
   EuiContextMenuPanelDescriptor,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiLink,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -654,17 +655,17 @@ export const CustomPanelView = ({
                     "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
                   }
                   possibleCommands={[{ label: 'where' }]}
+                  append={
+                    <EuiLink
+                      aria-label="ppl-info"
+                      onClick={showHelpFlyout}
+                      style={{ padding: '10px' }}
+                    >
+                      PPL
+                    </EuiLink>
+                  }
+                  inputDisabled={inputDisabled}
                 />
-                <EuiBadge
-                  className={`ppl-link ${
-                    uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
-                  }`}
-                  color="hollow"
-                  onClick={() => showHelpFlyout()}
-                  onClickAriaLabel={'ppl-info'}
-                >
-                  PPL
-                </EuiBadge>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiSuperDatePicker
