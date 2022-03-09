@@ -169,7 +169,7 @@ export const Home = (props: HomeProps) => {
         }),
       })
       .then((res) => {
-        updateApp(applicationId, { panelId: res.newPanelId }, false);
+        updateApp(applicationId, { panelId: res.newPanelId }, 'addPanel');
       })
       .catch((err) => {
         setToast(
@@ -215,7 +215,13 @@ export const Home = (props: HomeProps) => {
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then(async (res) => {
         for (let i = 0; i < res.data.length; i++) {
-          res.data[i].availability = await calculateAvailability(http, pplService, res.data[i]);
+          res.data[i].availability = await calculateAvailability(
+            http,
+            pplService,
+            res.data[i],
+            res.data[i].availability.mainVisId,
+            () => {}
+          );
         }
         setApplicationList(res.data);
       })
@@ -242,6 +248,7 @@ export const Home = (props: HomeProps) => {
       baseQuery: application.baseQuery,
       servicesEntities: application.servicesEntities,
       traceGroups: application.traceGroups,
+      availabilityVisId: '',
     };
 
     return http
@@ -297,7 +304,7 @@ export const Home = (props: HomeProps) => {
   };
 
   // Update existing application
-  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => {
+  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, type: string) => {
     const requestBody = {
       appId,
       updateBody: updateAppData,
@@ -308,11 +315,15 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody),
       })
       .then((res) => {
-        if (edit) {
+        if (type === 'update') {
           setToast('Application successfully updated.');
           clearStorage();
         }
-        window.location.assign(`${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`);
+        if (type !== 'editAvailability') {
+          window.location.assign(
+            `${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`
+          );
+        }
       })
       .catch((err) => {
         setToast('Error occurred while updating application', 'danger');
@@ -381,6 +392,7 @@ export const Home = (props: HomeProps) => {
           render={(routerProps) => (
             <CreateApp
               dslService={dslService}
+              pplService={pplService}
               createApp={createApp}
               updateApp={updateApp}
               setToasts={setToast}
@@ -403,6 +415,7 @@ export const Home = (props: HomeProps) => {
               timestampUtils={timestampUtils}
               notifications={notifications}
               setToasts={setToast}
+              updateApp={updateApp}
               {...commonProps}
             />
           )}

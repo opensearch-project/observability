@@ -25,6 +25,7 @@ import {
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { ReactChild, useEffect, useState } from 'react';
+import PPLService from 'public/services/requests/ppl';
 import { AppAnalyticsComponentDeps } from '../home';
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
@@ -35,9 +36,10 @@ import { fetchAppById } from '../helpers/utils';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
+  pplService: PPLService;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
   createApp: (app: ApplicationType) => void;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, edit: boolean) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   clearStorage: () => void;
   existingAppId: string;
 }
@@ -50,6 +52,7 @@ export const CreateApp = (props: CreateAppProps) => {
     query,
     name,
     description,
+    pplService,
     createApp,
     updateApp,
     setToasts,
@@ -72,6 +75,7 @@ export const CreateApp = (props: CreateAppProps) => {
     servicesEntities: [],
     traceGroups: [],
     panelId: '',
+    availabilityVisId: '',
   });
 
   useEffect(() => {
@@ -90,7 +94,15 @@ export const CreateApp = (props: CreateAppProps) => {
 
   useEffect(() => {
     if (editMode && existingAppId) {
-      fetchAppById(http, existingAppId, setExistingApp, setFilters, setToasts);
+      fetchAppById(
+        http,
+        pplService,
+        existingAppId,
+        setExistingApp,
+        setFilters,
+        () => {},
+        setToasts
+      );
     }
   }, [existingAppId]);
 
@@ -137,6 +149,7 @@ export const CreateApp = (props: CreateAppProps) => {
       servicesEntities: selectedServices.map((option) => option.label),
       traceGroups: selectedTraces.map((option) => option.label),
       panelId: '',
+      availabilityVisId: '',
     };
     createApp(appData);
   };
@@ -148,7 +161,7 @@ export const CreateApp = (props: CreateAppProps) => {
       servicesEntities: selectedServices.map((option) => option.label),
       traceGroups: selectedTraces.map((option) => option.label),
     };
-    updateApp(existingAppId, appData, true);
+    updateApp(existingAppId, appData, 'update');
   };
 
   const onCancel = () => {
