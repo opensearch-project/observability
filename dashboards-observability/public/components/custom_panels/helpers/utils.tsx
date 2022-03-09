@@ -47,7 +47,7 @@ export const convertDateTime = (datetime: string, isStart = true, formatted = tr
     returnTime = dateMath.parse(datetime, { roundUp: true });
   }
 
-  if (formatted) return returnTime.format(PPL_DATE_FORMAT);
+  if (formatted) return returnTime?.utc().format(PPL_DATE_FORMAT);
   return returnTime;
 };
 
