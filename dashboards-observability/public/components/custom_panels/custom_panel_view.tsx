@@ -678,15 +678,34 @@ export const CustomPanelView = ({
               </EuiFlexItem>
               {appPanel && (
                 <>
-                  <EuiFlexItem grow={false}>
-                    <EuiButton
-                      iconType="pencil"
-                      onClick={() => editPanel('edit')}
-                      isDisabled={editDisabled}
-                    >
-                      Edit
-                    </EuiButton>
-                  </EuiFlexItem>
+                  {editMode ? (
+                    <>
+                      <EuiFlexItem grow={false}>
+                        <EuiButton
+                          iconType="cross"
+                          color="danger"
+                          onClick={() => editPanel('cancel')}
+                        >
+                          Cancel
+                        </EuiButton>
+                      </EuiFlexItem>
+                      <EuiFlexItem grow={false}>
+                        <EuiButton iconType="save" onClick={() => editPanel('save')}>
+                          Save
+                        </EuiButton>
+                      </EuiFlexItem>
+                    </>
+                  ) : (
+                    <EuiFlexItem grow={false}>
+                      <EuiButton
+                        iconType="pencil"
+                        onClick={() => editPanel('edit')}
+                        disabled={editDisabled}
+                      >
+                        Edit
+                      </EuiButton>
+                    </EuiFlexItem>
+                  )}
                   <EuiFlexItem grow={false}>
                     <EuiButton
                       iconType="plusInCircle"
