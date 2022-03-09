@@ -69,7 +69,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           thresholdTraces.x.push(
             data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
           );
-          thresholdTraces.y.push(thr.value * (1 + 0.005));
+          thresholdTraces.y.push(thr.value * (1 + 0.08));
           thresholdTraces.text.push(thr.name);
           return {
             type: 'line',
