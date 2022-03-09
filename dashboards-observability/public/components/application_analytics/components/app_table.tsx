@@ -208,8 +208,8 @@ export function AppTable(props: AppTableProps) {
       name: 'Current Availability',
       sortable: true,
       render: (value, record) => {
-        if (value.name && value.color) {
-          return <EuiBadge color={value.color}>{value.name}</EuiBadge>;
+        if (value.name) {
+          return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
         } else {
           return <EuiText>Undefined</EuiText>;
         }

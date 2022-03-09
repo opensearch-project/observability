@@ -12,6 +12,7 @@ import {
   EuiPageHeader,
   EuiPageHeaderSection,
   EuiPanel,
+  EuiSelectOption,
   EuiSpacer,
   EuiTabbedContent,
   EuiTabbedContentTab,
@@ -95,6 +96,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
 }
 
@@ -114,6 +116,7 @@ export function Application(props: AppDetailProps) {
     query,
     filters,
     appConfigs,
+    updateApp,
     setAppConfigs,
     setStartTimeWithStorage,
     setEndTimeWithStorage,
@@ -127,6 +130,7 @@ export function Application(props: AppDetailProps) {
     servicesEntities: [],
     traceGroups: [],
     panelId: '',
+    availabilityVisId: '',
   });
   const dispatch = useDispatch();
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
@@ -136,6 +140,7 @@ export function Application(props: AppDetailProps) {
   const [spanDSL, setSpanDSL] = useState<any>({});
   const [totalSpans, setTotalSpans] = useState<number>(0);
   const [editVizId, setEditVizId] = useState<string>('');
+  const [visWithAvailability, setVisWithAvailability] = useState<EuiSelectOption[]>([]);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
   const history = useHistory();
 
@@ -173,6 +178,17 @@ export function Application(props: AppDetailProps) {
           savedVisualizationId: visualizationId,
         }),
       })
+      .then(() => {
+        fetchAppById(
+          http,
+          pplService,
+          appId,
+          setApplication,
+          setAppConfigs,
+          setVisWithAvailability,
+          setToasts
+        );
+      })
       .catch((err) => {
         setToasts(`Error in adding ${visualizationName} visualization to the panel`, 'danger');
         console.error(err);
@@ -180,7 +196,15 @@ export function Application(props: AppDetailProps) {
   };
 
   useEffect(() => {
-    fetchAppById(http, appId, setApplication, setAppConfigs, setToasts);
+    fetchAppById(
+      http,
+      pplService,
+      appId,
+      setApplication,
+      setAppConfigs,
+      setVisWithAvailability,
+      setToasts
+    );
     const tabId = `application-analytics-tab-${appId}`;
     initializeTabData(dispatch, tabId, NEW_TAB);
   }, [appId]);
@@ -372,6 +396,8 @@ export function Application(props: AppDetailProps) {
         parentBreadcrumb={parentBreadcrumb}
         application={application}
         switchToEditViz={switchToEditViz}
+        visWithAvailability={visWithAvailability}
+        updateApp={updateApp}
       />
     );
   };

@@ -67,7 +67,7 @@ export const ConfigThresholds = ({
             if (thrId !== th.thid) return th;
             return {
               ...th,
-              [thrName]: event?.target?.value || event,
+              [thrName]: event?.target?.value || '',
             };
           }),
         ]);
