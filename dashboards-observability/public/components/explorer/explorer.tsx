@@ -227,6 +227,13 @@ export const Explorer = ({
         const currQuery = appLogEvents
           ? objectData?.query.replace(appBaseQuery + '| ', '')
           : objectData?.query || '';
+        
+        if (appLogEvents) {
+          if (objectData?.selected_date_range?.start && objectData?.selected_date_range?.end) {
+            setStartTime(objectData.selected_date_range.start);
+            setEndTime(objectData.selected_date_range.end);
+          }
+        }
 
         // update redux
         batch(async () => {
