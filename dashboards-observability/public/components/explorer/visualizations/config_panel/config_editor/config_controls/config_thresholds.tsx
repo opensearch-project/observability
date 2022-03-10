@@ -31,7 +31,7 @@ export const ConfigThresholds = ({
   let addButtonText = '+ Add threadshold';
   const getThresholdUnit = () => {
     return {
-      thid: htmlIdGenerator('thr'),
+      thid: htmlIdGenerator('thr')(),
       name: '',
       color: '#FC0505',
       value: 0,
@@ -139,7 +139,7 @@ export const ConfigThresholds = ({
                       <EuiFieldNumber
                         fullWidth
                         placeholder="threshold value"
-                        value={thr.value}
+                        value={thr.value || 0}
                         onChange={handleThresholdChange(thr.thid, 'value')}
                         aria-label="Input threshold value"
                         data-test-subj="valueFieldNumber"
