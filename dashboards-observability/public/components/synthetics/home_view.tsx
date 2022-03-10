@@ -19,17 +19,22 @@ import {
   EuiSuperDatePicker,
   ShortDate,
   OnTimeChangeProps,
+  EuiInMemoryTable,
+  Direction,
 } from "@elastic/eui";
+import dateMath from '@elastic/datemath';
 import { EUI_CHARTS_THEME_DARK } from "@elastic/eui/dist/eui_charts_theme";
 import { DurationRange } from "@elastic/eui/src/components/date_picker/types";
 import { uiSettingsService } from "../../../common/utils";
 import PPLService from "public/services/requests/ppl";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { isDateValid, convertDateTime, onTimeChange, isPPLFilterValid } from "../custom_panels/helpers/utils";
+import { isDateValid, onTimeChange, isPPLFilterValid } from "../custom_panels/helpers/utils";
 import { Plt } from "../visualizations/plotly/plot";
 import { PPLReferenceFlyout } from "../common/helpers";
 import moment from "moment";
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../common/constants/shared';
+import { Moment } from "moment-timezone";
+import { FILTER_DOWN, FILTER_UP, SOURCE_SYNTHETICS_LOGS, START_TIME_FIELD, STATUS_CODE_FIELD, STATUS_FIELD, TEST_SUITE_NAME_FIELD, URL_FIELD } from "../../../common/constants/synthetics";
 
 type LogHistoryProps = {
   pplService: PPLService
@@ -37,18 +42,32 @@ type LogHistoryProps = {
 
 export const SyntheticHomeTab = (props: LogHistoryProps) => {
 
-  // some string literals for use in PPL
+  function tableRefreshIntervalTime() { return 5000; }
 
-  const allLogsQuery = "search source = uptime-logs | fields startTime, URL, status, response.status, monitorName | sort - startTime | dedup URL | sort monitorName, URL";
+  // strings for use in PPL
 
-  const upLogsQuery = allLogsQuery + " | where status = \"UP\"";
+  function grabRecentQuery() { return "search source = " + SOURCE_SYNTHETICS_LOGS  // grab from index
+                                      + ' | fields ' // specifying all the fields needed
+                                      + START_TIME_FIELD + ', ' 
+                                      + URL_FIELD +  ', ' 
+                                      + STATUS_FIELD + ', '
+                                      + STATUS_CODE_FIELD + ', '
+                                      + TEST_SUITE_NAME_FIELD
+                                      + '| sort - ' + START_TIME_FIELD + ' | dedup ' + URL_FIELD + ', ' + TEST_SUITE_NAME_FIELD;}  // sorting to grab the most recent logs
 
-  const downLogsQuery = allLogsQuery + " | where status = \"DOWN\"";
+  function allLogsQuery() { return grabRecentQuery()  } 
 
-  const pieQuery = "search source = uptime-logs | fields startTime, URL, status, response.status, monitorName | sort - startTime | dedup URL";
-  const endPieQuery = " | stats count() by status";
+  function upLogsQuery() { return (allLogsQuery() + ' | where ' + STATUS_FIELD + ' = ' + FILTER_UP); }  // add a filter to only grab the 'UP' logs
 
-  // State Hooks
+  function downLogsQuery() { return (allLogsQuery() + ' | where ' + STATUS_FIELD + ' = ' + FILTER_DOWN); }  // add a filter to only grab the 'DOWN' logs
+
+  function pieQuery() { return grabRecentQuery() }  // sorting to grab the most recent logs
+
+  function endPieQuery() { return ' | stats count() by ' + STATUS_FIELD; }  // get the counts of 'UP' or 'DOWN'
+
+  /*
+   * State Hooks 
+   */
   
   const [historyLogs, setHistoryLogs] = useState<Array<Object>>([]);  // stores table results to be shown
   const [historyQuery, setHistoryQuery] = useState(allLogsQuery);  // stores current query used to grab table results
@@ -61,12 +80,99 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
   const [pplFilterValue, setPPLFilterValue] = useState('');  // has current filter typed into bar
   // below states used for date/time picker
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
-  const [start, setStart] = useState<ShortDate>('now-4h');
+  const [start, setStart] = useState<ShortDate>('now-6d');
   const [end, setEnd] = useState<ShortDate>('now');
   // stores time value added onto queries
-  const [timeVal, setTimeVal] = useState(" | where startTime > \'" + (moment(convertDateTime(start)).add(8, 'hours')).format(PPL_DATE_FORMAT) 
-                                        + "\' and startTime < \'" + (moment(convertDateTime(end)).add(8, 'hours')).format(PPL_DATE_FORMAT)  + "\'");
 
+  /*
+   * Settings for the up-time table of all test suites
+   */
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const onTableChange = ({ page = {} }) => {
+    const { index: pageIndex, size: pageSize } = page;
+
+    setPageIndex(pageIndex);
+    setPageSize(pageSize);
+  };
+
+  // columns for the History table
+  const columns = [
+    {
+      field: "testSuiteName",
+      name: "Test Suite",
+      render: (test_suite: {} | null | undefined) => (
+        <EuiLink href={`#${test_suite}`} target="_blank">
+          {test_suite}
+        </EuiLink>
+      ),
+      mobileOptions: {
+        show: false
+      },
+      sortable: true
+    },
+    {
+      field: "status",
+      name: "Status",
+      sortable: true
+    },
+    {
+      field: "URL",
+      name: "URL",
+      render: (url: {} | null | undefined) => (
+        <EuiLink href={`${url}`} target="_blank">
+          {url}
+        </EuiLink>
+      ),
+      mobileOptions: {
+        show: false
+      },
+      sortable: true
+    },
+    {
+      field: "response.status",
+      name: "Status Code",
+      sortable: true
+    },
+    {
+      field: "startTime",
+      name: "Latest Time Polled",
+      type: "date",
+      render: (date: Date) => {
+        var datet: Date = new Date(date)
+        // needed to convert date into local time, as the index stores times in UTC and this page
+        // incorrectly reads it as local time (while being UTC) so the time will be off by the timezoneoffset
+        var utcdate: Date = new Date(datet.getTime() - (datet.getTimezoneOffset() * 60 * 1000))
+        return utcdate.toString()
+      },
+      sortable: true
+    },
+  ];
+  
+  const pagination = {
+    pageIndex,
+    pageSize,
+    totalItemCount: historyLogs.length,
+    pageSizeOptions: [5, 10, 20, 50],
+  };
+
+  const resultsCount =
+    pageSize === 0 ? (
+      <strong>All</strong>
+    ) : (
+    <>
+      <strong>
+        {pageSize * pageIndex + 1}-{pageSize * pageIndex + pageSize}
+      </strong>{' '}
+      of {historyLogs.length}
+    </>
+    );
+
+  /*
+   *  Non-table methods
+   */
+  
   // onchange has to be here to allow for changes to PPL bar (might be used later on for autocomplete?)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPPLFilterValue(e.target.value);
@@ -84,10 +190,7 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
     );
     setStart(props.start);
     setEnd(props.end);
-    setTimeVal(" | where startTime > \'" + (moment(convertDateTime(start)).add(8, 'hours')).format(PPL_DATE_FORMAT) 
-              + "\' and startTime < \'" + (moment(convertDateTime(end)).add(8, 'hours')).format(PPL_DATE_FORMAT)  + "\'");
-    pplServiceRequestor(pieQuery + filterVal + timeVal + endPieQuery, "data", setPieChartLogs)
-    pplServiceRequestor(historyQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
+    updateQueryComponents();
   };
 
   // here for when enter key is pressed on ppl bar, to apply changes to query from what is inputted into PPL bar
@@ -96,10 +199,9 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
       if (pplFilterValue === '') {
         setFilterVal('')
       } else {
-        setFilterVal(" | " + pplFilterValue);
+        setFilterVal(pplFilterValue);
       }
-      pplServiceRequestor(pieQuery + filterVal + timeVal + endPieQuery, "data", setPieChartLogs)
-      pplServiceRequestor(historyQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
+      updateQueryComponents();
     }
   };
 
@@ -118,6 +220,59 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
     helpFlyout = <PPLReferenceFlyout module="panels" closeFlyout={closeHelpFlyout} />;
   }
 
+
+  const updateQueryComponents = async () => {
+    let finalPieQuery = queryAccumulator(pieQuery() + endPieQuery(), START_TIME_FIELD, start, end, filterVal); 
+    await pplServiceRequestor(finalPieQuery, "data", setPieChartLogs)
+    let finalHistoryQuery = queryAccumulator(historyQuery, START_TIME_FIELD, start, end, filterVal);
+    await pplServiceRequestor(finalHistoryQuery, "jsonData", setHistoryLogs)
+  }
+
+  const convertDateTimeGMT = (datetime: string, isStart = true, formatted = true) => {
+    let returnTime: undefined | Moment;
+    if (isStart) {
+      returnTime = dateMath.parse(datetime);
+    } else {
+      returnTime = dateMath.parse(datetime, { roundUp: true });
+    }
+
+    if (returnTime === undefined) {
+      return returnTime;
+    }
+  
+    if (formatted) return returnTime.utc().format(PPL_DATE_FORMAT);
+    return returnTime;
+  };
+
+
+  // TODO: figure out if we need to use startTime or endTime with most things
+
+  // Example Query:
+  //    originalQuery: search source = observability-synthetics-logs
+  //    timestampField: startTime
+  //    startTime: now-6d
+  //    endTime: now
+  //    panelFilterQuery: where URL = 'amazon.com'
+  const queryAccumulator = (
+    originalQuery: string,
+    timestampField: string,
+    startTime: string,
+    endTime: string,
+    panelFilterQuery: string
+  ) => {
+    const indexMatchArray = originalQuery.match(PPL_INDEX_REGEX);
+    if (indexMatchArray == null) {
+      throw Error('index not found in Query');
+    }
+    const indexPartOfQuery = indexMatchArray[0];
+    const filterPartOfQuery = originalQuery.replace(PPL_INDEX_REGEX, '');
+    const timeQueryFilter = ` | where ${timestampField} >= '${convertDateTimeGMT(
+      startTime
+    )}' and ${timestampField} <= '${convertDateTimeGMT(endTime, false)}'`;
+    const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
+    return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
+  };
+
   // input:
   //    query: any valid query
   //    type: what part of the response to parse (e.g. 'data' or 'jsonData')
@@ -129,7 +284,6 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
     type: string,
     result: React.Dispatch<React.SetStateAction<Object[]>>
   ) => {
-    console.log(query)
     await props.pplService
       .fetch({ query: (query), format: 'viz' })
       .then((res) => {
@@ -138,75 +292,21 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
           tempVal.push(res[type][field])
         };
         result(tempVal)
-        console.log(tempVal)
       })
       .catch((error: Error) => {
-        // setIsError(error.stack);
         result([])
         console.error(error);
       })
-      .finally(() => {
-        // setIsLoading(false);
-      });
   };
-
-  // columns for the History table
-  const columns = [
-    {
-      field: "monitorName",
-      name: "Monitor Name",
-      render: (monitor: {} | null | undefined) => (
-        <EuiLink href={`#${monitor}`} target="_blank">
-          {monitor}
-        </EuiLink>
-      ),
-      mobileOptions: {
-        show: false
-      },
-    },
-    {
-      field: "status",
-      name: "Status",
-    },
-    {
-      field: "URL",
-      name: "URL",
-      render: (url: {} | null | undefined) => (
-        <EuiLink href={`${url}`} target="_blank">
-          {url}
-        </EuiLink>
-      ),
-      mobileOptions: {
-        show: false
-      },
-    },
-    {
-      field: "response.status",
-      name: "Status Code",
-    },
-    {
-      field: "startTime",
-      name: "Latest Time Polled",
-      type: "date",
-      render: (date: Date) => {
-        var datet: Date = new Date(date)
-        // needed to convert date into local time, as the index stores times in UTC and this page
-        // incorrectly reads it as local time (while being UTC) so the time will be off by the timezoneoffset
-        var utcdate: Date = new Date(datet.getTime() - (datet.getTimezoneOffset() * 60 * 1000))
-        return utcdate.toString()
-      },
-    },
-  ];
 
   // will pull from index logs every 5 seconds to update at that interval
   useEffect(() => {
+    updateQueryComponents();
     const interval = setInterval(() => {
-      console.log("timeq: " + start)
-      pplServiceRequestor(pieQuery + filterVal + timeVal + endPieQuery, "data", setPieChartLogs)
-      pplServiceRequestor(historyQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
-    }, 5000);
+      updateQueryComponents();
+    }, tableRefreshIntervalTime());
     return () => clearInterval(interval);
-  }, [historyQuery, pieQuery, filterVal, timeVal]);
+  }, [historyQuery]);
 
   return (
     <>
@@ -268,26 +368,35 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiFacetGroup layout="horizontal" gutterSize="none">
-            <EuiFacetButton onClick={() => {pplServiceRequestor(allLogsQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
-                                            setHistoryQuery(allLogsQuery + filterVal + timeVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(allLogsQuery() + filterVal)}}>
               All
             </EuiFacetButton>
-            <EuiFacetButton onClick={() => {pplServiceRequestor(upLogsQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
-                                            setHistoryQuery(upLogsQuery + filterVal + timeVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(upLogsQuery() + filterVal)}}>
               Up
             </EuiFacetButton>
-            <EuiFacetButton onClick={() => {pplServiceRequestor(downLogsQuery + filterVal + timeVal, "jsonData", setHistoryLogs)
-                                            setHistoryQuery(downLogsQuery + filterVal + timeVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(downLogsQuery() + filterVal)}}>
               Down
             </EuiFacetButton>
           </EuiFacetGroup>
         </EuiFlexItem>
       </EuiFlexGroup>
+      <EuiText size="xs">
+        Showing {resultsCount} <strong>Test Suites</strong>
+      </EuiText>
       <EuiSpacer size="s" />
       <EuiPageContent>
-        <EuiBasicTable
+        <EuiInMemoryTable
           items={historyLogs}
           columns={columns}
+          pagination={pagination}
+          onChange={onTableChange}
+          sorting={{
+            sort: {
+              field: 'testSuiteName',
+              direction: 'asc'
+            },
+          }}
+          allowNeutralSort={false}
         />
       </EuiPageContent>
       {helpFlyout}

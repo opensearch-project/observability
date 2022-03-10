@@ -79,8 +79,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       ),
     },
     {
-      id: 'monitors_tab--id',
-      name: 'Monitors',
+      id: 'test-suites_tab--id',
+      name: 'Test-Suites',
       content: (
         <Fragment>
           <EuiSpacer />
