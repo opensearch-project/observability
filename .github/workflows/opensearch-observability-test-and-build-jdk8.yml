@@ -16,7 +16,7 @@ env:
         with:
           java-version: 11
       
-      - name: Checkout Reports Scheduler
+      - name: Checkout OpenSearch Observability
         uses: actions/checkout@v2
 
       - name: Build with Java 11
