@@ -4,31 +4,14 @@
  */
 
 import React from 'react';
-import {
-  EuiFlexItem,
-  EuiSuperDatePicker
-} from '@elastic/eui';
-import {
-  IDatePickerProps
-} from './search';
+import { EuiSuperDatePicker } from '@elastic/eui';
+import { IDatePickerProps } from './search';
 import { uiSettingsService } from '../../../../common/utils';
 
 export function DatePicker(props: IDatePickerProps) {
+  const { startTime, endTime, handleTimePickerChange, handleTimeRangePickerRefresh } = props;
 
-  const {
-    startTime,
-    endTime,
-    setStartTime,
-    setEndTime,
-    handleTimePickerChange,
-    handleTimeRangePickerRefresh
-  } = props;
-
-  const handleTimeChange = (e) => {
-    const start = e.start;
-    const end = e.start === e.end ? 'now' : e.end;
-    handleTimePickerChange([start, end]);
-  };
+  const handleTimeChange = (e) => handleTimePickerChange([e.start, e.end]);
 
   return (
     <EuiSuperDatePicker
