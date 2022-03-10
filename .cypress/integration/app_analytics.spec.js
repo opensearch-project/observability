@@ -292,7 +292,7 @@ describe('Viewing application', () => {
     cy.wait(delay);
     cy.get('[data-test-subj="nameFieldText"]').click().type('Available');
     cy.get('[data-test-subj="expressionSelect"]').select('>');
-    cy.get('[data-test-subj="valueFieldNumber"]').clear().type('1.5');
+    cy.get('[data-test-subj="valueFieldNumber"]').clear().type('0.5');
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
