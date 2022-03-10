@@ -254,7 +254,6 @@ describe('Testing a panel', () => {
   });
 
   it('Add ppl filter to panel', () => {
-    cy.get('.euiTextArea').invoke('attr', 'placeholder').should('contain', 'where');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]')
       .click()
       .wait(1500)
