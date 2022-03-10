@@ -69,6 +69,7 @@ class Scheduler:
                 # start trying to run the jobs
                 logging.info(filename + " succ")
                 
+                # TODO: poll suite files for changes, put changes in effect
                 # Goes over every host found in a suite file
                 try:
                     for host in suites["hosts"]:
