@@ -50,7 +50,9 @@ export const LogExplorer = ({
   http,
 }: ILogExplorerProps) => {
   const dispatch = useDispatch();
-  const tabIds = useSelector(selectQueryTabs).queryTabIds;
+  const tabIds = useSelector(selectQueryTabs).queryTabIds.filter(
+    (tabid: string) => !tabid.startsWith('application-analytics-tab')
+  );
   const tabNames = useSelector(selectQueryTabs).tabNames;
   const queries = useSelector(selectQueries);
   const curSelectedTabId = useSelector(selectQueryTabs).selectedQueryTab;
