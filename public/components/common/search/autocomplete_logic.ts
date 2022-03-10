@@ -456,7 +456,7 @@ export const getSuggestionsAfterSource = async (
 
   if (isEmpty(currQuery) || isEmpty(currIndices)) {
     currIndices = parseForIndices(base);
-    getFields(dslService);
+    await getFields(dslService);
     currField = '';
     currFieldType = '';
     return fillSuggestions(currQuery, lastWord, possibleCommands);
