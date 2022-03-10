@@ -346,6 +346,7 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         appBaseQuery={application.baseQuery}
+        curSelectedTabId={selectedTabId}
       />
     );
   };
