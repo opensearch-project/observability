@@ -38,7 +38,7 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.nio.file.Path
+import java.nio.file.Paths
 import java.security.cert.X509Certificate
 import javax.management.MBeanServerInvocationHandler
 import javax.management.ObjectName
@@ -263,7 +263,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
                     false
                 )
                 proxy.getExecutionData(false)?.let {
-                    val path = Path.of("$jacocoBuildPath/integTest.exec")
+                    val path = Paths.get("$jacocoBuildPath/integTest.exec")
                     Files.write(path, it)
                 }
             }
