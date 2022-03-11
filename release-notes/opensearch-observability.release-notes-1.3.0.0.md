@@ -38,6 +38,7 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.3.0
 * Add observability visualization to notebooks  ([#351](https://github.com/opensearch-project/observability/pull/351))
 
 ### Bug Fixes
+* change to support java 8 in compile and runtime ([#575](https://github.com/opensearch-project/observability/pull/575))
 * fix for datepicker issue ([#571](https://github.com/opensearch-project/observability/pull/571))
 * Show saved time range when editing saved visualization ([#570](https://github.com/opensearch-project/observability/pull/570))
 * Issue/query click ([#569](https://github.com/opensearch-project/observability/pull/569))
@@ -59,28 +60,26 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.3.0
 * fix issue of clicking query caused crash ([#515](https://github.com/opensearch-project/observability/pull/515))
 * Feature viz saving on missing fields ([#511](https://github.com/opensearch-project/observability/pull/511))
 * Fix events flyout bugs and Styling ([#510](https://github.com/opensearch-project/observability/pull/510))
+* Bump prismjs from 1.25.0 to 1.27.0 in /dashboards-observability ([#508](https://github.com/opensearch-project/observability/pull/508))
 * Revert query pre-processing for parse command ([#497](https://github.com/opensearch-project/observability/pull/497))
 * Fix create/edit page bug ([#475](https://github.com/opensearch-project/observability/pull/475))
 * Fix queries being filtered out ([#472](https://github.com/opensearch-project/observability/pull/472))
+* Guava package update ([#404](https://github.com/opensearch-project/observability/pull/404))
+* CVE fix:json-schema, gson & glob-parent ([#368](https://github.com/opensearch-project/observability/pull/368))
 
 ### Documentation
 * Sync PPL commands doc with main repo ([#549](https://github.com/opensearch-project/observability/pull/549))
 * Fixed documentation links ([#534](https://github.com/opensearch-project/observability/pull/534))
 * Add parse command docs ([#535](https://github.com/opensearch-project/observability/pull/535))
-* Update Release Notes 1.2.4 ([#370](https://github.com/opensearch-project/observability/pull/370))
 * updating readme and badges ([#352](https://github.com/opensearch-project/observability/pull/352))
 
 ### Maintenance
 * Change Default CI java version to 11 ([#504](https://github.com/opensearch-project/observability/pull/504))
 * Update backport and add auto-delete workflows ([#496](https://github.com/opensearch-project/observability/pull/496))
 * Add auto backporting functionality ([#491](https://github.com/opensearch-project/observability/pull/491))
-* bumping version to 1.2.2 ([#346](https://github.com/opensearch-project/observability/pull/346))
-* Update Workflow ([#360](https://github.com/opensearch-project/observability/pull/360))
 * bump main to 1.3 ([#361](https://github.com/opensearch-project/observability/pull/361))
 
 ### Infrastructure
-* change to support java 8 in compile and runtime ([#575](https://github.com/opensearch-project/observability/pull/575))
-* Bump prismjs from 1.25.0 to 1.27.0 in /dashboards-observability ([#508](https://github.com/opensearch-project/observability/pull/508))
 * Update cypress test ([#564](https://github.com/opensearch-project/observability/pull/564))
 * fixed flaky panel test ([#565](https://github.com/opensearch-project/observability/pull/565))
 * Feature flyout tests ([#553](https://github.com/opensearch-project/observability/pull/553))
@@ -89,7 +88,5 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 1.3.0
 * Update cypress for trace analytics traces view ([#536](https://github.com/opensearch-project/observability/pull/536))
 * Cypress fix for panels and events ([#531](https://github.com/opensearch-project/observability/pull/531))
 * updated panels flaky jest tests ([#505](https://github.com/opensearch-project/observability/pull/505))
-* Guava package update ([#404](https://github.com/opensearch-project/observability/pull/404))
 * [main] jcenter removed from gradle.build ([#374](https://github.com/opensearch-project/observability/pull/374))
-* CVE fix:json-schema, gson & glob-parent ([#368](https://github.com/opensearch-project/observability/pull/368))
 * Configure WhiteSource for GitHub.com ([#365](https://github.com/opensearch-project/observability/pull/365))
