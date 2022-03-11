@@ -15,7 +15,7 @@ import org.opensearch.common.settings.Settings
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.ObservabilityPlugin.Companion.PLUGIN_NAME
 import java.io.IOException
-import java.nio.file.Path
+import java.nio.file.Paths
 
 /**
  * settings specific to observability Plugin.
@@ -246,7 +246,7 @@ internal object PluginSettings {
         var settings: Settings? = null
         val configDirName = BootstrapInfo.getSystemProperties()?.get("opensearch.path.conf")?.toString()
         if (configDirName != null) {
-            val defaultSettingYmlFile = Path.of(configDirName, PLUGIN_NAME, "observability.yml")
+            val defaultSettingYmlFile = Paths.get(configDirName, PLUGIN_NAME, "observability.yml")
             try {
                 settings = Settings.builder().loadFromPath(defaultSettingYmlFile).build()
             } catch (exception: IOException) {
