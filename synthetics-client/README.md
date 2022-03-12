@@ -21,7 +21,7 @@ Taking a look at `sample_testsuite.yml`, we can see:
   tags:
   - "news"
   - "apis"
-  keep_null: true
+  keepNull: true
   hosts:
   - "https://opensearch.org"
   - "https://opensearch.org/synthetics"
@@ -34,7 +34,6 @@ Taking a look at `sample_testsuite.yml`, we can see:
   ssl: {}
   indexHeaders: true
   indexResponse: "always"
-  serverLocation:  # where it goes to
   request:
     method: "GET"
     headers: {'Accept-Encoding': None, 'Content-Encoding':'gzip'}
@@ -47,7 +46,7 @@ Taking a look at `sample_testsuite.yml`, we can see:
     headers: {}
     body: {}
   scheduler:
-    schedule-type: "interval"
+    scheduleType: "interval"
     schedule:
       period: 20
       unit: "seconds"

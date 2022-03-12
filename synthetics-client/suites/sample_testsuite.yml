@@ -14,12 +14,12 @@
   tags:
   - "news"
   - "apis"
-  keep_null: true
+  keepNull: true
   hosts:
-  - "https://opensearch.org/"
+  - "https://opensearch.org"
   - "https://opensearch.org/synthetics"
   - "https://github.com/opensearch-project"
-  maxRedirects: 0
+  maxRedirects: 1
   proxyURL: ""
   proxyHeaders: {}
   username: ""
@@ -39,7 +39,7 @@
     headers: {}
     body: {}
   scheduler:
-    schedule-type: "interval"
+    scheduleType: "interval"
     schedule:
       period: 20
       unit: "seconds"
