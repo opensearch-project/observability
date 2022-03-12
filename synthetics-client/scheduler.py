@@ -27,7 +27,7 @@ class Scheduler:
     def read_configs(self):
         self.create_synthetics_index()
 
-        logging.info('Starting scheduler')
+        logging.info('Starting synthetics test suite scheduler')
         scheduler = BackgroundScheduler()
         scheduler.start()
 
@@ -80,7 +80,6 @@ class Scheduler:
                         if schedule_type == 'interval': p.ping()
                         job_process = scheduler.add_job(p.ping, schedule_type, **cron_job, **interval_job, replace_existing=True)
                         suite_id += 1
-                    logging.info('\n')
                 except Exception as e:
                     logging.error(e)
             except Exception as e:

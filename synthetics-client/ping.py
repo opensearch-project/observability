@@ -69,7 +69,7 @@ class Ping:
             "syntheticsSuiteId": self.suite_id,
             "status": ("UP" if status in self.suites["response"]["status"] else "DOWN"),
             "type": self.suites['type'],
-            "URL": self.host,
+            "url": self.host,
             "request": {
                 "method": self.suites["request"]["method"],
                 "headers": self.suites["request"]["headers"],
@@ -83,7 +83,7 @@ class Ping:
             "startTime": (start * 1000),
             "endTime": (end * 1000),
             "dnsTimeMs": (self.conn.getinfo(self.conn.NAMELOOKUP_TIME) * 1000),
-            "ConnectionTimeMs": (self.conn.getinfo(self.conn.CONNECT_TIME) * 1000),
+            "connectionTimeMs": (self.conn.getinfo(self.conn.CONNECT_TIME) * 1000),
             "sslTimeMs": (self.conn.getinfo(self.conn.APPCONNECT_TIME) * 1000),
             "ttfbMs": (self.conn.getinfo(self.conn.STARTTRANSFER_TIME) * 1000),
             "downloadTimeMs": (self.conn.getinfo(self.conn.TOTAL_TIME) * 1000),
