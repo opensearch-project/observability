@@ -9,7 +9,7 @@ from urllib.parse import urlencode
 import pycurl
 import certifi
 from io import BytesIO
-import geocoder
+import ipinfo
 
 DEBUG = False
 import datetime
@@ -18,12 +18,16 @@ import datetime
 # needed to do that in its state. It's single method (ping) can be called without needing to
 # pass any information in, which is needed to store it in a job process for the scheduler
 class Ping:
-    def __init__(self, client, host, suite_id, suites):
+    def __init__(self, client, host, suite_id, suites, self_loc, access_token):
         self.client = client
         self.host = host
         self.suite_id = suite_id
         self.suites = suites
         self.return_headers = {}
+        self.self_loc = self_loc
+        self.access_token = access_token
+
+        self.server_loc = None
 
         self.buffer = BytesIO()
         conn = pycurl.Curl()
@@ -64,7 +68,12 @@ class Ping:
         end = datetime.datetime.now().timestamp()
 
         status = self.conn.getinfo(self.conn.RESPONSE_CODE)
-        primaryIp = self.conn.getinfo(self.conn.PRIMARY_IP)
+        primary_ip = self.conn.getinfo(self.conn.PRIMARY_IP)
+
+        if self.server_loc == None:
+            loc_details = ipinfo.getHandler(self.access_token).getDetails(primary_ip)
+            print('away ' + loc_details.loc)
+            self.server_loc = loc_details.loc
 
         # these are all the fields that go in with the index
         log = {
@@ -94,12 +103,10 @@ class Ping:
             "downloadTimeMs": (self.conn.getinfo(self.conn.TOTAL_TIME) * 1000),
             "speedDownloadBytesPerSec": (self.conn.getinfo(self.conn.SPEED_DOWNLOAD)),
             "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000),
-            "primaryIP": primaryIp,
-            "heartbeatLocation": list(geocoder.ip('me').latlng),
-            "serverLocation": list(geocoder.ip(primaryIp).latlng),
+            "primaryIP": primary_ip,
+            "heartbeatLocation": str(self.self_loc),
+            "serverLocation": str(self.server_loc),
         }
-
-        print(log["serverLocation"])
 
         response = self.client.index(
             index='observability-synthetics-logs',

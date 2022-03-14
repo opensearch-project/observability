@@ -41,6 +41,11 @@ from opensearchpy import OpenSearch
     default=False,
     help="Use AWS sigV4 to connect to AWS ELasticsearch domain",
 )
+@click.option(
+    "--ip_info_access_token",
+    envvar="IP_INFO_ACCESS_TOKEN",
+    help="Access token for IP INFO, meant for ip to location conversion"
+)
 def cli(
     endpoint,
     host,
@@ -49,6 +54,7 @@ def cli(
     client_cert_key_path,
     ca_certs_path,
     use_aws_authentication,
+    ip_info_access_token
     ):
     host_add = endpoint
     if host and port:
@@ -66,7 +72,7 @@ def cli(
             ca_certs=ca_certs_path
     )
 
-    Scheduler(client)
+    Scheduler(client, ip_info_access_token)
 
 if __name__ == '__main__':
     cli()

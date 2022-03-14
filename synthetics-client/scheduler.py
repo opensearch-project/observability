@@ -7,6 +7,7 @@ import logging
 from ping import Ping
 from apscheduler.schedulers.background import BackgroundScheduler
 import warnings
+import ipinfo
 
 # In an unreleased patch, the deprecation warnings are fixed but for now it is harmless
 # These warnings just indicate that a feature the Pytz library provided is now no longer needed
@@ -19,8 +20,9 @@ import time
 # Scheduler reads yml files in ./suites and based on the schedules kept inside, 
 # pings the endpoints at the specified regular intervals
 class Scheduler:
-    def __init__(self, client):
+    def __init__(self, client, access_token):
         self.client = client
+        self.access_token = access_token
 
         self.read_configs()
     
@@ -31,8 +33,14 @@ class Scheduler:
         scheduler = BackgroundScheduler()
         scheduler.start()
 
+        # have absolute path for suites directory to allow calling from any location
         abspath_suites = os.path.dirname(os.path.abspath(__file__)) + '/suites'
 
+        # grab current location
+        loc_details = ipinfo.getHandler(self.access_token).getDetails()
+        print(loc_details.loc)
+
+        # TODO: assign unique suite id for each test suite, despite changes
         # Goes over suite yml files in suites folder
         suite_id = 0
         for filename in os.listdir(abspath_suites):
@@ -75,7 +83,7 @@ class Scheduler:
                     for host in suites["hosts"]:
                         logging.info("Start pinging for: " + host)
                         # TODO: send information in through an object instead of multiple arguments
-                        p = Ping(self.client, host, suite_id, suites)
+                        p = Ping(self.client, host, suite_id, suites, loc_details.loc, self.access_token)
                         # one ping to call immediately and the job will only run after a initial interval passes
                         if schedule_type == 'interval': p.ping()
                         job_process = scheduler.add_job(p.ping, schedule_type, **cron_job, **interval_job, replace_existing=True)
