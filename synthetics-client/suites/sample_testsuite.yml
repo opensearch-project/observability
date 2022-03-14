@@ -1,0 +1,45 @@
+---
+  name: "Sample Test Suite"
+  type: "http"
+  appId: ""
+  notebookId: ""
+  savedQueryId: ""
+  savedVisualizationId: ""
+  operationalPanelId: ""
+  enabled: true
+  ipv4: true
+  ipv6: true
+  resolverMode: "all"
+  timeoutSeconds: 16
+  tags:
+  - "news"
+  - "apis"
+  keepNull: true
+  hosts:
+  - "https://opensearch.org"
+  - "https://opensearch.org/synthetics"
+  - "https://github.com/opensearch-project"
+  maxRedirects: 1
+  proxyURL: ""
+  proxyHeaders: {}
+  username: ""
+  password: ""
+  ssl: {}
+  indexHeaders: true
+  indexResponse: "always"
+  request:
+    method: "GET"
+    headers: {'Accept-Encoding': None, 'Content-Encoding':'gzip'}
+    body: ""
+    json: {}
+  response:
+    status:
+    - 200
+    - 301
+    headers: {}
+    body: {}
+  scheduler:
+    scheduleType: "interval"
+    schedule:
+      period: 20
+      unit: "seconds"
