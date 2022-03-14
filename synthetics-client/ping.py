@@ -3,11 +3,13 @@ Copyright OpenSearch Contributors
 SPDX-License-Identifier: Apache-2.0
 """
 
+import json
 import logging
 from urllib.parse import urlencode
 import pycurl
 import certifi
 from io import BytesIO
+import geocoder
 
 DEBUG = False
 import datetime
@@ -62,6 +64,7 @@ class Ping:
         end = datetime.datetime.now().timestamp()
 
         status = self.conn.getinfo(self.conn.RESPONSE_CODE)
+        primaryIp = self.conn.getinfo(self.conn.PRIMARY_IP)
 
         # these are all the fields that go in with the index
         log = {
@@ -85,10 +88,18 @@ class Ping:
             "dnsTimeMs": (self.conn.getinfo(self.conn.NAMELOOKUP_TIME) * 1000),
             "connectionTimeMs": (self.conn.getinfo(self.conn.CONNECT_TIME) * 1000),
             "sslTimeMs": (self.conn.getinfo(self.conn.APPCONNECT_TIME) * 1000),
-            "ttfbMs": (self.conn.getinfo(self.conn.STARTTRANSFER_TIME) * 1000),
+            "pretransferTimeMs": (self.conn.getinfo(self.conn.PRETRANSFER_TIME) * 1000),
+            "starttransferTimeMs": (self.conn.getinfo(self.conn.STARTTRANSFER_TIME) * 1000),
+            "redirectTimeMs": (self.conn.getinfo(self.conn.REDIRECT_TIME) * 1000),
             "downloadTimeMs": (self.conn.getinfo(self.conn.TOTAL_TIME) * 1000),
-            "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000)
+            "speedDownloadBytesPerSec": (self.conn.getinfo(self.conn.SPEED_DOWNLOAD)),
+            "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000),
+            "primaryIP": primaryIp,
+            "heartbeatLocation": list(geocoder.ip('me').latlng),
+            "serverLocation": list(geocoder.ip(primaryIp).latlng),
         }
+
+        print(log["serverLocation"])
 
         response = self.client.index(
             index='observability-synthetics-logs',

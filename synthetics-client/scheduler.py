@@ -54,7 +54,7 @@ class Scheduler:
                 if (suites['maxRedirects'] < 0): raise Exception('maxRedirects not valid')
 
                 # type of schedule, like interval or cron
-                schedule_type = suites["scheduler"]["schedule-type"]
+                schedule_type = suites["scheduler"]["scheduleType"]
                 if (schedule_type not in ["interval","cron"]): raise Exception("Schedule type not supported")
                 
                 interval_job = {}
