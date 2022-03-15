@@ -218,7 +218,7 @@ export function Application(props: AppDetailProps) {
       },
       {
         text: application.name,
-        href: `${parentBreadcrumb.href}${appId}`,
+        href: `${parentBreadcrumb.href}application_analytics/${appId}`,
       },
     ]);
     setStartTimeForApp(sessionStorage.getItem(`${application.name}StartTime`) || 'now-24h');
