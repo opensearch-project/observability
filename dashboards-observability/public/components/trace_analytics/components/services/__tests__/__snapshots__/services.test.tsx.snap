@@ -39,11 +39,13 @@ exports[`Services component renders empty services page 1`] = `
   http={[MockFunction]}
   indicesExist={false}
   page="services"
-  parentBreadcrumb={
-    Object {
-      "href": "test#/",
-      "text": "test",
-    }
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "test#/",
+        "text": "test",
+      },
+    ]
   }
   query=""
   setEndTime={[MockFunction]}
@@ -1699,11 +1701,13 @@ exports[`Services component renders services page 1`] = `
   http={[MockFunction]}
   indicesExist={true}
   page="services"
-  parentBreadcrumb={
-    Object {
-      "href": "test#/",
-      "text": "test",
-    }
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "test#/",
+        "text": "test",
+      },
+    ]
   }
   query=""
   setEndTime={[MockFunction]}

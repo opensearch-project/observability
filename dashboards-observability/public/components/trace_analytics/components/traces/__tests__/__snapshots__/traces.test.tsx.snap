@@ -39,11 +39,13 @@ exports[`Traces component renders empty traces page 1`] = `
   http={[MockFunction]}
   indicesExist={false}
   page="traces"
-  parentBreadcrumb={
-    Object {
-      "href": "test#/",
-      "text": "test",
-    }
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "test#/",
+        "text": "test",
+      },
+    ]
   }
   query=""
   setEndTime={[MockFunction]}
@@ -1159,11 +1161,13 @@ exports[`Traces component renders traces page 1`] = `
   http={[MockFunction]}
   indicesExist={true}
   page="traces"
-  parentBreadcrumb={
-    Object {
-      "href": "test#/",
-      "text": "test",
-    }
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "test#/",
+        "text": "test",
+      },
+    ]
   }
   query=""
   setEndTime={[MockFunction]}
