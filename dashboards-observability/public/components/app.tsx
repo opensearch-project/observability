@@ -93,7 +93,7 @@ export const App = ({
                     <CustomPanelsHome
                       http={http}
                       chrome={chrome}
-                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      parentBreadcrumbs={[parentBreadcrumb, customPanelBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       renderProps={props}
