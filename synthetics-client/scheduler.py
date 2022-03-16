@@ -38,7 +38,6 @@ class Scheduler:
 
         # grab current location
         loc_details = ipinfo.getHandler(self.access_token).getDetails()
-        print(loc_details.loc)
 
         # TODO: assign unique suite id for each test suite, despite changes
         # Goes over suite yml files in suites folder
@@ -76,13 +75,14 @@ class Scheduler:
                 
                 # start trying to run the jobs
                 logging.info(filename + " succ")
+
+                # TODO: verify ssl input
                 
                 # TODO: poll suite files for changes, put changes in effect
                 # Goes over every host found in a suite file
                 try:
                     for host in suites["hosts"]:
                         logging.info("Start pinging for: " + host)
-                        # TODO: send information in through an object instead of multiple arguments
                         p = Ping(self.client, host, suite_id, suites, loc_details.loc, self.access_token)
                         # one ping to call immediately and the job will only run after a initial interval passes
                         if schedule_type == 'interval': p.ping()
