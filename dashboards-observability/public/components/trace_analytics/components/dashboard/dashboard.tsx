@@ -5,10 +5,10 @@
 
 import { EuiBreadcrumb, EuiTitle } from '@elastic/eui';
 import React from 'react';
-import { AppAnalyticsComponentDeps } from '../../../../components/application_analytics/home';
+import { TraceAnalyticsComponentDeps } from '../../home';
 import { DashboardContent } from './dashboard_content';
 
-export interface DashboardProps extends AppAnalyticsComponentDeps {
+export interface DashboardProps extends TraceAnalyticsComponentDeps {
   childBreadcrumbs: EuiBreadcrumb[];
   page: 'dashboard' | 'traces' | 'services' | 'app';
 }
