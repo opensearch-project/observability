@@ -20,7 +20,7 @@ import { Traces, TraceView } from './components/traces';
 import { handleIndicesExistRequest } from './requests/request_handler';
 
 export interface TraceAnalyticsCoreDeps {
-  parentBreadcrumb: ChromeBreadcrumb;
+  parentBreadcrumbs: ChromeBreadcrumb[];
   http: HttpStart;
   chrome: ChromeStart;
 }
@@ -66,8 +66,19 @@ export const Home = (props: HomeProps) => {
     handleIndicesExistRequest(props.http, setIndicesExist);
   }, []);
 
+  const childBreadcrumbs = [
+    {
+      text: 'Trace analytics',
+      href: '#/trace_analytics/home',
+    },
+    {
+      text: 'Dashboards',
+      href: '#/trace_analytics/home',
+    },
+  ];
+
   const commonProps: TraceAnalyticsComponentDeps = {
-    parentBreadcrumb: props.parentBreadcrumb,
+    parentBreadcrumbs: props.parentBreadcrumbs,
     http: props.http,
     chrome: props.chrome,
     query,
@@ -89,7 +100,7 @@ export const Home = (props: HomeProps) => {
         path={['/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Dashboard page="dashboard" {...commonProps} />
+            <Dashboard page="dashboard" childBreadcrumbs={childBreadcrumbs} {...commonProps} />
           </ObservabilitySideBar>
         )}
       />
@@ -106,7 +117,7 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/traces/:id+"
         render={(routerProps) => (
           <TraceView
-            parentBreadcrumb={props.parentBreadcrumb}
+            parentBreadcrumbs={props.parentBreadcrumbs}
             chrome={props.chrome}
             http={props.http}
             traceId={decodeURIComponent(routerProps.match.params.id)}

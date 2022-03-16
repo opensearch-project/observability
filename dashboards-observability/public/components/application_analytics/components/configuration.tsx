@@ -24,12 +24,13 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
+import { last } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 interface ConfigProps {
   appId: string;
   application: ApplicationType;
-  parentBreadcrumb: EuiBreadcrumb;
+  parentBreadcrumbs: EuiBreadcrumb[];
   visWithAvailability: EuiSelectOption[];
   switchToEditViz: (savedVizId: string) => void;
   updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
@@ -39,7 +40,7 @@ export const Configuration = (props: ConfigProps) => {
   const {
     appId,
     application,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     visWithAvailability,
     updateApp,
     switchToEditViz,
@@ -72,7 +73,7 @@ export const Configuration = (props: ConfigProps) => {
                       fill
                       onClick={() => {
                         window.location.assign(
-                          `${parentBreadcrumb.href}application_analytics/edit/${appId}`
+                          `${last(parentBreadcrumbs)!.href}application_analytics/edit/${appId}`
                         );
                       }}
                     >
