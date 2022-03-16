@@ -118,7 +118,7 @@ export const App = ({
                   return (
                     <EventAnalytics
                       chrome={chrome}
-                      parentBreadcrumb={parentBreadcrumb}
+                      parentBreadcrumbs={[parentBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       savedObjects={savedObjects}

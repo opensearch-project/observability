@@ -17,9 +17,9 @@ import {
 } from '../../../../test/panels_constants';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
 import PPLService from '../../../../public/services/requests/ppl';
+import DSLService from '../../../../public/services/requests/dsl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
-import DSLService from 'public/services/requests/dsl';
 
 describe.skip('Panels View Component', () => {
   configure({ adapter: new Adapter() });
