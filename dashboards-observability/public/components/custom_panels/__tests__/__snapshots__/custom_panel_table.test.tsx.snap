@@ -21,7 +21,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
     }
   }
   loading={false}
-  parentBreadcrumb={
+  parentBreadcrumbs={
     Array [
       Object {
         "href": "#/operational_panels/",
@@ -624,7 +624,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
     }
   }
   loading={false}
-  parentBreadcrumb={
+  parentBreadcrumbs={
     Array [
       Object {
         "href": "#/operational_panels/",

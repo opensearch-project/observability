@@ -256,7 +256,7 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`${_.last(parentBreadcrumb)!.href}${record.id}`}>
+        <EuiLink href={`${_.last(parentBreadcrumbs)!.href}${record.id}`}>
           {_.truncate(value, { length: 100 })}
         </EuiLink>
       ),
