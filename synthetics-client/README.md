@@ -107,7 +107,6 @@ Taking a look at `sample_testsuite.yml`, we can see:
     unit: 
 ```
 The period specifies the quantity of time between each interval (has to be a number) and the unit specifies the unit of that time (has to be one of "weeks, "days", "hours", "minutes", and "seconds"). The job will trigger once and then after each interval occurs. [Documentation](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron)
-
   - example cron:
 ```
     year: "*"
@@ -120,7 +119,6 @@ The period specifies the quantity of time between each interval (has to be a num
     second: "0,15,30,45"
 ```
 This is like 'cron' based scheduling, where the time in each component is the time in which the job triggers. There can either be a valid string put in or '*' can be used as a wildcard. So in the above example, the job will trigger at every minute on the 0th, 15th, 30th, and 45th second. Note that each component's default value is the wildcard so most components can be left out. Just looking up 'cron'  will give more neccessary information on how to use this scheduler. [Documentation](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron)
-
   - The below configurations can be added to either interval or cron based scheduling.
 ```
     start_date: '2010-10-10 09:30:00'
