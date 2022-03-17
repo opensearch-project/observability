@@ -13,7 +13,7 @@ import SavedObjects from 'public/services/saved_objects/event_analytics/saved_ob
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import _, { isEmpty } from 'lodash';
+import { isEmpty, last } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { AppTable } from './components/app_table';
 import { Application } from './components/application';
@@ -64,7 +64,7 @@ export const Home = (props: HomeProps) => {
     dslService,
     timestampUtils,
     savedObjects,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     http,
     chrome,
     notifications,
@@ -124,7 +124,7 @@ export const Home = (props: HomeProps) => {
   }, []);
 
   const commonProps: AppAnalyticsComponentDeps = {
-    parentBreadcrumb,
+    parentBreadcrumbs,
     http,
     chrome,
     name,
@@ -321,7 +321,7 @@ export const Home = (props: HomeProps) => {
         }
         if (type !== 'editAvailability') {
           window.location.assign(
-            `${parentBreadcrumb.href}application_analytics/${res.updatedAppId}`
+            `${last(parentBreadcrumbs)!.href}application_analytics/${res.updatedAppId}`
           );
         }
       })

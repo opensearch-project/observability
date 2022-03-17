@@ -26,6 +26,7 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { ReactChild, useEffect, useState } from 'react';
 import PPLService from 'public/services/requests/ppl';
+import { last } from 'lodash';
 import { AppAnalyticsComponentDeps } from '../home';
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
@@ -46,7 +47,7 @@ interface CreateAppProps extends AppAnalyticsComponentDeps {
 
 export const CreateApp = (props: CreateAppProps) => {
   const {
-    parentBreadcrumb,
+    parentBreadcrumbs,
     chrome,
     http,
     query,
@@ -80,7 +81,7 @@ export const CreateApp = (props: CreateAppProps) => {
 
   useEffect(() => {
     chrome.setBreadcrumbs([
-      parentBreadcrumb,
+      ...parentBreadcrumbs,
       {
         text: 'Application analytics',
         href: '#/application_analytics',
@@ -162,7 +163,7 @@ export const CreateApp = (props: CreateAppProps) => {
 
   const onCancel = () => {
     clearStorage();
-    window.location.assign(`${parentBreadcrumb.href}application_analytics`);
+    window.location.assign(`${last(parentBreadcrumbs)!.href}application_analytics`);
   };
 
   return (

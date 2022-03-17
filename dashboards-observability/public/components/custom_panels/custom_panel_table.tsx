@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBreadcrumb,
@@ -63,7 +64,7 @@ interface Props {
   customPanels: CustomPanelListType[];
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  parentBreadcrumb: EuiBreadcrumb[];
+  parentBreadcrumbs: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
@@ -76,7 +77,7 @@ export const CustomPanelTable = ({
   customPanels,
   createCustomPanel,
   setBreadcrumbs,
-  parentBreadcrumb,
+  parentBreadcrumbs,
   renameCustomPanel,
   cloneCustomPanel,
   deleteCustomPanelList,
@@ -89,7 +90,7 @@ export const CustomPanelTable = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    setBreadcrumbs(parentBreadcrumb);
+    setBreadcrumbs(parentBreadcrumbs);
     fetchCustomPanels();
   }, []);
 
@@ -255,7 +256,7 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>
+        <EuiLink href={`${_.last(parentBreadcrumbs)!.href}${record.id}`}>
           {_.truncate(value, { length: 100 })}
         </EuiLink>
       ),

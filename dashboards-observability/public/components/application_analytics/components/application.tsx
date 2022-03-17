@@ -27,13 +27,14 @@ import React, { ReactChild, useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { last } from 'lodash';
+import { DashboardContent } from '../../../components/trace_analytics/components/dashboard/dashboard_content';
 import {
   filtersToDsl,
   PanelTitle,
 } from '../../../../public/components/trace_analytics/components/common/helper_functions';
 import { SpanDetailTable } from '../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { Explorer } from '../../explorer/explorer';
-import { Dashboard } from '../../trace_analytics/components/dashboard';
 import { Services } from '../../trace_analytics/components/services';
 import { Traces } from '../../trace_analytics/components/traces';
 import { Configuration } from './configuration';
@@ -110,7 +111,7 @@ export function Application(props: AppDetailProps) {
     notifications,
     appId,
     chrome,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     startTime,
     endTime,
     query,
@@ -211,14 +212,14 @@ export function Application(props: AppDetailProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([
-      parentBreadcrumb,
+      ...parentBreadcrumbs,
       {
         text: 'Application analytics',
         href: '#/application_analytics',
       },
       {
         text: application.name,
-        href: `${parentBreadcrumb.href}${appId}`,
+        href: `${last(parentBreadcrumbs)!.href}application_analytics/${appId}`,
       },
     ]);
     setStartTimeForApp(sessionStorage.getItem(`${application.name}StartTime`) || 'now-24h');
@@ -229,6 +230,12 @@ export function Application(props: AppDetailProps) {
     const DSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
     setSpanDSL(DSL);
   }, [filters, appConfigs, query, startTime, endTime]);
+
+  useEffect(() => {
+    if (selectedTabId !== TAB_LOG_ID) {
+      switchToEditViz('');
+    }
+  }, [selectedTabId]);
 
   const openServiceFlyout = (serviceName: string) => {
     setSpanFlyoutId('');
@@ -260,17 +267,29 @@ export function Application(props: AppDetailProps) {
     setTraceFlyoutId('');
   };
 
+  const childBreadcrumbs = [
+    {
+      text: 'Application analytics',
+      href: '#/application_analytics',
+    },
+    {
+      text: `${application.name}`,
+      href: `#/application_analytics/${appId}`,
+    },
+  ];
+
   const getOverview = () => {
     return (
-      <Dashboard
-        {...props}
-        page="app"
-        appId={appId}
-        appName={application.name}
-        setStartTime={setStartTimeForApp}
-        setEndTime={setEndTimeForApp}
-        switchToEditViz={switchToEditViz}
-      />
+      <>
+        <EuiSpacer size="m" />
+        <DashboardContent
+          {...props}
+          page="app"
+          setStartTime={setStartTimeForApp}
+          setEndTime={setEndTimeForApp}
+          childBreadcrumbs={childBreadcrumbs}
+        />
+      </>
     );
   };
 
@@ -339,7 +358,6 @@ export function Application(props: AppDetailProps) {
         http={http}
         searchBarConfigs={searchBarConfigs}
         appId={appId}
-        baseQuery={application.baseQuery}
         addVisualizationToPanel={addVisualizationToPanel}
         startTime={startTime}
         endTime={endTime}
@@ -357,12 +375,13 @@ export function Application(props: AppDetailProps) {
         panelId={application.panelId}
         http={http}
         pplService={pplService}
+        dslService={dslService}
         chrome={chrome}
-        parentBreadcrumb={[parentBreadcrumb]}
+        parentBreadcrumbs={parentBreadcrumbs}
         // App analytics will not be renaming/cloning/deleting panels
-        renameCustomPanel={() => undefined}
-        cloneCustomPanel={(): Promise<string> => Promise.reject()}
-        deleteCustomPanel={(): Promise<string> => Promise.reject()}
+        renameCustomPanel={async () => undefined}
+        cloneCustomPanel={async () => Promise.reject()}
+        deleteCustomPanel={async () => Promise.reject()}
         setToast={setToasts}
         page="app"
         appName={application.name}
@@ -394,7 +413,7 @@ export function Application(props: AppDetailProps) {
     return (
       <Configuration
         appId={appId}
-        parentBreadcrumb={parentBreadcrumb}
+        parentBreadcrumbs={parentBreadcrumbs}
         application={application}
         switchToEditViz={switchToEditViz}
         visWithAvailability={visWithAvailability}
