@@ -7,6 +7,7 @@
 
 import {
   EuiHorizontalRule,
+  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPageHeader,
@@ -24,7 +25,7 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { uniqueId } from 'lodash';
+import { truncate, uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { last } from 'lodash';
@@ -35,7 +36,6 @@ import {
 } from '../../../../public/components/trace_analytics/components/common/helper_functions';
 import { SpanDetailTable } from '../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { Explorer } from '../../explorer/explorer';
-import { Services } from '../../trace_analytics/components/services';
 import { Traces } from '../../trace_analytics/components/traces';
 import { Configuration } from './configuration';
 import {
@@ -63,6 +63,7 @@ import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 import { fetchAppById, initializeTabData } from '../helpers/utils';
+import { ServicesContent } from '../../trace_analytics/components/services/services_content';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -293,19 +294,23 @@ export function Application(props: AppDetailProps) {
     );
   };
 
+  const nameColumnAction = (item: any) => openServiceFlyout(item);
+  const traceColumnAction = () => switchToTrace();
+
   const getService = () => {
     return (
-      <Services
-        {...props}
-        page="app"
-        appId={appId}
-        appName={application.name}
-        openServiceFlyout={openServiceFlyout}
-        setStartTime={setStartTimeForApp}
-        setEndTime={setEndTimeForApp}
-        switchToTrace={switchToTrace}
-        switchToEditViz={switchToEditViz}
-      />
+      <>
+        <EuiSpacer size="m" />
+        <ServicesContent
+          {...props}
+          page="app"
+          nameColumnAction={nameColumnAction}
+          traceColumnAction={traceColumnAction}
+          childBreadcrumbs={childBreadcrumbs}
+          setStartTime={setStartTimeForApp}
+          setEndTime={setEndTimeForApp}
+        />
+      </>
     );
   };
 

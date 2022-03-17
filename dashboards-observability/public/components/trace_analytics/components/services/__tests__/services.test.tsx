@@ -18,11 +18,27 @@ describe('Services component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const serviceBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Services',
+        href: '#/trace_analytics/services',
+      },
+    ];
+    const nameColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
+    const traceColumnAction = () => location.assign('#/trace_analytics/traces');
     const wrapper = mount(
       <Services
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={serviceBreadcrumbs}
+        nameColumnAction={nameColumnAction}
+        traceColumnAction={traceColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -46,11 +62,27 @@ describe('Services component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const serviceBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Services',
+        href: '#/trace_analytics/services',
+      },
+    ];
+    const nameColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
+    const traceColumnAction = () => location.assign('#/trace_analytics/traces');
     const wrapper = mount(
       <Services
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={serviceBreadcrumbs}
+        nameColumnAction={nameColumnAction}
+        traceColumnAction={traceColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}

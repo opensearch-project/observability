@@ -150,7 +150,7 @@ export function TraceView(props: TraceViewProps) {
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap);
+    handleServiceMapRequest(props.http, DSL, setServiceMap);
   };
 
   useEffect(() => {
