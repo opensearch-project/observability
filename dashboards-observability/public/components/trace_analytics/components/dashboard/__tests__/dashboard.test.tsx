@@ -23,10 +23,22 @@ describe('Dashboard component', () => {
       <Dashboard
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{
-          text: 'test',
-          href: 'test#/',
-        }}
+        parentBreadcrumbs={[
+          {
+            text: 'test',
+            href: 'test#/',
+          },
+        ]}
+        childBreadcrumbs={[
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Dashboards',
+            href: '#/trace_analytics/home',
+          },
+        ]}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -54,7 +66,22 @@ describe('Dashboard component', () => {
       <Dashboard
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[
+          {
+            text: 'test',
+            href: 'test#/',
+          },
+        ]}
+        childBreadcrumbs={[
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Dashboards',
+            href: '#/trace_analytics/home',
+          },
+        ]}
         query=""
         setQuery={setQuery}
         filters={[]}

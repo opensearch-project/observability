@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import _ from 'lodash';
@@ -28,7 +29,7 @@ interface ServicesProps extends TraceAnalyticsComponentDeps {
 }
 
 export function Services(props: ServicesProps) {
-  const { appId, appName, parentBreadcrumb, page, switchToEditViz } = props;
+  const { appId, appName, parentBreadcrumbs, page, switchToEditViz } = props;
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -62,7 +63,7 @@ export function Services(props: ServicesProps) {
       ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
+    props.chrome.setBreadcrumbs([...parentBreadcrumbs, ...breadCrumbs]);
     const validFilters = getValidFilterFields('services');
     props.setFilters([
       ...props.filters.map((filter) => ({
@@ -119,9 +120,8 @@ export function Services(props: ServicesProps) {
   const addFilter = (filter: FilterType) => {
     for (let i = 0; i < props.filters.length; i++) {
       const addedFilter = props.filters[i];
-      if ( addedFilter.field === filter.field) {
-        if (addedFilter.operator === filter.operator && addedFilter.value === filter.value)
-          return;
+      if (addedFilter.field === filter.field) {
+        if (addedFilter.operator === filter.operator && addedFilter.value === filter.value) return;
         const newFilters = [...props.filters];
         newFilters.splice(i, 1, filter);
         props.setFilters(newFilters);

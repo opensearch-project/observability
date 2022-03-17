@@ -17,6 +17,7 @@ import {
 } from '../../../../test/panels_constants';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
 import PPLService from '../../../../public/services/requests/ppl';
+import DSLService from '../../../../public/services/requests/dsl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
 
@@ -30,8 +31,9 @@ describe.skip('Panels View Component', () => {
     const panelId = 'L8Sx53wBDp0rvEg3yoLb';
     const http = httpClientMock;
     const pplService = new PPLService(httpClientMock);
+    const dslService = new DSLService(httpClientMock);
     const core = coreStartMock;
-    const parentBreadcrumb = panelBreadCrumbs;
+    const parentBreadcrumbs = panelBreadCrumbs;
     const start = 'now-30m';
     const end = 'now';
     const setStart = jest.fn();
@@ -46,8 +48,9 @@ describe.skip('Panels View Component', () => {
         panelId={panelId}
         http={http}
         pplService={pplService}
+        dslService={dslService}
         chrome={core.chrome}
-        parentBreadcrumb={parentBreadcrumb}
+        parentBreadcrumbs={parentBreadcrumbs}
         renameCustomPanel={renameCustomPanel}
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
@@ -83,8 +86,9 @@ describe.skip('Panels View Component', () => {
     const panelId = 'L8Sx53wBDp0rvEg3yoLb';
     const http = httpClientMock;
     const pplService = new PPLService(httpClientMock);
+    const dslService = new DSLService(httpClientMock);
     const core = coreStartMock;
-    const parentBreadcrumb = panelBreadCrumbs;
+    const parentBreadcrumbs = panelBreadCrumbs;
     const start = 'now-30m';
     const end = 'now';
     const setStart = jest.fn();
@@ -99,8 +103,9 @@ describe.skip('Panels View Component', () => {
         panelId={panelId}
         http={http}
         pplService={pplService}
+        dslService={dslService}
         chrome={core.chrome}
-        parentBreadcrumb={parentBreadcrumb}
+        parentBreadcrumbs={parentBreadcrumbs}
         renameCustomPanel={renameCustomPanel}
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}

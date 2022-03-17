@@ -2,13 +2,15 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import { EuiGlobalToastList, EuiLink } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import PPLService from '../../../services/requests/ppl';
 import React, { ReactChild } from 'react';
+// eslint-disable-next-line @osd/eslint/module_migration
 import { Route, Switch } from 'react-router';
 import { HashRouter, RouteComponentProps } from 'react-router-dom';
+import PPLService from '../../../services/requests/ppl';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../../src/core/public';
 import { DashboardStart } from '../../../../../../src/plugins/dashboard/public';
 import {
@@ -39,19 +41,19 @@ type MainProps = RouteComponentProps & {
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
 };
 
-type MainState = {
-  data: Array<NotebookType>;
+interface MainState {
+  data: NotebookType[];
   openedNotebook: NotebookType | undefined;
   toasts: Toast[];
   loading: boolean;
-};
+}
 
-export type NotebookType = {
+export interface NotebookType {
   path: string;
   id: string;
   dateCreated: string;
   dateModified: string;
-};
+}
 
 export class Main extends React.Component<MainProps, MainState> {
   constructor(props: Readonly<MainProps>) {
@@ -272,7 +274,7 @@ export class Main extends React.Component<MainProps, MainState> {
           body: JSON.stringify({ visIds }),
         })
         .then((res) => {
-          const newData = res.body.map((notebook) => ({
+          const newData = res.body.map((notebook: any) => ({
             path: notebook.name,
             id: notebook.id,
             dateCreated: notebook.dateCreated,
@@ -283,7 +285,7 @@ export class Main extends React.Component<MainProps, MainState> {
           }));
         });
       this.setToast(`Sample notebooks successfully added.`);
-    } catch (err) {
+    } catch (err: any) {
       this.setToast('Error adding sample notebooks.', 'danger');
       console.error(err.body.message);
     } finally {

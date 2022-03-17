@@ -22,7 +22,7 @@ interface TracesProps extends TraceAnalyticsComponentDeps {
 }
 
 export function Traces(props: TracesProps) {
-  const { appId, appName, parentBreadcrumb, page, openTraceFlyout, switchToEditViz } = props;
+  const { appId, appName, parentBreadcrumbs, page, openTraceFlyout, switchToEditViz } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export function Traces(props: TracesProps) {
       ];
 
   useEffect(() => {
-    props.chrome.setBreadcrumbs([parentBreadcrumb, ...breadCrumbs]);
+    props.chrome.setBreadcrumbs([...parentBreadcrumbs, ...breadCrumbs]);
     const validFilters = getValidFilterFields('traces');
     props.setFilters([
       ...props.filters.map((filter) => ({
