@@ -6,7 +6,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import {
-  EuiBadge,
   EuiBreadcrumb,
   EuiButton,
   EuiContextMenu,
@@ -27,7 +26,7 @@ import {
   OnTimeChangeProps,
   ShortDate,
 } from '@elastic/eui';
-import _ from 'lodash';
+import { last } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import moment from 'moment';
@@ -84,7 +83,7 @@ interface Props {
   pplService: PPLService;
   dslService: DSLService;
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: EuiBreadcrumb[];
+  parentBreadcrumbs: EuiBreadcrumb[];
   renameCustomPanel: (editedCustomPanelName: string, editedCustomPanelId: string) => Promise<void>;
   deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
   cloneCustomPanel: (clonedCustomPanelName: string, clonedCustomPanelId: string) => Promise<string>;
@@ -111,7 +110,7 @@ export const CustomPanelView = ({
   pplService,
   dslService,
   chrome,
-  parentBreadcrumb,
+  parentBreadcrumbs,
   startTime,
   endTime,
   setStartTime,
@@ -243,7 +242,7 @@ export const CustomPanelView = ({
   const onDelete = async () => {
     deleteCustomPanel(panelId, openPanelName).then((res) => {
       setTimeout(() => {
-        window.location.assign(`${_.last(parentBreadcrumb).href}`);
+        window.location.assign(`${last(parentBreadcrumbs)!.href}`);
       }, 1000);
     });
     closeModal();
@@ -286,7 +285,7 @@ export const CustomPanelView = ({
 
   const onClone = async (newCustomPanelName: string) => {
     cloneCustomPanel(newCustomPanelName, panelId).then((id: string) => {
-      window.location.assign(`${_.last(parentBreadcrumb).href}${id}`);
+      window.location.assign(`${last(parentBreadcrumbs)!.href}${id}`);
     });
     closeModal();
   };
@@ -539,22 +538,22 @@ export const CustomPanelView = ({
     let newBreadcrumb;
     if (appPanel) {
       newBreadcrumb = [
-        ...parentBreadcrumb,
+        ...parentBreadcrumbs,
         {
           text: 'Application analytics',
           href: '#/application_analytics',
         },
         {
           text: appName,
-          href: `${_.last(parentBreadcrumb).href}${appId}`,
+          href: `${last(parentBreadcrumbs)!.href}${appId}`,
         },
       ];
     } else {
       newBreadcrumb = [
-        ...parentBreadcrumb,
+        ...parentBreadcrumbs,
         {
           text: openPanelName,
-          href: `${_.last(parentBreadcrumb).href}${panelId}`,
+          href: `${last(parentBreadcrumbs)!.href}${panelId}`,
         },
       ];
     }

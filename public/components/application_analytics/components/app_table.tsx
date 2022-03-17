@@ -53,7 +53,7 @@ export function AppTable(props: AppTableProps) {
     http,
     chrome,
     applications,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     fetchApplications,
     renameApplication,
     deleteApplication,
@@ -70,7 +70,7 @@ export function AppTable(props: AppTableProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([
-      parentBreadcrumb,
+      ...parentBreadcrumbs,
       {
         text: 'Application analytics',
         href: '#/application_analytics',

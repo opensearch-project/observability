@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import './log_explorer.scss';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -51,7 +52,7 @@ export const LogExplorer = ({
 }: ILogExplorerProps) => {
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs).queryTabIds.filter(
-    (tabid: string) => !tabid.startsWith('application-analytics-tab')
+    (tabid: string) => !tabid.match(APP_ANALYTICS_TAB_ID_REGEX)
   );
   const tabNames = useSelector(selectQueryTabs).tabNames;
   const queries = useSelector(selectQueries);
@@ -143,11 +144,11 @@ export const LogExplorer = ({
   function getQueryTab({
     tabTitle,
     tabId,
-    handleTabClose,
+    handlesTabClose,
   }: {
     tabTitle: string;
     tabId: string;
-    handleTabClose: (TabIdToBeClosed: string) => void;
+    handlesTabClose: (TabIdToBeClosed: string) => void;
   }) {
     return {
       id: tabId,
@@ -159,7 +160,7 @@ export const LogExplorer = ({
               type="cross"
               onClick={(e) => {
                 e.stopPropagation();
-                handleTabClose(tabId);
+                handlesTabClose(tabId);
               }}
               data-test-subj="eventExplorer__tabClose"
             />
@@ -191,13 +192,11 @@ export const LogExplorer = ({
 
   const memorizedTabs = useMemo(() => {
     const res = map(tabIds, (tabId) => {
-      if (!tabId.match(APP_ANALYTICS_TAB_ID_REGEX)) {
-        return getQueryTab({
-          tabTitle: tabNames[tabId] || TAB_TITLE,
-          tabId,
-          handleTabClose,
-        });
-      }
+      return getQueryTab({
+        tabTitle: tabNames[tabId] || TAB_TITLE,
+        tabId,
+        handlesTabClose: handleTabClose,
+      });
     });
 
     return res;

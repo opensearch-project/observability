@@ -53,7 +53,7 @@ export function ServiceView(props: ServiceViewProps) {
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
+      ...props.parentBreadcrumbs,
       {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',

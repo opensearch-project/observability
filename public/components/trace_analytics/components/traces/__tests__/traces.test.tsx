@@ -22,7 +22,7 @@ describe('Traces component', () => {
       <Traces
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -50,7 +50,7 @@ describe('Traces component', () => {
       <Traces
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -68,4 +68,3 @@ describe('Traces component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 });
-

@@ -18,7 +18,7 @@ describe('Trace view component', () => {
       <TraceView
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
         traceId="test"
       />
     );

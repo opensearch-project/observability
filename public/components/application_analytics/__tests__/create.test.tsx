@@ -9,6 +9,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { CreateApp } from '../components/create';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import DSLService from 'public/services/requests/dsl';
+import PPLService from 'public/services/requests/ppl';
 import { render } from '@testing-library/react';
 
 describe('Create Page', () => {
@@ -37,11 +38,16 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const utils = render(
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -96,11 +102,16 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const utils = render(
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query="source = openserach_dashboard_sample_logs"
         setQuery={setQuery}
         filters={[]}
@@ -155,11 +166,16 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const utils = render(
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query="source = openserach_dashboard_sample_logs"
         setQuery={setQuery}
         filters={[]}
@@ -217,11 +233,16 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const utils = render(
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query="source = openserach_dashboard_sample_logs"
         setQuery={setQuery}
         filters={[]}
@@ -279,6 +300,10 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const serviceFilters = [
       {
         field: 'serviceName',
@@ -292,7 +317,8 @@ describe('Create Page', () => {
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query=""
         setQuery={setQuery}
         filters={serviceFilters}
@@ -350,6 +376,10 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const serviceFilters = [
       {
         field: 'serviceName',
@@ -363,7 +393,8 @@ describe('Create Page', () => {
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query=""
         setQuery={setQuery}
         filters={serviceFilters}
@@ -421,6 +452,10 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const traceFilters = [
       {
         field: 'traceGroup',
@@ -434,7 +469,8 @@ describe('Create Page', () => {
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query=""
         setQuery={setQuery}
         filters={traceFilters}
@@ -492,6 +528,10 @@ describe('Create Page', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    const pplService = ({
+      http: jest.fn(),
+      fetch: jest.fn(),
+    } as unknown) as PPLService;
     const traceFilters = [
       {
         field: 'traceGroup',
@@ -505,7 +545,8 @@ describe('Create Page', () => {
       <CreateApp
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        pplService={pplService}
         query=""
         setQuery={setQuery}
         filters={traceFilters}
