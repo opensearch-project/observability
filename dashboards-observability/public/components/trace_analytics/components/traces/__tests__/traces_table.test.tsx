@@ -13,13 +13,27 @@ describe('Traces table component', () => {
 
   it('renders empty traces table message', () => {
     const refresh = jest.fn();
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
     const noIndicesTable = mount(
-      <TracesTable items={[]} refresh={refresh} indicesExist={false} loading={false} />
+      <TracesTable
+        items={[]}
+        refresh={refresh}
+        indicesExist={false}
+        loading={false}
+        traceIdColumnAction={traceIdColumnAction}
+      />
     );
     expect(noIndicesTable).toMatchSnapshot();
 
     const emptyTable = mount(
-      <TracesTable items={[]} refresh={refresh} indicesExist={true} loading={false} />
+      <TracesTable
+        items={[]}
+        refresh={refresh}
+        indicesExist={true}
+        loading={false}
+        traceIdColumnAction={traceIdColumnAction}
+      />
     );
     expect(emptyTable).toMatchSnapshot();
   });
@@ -37,9 +51,17 @@ describe('Traces table component', () => {
         actions: '#',
       },
     ];
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
     const refresh = jest.fn();
     const wrapper = mount(
-      <TracesTable items={tableItems} refresh={refresh} indicesExist={true} loading={false} />
+      <TracesTable
+        items={tableItems}
+        refresh={refresh}
+        indicesExist={true}
+        loading={false}
+        traceIdColumnAction={traceIdColumnAction}
+      />
     );
     expect(wrapper).toMatchSnapshot();
 
