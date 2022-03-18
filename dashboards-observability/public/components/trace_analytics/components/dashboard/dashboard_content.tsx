@@ -127,13 +127,7 @@ export function DashboardContent(props: DashboardProps) {
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
       (must: any) => must?.term?.serviceName == null
     );
-    handleServiceMapRequest(
-      http,
-      serviceMapDSL,
-      serviceMap,
-      setServiceMap,
-      currService || filteredService
-    );
+    handleServiceMapRequest(http, serviceMapDSL, setServiceMap, currService || filteredService);
   };
 
   const addFilter = (filter: FilterType) => {

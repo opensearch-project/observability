@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { EuiLink } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import {
@@ -66,7 +67,7 @@ export const Home = (props: HomeProps) => {
     handleIndicesExistRequest(props.http, setIndicesExist);
   }, []);
 
-  const childBreadcrumbs = [
+  const dashboardBreadcrumbs = [
     {
       text: 'Trace analytics',
       href: '#/trace_analytics/home',
@@ -76,6 +77,22 @@ export const Home = (props: HomeProps) => {
       href: '#/trace_analytics/home',
     },
   ];
+
+  const serviceBreadcrumbs = [
+    {
+      text: 'Trace analytics',
+      href: '#/trace_analytics/home',
+    },
+    {
+      text: 'Services',
+      href: '#/trace_analytics/services',
+    },
+  ];
+
+  const nameColumnAction = (item: any) =>
+    location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
+
+  const traceColumnAction = () => location.assign('#/trace_analytics/traces');
 
   const commonProps: TraceAnalyticsComponentDeps = {
     parentBreadcrumbs: props.parentBreadcrumbs,
@@ -100,7 +117,7 @@ export const Home = (props: HomeProps) => {
         path={['/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Dashboard page="dashboard" childBreadcrumbs={childBreadcrumbs} {...commonProps} />
+            <Dashboard page="dashboard" childBreadcrumbs={dashboardBreadcrumbs} {...commonProps} />
           </ObservabilitySideBar>
         )}
       />
@@ -129,7 +146,13 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/services"
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Services page="services" {...commonProps} />
+            <Services
+              page="services"
+              childBreadcrumbs={serviceBreadcrumbs}
+              nameColumnAction={nameColumnAction}
+              traceColumnAction={traceColumnAction}
+              {...commonProps}
+            />
           </ObservabilitySideBar>
         )}
       />

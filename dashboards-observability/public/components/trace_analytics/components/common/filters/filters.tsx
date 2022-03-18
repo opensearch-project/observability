@@ -32,7 +32,7 @@ export interface FilterType {
 
 export interface FiltersProps {
   filters: FilterType[];
-  appConfigs: FilterType[];
+  appConfigs?: FilterType[];
   setFilters: (filters: FilterType[]) => void;
 }
 
