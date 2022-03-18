@@ -117,8 +117,8 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
 
   useEffect(() => {
     const serviceDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
-    handleServiceViewRequest(serviceName, http, serviceDSL, fields, setFields);
-    handleServiceMapRequest(http, serviceDSL, serviceMap, setServiceMap, serviceName);
+    handleServiceViewRequest(serviceName, http, serviceDSL, setFields);
+    handleServiceMapRequest(http, serviceDSL, setServiceMap, serviceName);
     const spanDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
     spanDSL.query.bool.must.push({
       term: {

@@ -6,10 +6,9 @@ exports[`Services table component renders empty services table message 1`] = `
   indicesExist={true}
   items={Array []}
   loading={false}
-  refresh={[MockFunction]}
-  serviceQuery="test"
+  nameColumnAction={[Function]}
   setRedirect={[MockFunction]}
-  setServiceQuery={[MockFunction]}
+  traceColumnAction={[Function]}
 >
   <EuiPanel>
     <div
@@ -167,10 +166,9 @@ exports[`Services table component renders services table 1`] = `
     ]
   }
   loading={false}
-  refresh={[MockFunction]}
-  serviceQuery="test"
+  nameColumnAction={[Function]}
   setRedirect={[MockFunction]}
-  setServiceQuery={[MockFunction]}
+  traceColumnAction={[Function]}
 >
   <EuiPanel>
     <div
@@ -1192,16 +1190,17 @@ exports[`Services table component renders services table 1`] = `
                               >
                                 <EuiLink
                                   className=""
-                                  href="#/trace_analytics/services/database"
                                   key=".0"
+                                  onClick={[Function]}
                                 >
-                                  <a
+                                  <button
                                     className="euiLink euiLink--primary"
-                                    href="#/trace_analytics/services/database"
-                                    rel="noreferrer"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
                                   >
                                     database
-                                  </a>
+                                  </button>
                                 </EuiLink>
                               </div>
                             </td>
