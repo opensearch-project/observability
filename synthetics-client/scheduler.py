@@ -20,7 +20,7 @@ import os
 import yaml
 import time
 
-TIME_BETWEEN_SUITE_CHECK = 15
+TIME_BETWEEN_SUITE_CHECK = 60
 
 # Scheduler reads yml files in ./suites and based on the schedules kept inside, 
 # pings the endpoints at the specified regular intervals
@@ -57,7 +57,8 @@ class Scheduler:
         for filename in os.listdir(self.abspath_suites):
             # reads file and creates a job based on configuration, stores references to all jobs in suite
             suite_jobs = self.load_suite_file(filename)
-            suites_jobs[filename] = suite_jobs
+            if (suite_jobs != None):
+                suites_jobs[filename] = suite_jobs
 
             # generates file hash to check for changes later on
             checksum = self.hashfile(os.path.join(self.abspath_suites, filename))
@@ -66,23 +67,70 @@ class Scheduler:
 
         # have to keep program running for scheduler to work, stops when the number of jobs is 0
         while len(scheduler.get_jobs()) > 0:
+
             # the amount of time spent sleeping does not delay a job triggering when it needs to
             time.sleep(TIME_BETWEEN_SUITE_CHECK)
-            
-            # verify that all checksums are the same
-            for filename in os.listdir(self.abspath_suites):
+
+            # Below section checks for any changes at all to ./suites as well as files inside and
+            # will modify the jobs accordingly 
+            os_listdir = os.listdir(self.abspath_suites)
+
+            # find deleted files by set difference of filesum keys and os.listdir
+            del_filenames = set(filesums.keys())
+            del_filenames.difference_update(os_listdir)
+            logging.info('deleted filename: ' + str(del_filenames))
+
+            # find added files by set difference of os.listdir and filesum keys
+            added_filenames = set(os_listdir)
+            added_filenames.difference_update(filesums.keys())
+            logging.info('added filename: ' + str(added_filenames))
+
+            # find changed original files by making checksums of os.listdir and adding filenames
+            # that have different filesum checksums
+            changed_filenames = set()
+            for filename in os_listdir:
                 checksum = self.hashfile(os.path.join(self.abspath_suites, filename))
-                if (checksum != filesums[filename]):
-                    print('     ... ' + filename + " got changed")
+                filesum = filesums.get(filename)
+                # skip added files (filesum which is None) to distinguish
+                if (filesum != None and checksum != filesum):
+                    changed_filenames.add(filename)
                     # update with new checksum
                     filesums[filename] = checksum
-                    # remove all of the suites old jobs
+                    logging.info(filename + ' checksum updated')
+            logging.info('changed filename: ' + str(changed_filenames))
+
+            # delete jobs: del_files and changed_files, do not attempt to delete if filename not in suites_jobs
+            for filename in del_filenames.union(changed_filenames):
+                # will only delete if there is a job to delete
+                if (suites_jobs.get(filename) != None):
                     for job in suites_jobs[filename]:
-                        print(job)
                         job.remove()
-                    # add new jobs for suite
-                    self.load_suite_file(filename)
-            print('checking complete')
+                        logging.info(job.id + ' job removed')
+                    # remove key as well to delete entire reference
+                    suites_jobs.pop(filename)
+
+            # add jobs: changed_files and added_files, just add jobs
+            for filename in added_filenames.union(changed_filenames):
+                # add new jobs for suite
+                suite_jobs = self.load_suite_file(filename)
+                if (suite_jobs != None):
+                    suites_jobs[filename] = suite_jobs
+                    logging.info(filename + ' jobs added')
+
+            # update checksums: update checksums for changed and added files, remove for deleted files
+            for filename in added_filenames:
+                checksum = self.hashfile(os.path.join(self.abspath_suites, filename))
+                # add new checksum
+                filesums[filename] = checksum
+                logging.info(filename + ' checksum added')
+            for filename in del_filenames:
+                filesums.pop(filename)
+                logging.info(filename + ' checksum deleted')
+                if (suites_jobs.get(filename) != None):
+                    logging.info(filename + ' job listed removed')
+                    suites_jobs.pop(filename)
+
+            logging.info('file hash checking complete')
             
     # Method will load a file and then start a job process for the configuration
     def load_suite_file(self, filename):
@@ -127,7 +175,6 @@ class Scheduler:
                 suite_jobs = []
                 for host in suites["hosts"]:
                     logging.info("Start pinging for: " + host)
-                    print(self.suite_id)
                     p = Ping(self.client, host, self.suite_id, suites, (30,30), self.access_token)
                     # one ping to call immediately and the job will only run after a initial interval passes
                     if schedule_type == 'interval': p.ping()
