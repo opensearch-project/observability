@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiFlexGroup,
@@ -24,20 +25,26 @@ import {
   PanelTitle,
 } from '../common/helper_functions';
 
-export function ServicesTable(props: {
+interface ServicesTableProps {
   items: any[];
-  addFilter: (filter: FilterType) => void;
-  setRedirect: (redirect: boolean) => void;
-  serviceQuery: string;
-  setServiceQuery: (query: string) => void;
-  refresh: () => void;
   indicesExist: boolean;
   loading: boolean;
-  page?: string;
-  openServiceFlyout?: any;
-  switchToTrace?: any;
-}) {
-  const appServices = props.page === 'app';
+  nameColumnAction: (item: any) => any;
+  traceColumnAction: any;
+  addFilter: (filter: FilterType) => void;
+  setRedirect: (redirect: boolean) => void;
+}
+
+export function ServicesTable(props: ServicesTableProps) {
+  const {
+    items,
+    indicesExist,
+    loading,
+    nameColumnAction,
+    traceColumnAction,
+    addFilter,
+    setRedirect,
+  } = props;
   const renderTitleBar = (totalItems?: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
@@ -56,31 +63,18 @@ export function ServicesTable(props: {
           name: 'Name',
           align: 'left',
           sortable: true,
-          render: (item) =>
-            appServices ? (
-              <EuiLink onClick={() => props.openServiceFlyout(item)}>
-                {item.length < 24 ? (
-                  item
-                ) : (
-                  <div title={item}>{_.truncate(item, { length: 24 })}</div>
-                )}
-              </EuiLink>
-            ) : (
-              <EuiLink href={`#/trace_analytics/services/${encodeURIComponent(item)}`}>
-                {item.length < 24 ? (
-                  item
-                ) : (
-                  <div title={item}>{_.truncate(item, { length: 24 })}</div>
-                )}
-              </EuiLink>
-            ),
+          render: (item: any) => (
+            <EuiLink onClick={() => nameColumnAction(item)}>
+              {item.length < 24 ? item : <div title={item}>{_.truncate(item, { length: 24 })}</div>}
+            </EuiLink>
+          ),
         },
         {
           field: 'average_latency',
           name: 'Average latency (ms)',
           align: 'right',
           sortable: true,
-          render: (item) => (item === 0 || item ? _.round(item, 2) : '-'),
+          render: (item: any) => (item === 0 || item ? _.round(item, 2) : '-'),
         },
         {
           field: 'error_rate',
@@ -96,7 +90,7 @@ export function ServicesTable(props: {
           align: 'right',
           sortable: true,
           truncateText: true,
-          render: (item) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
+          render: (item: any) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
         },
         {
           field: 'number_of_connected_services',
@@ -105,7 +99,7 @@ export function ServicesTable(props: {
           sortable: true,
           truncateText: true,
           width: '80px',
-          render: (item) => (item === 0 || item ? item : '-'),
+          render: (item: any) => (item === 0 || item ? item : '-'),
         },
         {
           field: 'connected_services',
@@ -113,12 +107,8 @@ export function ServicesTable(props: {
           align: 'left',
           sortable: true,
           truncateText: true,
-          render: (items) =>
-            items ? (
-              <EuiText size="s">{_.truncate(items.join(', '), { length: 50 })}</EuiText>
-            ) : (
-              '-'
-            ),
+          render: (item: any) =>
+            item ? <EuiText size="s">{_.truncate(item.join(', '), { length: 50 })}</EuiText> : '-',
         },
         {
           field: 'traces',
@@ -126,24 +116,20 @@ export function ServicesTable(props: {
           align: 'right',
           sortable: true,
           truncateText: true,
-          render: (item, row) => (
+          render: (item: any, row: any) => (
             <>
               {item === 0 || item ? (
                 <EuiLink
                   onClick={() => {
-                    props.setRedirect(true);
-                    props.addFilter({
+                    setRedirect(true);
+                    addFilter({
                       field: 'serviceName',
                       operator: 'is',
                       value: row.name,
                       inverted: false,
                       disabled: false,
                     });
-                    if (appServices) {
-                      props.switchToTrace();
-                    } else {
-                      location.assign('#/trace_analytics/traces');
-                    }
+                    traceColumnAction();
                   }}
                 >
                   <EuiI18nNumber value={item} />
@@ -155,10 +141,10 @@ export function ServicesTable(props: {
           ),
         },
       ] as Array<EuiTableFieldDataColumnType<any>>,
-    [props.items]
+    [items]
   );
 
-  const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
+  const titleBar = useMemo(() => renderTitleBar(items?.length), [items]);
 
   return (
     <>
@@ -166,10 +152,10 @@ export function ServicesTable(props: {
         {titleBar}
         <EuiSpacer size="m" />
         <EuiHorizontalRule margin="none" />
-        {props.items?.length > 0 ? (
+        {items?.length > 0 ? (
           <EuiInMemoryTable
             tableLayout="auto"
-            items={props.items}
+            items={items}
             columns={columns}
             pagination={{
               initialPageSize: 10,
@@ -181,9 +167,9 @@ export function ServicesTable(props: {
                 direction: 'asc',
               },
             }}
-            loading={props.loading}
+            loading={loading}
           />
-        ) : props.indicesExist ? (
+        ) : indicesExist ? (
           <NoMatchMessage size="xl" />
         ) : (
           <MissingConfigurationMessage />

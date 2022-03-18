@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { ServicesTable } from '../services_table';
 
@@ -14,17 +13,17 @@ describe('Services table component', () => {
 
   it('renders empty services table message', () => {
     const addFilter = jest.fn();
-    const setServiceQuery = jest.fn();
     const setRedirect = jest.fn();
-    const refresh = jest.fn();
+    const nameColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
+    const traceColumnAction = () => location.assign('#/trace_analytics/traces');
     const wrapper = mount(
       <ServicesTable
         items={[]}
+        nameColumnAction={nameColumnAction}
+        traceColumnAction={traceColumnAction}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        serviceQuery="test"
-        setServiceQuery={setServiceQuery}
-        refresh={refresh}
         indicesExist={true}
         loading={false}
       />
@@ -46,17 +45,17 @@ describe('Services table component', () => {
       },
     ];
     const addFilter = jest.fn();
-    const setServiceQuery = jest.fn();
     const setRedirect = jest.fn();
-    const refresh = jest.fn();
+    const nameColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
+    const traceColumnAction = () => location.assign('#/trace_analytics/traces');
     const wrapper = mount(
       <ServicesTable
         items={tableItems}
+        nameColumnAction={nameColumnAction}
+        traceColumnAction={traceColumnAction}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        serviceQuery="test"
-        setServiceQuery={setServiceQuery}
-        refresh={refresh}
         indicesExist={true}
         loading={false}
       />

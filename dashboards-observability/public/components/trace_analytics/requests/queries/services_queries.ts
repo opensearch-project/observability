@@ -11,7 +11,7 @@ import {
 import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
 
-export const getServicesQuery = (serviceName = null, DSL?) => {
+export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => {
   const query = {
     size: 0,
     query: {
@@ -41,18 +41,18 @@ export const getServicesQuery = (serviceName = null, DSL?) => {
   if (serviceName) {
     query.query.bool.must.push({
       term: {
-        serviceName: serviceName,
+        serviceName,
       },
     });
   }
-  DSL?.custom?.serviceNames?.map((service) => {
+  DSL?.custom?.serviceNames?.map((service: string) => {
     query.query.bool.must.push({
       term: {
         serviceName: service,
       },
     });
   });
-  DSL?.custom?.serviceNamesExclude?.map((service) => {
+  DSL?.custom?.serviceNamesExclude?.map((service: string) => {
     query.query.bool.must_not.push({
       term: {
         serviceName: service,
@@ -62,7 +62,7 @@ export const getServicesQuery = (serviceName = null, DSL?) => {
   return query;
 };
 
-export const getRelatedServicesQuery = (serviceName) => {
+export const getRelatedServicesQuery = (serviceName: string) => {
   const query = {
     size: 0,
     query: {
@@ -92,7 +92,7 @@ export const getRelatedServicesQuery = (serviceName) => {
                 must: [
                   {
                     term: {
-                      serviceName: serviceName,
+                      serviceName,
                     },
                   },
                 ],
@@ -185,11 +185,11 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   };
 };
 
-export const getServiceMetricsQuery = (DSL, serviceNames: string[], map: ServiceObject) => {
+export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject) => {
   const traceGroupFilter = new Set(
     DSL?.query?.bool.must
-      .filter((must) => must.term?.['traceGroup'])
-      .map((must) => must.term['traceGroup']) || []
+      .filter((must: any) => must.term?.['traceGroup'])
+      .map((must: any) => must.term.traceGroup) || []
   );
 
   const targetResource =
