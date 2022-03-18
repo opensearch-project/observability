@@ -69,6 +69,18 @@ describe('Testing notebooks table', () => {
     cy.contains(TEST_NOTEBOOK).should('exist');
   });
 
+  it('Redirects to correct page on breadcrumb click', () => {
+    cy.get('.euiBreadcrumb').contains(TEST_NOTEBOOK).click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(TEST_NOTEBOOK).should('exist');
+    cy.get('.euiBreadcrumb').contains('Notebooks').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Notebooks').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+
   it('Duplicates and renames a notebook', () => {
     cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).click();
     cy.wait(delay);

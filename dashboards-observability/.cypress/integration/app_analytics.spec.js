@@ -74,7 +74,7 @@ describe('Creating application', () => {
     cy.get('.aa-List').find('.aa-Item').should('have.length', 1);
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source ');
-  })
+  });
 
   it('Creates an application and redirects to application', () => {
     cy.get('[data-test-subj="nameFormRow"]').type(name);
@@ -163,9 +163,22 @@ describe('Creating application', () => {
 describe('Viewing application', () => {
   before(() => {
     moveToApplication();
-  })
+  });
+
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains('Cypress').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Applications').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
 
   it('Shares time range among tabs', () => {
+    moveToApplication();
     changeTimeTo24('months');
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
     cy.get('.euiTab').contains('Services').click();

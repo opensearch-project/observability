@@ -45,6 +45,12 @@ describe('Testing traces table', () => {
     cy.contains('-').should('exist');
   });
 
+  it('Sorts the traces table', () => {
+    cy.get('.euiTableRow').first().contains('-').should('exist');
+    cy.get('.euiTableCellContent').contains('Trace group').click();
+    cy.get('.euiTableRow').first().contains('/%2A%2A').should('exist');
+  });
+
   it('Searches correctly', () => {
     cy.get('input[type="search"]').focus().type(`${TRACE_ID}{enter}`);
     cy.get('.euiButton__text').contains('Refresh').click();
@@ -73,6 +79,21 @@ describe('Testing trace view', () => {
     cy.get('div.js-plotly-plot').should('have.length.gte', 2);
     cy.get('text[data-unformatted="database <br>mysql.APM "]').should('exist');
     cy.contains(`"${SPAN_ID}"`).should('exist');
+  });
+
+  it('Redirects to correct page on breadcrumb click', () => {
+    cy.get('.euiBreadcrumb').contains(TRACE_ID).click();
+    cy.wait(delay);
+    cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');
+    cy.get('.euiBreadcrumb').contains('Traces').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Traces').should('exist');
+    cy.get('.euiBreadcrumb').contains('Trace analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Dashboard').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 
   it('Renders data grid, flyout and filters', () => {

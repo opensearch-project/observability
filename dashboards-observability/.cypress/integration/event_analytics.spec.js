@@ -51,6 +51,21 @@ describe('Adding sample data and visualization', () => {
   });
 });
 
+describe('Has working breadcrumbs', () => {
+  it('Redirects to correct page on breadcrumb click', () => {
+    landOnEventExplorer();
+    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
+    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+});
+
 describe('Open flyout for a data row to see details', () => {
   beforeEach(() => {
     landOnEventExplorer();
