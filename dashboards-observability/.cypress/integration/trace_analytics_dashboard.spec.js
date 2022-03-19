@@ -98,7 +98,7 @@ describe('Testing dashboard table', () => {
     cy.contains('7.14%').should('exist');
   });
 
-  it('Redirects to correct page on breadcrumb click', () => {
+  it('Has working breadcrumbs', () => {
     cy.get('.euiBreadcrumb').contains('Dashboard').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Dashboard').should('exist');

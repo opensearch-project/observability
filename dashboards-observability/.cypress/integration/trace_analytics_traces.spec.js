@@ -81,7 +81,7 @@ describe('Testing trace view', () => {
     cy.contains(`"${SPAN_ID}"`).should('exist');
   });
 
-  it('Redirects to correct page on breadcrumb click', () => {
+  it('Has working breadcrumbs', () => {
     cy.get('.euiBreadcrumb').contains(TRACE_ID).click();
     cy.wait(delay);
     cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');

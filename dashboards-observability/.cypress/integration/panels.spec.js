@@ -197,6 +197,7 @@ describe('Testing a panel', () => {
   });
 
   it('Duplicate the open panel', () => {
+    moveToTestPanel();
     cy.get('.euiButton__text').contains('Panel actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Duplicate panel').click();

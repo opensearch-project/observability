@@ -93,7 +93,7 @@ describe('Testing service view', () => {
     cy.get('div.vis-network').should('exist');
   });
 
-  it('Redirects to correct page on breadcrumb click', () => {
+  it('Has working breadcrumbs', () => {
     cy.get('.euiBreadcrumb').contains(SERVICE_NAME).click();
     cy.wait(delay);
     cy.get('h2.euiTitle').contains(SERVICE_NAME).should('exist');
