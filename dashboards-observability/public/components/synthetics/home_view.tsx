@@ -34,7 +34,8 @@ import { PPLReferenceFlyout } from "../common/helpers";
 import moment from "moment";
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../common/constants/shared';
 import { Moment } from "moment-timezone";
-import { FILTER_DOWN, FILTER_UP, SOURCE_SYNTHETICS_LOGS, START_TIME_FIELD, STATUS_CODE_FIELD, STATUS_FIELD, TEST_SUITE_NAME_FIELD, URL_FIELD } from "../../../common/constants/synthetics";
+import { DOWNLOAD_TIME_FIELD, FILTER_DOWN, FILTER_UP, SOURCE_SYNTHETICS_LOGS, START_TIME_FIELD, STATUS_CODE_FIELD, STATUS_FIELD, TABLE_REFRESH_INTERVAL_TIME, TEST_SUITE_NAME_FIELD, URL_FIELD } from "../../../common/constants/synthetics";
+import { TestDetailsFlyout } from "./helpers/test_details_flyout";
 
 type LogHistoryProps = {
   pplService: PPLService
@@ -42,17 +43,9 @@ type LogHistoryProps = {
 
 export const SyntheticHomeTab = (props: LogHistoryProps) => {
 
-  function tableRefreshIntervalTime() { return 5000; }
-
   // strings for use in PPL
 
   function grabRecentQuery() { return "search source = " + SOURCE_SYNTHETICS_LOGS  // grab from index
-                                      + ' | fields ' // specifying all the fields needed
-                                      + START_TIME_FIELD + ', ' 
-                                      + URL_FIELD +  ', ' 
-                                      + STATUS_FIELD + ', '
-                                      + STATUS_CODE_FIELD + ', '
-                                      + TEST_SUITE_NAME_FIELD
                                       + '| sort - ' + START_TIME_FIELD + ' | dedup ' + URL_FIELD + ', ' + TEST_SUITE_NAME_FIELD;}  // sorting to grab the most recent logs
 
   function allLogsQuery() { return grabRecentQuery()  } 
@@ -74,33 +67,55 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
   const [pieChartLogs, setPieChartLogs] = useState<Array<Object>>([]);  // stores pie chart results
   const [filterVal, setFilterVal] = useState('');  // stores extra filter to add onto queries
 
-  const [addVizDisabled, setAddVizDisabled] = useState(false);  // side table states
-  const [isHelpFlyoutVisible, setHelpIsFlyoutVisible] = useState(false);
+  const [isHelpFlyoutVisible, setHelpIsFlyoutVisible] = useState(false);  // keeps track of if the ppl help flyout is visible or not
+
+  const [testDetailsFlyoutVisible, setTestDetailsFlyoutVisible] = useState(false);  // keeps track of if the test details flyout is visible
+  const [testDetailsObj, setTestDetailsObj] = useState<Object>()  // store test suite object to show in test details flyout
 
   const [pplFilterValue, setPPLFilterValue] = useState('');  // has current filter typed into bar
   // below states used for date/time picker
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
-  const [start, setStart] = useState<ShortDate>('now-6d');
+  const [start, setStart] = useState<ShortDate>('now-2d');
   const [end, setEnd] = useState<ShortDate>('now');
   // stores time value added onto queries
+
+  // TODO: make sure both flyouts cannot be visible at the same time
+  const showHelpFlyout = () => {
+    setHelpIsFlyoutVisible(true);
+  };
+
+  const closeHelpFlyout = () => {
+    setHelpIsFlyoutVisible(false);
+  };
+
+  const showTestDetailsFlyout = (item: Object) => {
+    setTestDetailsObj(item);
+    setTestDetailsFlyoutVisible(true);
+  }
+
+  const closeTestDetailsFlyout = () => {
+    setTestDetailsObj(undefined);
+    setTestDetailsFlyoutVisible(false);
+  }
+
+  let helpFlyout;
+  if (isHelpFlyoutVisible) {
+    helpFlyout = <PPLReferenceFlyout module="synthetics" closeFlyout={closeHelpFlyout} />;
+  }
+
+  let testDetailsFlyout;
+  if (testDetailsFlyoutVisible) {
+    testDetailsFlyout = <TestDetailsFlyout testSuiteObject={testDetailsObj} closeFlyout={closeTestDetailsFlyout} />;
+  }
 
   /*
    * Settings for the up-time table of all test suites
    */
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-
-  const onTableChange = ({ page = {} }) => {
-    const { index: pageIndex, size: pageSize } = page;
-
-    setPageIndex(pageIndex);
-    setPageSize(pageSize);
-  };
 
   // columns for the History table
   const columns = [
     {
-      field: "testSuiteName",
+      field: TEST_SUITE_NAME_FIELD,
       name: "Test Suite",
       render: (test_suite: {} | null | undefined) => (
         <EuiLink href={`#${test_suite}`} target="_blank">
@@ -113,12 +128,12 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
       sortable: true
     },
     {
-      field: "status",
+      field: STATUS_FIELD,
       name: "Status",
       sortable: true
     },
     {
-      field: "URL",
+      field: URL_FIELD,
       name: "URL",
       render: (url: {} | null | undefined) => (
         <EuiLink href={`${url}`} target="_blank">
@@ -131,12 +146,17 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
       sortable: true
     },
     {
-      field: "response.status",
+      field: STATUS_CODE_FIELD,
       name: "Status Code",
       sortable: true
     },
     {
-      field: "startTime",
+      field: DOWNLOAD_TIME_FIELD,
+      name: "Latency/Download time",
+      sortable: true
+    },
+    {
+      field: START_TIME_FIELD,
       name: "Latest Time Polled",
       type: "date",
       render: (date: Date) => {
@@ -149,25 +169,15 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
       sortable: true
     },
   ];
-  
-  const pagination = {
-    pageIndex,
-    pageSize,
-    totalItemCount: historyLogs.length,
-    pageSizeOptions: [5, 10, 20, 50],
-  };
 
-  const resultsCount =
-    pageSize === 0 ? (
-      <strong>All</strong>
-    ) : (
-    <>
-      <strong>
-        {pageSize * pageIndex + 1}-{pageSize * pageIndex + pageSize}
-      </strong>{' '}
-      of {historyLogs.length}
-    </>
-    );
+  // getRowProps allows for the rows to be clicked on, and to provide Test-Suite specific flyouts
+  const getRowProps = item => {
+    const { url, testSuiteName } = item;
+    return {
+      onClick: () => { console.log(`Clicked row ${testSuiteName} ${url} ${item}`)
+                       showTestDetailsFlyout(item) },
+    };
+  };
 
   /*
    *  Non-table methods
@@ -205,27 +215,14 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
     }
   };
 
-  const showHelpFlyout = () => {
-    setAddVizDisabled(true);
-    setHelpIsFlyoutVisible(true);
-  };
 
-  const closeHelpFlyout = () => {
-    setAddVizDisabled(false);
-    setHelpIsFlyoutVisible(false);
-  };
-
-  let helpFlyout;
-  if (isHelpFlyoutVisible) {
-    helpFlyout = <PPLReferenceFlyout module="panels" closeFlyout={closeHelpFlyout} />;
-  }
 
 
   const updateQueryComponents = async () => {
     let finalPieQuery = queryAccumulator(pieQuery() + endPieQuery(), START_TIME_FIELD, start, end, filterVal); 
-    await pplServiceRequestor(finalPieQuery, "data", setPieChartLogs)
+    pplServiceRequestor(finalPieQuery, "data", setPieChartLogs)
     let finalHistoryQuery = queryAccumulator(historyQuery, START_TIME_FIELD, start, end, filterVal);
-    await pplServiceRequestor(finalHistoryQuery, "jsonData", setHistoryLogs)
+    pplServiceRequestor(finalHistoryQuery, "jsonData", setHistoryLogs)
   }
 
   const convertDateTimeGMT = (datetime: string, isStart = true, formatted = true) => {
@@ -304,7 +301,7 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
     updateQueryComponents();
     const interval = setInterval(() => {
       updateQueryComponents();
-    }, tableRefreshIntervalTime());
+    }, TABLE_REFRESH_INTERVAL_TIME);
     return () => clearInterval(interval);
   }, [historyQuery]);
 
@@ -360,7 +357,7 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         </EuiFlexGroup>
       </EuiPageContent>
       <EuiSpacer size="xl" />
-      <EuiFlexGroup>
+      <>
         <EuiFlexItem grow={false} align-items="center">
           <EuiText>
             Synthetics History
@@ -368,31 +365,31 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiFacetGroup layout="horizontal" gutterSize="none">
-            <EuiFacetButton onClick={() => {setHistoryQuery(allLogsQuery() + filterVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(allLogsQuery())}}>
               All
             </EuiFacetButton>
-            <EuiFacetButton onClick={() => {setHistoryQuery(upLogsQuery() + filterVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(upLogsQuery())}}>
               Up
             </EuiFacetButton>
-            <EuiFacetButton onClick={() => {setHistoryQuery(downLogsQuery() + filterVal)}}>
+            <EuiFacetButton onClick={() => {setHistoryQuery(downLogsQuery())}}>
               Down
             </EuiFacetButton>
           </EuiFacetGroup>
         </EuiFlexItem>
-      </EuiFlexGroup>
-      <EuiText size="xs">
-        Showing {resultsCount} <strong>Test Suites</strong>
-      </EuiText>
+      </>
       <EuiSpacer size="s" />
       <EuiPageContent>
         <EuiInMemoryTable
           items={historyLogs}
           columns={columns}
-          pagination={pagination}
-          onChange={onTableChange}
+          rowProps={getRowProps}
+          pagination={{
+            initialPageSize: 10,
+            pageSizeOptions: [5, 10, 20]
+          }}
           sorting={{
             sort: {
-              field: 'testSuiteName',
+              field: TEST_SUITE_NAME_FIELD,
               direction: 'asc'
             },
           }}
@@ -400,6 +397,7 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         />
       </EuiPageContent>
       {helpFlyout}
+      {testDetailsFlyout}
     </>
   );
 };
