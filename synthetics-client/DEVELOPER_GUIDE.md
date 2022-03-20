@@ -1,3 +1,5 @@
+Sample program run: python3 main.py -h localhost -p 9200 -a ('username', 'pass') -c '/usr/opt/ca.pem'
+
 ## main.py
 This file contains the code to handle all of the user input. There purposefully
 isn't too much code here as to not mix the user handling with the program handling.
