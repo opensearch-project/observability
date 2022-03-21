@@ -74,16 +74,16 @@ import {
  * setToast: create Toast function
  */
 
-interface Props {
+interface CustomPanelViewProps {
   panelId: string;
   page: 'app' | 'operationalPanels';
   appId?: string;
-  appName?: string;
   http: CoreStart['http'];
   pplService: PPLService;
   dslService: DSLService;
   chrome: CoreStart['chrome'];
   parentBreadcrumbs: EuiBreadcrumb[];
+  childBreadcrumbs?: EuiBreadcrumb[];
   renameCustomPanel: (editedCustomPanelName: string, editedCustomPanelId: string) => Promise<void>;
   deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
   cloneCustomPanel: (clonedCustomPanelName: string, clonedCustomPanelId: string) => Promise<string>;
@@ -101,27 +101,28 @@ interface Props {
   switchToEditViz?: any;
 }
 
-export const CustomPanelView = ({
-  panelId,
-  page,
-  appId,
-  appName,
-  http,
-  pplService,
-  dslService,
-  chrome,
-  parentBreadcrumbs,
-  startTime,
-  endTime,
-  setStartTime,
-  setEndTime,
-  renameCustomPanel,
-  deleteCustomPanel,
-  cloneCustomPanel,
-  setToast,
-  switchToEvent,
-  switchToEditViz,
-}: Props) => {
+export const CustomPanelView = (props: CustomPanelViewProps) => {
+  const {
+    panelId,
+    page,
+    appId,
+    http,
+    pplService,
+    dslService,
+    chrome,
+    parentBreadcrumbs,
+    childBreadcrumbs,
+    startTime,
+    endTime,
+    setStartTime,
+    setEndTime,
+    renameCustomPanel,
+    deleteCustomPanel,
+    cloneCustomPanel,
+    setToast,
+    switchToEvent,
+    switchToEditViz,
+  } = props;
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [pplFilterValue, setPPLFilterValue] = useState('');
@@ -509,13 +510,6 @@ export const CustomPanelView = ({
     },
   ];
 
-  // Set saved object id to empty when redirect away from events tab
-  useEffect(() => {
-    if (appPanel) {
-      switchToEditViz('');
-    }
-  });
-
   // Fetch the custom panel on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
@@ -536,28 +530,17 @@ export const CustomPanelView = ({
   // Edit the breadcrumb when panel name changes
   useEffect(() => {
     let newBreadcrumb;
-    if (appPanel) {
-      newBreadcrumb = [
-        ...parentBreadcrumbs,
-        {
-          text: 'Application analytics',
-          href: '#/application_analytics',
-        },
-        {
-          text: appName,
-          href: `${last(parentBreadcrumbs)!.href}${appId}`,
-        },
-      ];
+    if (childBreadcrumbs) {
+      newBreadcrumb = childBreadcrumbs;
     } else {
       newBreadcrumb = [
-        ...parentBreadcrumbs,
         {
           text: openPanelName,
           href: `${last(parentBreadcrumbs)!.href}${panelId}`,
         },
       ];
     }
-    chrome.setBreadcrumbs(newBreadcrumb);
+    chrome.setBreadcrumbs([...parentBreadcrumbs, ...newBreadcrumb]);
   }, [panelId, openPanelName]);
 
   return (
@@ -566,75 +549,75 @@ export const CustomPanelView = ({
         <EuiPageBody component="div">
           <EuiPageHeader>
             {appPanel || (
-              <EuiPageHeaderSection>
-                <EuiTitle size="l">
-                  <h1>{openPanelName}</h1>
-                </EuiTitle>
-                <EuiFlexItem>
-                  <EuiSpacer size="s" />
-                </EuiFlexItem>
-                Created on {moment(panelCreatedTime).format(UI_DATE_FORMAT)}
-              </EuiPageHeaderSection>
-            )}
-            {appPanel || (
-              <EuiPageHeaderSection>
-                <EuiFlexGroup gutterSize="s">
-                  {editMode ? (
-                    <>
+              <>
+                <EuiPageHeaderSection>
+                  <EuiTitle size="l">
+                    <h1>{openPanelName}</h1>
+                  </EuiTitle>
+                  <EuiFlexItem>
+                    <EuiSpacer size="s" />
+                  </EuiFlexItem>
+                  Created on {moment(panelCreatedTime).format(UI_DATE_FORMAT)}
+                </EuiPageHeaderSection>
+                <EuiPageHeaderSection>
+                  <EuiFlexGroup gutterSize="s">
+                    {editMode ? (
+                      <>
+                        <EuiFlexItem>
+                          <EuiButton
+                            iconType="cross"
+                            color="danger"
+                            onClick={() => editPanel('cancel')}
+                          >
+                            Cancel
+                          </EuiButton>
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                          <EuiButton iconType="save" onClick={() => editPanel('save')}>
+                            Save
+                          </EuiButton>
+                        </EuiFlexItem>
+                      </>
+                    ) : (
                       <EuiFlexItem>
                         <EuiButton
-                          iconType="cross"
-                          color="danger"
-                          onClick={() => editPanel('cancel')}
+                          iconType="pencil"
+                          onClick={() => editPanel('edit')}
+                          disabled={editDisabled}
                         >
-                          Cancel
+                          Edit
                         </EuiButton>
                       </EuiFlexItem>
-                      <EuiFlexItem>
-                        <EuiButton iconType="save" onClick={() => editPanel('save')}>
-                          Save
-                        </EuiButton>
-                      </EuiFlexItem>
-                    </>
-                  ) : (
-                    <EuiFlexItem>
-                      <EuiButton
-                        iconType="pencil"
-                        onClick={() => editPanel('edit')}
-                        disabled={editDisabled}
+                    )}
+                    <EuiFlexItem grow={false}>
+                      <EuiPopover
+                        panelPaddingSize="none"
+                        withTitle
+                        button={panelActionsButton}
+                        isOpen={panelsMenuPopover}
+                        closePopover={() => setPanelsMenuPopover(false)}
                       >
-                        Edit
-                      </EuiButton>
+                        <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
+                      </EuiPopover>
                     </EuiFlexItem>
-                  )}
-                  <EuiFlexItem grow={false}>
-                    <EuiPopover
-                      panelPaddingSize="none"
-                      withTitle
-                      button={panelActionsButton}
-                      isOpen={panelsMenuPopover}
-                      closePopover={() => setPanelsMenuPopover(false)}
-                    >
-                      <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
-                    </EuiPopover>
-                  </EuiFlexItem>
-                  <EuiFlexItem grow={false}>
-                    <EuiPopover
-                      id="addVisualizationContextMenu"
-                      button={addVisualizationButton}
-                      isOpen={isVizPopoverOpen}
-                      closePopover={closeVizPopover}
-                      panelPaddingSize="none"
-                      anchorPosition="downLeft"
-                    >
-                      <EuiContextMenu
-                        initialPanelId={0}
-                        panels={getVizContextPanels(closeVizPopover)}
-                      />
-                    </EuiPopover>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPageHeaderSection>
+                    <EuiFlexItem grow={false}>
+                      <EuiPopover
+                        id="addVisualizationContextMenu"
+                        button={addVisualizationButton}
+                        isOpen={isVizPopoverOpen}
+                        closePopover={closeVizPopover}
+                        panelPaddingSize="none"
+                        anchorPosition="downLeft"
+                      >
+                        <EuiContextMenu
+                          initialPanelId={0}
+                          panels={getVizContextPanels(closeVizPopover)}
+                        />
+                      </EuiPopover>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                </EuiPageHeaderSection>
+              </>
             )}
           </EuiPageHeader>
           <EuiPageContentBody>
