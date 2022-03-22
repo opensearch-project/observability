@@ -2,7 +2,6 @@
 
 exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
 <VisaulizationFlyout
-  appPanel={false}
   closeFlyout={[MockFunction]}
   end="now"
   http={[MockFunction]}
@@ -1062,7 +1061,6 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
 
 exports[`Visualization Flyout Component renders replace visualization Flyout 1`] = `
 <VisaulizationFlyout
-  appPanel={false}
   closeFlyout={[MockFunction]}
   end="2011-08-12T01:23:45.678Z"
   http={[MockFunction]}
