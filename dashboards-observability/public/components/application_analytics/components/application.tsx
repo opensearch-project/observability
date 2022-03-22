@@ -374,6 +374,10 @@ export function Application(props: AppDetailProps) {
     );
   };
 
+  const onEditClick = (savedVisualizationId: string) => {
+    switchToEditViz(savedVisualizationId);
+  };
+
   const getPanel = () => {
     return (
       <CustomPanelView
@@ -396,7 +400,7 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         switchToEvent={switchToEvent}
-        switchToEditViz={switchToEditViz}
+        onEditClick={onEditClick}
       />
     );
   };

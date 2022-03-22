@@ -38,7 +38,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * editActionType: Type of action done while clicking the edit button
  */
 
-type Props = {
+interface PanelGridProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   panelId: string;
@@ -48,34 +48,33 @@ type Props = {
   pplService: PPLService;
   startTime: string;
   endTime: string;
-  fromApp?: boolean;
-  switchToEditViz?: any;
+  onEditClick: (savedVisualizationId: string) => any;
   onRefresh: boolean;
   cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
   showFlyout: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   editActionType: string;
   setEditVizId?: any;
-};
+}
 
-export const PanelGrid = ({
-  http,
-  chrome,
-  panelId,
-  panelVisualizations,
-  setPanelVisualizations,
-  editMode,
-  pplService,
-  startTime,
-  endTime,
-  fromApp = false,
-  switchToEditViz,
-  onRefresh,
-  cloneVisualization,
-  pplFilterValue,
-  showFlyout,
-  editActionType,
-}: Props) => {
+export const PanelGrid = (props: PanelGridProps) => {
+  const {
+    http,
+    chrome,
+    panelId,
+    panelVisualizations,
+    setPanelVisualizations,
+    editMode,
+    pplService,
+    startTime,
+    endTime,
+    onEditClick,
+    onRefresh,
+    cloneVisualization,
+    pplFilterValue,
+    showFlyout,
+    editActionType,
+  } = props;
   const [currentLayout, setCurrentLayout] = useState<Layout[]>([]);
   const [postEditLayout, setPostEditLayout] = useState<Layout[]>([]);
   const [gridData, setGridData] = useState(panelVisualizations.map(() => <></>));
@@ -100,8 +99,7 @@ export const PanelGrid = ({
           fromTime={startTime}
           toTime={endTime}
           onRefresh={onRefresh}
-          fromApp={fromApp}
-          switchToEditViz={switchToEditViz}
+          onEditClick={onEditClick}
           cloneVisualization={cloneVisualization}
           pplFilterValue={pplFilterValue}
           showFlyout={showFlyout}

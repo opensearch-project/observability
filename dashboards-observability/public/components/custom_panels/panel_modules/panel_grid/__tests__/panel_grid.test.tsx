@@ -31,6 +31,9 @@ describe('Panel Grid Component', () => {
     const pplFilterValue = '';
     const showFlyout = jest.fn();
     const editActionType = '';
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <PanelGrid
@@ -48,6 +51,7 @@ describe('Panel Grid Component', () => {
         pplFilterValue={pplFilterValue}
         showFlyout={showFlyout}
         editActionType={editActionType}
+        onEditClick={onEditClick}
       />
     );
     wrapper.update();

@@ -93,12 +93,12 @@ interface CustomPanelViewProps {
     text?: React.ReactChild | undefined,
     side?: string | undefined
   ) => void;
+  onEditClick: (savedVisualizationId: string) => any;
   startTime: string;
   endTime: string;
   setStartTime: any;
   setEndTime: any;
   switchToEvent?: any;
-  switchToEditViz?: any;
 }
 
 export const CustomPanelView = (props: CustomPanelViewProps) => {
@@ -120,8 +120,8 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     deleteCustomPanel,
     cloneCustomPanel,
     setToast,
+    onEditClick,
     switchToEvent,
-    switchToEditViz,
   } = props;
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -721,13 +721,12 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
               pplService={pplService}
               startTime={startTime}
               endTime={endTime}
-              fromApp={appPanel}
               onRefresh={onRefresh}
               cloneVisualization={cloneVisualization}
               pplFilterValue={pplFilterValue}
               showFlyout={showFlyout}
               editActionType={editActionType}
-              switchToEditViz={switchToEditViz}
+              onEditClick={onEditClick}
             />
           </EuiPageContentBody>
         </EuiPageBody>

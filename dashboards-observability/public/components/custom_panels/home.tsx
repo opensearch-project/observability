@@ -40,7 +40,7 @@ import { isNameValid } from './helpers/utils';
  * renderProps: Props from router
  */
 
-interface Props {
+interface PanelHomeProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   parentBreadcrumbs: EuiBreadcrumb[];
@@ -56,7 +56,7 @@ export const Home = ({
   pplService,
   dslService,
   renderProps,
-}: Props) => {
+}: PanelHomeProps) => {
   const [customPanelData, setcustomPanelData] = useState<CustomPanelListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [loading, setLoading] = useState(false);
@@ -68,6 +68,10 @@ export const Home = ({
     if (!text) text = '';
     setToastRightSide(!side ? true : false);
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const onEditClick = (savedVisualizationId: string) => {
+    window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
   };
 
   // Fetches all saved Custom Panels
@@ -330,6 +334,7 @@ export const Home = ({
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
+              onEditClick={onEditClick}
               startTime={start}
               endTime={end}
               setStartTime={setStart}
