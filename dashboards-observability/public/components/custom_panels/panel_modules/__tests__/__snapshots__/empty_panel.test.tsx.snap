@@ -2,23 +2,33 @@
 
 exports[`Empty panel view component renders empty panel view with disabled popover 1`] = `
 <EmptyPanelView
-  addVizDisabled={true}
-  getVizContextPanels={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          [Function],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
+  addButton={
+    <EuiPopover
+      anchorPosition="downLeft"
+      button={
+        <EuiButton
+          disabled={true}
+          iconSide="right"
+          iconType="arrowDown"
+          onClick={[MockFunction]}
+        >
+          Add Visualization
+        </EuiButton>
+      }
+      closePopover={[MockFunction]}
+      display="inlineBlock"
+      hasArrow={true}
+      id="addVisualizationContextMenu"
+      isOpen={false}
+      ownFocus={false}
+      panelPaddingSize="none"
+    >
+      <EuiContextMenu
+        initialPanelId={0}
+        panels={Array []}
+      />
+    </EuiPopover>
   }
-  page="operationalPanel"
 >
   <div>
     <EuiSpacer
@@ -41,8 +51,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
             className="euiTextAlign euiTextAlign--center"
           >
             <h2>
-              Start by adding 
-              your first visualization
+              Start by adding your first visualization
             </h2>
             <EuiSpacer
               size="m"
@@ -65,8 +74,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                   <div
                     className="euiTextColor euiTextColor--subdued"
                   >
-                    Use PPL Queries to fetch & filter observability data and create
-                     visualizations
+                    Use PPL Queries to fetch & filter observability data and create visualizations
                   </div>
                 </EuiTextColor>
               </div>
@@ -101,12 +109,12 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                   disabled={true}
                   iconSide="right"
                   iconType="arrowDown"
-                  onClick={[Function]}
+                  onClick={[MockFunction]}
                 >
                   Add Visualization
                 </EuiButton>
               }
-              closePopover={[Function]}
+              closePopover={[MockFunction]}
               display="inlineBlock"
               hasArrow={true}
               id="addVisualizationContextMenu"
@@ -116,7 +124,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
             >
               <EuiOutsideClickDetector
                 isDisabled={true}
-                onOutsideClick={[Function]}
+                onOutsideClick={[MockFunction]}
               >
                 <div
                   className="euiPopover euiPopover--anchorDownLeft"
@@ -134,7 +142,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                       disabled={true}
                       iconSide="right"
                       iconType="arrowDown"
-                      onClick={[Function]}
+                      onClick={[MockFunction]}
                     >
                       <EuiButtonDisplay
                         disabled={true}
@@ -142,13 +150,13 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                         iconSide="right"
                         iconType="arrowDown"
                         isDisabled={true}
-                        onClick={[Function]}
+                        onClick={[MockFunction]}
                         type="button"
                       >
                         <button
                           className="euiButton euiButton--primary euiButton-isDisabled"
                           disabled={true}
-                          onClick={[Function]}
+                          onClick={[MockFunction]}
                           type="button"
                         >
                           <EuiButtonContent
@@ -220,23 +228,33 @@ exports[`Empty panel view component renders empty panel view with disabled popov
 
 exports[`Empty panel view component renders empty panel view with enabled popover 1`] = `
 <EmptyPanelView
-  addVizDisabled={false}
-  getVizContextPanels={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          [Function],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
+  addButton={
+    <EuiPopover
+      anchorPosition="downLeft"
+      button={
+        <EuiButton
+          disabled={false}
+          iconSide="right"
+          iconType="arrowDown"
+          onClick={[MockFunction]}
+        >
+          Add Visualization
+        </EuiButton>
+      }
+      closePopover={[MockFunction]}
+      display="inlineBlock"
+      hasArrow={true}
+      id="addVisualizationContextMenu"
+      isOpen={false}
+      ownFocus={false}
+      panelPaddingSize="none"
+    >
+      <EuiContextMenu
+        initialPanelId={0}
+        panels={Array []}
+      />
+    </EuiPopover>
   }
-  page="operationalPanel"
 >
   <div>
     <EuiSpacer
@@ -259,8 +277,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
             className="euiTextAlign euiTextAlign--center"
           >
             <h2>
-              Start by adding 
-              your first visualization
+              Start by adding your first visualization
             </h2>
             <EuiSpacer
               size="m"
@@ -283,8 +300,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                   <div
                     className="euiTextColor euiTextColor--subdued"
                   >
-                    Use PPL Queries to fetch & filter observability data and create
-                     visualizations
+                    Use PPL Queries to fetch & filter observability data and create visualizations
                   </div>
                 </EuiTextColor>
               </div>
@@ -319,12 +335,12 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                   disabled={false}
                   iconSide="right"
                   iconType="arrowDown"
-                  onClick={[Function]}
+                  onClick={[MockFunction]}
                 >
                   Add Visualization
                 </EuiButton>
               }
-              closePopover={[Function]}
+              closePopover={[MockFunction]}
               display="inlineBlock"
               hasArrow={true}
               id="addVisualizationContextMenu"
@@ -334,7 +350,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
             >
               <EuiOutsideClickDetector
                 isDisabled={true}
-                onOutsideClick={[Function]}
+                onOutsideClick={[MockFunction]}
               >
                 <div
                   className="euiPopover euiPopover--anchorDownLeft"
@@ -352,7 +368,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                       disabled={false}
                       iconSide="right"
                       iconType="arrowDown"
-                      onClick={[Function]}
+                      onClick={[MockFunction]}
                     >
                       <EuiButtonDisplay
                         disabled={false}
@@ -360,13 +376,13 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                         iconSide="right"
                         iconType="arrowDown"
                         isDisabled={false}
-                        onClick={[Function]}
+                        onClick={[MockFunction]}
                         type="button"
                       >
                         <button
                           className="euiButton euiButton--primary"
                           disabled={false}
-                          onClick={[Function]}
+                          onClick={[MockFunction]}
                           type="button"
                         >
                           <EuiButtonContent

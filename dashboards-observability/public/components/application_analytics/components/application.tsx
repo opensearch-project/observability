@@ -399,7 +399,7 @@ export function Application(props: AppDetailProps) {
         endTime={endTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
-        switchToEvent={switchToEvent}
+        onAddClick={switchToEvent}
         onEditClick={onEditClick}
       />
     );

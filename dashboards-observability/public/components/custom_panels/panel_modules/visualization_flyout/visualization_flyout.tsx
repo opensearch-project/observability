@@ -75,14 +75,12 @@ interface VisualizationFlyoutProps {
   setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   isFlyoutReplacement?: boolean | undefined;
   replaceVisualizationId?: string | undefined;
-  appPanel: boolean;
   appId?: string;
 }
 
 export const VisaulizationFlyout = ({
   panelId,
-  appId,
-  appPanel,
+  appId = '',
   pplFilterValue,
   closeFlyout,
   start,
@@ -293,7 +291,7 @@ export const VisaulizationFlyout = ({
         if (res.visualizations.length > 0) {
           setSavedVisualizations(res.visualizations);
           const filterAppVis = res.visualizations.filter((vis: SavedVisualizationType) => {
-            return appPanel
+            return appId
               ? vis.hasOwnProperty('application_id')
                 ? vis.application_id === appId
                 : false

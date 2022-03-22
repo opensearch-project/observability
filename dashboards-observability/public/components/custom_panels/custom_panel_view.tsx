@@ -64,26 +64,34 @@ import {
  *
  * Props taken in as params are:
  * panelId: Name of the panel opened
+ * page: Page where component is called
  * http: http core service
  * pplService: ppl requestor service
+ * dslService: dsl requestor service
  * chrome: chrome core service
  * parentBreadcrumb: parent breadcrumb
  * renameCustomPanel: Rename function for the panel
- * cloneCustomPanel: Clone function for the panel
  * deleteCustomPanel: Delete function for the panel
+ * cloneCustomPanel: Clone function for the panel
  * setToast: create Toast function
+ * onEditClick: Edit function for visualization
+ * startTime: Starting time
+ * endTime: Ending time
+ * setStartTime: Function to change start time
+ * setEndTime: Function to change end time
+ * childBreadcrumbs: Breadcrumbs to extend
+ * appId: id of application that panel belongs to
+ * onAddClick: Function for add button instead of add visualization popover
  */
 
 interface CustomPanelViewProps {
   panelId: string;
   page: 'app' | 'operationalPanels';
-  appId?: string;
   http: CoreStart['http'];
   pplService: PPLService;
   dslService: DSLService;
   chrome: CoreStart['chrome'];
   parentBreadcrumbs: EuiBreadcrumb[];
-  childBreadcrumbs?: EuiBreadcrumb[];
   renameCustomPanel: (editedCustomPanelName: string, editedCustomPanelId: string) => Promise<void>;
   deleteCustomPanel: (customPanelId: string, customPanelName: string) => Promise<any>;
   cloneCustomPanel: (clonedCustomPanelName: string, clonedCustomPanelId: string) => Promise<string>;
@@ -98,7 +106,9 @@ interface CustomPanelViewProps {
   endTime: string;
   setStartTime: any;
   setEndTime: any;
-  switchToEvent?: any;
+  childBreadcrumbs?: EuiBreadcrumb[];
+  appId?: string;
+  onAddClick?: any;
 }
 
 export const CustomPanelView = (props: CustomPanelViewProps) => {
@@ -121,7 +131,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     cloneCustomPanel,
     setToast,
     onEditClick,
-    switchToEvent,
+    onAddClick,
   } = props;
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -423,6 +433,30 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
       });
   };
 
+  const cancelButton = (
+    <EuiButton iconType="cross" color="danger" onClick={() => editPanel('cancel')}>
+      Cancel
+    </EuiButton>
+  );
+
+  const saveButton = (
+    <EuiButton iconType="save" onClick={() => editPanel('save')}>
+      Save
+    </EuiButton>
+  );
+
+  const editButton = (
+    <EuiButton iconType="pencil" onClick={() => editPanel('edit')} disabled={editDisabled}>
+      Edit
+    </EuiButton>
+  );
+
+  const addButton = (
+    <EuiButton iconType="plusInCircle" onClick={onAddClick} isDisabled={addVizDisabled}>
+      Add
+    </EuiButton>
+  );
+
   // Add Visualization Button
   const addVisualizationButton = (
     <EuiButton
@@ -433,6 +467,19 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     >
       Add Visualization
     </EuiButton>
+  );
+
+  const addVisualizationPopover = (
+    <EuiPopover
+      id="addVisualizationContextMenu"
+      button={addVisualizationButton}
+      isOpen={isVizPopoverOpen}
+      closePopover={closeVizPopover}
+      panelPaddingSize="none"
+      anchorPosition="downLeft"
+    >
+      <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
+    </EuiPopover>
   );
 
   // Panel Actions Button
@@ -462,7 +509,6 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         setPanelVisualizations={setPanelVisualizations}
         isFlyoutReplacement={isFlyoutReplacement}
         replaceVisualizationId={replaceVisualizationId}
-        appPanel={appPanel}
         appId={appId}
       />
     );
@@ -563,31 +609,11 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
                   <EuiFlexGroup gutterSize="s">
                     {editMode ? (
                       <>
-                        <EuiFlexItem>
-                          <EuiButton
-                            iconType="cross"
-                            color="danger"
-                            onClick={() => editPanel('cancel')}
-                          >
-                            Cancel
-                          </EuiButton>
-                        </EuiFlexItem>
-                        <EuiFlexItem>
-                          <EuiButton iconType="save" onClick={() => editPanel('save')}>
-                            Save
-                          </EuiButton>
-                        </EuiFlexItem>
+                        <EuiFlexItem>{cancelButton}</EuiFlexItem>
+                        <EuiFlexItem>{saveButton}</EuiFlexItem>
                       </>
                     ) : (
-                      <EuiFlexItem>
-                        <EuiButton
-                          iconType="pencil"
-                          onClick={() => editPanel('edit')}
-                          disabled={editDisabled}
-                        >
-                          Edit
-                        </EuiButton>
-                      </EuiFlexItem>
+                      <EuiFlexItem>{editButton}</EuiFlexItem>
                     )}
                     <EuiFlexItem grow={false}>
                       <EuiPopover
@@ -600,21 +626,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
                         <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
                       </EuiPopover>
                     </EuiFlexItem>
-                    <EuiFlexItem grow={false}>
-                      <EuiPopover
-                        id="addVisualizationContextMenu"
-                        button={addVisualizationButton}
-                        isOpen={isVizPopoverOpen}
-                        closePopover={closeVizPopover}
-                        panelPaddingSize="none"
-                        anchorPosition="downLeft"
-                      >
-                        <EuiContextMenu
-                          initialPanelId={0}
-                          panels={getVizContextPanels(closeVizPopover)}
-                        />
-                      </EuiPopover>
-                    </EuiFlexItem>
+                    <EuiFlexItem grow={false}>{addVisualizationPopover}</EuiFlexItem>
                   </EuiFlexGroup>
                 </EuiPageHeaderSection>
               </>
@@ -664,52 +676,19 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
                 <>
                   {editMode ? (
                     <>
-                      <EuiFlexItem grow={false}>
-                        <EuiButton
-                          iconType="cross"
-                          color="danger"
-                          onClick={() => editPanel('cancel')}
-                        >
-                          Cancel
-                        </EuiButton>
-                      </EuiFlexItem>
-                      <EuiFlexItem grow={false}>
-                        <EuiButton iconType="save" onClick={() => editPanel('save')}>
-                          Save
-                        </EuiButton>
-                      </EuiFlexItem>
+                      <EuiFlexItem grow={false}>{cancelButton}</EuiFlexItem>
+                      <EuiFlexItem grow={false}>{saveButton}</EuiFlexItem>
                     </>
                   ) : (
-                    <EuiFlexItem grow={false}>
-                      <EuiButton
-                        iconType="pencil"
-                        onClick={() => editPanel('edit')}
-                        disabled={editDisabled}
-                      >
-                        Edit
-                      </EuiButton>
-                    </EuiFlexItem>
+                    <EuiFlexItem grow={false}>{editButton}</EuiFlexItem>
                   )}
-                  <EuiFlexItem grow={false}>
-                    <EuiButton
-                      iconType="plusInCircle"
-                      onClick={switchToEvent}
-                      isDisabled={addVizDisabled}
-                    >
-                      Add
-                    </EuiButton>
-                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}>{addButton}</EuiFlexItem>
                 </>
               )}
             </EuiFlexGroup>
             <EuiSpacer size="l" />
             {panelVisualizations.length === 0 && (
-              <EmptyPanelView
-                addVizDisabled={addVizDisabled}
-                page={page}
-                getVizContextPanels={getVizContextPanels}
-                switchToEvent={switchToEvent}
-              />
+              <EmptyPanelView addButton={appPanel ? addButton : addVisualizationButton} />
             )}
             <PanelGrid
               http={http}
