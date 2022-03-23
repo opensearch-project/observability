@@ -46,14 +46,14 @@ describe('Creating application', () => {
     expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
     cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
-    cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
+    cy.get('.euiFilterSelectItem').contains(service_one).click();
     cy.get('.euiBadge').contains('1').should('exist');
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
     cy.get('.euiAccordion').contains('Trace groups').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').type('http');
-    cy.get('.euiFilterSelectItem').contains(trace_one).trigger('click');
-    cy.get('.euiFilterSelectItem').contains(trace_two).trigger('click');
+    cy.get('.euiFilterSelectItem').contains(trace_one).click();
+    cy.get('.euiFilterSelectItem').contains(trace_two).click();
     cy.get('.euiBadge').contains('2').should('exist');
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
   });
@@ -74,7 +74,7 @@ describe('Creating application', () => {
     cy.get('.aa-List').find('.aa-Item').should('have.length', 1);
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source ');
-  })
+  });
 
   it('Creates an application and redirects to application', () => {
     cy.get('[data-test-subj="nameFormRow"]').type(name);
@@ -163,9 +163,22 @@ describe('Creating application', () => {
 describe('Viewing application', () => {
   before(() => {
     moveToApplication();
-  })
+  });
+
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains('Cypress').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Applications').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
 
   it('Shares time range among tabs', () => {
+    moveToApplication();
     changeTimeTo24('months');
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
     cy.get('.euiTab').contains('Services').click();

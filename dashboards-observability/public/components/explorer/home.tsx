@@ -350,7 +350,7 @@ export const Home = (props: IHomeProps) => {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>Event Analytics</h1>
+                <h1>Event analytics</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>

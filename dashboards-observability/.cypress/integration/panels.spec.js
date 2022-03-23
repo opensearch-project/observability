@@ -183,7 +183,21 @@ describe('Testing a panel', () => {
     moveToTestPanel();
   });
 
+  it('Redirects to correct page on breadcrumb click', () => {
+    moveToTestPanel();
+    cy.get('.euiBreadcrumb').contains(TEST_PANEL).click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(TEST_PANEL).should('exist');
+    cy.get('.euiBreadcrumb').contains('Operational panels').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Operational panels').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+
   it('Duplicate the open panel', () => {
+    moveToTestPanel();
     cy.get('.euiButton__text').contains('Panel actions').click();
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Duplicate panel').click();
