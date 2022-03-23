@@ -213,7 +213,7 @@ export const VisaulizationFlyout = ({
     <EuiFlyoutHeader hasBorder>
       <EuiTitle size="m">
         <h2 id="addVisualizationFlyout">
-          {isFlyoutReplacement ? 'Replace Visualization' : 'Select Existing Visualization'}
+          {isFlyoutReplacement ? 'Replace visualization' : 'Select existing visualization'}
         </h2>
       </EuiTitle>
     </EuiFlyoutHeader>

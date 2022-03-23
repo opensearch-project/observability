@@ -78,7 +78,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
           <h2
             id="addVisualizationFlyout"
           >
-            Select Existing Visualization
+            Select existing visualization
           </h2>
         </EuiTitle>
       </EuiFlyoutHeader>
@@ -239,7 +239,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                   class="euiTitle euiTitle--medium"
                                   id="addVisualizationFlyout"
                                 >
-                                  Select Existing Visualization
+                                  Select existing visualization
                                 </h2>
                               </div>
                               <div
@@ -376,7 +376,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                     class="euiTitle euiTitle--medium"
                                     id="addVisualizationFlyout"
                                   >
-                                    Select Existing Visualization
+                                    Select existing visualization
                                   </h2>
                                 </div>
                                 <div
@@ -513,7 +513,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                       class="euiTitle euiTitle--medium"
                                       id="addVisualizationFlyout"
                                     >
-                                      Select Existing Visualization
+                                      Select existing visualization
                                     </h2>
                                   </div>
                                   <div
@@ -638,7 +638,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                         class="euiTitle euiTitle--medium"
                                         id="addVisualizationFlyout"
                                       >
-                                        Select Existing Visualization
+                                        Select existing visualization
                                       </h2>
                                     </div>
                                     <div
@@ -816,7 +816,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                                     className="euiTitle euiTitle--medium"
                                     id="addVisualizationFlyout"
                                   >
-                                    Select Existing Visualization
+                                    Select existing visualization
                                   </h2>
                                 </EuiTitle>
                               </div>
@@ -1138,7 +1138,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
           <h2
             id="addVisualizationFlyout"
           >
-            Replace Visualization
+            Replace visualization
           </h2>
         </EuiTitle>
       </EuiFlyoutHeader>
@@ -1303,7 +1303,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                   class="euiTitle euiTitle--medium"
                                   id="addVisualizationFlyout"
                                 >
-                                  Replace Visualization
+                                  Replace visualization
                                 </h2>
                               </div>
                               <div
@@ -1444,7 +1444,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                     class="euiTitle euiTitle--medium"
                                     id="addVisualizationFlyout"
                                   >
-                                    Replace Visualization
+                                    Replace visualization
                                   </h2>
                                 </div>
                                 <div
@@ -1585,7 +1585,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                       class="euiTitle euiTitle--medium"
                                       id="addVisualizationFlyout"
                                     >
-                                      Replace Visualization
+                                      Replace visualization
                                     </h2>
                                   </div>
                                   <div
@@ -1714,7 +1714,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                         class="euiTitle euiTitle--medium"
                                         id="addVisualizationFlyout"
                                       >
-                                        Replace Visualization
+                                        Replace visualization
                                       </h2>
                                     </div>
                                     <div
@@ -1896,7 +1896,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                                     className="euiTitle euiTitle--medium"
                                     id="addVisualizationFlyout"
                                   >
-                                    Replace Visualization
+                                    Replace visualization
                                   </h2>
                                 </EuiTitle>
                               </div>
