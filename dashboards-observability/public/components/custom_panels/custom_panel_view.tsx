@@ -58,6 +58,7 @@ import {
   onItemSelect,
   parseForIndices,
 } from '../common/search/autocomplete_logic';
+import { AddVisualizationPopover } from './helpers/add_visualization_popover';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -147,7 +148,6 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />); // Modal Layout
-  const [isVizPopoverOpen, setVizPopoverOpen] = useState(false); // Add Visualization Popover
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false); // Add Visualization Flyout
   const [isFlyoutReplacement, setisFlyoutReplacement] = useState<boolean | undefined>(false);
   const [replaceVisualizationId, setReplaceVisualizationId] = useState<string | undefined>('');
@@ -170,37 +170,6 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
 
-  const getVizContextPanels = (closeVizPopover?: () => void) => {
-    return [
-      {
-        id: 0,
-        title: 'Add Visualization',
-        items: [
-          {
-            name: 'Select Existing Visualization',
-            onClick: () => {
-              if (closeVizPopover != null) {
-                closeVizPopover();
-              }
-              showFlyout();
-            },
-          },
-          {
-            name: 'Create New Visualization',
-            onClick: () => {
-              advancedVisualization();
-            },
-          },
-        ],
-      },
-    ];
-  };
-
-  const advancedVisualization = () => {
-    closeVizPopover();
-    window.location.assign('#/event_analytics/explorer');
-  };
-
   // Fetch Panel by id
   const fetchCustomPanel = async () => {
     return http
@@ -218,14 +187,6 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
       });
   };
 
-  const onPopoverClick = () => {
-    setVizPopoverOpen(!isVizPopoverOpen);
-  };
-
-  const closeVizPopover = () => {
-    setVizPopoverOpen(false);
-  };
-
   const handleQueryChange = (newQuery: string) => {
     setPPLFilterValue(newQuery);
   };
@@ -238,16 +199,16 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     setIsModalVisible(true);
   };
 
-  const onDatePickerChange = (props: OnTimeChangeProps) => {
+  const onDatePickerChange = (timeProps: OnTimeChangeProps) => {
     onTimeChange(
-      props.start,
-      props.end,
+      timeProps.start,
+      timeProps.end,
       recentlyUsedRanges,
       setRecentlyUsedRanges,
       setStartTime,
       setEndTime
     );
-    onRefreshFilters(props.start, props.end);
+    onRefreshFilters(timeProps.start, timeProps.end);
   };
 
   const onDelete = async () => {
@@ -457,31 +418,6 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     </EuiButton>
   );
 
-  // Add Visualization Button
-  const addVisualizationButton = (
-    <EuiButton
-      iconType="arrowDown"
-      iconSide="right"
-      disabled={addVizDisabled}
-      onClick={onPopoverClick}
-    >
-      Add Visualization
-    </EuiButton>
-  );
-
-  const addVisualizationPopover = (
-    <EuiPopover
-      id="addVisualizationContextMenu"
-      button={addVisualizationButton}
-      isOpen={isVizPopoverOpen}
-      closePopover={closeVizPopover}
-      panelPaddingSize="none"
-      anchorPosition="downLeft"
-    >
-      <EuiContextMenu initialPanelId={0} panels={getVizContextPanels(closeVizPopover)} />
-    </EuiPopover>
-  );
-
   // Panel Actions Button
   const panelActionsButton = (
     <EuiButton
@@ -626,7 +562,12 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
                         <EuiContextMenu initialPanelId={0} panels={panelActionsMenu} />
                       </EuiPopover>
                     </EuiFlexItem>
-                    <EuiFlexItem grow={false}>{addVisualizationPopover}</EuiFlexItem>
+                    <EuiFlexItem grow={false}>
+                      <AddVisualizationPopover
+                        addVizDisabled={addVizDisabled}
+                        showFlyout={showFlyout}
+                      />
+                    </EuiFlexItem>
                   </EuiFlexGroup>
                 </EuiPageHeaderSection>
               </>
@@ -688,7 +629,11 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
             </EuiFlexGroup>
             <EuiSpacer size="l" />
             {panelVisualizations.length === 0 && (
-              <EmptyPanelView addButton={appPanel ? addButton : addVisualizationButton} />
+              <EmptyPanelView
+                addVizDisabled={addVizDisabled}
+                showFlyout={showFlyout}
+                {...(appPanel ? { addButton } : {})}
+              />
             )}
             <PanelGrid
               http={http}

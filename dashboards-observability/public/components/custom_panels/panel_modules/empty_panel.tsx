@@ -4,7 +4,8 @@
  */
 
 import { EuiSpacer, EuiText, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
-import React from 'react';
+import React, { useState } from 'react';
+import { AddVisualizationPopover } from '../helpers/add_visualization_popover';
 
 /*
  * EmptyPanelView - This Sub-component is shown to the user when a operational panel is empty
@@ -15,10 +16,16 @@ import React from 'react';
  */
 
 interface EmptyPanelViewProps {
-  addButton: any;
+  addButton?: any;
+  addVizDisabled: boolean;
+  showFlyout: (isReplacement?: boolean, replaceVizId?: string) => void;
 }
 
-export const EmptyPanelView = ({ addButton }: EmptyPanelViewProps) => {
+export const EmptyPanelView = ({
+  addVizDisabled,
+  showFlyout,
+  addButton = <AddVisualizationPopover addVizDisabled={addVizDisabled} showFlyout={showFlyout} />,
+}: EmptyPanelViewProps) => {
   return (
     <div>
       <EuiSpacer size="xxl" />
