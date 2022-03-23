@@ -252,7 +252,7 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String bwcVersion = "1.1.0-SNAPSHOT"
+String bwcVersion = "1.2.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
 
@@ -260,7 +260,7 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = ["1.1.0",opensearch_version]
+            versions = ["1.2.0",opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override

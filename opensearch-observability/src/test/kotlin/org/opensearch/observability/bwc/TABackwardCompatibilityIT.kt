@@ -7,10 +7,9 @@ package org.opensearch.observability.bwc
 
 import org.junit.Assert
 import org.opensearch.common.settings.Settings
-import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
+import org.opensearch.observability.*
+//import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
-import org.opensearch.observability.PluginRestTestCase
-import org.opensearch.observability.constructNotebookRequest
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
 import java.util.List
@@ -70,18 +69,22 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
             val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
             return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
-                    assertTrue(pluginNames.contains("opensearch-notebooks"))
-                    createNotebook()
+                    assertTrue(pluginNames.contains("opensearch-observability"))
+//                    createNotebook()
+                    createObsObjects()
                 }
                 ClusterType.MIXED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
-                    if (System.getProperty("tests.rest.bwcsuite_round") != "third") {
-                        verifyNotebooksExists("$BASE_NOTEBOOKS_URI/notebooks")
-                    } else verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
+                    verifyObsObjectExists()
+//                    if (System.getProperty("tests.rest.bwcsuite_round") != "third") {
+//                        verifyNotebooksExists("$BASE_NOTEBOOKS_URI/notebooks")
+//                    } else verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
+
                 }
                 ClusterType.UPGRADED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
-                    verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
+//                    verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
+                    verifyObsObjectExists()
                 }
             }
             break
@@ -102,27 +105,122 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         }
     }
 
+    private fun createObsObjects() {
+        createNotebook()
+        createSavedQuery()
+        createSavedVisualization()
+        createOperationalPanel()
+    }
+
+    private fun verifyObsObjectExists() {
+        verifyNotebooksExists()
+        verifySavedQueryExists()
+        verifySavedVisualizationExists()
+        verifyOperationalPanelExists()
+    }
+
     private fun createNotebook() {
         val createRequest = constructNotebookRequest()
         val createResponse = executeRequest(
             RestRequest.Method.POST.name,
-            "$BASE_NOTEBOOKS_URI/notebook",
+            "$BASE_OBSERVABILITY_URI/object",
             createRequest,
             RestStatus.OK.status
         )
-        val id = createResponse.get("notebookId").asString
+        val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
     }
 
-    private fun verifyNotebooksExists(uri: String) {
+    private fun createSavedQuery() {
+        val createRequest = jsonify(constructSavedQueryRequest())
+        createRequest.addProperty("objectId", "testId")
+
+        val createResponse = executeRequest(
+            RestRequest.Method.POST.name,
+            "$BASE_OBSERVABILITY_URI/object",
+            createRequest.toString(),
+            RestStatus.OK.status
+        )
+        val id = createResponse.get("objectId").asString
+        Assert.assertEquals("testId", id)
+        Thread.sleep(100)
+    }
+
+    private fun createSavedVisualization() {
+        val createRequest = constructSavedVisualizationRequest()
+        val createResponse = executeRequest(
+            RestRequest.Method.POST.name,
+            "$BASE_OBSERVABILITY_URI/object",
+            createRequest,
+            RestStatus.OK.status
+        )
+        val id = createResponse.get("objectId").asString
+        Assert.assertNotNull("Id should be generated", id)
+        Thread.sleep(100)
+    }
+
+    private fun createOperationalPanel() {
+        val createRequest = constructOperationalPanelRequest()
+        val createResponse = executeRequest(
+            RestRequest.Method.POST.name,
+            "$BASE_OBSERVABILITY_URI/object",
+            createRequest,
+            RestStatus.OK.status
+        )
+        val id = createResponse.get("objectId").asString
+        Assert.assertNotNull("Id should be generated", id)
+        Thread.sleep(100)
+    }
+
+    private fun verifyNotebooksExists() {
         val listNotebooks = executeRequest(
             RestRequest.Method.GET.name,
-            "$uri",
+            "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
             "",
             RestStatus.OK.status
         )
         val totalHits = listNotebooks.get("totalHits").asInt
         assertTrue("Actual notebooks counts ($totalHits) should be equal to (1)", totalHits == 1)
+    }
+
+    private fun verifySavedQueryExists() {
+        val listSavedQuery = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery",
+            "",
+            RestStatus.OK.status
+        )
+//        Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
+        val totalHits = listSavedQuery.get("totalHits").asInt
+        assertTrue("Actual saved query counts ($totalHits) should be equal to (1)", totalHits == 1)
+    }
+
+    private fun verifySavedVisualizationExists() {
+        val listSavedVisualization = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectType=savedVisualization",
+            "",
+            RestStatus.OK.status
+        )
+//        Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
+        val totalHits = listSavedVisualization.get("totalHits").asInt
+        assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
+    }
+
+    private fun verifyOperationalPanelExists() {
+        val listOperationalPanel = executeRequest(
+            RestRequest.Method.GET.name,
+            "$BASE_OBSERVABILITY_URI/object?objectType=operationalPanel",
+            "",
+            RestStatus.OK.status
+        )
+        val totalHits = listOperationalPanel.get("totalHits").asInt
+        assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
+//        val multipleIdsList = listOperationalPanel.get("observabilityObjectList").asJsonArray
+//        Assert.assertArrayEquals(
+//            operationalPanelIds,
+//            multipleIdsList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+//        )
     }
 }
