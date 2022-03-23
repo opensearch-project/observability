@@ -8,7 +8,6 @@ package org.opensearch.observability.bwc
 import org.junit.Assert
 import org.opensearch.common.settings.Settings
 import org.opensearch.observability.*
-//import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_NOTEBOOKS_URI
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
@@ -70,20 +69,14 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
             return when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
-//                    createNotebook()
                     createObsObjects()
                 }
                 ClusterType.MIXED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
                     verifyObsObjectExists()
-//                    if (System.getProperty("tests.rest.bwcsuite_round") != "third") {
-//                        verifyNotebooksExists("$BASE_NOTEBOOKS_URI/notebooks")
-//                    } else verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
-
                 }
                 ClusterType.UPGRADED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
-//                    verifyNotebooksExists("$BASE_OBSERVABILITY_URI/object")
                     verifyObsObjectExists()
                 }
             }
@@ -191,7 +184,6 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
             "",
             RestStatus.OK.status
         )
-//        Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
         val totalHits = listSavedQuery.get("totalHits").asInt
         assertTrue("Actual saved query counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
@@ -203,7 +195,6 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
             "",
             RestStatus.OK.status
         )
-//        Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
         val totalHits = listSavedVisualization.get("totalHits").asInt
         assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
@@ -217,10 +208,5 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         )
         val totalHits = listOperationalPanel.get("totalHits").asInt
         assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
-//        val multipleIdsList = listOperationalPanel.get("observabilityObjectList").asJsonArray
-//        Assert.assertArrayEquals(
-//            operationalPanelIds,
-//            multipleIdsList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
-//        )
     }
 }
