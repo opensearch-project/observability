@@ -183,6 +183,25 @@ describe('Testing a panel', () => {
     moveToTestPanel();
   });
 
+  it('Opens visualization flyout from empty panel', () => {
+    cy.get('.euiButton').eq(4).contains('Add visualization').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.wait(delay);
+    cy.get('.euiButton').contains('Cancel').click();
+    cy.get('.euiButton').eq(2).contains('Add visualization').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.wait(delay);
+    cy.get('.euiButton').contains('Cancel').click();
+    cy.get('.euiButton').contains('Add visualization').first().click();
+    cy.get('.euiContextMenuItem__text').contains('Create new visualization').click();
+    cy.wait(delay);
+    cy.get('.euiBreadcrumb').contains('Explorer').should('exist');
+    cy.get('.euiCallOut').contains('No results match your search criteria').should('exist');
+    moveToTestPanel();
+  });
+
   it('Duplicate the open panel', () => {
     cy.get('.euiButton__text').contains('Panel actions').click();
     cy.wait(delay);
@@ -226,9 +245,9 @@ describe('Testing a panel', () => {
   });
 
   it('Add existing visualization #1', () => {
-    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
     cy.wait(delay);
     cy.get('select').select(PPL_VISUALIZATIONS_NAMES[0]);
     cy.get('button[aria-label="refreshPreview"]').click();
@@ -240,9 +259,9 @@ describe('Testing a panel', () => {
   });
 
   it('Add existing visualization #2', () => {
-    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select Existing Visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
     cy.wait(delay);
     cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
     cy.get('button[aria-label="refreshPreview"]').click();
@@ -353,9 +372,9 @@ describe('Testing a panel', () => {
   });
 
   it('Create new visualization and add to panel', () => {
-    cy.get('.euiButton__text').contains('Add Visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Create New Visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Create new visualization').click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
     cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[2]);

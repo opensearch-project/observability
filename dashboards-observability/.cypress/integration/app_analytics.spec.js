@@ -21,10 +21,14 @@ import {
   trace_one,
   trace_two,
   trace_three,
-  spanQueryPartOne,
-  spanQueryPartTwo,
-  spanQueryPartThree,
-  visName,
+  spanQueryOnePartOne,
+  spanQueryOnePartTwo,
+  spanQueryOnePartThree,
+  spanQueryTwoPartOne,
+  spanQueryTwoPartTwo,
+  spanQueryTwoPartThree,
+  visOneName,
+  visTwoName,
   composition,
   newName,
 } from '../utils/app_constants';
@@ -92,10 +96,22 @@ describe('Creating application', () => {
     cy.get('.euiBadge').contains('2').should('exist');
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
     cy.get('.euiButton').contains('Create').click();
-    cy.wait(delay);
+    cy.wait(delay*3);
     cy.get('.euiTitle').contains(name).should('exist');
     cy.get('.euiTab').contains('Panel').click();
-    cy.get('.euiText').contains('Start by adding metrics').should('exist');
+    cy.get('.euiText').contains('Start by adding your first visualization').should('exist');
+  });
+
+  it('Hides application panels in Operational Panels', () => {
+    cy.visit(
+      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+    );
+    cy.wait(delay*3);
+    cy.get('input.euiFieldSearch').type(`${name}'s Panel`);
+    cy.wait(delay);
+    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+    cy.get('.euiFormControlLayoutClearButton').click();
+    cy.wait(delay);
   });
 
   it('Redirects to home page on cancel', () => {
@@ -161,12 +177,12 @@ describe('Creating application', () => {
 });
 
 describe('Viewing application', () => {
-  before(() => {
+  beforeEach(() => {
     moveToApplication();
+    changeTimeTo24('months');
   })
 
   it('Shares time range among tabs', () => {
-    changeTimeTo24('months');
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
     cy.get('.euiTab').contains('Services').click();
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
@@ -254,20 +270,23 @@ describe('Viewing application', () => {
     cy.get('.euiBadge__text').contains('Base Query').should('exist');
   });
 
-  it('Saves visualization to panel', () => {
-    cy.get('.euiTab').contains('Log Events').click();
+  it('Saves visualization #1 to panel', () => {
+    cy.get('.euiTab').contains('Panel').click();
+    cy.get('.euiButton').eq(3).contains('Add').click();
+    cy.wait(delay);
     cy.get('.plot-container').should('exist');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').click();
     cy.get('.aa-List').find('.aa-Item').should('have.length', 11);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type('x');
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear().wait(delay * 2).type(spanQueryPartOne);
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryPartTwo);
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryPartThree);
-    cy.get('.euiButton').contains('Refresh').click();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear().wait(delay * 2).type(spanQueryOnePartOne);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryOnePartTwo);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryOnePartThree);
+    changeTimeTo24('months');
     cy.get('.euiTab').contains('Visualizations').click();
     supressResizeObserverIssue();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').click().type(visName);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').click().type(visOneName);
+    cy.wait(delay);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
     cy.get('.euiTab').contains('Panel').click();
@@ -275,13 +294,14 @@ describe('Viewing application', () => {
     cy.get('.js-plotly-plot').should('exist');
   });
 
-  it('Adds availability level to visualization', () => {
+  it('Adds availability level to visualization #1', () => {
     cy.get('.euiTab').contains('Panel').click();
     cy.wait(delay);
     cy.get('[aria-label="actionMenuButton"]').click();
     cy.get('.euiContextMenuItem').contains('Edit').click();
     supressResizeObserverIssue();
     cy.wait(delay);
+    changeTimeTo24('months');
     cy.get('.euiBadge').contains('Bar').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
@@ -302,6 +322,100 @@ describe('Viewing application', () => {
     cy.wait(delay);
     cy.get('.js-plotly-plot').should('exist');
     cy.get('.textpoint').contains('Available').should('exist');
+    moveToHomePage();
+    cy.get('.euiBadge').contains('Available').should('exist');
+    cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
+  });
+
+  it('Saves visualization #2 to panel with availability level', () => {
+    cy.get('.euiTab').contains('Log Events').click();
+    cy.get('.plot-container').should('exist');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type('x');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear().wait(delay * 2).type(spanQueryTwoPartOne);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryTwoPartTwo);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryTwoPartThree);
+    changeTimeTo24('months');
+    cy.get('.euiTab').contains('Visualizations').click();
+    supressResizeObserverIssue();
+    cy.get('.euiBadge').contains('Bar').click();
+    cy.focused().type('{downArrow}');
+    cy.focused().type('{enter}');
+    cy.wait(delay);
+    cy.get('.euiButton').contains('+ Add availability level').click();
+    cy.get('[data-test-subj="colorPickerAnchor"]').click();
+    cy.get('[aria-label="Select #9170B8 as the color"]').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="nameFieldText"]').click().type('Super');
+    cy.get('[data-test-subj="expressionSelect"]').select('<');
+    cy.get('[data-test-subj="valueFieldNumber"]').clear().type('5.5');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.wait(delay);
+    cy.get('.euiButton').contains('+ Add availability level').click();
+    cy.get('[data-test-subj="colorPickerAnchor"]').first().click();
+    cy.get('[aria-label="Select #CA8EAE as the color"]').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="nameFieldText"]').first().click().type('Cool');
+    cy.get('[data-test-subj="expressionSelect"]').first().select('>');
+    cy.get('[data-test-subj="valueFieldNumber"]').first().clear().type('0');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').click().type(visTwoName);
+    cy.wait(delay);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.wait(delay);
+    cy.get('.euiTab').contains('Panel').click();
+    cy.wait(delay);
+    cy.get('.js-plotly-plot').should('have.length', 2);
+    moveToHomePage();
+    cy.get('.euiBadge').contains('Super').should('exist');
+    cy.get('[style="background-color: rgb(145, 112, 184); color: rgb(0, 0, 0);"]').should('exist');
+  });
+
+  it('Hides application visualizations in Event Analytics', () => {
+    cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics`);
+    cy.wait(delay*3);
+    cy.get('input.euiFieldSearch').type(visOneName);
+    cy.wait(delay);
+    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+    cy.get('input.euiFieldSearch').clear().type(visTwoName);
+    cy.wait(delay);
+    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+    cy.get('.euiFormControlLayoutClearButton').click();
+    cy.wait(delay);
+  });
+
+  it('Hides application visualizations in Operational Panels', () => {
+    cy.visit(
+      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+    );
+    cy.wait(delay*3);
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Add samples').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Yes').click();
+    cy.wait(delay*2);
+    cy.get('.euiLink').contains('[Logs] Web traffic Panel').first().click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Add visualization').click();
+    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.get('option').contains(visOneName).should('not.exist');
+    cy.get('option').contains(visTwoName).should('not.exist');
+    cy.visit(
+      `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+    );
+    cy.wait(delay*3);
+    cy.get('input.euiFieldSearch').type('[Logs] Web traffic Panel');
+    cy.wait(delay);
+    cy.get('.euiTableRow').first().within(($row) => {
+      cy.get('.euiCheckbox').click();
+    });
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.wait(delay);
   });
 
   it('Configuration tab shows details', () => {
@@ -310,7 +424,23 @@ describe('Viewing application', () => {
     cy.get('.euiCodeBlock__code').contains(baseQuery).should('exist');
     cy.get('[aria-label="List of services and entities"]').find('li').should('have.length', 1);
     cy.get('[aria-label="List of trace groups"]').find('li').should('have.length', 2);
+    cy.get('option').should('have.length', 2);
   });
+
+
+  it('Changes availability visualization', () => {
+    cy.get('.euiTab').contains('Configuration').click();
+    cy.wait(delay);
+    cy.get('select').select(visOneName);
+    cy.wait(delay);
+    moveToHomePage();
+    cy.get('.euiBadge').contains('Available').should('exist');
+    cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
+    moveToApplication();
+    cy.get('.euiTab').contains('Configuration').click();
+    cy.wait(delay);
+    cy.get('select').find('option:selected').should('have.text', visOneName);
+  })
 });
 
 describe('Editing application', () => {
