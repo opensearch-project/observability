@@ -73,7 +73,7 @@ export const Home = (props: HomeProps) => {
       href: '#/trace_analytics/home',
     },
     {
-      text: 'Dashboards',
+      text: 'Dashboard',
       href: '#/trace_analytics/home',
     },
   ];
@@ -89,10 +89,24 @@ export const Home = (props: HomeProps) => {
     },
   ];
 
+  const traceBreadcrumbs = [
+    {
+      text: 'Trace analytics',
+      href: '#/trace_analytics/home',
+    },
+    {
+      text: 'Traces',
+      href: '#/trace_analytics/traces',
+    },
+  ];
+
   const nameColumnAction = (item: any) =>
     location.assign(`#/trace_analytics/services/${encodeURIComponent(item)}`);
 
   const traceColumnAction = () => location.assign('#/trace_analytics/traces');
+
+  const traceIdColumnAction = (item: any) =>
+    location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
 
   const commonProps: TraceAnalyticsComponentDeps = {
     parentBreadcrumbs: props.parentBreadcrumbs,
@@ -126,7 +140,12 @@ export const Home = (props: HomeProps) => {
         path="/trace_analytics/traces"
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Traces page="traces" {...commonProps} />
+            <Traces
+              page="traces"
+              childBreadcrumbs={traceBreadcrumbs}
+              traceIdColumnAction={traceIdColumnAction}
+              {...commonProps}
+            />
           </ObservabilitySideBar>
         )}
       />

@@ -35,7 +35,7 @@ describe('Dashboard component', () => {
             href: '#/trace_analytics/home',
           },
           {
-            text: 'Dashboards',
+            text: 'Dashboard',
             href: '#/trace_analytics/home',
           },
         ]}
@@ -78,7 +78,7 @@ describe('Dashboard component', () => {
             href: '#/trace_analytics/home',
           },
           {
-            text: 'Dashboards',
+            text: 'Dashboard',
             href: '#/trace_analytics/home',
           },
         ]}

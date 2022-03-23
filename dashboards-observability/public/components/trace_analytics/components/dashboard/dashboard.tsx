@@ -10,7 +10,7 @@ import { DashboardContent } from './dashboard_content';
 
 export interface DashboardProps extends TraceAnalyticsComponentDeps {
   childBreadcrumbs: EuiBreadcrumb[];
-  page: 'dashboard' | 'traces' | 'services' | 'app';
+  page: 'dashboard' | 'app';
 }
 
 export function Dashboard(props: DashboardProps) {
