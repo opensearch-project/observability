@@ -244,6 +244,26 @@ export const calculateAvailability = async (
             if (!availabilityFound && threshold.expression) {
               const expression = threshold.expression;
               switch (expression) {
+                case '≥':
+                  if (currValue >= parseFloat(threshold.value)) {
+                    availability = {
+                      name: threshold.name,
+                      color: threshold.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '≤':
+                  if (currValue <= parseFloat(threshold.value)) {
+                    availability = {
+                      name: threshold.name,
+                      color: threshold.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
                 case '>':
                   if (currValue > parseFloat(threshold.value)) {
                     availability = {
@@ -266,6 +286,16 @@ export const calculateAvailability = async (
                   break;
                 case '=':
                   if (currValue === parseFloat(threshold.value)) {
+                    availability = {
+                      name: threshold.name,
+                      color: threshold.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '≠':
+                  if (currValue !== parseFloat(threshold.value)) {
                     availability = {
                       name: threshold.name,
                       color: threshold.color,

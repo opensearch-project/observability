@@ -35,14 +35,17 @@ export const ConfigThresholds = ({
       name: '',
       color: '#FC0505',
       value: 0,
-      ...(hasSpanInApp && { expression: '=' }),
+      ...(hasSpanInApp && { expression: '≥' }),
     };
   };
 
   const expressionOptions = [
+    { value: '≥', text: '≥' },
+    { value: '≤', text: '≤' },
     { value: '>', text: '>' },
     { value: '<', text: '<' },
     { value: '=', text: '=' },
+    { value: '≠', text: '≠' },
   ];
 
   const hasSpanInApp =
