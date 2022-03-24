@@ -50,14 +50,15 @@ describe('Creating application', () => {
     expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
     cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
-    cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
+    cy.focused().type('{downArrow}');
+    cy.focused().type('{enter}');
     cy.get('.euiBadge').contains('1').should('exist');
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
     cy.get('.euiAccordion').contains('Trace groups').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').type('http');
-    cy.get('.euiFilterSelectItem').contains(trace_one).trigger('click');
-    cy.get('.euiFilterSelectItem').contains(trace_two).trigger('click');
+    cy.get('.euiFilterSelectItem').contains(trace_one).click();
+    cy.get('.euiFilterSelectItem').contains(trace_two).click();
     cy.get('.euiBadge').contains('2').should('exist');
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
   });
@@ -78,7 +79,7 @@ describe('Creating application', () => {
     cy.get('.aa-List').find('.aa-Item').should('have.length', 1);
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source ');
-  })
+  });
 
   it('Creates an application and redirects to application', () => {
     cy.get('[data-test-subj="nameFormRow"]').type(name);
@@ -180,7 +181,19 @@ describe('Viewing application', () => {
   beforeEach(() => {
     moveToApplication();
     changeTimeTo24('months');
-  })
+  });
+
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains('Cypress').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Applications').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
 
   it('Shares time range among tabs', () => {
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
@@ -250,6 +263,7 @@ describe('Viewing application', () => {
 
   it('Opens span detail flyout when Span ID is clicked', () => {
     cy.get('.euiTab').contains('Traces & Spans').click();
+    supressResizeObserverIssue();
     cy.wait(delay);
     cy.get('.euiLink').contains('5ff3516909562c60').click();
     cy.get('.euiFlyout').contains('Span detail').should('be.visible');
@@ -376,7 +390,8 @@ describe('Viewing application', () => {
   it('Hides application visualizations in Event Analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics`);
     cy.wait(delay*3);
-    cy.get('input.euiFieldSearch').type(visOneName);
+    if (cy.get('.euiFieldSearch').length > 1) {
+      cy.get('input.euiFieldSearch').type(visOneName);
     cy.wait(delay);
     cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
     cy.get('input.euiFieldSearch').clear().type(visTwoName);
@@ -384,6 +399,22 @@ describe('Viewing application', () => {
     cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
     cy.get('.euiFormControlLayoutClearButton').click();
     cy.wait(delay);
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
+    cy.get('.euiContextMenuItem__text').contains('50 rows').click();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.wait(delay);
+    cy.get('.euiButton__text').contains('Actions').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.wait(delay);
+
+    cy.get('button.euiButton--danger').should('be.disabled');
+
+    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('button.euiButton--danger').should('not.be.disabled');
+    cy.get('.euiButton__text').contains('Delete').click();
+    cy.wait(delay);
+    }
   });
 
   it('Hides application visualizations in Operational Panels', () => {

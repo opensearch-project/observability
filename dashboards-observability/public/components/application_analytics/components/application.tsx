@@ -7,7 +7,6 @@
 
 import {
   EuiHorizontalRule,
-  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPageHeader,
@@ -25,18 +24,19 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { truncate, uniqueId } from 'lodash';
+import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { last } from 'lodash';
+import { TracesContent } from '../../../components/trace_analytics/components/traces/traces_content';
 import { DashboardContent } from '../../../components/trace_analytics/components/dashboard/dashboard_content';
+import { ServicesContent } from '../../trace_analytics/components/services/services_content';
 import {
   filtersToDsl,
   PanelTitle,
 } from '../../../../public/components/trace_analytics/components/common/helper_functions';
 import { SpanDetailTable } from '../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { Explorer } from '../../explorer/explorer';
-import { Traces } from '../../trace_analytics/components/traces';
 import { Configuration } from './configuration';
 import {
   TAB_CONFIG_ID_TXT_PFX,
@@ -63,7 +63,6 @@ import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 import { fetchAppById, initializeTabData } from '../helpers/utils';
-import { ServicesContent } from '../../trace_analytics/components/services/services_content';
 
 const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
 const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
@@ -318,18 +317,19 @@ export function Application(props: AppDetailProps) {
     setSelectedTab(TAB_TRACE_ID);
   };
 
+  const traceIdColumnAction = (item: any) => openTraceFlyout(item);
+
   const getTrace = () => {
     return (
       <>
-        <Traces
+        <EuiSpacer size="m" />
+        <TracesContent
           {...props}
           page="app"
-          appId={appId}
-          appName={application.name}
-          openTraceFlyout={openTraceFlyout}
+          childBreadcrumbs={childBreadcrumbs}
+          traceIdColumnAction={traceIdColumnAction}
           setStartTime={setStartTimeForApp}
           setEndTime={setEndTimeForApp}
-          switchToEditViz={switchToEditViz}
         />
         <EuiSpacer size="m" />
         <EuiPanel>

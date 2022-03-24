@@ -24,7 +24,7 @@ const landOnEventExplorer = () => {
   cy.visit(
     `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
   );
-  cy.wait(delay);
+  cy.wait(delay * 2);
 };
 
 const landOnPanels = () => {
@@ -48,6 +48,21 @@ describe('Adding sample data and visualization', () => {
       .contains(/(Add|View) data/)
       .click();
     cy.wait(delay);
+  });
+});
+
+describe('Has working breadcrumbs', () => {
+  it('Redirect to correct page on breadcrumb click', () => {
+    landOnEventExplorer();
+    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
+    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 });
 

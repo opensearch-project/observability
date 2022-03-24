@@ -13,7 +13,7 @@ export interface ServicesProps extends TraceAnalyticsComponentDeps {
   childBreadcrumbs: EuiBreadcrumb[];
   nameColumnAction: any;
   traceColumnAction: any;
-  page: 'dashboard' | 'traces' | 'services' | 'app';
+  page: 'services' | 'app';
 }
 
 export function Services(props: ServicesProps) {

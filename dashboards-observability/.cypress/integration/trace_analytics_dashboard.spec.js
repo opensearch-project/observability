@@ -98,6 +98,18 @@ describe('Testing dashboard table', () => {
     cy.contains('7.14%').should('exist');
   });
 
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains('Dashboard').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Dashboard').should('exist');
+    cy.get('.euiBreadcrumb').contains('Trace analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Dashboard').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+
   it('Adds the percentile filters', () => {
     cy.contains(' >= 95 percentile').click({ force: true });
     cy.wait(delay);

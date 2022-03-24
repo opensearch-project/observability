@@ -11,7 +11,7 @@ exports[`Dashboard component renders dashboard 1`] = `
       },
       Object {
         "href": "#/trace_analytics/home",
-        "text": "Dashboards",
+        "text": "Dashboard",
       },
     ]
   }
@@ -32,7 +32,7 @@ exports[`Dashboard component renders dashboard 1`] = `
               },
               Object {
                 "href": "#/trace_analytics/home",
-                "text": "Dashboards",
+                "text": "Dashboard",
               },
             ],
           ],
@@ -104,7 +104,7 @@ exports[`Dashboard component renders dashboard 1`] = `
         },
         Object {
           "href": "#/trace_analytics/home",
-          "text": "Dashboards",
+          "text": "Dashboard",
         },
       ]
     }
@@ -125,7 +125,7 @@ exports[`Dashboard component renders dashboard 1`] = `
                 },
                 Object {
                   "href": "#/trace_analytics/home",
-                  "text": "Dashboards",
+                  "text": "Dashboard",
                 },
               ],
             ],
@@ -2096,7 +2096,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
       },
       Object {
         "href": "#/trace_analytics/home",
-        "text": "Dashboards",
+        "text": "Dashboard",
       },
     ]
   }
@@ -2117,7 +2117,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
               },
               Object {
                 "href": "#/trace_analytics/home",
-                "text": "Dashboards",
+                "text": "Dashboard",
               },
             ],
           ],
@@ -2189,7 +2189,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
         },
         Object {
           "href": "#/trace_analytics/home",
-          "text": "Dashboards",
+          "text": "Dashboard",
         },
       ]
     }
@@ -2210,7 +2210,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
                 },
                 Object {
                   "href": "#/trace_analytics/home",
-                  "text": "Dashboards",
+                  "text": "Dashboard",
                 },
               ],
             ],
