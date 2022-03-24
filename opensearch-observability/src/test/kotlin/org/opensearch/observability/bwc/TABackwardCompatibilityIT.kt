@@ -7,8 +7,13 @@ package org.opensearch.observability.bwc
 
 import org.junit.Assert
 import org.opensearch.common.settings.Settings
-import org.opensearch.observability.*
+import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
+import org.opensearch.observability.constructNotebookRequest
+import org.opensearch.observability.constructSavedQueryRequest
+import org.opensearch.observability.constructSavedVisualizationRequest
+import org.opensearch.observability.constructOperationalPanelRequest
+import org.opensearch.observability.jsonify
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
 import java.util.List
