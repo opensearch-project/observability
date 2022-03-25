@@ -9,7 +9,7 @@
   ipv4: true
   ipv6: true
   resolverMode: "all"
-  timeoutSeconds: 16
+  timeoutSeconds: 9
   tags:
   - "news"
   - "apis"
@@ -47,14 +47,13 @@
   response:
     status:
     - 200
-    - 301
     headers: {}
     body: {}
   scheduler:
     scheduleType: "interval"
     schedule:
-      period: 2
-      unit: "minutes"
+      period: 5
+      unit: "seconds"
       # The below options are available no matter scheduleType
       # start_date: "*"
       # end_date: "*"

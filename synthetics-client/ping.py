@@ -59,9 +59,13 @@ class Ping:
         # header function grabs response headers and formats them as a dict
         conn.setopt(conn.HEADERFUNCTION, self.headers_to_json)
         conn.setopt(conn.CONNECTTIMEOUT, suites['timeoutSeconds'])
-        conn.setopt(conn.MAXREDIRS, suites['maxRedirects'])
-        conn.setopt(conn.FOLLOWLOCATION, False)
-        conn.setopt(conn.HTTPHEADER, [str(k) + ': ' + str(v) for k, v in list(suites["request"]["headers"].items())])
+        maxredirs = suites['maxRedirects']
+        if (maxredirs == 0):
+            conn.setopt(conn.FOLLOWLOCATION, False)
+        else:
+            conn.setopt(conn.MAXREDIRS, maxredirs)
+            conn.setopt(conn.FOLLOWLOCATION, True)
+        conn.setopt(conn.HTTPHEADER, [str(k) + ': ' + str(v) for k, v in list(suites["request"]["headers"].items())])  # TODO: GET RID OF THIS, JUST HAVE IT BE IN THE STRING
         conn.setopt(conn.OPT_CERTINFO, 1)  # grabs information about certificates used
         if (suites["request"]["method"] == 'POST'):
             conn.setopt(conn.POSTFIELDS, urlencode(suites["request"]["json"]))
@@ -93,8 +97,8 @@ class Ping:
         primary_ip = self.conn.getinfo(self.conn.PRIMARY_IP)
 
         if self.server_loc == None:
-            loc_details = ipinfo.getHandler(self.access_token).getDetails(primary_ip)
-            self.server_loc =  loc_details.loc
+            # loc_details = ipinfo.getHandler(self.access_token).getDetails(primary_ip)
+            self.server_loc = (40,40) # loc_details.loc
 
         # TODO: use conn.getinfo(conn.INFO_CERTINFO) and put certificate information in Dashboards
 
@@ -127,8 +131,8 @@ class Ping:
             "speedDownloadBytesPerSec": (self.conn.getinfo(self.conn.SPEED_DOWNLOAD)),
             "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000),
             "primaryIP": primary_ip,
-            "heartbeatLocation": str(self.self_loc),
-            "serverLocation": str(self.server_loc),
+            "heartbeatLocation": "",
+            "serverLocation": "",
         }
 
         response = self.client.index(
@@ -136,4 +140,4 @@ class Ping:
             body=log,
             refresh=True
         )
-        if DEBUG: logging.info("   Doc Index resp: " + str(response))
+        logging.debug("   Synthetic Logs Index Doc Index resp: " + str(response))

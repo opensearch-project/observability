@@ -179,6 +179,7 @@ class Scheduler:
                     # one ping to call immediately and the job will only run after a initial interval passes
                     if schedule_type == 'interval': p.ping()
                     # the id is the filename and host in order to have the job process be unique at a reasonable point
+                    # the '**cron_job' and '**interval_job' directly takes the dict and sends them in as optional arguments, based on what the user specifys in the configuration files
                     job_process = self.scheduler.add_job(p.ping, schedule_type, **cron_job, **interval_job, id=(filename+host), replace_existing=True)
                     suite_jobs.append(job_process)
                     self.suite_id += 1
