@@ -343,6 +343,25 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         <EuiFlexGroup>
           <EuiFlexItem>
             <Plt
+              data={[]}
+              layout={{
+                height: 450,
+                width: 750,
+                geo:{
+                  scope: 'world',
+                  projection: {
+                      type: 'natural earth'
+                  },
+                  showland: true,
+                  landcolor: 'rgb(243,243,243)',
+                  countrycolor: 'rgb(204,204,204)',
+                  fitbounds: "locations"
+              },
+              }}
+            />
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <Plt
               data={[{
                 values: pieChartLogs[0],
                 labels: pieChartLogs[1],

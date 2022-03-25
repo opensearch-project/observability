@@ -152,6 +152,9 @@ import { CONTENT_SIZE_FIELD, DOWNLOAD_SPEED_FIELD, DOWNLOAD_TIME_FIELD, REDIRECT
                 <EuiFlexItem>
                   Download Speed bytes/sec: {testSuiteObject[DOWNLOAD_SPEED_FIELD]}
                 </EuiFlexItem>
+                <EuiFlexItem>
+                  Primary IP: {testSuiteObject['primaryIP']}
+                </EuiFlexItem>
               </EuiFlexItem>
             </>
           }
