@@ -99,7 +99,7 @@ ext {
 }
 
 plugins.withId('java') {
-    sourceCompatibility = targetCompatibility = "1.8"
+    sourceCompatibility = targetCompatibility = "1.11"
 }
 
 plugins.withId('org.jetbrains.kotlin.jvm') {
@@ -115,7 +115,7 @@ allprojects {
     }
 
     plugins.withId('java') {
-        sourceCompatibility = targetCompatibility = "1.8"
+        sourceCompatibility = targetCompatibility = "1.11"
     }
 }
 
