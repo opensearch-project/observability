@@ -27,7 +27,7 @@ import {
   CLOSE_AFTER_DATA,
   PIPE_AFTER_MATCH,
   FIELD_IN_FIELD_LOOP,
-  PIPE_COMMA_AFTER_FIELD,
+  COMMA_PIPE_AFTER_FIELD,
   PIPE_AFTER_KEEP_EMPTY,
   PIPE_AFTER_CONSECUTIVE,
   EQUAL_AFTER_EVAL_FIELD,
@@ -36,25 +36,25 @@ import {
   PIPE_MATH_AFTER_EXPRESSIONS,
   PLUS_MINUS_FIELD_AFTER_FIELDS,
   FIELD_AFTER_PLUS_MINUS,
-  PIPE_COMMA_AFTER_FIELDS,
+  COMMA_PIPE_AFTER_FIELDS,
   FIELD_IN_FIELDS_LOOP,
   RARE_TOP_FIELD_LOOP,
-  PIPE_COMMA_BY_AFTER_FIELD,
+  COMMA_PIPE_BY_AFTER_FIELD,
   FIELD_AFTER_BY,
   PIPE_AFTER_GROUP_BY,
   AS_AFTER_FIELD,
-  PIPE_COMMA_AFTER_RENAME_FIELD,
+  COMMA_PIPE_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
   PIPE_AFTER_HEAD,
   PLUS_MINUS_FIELD_AFTER_SORT,
   FIELD_AFTER_PLUS_MINUS_SORT,
-  PIPE_COMMA_AFTER_SORT_FIELD,
+  COMMA_PIPE_AFTER_SORT_FIELD,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
   FIELD_AFTER_COMMAND,
   FIELD_SPAN_AFTER_GROUP_BY,
   NUM_FIELD_AFTER_AGGREGATION,
   CLOSE_AFTER_FIELD,
-  PIPE_COMMA_BY_AFTER_AGGREGATION,
+  COMMA_PIPE_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
   FIELD_AFTER_SPAN,
@@ -62,17 +62,15 @@ import {
   PIPE_AFTER_SPAN,
   STRING_FIELD_AFTER_PARSE,
   PIPE_AFTER_PARSE,
+  EQUAL_AFTER_SOURCE,
+  INDEX_AFTER_EQUAL,
+  PIPE_COMMA_AFTER_INDEX,
+  MORE_INDEX_AFTER_COMMA,
 } from '../../../../common/constants/autocomplete';
 
 let currIndices: string[] = [];
 let currField: string = '';
 let currFieldType: string = '';
-
-let inFieldsCommaLoop: boolean = false;
-let inMatch: boolean = false;
-let inIndexLoop: boolean = false;
-let nextWhere: number = Number.MAX_SAFE_INTEGER;
-let nextStats: number = Number.MAX_SAFE_INTEGER;
 
 const indexList: string[] = [];
 const fieldList: string[] = [];
@@ -183,240 +181,12 @@ const fillSuggestions = (str: string, word: string, items: any): AutocompleteIte
   return filterSuggestions(suggestionList, lowerWord);
 };
 
-// Function for the first command in query, also needs to get available indices
-const getFirstPipe = async (str: string, dslService: DSLService): Promise<AutocompleteItem[]> => {
-  const splittedModel = str.split(' ');
-  const prefix = splittedModel[splittedModel.length - 1];
-  getIndices(dslService);
-  return fillSuggestions(str, prefix, firstCommand);
-};
-
 // Function to filter out currently inputed suggestions
 const filterSuggestions = (suggestions: AutocompleteItem[], prefix: string) => {
   return suggestions.filter(
     ({ itemName }) =>
       itemName.toLowerCase().startsWith(prefix) && prefix.localeCompare(itemName.toLowerCase())
   );
-};
-
-// Main logic behind autocomplete (Based on most recent inputs)
-// base is a dummy parameter that is added to match the getSuggestion prop's function signature
-export const getFullSuggestions = async (
-  base: string,
-  str: string,
-  dslService: DSLService,
-  possibleCommands: Array<{ label: string }> = pipeCommands
-): Promise<AutocompleteItem[]> => {
-  const splittedModel = str.split(' ');
-  const prefix = splittedModel[splittedModel.length - 1];
-  const lowerPrefix = prefix.toLowerCase();
-  const fullSuggestions: AutocompleteItem[] = [];
-
-  // Check the last full word in the query, then suggest inputs based off that
-  if (splittedModel.length === 1) {
-    currField = '';
-    currIndices = [];
-    return getFirstPipe(str, dslService);
-  } else if (splittedModel.length > 1) {
-    // Suggest commands after pipe
-    if (splittedModel[splittedModel.length - 2] === '|') {
-      inFieldsCommaLoop = false;
-      inMatch = false;
-      inIndexLoop = false;
-      nextWhere = Number.MAX_SAFE_INTEGER;
-      nextStats = Number.MAX_SAFE_INTEGER;
-      currField = '';
-      currFieldType = '';
-      return fillSuggestions(str, prefix, possibleCommands);
-    } else if (splittedModel[splittedModel.length - 2].includes(',')) {
-      // Suggest more indices if in index loop
-      if (inIndexLoop) {
-        return fillSuggestions(str, prefix, indicesFromBackend);
-      }
-      // Suggest more fields if in fields command
-      if (inFieldsCommaLoop) {
-        return fillSuggestions(str, prefix, fieldsFromBackend);
-      }
-      // Suggest data values if in match command
-      if (inMatch) {
-        inMatch = true;
-        return fillSuggestions(str, prefix, dataValuesFromBackend);
-      }
-      return fullSuggestions;
-      // Suggest = after source
-    } else if (splittedModel[splittedModel.length - 2] === 'source') {
-      return filterSuggestions(
-        [{ label: str + '=', input: str, suggestion: '=', itemName: '=' }],
-        lowerPrefix
-      );
-      // Suggest indices after source =
-    } else if (splittedModel.length > 2 && splittedModel[splittedModel.length - 3] === 'source') {
-      return fillSuggestions(str, prefix, indicesFromBackend);
-      // Suggest pipe after setting source
-    } else if (indexList.includes(splittedModel[splittedModel.length - 2])) {
-      currIndices.push(splittedModel[splittedModel.length - 2]);
-      getFields(dslService);
-      inIndexLoop = true;
-      return filterSuggestions(
-        [
-          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-          { label: str + ',', input: str, suggestion: ',', itemName: ',' },
-        ],
-        lowerPrefix
-      );
-      // Suggest stats commands after stats
-    } else if (splittedModel[splittedModel.length - 2] === 'stats') {
-      nextStats = splittedModel.length;
-      return fillSuggestions(str, prefix, statsCommands);
-    } else if (nextStats === splittedModel.length - 1) {
-      if (
-        statsCommands.filter((c) => c.label === splittedModel[splittedModel.length - 2]).length > 0
-      ) {
-        // Suggest by after count()
-        if (splittedModel[splittedModel.length - 2] === 'count()') {
-          return filterSuggestions(
-            [
-              {
-                label: str + 'by',
-                input: str,
-                suggestion: 'by'.substring(prefix.length),
-                itemName: 'by',
-              },
-            ],
-            lowerPrefix
-          );
-          // Suggest fields with number type after other stats commands
-        } else {
-          const numberFields = fieldsFromBackend.filter((field: { type: string }) =>
-            numberTypes.includes(field.type)
-          );
-          for (let i = 0; i < numberFields.length; i++) {
-            const field: { label: string } = numberFields[i];
-            fullSuggestions.push({
-              label: str.substring(0, str.lastIndexOf(prefix)) + field.label + ' )',
-              input: str,
-              suggestion: field.label.substring(prefix.length) + ' )',
-              itemName: field.label + ' )',
-            });
-          }
-          return filterSuggestions(fullSuggestions, lowerPrefix);
-        }
-      }
-      // Suggest fields after count() by
-    } else if (
-      nextStats === splittedModel.length - 2 &&
-      splittedModel[splittedModel.length - 3] === 'count()'
-    ) {
-      return fillSuggestions(str, prefix, fieldsFromBackend);
-    } else if (nextStats === splittedModel.length - 3) {
-      // Suggest pipe after count() by [field]
-      if (splittedModel[splittedModel.length - 3] === 'by') {
-        return filterSuggestions(
-          [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
-          lowerPrefix
-        );
-        // Suggest by and pipe after stats command for grouping or to start new command
-      } else {
-        return filterSuggestions(
-          [
-            {
-              label: str + 'by',
-              input: str,
-              suggestion: 'by'.substring(prefix.length),
-              itemName: 'by',
-            },
-            { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-          ],
-          lowerPrefix
-        );
-      }
-      // Suggest fields after stats command for grouping
-    } else if (nextStats === splittedModel.length - 4) {
-      return fillSuggestions(str, prefix, fieldsFromBackend);
-      // Suggest fields after fields
-    } else if (splittedModel[splittedModel.length - 2] === 'fields') {
-      inFieldsCommaLoop = true;
-      return fillSuggestions(str, prefix, fieldsFromBackend);
-      // Suggest fields after dedup
-    } else if (splittedModel[splittedModel.length - 2] === 'dedup') {
-      return fillSuggestions(str, prefix, fieldsFromBackend);
-      // Suggest only string fields after parse
-    } else if (splittedModel[splittedModel.length - 2] === 'parse') {
-      return fillSuggestions(
-        str,
-        prefix,
-        fieldsFromBackend.filter((field) => field.type === 'string')
-      );
-      // Suggest 'match(' or fields after where
-    } else if (splittedModel[splittedModel.length - 2] === 'where') {
-      nextWhere = splittedModel.length;
-      return fillSuggestions(str, prefix, [{ label: 'match(' }, ...fieldsFromBackend]);
-      // Suggest fields after match(
-    } else if (splittedModel[splittedModel.length - 2] === 'match(') {
-      inMatch = true;
-      return fillSuggestions(str, prefix, fieldsFromBackend);
-      // Suggest = after where [field]
-    } else if (nextWhere === splittedModel.length - 1) {
-      fullSuggestions.push({
-        label: str + '=',
-        input: str,
-        suggestion: '=',
-        itemName: '=',
-      });
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType =
-        fieldsFromBackend.find(
-          (field: { label: string; type: string }) => field.label === currField
-        )?.type || '';
-      await getDataValues(currIndices, currField, currFieldType, dslService);
-      return filterSuggestions(fullSuggestions, lowerPrefix);
-      // Suggest , after match([field]
-    } else if (inMatch && fieldList.includes(splittedModel[splittedModel.length - 2])) {
-      currField = splittedModel[splittedModel.length - 2];
-      currFieldType = fieldsFromBackend.find((field) => field.label === currField)?.type || '';
-      await getDataValues(currIndices, currField, currFieldType, dslService);
-      return filterSuggestions(
-        [{ label: str + ',', input: str, suggestion: ',', itemName: ',' }],
-        lowerPrefix
-      );
-      // Suggest data values after where [field] =
-    } else if (nextWhere === splittedModel.length - 2) {
-      return fillSuggestions(str, prefix, dataValuesFromBackend);
-      // Suggest pipe after where or stats command is finished
-    } else if (
-      nextWhere === splittedModel.length - 3 ||
-      nextStats === splittedModel.length - 5 ||
-      nextWhere === splittedModel.length - 5
-    ) {
-      return filterSuggestions(
-        [{ label: str + '|', input: str, suggestion: '|', itemName: '|' }],
-        lowerPrefix
-      );
-      // Suggest , after first field in fields command
-    } else if (inFieldsCommaLoop) {
-      return filterSuggestions(
-        [
-          {
-            label: str.substring(0, str.length - 1) + ',',
-            input: str.substring(0, str.length - 1),
-            suggestion: ',',
-            itemName: ',',
-          },
-          { label: str + '|', input: str, suggestion: '|', itemName: '|' },
-        ],
-        lowerPrefix
-      );
-      // Suggest ) after match([field], [data])
-    } else if (inMatch) {
-      inMatch = false;
-      return filterSuggestions(
-        [{ label: str + ')', input: str, suggestion: ')', itemName: ')' }],
-        lowerPrefix
-      );
-    }
-    return [];
-  }
-  return [];
 };
 
 export const parseForIndices = (query: string) => {
@@ -441,26 +211,34 @@ const parseForNextSuggestion = (command: string) => {
   }
 };
 
-export const getSuggestionsAfterSource = async (
+export const parseGetSuggestions = async (
   base: string,
   currQuery: string,
   dslService: DSLService,
   possibleCommands: Array<{ label: string }> = pipeCommands
 ) => {
-  const fullQuery = base + '| ' + currQuery;
+  const fullQuery = base ? base + '| ' + currQuery : currQuery;
   const splitSpaceQuery = fullQuery.split(' ');
   const splitPipeQuery = fullQuery.split('|');
 
   const lastWord = splitSpaceQuery[splitSpaceQuery.length - 1];
   const lastCommand = splitPipeQuery[splitPipeQuery.length - 1];
 
-  if (isEmpty(currQuery) || isEmpty(currIndices)) {
+  if (!base && isEmpty(indicesFromBackend)) {
+    await getIndices(dslService);
+  }
+
+  if (fullQuery.match(EMPTY_REGEX)) {
+    return fillSuggestions(currQuery, lastWord, [{ label: 'source' }]);
+  }
+
+  if (isEmpty(currIndices)) {
     currIndices = parseForIndices(base);
     await getFields(dslService);
     currField = '';
     currFieldType = '';
-    return fillSuggestions(currQuery, lastWord, possibleCommands);
   }
+
   const next = parseForNextSuggestion(lastCommand);
   if (next) {
     switch (next) {
@@ -468,17 +246,25 @@ export const getSuggestionsAfterSource = async (
         return fillSuggestions(currQuery, lastWord, statsCommands);
       case AS_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: 'as' }]);
-      case PIPE_COMMA_BY_AFTER_FIELD:
-      case PIPE_COMMA_BY_AFTER_AGGREGATION:
+      case COMMA_PIPE_BY_AFTER_FIELD:
+      case COMMA_PIPE_BY_AFTER_AGGREGATION:
         return fillSuggestions(currQuery, lastWord, [
           { label: ',' },
           { label: '|' },
           { label: 'by' },
         ]);
-      case PIPE_COMMA_AFTER_FIELDS:
-      case PIPE_COMMA_AFTER_RENAME_FIELD:
-      case PIPE_COMMA_AFTER_SORT_FIELD:
+      case COMMA_PIPE_AFTER_FIELDS:
+      case COMMA_PIPE_AFTER_RENAME_FIELD:
+      case COMMA_PIPE_AFTER_SORT_FIELD:
         return fillSuggestions(currQuery, lastWord, [{ label: ',' }, { label: '|' }]);
+      case PIPE_COMMA_AFTER_INDEX:
+        return filterSuggestions(
+          [
+            { label: currQuery + '|', input: currQuery, suggestion: '|', itemName: '|' },
+            { label: currQuery.trim() + ',', input: currQuery, suggestion: ',', itemName: ',' },
+          ],
+          lastWord
+        );
       case PLUS_MINUS_FIELD_AFTER_FIELDS:
       case PLUS_MINUS_FIELD_AFTER_SORT:
       case PLUS_MINUS_FIELD_IN_FIELDS_LOOP:
@@ -502,7 +288,7 @@ export const getSuggestionsAfterSource = async (
           { label: '*' },
           { label: '/' },
         ]);
-      case PIPE_COMMA_AFTER_FIELD:
+      case COMMA_PIPE_AFTER_FIELD:
         return fillSuggestions(currQuery, lastWord, [
           { label: ',' },
           { label: '|' },
@@ -573,7 +359,27 @@ export const getSuggestionsAfterSource = async (
         return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
       case MATCH_FIELD_AFTER_WHERE:
         return fillSuggestions(currQuery, lastWord, [{ label: 'match(' }, ...fieldsFromBackend]);
+      case EQUAL_AFTER_SOURCE:
+        return fillSuggestions(currQuery, lastWord, [{ label: '=' }]);
+      case INDEX_AFTER_EQUAL:
+        return fillSuggestions(currQuery, lastWord, indicesFromBackend);
+      case MORE_INDEX_AFTER_COMMA:
+        const trimmedIndices = indicesFromBackend.map((index) => {
+          return {
+            label: currQuery.substring(0, currQuery.lastIndexOf(lastWord)).trim() + index.label,
+            input: currQuery,
+            suggestion: index.label.substring(lastWord.length),
+            itemName: index.label,
+          };
+        });
+        return filterSuggestions(trimmedIndices, lastWord);
       case EMPTY_REGEX:
+        if (!base) {
+          currIndices = parseForIndices(splitPipeQuery[0]);
+          await getFields(dslService);
+          currField = '';
+          currFieldType = '';
+        }
         return fillSuggestions(currQuery, lastWord, possibleCommands);
     }
   }

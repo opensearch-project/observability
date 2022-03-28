@@ -18,7 +18,7 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { useState } from 'react';
 import {
-  getFullSuggestions,
+  parseGetSuggestions,
   onItemSelect,
 } from '../../../../../public/components/common/search/autocomplete_logic';
 import { uiSettingsService } from '../../../../../common/utils';
@@ -138,7 +138,7 @@ export const LogConfig = (props: LogConfigProps) => {
                   handleQueryChange={handleQueryChange}
                   handleQuerySearch={() => {}}
                   dslService={dslService}
-                  getSuggestions={getFullSuggestions}
+                  getSuggestions={parseGetSuggestions}
                   onItemSelect={onItemSelect}
                   isDisabled={editMode}
                   tabId={'application-analytics-tab'}
