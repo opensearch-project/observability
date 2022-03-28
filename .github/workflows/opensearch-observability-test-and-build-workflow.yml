@@ -4,6 +4,7 @@ on: [pull_request, push]
 
 env:
   OPENSEARCH_VERSION: '2.0.0-SNAPSHOT'
+  QUALIFIER: 'alpha1'
   OPENSEARCH_BRANCH: '2.0'
   COMMON_UTILS_BRANCH: 'main'
 
@@ -13,7 +14,7 @@ jobs:
       matrix:
         java:
           - 11
-          - 14
+          - 17
 
     runs-on: ubuntu-latest
 
@@ -34,7 +35,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }}
+          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -Dbuild.version_qualifier=${{ env.QUALIFIER }}
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1

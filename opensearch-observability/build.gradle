@@ -9,9 +9,9 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 
 buildscript {
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "2.0.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "2.0.0-alpha1-SNAPSHOT")
         // 1.0.0 -> 1.0.0.0, and 1.0.0-SNAPSHOT -> 1.0.0.0-SNAPSHOT
-        opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
+        opensearch_build = opensearch_version.replaceAll(/(\.\d(?!\.\d))/, '$1.0')
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
     }
