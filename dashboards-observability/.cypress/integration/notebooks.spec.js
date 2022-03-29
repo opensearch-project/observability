@@ -202,6 +202,18 @@ describe('Testing paragraphs', () => {
     cy.wait(delay);
   });
 
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains(TEST_NOTEBOOK).click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(TEST_NOTEBOOK).should('exist');
+    cy.get('.euiBreadcrumb').contains('Notebooks').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Notebooks').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+
   it('Renders markdown', () => {
     cy.get('.euiTextArea').should('not.exist');
     cy.get(`a[href="${SAMPLE_URL}"]`).should('exist');
@@ -431,5 +443,21 @@ describe('Testing paragraphs', () => {
     cy.wait(delay * 3);
 
     cy.get('.euiButton__text').contains('Create notebook').should('exist');
+  });
+
+  it('Cleans up test notebooks', () => {
+    cy.get('[data-test-subj="notebook-notebook-actions-button"]').click();
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Delete notebook').click();
+    cy.wait(delay);
+
+    cy.get('button.euiButton--danger').should('be.disabled');
+
+    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('button.euiButton--danger').should('not.be.disabled');
+    cy.get('.euiButton__text').contains('Delete').click();
+    cy.wait(delay * 3);
+
+    cy.get('.euiText').contains('No notebooks').should('exist');
   });
 });

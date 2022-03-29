@@ -18,11 +18,25 @@ describe('Traces component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
+    const childBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Traces',
+        href: '#/trace_analytics/traces',
+      },
+    ];
     const wrapper = mount(
       <Traces
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={childBreadcrumbs}
+        traceIdColumnAction={traceIdColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}
@@ -46,11 +60,25 @@ describe('Traces component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
+    const childBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Traces',
+        href: '#/trace_analytics/traces',
+      },
+    ];
     const wrapper = mount(
       <Traces
         http={core.http}
         chrome={core.chrome}
         parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={childBreadcrumbs}
+        traceIdColumnAction={traceIdColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}
