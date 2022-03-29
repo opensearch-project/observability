@@ -2,10 +2,6 @@ name: Test and Build OpenSearch Observability Backend Plugin
 
 on: [pull_request, push]
 
-env:
-  OPENSEARCH_VERSION: '2.0.0-alpha1-SNAPSHOT'
-  QUALIFIER: 'alpha1'
-
 jobs:
   build:
     strategy:
@@ -33,7 +29,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -Dbuild.version_qualifier=${{ env.QUALIFIER }}
+          ./gradlew build
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
