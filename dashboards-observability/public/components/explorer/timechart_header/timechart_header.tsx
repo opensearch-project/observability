@@ -66,7 +66,7 @@ export function TimechartHeader({
             })}
             compressed
             id="dscResultsIntervalSelector"
-            data-test-subj="discoverIntervalSelect"
+            data-test-subj="eventAnalytics__EventIntervalSelect"
             options={options}
             value={interval}
             onChange={handleIntervalChange}
