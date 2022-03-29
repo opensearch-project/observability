@@ -10,7 +10,8 @@ export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed
 
 export const TEST_QUERIES = [
   {
-    query: 'source = opensearch_dashboards_sample_data_flights'
+    query: 'source = opensearch_dashboards_sample_data_flights',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
     query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier'
