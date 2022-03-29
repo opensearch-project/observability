@@ -7,7 +7,6 @@ import DSLService from 'public/services/requests/dsl';
 import { isEmpty } from 'lodash';
 import { getDataValueQuery } from './queries/data_queries';
 import {
-  firstCommand,
   statsCommands,
   numberTypes,
   pipeCommands,
@@ -194,8 +193,7 @@ export const parseForIndices = (query: string) => {
     const groupArray = regexForIndex[i].exec(query);
     if (groupArray) {
       const afterEqual = query.substring(query.indexOf('=') + 1);
-      const beforePipe = afterEqual.substring(0, afterEqual.indexOf('|')) || afterEqual;
-      const noSpaces = beforePipe.replaceAll(/\s/g, '');
+      const noSpaces = afterEqual.replace(/\s/g, '');
       return noSpaces.split(',');
     }
   }
@@ -223,20 +221,21 @@ export const parseGetSuggestions = async (
 
   const lastWord = splitSpaceQuery[splitSpaceQuery.length - 1];
   const lastCommand = splitPipeQuery[splitPipeQuery.length - 1];
+  const firstCommand = splitPipeQuery[0];
 
   if (!base && isEmpty(indicesFromBackend)) {
     await getIndices(dslService);
   }
 
-  if (fullQuery.match(EMPTY_REGEX)) {
-    return fillSuggestions(currQuery, lastWord, [{ label: 'source' }]);
-  }
-
-  if (isEmpty(currIndices)) {
+  if (base && isEmpty(currIndices)) {
     currIndices = parseForIndices(base);
     await getFields(dslService);
     currField = '';
     currFieldType = '';
+  }
+
+  if (fullQuery.match(EMPTY_REGEX)) {
+    return fillSuggestions(currQuery, lastWord, [{ label: 'source' }]);
   }
 
   const next = parseForNextSuggestion(lastCommand);
@@ -374,8 +373,8 @@ export const parseGetSuggestions = async (
         });
         return filterSuggestions(trimmedIndices, lastWord);
       case EMPTY_REGEX:
-        if (!base) {
-          currIndices = parseForIndices(splitPipeQuery[0]);
+        if (!base && isEmpty(currIndices)) {
+          currIndices = parseForIndices(firstCommand);
           await getFields(dslService);
           currField = '';
           currFieldType = '';

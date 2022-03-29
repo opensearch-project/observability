@@ -177,14 +177,13 @@ describe('autocomplete logic', function () {
         itemName: '|',
       },
       {
-        label: 'source = test_index ,',
+        label: 'source = test_index,',
         input,
         suggestion: ',',
         itemName: ',',
       },
     ] as AutocompleteItem[];
     const suggestion = await parseGetSuggestions('', input, dslService);
-    expect(dslService.fetchFields).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -199,6 +198,7 @@ describe('autocomplete logic', function () {
       };
     }) as AutocompleteItem[];
     const suggestion = await parseGetSuggestions('', input, dslService);
+    expect(dslService.fetchFields).toBeCalled();
     expect(suggestion).toStrictEqual(expected);
   });
 
@@ -461,16 +461,16 @@ describe('autocomplete logic', function () {
     expect(suggestion).toStrictEqual(expected);
   });
 
-  it('suggests by after stats count()', async () => {
+  it('suggests by, comma, pipe after stats count()', async () => {
     const input = 'source = test_index | stats count() ';
-    const expected = [
-      {
-        label: 'source = test_index | stats count() by',
+    const expected = [',', '|', 'by'].map((suggestion) => {
+      return {
+        label: `source = test_index | stats count() ${suggestion}`,
         input,
-        suggestion: 'by',
-        itemName: 'by',
-      },
-    ] as AutocompleteItem[];
+        suggestion,
+        itemName: suggestion,
+      };
+    }) as AutocompleteItem[];
     const suggestion = await parseGetSuggestions('', input, dslService);
     expect(suggestion).toStrictEqual(expected);
   });
@@ -478,6 +478,12 @@ describe('autocomplete logic', function () {
   it('suggests fields after stats count() by', async () => {
     const input = 'source = test_index | stats count() by ';
     const expected = [
+      {
+        label: 'source = test_index | stats count() by span(',
+        input,
+        suggestion: 'span(',
+        itemName: 'span(',
+      },
       {
         label: 'source = test_index | stats count() by str_field',
         input,
@@ -519,10 +525,10 @@ describe('autocomplete logic', function () {
     const input = 'source = test_index | stats sum( ';
     const expected = [
       {
-        label: 'source = test_index | stats sum( num_field )',
+        label: 'source = test_index | stats sum( num_field',
         input,
-        suggestion: 'num_field )',
-        itemName: 'num_field )',
+        suggestion: 'num_field',
+        itemName: 'num_field',
       },
     ] as AutocompleteItem[];
     const suggestion = await parseGetSuggestions('', input, dslService);
@@ -533,16 +539,22 @@ describe('autocomplete logic', function () {
     const input = 'source = test_index | stats sum( num_field ) ';
     const expected = [
       {
-        label: 'source = test_index | stats sum( num_field ) by',
+        label: 'source = test_index | stats sum( num_field ) ,',
         input,
-        suggestion: 'by',
-        itemName: 'by',
+        suggestion: ',',
+        itemName: ',',
       },
       {
         label: 'source = test_index | stats sum( num_field ) |',
         input,
         suggestion: '|',
         itemName: '|',
+      },
+      {
+        label: 'source = test_index | stats sum( num_field ) by',
+        input,
+        suggestion: 'by',
+        itemName: 'by',
       },
     ] as AutocompleteItem[];
     const suggestion = await parseGetSuggestions('', input, dslService);
@@ -552,6 +564,12 @@ describe('autocomplete logic', function () {
   it('suggests fields after stats sum( num_field ) by', async () => {
     const input = 'source = test_index | stats sum( num_field ) by ';
     const expected = [
+      {
+        label: 'source = test_index | stats sum( num_field ) by span(',
+        input,
+        suggestion: 'span(',
+        itemName: 'span(',
+      },
       {
         label: 'source = test_index | stats sum( num_field ) by str_field',
         input,
@@ -593,6 +611,18 @@ describe('autocomplete logic', function () {
     const input = 'source = test_index | fields ';
     const expected = [
       {
+        label: 'source = test_index | fields +',
+        input,
+        suggestion: '+',
+        itemName: '+',
+      },
+      {
+        label: 'source = test_index | fields -',
+        input,
+        suggestion: '-',
+        itemName: '-',
+      },
+      {
         label: 'source = test_index | fields str_field',
         input,
         suggestion: 'str_field',
@@ -619,8 +649,8 @@ describe('autocomplete logic', function () {
     const input = 'source = test_index | fields str_field ';
     const expected = [
       {
-        label: 'source = test_index | fields str_field,',
-        input: 'source = test_index | fields str_field',
+        label: 'source = test_index | fields str_field ,',
+        input,
         suggestion: ',',
         itemName: ',',
       },
@@ -636,22 +666,22 @@ describe('autocomplete logic', function () {
   });
 
   it('suggests fields after fields str_field, ', async () => {
-    const input = 'source = test_index | fields str_field, ';
+    const input = 'source = test_index | fields str_field , ';
     const expected = [
       {
-        label: 'source = test_index | fields str_field, str_field',
+        label: 'source = test_index | fields str_field , str_field',
         input,
         suggestion: 'str_field',
         itemName: 'str_field',
       },
       {
-        label: 'source = test_index | fields str_field, bool_field',
+        label: 'source = test_index | fields str_field , bool_field',
         input,
         suggestion: 'bool_field',
         itemName: 'bool_field',
       },
       {
-        label: 'source = test_index | fields str_field, num_field',
+        label: 'source = test_index | fields str_field , num_field',
         input,
         suggestion: 'num_field',
         itemName: 'num_field',

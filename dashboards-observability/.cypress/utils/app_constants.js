@@ -24,7 +24,7 @@ export const moveToCreatePage = () => {
 
 export const moveToApplication = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 5);
+  cy.wait(delay * 6);
   cy.get('.euiLink').contains(name).click();
   cy.wait(delay);
   cy.get('.euiTitle').contains(name).should('exist');
