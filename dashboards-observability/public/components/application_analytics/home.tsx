@@ -214,7 +214,12 @@ export const Home = (props: HomeProps) => {
     return http
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then(async (res) => {
+        // Want to calculate availability going down the table
         for (let i = 0; i < res.data.length; i++) {
+          res.data[i].availability = { name: 'loading', color: '', mainVisId: '' };
+        }
+        setApplicationList(res.data);
+        for (let i = res.data.length - 1; i > -1; i--) {
           res.data[i].availability = await calculateAvailability(
             http,
             pplService,
@@ -222,8 +227,12 @@ export const Home = (props: HomeProps) => {
             res.data[i].availability.mainVisId,
             () => {}
           );
+          // Need to set state with new object to trigger re-render
+          setApplicationList([
+            ...res.data.filter((app: ApplicationListType) => app.id !== res.data[i].id),
+            res.data[i],
+          ]);
         }
-        setApplicationList(res.data);
       })
       .catch((err) => {
         setToast('Error occurred while fetching applications', 'danger');

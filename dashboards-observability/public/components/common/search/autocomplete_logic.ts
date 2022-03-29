@@ -227,13 +227,6 @@ export const parseGetSuggestions = async (
     await getIndices(dslService);
   }
 
-  if (base && isEmpty(currIndices)) {
-    currIndices = parseForIndices(base);
-    await getFields(dslService);
-    currField = '';
-    currFieldType = '';
-  }
-
   if (fullQuery.match(EMPTY_REGEX)) {
     return fillSuggestions(currQuery, lastWord, [{ label: 'source' }]);
   }
@@ -373,12 +366,10 @@ export const parseGetSuggestions = async (
         });
         return filterSuggestions(trimmedIndices, lastWord);
       case EMPTY_REGEX:
-        if (!base && isEmpty(currIndices)) {
-          currIndices = parseForIndices(firstCommand);
-          await getFields(dslService);
-          currField = '';
-          currFieldType = '';
-        }
+        currIndices = parseForIndices(firstCommand);
+        await getFields(dslService);
+        currField = '';
+        currFieldType = '';
         return fillSuggestions(currQuery, lastWord, possibleCommands);
     }
   }

@@ -15,6 +15,7 @@ import {
   EuiHorizontalRule,
   EuiInMemoryTable,
   EuiLink,
+  EuiLoadingSpinner,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -50,7 +51,6 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
 
 export function AppTable(props: AppTableProps) {
   const {
-    http,
     chrome,
     applications,
     parentBreadcrumbs,
@@ -208,7 +208,9 @@ export function AppTable(props: AppTableProps) {
       name: 'Current Availability',
       sortable: true,
       render: (value, record) => {
-        if (value.name) {
+        if (value.name === 'loading') {
+          return <EuiLoadingSpinner />;
+        } else if (value.name) {
           return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
         } else {
           return <EuiText>Undefined</EuiText>;
