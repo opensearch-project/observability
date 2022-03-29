@@ -3,7 +3,7 @@ name: Test and Build OpenSearch Observability Backend Plugin
 on: [pull_request, push]
 
 env:
-  OPENSEARCH_VERSION: '2.0.0-SNAPSHOT'
+  OPENSEARCH_VERSION: '2.0.0-alpha1-SNAPSHOT'
   QUALIFIER: 'alpha1'
 
 jobs:
