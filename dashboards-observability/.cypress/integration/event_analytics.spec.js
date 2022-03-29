@@ -159,7 +159,7 @@ describe('Load a saved query from event home', () => {
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY4);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay * 3);
+    cy.wait(delay * 2);
 
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
 
@@ -221,7 +221,7 @@ describe('Saves a query on explorer page', () => {
     cy.wait(delay);
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY1);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay * 3);
+    cy.wait(delay * 2);
 
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
 
@@ -241,7 +241,7 @@ describe('Saves a query on explorer page', () => {
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY2);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
 
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
 
@@ -471,7 +471,7 @@ describe('Renders bar charts', () => {
     cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] span').contains('Bar').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').first().click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('host').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(1).click();
     cy.wait(delay);
@@ -490,7 +490,7 @@ describe('Renders bar charts', () => {
   it('Renders horiztontal bar chart', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Bar').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').first().click();
     cy.wait(delay);
@@ -499,10 +499,10 @@ describe('Renders bar charts', () => {
     cy.wait(delay);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('host').click();
     cy.get('#configPanel__chart_options [data-test-subj="comboBoxInput"]').first().click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Horizontal').click();
     cy.get('#configPanel__chart_options [data-test-subj="comboBoxInput"]').eq(1).click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Group').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);
@@ -558,14 +558,14 @@ describe('Renders heatmap chart', () => {
     querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Heatmap').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('count()').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.get('g.g-gtitle text[data-unformatted|="count()"]').should('exist');
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('avg(bytes)').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);

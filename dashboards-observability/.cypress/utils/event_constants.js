@@ -5,7 +5,7 @@
 
 import { supressResizeObserverIssue } from './constants'
 
-export const delay = 500;
+export const delay = 1000;
 export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]'
 
 export const TEST_QUERIES = [
