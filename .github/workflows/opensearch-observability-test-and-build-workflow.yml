@@ -5,8 +5,6 @@ on: [pull_request, push]
 env:
   OPENSEARCH_VERSION: '2.0.0-SNAPSHOT'
   QUALIFIER: 'alpha1'
-  OPENSEARCH_BRANCH: '2.0'
-  COMMON_UTILS_BRANCH: 'main'
 
 jobs:
   build:
