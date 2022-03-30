@@ -69,117 +69,201 @@ exports[`Visualization field item component Renders field item component 1`] = `
       panelClassName="lnsFieldItem__fieldPanel"
       panelPaddingSize="m"
     >
-      <div
-        className="euiPopover euiPopover--anchorRightUp euiPopover--displayBlock lnsFieldItem__popoverAnchor"
-        data-test-subj="lnsFieldListPanelField"
+      <EuiOutsideClickDetector
+        isDisabled={true}
+        onOutsideClick={[Function]}
       >
         <div
-          className="euiPopover__anchor"
+          className="euiPopover euiPopover--anchorRightUp euiPopover--displayBlock lnsFieldItem__popoverAnchor"
+          data-test-subj="lnsFieldListPanelField"
+          onKeyDown={[Function]}
+          onMouseDown={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
         >
-          <DragDrop
-            data-test-subj="lnsFieldListPanelField-agent"
-            draggable={true}
+          <div
+            className="euiPopover__anchor"
           >
-            <Memo(DragDropInner)
+            <DragDrop
               data-test-subj="lnsFieldListPanelField-agent"
               draggable={true}
-              isDragging={true}
-              isNotDroppable={false}
-              setDragging={[Function]}
             >
-              <FieldButton
-                aria-label=": string. Hit enter for a field preview."
-                className="lnsFieldItem lnsFieldItem--string lnsFieldItem--exists lnsDragDrop lnsDragDrop-isDraggable lnsDragDrop-isDragging"
+              <Memo(DragDropInner)
                 data-test-subj="lnsFieldListPanelField-agent"
                 draggable={true}
-                fieldIcon={
-                  <LensFieldIcon
-                    type="string"
-                  />
-                }
-                fieldInfoIcon={
-                  <EuiIconTip
-                    anchorClassName="lnsFieldItem__infoIcon"
-                    color="subdued"
-                    content="Click for a field preview, or drag and drop to visualize."
-                    size="s"
-                    type="iInCircle"
-                  />
-                }
-                fieldName={
-                  <EuiHighlight
-                    search=""
-                  >
-                    agent
-                  </EuiHighlight>
-                }
-                isActive={false}
-                onClick={[Function]}
-                onDragEnd={[Function]}
-                onDragLeave={[Function]}
-                onDragOver={[Function]}
-                onDragStart={[Function]}
-                onDrop={[Function]}
+                isDragging={true}
+                isNotDroppable={false}
+                setDragging={[Function]}
               >
-                <div
+                <FieldButton
                   aria-label=": string. Hit enter for a field preview."
-                  className="osdFieldButton lnsFieldItem lnsFieldItem--string lnsFieldItem--exists lnsDragDrop lnsDragDrop-isDraggable lnsDragDrop-isDragging"
+                  className="lnsFieldItem lnsFieldItem--string lnsFieldItem--exists lnsDragDrop lnsDragDrop-isDraggable lnsDragDrop-isDragging"
                   data-test-subj="lnsFieldListPanelField-agent"
                   draggable={true}
+                  fieldIcon={
+                    <LensFieldIcon
+                      type="string"
+                    />
+                  }
+                  fieldInfoIcon={
+                    <EuiIconTip
+                      anchorClassName="lnsFieldItem__infoIcon"
+                      color="subdued"
+                      content="Click for a field preview, or drag and drop to visualize."
+                      size="s"
+                      type="iInCircle"
+                    />
+                  }
+                  fieldName={
+                    <EuiHighlight
+                      search=""
+                    >
+                      agent
+                    </EuiHighlight>
+                  }
+                  isActive={false}
+                  onClick={[Function]}
                   onDragEnd={[Function]}
                   onDragLeave={[Function]}
                   onDragOver={[Function]}
                   onDragStart={[Function]}
                   onDrop={[Function]}
                 >
-                  <button
-                    className="osd-resetFocusState osdFieldButton__button"
-                    onClick={[Function]}
+                  <div
+                    aria-label=": string. Hit enter for a field preview."
+                    className="osdFieldButton lnsFieldItem lnsFieldItem--string lnsFieldItem--exists lnsDragDrop lnsDragDrop-isDraggable lnsDragDrop-isDragging"
+                    data-test-subj="lnsFieldListPanelField-agent"
+                    draggable={true}
+                    onDragEnd={[Function]}
+                    onDragLeave={[Function]}
+                    onDragOver={[Function]}
+                    onDragStart={[Function]}
+                    onDrop={[Function]}
                   >
-                    <span
-                      className="osdFieldButton__fieldIcon"
+                    <button
+                      className="osd-resetFocusState osdFieldButton__button"
+                      onClick={[Function]}
                     >
-                      <LensFieldIcon
-                        type="string"
+                      <span
+                        className="osdFieldButton__fieldIcon"
                       >
-                        <FieldIcon
-                          className="lnsFieldListPanel__fieldIcon"
+                        <LensFieldIcon
                           type="string"
                         >
-                          <EuiToken
-                            aria-label="string"
-                            className="osdFieldIcon lnsFieldListPanel__fieldIcon"
-                            iconType="tokenString"
-                            size="s"
-                            title="string"
+                          <FieldIcon
+                            className="lnsFieldListPanel__fieldIcon"
+                            type="string"
                           >
-                            <span
-                              className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--small osdFieldIcon lnsFieldListPanel__fieldIcon"
-                              style={Object {}}
+                            <EuiToken
+                              aria-label="string"
+                              className="osdFieldIcon lnsFieldListPanel__fieldIcon"
+                              iconType="tokenString"
+                              size="s"
+                              title="string"
                             >
-                              <EuiIcon
-                                aria-label="string"
-                                size="m"
-                                title="string"
-                                type="tokenString"
+                              <span
+                                className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--small osdFieldIcon lnsFieldListPanel__fieldIcon"
+                                style={Object {}}
                               >
-                                <EuiIconEmpty
-                                  aria-hidden={true}
+                                <EuiIcon
                                   aria-label="string"
-                                  className="euiIcon euiIcon--medium euiIcon-isLoading"
-                                  focusable="false"
-                                  role="img"
-                                  style={null}
+                                  size="m"
                                   title="string"
+                                  type="tokenString"
                                 >
-                                  <svg
+                                  <EuiIconEmpty
                                     aria-hidden={true}
                                     aria-label="string"
                                     className="euiIcon euiIcon--medium euiIcon-isLoading"
                                     focusable="false"
-                                    height={16}
                                     role="img"
                                     style={null}
+                                    title="string"
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      aria-label="string"
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </span>
+                            </EuiToken>
+                          </FieldIcon>
+                        </LensFieldIcon>
+                      </span>
+                      <span
+                        className="osdFieldButton__name"
+                      >
+                        <EuiHighlight
+                          search=""
+                        >
+                          <span>
+                            agent
+                          </span>
+                        </EuiHighlight>
+                      </span>
+                      <div
+                        className="osdFieldButton__infoIcon"
+                      >
+                        <EuiIconTip
+                          anchorClassName="lnsFieldItem__infoIcon"
+                          color="subdued"
+                          content="Click for a field preview, or drag and drop to visualize."
+                          size="s"
+                          type="iInCircle"
+                        >
+                          <EuiToolTip
+                            anchorClassName="lnsFieldItem__infoIcon"
+                            content="Click for a field preview, or drag and drop to visualize."
+                            delay="regular"
+                            position="top"
+                          >
+                            <span
+                              className="euiToolTipAnchor lnsFieldItem__infoIcon"
+                              onKeyUp={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              <EuiIcon
+                                aria-label="Info"
+                                color="subdued"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                                size="s"
+                                tabIndex={0}
+                                type="iInCircle"
+                              >
+                                <EuiIconEmpty
+                                  aria-hidden={true}
+                                  aria-label="Info"
+                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading"
+                                  focusable="true"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                  role="img"
+                                  style={null}
+                                  tabIndex={0}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-label="Info"
+                                    className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading"
+                                    focusable="true"
+                                    height={16}
+                                    onBlur={[Function]}
+                                    onFocus={[Function]}
+                                    role="img"
+                                    style={null}
+                                    tabIndex={0}
                                     viewBox="0 0 16 16"
                                     width={16}
                                     xmlns="http://www.w3.org/2000/svg"
@@ -187,91 +271,17 @@ exports[`Visualization field item component Renders field item component 1`] = `
                                 </EuiIconEmpty>
                               </EuiIcon>
                             </span>
-                          </EuiToken>
-                        </FieldIcon>
-                      </LensFieldIcon>
-                    </span>
-                    <span
-                      className="osdFieldButton__name"
-                    >
-                      <EuiHighlight
-                        search=""
-                      >
-                        <span>
-                          agent
-                        </span>
-                      </EuiHighlight>
-                    </span>
-                    <div
-                      className="osdFieldButton__infoIcon"
-                    >
-                      <EuiIconTip
-                        anchorClassName="lnsFieldItem__infoIcon"
-                        color="subdued"
-                        content="Click for a field preview, or drag and drop to visualize."
-                        size="s"
-                        type="iInCircle"
-                      >
-                        <EuiToolTip
-                          anchorClassName="lnsFieldItem__infoIcon"
-                          content="Click for a field preview, or drag and drop to visualize."
-                          delay="regular"
-                          position="top"
-                        >
-                          <span
-                            className="euiToolTipAnchor lnsFieldItem__infoIcon"
-                            onKeyUp={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                          >
-                            <EuiIcon
-                              aria-label="Info"
-                              color="subdued"
-                              onBlur={[Function]}
-                              onFocus={[Function]}
-                              size="s"
-                              tabIndex={0}
-                              type="iInCircle"
-                            >
-                              <EuiIconEmpty
-                                aria-hidden={true}
-                                aria-label="Info"
-                                className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading"
-                                focusable="true"
-                                onBlur={[Function]}
-                                onFocus={[Function]}
-                                role="img"
-                                style={null}
-                                tabIndex={0}
-                              >
-                                <svg
-                                  aria-hidden={true}
-                                  aria-label="Info"
-                                  className="euiIcon euiIcon--small euiIcon--subdued euiIcon-isLoading"
-                                  focusable="true"
-                                  height={16}
-                                  onBlur={[Function]}
-                                  onFocus={[Function]}
-                                  role="img"
-                                  style={null}
-                                  tabIndex={0}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                />
-                              </EuiIconEmpty>
-                            </EuiIcon>
-                          </span>
-                        </EuiToolTip>
-                      </EuiIconTip>
-                    </div>
-                  </button>
-                </div>
-              </FieldButton>
-            </Memo(DragDropInner)>
-          </DragDrop>
+                          </EuiToolTip>
+                        </EuiIconTip>
+                      </div>
+                    </button>
+                  </div>
+                </FieldButton>
+              </Memo(DragDropInner)>
+            </DragDrop>
+          </div>
         </div>
-      </div>
+      </EuiOutsideClickDetector>
     </EuiPopover>
   </Memo(InnerFieldItem)>
 </Component>

@@ -116,56 +116,66 @@ exports[`Latency trend cell component renders latency trend cell 1`] = `
             ownFocus={true}
             panelPaddingSize="m"
           >
-            <div
-              className="euiPopover euiPopover--anchorDownCenter"
+            <EuiOutsideClickDetector
+              isDisabled={true}
+              onOutsideClick={[Function]}
             >
               <div
-                className="euiPopover__anchor"
+                className="euiPopover euiPopover--anchorDownCenter"
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchStart={[Function]}
               >
-                <EuiButtonIcon
-                  aria-label="Open popover"
-                  iconType="magnifyWithPlus"
-                  onClick={[Function]}
-                  size="s"
+                <div
+                  className="euiPopover__anchor"
                 >
-                  <button
+                  <EuiButtonIcon
                     aria-label="Open popover"
-                    className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--small"
-                    disabled={false}
+                    iconType="magnifyWithPlus"
                     onClick={[Function]}
-                    type="button"
+                    size="s"
                   >
-                    <EuiIcon
-                      aria-hidden="true"
-                      className="euiButtonIcon__icon"
-                      color="inherit"
-                      size="m"
-                      type="magnifyWithPlus"
+                    <button
+                      aria-label="Open popover"
+                      className="euiButtonIcon euiButtonIcon--primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      size="s"
+                      type="button"
                     >
-                      <EuiIconEmpty
-                        aria-hidden={true}
-                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                        focusable="false"
-                        role="img"
-                        style={null}
+                      <EuiIcon
+                        aria-hidden="true"
+                        className="euiButtonIcon__icon"
+                        size="m"
+                        type="magnifyWithPlus"
                       >
-                        <svg
+                        <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
                           focusable="false"
-                          height={16}
                           role="img"
                           style={null}
-                          viewBox="0 0 16 16"
-                          width={16}
-                          xmlns="http://www.w3.org/2000/svg"
-                        />
-                      </EuiIconEmpty>
-                    </EuiIcon>
-                  </button>
-                </EuiButtonIcon>
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                    </button>
+                  </EuiButtonIcon>
+                </div>
               </div>
-            </div>
+            </EuiOutsideClickDetector>
           </EuiPopover>
         </div>
       </EuiFlexItem>

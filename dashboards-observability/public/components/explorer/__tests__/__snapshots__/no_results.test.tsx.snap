@@ -130,20 +130,19 @@ exports[`No result component Renders No result component 1`] = `
                       <EuiIcon
                         aria-hidden="true"
                         className="euiCallOutHeader__icon"
-                        color="inherit"
                         size="m"
                         type="help"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                          className="euiIcon euiIcon--medium euiIcon-isLoading euiCallOutHeader__icon"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiCallOutHeader__icon"
                             focusable="false"
                             height={16}
                             role="img"
