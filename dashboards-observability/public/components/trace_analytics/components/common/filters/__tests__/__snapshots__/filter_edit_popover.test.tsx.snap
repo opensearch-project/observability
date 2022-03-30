@@ -254,6 +254,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                 </AutosizeInput>
                               </div>
                               <EuiFormControlLayoutIcons
+                                compressed={false}
                                 icon={
                                   Object {
                                     "aria-label": "Open list of options",
@@ -274,6 +275,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                     data-test-subj="comboBoxToggleListButton"
                                     iconRef={[Function]}
                                     onClick={[Function]}
+                                    size="m"
                                     type="arrowDown"
                                   >
                                     <button
@@ -286,6 +288,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                       <EuiIcon
                                         aria-hidden="true"
                                         className="euiFormControlLayoutCustomIcon__icon"
+                                        size="m"
                                         type="arrowDown"
                                       >
                                         <EuiIconEmpty
@@ -514,6 +517,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                 </AutosizeInput>
                               </div>
                               <EuiFormControlLayoutIcons
+                                compressed={false}
                                 icon={
                                   Object {
                                     "aria-label": "Open list of options",
@@ -535,6 +539,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                     disabled={true}
                                     iconRef={[Function]}
                                     onClick={[Function]}
+                                    size="m"
                                     type="arrowDown"
                                   >
                                     <button
@@ -548,6 +553,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                                       <EuiIcon
                                         aria-hidden="true"
                                         className="euiFormControlLayoutCustomIcon__icon"
+                                        size="m"
                                         type="arrowDown"
                                       >
                                         <EuiIconEmpty
@@ -621,6 +627,7 @@ exports[`Filter popover component renders filter popover 1`] = `
                 <EuiButtonContent
                   className="euiButtonEmpty__content"
                   iconSide="left"
+                  iconSize="m"
                   textProps={
                     Object {
                       "className": "euiButtonEmpty__text",
@@ -653,6 +660,7 @@ exports[`Filter popover component renders filter popover 1`] = `
               onClick={[Function]}
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 disabled={true}
                 element="button"
                 fill={true}
@@ -664,6 +672,11 @@ exports[`Filter popover component renders filter popover 1`] = `
                   className="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
                   disabled={true}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent

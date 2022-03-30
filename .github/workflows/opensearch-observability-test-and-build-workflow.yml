@@ -2,18 +2,13 @@ name: Test and Build OpenSearch Observability Backend Plugin
 
 on: [pull_request, push]
 
-env:
-  OPENSEARCH_VERSION: '2.0.0-SNAPSHOT'
-  OPENSEARCH_BRANCH: '2.0'
-  COMMON_UTILS_BRANCH: 'main'
-
 jobs:
   build:
     strategy:
       matrix:
         java:
           - 11
-          - 14
+          - 17
 
     runs-on: ubuntu-latest
 
@@ -34,7 +29,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }}
+          ./gradlew build
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
