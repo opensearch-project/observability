@@ -22,120 +22,186 @@ exports[`Doc viewer JSON block component Renders JSON block component 1`] = `
       language="json"
       paddingSize="s"
     >
-      <Portal
-        containerInfo={
-          <div>
-            {
-  "Carrier": "JetBeats",
-  "avg(FlightDelayMin)": "45.957544288332315"
-}
-          </div>
-        }
+      <div
+        className="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingSmall euiCodeBlock--hasControls prismjs language-json"
+        style={Object {}}
       >
-        {
-  "Carrier": "JetBeats",
-  "avg(FlightDelayMin)": "45.957544288332315"
-}
-      </Portal>
-      <EuiInnerText
-        fallback=""
-      >
-        <div
-          className="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingSmall euiCodeBlock--hasControls"
+        <pre
+          className="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
           style={Object {}}
+          tabIndex={-1}
         >
-          <pre
-            className="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
-            style={Object {}}
+          <code
+            aria-label="Read only JSON view of an elasticsearch document"
+            className="euiCodeBlock__code json"
           >
-            <code
-              aria-label="Read only JSON view of an elasticsearch document"
-              className="euiCodeBlock__code json"
-            />
-          </pre>
-          <div
-            className="euiCodeBlock__controls"
-          >
-            <div
-              className="euiCodeBlock__copyButton"
+            <span
+              className="euiCodeBlock__line"
+              key="node-0-0"
             >
-              <EuiI18n
-                default="Copy"
-                token="euiCodeBlock.copyButton"
+              <span
+                className="token punctuation"
+                key="node-1-0"
               >
-                <EuiCopy
-                  afterMessage="Copied"
-                  textToCopy="{
+                {
+              </span>
+              
+
+            </span>
+            <span
+              className="euiCodeBlock__line"
+              key="node-0-1"
+            >
+                
+              <span
+                className="token property"
+                key="node-1-1"
+              >
+                "Carrier"
+              </span>
+              <span
+                className="token operator"
+                key="node-1-2"
+              >
+                :
+              </span>
+               
+              <span
+                className="token string"
+                key="node-1-4"
+              >
+                "JetBeats"
+              </span>
+              <span
+                className="token punctuation"
+                key="node-1-5"
+              >
+                ,
+              </span>
+              
+
+            </span>
+            <span
+              className="euiCodeBlock__line"
+              key="node-0-2"
+            >
+                
+              <span
+                className="token property"
+                key="node-1-1"
+              >
+                "avg(FlightDelayMin)"
+              </span>
+              <span
+                className="token operator"
+                key="node-1-2"
+              >
+                :
+              </span>
+               
+              <span
+                className="token string"
+                key="node-1-4"
+              >
+                "45.957544288332315"
+              </span>
+              
+
+            </span>
+            <span
+              className="euiCodeBlock__line"
+              key="node-0-3"
+            >
+              <span
+                className="token punctuation"
+                key="node-1-1"
+              >
+                }
+              </span>
+            </span>
+          </code>
+        </pre>
+        <div
+          className="euiCodeBlock__controls"
+        >
+          <div
+            className="euiCodeBlock__copyButton"
+          >
+            <EuiI18n
+              default="Copy"
+              token="euiCodeBlock.copyButton"
+            >
+              <EuiCopy
+                afterMessage="Copied"
+                textToCopy="{
   \\"Carrier\\": \\"JetBeats\\",
   \\"avg(FlightDelayMin)\\": \\"45.957544288332315\\"
 }"
+              >
+                <EuiToolTip
+                  delay="regular"
+                  onMouseOut={[Function]}
+                  position="top"
                 >
-                  <EuiToolTip
-                    delay="regular"
+                  <span
+                    className="euiToolTipAnchor"
+                    onKeyUp={[Function]}
                     onMouseOut={[Function]}
-                    position="top"
+                    onMouseOver={[Function]}
                   >
-                    <span
-                      className="euiToolTipAnchor"
-                      onKeyUp={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
+                    <EuiButtonIcon
+                      aria-label="Copy"
+                      color="text"
+                      iconType="copy"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
                     >
-                      <EuiButtonIcon
+                      <button
                         aria-label="Copy"
-                        color="text"
-                        iconType="copy"
+                        className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                        disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
-                        size="s"
+                        type="button"
                       >
-                        <button
-                          aria-label="Copy"
-                          className="euiButtonIcon euiButtonIcon--text"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          size="s"
-                          type="button"
+                        <EuiIcon
+                          aria-hidden="true"
+                          className="euiButtonIcon__icon"
+                          color="inherit"
+                          size="m"
+                          type="copy"
                         >
-                          <EuiIcon
-                            aria-hidden="true"
-                            className="euiButtonIcon__icon"
-                            size="m"
-                            type="copy"
+                          <EuiIconEmpty
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            role="img"
+                            style={null}
                           >
-                            <EuiIconEmpty
+                            <svg
                               aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                               focusable="false"
+                              height={16}
                               role="img"
                               style={null}
-                            >
-                              <svg
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                focusable="false"
-                                height={16}
-                                role="img"
-                                style={null}
-                                viewBox="0 0 16 16"
-                                width={16}
-                                xmlns="http://www.w3.org/2000/svg"
-                              />
-                            </EuiIconEmpty>
-                          </EuiIcon>
-                        </button>
-                      </EuiButtonIcon>
-                    </span>
-                  </EuiToolTip>
-                </EuiCopy>
-              </EuiI18n>
-            </div>
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </button>
+                    </EuiButtonIcon>
+                  </span>
+                </EuiToolTip>
+              </EuiCopy>
+            </EuiI18n>
           </div>
         </div>
-      </EuiInnerText>
+      </div>
     </EuiCodeBlockImpl>
   </EuiCodeBlock>
 </JsonCodeBlock>
