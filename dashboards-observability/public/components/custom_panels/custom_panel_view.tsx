@@ -74,7 +74,7 @@ import {
  * setToast: create Toast function
  */
 
-interface Props {
+interface CustomPanelViewProps {
   panelId: string;
   page: 'app' | 'operationalPanels';
   appId?: string;
@@ -121,7 +121,7 @@ export const CustomPanelView = ({
   setToast,
   switchToEvent,
   switchToEditViz,
-}: Props) => {
+}: CustomPanelViewProps) => {
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
   const [pplFilterValue, setPPLFilterValue] = useState('');
@@ -650,6 +650,7 @@ export const CustomPanelView = ({
                   dslService={dslService}
                   getSuggestions={getSuggestionsAfterSource}
                   onItemSelect={onItemSelect}
+                  isDisabled={inputDisabled}
                   tabId={'panels-filter'}
                   placeholder={
                     "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
@@ -664,7 +665,6 @@ export const CustomPanelView = ({
                       PPL
                     </EuiLink>
                   }
-                  inputDisabled={inputDisabled}
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
