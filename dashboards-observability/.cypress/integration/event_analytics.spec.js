@@ -21,35 +21,6 @@ import {
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
-<<<<<<< HEAD
-=======
-const landOnEventHome = () => {
-  cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics`);
-  cy.wait(delay);
-};
-
-const landOnEventExplorer = () => {
-  cy.visit(
-    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
-  );
-  cy.wait(delay * 2);
-};
-
-const landOnPanels = () => {
-  cy.visit(
-    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels`
-  );
-  cy.wait(delay);
-};
-
-const querySearch = (query) => {
-  cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
-  cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
-  cy.get('[data-test-subj="superDatePickerCommonlyUsed_This_year"]').click();
-  cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
-};
-
->>>>>>> main
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -60,7 +31,6 @@ describe('Adding sample data and visualization', () => {
   });
 });
 
-<<<<<<< HEAD
 describe('Search a query on event home', () => {
   it('Search a query and redirect to explorer to display query output', () => {
     landOnEventHome();
@@ -78,20 +48,6 @@ describe('Search a query on event home', () => {
 
     cy.url().should('contain', '#/event_analytics/explorer');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').contains(TEST_QUERIES[0].query);
-=======
-describe('Has working breadcrumbs', () => {
-  it('Redirect to correct page on breadcrumb click', () => {
-    landOnEventExplorer();
-    cy.get('.euiBreadcrumb').contains('Explorer').click();
-    cy.wait(delay);
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
-    cy.get('.euiBreadcrumb').contains('Event analytics').click();
-    cy.wait(delay);
-    cy.get('.euiTitle').contains('Event analytics').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
-    cy.wait(delay);
-    cy.get('.euiTitle').contains('Event analytics').should('exist');
->>>>>>> main
   });
 });
 
