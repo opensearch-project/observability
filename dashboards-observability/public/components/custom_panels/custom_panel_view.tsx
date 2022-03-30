@@ -650,6 +650,7 @@ export const CustomPanelView = ({
                   dslService={dslService}
                   getSuggestions={getSuggestionsAfterSource}
                   onItemSelect={onItemSelect}
+                  isDisabled={inputDisabled}
                   tabId={'panels-filter'}
                   placeholder={
                     "Use PPL 'where' clauses to add filters on all visualizations [where Carrier = 'OpenSearch-Air']"
@@ -664,7 +665,6 @@ export const CustomPanelView = ({
                       PPL
                     </EuiLink>
                   }
-                  inputDisabled={inputDisabled}
                 />
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
