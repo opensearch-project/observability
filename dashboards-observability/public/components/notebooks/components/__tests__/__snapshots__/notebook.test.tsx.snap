@@ -313,6 +313,8 @@ exports[`<Notebook /> spec renders the component 1`] = `
 </div>
 `;
 
+exports[`<Notebook /> spec renders the component 2`] = `null`;
+
 exports[`<Notebook /> spec renders the empty component 1`] = `
 <div
   style="float: left; width: 100%; max-width: 1500px;"
