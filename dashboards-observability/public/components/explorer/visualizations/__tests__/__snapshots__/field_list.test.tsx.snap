@@ -201,8 +201,11 @@ exports[`Visualization field list component Renders field list component 1`] = `
               </div>
             </div>
             <div
+              aria-labelledby="random_html_id"
               className="euiAccordion__childWrapper"
               id="3327"
+              role="region"
+              tabIndex={-1}
             >
               <EuiResizeObserver
                 onResize={[Function]}

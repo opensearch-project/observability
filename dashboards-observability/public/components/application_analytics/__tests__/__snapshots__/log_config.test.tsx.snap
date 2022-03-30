@@ -179,6 +179,7 @@ exports[`Log Config component renders empty log config 1`] = `
               size="s"
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -190,6 +191,11 @@ exports[`Log Config component renders empty log config 1`] = `
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                   disabled={true}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -217,8 +223,11 @@ exports[`Log Config component renders empty log config 1`] = `
           </div>
         </div>
         <div
+          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="logSource"
+          role="region"
+          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -248,12 +257,22 @@ exports[`Log Config component renders empty log config 1`] = `
                             id="baseQueryCallout"
                           >
                             <EuiText
+                              color="default"
                               size="xs"
                             >
                               <div
                                 className="euiText euiText--extraSmall"
                               >
-                                You can't change the base query after the application is created.
+                                <EuiTextColor
+                                  color="default"
+                                  component="div"
+                                >
+                                  <div
+                                    className="euiTextColor euiTextColor--default"
+                                  >
+                                    You can't change the base query after the application is created.
+                                  </div>
+                                </EuiTextColor>
                               </div>
                             </EuiText>
                           </div>
@@ -299,7 +318,7 @@ exports[`Log Config component renders empty log config 1`] = `
                               className="euiFormRow__fieldWrapper"
                             >
                               <EuiFlexItem
-                                aria-describedby="random_html_id-help"
+                                aria-describedby="random_html_id-help-0"
                                 className="query-area"
                                 grow={false}
                                 id="random_html_id"
@@ -308,7 +327,7 @@ exports[`Log Config component renders empty log config 1`] = `
                                 onFocus={[Function]}
                               >
                                 <div
-                                  aria-describedby="random_html_id-help"
+                                  aria-describedby="random_html_id-help-0"
                                   className="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
                                   onBlur={[Function]}
@@ -448,11 +467,12 @@ exports[`Log Config component renders empty log config 1`] = `
                               </EuiFlexItem>
                               <EuiFormHelpText
                                 className="euiFormRow__text"
-                                id="random_html_id-help"
+                                id="random_html_id-help-0"
+                                key="The default logs view in the application will be filtered by this query."
                               >
                                 <div
                                   className="euiFormHelpText euiFormRow__text"
-                                  id="random_html_id-help"
+                                  id="random_html_id-help-0"
                                 >
                                   The default logs view in the application will be filtered by this query.
                                 </div>
@@ -658,6 +678,7 @@ exports[`Log Config component renders with query 1`] = `
               size="s"
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -669,6 +690,11 @@ exports[`Log Config component renders with query 1`] = `
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                   disabled={true}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -696,8 +722,11 @@ exports[`Log Config component renders with query 1`] = `
           </div>
         </div>
         <div
+          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="logSource"
+          role="region"
+          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -727,12 +756,22 @@ exports[`Log Config component renders with query 1`] = `
                             id="baseQueryCallout"
                           >
                             <EuiText
+                              color="default"
                               size="xs"
                             >
                               <div
                                 className="euiText euiText--extraSmall"
                               >
-                                You can't change the base query after the application is created.
+                                <EuiTextColor
+                                  color="default"
+                                  component="div"
+                                >
+                                  <div
+                                    className="euiTextColor euiTextColor--default"
+                                  >
+                                    You can't change the base query after the application is created.
+                                  </div>
+                                </EuiTextColor>
                               </div>
                             </EuiText>
                           </div>
@@ -778,7 +817,7 @@ exports[`Log Config component renders with query 1`] = `
                               className="euiFormRow__fieldWrapper"
                             >
                               <EuiFlexItem
-                                aria-describedby="random_html_id-help"
+                                aria-describedby="random_html_id-help-0"
                                 className="query-area"
                                 grow={false}
                                 id="random_html_id"
@@ -787,7 +826,7 @@ exports[`Log Config component renders with query 1`] = `
                                 onFocus={[Function]}
                               >
                                 <div
-                                  aria-describedby="random_html_id-help"
+                                  aria-describedby="random_html_id-help-0"
                                   className="euiFlexItem euiFlexItem--flexGrowZero query-area"
                                   id="random_html_id"
                                   onBlur={[Function]}
@@ -927,11 +966,12 @@ exports[`Log Config component renders with query 1`] = `
                               </EuiFlexItem>
                               <EuiFormHelpText
                                 className="euiFormRow__text"
-                                id="random_html_id-help"
+                                id="random_html_id-help-0"
+                                key="The default logs view in the application will be filtered by this query."
                               >
                                 <div
                                   className="euiFormHelpText euiFormRow__text"
-                                  id="random_html_id-help"
+                                  id="random_html_id-help-0"
                                 >
                                   The default logs view in the application will be filtered by this query.
                                 </div>
