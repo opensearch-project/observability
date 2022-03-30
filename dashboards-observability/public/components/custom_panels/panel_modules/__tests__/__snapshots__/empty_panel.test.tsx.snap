@@ -78,7 +78,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
             className="euiFlexItem euiFlexItem--flexGrowZero"
           >
             <AddVisualizationPopover
-              addVizDisabled={false}
+              addVizDisabled={true}
               showFlyout={[MockFunction]}
             >
               <EuiPopover
@@ -288,7 +288,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                 anchorPosition="downLeft"
                 button={
                   <EuiButton
-                    disabled={true}
+                    disabled={false}
                     iconSide="right"
                     iconType="arrowDown"
                     onClick={[Function]}
@@ -312,14 +312,14 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                     className="euiPopover__anchor"
                   >
                     <EuiButton
-                      disabled={true}
+                      disabled={false}
                       iconSide="right"
                       iconType="arrowDown"
                       onClick={[Function]}
                     >
                       <EuiButtonDisplay
                         baseClassName="euiButton"
-                        disabled={true}
+                        disabled={false}
                         element="button"
                         iconSide="right"
                         iconType="arrowDown"
@@ -328,8 +328,8 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                         type="button"
                       >
                         <button
-                          className="euiButton euiButton--primary euiButton-isDisabled"
-                          disabled={true}
+                          className="euiButton euiButton--primary"
+                          disabled={false}
                           onClick={[Function]}
                           style={
                             Object {
@@ -357,9 +357,9 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                                 size="m"
                                 type="arrowDown"
                               >
-                                <EuiIconEmpty
+                                <EuiIconArrowDown
                                   aria-hidden={true}
-                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
                                   focusable="false"
                                   role="img"
                                   style={null}
@@ -374,8 +374,13 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                                     viewBox="0 0 16 16"
                                     width={16}
                                     xmlns="http://www.w3.org/2000/svg"
-                                  />
-                                </EuiIconEmpty>
+                                  >
+                                    <path
+                                      d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                      fillRule="non-zero"
+                                    />
+                                  </svg>
+                                </EuiIconArrowDown>
                               </EuiIcon>
                               <span
                                 className="euiButton__text"
