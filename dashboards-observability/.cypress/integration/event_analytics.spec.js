@@ -31,6 +31,22 @@ describe('Adding sample data and visualization', () => {
   });
 });
 
+describe('Has working breadcrumbs', () => {
+  it('Redirect to correct page on breadcrumb click', () => {
+    landOnEventExplorer();
+    cy.wait(delay * 3);
+    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
+    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+});
+
 describe('Search a query on event home', () => {
   it('Search a query and redirect to explorer to display query output', () => {
     landOnEventHome();
