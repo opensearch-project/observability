@@ -10,10 +10,7 @@ OpenSearch builds using Java 11 at a minimum. This means you must have a JDK 11
 installed with the environment variable `JAVA_HOME` referencing the path to Java home
 for your JDK 11 installation, e.g. `JAVA_HOME=/usr/lib/jvm/jdk-11`.
 
-By default, tests use the same runtime as `JAVA_HOME`. However, since OpenSearch
-supports JDK 8, the build supports compiling with JDK 11 and testing on a different
-version of JDK runtime. To do this, set `RUNTIME_JAVA_HOME` pointing to the Java home of
-another JDK installation, e.g. `RUNTIME_JAVA_HOME=/usr/lib/jvm/jdk-8`.
+By default, tests use the same runtime as `JAVA_HOME`.
 
 ### Setup
 
