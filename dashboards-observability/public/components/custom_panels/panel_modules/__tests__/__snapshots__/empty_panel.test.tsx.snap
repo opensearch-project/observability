@@ -77,120 +77,112 @@ exports[`Empty panel view component renders empty panel view with disabled popov
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
           >
-            <AddVisualizationPopover
-              addVizDisabled={true}
-              showFlyout={[MockFunction]}
+            <EuiPopover
+              anchorPosition="downLeft"
+              button={
+                <EuiButton
+                  disabled={true}
+                  iconSide="right"
+                  iconType="arrowDown"
+                  onClick={[Function]}
+                >
+                  Add Visualization
+                </EuiButton>
+              }
+              closePopover={[Function]}
+              display="inlineBlock"
+              hasArrow={true}
+              id="addVisualizationContextMenu"
+              isOpen={false}
+              ownFocus={true}
+              panelPaddingSize="none"
             >
-              <EuiPopover
-                anchorPosition="downLeft"
-                button={
+              <div
+                className="euiPopover euiPopover--anchorDownLeft"
+                id="addVisualizationContextMenu"
+              >
+                <div
+                  className="euiPopover__anchor"
+                >
                   <EuiButton
                     disabled={true}
                     iconSide="right"
                     iconType="arrowDown"
                     onClick={[Function]}
                   >
-                    Add visualization
-                  </EuiButton>
-                }
-                closePopover={[Function]}
-                display="inlineBlock"
-                hasArrow={true}
-                id="addVisualizationContextMenu"
-                isOpen={false}
-                ownFocus={false}
-                panelPaddingSize="none"
-              >
-                <EuiOutsideClickDetector
-                  isDisabled={true}
-                  onOutsideClick={[Function]}
-                >
-                  <div
-                    className="euiPopover euiPopover--anchorDownLeft"
-                    id="addVisualizationContextMenu"
-                    onKeyDown={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    <div
-                      className="euiPopover__anchor"
+                    <EuiButtonDisplay
+                      baseClassName="euiButton"
+                      disabled={true}
+                      element="button"
+                      iconSide="right"
+                      iconType="arrowDown"
+                      isDisabled={true}
+                      onClick={[Function]}
+                      type="button"
                     >
-                      <EuiButton
+                      <button
+                        className="euiButton euiButton--primary euiButton-isDisabled"
                         disabled={true}
-                        iconSide="right"
-                        iconType="arrowDown"
                         onClick={[Function]}
+                        style={
+                          Object {
+                            "minWidth": undefined,
+                          }
+                        }
+                        type="button"
                       >
-                        <EuiButtonDisplay
-                          disabled={true}
-                          element="button"
+                        <EuiButtonContent
+                          className="euiButton__content"
                           iconSide="right"
                           iconType="arrowDown"
-                          isDisabled={true}
-                          onClick={[Function]}
-                          type="button"
+                          textProps={
+                            Object {
+                              "className": "euiButton__text",
+                            }
+                          }
                         >
-                          <button
-                            className="euiButton euiButton--primary euiButton-isDisabled"
-                            disabled={true}
-                            onClick={[Function]}
-                            type="button"
+                          <span
+                            className="euiButtonContent euiButtonContent--iconRight euiButton__content"
                           >
-                            <EuiButtonContent
-                              className="euiButton__content"
-                              iconSide="right"
-                              iconType="arrowDown"
-                              textProps={
-                                Object {
-                                  "className": "euiButton__text",
-                                }
-                              }
+                            <EuiIcon
+                              className="euiButtonContent__icon"
+                              color="inherit"
+                              size="m"
+                              type="arrowDown"
                             >
-                              <span
-                                className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                              <EuiIconEmpty
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
                               >
-                                <EuiIcon
-                                  className="euiButtonContent__icon"
-                                  size="m"
-                                  type="arrowDown"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                                <span
-                                  className="euiButton__text"
-                                >
-                                  Add visualization
-                                </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonDisplay>
-                      </EuiButton>
-                    </div>
-                  </div>
-                </EuiOutsideClickDetector>
-              </EuiPopover>
-            </AddVisualizationPopover>
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </EuiIconEmpty>
+                            </EuiIcon>
+                            <span
+                              className="euiButton__text"
+                            >
+                              Add Visualization
+                            </span>
+                          </span>
+                        </EuiButtonContent>
+                      </button>
+                    </EuiButtonDisplay>
+                  </EuiButton>
+                </div>
+              </div>
+            </EuiPopover>
           </div>
         </EuiFlexItem>
       </div>
@@ -283,125 +275,117 @@ exports[`Empty panel view component renders empty panel view with enabled popove
           <div
             className="euiFlexItem euiFlexItem--flexGrowZero"
           >
-            <AddVisualizationPopover
-              addVizDisabled={false}
-              showFlyout={[MockFunction]}
+            <EuiPopover
+              anchorPosition="downLeft"
+              button={
+                <EuiButton
+                  disabled={false}
+                  iconSide="right"
+                  iconType="arrowDown"
+                  onClick={[Function]}
+                >
+                  Add Visualization
+                </EuiButton>
+              }
+              closePopover={[Function]}
+              display="inlineBlock"
+              hasArrow={true}
+              id="addVisualizationContextMenu"
+              isOpen={false}
+              ownFocus={true}
+              panelPaddingSize="none"
             >
-              <EuiPopover
-                anchorPosition="downLeft"
-                button={
+              <div
+                className="euiPopover euiPopover--anchorDownLeft"
+                id="addVisualizationContextMenu"
+              >
+                <div
+                  className="euiPopover__anchor"
+                >
                   <EuiButton
                     disabled={false}
                     iconSide="right"
                     iconType="arrowDown"
                     onClick={[Function]}
                   >
-                    Add visualization
-                  </EuiButton>
-                }
-                closePopover={[Function]}
-                display="inlineBlock"
-                hasArrow={true}
-                id="addVisualizationContextMenu"
-                isOpen={false}
-                ownFocus={false}
-                panelPaddingSize="none"
-              >
-                <EuiOutsideClickDetector
-                  isDisabled={true}
-                  onOutsideClick={[Function]}
-                >
-                  <div
-                    className="euiPopover euiPopover--anchorDownLeft"
-                    id="addVisualizationContextMenu"
-                    onKeyDown={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    <div
-                      className="euiPopover__anchor"
+                    <EuiButtonDisplay
+                      baseClassName="euiButton"
+                      disabled={false}
+                      element="button"
+                      iconSide="right"
+                      iconType="arrowDown"
+                      isDisabled={false}
+                      onClick={[Function]}
+                      type="button"
                     >
-                      <EuiButton
+                      <button
+                        className="euiButton euiButton--primary"
                         disabled={false}
-                        iconSide="right"
-                        iconType="arrowDown"
                         onClick={[Function]}
+                        style={
+                          Object {
+                            "minWidth": undefined,
+                          }
+                        }
+                        type="button"
                       >
-                        <EuiButtonDisplay
-                          disabled={false}
-                          element="button"
+                        <EuiButtonContent
+                          className="euiButton__content"
                           iconSide="right"
                           iconType="arrowDown"
-                          isDisabled={false}
-                          onClick={[Function]}
-                          type="button"
+                          textProps={
+                            Object {
+                              "className": "euiButton__text",
+                            }
+                          }
                         >
-                          <button
-                            className="euiButton euiButton--primary"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
+                          <span
+                            className="euiButtonContent euiButtonContent--iconRight euiButton__content"
                           >
-                            <EuiButtonContent
-                              className="euiButton__content"
-                              iconSide="right"
-                              iconType="arrowDown"
-                              textProps={
-                                Object {
-                                  "className": "euiButton__text",
-                                }
-                              }
+                            <EuiIcon
+                              className="euiButtonContent__icon"
+                              color="inherit"
+                              size="m"
+                              type="arrowDown"
                             >
-                              <span
-                                className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                              <EuiIconArrowDown
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
                               >
-                                <EuiIcon
-                                  className="euiButtonContent__icon"
-                                  size="m"
-                                  type="arrowDown"
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <EuiIconArrowDown
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                        fillRule="non-zero"
-                                      />
-                                    </svg>
-                                  </EuiIconArrowDown>
-                                </EuiIcon>
-                                <span
-                                  className="euiButton__text"
-                                >
-                                  Add visualization
-                                </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonDisplay>
-                      </EuiButton>
-                    </div>
-                  </div>
-                </EuiOutsideClickDetector>
-              </EuiPopover>
-            </AddVisualizationPopover>
+                                  <path
+                                    d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                    fillRule="non-zero"
+                                  />
+                                </svg>
+                              </EuiIconArrowDown>
+                            </EuiIcon>
+                            <span
+                              className="euiButton__text"
+                            >
+                              Add Visualization
+                            </span>
+                          </span>
+                        </EuiButtonContent>
+                      </button>
+                    </EuiButtonDisplay>
+                  </EuiButton>
+                </div>
+              </div>
+            </EuiPopover>
           </div>
         </EuiFlexItem>
       </div>
