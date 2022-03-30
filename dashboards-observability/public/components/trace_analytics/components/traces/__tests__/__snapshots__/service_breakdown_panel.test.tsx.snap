@@ -6,7 +6,7 @@ exports[`Service breakdown panel component renders empty service breakdown panel
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <PanelTitle
         title="Time spent by service"
@@ -91,7 +91,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <PanelTitle
         title="Time spent by service"
@@ -291,7 +291,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                                 color="#7492e7"
                               >
                                 <div
-                                  className="euiHealth"
+                                  className="euiHealth euiHealth--textSizeS"
                                 >
                                   <EuiFlexGroup
                                     alignItems="center"
@@ -313,24 +313,24 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                                           >
                                             <EuiIconEmpty
                                               aria-hidden={true}
-                                              className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                              className="euiIcon euiIcon--medium euiIcon--customColor euiIcon-isLoading"
                                               focusable="false"
                                               role="img"
                                               style={
                                                 Object {
-                                                  "fill": "#7492e7",
+                                                  "color": "#7492e7",
                                                 }
                                               }
                                             >
                                               <svg
                                                 aria-hidden={true}
-                                                className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                className="euiIcon euiIcon--medium euiIcon--customColor euiIcon-isLoading"
                                                 focusable="false"
                                                 height={16}
                                                 role="img"
                                                 style={
                                                   Object {
-                                                    "fill": "#7492e7",
+                                                    "color": "#7492e7",
                                                   }
                                                 }
                                                 viewBox="0 0 16 16"

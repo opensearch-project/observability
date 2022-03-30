@@ -216,6 +216,7 @@ exports[`Service Config component renders empty service config 1`] = `
               size="s"
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -227,6 +228,11 @@ exports[`Service Config component renders empty service config 1`] = `
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                   disabled={true}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -254,8 +260,11 @@ exports[`Service Config component renders empty service config 1`] = `
           </div>
         </div>
         <div
+          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="servicesEntities"
+          role="region"
+          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -441,6 +450,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                     </AutosizeInput>
                                   </div>
                                   <EuiFormControlLayoutIcons
+                                    compressed={false}
                                     icon={
                                       Object {
                                         "aria-label": "Open list of options",
@@ -461,6 +471,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                         data-test-subj="comboBoxToggleListButton"
                                         iconRef={[Function]}
                                         onClick={[Function]}
+                                        size="m"
                                         type="arrowDown"
                                       >
                                         <button
@@ -473,6 +484,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                           <EuiIcon
                                             aria-hidden="true"
                                             className="euiFormControlLayoutCustomIcon__icon"
+                                            size="m"
                                             type="arrowDown"
                                           >
                                             <EuiIconEmpty
@@ -522,7 +534,7 @@ exports[`Service Config component renders empty service config 1`] = `
                 >
                   <EuiPanel>
                     <div
-                      className="euiPanel euiPanel--paddingMedium"
+                      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
                     >
                       <PanelTitle
                         title="Service map"
@@ -571,266 +583,257 @@ exports[`Service Config component renders empty service config 1`] = `
                         }
                       >
                         <fieldset
-                          className="euiButtonGroup__fieldset"
+                          className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
+                          disabled={false}
                         >
+                          <EuiScreenReaderOnly>
+                            <legend
+                              className="euiScreenReaderOnly"
+                            />
+                          </EuiScreenReaderOnly>
                           <div
-                            className="euiButtonGroup euiButtonGroup--s"
+                            className="euiButtonGroup__buttons"
                           >
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button euiButtonGroup__button--selected"
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={true}
+                              element="label"
                               id="latency"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={true}
                               key="0"
                               label="Latency"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={true}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Latency"
-                                onChange={[Function]}
-                                title="Latency"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className="euiButtonGroupButton-isSelected"
+                                color="text"
+                                element="label"
+                                fill={true}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Latency",
+                                    "ref": [Function],
+                                    "title": "Latency",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Latency"
-                                    checked={true}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Latency"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                                    color="text"
-                                    fill={true}
-                                    id="latency"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Latency",
+                                        "ref": [Function],
+                                        "title": "Latency",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={true}
-                                      id="latency"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
-                                        disabled={false}
-                                        id="latency"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Latency"
+                                        title="Latency"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Latency
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button"
+                                        <input
+                                          checked={true}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="latency"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Latency
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={false}
+                              element="label"
                               id="error_rate"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={false}
                               key="1"
                               label="Error rate"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={false}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Error rate"
-                                onChange={[Function]}
-                                title="Error rate"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className=""
+                                color="text"
+                                element="label"
+                                fill={false}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Error rate",
+                                    "ref": [Function],
+                                    "title": "Error rate",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Error rate"
-                                    checked={false}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Error rate"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button"
-                                    color="text"
-                                    fill={false}
-                                    id="error_rate"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Error rate",
+                                        "ref": [Function],
+                                        "title": "Error rate",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={false}
-                                      id="error_rate"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                        disabled={false}
-                                        id="error_rate"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Error rate"
+                                        title="Error rate"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Error rate
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button"
+                                        <input
+                                          checked={false}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="error_rate"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Error rate
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={false}
+                              element="label"
                               id="throughput"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={false}
                               key="2"
                               label="Throughput"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={false}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Throughput"
-                                onChange={[Function]}
-                                title="Throughput"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className=""
+                                color="text"
+                                element="label"
+                                fill={false}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Throughput",
+                                    "ref": [Function],
+                                    "title": "Throughput",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Throughput"
-                                    checked={false}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Throughput"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button"
-                                    color="text"
-                                    fill={false}
-                                    id="throughput"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Throughput",
+                                        "ref": [Function],
+                                        "title": "Throughput",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={false}
-                                      id="throughput"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                        disabled={false}
-                                        id="throughput"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Throughput"
+                                        title="Throughput"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Throughput
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
+                                        <input
+                                          checked={false}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="throughput"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Throughput
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
                           </div>
                         </fieldset>
                       </EuiButtonGroup>
@@ -895,7 +898,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                         isInvalid={false}
                                       >
                                         <input
-                                          className="euiFieldSearch euiFieldSearch-isClearable"
+                                          className="euiFieldSearch"
                                           onChange={[Function]}
                                           onKeyUp={[Function]}
                                           placeholder="Service name"
@@ -904,6 +907,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                         />
                                       </EuiValidatableControl>
                                       <EuiFormControlLayoutIcons
+                                        compressed={false}
                                         icon="search"
                                         isLoading={false}
                                       >
@@ -911,6 +915,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                           className="euiFormControlLayoutIcons"
                                         >
                                           <EuiFormControlLayoutCustomIcon
+                                            size="m"
                                             type="search"
                                           >
                                             <span
@@ -919,6 +924,7 @@ exports[`Service Config component renders empty service config 1`] = `
                                               <EuiIcon
                                                 aria-hidden="true"
                                                 className="euiFormControlLayoutCustomIcon__icon"
+                                                size="m"
                                                 type="search"
                                               >
                                                 <EuiIconEmpty
@@ -990,21 +996,21 @@ exports[`Service Config component renders empty service config 1`] = `
                             <div
                               className="euiEmptyPrompt"
                             >
+                              <EuiTitle
+                                size="m"
+                              >
+                                <h2
+                                  className="euiTitle euiTitle--medium"
+                                >
+                                  No matches
+                                </h2>
+                              </EuiTitle>
                               <EuiTextColor
                                 color="subdued"
                               >
                                 <span
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  <EuiTitle
-                                    size="m"
-                                  >
-                                    <h2
-                                      className="euiTitle euiTitle--medium"
-                                    >
-                                      No matches
-                                    </h2>
-                                  </EuiTitle>
                                   <EuiSpacer
                                     size="m"
                                   >
@@ -1286,6 +1292,7 @@ exports[`Service Config component renders with one service selected 1`] = `
               size="s"
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -1297,6 +1304,11 @@ exports[`Service Config component renders with one service selected 1`] = `
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                   disabled={true}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -1324,8 +1336,11 @@ exports[`Service Config component renders with one service selected 1`] = `
           </div>
         </div>
         <div
+          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="servicesEntities"
+          role="region"
+          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -1511,6 +1526,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                     </AutosizeInput>
                                   </div>
                                   <EuiFormControlLayoutIcons
+                                    compressed={false}
                                     icon={
                                       Object {
                                         "aria-label": "Open list of options",
@@ -1531,6 +1547,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                         data-test-subj="comboBoxToggleListButton"
                                         iconRef={[Function]}
                                         onClick={[Function]}
+                                        size="m"
                                         type="arrowDown"
                                       >
                                         <button
@@ -1543,6 +1560,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                           <EuiIcon
                                             aria-hidden="true"
                                             className="euiFormControlLayoutCustomIcon__icon"
+                                            size="m"
                                             type="arrowDown"
                                           >
                                             <EuiIconArrowDown
@@ -1597,7 +1615,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                 >
                   <EuiPanel>
                     <div
-                      className="euiPanel euiPanel--paddingMedium"
+                      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
                     >
                       <PanelTitle
                         title="Service map"
@@ -1646,266 +1664,257 @@ exports[`Service Config component renders with one service selected 1`] = `
                         }
                       >
                         <fieldset
-                          className="euiButtonGroup__fieldset"
+                          className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
+                          disabled={false}
                         >
+                          <EuiScreenReaderOnly>
+                            <legend
+                              className="euiScreenReaderOnly"
+                            />
+                          </EuiScreenReaderOnly>
                           <div
-                            className="euiButtonGroup euiButtonGroup--s"
+                            className="euiButtonGroup__buttons"
                           >
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button euiButtonGroup__button--selected"
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={true}
+                              element="label"
                               id="latency"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={true}
                               key="0"
                               label="Latency"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={true}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Latency"
-                                onChange={[Function]}
-                                title="Latency"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className="euiButtonGroupButton-isSelected"
+                                color="text"
+                                element="label"
+                                fill={true}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Latency",
+                                    "ref": [Function],
+                                    "title": "Latency",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Latency"
-                                    checked={true}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Latency"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                                    color="text"
-                                    fill={true}
-                                    id="latency"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Latency",
+                                        "ref": [Function],
+                                        "title": "Latency",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={true}
-                                      id="latency"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
-                                        disabled={false}
-                                        id="latency"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Latency"
+                                        title="Latency"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Latency
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button"
+                                        <input
+                                          checked={true}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="latency"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Latency
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={false}
+                              element="label"
                               id="error_rate"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={false}
                               key="1"
                               label="Error rate"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={false}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Error rate"
-                                onChange={[Function]}
-                                title="Error rate"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className=""
+                                color="text"
+                                element="label"
+                                fill={false}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Error rate",
+                                    "ref": [Function],
+                                    "title": "Error rate",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Error rate"
-                                    checked={false}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Error rate"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button"
-                                    color="text"
-                                    fill={false}
-                                    id="error_rate"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Error rate",
+                                        "ref": [Function],
+                                        "title": "Error rate",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={false}
-                                      id="error_rate"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                        disabled={false}
-                                        id="error_rate"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Error rate"
+                                        title="Error rate"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Error rate
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
-                            <EuiButtonToggle
-                              className="euiButtonGroup__button"
+                                        <input
+                                          checked={false}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="error_rate"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Error rate
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
+                            <EuiButtonGroupButton
                               color="text"
-                              fill={false}
+                              element="label"
                               id="throughput"
+                              isDisabled={false}
+                              isIconOnly={false}
                               isSelected={false}
                               key="2"
                               label="Throughput"
+                              name="random_html_id"
                               onChange={[Function]}
                               size="s"
-                              toggleClassName="euiButtonGroup__toggle"
-                              type="single"
                             >
-                              <EuiToggle
-                                checked={false}
-                                className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                                inputClassName="euiButtonToggle__input"
-                                label="Throughput"
-                                onChange={[Function]}
-                                title="Throughput"
-                                type="single"
+                              <EuiButtonDisplay
+                                baseClassName="euiButtonGroupButton"
+                                className=""
+                                color="text"
+                                element="label"
+                                fill={false}
+                                htmlFor="random_html_id"
+                                isDisabled={false}
+                                onClick={[Function]}
+                                size="s"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonGroupButton__textShift",
+                                    "data-text": "Throughput",
+                                    "ref": [Function],
+                                    "title": "Throughput",
+                                  }
+                                }
                               >
-                                <div
-                                  className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                                <label
+                                  className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                  disabled={false}
+                                  htmlFor="random_html_id"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "minWidth": undefined,
+                                    }
+                                  }
                                 >
-                                  <input
-                                    aria-label="Throughput"
-                                    checked={false}
-                                    className="euiToggle__input euiButtonToggle__input"
-                                    onChange={[Function]}
-                                    title="Throughput"
-                                    type="radio"
-                                  />
-                                  <EuiButton
-                                    className="euiButtonToggle euiButtonGroup__button"
-                                    color="text"
-                                    fill={false}
-                                    id="throughput"
-                                    size="s"
-                                    tabIndex={-1}
+                                  <EuiButtonContent
+                                    className="euiButton__content"
+                                    iconSide="left"
+                                    textProps={
+                                      Object {
+                                        "className": "euiButton__text euiButtonGroupButton__textShift",
+                                        "data-text": "Throughput",
+                                        "ref": [Function],
+                                        "title": "Throughput",
+                                      }
+                                    }
                                   >
-                                    <EuiButtonDisplay
-                                      className="euiButtonToggle euiButtonGroup__button"
-                                      color="text"
-                                      disabled={false}
-                                      element="button"
-                                      fill={false}
-                                      id="throughput"
-                                      isDisabled={false}
-                                      size="s"
-                                      tabIndex={-1}
-                                      type="button"
+                                    <span
+                                      className="euiButtonContent euiButton__content"
                                     >
-                                      <button
-                                        className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                        disabled={false}
-                                        id="throughput"
-                                        tabIndex={-1}
-                                        type="button"
+                                      <span
+                                        className="euiButton__text euiButtonGroupButton__textShift"
+                                        data-text="Throughput"
+                                        title="Throughput"
                                       >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Throughput
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiToggle>
-                            </EuiButtonToggle>
+                                        <input
+                                          checked={false}
+                                          className="euiScreenReaderOnly"
+                                          data-test-subj="throughput"
+                                          disabled={false}
+                                          id="random_html_id"
+                                          name="random_html_id"
+                                          onChange={[Function]}
+                                          type="radio"
+                                        />
+                                        Throughput
+                                      </span>
+                                    </span>
+                                  </EuiButtonContent>
+                                </label>
+                              </EuiButtonDisplay>
+                            </EuiButtonGroupButton>
                           </div>
                         </fieldset>
                       </EuiButtonGroup>
@@ -1970,7 +1979,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                         isInvalid={false}
                                       >
                                         <input
-                                          className="euiFieldSearch euiFieldSearch-isClearable"
+                                          className="euiFieldSearch"
                                           onChange={[Function]}
                                           onKeyUp={[Function]}
                                           placeholder="Service name"
@@ -1979,6 +1988,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                         />
                                       </EuiValidatableControl>
                                       <EuiFormControlLayoutIcons
+                                        compressed={false}
                                         icon="search"
                                         isLoading={false}
                                       >
@@ -1986,6 +1996,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                           className="euiFormControlLayoutIcons"
                                         >
                                           <EuiFormControlLayoutCustomIcon
+                                            size="m"
                                             type="search"
                                           >
                                             <span
@@ -1994,6 +2005,7 @@ exports[`Service Config component renders with one service selected 1`] = `
                                               <EuiIcon
                                                 aria-hidden="true"
                                                 className="euiFormControlLayoutCustomIcon__icon"
+                                                size="m"
                                                 type="search"
                                               >
                                                 <EuiIconSearch
@@ -2069,21 +2081,21 @@ exports[`Service Config component renders with one service selected 1`] = `
                             <div
                               className="euiEmptyPrompt"
                             >
+                              <EuiTitle
+                                size="m"
+                              >
+                                <h2
+                                  className="euiTitle euiTitle--medium"
+                                >
+                                  No matches
+                                </h2>
+                              </EuiTitle>
                               <EuiTextColor
                                 color="subdued"
                               >
                                 <span
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  <EuiTitle
-                                    size="m"
-                                  >
-                                    <h2
-                                      className="euiTitle euiTitle--medium"
-                                    >
-                                      No matches
-                                    </h2>
-                                  </EuiTitle>
                                   <EuiSpacer
                                     size="m"
                                   >
