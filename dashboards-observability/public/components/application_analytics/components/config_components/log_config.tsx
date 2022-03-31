@@ -149,7 +149,7 @@ export const LogConfig = (props: LogConfigProps) => {
                     uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
                   }`}
                   color="hollow"
-                  onClick={() => showFlyout()}
+                  onClick={showFlyout}
                   onClickAriaLabel={'pplLinkShowFlyout'}
                 >
                   PPL

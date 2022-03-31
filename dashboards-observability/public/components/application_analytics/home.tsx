@@ -54,8 +54,6 @@ export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
   setQueryWithStorage: (newQuery: string) => void;
   setFiltersWithStorage: (newFilters: FilterType[]) => void;
   setAppConfigs: (newAppConfigs: FilterType[]) => void;
-  setStartTimeWithStorage: (newStartTime: string, itemName?: string) => void;
-  setEndTimeWithStorage: (newEndTime: string, itemName?: string) => void;
 }
 
 export const Home = (props: HomeProps) => {
@@ -107,17 +105,6 @@ export const Home = (props: HomeProps) => {
     setQuery(newQuery);
     sessionStorage.setItem('AppAnalyticsQuery', newQuery);
   };
-  const setStartTimeWithStorage = (
-    newStartTime: string,
-    itemName: string = 'AppAnalyticsStartTime'
-  ) => {
-    setStartTime(newStartTime);
-    sessionStorage.setItem(itemName, newStartTime);
-  };
-  const setEndTimeWithStorage = (newEndTime: string, itemName: string = 'AppAnalyticsEndTime') => {
-    setEndTime(newEndTime);
-    sessionStorage.setItem(itemName, newEndTime);
-  };
 
   useEffect(() => {
     handleIndicesExistRequest(http, setIndicesExist);
@@ -140,11 +127,9 @@ export const Home = (props: HomeProps) => {
     setFilters,
     setFiltersWithStorage,
     startTime,
-    setStartTime: setStartTimeWithStorage,
-    setStartTimeWithStorage,
+    setStartTime,
     endTime,
-    setEndTime: setEndTimeWithStorage,
-    setEndTimeWithStorage,
+    setEndTime,
     indicesExist,
   };
 

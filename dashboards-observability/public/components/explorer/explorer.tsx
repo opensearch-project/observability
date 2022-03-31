@@ -217,7 +217,7 @@ export const Explorer = ({
       .fetchSavedObjects({
         objectId,
       })
-      .then((res) => {
+      .then(async (res) => {
         const savedData = res.observabilityObjectList[0];
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
@@ -286,7 +286,7 @@ export const Explorer = ({
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
           : TYPE_TAB_MAPPING[SAVED_VISUALIZATION];
         setSelectedContentTab(tabToBeFocused);
-        fetchData();
+        await fetchData();
       })
       .catch((error) => {
         notifications.toasts.addError(error, {
@@ -433,7 +433,6 @@ export const Explorer = ({
 
   const updateTabData = async (objectId: string) => {
     await getSavedDataById(objectId);
-    await fetchData();
   };
 
   useEffect(() => {
@@ -456,8 +455,8 @@ export const Explorer = ({
       if (savedObjectId) {
         updateTabData(savedObjectId);
       } else {
+        setTempQuery('');
         emptyTab();
-        fetchData();
       }
     }
   }, [savedObjectId]);
@@ -472,10 +471,10 @@ export const Explorer = ({
           [INDEX]: '',
           [SELECTED_TIMESTAMP]: '',
           [SAVED_OBJECT_ID]: '',
-          [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
         },
       })
     );
+    await fetchData();
   };
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
@@ -1242,8 +1241,8 @@ export const Explorer = ({
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}
           dslService={dslService}
-          startTime={dateRange[0]}
-          endTime={dateRange[1]}
+          startTime={appLogEvents ? startTime : dateRange[0]}
+          endTime={appLogEvents ? endTime : dateRange[1]}
           handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
           selectedPanelName={selectedPanelNameRef.current}
           selectedCustomPanelOptions={selectedCustomPanelOptions}

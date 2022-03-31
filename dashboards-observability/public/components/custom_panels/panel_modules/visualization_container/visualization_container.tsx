@@ -53,8 +53,7 @@ interface Props {
   onRefresh: boolean;
   pplFilterValue: string;
   usedInNotebooks?: boolean;
-  fromApp?: boolean;
-  switchToEditViz?: any;
+  onEditClick: (savedVisualizationId: string) => any;
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
@@ -71,8 +70,7 @@ export const VisualizationContainer = ({
   onRefresh,
   pplFilterValue,
   usedInNotebooks,
-  fromApp,
-  switchToEditViz,
+  onEditClick,
   cloneVisualization,
   showFlyout,
   removeVisualization,
@@ -85,7 +83,7 @@ export const VisualizationContainer = ({
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
-  const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const onActionsMenuClick = () => setIsPopoverOpen((currPopoverOpen) => !currPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
   let popoverPanel = [
@@ -94,11 +92,7 @@ export const VisualizationContainer = ({
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();
-        if (fromApp) {
-          switchToEditViz(savedVisualizationId);
-        } else {
-          window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
-        }
+        onEditClick(savedVisualizationId);
       }}
     >
       Edit
