@@ -209,7 +209,7 @@ exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
             paddingSize="s"
           >
             <div
-              className="euiPanel euiPanel--paddingSmall"
+              className="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
             >
               <EuiFlexGroup>
                 <div

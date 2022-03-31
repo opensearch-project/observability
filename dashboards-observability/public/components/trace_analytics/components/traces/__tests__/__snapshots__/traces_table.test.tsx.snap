@@ -10,7 +10,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <EuiFlexGroup
         alignItems="center"
@@ -92,21 +92,21 @@ exports[`Traces table component renders empty traces table message 1`] = `
           <div
             className="euiEmptyPrompt"
           >
+            <EuiTitle
+              size="m"
+            >
+              <h2
+                className="euiTitle euiTitle--medium"
+              >
+                Trace Analytics not set up
+              </h2>
+            </EuiTitle>
             <EuiTextColor
               color="subdued"
             >
               <span
                 className="euiTextColor euiTextColor--subdued"
               >
-                <EuiTitle
-                  size="m"
-                >
-                  <h2
-                    className="euiTitle euiTitle--medium"
-                  >
-                    Trace Analytics not set up
-                  </h2>
-                </EuiTitle>
                 <EuiSpacer
                   size="m"
                 >
@@ -136,13 +136,6 @@ exports[`Traces table component renders empty traces table message 1`] = `
                 className="euiSpacer euiSpacer--l"
               />
             </EuiSpacer>
-            <EuiSpacer
-              size="s"
-            >
-              <div
-                className="euiSpacer euiSpacer--s"
-              />
-            </EuiSpacer>
             <EuiButton
               color="primary"
               iconSide="right"
@@ -150,6 +143,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
               onClick={[Function]}
             >
               <EuiButtonDisplay
+                baseClassName="euiButton"
                 color="primary"
                 disabled={false}
                 element="button"
@@ -163,6 +157,11 @@ exports[`Traces table component renders empty traces table message 1`] = `
                   className="euiButton euiButton--primary"
                   disabled={false}
                   onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -180,19 +179,20 @@ exports[`Traces table component renders empty traces table message 1`] = `
                     >
                       <EuiIcon
                         className="euiButtonContent__icon"
+                        color="inherit"
                         size="m"
                         type="popout"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                             focusable="false"
                             height={16}
                             role="img"
@@ -231,7 +231,7 @@ exports[`Traces table component renders empty traces table message 2`] = `
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <EuiFlexGroup
         alignItems="center"
@@ -312,21 +312,21 @@ exports[`Traces table component renders empty traces table message 2`] = `
           <div
             className="euiEmptyPrompt"
           >
+            <EuiTitle
+              size="m"
+            >
+              <h2
+                className="euiTitle euiTitle--medium"
+              >
+                No matches
+              </h2>
+            </EuiTitle>
             <EuiTextColor
               color="subdued"
             >
               <span
                 className="euiTextColor euiTextColor--subdued"
               >
-                <EuiTitle
-                  size="m"
-                >
-                  <h2
-                    className="euiTitle euiTitle--medium"
-                  >
-                    No matches
-                  </h2>
-                </EuiTitle>
                 <EuiSpacer
                   size="m"
                 >
@@ -386,7 +386,7 @@ exports[`Traces table component renders traces table 1`] = `
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <EuiFlexGroup
         alignItems="center"
@@ -732,89 +732,81 @@ exports[`Traces table component renders traces table 1`] = `
                                 ownFocus={true}
                                 panelPaddingSize="none"
                               >
-                                <EuiOutsideClickDetector
-                                  isDisabled={true}
-                                  onOutsideClick={[Function]}
+                                <div
+                                  className="euiPopover euiPopover--anchorDownRight"
                                 >
                                   <div
-                                    className="euiPopover euiPopover--anchorDownRight"
-                                    onKeyDown={[Function]}
-                                    onMouseDown={[Function]}
-                                    onMouseUp={[Function]}
-                                    onTouchEnd={[Function]}
-                                    onTouchStart={[Function]}
+                                    className="euiPopover__anchor"
                                   >
-                                    <div
-                                      className="euiPopover__anchor"
+                                    <EuiButtonEmpty
+                                      flush="right"
+                                      iconSide="right"
+                                      iconType="arrowDown"
+                                      onClick={[Function]}
+                                      size="xs"
                                     >
-                                      <EuiButtonEmpty
-                                        flush="right"
-                                        iconSide="right"
-                                        iconType="arrowDown"
+                                      <button
+                                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                                        disabled={false}
                                         onClick={[Function]}
-                                        size="xs"
+                                        type="button"
                                       >
-                                        <button
-                                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
-                                          disabled={false}
-                                          onClick={[Function]}
-                                          type="button"
-                                        >
-                                          <EuiButtonContent
-                                            className="euiButtonEmpty__content"
-                                            iconSide="right"
-                                            iconType="arrowDown"
-                                            textProps={
-                                              Object {
-                                                "className": "euiButtonEmpty__text",
-                                              }
+                                        <EuiButtonContent
+                                          className="euiButtonEmpty__content"
+                                          iconSide="right"
+                                          iconSize="s"
+                                          iconType="arrowDown"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButtonEmpty__text",
                                             }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                           >
-                                            <span
-                                              className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                            <EuiIcon
+                                              className="euiButtonContent__icon"
+                                              color="inherit"
+                                              size="s"
+                                              type="arrowDown"
                                             >
-                                              <EuiIcon
-                                                className="euiButtonContent__icon"
-                                                size="m"
-                                                type="arrowDown"
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
                                               >
-                                                <EuiIconEmpty
+                                                <svg
                                                   aria-hidden={true}
-                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                  className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                                                   focusable="false"
+                                                  height={16}
                                                   role="img"
                                                   style={null}
-                                                >
-                                                  <svg
-                                                    aria-hidden={true}
-                                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
-                                                    focusable="false"
-                                                    height={16}
-                                                    role="img"
-                                                    style={null}
-                                                    viewBox="0 0 16 16"
-                                                    width={16}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  />
-                                                </EuiIconEmpty>
-                                              </EuiIcon>
-                                              <span
-                                                className="euiButtonEmpty__text"
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiButtonEmpty__text"
+                                            >
+                                              <EuiI18n
+                                                default="Sorting"
+                                                token="euiTableSortMobile.sorting"
                                               >
-                                                <EuiI18n
-                                                  default="Sorting"
-                                                  token="euiTableSortMobile.sorting"
-                                                >
-                                                  Sorting
-                                                </EuiI18n>
-                                              </span>
+                                                Sorting
+                                              </EuiI18n>
                                             </span>
-                                          </EuiButtonContent>
-                                        </button>
-                                      </EuiButtonEmpty>
-                                    </div>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonEmpty>
                                   </div>
-                                </EuiOutsideClickDetector>
+                                </div>
                               </EuiPopover>
                             </div>
                           </EuiTableSortMobile>
@@ -848,7 +840,6 @@ exports[`Traces table component renders traces table 1`] = `
                       <tr>
                         <EuiTableHeaderCell
                           align="left"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_trace_id_0"
                           isSortAscending={true}
                           isSorted={true}
@@ -874,46 +865,41 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent"
+                                isSortAscending={true}
+                                isSorted={true}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "ascending",
-                                        "innerText": "Trace ID",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Trace ID; Sorted in ascending order"
-                                    >
-                                      Trace ID
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiI18n
-                                  default="Sorted in {ariaSortValue} order"
-                                  token="euiTableHeaderCell.sortedAriaLabel"
-                                  values={
-                                    Object {
-                                      "ariaSortValue": "ascending",
-                                    }
-                                  }
+                                <span
+                                  className="euiTableCellContent"
                                 >
+                                  <EuiInnerText>
+                                    <EuiI18n
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Trace ID",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Trace ID"
+                                      >
+                                        Trace ID
+                                      </span>
+                                    </EuiI18n>
+                                  </EuiInnerText>
                                   <EuiIcon
-                                    aria-label="Sorted in ascending order"
                                     className="euiTableSortIcon"
                                     size="m"
                                     type="sortUp"
                                   >
                                     <EuiIconEmpty
                                       aria-hidden={true}
-                                      aria-label="Sorted in ascending order"
                                       className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
                                       focusable="false"
                                       role="img"
@@ -921,7 +907,6 @@ exports[`Traces table component renders traces table 1`] = `
                                     >
                                       <svg
                                         aria-hidden={true}
-                                        aria-label="Sorted in ascending order"
                                         className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
                                         focusable="false"
                                         height={16}
@@ -933,26 +918,13 @@ exports[`Traces table component renders traces table 1`] = `
                                       />
                                     </EuiIconEmpty>
                                   </EuiIcon>
-                                </EuiI18n>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
-                                    <EuiI18n
-                                      default="Click to sort in descending order"
-                                      token="euiTableHeaderCell.clickForDescending"
-                                    >
-                                      Click to sort in descending order
-                                    </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="left"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_trace_group_1"
                           isSorted={false}
                           key="_data_h_trace_group_1"
@@ -977,47 +949,40 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent"
+                                isSorted={false}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "none",
-                                        "innerText": "Trace group",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Trace group"
-                                    >
-                                      Trace group
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
+                                <span
+                                  className="euiTableCellContent"
+                                >
+                                  <EuiInnerText>
                                     <EuiI18n
-                                      default="Click to sort in ascending order"
-                                      token="euiTableHeaderCell.clickForAscending"
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Trace group",
+                                        }
+                                      }
                                     >
-                                      Click to sort in ascending order
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Trace group"
+                                      >
+                                        Trace group
+                                      </span>
                                     </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="right"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_latency_2"
                           isSorted={false}
                           key="_data_h_latency_2"
@@ -1042,47 +1007,40 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent euiTableCellContent--alignRight"
+                                isSorted={false}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "none",
-                                        "innerText": "Latency (ms)",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Latency (ms)"
-                                    >
-                                      Latency (ms)
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
+                                <span
+                                  className="euiTableCellContent euiTableCellContent--alignRight"
+                                >
+                                  <EuiInnerText>
                                     <EuiI18n
-                                      default="Click to sort in ascending order"
-                                      token="euiTableHeaderCell.clickForAscending"
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Latency (ms)",
+                                        }
+                                      }
                                     >
-                                      Click to sort in ascending order
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Latency (ms)"
+                                      >
+                                        Latency (ms)
+                                      </span>
                                     </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="right"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_percentile_in_trace_group_3"
                           isSorted={false}
                           key="_data_h_percentile_in_trace_group_3"
@@ -1107,49 +1065,42 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent euiTableCellContent--alignRight"
+                                isSorted={false}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "none",
-                                        "innerText": "Percentile in trace group",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Percentile in trace group"
-                                    >
-                                      <div>
-                                        Percentile in trace group
-                                      </div>
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
+                                <span
+                                  className="euiTableCellContent euiTableCellContent--alignRight"
+                                >
+                                  <EuiInnerText>
                                     <EuiI18n
-                                      default="Click to sort in ascending order"
-                                      token="euiTableHeaderCell.clickForAscending"
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Percentile in trace group",
+                                        }
+                                      }
                                     >
-                                      Click to sort in ascending order
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Percentile in trace group"
+                                      >
+                                        <div>
+                                          Percentile in trace group
+                                        </div>
+                                      </span>
                                     </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="right"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_error_count_4"
                           isSorted={false}
                           key="_data_h_error_count_4"
@@ -1174,47 +1125,40 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent euiTableCellContent--alignRight"
+                                isSorted={false}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "none",
-                                        "innerText": "Errors",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Errors"
-                                    >
-                                      Errors
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
+                                <span
+                                  className="euiTableCellContent euiTableCellContent--alignRight"
+                                >
+                                  <EuiInnerText>
                                     <EuiI18n
-                                      default="Click to sort in ascending order"
-                                      token="euiTableHeaderCell.clickForAscending"
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Errors",
+                                        }
+                                      }
                                     >
-                                      Click to sort in ascending order
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Errors"
+                                      >
+                                        Errors
+                                      </span>
                                     </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="left"
-                          allowNeutralSort={true}
                           data-test-subj="tableHeaderCell_last_updated_5"
                           isSorted={false}
                           key="_data_h_last_updated_5"
@@ -1239,41 +1183,35 @@ exports[`Traces table component renders traces table 1`] = `
                               onClick={[Function]}
                               type="button"
                             >
-                              <span
+                              <CellContents
                                 className="euiTableCellContent"
+                                isSorted={false}
+                                showSortMsg={true}
                               >
-                                <EuiInnerText>
-                                  <EuiI18n
-                                    default="{innerText}; Sorted in {ariaSortValue} order"
-                                    token="euiTableHeaderCell.titleTextWithSort"
-                                    values={
-                                      Object {
-                                        "ariaSortValue": "none",
-                                        "innerText": "Last updated",
-                                      }
-                                    }
-                                  >
-                                    <span
-                                      className="euiTableCellContent__text"
-                                      title="Last updated"
-                                    >
-                                      Last updated
-                                    </span>
-                                  </EuiI18n>
-                                </EuiInnerText>
-                                <EuiScreenReaderOnly>
-                                  <span
-                                    className="euiScreenReaderOnly"
-                                  >
+                                <span
+                                  className="euiTableCellContent"
+                                >
+                                  <EuiInnerText>
                                     <EuiI18n
-                                      default="Click to sort in ascending order"
-                                      token="euiTableHeaderCell.clickForAscending"
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "Last updated",
+                                        }
+                                      }
                                     >
-                                      Click to sort in ascending order
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="Last updated"
+                                      >
+                                        Last updated
+                                      </span>
                                     </EuiI18n>
-                                  </span>
-                                </EuiScreenReaderOnly>
-                              </span>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
                             </button>
                           </th>
                         </EuiTableHeaderCell>
@@ -1382,7 +1320,7 @@ exports[`Traces table component renders traces table 1`] = `
                                               >
                                                 <button
                                                   aria-label="Copy trace id"
-                                                  className="euiButtonIcon euiButtonIcon--primary"
+                                                  className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall"
                                                   disabled={false}
                                                   onBlur={[Function]}
                                                   onClick={[Function]}
@@ -1392,19 +1330,20 @@ exports[`Traces table component renders traces table 1`] = `
                                                   <EuiIcon
                                                     aria-hidden="true"
                                                     className="euiButtonIcon__icon"
+                                                    color="inherit"
                                                     size="m"
                                                     type="copyClipboard"
                                                   >
                                                     <EuiIconEmpty
                                                       aria-hidden={true}
-                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                       focusable="false"
                                                       role="img"
                                                       style={null}
                                                     >
                                                       <svg
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                         focusable="false"
                                                         height={16}
                                                         role="img"
@@ -1711,97 +1650,88 @@ exports[`Traces table component renders traces table 1`] = `
                             display="inlineBlock"
                             hasArrow={true}
                             isOpen={false}
-                            ownFocus={false}
+                            ownFocus={true}
                             panelPaddingSize="none"
-                            withTitle={true}
                           >
-                            <EuiOutsideClickDetector
-                              isDisabled={true}
-                              onOutsideClick={[Function]}
+                            <div
+                              className="euiPopover euiPopover--anchorUpRight"
                             >
                               <div
-                                className="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
-                                onKeyDown={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchStart={[Function]}
+                                className="euiPopover__anchor"
                               >
-                                <div
-                                  className="euiPopover__anchor"
+                                <EuiButtonEmpty
+                                  color="text"
+                                  data-test-subj="tablePaginationPopoverButton"
+                                  iconSide="right"
+                                  iconType="arrowDown"
+                                  onClick={[Function]}
+                                  size="xs"
                                 >
-                                  <EuiButtonEmpty
-                                    color="text"
+                                  <button
+                                    className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
                                     data-test-subj="tablePaginationPopoverButton"
-                                    iconSide="right"
-                                    iconType="arrowDown"
+                                    disabled={false}
                                     onClick={[Function]}
-                                    size="xs"
+                                    type="button"
                                   >
-                                    <button
-                                      className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
-                                      data-test-subj="tablePaginationPopoverButton"
-                                      disabled={false}
-                                      onClick={[Function]}
-                                      type="button"
-                                    >
-                                      <EuiButtonContent
-                                        className="euiButtonEmpty__content"
-                                        iconSide="right"
-                                        iconType="arrowDown"
-                                        textProps={
-                                          Object {
-                                            "className": "euiButtonEmpty__text",
-                                          }
+                                    <EuiButtonContent
+                                      className="euiButtonEmpty__content"
+                                      iconSide="right"
+                                      iconSize="s"
+                                      iconType="arrowDown"
+                                      textProps={
+                                        Object {
+                                          "className": "euiButtonEmpty__text",
                                         }
+                                      }
+                                    >
+                                      <span
+                                        className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                       >
-                                        <span
-                                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                        <EuiIcon
+                                          className="euiButtonContent__icon"
+                                          color="inherit"
+                                          size="s"
+                                          type="arrowDown"
                                         >
-                                          <EuiIcon
-                                            className="euiButtonContent__icon"
-                                            size="m"
-                                            type="arrowDown"
+                                          <EuiIconEmpty
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
                                           >
-                                            <EuiIconEmpty
+                                            <svg
                                               aria-hidden={true}
-                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                              className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                                               focusable="false"
+                                              height={16}
                                               role="img"
                                               style={null}
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
-                                                focusable="false"
-                                                height={16}
-                                                role="img"
-                                                style={null}
-                                                viewBox="0 0 16 16"
-                                                width={16}
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              />
-                                            </EuiIconEmpty>
-                                          </EuiIcon>
-                                          <span
-                                            className="euiButtonEmpty__text"
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                          </EuiIconEmpty>
+                                        </EuiIcon>
+                                        <span
+                                          className="euiButtonEmpty__text"
+                                        >
+                                          <EuiI18n
+                                            default="Rows per page"
+                                            token="euiTablePagination.rowsPerPage"
                                           >
-                                            <EuiI18n
-                                              default="Rows per page"
-                                              token="euiTablePagination.rowsPerPage"
-                                            >
-                                              Rows per page
-                                            </EuiI18n>
-                                            : 
-                                            10
-                                          </span>
+                                            Rows per page
+                                          </EuiI18n>
+                                          : 
+                                          10
                                         </span>
-                                      </EuiButtonContent>
-                                    </button>
-                                  </EuiButtonEmpty>
-                                </div>
+                                      </span>
+                                    </EuiButtonContent>
+                                  </button>
+                                </EuiButtonEmpty>
                               </div>
-                            </EuiOutsideClickDetector>
+                            </div>
                           </EuiPopover>
                         </div>
                       </EuiFlexItem>
@@ -1843,7 +1773,7 @@ exports[`Traces table component renders traces table 1`] = `
                                   >
                                     <button
                                       aria-label="Previous page"
-                                      className="euiButtonIcon euiButtonIcon--text"
+                                      className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                                       data-test-subj="pagination-button-previous"
                                       disabled={true}
                                       onClick={[Function]}
@@ -1852,19 +1782,20 @@ exports[`Traces table component renders traces table 1`] = `
                                       <EuiIcon
                                         aria-hidden="true"
                                         className="euiButtonIcon__icon"
+                                        color="inherit"
                                         size="m"
                                         type="arrowLeft"
                                       >
                                         <EuiIconEmpty
                                           aria-hidden={true}
-                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                           focusable="false"
                                           role="img"
                                           style={null}
                                         >
                                           <svg
                                             aria-hidden={true}
-                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                             focusable="false"
                                             height={16}
                                             role="img"
@@ -1926,13 +1857,13 @@ exports[`Traces table component renders traces table 1`] = `
                                             href="#random_html_id"
                                             isDisabled={true}
                                             onClick={[Function]}
-                                            size="xs"
+                                            size="s"
                                           >
                                             <button
                                               aria-controls="random_html_id"
                                               aria-current={true}
                                               aria-label="Page 1 of 1"
-                                              className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                              className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
                                               data-test-subj="pagination-button-0"
                                               disabled={true}
                                               onClick={[Function]}
@@ -1941,6 +1872,7 @@ exports[`Traces table component renders traces table 1`] = `
                                               <EuiButtonContent
                                                 className="euiButtonEmpty__content"
                                                 iconSide="left"
+                                                iconSize="m"
                                                 textProps={
                                                   Object {
                                                     "className": "euiButtonEmpty__text",
@@ -1988,7 +1920,7 @@ exports[`Traces table component renders traces table 1`] = `
                                   >
                                     <button
                                       aria-label="Next page"
-                                      className="euiButtonIcon euiButtonIcon--text"
+                                      className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                                       data-test-subj="pagination-button-next"
                                       disabled={true}
                                       onClick={[Function]}
@@ -1997,19 +1929,20 @@ exports[`Traces table component renders traces table 1`] = `
                                       <EuiIcon
                                         aria-hidden="true"
                                         className="euiButtonIcon__icon"
+                                        color="inherit"
                                         size="m"
                                         type="arrowRight"
                                       >
                                         <EuiIconEmpty
                                           aria-hidden={true}
-                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                           focusable="false"
                                           role="img"
                                           style={null}
                                         >
                                           <svg
                                             aria-hidden={true}
-                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                             focusable="false"
                                             height={16}
                                             role="img"
