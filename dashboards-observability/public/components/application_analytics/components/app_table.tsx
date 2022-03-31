@@ -50,7 +50,6 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
 
 export function AppTable(props: AppTableProps) {
   const {
-    http,
     chrome,
     applications,
     parentBreadcrumbs,
@@ -58,8 +57,6 @@ export function AppTable(props: AppTableProps) {
     renameApplication,
     deleteApplication,
     setFilters,
-    setStartTime,
-    setEndTime,
     clearStorage,
   } = props;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -82,8 +79,6 @@ export function AppTable(props: AppTableProps) {
 
   const clear = () => {
     setFilters([]);
-    setStartTime('now-24h');
-    setEndTime('now');
     clearStorage();
   };
 
