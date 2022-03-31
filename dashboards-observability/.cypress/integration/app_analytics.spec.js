@@ -14,7 +14,8 @@ import {
   changeTimeTo24,
   expectMessageOnHover,
   baseQuery,
-  name,
+  nameOne,
+  nameTwo,
   description,
   service_one,
   service_two,
@@ -41,7 +42,7 @@ describe('Creating application', () => {
 
   it('Disables create button if missing fields', () => {
     expectMessageOnHover('Name is required.');
-    cy.get('[data-test-subj="nameFormRow"]').type(name);
+    cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
     expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
@@ -82,13 +83,14 @@ describe('Creating application', () => {
   });
 
   it('Creates an application and redirects to application', () => {
-    cy.get('[data-test-subj="nameFormRow"]').type(name);
+    cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
     cy.get('[data-test-subj="descriptionFormRow"]').type('This application is for testing.');
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
     cy.get('.euiAccordion').contains('Services & entities').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
-    cy.get('.euiFilterSelectItem').contains(service_one).trigger('click');
+    cy.focused().type('{downArrow}');
+    cy.focused().type('{enter}');
     cy.get('.euiBadge').contains('1').should('exist');
     cy.get('.euiAccordion').contains('Trace groups').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').type('http');
@@ -98,7 +100,7 @@ describe('Creating application', () => {
     cy.get('.euiButton').contains('Create').should('not.be.disabled');
     cy.get('.euiButton').contains('Create').click();
     cy.wait(delay*3);
-    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiTitle').contains(nameOne).should('exist');
     cy.get('.euiTab').contains('Panel').click();
     cy.get('.euiText').contains('Start by adding your first visualization').should('exist');
   });
@@ -107,12 +109,14 @@ describe('Creating application', () => {
     cy.visit(
       `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
     );
-    cy.wait(delay*3);
-    cy.get('input.euiFieldSearch').type(`${name}'s Panel`);
-    cy.wait(delay);
-    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
-    cy.get('.euiFormControlLayoutClearButton').click();
-    cy.wait(delay);
+    cy.wait(delay*4);
+    if (cy.get('.euiButton').contains('Create panel').length < 2) {
+      cy.get('input.euiFieldSearch').type(`${nameOne}'s Panel`);
+      cy.wait(delay);
+      cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+      cy.get('.euiFormControlLayoutClearButton').click();
+      cy.wait(delay);
+    }
   });
 
   it('Redirects to home page on cancel', () => {
@@ -122,7 +126,7 @@ describe('Creating application', () => {
   });
 
   it('Saves current input on reload', () => {
-    cy.get('[data-test-subj="nameFormRow"]').type(name);
+    cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
     cy.get('[data-test-subj="descriptionFormRow"]').type(description);
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
@@ -137,7 +141,7 @@ describe('Creating application', () => {
     cy.get('.euiBadge').contains('2').should('exist');
     cy.reload();
     cy.wait(delay);
-    cy.get('[data-test-subj="nameFormRow"]').find('.euiFieldText').should('contain.value', name);
+    cy.get('[data-test-subj="nameFormRow"]').find('.euiFieldText').should('contain.value', nameOne);
     cy.get('[data-test-subj="descriptionFormRow"]').find('.euiFieldText').should('contain.value', description);
     cy.get('.euiAccordion').contains('Log source').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain.value', baseQuery);
@@ -178,15 +182,14 @@ describe('Creating application', () => {
 });
 
 describe('Viewing application', () => {
-  beforeEach(() => {
-    moveToApplication();
-    changeTimeTo24('months');
+  before(() => {
+    moveToApplication(nameOne);
   });
 
   it('Has working breadcrumbs', () => {
     cy.get('.euiBreadcrumb').contains('Cypress').click();
     cy.wait(delay);
-    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiTitle').contains(nameOne).should('exist');
     cy.get('.euiBreadcrumb').contains('Application analytics').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Applications').should('exist');
@@ -196,6 +199,8 @@ describe('Viewing application', () => {
   });
 
   it('Shares time range among tabs', () => {
+    moveToApplication(nameOne);
+    changeTimeTo24('months');
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
     cy.get('.euiTab').contains('Services').click();
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
@@ -207,7 +212,33 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
   });
 
+  it('Saves time range for each application', () => {
+    moveToCreatePage();
+    cy.get('[data-test-subj="nameFormRow"]').type(nameTwo);
+    cy.get('.euiAccordion').contains('Log source').click();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(baseQuery);
+    cy.get('.euiButton').contains('Create').should('not.be.disabled');
+    cy.get('.euiButton').contains('Create').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(nameTwo).should('exist');
+    changeTimeTo24('weeks');
+    cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 weeks');
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
+    cy.get('.euiLink').contains(nameOne).click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(nameOne).should('exist');
+    cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
+    cy.get('.euiLink').contains(nameTwo).click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains(nameTwo).should('exist');
+    cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 weeks');
+  });
+
   it('Adds filter when Trace group name is clicked', () => {
+    moveToApplication(nameOne);
     cy.get('.euiTab').contains('Overview').click();
     cy.wait(delay);
     cy.get('.euiLink').contains('client_create_order').click();
@@ -315,7 +346,7 @@ describe('Viewing application', () => {
     cy.get('.euiContextMenuItem').contains('Edit').click();
     supressResizeObserverIssue();
     cy.wait(delay);
-    changeTimeTo24('months');
+    cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
     cy.get('.euiBadge').contains('Bar').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
@@ -336,20 +367,25 @@ describe('Viewing application', () => {
     cy.wait(delay);
     cy.get('.js-plotly-plot').should('exist');
     cy.get('.textpoint').contains('Available').should('exist');
-    moveToHomePage();
+    cy.get('.euiBreadcrumb').contains('Application analytics').click();
+    cy.wait(delay);
     cy.get('.euiBadge').contains('Available').should('exist');
     cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
   });
 
   it('Saves visualization #2 to panel with availability level', () => {
+    moveToApplication(nameOne);
+    changeTimeTo24('months');
     cy.get('.euiTab').contains('Log Events').click();
+    cy.wait(delay);
     cy.get('.plot-container').should('exist');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type('x');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear().wait(delay * 2).type(spanQueryTwoPartOne);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryTwoPartTwo);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryTwoPartThree);
-    changeTimeTo24('months');
+    cy.get('.euiButton').contains('Refresh').click();
+    cy.wait(delay);
     cy.get('.euiTab').contains('Visualizations').click();
     supressResizeObserverIssue();
     cy.get('.euiBadge').contains('Bar').click();
@@ -386,6 +422,32 @@ describe('Viewing application', () => {
     cy.get('.euiBadge').contains('Super').should('exist');
     cy.get('[style="background-color: rgb(145, 112, 184); color: rgb(0, 0, 0);"]').should('exist');
   });
+
+  it('Configuration tab shows details', () => {
+    cy.get('.euiLink').contains(nameOne).click();
+    cy.wait(delay);
+    cy.get('.euiTab').contains('Configuration').click();
+    cy.wait(delay);
+    cy.get('.euiCodeBlock__code').contains(baseQuery).should('exist');
+    cy.get('[aria-label="List of services and entities"]').find('li').should('have.length', 1);
+    cy.get('[aria-label="List of trace groups"]').find('li').should('have.length', 2);
+    cy.get('option').should('have.length', 2);
+  });
+
+
+  it('Changes availability visualization', () => {
+    cy.get('.euiTab').contains('Configuration').click();
+    cy.wait(delay);
+    cy.get('select').select(visOneName);
+    cy.wait(delay);
+    moveToHomePage();
+    cy.get('.euiBadge').contains('Available').should('exist');
+    cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
+    moveToApplication(nameOne);
+    cy.get('.euiTab').contains('Configuration').click();
+    cy.wait(delay);
+    cy.get('select').find('option:selected').should('have.text', visOneName);
+  })
 
   it('Hides application visualizations in Event Analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics`);
@@ -447,31 +509,11 @@ describe('Viewing application', () => {
     cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete').click();
     cy.wait(delay);
+    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('button.euiButton--danger').should('not.be.disabled');
+    cy.get('.euiButton__text').contains('Delete').click();
+    cy.wait(delay);
   });
-
-  it('Configuration tab shows details', () => {
-    cy.get('.euiTab').contains('Configuration').click();
-    cy.wait(delay);
-    cy.get('.euiCodeBlock__code').contains(baseQuery).should('exist');
-    cy.get('[aria-label="List of services and entities"]').find('li').should('have.length', 1);
-    cy.get('[aria-label="List of trace groups"]').find('li').should('have.length', 2);
-    cy.get('option').should('have.length', 2);
-  });
-
-
-  it('Changes availability visualization', () => {
-    cy.get('.euiTab').contains('Configuration').click();
-    cy.wait(delay);
-    cy.get('select').select(visOneName);
-    cy.wait(delay);
-    moveToHomePage();
-    cy.get('.euiBadge').contains('Available').should('exist');
-    cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
-    moveToApplication();
-    cy.get('.euiTab').contains('Configuration').click();
-    cy.wait(delay);
-    cy.get('select').find('option:selected').should('have.text', visOneName);
-  })
 });
 
 describe('Editing application', () => {
@@ -497,7 +539,7 @@ describe('Editing application', () => {
     cy.get('.euiCodeBlock__code').contains(baseQuery).should('exist');
     cy.get('[aria-label="List of services and entities"]').find('li').should('have.length', 2);
     cy.get('[aria-label="List of trace groups"]').find('li').should('have.length', 3);
-    cy.get('.euiTitle').contains(name).should('exist');
+    cy.get('.euiTitle').contains(nameOne).should('exist');
   });
 });
 
@@ -508,7 +550,7 @@ describe('Application Analytics home page', () => {
 
   it('Show correct information in table', () => {
     cy.get('.euiTableRow').first().within(($row) => {
-      cy.get('.euiLink').contains(name).should('exist');
+      cy.get('.euiLink').contains(nameOne).should('exist');
       cy.get('.euiTableCellContent').contains(composition).should('exist');
       cy.get('.euiBadge').contains('Available').should('exist');
       cy.get('[style="background-color: rgb(84, 179, 153); color: rgb(0, 0, 0);"]').should('exist');
@@ -537,15 +579,17 @@ describe('Application Analytics home page', () => {
   it('Deletes application', () => {
     cy.get('.euiPopover').contains('Actions').click();
     cy.get('.euiContextMenuItem-isDisabled').contains('Delete').should('exist');
-    cy.get('.euiTableRow').first().within(($row) => {
+    cy.get('.euiTableRow').eq(0).within(($row) => {
       cy.get('.euiCheckbox').click();
     });
-    cy.wait(delay);
+    cy.get('.euiTableRow').eq(1).within(($row) => {
+      cy.get('.euiCheckbox').click();
+    });
     cy.get('.euiPopover').contains('Actions').click();
     cy.get('.euiContextMenuItem').contains('Delete').click();
     cy.get('.euiButton--fill').contains('Delete').click();
     cy.wait(delay);
-    cy.get('.euiToast').contains(`Application "${newName}" successfully deleted!`);
+    cy.get('.euiToast').contains(`Applications successfully deleted!`);
     cy.get('.euiLink').contains(newName).should('not.exist');
   });
 });

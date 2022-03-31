@@ -2,6 +2,8 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -81,9 +83,9 @@ export const PanelGrid = (props: PanelGridProps) => {
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
-  const layoutChanged = (currentLayout: Layout[], allLayouts: Layouts) => {
+  const layoutChanged = (currLayouts: Layout[], allLayouts: Layouts) => {
     window.dispatchEvent(new Event('resize'));
-    setPostEditLayout(currentLayout);
+    setPostEditLayout(currLayouts);
   };
 
   const loadVizComponents = () => {
@@ -134,12 +136,12 @@ export const PanelGrid = (props: PanelGridProps) => {
   };
 
   // Save Visualization Layouts when not in edit mode anymore (after users saves the panel)
-  const saveVisualizationLayouts = async (panelId: string, visualizationParams: any) => {
+  const saveVisualizationLayouts = async (panelID: string, visualizationParams: any) => {
     return http
       .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
         body: JSON.stringify({
-          panelId: panelId,
-          visualizationParams: visualizationParams,
+          panelId: panelID,
+          visualizationParams,
         }),
       })
       .then(async (res) => {

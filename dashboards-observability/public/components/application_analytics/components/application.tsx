@@ -112,15 +112,11 @@ export function Application(props: AppDetailProps) {
     appId,
     chrome,
     parentBreadcrumbs,
-    startTime,
-    endTime,
     query,
     filters,
     appConfigs,
     updateApp,
     setAppConfigs,
-    setStartTimeWithStorage,
-    setEndTimeWithStorage,
     setToasts,
     setFilters,
   } = props;
@@ -143,14 +139,22 @@ export function Application(props: AppDetailProps) {
   const [editVizId, setEditVizId] = useState<string>('');
   const [visWithAvailability, setVisWithAvailability] = useState<EuiSelectOption[]>([]);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedTab(selectedTab.id);
+  const [appStartTime, setAppStartTime] = useState<string>(
+    sessionStorage.getItem(`${application.name}StartTime`) || 'now-24h'
+  );
+  const [appEndTime, setAppEndTime] = useState<string>(
+    sessionStorage.getItem(`${application.name}EndTime`) || 'now'
+  );
+
   const history = useHistory();
 
   const setStartTimeForApp = (newStartTime: string) => {
-    setStartTimeWithStorage(newStartTime, `${application.name}StartTime`);
+    setAppStartTime(newStartTime);
+    sessionStorage.setItem(`${application.name}StartTime`, newStartTime);
   };
-
   const setEndTimeForApp = (newEndTime: string) => {
-    setEndTimeWithStorage(newEndTime, `${application.name}EndTime`);
+    setAppEndTime(newEndTime);
+    sessionStorage.setItem(`${application.name}EndTime`, newEndTime);
   };
 
   const addSpanFilter = (field: string, value: any) => {
@@ -227,9 +231,9 @@ export function Application(props: AppDetailProps) {
   }, [appId, application.name]);
 
   useEffect(() => {
-    const DSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
+    const DSL = filtersToDsl(filters, query, appStartTime, appEndTime, 'app', appConfigs);
     setSpanDSL(DSL);
-  }, [filters, appConfigs, query, startTime, endTime]);
+  }, [filters, appConfigs, query, appStartTime, appEndTime]);
 
   useEffect(() => {
     if (selectedTabId !== TAB_LOG_ID) {
@@ -285,6 +289,8 @@ export function Application(props: AppDetailProps) {
         <DashboardContent
           {...props}
           page="app"
+          startTime={appStartTime}
+          endTime={appEndTime}
           setStartTime={setStartTimeForApp}
           setEndTime={setEndTimeForApp}
           childBreadcrumbs={childBreadcrumbs}
@@ -306,6 +312,8 @@ export function Application(props: AppDetailProps) {
           nameColumnAction={nameColumnAction}
           traceColumnAction={traceColumnAction}
           childBreadcrumbs={childBreadcrumbs}
+          startTime={appStartTime}
+          endTime={appEndTime}
           setStartTime={setStartTimeForApp}
           setEndTime={setEndTimeForApp}
         />
@@ -328,6 +336,8 @@ export function Application(props: AppDetailProps) {
           page="app"
           childBreadcrumbs={childBreadcrumbs}
           traceIdColumnAction={traceIdColumnAction}
+          startTime={appStartTime}
+          endTime={appEndTime}
           setStartTime={setStartTimeForApp}
           setEndTime={setEndTimeForApp}
         />
@@ -364,8 +374,8 @@ export function Application(props: AppDetailProps) {
         searchBarConfigs={searchBarConfigs}
         appId={appId}
         addVisualizationToPanel={addVisualizationToPanel}
-        startTime={startTime}
-        endTime={endTime}
+        startTime={appStartTime}
+        endTime={appEndTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         appBaseQuery={application.baseQuery}
@@ -395,8 +405,8 @@ export function Application(props: AppDetailProps) {
         setToast={setToasts}
         page="app"
         appId={appId}
-        startTime={startTime}
-        endTime={endTime}
+        startTime={appStartTime}
+        endTime={appEndTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         onAddClick={switchToEvent}
@@ -514,6 +524,8 @@ export function Application(props: AppDetailProps) {
           <ServiceDetailFlyout
             {...props}
             serviceName={serviceFlyoutName}
+            startTime={appStartTime}
+            endTime={appEndTime}
             closeServiceFlyout={closeServiceFlyout}
             openSpanFlyout={openSpanFlyout}
             setSelectedTab={setSelectedTab}

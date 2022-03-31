@@ -22,7 +22,7 @@ export const moveToCreatePage = () => {
   cy.get('.euiTitle').contains('Create application').should('exist');
 };
 
-export const moveToApplication = () => {
+export const moveToApplication = (name) => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
   cy.wait(delay * 6);
   cy.get('.euiLink').contains(name).click();
@@ -32,7 +32,7 @@ export const moveToApplication = () => {
 };
 
 export const moveToEditPage = () => {
-  moveToApplication();
+  moveToApplication(nameOne);
   cy.get('.euiTab').contains('Configuration').click();
   cy.get('.euiButton').contains('Edit').click();
   supressResizeObserverIssue();
@@ -61,7 +61,8 @@ export const moveToPanelHome = () => {
 };
 
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
-export const name = 'Cypress';
+export const nameOne = 'Cypress';
+export const nameTwo = 'Pine';
 export const description = 'This is my application for cypress testing.';
 export const service_one = 'order';
 export const service_two = 'payment';
