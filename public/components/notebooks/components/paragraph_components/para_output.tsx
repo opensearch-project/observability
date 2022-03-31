@@ -133,6 +133,9 @@ export const ParaOutput = (props: {
           let toObs = moment(visInput?.timeRange?.to).format(dateFormat);
           fromObs = fromObs === 'Invalid date' ? visInput.timeRange.from : fromObs;
           toObs = toObs === 'Invalid date' ? visInput.timeRange.to : toObs;
+          const onEditClick = (savedVisualizationId: string) => {
+            window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+          };
           return (
             <>
               <EuiText size="s" style={{ marginLeft: 9 }}>
@@ -143,6 +146,7 @@ export const ParaOutput = (props: {
                   http={props.http}
                   editMode={false}
                   visualizationId={''}
+                  onEditClick={onEditClick}
                   savedVisualizationId={para.visSavedObjId}
                   pplService={props.pplService}
                   fromTime={para.visStartTime}
