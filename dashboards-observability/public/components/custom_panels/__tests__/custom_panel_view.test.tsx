@@ -42,6 +42,9 @@ describe.skip('Panels View Component', () => {
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
     const setToast = jest.fn();
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <CustomPanelView
@@ -55,6 +58,7 @@ describe.skip('Panels View Component', () => {
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        onEditClick={onEditClick}
         startTime={start}
         endTime={end}
         setStartTime={setStart}
@@ -97,6 +101,9 @@ describe.skip('Panels View Component', () => {
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
     const setToast = jest.fn();
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <CustomPanelView
@@ -110,6 +117,7 @@ describe.skip('Panels View Component', () => {
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        onEditClick={onEditClick}
         startTime={start}
         endTime={end}
         setStartTime={setStart}

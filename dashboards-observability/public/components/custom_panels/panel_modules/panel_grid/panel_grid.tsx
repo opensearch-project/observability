@@ -50,8 +50,7 @@ interface PanelGridProps {
   pplService: PPLService;
   startTime: string;
   endTime: string;
-  fromApp?: boolean;
-  switchToEditViz?: any;
+  onEditClick: (savedVisualizationId: string) => any;
   onRefresh: boolean;
   cloneVisualization: (visualzationTitle: string, savedVisualizationId: string) => void;
   pplFilterValue: string;
@@ -60,24 +59,24 @@ interface PanelGridProps {
   setEditVizId?: any;
 }
 
-export const PanelGrid = ({
-  http,
-  chrome,
-  panelId,
-  panelVisualizations,
-  setPanelVisualizations,
-  editMode,
-  pplService,
-  startTime,
-  endTime,
-  fromApp = false,
-  switchToEditViz,
-  onRefresh,
-  cloneVisualization,
-  pplFilterValue,
-  showFlyout,
-  editActionType,
-}: PanelGridProps) => {
+export const PanelGrid = (props: PanelGridProps) => {
+  const {
+    http,
+    chrome,
+    panelId,
+    panelVisualizations,
+    setPanelVisualizations,
+    editMode,
+    pplService,
+    startTime,
+    endTime,
+    onEditClick,
+    onRefresh,
+    cloneVisualization,
+    pplFilterValue,
+    showFlyout,
+    editActionType,
+  } = props;
   const [currentLayout, setCurrentLayout] = useState<Layout[]>([]);
   const [postEditLayout, setPostEditLayout] = useState<Layout[]>([]);
   const [gridData, setGridData] = useState(panelVisualizations.map(() => <></>));
@@ -102,8 +101,7 @@ export const PanelGrid = ({
           fromTime={startTime}
           toTime={endTime}
           onRefresh={onRefresh}
-          fromApp={fromApp}
-          switchToEditViz={switchToEditViz}
+          onEditClick={onEditClick}
           cloneVisualization={cloneVisualization}
           pplFilterValue={pplFilterValue}
           showFlyout={showFlyout}

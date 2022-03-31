@@ -384,6 +384,10 @@ export function Application(props: AppDetailProps) {
     );
   };
 
+  const onEditClick = (savedVisualizationId: string) => {
+    switchToEditViz(savedVisualizationId);
+  };
+
   const getPanel = () => {
     return (
       <CustomPanelView
@@ -393,20 +397,20 @@ export function Application(props: AppDetailProps) {
         dslService={dslService}
         chrome={chrome}
         parentBreadcrumbs={parentBreadcrumbs}
+        childBreadcrumbs={childBreadcrumbs}
         // App analytics will not be renaming/cloning/deleting panels
         renameCustomPanel={async () => undefined}
         cloneCustomPanel={async () => Promise.reject()}
         deleteCustomPanel={async () => Promise.reject()}
         setToast={setToasts}
         page="app"
-        appName={application.name}
         appId={appId}
         startTime={appStartTime}
         endTime={appEndTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
-        switchToEvent={switchToEvent}
-        switchToEditViz={switchToEditViz}
+        onAddClick={switchToEvent}
+        onEditClick={onEditClick}
       />
     );
   };

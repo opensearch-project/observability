@@ -5,7 +5,7 @@
 
 import { supressResizeObserverIssue } from './constants';
 
-export const delay = 700;
+export const delay = 1000;
 
 export const moveToHomePage = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
@@ -45,11 +45,19 @@ export const changeTimeTo24 = (timeUnit) => {
   cy.get('[aria-label="Time unit"]').select(timeUnit);
   cy.get('.euiButton').contains('Apply').click();
   cy.wait(delay);
+  cy.get('.euiButton').contains('Refresh').click();
 };
 
 export const expectMessageOnHover = (message) => {
   cy.get('.euiToolTipAnchor').contains('Create').click({ force: true });
   cy.get('.euiToolTipPopover').contains(message).should('exist');
+};
+
+export const moveToPanelHome = () => {
+  cy.visit(
+    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
+  );
+  cy.wait(delay * 3);
 };
 
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
@@ -61,9 +69,13 @@ export const service_two = 'payment';
 export const trace_one = 'HTTP POST';
 export const trace_two = 'HTTP GET';
 export const trace_three = 'client_pay_order';
-export const spanQueryPartOne = 'where DestCityName ';
-export const spanQueryPartTwo = '= "Venice" | stats count() by span( timestamp ';
-export const spanQueryPartThree = ', 6h )';
-export const visName = 'Flights to Venice';
+export const spanQueryOnePartOne = 'where DestCityName ';
+export const spanQueryOnePartTwo = '= "Venice" | stats count() by span( timestamp ';
+export const spanQueryOnePartThree = ', 6h )';
+export const spanQueryTwoPartOne = 'where OriginCityName ';
+export const spanQueryTwoPartTwo = '= "Seoul" | stats count() by span( timestamp ';
+export const spanQueryTwoPartThree = ', 6h )';
+export const visOneName = 'Flights to Venice';
+export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
 export const newName = 'Monterey Cypress';
