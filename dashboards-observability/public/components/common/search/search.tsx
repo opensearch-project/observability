@@ -95,7 +95,7 @@ export const Search = (props: any) => {
   let flyout;
   if (isFlyoutVisible) {
     flyout = <PPLReferenceFlyout module="explorer" closeFlyout={closeFlyout} />;
-  };
+  }
 
   const Savebutton = (
     <EuiButton
@@ -160,10 +160,11 @@ export const Search = (props: any) => {
               liveStreamChecked={props.liveStreamChecked}
               onLiveStreamChange={props.onLiveStreamChange}
               handleTimePickerChange={(timeRange: string[]) => handleTimePickerChange(timeRange)}
-              handleTimeRangePickerRefresh={handleTimeRangePickerRefresh} />
+              handleTimeRangePickerRefresh={handleTimeRangePickerRefresh}
+            />
           )}
-          </EuiFlexItem>
-          {!showSavePanelOptionsList && (
+        </EuiFlexItem>
+        {!showSavePanelOptionsList && (
           <EuiFlexItem className="euiFlexItem--flexGrowZero live-tail">
             <EuiPopover
               panelPaddingSize="none"
@@ -174,7 +175,7 @@ export const Search = (props: any) => {
               <EuiContextMenuPanel items={popoverItems} />
             </EuiPopover>
           </EuiFlexItem>
-          )}
+        )}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
           <>
             <EuiFlexItem key={'search-save-'} className="euiFlexItem--flexGrowZero">
