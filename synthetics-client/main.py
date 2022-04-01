@@ -42,11 +42,6 @@ from opensearchpy import OpenSearch
     default=False,
     help="Use AWS sigV4 to connect to AWS ELasticsearch domain",
 )
-@click.option(
-    "--ip_info_access_token",
-    envvar="IP_INFO_ACCESS_TOKEN",
-    help="Access token for IP INFO, meant for ip to location conversion"
-)
 def cli(
     endpoint,
     host,

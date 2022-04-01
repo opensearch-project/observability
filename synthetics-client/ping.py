@@ -18,13 +18,12 @@ import datetime
 # needed to do that in its state. It's single method (ping) can be called without needing to
 # pass any information in, which is needed to store it in a job process for the scheduler
 class Ping:
-    def __init__(self, client, host, suite_id, suites, self_loc, access_token):
+    def __init__(self, client, host, suite_id, suites, access_token):
         self.client = client
         self.host = host
         self.suite_id = suite_id
         self.suites = suites
         self.return_headers = {}
-        self.self_loc = self_loc
         self.access_token = access_token
 
         self.server_loc = None
@@ -55,15 +54,16 @@ class Ping:
             if (suites['ssl']['verifyHost'] != None): conn.setopt(conn.SSL_SSL_VERIFYHOST, 2 if (suites['ssl']['verifyHost']) else 0)
             if (suites['ssl']['verifyPeer'] != None): conn.setopt(conn.SSL_SSL_VERIFYPEER, 1 if (suites['ssl']['verifyPeer']) else 0)
 
+        conn.setopt(conn.OPT_CERTINFO, 1)
         conn.setopt(conn.WRITEDATA, self.buffer)
         # header function grabs response headers and formats them as a dict
         conn.setopt(conn.HEADERFUNCTION, self.headers_to_json)
         conn.setopt(conn.CONNECTTIMEOUT, suites['timeoutSeconds'])
-        maxredirs = suites['maxRedirects']
-        if (maxredirs == 0):
+        max_redirs = suites['maxRedirects']
+        if (max_redirs == 0):
             conn.setopt(conn.FOLLOWLOCATION, False)
         else:
-            conn.setopt(conn.MAXREDIRS, maxredirs)
+            conn.setopt(conn.MAXREDIRS, max_redirs)
             conn.setopt(conn.FOLLOWLOCATION, True)
         conn.setopt(conn.HTTPHEADER, [str(k) + ': ' + str(v) for k, v in list(suites["request"]["headers"].items())])  # TODO: GET RID OF THIS, JUST HAVE IT BE IN THE STRING
         conn.setopt(conn.OPT_CERTINFO, 1)  # grabs information about certificates used
@@ -96,10 +96,6 @@ class Ping:
         status = self.conn.getinfo(self.conn.RESPONSE_CODE)
         primary_ip = self.conn.getinfo(self.conn.PRIMARY_IP)
 
-        if self.server_loc == None:
-            # loc_details = ipinfo.getHandler(self.access_token).getDetails(primary_ip)
-            self.server_loc = (40,40) # loc_details.loc
-
         # TODO: use conn.getinfo(conn.INFO_CERTINFO) and put certificate information in Dashboards
 
         # these are all the fields that go in with the index
@@ -117,7 +113,7 @@ class Ping:
             "response": {
                 "status": status,
                 "headers": self.return_headers,
-                "body": "Not implemented" # r.data.decode('utf-8')
+                "body": "Not implemented" # r.data.decode('utf-8') TODO: uncommenting this code will put entire body into document
             },
             "startTime": (start * 1000),
             "endTime": (end * 1000),
@@ -131,6 +127,7 @@ class Ping:
             "speedDownloadBytesPerSec": (self.conn.getinfo(self.conn.SPEED_DOWNLOAD)),
             "contentSizeKB": (self.conn.getinfo(self.conn.SIZE_DOWNLOAD) / 1000),
             "primaryIP": primary_ip,
+            # TODO: the location information needs to be grabbed from location table index
             "heartbeatLocation": "",
             "serverLocation": "",
         }

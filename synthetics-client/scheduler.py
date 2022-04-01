@@ -46,9 +46,6 @@ class Scheduler:
 
         self.scheduler = scheduler
 
-        # grab current location
-        # loc_details = ipinfo.getHandler(self.access_token).getDetails()
-
         suites_jobs = {}
         filesums = {}
 
@@ -142,7 +139,7 @@ class Scheduler:
 
         # do a {try} parsing file, send file not formatted correctly exception if fails
         try:
-            # TODO: make exception reasons more verbose and add more exceptions
+            # TODO: make exception reasons more verbose and add more exceptions, as well as what specific line and file it relates to
             if (suites["type"] not in ["http"]): raise Exception("Call type not supported") # TODO: add icmp and tcp support
             if (not all((type(x) is int) for x in suites["response"]["status"])): raise Exception("Response Status not accepted")
             if (suites["request"]["method"] not in ["GET","POST"]): raise Exception("Request Method not accepted")
@@ -169,13 +166,12 @@ class Scheduler:
             # start trying to run the jobs
             logging.info(filename + " success")
             
-            # TODO: poll suite files for changes, put changes in effect
             # Goes over every host found in a suite file
             try:
                 suite_jobs = []
                 for host in suites["hosts"]:
                     logging.info("Start pinging for: " + host)
-                    p = Ping(self.client, host, self.suite_id, suites, (30,30), self.access_token)
+                    p = Ping(self.client, host, self.suite_id, suites, self.access_token)
                     # one ping to call immediately and the job will only run after a initial interval passes
                     if schedule_type == 'interval': p.ping()
                     # the id is the filename and host in order to have the job process be unique at a reasonable point
