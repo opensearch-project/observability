@@ -382,10 +382,119 @@ export const SyntheticHomeTab = (props: LogHistoryProps) => {
         <EuiFlexGroup>
           <EuiFlexItem>
             <Plt
-              data={[]}
+              data={[
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 39.0437],
+                  lon: [-122.1987, -77.4875],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 37.7621],
+                  lon: [-122.1987, -122.3971],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 37.7749],
+                  lon: [-122.1987, -122.4194],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 47.6062],
+                  lon: [-122.1987, -122.3321],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 43.7001],
+                  lon: [-122.1987, -79.4163],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 39.0437],
+                  lon: [-122.1987, -77.4875],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 39.0437],
+                  lon: [-122.1987, -77.4875],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 39.0437],
+                  lon: [-122.1987, -77.4875],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+                {
+                  type: 'scattergeo',
+                  locationmode: 'USA-states',
+                  lat: [47.8948, 39.0437],
+                  lon: [-122.1987, -77.4875],
+                  mode: 'lines',
+                  line: {
+                    width: 1,
+                    color: 'red',
+                  },
+                  // opacity: opacityValue
+                },
+              ]}
               layout={{
-                height: 450,
-                width: 750,
+                height: 750,
+                width: 1200,
                 geo: {
                   scope: 'world',
                   showcountries: true,
