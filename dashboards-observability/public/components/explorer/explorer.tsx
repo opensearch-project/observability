@@ -20,7 +20,7 @@ import {
   EuiFlexItem,
   EuiLink,
   EuiContextMenuItem,
-  EuiButtonToggle,
+  EuiButton,
 } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
@@ -136,7 +136,6 @@ export const Explorer = ({
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
   const [liveTailName, setLiveTailName] = useState('Live');
-  const [liveTailToggle, setLiveTailToggle] = useState(false);
   const [liveHits, setLiveHits] = useState(0);
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
@@ -1059,25 +1058,18 @@ export const Explorer = ({
     }
   };
 
-  const onToggleChange = (e: {
-    target: { checked: boolean | ((prevState: boolean) => boolean) };
-  }) => {
-    setLiveTailToggle(e.target.checked);
-    setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen);
-  };
-
   const wrappedPopoverButton = useMemo(() => {
     return (
-      <EuiButtonToggle
-        label={liveTailNameRef.current}
+      <EuiButton
         iconType={isLiveTailOn ? 'stop' : 'play'}
         iconSide="left"
         onClick={() => setIsLiveTailPopoverOpen(!isLiveTailPopoverOpen)}
-        onChange={onToggleChange}
         data-test-subj="eventLiveTail"
-      />
+      >
+       {liveTailNameRef.current}
+      </EuiButton>
     );
-  }, [isLiveTailPopoverOpen, liveTailToggle, onToggleChange, isLiveTailOn]);
+  }, [isLiveTailPopoverOpen, isLiveTailOn]);
 
   const sleep = (milliseconds: number | undefined) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -1110,28 +1102,21 @@ export const Explorer = ({
     }
   };
 
+  const stopLive = () => {
+    setLiveTailName('Live');
+    setIsLiveTailOn(false);
+    setLiveHits(0);
+    setIsLiveTailPopoverOpen(false);
+    if (isLiveTailOnRef.current) setToast('Live tail Off', 'danger');
+  }
+
   useEffect(() => {
     if ((isEqual(selectedContentTabId, TAB_CHART_ID)) || (!browserTabFocus)) {
-      setLiveTailName('Live');
-      setIsLiveTailOn(false);
-      setLiveHits(0);
+      stopLive();
     }
   }, [selectedContentTabId, browserTabFocus]);
 
   const popoverItems: ReactElement[] = [
-    <EuiContextMenuItem
-      key="stop"
-      onClick={() => {
-        setLiveTailName('Live');
-        setIsLiveTailOn(false);
-        setToast('Live tail Off', 'success');
-        setLiveHits(0);
-        setIsLiveTailPopoverOpen(false);
-      }}
-      data-test-subj="eventLiveTail__off"
-    >
-      Stop
-    </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="5s"
       onClick={async () => {
@@ -1265,6 +1250,7 @@ export const Explorer = ({
           onItemSelect={onItemSelect}
           tabId={tabId}
           baseQuery={appBaseQuery}
+          stopLive={stopLive}
         />
         <EuiTabbedContent
           className="mainContentTabs"
