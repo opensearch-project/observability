@@ -127,7 +127,7 @@ export const FieldInsights = ({ field, query }: any) => {
   }, [curReport, reportContent, field.name]);
 
   return (
-    <EuiFlexGroup direction="column">
+    <EuiFlexGroup direction="column" data-test-subj="sidebarField__fieldInsights">
       <EuiFlexItem grow={false}>
         <EuiFlexGroup wrap>
           {generalReports.map((report) => {

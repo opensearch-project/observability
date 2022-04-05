@@ -87,6 +87,7 @@ export const DataTable = ({ visualizations }: any) => {
   return (
     <EuiDataGrid
       aria-label="viz data table"
+      data-test-subj="workspace__dataTable"
       columns={columns}
       columnVisibility={{ visibleColumns, setVisibleColumns }}
       rowCount={raw_data.length}

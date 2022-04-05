@@ -13,6 +13,7 @@ export const ConfigValueOptions = ({
   vizState,
   handleConfigChange,
   sectionName,
+  sectionId = 'valueOptions'
 }: any) => {
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
@@ -55,7 +56,7 @@ export const ConfigValueOptions = ({
   return (
     <EuiAccordion
       initialIsOpen
-      id={`configPanel__${sectionName}`}
+      id={`configPanel__${sectionId}`}
       buttonContent={sectionName}
       paddingSize="s"
     >

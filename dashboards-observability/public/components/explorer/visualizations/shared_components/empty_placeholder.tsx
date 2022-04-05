@@ -9,12 +9,12 @@ import { FormattedMessage } from '@osd/i18n/react';
 
 export const EmptyPlaceholder = (props: {icon: string}) => (
   <>
-    <EuiText className="lnsChart__empty" textAlign="center" color="subdued" size="xs">
+    <EuiText className="lnsChart__empty" textAlign="center" color="subdued" size="xs" data-test-subj="vizWorkspace__noData">
       <EuiIcon type={props.icon} color="subdued" size="l" />
       <EuiSpacer size="s" />
       <p>
         <FormattedMessage
-          id="xpack.lens.xyVisualization.noDataLabel"
+          id="visualization_noData"
           defaultMessage="No results found"
         />
       </p>
