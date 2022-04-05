@@ -87,7 +87,7 @@ export function DashboardContent(props: DashboardProps) {
   const refresh = async (currService?: string) => {
     setLoading(true);
     const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page);
+    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,
