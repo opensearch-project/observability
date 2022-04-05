@@ -80,6 +80,19 @@ describe('Creating application', () => {
     cy.get('.aa-List').find('.aa-Item').should('have.length', 1);
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source ');
+    cy.focused().type('{enter}');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source = ');
+    cy.focused().type('opensearch');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').click();
+    cy.get('.aa-Item').contains('opensearch_dashboards_sample_data_flights').click();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source = opensearch_dashboards_sample_data_flights ');
+    cy.focused().type('{downArrow}');
+    cy.focused().type('{enter}');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source = opensearch_dashboards_sample_data_flights, ');
+    cy.focused().type('opensearch');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').click();
+    cy.get('.aa-Item').contains('opensearch_dashboards_sample_data_logs').click();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain', 'source = opensearch_dashboards_sample_data_flights,opensearch_dashboards_sample_data_logs ');
   });
 
   it('Creates an application and redirects to application', () => {
@@ -212,6 +225,14 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
   });
 
+  it('Shows latency variance in dashboards table', () => {
+    moveToApplication(nameOne);
+    changeTimeTo24('months');
+    cy.get('.euiBasicTable').first().within(($table) => {
+      cy.get('.plot-container').should('have.length.at.least', 1);
+    })
+  });
+
   it('Saves time range for each application', () => {
     moveToCreatePage();
     cy.get('[data-test-subj="nameFormRow"]').type(nameTwo);
@@ -323,6 +344,7 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').click();
     cy.get('.aa-List').find('.aa-Item').should('have.length', 11);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type('x');
+    cy.focused().clear();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear().wait(delay * 2).type(spanQueryOnePartOne);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryOnePartTwo);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').wait(delay * 2).type(spanQueryOnePartThree);
@@ -356,6 +378,12 @@ describe('Viewing application', () => {
     cy.get('[aria-label="Select #54B399 as the color"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="nameFieldText"]').click().type('Available');
+    cy.get('option').contains('≥').should('exist');
+    cy.get('option').contains('≤').should('exist');
+    cy.get('option').contains('>').should('exist');
+    cy.get('option').contains('<').should('exist');
+    cy.get('option').contains('=').should('exist');
+    cy.get('option').contains('≠').should('exist');
     cy.get('[data-test-subj="expressionSelect"]').select('>');
     cy.get('[data-test-subj="valueFieldNumber"]').clear().type('0.5');
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
