@@ -108,13 +108,6 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                   tabindex="0"
                 />
                 <div
-                  aria-hidden="true"
-                  data-aria-hidden="true"
-                  data-focus-guard="true"
-                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                  tabindex="1"
-                />
-                <div
                   data-focus-lock-disabled="false"
                 >
                   <div
@@ -263,7 +256,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                   scrollLock={false}
                   sideCar={[Function]}
                 >
-                  <ForwardRef
+                  <ForwardRef(FocusLockUI)
                     as={
                       Object {
                         "$$typeof": Symbol(react.forward_ref),
@@ -317,22 +310,6 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                         }
                       }
                       tabIndex={0}
-                    />
-                    <div
-                      data-focus-guard={true}
-                      key="guard-nearest"
-                      style={
-                        Object {
-                          "height": "0px",
-                          "left": "1px",
-                          "overflow": "hidden",
-                          "padding": 0,
-                          "position": "fixed",
-                          "top": "1px",
-                          "width": "1px",
-                        }
-                      }
-                      tabIndex={1}
                     />
                     <RequireSideCar
                       autoFocus={true}
@@ -1186,7 +1163,7 @@ exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
                       }
                       tabIndex={0}
                     />
-                  </ForwardRef>
+                  </ForwardRef(FocusLockUI)>
                   <RequireSideCar
                     noIsolation={true}
                     onClickOutside={[Function]}
@@ -1358,13 +1335,6 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                   tabindex="0"
                 />
                 <div
-                  aria-hidden="true"
-                  data-aria-hidden="true"
-                  data-focus-guard="true"
-                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                  tabindex="1"
-                />
-                <div
                   data-focus-lock-disabled="false"
                 >
                   <div
@@ -1517,7 +1487,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                   scrollLock={false}
                   sideCar={[Function]}
                 >
-                  <ForwardRef
+                  <ForwardRef(FocusLockUI)
                     as={
                       Object {
                         "$$typeof": Symbol(react.forward_ref),
@@ -1571,22 +1541,6 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                         }
                       }
                       tabIndex={0}
-                    />
-                    <div
-                      data-focus-guard={true}
-                      key="guard-nearest"
-                      style={
-                        Object {
-                          "height": "0px",
-                          "left": "1px",
-                          "overflow": "hidden",
-                          "padding": 0,
-                          "position": "fixed",
-                          "top": "1px",
-                          "width": "1px",
-                        }
-                      }
-                      tabIndex={1}
                     />
                     <RequireSideCar
                       autoFocus={true}
@@ -2460,7 +2414,7 @@ exports[`Visualization Flyout Component renders replace visualization Flyout 1`]
                       }
                       tabIndex={0}
                     />
-                  </ForwardRef>
+                  </ForwardRef(FocusLockUI)>
                   <RequireSideCar
                     noIsolation={true}
                     onClickOutside={[Function]}
