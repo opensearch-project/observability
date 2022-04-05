@@ -26,6 +26,11 @@ interface ObservabilityAppDeps {
   timestampUtils: any;
 }
 
+// for cypress to test redux store
+if (window.Cypress) {
+  window.store = store;
+}
+
 export const App = ({
   CoreStartProp,
   DepsStart,

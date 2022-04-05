@@ -27,6 +27,7 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
           handleConfigChange={handleConfigEditing(section.mapTo)}
           vizState={vizState[section.mapTo] || section.defaultState || {}}
           sectionName={section.name}
+          sectionId={section.id}
         />
       </EuiFormRow>
     );
