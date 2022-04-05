@@ -58,7 +58,7 @@ import { setSelectedQueryTab } from './slices/query_tab_slice';
 import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
-import { getFullSuggestions, onItemSelect } from '../common/search/autocomplete_logic';
+import { parseGetSuggestions, onItemSelect } from '../common/search/autocomplete_logic';
 
 interface IHomeProps {
   pplService: any;
@@ -372,7 +372,7 @@ export const Home = (props: IHomeProps) => {
                   setEndTime={() => {}}
                   showSaveButton={false}
                   runButtonText="New Query"
-                  getSuggestions={getFullSuggestions}
+                  getSuggestions={parseGetSuggestions}
                   onItemSelect={onItemSelect}
                 />
               </EuiFlexItem>
