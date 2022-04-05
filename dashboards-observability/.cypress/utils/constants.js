@@ -93,25 +93,6 @@ export const PPL_QUERY_TEXT = `%ppl
 source=opensearch_dashboards_sample_data_flights
 `
 
-// event analytics
-export const TEST_QUERIES = [
-  {
-    query: 'source = opensearch_dashboards_sample_data_flights'
-  },
-  {
-    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier'
-  },
-  {
-    query: 'source = opensearch_dashboards_sample_data_logs'
-  },
-];
-
-export const TESTING_PANEL = 'Mock Testing Panels';
-export const SAVE_QUERY1 = 'Mock Flight Events Overview';
-export const SAVE_QUERY2 = 'Mock Flight count by destination';
-export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
-export const SAVE_QUERY4 = 'Mock Flight peek';
-
 export const supressResizeObserverIssue = () => {
   // exception is thrown on loading EuiDataGrid in cypress only, ignore for now
   cy.on('uncaught:exception', (err, runnable) => {
