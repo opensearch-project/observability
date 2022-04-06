@@ -393,7 +393,6 @@ describe('Switch on and off livetail', () => {
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('On').should('exist');
 
-    cy.get('[data-test-subj=eventLiveTail]').click();
     cy.get('[data-test-subj=eventLiveTail__off').click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('Off').should('exist');
