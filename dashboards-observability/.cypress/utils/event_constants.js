@@ -14,7 +14,8 @@ export const TEST_QUERIES = [
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier'
+    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
     query: 'source = opensearch_dashboards_sample_data_logs'
@@ -38,6 +39,7 @@ export const SAVE_QUERY4 = 'Mock Flight peek';
 export const querySearch = (query, rangeSelected) => {
   cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
   cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
+  cy.wait(delay);
   cy.get(rangeSelected).click();
   cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
 };
