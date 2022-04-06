@@ -77,6 +77,7 @@ export const Search = (props: any) => {
     onItemSelect,
     tabId = '',
     baseQuery = '',
+    stopLive,
   } = props;
 
   const appLogEvents = tabId.match(APP_ANALYTICS_TAB_ID_REGEX);
@@ -174,6 +175,18 @@ export const Search = (props: any) => {
             >
               <EuiContextMenuPanel items={popoverItems} />
             </EuiPopover>
+          </EuiFlexItem>
+        )}
+        {isLiveTailOn && (
+          <EuiFlexItem grow={false}>
+            <EuiButton
+              iconType="stop"
+              onClick={() => stopLive()}
+              color="danger"
+              data-test-subj="eventLiveTail__off"
+            >
+            Stop
+            </EuiButton>
           </EuiFlexItem>
         )}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
