@@ -25,13 +25,39 @@ export const registerEventAnalyticsRouter = ({
   router: IRouter;
   savedObjectFacet: SavedObjectFacet;
 }) => {
+  
   router.get(
     {
       path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`,
-      validate: false,
+      validate: {},
     },
     async (context, req, res): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
-      const savedRes = await savedObjectFacet.getSavedQuery(req);
+      const savedRes = await savedObjectFacet.getSavedObject(req);
+      const result: any = {
+        body: {
+          ...savedRes.data,
+        },
+      };
+
+      if (savedRes.success || savedRes?.data?.statusCode === 404) return res.ok(result);
+
+      result.statusCode = savedRes?.data?.statusCode || 500;
+      result.message = savedRes?.data || '';
+      return res.custom(result);
+    }
+  );
+  
+  router.get(
+    {
+      path: `${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/{objectId}`,
+      validate: {
+        params: schema.object({
+          objectId: schema.string(),
+        }),
+      },
+    },
+    async (context, req, res): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const savedRes = await savedObjectFacet.getSavedObjectById(req, req.params.objectId);
       const result: any = {
         body: {
           ...savedRes.data,

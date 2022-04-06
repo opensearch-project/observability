@@ -227,9 +227,7 @@ describe('Click actions', () => {
 describe('Saves a query on explorer page', () => {
   it('Saves a query on event tab of explorer page', () => {
     landOnEventExplorer();
-
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
-    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
     cy.wait(delay);
 
     cy.get('.tab-title').contains('Events').click();
@@ -248,13 +246,13 @@ describe('Saves a query on explorer page', () => {
 
   it('Saves a visualization on visualization tab of explorer page', () => {
     landOnEventExplorer();
-
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
-    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
     cy.wait(delay);
     supressResizeObserverIssue();
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.wait(delay * 2);
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY2);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay * 2);
@@ -277,14 +275,14 @@ describe('Saves a query on explorer page', () => {
     cy.wait(delay);
 
     landOnEventExplorer();
-
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
-    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
     cy.wait(delay);
 
     supressResizeObserverIssue();
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.wait(delay * 2);
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY3);
     cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TESTING_PANEL);
     cy.get(`input[value="${TESTING_PANEL}"]`).click();

@@ -14,15 +14,12 @@ export default class SavedObjectFacet {
     this.client = client;
   }
 
-  fetch = async (request: any, format: string) => {
+  fetch = async (request: any, params: any, format: string) => {
     const res = {
       success: false,
       data: {},
     };
     try {
-      const params = {
-        ...request.url.query,
-      };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
       res.success = true;
       res.data = savedQueryRes;
@@ -191,12 +188,18 @@ export default class SavedObjectFacet {
     return res;
   };
 
-  getSavedQuery = async (request: any) => {
-    return this.fetch(request, 'observability.getObject');
-  };
-
-  getSavedVisualization = async (request: any) => {
-    return this.fetch(request, 'observability.getObject');
+  getSavedObject = async (request: any) => {
+    const params = {};
+    for (const [param, value] of request.url.searchParams.entries()) {
+      params[param] = value;
+    }
+    return this.fetch(
+      request,
+      {
+        ...params
+      },
+      'observability.getObject'
+    );
   };
 
   createSavedQuery = async (request: any) => {
