@@ -2,11 +2,12 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable radix */
 
 import dateMath from '@elastic/datemath';
 import { EuiButton, EuiEmptyPrompt, EuiSpacer, EuiText } from '@elastic/eui';
 import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
-import _ from 'lodash';
+import { isEmpty, round } from 'lodash';
 import React from 'react';
 import {
   DATA_PREPPER_INDEX_NAME,
@@ -205,7 +206,7 @@ export function calculateTicks(min: number, max: number, numTicks = 5): number[]
   let curr = Math.max(0, Math.floor((min - 1) / tick) * tick);
   const ticks = [curr];
   while (curr < max) {
-    curr = _.round(curr + tick, 1);
+    curr = round(curr + tick, 1);
     ticks.push(curr);
   }
 
@@ -410,7 +411,7 @@ export const filtersToDsl = (
       DSL.query.bool[filter.inverted ? 'must_not' : 'must'].push(filterQuery);
     });
 
-  if (page === 'app') {
+  if (page === 'app' && !isEmpty(appConfigs)) {
     DSL.query.bool.minimum_should_match = 1;
     appConfigs.forEach((config) => {
       let appQuery = {};

@@ -186,7 +186,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         gutterSize="none"
         responsive={false}
       >
-        <EuiFlexItem>
+        <EuiFlexItem
+          data-test-subj="configPane__vizTypeSelector"
+        >
           <EuiSpacer size="s" />
           <EuiComboBox
             aria-label="config chart selector"

@@ -16,8 +16,10 @@ export const Text = ({ visualizations }: any) => {
   const { dataConfig = {} } = visualizations?.data?.userConfigs;
 
   return (
-    <EuiMarkdownFormat>
-      {dataConfig.text?.markdown ? dataConfig.text?.markdown : DEFAULT_MARKDOWN}
-    </EuiMarkdownFormat>
+    <div data-test-subj="workspace__viz_markdown">
+      <EuiMarkdownFormat>
+        {dataConfig.text?.markdown ? dataConfig.text?.markdown : DEFAULT_MARKDOWN}
+      </EuiMarkdownFormat>
+    </div>
   );
 };

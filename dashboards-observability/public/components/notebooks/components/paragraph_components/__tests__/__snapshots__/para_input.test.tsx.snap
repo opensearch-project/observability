@@ -2,10 +2,10 @@
 
 exports[`<para_input /> spec renders the markdown component 1`] = `
 <div
-  class="sc-gKclnd bQxIiy"
+  class="sc-gKXOVf fPkmRS"
 >
   <div
-    class="sc-bdvvtL dBPaWe"
+    class="sc-bczRLJ hRTESd"
   />
   <div
     style="width: 100%;"
@@ -52,10 +52,10 @@ exports[`<para_input /> spec renders the markdown component 1`] = `
 
 exports[`<para_input /> spec renders the visualization component 1`] = `
 <div
-  class="sc-gKclnd bQxIiy"
+  class="sc-gKXOVf fPkmRS"
 >
   <div
-    class="sc-bdvvtL dBPaWe"
+    class="sc-bczRLJ hRTESd"
   />
   <div
     class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
