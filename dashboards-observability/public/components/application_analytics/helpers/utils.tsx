@@ -197,6 +197,7 @@ export const calculateAvailability = async (
   const panelId = application.panelId;
   if (!panelId) return availability;
   // Fetches saved visualizations associated to application's panel
+  // Order visualizations by most recently created
   const savedVisualizationsIds = (await fetchPanelsVizIdList(http, panelId)).reverse();
   if (!savedVisualizationsIds) return availability;
   const visWithAvailability = [];
@@ -241,39 +242,71 @@ export const calculateAvailability = async (
           hasAvailability = true;
           // If there is an availiabilityVisId selected we only want to compute availability based on that
           if (availabilityVisId ? availabilityVisId === visualizationId : true) {
-            if (!availabilityFound && threshold.expression) {
-              const expression = threshold.expression;
-              switch (expression) {
-                case '>':
-                  if (currValue > parseFloat(threshold.value)) {
-                    availability = {
-                      name: threshold.name,
-                      color: threshold.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '<':
-                  if (currValue < parseFloat(threshold.value)) {
-                    availability = {
-                      name: threshold.name,
-                      color: threshold.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '=':
-                  if (currValue === parseFloat(threshold.value)) {
-                    availability = {
-                      name: threshold.name,
-                      color: threshold.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
+            if (threshold.value !== null) {
+              if (!availabilityFound && threshold.expression) {
+                const expression = threshold.expression;
+                switch (expression) {
+                  case '≥':
+                    if (currValue >= parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '≤':
+                    if (currValue <= parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '>':
+                    if (currValue > parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '<':
+                    if (currValue < parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '=':
+                    if (currValue === parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '≠':
+                    if (currValue !== parseFloat(threshold.value)) {
+                      availability = {
+                        name: threshold.name,
+                        color: threshold.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                }
               }
             }
           }

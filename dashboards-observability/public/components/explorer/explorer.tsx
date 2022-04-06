@@ -73,8 +73,7 @@ import { IExplorerProps, IVisualizationContainerProps } from '../../../common/ty
 import { TabContext } from './hooks';
 import { getVizContainerProps } from '../visualizations/charts/helpers';
 import {
-  getFullSuggestions,
-  getSuggestionsAfterSource,
+  parseGetSuggestions,
   onItemSelect,
 } from '../common/search/autocomplete_logic';
 import { formatError } from './utils';
@@ -1261,7 +1260,7 @@ export const Explorer = ({
           isLiveTailOn={isLiveTailOnRef.current}
           selectedSubTabId={selectedContentTabId}
           searchBarConfigs={searchBarConfigs}
-          getSuggestions={appLogEvents ? getSuggestionsAfterSource : getFullSuggestions}
+          getSuggestions={parseGetSuggestions}
           onItemSelect={onItemSelect}
           tabId={tabId}
           baseQuery={appBaseQuery}
