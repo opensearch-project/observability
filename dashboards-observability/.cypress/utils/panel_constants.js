@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const delay = 1300;
+export const delay = 100;
 
 export const TEST_PANEL = 'Test Panel';
 export const SAMPLE_PANEL = '[Logs] Web traffic Panel';

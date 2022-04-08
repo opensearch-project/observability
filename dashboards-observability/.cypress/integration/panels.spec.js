@@ -32,7 +32,7 @@ const moveToPanelHome = () => {
 
 const moveToTestPanel = () => {
   moveToPanelHome();
-  cy.get('.euiTableCellContent').contains(TEST_PANEL).click();
+  cy.get('.euiTableCellContent').contains(TEST_PANEL).trigger('mouseover').click();
   cy.wait(delay * 3);
   cy.get('h1').contains(TEST_PANEL).should('exist');
   cy.wait(delay);
@@ -43,6 +43,7 @@ describe('Adding sample data and visualization', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
     cy.get('div[data-test-subj="sampleDataSetCardflights"]')
       .contains(/(Add|View) data/)
+      .trigger('mouseover')
       .click();
     cy.wait(delay * 3);
   });
@@ -54,31 +55,43 @@ describe('Creating visualizations', () => {
   });
 
   it('Create first visualization in event analytics', () => {
-    cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[0]);
-    cy.get('.euiButton__text').contains('Refresh').click();
+    cy.get('[id^=autocomplete-textarea]').focus().type(PPL_VISUALIZATIONS[0], {
+      delay: 50,
+    });
+    cy.get('.euiButton__text').contains('Refresh').trigger('mouseover').click();
     cy.wait(delay);
     supressResizeObserverIssue();
-    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').trigger('mouseover').click();
     cy.wait(delay * 2);
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay * 2);
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[0]);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').trigger('mouseover').click();
+    cy.wait(1000);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .type(PPL_VISUALIZATIONS_NAMES[0], {
+        delay: 50,
+      });
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
 
   it('Create second visualization in event analytics', () => {
-    cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[1]);
-    cy.get('.euiButton__text').contains('Refresh').click();
+    cy.get('[id^=autocomplete-textarea]').focus().type(PPL_VISUALIZATIONS[1], {
+      delay: 50,
+    });
+    cy.get('.euiButton__text').contains('Refresh').trigger('mouseover').click();
     cy.wait(delay);
     supressResizeObserverIssue();
-    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay);
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[1]);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').trigger('mouseover').click();
+    cy.wait(1000);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .type(PPL_VISUALIZATIONS_NAMES[1], {
+        delay: 50,
+      });
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
@@ -90,10 +103,11 @@ describe('Testing panels table', () => {
   });
 
   it('Displays error toast for invalid panel name', () => {
-    cy.get('.euiButton__text').contains('Create panel').click();
+    cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiButton__text')
       .contains(/^Create$/)
+      .trigger('mouseover')
       .click();
     cy.wait(delay);
 
@@ -101,11 +115,14 @@ describe('Testing panels table', () => {
   });
 
   it('Creates a panel and redirects to the panel', () => {
-    cy.get('.euiButton__text').contains('Create panel').click();
+    cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('input.euiFieldText').type(TEST_PANEL);
+    cy.get('input.euiFieldText').focus().type(TEST_PANEL, {
+      delay: 50,
+    });
     cy.get('.euiButton__text')
       .contains(/^Create$/)
+      .trigger('mouseover')
       .click();
     cy.wait(delay);
 
@@ -113,37 +130,45 @@ describe('Testing panels table', () => {
   });
 
   it('Duplicates and renames a panel', () => {
-    cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).click();
+    cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Duplicate').click();
+    cy.get('.euiContextMenuItem__text').contains('Duplicate').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Duplicate').click();
+    cy.get('.euiButton__text').contains('Duplicate').trigger('mouseover').click();
     cy.wait(delay);
 
-    cy.get('.euiCheckbox__input[title="Select this row"]').eq(1).click();
+    cy.get('.euiCheckbox__input[title="Select this row"]').eq(1).trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).click();
+    cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Rename').click();
+    cy.get('.euiContextMenuItem__text').contains('Rename').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('input.euiFieldText').type(' (rename)');
-    cy.get('.euiButton__text').contains('Rename').click();
+    cy.get('input.euiFieldText').focus().type(' (rename)', {
+      delay: 50,
+    });
+    cy.get('.euiButton__text').contains('Rename').trigger('mouseover').click();
     cy.wait(delay);
   });
 
   it('Searches existing panel', () => {
-    cy.get('input.euiFieldSearch').type('this panel should not exist');
+    cy.get('input.euiFieldSearch').focus().type('this panel should not exist', {
+      delay: 50,
+    });
     cy.wait(delay);
 
     cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
 
-    cy.get('.euiFormControlLayoutClearButton').click();
+    cy.get('.euiFormControlLayoutClearButton').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('input.euiFieldSearch').type(TEST_PANEL + ' (copy) (rename)');
+    cy.get('input.euiFieldSearch')
+      .focus()
+      .type(TEST_PANEL + ' (copy) (rename)', {
+        delay: 50,
+      });
     cy.wait(delay);
 
     cy.get('a.euiLink')
@@ -152,27 +177,32 @@ describe('Testing panels table', () => {
   });
 
   it('Deletes panels', () => {
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.get('.euiContextMenuItem__text').contains('Delete').trigger('mouseover').click();
     cy.wait(delay);
 
     cy.get('button.euiButton--danger').should('be.disabled');
 
-    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('input.euiFieldText[placeholder="delete"]').focus().type('delete', {
+      delay: 50,
+    });
     cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').click();
+    cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
 
     cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
 
     // keep a panel for testing
-    cy.get('.euiButton__text').contains('Create panel').click();
+    cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('input.euiFieldText').type(TEST_PANEL);
+    cy.get('input.euiFieldText').focus().type(TEST_PANEL, {
+      delay: 50,
+    });
     cy.get('.euiButton__text')
       .contains(/^Create$/)
+      .trigger('mouseover')
       .click();
     cy.wait(delay * 2);
   });
@@ -184,18 +214,27 @@ describe('Testing a panel', () => {
   });
 
   it('Opens visualization flyout from empty panel', () => {
-    cy.get('.euiButton').eq(4).contains('Add visualization').click();
+    cy.get('.euiButton').eq(4).contains('Add visualization').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Select existing visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay);
-    cy.get('.euiButton').contains('Cancel').click();
-    cy.get('.euiButton').eq(2).contains('Add visualization').click();
+    cy.get('.euiButton').contains('Cancel').trigger('mouseover').click();
+    cy.get('.euiButton').eq(2).contains('Add visualization').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Select existing visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay);
-    cy.get('.euiButton').contains('Cancel').click();
-    cy.get('.euiButton').contains('Add visualization').first().click();
-    cy.get('.euiContextMenuItem__text').contains('Create new visualization').click();
+    cy.get('.euiButton').contains('Cancel').trigger('mouseover').click();
+    cy.get('.euiButton').contains('Add visualization').first().trigger('mouseover').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Create new visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay);
     cy.get('.euiBreadcrumb').contains('Explorer').should('exist');
     cy.get('.euiCallOut').contains('No results match your search criteria').should('exist');
@@ -203,25 +242,25 @@ describe('Testing a panel', () => {
 
   it('Redirects to correct page on breadcrumb click', () => {
     moveToTestPanel();
-    cy.get('.euiBreadcrumb').contains(TEST_PANEL).click();
+    cy.get('.euiBreadcrumb').contains(TEST_PANEL).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains(TEST_PANEL).should('exist');
-    cy.get('.euiBreadcrumb').contains('Operational panels').click();
+    cy.get('.euiBreadcrumb').contains('Operational panels').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Operational panels').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.get('.euiBreadcrumb').contains('Observability').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 
   it('Duplicate the open panel', () => {
     moveToTestPanel();
-    cy.get('.euiButton__text').contains('Panel actions').click();
+    cy.get('.euiButton__text').contains('Panel actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Duplicate panel').click();
+    cy.get('.euiContextMenuItem__text').contains('Duplicate panel').trigger('mouseover').click();
     cy.wait(delay);
     cy.get(`input.euiFieldText[value="${TEST_PANEL} (copy)"]`).should('exist');
-    cy.get('.euiButton__text').contains('Duplicate').click();
+    cy.get('.euiButton__text').contains('Duplicate').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     cy.get('h1')
@@ -231,15 +270,18 @@ describe('Testing a panel', () => {
   });
 
   it('Rename the open panel', () => {
-    cy.get('.euiButton__text').contains('Panel actions').click();
+    cy.get('.euiButton__text').contains('Panel actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Rename panel').click();
+    cy.get('.euiContextMenuItem__text').contains('Rename panel').trigger('mouseover').click();
     cy.wait(delay);
     cy.get(`input.euiFieldText[value="${TEST_PANEL} (copy)"]`)
       .focus()
-      .clear()
-      .type('Renamed Panel');
-    cy.get('.euiButton__text').contains('Rename').click();
+      .clear({ force: true })
+      .focus()
+      .type('Renamed Panel', {
+        delay: 200,
+      });
+    cy.get('.euiButton__text').contains('Rename').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     cy.get('h1').contains('Renamed Panel').should('exist');
@@ -248,8 +290,10 @@ describe('Testing a panel', () => {
 
   it('Change date filter of the panel', () => {
     moveToTestPanel();
-    cy.get('.euiButtonEmpty[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
-    cy.get('.euiLink').contains('This year').click();
+    cy.get('.euiButtonEmpty[data-test-subj="superDatePickerToggleQuickMenuButton"]').click({
+      force: true,
+    });
+    cy.get('.euiLink').contains('This year').trigger('mouseover').click();
     cy.wait(delay * 2);
     cy.get('.euiSuperDatePicker__prettyFormat[data-test-subj="superDatePickerShowDatesButton"]')
       .contains('This year')
@@ -258,49 +302,50 @@ describe('Testing a panel', () => {
   });
 
   it('Add existing visualization #1', () => {
-    cy.get('.euiButton__text').contains('Add visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Select existing visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay);
     cy.get('select').select(PPL_VISUALIZATIONS_NAMES[0]);
-    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.get('button[aria-label="refreshPreview"]').trigger('mouseover').click();
     cy.wait(delay * 2);
     cy.get('.plot-container').should('exist');
-    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
 
   it('Add existing visualization #2', () => {
-    cy.get('.euiButton__text').contains('Add visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Select existing visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay);
     cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
-    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.get('button[aria-label="refreshPreview"]').trigger('mouseover').click();
     cy.wait(delay * 2);
     cy.get('.plot-container').should('exist');
-    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
   });
 
   it('Add ppl filter to panel', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]')
+      .trigger('mouseover')
       .click()
-      .wait(1500)
-      .type('where Carrier ')
-      .wait(1500)
-      .type('= ')
-      .wait(1500)
-      .type("'OpenSearch-Air'")
-      .wait(1500)
-      .type('| where Dest ')
-      .wait(1500)
-      .type('= ')
-      .wait(1500)
-      .type("'Munich Airport'");
-    cy.get('.euiButton__text').contains('Refresh').click();
+      .wait(3000)
+      .focus()
+      .type(PPL_FILTER, {
+        delay: 500,
+      });
+
+    cy.get('.euiButton__text').contains('Refresh').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');
     cy.get('.xtick').should('contain', 'Munich Airport');
@@ -312,7 +357,7 @@ describe('Testing a panel', () => {
   });
 
   it('Drag and drop a visualization', () => {
-    cy.get('.euiButton__text').contains('Edit').click();
+    cy.get('.euiButton__text').contains('Edit').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('h5')
       .contains(PPL_VISUALIZATIONS_NAMES[1])
@@ -320,7 +365,7 @@ describe('Testing a panel', () => {
       .trigger('mousemove', { clientX: 1100, clientY: 0 })
       .trigger('mouseup', { force: true });
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
+    cy.get('.euiButton__text').contains('Save').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('div.react-grid-layout>div')
       .eq(1)
@@ -330,7 +375,7 @@ describe('Testing a panel', () => {
   });
 
   it('Resize a visualization', () => {
-    cy.get('.euiButton__text').contains('Edit').click();
+    cy.get('.euiButton__text').contains('Edit').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.react-resizable-handle')
       .eq(1)
@@ -338,7 +383,7 @@ describe('Testing a panel', () => {
       .trigger('mousemove', { clientX: 2000, clientY: 800 })
       .trigger('mouseup', { force: true });
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
+    cy.get('.euiButton__text').contains('Save').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('div.react-grid-layout>div').eq(1).invoke('height').should('match', new RegExp('470'));
     cy.wait(delay);
@@ -346,11 +391,11 @@ describe('Testing a panel', () => {
 
   it('Delete a visualization', () => {
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('exist');
-    cy.get('.euiButton__text').contains('Edit').click();
+    cy.get('.euiButton__text').contains('Edit').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.visualization-action-button').eq(1).click();
+    cy.get('.visualization-action-button > .euiIcon').eq(1).trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Save').click();
+    cy.get('.euiButton__text').contains('Save').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[1]).should('not.exist');
     cy.wait(delay);
@@ -358,8 +403,11 @@ describe('Testing a panel', () => {
 
   it('Duplicate a visualization', () => {
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
-    cy.get('button[aria-label="actionMenuButton"]').click();
-    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Duplicate').click();
+    cy.get('button[aria-label="actionMenuButton"]').trigger('mouseover').click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text')
+      .contains('Duplicate')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     cy.wait(delay);
@@ -369,13 +417,16 @@ describe('Testing a panel', () => {
   });
 
   it('Replace a visualization', () => {
-    cy.get('.visualization-action-button').eq(1).click();
-    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Replace').click();
+    cy.get('.visualization-action-button').eq(1).trigger('mouseover').click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text')
+      .contains('Replace')
+      .trigger('mouseover')
+      .click();
     cy.get('select').select(PPL_VISUALIZATIONS_NAMES[1]);
-    cy.get('button[aria-label="refreshPreview"]').click();
+    cy.get('button[aria-label="refreshPreview"]').trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('.plot-container').should('exist');
-    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).click();
+    cy.get('.euiButton__text').contains(new RegExp('^Add$', 'g')).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     cy.wait(delay);
@@ -385,22 +436,35 @@ describe('Testing a panel', () => {
   });
 
   it('Create new visualization and add to panel', () => {
-    cy.get('.euiButton__text').contains('Add visualization').click();
+    cy.get('.euiButton__text').contains('Add visualization').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Create new visualization').click();
+    cy.get('.euiContextMenuItem__text')
+      .contains('Create new visualization')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
-    cy.get('[id^=autocomplete-textarea]').type(PPL_VISUALIZATIONS[2]);
-    cy.get('.euiButton__text').contains('Refresh').click();
+    cy.get('[id^=autocomplete-textarea]').focus().type(PPL_VISUALIZATIONS[2], {
+      delay: 50,
+    });
+    cy.get('.euiButton__text').contains('Refresh').trigger('mouseover').click();
 
     supressResizeObserverIssue();
-    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.get('button[id="main-content-vis"]').contains('Visualizations').trigger('mouseover').click();
     cy.wait(delay * 2);
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TEST_PANEL);
-    cy.get(`input[value="${TEST_PANEL}"]`).click();
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(PPL_VISUALIZATIONS_NAMES[2]);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').trigger('mouseover').click();
+    cy.wait(1000);
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TEST_PANEL, {
+      delay: 50,
+    });
+    cy.wait(1000);
+    cy.get(`input[value="${TEST_PANEL}"]`).trigger('mouseover').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .type(PPL_VISUALIZATIONS_NAMES[2], {
+        delay: 50,
+      });
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     moveToTestPanel();
@@ -412,19 +476,23 @@ describe('Testing a panel', () => {
   it('Move to test panel and check visualization edit button', () => {
     moveToTestPanel();
     cy.get('h5').contains(PPL_VISUALIZATIONS_NAMES[0]).should('exist');
-    cy.get('button[aria-label="actionMenuButton"]').eq(0).click();
+    cy.get('button[aria-label="actionMenuButton"]').eq(0).trigger('mouseover').click();
     supressResizeObserverIssue();
-    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text').contains('Edit').click();
+    cy.get('.euiContextMenu__itemLayout > .euiContextMenuItem__text')
+      .contains('Edit')
+      .trigger('mouseover')
+      .click();
     cy.wait(delay * 3);
     cy.url().should('match', new RegExp('(.*)#/event_analytics/explorer'));
     cy.wait(delay);
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay);
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').trigger('mouseover').click();
+    cy.wait(1000);
     cy.get('[data-test-subj="eventExplorer__querySaveName"]')
-      .focus()
-      .clear()
-      .type(NEW_VISUALIZATION_NAME);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+      .clear({ force: true })
+      .type(NEW_VISUALIZATION_NAME, {
+        delay: 200,
+      });
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
     moveToTestPanel();
@@ -437,23 +505,26 @@ describe('Testing a panel', () => {
 describe('Add samples and clean up all test data', () => {
   it('Add sample data', () => {
     moveToPanelHome();
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Add samples').click();
-    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text').contains('Add samples').trigger('mouseover').click();
+    cy.wait(delay * 3);
     cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
       .contains('Add samples')
       .should('exist');
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Yes').click();
+    cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
     cy.wait(delay * 5);
-    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
+    cy.route2('POST', '/addSamplePanels').as('removePage');
+    cy.wait('@removePage').then(() => {
+      cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
+    });
     cy.wait(delay);
   });
 
   it('Validate sample data', () => {
     moveToPanelHome();
-    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).click();
+    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).trigger('mouseover').click();
     cy.wait(delay * 3);
     cy.get('h1').contains(SAMPLE_PANEL).should('exist');
     cy.wait(delay);
@@ -465,38 +536,38 @@ describe('Add samples and clean up all test data', () => {
 
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
-    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
-    cy.get('.euiContextMenuItem__text').contains('50 rows').click();
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').trigger('mouseover').click();
+    cy.get('.euiContextMenuItem__text').contains('50 rows').trigger('mouseover').click();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.get('.euiContextMenuItem__text').contains('Delete').trigger('mouseover').click();
     cy.wait(delay);
-
     cy.get('button.euiButton--danger').should('be.disabled');
-
-    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('input.euiFieldText[placeholder="delete"]').focus().type('delete', {
+      delay: 50,
+    });
     cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').click();
+    cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
   });
 
   it('Deletes test panel', () => {
     moveToPanelHome();
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
+    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').click();
+    cy.get('.euiContextMenuItem__text').contains('Delete').trigger('mouseover').click();
     cy.wait(delay);
-
     cy.get('button.euiButton--danger').should('be.disabled');
-
-    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+    cy.get('input.euiFieldText[placeholder="delete"]').focus().type('delete', {
+      delay: 50,
+    });
     cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').click();
+    cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
 
     cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
   });
