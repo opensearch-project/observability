@@ -170,6 +170,7 @@ export function TraceView(props: TraceViewProps) {
     });
     const filteredServiceMap: ServiceObject = {};
     Object.entries(services).forEach(([serviceName, service]: [string, any]) => {
+      if (!serviceMap[serviceName]) return;
       filteredServiceMap[serviceName] = serviceMap[serviceName];
       filteredServiceMap[serviceName].latency = _.round(service.latency / service.throughput, 2);
       filteredServiceMap[serviceName].error_rate = _.round(
