@@ -164,7 +164,7 @@ export const getServiceBreakdownQuery = (traceId: string) => {
   return query;
 };
 
-export const getSpanDetailQuery = (traceId: string, size = 200) => {
+export const getSpanDetailQuery = (traceId: string, size = 3000) => {
   const query = {
     size,
     query: {
