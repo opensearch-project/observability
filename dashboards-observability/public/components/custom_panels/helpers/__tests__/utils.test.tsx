@@ -28,7 +28,7 @@ import {
 import { PPL_DATE_FORMAT } from '../../../../../common/constants/shared';
 import React from 'react';
 
-describe.skip('Utils helper functions', () => {
+describe('Utils helper functions', () => {
   configure({ adapter: new Adapter() });
 
   it('validates isNameValid function', () => {
@@ -103,19 +103,25 @@ describe.skip('Utils helper functions', () => {
   });
 
   it('renders displayVisualization function', () => {
-    const wrapper1 = mount(<div>{displayVisualization(samplePPLResponse, 'bar', false)}</div>);
+    const wrapper1 = mount(
+      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'bar')}</div>
+    );
     expect(wrapper1).toMatchSnapshot();
 
-    const wrapper2 = mount(<div>{displayVisualization(samplePPLResponse, 'line', true)}</div>);
+    const wrapper2 = mount(
+      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'line')}</div>
+    );
     expect(wrapper2).toMatchSnapshot();
 
     const wrapper3 = mount(
-      <div>{displayVisualization(samplePPLResponse, 'horizontal_bar', false)}</div>
+      <div>
+        {displayVisualization(sampleSavedVisualization, samplePPLResponse, 'horizontal_bar')}
+      </div>
     );
     expect(wrapper3).toMatchSnapshot();
 
     const wrapper4 = mount(
-      <div>{displayVisualization(samplePPLEmptyResponse, 'horizontal_bar', true)}</div>
+      <div>{displayVisualization({}, samplePPLEmptyResponse, 'horizontal_bar')}</div>
     );
     expect(wrapper4).toMatchSnapshot();
   });
