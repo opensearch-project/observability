@@ -1058,6 +1058,16 @@ export const Explorer = ({
     }
   }, [selectedContentTabId, browserTabFocus]);
 
+  //stop live tail if the page is moved using breadcrumbs
+  var lastUrl = location.href; 
+  new MutationObserver(() => {
+    const url = location.href;
+      if (url !== lastUrl) {
+        lastUrl = url;
+        stopLive();
+      }
+  }).observe(document, {subtree: true, childList: true});
+
   const popoverItems: ReactElement[] = LIVE_OPTIONS.map((e) => {
     return (
     <EuiContextMenuItem
