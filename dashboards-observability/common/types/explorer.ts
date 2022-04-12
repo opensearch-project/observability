@@ -217,3 +217,11 @@ export interface IDefaultTimestampState {
   default_timestamp: string;
   message: string;
 }
+
+export interface LiveTailProps {
+  isLiveTailOn: boolean;
+  setIsLiveTailPopoverOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  liveTailName: string;
+  isLiveTailPopoverOpen: boolean;
+  dataTestSubj: string;
+}
