@@ -261,6 +261,7 @@ testClusters.integTest {
 String bwcVersion = "1.2.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
+String remoteFileURL = "https://github.com/opensearch-project/observability/releases/download/1.2.0.0/opensearch-observability-1.2.0.0.zip"
 
 2.times {i ->
     testClusters {
@@ -274,6 +275,14 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
                     return new RegularFile() {
                         @Override
                         File getAsFile() {
+                            File dir = new File(bwcFilePath + bwcVersion)
+                            if (!dir.exists()) {
+                                dir.mkdirs()
+                            }
+                            File file = new File(dir, "opensearch-observability-1.2.0.0-SNAPSHOT.zip")
+                            if (!file.exists()) {
+                                new URL(remoteFileURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                            }
                             return fileTree(bwcFilePath + bwcVersion).getSingleFile()
                         }
                     }
