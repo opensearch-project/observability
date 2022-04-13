@@ -285,7 +285,7 @@ export const Explorer = ({
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
           : TYPE_TAB_MAPPING[SAVED_VISUALIZATION];
         setSelectedContentTab(tabToBeFocused);
-        await fetchData('', '');
+        await fetchData();
       })
       .catch((error) => {
         notifications.toasts.addError(error, {
@@ -298,7 +298,7 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
-  const fetchData = async (startTime: string, endTime: string) => {
+  const fetchData = async (startTime?: string, endTime?: string) => {
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
@@ -323,7 +323,7 @@ export const Explorer = ({
       }
     }
 
-    if (!isLiveTailOnRef.current) {
+    if ((isEqual(typeof startTime, 'undefined')) && (isEqual(typeof endTime, 'undefined'))) {
       startTime = curQuery![SELECTED_DATE_RANGE][0];
       endTime = curQuery![SELECTED_DATE_RANGE][1];
     }
@@ -405,7 +405,7 @@ export const Explorer = ({
     if (objectId) {
       updateTabData(objectId);
     } else {
-      fetchData('', '');
+      fetchData();
     }
   }, []);
 
@@ -433,7 +433,7 @@ export const Explorer = ({
         },
       })
     );
-    await fetchData('', '');
+    await fetchData();
   };
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
@@ -796,7 +796,7 @@ export const Explorer = ({
       await updateCurrentTimeStamp('');
     }
     await updateQueryInStore(tempQuery);
-    fetchData('', '');
+    fetchData();
   }, [tempQuery, query[RAW_QUERY]]);
 
   const handleQueryChange = async (newQuery: string) => {
@@ -1059,7 +1059,7 @@ export const Explorer = ({
   }, [selectedContentTabId, browserTabFocus]);
 
   //stop live tail if the page is moved using breadcrumbs
-  var lastUrl = location.href; 
+  let lastUrl = location.href; 
   new MutationObserver(() => {
     const url = location.href;
       if (url !== lastUrl) {
@@ -1075,7 +1075,7 @@ export const Explorer = ({
       onClick={async () => {
         liveTailLoop(e.label, e.startTime, LIVE_END_TIME, e.delayTime);
       }}
-      data-test-subj={e.label}
+      data-test-subj={'eventLiveTail__delay'+e.label}
     >
       {e.label}
     </EuiContextMenuItem>
