@@ -10,7 +10,7 @@ import { waitFor } from '@testing-library/react';
 import { TimechartHeader } from '../timechart_header';
 import { TIME_INTERVAL_OPTIONS } from '../../../../../../common/constants/explorer';
 
-describe.skip('Time chart header component', () => {
+describe('Time chart header component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders Time chart header component', async () => {

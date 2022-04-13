@@ -7,21 +7,16 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import { Bar } from '../bar/bar';
-import {
-  LAYOUT_CONFIG,
-  TEST_VISUALIZATIONS_DATA
-} from '../../../../../test/event_analytics_constants';
+import { DataTable } from '../data_table/data_table';
+import { TEST_VISUALIZATIONS_DATA } from '../../../../../test/event_analytics_constants';
 
-describe('Bar component', () => {
+describe('Data table component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders bar component', async () => {
+  it('Renders data table component', async () => {
     const wrapper = mount(
-      <Bar
+      <DataTable
         visualizations={TEST_VISUALIZATIONS_DATA}
-        layout={LAYOUT_CONFIG}
-        config={true}
       />
     );
 

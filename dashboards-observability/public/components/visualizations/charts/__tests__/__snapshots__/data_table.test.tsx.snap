@@ -1,24 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Line component Renders line component 1`] = `
-<Line
-  config={Object {}}
-  layout={
-    Object {
-      "colorway": Array [
-        "#8C55A3",
-      ],
-      "height": 220,
-      "margin": Object {
-        "b": 15,
-        "l": 60,
-        "pad": 0,
-        "r": 10,
-        "t": 30,
-      },
-      "showlegend": true,
-    }
-  }
+exports[`Data table component Renders data table component 1`] = `
+<DataTable
   visualizations={
     Object {
       "data": Object {
@@ -338,135 +321,178 @@ exports[`Line component Renders line component 1`] = `
     }
   }
 >
-  <Plt
-    config={Object {}}
-    data={
+  <EuiDataGrid
+    aria-label="viz data table"
+    columnVisibility={
+      Object {
+        "setVisibleColumns": [Function],
+        "visibleColumns": Array [
+          "count()",
+          "tags",
+        ],
+      }
+    }
+    columns={
       Array [
         Object {
-          "mode": "line",
-          "name": "count()",
-          "type": "line",
-          "x": Array [
-            "error",
-            "info",
-            "login",
-            "security",
-            "success",
-            "warning",
-          ],
-          "y": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
+          "id": "count()",
+        },
+        Object {
+          "id": "tags",
         },
       ]
     }
-    layout={
+    data-test-subj="workspace__dataTable"
+    pagination={
       Object {
-        "colorway": Array [
-          "#8C55A3",
+        "onChangeItemsPerPage": [Function],
+        "onChangePage": [Function],
+        "pageIndex": 0,
+        "pageSize": 10,
+        "pageSizeOptions": Array [
+          10,
+          50,
+          100,
         ],
-        "height": 220,
-        "margin": Object {
-          "b": 15,
-          "l": 60,
-          "pad": 0,
-          "r": 10,
-          "t": 30,
-        },
-        "showlegend": true,
-        "title": "",
+      }
+    }
+    renderCellValue={[Function]}
+    rowCount={6}
+    sorting={
+      Object {
+        "columns": Array [],
+        "onSort": [Function],
       }
     }
   >
-    <PlotlyComponent
-      config={
-        Object {
-          "displayModeBar": false,
-        }
-      }
-      data={
-        Array [
-          Object {
-            "mode": "line",
-            "name": "count()",
-            "type": "line",
-            "x": Array [
-              "error",
-              "info",
-              "login",
-              "security",
-              "success",
-              "warning",
-            ],
-            "y": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
-          },
-        ]
-      }
-      debug={false}
-      layout={
-        Object {
-          "autosize": true,
-          "barmode": "stack",
-          "colorway": Array [
-            "#8C55A3",
-          ],
-          "height": 220,
-          "hovermode": "closest",
-          "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
-          },
-          "margin": Object {
-            "b": 15,
-            "l": 60,
-            "pad": 0,
-            "r": 10,
-            "t": 30,
-          },
-          "showlegend": true,
-          "title": "",
-          "xaxis": Object {
-            "automargin": true,
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
-          },
-          "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
-          },
-        }
-      }
-      style={
-        Object {
-          "height": "100%",
-          "width": "100%",
-        }
-      }
-      useResizeHandler={true}
+    <EuiFocusTrap
+      className="euiDataGrid__focusWrap"
+      clickOutsideDisables={false}
+      disabled={true}
+      noIsolation={true}
+      returnFocus={true}
+      scrollLock={false}
     >
-      <div
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </PlotlyComponent>
-  </Plt>
-</Line>
+      <ForwardRef
+        className="euiDataGrid__focusWrap"
+        enabled={false}
+        noIsolation={true}
+        onClickOutside={[Function]}
+        returnFocus={true}
+        scrollLock={false}
+      >
+        <ForwardRef
+          className="euiDataGrid__focusWrap"
+          enabled={false}
+          noIsolation={true}
+          onClickOutside={[Function]}
+          returnFocus={true}
+          scrollLock={false}
+          sideCar={[Function]}
+        >
+          <ForwardRef(FocusLockUI)
+            as={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "classNames": Object {
+                  "fullWidth": "width-before-scroll-bar",
+                  "zeroRight": "right-scroll-bar-position",
+                },
+                "defaultProps": Object {
+                  "enabled": true,
+                  "inert": false,
+                  "removeScrollBar": true,
+                },
+                "render": [Function],
+              }
+            }
+            autoFocus={true}
+            className="euiDataGrid__focusWrap"
+            crossFrame={true}
+            disabled={true}
+            lockProps={
+              Object {
+                "allowPinchZoom": undefined,
+                "as": undefined,
+                "enabled": false,
+                "inert": undefined,
+                "shards": undefined,
+                "sideCar": [Function],
+                "style": undefined,
+              }
+            }
+            noFocusGuards={false}
+            persistentFocus={false}
+            returnFocus={true}
+            sideCar={[Function]}
+          >
+            <div
+              data-focus-guard={true}
+              key="guard-first"
+              style={
+                Object {
+                  "height": "0px",
+                  "left": "1px",
+                  "overflow": "hidden",
+                  "padding": 0,
+                  "position": "fixed",
+                  "top": "1px",
+                  "width": "1px",
+                }
+              }
+              tabIndex={-1}
+            />
+            <ForwardRef
+              className="euiDataGrid__focusWrap"
+              data-focus-lock-disabled="disabled"
+              enabled={false}
+              inert={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              removeScrollBar={true}
+              sideCar={[Function]}
+            >
+              <div
+                className="euiDataGrid__focusWrap"
+                data-focus-lock-disabled="disabled"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onScrollCapture={[Function]}
+                onTouchMoveCapture={[Function]}
+                onWheelCapture={[Function]}
+              >
+                <div
+                  className="euiDataGrid euiDataGrid--bordersAll euiDataGrid--headerShade euiDataGrid--footerOverline euiDataGrid--rowHoverHighlight euiDataGrid--stickyFooter"
+                  data-test-subj="workspace__dataTable"
+                  onKeyDown={[Function]}
+                  style={
+                    Object {
+                      "height": undefined,
+                      "width": undefined,
+                    }
+                  }
+                />
+              </div>
+            </ForwardRef>
+            <div
+              data-focus-guard={true}
+              style={
+                Object {
+                  "height": "0px",
+                  "left": "1px",
+                  "overflow": "hidden",
+                  "padding": 0,
+                  "position": "fixed",
+                  "top": "1px",
+                  "width": "1px",
+                }
+              }
+              tabIndex={-1}
+            />
+          </ForwardRef(FocusLockUI)>
+        </ForwardRef>
+      </ForwardRef>
+    </EuiFocusTrap>
+  </EuiDataGrid>
+</DataTable>
 `;

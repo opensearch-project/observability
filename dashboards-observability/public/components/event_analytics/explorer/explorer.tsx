@@ -26,7 +26,7 @@ import dateMath from '@elastic/datemath';
 import classNames from 'classnames';
 import { Search } from '../../common/search/search';
 import { CountDistribution } from './visualizations/count_distribution';
-import { DataGrid } from './doc_views/data_grid';
+import { DataGrid } from './events_views/data_grid';
 import { Sidebar } from './sidebar';
 import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';

@@ -10,19 +10,18 @@ import { waitFor } from '@testing-library/react';
 import { Line } from '../lines/line';
 import {
   LAYOUT_CONFIG,
-  SAMPLE_VISUALIZATIONS,
+  TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
-describe.skip('Line component', () => {
+describe('Line component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders line component', async () => {
     const wrapper = mount(
       <Line
-        visualizations={SAMPLE_VISUALIZATIONS}
-        name="Event counts"
-        layoutConfig={LAYOUT_CONFIG}
-        isUniColor={true}
+        visualizations={TEST_VISUALIZATIONS_DATA}
+        layout={LAYOUT_CONFIG}
+        config={{}}
       />
     );
 

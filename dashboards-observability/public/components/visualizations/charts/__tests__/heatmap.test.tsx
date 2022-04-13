@@ -7,21 +7,21 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import { Bar } from '../bar/bar';
+import { HeatMap } from '../maps/heatmap';
 import {
   LAYOUT_CONFIG,
   TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
-describe('Bar component', () => {
+describe('Heatmap component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders bar component', async () => {
+  it('Renders heatmap component', async () => {
     const wrapper = mount(
-      <Bar
+      <HeatMap
         visualizations={TEST_VISUALIZATIONS_DATA}
         layout={LAYOUT_CONFIG}
-        config={true}
+        config={{}}
       />
     );
 

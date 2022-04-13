@@ -8,7 +8,7 @@ import React from 'react';
 import moment from 'moment';
 import dateMath from '@elastic/datemath';
 import { IExplorerFields, IField } from '../../../../common/types/explorer';
-import { DocViewRow, IDocType } from '../explorer/doc_views';
+import { DocViewRow, IDocType } from '../explorer/events_views';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
 import { TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';

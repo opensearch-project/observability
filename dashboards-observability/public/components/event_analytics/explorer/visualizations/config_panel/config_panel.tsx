@@ -17,6 +17,7 @@ import {
   EuiComboBox,
   EuiPanel,
   EuiIcon,
+  EuiComboBoxOptionOption
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../../redux/slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
@@ -152,12 +153,12 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     });
   }, []);
 
-  const vizSelectableItemRenderer = (option) => {
-    const { iconType, label } = option;
+  const vizSelectableItemRenderer = (option: EuiComboBoxOptionOption<any>) => {
+    const { iconType = 'empty', label = '' } = option;
 
     return (
       <div className="configPanel__vizSelector-item">
-        <EuiIcon className="lnsChartSwitch__chartIcon" type={iconType || 'empty'} size="m" />
+        <EuiIcon className="lnsChartSwitch__chartIcon" type={iconType} size="m" />
         &nbsp;&nbsp;
         <span>{label}</span>
       </div>

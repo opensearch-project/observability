@@ -7,22 +7,21 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import { HorizontalBar } from '../horizontal_bar';
+import { Pie } from '../pie/pie';
 import {
   LAYOUT_CONFIG,
-  SAMPLE_VISUALIZATIONS,
+  TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
-describe.skip('Horizontal bar component', () => {
+describe('Pie component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders horizontal bar component', async () => {
+  it('Renders pie component', async () => {
     const wrapper = mount(
-      <HorizontalBar
-        visualizations={SAMPLE_VISUALIZATIONS}
-        name="Event counts"
-        layoutConfig={LAYOUT_CONFIG}
-        isUniColor={true}
+      <Pie
+        visualizations={TEST_VISUALIZATIONS_DATA}
+        layout={LAYOUT_CONFIG}
+        config={{}}
       />
     );
 

@@ -13,7 +13,7 @@ import {
   EuiTabbedContent,
   EuiTabbedContentTab,
 } from '@elastic/eui';
-import { DocViewTable } from './detailTable/docDetailTable';
+import { DocViewTable } from './detail_table/doc_detail_table';
 import { JsonCodeBlock } from './json_code_block/json_code_block';
 import { IDocType } from './docViewRow';
 import { HttpSetup } from '../../../../../../../src/core/public';

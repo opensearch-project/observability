@@ -4,6 +4,13 @@
  */
 
 import { LONG_CHART_COLOR } from '../common/constants/shared';
+import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
+import {
+  SELECTED_FIELDS,
+  AVAILABLE_FIELDS as AVAILABLE_FIELDS_NAME,
+  UNSELECTED_FIELDS,
+  QUERIED_FIELDS,
+} from '../common/constants/explorer';
 
 export const AVAILABLE_FIELDS = [
   {
@@ -470,3 +477,59 @@ export const LAYOUT_CONFIG = {
   height: 220,
   colorway: [LONG_CHART_COLOR],
 };
+
+export const EXPLORER_FIELDS = {
+  [SELECTED_FIELDS]: [],
+  [UNSELECTED_FIELDS]: [],
+  [AVAILABLE_FIELDS_NAME]: AVAILABLE_FIELDS,
+  [QUERIED_FIELDS]: QUERY_FIELDS,
+};
+
+export const EXPLORER_VISUALIZATIONS = {
+  data: {
+    'count()': [154, 1753, 116, 468, 1964, 219],
+    tags:["error", "info", "login", "security", "success", "warning"],
+  },
+  jsonData: [
+    {'count()': 154, tags: "error"},
+    {'count()': 1753, tags: "info"},
+    {'count()': 116, tags: "login"},
+    {'count()': 468, tags: "security"},
+    {'count()': 1964, tags: "success"},
+    {'count()': 219, tags: "warning"}
+  ],
+  metadata: {
+    fields: [
+      {name: "count()", type: "integer"},
+      {name: "tags", type: "text"}
+    ],
+    size: 6,
+    status: 200
+  },
+};
+
+export const TEST_VISUALIZATIONS_DATA = {
+  data: {
+    appData: {fromApp: false},
+    defaultAxes: {},
+    indexFields: EXPLORER_FIELDS,
+    query: {},
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {}
+  },
+  vis: createBarTypeDefinition({})
+};
+
+export const PIE_TEST_VISUALIZATIONS_DATA = {
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    defaultAxes: {
+      xaxis: [{name: "tags", type: "text"}], 
+      yaxis: [{name: "count()", type: "integer"}]
+    }
+  },
+  vis: {
+    ...TEST_VISUALIZATIONS_DATA.vis
+  }
+};
+
