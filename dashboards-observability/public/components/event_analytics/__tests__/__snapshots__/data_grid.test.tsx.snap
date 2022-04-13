@@ -412,34 +412,46 @@ exports[`Datagrid component Renders data grid component 1`] = `
               className="osdDocTableCell__toggleDetails"
               key="grid-td-14"
             >
-              <button
+              <EuiButtonIcon
                 className="euiButtonIcon euiButtonIcon--text"
+                iconType="arrowRight"
                 onClick={[Function]}
               >
-                <EuiIcon
-                  type="arrowRight"
+                <button
+                  className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall euiButtonIcon euiButtonIcon--text"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
                 >
-                  <EuiIconEmpty
-                    aria-hidden={true}
-                    className="euiIcon euiIcon--medium euiIcon-isLoading"
-                    focusable="false"
-                    role="img"
-                    style={null}
+                  <EuiIcon
+                    aria-hidden="true"
+                    className="euiButtonIcon__icon"
+                    color="inherit"
+                    size="m"
+                    type="arrowRight"
                   >
-                    <svg
+                    <EuiIconEmpty
                       aria-hidden={true}
-                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                       focusable="false"
-                      height={16}
                       role="img"
                       style={null}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </EuiIconEmpty>
-                </EuiIcon>
-              </button>
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                        focusable="false"
+                        height={16}
+                        role="img"
+                        style={null}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </EuiIconEmpty>
+                  </EuiIcon>
+                </button>
+              </EuiButtonIcon>
             </td>
           </tr>
         </ForwardRef>
@@ -628,34 +640,46 @@ exports[`Datagrid component Renders data grid component 1`] = `
               className="osdDocTableCell__toggleDetails"
               key="grid-td-17"
             >
-              <button
+              <EuiButtonIcon
                 className="euiButtonIcon euiButtonIcon--text"
+                iconType="arrowRight"
                 onClick={[Function]}
               >
-                <EuiIcon
-                  type="arrowRight"
+                <button
+                  className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall euiButtonIcon euiButtonIcon--text"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
                 >
-                  <EuiIconEmpty
-                    aria-hidden={true}
-                    className="euiIcon euiIcon--medium euiIcon-isLoading"
-                    focusable="false"
-                    role="img"
-                    style={null}
+                  <EuiIcon
+                    aria-hidden="true"
+                    className="euiButtonIcon__icon"
+                    color="inherit"
+                    size="m"
+                    type="arrowRight"
                   >
-                    <svg
+                    <EuiIconEmpty
                       aria-hidden={true}
-                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                       focusable="false"
-                      height={16}
                       role="img"
                       style={null}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </EuiIconEmpty>
-                </EuiIcon>
-              </button>
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                        focusable="false"
+                        height={16}
+                        role="img"
+                        style={null}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </EuiIconEmpty>
+                  </EuiIcon>
+                </button>
+              </EuiButtonIcon>
             </td>
           </tr>
         </ForwardRef>

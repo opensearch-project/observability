@@ -7,7 +7,7 @@ import './docView.scss';
 import moment from 'moment';
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { toPairs, uniqueId, has, forEach, isEqual } from 'lodash';
-import { EuiIcon, EuiLink } from '@elastic/eui';
+import { EuiButtonEmpty, EuiButtonIcon, EuiIcon, EuiLink } from '@elastic/eui';
 import { useEffect } from 'react';
 import { IExplorerFields, IField } from '../../../../../common/types/explorer';
 import { DocFlyout } from './doc_flyout';
@@ -121,18 +121,13 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
   const getExpColapTd = () => {
     return (
       <td className="osdDocTableCell__toggleDetails" key={uniqueId('grid-td-')}>
-        <button
+        <EuiButtonIcon
           className="euiButtonIcon euiButtonIcon--text"
           onClick={() => {
             toggleDetailOpen();
           }}
-        >
-          {detailsOpen || surroundingEventsOpen ? (
-            <EuiIcon type="arrowLeft" />
-          ) : (
-            <EuiIcon type="arrowRight" />
-          )}
-        </button>
+          iconType={detailsOpen || surroundingEventsOpen ? 'arrowLeft' : 'arrowRight'}
+        />
       </td>
     );
   };
