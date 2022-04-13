@@ -9,6 +9,7 @@ export const delay = 1500;
 export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';
 export const SPAN_ID = 'a673bc074b438374';
 export const SERVICE_NAME = 'frontend-client';
+export const SERVICE_SPAN_ID = '7df5609a6d104736';
 
 export const testDataSet = [
   {

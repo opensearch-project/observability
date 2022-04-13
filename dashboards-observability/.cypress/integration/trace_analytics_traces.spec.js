@@ -19,7 +19,7 @@ describe('Testing traces table empty state', () => {
 
   it('Renders empty state', () => {
     cy.contains(' (0)').should('exist');
-    cy.get('h2.euiTitle').contains('No matches').should('exist');
+    cy.contains('No matches').should('exist');
   });
 });
 
@@ -54,7 +54,6 @@ describe('Testing traces table', () => {
   it('Searches correctly', () => {
     cy.get('input[type="search"]').focus().type(`${TRACE_ID}{enter}`);
     cy.get('.euiButton__text').contains('Refresh').click();
-    cy.wait(delay);
     cy.contains(' (1)').should('exist');
     cy.contains('03/25/2021 10:21:22').should('exist');
   });
@@ -67,14 +66,13 @@ describe('Testing trace view', () => {
         win.sessionStorage.clear();
       },
     });
-    cy.wait(delay * 3);
   });
 
   it('Renders the trace view', () => {
     cy.contains('43.75%').should('exist');
     cy.contains('42.58%').should('exist');
     cy.contains('03/25/2021 10:21:22').should('exist');
-    cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');
+    cy.contains(TRACE_ID).should('exist');
 
     cy.get('div.js-plotly-plot').should('have.length.gte', 2);
     cy.get('text[data-unformatted="database <br>mysql.APM "]').should('exist');
@@ -82,25 +80,28 @@ describe('Testing trace view', () => {
   });
 
   it('Has working breadcrumbs', () => {
-    cy.get('.euiBreadcrumb').contains(TRACE_ID).click();
+    cy.get(`.euiBreadcrumb[href="#/trace_analytics/traces/${TRACE_ID}"]`).click();
     cy.wait(delay);
     cy.get('h2.euiTitle').contains(TRACE_ID).should('exist');
-    cy.get('.euiBreadcrumb').contains('Traces').click();
+    cy.get('.euiBreadcrumb[href="#/trace_analytics/traces"]').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Traces').should('exist');
-    cy.get('.euiBreadcrumb').contains('Trace analytics').click();
+    cy.get('.euiBreadcrumb[href="#/trace_analytics/home"]').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Dashboard').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.get('.euiBreadcrumb[href="observability-dashboards#/"]').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 
   it('Renders data grid, flyout and filters', () => {
-    cy.get('.euiLink').contains('7df5609a6d104736').click( {force: true} );
+    cy.get('.euiButton__text[title="Span list"]').click({ force: true });
     cy.contains('2 columns hidden').should('exist');
 
+    cy.wait(delay);
+    cy.get('.euiLink').contains(SPAN_ID).trigger('mouseover', { force: true });
     cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true });
+    cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true }); // first click doesn't go through eui data grid
     cy.wait(delay);
     cy.contains('Span detail').should('exist');
     cy.contains('Span attributes').should('exist');

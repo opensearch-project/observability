@@ -77,7 +77,7 @@ describe('Testing dashboard table empty state', () => {
 
   it('Renders empty state', () => {
     cy.contains(' (0)').should('exist');
-    cy.get('h2.euiTitle').contains('No matches').should('exist');
+    cy.contains('No matches').should('exist');
   });
 });
 
@@ -163,6 +163,7 @@ describe('Testing plots', () => {
   });
 
   it('Renders service map', () => {
+    // plotly scale texts are in attribute "data-unformatted"
     cy.get('text.ytitle[data-unformatted="Latency (ms)"]').should('exist');
     cy.get('text[data-unformatted="200"]').should('exist');
     cy.get('.vis-network').should('exist');
@@ -173,7 +174,7 @@ describe('Testing plots', () => {
 
     cy.get('.euiButton__text[title="Throughput"]').click();
     cy.get('text.ytitle[data-unformatted="Throughput"]').should('exist');
-    cy.get('text[data-unformatted="60"]').should('exist');
+    cy.get('text[data-unformatted="50"]').should('exist');
 
     cy.get('input[type="search"]').eq(1).focus().type('payment{enter}');
     cy.wait(delay);
@@ -181,8 +182,8 @@ describe('Testing plots', () => {
 
   it('Renders plots', () => {
     cy.get('text.ytitle[data-unformatted="Error rate (%)"]').should('exist');
-    cy.get('text.annotation-text[data-unformatted="Now: 0%"]').should('exist');
+    cy.get('text.annotation-text[data-unformatted="Now: 14.81%"]').should('exist');
     cy.get('text.ytitle[data-unformatted="Throughput (n)"]').should('exist');
-    cy.get('text.annotation-text[data-unformatted="Now: 62"]').should('exist');
+    cy.get('text.annotation-text[data-unformatted="Now: 108"]').should('exist');
   });
 });
