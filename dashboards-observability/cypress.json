@@ -10,9 +10,9 @@
   "videosFolder": ".cypress/videos",
   "viewportWidth": 2000,
   "viewportHeight": 1320,
-  "requestTimeout": 60000,
-  "responseTimeout": 60000,
-  "defaultCommandTimeout": 60000,
+  "requestTimeout": 6000,
+  "responseTimeout": 6000,
+  "defaultCommandTimeout": 6000,
   "experimentalNetworkStubbing": true,
   "env": {
     "opensearch": "localhost:9200",

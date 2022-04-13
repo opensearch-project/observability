@@ -109,7 +109,7 @@ describe('Testing service view', () => {
   });
 
   it('Renders spans data grid, flyout, filters', () => {
-    cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true });
+    cy.get('.euiLink').contains(SPAN_ID).click( {force: true} );
     cy.wait(delay);
     cy.contains('Span detail').should('exist');
     cy.contains('Span attributes').should('exist');

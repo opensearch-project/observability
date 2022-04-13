@@ -167,11 +167,11 @@ describe('Testing plots', () => {
     cy.get('text[data-unformatted="200"]').should('exist');
     cy.get('.vis-network').should('exist');
 
-    cy.get('.euiToggle__input[title="Error rate"]').click();
+    cy.get('.euiButton__text[title="Error rate"]').click();
     cy.get('text.ytitle[data-unformatted="Error rate"]').should('exist');
     cy.get('text[data-unformatted="10%"]').should('exist');
 
-    cy.get('.euiToggle__input[title="Throughput"]').click();
+    cy.get('.euiButton__text[title="Throughput"]').click();
     cy.get('text.ytitle[data-unformatted="Throughput"]').should('exist');
     cy.get('text[data-unformatted="60"]').should('exist');
 

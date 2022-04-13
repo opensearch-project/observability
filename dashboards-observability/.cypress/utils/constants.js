@@ -40,7 +40,7 @@ export const setTimeFilter = (setEndTime = false, refresh = true) => {
   cy.get('.euiTab__content').contains('Absolute').click();
   cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
     .focus()
-    .type('{selectall}' + startTime);
+    .type('{selectall}' + startTime, { force: true });
   if (setEndTime) {
     cy.wait(delay);
     cy.get(
@@ -50,7 +50,7 @@ export const setTimeFilter = (setEndTime = false, refresh = true) => {
     cy.get('.euiTab__content').contains('Absolute').click();
     cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
       .focus()
-      .type('{selectall}' + endTime);
+      .type('{selectall}' + endTime, { force: true });
   }
   if (refresh) cy.get('.euiButton__text').contains('Refresh').click();
   cy.wait(delay);

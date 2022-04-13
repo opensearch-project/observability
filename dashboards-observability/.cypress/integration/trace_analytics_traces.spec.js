@@ -97,7 +97,7 @@ describe('Testing trace view', () => {
   });
 
   it('Renders data grid, flyout and filters', () => {
-    cy.get('.euiToggle__input[title="Span list"]').click({ force: true });
+    cy.get('.euiLink').contains('7df5609a6d104736').click( {force: true} );
     cy.contains('2 columns hidden').should('exist');
 
     cy.get('button[data-datagrid-interactable="true"]').eq(0).click({ force: true });
