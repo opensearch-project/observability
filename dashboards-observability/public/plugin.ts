@@ -15,6 +15,7 @@ import TimestampUtils from './services/timestamp/timestamp';
 import SavedObjects from './services/saved_objects/event_analytics/saved_objects';
 import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } from './types';
 import { convertLegacyNotebooksUrl } from './components/notebooks/components/helpers/legacy_route_helpers';
+import { convertLegacyTraceAnalyticsUrl } from './components/trace_analytics/components/common/legacy_route_helpers';
 import { uiSettingsService } from '../common/utils';
 
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
@@ -24,6 +25,11 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
     // redirect legacy notebooks URL to current URL under observability
     if (window.location.pathname.includes('notebooks-dashboards')) {
       window.location.assign(convertLegacyNotebooksUrl(window.location));
+    }
+
+    // redirect legacy trace analytics URL to current URL under observability
+    if (window.location.pathname.includes('trace-analytics-dashboards')) {
+      window.location.assign(convertLegacyTraceAnalyticsUrl(window.location));
     }
 
     core.application.register({
