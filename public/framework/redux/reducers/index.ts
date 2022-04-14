@@ -5,13 +5,13 @@
 
 import { combineReducers } from 'redux';
 
-import queriesReducer from '../../../components/explorer/slices/query_slice';
-import queryResultsReducer from '../../../components/explorer/slices/query_result_slice';
-import queryTabReducer from '../../../components/explorer/slices/query_tab_slice';
-import FieldsReducer from '../../../components/explorer/slices/field_slice';
-import countDistributionReducer from '../../../components/explorer/slices/count_distribution_slice';
-import explorerVisualizationReducer from '../../../components/explorer/slices/visualization_slice';
-import explorerVisualizationConfigReducer from '../../../components/explorer/slices/viualization_config_slice';
+import queriesReducer from '../../../components/event_analytics/redux/slices/query_slice';
+import queryResultsReducer from '../../../components/event_analytics/redux/slices/query_result_slice';
+import queryTabReducer from '../../../components/event_analytics/redux/slices/query_tab_slice';
+import FieldsReducer from '../../../components/event_analytics/redux/slices/field_slice';
+import countDistributionReducer from '../../../components/event_analytics/redux/slices/count_distribution_slice';
+import explorerVisualizationReducer from '../../../components/event_analytics/redux/slices/visualization_slice';
+import explorerVisualizationConfigReducer from '../../../components/event_analytics/redux/slices/viualization_config_slice';
 
 const rootReducer = combineReducers({
   // explorer reducers

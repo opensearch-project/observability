@@ -4,9 +4,8 @@
  */
 
 import React from 'react';
-import { take, merge, isEmpty } from 'lodash';
+import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;

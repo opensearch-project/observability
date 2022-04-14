@@ -10,19 +10,18 @@ import { waitFor } from '@testing-library/react';
 import { Bar } from '../bar/bar';
 import {
   LAYOUT_CONFIG,
-  SAMPLE_VISUALIZATIONS,
+  TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
-describe.skip('Bar component', () => {
+describe('Bar component', () => {
   configure({ adapter: new Adapter() });
 
   it('Renders bar component', async () => {
     const wrapper = mount(
       <Bar
-        visualizations={SAMPLE_VISUALIZATIONS}
-        name="Event counts"
-        layoutConfig={LAYOUT_CONFIG}
-        isUniColor={true}
+        visualizations={TEST_VISUALIZATIONS_DATA}
+        layout={LAYOUT_CONFIG}
+        config={true}
       />
     );
 
