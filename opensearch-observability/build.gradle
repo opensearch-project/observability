@@ -10,9 +10,9 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "2.0.0-alpha1-SNAPSHOT")
-        buildVersionQualifier = System.getProperty("build.version_qualifier", "alpha1")
-        // 2.0.0-alpha1-SNAPSHOT -> 2.0.0.0-alpha1-SNAPSHOT
+        opensearch_version = System.getProperty("opensearch.version", "2.0.0-rc1-SNAPSHOT")
+        buildVersionQualifier = System.getProperty("build.version_qualifier", "rc1")
+        // 2.0.0-rc1-SNAPSHOT -> 2.0.0.0-rc1-SNAPSHOT
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
         if (buildVersionQualifier) {
@@ -261,6 +261,7 @@ testClusters.integTest {
 String bwcVersion = "1.2.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
+String remoteFileURL = "https://github.com/opensearch-project/observability/releases/download/1.2.0.0/opensearch-observability-1.2.0.0.zip"
 
 2.times {i ->
     testClusters {
@@ -274,6 +275,14 @@ String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc
                     return new RegularFile() {
                         @Override
                         File getAsFile() {
+                            File dir = new File(bwcFilePath + bwcVersion)
+                            if (!dir.exists()) {
+                                dir.mkdirs()
+                            }
+                            File file = new File(dir, "opensearch-observability-1.2.0.0-SNAPSHOT.zip")
+                            if (!file.exists()) {
+                                new URL(remoteFileURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                            }
                             return fileTree(bwcFilePath + bwcVersion).getSingleFile()
                         }
                     }

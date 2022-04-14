@@ -36,7 +36,7 @@ import {
   PanelTitle,
 } from '../../../../public/components/trace_analytics/components/common/helper_functions';
 import { SpanDetailTable } from '../../../../public/components/trace_analytics/components/traces/span_detail_table';
-import { Explorer } from '../../explorer/explorer';
+import { Explorer } from '../../event_analytics/explorer/explorer';
 import { Configuration } from './configuration';
 import {
   TAB_CONFIG_ID_TXT_PFX,

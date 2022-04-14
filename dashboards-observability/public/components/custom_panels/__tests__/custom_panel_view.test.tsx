@@ -21,7 +21,7 @@ import DSLService from '../../../../public/services/requests/dsl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
 
-describe.skip('Panels View Component', () => {
+describe('Panels View Component', () => {
   configure({ adapter: new Adapter() });
 
   it('renders panel view container without visualizations', async () => {
