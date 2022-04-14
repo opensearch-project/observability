@@ -8,7 +8,7 @@ import { uniq, has, isArray, isEmpty } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../plotly/plot';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
-import { EmptyPlaceholder } from '../../../../components/explorer/visualizations/shared_components/empty_placeholder';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
