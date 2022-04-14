@@ -18,21 +18,21 @@ import { VisualizationType } from '../../../../common/types/custom_panels';
 import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
 import { HttpSetup } from '../../../../../../src/core/public';
-import { init as initFields, remove as removefields } from '../../explorer/slices/field_slice';
+import { init as initFields, remove as removefields } from '../../event_analytics/redux/slices/field_slice';
 import {
   init as initVisualizationConfig,
   reset as resetVisualizationConfig,
-} from '../../explorer/slices/viualization_config_slice';
+} from '../../event_analytics/redux/slices/viualization_config_slice';
 import {
   init as initQuery,
   remove as removeQuery,
   changeQuery,
-} from '../../explorer/slices/query_slice';
+} from '../../event_analytics/redux/slices/query_slice';
 import {
   init as initQueryResult,
   remove as removeQueryResult,
-} from '../../explorer/slices/query_result_slice';
-import { addTab, removeTab } from '../../explorer/slices/query_tab_slice';
+} from '../../event_analytics/redux/slices/query_result_slice';
+import { addTab, removeTab } from '../../event_analytics/redux/slices/query_tab_slice';
 
 // Name validation
 export const isNameValid = (name: string, existingNames: string[]) => {
