@@ -7,6 +7,8 @@ import { supressResizeObserverIssue } from './constants';
 
 export const delay = 1000;
 
+export const TYPING_DELAY = 500;
+
 export const moveToHomePage = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
   cy.wait(delay * 3);
@@ -24,6 +26,7 @@ export const moveToCreatePage = () => {
 
 export const moveToApplication = (name) => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
+  supressResizeObserverIssue();
   cy.wait(delay * 6);
   cy.get('.euiLink').contains(name).click();
   cy.wait(delay);
@@ -41,7 +44,8 @@ export const moveToEditPage = () => {
 };
 
 export const changeTimeTo24 = (timeUnit) => {
-  cy.get('#QuickSelectPopover').click();
+  cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').trigger('mouseover').click();
+  cy.wait(delay);
   cy.get('[aria-label="Time unit"]').select(timeUnit);
   cy.get('.euiButton').contains('Apply').click();
   cy.wait(delay);
@@ -58,6 +62,14 @@ export const moveToPanelHome = () => {
     `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
   );
   cy.wait(delay * 3);
+};
+
+export const deleteAllSavedApplications = () => {
+  moveToHomePage();
+  cy.get('[data-test-subj="checkboxSelectAll"]').click();
+  cy.get('.euiPopover').contains('Actions').click();
+  cy.get('.euiContextMenuItem').contains('Delete').click();
+  cy.get('.euiButton__text').contains('Delete').click();
 };
 
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
