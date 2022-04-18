@@ -74,3 +74,54 @@ export const pageStyles: CSS.Properties = {
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
 export const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'heatmap', 'text'];
+
+//Live tail constants
+export const LIVE_OPTIONS = [
+  {
+    label:'5s',
+    startTime: 'now-5s',
+    delayTime: 5000,
+  },
+  {
+    label:'10s',
+    startTime: 'now-10s',
+    delayTime: 10000,
+  },
+  {
+    label:'30s',
+    startTime: 'now-30s',
+    delayTime: 30000,
+  },
+  {
+    label:'1m',
+    startTime: 'now-1m',
+    delayTime: 60000,
+  },
+  {
+    label:'5m',
+    startTime: 'now-5m',
+    delayTime: 60000 * 5,
+  },
+  {
+    label:'15m',
+    startTime: 'now-15m',
+    delayTime: 60000 * 15,
+  },
+  {
+    label:'30m',
+    startTime: 'now-30m',
+    delayTime: 60000 * 30,
+  },
+  {
+    label:'1h',
+    startTime: 'now-1h',
+    delayTime: 60000 * 60,
+  },
+  {
+    label:'2h',
+    startTime: 'now-2h',
+    delayTime: 60000 * 120,
+  },
+];
+
+export const LIVE_END_TIME ='now';
