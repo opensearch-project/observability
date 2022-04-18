@@ -195,7 +195,10 @@ export function AppTable(props: AppTableProps) {
       truncateText: true,
       render: (value) => (
         <EuiToolTip content={value.join(', ')}>
-          <EuiText id="compositionColumn">{value.join(', ')}</EuiText>
+          <EuiText 
+            id="compositionColumn"
+            data-test-subj="appAnalytics__compositionColumn"
+          >{value.join(', ')}</EuiText>
         </EuiToolTip>
       ),
     },
