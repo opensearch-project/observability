@@ -22,6 +22,8 @@ import {
   trace_one,
   trace_two,
   trace_three,
+  query_one,
+  query_two,
   visOneName,
   visTwoName,
   composition,
@@ -348,7 +350,7 @@ describe('Viewing application', () => {
     cy.get('.aa-List').find('.aa-Item').should('have.length', 11);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type('x', {delay: TYPING_DELAY});
     cy.focused().clear();
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type('where DestCityName = "Venice" | stats count() by span( timestamp , 6h )', {delay: TYPING_DELAY});
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type(query_one, {delay: TYPING_DELAY});
     changeTimeTo24('months');
     cy.wait(delay * 2);
     cy.get('.euiTab').contains('Visualizations').click();
@@ -412,7 +414,7 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').clear();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type('x', {delay: TYPING_DELAY});
     cy.focused().clear();
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type('where DestCityName = "Venice" | stats count() by span( timestamp , 6h )', {delay: TYPING_DELAY});
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type(query_two, {delay: TYPING_DELAY});
     cy.get('.euiButton').contains('Refresh').click();
     cy.wait(delay);
     cy.get('.euiTab').contains('Visualizations').click();
@@ -481,30 +483,30 @@ describe('Viewing application', () => {
   it('Hides application visualizations in Event Analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics`);
     cy.wait(delay*3);
-    if (cy.get('.euiFieldSearch').length > 1) {
+    if (cy.get('.euiButton').length == 2) {
       cy.get('input.euiFieldSearch').type(visOneName, {delay: TYPING_DELAY});
-    cy.wait(delay);
-    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
-    cy.get('input.euiFieldSearch').clear().type(visTwoName, {delay: TYPING_DELAY});
-    cy.wait(delay);
-    cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
-    cy.get('.euiFormControlLayoutClearButton').click();
-    cy.wait(delay);
-    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
-    cy.get('.euiContextMenuItem__text').contains('50 rows').click();
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').click();
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').click();
-    cy.wait(delay);
+      cy.wait(delay);
+      cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+      cy.get('input.euiFieldSearch').clear().type(visTwoName, {delay: TYPING_DELAY});
+      cy.wait(delay);
+      cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+      cy.get('.euiFormControlLayoutClearButton').click();
+      cy.wait(delay);
+      cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
+      cy.get('.euiContextMenuItem__text').contains('50 rows').click();
+      cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
+      cy.wait(delay);
+      cy.get('.euiButton__text').contains('Actions').click();
+      cy.wait(delay);
+      cy.get('.euiContextMenuItem__text').contains('Delete').click();
+      cy.wait(delay);
 
-    cy.get('button.euiButton--danger').should('be.disabled');
+      cy.get('button.euiButton--danger').should('be.disabled');
 
-    cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
-    cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').click();
-    cy.wait(delay);
+      cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
+      cy.get('button.euiButton--danger').should('not.be.disabled');
+      cy.get('.euiButton__text').contains('Delete').click();
+      cy.wait(delay);
     }
   });
 
