@@ -502,37 +502,7 @@ describe('Testing a panel', () => {
   });
 });
 
-describe('Add samples and clean up all test data', () => {
-  it('Add sample data', () => {
-    moveToPanelHome();
-    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Add samples').trigger('mouseover').click();
-    cy.wait(delay * 3);
-    cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
-      .contains('Add samples')
-      .should('exist');
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
-    cy.wait(delay * 5);
-    cy.route2('POST', '/addSamplePanels').as('removePage');
-    cy.wait('@removePage').then(() => {
-      cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
-    });
-    cy.wait(delay);
-  });
-
-  it('Validate sample data', () => {
-    moveToPanelHome();
-    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).trigger('mouseover').click();
-    cy.wait(delay * 3);
-    cy.get('h1').contains(SAMPLE_PANEL).should('exist');
-    cy.wait(delay);
-    SAMPLE_VISUALIZATIONS_NAMES.forEach((vizName) =>
-      cy.get('h5').contains(vizName).should('exist')
-    );
-    cy.wait(delay);
-  });
+describe('Clean up all test data', () => {
 
   it('Delete visualizations from event analytics', () => {
     moveToEventsHome();
@@ -572,3 +542,4 @@ describe('Add samples and clean up all test data', () => {
     cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
   });
 });
+
