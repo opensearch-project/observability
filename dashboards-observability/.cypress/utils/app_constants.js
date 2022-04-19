@@ -69,12 +69,8 @@ export const service_two = 'payment';
 export const trace_one = 'HTTP POST';
 export const trace_two = 'HTTP GET';
 export const trace_three = 'client_pay_order';
-export const spanQueryOnePartOne = 'where DestCityName ';
-export const spanQueryOnePartTwo = '= "Venice" | stats count() by span( timestamp ';
-export const spanQueryOnePartThree = ', 6h )';
-export const spanQueryTwoPartOne = 'where OriginCityName ';
-export const spanQueryTwoPartTwo = '= "Seoul" | stats count() by span( timestamp ';
-export const spanQueryTwoPartThree = ', 6h )';
+export const query_one = 'where DestCityName = "Venice" | stats count() by span( timestamp , 6h )';
+export const query_two = 'where OriginCityName = "Seoul" | stats count() by span( timestamp , 6h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
