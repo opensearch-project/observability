@@ -200,7 +200,9 @@ export const Home = (props: HomeProps) => {
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then(async (res) => {
         // Want to calculate availability going down the table
+        const mainVisIdStore: Record<string, string> = {};
         for (let i = 0; i < res.data.length; i++) {
+          mainVisIdStore[res.data[i].id] = res.data[i].availability.mainVisId;
           res.data[i].availability = { name: 'loading', color: '', mainVisId: '' };
         }
         setApplicationList(res.data);
@@ -209,7 +211,7 @@ export const Home = (props: HomeProps) => {
             http,
             pplService,
             res.data[i],
-            res.data[i].availability.mainVisId,
+            mainVisIdStore[res.data[i].id],
             () => {}
           );
           // Need to set state with new object to trigger re-render
