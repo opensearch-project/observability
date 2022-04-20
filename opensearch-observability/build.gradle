@@ -14,6 +14,7 @@ buildscript {
         opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.4.0")
+        job_scheduler_version = System.getProperty("job_scheduler.version", opensearch_build)
     }
 
     repositories {
@@ -56,6 +57,7 @@ opensearchplugin {
     name 'opensearch-observability'
     description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
     classname "org.opensearch.observability.ObservabilityPlugin"
+    extendedPlugins = ['opensearch-job-scheduler']
 }
 
 allOpen {
@@ -126,6 +128,7 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
     compile "${group}:common-utils:${common_utils_version}"
     compile group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+    compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
@@ -237,6 +240,19 @@ integTest.getClusters().forEach { c -> c.plugin(project.getObjects().filePropert
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
+    // need to install job-scheduler first, need to assemble job-scheduler first
+    plugin(provider(new Callable<RegularFile>(){
+        @Override
+        RegularFile call() throws Exception {
+            return new RegularFile() {
+                @Override
+                File getAsFile() {
+                    return fileTree("src/test/resources/job-scheduler").getSingleFile()
+                }
+            }
+        }
+    }))
+
     // Cluster shrink exception thrown if we try to set numberOfNodes to 1, so only apply if > 1
     if (_numNodes > 1) numberOfNodes = _numNodes
     // When running integration tests it doesn't forward the --debug-jvm to the cluster anymore

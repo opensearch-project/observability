@@ -182,4 +182,17 @@ internal object UserAccessManager {
     private fun isUserPrivateTenant(user: User?): Boolean {
         return getUserTenant(user) == PRIVATE_TENANT
     }
+
+    /**
+     * Get user object from all user access info.
+     */
+    fun getUserFromAccess(access: List<String>): User? {
+        if (access.isNullOrEmpty()) {
+            return null
+        }
+        val name = access.find { it.startsWith(USER_TAG) }?.substring(USER_TAG.length)
+        val backendRoles = access.filter { it.startsWith(ROLE_TAG) }.map { it.substring(ROLE_TAG.length) }
+        val roles = access.filter { it.startsWith(BACKEND_ROLE_TAG) }.map { it.substring(BACKEND_ROLE_TAG.length) }
+        return User(name, backendRoles, roles, listOf())
+    }
 }
