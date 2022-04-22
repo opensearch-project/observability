@@ -400,12 +400,51 @@ export const DATA_GRID_ROWS = [
 
 export const SAMPLE_VISUALIZATIONS = {
   data: {
+    rawVizData: {
+      data: {
+        'avg(AvgTicketPrice)': [
+          574.6643260854536,
+          575.7916175023022,
+          599.2321691707689,
+          594.5192950694553,
+        ],
+        new_timestamp: [
+          '2022-04-04 00:00:00',
+          '2022-04-05 00:00:00',
+          '2022-04-06 00:00:00',
+          '2022-04-07 00:00:00',
+        ],
+      },
+      metadata: {
+        fields: [
+          {
+            name: 'avg(AvgTicketPrice)',
+            type: 'double',
+          },
+          {
+            name: 'new_timestamp',
+            type: 'timestamp',
+          },
+        ],
+      },
+    },
+    userConfigs: { dataConfig: {}, layoutConfig: {} },
+    defaultAxes: {
+      xaxis: [
+        {
+          name: 'new_timestamp',
+          type: 'timestamp',
+        },
+      ],
+      yaxis: [
+        {
+          name: 'avg(AvgTicketPrice)',
+          type: 'double',
+        },
+      ],
+    },
     'count()': [2549, 9337, 1173],
-    'span(timestamp,1M)': [
-      '2021-05-01 00:00:00',
-      '2021-06-01 00:00:00',
-      '2021-07-01 00:00:00'
-    ],
+    'span(timestamp,1M)': ['2021-05-01 00:00:00', '2021-06-01 00:00:00', '2021-07-01 00:00:00'],
   },
   jsonData: [
     {

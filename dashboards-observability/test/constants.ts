@@ -500,3 +500,132 @@ export const TEST_SERVICE_MAP = {
     throughput: 16,
   },
 };
+
+export const SAMPLE_VISUALIZATIONS_VIS_TIME_SERIES = {
+  name: 'time_series',
+  type: 'scatter',
+  id: 'time_series',
+  label: 'Time Series',
+  fullLabel: 'Time Series',
+  iconType: 'visBarVerticalStacked',
+  selection: {
+    dataLoss: 'nothing',
+  },
+  category: 'Visualizations',
+  categoryAxis: 'xaxis',
+  seriesAxis: 'yaxis',
+  orientation: 'v',
+  editorConfig: {
+    panelTabs: [
+      {
+        id: 'data-panel',
+        name: 'Data',
+        mapTo: 'dataConfig',
+        sections: [
+          {
+            id: 'value_options',
+            name: 'Value options',
+            mapTo: 'valueOptions',
+            schemas: [
+              {
+                name: 'X-axis',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'xaxis',
+              },
+              {
+                name: 'Y-axis',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'yaxis',
+              },
+            ],
+          },
+          {
+            id: 'chart_options',
+            name: 'Chart options',
+            mapTo: 'chartOptions',
+            schemas: [
+              {
+                name: 'Orientation',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'orientation',
+                props: {
+                  dropdownList: [
+                    {
+                      name: 'Vertical',
+                      orientationId: 'v',
+                    },
+                    {
+                      name: 'Horizontal',
+                      orientationId: 'h',
+                    },
+                  ],
+                  defaultSelections: [
+                    {
+                      name: 'Vertical',
+                      orientationId: 'v',
+                    },
+                  ],
+                },
+              },
+              {
+                name: 'Mode',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'mode',
+                props: {
+                  dropdownList: [
+                    {
+                      name: 'Group',
+                      modeId: 'group',
+                    },
+                    {
+                      name: 'Stack',
+                      modeId: 'stack',
+                    },
+                  ],
+                  defaultSelections: [
+                    {
+                      name: 'Group',
+                      modeId: 'group',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'style-panel',
+        name: 'Layout',
+        mapTo: 'layoutConfig',
+        content: [],
+      },
+    ],
+  },
+  visConfig: {
+    layout: {
+      showlegend: true,
+      margin: {
+        l: 60,
+        r: 30,
+        b: 30,
+        t: 50,
+        pad: 0,
+      },
+      height: 500,
+      legend: {
+        orientation: 'v',
+        traceorder: 'normal',
+      },
+    },
+    config: {
+      displaylogo: false,
+      responsive: true,
+    },
+    isUniColor: false,
+  },
+};
