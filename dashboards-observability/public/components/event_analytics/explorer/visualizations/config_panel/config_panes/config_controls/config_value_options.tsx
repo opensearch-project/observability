@@ -15,7 +15,7 @@ export const ConfigValueOptions = ({
   sectionName,
   sectionId = 'valueOptions'
 }: any) => {
-  const { data } = visualizations;
+  const { data, vis } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -28,6 +28,19 @@ export const ConfigValueOptions = ({
     },
     [handleConfigChange, vizState]
   );
+ 
+  const getDropdownList = (schema) => {
+    let dropDownOptions = [];
+    if (schema?.options) {
+      dropDownOptions = schema?.options?.map((option) => ({ name: option }));
+    } else if (vis.name === 'time_series') {
+      // to filter out timestamp fields to category axis (xaxis)
+      dropDownOptions = fields.filter((item) => schema.name === 'X-axis' ? item.type === 'timestamp' : item.type !== 'timestamp');
+    } else {
+      dropDownOptions = fields.map((item) => ({ ...item }));
+    }
+    return dropDownOptions;
+  }
 
   const dimensions = useMemo(() => {
     return schemas.map((schema, index) => {
@@ -35,9 +48,7 @@ export const ConfigValueOptions = ({
       const params = {
         paddingTitle: schema.name,
         advancedTitle: 'advancedTitle',
-        dropdownList:
-          schema?.options?.map((option) => ({ name: option })) ||
-          fields.map((item) => ({ ...item })),
+        dropdownList: getDropdownList(schema),
         onSelectChange: handleConfigurationChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
         selectedAxis: vizState[schema.mapTo],
