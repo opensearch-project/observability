@@ -21,6 +21,31 @@ import {
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
+ const vis_name = Math.floor(Math.random() * 100);
+ const saveVisulizationAndVerify = () =>{
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click()
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.get('.euiPopover__panel input').eq(1).type(`Test visulization_`+vis_name);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.wait(delay);
+    cy.get('.euiHeaderBreadcrumbs a').eq(1).click();
+    cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_`+vis_name).type('{enter}');
+    cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
+}
+
+ const deleteVisulaization = () =>{
+   cy.get('a[href = "#/event_analytics"]').click();
+   cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_`+vis_name).type('{enter}');
+   cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
+   cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
+   cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();
+   cy.get('input[placeholder = "delete"]').clear().type('delete');
+   cy.get('button[data-test-subj = "popoverModal__deleteButton"]').click();
+   cy.get('.euiToastHeader').should('exist');
+  }
+
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -616,3 +641,95 @@ describe('Renders data view', () => {
     cy.get('[data-test-subj="workspace__dataTable"]').should('not.exist');
   });
 });
+
+//*********************************************************************************************/
+
+describe('Renders Histogram chart', () =>{
+  beforeEach(() => {
+    landOnEventVisualizations();
+});
+
+it.only('Renders Histogram chart and save visualization', () => {
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[3].dateRangeDOM);
+  cy.wait(delay);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Histogram').type('{enter}');
+    cy.wait(delay);
+    cy.get('g.draglayer.cursor-crosshair').should('exist');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Histogram chart');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('.euiComboBoxOption__content').eq(0).click();
+    //cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]'). eq(2).click();
+    //cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.wait(delay);
+    saveVisulizationAndVerify();
+  });
+
+ it.only('Delete Visualization for Histogram chart from list of saved Visulaizations on Event analytics page', () =>{
+  deleteVisulaization();
+ })
+
+ it.only('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Histogram').type('{enter}');
+  cy.wait(delay);
+    cy.get('g.draglayer.cursor-crosshair').should('exist');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Histogram chart');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('.euiComboBoxOption__content').eq(0).click();
+
+    cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
+  });
+});
+
+describe('Calendar functionality', () =>{
+  beforeEach(() => {
+    landOnEventVisualizations();
+});
+
+it.only('Verify Quick select section in Calendar overlay', () =>{
+  cy.get('[data-test-subj="searchAutocompleteTextArea"]').type("source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)");
+  cy.wait(delay);
+    cy.get('button[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
+    cy.get('.euiFormControlLayout__childrenWrapper .euiSelect.euiSelect--compressed').eq(0).select('Next').should('have.value', 'next');
+    cy.get('input[type="number"]').clear().type('1').trigger('change');
+    cy.get('select[aria-label="Time unit"]').select('weeks').should('have.value', 'w');
+    cy.get('div[class = "euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow"] .euiFlexItem.euiFlexItem--flexGrowZero').click();
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+  })
+
+  it.only('Verify Calender button and time range fields are working', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type("source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)");
+    cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="superDatePickerCommonlyUsed_This_year"]').click();
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+
+  });
+});
+
+describe('Search a query on event home', () => {
+  it.only('Search a query and redirect to explorer to display query output', () => {
+    landOnEventHome();
+
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[0].query);
+    cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
+    cy.get('[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]').click();
+    cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+    cy.window().its('store').invoke('getState').then((state) => {
+      expect(Object.values(state.queries)[0]['rawQuery'].trim()).equal(TEST_QUERIES[0].query)
+      expect(Object.values(state.queries)[0]['selectedDateRange'][0]).equal("now/y");
+      expect(Object.values(state.queries)[0]['selectedDateRange'][1]).equal("now");
+    });
+    cy.wait(delay);
+
+    cy.url().should('contain', '#/event_analytics/explorer');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').contains(TEST_QUERIES[0].query);
+  });
+});
+
+
