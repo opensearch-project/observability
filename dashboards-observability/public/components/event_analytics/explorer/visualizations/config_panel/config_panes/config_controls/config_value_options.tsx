@@ -29,19 +29,12 @@ export const ConfigValueOptions = ({
     },
     [handleConfigChange, vizState]
   );
- 
-  const getDropdownList = (schema) => {
-    let dropDownOptions = [];
-    if (schema?.options) {
-      dropDownOptions = schema?.options?.map((option) => ({ name: option }));
-    } else if (vis.name === 'time_series') {
-      // to filter out timestamp fields to category axis (xaxis)
-      dropDownOptions = fields.filter((item) => schema.name === 'X-axis' ? item.type === 'timestamp' : item.type !== 'timestamp');
-    } else {
-      dropDownOptions = fields.map((item) => ({ ...item }));
-    }
-    return dropDownOptions;
-  }
+
+  // get dropDownOptions list
+  // If chat is time-series then filter out timestamp fields to category axis (xaxis)
+  const getDropdownList = (schema) => schema?.options?.map((option) => ({ name: option })) ||
+    vis.name === 'time_series' ? fields.filter((item) => schema.name === 'X-axis' ? item.type === 'timestamp' : item.type !== 'timestamp')
+    : fields.map((item) => ({ ...item }));
 
   // get dropDownOptions list
   // If chat is time-series then filter out timestamp fields to category axis (xaxis)
