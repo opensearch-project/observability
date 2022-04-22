@@ -4,10 +4,12 @@
  */
 
 import React, { useMemo } from 'react';
-import { indexOf } from 'lodash';
+import { indexOf, isEmpty } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
 import { NUMERICAL_FIELDS } from '../../../../../../common/constants/shared';
+import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+
 import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
@@ -29,6 +31,11 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       : [];
 
   const thresholds = dataConfig?.thresholds || [];
+
+  if (isEmpty(series) || isEmpty(value)) {
+    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+  }
+
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
