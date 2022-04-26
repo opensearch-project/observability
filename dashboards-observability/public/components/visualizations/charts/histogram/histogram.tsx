@@ -41,14 +41,14 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
 
   const mergedLayout = {
     ...layout,
-    ...layoutConfig.layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode: 'group',
   };
 
   const mergedConfigs = {
     ...config,
-    ...layoutConfig.config,
+    ...(layoutConfig.config && layoutConfig.config),
   };
 
   return <Plt data={hisValues} layout={mergedLayout} config={mergedConfigs} />;
