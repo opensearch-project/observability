@@ -739,11 +739,6 @@ describe('Renders Time series chart', () => {
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).click();
     cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(2).click();
-
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
   });
 
@@ -763,10 +758,6 @@ describe('Renders Time series chart', () => {
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).click();
     cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(2).click();
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
 
     saveVisulizationAndVerify();
@@ -807,7 +798,7 @@ describe('Renders Time series chart', () => {
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
   });
 
-  it('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
+  it.only('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
     querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
       .type('Time Series')
@@ -823,11 +814,6 @@ describe('Renders Time series chart', () => {
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).click();
     cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(2).click();
-
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).click();
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
 
     cy.get('#configPanel__panelOptions .euiFieldText').should('have.value', '');
@@ -837,12 +823,6 @@ describe('Renders Time series chart', () => {
       .should('have.value', '');
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]')
       .eq(2)
-      .should('have.value', '');
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]')
-      .eq(2)
-      .should('have.value', '');
-    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]')
-      .eq(3)
       .should('have.value', '');
   });
 });
