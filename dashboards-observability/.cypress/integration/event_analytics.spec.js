@@ -17,35 +17,47 @@ import {
   landOnEventHome,
   landOnEventExplorer,
   landOnEventVisualizations,
-  landOnPanels
+  landOnPanels,
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
-const vis_name = Math.floor(Math.random() * 100);
-const saveVisulizationAndVerify = () =>{
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click()
-    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-    cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
-    cy.get('.euiPopover__panel input').eq(1).type(`Test visulization_`+vis_name);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay);
-    cy.get('.euiHeaderBreadcrumbs a').eq(1).click();
-    cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_`+vis_name).type('{enter}');
-    cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
-}
+const vis_name_sub_string = Math.floor(Math.random() * 100);
+const saveVisulizationAndVerify = () => {
+  cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+  cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
+  cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+  cy.get(
+    '.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]'
+  )
+    .eq(0)
+    .click();
+  cy.get('.euiPopover__panel input')
+    .eq(1)
+    .type(`Test visulization_` + vis_name_sub_string);
+  cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+  cy.wait(delay);
+  cy.get('.euiHeaderBreadcrumbs a').eq(1).click();
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input')
+    .eq(0)
+    .type(`Test visulization_` + vis_name_sub_string)
+    .type('{enter}');
+  cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
+};
 
-const deleteVisulaization = () =>{
+const deleteVisulaization = () => {
   cy.get('a[href = "#/event_analytics"]').click();
-  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_`+vis_name).type('{enter}');
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input')
+    .eq(0)
+    .type(`Test visulization_` + vis_name_sub_string)
+    .type('{enter}');
   cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
   cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
   cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();
   cy.get('input[placeholder = "delete"]').clear().type('delete');
   cy.get('button[data-test-subj = "popoverModal__deleteButton"]').click();
   cy.get('.euiToastHeader').should('exist');
- }
- 
+};
+
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -80,11 +92,14 @@ describe('Search a query on event home', () => {
     cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
     cy.get('[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]').click();
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
-    cy.window().its('store').invoke('getState').then((state) => {
-      expect(Object.values(state.queries)[0]['rawQuery'].trim()).equal(TEST_QUERIES[0].query)
-      expect(Object.values(state.queries)[0]['selectedDateRange'][0]).equal("now/y");
-      expect(Object.values(state.queries)[0]['selectedDateRange'][1]).equal("now");
-    });
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .then((state) => {
+        expect(Object.values(state.queries)[0]['rawQuery'].trim()).equal(TEST_QUERIES[0].query);
+        expect(Object.values(state.queries)[0]['selectedDateRange'][0]).equal('now/y');
+        expect(Object.values(state.queries)[0]['selectedDateRange'][1]).equal('now');
+      });
     cy.wait(delay);
 
     cy.url().should('contain', '#/event_analytics/explorer');
@@ -101,16 +116,26 @@ describe('Open flyout for a data row to see details', () => {
   it('Should be able to open flyout and see data, json and traces', () => {
     cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
     cy.get('.observability-flyout').should('exist');
-    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('JSON').click();
-    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Traces').click();
-    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content').contains('Table').click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
+      .contains('JSON')
+      .click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
+      .contains('Traces')
+      .click();
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
+      .contains('Table')
+      .click();
   });
 
   it('Should be able to see srrounding docs', () => {
     cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
     cy.get('.observability-flyout').should('exist');
-    cy.get('.observability-flyout span.euiButton__text').contains('View surrounding events').click();
-    cy.get('.observability-flyout #surroundingFyout').contains('View surrounding events').should('exist');
+    cy.get('.observability-flyout span.euiButton__text')
+      .contains('View surrounding events')
+      .click();
+    cy.get('.observability-flyout #surroundingFyout')
+      .contains('View surrounding events')
+      .should('exist');
   });
 });
 
@@ -277,7 +302,9 @@ describe('Saves a query on explorer page', () => {
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.wait(delay * 2);
-    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
+    cy.get(
+      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
+    ).click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY2);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay * 2);
@@ -307,11 +334,15 @@ describe('Saves a query on explorer page', () => {
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
     cy.wait(delay * 2);
-    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
+    cy.get(
+      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
+    ).click();
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY3);
     cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TESTING_PANEL);
     cy.get(`input[value="${TESTING_PANEL}"]`).click();
-    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]').click();
+    cy.get(
+      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
+    ).click();
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay);
 
@@ -330,8 +361,11 @@ describe('Override timestamp for an index', () => {
     cy.wait(delay);
 
     cy.get('[data-attr-field="utc_time"] [data-test-subj="eventFields__default-timestamp-mark"')
-    .contains('Default Timestamp').should('exist');
-    cy.get('[data-attr-field="timestamp"] [data-test-subj="eventFields__default-timestamp-mark"').should('not.exist');
+      .contains('Default Timestamp')
+      .should('exist');
+    cy.get(
+      '[data-attr-field="timestamp"] [data-test-subj="eventFields__default-timestamp-mark"'
+    ).should('not.exist');
   });
 });
 
@@ -394,20 +428,40 @@ describe('Click to view field insights', () => {
 
   it('Click a numerical field to view field insights', () => {
     cy.get('[data-test-subj="field-bytes-showDetails"]').click();
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Top values').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Rare values').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Average overtime').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Maximum overtime').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Minimum overtime').should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Top values')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Rare values')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Average overtime')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Maximum overtime')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Minimum overtime')
+      .should('exist');
   });
 
   it('Click a non-numerical field to view insights', () => {
     cy.get('[data-test-subj="field-host-showDetails"]').click();
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Top values').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Rare values').should('exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Average overtime').should('not.exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Maximum overtime').should('not.exist');
-    cy.get('[data-test-subj="sidebarField__fieldInsights"] button').contains('Minimum overtime').should('not.exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Top values')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Rare values')
+      .should('exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Average overtime')
+      .should('not.exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Maximum overtime')
+      .should('not.exist');
+    cy.get('[data-test-subj="sidebarField__fieldInsights"] button')
+      .contains('Minimum overtime')
+      .should('not.exist');
   });
 });
 
@@ -451,8 +505,8 @@ describe('Live tail stop automatically', () => {
         cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
           .find('button.euiTab')
           .should('have.length', initialLength + 1);
+      });
   });
-});
 
   it('Click to switch to another tab', () => {
     cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
@@ -494,7 +548,9 @@ describe('Renders noresult chart', () => {
   });
 
   it('It should render no result when there is no data', () => {
-    cy.get('[data-test-subj="vizWorkspace__noData"] p').contains('No results found').should('exist');
+    cy.get('[data-test-subj="vizWorkspace__noData"] p')
+      .contains('No results found')
+      .should('exist');
   });
 });
 
@@ -505,7 +561,9 @@ describe('Renders bar charts', () => {
 
   it('Renders vertical bar chart', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
+    ).click();
     cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] span').contains('Bar').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').first().click();
@@ -522,12 +580,16 @@ describe('Renders bar charts', () => {
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Group').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);
-    cy.get('g.xaxislayer-above > g.xtick text[data-unformatted|="artifacts.opensearch.org"]').should('exist');
+    cy.get(
+      'g.xaxislayer-above > g.xtick text[data-unformatted|="artifacts.opensearch.org"]'
+    ).should('exist');
   });
 
   it('Renders horiztontal bar chart', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
+    ).click();
     cy.wait(delay * 2);
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Bar').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').first().click();
@@ -544,7 +606,9 @@ describe('Renders bar charts', () => {
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Group').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);
-    cy.get('g.yaxislayer-above > g.ytick text[data-unformatted|="artifacts.opensearch.org"]').should('exist');
+    cy.get(
+      'g.yaxislayer-above > g.ytick text[data-unformatted|="artifacts.opensearch.org"]'
+    ).should('exist');
   });
 });
 
@@ -555,7 +619,9 @@ describe('Renders line charts', () => {
 
   it('Renders line chart with threshold', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
+    ).click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Line').click();
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').first().click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('host').click();
@@ -569,7 +635,9 @@ describe('Renders line charts', () => {
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);
     cy.get('g.text > g.textpoint text[data-unformatted|="Max"]').should('exist');
-    cy.get('g.xaxislayer-above > g.xtick text[data-unformatted|="artifacts.opensearch.org"]').should('exist');
+    cy.get(
+      'g.xaxislayer-above > g.xtick text[data-unformatted|="artifacts.opensearch.org"]'
+    ).should('exist');
   });
 });
 
@@ -580,7 +648,9 @@ describe('Renders pie charts', () => {
 
   it('Renders pie chart', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-sbj="comboBoxInput"]'
+    ).click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
     cy.wait(delay);
     cy.get('g.pielayer').should('exist');
@@ -594,7 +664,9 @@ describe('Renders heatmap chart', () => {
 
   it('Renders heatmap chart with different z-axes', () => {
     querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
+    ).click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Heatmap').click();
     cy.wait(delay * 2);
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
@@ -618,13 +690,17 @@ describe('Renders markdown chart', () => {
 
   it('Renders markdown chart with test title', () => {
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get(
+      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
+    ).click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Text').click();
     cy.get('[data-test-subj="workspace__viz_markdown"] h2').contains('Text').should('exist');
     cy.get('textarea.euiMarkdownEditorTextArea').type('## testing title');
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay * 2);
-    cy.get('[data-test-subj="workspace__viz_markdown"] h2').contains('testing title').should('exist');
+    cy.get('[data-test-subj="workspace__viz_markdown"] h2')
+      .contains('testing title')
+      .should('exist');
   });
 });
 
@@ -642,17 +718,21 @@ describe('Renders data view', () => {
   });
 });
 
-describe('Renders Time Series  charts', () => {
+describe('Renders Time series chart', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
 
-  it.only('Renders Time series chart', () => {
+  it('Renders Time series chart', () => {
     querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Time Series').type('{enter}');
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Time Series')
+      .type('{enter}');
     cy.wait(delay);
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time Series Chart title');
-    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea').click().type('This is test description for chart');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time series chart title');
+    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea')
+      .click()
+      .type('This is test description for chart');
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(1).click();
     cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
@@ -667,12 +747,16 @@ describe('Renders Time Series  charts', () => {
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
   });
 
-  it.only('Renders Time series chart and save visulization and then delete', () => {
+  it('Renders Time series chart and save visulization and then delete', () => {
     querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Time Series').type('{enter}');
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Time Series')
+      .type('{enter}');
     cy.wait(delay);
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time Series Chart title');
-    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea').click().type('This is test description for chart');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time series chart title');
+    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea')
+      .click()
+      .type('This is test description for chart');
     cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(1).click();
     cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
     cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
@@ -687,7 +771,7 @@ describe('Renders Time Series  charts', () => {
 
     saveVisulizationAndVerify();
     cy.wait(delay);
-    deleteVisulaization()
+    deleteVisulaization();
   });
 
   it('Renders Time series chart and check table view', () => {
@@ -695,50 +779,70 @@ describe('Renders Time Series  charts', () => {
     cy.get('.euiSwitch__button').click();
   });
 
-  it.only('Verify Calender button and time range fileds are working', () => {
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type("source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)");
+  it('Verify Calender button and time range fileds are working', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(
+      "source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)"
+    );
     cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="superDatePickerCommonlyUsed_This_year"]').click();
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
   });
 
-  it.only('Verify Quick select section in Calendar overlay', () =>{
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type("source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)");
+  it('Verify Quick select section in Calendar overlay', () => {
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(
+      "source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)"
+    );
     cy.wait(delay);
     cy.get('button[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
-    cy.get('.euiFormControlLayout__childrenWrapper .euiSelect.euiSelect--compressed').eq(0).select('Next').should('have.value', 'next');
+    cy.get('.euiFormControlLayout__childrenWrapper .euiSelect.euiSelect--compressed')
+      .eq(0)
+      .select('Next')
+      .should('have.value', 'next');
     cy.get('input[type="number"]').clear().type('1').trigger('change');
     cy.get('select[aria-label="Time unit"]').select('weeks').should('have.value', 'w');
-    cy.get('div[class = "euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow"] .euiFlexItem.euiFlexItem--flexGrowZero').click();
+    cy.get(
+      'div[class = "euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow"] .euiFlexItem.euiFlexItem--flexGrowZero'
+    ).click();
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
-    })
+  });
 
+  it('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Time Series')
+      .type('{enter}');
+    cy.wait(delay);
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time series chart title');
+    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea')
+      .click()
+      .type('This is test description for chart');
+    cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(1).click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(2).click();
 
-    it.only('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
-      querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-      cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Time Series').type('{enter}');
-      cy.wait(delay);
-      cy.get('#configPanel__panelOptions .euiFieldText').click().type('Time Series Chart title');
-      cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea').click().type('This is test description for chart');
-      cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(1).click();
-      cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-      cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
-      cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).click();
-      cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-      cy.get('.euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(2).click();
-  
-      cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).click();
-      cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-      cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).click();
-      cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-      cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
+    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
 
-      cy.get('#configPanel__panelOptions .euiFieldText').should('have.value', '');
-      cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea').should('have.value','');
-      cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(1).should('have.value', '');
-      cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]').eq(2).should('have.value', '');
-      cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(2).should('have.value', '');
-      cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]').eq(3).should('have.value', '');
-    });
+    cy.get('#configPanel__panelOptions .euiFieldText').should('have.value', '');
+    cy.get('.euiFormRow .euiFormRow__fieldWrapper .euiTextArea').should('have.value', '');
+    cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]')
+      .eq(1)
+      .should('have.value', '');
+    cy.get('.euiFormControlLayout__childrenWrapper [data-test-subj="comboBoxInput"]')
+      .eq(2)
+      .should('have.value', '');
+    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]')
+      .eq(2)
+      .should('have.value', '');
+    cy.get('.visEditorSidebar__form [data-test-subj="comboBoxInput"]')
+      .eq(3)
+      .should('have.value', '');
+  });
 });
