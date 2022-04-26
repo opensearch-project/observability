@@ -798,7 +798,7 @@ describe('Renders Time series chart', () => {
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
   });
 
-  it('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
+  it.only('Renders Time series chart, add value parameters and verify Reset button click is working', () => {
     querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
       .type('Time Series')
