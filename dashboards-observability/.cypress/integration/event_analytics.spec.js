@@ -20,24 +20,24 @@ import {
   landOnPanels
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
-const vis_name_Gauge = Math.floor(Math.random() * 100);
+const vis_name_sub_string = Math.floor(Math.random() * 100);
 
 const saveVisulizationAndVerify = () => {
   cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
   cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click()
   cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
   cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
-  cy.get('.euiPopover__panel input').eq(1).type(`Test visulization_Gauge` + vis_name_Gauge);
+  cy.get('.euiPopover__panel input').eq(1).type(`Test visulization` + vis_name_sub_string);
   cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
   cy.wait(delay);
 
   cy.get('.euiHeaderBreadcrumbs a').eq(1).click();
-  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_Gauge` + vis_name_Gauge).type('{enter}');
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization` + vis_name_sub_string).type('{enter}');
   cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
 }
 const deleteVisulaization = () => {
   cy.get('a[href = "#/event_analytics"]').click();
-  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization_Gauge`).type('{enter}');
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visulization`).type('{enter}');
   cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
   cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
   cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();
