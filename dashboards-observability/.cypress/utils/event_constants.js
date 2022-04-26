@@ -3,35 +3,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { supressResizeObserverIssue } from './constants'
+import { supressResizeObserverIssue } from './constants';
 
 export const delay = 1000;
-export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]'
+export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]';
 
 export const TEST_QUERIES = [
   {
     query: 'source = opensearch_dashboards_sample_data_flights',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_logs'
+    query: 'source = opensearch_dashboards_sample_data_logs',
   },
   {
     query: 'source = opensearch_dashboards_sample_data_logs | stats count() by host',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query:"source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)",
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
-  }
+    query:
+      'source = opensearch_dashboards_sample_data_logs | where response="503" or response="404" | stats count() by span(timestamp,1d)',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
+  },
 ];
 
 export const TESTING_PANEL = 'Mock Testing Panels';
