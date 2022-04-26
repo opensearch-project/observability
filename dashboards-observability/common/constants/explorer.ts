@@ -64,6 +64,11 @@ export const TIME_INTERVAL_OPTIONS = [
   },
 ];
 
+// visualization
+export const X_AXIS = "X-axis";
+export const y_AXIS = "Y-axis";
+export const TIME_SERIES = "time_series";
+export const TIMESTAMP = "timestamp";
 // redux
 export const SELECTED_QUERY_TAB = 'selectedQueryTab';
 export const QUERY_TAB_IDS = 'queryTabIds';

@@ -3,21 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TimeSeries } from './time_series';
-import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartBar } from '../../assets/chart_bar';
-
+import { TIME_SERIES } from '../../../../../common/constants/explorer';
+import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { LensIconChartBar } from '../../assets/chart_bar';
+import { getPlotlyCategory, getPlotlySharedConfigs } from '../shared/shared_configs';
+import { TimeSeries } from './time_series';
+
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
 export const createTimeSeriesTypeDefinition = (params: any) => ({
-  name: 'time_series',
+  name: TIME_SERIES,
   type: 'scatter',
-  id: 'time_series',
+  id: TIME_SERIES,
   label: 'Time Series',
   fullLabel: 'Time Series',
   iconType: 'visBarVerticalStacked',
@@ -55,40 +56,6 @@ export const createTimeSeriesTypeDefinition = (params: any) => ({
                 isSingleSelection: false,
                 component: null,
                 mapTo: 'yaxis',
-              },
-            ],
-          },
-          {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
-            schemas: [
-              {
-                name: 'Orientation',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'orientation',
-                props: {
-                  dropdownList: [
-                    { name: 'Vertical', orientationId: 'v' },
-                    { name: 'Horizontal', orientationId: 'h' },
-                  ],
-                  defaultSelections: [{ name: 'Vertical', orientationId: 'v' }],
-                },
-              },
-              {
-                name: 'Mode',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'mode',
-                props: {
-                  dropdownList: [
-                    { name: 'Group', modeId: 'group' },
-                    { name: 'Stack', modeId: 'stack' },
-                  ],
-                  defaultSelections: [{ name: 'Group', modeId: 'group' }],
-                },
               },
             ],
           },
