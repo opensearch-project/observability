@@ -725,5 +725,3 @@ describe('Search a query on event home', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').contains(TEST_QUERIES[0].query);
   });
 });
-
-
