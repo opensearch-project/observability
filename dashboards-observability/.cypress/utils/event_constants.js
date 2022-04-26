@@ -56,15 +56,13 @@ export const landOnEventHome = () => {
 
 export const landOnEventExplorer = () => {
   cy.visit(
-    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
-  );
+    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`);
   cy.wait(delay);
 };
 
 export const landOnEventVisualizations = () => {
   cy.visit(
-    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
-  );
+    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`);
   cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
   supressResizeObserverIssue();
   cy.wait(delay);
@@ -72,8 +70,6 @@ export const landOnEventVisualizations = () => {
 
 export const landOnPanels = () => {
   cy.visit(
-    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels`
-  );
+    `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels`);
   cy.wait(delay);
 };
-
