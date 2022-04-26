@@ -17,11 +17,11 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
-  const labelField =
+  const childField =
     dataConfig?.valueOptions &&
-    dataConfig?.valueOptions.labelField &&
-    !isEmpty(dataConfig?.valueOptions.labelField)
-      ? dataConfig?.valueOptions.labelField[0]
+    dataConfig?.valueOptions.childField &&
+    !isEmpty(dataConfig?.valueOptions.childField)
+      ? dataConfig?.valueOptions.childField[0]
       : fields[fields.length - 1];
 
   const parentField =
@@ -39,10 +39,10 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : fields[0];
 
   if (
-    isEmpty(data[labelField.name]) ||
+    isEmpty(data[childField.name]) ||
     isEmpty(data[valueField.name]) ||
     (!isNull(parentField) && isEmpty(data[parentField.name])) ||
-    isEqual(labelField, parentField) ||
+    isEqual(childField, parentField) ||
     indexOf(NUMERICAL_FIELDS, valueField.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
@@ -51,12 +51,12 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     let labelsArray, parentsArray, valuesArray;
 
     if (parentField === null) {
-      labelsArray = [...data[labelField.name]];
+      labelsArray = [...data[childField.name]];
       parentsArray = [...Array(labelsArray.length).fill('')];
       valuesArray = [...data[valueField.name]];
     } else {
       const uniqueParents = uniq(data[parentField.name]);
-      labelsArray = [...data[labelField.name], ...uniqueParents];
+      labelsArray = [...data[childField.name], ...uniqueParents];
       parentsArray = [...data[parentField.name], ...Array(uniqueParents.length).fill('')];
       valuesArray = [...data[valueField.name], ...Array(uniqueParents.length).fill(0)];
     }
@@ -70,17 +70,17 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         textinfo: 'label+value+percent parent+percent entry',
       },
     ];
-  }, [data, labelField, valueField, parentField]);
+  }, [data, childField, valueField, parentField]);
 
   const mergedLayout = {
     ...layout,
-    ...(layoutConfig.layout && layoutConfig.layout),
+    ...layoutConfig.layout,
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
   const mergedConfigs = {
     ...config,
-    ...(layoutConfig.config && layoutConfig.config),
+    ...layoutConfig.config,
   };
 
   return <Plt data={treemapData} layout={mergedLayout} config={mergedConfigs} />;
