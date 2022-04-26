@@ -33,7 +33,7 @@ export const ConfigValueOptions = ({
   // get dropDownOptions list
   // If chat is time-series then filter out timestamp fields to category axis (xaxis)
   const getDropdownList = (schema) => schema?.options?.map((option) => ({ name: option })) ||
-    vis.name === 'time_series' ? fields.filter((item) => schema.name === 'X-axis' ? item.type === 'timestamp' : item.type !== 'timestamp')
+    vis.name === TIME_SERIES ? fields.filter((item) => schema.name === X_AXIS ? item.type === TIMESTAMP : item.type !== TIMESTAMP)
     : fields.map((item) => ({ ...item }));
 
   // get dropDownOptions list
