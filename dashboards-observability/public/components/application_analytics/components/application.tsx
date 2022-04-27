@@ -81,14 +81,6 @@ const searchBarConfigs = {
   },
 };
 
-export interface DetailTab {
-  id: string;
-  label: string;
-  description: string;
-  onClick: () => void;
-  testId: string;
-}
-
 interface AppDetailProps extends AppAnalyticsComponentDeps {
   disabled?: boolean;
   appId: string;
@@ -99,6 +91,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   notifications: NotificationsStart;
   updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
+  callback: (childfunction: () => void) => void;
 }
 
 export function Application(props: AppDetailProps) {
@@ -119,6 +112,7 @@ export function Application(props: AppDetailProps) {
     setAppConfigs,
     setToasts,
     setFilters,
+    callback,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     name: '',
@@ -130,6 +124,7 @@ export function Application(props: AppDetailProps) {
     availabilityVisId: '',
   });
   const dispatch = useDispatch();
+  const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
   const [traceFlyoutId, setTraceFlyoutId] = useState<string>('');
@@ -212,6 +207,7 @@ export function Application(props: AppDetailProps) {
     );
     const tabId = `application-analytics-tab-${appId}`;
     initializeTabData(dispatch, tabId, NEW_TAB);
+    callback(switchToEvent);
   }, [appId]);
 
   useEffect(() => {
@@ -379,6 +375,9 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         appBaseQuery={application.baseQuery}
+        callback={callback}
+        callbackInApp={callbackInApp}
+        // setAvailability={triggerSetAvailability}
         curSelectedTabId={selectedTabId}
       />
     );
@@ -428,13 +427,25 @@ export function Application(props: AppDetailProps) {
     }
   };
 
+  const switchToAvailability = () => {
+    switchToEvent();
+    setTriggerAvailability(true);
+  };
+
+  const callbackInApp = (childFunc: () => void) => {
+    if (childFunc && triggerAvailability) {
+      childFunc();
+      setTriggerAvailability(false);
+    }
+  };
+
   const getConfig = () => {
     return (
       <Configuration
         appId={appId}
         parentBreadcrumbs={parentBreadcrumbs}
         application={application}
-        switchToEditViz={switchToEditViz}
+        switchToAvailability={switchToAvailability}
         visWithAvailability={visWithAvailability}
         updateApp={updateApp}
       />

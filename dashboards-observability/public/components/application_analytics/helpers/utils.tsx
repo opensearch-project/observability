@@ -18,7 +18,10 @@ import { VisualizationType } from '../../../../common/types/custom_panels';
 import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
 import { HttpSetup } from '../../../../../../src/core/public';
-import { init as initFields, remove as removefields } from '../../event_analytics/redux/slices/field_slice';
+import {
+  init as initFields,
+  remove as removefields,
+} from '../../event_analytics/redux/slices/field_slice';
 import {
   init as initVisualizationConfig,
   reset as resetVisualizationConfig,
@@ -33,6 +36,7 @@ import {
   remove as removeQueryResult,
 } from '../../event_analytics/redux/slices/query_result_slice';
 import { addTab, removeTab } from '../../event_analytics/redux/slices/query_tab_slice';
+import { AvailabilityType } from './types';
 
 // Name validation
 export const isNameValid = (name: string, existingNames: string[]) => {
@@ -192,7 +196,7 @@ export const calculateAvailability = async (
   application: ApplicationType | ApplicationListType,
   availabilityVisId: string,
   setVisWithAvailability: (visList: EuiSelectOption[]) => void
-): Promise<{ name: string; color: string; mainVisId: string }> => {
+): Promise<AvailabilityType> => {
   let availability = { name: '', color: '', mainVisId: '' };
   const panelId = application.panelId;
   if (!panelId) return availability;
@@ -209,9 +213,9 @@ export const calculateAvailability = async (
     const visData = await fetchVisualizationById(http, visualizationId, (value: string) =>
       console.error(value)
     );
-    // If there are thresholds, we get the current value
-    if (visData.user_configs.dataConfig?.hasOwnProperty('thresholds')) {
-      const thresholds = visData.user_configs.dataConfig.thresholds.reverse();
+    // If there are levels, we get the current value
+    if (visData.user_configs.availabilityConfig?.hasOwnProperty('level')) {
+      const levels = visData.user_configs.availabilityConfig.level.reverse();
       let currValue = Number.MIN_VALUE;
       const finalQuery = preprocessQuery({
         rawQuery: visData.query,
@@ -235,78 +239,75 @@ export const calculateAvailability = async (
         .catch((err) => {
           console.error(err);
         });
-      // We check each threshold if it has expression which means it is an availability level
-      for (let j = 0; j < thresholds.length; j++) {
-        const threshold = thresholds[j];
-        if (threshold.hasOwnProperty('expression')) {
-          hasAvailability = true;
-          // If there is an availiabilityVisId selected we only want to compute availability based on that
-          if (availabilityVisId ? availabilityVisId === visualizationId : true) {
-            if (threshold.value !== null) {
-              if (!availabilityFound && threshold.expression) {
-                const expression = threshold.expression;
-                switch (expression) {
-                  case '≥':
-                    if (currValue >= parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                  case '≤':
-                    if (currValue <= parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                  case '>':
-                    if (currValue > parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                  case '<':
-                    if (currValue < parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                  case '=':
-                    if (currValue === parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                  case '≠':
-                    if (currValue !== parseFloat(threshold.value)) {
-                      availability = {
-                        name: threshold.name,
-                        color: threshold.color,
-                        mainVisId: visualizationId,
-                      };
-                      availabilityFound = true;
-                    }
-                    break;
-                }
+      for (let j = 0; j < levels.length; j++) {
+        const level = levels[j];
+        hasAvailability = true;
+        // If there is an availiabilityVisId selected we only want to compute availability based on that
+        if (availabilityVisId ? availabilityVisId === visualizationId : true) {
+          if (level.value !== null) {
+            if (!availabilityFound && level.expression) {
+              const expression = level.expression;
+              switch (expression) {
+                case '≥':
+                  if (currValue >= parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '≤':
+                  if (currValue <= parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '>':
+                  if (currValue > parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '<':
+                  if (currValue < parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '=':
+                  if (currValue === parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
+                case '≠':
+                  if (currValue !== parseFloat(level.value)) {
+                    availability = {
+                      name: level.name,
+                      color: level.color,
+                      mainVisId: visualizationId,
+                    };
+                    availabilityFound = true;
+                  }
+                  break;
               }
             }
           }
@@ -320,5 +321,8 @@ export const calculateAvailability = async (
     }
   }
   setVisWithAvailability(visWithAvailability);
+  if (!availabilityFound && visWithAvailability.length > 0) {
+    return { name: '', color: 'undefined', mainVisId: '' };
+  }
   return availability;
 };

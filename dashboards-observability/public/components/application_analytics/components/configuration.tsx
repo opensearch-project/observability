@@ -11,6 +11,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
+  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPageContent,
@@ -25,14 +26,14 @@ import {
 } from '@elastic/eui';
 import { ApplicationType } from 'common/types/app_analytics';
 import { last } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface ConfigProps {
   appId: string;
   application: ApplicationType;
   parentBreadcrumbs: EuiBreadcrumb[];
   visWithAvailability: EuiSelectOption[];
-  switchToEditViz: (savedVizId: string) => void;
+  switchToAvailability: () => void;
   updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
 }
 
@@ -43,12 +44,9 @@ export const Configuration = (props: ConfigProps) => {
     parentBreadcrumbs,
     visWithAvailability,
     updateApp,
-    switchToEditViz,
+    switchToAvailability,
   } = props;
   const [availabilityVisId, setAvailabilityVisId] = useState(application.availabilityVisId || '');
-  useEffect(() => {
-    switchToEditViz('');
-  }, []);
 
   const onAvailabilityVisChange = (event: any) => {
     setAvailabilityVisId(event.target.value);
@@ -126,11 +124,15 @@ export const Configuration = (props: ConfigProps) => {
                     <h4>Availability</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
-                  <EuiSelect
-                    options={visWithAvailability}
-                    value={availabilityVisId}
-                    onChange={onAvailabilityVisChange}
-                  />
+                  {visWithAvailability.length > 0 ? (
+                    <EuiSelect
+                      options={visWithAvailability}
+                      value={availabilityVisId}
+                      onChange={onAvailabilityVisChange}
+                    />
+                  ) : (
+                    <EuiLink onClick={() => switchToAvailability()}>Set Availability</EuiLink>
+                  )}
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPageContentBody>

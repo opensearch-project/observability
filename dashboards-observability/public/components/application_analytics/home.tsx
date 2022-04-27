@@ -67,6 +67,7 @@ export const Home = (props: HomeProps) => {
     chrome,
     notifications,
   } = props;
+  const [triggerSwitchToEvent, setTriggerSwitchToEvent] = useState(0);
   const dispatch = useDispatch();
   const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -145,7 +146,14 @@ export const Home = (props: HomeProps) => {
     setQueryWithStorage('');
   };
 
-  const createPanelForApp = (applicationId: string, appName: string) => {
+  const moveToApp = (id: string, type: string) => {
+    window.location.assign(`${last(parentBreadcrumbs)!.href}application_analytics/${id}`);
+    if (type === 'createSetAvailability') {
+      setTriggerSwitchToEvent(2);
+    }
+  };
+
+  const createPanelForApp = (applicationId: string, appName: string, type: string) => {
     return http
       .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
         body: JSON.stringify({
@@ -154,7 +162,7 @@ export const Home = (props: HomeProps) => {
         }),
       })
       .then((res) => {
-        updateApp(applicationId, { panelId: res.newPanelId }, 'addPanel');
+        updateApp(applicationId, { panelId: res.newPanelId }, type);
       })
       .catch((err) => {
         setToast(
@@ -203,7 +211,7 @@ export const Home = (props: HomeProps) => {
         const mainVisIdStore: Record<string, string> = {};
         for (let i = 0; i < res.data.length; i++) {
           mainVisIdStore[res.data[i].id] = res.data[i].availability.mainVisId;
-          res.data[i].availability = { name: 'loading', color: '', mainVisId: '' };
+          res.data[i].availability = { name: '', color: 'loading', mainVisId: '' };
         }
         setApplicationList(res.data);
         for (let i = res.data.length - 1; i > -1; i--) {
@@ -228,7 +236,7 @@ export const Home = (props: HomeProps) => {
   };
 
   // Create a new application
-  const createApp = (application: ApplicationType) => {
+  const createApp = (application: ApplicationType, type: string) => {
     const toast = isNameValid(
       application.name,
       applicationList.map((obj) => obj.name)
@@ -252,7 +260,7 @@ export const Home = (props: HomeProps) => {
         body: JSON.stringify(requestBody),
       })
       .then(async (res) => {
-        createPanelForApp(res.newAppId, application.name);
+        createPanelForApp(res.newAppId, application.name, type);
         setToast(`Application "${application.name}" successfully created!`);
         clearStorage();
       })
@@ -315,10 +323,8 @@ export const Home = (props: HomeProps) => {
           setToast('Application successfully updated.');
           clearStorage();
         }
-        if (type !== 'editAvailability') {
-          window.location.assign(
-            `${last(parentBreadcrumbs)!.href}application_analytics/${res.updatedAppId}`
-          );
+        if (type.startsWith('create')) {
+          moveToApp(res.updatedAppId, type);
         }
       })
       .catch((err) => {
@@ -355,6 +361,13 @@ export const Home = (props: HomeProps) => {
       });
   };
 
+  const callback = (childFunc: () => void) => {
+    if (childFunc && triggerSwitchToEvent > 0) {
+      childFunc();
+      setTriggerSwitchToEvent(triggerSwitchToEvent - 1);
+    }
+  };
+
   return (
     <div>
       <EuiGlobalToastList
@@ -377,6 +390,7 @@ export const Home = (props: HomeProps) => {
                 renameApplication={renameApp}
                 deleteApplication={deleteApp}
                 clearStorage={clearStorage}
+                moveToApp={moveToApp}
                 {...commonProps}
               />
             </ObservabilitySideBar>
@@ -412,6 +426,7 @@ export const Home = (props: HomeProps) => {
               notifications={notifications}
               setToasts={setToast}
               updateApp={updateApp}
+              callback={callback}
               {...commonProps}
             />
           )}

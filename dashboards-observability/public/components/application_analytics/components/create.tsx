@@ -39,7 +39,7 @@ interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   pplService: PPLService;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
-  createApp: (app: ApplicationType) => void;
+  createApp: (app: ApplicationType, type: string) => void;
   updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   clearStorage: () => void;
   existingAppId: string;
@@ -138,7 +138,7 @@ export const CreateApp = (props: CreateAppProps) => {
     }
   };
 
-  const onCreate = () => {
+  const onCreate = (type: string) => {
     const appData = {
       name,
       description,
@@ -148,7 +148,7 @@ export const CreateApp = (props: CreateAppProps) => {
       panelId: '',
       availabilityVisId: '',
     };
-    createApp(appData);
+    createApp(appData, type);
   };
 
   const onUpdate = () => {
@@ -234,7 +234,21 @@ export const CreateApp = (props: CreateAppProps) => {
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
-                <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
+                <EuiButton
+                  isDisabled={isDisabled}
+                  onClick={() => onCreate('createSetAvailability')}
+                >
+                  Create and Set Availability
+                </EuiButton>
+              </EuiToolTip>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiToolTip position="top" content={missingField()}>
+                <EuiButton
+                  isDisabled={isDisabled}
+                  onClick={editMode ? onUpdate : () => onCreate('create')}
+                  fill
+                >
                   {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
