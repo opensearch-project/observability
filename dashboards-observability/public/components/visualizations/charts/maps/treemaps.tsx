@@ -74,13 +74,13 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
 
   const mergedLayout = {
     ...layout,
-    ...layoutConfig.layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
   const mergedConfigs = {
     ...config,
-    ...layoutConfig.config,
+    ...(layoutConfig.config && layoutConfig.config),
   };
 
   return <Plt data={treemapData} layout={mergedLayout} config={mergedConfigs} />;
