@@ -960,6 +960,90 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "categoryAxis": "xaxis",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "value_options",
+                            "mapTo": "valueOptions",
+                            "name": "Value options",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "isSingleSelection": true,
+                                "mapTo": "childField",
+                                "name": "Child Field",
+                              },
+                              Object {
+                                "component": null,
+                                "isSingleSelection": true,
+                                "mapTo": "parentField",
+                                "name": "Parent Field",
+                              },
+                              Object {
+                                "component": null,
+                                "isSingleSelection": true,
+                                "mapTo": "valueField",
+                                "name": "Value Field",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Tree Map",
+                  "icon": [Function],
+                  "iconType": "heatmap",
+                  "id": "tree_map",
+                  "label": "Tree Map",
+                  "name": "tree_map",
+                  "orientation": "v",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesAxis": "yaxis",
+                  "type": "tree_map",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "isUniColor": false,
+                    "layout": Object {
+                      "height": 500,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"
