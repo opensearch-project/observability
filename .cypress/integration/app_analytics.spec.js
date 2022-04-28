@@ -205,7 +205,7 @@ describe('Viewing application', () => {
   it('Has working breadcrumbs', () => {
     cy.get('.euiBreadcrumb').contains('Cypress').click();
     cy.wait(delay);
-    cy.get('.euiTitle').contains(nameOne).should('exist');
+    cy.get('[data-test-subj="appAnalyticsAppName"]').contains(nameOne).should('exist');
     cy.get('.euiBreadcrumb').contains('Application analytics').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Applications').should('exist');
