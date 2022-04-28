@@ -927,6 +927,84 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "categoryAxis": "xaxis",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "value_options",
+                            "mapTo": "valueOptions",
+                            "name": "Value options",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "isSingleSelection": true,
+                                "mapTo": "xaxis",
+                                "name": "X-axis",
+                              },
+                              Object {
+                                "component": null,
+                                "isSingleSelection": false,
+                                "mapTo": "yaxis",
+                                "name": "Y-axis",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Time Series",
+                  "icon": [Function],
+                  "iconType": "visBarVerticalStacked",
+                  "id": "time_series",
+                  "label": "Time Series",
+                  "name": "time_series",
+                  "orientation": "v",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesAxis": "yaxis",
+                  "type": "scatter",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "isUniColor": false,
+                    "layout": Object {
+                      "height": 500,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"

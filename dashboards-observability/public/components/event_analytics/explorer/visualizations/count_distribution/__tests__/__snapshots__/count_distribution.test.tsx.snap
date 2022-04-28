@@ -10,11 +10,57 @@ exports[`Count distribution component Renders count distribution component with 
           9337,
           1173,
         ],
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "name": "new_timestamp",
+              "type": "timestamp",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "name": "avg(AvgTicketPrice)",
+              "type": "double",
+            },
+          ],
+        },
+        "rawVizData": Object {
+          "data": Object {
+            "avg(AvgTicketPrice)": Array [
+              574.6643260854536,
+              575.7916175023022,
+              599.2321691707689,
+              594.5192950694553,
+            ],
+            "new_timestamp": Array [
+              "2022-04-04 00:00:00",
+              "2022-04-05 00:00:00",
+              "2022-04-06 00:00:00",
+              "2022-04-07 00:00:00",
+            ],
+          },
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "avg(AvgTicketPrice)",
+                "type": "double",
+              },
+              Object {
+                "name": "new_timestamp",
+                "type": "timestamp",
+              },
+            ],
+          },
+        },
         "span(timestamp,1M)": Array [
           "2021-05-01 00:00:00",
           "2021-06-01 00:00:00",
           "2021-07-01 00:00:00",
         ],
+        "userConfigs": Object {
+          "dataConfig": Object {},
+          "layoutConfig": Object {},
+        },
       },
       "jsonData": Array [
         Object {
