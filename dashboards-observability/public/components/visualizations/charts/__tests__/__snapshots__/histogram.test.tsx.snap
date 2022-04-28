@@ -339,7 +339,7 @@ exports[`Histogram component Renders histogram component 1`] = `
   }
 >
   <Plt
-    config={true}
+    config={Object {}}
     data={
       Array [
         Object {
