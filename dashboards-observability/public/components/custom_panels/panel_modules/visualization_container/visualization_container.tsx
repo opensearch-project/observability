@@ -88,6 +88,7 @@ export const VisualizationContainer = ({
 
   let popoverPanel = [
     <EuiContextMenuItem
+      data-test-subj="editVizContextMenuItem"
       key="Edit"
       disabled={disablePopover}
       onClick={() => {
@@ -170,7 +171,11 @@ export const VisualizationContainer = ({
   }, [editMode]);
 
   return (
-    <EuiPanel className="panel-full-width" grow={false}>
+    <EuiPanel
+      data-test-subj={`${visualizationTitle}VisualizationPanel`}
+      className="panel-full-width"
+      grow={false}
+    >
       <div className={editMode ? 'mouseGrabber' : ''}>
         <EuiFlexGroup justifyContent="spaceBetween">
           <EuiFlexItem

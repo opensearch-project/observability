@@ -183,7 +183,10 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/${record.id}`}>
+        <EuiLink
+          data-test-subj={`${record.name}ApplicationLink`}
+          href={`#/application_analytics/${record.id}`}
+        >
           {_.truncate(record.name, { length: 100 })}
         </EuiLink>
       ),
@@ -195,10 +198,9 @@ export function AppTable(props: AppTableProps) {
       truncateText: true,
       render: (value) => (
         <EuiToolTip content={value.join(', ')}>
-          <EuiText 
-            id="compositionColumn"
-            data-test-subj="appAnalytics__compositionColumn"
-          >{value.join(', ')}</EuiText>
+          <EuiText id="compositionColumn" data-test-subj="appAnalytics__compositionColumn">
+            {value.join(', ')}
+          </EuiText>
         </EuiToolTip>
       ),
     },
@@ -210,7 +212,14 @@ export function AppTable(props: AppTableProps) {
         if (value.name === 'loading') {
           return <EuiLoadingSpinner />;
         } else if (value.name) {
-          return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
+          return (
+            <EuiBadge
+              data-test-subj={`${value.name}AvailabilityBadge`}
+              color={value.color || 'default'}
+            >
+              {value.name}
+            </EuiBadge>
+          );
         } else {
           return <EuiText>Undefined</EuiText>;
         }
@@ -238,7 +247,7 @@ export function AppTable(props: AppTableProps) {
           <EuiPageContent id="applicationArea">
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
-                <EuiTitle size="s">
+                <EuiTitle data-test-subj="applicationHomePageTitle" size="s">
                   <h3>
                     Applications<span className="panel-header-count"> ({applications.length})</span>
                   </h3>
@@ -257,7 +266,7 @@ export function AppTable(props: AppTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill href={`#/application_analytics/create`}>
+                    <EuiButton fill href="#/application_analytics/create">
                       {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>

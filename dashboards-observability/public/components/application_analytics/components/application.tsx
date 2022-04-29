@@ -39,17 +39,17 @@ import { SpanDetailTable } from '../../../../public/components/trace_analytics/c
 import { Explorer } from '../../event_analytics/explorer/explorer';
 import { Configuration } from './configuration';
 import {
-  TAB_CONFIG_ID_TXT_PFX,
+  TAB_CONFIG_ID,
   TAB_CONFIG_TITLE,
-  TAB_LOG_ID_TXT_PFX,
+  TAB_LOG_ID,
   TAB_LOG_TITLE,
-  TAB_OVERVIEW_ID_TXT_PFX,
+  TAB_OVERVIEW_ID,
   TAB_OVERVIEW_TITLE,
-  TAB_PANEL_ID_TXT_PFX,
+  TAB_PANEL_ID,
   TAB_PANEL_TITLE,
-  TAB_SERVICE_ID_TXT_PFX,
+  TAB_SERVICE_ID,
   TAB_SERVICE_TITLE,
-  TAB_TRACE_ID_TXT_PFX,
+  TAB_TRACE_ID,
   TAB_TRACE_TITLE,
 } from '../../../../common/constants/application_analytics';
 import { TAB_EVENT_ID, TAB_CHART_ID, NEW_TAB } from '../../../../common/constants/explorer';
@@ -64,12 +64,6 @@ import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 import { fetchAppById, initializeTabData } from '../helpers/utils';
 
-const TAB_OVERVIEW_ID = uniqueId(TAB_OVERVIEW_ID_TXT_PFX);
-const TAB_SERVICE_ID = uniqueId(TAB_SERVICE_ID_TXT_PFX);
-const TAB_TRACE_ID = uniqueId(TAB_TRACE_ID_TXT_PFX);
-const TAB_LOG_ID = uniqueId(TAB_LOG_ID_TXT_PFX);
-const TAB_PANEL_ID = uniqueId(TAB_PANEL_ID_TXT_PFX);
-const TAB_CONFIG_ID = uniqueId(TAB_CONFIG_ID_TXT_PFX);
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
     showSaveButton: false,
@@ -454,7 +448,7 @@ export function Application(props: AppDetailProps) {
       id: tabId,
       name: (
         <>
-          <EuiText size="s" textAlign="left" color="default">
+          <EuiText data-test-subj={`${tabId}Tab`} size="s" textAlign="left" color="default">
             <span className="tab-title">{tabTitle}</span>
           </EuiText>
         </>
@@ -502,7 +496,7 @@ export function Application(props: AppDetailProps) {
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
+              <EuiTitle data-test-subj="applicationTitle" size="l">
                 <h1>{application.name}</h1>
               </EuiTitle>
               <EuiText>

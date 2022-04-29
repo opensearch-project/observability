@@ -333,6 +333,7 @@ export const CustomPanelTable = ({
               <>
                 <EuiFieldSearch
                   fullWidth
+                  data-test-subj="operationalPanelSearchBar"
                   placeholder="Search operational panel name"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
