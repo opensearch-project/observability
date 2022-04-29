@@ -186,6 +186,8 @@ export function AppTable(props: AppTableProps) {
       return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
     } else if (value.color === 'undefined') {
       return <EuiText>No match</EuiText>;
+    } else if (value.color === 'null') {
+      return <EuiText>Current value is null</EuiText>;
     } else {
       return (
         <EuiLink onClick={() => moveToApp(record.id, 'createSetAvailability')}>

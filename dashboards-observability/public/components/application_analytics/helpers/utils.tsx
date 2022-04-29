@@ -207,7 +207,6 @@ export const calculateAvailability = async (
   const visWithAvailability = [];
   let availabilityFound = false;
   for (let i = 0; i < savedVisualizationsIds.length; i++) {
-    let hasAvailability = false;
     const visualizationId = savedVisualizationsIds[i];
     // Fetches data for visualization
     const visData = await fetchVisualizationById(http, visualizationId, (value: string) =>
@@ -215,6 +214,10 @@ export const calculateAvailability = async (
     );
     // If there are levels, we get the current value
     if (visData.user_configs.availabilityConfig?.hasOwnProperty('level')) {
+      // For every saved visualization with availability levels we push it to visWithAvailability
+      // This is used to populate the options in configuration
+      visWithAvailability.push({ value: visualizationId, text: visData.name });
+
       const levels = visData.user_configs.availabilityConfig.level.reverse();
       let currValue = Number.MIN_VALUE;
       const finalQuery = preprocessQuery({
@@ -241,83 +244,85 @@ export const calculateAvailability = async (
         });
       for (let j = 0; j < levels.length; j++) {
         const level = levels[j];
-        hasAvailability = true;
         // If there is an availiabilityVisId selected we only want to compute availability based on that
         if (availabilityVisId ? availabilityVisId === visualizationId : true) {
           if (level.value !== null) {
-            if (!availabilityFound && level.expression) {
-              const expression = level.expression;
-              switch (expression) {
-                case '≥':
-                  if (currValue >= parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '≤':
-                  if (currValue <= parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '>':
-                  if (currValue > parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '<':
-                  if (currValue < parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '=':
-                  if (currValue === parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
-                case '≠':
-                  if (currValue !== parseFloat(level.value)) {
-                    availability = {
-                      name: level.name,
-                      color: level.color,
-                      mainVisId: visualizationId,
-                    };
-                    availabilityFound = true;
-                  }
-                  break;
+            if (currValue === null) {
+              availability = {
+                name: '',
+                color: 'null',
+                mainVisId: '',
+              };
+            } else {
+              if (!availabilityFound) {
+                const expression = level.expression;
+                switch (expression) {
+                  case '≥':
+                    if (currValue >= parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '≤':
+                    if (currValue <= parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '>':
+                    if (currValue > parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '<':
+                    if (currValue < parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '=':
+                    if (currValue === parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                  case '≠':
+                    if (currValue !== parseFloat(level.value)) {
+                      availability = {
+                        name: level.name,
+                        color: level.color,
+                        mainVisId: visualizationId,
+                      };
+                      availabilityFound = true;
+                    }
+                    break;
+                }
               }
             }
           }
         }
       }
-    }
-    // For every saved visualization with availability levels we push it to visWithAvailability
-    if (hasAvailability) {
-      // This is used to populate the options in configuration
-      visWithAvailability.push({ value: visualizationId, text: visData.name });
     }
   }
   setVisWithAvailability(visWithAvailability);
