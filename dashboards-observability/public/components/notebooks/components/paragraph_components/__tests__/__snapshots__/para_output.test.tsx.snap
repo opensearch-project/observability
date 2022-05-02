@@ -72,6 +72,6 @@ exports[`<ParaOutput /> spec renders visualization outputs 1`] = `
   class="euiText euiText--small"
   style="margin-left: 9px;"
 >
-  2020-07-22T00:07:44+05:30 - 2020-08-21T00:07:44+05:30
+  2020-07-21T18:37:44+00:00 - 2020-08-20T18:37:44+00:00
 </div>
 `;
