@@ -38,10 +38,10 @@ describe('Utils helper functions', () => {
 
   it('validates convertDateTime function', () => {
     expect(convertDateTime('2022-01-30T18:44:40.577Z')).toBe(
-      moment.utc('2022-01-30T18:44:40.577Z').format(PPL_DATE_FORMAT)
+      moment('2022-01-30T18:44:40.577Z').format(PPL_DATE_FORMAT)
     );
     expect(convertDateTime('2022-02-25T19:18:33.075Z', true)).toBe(
-      moment.utc('2022-02-25T19:18:33.075Z').format(PPL_DATE_FORMAT)
+      moment('2022-02-25T19:18:33.075Z').format(PPL_DATE_FORMAT)
     );
   });
 
