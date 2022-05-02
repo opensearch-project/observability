@@ -34,11 +34,11 @@ export const moveToApplication = (name) => {
 
 export const moveToEditPage = () => {
   moveToApplication(nameOne);
-  cy.get('.euiTab').contains('Configuration').click();
-  cy.get('.euiButton').contains('Edit').click();
+  cy.get('[data-test-subj="app-analytics-configTab"]').click();
+  cy.get('[data-test-subj="editApplicationButton"]').click();
   supressResizeObserverIssue();
   cy.wait(delay);
-  cy.get('.euiTitle').contains('Edit application');
+  cy.get('[data-test-subj="createPageTitle"]').should('contain', 'Edit application');
 };
 
 export const changeTimeTo24 = (timeUnit) => {

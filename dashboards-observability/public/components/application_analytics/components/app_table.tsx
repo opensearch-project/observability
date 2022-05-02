@@ -138,6 +138,7 @@ export function AppTable(props: AppTableProps) {
 
   const popoverButton = (
     <EuiButton
+      data-test-subj="appAnalyticsActionsButton"
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
@@ -149,6 +150,7 @@ export function AppTable(props: AppTableProps) {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="rename"
+      data-test-subj="renameApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length !== 1}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -165,6 +167,7 @@ export function AppTable(props: AppTableProps) {
     // </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
+      data-test-subj="deleteApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);

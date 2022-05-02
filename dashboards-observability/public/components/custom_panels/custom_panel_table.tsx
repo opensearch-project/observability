@@ -199,6 +199,7 @@ export const CustomPanelTable = ({
 
   const popoverButton = (
     <EuiButton
+      data-test-subj="operationalPanelsActionsButton"
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
@@ -230,6 +231,7 @@ export const CustomPanelTable = ({
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
+      data-test-subj="deleteContextMenuItem"
       disabled={customPanels.length === 0 || selectedCustomPanels.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -240,6 +242,7 @@ export const CustomPanelTable = ({
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="addSample"
+      data-test-subj="addSampleContextMenuItem"
       onClick={() => {
         setIsActionsPopoverOpen(false);
         addSampledata();
