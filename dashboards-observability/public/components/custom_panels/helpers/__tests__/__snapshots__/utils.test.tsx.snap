@@ -755,6 +755,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ]
             }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
@@ -808,6 +809,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",
@@ -1669,6 +1671,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               ]
             }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
@@ -1723,6 +1726,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",
@@ -2493,6 +2497,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               ]
             }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
@@ -2546,6 +2551,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",
@@ -3205,6 +3211,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               ]
             }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
@@ -3258,6 +3265,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",
