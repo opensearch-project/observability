@@ -1907,7 +1907,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/04/2021 06:10 PM
+                                            11/04/2021 11:40 PM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -1939,7 +1939,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/02/2021 07:26 PM
+                                            11/03/2021 12:56 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2073,7 +2073,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/03/2021 10:51 PM
+                                            11/04/2021 04:21 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2105,7 +2105,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/02/2021 09:44 PM
+                                            11/03/2021 03:14 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2239,7 +2239,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/03/2021 10:37 PM
+                                            11/04/2021 04:07 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2271,7 +2271,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            10/29/2021 10:15 PM
+                                            10/30/2021 03:45 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2405,7 +2405,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/03/2021 09:26 PM
+                                            11/04/2021 02:56 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
@@ -2437,7 +2437,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           <div
                                             className="euiTableCellContent euiTableCellContent--overflowingContent"
                                           >
-                                            11/03/2021 09:26 PM
+                                            11/04/2021 02:56 AM
                                           </div>
                                         </td>
                                       </EuiTableRowCell>
