@@ -1,0 +1,70 @@
+---
+  name: "Sample Test Suite"
+  type: "http"
+  appId: ""
+  notebookId: ""
+  savedQueryId: ""
+  savedVisualizationId: ""
+  operationalPanelId: ""
+  ipv4: true
+  ipv6: true
+  resolverMode: "all"
+  timeoutSeconds: 9
+  tags:
+  - "news"
+  - "apis"
+  keepNull: true
+  hosts:
+  - "https://opensearch.org"
+  - "https://opensearch.org/synthetics"
+  - "https://github.com/opensearch-project"
+  maxRedirects: 1
+  proxyURL: ""
+  proxyHeaders: {}
+  username: ""
+  password: ""
+  ssl:
+    enabled: true
+    default: true
+    # The below options are available if default is set to false
+    # certificateAuthorities: "./cacert.pem"
+    # certificate: ""
+    # key: ""
+    # keyPassphrase: ""
+    # supportedProtocols: "TLSv1.1" # https://curl.se/libcurl/c/CURLOPT_SSLVERSION.html
+    # ecAlgorithmCurves: ""
+    # falseStart: false # https://curl.se/libcurl/c/CURLOPT_SSL_FALSESTART.html
+    # cipherList: "" # https://curl.se/docs/ssl-ciphers.html
+    # verifyHost: true # https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYHOST.html
+    # verifyPeer: true # https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYPEER.html
+  indexHeaders: true
+  indexResponse: "always"
+  request:
+    method: "GET"
+    headers: {'Accept-Encoding': None, 'Content-Encoding':'gzip'}
+    body: ""
+    json: {}
+  response:
+    status:
+    - 200
+    headers: {}
+    body: {}
+  scheduler:
+    scheduleType: "interval"
+    schedule:
+      period: 5
+      unit: "seconds"
+      # The below options are available no matter scheduleType
+      # start_date: "*"
+      # end_date: "*"
+      # timezone: "*"
+      # jitter: "*"
+      # The below options are only available when scheduleType is 'cron', and period, unit are taken out
+      # year: "*"
+      # month: "*"
+      # day: "*"
+      # week: "*"
+      # day_of_week: "*"
+      # hour: "*"
+      # minute: "*"
+      # second: "45"

@@ -15,7 +15,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './explorer/event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
-import { Home as Uptime } from './uptime/home';
+import { Home as Synthetics } from './synthetics/home';
 
 interface ObservabilityAppDeps {
   CoreStart: CoreStart;
@@ -52,13 +52,14 @@ export const App = ({
           <>
             <Switch>
               <Route
-                path="/uptime"
+                path="/synthetics"
                 render={(props) => {
+                  chrome.setBreadcrumbs([parentBreadcrumb, { text: 'Synthetics', href: '#/synthetics/', }])
                   return (
-                    <Uptime
+                    <Synthetics
                       http={http}
                       chrome={chrome}
-                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      parentBreadcrumb={parentBreadcrumb}
                       pplService={pplService}
                       renderProps={props}
                     />
