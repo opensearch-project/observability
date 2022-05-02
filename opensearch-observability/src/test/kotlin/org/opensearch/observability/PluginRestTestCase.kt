@@ -6,17 +6,7 @@
 package org.opensearch.observability
 
 import com.google.gson.JsonObject
-import org.apache.http.Header
 import org.apache.http.HttpHost
-import org.apache.http.auth.AuthScope
-import org.apache.http.auth.UsernamePasswordCredentials
-import org.apache.http.client.CredentialsProvider
-import org.apache.http.client.config.RequestConfig
-import org.apache.http.conn.ssl.NoopHostnameVerifier
-import org.apache.http.impl.client.BasicCredentialsProvider
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
-import org.apache.http.message.BasicHeader
-import org.apache.http.ssl.SSLContextBuilder
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -25,13 +15,14 @@ import org.opensearch.client.RequestOptions
 import org.opensearch.client.Response
 import org.opensearch.client.ResponseException
 import org.opensearch.client.RestClient
-import org.opensearch.client.RestClientBuilder
+import org.opensearch.client.WarningsHandler
+import org.opensearch.common.io.PathUtils
 import org.opensearch.common.settings.Settings
-import org.opensearch.common.unit.TimeValue
-import org.opensearch.common.util.concurrent.ThreadContext
 import org.opensearch.common.xcontent.DeprecationHandler
 import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.commons.ConfigConstants
+import org.opensearch.commons.rest.SecureRestClientBuilder
 import org.opensearch.test.rest.OpenSearchRestTestCase
 import java.io.BufferedReader
 import java.io.IOException
@@ -39,7 +30,6 @@ import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-import java.security.cert.X509Certificate
 import javax.management.MBeanServerInvocationHandler
 import javax.management.ObjectName
 import javax.management.remote.JMXConnectorFactory
@@ -79,63 +69,56 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
                 val jsonObject: Map<*, *> = index as java.util.HashMap<*, *>
                 val indexName: String = jsonObject["index"] as String
                 // .opendistro_security isn't allowed to delete from cluster
-                if (indexName != ".opendistro_security") {
-                    client().performRequest(Request("DELETE", "/$indexName"))
+                if (".opendistro_security" != indexName) {
+                    val request = Request("DELETE", "/$indexName")
+                    // TODO: remove PERMISSIVE option after moving system index access to REST API call
+                    val options = RequestOptions.DEFAULT.toBuilder()
+                    options.setWarningsHandler(WarningsHandler.PERMISSIVE)
+                    request.options = options.build()
+                    adminClient().performRequest(request)
                 }
             }
         }
     }
 
-    @Throws(IOException::class)
-    override fun buildClient(settings: Settings, hosts: Array<HttpHost>): RestClient {
-        val builder = RestClient.builder(*hosts)
-        if (isHttps()) {
-            configureHttpsClient(builder, settings)
-        } else {
-            configureClient(builder, settings)
-        }
-        builder.setStrictDeprecationMode(true)
-        return builder.build()
+    /**
+     * Returns the REST client settings used for super-admin actions like cleaning up after the test has completed.
+     */
+    override fun restAdminSettings(): Settings {
+        return Settings
+            .builder()
+            .put("http.port", 9200)
+            .put(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_ENABLED, isHttps())
+            .put(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_PEMCERT_FILEPATH, "sample.pem")
+            .put(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_KEYSTORE_FILEPATH, "test-kirk.jks")
+            .put(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_KEYSTORE_PASSWORD, "changeit")
+            .put(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_KEYSTORE_KEYPASSWORD, "changeit")
+            .build()
     }
 
     @Throws(IOException::class)
-    protected open fun configureHttpsClient(builder: RestClientBuilder, settings: Settings) {
-        val headers = ThreadContext.buildDefaultHeaders(settings)
-        val defaultHeaders = arrayOfNulls<Header>(headers.size)
-        var i = 0
-        for ((key, value) in headers) {
-            defaultHeaders[i++] = BasicHeader(key, value)
-        }
-        builder.setDefaultHeaders(defaultHeaders)
-        builder.setHttpClientConfigCallback { httpClientBuilder: HttpAsyncClientBuilder ->
-            val userName = System.getProperty("user")
-            val password = System.getProperty("password")
-            val credentialsProvider: CredentialsProvider = BasicCredentialsProvider()
-            credentialsProvider.setCredentials(AuthScope.ANY, UsernamePasswordCredentials(userName, password))
-            try {
-                return@setHttpClientConfigCallback httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
-                    // disable the certificate since our testing cluster just uses the default security configuration
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                    .setSSLContext(
-                        SSLContextBuilder.create()
-                            .loadTrustMaterial(null) { _: Array<X509Certificate?>?, _: String? -> true }
-                            .build()
-                    )
-            } catch (e: Exception) {
-                throw RuntimeException(e)
+    override fun buildClient(settings: Settings, hosts: Array<HttpHost>): RestClient {
+        if (isHttps()) {
+            val keystore = settings.get(ConfigConstants.OPENSEARCH_SECURITY_SSL_HTTP_KEYSTORE_FILEPATH)
+            return when (keystore != null) {
+                true -> {
+                    // create adminDN (super-admin) client
+                    val uri = javaClass.classLoader.getResource("security/sample.pem").toURI()
+                    val configPath = PathUtils.get(uri).parent.toAbsolutePath()
+                    SecureRestClientBuilder(settings, configPath).setSocketTimeout(60000).build()
+                }
+                false -> {
+                    // create client with passed user
+                    val userName = System.getProperty("user")
+                    val password = System.getProperty("password")
+                    SecureRestClientBuilder(hosts, isHttps(), userName, password).setSocketTimeout(60000).build()
+                }
             }
-        }
-        val socketTimeoutString = settings[CLIENT_SOCKET_TIMEOUT]
-        val socketTimeout = TimeValue.parseTimeValue(socketTimeoutString ?: "60s", CLIENT_SOCKET_TIMEOUT)
-        builder.setRequestConfigCallback { conf: RequestConfig.Builder ->
-            conf.setSocketTimeout(
-                Math.toIntExact(
-                    socketTimeout.millis
-                )
-            )
-        }
-        if (settings.hasValue(CLIENT_PATH_PREFIX)) {
-            builder.setPathPrefix(settings[CLIENT_PATH_PREFIX])
+        } else {
+            val builder = RestClient.builder(*hosts)
+            configureClient(builder, settings)
+            builder.setStrictDeprecationMode(true)
+            return builder.build()
         }
     }
 
