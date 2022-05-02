@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Traces } from '..';
 import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
@@ -19,20 +18,36 @@ describe('Traces component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
+    const childBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Traces',
+        href: '#/trace_analytics/traces',
+      },
+    ];
     const wrapper = mount(
       <Traces
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={childBreadcrumbs}
+        traceIdColumnAction={traceIdColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={false}
+        page="traces"
       />
     );
 
@@ -45,24 +60,39 @@ describe('Traces component', () => {
     const setFilters = jest.fn();
     const setStartTime = jest.fn();
     const setEndTime = jest.fn();
+    const traceIdColumnAction = (item: any) =>
+      location.assign(`#/trace_analytics/traces/${encodeURIComponent(item)}`);
+    const childBreadcrumbs = [
+      {
+        text: 'Trace analytics',
+        href: '#/trace_analytics/home',
+      },
+      {
+        text: 'Traces',
+        href: '#/trace_analytics/traces',
+      },
+    ];
     const wrapper = mount(
       <Traces
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
+        childBreadcrumbs={childBreadcrumbs}
+        traceIdColumnAction={traceIdColumnAction}
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={true}
+        page="traces"
       />
     );
 
     expect(wrapper).toMatchSnapshot();
   });
 });
-

@@ -20,19 +20,34 @@
   font-weight: bold;
 }
 
+#servicesEntities {
+  position: relative;
+  z-index: 0;
+}
+
 #autocomplete-textarea {
   width: 100%;
   outline: none;
-  min-height: 45px;
+  min-height: 48px;
   max-width: unset;
   height: 45px;
   resize: vertical;
   font-size: 16px;
   padding-right: 40px;
 }
+
 .aa-Panel {
   width: 100%;
   z-index: 2500;
+}
+
+.aa-Panel--scrollable-dark {
+  background-color: #1D1E24;
+  border: 2px groove #383444;
+}
+
+.aa-Item-dark {
+  color: #DFE5EF;
 }
 
 .event-date-picker {
@@ -52,4 +67,13 @@
 
 .ppl-link-dark {
   color: #1BA9F5;
+}
+
+.base-query-popover {
+  border: unset;
+  font-size: 17px;
+  position: absolute;
+  top: 20px;
+  left: 8px;
+  background-color: transparent;
 }

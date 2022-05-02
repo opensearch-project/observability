@@ -42,7 +42,7 @@ import './visualization_container.scss';
  * removeVisualization: function to remove all the visualizations
  */
 
-type Props = {
+interface Props {
   http: CoreStart['http'];
   editMode: boolean;
   visualizationId: string;
@@ -53,10 +53,11 @@ type Props = {
   onRefresh: boolean;
   pplFilterValue: string;
   usedInNotebooks?: boolean;
+  onEditClick: (savedVisualizationId: string) => any;
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
-};
+}
 
 export const VisualizationContainer = ({
   http,
@@ -69,6 +70,7 @@ export const VisualizationContainer = ({
   onRefresh,
   pplFilterValue,
   usedInNotebooks,
+  onEditClick,
   cloneVisualization,
   showFlyout,
   removeVisualization,
@@ -77,10 +79,11 @@ export const VisualizationContainer = ({
   const [disablePopover, setDisablePopover] = useState(false);
   const [visualizationTitle, setVisualizationTitle] = useState('');
   const [visualizationType, setVisualizationType] = useState('');
+  const [visualizationMetaData, setVisualizationMetaData] = useState();
   const [visualizationData, setVisualizationData] = useState<Plotly.Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
-  const onActionsMenuClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const onActionsMenuClick = () => setIsPopoverOpen((currPopoverOpen) => !currPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
   let popoverPanel = [
@@ -89,7 +92,7 @@ export const VisualizationContainer = ({
       disabled={disablePopover}
       onClick={() => {
         closeActionsMenu();
-        window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
+        onEditClick(savedVisualizationId);
       }}
     >
       Edit
@@ -116,8 +119,8 @@ export const VisualizationContainer = ({
     </EuiContextMenuItem>,
   ];
 
-  if (usedInNotebooks){
-    popoverPanel = [popoverPanel[0]]
+  if (usedInNotebooks) {
+    popoverPanel = [popoverPanel[0]];
   }
 
   const loadVisaulization = async () => {
@@ -131,6 +134,7 @@ export const VisualizationContainer = ({
       setVisualizationTitle,
       setVisualizationType,
       setVisualizationData,
+      setVisualizationMetaData,
       setIsLoading,
       setIsError
     );
@@ -150,11 +154,11 @@ export const VisualizationContainer = ({
             </EuiText>
           </div>
         ) : (
-          displayVisualization(visualizationData, visualizationType, editMode)
+          displayVisualization(visualizationMetaData, visualizationData, visualizationType)
         )}
       </div>
     ),
-    [onRefresh, isLoading, isError, visualizationData, visualizationType]
+    [onRefresh, isLoading, isError, visualizationData, visualizationType, visualizationMetaData]
   );
 
   useEffect(() => {

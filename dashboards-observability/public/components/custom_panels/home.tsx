@@ -2,13 +2,17 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
-import { EuiBreadcrumb, EuiGlobalToastList, EuiLink } from '@elastic/eui';
+import { EuiBreadcrumb, EuiGlobalToastList, EuiLink, ShortDate } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
+// eslint-disable-next-line @osd/eslint/module_migration
 import { StaticContext } from 'react-router';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import PPLService from '../../services/requests/ppl';
+import DSLService from '../../services/requests/dsl';
 import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
@@ -36,24 +40,38 @@ import { isNameValid } from './helpers/utils';
  * renderProps: Props from router
  */
 
-type Props = {
+interface PanelHomeProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: EuiBreadcrumb[];
-  pplService: any;
+  parentBreadcrumbs: EuiBreadcrumb[];
+  pplService: PPLService;
+  dslService: DSLService;
   renderProps: RouteComponentProps<any, StaticContext, any>;
-};
+}
 
-export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }: Props) => {
-  const [customPanelData, setcustomPanelData] = useState<Array<CustomPanelListType>>([]);
-  const [toasts, setToasts] = useState<Array<Toast>>([]);
+export const Home = ({
+  http,
+  chrome,
+  parentBreadcrumbs,
+  pplService,
+  dslService,
+  renderProps,
+}: PanelHomeProps) => {
+  const [customPanelData, setcustomPanelData] = useState<CustomPanelListType[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const [loading, setLoading] = useState(false);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
+  const [start, setStart] = useState<ShortDate>('');
+  const [end, setEnd] = useState<ShortDate>('');
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
     setToastRightSide(!side ? true : false);
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const onEditClick = (savedVisualizationId: string) => {
+    window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
   };
 
   // Fetches all saved Custom Panels
@@ -85,7 +103,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       })
       .then(async (res) => {
         setToast(`Operational Panel "${newCustomPanelName}" successfully created!`);
-        window.location.assign(`${_.last(parentBreadcrumb).href}${res.newPanelId}`);
+        window.location.assign(`${_.last(parentBreadcrumbs)!.href}${res.newPanelId}`);
       })
       .catch((err) => {
         setToast(
@@ -103,7 +121,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
   const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelId: string) => {
     if (!isNameValid(editedCustomPanelName)) {
       setToast('Invalid Custom Panel name', 'danger');
-      return;
+      return Promise.reject();
     }
     const renamePanelObject = {
       panelId: editedCustomPanelId,
@@ -111,7 +129,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
     };
 
     return http
-      .patch(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
+      .post(`${CUSTOM_PANELS_API_PREFIX}/panels/rename`, {
         body: JSON.stringify(renamePanelObject),
       })
       .then((res) => {
@@ -176,7 +194,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       });
   };
 
-  // Deletes an existing Operational Panel
+  // Deletes multiple existing Operational Panels
   const deleteCustomPanelList = (customPanelIdList: string[], toastMessage: string) => {
     const concatList = customPanelIdList.toString();
     return http
@@ -246,7 +264,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
         logs ? http.post('../api/sample_data/logs') : Promise.resolve(),
       ]);
 
-      let savedVisualizationIds = [];
+      let savedVisualizationIds: string[] = [];
       await http
         .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}/addSampleSavedObjects/panels`)
         .then((resp) => (savedVisualizationIds = [...resp.savedVizIds]));
@@ -254,14 +272,14 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
       await http
         .post(`${CUSTOM_PANELS_API_PREFIX}/panels/addSamplePanels`, {
           body: JSON.stringify({
-            savedVisualizationIds: savedVisualizationIds,
+            savedVisualizationIds,
           }),
         })
         .then((res) => {
           setcustomPanelData([...customPanelData, ...res.demoPanelsData]);
         });
       setToast(`Sample panels successfully added.`);
-    } catch (err) {
+    } catch (err: any) {
       setToast('Error adding sample panels.', 'danger');
       console.error(err.body.message);
     } finally {
@@ -291,7 +309,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
                 customPanels={customPanelData}
                 createCustomPanel={createCustomPanel}
                 setBreadcrumbs={chrome.setBreadcrumbs}
-                parentBreadcrumb={parentBreadcrumb}
+                parentBreadcrumbs={parentBreadcrumbs}
                 renameCustomPanel={renameCustomPanel}
                 cloneCustomPanel={cloneCustomPanel}
                 deleteCustomPanelList={deleteCustomPanelList}
@@ -309,12 +327,19 @@ export const Home = ({ http, chrome, parentBreadcrumb, pplService, renderProps }
               panelId={props.match.params.id}
               http={http}
               pplService={pplService}
+              dslService={dslService}
               chrome={chrome}
-              parentBreadcrumb={parentBreadcrumb}
+              parentBreadcrumbs={parentBreadcrumbs}
               renameCustomPanel={renameCustomPanel}
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
+              onEditClick={onEditClick}
+              startTime={start}
+              endTime={end}
+              setStartTime={setStart}
+              setEndTime={setEnd}
+              page="operationalPanels"
             />
           );
         }}

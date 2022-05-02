@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const EVENT_ANALYTICS_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/observability/event-analytics/'
+export const EVENT_ANALYTICS_DOCUMENTATION_URL =
+  'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
+export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
+  'https://opentelemetry.io/docs/reference/specification/logs/overview/#log-correlation';
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
@@ -19,6 +22,8 @@ export const TAB_CHART_TITLE = 'Visualizations';
 export const TAB_EVENT_TITLE = 'Events';
 export const TAB_EVENT_ID_TXT_PFX = 'main-content-events-';
 export const TAB_CHART_ID_TXT_PFX = 'main-content-vis-';
+export const TAB_EVENT_ID = 'main-content-events';
+export const TAB_CHART_ID = 'main-content-vis';
 export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
 export const FILTER_OPTIONS = ['Visualization', 'Query'];
 export const SAVED_QUERY = 'savedQuery';
@@ -28,11 +33,13 @@ export const SAVED_OBJECT_TYPE = 'objectType';
 export const TAB_CREATED_TYPE = 'tabCreatedType';
 export const NEW_TAB = 'newTab';
 export const REDIRECT_TAB = 'redirect_tab';
-
+export const PAGE_SIZE = 50;
+export const DEFAULT_COLUMNS = ['', 'Time', '_source'];
+export const OTEL_TRACE_ID = 'traceId';
 export const DATE_PICKER_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_INTERVAL_OPTIONS = [
   {
-    text: 'Minute', 
+    text: 'Minute',
     value: 'm',
   },
   {
@@ -66,5 +73,6 @@ export const REDUX_EXPL_SLICE_QUERY_RESULT = 'queryResults';
 export const REDUX_EXPL_SLICE_FIELDS = 'fields';
 export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
 export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
-export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization'
-
+export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization';
+export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
+export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;

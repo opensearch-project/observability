@@ -27,7 +27,6 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import CSS from 'csstype';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -43,18 +42,13 @@ import {
   getSampleNotebooksModal,
 } from './helpers/modal_containers';
 import { NotebookType } from './main';
+import { pageStyles } from '../../../../common/constants/shared';
 
-const pageStyles: CSS.Properties = {
-  float: 'left',
-  width: '100%',
-  maxWidth: '1130px',
-};
-
-type NoteTableProps = {
+interface NoteTableProps {
   loading: boolean;
   fetchNotebooks: () => void;
   addSampleNotebooks: () => void;
-  notebooks: Array<NotebookType>;
+  notebooks: NotebookType[];
   createNotebook: (newNoteName: string) => void;
   renameNotebook: (newNoteName: string, noteId: string) => void;
   cloneNotebook: (newNoteName: string, noteId: string) => void;
@@ -62,13 +56,13 @@ type NoteTableProps = {
   parentBreadcrumb: ChromeBreadcrumb;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   setToast: (title: string, color?: string, text?: string) => void;
-};
+}
 
 export function NoteTable(props: NoteTableProps) {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal Toggle
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask></EuiOverlayMask>); // Modal Layout
+  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />); // Modal Layout
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
-  const [selectedNotebooks, setSelectedNotebooks] = useState<Array<NotebookType>>([]);
+  const [selectedNotebooks, setSelectedNotebooks] = useState<NotebookType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { notebooks, createNotebook, renameNotebook, cloneNotebook, deleteNotebook } = props;
 

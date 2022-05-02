@@ -2,6 +2,8 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiButton,
@@ -56,7 +58,7 @@ import { uiSettingsService } from '../../../../../common/utils';
  * replaceVisualizationId: string id of the visualization to be replaced
  */
 
-type Props = {
+interface VisualizationFlyoutProps {
   panelId: string;
   pplFilterValue: string;
   closeFlyout: () => void;
@@ -73,10 +75,12 @@ type Props = {
   setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   isFlyoutReplacement?: boolean | undefined;
   replaceVisualizationId?: string | undefined;
-};
+  appId?: string;
+}
 
 export const VisaulizationFlyout = ({
   panelId,
+  appId = '',
   pplFilterValue,
   closeFlyout,
   start,
@@ -87,10 +91,11 @@ export const VisaulizationFlyout = ({
   setPanelVisualizations,
   isFlyoutReplacement,
   replaceVisualizationId,
-}: Props) => {
+}: VisualizationFlyoutProps) => {
   const [newVisualizationTitle, setNewVisualizationTitle] = useState('');
   const [newVisualizationType, setNewVisualizationType] = useState('');
   const [newVisualizationTimeField, setNewVisualizationTimeField] = useState('');
+  const [previewMetaData, setPreviewMetaData] = useState<SavedVisualizationType>();
   const [pplQuery, setPPLQuery] = useState('');
   const [previewData, setPreviewData] = useState<pplResponse>({} as pplResponse);
   const [previewArea, setPreviewArea] = useState(<></>);
@@ -124,7 +129,7 @@ export const VisaulizationFlyout = ({
       http
         .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations/replace`, {
           body: JSON.stringify({
-            panelId: panelId,
+            panelId,
             savedVisualizationId: selectValue,
             oldVisualizationId: replaceVisualizationId,
           }),
@@ -141,7 +146,7 @@ export const VisaulizationFlyout = ({
       http
         .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
           body: JSON.stringify({
-            panelId: panelId,
+            panelId,
             savedVisualizationId: selectValue,
           }),
         })
@@ -208,7 +213,7 @@ export const VisaulizationFlyout = ({
     <EuiFlyoutHeader hasBorder>
       <EuiTitle size="m">
         <h2 id="addVisualizationFlyout">
-          {isFlyoutReplacement ? 'Replace Visualization' : 'Select Existing Visualization'}
+          {isFlyoutReplacement ? 'Replace visualization' : 'Select existing visualization'}
         </h2>
       </EuiTitle>
     </EuiFlyoutHeader>
@@ -258,7 +263,7 @@ export const VisaulizationFlyout = ({
     ) : (
       <EuiFlyoutBody banner={emptySavedVisualizations}>
         <>
-          <div>Please use the "create new visualization" option in add visualization menu.</div>
+          <div>{'Please use the "create new visualization" option in add visualization menu.'}</div>
         </>
       </EuiFlyoutBody>
     );
@@ -285,8 +290,15 @@ export const VisaulizationFlyout = ({
       .then((res) => {
         if (res.visualizations.length > 0) {
           setSavedVisualizations(res.visualizations);
+          const filterAppVis = res.visualizations.filter((vis: SavedVisualizationType) => {
+            return appId
+              ? vis.hasOwnProperty('application_id')
+                ? vis.application_id === appId
+                : false
+              : !vis.hasOwnProperty('application_id');
+          });
           setVisualizationOptions(
-            res.visualizations.map((visualization: SavedVisualizationType) => {
+            filterAppVis.map((visualization: SavedVisualizationType) => {
               return { value: visualization.id, text: visualization.name };
             })
           );
@@ -305,7 +317,7 @@ export const VisaulizationFlyout = ({
           <EuiFlexItem>
             {previewLoading ? (
               <EuiLoadingChart size="xl" mono className="visualization-loading-chart-preview" />
-            ) : isPreviewError != '' ? (
+            ) : isPreviewError !== '' ? (
               <div className="visualization-error-div-preview">
                 <EuiIcon type="alert" color="danger" size="s" />
                 <EuiSpacer size="s" />
@@ -315,7 +327,7 @@ export const VisaulizationFlyout = ({
               </div>
             ) : (
               <div className="visualization-div-preview">
-                {displayVisualization(previewData, newVisualizationType)}
+                {displayVisualization(previewMetaData, previewData, newVisualizationType)}
               </div>
             )}
           </EuiFlexItem>
@@ -327,12 +339,13 @@ export const VisaulizationFlyout = ({
 
   // On change of selected visualization change options
   useEffect(() => {
-    for (var i = 0; i < savedVisualizations.length; i++) {
+    for (let i = 0; i < savedVisualizations.length; i++) {
       const visualization = savedVisualizations[i];
       if (visualization.id === selectValue) {
         setPPLQuery(visualization.query);
         setNewVisualizationTitle(visualization.name);
         setNewVisualizationType(visualization.type);
+        setPreviewMetaData(visualization);
         setNewVisualizationTimeField(visualization.timeField);
         break;
       }

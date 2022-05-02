@@ -26,5 +26,7 @@ module.exports = {
     '\\.(css|less|sass|scss)$': '<rootDir>/test/__mocks__/styleMock.js',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
     '\\@algolia/autocomplete-theme-classic$': '<rootDir>/test/__mocks__/styleMock.js',
+    "^!!raw-loader!.*": "jest-raw-loader",
   },
+  testEnvironment: "jsdom",
 };

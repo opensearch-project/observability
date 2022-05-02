@@ -1,0 +1,994 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Log Config component renders empty log config 1`] = `
+<LogConfig
+  appConfigs={Array []}
+  chrome={
+    Object {
+      "getIsNavDrawerLocked$": [MockFunction],
+      "setBreadcrumbs": [MockFunction],
+    }
+  }
+  description=""
+  dslService={
+    Object {
+      "fetch": [MockFunction],
+      "fetchFields": [MockFunction],
+      "fetchIndices": [MockFunction],
+      "http": [MockFunction],
+    }
+  }
+  editMode={false}
+  endTime="now"
+  filters={Array []}
+  http={[MockFunction]}
+  indicesExist={true}
+  name=""
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
+    }
+  }
+  query=""
+  setAppConfigs={[MockFunction]}
+  setDescriptionWithStorage={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
+  setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setIsFlyoutVisible={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
+  setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
+  setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
+  startTime="now-5m"
+>
+  <div>
+    <EuiAccordion
+      arrowDisplay="left"
+      buttonContent={
+        <React.Fragment>
+          <EuiText
+            size="s"
+          >
+            <h3>
+              Log source
+            </h3>
+          </EuiText>
+          <EuiSpacer
+            size="s"
+          />
+          <EuiText
+            color="subdued"
+            size="s"
+          >
+            Configure your application base query
+          </EuiText>
+        </React.Fragment>
+      }
+      extraAction={
+        <EuiButton
+          disabled={true}
+          onClick={[Function]}
+          size="s"
+        >
+          Clear
+        </EuiButton>
+      }
+      id="logSource"
+      initialIsOpen={false}
+      isLoading={false}
+      isLoadingMessage={false}
+      onToggle={[Function]}
+      paddingSize="l"
+    >
+      <div
+        className="euiAccordion"
+        onToggle={[Function]}
+      >
+        <div
+          className="euiAccordion__triggerWrapper"
+        >
+          <button
+            aria-controls="logSource"
+            aria-expanded={false}
+            className="euiAccordion__button"
+            id="random_html_id"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="euiAccordion__iconWrapper"
+            >
+              <EuiIcon
+                className="euiAccordion__icon"
+                size="m"
+                type="arrowRight"
+              >
+                <EuiIconEmpty
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon"
+                    focusable="false"
+                    height={16}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </EuiIconEmpty>
+              </EuiIcon>
+            </span>
+            <span
+              className="euiIEFlexWrapFix"
+            >
+              <EuiText
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <h3>
+                    Log source
+                  </h3>
+                </div>
+              </EuiText>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiText
+                color="subdued"
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      Configure your application base query
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiText>
+            </span>
+          </button>
+          <div
+            className="euiAccordion__optionalAction"
+          >
+            <EuiButton
+              disabled={true}
+              onClick={[Function]}
+              size="s"
+            >
+              <EuiButtonDisplay
+                baseClassName="euiButton"
+                disabled={true}
+                element="button"
+                isDisabled={true}
+                onClick={[Function]}
+                size="s"
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  disabled={true}
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        className="euiButton__text"
+                      >
+                        Clear
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </div>
+        <div
+          aria-labelledby="random_html_id"
+          className="euiAccordion__childWrapper"
+          id="logSource"
+          role="region"
+          tabIndex={-1}
+        >
+          <EuiResizeObserver
+            onResize={[Function]}
+          >
+            <div>
+              <div
+                className="euiAccordion__padding--l"
+              >
+                <EuiFlexGroup
+                  direction="column"
+                  gutterSize="s"
+                >
+                  <div
+                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
+                  >
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiCallOut
+                          iconType="iInCircle"
+                          id="baseQueryCallout"
+                          size="s"
+                        >
+                          <div
+                            className="euiCallOut euiCallOut--primary euiCallOut--small"
+                            id="baseQueryCallout"
+                          >
+                            <EuiText
+                              color="default"
+                              size="xs"
+                            >
+                              <div
+                                className="euiText euiText--extraSmall"
+                              >
+                                <EuiTextColor
+                                  color="default"
+                                  component="div"
+                                >
+                                  <div
+                                    className="euiTextColor euiTextColor--default"
+                                  >
+                                    You can't change the base query after the application is created.
+                                  </div>
+                                </EuiTextColor>
+                              </div>
+                            </EuiText>
+                          </div>
+                        </EuiCallOut>
+                      </div>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="The default logs view in the application will be filtered by this query."
+                          label="Base Query"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
+                          >
+                            <div
+                              className="euiFormRow__labelWrapper"
+                            >
+                              <EuiFormLabel
+                                className="euiFormRow__label"
+                                htmlFor="random_html_id"
+                                isFocused={false}
+                                type="label"
+                              >
+                                <label
+                                  className="euiFormLabel euiFormRow__label"
+                                  htmlFor="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </EuiFormLabel>
+                            </div>
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help-0"
+                                className="query-area"
+                                grow={false}
+                                id="random_html_id"
+                                key="query-bar"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help-0"
+                                  className="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                >
+                                  <Autocomplete
+                                    baseQuery=""
+                                    dslService={
+                                      Object {
+                                        "fetch": [MockFunction],
+                                        "fetchFields": [MockFunction],
+                                        "fetchIndices": [MockFunction],
+                                        "http": [MockFunction],
+                                      }
+                                    }
+                                    getSuggestions={[Function]}
+                                    handleQueryChange={[Function]}
+                                    handleQuerySearch={[Function]}
+                                    isDisabled={false}
+                                    key="autocomplete-bar"
+                                    onItemSelect={[Function]}
+                                    possibleCommands={
+                                      Array [
+                                        Object {
+                                          "label": "dedup",
+                                        },
+                                        Object {
+                                          "label": "eval",
+                                        },
+                                        Object {
+                                          "label": "fields",
+                                        },
+                                        Object {
+                                          "label": "parse",
+                                        },
+                                        Object {
+                                          "label": "rename",
+                                        },
+                                        Object {
+                                          "label": "sort",
+                                        },
+                                        Object {
+                                          "label": "where",
+                                        },
+                                      ]
+                                    }
+                                    query=""
+                                    tabId="application-analytics-tab"
+                                    tempQuery=""
+                                  >
+                                    <div
+                                      aria-expanded={false}
+                                      aria-haspopup="listbox"
+                                      aria-labelledby="autocomplete-0-label"
+                                      className="aa-Autocomplete"
+                                      id="autocomplete-root"
+                                      role="combobox"
+                                    >
+                                      <EuiTextArea
+                                        aria-autocomplete="both"
+                                        aria-labelledby="autocomplete-0-label"
+                                        autoCapitalize="off"
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoFocus={false}
+                                        data-test-subj="searchAutocompleteTextArea"
+                                        disabled={false}
+                                        enterKeyHint="search"
+                                        id="autocomplete-textarea"
+                                        maxLength={512}
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        placeholder="Enter PPL query"
+                                        spellCheck="false"
+                                        type="search"
+                                        value=""
+                                      >
+                                        <EuiValidatableControl>
+                                          <textarea
+                                            aria-autocomplete="both"
+                                            aria-labelledby="autocomplete-0-label"
+                                            autoCapitalize="off"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoFocus={false}
+                                            className="euiTextArea euiTextArea--resizeVertical"
+                                            data-test-subj="searchAutocompleteTextArea"
+                                            disabled={false}
+                                            enterKeyHint="search"
+                                            id="autocomplete-textarea"
+                                            maxLength={512}
+                                            onBlur={[Function]}
+                                            onChange={[Function]}
+                                            onClick={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder="Enter PPL query"
+                                            rows={6}
+                                            spellCheck="false"
+                                            type="search"
+                                            value=""
+                                          />
+                                        </EuiValidatableControl>
+                                      </EuiTextArea>
+                                    </div>
+                                  </Autocomplete>
+                                  <EuiBadge
+                                    className="ppl-link ppl-link-light"
+                                    color="hollow"
+                                    onClick={[Function]}
+                                    onClickAriaLabel="pplLinkShowFlyout"
+                                  >
+                                    <EuiInnerText>
+                                      <button
+                                        aria-label="pplLinkShowFlyout"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        title="PPL"
+                                      >
+                                        <span
+                                          className="euiBadge__content"
+                                        >
+                                          <span
+                                            className="euiBadge__text"
+                                          >
+                                            PPL
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </EuiInnerText>
+                                  </EuiBadge>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help-0"
+                                key="The default logs view in the application will be filtered by this query."
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help-0"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                      </div>
+                    </EuiFlexItem>
+                  </div>
+                </EuiFlexGroup>
+              </div>
+            </div>
+          </EuiResizeObserver>
+        </div>
+      </div>
+    </EuiAccordion>
+  </div>
+</LogConfig>
+`;
+
+exports[`Log Config component renders with query 1`] = `
+<LogConfig
+  appConfigs={Array []}
+  chrome={
+    Object {
+      "getIsNavDrawerLocked$": [MockFunction],
+      "setBreadcrumbs": [MockFunction],
+    }
+  }
+  description=""
+  dslService={
+    Object {
+      "fetch": [MockFunction],
+      "fetchFields": [MockFunction],
+      "fetchIndices": [MockFunction],
+      "http": [MockFunction],
+    }
+  }
+  editMode={false}
+  endTime="now"
+  filters={Array []}
+  http={[MockFunction]}
+  indicesExist={true}
+  name=""
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
+    }
+  }
+  query="source = openserach_dashboard_sample_logs"
+  setAppConfigs={[MockFunction]}
+  setDescriptionWithStorage={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setEndTimeWithStorage={[MockFunction]}
+  setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setIsFlyoutVisible={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
+  setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
+  setStartTime={[MockFunction]}
+  setStartTimeWithStorage={[MockFunction]}
+  startTime="now-5m"
+>
+  <div>
+    <EuiAccordion
+      arrowDisplay="left"
+      buttonContent={
+        <React.Fragment>
+          <EuiText
+            size="s"
+          >
+            <h3>
+              Log source
+            </h3>
+          </EuiText>
+          <EuiSpacer
+            size="s"
+          />
+          <EuiText
+            color="subdued"
+            size="s"
+          >
+            Configure your application base query
+          </EuiText>
+        </React.Fragment>
+      }
+      extraAction={
+        <EuiButton
+          disabled={true}
+          onClick={[Function]}
+          size="s"
+        >
+          Clear
+        </EuiButton>
+      }
+      id="logSource"
+      initialIsOpen={false}
+      isLoading={false}
+      isLoadingMessage={false}
+      onToggle={[Function]}
+      paddingSize="l"
+    >
+      <div
+        className="euiAccordion"
+        onToggle={[Function]}
+      >
+        <div
+          className="euiAccordion__triggerWrapper"
+        >
+          <button
+            aria-controls="logSource"
+            aria-expanded={false}
+            className="euiAccordion__button"
+            id="random_html_id"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="euiAccordion__iconWrapper"
+            >
+              <EuiIcon
+                className="euiAccordion__icon"
+                size="m"
+                type="arrowRight"
+              >
+                <EuiIconArrowRight
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiAccordion__icon"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--medium euiAccordion__icon"
+                    focusable="false"
+                    height={16}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.157 13.069l4.611-4.685a.546.546 0 000-.768L5.158 2.93a.552.552 0 010-.771.53.53 0 01.759 0l4.61 4.684c.631.641.63 1.672 0 2.312l-4.61 4.684a.53.53 0 01-.76 0 .552.552 0 010-.771z"
+                      fillRule="nonzero"
+                    />
+                  </svg>
+                </EuiIconArrowRight>
+              </EuiIcon>
+            </span>
+            <span
+              className="euiIEFlexWrapFix"
+            >
+              <EuiText
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <h3>
+                    Log source
+                  </h3>
+                </div>
+              </EuiText>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiText
+                color="subdued"
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      Configure your application base query
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiText>
+            </span>
+          </button>
+          <div
+            className="euiAccordion__optionalAction"
+          >
+            <EuiButton
+              disabled={true}
+              onClick={[Function]}
+              size="s"
+            >
+              <EuiButtonDisplay
+                baseClassName="euiButton"
+                disabled={true}
+                element="button"
+                isDisabled={true}
+                onClick={[Function]}
+                size="s"
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  disabled={true}
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "minWidth": undefined,
+                    }
+                  }
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        className="euiButton__text"
+                      >
+                        Clear
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </div>
+        <div
+          aria-labelledby="random_html_id"
+          className="euiAccordion__childWrapper"
+          id="logSource"
+          role="region"
+          tabIndex={-1}
+        >
+          <EuiResizeObserver
+            onResize={[Function]}
+          >
+            <div>
+              <div
+                className="euiAccordion__padding--l"
+              >
+                <EuiFlexGroup
+                  direction="column"
+                  gutterSize="s"
+                >
+                  <div
+                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionColumn euiFlexGroup--responsive"
+                  >
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiCallOut
+                          iconType="iInCircle"
+                          id="baseQueryCallout"
+                          size="s"
+                        >
+                          <div
+                            className="euiCallOut euiCallOut--primary euiCallOut--small"
+                            id="baseQueryCallout"
+                          >
+                            <EuiText
+                              color="default"
+                              size="xs"
+                            >
+                              <div
+                                className="euiText euiText--extraSmall"
+                              >
+                                <EuiTextColor
+                                  color="default"
+                                  component="div"
+                                >
+                                  <div
+                                    className="euiTextColor euiTextColor--default"
+                                  >
+                                    You can't change the base query after the application is created.
+                                  </div>
+                                </EuiTextColor>
+                              </div>
+                            </EuiText>
+                          </div>
+                        </EuiCallOut>
+                      </div>
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <div
+                        className="euiFlexItem"
+                      >
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="The default logs view in the application will be filtered by this query."
+                          label="Base Query"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
+                          >
+                            <div
+                              className="euiFormRow__labelWrapper"
+                            >
+                              <EuiFormLabel
+                                className="euiFormRow__label"
+                                htmlFor="random_html_id"
+                                isFocused={false}
+                                type="label"
+                              >
+                                <label
+                                  className="euiFormLabel euiFormRow__label"
+                                  htmlFor="random_html_id"
+                                >
+                                  Base Query
+                                </label>
+                              </EuiFormLabel>
+                            </div>
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help-0"
+                                className="query-area"
+                                grow={false}
+                                id="random_html_id"
+                                key="query-bar"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help-0"
+                                  className="euiFlexItem euiFlexItem--flexGrowZero query-area"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                >
+                                  <Autocomplete
+                                    baseQuery=""
+                                    dslService={
+                                      Object {
+                                        "fetch": [MockFunction],
+                                        "fetchFields": [MockFunction],
+                                        "fetchIndices": [MockFunction],
+                                        "http": [MockFunction],
+                                      }
+                                    }
+                                    getSuggestions={[Function]}
+                                    handleQueryChange={[Function]}
+                                    handleQuerySearch={[Function]}
+                                    isDisabled={false}
+                                    key="autocomplete-bar"
+                                    onItemSelect={[Function]}
+                                    possibleCommands={
+                                      Array [
+                                        Object {
+                                          "label": "dedup",
+                                        },
+                                        Object {
+                                          "label": "eval",
+                                        },
+                                        Object {
+                                          "label": "fields",
+                                        },
+                                        Object {
+                                          "label": "parse",
+                                        },
+                                        Object {
+                                          "label": "rename",
+                                        },
+                                        Object {
+                                          "label": "sort",
+                                        },
+                                        Object {
+                                          "label": "where",
+                                        },
+                                      ]
+                                    }
+                                    query="source = openserach_dashboard_sample_logs"
+                                    tabId="application-analytics-tab"
+                                    tempQuery=""
+                                  >
+                                    <div
+                                      aria-expanded={false}
+                                      aria-haspopup="listbox"
+                                      aria-labelledby="autocomplete-1-label"
+                                      className="aa-Autocomplete"
+                                      id="autocomplete-root"
+                                      role="combobox"
+                                    >
+                                      <EuiTextArea
+                                        aria-autocomplete="both"
+                                        aria-labelledby="autocomplete-1-label"
+                                        autoCapitalize="off"
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoFocus={false}
+                                        data-test-subj="searchAutocompleteTextArea"
+                                        disabled={false}
+                                        enterKeyHint="search"
+                                        id="autocomplete-textarea"
+                                        maxLength={512}
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        placeholder="Enter PPL query"
+                                        spellCheck="false"
+                                        type="search"
+                                        value="source = openserach_dashboard_sample_logs"
+                                      >
+                                        <EuiValidatableControl>
+                                          <textarea
+                                            aria-autocomplete="both"
+                                            aria-labelledby="autocomplete-1-label"
+                                            autoCapitalize="off"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoFocus={false}
+                                            className="euiTextArea euiTextArea--resizeVertical"
+                                            data-test-subj="searchAutocompleteTextArea"
+                                            disabled={false}
+                                            enterKeyHint="search"
+                                            id="autocomplete-textarea"
+                                            maxLength={512}
+                                            onBlur={[Function]}
+                                            onChange={[Function]}
+                                            onClick={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder="Enter PPL query"
+                                            rows={6}
+                                            spellCheck="false"
+                                            type="search"
+                                            value="source = openserach_dashboard_sample_logs"
+                                          />
+                                        </EuiValidatableControl>
+                                      </EuiTextArea>
+                                    </div>
+                                  </Autocomplete>
+                                  <EuiBadge
+                                    className="ppl-link ppl-link-light"
+                                    color="hollow"
+                                    onClick={[Function]}
+                                    onClickAriaLabel="pplLinkShowFlyout"
+                                  >
+                                    <EuiInnerText>
+                                      <button
+                                        aria-label="pplLinkShowFlyout"
+                                        className="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        title="PPL"
+                                      >
+                                        <span
+                                          className="euiBadge__content"
+                                        >
+                                          <span
+                                            className="euiBadge__text"
+                                          >
+                                            PPL
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </EuiInnerText>
+                                  </EuiBadge>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help-0"
+                                key="The default logs view in the application will be filtered by this query."
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help-0"
+                                >
+                                  The default logs view in the application will be filtered by this query.
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                      </div>
+                    </EuiFlexItem>
+                  </div>
+                </EuiFlexGroup>
+              </div>
+            </div>
+          </EuiResizeObserver>
+        </div>
+      </div>
+    </EuiAccordion>
+  </div>
+</LogConfig>
+`;

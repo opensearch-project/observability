@@ -8,26 +8,24 @@ import {
   sampleVisualizations,
 } from '../../common/helpers/events_explorer/sample_savedObjects';
 
+// eslint-disable-next-line import/no-default-export
 export default class SavedObjectFacet {
   constructor(private client: any) {
     this.client = client;
   }
 
-  fetch = async (request: any, format: string) => {
+  fetch = async (request: any, params: any, format: string) => {
     const res = {
       success: false,
       data: {},
     };
     try {
-      const params = {
-        ...request.url.query,
-      };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedQueryRes;
+      res.success = true;
+      res.data = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics fetch error: ', err);
-      res['data'] = err;
+      res.data = err;
     }
     return res;
   };
@@ -46,11 +44,11 @@ export default class SavedObjectFacet {
         },
       };
       const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedRes;
+      res.success = true;
+      res.data = savedRes;
     } catch (err: any) {
       console.error('Event analytics create error: ', err);
-      res['data'] = err;
+      res.data = err;
     }
     return res;
   };
@@ -70,11 +68,11 @@ export default class SavedObjectFacet {
         },
       };
       const savedRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedRes;
+      res.success = true;
+      res.data = savedRes;
     } catch (err: any) {
       console.error('Event analytics create timestamp error: ', err);
-      res['data'] = err;
+      res.data = err;
     }
     return res;
   };
@@ -92,11 +90,11 @@ export default class SavedObjectFacet {
         },
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedQueryRes;
+      res.success = true;
+      res.data = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err.message;
+      res.data = err.message;
     }
     return res;
   };
@@ -116,11 +114,11 @@ export default class SavedObjectFacet {
         },
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedQueryRes;
+      res.success = true;
+      res.data = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics update error: ', err);
-      res['data'] = err.message;
+      res.data = err.message;
     }
     return res;
   };
@@ -132,14 +130,14 @@ export default class SavedObjectFacet {
     };
     try {
       const params = {
-        objectIdList: request.body.objectIdList,
+        objectIdList: request.params.objectIdList,
       };
       const savedQueryRes = await this.client.asScoped(request).callAsCurrentUser(format, params);
-      res['success'] = true;
-      res['data'] = savedQueryRes;
+      res.success = true;
+      res.data = savedQueryRes;
     } catch (err: any) {
       console.error('Event analytics delete error: ', err);
-      res['data'] = err.message;
+      res.data = err.message;
     }
     return res;
   };
@@ -150,8 +148,8 @@ export default class SavedObjectFacet {
       data: {},
     };
     try {
-      let savedVizIds: any[] = [];
-      let savedQueryIds: any[] = [];
+      const savedVizIds: any[] = [];
+      const savedQueryIds: any[] = [];
 
       if (['panels', 'event_analytics'].includes(request.params.sampleRequestor)) {
         for (var i = 0; i < sampleVisualizations.length; i++) {
@@ -181,21 +179,27 @@ export default class SavedObjectFacet {
         }
       }
 
-      res['success'] = true;
-      res['data'] = { savedVizIds: savedVizIds, savedQueryIds: savedQueryIds };
+      res.success = true;
+      res.data = { savedVizIds, savedQueryIds };
     } catch (err: any) {
       console.error('Event analytics create error: ', err);
-      res['data'] = err;
+      res.data = err;
     }
     return res;
   };
 
-  getSavedQuery = async (request: any) => {
-    return this.fetch(request, 'observability.getObject');
-  };
-
-  getSavedVisualization = async (request: any) => {
-    return this.fetch(request, 'observability.getObject');
+  getSavedObject = async (request: any) => {
+    const params = {};
+    for (const [param, value] of request.url.searchParams.entries()) {
+      params[param] = value;
+    }
+    return this.fetch(
+      request,
+      {
+        ...params
+      },
+      'observability.getObject'
+    );
   };
 
   createSavedQuery = async (request: any) => {

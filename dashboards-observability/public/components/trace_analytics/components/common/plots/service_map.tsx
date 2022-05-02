@@ -35,6 +35,7 @@ export interface ServiceObject {
     latency?: number;
     error_rate?: number;
     throughput?: number;
+    throughputPerMinute?: number;
     relatedServices?: string[]; // services appear in the same traces this service appears
   };
 }
@@ -45,12 +46,22 @@ export function ServiceMap({
   setIdSelected,
   addFilter,
   currService,
+  page,
 }: {
   serviceMap: ServiceObject;
   idSelected: 'latency' | 'error_rate' | 'throughput';
   setIdSelected: (newId: 'latency' | 'error_rate' | 'throughput') => void;
   addFilter?: (filter: FilterType) => void;
   currService?: string;
+  page:
+    | 'app'
+    | 'appCreate'
+    | 'dashboard'
+    | 'traces'
+    | 'services'
+    | 'serviceView'
+    | 'detailFlyout'
+    | 'traceView';
 }) {
   const [invalid, setInvalid] = useState(false);
   const [network, setNetwork] = useState(null);
@@ -119,7 +130,9 @@ export function ServiceMap({
           inverted: false,
           disabled: false,
         });
-        window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+        if (!['appCreate', 'detailFlyout'].includes(page)) {
+          window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+        }
       }
     },
     hoverNode: (event: any) => {},
@@ -160,7 +173,11 @@ export function ServiceMap({
   return (
     <>
       <EuiPanel>
-        <PanelTitle title="Service map" />
+        {page === 'app' ? (
+          <PanelTitle title="Application Composition Map" />
+        ) : (
+          <PanelTitle title="Service map" />
+        )}
         <EuiSpacer size="m" />
         <EuiButtonGroup
           options={toggleButtons}

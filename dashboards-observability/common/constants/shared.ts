@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import CSS from 'csstype';
+
 // Client route
 export const PPL_BASE = '/api/ppl';
 export const PPL_SEARCH = '/search';
@@ -26,12 +28,15 @@ export const observabilityTitle = 'Observability';
 export const observabilityPluginOrder = 6000;
 
 // Shared Constants
-export const SQL_DOCUMENTATION_URL ='https://opensearch.org/docs/latest/search-plugins/sql/index/'
-export const PPL_DOCUMENTATION_URL ='https://opensearch.org/docs/latest/observability/ppl/commands/'
+export const SQL_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/search-plugins/sql/index/';
+export const PPL_DOCUMENTATION_URL =
+  'https://opensearch.org/docs/latest/observability-plugin/ppl/commands/';
 export const UI_DATE_FORMAT = 'MM/DD/YYYY hh:mm A';
-export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+export const PPL_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSSSSS';
+export const SPAN_REGEX = /span/;
+export const PPL_SPAN_REGEX = /by\s*span/i;
 export const PPL_STATS_REGEX = /\|\s*stats/i;
-export const PPL_INDEX_INSERT_POINT_REGEX = /(search source|source|index)\s*=\s*([^\s]+)(.*)/i;
+export const PPL_INDEX_INSERT_POINT_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)(.*)/i;
 export const PPL_INDEX_REGEX = /(search source|source|index)\s*=\s*([^|\s]+)/i;
 export const PPL_NEWLINE_REGEX = /[\n\r]+/g;
 
@@ -59,3 +64,64 @@ export const PLOTLY_COLOR = [
 ];
 
 export const LONG_CHART_COLOR = PLOTLY_COLOR[1];
+
+export const pageStyles: CSS.Properties = {
+  float: 'left',
+  width: '100%',
+  maxWidth: '1130px',
+};
+
+export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
+
+export const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'heatmap', 'text'];
+
+//Live tail constants
+export const LIVE_OPTIONS = [
+  {
+    label:'5s',
+    startTime: 'now-5s',
+    delayTime: 5000,
+  },
+  {
+    label:'10s',
+    startTime: 'now-10s',
+    delayTime: 10000,
+  },
+  {
+    label:'30s',
+    startTime: 'now-30s',
+    delayTime: 30000,
+  },
+  {
+    label:'1m',
+    startTime: 'now-1m',
+    delayTime: 60000,
+  },
+  {
+    label:'5m',
+    startTime: 'now-5m',
+    delayTime: 60000 * 5,
+  },
+  {
+    label:'15m',
+    startTime: 'now-15m',
+    delayTime: 60000 * 15,
+  },
+  {
+    label:'30m',
+    startTime: 'now-30m',
+    delayTime: 60000 * 30,
+  },
+  {
+    label:'1h',
+    startTime: 'now-1h',
+    delayTime: 60000 * 60,
+  },
+  {
+    label:'2h',
+    startTime: 'now-2h',
+    delayTime: 60000 * 120,
+  },
+];
+
+export const LIVE_END_TIME ='now';

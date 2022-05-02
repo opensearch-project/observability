@@ -23,19 +23,33 @@ describe('Dashboard component', () => {
       <Dashboard
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{
-          text: 'test',
-          href: 'test#/',
-        }}
+        parentBreadcrumbs={[
+          {
+            text: 'test',
+            href: 'test#/',
+          },
+        ]}
+        childBreadcrumbs={[
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Dashboard',
+            href: '#/trace_analytics/home',
+          },
+        ]}
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={false}
+        page="dashboard"
       />
     );
 
@@ -52,16 +66,33 @@ describe('Dashboard component', () => {
       <Dashboard
         http={core.http}
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        parentBreadcrumbs={[
+          {
+            text: 'test',
+            href: 'test#/',
+          },
+        ]}
+        childBreadcrumbs={[
+          {
+            text: 'Trace analytics',
+            href: '#/trace_analytics/home',
+          },
+          {
+            text: 'Dashboard',
+            href: '#/trace_analytics/home',
+          },
+        ]}
         query=""
         setQuery={setQuery}
         filters={[]}
+        appConfigs={[]}
         setFilters={setFilters}
         startTime="now-5m"
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
         indicesExist={true}
+        page="dashboard"
       />
     );
 

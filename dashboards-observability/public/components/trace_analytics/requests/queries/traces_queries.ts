@@ -46,7 +46,7 @@ export const getTraceGroupPercentilesQuery = () => {
   return query;
 };
 
-export const getTracesQuery = (traceId = null, sort?: PropertySort) => {
+export const getTracesQuery = (traceId: string = '', sort?: PropertySort) => {
   const field = sort?.field || '_key';
   const direction = sort?.direction || 'asc';
   const query: any = {
@@ -164,7 +164,7 @@ export const getServiceBreakdownQuery = (traceId: string) => {
   return query;
 };
 
-export const getSpanDetailQuery = (traceId: string, size = 200) => {
+export const getSpanDetailQuery = (traceId: string, size = 3000) => {
   const query = {
     size,
     query: {

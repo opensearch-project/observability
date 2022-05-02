@@ -37,9 +37,11 @@ describe('Utils helper functions', () => {
   });
 
   it('validates convertDateTime function', () => {
-    expect(convertDateTime('now')).toBe(moment().format(PPL_DATE_FORMAT));
-    expect(convertDateTime('now-y', true)).toBe(
-      moment().subtract(1, 'years').format(PPL_DATE_FORMAT)
+    expect(convertDateTime('2022-01-30T18:44:40.577Z')).toBe(
+      moment('2022-01-30T18:44:40.577Z').format(PPL_DATE_FORMAT)
+    );
+    expect(convertDateTime('2022-02-25T19:18:33.075Z', true)).toBe(
+      moment('2022-02-25T19:18:33.075Z').format(PPL_DATE_FORMAT)
     );
   });
 
@@ -54,24 +56,44 @@ describe('Utils helper functions', () => {
     const setStart = jest.fn();
     const setEnd = jest.fn();
     const recentlyUsedRanges: DurationRange[] = [];
-    onTimeChange('now-y', 'now', recentlyUsedRanges, setRecentlyUsedRanges, setStart, setEnd);
-    expect(setRecentlyUsedRanges).toHaveBeenCalledWith([{ start: 'now-y', end: 'now' }]);
-    expect(setStart).toHaveBeenCalledWith('now-y');
-    expect(setEnd).toHaveBeenCalledWith('now');
+    onTimeChange(
+      '2022-01-30T18:44:40.577Z',
+      '2022-02-25T19:18:33.075Z',
+      recentlyUsedRanges,
+      setRecentlyUsedRanges,
+      setStart,
+      setEnd
+    );
+    expect(setRecentlyUsedRanges).toHaveBeenCalledWith([
+      { start: '2022-01-30T18:44:40.577Z', end: '2022-02-25T19:18:33.075Z' },
+    ]);
+    expect(setStart).toHaveBeenCalledWith('2022-01-30T18:44:40.577Z');
+    expect(setEnd).toHaveBeenCalledWith('2022-02-25T19:18:33.075Z');
   });
 
   it('validates isDateValid function', () => {
     const setToast = jest.fn();
-    expect(isDateValid(convertDateTime('now-y'), convertDateTime('now', false), setToast)).toBe(
-      true
-    );
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now', false), setToast)).toBe(true);
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now-15m', false), setToast)).toBe(
-      false
-    );
-    expect(isDateValid(convertDateTime('now'), convertDateTime('now-1d', false), setToast)).toBe(
-      false
-    );
+    expect(
+      isDateValid(
+        convertDateTime('2022-01-30T18:44:40.577Z'),
+        convertDateTime('2022-02-25T19:18:33.075Z', false),
+        setToast
+      )
+    ).toBe(true);
+    expect(
+      isDateValid(
+        convertDateTime('2022-01-30T18:44:40.577Z'),
+        convertDateTime('2022-01-30T18:44:40.577Z', false),
+        setToast
+      )
+    ).toBe(true);
+    expect(
+      isDateValid(
+        convertDateTime('2022-02-25T19:18:33.075Z'),
+        convertDateTime('2022-01-30T18:44:40.577Z', false),
+        setToast
+      )
+    ).toBe(false);
   });
 
   it('validates isPPLFilterValid function', () => {
@@ -81,19 +103,25 @@ describe('Utils helper functions', () => {
   });
 
   it('renders displayVisualization function', () => {
-    const wrapper1 = mount(<div>{displayVisualization(samplePPLResponse, 'bar', false)}</div>);
+    const wrapper1 = mount(
+      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'bar')}</div>
+    );
     expect(wrapper1).toMatchSnapshot();
 
-    const wrapper2 = mount(<div>{displayVisualization(samplePPLResponse, 'line', true)}</div>);
+    const wrapper2 = mount(
+      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'line')}</div>
+    );
     expect(wrapper2).toMatchSnapshot();
 
     const wrapper3 = mount(
-      <div>{displayVisualization(samplePPLResponse, 'horizontal_bar', false)}</div>
+      <div>
+        {displayVisualization(sampleSavedVisualization, samplePPLResponse, 'horizontal_bar')}
+      </div>
     );
     expect(wrapper3).toMatchSnapshot();
 
     const wrapper4 = mount(
-      <div>{displayVisualization(samplePPLEmptyResponse, 'horizontal_bar', true)}</div>
+      <div>{displayVisualization({}, samplePPLEmptyResponse, 'horizontal_bar')}</div>
     );
     expect(wrapper4).toMatchSnapshot();
   });

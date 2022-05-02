@@ -39,6 +39,7 @@ describe('Search bar components', () => {
         setEndTime={setEndTime}
         filters={[]}
         setFilters={setFilters}
+        appConfigs={[]}
       />
     );
     expect(wrapper).toMatchSnapshot();

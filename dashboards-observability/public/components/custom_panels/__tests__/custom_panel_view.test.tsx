@@ -17,6 +17,7 @@ import {
 } from '../../../../test/panels_constants';
 import httpClientMock from '../../../../test/__mocks__/httpClientMock';
 import PPLService from '../../../../public/services/requests/ppl';
+import DSLService from '../../../../public/services/requests/dsl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
 
@@ -30,24 +31,39 @@ describe('Panels View Component', () => {
     const panelId = 'L8Sx53wBDp0rvEg3yoLb';
     const http = httpClientMock;
     const pplService = new PPLService(httpClientMock);
+    const dslService = new DSLService(httpClientMock);
     const core = coreStartMock;
-    const parentBreadcrumb = panelBreadCrumbs;
+    const parentBreadcrumbs = panelBreadCrumbs;
+    const start = 'now-30m';
+    const end = 'now';
+    const setStart = jest.fn();
+    const setEnd = jest.fn();
     const renameCustomPanel = jest.fn();
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
     const setToast = jest.fn();
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <CustomPanelView
         panelId={panelId}
         http={http}
         pplService={pplService}
+        dslService={dslService}
         chrome={core.chrome}
-        parentBreadcrumb={parentBreadcrumb}
+        parentBreadcrumbs={parentBreadcrumbs}
         renameCustomPanel={renameCustomPanel}
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        onEditClick={onEditClick}
+        startTime={start}
+        endTime={end}
+        setStartTime={setStart}
+        setEndTime={setEnd}
+        page="operationalPanels"
       />
     );
     wrapper.update();
@@ -74,24 +90,39 @@ describe('Panels View Component', () => {
     const panelId = 'L8Sx53wBDp0rvEg3yoLb';
     const http = httpClientMock;
     const pplService = new PPLService(httpClientMock);
+    const dslService = new DSLService(httpClientMock);
     const core = coreStartMock;
-    const parentBreadcrumb = panelBreadCrumbs;
+    const parentBreadcrumbs = panelBreadCrumbs;
+    const start = 'now-30m';
+    const end = 'now';
+    const setStart = jest.fn();
+    const setEnd = jest.fn();
     const renameCustomPanel = jest.fn();
     const cloneCustomPanel = jest.fn();
     const deleteCustomPanel = jest.fn();
     const setToast = jest.fn();
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <CustomPanelView
         panelId={panelId}
         http={http}
         pplService={pplService}
+        dslService={dslService}
         chrome={core.chrome}
-        parentBreadcrumb={parentBreadcrumb}
+        parentBreadcrumbs={parentBreadcrumbs}
         renameCustomPanel={renameCustomPanel}
         cloneCustomPanel={cloneCustomPanel}
         deleteCustomPanel={deleteCustomPanel}
         setToast={setToast}
+        onEditClick={onEditClick}
+        startTime={start}
+        endTime={end}
+        setStartTime={setStart}
+        setEndTime={setEnd}
+        page="operationalPanels"
       />
     );
     wrapper.update();
