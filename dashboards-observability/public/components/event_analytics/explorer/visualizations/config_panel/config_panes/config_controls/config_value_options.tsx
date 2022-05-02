@@ -36,12 +36,6 @@ export const ConfigValueOptions = ({
     vis.name === TIME_SERIES ? fields.filter((item) => schema.name === X_AXIS ? item.type === TIMESTAMP : item.type !== TIMESTAMP)
     : fields.map((item) => ({ ...item }));
 
-  // get dropDownOptions list
-  // If chat is time-series then filter out timestamp fields to category axis (xaxis)
-  const getDropdownList = (schema) => schema?.options?.map((option) => ({ name: option })) ||
-    vis.name === TIME_SERIES ? fields.filter((item) => schema.name === X_AXIS ? item.type === TIMESTAMP : item.type !== TIMESTAMP)
-    : fields.map((item) => ({ ...item }));
-
   const dimensions = useMemo(() => {
     return schemas.map((schema, index) => {
       const DimensionComponent = schema.component || PanelItem;
