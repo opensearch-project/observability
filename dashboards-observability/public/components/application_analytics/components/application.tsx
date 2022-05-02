@@ -496,8 +496,8 @@ export function Application(props: AppDetailProps) {
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle data-test-subj="applicationTitle" size="l">
-                <h1>{application.name}</h1>
+              <EuiTitle size="l">
+                <h1 data-test-subj="applicationTitle">{application.name}</h1>
               </EuiTitle>
               <EuiText>
                 <p>{application.description}</p>
