@@ -7,6 +7,7 @@ import click
 import sys
 from scheduler import Scheduler
 import certifi
+import logging
 
 from opensearchpy import OpenSearch
 
@@ -49,6 +50,7 @@ def cli(
     client_cert_key_path,
     ca_certs_path,
     use_aws_authentication,
+    ip_info_access_token
     ):
     host_add = endpoint
     if host and port:
@@ -66,8 +68,10 @@ def cli(
             ca_certs=ca_certs_path
     )
 
-    Scheduler(client)
+    Scheduler(client, ip_info_access_token)
 
 if __name__ == '__main__':
+    # uncomment below line to enable info level logging
+    # logging.basicConfig(level=logging.INFO)
     cli()
     
