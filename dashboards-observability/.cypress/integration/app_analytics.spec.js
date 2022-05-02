@@ -116,13 +116,15 @@ describe('Creating application', () => {
     cy.visit(
       `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/operational_panels/`
     );
-    if (cy.get('.euiButton').contains('Create panel').length < 2) {
-      cy.get('[data-test-subj="operationalPanelSearchBar"]').type(`${nameOne}'s Panel`, {delay: TYPING_DELAY});
-      cy.wait(delay);
-      cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
-      cy.get('.euiFormControlLayoutClearButton').click();
-      cy.wait(delay);
-    }
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-test-subj="customPanels__emptyCreateNewPanels"]').length == 1) {
+        cy.get('[data-test-subj="operationalPanelSearchBar"]').type(`${nameOne}'s Panel`, {delay: TYPING_DELAY});
+        cy.wait(delay);
+        cy.get('.euiTableCellContent__text').contains('No items found').should('exist');
+        cy.get('.euiFormControlLayoutClearButton').click();
+        cy.wait(delay);
+      }
+    });
   });
 
   it('Redirects to home page on cancel', () => {

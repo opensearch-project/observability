@@ -386,7 +386,11 @@ export const CustomPanelTable = ({
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false} onClick={() => createPanel()}>
+                    <EuiButton
+                      data-test-subj="customPanels__emptyCreateNewPanels"
+                      fullWidth={false}
+                      onClick={() => createPanel()}
+                    >
                       Create panel
                     </EuiButton>
                   </EuiFlexItem>
