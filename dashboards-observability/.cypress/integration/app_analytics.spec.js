@@ -337,7 +337,6 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').click().type(visOneName);
     cy.wait(delay);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    // cy.wait(delay);
     cy.get('[data-test-subj="app-analytics-panelTab"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="Flights to VeniceVisualizationPanel"]').should('exist');

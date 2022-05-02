@@ -471,11 +471,13 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                           className="euiFlexItem euiFlexItem--flexGrowZero"
                         >
                           <EuiButton
+                            data-test-subj="customPanels__emptyCreateNewPanels"
                             fullWidth={false}
                             onClick={[Function]}
                           >
                             <EuiButtonDisplay
                               baseClassName="euiButton"
+                              data-test-subj="customPanels__emptyCreateNewPanels"
                               disabled={false}
                               element="button"
                               fullWidth={false}
@@ -485,6 +487,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                             >
                               <button
                                 className="euiButton euiButton--primary"
+                                data-test-subj="customPanels__emptyCreateNewPanels"
                                 disabled={false}
                                 onClick={[Function]}
                                 style={
