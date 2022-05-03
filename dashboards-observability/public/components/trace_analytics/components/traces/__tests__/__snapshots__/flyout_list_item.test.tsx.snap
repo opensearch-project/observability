@@ -4,6 +4,7 @@ exports[`<FlyoutListItem /> spec renders the component 1`] = `
 <div>
   <dl
     class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+    data-test-subj="Span IDDescriptionList"
   >
     <dt
       class="euiDescriptionList__title"

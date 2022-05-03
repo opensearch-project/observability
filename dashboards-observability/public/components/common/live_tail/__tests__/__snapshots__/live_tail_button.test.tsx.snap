@@ -15,7 +15,6 @@ exports[`Live tail button change live tail to 10s interval 1`] = `
     onClick={[Function]}
   >
     <EuiButtonDisplay
-      baseClassName="euiButton"
       data-test-subj=""
       disabled={false}
       element="button"
@@ -30,11 +29,6 @@ exports[`Live tail button change live tail to 10s interval 1`] = `
         data-test-subj=""
         disabled={false}
         onClick={[Function]}
-        style={
-          Object {
-            "minWidth": undefined,
-          }
-        }
         type="button"
       >
         <EuiButtonContent
@@ -52,20 +46,19 @@ exports[`Live tail button change live tail to 10s interval 1`] = `
           >
             <EuiIcon
               className="euiButtonContent__icon"
-              color="inherit"
               size="m"
               type="stop"
             >
               <EuiIconStop
                 aria-hidden={true}
-                className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                className="euiIcon euiIcon--medium euiButtonContent__icon"
                 focusable="false"
                 role="img"
                 style={null}
               >
                 <svg
                   aria-hidden={true}
-                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                  className="euiIcon euiIcon--medium euiButtonContent__icon"
                   focusable="false"
                   height={16}
                   role="img"
@@ -109,7 +102,6 @@ exports[`Live tail button starts live tail with 5s interval 1`] = `
     onClick={[Function]}
   >
     <EuiButtonDisplay
-      baseClassName="euiButton"
       data-test-subj=""
       disabled={false}
       element="button"
@@ -124,11 +116,6 @@ exports[`Live tail button starts live tail with 5s interval 1`] = `
         data-test-subj=""
         disabled={false}
         onClick={[Function]}
-        style={
-          Object {
-            "minWidth": undefined,
-          }
-        }
         type="button"
       >
         <EuiButtonContent
@@ -146,20 +133,19 @@ exports[`Live tail button starts live tail with 5s interval 1`] = `
           >
             <EuiIcon
               className="euiButtonContent__icon"
-              color="inherit"
               size="m"
               type="stop"
             >
               <EuiIconEmpty
                 aria-hidden={true}
-                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                 focusable="false"
                 role="img"
                 style={null}
               >
                 <svg
                   aria-hidden={true}
-                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                   focusable="false"
                   height={16}
                   role="img"
@@ -195,7 +181,6 @@ exports[`Live tail off button stop live tail 1`] = `
     onClick={[Function]}
   >
     <EuiButtonDisplay
-      baseClassName="euiButton"
       color="danger"
       data-test-subj=""
       disabled={false}
@@ -210,11 +195,6 @@ exports[`Live tail off button stop live tail 1`] = `
         data-test-subj=""
         disabled={false}
         onClick={[Function]}
-        style={
-          Object {
-            "minWidth": undefined,
-          }
-        }
         type="button"
       >
         <EuiButtonContent
@@ -232,20 +212,19 @@ exports[`Live tail off button stop live tail 1`] = `
           >
             <EuiIcon
               className="euiButtonContent__icon"
-              color="inherit"
               size="m"
               type="stop"
             >
               <EuiIconStop
                 aria-hidden={true}
-                className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                className="euiIcon euiIcon--medium euiButtonContent__icon"
                 focusable="false"
                 role="img"
                 style={null}
               >
                 <svg
                   aria-hidden={true}
-                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                  className="euiIcon euiIcon--medium euiButtonContent__icon"
                   focusable="false"
                   height={16}
                   role="img"

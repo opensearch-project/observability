@@ -696,7 +696,7 @@ export const Explorer = ({
       id: tabID,
       name: (
         <>
-          <EuiText size="s" textAlign="left" color="default">
+          <EuiText data-test-subj={`${tabID}Tab`} size="s" textAlign="left" color="default">
             <span className="tab-title">{tabTitle}</span>
           </EuiText>
         </>

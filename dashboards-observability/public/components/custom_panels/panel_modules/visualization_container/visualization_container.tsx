@@ -88,6 +88,7 @@ export const VisualizationContainer = ({
 
   let popoverPanel = [
     <EuiContextMenuItem
+      data-test-subj="editVizContextMenuItem"
       key="Edit"
       disabled={disablePopover}
       onClick={() => {
@@ -145,7 +146,7 @@ export const VisualizationContainer = ({
       <div className="visualization-div">
         {isLoading ? (
           <EuiLoadingChart size="xl" mono className="visualization-loading-chart" />
-        ) : isError != '' ? (
+        ) : isError !== '' ? (
           <div className="visualization-error-div">
             <EuiIcon type="alert" color="danger" size="s" />
             <EuiSpacer size="s" />
@@ -170,7 +171,11 @@ export const VisualizationContainer = ({
   }, [editMode]);
 
   return (
-    <EuiPanel className="panel-full-width" grow={false}>
+    <EuiPanel
+      data-test-subj={`${visualizationTitle}VisualizationPanel`}
+      className="panel-full-width"
+      grow={false}
+    >
       <div className={editMode ? 'mouseGrabber' : ''}>
         <EuiFlexGroup justifyContent="spaceBetween">
           <EuiFlexItem

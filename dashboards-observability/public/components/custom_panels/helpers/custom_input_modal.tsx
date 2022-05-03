@@ -77,7 +77,12 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
         <EuiModalBody>
           <EuiForm>
             <EuiFormRow label={labelTxt} helpText={helpText}>
-              <EuiFieldText name="input" value={value} onChange={(e) => onChange(e)} />
+              <EuiFieldText
+                data-test-subj="customModalFieldText"
+                name="input"
+                value={value}
+                onChange={(e) => onChange(e)}
+              />
             </EuiFormRow>
           </EuiForm>
         </EuiModalBody>
@@ -85,11 +90,15 @@ export const CustomInputModal = (props: CustomInputModalProps) => {
         <EuiModalFooter>
           <EuiButtonEmpty onClick={closeModal}>{btn1txt}</EuiButtonEmpty>
           {optionalArgs === undefined ? (
-            <EuiButton onClick={() => runModal(value)} fill>
+            <EuiButton data-test-subj="runModalButton" onClick={() => runModal(value)} fill>
               {btn2txt}
             </EuiButton>
           ) : (
-            <EuiButton onClick={() => runModal(value, ...optionalArgs)} fill>
+            <EuiButton
+              data-test-subj="runModalButton"
+              onClick={() => runModal(value, ...optionalArgs)}
+              fill
+            >
               {btn2txt}
             </EuiButton>
           )}

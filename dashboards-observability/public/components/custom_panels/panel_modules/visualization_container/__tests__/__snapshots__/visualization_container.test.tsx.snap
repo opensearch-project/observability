@@ -22,9 +22,11 @@ exports[`Visualization Container Component renders add visualization container 1
 >
   <EuiPanel
     className="panel-full-width"
+    data-test-subj="VisualizationPanel"
     grow={false}
   >
     <div
+<<<<<<< HEAD
       className="euiPanel euiPanel--paddingMedium euiPanel--flexGrowZero panel-full-width"
     >
       <div
@@ -174,6 +176,10 @@ exports[`Visualization Container Component renders add visualization container 2
   >
     <div
       className="euiPanel euiPanel--paddingMedium euiPanel--flexGrowZero panel-full-width"
+=======
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPanel--flexGrowZero panel-full-width"
+      data-test-subj="VisualizationPanel"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
     >
       <div
         className="mouseGrabber"

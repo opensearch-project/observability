@@ -17,6 +17,10 @@ import {
   EuiComboBox,
   EuiPanel,
   EuiIcon,
+<<<<<<< HEAD:dashboards-observability/public/components/explorer/visualizations/config_panel/config_panel.tsx
+=======
+  EuiComboBoxOptionOption,
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704)):dashboards-observability/public/components/event_analytics/explorer/visualizations/config_panel/config_panel.tsx
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
@@ -186,7 +190,11 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         gutterSize="none"
         responsive={false}
       >
+<<<<<<< HEAD:dashboards-observability/public/components/explorer/visualizations/config_panel/config_panel.tsx
         <EuiFlexItem>
+=======
+        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704)):dashboards-observability/public/components/event_analytics/explorer/visualizations/config_panel/config_panel.tsx
           <EuiSpacer size="s" />
           <EuiComboBox
             aria-label="config chart selector"

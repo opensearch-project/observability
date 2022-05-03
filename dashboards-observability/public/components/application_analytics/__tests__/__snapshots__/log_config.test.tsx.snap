@@ -68,8 +68,10 @@ exports[`Log Config component renders empty log config 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="logSourceAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearLogSourceButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -86,6 +88,7 @@ exports[`Log Config component renders empty log config 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="logSourceAccordion"
         onToggle={[Function]}
       >
         <div
@@ -174,11 +177,13 @@ exports[`Log Config component renders empty log config 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearLogSourceButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
+                data-test-subj="clearLogSourceButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -188,6 +193,7 @@ exports[`Log Config component renders empty log config 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearLogSourceButton"
                   disabled={true}
                   onClick={[Function]}
                   type="button"
@@ -542,8 +548,10 @@ exports[`Log Config component renders with query 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="logSourceAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearLogSourceButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -560,6 +568,7 @@ exports[`Log Config component renders with query 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="logSourceAccordion"
         onToggle={[Function]}
       >
         <div
@@ -653,11 +662,13 @@ exports[`Log Config component renders with query 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearLogSourceButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
+                data-test-subj="clearLogSourceButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -667,6 +678,7 @@ exports[`Log Config component renders with query 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearLogSourceButton"
                   disabled={true}
                   onClick={[Function]}
                   type="button"

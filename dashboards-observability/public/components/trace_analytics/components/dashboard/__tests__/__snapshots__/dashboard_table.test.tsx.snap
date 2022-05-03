@@ -393,6 +393,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
             },
           ]
         }
+        data-test-subj="dashboardTable"
         items={
           Array [
             Object {
@@ -640,6 +641,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
               },
             ]
           }
+          data-test-subj="dashboardTable"
           items={
             Array [
               Object {
@@ -715,6 +717,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
         >
           <div
             className="euiBasicTable"
+            data-test-subj="dashboardTable"
           >
             <div>
               <EuiTableHeaderMobile>
@@ -2289,6 +2292,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                             ]
                                           }
                                           debug={false}
+                                          divId="explorerPlotComponent"
                                           layout={
                                             Object {
                                               "autosize": true,
@@ -2341,6 +2345,7 @@ exports[`Dashboard table component renders dashboard table 1`] = `
                                           useResizeHandler={true}
                                         >
                                           <div
+                                            id="explorerPlotComponent"
                                             style={
                                               Object {
                                                 "height": "100%",

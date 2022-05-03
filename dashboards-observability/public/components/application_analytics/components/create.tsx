@@ -172,7 +172,7 @@ export const CreateApp = (props: CreateAppProps) => {
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
+              <EuiTitle data-test-subj="createPageTitle" size="l">
                 <h1>{editMode ? 'Edit' : 'Create'} application</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
@@ -230,11 +230,18 @@ export const CreateApp = (props: CreateAppProps) => {
           <EuiSpacer />
           <EuiFlexGroup>
             <EuiFlexItem grow={false}>
-              <EuiButton onClick={onCancel}>Cancel</EuiButton>
+              <EuiButton data-test-subj="cancelCreateButton" onClick={onCancel}>
+                Cancel
+              </EuiButton>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField()}>
-                <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
+                <EuiButton
+                  isDisabled={isDisabled}
+                  data-test-subj="createButton"
+                  onClick={editMode ? onUpdate : onCreate}
+                  fill
+                >
                   {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>

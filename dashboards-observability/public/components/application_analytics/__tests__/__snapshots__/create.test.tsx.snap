@@ -27,6 +27,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -154,6 +155,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -213,6 +215,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearLogSourceButton"
                         type="button"
                       >
                         <span
@@ -341,6 +344,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -378,9 +382,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -411,6 +417,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -737,6 +744,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -774,9 +782,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -807,6 +817,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -1055,6 +1066,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -1076,6 +1088,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -1236,6 +1249,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -1363,6 +1377,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -1422,6 +1437,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearLogSourceButton"
                       type="button"
                     >
                       <span
@@ -1550,6 +1566,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -1587,9 +1604,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -1620,6 +1639,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -1946,6 +1966,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -1983,9 +2004,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -2016,6 +2039,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -2264,6 +2288,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -2285,6 +2310,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -2383,6 +2409,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -2510,6 +2537,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -2569,6 +2597,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -2696,6 +2725,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -2733,9 +2763,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -2766,6 +2798,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -3092,6 +3125,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -3129,9 +3163,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="1"
                             >
@@ -3166,6 +3202,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearTraceGroupsButton"
                         type="button"
                       >
                         <span
@@ -3443,6 +3480,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -3464,6 +3502,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -3503,6 +3542,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -3630,6 +3670,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -3689,6 +3730,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -3816,6 +3858,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -3853,9 +3896,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -3886,6 +3931,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -4212,6 +4258,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -4249,9 +4296,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="1"
                           >
@@ -4286,6 +4335,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearTraceGroupsButton"
                       type="button"
                     >
                       <span
@@ -4563,6 +4613,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -4584,6 +4635,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -4682,6 +4734,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -4809,6 +4862,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -4868,6 +4922,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -4995,6 +5050,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -5032,9 +5088,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="1"
                             >
@@ -5069,6 +5127,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearServicesEntitiesButton"
                         type="button"
                       >
                         <span
@@ -5424,6 +5483,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -5461,9 +5521,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -5494,6 +5556,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -5742,6 +5805,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -5763,6 +5827,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -5802,6 +5867,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -5929,6 +5995,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -5988,6 +6055,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -6115,6 +6183,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -6152,9 +6221,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="1"
                           >
@@ -6189,6 +6260,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearServicesEntitiesButton"
                       type="button"
                     >
                       <span
@@ -6544,6 +6616,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -6581,9 +6654,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -6614,6 +6689,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -6862,6 +6938,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -6883,6 +6960,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -6979,6 +7057,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -7106,6 +7185,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -7160,6 +7240,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -7287,6 +7368,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -7319,9 +7401,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -7352,6 +7436,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -7669,6 +7754,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -7701,9 +7787,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -7734,6 +7822,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -7977,6 +8066,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -7998,6 +8088,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -8037,6 +8128,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -8164,6 +8256,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -8218,6 +8311,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -8345,6 +8439,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -8377,9 +8472,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -8410,6 +8507,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -8727,6 +8825,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -8759,9 +8858,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -8792,6 +8893,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -9035,6 +9137,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -9056,6 +9159,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -9152,6 +9256,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -9279,6 +9384,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -9338,6 +9444,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -9467,6 +9574,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -9504,9 +9612,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -9537,6 +9647,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -9863,6 +9974,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -9900,9 +10012,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -9933,6 +10047,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -10181,6 +10296,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -10202,6 +10318,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill"
+                    data-test-subj="createButton"
                     type="button"
                   >
                     <span
@@ -10240,6 +10357,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -10367,6 +10485,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -10426,6 +10545,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -10555,6 +10675,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -10592,9 +10713,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -10625,6 +10748,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -10951,6 +11075,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -10988,9 +11113,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -11021,6 +11148,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -11269,6 +11397,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -11290,6 +11419,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill"
+                  data-test-subj="createButton"
                   type="button"
                 >
                   <span
@@ -11387,6 +11517,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -11514,6 +11645,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -11573,6 +11705,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -11700,6 +11833,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -11737,9 +11871,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="1"
                             >
@@ -11774,6 +11910,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearServicesEntitiesButton"
                         type="button"
                       >
                         <span
@@ -12129,6 +12266,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -12166,9 +12304,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -12199,6 +12339,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -12447,6 +12588,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -12468,6 +12610,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -12507,6 +12650,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -12634,6 +12778,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -12693,6 +12838,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -12820,6 +12966,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -12857,9 +13004,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="1"
                           >
@@ -12894,6 +13043,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearServicesEntitiesButton"
                       type="button"
                     >
                       <span
@@ -13249,6 +13399,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -13286,9 +13437,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -13319,6 +13472,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -13567,6 +13721,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -13588,6 +13743,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -13686,6 +13842,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -13813,6 +13970,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -13872,6 +14030,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearLogSourceButton"
                         disabled=""
                         type="button"
                       >
@@ -13999,6 +14158,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -14036,9 +14196,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -14069,6 +14231,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -14395,6 +14558,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -14432,9 +14596,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="1"
                             >
@@ -14469,6 +14635,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearTraceGroupsButton"
                         type="button"
                       >
                         <span
@@ -14746,6 +14913,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -14767,6 +14935,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -14806,6 +14975,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -14933,6 +15103,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -14992,6 +15163,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearLogSourceButton"
                       disabled=""
                       type="button"
                     >
@@ -15119,6 +15291,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -15156,9 +15329,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -15189,6 +15364,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -15515,6 +15691,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -15552,9 +15729,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="1"
                           >
@@ -15589,6 +15768,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearTraceGroupsButton"
                       type="button"
                     >
                       <span
@@ -15866,6 +16046,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -15887,6 +16068,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >
@@ -15988,6 +16170,7 @@ Object {
               >
                 <h1
                   class="euiTitle euiTitle--large"
+                  data-test-subj="createPageTitle"
                 >
                   Create
                    application
@@ -16115,6 +16298,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion euiAccordion-isOpen"
+                  data-test-subj="logSourceAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -16174,6 +16358,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small"
+                        data-test-subj="clearLogSourceButton"
                         type="button"
                       >
                         <span
@@ -16302,6 +16487,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="servicesEntitiesAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -16339,9 +16525,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Services & entities 
+                            Services & entities
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="servicesEntitiesCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -16372,6 +16560,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearServicesEntitiesButton"
                         disabled=""
                         type="button"
                       >
@@ -16698,6 +16887,7 @@ Object {
               <div>
                 <div
                   class="euiAccordion"
+                  data-test-subj="traceGroupsAccordion"
                 >
                   <div
                     class="euiAccordion__triggerWrapper"
@@ -16735,9 +16925,11 @@ Object {
                           class="euiText euiText--small"
                         >
                           <h3>
-                            Trace groups 
+                            Trace groups
+                             
                             <span
                               class="euiBadge euiBadge--iconLeft"
+                              data-test-subj="traceGroupsCountBadge"
                               style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                               title="0"
                             >
@@ -16768,6 +16960,7 @@ Object {
                     >
                       <button
                         class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                        data-test-subj="clearTraceGroupsButton"
                         disabled=""
                         type="button"
                       >
@@ -17016,6 +17209,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary"
+                  data-test-subj="cancelCreateButton"
                   type="button"
                 >
                   <span
@@ -17037,6 +17231,7 @@ Object {
                 >
                   <button
                     class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createButton"
                     disabled=""
                     type="button"
                   >
@@ -17193,6 +17388,7 @@ Object {
             >
               <h1
                 class="euiTitle euiTitle--large"
+                data-test-subj="createPageTitle"
               >
                 Create
                  application
@@ -17320,6 +17516,7 @@ Object {
             <div>
               <div
                 class="euiAccordion euiAccordion-isOpen"
+                data-test-subj="logSourceAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -17379,6 +17576,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small"
+                      data-test-subj="clearLogSourceButton"
                       type="button"
                     >
                       <span
@@ -17507,6 +17705,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="servicesEntitiesAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -17544,9 +17743,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Services & entities 
+                          Services & entities
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="servicesEntitiesCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -17577,6 +17778,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearServicesEntitiesButton"
                       disabled=""
                       type="button"
                     >
@@ -17903,6 +18105,7 @@ Object {
             <div>
               <div
                 class="euiAccordion"
+                data-test-subj="traceGroupsAccordion"
               >
                 <div
                   class="euiAccordion__triggerWrapper"
@@ -17940,9 +18143,11 @@ Object {
                         class="euiText euiText--small"
                       >
                         <h3>
-                          Trace groups 
+                          Trace groups
+                           
                           <span
                             class="euiBadge euiBadge--iconLeft"
+                            data-test-subj="traceGroupsCountBadge"
                             style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
                             title="0"
                           >
@@ -17973,6 +18178,7 @@ Object {
                   >
                     <button
                       class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                      data-test-subj="clearTraceGroupsButton"
                       disabled=""
                       type="button"
                     >
@@ -18221,6 +18427,7 @@ Object {
             >
               <button
                 class="euiButton euiButton--primary"
+                data-test-subj="cancelCreateButton"
                 type="button"
               >
                 <span
@@ -18242,6 +18449,7 @@ Object {
               >
                 <button
                   class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createButton"
                   disabled=""
                   type="button"
                 >

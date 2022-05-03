@@ -93,6 +93,7 @@ export const LogConfig = (props: LogConfigProps) => {
     <div>
       <EuiAccordion
         id="logSource"
+        data-test-subj="logSourceAccordion"
         buttonContent={
           <>
             <EuiText size="s">
@@ -107,6 +108,7 @@ export const LogConfig = (props: LogConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearLogSourceButton"
             disabled={!logOpen || !query.length || editMode}
             onClick={clearAllModal}
           >
