@@ -29,7 +29,7 @@ export const EmptyPanelView = ({
   return (
     <div>
       <EuiSpacer size="xxl" />
-      <EuiText textAlign="center">
+      <EuiText data-test-subj="addFirstVisualizationText" textAlign="center">
         <h2>Start by adding your first visualization</h2>
         <EuiSpacer size="m" />
         <EuiText color="subdued" size="m">

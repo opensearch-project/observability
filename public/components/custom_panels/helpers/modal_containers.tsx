@@ -149,7 +149,7 @@ export const DeletePanelModal = ({
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={onCancel}>Cancel</EuiButtonEmpty>
-          <EuiButton 
+          <EuiButton
             onClick={() => onConfirm()}
             color="danger"
             fill

@@ -135,11 +135,15 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     <div>
       <EuiAccordion
         id="servicesEntities"
+        data-test-subj="servicesEntitiesAccordion"
         buttonContent={
           <>
             <EuiText size="s">
               <h3>
-                Services & entities <EuiBadge>{selectedServices.length}</EuiBadge>
+                Services & entities{' '}
+                <EuiBadge data-test-subj="servicesEntitiesCountBadge">
+                  {selectedServices.length}
+                </EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />
@@ -151,6 +155,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearServicesEntitiesButton"
             disabled={!servicesOpen || !selectedServices.length}
             onClick={clearAllModal}
           >
