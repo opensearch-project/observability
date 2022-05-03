@@ -211,11 +211,13 @@ export const TraceConfig = (props: TraceConfigProps) => {
     <div>
       <EuiAccordion
         id="traceGroups"
+        data-test-subj="traceGroupsAccordion"
         buttonContent={
           <>
             <EuiText size="s">
               <h3>
-                Trace groups <EuiBadge>{selectedTraces.length}</EuiBadge>
+                Trace groups{' '}
+                <EuiBadge data-test-subj="traceGroupsCountBadge">{selectedTraces.length}</EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />
@@ -227,6 +229,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearTraceGroupsButton"
             disabled={!traceOpen || !selectedTraces.length}
             onClick={clearAllModal}
           >

@@ -421,6 +421,7 @@ exports[`Pie component Renders pie component 1`] = `
         ]
       }
       debug={false}
+      divId="explorerPlotComponent"
       layout={
         Object {
           "autosize": true,
@@ -469,6 +470,7 @@ exports[`Pie component Renders pie component 1`] = `
       useResizeHandler={true}
     >
       <div
+        id="explorerPlotComponent"
         style={
           Object {
             "height": "100%",

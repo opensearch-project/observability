@@ -114,6 +114,7 @@ exports[`Count distribution component Renders count distribution component with 
         ]
       }
       debug={false}
+      divId="explorerPlotComponent"
       layout={
         Object {
           "autosize": true,
@@ -157,6 +158,7 @@ exports[`Count distribution component Renders count distribution component with 
       useResizeHandler={true}
     >
       <div
+        id="explorerPlotComponent"
         style={
           Object {
             "height": "100%",

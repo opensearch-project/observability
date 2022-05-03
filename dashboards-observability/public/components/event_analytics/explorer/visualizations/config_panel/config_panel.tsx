@@ -17,7 +17,7 @@ import {
   EuiComboBox,
   EuiPanel,
   EuiIcon,
-  EuiComboBoxOptionOption
+  EuiComboBoxOptionOption,
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../../redux/slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
@@ -187,9 +187,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         gutterSize="none"
         responsive={false}
       >
-        <EuiFlexItem
-          data-test-subj="configPane__vizTypeSelector"
-        >
+        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
           <EuiSpacer size="s" />
           <EuiComboBox
             aria-label="config chart selector"

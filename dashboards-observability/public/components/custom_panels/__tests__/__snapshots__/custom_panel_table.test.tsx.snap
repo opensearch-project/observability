@@ -226,6 +226,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     anchorPosition="downCenter"
                                     button={
                                       <EuiButton
+                                        data-test-subj="operationalPanelsActionsButton"
                                         iconSide="right"
                                         iconType="arrowDown"
                                         onClick={[Function]}
@@ -247,12 +248,14 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                         className="euiPopover__anchor"
                                       >
                                         <EuiButton
+                                          data-test-subj="operationalPanelsActionsButton"
                                           iconSide="right"
                                           iconType="arrowDown"
                                           onClick={[Function]}
                                         >
                                           <EuiButtonDisplay
                                             baseClassName="euiButton"
+                                            data-test-subj="operationalPanelsActionsButton"
                                             disabled={false}
                                             element="button"
                                             iconSide="right"
@@ -263,6 +266,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                           >
                                             <button
                                               className="euiButton euiButton--primary"
+                                              data-test-subj="operationalPanelsActionsButton"
                                               disabled={false}
                                               onClick={[Function]}
                                               style={
@@ -467,11 +471,13 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                           className="euiFlexItem euiFlexItem--flexGrowZero"
                         >
                           <EuiButton
+                            data-test-subj="customPanels__emptyCreateNewPanels"
                             fullWidth={false}
                             onClick={[Function]}
                           >
                             <EuiButtonDisplay
                               baseClassName="euiButton"
+                              data-test-subj="customPanels__emptyCreateNewPanels"
                               disabled={false}
                               element="button"
                               fullWidth={false}
@@ -481,6 +487,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                             >
                               <button
                                 className="euiButton euiButton--primary"
+                                data-test-subj="customPanels__emptyCreateNewPanels"
                                 disabled={false}
                                 onClick={[Function]}
                                 style={
@@ -843,6 +850,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                     anchorPosition="downCenter"
                                     button={
                                       <EuiButton
+                                        data-test-subj="operationalPanelsActionsButton"
                                         iconSide="right"
                                         iconType="arrowDown"
                                         onClick={[Function]}
@@ -864,12 +872,14 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                         className="euiPopover__anchor"
                                       >
                                         <EuiButton
+                                          data-test-subj="operationalPanelsActionsButton"
                                           iconSide="right"
                                           iconType="arrowDown"
                                           onClick={[Function]}
                                         >
                                           <EuiButtonDisplay
                                             baseClassName="euiButton"
+                                            data-test-subj="operationalPanelsActionsButton"
                                             disabled={false}
                                             element="button"
                                             iconSide="right"
@@ -880,6 +890,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           >
                                             <button
                                               className="euiButton euiButton--primary"
+                                              data-test-subj="operationalPanelsActionsButton"
                                               disabled={false}
                                               onClick={[Function]}
                                               style={
@@ -1018,6 +1029,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                   </EuiHorizontalRule>
                   <EuiFieldSearch
                     compressed={false}
+                    data-test-subj="operationalPanelSearchBar"
                     fullWidth={true}
                     incremental={false}
                     isClearable={true}
@@ -1041,6 +1053,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                           <EuiValidatableControl>
                             <input
                               className="euiFieldSearch euiFieldSearch--fullWidth"
+                              data-test-subj="operationalPanelSearchBar"
                               onChange={[Function]}
                               onKeyUp={[Function]}
                               placeholder="Search operational panel name"
