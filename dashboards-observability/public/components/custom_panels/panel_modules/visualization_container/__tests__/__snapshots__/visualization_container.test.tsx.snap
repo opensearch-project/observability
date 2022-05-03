@@ -23,10 +23,12 @@ exports[`Visualization Container Component renders add visualization container 1
 >
   <EuiPanel
     className="panel-full-width"
+    data-test-subj="VisualizationPanel"
     grow={false}
   >
     <div
       className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPanel--flexGrowZero panel-full-width"
+      data-test-subj="VisualizationPanel"
     >
       <div
         className="mouseGrabber"

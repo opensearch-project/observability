@@ -68,8 +68,11 @@ exports[`Service Config component renders empty service config 1`] = `
             size="s"
           >
             <h3>
-              Services & entities 
-              <EuiBadge>
+              Services & entities
+               
+              <EuiBadge
+                data-test-subj="servicesEntitiesCountBadge"
+              >
                 0
               </EuiBadge>
             </h3>
@@ -85,8 +88,10 @@ exports[`Service Config component renders empty service config 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="servicesEntitiesAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearServicesEntitiesButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -103,6 +108,7 @@ exports[`Service Config component renders empty service config 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="servicesEntitiesAccordion"
         onToggle={[Function]}
       >
         <div
@@ -155,11 +161,15 @@ exports[`Service Config component renders empty service config 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Services & entities 
-                    <EuiBadge>
+                    Services & entities
+                     
+                    <EuiBadge
+                      data-test-subj="servicesEntitiesCountBadge"
+                    >
                       <EuiInnerText>
                         <span
                           className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="servicesEntitiesCountBadge"
                           style={
                             Object {
                               "backgroundColor": "#d3dae6",
@@ -211,12 +221,14 @@ exports[`Service Config component renders empty service config 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearServicesEntitiesButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
                 baseClassName="euiButton"
+                data-test-subj="clearServicesEntitiesButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -226,6 +238,7 @@ exports[`Service Config component renders empty service config 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearServicesEntitiesButton"
                   disabled={true}
                   onClick={[Function]}
                   style={
@@ -1139,8 +1152,11 @@ exports[`Service Config component renders with one service selected 1`] = `
             size="s"
           >
             <h3>
-              Services & entities 
-              <EuiBadge>
+              Services & entities
+               
+              <EuiBadge
+                data-test-subj="servicesEntitiesCountBadge"
+              >
                 0
               </EuiBadge>
             </h3>
@@ -1156,8 +1172,10 @@ exports[`Service Config component renders with one service selected 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="servicesEntitiesAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearServicesEntitiesButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -1174,6 +1192,7 @@ exports[`Service Config component renders with one service selected 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="servicesEntitiesAccordion"
         onToggle={[Function]}
       >
         <div
@@ -1231,11 +1250,15 @@ exports[`Service Config component renders with one service selected 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Services & entities 
-                    <EuiBadge>
+                    Services & entities
+                     
+                    <EuiBadge
+                      data-test-subj="servicesEntitiesCountBadge"
+                    >
                       <EuiInnerText>
                         <span
                           className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="servicesEntitiesCountBadge"
                           style={
                             Object {
                               "backgroundColor": "#d3dae6",
@@ -1287,12 +1310,14 @@ exports[`Service Config component renders with one service selected 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearServicesEntitiesButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
                 baseClassName="euiButton"
+                data-test-subj="clearServicesEntitiesButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -1302,6 +1327,7 @@ exports[`Service Config component renders with one service selected 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearServicesEntitiesButton"
                   disabled={true}
                   onClick={[Function]}
                   style={

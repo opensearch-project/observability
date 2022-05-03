@@ -24,6 +24,7 @@ exports[`Custom Input Model component renders custom input modal with multiple a
           labelType="label"
         >
           <EuiFieldText
+            data-test-subj="customModalFieldText"
             name="input"
             onChange={[Function]}
             value="Test Panel"
@@ -38,6 +39,7 @@ exports[`Custom Input Model component renders custom input modal with multiple a
         btn test
       </EuiButtonEmpty>
       <EuiButton
+        data-test-subj="runModalButton"
         fill={true}
         onClick={[Function]}
       >
@@ -71,6 +73,7 @@ exports[`Custom Input Model component renders custom input modal with single arg
           labelType="label"
         >
           <EuiFieldText
+            data-test-subj="customModalFieldText"
             name="input"
             onChange={[Function]}
             value=""
@@ -85,6 +88,7 @@ exports[`Custom Input Model component renders custom input modal with single arg
         btn test
       </EuiButtonEmpty>
       <EuiButton
+        data-test-subj="runModalButton"
         fill={true}
         onClick={[Function]}
       >
