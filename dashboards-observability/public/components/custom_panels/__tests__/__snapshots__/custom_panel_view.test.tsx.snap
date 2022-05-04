@@ -382,6 +382,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                 anchorPosition="downLeft"
                                 button={
                                   <EuiButton
+                                    data-test-subj="addVisualizationButton"
                                     disabled={false}
                                     iconSide="right"
                                     iconType="arrowDown"
@@ -406,6 +407,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
@@ -413,6 +415,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                     >
                                       <EuiButtonDisplay
                                         baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -423,6 +426,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           style={
@@ -1227,10 +1231,12 @@ exports[`Panels View Component renders panel view container with visualizations 
                       />
                     </EuiSpacer>
                     <EuiText
+                      data-test-subj="addFirstVisualizationText"
                       textAlign="center"
                     >
                       <div
                         className="euiText euiText--medium"
+                        data-test-subj="addFirstVisualizationText"
                       >
                         <EuiTextAlign
                           textAlign="center"
@@ -1298,6 +1304,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                 anchorPosition="downLeft"
                                 button={
                                   <EuiButton
+                                    data-test-subj="addVisualizationButton"
                                     disabled={false}
                                     iconSide="right"
                                     iconType="arrowDown"
@@ -1322,6 +1329,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
@@ -1329,6 +1337,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                     >
                                       <EuiButtonDisplay
                                         baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -1339,6 +1348,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           style={
@@ -1997,6 +2007,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                 anchorPosition="downLeft"
                                 button={
                                   <EuiButton
+                                    data-test-subj="addVisualizationButton"
                                     disabled={false}
                                     iconSide="right"
                                     iconType="arrowDown"
@@ -2021,6 +2032,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
@@ -2028,6 +2040,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                     >
                                       <EuiButtonDisplay
                                         baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -2038,6 +2051,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           style={
@@ -2823,10 +2837,12 @@ exports[`Panels View Component renders panel view container without visualizatio
                       />
                     </EuiSpacer>
                     <EuiText
+                      data-test-subj="addFirstVisualizationText"
                       textAlign="center"
                     >
                       <div
                         className="euiText euiText--medium"
+                        data-test-subj="addFirstVisualizationText"
                       >
                         <EuiTextAlign
                           textAlign="center"
@@ -2894,6 +2910,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                 anchorPosition="downLeft"
                                 button={
                                   <EuiButton
+                                    data-test-subj="addVisualizationButton"
                                     disabled={false}
                                     iconSide="right"
                                     iconType="arrowDown"
@@ -2918,6 +2935,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
@@ -2925,6 +2943,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                     >
                                       <EuiButtonDisplay
                                         baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -2935,6 +2954,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           style={

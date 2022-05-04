@@ -413,7 +413,12 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   );
 
   const addButton = (
-    <EuiButton iconType="plusInCircle" onClick={onAddClick} isDisabled={addVizDisabled}>
+    <EuiButton
+      data-test-subj="addVisualizationButton"
+      iconType="plusInCircle"
+      onClick={onAddClick}
+      isDisabled={addVizDisabled}
+    >
       Add
     </EuiButton>
   );

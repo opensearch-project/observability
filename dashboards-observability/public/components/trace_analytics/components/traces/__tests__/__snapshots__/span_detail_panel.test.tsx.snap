@@ -449,6 +449,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
               ]
             }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
@@ -500,6 +501,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",

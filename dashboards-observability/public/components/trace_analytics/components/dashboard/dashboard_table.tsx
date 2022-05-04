@@ -401,6 +401,7 @@ export function DashboardTable(props: {
         <EuiHorizontalRule margin="none" />
         {props.items?.length > 0 ? (
           <EuiInMemoryTable
+            data-test-subj="dashboardTable"
             tableLayout="auto"
             items={props.items}
             columns={columns}

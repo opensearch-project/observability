@@ -58,6 +58,7 @@ export const AddVisualizationPopover = ({
 
   const addVisualizationButton = (
     <EuiButton
+      data-test-subj="addVisualizationButton"
       iconType="arrowDown"
       iconSide="right"
       disabled={addVizDisabled}
