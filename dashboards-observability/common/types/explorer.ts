@@ -31,6 +31,7 @@ export interface IQueryTab {
 export interface IField {
   name: string;
   type: string;
+  label?: string;
 }
 
 export interface ITabQueryResults {

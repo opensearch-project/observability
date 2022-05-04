@@ -138,7 +138,7 @@ export const Explorer = ({
   const [liveHits, setLiveHits] = useState(0);
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
-  const [isInvalidDataConfigOptionSelected, setIsInvalidDataConfigOptionSelected] = useState<Boolean>(false);
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<Boolean>(false);
 
   const queryRef = useRef();
   const selectedPanelNameRef = useRef('');
@@ -715,9 +715,8 @@ export const Explorer = ({
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
-  const handleIsInvalidConfigOption = (isInvalidConfig: Boolean) =>
-    setIsInvalidDataConfigOptionSelected(isInvalidConfig);
-
+  const changeIsValidConfigOptionState = (isValidConfig: Boolean) =>
+    setIsValidDataConfigOptionSelected(isValidConfig);
 
   const getExplorerVis = () => {
     return (
@@ -731,7 +730,7 @@ export const Explorer = ({
         handleAddField={handleAddField}
         handleRemoveField={handleRemoveField}
         visualizations={visualizations}
-        updateIsDataConfigOptionsInvalid={handleIsInvalidConfigOption}
+        changeIsValidConfigOptionState={changeIsValidConfigOptionState}
       />
     );
   };
@@ -821,7 +820,7 @@ export const Explorer = ({
       setToast('Name field cannot be empty.', 'danger');
       return;
     }
-    if (isInvalidDataConfigOptionSelected) {
+    if (!isValidDataConfigOptionSelected) {
       setToast('Invalid value options configuration selected.', 'danger');
       return;
     }

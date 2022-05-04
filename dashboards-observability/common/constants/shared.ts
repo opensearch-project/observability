@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { IField } from '../../common/types/explorer';
 import CSS from 'csstype';
 
 // Client route
@@ -63,6 +64,29 @@ export const PLOTLY_COLOR = [
   '#4C636F',
 ];
 
+export enum visChartTypes {
+  Bar = 'bar',
+  HorizontalBar = 'horizontal_bar',
+  Line = 'line',
+  Pie = 'pie',
+  HeatMap = 'heatmap',
+  Text = 'text',
+  TimeSeries = 'time_series',
+  Gauge = 'gauge',
+  Histogram = 'histogram',
+  TreeMap = 'tree_map'
+}
+
+export interface ValueOptionsAxes {
+  xaxis ?: IField[];
+  yaxis ?: IField[];
+  zaxis ?: IField[];
+  childField?: IField[];
+  valueField?: IField[];
+  series?: IField[];
+  value?: IField[];
+}
+
 export const LONG_CHART_COLOR = PLOTLY_COLOR[1];
 
 export const pageStyles: CSS.Properties = {
@@ -73,7 +97,8 @@ export const pageStyles: CSS.Properties = {
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'heatmap', 'text'];
+const { Bar, HorizontalBar, Line, Pie, HeatMap, Text} = visChartTypes;
+export const ENABLED_VIS_TYPES = [Bar, HorizontalBar, Line, Pie, HeatMap, Text];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
