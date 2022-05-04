@@ -68,6 +68,7 @@ export const getListItem = (title: string, description: string | React.ReactElem
   return (
     <div key={`list-item-${title}`}>
       <EuiDescriptionList
+        data-test-subj={`${title}DescriptionList`}
         listItems={[
           {
             title: titleComponent,

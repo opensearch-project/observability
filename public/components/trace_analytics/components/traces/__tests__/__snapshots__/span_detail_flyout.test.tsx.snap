@@ -11,6 +11,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
   spanId="test"
 >
   <EuiFlyout
+    data-test-subj="spanDetailFlyout"
     onClose={[MockFunction]}
     size="s"
   >
@@ -39,6 +40,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
             >
               <div
                 class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                data-test-subj="spanDetailFlyout"
                 role="dialog"
                 tabindex="-1"
               >
@@ -182,6 +184,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                     >
                       <div
                         class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                        data-test-subj="spanDetailFlyout"
                         role="dialog"
                         tabindex="-1"
                       >
@@ -257,6 +260,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                       >
                         <div
                           class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                          data-test-subj="spanDetailFlyout"
                           role="dialog"
                           tabindex="-1"
                         >
@@ -332,6 +336,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                         >
                           <div
                             class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                            data-test-subj="spanDetailFlyout"
                             role="dialog"
                             tabindex="-1"
                           >
@@ -395,6 +400,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           >
                             <div
                               class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                              data-test-subj="spanDetailFlyout"
                               role="dialog"
                               tabindex="-1"
                             >
@@ -477,6 +483,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                     >
                       <div
                         className="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                        data-test-subj="spanDetailFlyout"
                         onMouseDown={[Function]}
                         onMouseUp={[Function]}
                         onTouchEnd={[Function]}

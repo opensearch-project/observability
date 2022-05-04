@@ -95,7 +95,12 @@ export const ConfigThresholds = ({
       buttonContent={sectionName}
       paddingSize="s"
     >
-      <EuiButton fullWidth size="s" onClick={handleAddThreshold}>
+      <EuiButton
+        data-test-subj="addThresholdButton"
+        fullWidth
+        size="s"
+        onClick={handleAddThreshold}
+      >
         {addButtonText}
       </EuiButton>
       <EuiSpacer size="s" />

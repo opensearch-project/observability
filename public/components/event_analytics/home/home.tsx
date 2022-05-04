@@ -349,7 +349,7 @@ export const Home = (props: IHomeProps) => {
         <EuiPageBody>
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
+              <EuiTitle data-test-subj="eventHomePageTitle" size="l">
                 <h1>Event analytics</h1>
               </EuiTitle>
             </EuiPageHeaderSection>

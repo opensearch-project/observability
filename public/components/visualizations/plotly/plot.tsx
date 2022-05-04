@@ -69,6 +69,7 @@ export function Plt(props: PltProps) {
 
   return (
     <PlotComponent
+      divId="explorerPlotComponent"
       data={props.data}
       style={{ width: '100%', height: props.height || '100%' }}
       onHover={props.onHoverHandler}
