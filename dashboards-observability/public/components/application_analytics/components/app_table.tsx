@@ -141,6 +141,7 @@ export function AppTable(props: AppTableProps) {
 
   const popoverButton = (
     <EuiButton
+      data-test-subj="appAnalyticsActionsButton"
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
@@ -152,6 +153,7 @@ export function AppTable(props: AppTableProps) {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="rename"
+      data-test-subj="renameApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length !== 1}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -168,6 +170,7 @@ export function AppTable(props: AppTableProps) {
     // </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
+      data-test-subj="deleteApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -183,7 +186,14 @@ export function AppTable(props: AppTableProps) {
     if (value.color === 'loading') {
       return <EuiLoadingSpinner />;
     } else if (value.name) {
-      return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
+      return (
+        <EuiBadge
+          data-test-subj={`${value.name}AvailabilityBadge`}
+          color={value.color || 'default'}
+        >
+          {value.name}
+        </EuiBadge>
+      );
     } else if (value.color === 'undefined') {
       return <EuiText>No match</EuiText>;
     } else if (value.color === 'null') {
@@ -204,7 +214,10 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/${record.id}`}>
+        <EuiLink
+          data-test-subj={`${record.name}ApplicationLink`}
+          href={`#/application_analytics/${record.id}`}
+        >
           {_.truncate(record.name, { length: 100 })}
         </EuiLink>
       ),
@@ -250,7 +263,7 @@ export function AppTable(props: AppTableProps) {
           <EuiPageContent id="applicationArea">
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
-                <EuiTitle size="s">
+                <EuiTitle data-test-subj="applicationHomePageTitle" size="s">
                   <h3>
                     Applications<span className="panel-header-count"> ({applications.length})</span>
                   </h3>
@@ -269,7 +282,7 @@ export function AppTable(props: AppTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill href={`#/application_analytics/create`}>
+                    <EuiButton fill href="#/application_analytics/create">
                       {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>

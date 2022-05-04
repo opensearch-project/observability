@@ -69,6 +69,7 @@ export const Configuration = (props: ConfigProps) => {
                   <EuiFlexItem>
                     <EuiButton
                       fill
+                      data-test-subj="editApplicationButton"
                       onClick={() => {
                         window.location.assign(
                           `${last(parentBreadcrumbs)!.href}application_analytics/edit/${appId}`
@@ -90,7 +91,7 @@ export const Configuration = (props: ConfigProps) => {
                   </EuiText>
                   <EuiSpacer size="m" />
                   <p>
-                    <EuiCode>{application.baseQuery}</EuiCode>
+                    <EuiCode data-test-subj="configBaseQueryCode">{application.baseQuery}</EuiCode>
                   </p>
                 </EuiFlexItem>
                 <EuiFlexItem>

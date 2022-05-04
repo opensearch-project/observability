@@ -14,10 +14,12 @@ exports[`Empty panel view component renders empty panel view with disabled popov
       />
     </EuiSpacer>
     <EuiText
+      data-test-subj="addFirstVisualizationText"
       textAlign="center"
     >
       <div
         className="euiText euiText--medium"
+        data-test-subj="addFirstVisualizationText"
       >
         <EuiTextAlign
           textAlign="center"
@@ -85,6 +87,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                 anchorPosition="downLeft"
                 button={
                   <EuiButton
+                    data-test-subj="addVisualizationButton"
                     disabled={true}
                     iconSide="right"
                     iconType="arrowDown"
@@ -109,6 +112,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                     className="euiPopover__anchor"
                   >
                     <EuiButton
+                      data-test-subj="addVisualizationButton"
                       disabled={true}
                       iconSide="right"
                       iconType="arrowDown"
@@ -116,6 +120,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                     >
                       <EuiButtonDisplay
                         baseClassName="euiButton"
+                        data-test-subj="addVisualizationButton"
                         disabled={true}
                         element="button"
                         iconSide="right"
@@ -126,6 +131,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
                       >
                         <button
                           className="euiButton euiButton--primary euiButton-isDisabled"
+                          data-test-subj="addVisualizationButton"
                           disabled={true}
                           onClick={[Function]}
                           style={
@@ -217,10 +223,12 @@ exports[`Empty panel view component renders empty panel view with enabled popove
       />
     </EuiSpacer>
     <EuiText
+      data-test-subj="addFirstVisualizationText"
       textAlign="center"
     >
       <div
         className="euiText euiText--medium"
+        data-test-subj="addFirstVisualizationText"
       >
         <EuiTextAlign
           textAlign="center"
@@ -288,6 +296,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                 anchorPosition="downLeft"
                 button={
                   <EuiButton
+                    data-test-subj="addVisualizationButton"
                     disabled={false}
                     iconSide="right"
                     iconType="arrowDown"
@@ -312,6 +321,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                     className="euiPopover__anchor"
                   >
                     <EuiButton
+                      data-test-subj="addVisualizationButton"
                       disabled={false}
                       iconSide="right"
                       iconType="arrowDown"
@@ -319,6 +329,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                     >
                       <EuiButtonDisplay
                         baseClassName="euiButton"
+                        data-test-subj="addVisualizationButton"
                         disabled={false}
                         element="button"
                         iconSide="right"
@@ -329,6 +340,7 @@ exports[`Empty panel view component renders empty panel view with enabled popove
                       >
                         <button
                           className="euiButton euiButton--primary"
+                          data-test-subj="addVisualizationButton"
                           disabled={false}
                           onClick={[Function]}
                           style={

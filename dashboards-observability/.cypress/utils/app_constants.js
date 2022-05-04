@@ -17,30 +17,28 @@ export const moveToHomePage = () => {
 
 export const moveToCreatePage = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 2);
-  cy.get('.euiButton__text').contains('Create application').click();
+  cy.get('.euiButton[href="#/application_analytics/create"]').eq(0).click();
   supressResizeObserverIssue();
-  cy.wait(delay);
-  cy.get('.euiTitle').contains('Create application').should('exist');
+  cy.get('[data-test-subj="createPageTitle"]').should('contain', 'Create application');
 };
 
 export const moveToApplication = (name) => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
   supressResizeObserverIssue();
   cy.wait(delay * 6);
-  cy.get('.euiLink').contains(name).click();
+  cy.get(`[data-test-subj="${name}ApplicationLink"]`).click();
   cy.wait(delay);
-  cy.get('.euiTitle').contains(name).should('exist');
+  cy.get('[data-test-subj="applicationTitle"]').should('contain', name);
   changeTimeTo24('years');
 };
 
 export const moveToEditPage = () => {
   moveToApplication(nameOne);
-  cy.get('.euiTab').contains('Configuration').click();
-  cy.get('.euiButton').contains('Edit').click();
+  cy.get('[data-test-subj="app-analytics-configTab"]').click();
+  cy.get('[data-test-subj="editApplicationButton"]').click();
   supressResizeObserverIssue();
   cy.wait(delay);
-  cy.get('.euiTitle').contains('Edit application');
+  cy.get('[data-test-subj="createPageTitle"]').should('contain', 'Edit application');
 };
 
 export const changeTimeTo24 = (timeUnit) => {
@@ -81,12 +79,8 @@ export const service_two = 'payment';
 export const trace_one = 'HTTP POST';
 export const trace_two = 'HTTP GET';
 export const trace_three = 'client_pay_order';
-export const spanQueryOnePartOne = 'where DestCityName ';
-export const spanQueryOnePartTwo = '= "Venice" | stats count() by span( timestamp ';
-export const spanQueryOnePartThree = ', 6h )';
-export const spanQueryTwoPartOne = 'where OriginCityName ';
-export const spanQueryTwoPartTwo = '= "Seoul" | stats count() by span( timestamp ';
-export const spanQueryTwoPartThree = ', 6h )';
+export const query_one = 'where DestCityName = "Venice" | stats count() by span( timestamp , 6h )';
+export const query_two = 'where OriginCityName = "Seoul" | stats count() by span( timestamp , 6h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
