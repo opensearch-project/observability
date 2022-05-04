@@ -135,7 +135,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, changeIsValidConfigOp
     } catch (e) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
-  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId, vizConfigs]);
+  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId]);
 
   const handleConfigChange = (configSchema) => {
     return (configChanges) => {
