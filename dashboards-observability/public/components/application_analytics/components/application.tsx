@@ -371,7 +371,6 @@ export function Application(props: AppDetailProps) {
         appBaseQuery={application.baseQuery}
         callback={callback}
         callbackInApp={callbackInApp}
-        // setAvailability={triggerSetAvailability}
         curSelectedTabId={selectedTabId}
       />
     );

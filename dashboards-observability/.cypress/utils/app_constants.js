@@ -6,7 +6,7 @@
 import { supressResizeObserverIssue } from './constants';
 
 export const delay = 1000;
-
+export const timeoutDelay = 30000;
 export const TYPING_DELAY = 500;
 
 export const moveToHomePage = () => {
@@ -70,9 +70,10 @@ export const deleteAllSavedApplications = () => {
   cy.get('.euiButton__text').contains('Delete').click();
 };
 
+export const uniqueId = Date.now();
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
-export const nameOne = 'Cypress';
-export const nameTwo = 'Pine';
+export const nameOne = `Cypress-${uniqueId}`;
+export const nameTwo = `Pine-${uniqueId}`;
 export const description = 'This is my application for cypress testing.';
 export const service_one = 'order';
 export const service_two = 'payment';
@@ -84,4 +85,4 @@ export const query_two = 'where OriginCityName = "Seoul" | stats count() by span
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
-export const newName = 'Monterey Cypress';
+export const newName = `Monterey Cypress-${uniqueId}`;
