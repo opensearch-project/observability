@@ -60,7 +60,7 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
@@ -82,6 +82,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
     });
+    if (callback) {
+      callback(() => switchToAvailability());
+    }
   }, [userConfigs, curVisId]);
 
   const getParsedLayoutConfig = useCallback(
@@ -157,9 +160,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
 
   const [currTabId, setCurrTabId] = useState(tabs[0].id);
 
-  // const switchToAvailability = () => {
-  //   setCurrTabId('availability-panel');
-  // };
+  const switchToAvailability = () => {
+    setCurrTabId('availability-panel');
+  };
 
   const onTabClick = (selectedTab: EuiTabbedContentTab) => {
     setCurrTabId(selectedTab.id);

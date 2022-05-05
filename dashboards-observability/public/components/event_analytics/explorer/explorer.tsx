@@ -140,6 +140,7 @@ export const Explorer = ({
   const [liveHits, setLiveHits] = useState(0);
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
+  const [triggerAvailability, setTriggerAvailability] = useState(false);
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -399,6 +400,7 @@ export const Explorer = ({
 
   const prepareAvailability = async () => {
     setSelectedContentTab(TAB_CHART_ID);
+    setTriggerAvailability(true);
     await setTempQuery(DEFAULT_AVAILABILITY_QUERY);
     await updateQueryInStore(DEFAULT_AVAILABILITY_QUERY);
     await handleTimeRangePickerRefresh(true);
@@ -718,6 +720,13 @@ export const Explorer = ({
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
+  const callbackForConfig = (childFunc: () => void) => {
+    if (childFunc && triggerAvailability) {
+      childFunc();
+      setTriggerAvailability(false);
+    }
+  };
+
   const getExplorerVis = () => {
     return (
       <ExplorerVisualizations
@@ -731,6 +740,7 @@ export const Explorer = ({
         handleRemoveField={handleRemoveField}
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
+        callback={callbackForConfig}
       />
     );
   };
