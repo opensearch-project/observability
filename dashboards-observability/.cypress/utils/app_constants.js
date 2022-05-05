@@ -50,8 +50,8 @@ export const changeTimeTo24 = (timeUnit) => {
   cy.get('.euiButton').contains('Refresh').click();
 };
 
-export const expectMessageOnHover = (message) => {
-  cy.get('.euiToolTipAnchor').contains('Create').click({ force: true });
+export const expectMessageOnHover = (button, message) => {
+  cy.get(`[data-test-subj="${button}"]`).click({ force: true });
   cy.get('.euiToolTipPopover').contains(message).should('exist');
 };
 

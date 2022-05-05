@@ -39,15 +39,17 @@ describe('Creating application', () => {
   });
 
   it('Disables create button if missing fields', () => {
-    expectMessageOnHover('Name is required.');
+    expectMessageOnHover('createButton', 'Name is required.');
     cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
-    expectMessageOnHover('Provide at least one log source, service, entity or trace group.');
+    expectMessageOnHover('createButton', 'Provide at least one log source, service, entity or trace group.');
     cy.get('[data-test-subj="servicesEntitiesAccordion"]').trigger('mouseover').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').trigger('mouseover').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="servicesEntitiesCountBadge"]').should('contain', '1');
     cy.get('[data-test-subj="createButton"]').should('not.be.disabled');
+    cy.get('[data-test-subj="createAndSetButton"]').should('be.disabled');
+    expectMessageOnHover('createAndSetButton', 'Log source is required to set availability.');
     cy.get('[data-test-subj="logSourceAccordion"]').trigger('mouseover').click();
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type(baseQuery, {delay: TYPING_DELAY});
     cy.get('[data-test-subj="traceGroupsAccordion"]').scrollIntoView();
