@@ -28,6 +28,10 @@ export const TEST_QUERIES = [
     query: 'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
+  {
+    query:'source=opensearch_dashboards_sample_data_flights | stats max(AvgTicketPrice) by DestCountry, DestCityName, Carrier',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+  }
 ];
 
 export const TESTING_PANEL = 'Mock Testing Panels';
