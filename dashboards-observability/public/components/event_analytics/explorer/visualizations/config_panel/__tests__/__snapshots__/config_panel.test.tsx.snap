@@ -6,17 +6,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
     [MockFunction] {
       "calls": Array [
         Array [
-          false,
-        ],
-        Array [
           true,
         ],
       ],
       "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
         Object {
           "type": "return",
           "value": undefined,
