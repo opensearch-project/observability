@@ -99,19 +99,25 @@ export const ConfigPanel = ({ visualizations, setCurVisId, changeIsValidConfigOp
   // To check, If user empty any of the value options
   const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { Bar, Line, TimeSeries, Histogram, Pie, TreeMap, Gauge, HeatMap } = visChartTypes;
-    return valueOptions && (
-      ([Bar, Line, TimeSeries, Histogram, Pie].includes(curVisId) &&
-        valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0) ||
-      (curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
-        valueOptions?.valueField?.length !== 0) ||
-      (curVisId === Gauge && valueOptions?.series && valueOptions.series?.length !== 0 &&
-        valueOptions?.value && valueOptions.value?.length !== 0) ||
-      (curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0)
-    )
-  }, [vizConfigs.dataConfig])
+    const { Bar, Line, Histogram, Pie, TreeMap, Gauge, HeatMap } = visChartTypes;
+    const isValidValueOptionsXYAxes = [Bar, Line, Histogram, Pie].includes(curVisId) &&
+      valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0;
 
-  useEffect(() => changeIsValidConfigOptionState(!!isValidValueOptionConfigSelected), [isValidValueOptionConfigSelected]);
+    const isValid_valueOptions: { [key: string]: boolean } = {
+      tree_map: curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
+        valueOptions?.valueField?.length !== 0,
+      gauge: Boolean(curVisId === Gauge && valueOptions?.series && valueOptions.series?.length !== 0 &&
+        valueOptions?.value && valueOptions.value?.length !== 0),
+      heatmap: Boolean(curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0),
+      bar: isValidValueOptionsXYAxes,
+      line: isValidValueOptionsXYAxes,
+      histogram: isValidValueOptionsXYAxes,
+      pie: isValidValueOptionsXYAxes
+    }
+    return isValid_valueOptions[curVisId];
+  }, [vizConfigs.dataConfig]);
+
+  useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [isValidValueOptionConfigSelected]);
 
   const handleConfigUpdate = useCallback(() => {
     try {

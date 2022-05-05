@@ -71,7 +71,6 @@ export enum visChartTypes {
   Pie = 'pie',
   HeatMap = 'heatmap',
   Text = 'text',
-  TimeSeries = 'time_series',
   Gauge = 'gauge',
   Histogram = 'histogram',
   TreeMap = 'tree_map'
@@ -97,8 +96,7 @@ export const pageStyles: CSS.Properties = {
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-const { Bar, HorizontalBar, Line, Pie, HeatMap, Text} = visChartTypes;
-export const ENABLED_VIS_TYPES = [Bar, HorizontalBar, Line, Pie, HeatMap, Text];
+export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
