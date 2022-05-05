@@ -112,7 +112,6 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
-  // setAvailability?: boolean;
 }
 
 export interface SavedQuery {

@@ -76,3 +76,4 @@ export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
 export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization';
 export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
+export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';

@@ -49,8 +49,7 @@ import {
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_EVENT_ID,
   TAB_CHART_ID,
-  INDEX,
-  FINAL_QUERY,
+  DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
 } from '../../../../common/constants/explorer';
 import {
@@ -143,6 +142,8 @@ export const Explorer = ({
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
 
   const queryRef = useRef();
+  const appBasedRef = useRef('');
+  appBasedRef.current = appBaseQuery;
   const selectedPanelNameRef = useRef('');
   const explorerFieldsRef = useRef();
   const isLiveTailOnRef = useRef(false);
@@ -201,7 +202,7 @@ export const Explorer = ({
     timeField: string,
     isLiveQuery: boolean
   ) => {
-    const fullQuery = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
+    const fullQuery = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     if (isEmpty(fullQuery)) return '';
     return preprocessQuery({
       rawQuery: fullQuery,
@@ -302,7 +303,7 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = buildQuery(appBaseQuery, curQuery![RAW_QUERY]);
+    const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
 
@@ -350,7 +351,7 @@ export const Explorer = ({
     );
 
     // search
-    if (rawQueryStr.match(PPL_STATS_REGEX)) {
+    if (finalQuery.match(PPL_STATS_REGEX)) {
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
     } else {
@@ -398,28 +399,21 @@ export const Explorer = ({
 
   const prepareAvailability = async () => {
     setSelectedContentTab(TAB_CHART_ID);
-    setCurVisId('line');
-    setTempQuery('stats count() by span( timestamp, 1h )');
-    handleTimeRangePickerRefresh();
+    await setTempQuery(DEFAULT_AVAILABILITY_QUERY);
+    await updateQueryInStore(DEFAULT_AVAILABILITY_QUERY);
+    await handleTimeRangePickerRefresh(true);
   };
 
   useEffect(() => {
-    if (callback) {
-      callback(() => prepareAvailability());
+    if (!isEmpty(appBasedRef.current)) {
+      if (callback) {
+        callback(() => prepareAvailability());
+      }
+      if (callbackInApp) {
+        callbackInApp(() => prepareAvailability());
+      }
     }
-    if (callbackInApp) {
-      callbackInApp(() => prepareAvailability());
-    }
-  }, [appBaseQuery]);
-
-  // useEffect(() => {
-  //   if (setAvailability) {
-  //     setSelectedContentTab(TAB_CHART_ID);
-  //     setCurVisId('line');
-  //     setTempQuery('stats count() by span( timestamp, 1h )');
-  //     handleTimeRangePickerRefresh();
-  //   }
-  // }, [setAvailability]);
+  }, [appBasedRef.current]);
 
   useEffect(() => {
     if (queryRef.current!.isLoaded) return;
@@ -440,30 +434,9 @@ export const Explorer = ({
     if (appLogEvents) {
       if (savedObjectId) {
         updateTabData(savedObjectId);
-      } else {
-        setTempQuery('');
-        emptyTab();
       }
     }
   }, [savedObjectId]);
-
-  const emptyTab = async () => {
-    await dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          [RAW_QUERY]: '',
-          [FINAL_QUERY]: '',
-          [INDEX]: '',
-          [SELECTED_TIMESTAMP]: '',
-          [SAVED_OBJECT_ID]: '',
-        },
-      })
-    );
-    await fetchData();
-    callback(() => prepareAvailability());
-    callbackInApp(() => prepareAvailability());
-  };
 
   const handleAddField = (field: IField) => toggleFields(field, AVAILABLE_FIELDS, SELECTED_FIELDS);
 
@@ -496,8 +469,8 @@ export const Explorer = ({
     );
   };
 
-  const handleTimeRangePickerRefresh = () => {
-    handleQuerySearch();
+  const handleTimeRangePickerRefresh = (availability?: boolean) => {
+    handleQuerySearch(availability);
   };
 
   /**
@@ -818,18 +791,23 @@ export const Explorer = ({
     );
   };
 
-  const handleQuerySearch = useCallback(async () => {
-    // clear previous selected timestamp when index pattern changes
-    if (
-      !isEmpty(tempQuery) &&
-      !isEmpty(query[RAW_QUERY]) &&
-      isIndexPatternChanged(tempQuery, query[RAW_QUERY])
-    ) {
-      await updateCurrentTimeStamp('');
-    }
-    await updateQueryInStore(tempQuery);
-    fetchData();
-  }, [tempQuery, query[RAW_QUERY]]);
+  const handleQuerySearch = useCallback(
+    async (availability?: boolean) => {
+      // clear previous selected timestamp when index pattern changes
+      if (
+        !isEmpty(tempQuery) &&
+        !isEmpty(query[RAW_QUERY]) &&
+        isIndexPatternChanged(tempQuery, query[RAW_QUERY])
+      ) {
+        await updateCurrentTimeStamp('');
+      }
+      if (availability !== true) {
+        await updateQueryInStore(tempQuery);
+      }
+      fetchData();
+    },
+    [tempQuery, query[RAW_QUERY]]
+  );
 
   const handleQueryChange = async (newQuery: string) => {
     setTempQuery(newQuery);

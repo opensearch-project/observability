@@ -42,6 +42,7 @@ export interface IDatePickerProps {
   setTimeRange: () => void;
   setIsOutputStale: () => void;
   handleTimePickerChange: (timeRange: string[]) => any;
+  handleTimeRangePickerRefresh: () => any;
 }
 
 export const Search = (props: any) => {
