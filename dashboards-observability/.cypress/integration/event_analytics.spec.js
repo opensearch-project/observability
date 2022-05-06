@@ -617,6 +617,13 @@ describe('Renders data view', () => {
   });
 });
 
+const verify_data_grid_cols_exists = () => {
+  cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+}
+
 describe('Data grid control section/Table view validation', () => {
   beforeEach(() => {
     landOnEventVisualizations();
@@ -651,19 +658,13 @@ describe('Data grid control section/Table view validation', () => {
   });
 
   it('Render visualization for table view and see data in Full screen', () => {
-    cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+    verify_data_grid_cols_exists();
     cy.get('.euiButtonEmpty__text').contains('Full screen').click();
     cy.get('body').type('{esc}');
   });
 
   it('Render visualization for table view and change data table Density', () => {
-    cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+    verify_data_grid_cols_exists();
     cy.get('.euiButtonEmpty__text').contains('Density').click();
     cy.get('.euiButtonContent__icon').eq(10).click();
     cy.get('.euiButtonContent__icon').eq(11).click();
@@ -691,10 +692,7 @@ describe('Data grid header cell section/Table view validation', () => {
   });
 
   it('Render visualization for table view and work with Column header command', () => {
-    cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+    verify_data_grid_cols_exists();
     cy.get('.euiDataGridHeaderCell__content').contains('Carrier').click();
     cy.get('.euiListGroupItem__label').contains('Hide column').click();
     cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').click();
@@ -713,10 +711,7 @@ describe('Data grid/Table view Pagination functionlaity', () => {
   });
 
   it('Render visualization for table view and verify Pagination link', () => {
-    cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
-    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+    verify_data_grid_cols_exists();
     cy.get('[data-test-subj="pagination-button-next"]').click();
     cy.get('[data-test-subj="pagination-button-previous"]').click();
     cy.get('.euiButtonEmpty__text').contains('Rows per page').click();
