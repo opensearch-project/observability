@@ -111,7 +111,6 @@ export const Search = (props: any) => {
         });
       }}
       data-test-subj="eventExplorer__saveManagementPopover"
-      fill
       iconType="arrowDown"
     >
       Save
@@ -121,10 +120,10 @@ export const Search = (props: any) => {
   const liveButton = (
     <LiveTailButton
       isLiveTailOn={isLiveTailOn}
-      setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen} 
-      liveTailName={liveTailName} 
+      setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
+      liveTailName={liveTailName}
       isLiveTailPopoverOpen={isLiveTailPopoverOpen}
-      dataTestSubj="eventLiveTail"         
+      dataTestSubj="eventLiveTail"
     />
   );
 
@@ -194,10 +193,7 @@ export const Search = (props: any) => {
         )}
         {isLiveTailOn && (
           <EuiFlexItem grow={false}>
-            <StopLiveButton
-              StopLive={stopLive}
-              dataTestSubj="eventLiveTail__off"
-            />
+            <StopLiveButton StopLive={stopLive} dataTestSubj="eventLiveTail__off" />
           </EuiFlexItem>
         )}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (
