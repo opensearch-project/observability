@@ -197,7 +197,7 @@ export function AppTable(props: AppTableProps) {
     } else if (value.color === 'undefined') {
       return <EuiText>No match</EuiText>;
     } else if (value.color === 'null') {
-      return <EuiText>Current value is null</EuiText>;
+      return <EuiText>-</EuiText>;
     } else {
       return (
         <EuiLink
