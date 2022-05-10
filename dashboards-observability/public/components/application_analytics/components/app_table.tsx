@@ -200,7 +200,10 @@ export function AppTable(props: AppTableProps) {
       return <EuiText>Current value is null</EuiText>;
     } else {
       return (
-        <EuiLink onClick={() => moveToApp(record.id, 'createSetAvailability')}>
+        <EuiLink
+          data-test-subj="setAvailabilityHomePageLink"
+          onClick={() => moveToApp(record.id, 'createSetAvailability')}
+        >
           Set Availability
         </EuiLink>
       );

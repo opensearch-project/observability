@@ -75,13 +75,12 @@ export function SearchBar(props: SearchBarOwnProps) {
             />
           </EuiFlexItem>
         )}
-        <EuiFlexItem grow={false} style={{maxWidth: '40vw'}}>
+        <EuiFlexItem grow={false} style={{ maxWidth: '40vw' }}>
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButton
-            data-test-subj="search-bar-refresh-button"
-            fill
+            data-test-subj="superDatePickerApplyTimeButton"
             iconType="refresh"
             onClick={props.refresh}
           >

@@ -237,28 +237,31 @@ export const CreateApp = (props: CreateAppProps) => {
               </EuiButton>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiToolTip position="top" content={missingField(true)}>
-                <EuiButton
-                  data-test-subj="createAndSetButton"
-                  isDisabled={isDisabled || !query}
-                  onClick={() => onCreate('createSetAvailability')}
-                >
-                  Create and Set Availability
-                </EuiButton>
-              </EuiToolTip>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
               <EuiToolTip position="top" content={missingField(false)}>
                 <EuiButton
                   data-test-subj="createButton"
                   isDisabled={isDisabled}
                   onClick={editMode ? onUpdate : () => onCreate('create')}
-                  fill
+                  fill={editMode ? true : false}
                 >
                   {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>
+            {editMode || (
+              <EuiFlexItem grow={false}>
+                <EuiToolTip position="top" content={missingField(true)}>
+                  <EuiButton
+                    data-test-subj="createAndSetButton"
+                    fill
+                    isDisabled={isDisabled || !query}
+                    onClick={() => onCreate('createSetAvailability')}
+                  >
+                    Create and Set Availability
+                  </EuiButton>
+                </EuiToolTip>
+              </EuiFlexItem>
+            )}
           </EuiFlexGroup>
         </EuiPageBody>
       </EuiPage>

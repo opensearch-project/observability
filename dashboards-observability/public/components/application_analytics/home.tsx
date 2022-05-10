@@ -322,6 +322,7 @@ export const Home = (props: HomeProps) => {
         if (type === 'update') {
           setToast('Application successfully updated.');
           clearStorage();
+          moveToApp(res.updatedAppId, type);
         }
         if (type.startsWith('create')) {
           moveToApp(res.updatedAppId, type);

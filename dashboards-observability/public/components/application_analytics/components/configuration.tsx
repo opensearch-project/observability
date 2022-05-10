@@ -132,7 +132,12 @@ export const Configuration = (props: ConfigProps) => {
                       onChange={onAvailabilityVisChange}
                     />
                   ) : (
-                    <EuiLink onClick={() => switchToAvailability()}>Set Availability</EuiLink>
+                    <EuiLink
+                      data-test-subj="setAvailabilityConfigLink"
+                      onClick={() => switchToAvailability()}
+                    >
+                      Set Availability
+                    </EuiLink>
                   )}
                 </EuiFlexItem>
               </EuiFlexGroup>

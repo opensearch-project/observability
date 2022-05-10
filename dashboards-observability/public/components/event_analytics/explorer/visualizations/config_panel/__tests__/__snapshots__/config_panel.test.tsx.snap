@@ -282,6 +282,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               "mapTo": "layoutConfig",
               "name": "Layout",
             },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
           ],
         },
         "fullLabel": "Bar",
@@ -452,6 +458,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "layoutConfig",
                         "name": "Layout",
                       },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
                     ],
                   },
                   "fullLabel": "Bar",
@@ -573,6 +585,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "id": "style-panel",
                         "mapTo": "layoutConfig",
                         "name": "Layout",
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
                       },
                     ],
                   },
@@ -715,6 +733,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "layoutConfig",
                         "name": "Layout",
                       },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
                     ],
                   },
                   "fullLabel": "Pie",
@@ -807,6 +831,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "id": "style-panel",
                         "mapTo": "layoutConfig",
                         "name": "Layout",
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
                       },
                     ],
                   },
@@ -1030,6 +1060,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "layoutConfig",
                         "name": "Layout",
                       },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
                     ],
                   },
                   "fullLabel": "Bar",
@@ -1196,6 +1232,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "id": "style-panel",
                             "mapTo": "layoutConfig",
                             "name": "Layout",
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "availability-panel",
+                            "mapTo": "availabilityConfig",
+                            "name": "Availability",
                           },
                         ],
                       },
@@ -1374,6 +1416,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "mapTo": "layoutConfig",
                                   "name": "Layout",
                                 },
+                                Object {
+                                  "editor": [Function],
+                                  "id": "availability-panel",
+                                  "mapTo": "availabilityConfig",
+                                  "name": "Availability",
+                                },
                               ],
                             }
                           }
@@ -1480,6 +1528,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "id": "style-panel",
                                     "mapTo": "layoutConfig",
                                     "name": "Layout",
+                                  },
+                                  Object {
+                                    "editor": [Function],
+                                    "id": "availability-panel",
+                                    "mapTo": "availabilityConfig",
+                                    "name": "Availability",
                                   },
                                 ],
                               },
@@ -1652,6 +1706,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "mapTo": "layoutConfig",
                                     "name": "Layout",
                                   },
+                                  Object {
+                                    "editor": [Function],
+                                    "id": "availability-panel",
+                                    "mapTo": "availabilityConfig",
+                                    "name": "Availability",
+                                  },
                                 ],
                               }
                             }
@@ -1793,6 +1853,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "id": "style-panel",
                                         "mapTo": "layoutConfig",
                                         "name": "Layout",
+                                      },
+                                      Object {
+                                        "editor": [Function],
+                                        "id": "availability-panel",
+                                        "mapTo": "availabilityConfig",
+                                        "name": "Availability",
                                       },
                                     ],
                                   }
@@ -2069,9 +2135,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               className="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
             >
               <EuiTabbedContent
-                autoFocus="selected"
-                id="vis-config-tabs"
-                initialSelectedTab={
+                autoFocus="initial"
+                className="vis-config-tabs"
+                onTabClick={[Function]}
+                selectedTab={
                   Object {
                     "content": <VizDataPanel
                       curVisId="bar"
@@ -2440,6 +2507,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "id": "style-panel",
                                   "mapTo": "layoutConfig",
                                   "name": "Layout",
+                                },
+                                Object {
+                                  "editor": [Function],
+                                  "id": "availability-panel",
+                                  "mapTo": "availabilityConfig",
+                                  "name": "Availability",
                                 },
                               ],
                             },
@@ -2856,6 +2929,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "mapTo": "layoutConfig",
                                     "name": "Layout",
                                   },
+                                  Object {
+                                    "editor": [Function],
+                                    "id": "availability-panel",
+                                    "mapTo": "availabilityConfig",
+                                    "name": "Availability",
+                                  },
                                 ],
                               },
                               "fullLabel": "Bar",
@@ -2917,11 +2996,351 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "id": "style-panel",
                       "name": "Layout",
                     },
+                    Object {
+                      "content": <ConfigAvailability
+                        curVisId="bar"
+                        onConfigChange={[Function]}
+                        tabProps={
+                          Object {
+                            "editor": [Function],
+                            "id": "availability-panel",
+                            "mapTo": "availabilityConfig",
+                            "name": "Availability",
+                          }
+                        }
+                        visualizations={
+                          Object {
+                            "data": Object {
+                              "appData": Object {
+                                "fromApp": false,
+                              },
+                              "defaultAxes": Object {},
+                              "indexFields": Object {
+                                "availableFields": Array [
+                                  Object {
+                                    "name": "agent",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "bytes",
+                                    "type": "long",
+                                  },
+                                  Object {
+                                    "name": "clientip",
+                                    "type": "ip",
+                                  },
+                                  Object {
+                                    "name": "event",
+                                    "type": "struct",
+                                  },
+                                  Object {
+                                    "name": "extension",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "geo",
+                                    "type": "struct",
+                                  },
+                                  Object {
+                                    "name": "host",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "index",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "ip",
+                                    "type": "ip",
+                                  },
+                                  Object {
+                                    "name": "machine",
+                                    "type": "struct",
+                                  },
+                                  Object {
+                                    "name": "memory",
+                                    "type": "double",
+                                  },
+                                  Object {
+                                    "name": "message",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "phpmemory",
+                                    "type": "long",
+                                  },
+                                  Object {
+                                    "name": "referer",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "request",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "response",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "tags",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "timestamp",
+                                    "type": "timestamp",
+                                  },
+                                  Object {
+                                    "name": "url",
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "name": "utc_time",
+                                    "type": "timestamp",
+                                  },
+                                ],
+                                "queriedFields": Array [
+                                  Object {
+                                    "name": "double_per_ip_bytes",
+                                    "type": "long",
+                                  },
+                                  Object {
+                                    "name": "host",
+                                    "type": "text",
+                                  },
+                                  Object {
+                                    "name": "ip_count",
+                                    "type": "integer",
+                                  },
+                                  Object {
+                                    "name": "per_ip_bytes",
+                                    "type": "long",
+                                  },
+                                  Object {
+                                    "name": "resp_code",
+                                    "type": "text",
+                                  },
+                                  Object {
+                                    "name": "sum_bytes",
+                                    "type": "long",
+                                  },
+                                ],
+                                "selectedFields": Array [],
+                                "unselectedFields": Array [],
+                              },
+                              "query": Object {},
+                              "rawVizData": Object {
+                                "data": Object {
+                                  "count()": Array [
+                                    154,
+                                    1753,
+                                    116,
+                                    468,
+                                    1964,
+                                    219,
+                                  ],
+                                  "tags": Array [
+                                    "error",
+                                    "info",
+                                    "login",
+                                    "security",
+                                    "success",
+                                    "warning",
+                                  ],
+                                },
+                                "jsonData": Array [
+                                  Object {
+                                    "count()": 154,
+                                    "tags": "error",
+                                  },
+                                  Object {
+                                    "count()": 1753,
+                                    "tags": "info",
+                                  },
+                                  Object {
+                                    "count()": 116,
+                                    "tags": "login",
+                                  },
+                                  Object {
+                                    "count()": 468,
+                                    "tags": "security",
+                                  },
+                                  Object {
+                                    "count()": 1964,
+                                    "tags": "success",
+                                  },
+                                  Object {
+                                    "count()": 219,
+                                    "tags": "warning",
+                                  },
+                                ],
+                                "metadata": Object {
+                                  "fields": Array [
+                                    Object {
+                                      "name": "count()",
+                                      "type": "integer",
+                                    },
+                                    Object {
+                                      "name": "tags",
+                                      "type": "text",
+                                    },
+                                  ],
+                                  "size": 6,
+                                  "status": 200,
+                                },
+                              },
+                              "userConfigs": Object {},
+                            },
+                            "vis": Object {
+                              "category": "Visualizations",
+                              "categoryAxis": "xaxis",
+                              "component": [Function],
+                              "editorConfig": Object {
+                                "panelTabs": Array [
+                                  Object {
+                                    "editor": [Function],
+                                    "id": "data-panel",
+                                    "mapTo": "dataConfig",
+                                    "name": "Data",
+                                    "sections": Array [
+                                      Object {
+                                        "editor": [Function],
+                                        "id": "value_options",
+                                        "mapTo": "valueOptions",
+                                        "name": "Value options",
+                                        "schemas": Array [
+                                          Object {
+                                            "component": null,
+                                            "isSingleSelection": false,
+                                            "mapTo": "xaxis",
+                                            "name": "X-axis",
+                                          },
+                                          Object {
+                                            "component": null,
+                                            "isSingleSelection": false,
+                                            "mapTo": "yaxis",
+                                            "name": "Y-axis",
+                                          },
+                                        ],
+                                      },
+                                      Object {
+                                        "editor": [Function],
+                                        "id": "chart_options",
+                                        "mapTo": "chartOptions",
+                                        "name": "Chart options",
+                                        "schemas": Array [
+                                          Object {
+                                            "component": null,
+                                            "isSingleSelection": true,
+                                            "mapTo": "orientation",
+                                            "name": "Orientation",
+                                            "props": Object {
+                                              "defaultSelections": Array [
+                                                Object {
+                                                  "name": "Vertical",
+                                                  "orientationId": "v",
+                                                },
+                                              ],
+                                              "dropdownList": Array [
+                                                Object {
+                                                  "name": "Vertical",
+                                                  "orientationId": "v",
+                                                },
+                                                Object {
+                                                  "name": "Horizontal",
+                                                  "orientationId": "h",
+                                                },
+                                              ],
+                                            },
+                                          },
+                                          Object {
+                                            "component": null,
+                                            "isSingleSelection": true,
+                                            "mapTo": "mode",
+                                            "name": "Mode",
+                                            "props": Object {
+                                              "defaultSelections": Array [
+                                                Object {
+                                                  "modeId": "group",
+                                                  "name": "Group",
+                                                },
+                                              ],
+                                              "dropdownList": Array [
+                                                Object {
+                                                  "modeId": "group",
+                                                  "name": "Group",
+                                                },
+                                                Object {
+                                                  "modeId": "stack",
+                                                  "name": "Stack",
+                                                },
+                                              ],
+                                            },
+                                          },
+                                        ],
+                                      },
+                                    ],
+                                  },
+                                  Object {
+                                    "content": Array [],
+                                    "editor": [Function],
+                                    "id": "style-panel",
+                                    "mapTo": "layoutConfig",
+                                    "name": "Layout",
+                                  },
+                                  Object {
+                                    "editor": [Function],
+                                    "id": "availability-panel",
+                                    "mapTo": "availabilityConfig",
+                                    "name": "Availability",
+                                  },
+                                ],
+                              },
+                              "fullLabel": "Bar",
+                              "icon": [Function],
+                              "iconType": "visBarVerticalStacked",
+                              "id": "bar",
+                              "label": "Bar",
+                              "name": "bar",
+                              "orientation": "v",
+                              "selection": Object {
+                                "dataLoss": "nothing",
+                              },
+                              "seriesAxis": "yaxis",
+                              "type": "bar",
+                              "visConfig": Object {
+                                "config": Object {
+                                  "displaylogo": false,
+                                  "responsive": true,
+                                },
+                                "isUniColor": false,
+                                "layout": Object {
+                                  "height": 500,
+                                  "legend": Object {
+                                    "orientation": "v",
+                                    "traceorder": "normal",
+                                  },
+                                  "margin": Object {
+                                    "b": 30,
+                                    "l": 60,
+                                    "pad": 0,
+                                    "r": 30,
+                                    "t": 50,
+                                  },
+                                  "showlegend": true,
+                                },
+                              },
+                            },
+                          }
+                        }
+                      />,
+                      "id": "availability-panel",
+                      "name": "Availability",
+                    },
                   ]
                 }
               >
                 <div
-                  id="vis-config-tabs"
+                  className="vis-config-tabs"
                 >
                   <EuiTabs
                     onFocus={[Function]}
@@ -2976,6 +3395,30 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             className="euiTab__content"
                           >
                             Layout
+                          </span>
+                        </button>
+                      </EuiTab>
+                      <EuiTab
+                        aria-controls="random_html_id"
+                        id="availability-panel"
+                        isSelected={false}
+                        key="availability-panel"
+                        onClick={[Function]}
+                      >
+                        <button
+                          aria-controls="random_html_id"
+                          aria-selected={false}
+                          className="euiTab"
+                          disabled={false}
+                          id="availability-panel"
+                          onClick={[Function]}
+                          role="tab"
+                          type="button"
+                        >
+                          <span
+                            className="euiTab__content"
+                          >
+                            Availability
                           </span>
                         </button>
                       </EuiTab>
@@ -3354,6 +3797,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "mapTo": "layoutConfig",
                                   "name": "Layout",
                                 },
+                                Object {
+                                  "editor": [Function],
+                                  "id": "availability-panel",
+                                  "mapTo": "availabilityConfig",
+                                  "name": "Availability",
+                                },
                               ],
                             },
                             "fullLabel": "Bar",
@@ -3701,6 +4150,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "id": "style-panel",
                                                 "mapTo": "layoutConfig",
                                                 "name": "Layout",
+                                              },
+                                              Object {
+                                                "editor": [Function],
+                                                "id": "availability-panel",
+                                                "mapTo": "availabilityConfig",
+                                                "name": "Availability",
                                               },
                                             ],
                                           },
@@ -4296,6 +4751,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "id": "style-panel",
                                                 "mapTo": "layoutConfig",
                                                 "name": "Layout",
+                                              },
+                                              Object {
+                                                "editor": [Function],
+                                                "id": "availability-panel",
+                                                "mapTo": "availabilityConfig",
+                                                "name": "Availability",
                                               },
                                             ],
                                           },
@@ -5304,6 +5765,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "mapTo": "layoutConfig",
                                                 "name": "Layout",
                                               },
+                                              Object {
+                                                "editor": [Function],
+                                                "id": "availability-panel",
+                                                "mapTo": "availabilityConfig",
+                                                "name": "Availability",
+                                              },
                                             ],
                                           },
                                           "fullLabel": "Bar",
@@ -6088,7 +6555,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       <EuiButton
                         data-test-subj="visualizeEditorRenderButton"
                         disabled={false}
-                        fill={true}
                         iconType="play"
                         onClick={[Function]}
                         size="s"
@@ -6098,7 +6564,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           data-test-subj="visualizeEditorRenderButton"
                           disabled={false}
                           element="button"
-                          fill={true}
                           iconType="play"
                           isDisabled={false}
                           onClick={[Function]}
@@ -6106,7 +6571,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           type="button"
                         >
                           <button
-                            className="euiButton euiButton--primary euiButton--small euiButton--fill"
+                            className="euiButton euiButton--primary euiButton--small"
                             data-test-subj="visualizeEditorRenderButton"
                             disabled={false}
                             onClick={[Function]}
@@ -6159,7 +6624,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 <span
                                   className="euiButton__text"
                                 >
-                                  Apply
+                                  Preview
                                 </span>
                               </span>
                             </EuiButtonContent>

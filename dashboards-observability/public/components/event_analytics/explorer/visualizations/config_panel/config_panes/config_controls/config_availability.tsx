@@ -108,7 +108,13 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
         buttonContent={'Availability'}
         paddingSize="s"
       >
-        <EuiButton fullWidth size="s" onClick={handleAddAvailability} disabled={!hasSpanInApp}>
+        <EuiButton
+          fullWidth
+          data-test-subj="addAvailabilityButton"
+          size="s"
+          onClick={handleAddAvailability}
+          disabled={!hasSpanInApp}
+        >
           {addButtonText}
         </EuiButton>
         <EuiSpacer size="s" />

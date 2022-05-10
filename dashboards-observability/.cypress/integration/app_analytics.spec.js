@@ -16,6 +16,7 @@ import {
   baseQuery,
   nameOne,
   nameTwo,
+  nameThree,
   description,
   service_one,
   service_two,
@@ -24,6 +25,7 @@ import {
   trace_three,
   query_one,
   query_two,
+  availability_default,
   visOneName,
   visTwoName,
   composition,
@@ -36,29 +38,6 @@ import { supressResizeObserverIssue } from '../utils/constants';
 describe('Creating application', () => {
   beforeEach(() => {
     moveToCreatePage();
-  });
-
-  it('Disables create button if missing fields', () => {
-    expectMessageOnHover('createButton', 'Name is required.');
-    cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
-    expectMessageOnHover('createButton', 'Provide at least one log source, service, entity or trace group.');
-    cy.get('[data-test-subj="servicesEntitiesAccordion"]').trigger('mouseover').click();
-    cy.get('[data-test-subj="servicesEntitiesComboBox"]').trigger('mouseover').click();
-    cy.focused().type('{downArrow}');
-    cy.focused().type('{enter}');
-    cy.get('[data-test-subj="servicesEntitiesCountBadge"]').should('contain', '1');
-    cy.get('[data-test-subj="createButton"]').should('not.be.disabled');
-    cy.get('[data-test-subj="createAndSetButton"]').should('be.disabled');
-    expectMessageOnHover('createAndSetButton', 'Log source is required to set availability.');
-    cy.get('[data-test-subj="logSourceAccordion"]').trigger('mouseover').click();
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type(baseQuery, {delay: TYPING_DELAY});
-    cy.get('[data-test-subj="traceGroupsAccordion"]').scrollIntoView();
-    cy.get('[data-test-subj="traceGroupsAccordion"]').trigger('mouseover').click();
-    cy.get('[data-test-subj="traceGroupsComboBox"]').scrollIntoView().type('http');
-    cy.get('.euiFilterSelectItem').contains(trace_one).click({ force: true });
-    cy.get('.euiFilterSelectItem').contains(trace_two).click({ force: true });
-    cy.get('[data-test-subj="traceGroupsCountBadge"]').should('contain', '2');
-    cy.get('[data-test-subj="createButton"]').should('not.be.disabled');
   });
 
   it('Suggests correct autocompletion', () => {
@@ -93,14 +72,19 @@ describe('Creating application', () => {
   });
 
   it('Creates an application and redirects to application', () => {
+    expectMessageOnHover('createButton', 'Name is required.');
     cy.get('[data-test-subj="nameFormRow"]').type(nameOne);
     cy.get('[data-test-subj="descriptionFormRow"]').type('This application is for testing.');
+    expectMessageOnHover('createButton', 'Provide at least one log source, service, entity or trace group.');
     cy.get('[data-test-subj="servicesEntitiesAccordion"]').trigger('mouseover').click();
     cy.get('[data-test-subj="servicesEntitiesComboBox"]').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="servicesEntitiesCountBadge"]').should('contain', '1');
     cy.get('[data-test-subj="logSourceAccordion"]').trigger('mouseover').click();
+    cy.get('[data-test-subj="createButton"]').should('not.be.disabled');
+    cy.get('[data-test-subj="createAndSetButton"]').should('be.disabled');
+    expectMessageOnHover('createAndSetButton', 'Log source is required to set availability.');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus().type(baseQuery, {delay: TYPING_DELAY});
     cy.get('[data-test-subj="traceGroupsAccordion"]').trigger('mouseover').click();
     cy.get('[data-test-subj="traceGroupsComboBox"]').scrollIntoView().type('http');
@@ -200,6 +184,35 @@ describe('Creating application', () => {
   });
 });
 
+describe('Setting availability', () => {
+  it('Redirects to set availability at three entry points', () => {
+    moveToCreatePage();
+    cy.get('[data-test-subj="nameFormRow"]').type(nameThree);
+    cy.get('[data-test-subj="logSourceAccordion"]').trigger('mouseover').click();
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').focus();
+    cy.focused().type('source = ', { delay: TYPING_DELAY });
+    cy.focused().type('{enter}');
+    cy.get('[data-test-subj="createAndSetButton"]').click();
+    cy.get('[data-test-subj="applicationTitle"]').should('contain', nameThree);
+    cy.get('.euiBreadcrumb[href="#/application_analytics"]').click();
+    cy.get('[data-test-subj="setAvailabilityHomePageLink"]').first().click();
+    cy.get('[data-test-subj="applicationTitle"]').should('contain', nameThree);
+    cy.get('.euiTab-isSelected[id="app-analytics-log"]').should('exist', { timeout: timeoutDelay });
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain.value', availability_default);
+    cy.get('[id="explorerPlotComponent"]').should('exist');
+    cy.get('.euiTab-isSelected[id="availability-panel"]').should('exist');
+    cy.get('.euiBreadcrumb[href="#/application_analytics"]').click();
+    cy.get(`[data-test-subj="${nameThree}ApplicationLink"]`).click();
+    cy.get('[data-test-subj="applicationTitle"]').should('contain', nameThree);
+    cy.get('[data-test-subj="app-analytics-configTab"]').click();
+    cy.get('[data-test-subj="setAvailabilityConfigLink"]').click();
+    cy.get('.euiTab-isSelected[id="app-analytics-log"]').should('exist', { timeout: timeoutDelay });
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('contain.value', availability_default);
+    cy.get('[id="explorerPlotComponent"]').should('exist');
+    cy.get('.euiTab-isSelected[id="availability-panel"]').should('exist');
+  });
+});
+
 describe('Viewing application', () => {
   beforeEach(() => {
     moveToApplication(nameOne);
@@ -237,7 +250,7 @@ describe('Viewing application', () => {
 
   it('Adds filter when Trace group name is clicked', () => {
     cy.get('[data-test-subj="app-analytics-overviewTab"]').click();
-    cy.get('.euiLink').contains('client_create_order').click();
+    cy.get('[data-test-subj="dashboard-table-trace-group-name-button"]').contains('client_create_order').click();
     cy.get('.euiTableRow').should('have.length', 1);
     cy.get('[data-test-subj="client_create_orderFilterBadge"]').should('exist');
     cy.get('[data-test-subj="filterBadge"]').click();
@@ -326,6 +339,7 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="eventExplorer__querySaveName"]').click().type(visOneName);
     cy.wait(delay);
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.wait(delay);
     cy.get('[data-test-subj="app-analytics-panelTab"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="Flights to VeniceVisualizationPanel"]').should('exist');
@@ -339,10 +353,11 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="editVizContextMenuItem"]').click();
     supressResizeObserverIssue();
     cy.get('[data-test-subj="superDatePickerShowDatesButton"]').should('contain', 'Last 24 months');
+    cy.get('.euiTab[id="availability-panel"]').click();
     cy.get('[title="Bar"]').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
-    cy.get('[data-test-subj="addThresholdButton"]').click();
+    cy.get('[data-test-subj="addAvailabilityButton"]').click();
     cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
     cy.get('[aria-label="Select #54B399 as the color"]').click();
     cy.get('[data-test-subj="nameFieldText"]').click().type('Available');
@@ -375,11 +390,12 @@ describe('Viewing application', () => {
     cy.wait(delay);
     cy.get('[data-test-subj="main-content-visTab"]').click();
     supressResizeObserverIssue();
+    cy.get('.euiTab[id="availability-panel"]').click();
     cy.get('[title="Bar"]').click();
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
     cy.wait(delay);
-    cy.get('[data-test-subj="addThresholdButton"]').click();
+    cy.get('[data-test-subj="addAvailabilityButton"]').click();
     cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
     cy.get('[aria-label="Select #9170B8 as the color"]').click();
     cy.wait(delay);
@@ -388,7 +404,7 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="valueFieldNumber"]').clear().type('5.5');
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay);
-    cy.get('[data-test-subj="addThresholdButton"]').click();
+    cy.get('[data-test-subj="addAvailabilityButton"]').click();
     cy.get('[data-test-subj="euiColorPickerAnchor"]').first().click();
     cy.get('[aria-label="Select #CA8EAE as the color"]').click();
     cy.wait(delay);
@@ -472,8 +488,9 @@ describe('Separate from other plugins', () => {
     cy.get('[data-test-subj="operationalPanelsActionsButton"]', { timeout: timeoutDelay }).click();
     cy.get('[data-test-subj="addSampleContextMenuItem"]', { timeout: timeoutDelay }).click();
     cy.get('[data-test-subj="confirmModalConfirmButton"]', { timeout: timeoutDelay }).click();
+    cy.wait(delay * 2);
     cy.get('.euiLink').contains('[Logs] Web traffic Panel').first().click();
-    cy.wait(delay);
+    cy.wait(delay * 2);
     cy.get('[data-test-subj="addVisualizationButton"]').click();
     cy.get('.euiContextMenuItem__text').contains('Select existing visualization').click();
     cy.get('option').contains(visOneName).should('not.exist');

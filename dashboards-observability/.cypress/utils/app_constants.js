@@ -47,7 +47,7 @@ export const changeTimeTo24 = (timeUnit) => {
   cy.get('[aria-label="Time unit"]').select(timeUnit);
   cy.get('.euiButton').contains('Apply').click();
   cy.wait(delay);
-  cy.get('.euiButton').contains('Refresh').click();
+  cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').click();
 };
 
 export const expectMessageOnHover = (button, message) => {
@@ -74,6 +74,7 @@ export const uniqueId = Date.now();
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
 export const nameOne = `Cypress-${uniqueId}`;
 export const nameTwo = `Pine-${uniqueId}`;
+export const nameThree = `Cedar-${uniqueId}`;
 export const description = 'This is my application for cypress testing.';
 export const service_one = 'order';
 export const service_two = 'payment';
@@ -82,6 +83,7 @@ export const trace_two = 'HTTP GET';
 export const trace_three = 'client_pay_order';
 export const query_one = 'where DestCityName = "Venice" | stats count() by span( timestamp , 6h )';
 export const query_two = 'where OriginCityName = "Seoul" | stats count() by span( timestamp , 6h )';
+export const availability_default = 'stats count() by span( timestamp, 1h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'

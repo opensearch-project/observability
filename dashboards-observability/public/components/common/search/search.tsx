@@ -111,6 +111,7 @@ export const Search = (props: any) => {
         });
       }}
       data-test-subj="eventExplorer__saveManagementPopover"
+      fill
       iconType="arrowDown"
     >
       Save
