@@ -12,8 +12,8 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ConfigValueOptions,
   ConfigThresholds,
+  ConfigGraphStyle,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { ConfigGraphStyle } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_graph_style';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -87,7 +87,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             name: 'Graph Style',
             editor: ConfigGraphStyle,
             mapTo: 'graphStyle',
-            schemas: [
+            schemas: [  
               {
                 name: 'Style',
                 component: null,
@@ -95,8 +95,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 props: {
                   options: [
                     { name: 'Lines', modeId: 'lines' },
-                    { name: 'Bars', modeId: 'bars' },
-                    { name: 'Points', modeId: 'points' },
+                    { name: 'Bars', modeId: 'bar' },
+                    { name: 'Points', modeId: 'markers' },
                   ],
                   defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
                 },
@@ -108,11 +108,11 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 props: {
                   options: [
                     { name: 'Linear', modeId: 'linear' },
-                    { name: 'Smooth', modeId: 'smooth' },
-                    { name: 'Step before', modeId: 'step_before' },
-                    { name: 'Step after', modeId: 'step_after' },
+                    { name: 'Smooth', modeId: 'spline' },
+                    { name: 'Step before', modeId: 'hv' },
+                    { name: 'Step after', modeId: 'vh' },
                   ],
-                  defaultSelections: [{ name: 'Smooth', modeId: 'smooth' }],
+                  defaultSelections: [{ name: 'Smooth', modeId: 'spline' }],
                 },
               },
               {
@@ -120,12 +120,14 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: null,
                 mapTo: 'lineWidth',
                 defaultState: 2,
+                max:10,
               },
               {
                 name: 'Fill Opacity',
                 component: null,
                 mapTo: 'fillOpacity',
                 defaultState: 30,
+                max:100,
               },
             ],
           },
