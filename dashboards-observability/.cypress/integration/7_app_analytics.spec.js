@@ -581,6 +581,9 @@ describe('Application Analytics home page', () => {
     cy.get('.euiTableRow').eq(1).within(($row) => {
       cy.get('.euiCheckbox').click();
     });
+    cy.get('.euiTableRow').eq(2).within(($row) => {
+      cy.get('.euiCheckbox').click();
+    });
     cy.get('[data-test-subj="appAnalyticsActionsButton"]').click();
     cy.get('[data-test-subj="deleteApplicationContextMenuItem"]').click();
     cy.get('[data-test-subj="confirmModalConfirmButton"]').click();
