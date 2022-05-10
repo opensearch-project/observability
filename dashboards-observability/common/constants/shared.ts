@@ -125,3 +125,10 @@ export const LIVE_OPTIONS = [
 ];
 
 export const LIVE_END_TIME ='now';
+
+export enum DefaultGraphStyle {
+  DefaultMode = 'lines',
+  Interpolation = 'spline',
+  LineWidth = 2,
+  FillOpacity = 30
+};

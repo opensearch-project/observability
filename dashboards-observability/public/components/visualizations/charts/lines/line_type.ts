@@ -14,9 +14,10 @@ import {
   ConfigThresholds,
   ConfigGraphStyle,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-
+import { DefaultGraphStyle } from '../../../../../common/constants/shared';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultGraphStyle;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -98,7 +99,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Bars', modeId: 'bar' },
                     { name: 'Points', modeId: 'markers' },
                   ],
-                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
+                  defaultSelections: [{ name: 'Lines', modeId: DefaultMode }],
                 },
               },
               {
@@ -112,21 +113,21 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Step before', modeId: 'hv' },
                     { name: 'Step after', modeId: 'vh' },
                   ],
-                  defaultSelections: [{ name: 'Smooth', modeId: 'spline' }],
+                  defaultSelections: [{ name: 'Smooth', modeId: Interpolation }],
                 },
               },
               {
                 name: 'Line width',
                 component: null,
                 mapTo: 'lineWidth',
-                defaultState: 2,
+                defaultState: LineWidth,
                 max:10,
               },
               {
                 name: 'Fill Opacity',
                 component: null,
                 mapTo: 'fillOpacity',
-                defaultState: 30,
+                defaultState: FillOpacity,
                 max:100,
               },
             ],
