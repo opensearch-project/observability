@@ -298,6 +298,12 @@ exports[`Pie component Renders pie component 1`] = `
               "mapTo": "layoutConfig",
               "name": "Layout",
             },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
           ],
         },
         "fullLabel": "Bar",
