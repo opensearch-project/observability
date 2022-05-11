@@ -15,11 +15,16 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiFieldText,
-  EuiSelect,
   htmlIdGenerator,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
-import { PPL_SPAN_REGEX } from '../../../../../../../../common/constants/shared';
+
+export interface ThresholdUnitType {
+  thid: string;
+  name: string;
+  color: string;
+  value: number;
+}
 
 export const ConfigThresholds = ({
   visualizations,
@@ -28,33 +33,15 @@ export const ConfigThresholds = ({
   handleConfigChange,
   sectionName = 'Thresholds',
 }: any) => {
-  let addButtonText = '+ Add threadshold';
+  const addButtonText = '+ Add threadshold';
   const getThresholdUnit = () => {
     return {
       thid: htmlIdGenerator('thr')(),
       name: '',
       color: '#FC0505',
       value: 0,
-      ...(hasSpanInApp && { expression: '≥' }),
     };
   };
-
-  const expressionOptions = [
-    { value: '≥', text: '≥' },
-    { value: '≤', text: '≤' },
-    { value: '>', text: '>' },
-    { value: '<', text: '<' },
-    { value: '=', text: '=' },
-    { value: '≠', text: '≠' },
-  ];
-
-  const hasSpanInApp =
-    visualizations.data.query.finalQuery.search(PPL_SPAN_REGEX) > 0 &&
-    visualizations.data.appData.fromApp;
-  if (hasSpanInApp) {
-    sectionName = 'Availability Levels';
-    addButtonText = '+ Add availability level';
-  }
 
   const handleAddThreshold = useCallback(() => {
     let res = vizState;
@@ -64,9 +51,9 @@ export const ConfigThresholds = ({
 
   const handleThresholdChange = useCallback(
     (thrId, thrName) => {
-      return (event) => {
+      return (event: any) => {
         handleConfigChange([
-          ...vizState.map((th) => {
+          ...vizState.map((th: ThresholdUnitType) => {
             if (thrId !== th.thid) return th;
             return {
               ...th,
@@ -81,8 +68,8 @@ export const ConfigThresholds = ({
 
   const handleThresholdDelete = useCallback(
     (thrId) => {
-      return (event) => {
-        handleConfigChange([...vizState.filter((th) => th.thid !== thrId)]);
+      return () => {
+        handleConfigChange([...vizState.filter((th: ThresholdUnitType) => th.thid !== thrId)]);
       };
     },
     [vizState, handleConfigChange]
@@ -105,7 +92,7 @@ export const ConfigThresholds = ({
       </EuiButton>
       <EuiSpacer size="s" />
       {!isEmpty(vizState) &&
-        vizState.map((thr) => {
+        vizState.map((thr: ThresholdUnitType) => {
           return (
             <>
               <EuiFormRow fullWidth label="">
@@ -129,19 +116,6 @@ export const ConfigThresholds = ({
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
-                  {hasSpanInApp && (
-                    <EuiFormRow helpText="expression">
-                      <EuiFlexItem grow={4}>
-                        <EuiSelect
-                          options={expressionOptions}
-                          value={thr.expression || ''}
-                          onChange={handleThresholdChange(thr.thid, 'expression')}
-                          aria-label="Select threshold expression"
-                          data-test-subj="expressionSelect"
-                        />
-                      </EuiFlexItem>
-                    </EuiFormRow>
-                  )}
                   <EuiFlexItem grow={5}>
                     <EuiFormRow helpText="value">
                       <EuiFieldNumber

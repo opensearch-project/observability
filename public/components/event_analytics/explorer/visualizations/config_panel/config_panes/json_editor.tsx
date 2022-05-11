@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
-import { EuiFlexGroup, EuiFlexItem, EuiButton } from '@elastic/eui';
+import React from 'react';
 import { PlotlyVizEditor } from '../../shared_components/plotly_viz_editor';
 
 export const ConfigEditor = ({

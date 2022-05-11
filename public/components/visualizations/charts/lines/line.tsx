@@ -6,6 +6,8 @@
 import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
+import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
@@ -13,7 +15,11 @@ export const Line = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+  const {
+    dataConfig = {},
+    layoutConfig = {},
+    availabilityConfig = {},
+  } = visualizations?.data?.userConfigs;
   const xaxis =
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
@@ -30,9 +36,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
-  
+
   const [calculatedLayout, lineValues] = useMemo(() => {
-    
     let calculatedLineValues = valueSeries.map((field: any) => {
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
@@ -42,22 +47,25 @@ export const Line = ({ visualizations, layout, config }: any) => {
         mode,
       };
     });
-    
+
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     };
 
-    if (dataConfig.thresholds) {
+    if (dataConfig.thresholds || availabilityConfig.level) {
       const thresholdTraces = {
         x: [],
         y: [],
         mode: 'text',
         text: [],
       };
-      mergedLayout.shapes = [
-        ...dataConfig.thresholds.map((thr) => {
+      const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
+      const levels = availabilityConfig.level ? availabilityConfig.level : [];
+
+      const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
+        return list.map((thr: ThresholdUnitType) => {
           thresholdTraces.x.push(
             data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
           );
@@ -73,11 +81,16 @@ export const Line = ({ visualizations, layout, config }: any) => {
             opacity: 0.7,
             line: {
               color: thr.color,
-              width: 4,
-              dash: 'dashdot',
+              width: 3,
+              ...lineStyle,
             },
           };
-        }),
+        });
+      };
+
+      mergedLayout.shapes = [
+        ...mapToLine(thresholds, { dash: 'dashdot' }),
+        ...mapToLine(levels, {}),
       ];
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }

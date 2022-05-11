@@ -39,6 +39,7 @@ import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import { ApplicationListType } from '../../../../common/types/app_analytics';
+import { AvailabilityType } from '../helpers/types';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
   loading: boolean;
@@ -47,6 +48,7 @@ interface AppTableProps extends AppAnalyticsComponentDeps {
   renameApplication: (newAppName: string, appId: string) => void;
   deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
   clearStorage: () => void;
+  moveToApp: (id: string, type: string) => void;
 }
 
 export function AppTable(props: AppTableProps) {
@@ -59,6 +61,7 @@ export function AppTable(props: AppTableProps) {
     deleteApplication,
     setFilters,
     clearStorage,
+    moveToApp,
   } = props;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
@@ -179,6 +182,34 @@ export function AppTable(props: AppTableProps) {
     // <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
   ];
 
+  const renderAvailability = (value: AvailabilityType, record: ApplicationListType) => {
+    if (value.color === 'loading') {
+      return <EuiLoadingSpinner />;
+    } else if (value.name) {
+      return (
+        <EuiBadge
+          data-test-subj={`${value.name}AvailabilityBadge`}
+          color={value.color || 'default'}
+        >
+          {value.name}
+        </EuiBadge>
+      );
+    } else if (value.color === 'undefined') {
+      return <EuiText>No match</EuiText>;
+    } else if (value.color === 'null') {
+      return <EuiText>-</EuiText>;
+    } else {
+      return (
+        <EuiLink
+          data-test-subj="setAvailabilityHomePageLink"
+          onClick={() => moveToApp(record.id, 'createSetAvailability')}
+        >
+          Set Availability
+        </EuiLink>
+      );
+    }
+  };
+
   const tableColumns = [
     {
       field: 'name',
@@ -211,22 +242,7 @@ export function AppTable(props: AppTableProps) {
       field: 'availability',
       name: 'Current Availability',
       sortable: true,
-      render: (value, record) => {
-        if (value.name === 'loading') {
-          return <EuiLoadingSpinner />;
-        } else if (value.name) {
-          return (
-            <EuiBadge
-              data-test-subj={`${value.name}AvailabilityBadge`}
-              color={value.color || 'default'}
-            >
-              {value.name}
-            </EuiBadge>
-          );
-        } else {
-          return <EuiText>Undefined</EuiText>;
-        }
-      },
+      render: renderAvailability,
     },
     {
       field: 'dateModified',
