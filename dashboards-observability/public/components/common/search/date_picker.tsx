@@ -11,7 +11,7 @@ import { uiSettingsService } from '../../../../common/utils';
 export function DatePicker(props: IDatePickerProps) {
   const { startTime, endTime, handleTimePickerChange, handleTimeRangePickerRefresh } = props;
 
-  const handleTimeChange = (e) => handleTimePickerChange([e.start, e.end]);
+  const handleTimeChange = (e: any) => handleTimePickerChange([e.start, e.end]);
 
   return (
     <EuiSuperDatePicker
