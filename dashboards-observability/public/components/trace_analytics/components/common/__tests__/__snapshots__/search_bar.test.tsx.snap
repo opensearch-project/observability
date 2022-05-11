@@ -882,25 +882,23 @@ exports[`Search bar components renders search bar 1`] = `
           className="euiFlexItem euiFlexItem--flexGrowZero"
         >
           <EuiButton
-            data-test-subj="search-bar-refresh-button"
-            fill={true}
+            data-test-subj="superDatePickerApplyTimeButton"
             iconType="refresh"
             onClick={[MockFunction]}
           >
             <EuiButtonDisplay
               baseClassName="euiButton"
-              data-test-subj="search-bar-refresh-button"
+              data-test-subj="superDatePickerApplyTimeButton"
               disabled={false}
               element="button"
-              fill={true}
               iconType="refresh"
               isDisabled={false}
               onClick={[MockFunction]}
               type="button"
             >
               <button
-                className="euiButton euiButton--primary euiButton--fill"
-                data-test-subj="search-bar-refresh-button"
+                className="euiButton euiButton--primary"
+                data-test-subj="superDatePickerApplyTimeButton"
                 disabled={false}
                 onClick={[MockFunction]}
                 style={
