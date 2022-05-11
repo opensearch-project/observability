@@ -1087,7 +1087,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -1099,6 +1099,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -2309,7 +2333,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -2321,6 +2345,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -3501,7 +3549,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -3513,6 +3561,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -4634,7 +4706,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -4646,6 +4718,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -5826,7 +5922,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -5838,6 +5934,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -6959,7 +7079,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -6971,6 +7091,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -8087,7 +8231,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -8099,6 +8243,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -9158,7 +9326,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -9170,6 +9338,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -10317,7 +10509,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill"
+                    class="euiButton euiButton--primary"
                     data-test-subj="createButton"
                     type="button"
                   >
@@ -10328,6 +10520,29 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill"
+                    data-test-subj="createAndSetButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -11418,7 +11633,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill"
+                  class="euiButton euiButton--primary"
                   data-test-subj="createButton"
                   type="button"
                 >
@@ -11429,6 +11644,29 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill"
+                  data-test-subj="createAndSetButton"
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -12609,7 +12847,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -12621,6 +12859,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -13742,7 +14004,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -13754,6 +14016,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -14934,7 +15220,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -14946,6 +15232,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -16067,7 +16377,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -16079,6 +16389,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>
@@ -17230,7 +17564,7 @@ Object {
                   class="euiToolTipAnchor"
                 >
                   <button
-                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    class="euiButton euiButton--primary euiButton-isDisabled"
                     data-test-subj="createButton"
                     disabled=""
                     type="button"
@@ -17242,6 +17576,30 @@ Object {
                         class="euiButton__text"
                       >
                         Create
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                    data-test-subj="createAndSetButton"
+                    disabled=""
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Create and Set Availability
                       </span>
                     </span>
                   </button>
@@ -18448,7 +18806,7 @@ Object {
                 class="euiToolTipAnchor"
               >
                 <button
-                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  class="euiButton euiButton--primary euiButton-isDisabled"
                   data-test-subj="createButton"
                   disabled=""
                   type="button"
@@ -18460,6 +18818,30 @@ Object {
                       class="euiButton__text"
                     >
                       Create
+                    </span>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <span
+                class="euiToolTipAnchor"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+                  data-test-subj="createAndSetButton"
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create and Set Availability
                     </span>
                   </span>
                 </button>

@@ -118,6 +118,7 @@ describe('Testing service view', () => {
     cy.wait(delay);
 
     cy.get('.euiBadge__text').contains('spanId: ').should('exist');
+    cy.get('[data-test-subj="euiFlyoutCloseButton"]').click({ force: true });
     cy.contains('Spans (1)').should('exist');
   });
 });

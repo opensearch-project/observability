@@ -699,24 +699,22 @@ exports[`Services component renders empty services page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
-                data-test-subj="search-bar-refresh-button"
-                fill={true}
+                data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
-                  data-test-subj="search-bar-refresh-button"
+                  data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
-                  fill={true}
                   iconType="refresh"
                   isDisabled={false}
                   onClick={[Function]}
                   type="button"
                 >
                   <button
-                    className="euiButton euiButton--primary euiButton--fill"
-                    data-test-subj="search-bar-refresh-button"
+                    className="euiButton euiButton--primary"
+                    data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
                     type="button"
@@ -2469,24 +2467,22 @@ exports[`Services component renders services page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
-                data-test-subj="search-bar-refresh-button"
-                fill={true}
+                data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
-                  data-test-subj="search-bar-refresh-button"
+                  data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
-                  fill={true}
                   iconType="refresh"
                   isDisabled={false}
                   onClick={[Function]}
                   type="button"
                 >
                   <button
-                    className="euiButton euiButton--primary euiButton--fill"
-                    data-test-subj="search-bar-refresh-button"
+                    className="euiButton euiButton--primary"
+                    data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
                     type="button"

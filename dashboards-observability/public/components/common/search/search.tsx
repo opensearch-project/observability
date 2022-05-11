@@ -42,6 +42,7 @@ export interface IDatePickerProps {
   setTimeRange: () => void;
   setIsOutputStale: () => void;
   handleTimePickerChange: (timeRange: string[]) => any;
+  handleTimeRangePickerRefresh: () => any;
 }
 
 export const Search = (props: any) => {
@@ -119,10 +120,10 @@ export const Search = (props: any) => {
   const liveButton = (
     <LiveTailButton
       isLiveTailOn={isLiveTailOn}
-      setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen} 
-      liveTailName={liveTailName} 
+      setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
+      liveTailName={liveTailName}
       isLiveTailPopoverOpen={isLiveTailPopoverOpen}
-      dataTestSubj="eventLiveTail"         
+      dataTestSubj="eventLiveTail"
     />
   );
 
@@ -192,10 +193,7 @@ export const Search = (props: any) => {
         )}
         {isLiveTailOn && (
           <EuiFlexItem grow={false}>
-            <StopLiveButton
-              StopLive={stopLive}
-              dataTestSubj="eventLiveTail__off"
-            />
+            <StopLiveButton StopLive={stopLive} dataTestSubj="eventLiveTail__off" />
           </EuiFlexItem>
         )}
         {showSaveButton && searchBarConfigs[selectedSubTabId]?.showSaveButton && (

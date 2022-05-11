@@ -8,11 +8,8 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../explorer/visualizations/config_panel/config_editor/default_vis_editor';
 import { ConfigEditor } from '../../../explorer/visualizations/config_panel/config_editor/config_editor';
-import {
-  ConfigValueOptions,
-  ConfigDataLinks,
-  ConfigThresholds,
-} from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import { ConfigValueOptions } from '../../../explorer/visualizations/config_panel/config_editor/config_controls';
+import { ConfigAvailability } from '../../../explorer/visualizations/config_panel/config_editor/config_controls/config_availability';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -103,6 +100,12 @@ export const createBarTypeDefinition = (params: any) => ({
         mapTo: 'layoutConfig',
         editor: ConfigEditor,
         content: [],
+      },
+      {
+        id: 'availability-panel',
+        name: 'Availability',
+        mapTo: 'availabilityConfig',
+        editor: ConfigAvailability,
       },
     ],
   },
