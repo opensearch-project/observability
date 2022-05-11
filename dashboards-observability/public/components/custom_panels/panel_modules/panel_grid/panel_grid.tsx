@@ -44,6 +44,7 @@ interface PanelGridProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   panelId: string;
+  updateAvailabilityVizId?: any;
   panelVisualizations: VisualizationType[];
   setPanelVisualizations: React.Dispatch<React.SetStateAction<VisualizationType[]>>;
   editMode: boolean;
@@ -64,6 +65,7 @@ export const PanelGrid = (props: PanelGridProps) => {
     http,
     chrome,
     panelId,
+    updateAvailabilityVizId,
     panelVisualizations,
     setPanelVisualizations,
     editMode,
@@ -166,6 +168,7 @@ export const PanelGrid = (props: PanelGridProps) => {
         _.omit(layout, ['static', 'moved'])
       );
       saveVisualizationLayouts(panelId, visualizationParams);
+      updateAvailabilityVizId(panelVisualizations);
     }
   }, [editActionType]);
 
