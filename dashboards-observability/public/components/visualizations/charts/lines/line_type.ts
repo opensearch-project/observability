@@ -13,11 +13,12 @@ import {
   ConfigValueOptions,
   ConfigThresholds,
   ConfigGraphStyle,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DefaultGraphStyle } from '../../../../../common/constants/shared';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultGraphStyle;
+const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultGraphStyle;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -84,11 +85,56 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             ],
           },
           {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', modeId: "show" },
+                    { name: 'Hidden', modeId: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', modeId: "show" }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', modeId: 'v' },
+                    { name: 'Bottom', modeId: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', modeId: 'v' }],
+                },
+              },
+            ],
+          },
+          {
             id: 'graph_style',
             name: 'Graph Style',
             editor: ConfigGraphStyle,
             mapTo: 'graphStyle',
-            schemas: [  
+            schemas: [
+              {
+                name: 'Orientation',
+                component: null,
+                mapTo: 'orientation',
+                props: {
+                  options: [
+                    { name: 'Auto', modeId: 'v' },
+                    { name: 'Horizontal', modeId: 'h' },
+                    { name: 'Vertical', modeId: 'v' },
+                  ],
+                  defaultSelections: [{ name: 'Auto', modeId: 'v' }],
+                },
+              },
               {
                 name: 'Style',
                 component: null,
@@ -121,14 +167,14 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: null,
                 mapTo: 'lineWidth',
                 defaultState: LineWidth,
-                max:10,
+                max: 10,
               },
               {
                 name: 'Fill Opacity',
                 component: null,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
-                max:100,
+                max: 100,
               },
             ],
           },

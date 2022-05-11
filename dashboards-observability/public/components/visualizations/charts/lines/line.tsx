@@ -25,6 +25,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const mode = dataConfig?.graphStyle?.style || DefaultMode;
   const lineShape = dataConfig?.graphStyle?.interpolation || Interpolation;
   const lineWidth = dataConfig?.graphStyle?.lineWidth || LineWidth;
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
+  const legendPosition = dataConfig?.legend?.position || 'v';
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -50,6 +52,11 @@ export const Line = ({ visualizations, layout, config }: any) => {
       ...layout,
       ...layoutConfig.layout,
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      legend:{
+        ...layout.legend,
+        orientation: legendPosition,
+      },
+      showlegend: showLegend,
     };
 
     if (dataConfig.thresholds) {

@@ -10,7 +10,7 @@ import { EuiTitle, EuiSpacer, EuiRange } from '@elastic/eui';
 export const SliderConfig = ({
   title, currentRange, handleSliderChange, maxRange
 }: any) => {
-  console.log("currentRange:", currentRange, "maxRange: ", maxRange)
+
   return (
     <>
       <EuiTitle size="xxs">
