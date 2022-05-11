@@ -13,7 +13,6 @@ import {
   ConfigThresholds,
   ConfigGaugeValueOptions,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { ConfigAvailability } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -77,12 +76,6 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
         mapTo: 'layoutConfig',
         editor: ConfigEditor,
         content: [],
-      },
-      {
-        id: 'availability-panel',
-        name: 'Availability',
-        mapTo: 'availabilityConfig',
-        editor: ConfigAvailability,
       },
     ],
   },

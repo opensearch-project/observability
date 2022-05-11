@@ -9,7 +9,6 @@ import { LensIconChartLine } from '../../assets/chart_line';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -62,12 +61,6 @@ export const createHistogramVisDefinition = (params = {}) => ({
         mapTo: 'layoutConfig',
         editor: ConfigEditor,
         content: [],
-      },
-      {
-        id: 'availability-panel',
-        name: 'Availability',
-        mapTo: 'availabilityConfig',
-        editor: ConfigAvailability,
       },
     ],
   },
