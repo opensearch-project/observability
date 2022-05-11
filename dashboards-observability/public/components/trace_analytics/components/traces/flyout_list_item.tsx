@@ -45,14 +45,22 @@ export function FlyoutListItem(props: FlyoutListItemProps) {
         </EuiFlexItem>
       </EuiFlexGroup>
     ) : (
-      <EuiText size="s" style={{ wordBreak: 'break-all', wordWrap: 'break-word', whiteSpace: 'pre-line' }}>
+      <EuiText
+        size="s"
+        style={{ wordBreak: 'break-all', wordWrap: 'break-word', whiteSpace: 'pre-line' }}
+      >
         <b>{props.description}</b>
       </EuiText>
     );
   return (
     <>
-      <div onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      <div
+        onMouseOver={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+      >
         <EuiDescriptionList
+          data-test-subj={`${props.title}DescriptionList`}
           listItems={[
             {
               title: (

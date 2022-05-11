@@ -129,9 +129,9 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
   }, [serviceName, startTime, endTime]);
 
   return (
-    <EuiFlyout onClose={closeServiceFlyout} size="s">
+    <EuiFlyout data-test-subj="serviceDetailFlyout" onClose={closeServiceFlyout} size="s">
       <EuiFlyoutHeader hasBorder>
-        <EuiTitle>
+        <EuiTitle data-test-subj="serviceDetailFlyoutTitle">
           <h2>Service detail</h2>
         </EuiTitle>
       </EuiFlyoutHeader>
