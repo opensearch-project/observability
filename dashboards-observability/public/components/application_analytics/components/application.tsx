@@ -24,10 +24,10 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { last } from 'lodash';
+import { VisualizationType } from 'common/types/custom_panels';
 import { TracesContent } from '../../../components/trace_analytics/components/traces/traces_content';
 import { DashboardContent } from '../../../components/trace_analytics/components/dashboard/dashboard_content';
 import { ServicesContent } from '../../trace_analytics/components/services/services_content';
@@ -380,6 +380,12 @@ export function Application(props: AppDetailProps) {
     switchToEditViz(savedVisualizationId);
   };
 
+  const updateAvailabilityVizId = (vizs: VisualizationType[]) => {
+    if (!vizs.map((viz) => viz.savedVisualizationId).includes(application.availabilityVisId)) {
+      updateApp(appId, { availabilityVisId: '' }, 'editAvailability');
+    }
+  };
+
   const getPanel = () => {
     return (
       <CustomPanelView
@@ -397,6 +403,7 @@ export function Application(props: AppDetailProps) {
         setToast={setToasts}
         page="app"
         appId={appId}
+        updateAvailabilityVizId={updateAvailabilityVizId}
         startTime={appStartTime}
         endTime={appEndTime}
         setStartTime={setStartTimeForApp}

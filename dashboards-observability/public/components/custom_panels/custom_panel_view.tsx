@@ -109,6 +109,7 @@ interface CustomPanelViewProps {
   setEndTime: any;
   childBreadcrumbs?: EuiBreadcrumb[];
   appId?: string;
+  updateAvailabilityVizId?: any;
   onAddClick?: any;
 }
 
@@ -127,6 +128,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     endTime,
     setStartTime,
     setEndTime,
+    updateAvailabilityVizId,
     renameCustomPanel,
     deleteCustomPanel,
     cloneCustomPanel,
@@ -643,6 +645,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
             <PanelGrid
               http={http}
               panelId={panelId}
+              updateAvailabilityVizId={updateAvailabilityVizId}
               chrome={chrome}
               panelVisualizations={panelVisualizations}
               setPanelVisualizations={setPanelVisualizations}
