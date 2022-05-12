@@ -25,7 +25,7 @@ export const ButtonGroupItem = ({
         idSelected={idSelected}
         onChange={handleButtonChange}
         buttonSize="compressed"
-        isFullWidth
+        isFullWidth={false}
       />
     </>
   );

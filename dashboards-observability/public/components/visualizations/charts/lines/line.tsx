@@ -6,10 +6,10 @@
 import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { DefaultGraphStyle } from '../../../../../common/constants/shared';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultGraphStyle;
+  const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -22,11 +22,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
   const lastIndex = fields.length - 1;
 
-  const mode = dataConfig?.graphStyle?.style || DefaultMode;
-  const lineShape = dataConfig?.graphStyle?.interpolation || Interpolation;
-  const lineWidth = dataConfig?.graphStyle?.lineWidth || LineWidth;
+  const mode = dataConfig?.chartStyles?.style || DefaultMode;
+  const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
   const legendPosition = dataConfig?.legend?.position || 'v';
+  const markerSize = dataConfig?.chartStyles?.pointSize || 5;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -45,6 +46,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
         name: field.name,
         mode,
         line: { shape: lineShape, width: lineWidth },
+        marker: {
+          size: markerSize
+        },
       };
     });
     
@@ -98,6 +102,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-
+  
   return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
 };
