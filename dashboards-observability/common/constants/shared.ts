@@ -130,5 +130,5 @@ export enum DefaultChartStyles {
   DefaultMode = 'lines',
   Interpolation = 'spline',
   LineWidth = 2,
-  FillOpacity = 30
+  FillOpacity = 40
 };
