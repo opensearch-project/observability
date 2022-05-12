@@ -51,10 +51,7 @@ describe('Adding sample data and visualization', () => {
     cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
     cy.wait(100 * 5);
     cy.route2('POST', '/addSamplePanels').as('addSamples');
-    cy.wait('@addSamples').then(() => {
-      cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
-    });
-    cy.wait(100);
+    cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
   });
 });
 
@@ -478,45 +475,5 @@ describe('Testing paragraphs', () => {
     cy.wait(delay * 3);
 
     cy.get('.euiText').contains('No notebooks').should('exist');
-  });
-});
-
-describe('clean up all test data', () => {
-  it('Delete visualizations from event analytics', () => {
-    moveToEventsHome();
-    cy.get('[data-test-subj="tablePaginationPopoverButton"]').trigger('mouseover').click();
-    cy.get('.euiContextMenuItem__text').contains('50 rows').trigger('mouseover').click();
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('button.euiButton--danger').should('be.disabled');
-    cy.get('input.euiFieldText[placeholder="delete"]').focus().type('delete', {
-      delay: 50,
-    });
-    cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
-  });
-
-  it('Deletes test panel', () => {
-    moveToPanelHome();
-    cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('Delete').trigger('mouseover').click();
-    cy.wait(delay);
-    cy.get('button.euiButton--danger').should('be.disabled');
-    cy.get('input.euiFieldText[placeholder="delete"]').focus().type('delete', {
-      delay: 50,
-    });
-    cy.get('button.euiButton--danger').should('not.be.disabled');
-    cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
-
-    cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
   });
 });
