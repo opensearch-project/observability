@@ -25,7 +25,7 @@ import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { TabContext } from '../../../hooks';
 import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
-import { ENABLED_VIS_TYPES } from '../../../../../../common/constants/shared';
+import { ENABLED_VIS_TYPES, ValueOptionsAxes, visChartTypes } from '../../../../../../common/constants/shared';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -60,19 +60,26 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({ visualizations, setCurVisId, callback, updateIsDataConfigOptionsInvalid }: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsValidConfigOptionState }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
   const { data, vis } = visualizations;
   const { userConfigs } = data;
 
-  const getDefaultAxisSelected = () => ({
-    valueOptions: {
-      xaxis: data.defaultAxes.xaxis ?? [],
-      yaxis: data.defaultAxes.yaxis ?? [],
+  const getDefaultAxisSelected = () => {
+    let chartBasedAxes: ValueOptionsAxes = {};
+    const [valueField] = data.defaultAxes?.yaxis ?? [];
+    if (curVisId === visChartTypes.TreeMap) {
+      chartBasedAxes["childField"] = data.defaultAxes.xaxis ?? [];
+      chartBasedAxes["valueField"] = [valueField];
+    } else {
+      chartBasedAxes = { ...data.defaultAxes };
     }
-  })
+    return {
+      valueOptions: { ...(chartBasedAxes && chartBasedAxes) }
+    }
+  };
 
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
@@ -103,16 +110,27 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, updateIsDat
     []
   );
 
-  // To check , If user empty any of the value options
-  const isInvalidValueOptionConfig = useMemo(() => !(vizConfigs.dataConfig && (vizConfigs.dataConfig?.valueOptions?.xaxis?.length !== 0
-    && vizConfigs.dataConfig?.valueOptions?.yaxis?.length !== 0)), [vizConfigs])
+  // To check, If user empty any of the value options
+  const isValidValueOptionConfigSelected = useMemo(() => {
+    const valueOptions = vizConfigs.dataConfig?.valueOptions;
+    const { Bar, Line, TimeSeries, Histogram, Pie, TreeMap, Gauge, HeatMap } = visChartTypes;
+    return valueOptions && (
+      ([Bar, Line, TimeSeries, Histogram, Pie].includes(curVisId) &&
+        valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0) ||
+      (curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
+        valueOptions?.valueField?.length !== 0) ||
+      (curVisId === Gauge && valueOptions?.series && valueOptions.series?.length !== 0 &&
+        valueOptions?.value && valueOptions.value?.length !== 0) ||
+      (curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0)
+    )
+  }, [vizConfigs.dataConfig])
 
-  useEffect(() => updateIsDataConfigOptionsInvalid(isInvalidValueOptionConfig), [isInvalidValueOptionConfig]);
+  useEffect(() => changeIsValidConfigOptionState(!!isValidValueOptionConfigSelected), [isValidValueOptionConfigSelected]);
 
   const handleConfigUpdate = useCallback(() => {
     try {
 
-      if (isInvalidValueOptionConfig) {
+      if (!isValidValueOptionConfigSelected) {
         setToast(`Invalid value options configuration selected.`, 'danger');
       }
 

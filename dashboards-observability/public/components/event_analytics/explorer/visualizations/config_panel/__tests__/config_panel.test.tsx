@@ -26,6 +26,7 @@ describe('Config panel component', () => {
     const tabId = 'query-panel-1';
     const curVisId = 'bar';
     const pplService = new PPLService(httpClientMock);
+    const mockChangeIsValidConfigOptionState = jest.fn();
     
     const wrapper = mount(
       <TabContext.Provider
@@ -39,7 +40,7 @@ describe('Config panel component', () => {
           pplService: pplService,
         }}
       >
-        <ConfigPanel visualizations={TEST_VISUALIZATIONS_DATA} setCurVisId={setCurVisId} />
+        <ConfigPanel visualizations={TEST_VISUALIZATIONS_DATA} setCurVisId={setCurVisId} changeIsValidConfigOptionState={mockChangeIsValidConfigOptionState} />
       </TabContext.Provider>
     );
 

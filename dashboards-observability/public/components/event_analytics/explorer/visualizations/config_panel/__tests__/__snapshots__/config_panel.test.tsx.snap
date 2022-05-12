@@ -2,6 +2,28 @@
 
 exports[`Config panel component Renders config panel with visualization data 1`] = `
 <ConfigPanel
+  changeIsValidConfigOptionState={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          false,
+        ],
+        Array [
+          true,
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
   setCurVisId={[MockFunction]}
   visualizations={
     Object {
@@ -2541,6 +2563,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         }
                       }
+                      vizState={
+                        Object {
+                          "valueOptions": Object {},
+                        }
+                      }
                     />,
                     "id": "data-panel",
                     "name": "Data",
@@ -2960,6 +2987,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               },
                             },
+                          }
+                        }
+                        vizState={
+                          Object {
+                            "valueOptions": Object {},
                           }
                         }
                       />,
@@ -3828,6 +3860,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                             },
                           },
+                        }
+                      }
+                      vizState={
+                        Object {
+                          "valueOptions": Object {},
                         }
                       }
                     >
