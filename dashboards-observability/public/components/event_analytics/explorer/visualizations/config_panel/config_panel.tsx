@@ -60,12 +60,19 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId, callback, updateIsDataConfigOptionsInvalid }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
   const { data, vis } = visualizations;
   const { userConfigs } = data;
+
+  const getDefaultAxisSelected = () => ({
+    valueOptions: {
+      xaxis: data.defaultAxes.xaxis ?? [],
+      yaxis: data.defaultAxes.yaxis ?? [],
+    }
+  })
 
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
@@ -78,6 +85,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
   useEffect(() => {
     setVizConfigs({
       ...userConfigs,
+      dataConfig: { ...vizConfigs.dataConfig, ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()) },
       layoutConfig: userConfigs?.layoutConfig
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
@@ -95,8 +103,19 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
     []
   );
 
+  // To check , If user empty any of the value options
+  const isInvalidValueOptionConfig = useMemo(() => !(vizConfigs.dataConfig && (vizConfigs.dataConfig?.valueOptions?.xaxis?.length !== 0
+    && vizConfigs.dataConfig?.valueOptions?.yaxis?.length !== 0)), [vizConfigs])
+
+  useEffect(() => updateIsDataConfigOptionsInvalid(isInvalidValueOptionConfig), [isInvalidValueOptionConfig]);
+
   const handleConfigUpdate = useCallback(() => {
     try {
+
+      if (isInvalidValueOptionConfig) {
+        setToast(`Invalid value options configuration selected.`, 'danger');
+      }
+
       dispatch(
         changeVisualizationConfig({
           tabId,
@@ -112,7 +131,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
     } catch (e: any) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
-  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId]);
+  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId, vizConfigs]);
 
   const handleConfigChange = (configSchema: string) => {
     return (configChanges: any) => {

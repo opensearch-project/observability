@@ -27,6 +27,7 @@ interface IExplorerVisualizationsProps {
   visualizations: IVisualizationContainerProps;
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
+  updateIsDataConfigOptionsInvalid: (isInvalidConfig: Boolean) => void;
 }
 
 export const ExplorerVisualizations = ({
@@ -41,6 +42,8 @@ export const ExplorerVisualizations = ({
   visualizations,
   handleOverrideTimestamp,
   callback,
+  updateIsDataConfigOptionsInvalid
+  
 }: IExplorerVisualizationsProps) => {
   return (
     <EuiResizableContainer>
@@ -76,6 +79,7 @@ export const ExplorerVisualizations = ({
               curVisId={curVisId}
               setCurVisId={setCurVisId}
               callback={callback}
+              updateIsDataConfigOptionsInvalid={updateIsDataConfigOptionsInvalid}
             />
           </EuiResizablePanel>
         </>

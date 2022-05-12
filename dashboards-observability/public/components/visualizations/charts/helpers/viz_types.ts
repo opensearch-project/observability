@@ -20,11 +20,12 @@ interface IVizContainerProps {
   };
 }
 
-const getDefaultXYAxisLabels = (vizFields: string[]) => {
+const getDefaultXYAxisLabels = (vizFields: IField[]) => {
   if (isEmpty(vizFields)) return {};
+  const vizFieldsWithLabel = vizFields.map(vizField => ({ ...vizField, label: vizField.name }));
   return {
-    xaxis: [vizFields[vizFields.length - 1]] || [],
-    yaxis: take(vizFields, vizFields.length - 1 > 0 ? vizFields.length - 1 : 1) || [],
+    xaxis: [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]] || [],
+    yaxis: take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [],
   };
 };
 

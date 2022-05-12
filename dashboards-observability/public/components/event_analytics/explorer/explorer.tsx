@@ -141,6 +141,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
+  const [isInvalidDataConfigOptionSelected, setIsInvalidDataConfigOptionSelected] = useState<Boolean>(false);
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -726,6 +727,9 @@ export const Explorer = ({
       setTriggerAvailability(false);
     }
   };
+  const handleIsInvalidConfigOption = (isInvalidConfig: Boolean) =>
+    setIsInvalidDataConfigOptionSelected(isInvalidConfig);
+
 
   const getExplorerVis = () => {
     return (
@@ -741,6 +745,7 @@ export const Explorer = ({
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
+        updateIsDataConfigOptionsInvalid={handleIsInvalidConfigOption}
       />
     );
   };
@@ -833,6 +838,10 @@ export const Explorer = ({
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
       setToast('Name field cannot be empty.', 'danger');
+      return;
+    }
+    if (isInvalidDataConfigOptionSelected) {
+      setToast('Invalid value options configuration selected.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
