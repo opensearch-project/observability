@@ -17,17 +17,17 @@ export const moveToHomePage = () => {
 
 export const moveToCreatePage = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.wait(delay * 2);
-  cy.get('.euiButton__text').contains('Create application').click();
   supressResizeObserverIssue();
-  cy.wait(delay);
+  cy.wait(delay * 7);
+  cy.get('.euiButton__text').contains('Create application').click();
+  cy.wait(delay * 2);
   cy.get('.euiTitle').contains('Create application').should('exist');
 };
 
 export const moveToApplication = (name) => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
   supressResizeObserverIssue();
-  cy.wait(delay * 6);
+  cy.wait(delay * 7);
   cy.get('.euiLink').contains(name).click();
   cy.wait(delay);
   cy.get('.euiTitle').contains(name).should('exist');
@@ -85,5 +85,5 @@ export const query_one = 'where DestCityName = "Venice" | stats count() by span(
 export const query_two = 'where OriginCityName = "Seoul" | stats count() by span( timestamp , 6h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
-export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
+export const composition = 'order, payment, HTTP POST, HTTP GET';
 export const newName = 'Monterey Cypress';
