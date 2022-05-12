@@ -35,13 +35,19 @@ describe('Has working breadcrumbs', () => {
   it('Redirect to correct page on breadcrumb click', () => {
     landOnEventExplorer();
     cy.wait(delay * 3);
-    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.get('[data-test-subj="breadcrumbs"]')
+      .contains('Explorer', { timeout: 10000 })
+      .click();
     cy.wait(delay);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
-    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.get('[data-test-subj="breadcrumbs"]')
+      .contains('Event analytics', { timeout: 10000 })
+      .click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.get('[data-test-subj="breadcrumbs"]')
+      .contains('Observability', { timeout: 10000 })
+      .click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
@@ -210,7 +216,7 @@ describe('Click actions', () => {
     cy.get('[data-test-subj="eventHomeAction__addSamples"]').click();
     cy.get('[data-test-subj="confirmModalConfirmButton"]').click();
     cy.wait(delay * 4);
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.contains('Sample events added successfully.', { timeout: 10000 });
   });
 
   it('Actions - delete saved queries', () => {
@@ -219,8 +225,7 @@ describe('Click actions', () => {
     cy.get('[data-test-subj="eventHomeAction__delete"]').click();
     cy.get('[data-test-subj="popoverModal__deleteTextInput"]').type('delete');
     cy.get('[data-test-subj="popoverModal__deleteButton"').click();
-    cy.wait(delay);
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+    cy.contains('Histories has been successfully deleted.', { timeout: 10000 });
   });
 });
 
