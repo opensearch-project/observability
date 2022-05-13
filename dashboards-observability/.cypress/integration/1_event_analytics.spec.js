@@ -616,3 +616,118 @@ describe('Renders data view', () => {
     cy.get('[data-test-subj="workspace__dataTable"]').should('not.exist');
   });
 });
+
+const verify_data_grid_cols_exists = () => {
+  cy.get('.euiDataGridHeaderCell__content').contains('max(AvgTicketPrice)').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').should('exist');
+    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').should('exist');
+}
+
+describe('Data grid control section/Table view validation', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj = "workspace__dataTableViewSwitch"]').click();
+    cy.wait(delay);
+  });
+
+  it('Search columns', () => {
+    cy.get('[data-test-subj = "dataGridColumnSelectorButton"]').click();
+    cy.get('[aria-label = "Search columns"]').click().type('destcountry');
+    cy.get('.euiSwitch__label').eq(1).contains('DestCountry').should('exist');
+  });
+
+  it('Toggle columns and verify the columns hidden text', () => {
+    cy.get('[data-test-subj = "dataGridColumnSelectorButton"]').click();
+    cy.get('.euiSwitch.euiSwitch--compressed.euiSwitch--mini .euiSwitch__button').eq(3).click();
+    cy.get('.euiButtonEmpty__text').eq(3).click().should('have.text', '1 column hidden');
+  });
+
+  it('Show all button', () => {
+    cy.get('[data-test-subj = "dataGridColumnSelectorButton"]').click();
+    cy.get('.euiPopoverFooter .euiFlexItem.euiFlexItem--flexGrowZero').eq(0).should('have.text', 'Show all').click();
+    cy.get('.euiDataGrid__focusWrap').click().should('exist');
+  });
+
+  it('Hide all button', () => {
+    cy.get('[data-test-subj = "dataGridColumnSelectorButton"]').click();
+    cy.get('.euiPopoverFooter .euiFlexItem.euiFlexItem--flexGrowZero').eq(1).should('have.text', 'Hide all').click();
+    cy.get('.euiDataGrid__focusWrap').click().should('exist');
+    cy.get('[data-test-subj="dataGridColumnSelectorPopover"]').should('have.text', '4 columns hidden');
+  });
+
+  it('Render visualization for table view and see data in Full screen', () => {
+    verify_data_grid_cols_exists();
+    cy.get('.euiButtonEmpty__text').contains('Full screen').click();
+    cy.get('body').type('{esc}');
+  });
+
+  it('Render visualization for table view and change data table Density', () => {
+    verify_data_grid_cols_exists();
+    cy.get('.euiButtonEmpty__text').contains('Density').click();
+    cy.get('.euiButtonContent__icon').eq(10).click();
+    cy.get('.euiButtonContent__icon').eq(11).click();
+    cy.get('.euiButtonContent__icon').eq(12).click();
+  });
+
+  it('Renders table view and click on sort', () => {
+    cy.get('[data-test-subj="workspace__dataTable"]').should('exist');
+    cy.get('[data-test-subj="dataGridColumnSortingButton"]').contains('Sort fields').should('exist').click();
+    cy.get('[data-test-subj="dataGridColumnSortingPopoverColumnSelection"]').click();
+    cy.get('[data-test-subj="dataGridColumnSortingPopoverColumnSelection-max(AvgTicketPrice)"]').click();
+    cy.get('[data-test-subj="dataGridColumnSortingPopoverColumnSelection-DestCountry"]').click();
+    cy.get('[data-test-subj="dataGridColumnSortingPopoverColumnSelection-Carrier"]').click();
+    cy.get('[data-test-subj="dataGridColumnSortingPopoverColumnSelection"]').click();
+    cy.get('[data-test-subj="max(AvgTicketPrice)Desc"]').click({ force: true });
+  });
+});
+
+describe('Data grid header cell section/Table view validation', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj = "workspace__dataTableViewSwitch"]').click();
+    cy.wait(delay);
+  });
+
+  it('Render visualization for table view and work with Column header command', () => {
+    verify_data_grid_cols_exists();
+    cy.get('.euiDataGridHeaderCell__content').contains('Carrier').click();
+    cy.get('.euiListGroupItem__label').contains('Hide column').click();
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCityName').click();
+    cy.get('.euiListGroupItem__label').contains('Sort A-Z').click();
+    cy.get('.euiDataGridHeaderCell__content').contains('DestCountry').click();
+    cy.get('.euiListGroupItem__label').contains('Move left').click();
+  });
+});
+
+describe('Data grid/Table view Pagination functionlaity', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj = "workspace__dataTableViewSwitch"]').click();
+    cy.wait(delay);
+  });
+
+  it('Render visualization for table view and verify Pagination link', () => {
+    verify_data_grid_cols_exists();
+    cy.get('[data-test-subj="pagination-button-next"]').click();
+    cy.get('[data-test-subj="pagination-button-previous"]').click();
+    cy.get('.euiButtonEmpty__text').contains('Rows per page').click();
+    cy.get('.euiContextMenuItem__text').contains('50 rows').click();
+  });
+
+  it('Renders table view and click "Rows per page:10 " verify row count', () => {
+    cy.get('[data-test-subj="workspace__dataTable"]').should('exist');
+    cy.get('[data-test-subj="tablePaginationPopoverButton"] .euiButtonEmpty__text').contains('Rows per page: 10').should('exist');
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
+    cy.get('[data-test-subj="tablePagination-10-rows"]').click({ force: true });
+    cy.get('.euiDataGridHeader [role="columnheader"]').then($el => {
+      let colmun_header_count = Cypress.$($el).length;
+      let table_grid_cell_count = Cypress.$('[data-test-subj="dataGridRowCell"]').length;
+      const total_row_count = table_grid_cell_count / colmun_header_count;
+      expect(total_row_count).to.equal(10)
+    });
+  });
+});
