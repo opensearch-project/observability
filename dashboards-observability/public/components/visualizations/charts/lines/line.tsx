@@ -50,8 +50,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     let calculatedLineValues = valueSeries.map((field: any, index: number) => {
       const fillColor = hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
       const barMarker = {
-        color: PLOTLY_COLOR[index],
-        opacity: fillOpacity,
+        color: fillColor,
         line: {
           color: PLOTLY_COLOR[index],
           width: lineWidth
