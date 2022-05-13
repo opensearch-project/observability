@@ -10,12 +10,14 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "defaultAxes": Object {
             "xaxis": Array [
               Object {
+                "label": "Carrier",
                 "name": "Carrier",
                 "type": "keyword",
               },
             ],
             "yaxis": Array [
               Object {
+                "label": "avg(FlightDelayMin)",
                 "name": "avg(FlightDelayMin)",
                 "type": "double",
               },
@@ -224,12 +226,14 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "defaultAxes": Object {
               "xaxis": Array [
                 Object {
+                  "label": "Carrier",
                   "name": "Carrier",
                   "type": "keyword",
                 },
               ],
               "yaxis": Array [
                 Object {
+                  "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
                 },
@@ -461,12 +465,14 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "defaultAxes": Object {
                 "xaxis": Array [
                   Object {
+                    "label": "Carrier",
                     "name": "Carrier",
                     "type": "keyword",
                   },
                 ],
                 "yaxis": Array [
                   Object {
+                    "label": "avg(FlightDelayMin)",
                     "name": "avg(FlightDelayMin)",
                     "type": "double",
                   },
@@ -853,12 +859,14 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           "defaultAxes": Object {
             "xaxis": Array [
               Object {
+                "label": "Carrier",
                 "name": "Carrier",
                 "type": "keyword",
               },
             ],
             "yaxis": Array [
               Object {
+                "label": "avg(FlightDelayMin)",
                 "name": "avg(FlightDelayMin)",
                 "type": "double",
               },
@@ -1084,12 +1092,14 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "defaultAxes": Object {
               "xaxis": Array [
                 Object {
+                  "label": "Carrier",
                   "name": "Carrier",
                   "type": "keyword",
                 },
               ],
               "yaxis": Array [
                 Object {
+                  "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
                 },
@@ -1369,12 +1379,14 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "defaultAxes": Object {
                 "xaxis": Array [
                   Object {
+                    "label": "Carrier",
                     "name": "Carrier",
                     "type": "keyword",
                   },
                 ],
                 "yaxis": Array [
                   Object {
+                    "label": "avg(FlightDelayMin)",
                     "name": "avg(FlightDelayMin)",
                     "type": "double",
                   },
@@ -1788,12 +1800,14 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "defaultAxes": Object {
             "xaxis": Array [
               Object {
+                "label": "Carrier",
                 "name": "Carrier",
                 "type": "keyword",
               },
             ],
             "yaxis": Array [
               Object {
+                "label": "avg(FlightDelayMin)",
                 "name": "avg(FlightDelayMin)",
                 "type": "double",
               },
@@ -1996,12 +2010,14 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "defaultAxes": Object {
               "xaxis": Array [
                 Object {
+                  "label": "Carrier",
                   "name": "Carrier",
                   "type": "keyword",
                 },
               ],
               "yaxis": Array [
                 Object {
+                  "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
                 },
@@ -2227,12 +2243,14 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "defaultAxes": Object {
                 "xaxis": Array [
                   Object {
+                    "label": "Carrier",
                     "name": "Carrier",
                     "type": "keyword",
                   },
                 ],
                 "yaxis": Array [
                   Object {
+                    "label": "avg(FlightDelayMin)",
                     "name": "avg(FlightDelayMin)",
                     "type": "double",
                   },
@@ -2613,12 +2631,14 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "defaultAxes": Object {
             "xaxis": Array [
               Object {
+                "label": "span(timestamp,1h)",
                 "name": "span(timestamp,1h)",
                 "type": "timestamp",
               },
             ],
             "yaxis": Array [
               Object {
+                "label": "count('ip')",
                 "name": "count('ip')",
                 "type": "integer",
               },
@@ -2794,12 +2814,14 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "defaultAxes": Object {
               "xaxis": Array [
                 Object {
+                  "label": "span(timestamp,1h)",
                   "name": "span(timestamp,1h)",
                   "type": "timestamp",
                 },
               ],
               "yaxis": Array [
                 Object {
+                  "label": "count('ip')",
                   "name": "count('ip')",
                   "type": "integer",
                 },
@@ -2998,12 +3020,14 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "defaultAxes": Object {
                 "xaxis": Array [
                   Object {
+                    "label": "span(timestamp,1h)",
                     "name": "span(timestamp,1h)",
                     "type": "timestamp",
                   },
                 ],
                 "yaxis": Array [
                   Object {
+                    "label": "count('ip')",
                     "name": "count('ip')",
                     "type": "integer",
                   },
