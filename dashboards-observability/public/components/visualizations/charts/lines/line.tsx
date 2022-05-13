@@ -6,8 +6,11 @@
 import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
+import { DefaultChartStyles, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
+  const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -19,10 +22,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const yaxis =
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
   const lastIndex = fields.length - 1;
-  const mode =
-    dataConfig?.chartOptions && dataConfig.chartOptions.mode && dataConfig.chartOptions.mode[0]
-      ? dataConfig.chartOptions.mode[0].modeId
-      : 'line';
+
+  const mode = dataConfig?.chartStyles?.style || DefaultMode;
+  const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
+  const legendPosition = dataConfig?.legend?.position || 'v';
+  const markerSize = dataConfig?.chartStyles?.pointSize || 5;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : FillOpacity / 200;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -30,23 +37,56 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
-  
+
   const [calculatedLayout, lineValues] = useMemo(() => {
-    
-    let calculatedLineValues = valueSeries.map((field: any) => {
+    const isBarMode = mode === 'bar';
+
+    let calculatedLineValues = valueSeries.map((field: any, index: number) => {
+      const fillColor = hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
+      const barMarker = {
+        color: PLOTLY_COLOR[index],
+        opacity: fillOpacity,
+        line: {
+          color: PLOTLY_COLOR[index],
+          width: lineWidth
+        }
+      };
+      const fillProperty = {
+        fill: 'tozeroy',
+        fillcolor: fillColor,
+      };
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
-        type: 'line',
+        type: isBarMode ? 'bar' : 'scatter',
         name: field.name,
         mode,
+       ...!['bar', 'markers'].includes(mode) && fillProperty,
+        line: {
+          shape: lineShape,
+          width: lineWidth,
+          color: PLOTLY_COLOR[index],
+        },
+        marker: {
+          size: markerSize,
+          ...isBarMode && barMarker,
+        },
       };
     });
-    
+
+    var layoutForBarMode = {
+      barmode: 'group',
+    };
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      legend: {
+        ...layout.legend,
+        orientation: legendPosition,
+      },
+      showlegend: showLegend,
+      ...isBarMode && layoutForBarMode,
     };
 
     if (dataConfig.thresholds) {

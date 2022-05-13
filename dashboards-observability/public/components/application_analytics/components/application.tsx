@@ -503,7 +503,7 @@ export function Application(props: AppDetailProps) {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>{application.name}</h1>
+                <h1 data-test-subj={'appAnalyticsAppName'}>{application.name}</h1>
               </EuiTitle>
               <EuiText>
                 <p>{application.description}</p>

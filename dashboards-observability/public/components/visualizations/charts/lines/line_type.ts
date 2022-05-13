@@ -12,10 +12,13 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ConfigValueOptions,
   ConfigThresholds,
+  ConfigChartStyles,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -60,24 +63,104 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', modeId: "show" },
+                    { name: 'Hidden', modeId: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', modeId: "show" }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', modeId: 'v' },
+                    { name: 'Bottom', modeId: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', modeId: 'v' }],
+                },
+              },
+            ],
+          },
+          {
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigChartStyles,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Mode',
-                isSingleSelection: true,
                 component: null,
-                mapTo: 'mode',
+                mapTo: 'style',
                 props: {
-                  dropdownList: [
-                    { name: 'Markers', modeId: 'markers' },
+                  options: [
                     { name: 'Lines', modeId: 'lines' },
-                    { name: 'Lines + Markers', modeId: 'lines+markers' },
+                    { name: 'Bars', modeId: 'bar' },
+                    { name: 'Points', modeId: 'markers' },
+                    { name: 'Lines + Points', modeId: 'lines+markers' }
                   ],
-                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
+                  defaultSelections: [{ name: 'Lines', modeId: DefaultMode }],
                 },
+              },
+              {
+                name: 'Interpolation',
+                component: null,
+                mapTo: 'interpolation',
+                props: {
+                  options: [
+                    { name: 'Linear', modeId: 'linear' },
+                    { name: 'Smooth', modeId: 'spline' },
+                    { name: 'Step before', modeId: 'hv' },
+                    { name: 'Step after', modeId: 'vh' },
+                  ],
+                  defaultSelections: [{ name: 'Smooth', modeId: Interpolation }],
+                },
+              },
+              {
+                name: 'Bar alignment',
+                component: null,
+                mapTo: 'barAlignment',
+                props: {
+                  options: [
+                    { name: 'Before', modeId: 'before' },
+                    { name: 'Center', modeId: 'center' },
+                    { name: 'After', modeId: 'after' },
+                  ],
+                  defaultSelections: [{ name: 'Center', modeId: 'center' }],
+                },
+              },
+              {
+                name: 'Line width',
+                component: null,
+                mapTo: 'lineWidth',
+                defaultState: LineWidth,
+                max: 10,
+              },
+              {
+                name: 'Fill Opacity',
+                component: null,
+                mapTo: 'fillOpacity',
+                defaultState: FillOpacity,
+                max: 100,
+              },
+              {
+                name: 'Point Size',
+                component: null,
+                mapTo: 'pointSize',
+                defaultState: 5,
+                max: 40,
               },
             ],
           },
