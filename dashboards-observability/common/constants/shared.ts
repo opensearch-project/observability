@@ -130,5 +130,8 @@ export enum DefaultChartStyles {
   DefaultMode = 'lines',
   Interpolation = 'spline',
   LineWidth = 2,
-  FillOpacity = 40
+  FillOpacity = 40,
+  MarkerSize = 5,
+  ShowLegend = 'show',
+  LegendPosition = 'v'
 };
