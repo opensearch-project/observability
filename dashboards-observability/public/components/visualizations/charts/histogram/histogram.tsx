@@ -15,6 +15,8 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations?.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const lastIndex = fields.length - 1;
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
+  const legendPosition = dataConfig?.legend?.position || 'v';
 
   const xaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
@@ -44,6 +46,11 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode: 'group',
+    legend: {
+      ...layout.legend,
+      orientation: legendPosition,
+    },
+    showlegend: showLegend,
   };
 
   const mergedConfigs = {

@@ -8,7 +8,7 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartLine } from '../../assets/chart_line';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { ConfigLegend } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -34,16 +34,34 @@ export const createHistogramVisDefinition = (params = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
             schemas: [
               {
-                name: 'X-axis',
-                isSingleSelection: false,
+                name: 'Show Legend',
+                mapTo: 'showLegend',
                 component: null,
-                mapTo: 'xaxis',
+                props: {
+                  options: [
+                    { name: 'Show', modeId: 'show' },
+                    { name: 'Hidden', modeId: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', modeId: 'show' }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', modeId: 'v' },
+                    { name: 'Bottom', modeId: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', modeId: 'v' }],
+                },
               },
             ],
           },
