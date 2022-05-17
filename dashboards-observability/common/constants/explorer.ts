@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { visChartTypes } from "./shared";
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
@@ -77,3 +78,5 @@ export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualizati
 export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
+
+export const VIZ_CONTAIN_XY_AXIS = [visChartTypes.Bar, visChartTypes.Histogram, visChartTypes.Line, visChartTypes.Pie];

@@ -26,6 +26,7 @@ import { TabContext } from '../../../hooks';
 import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
 import { ENABLED_VIS_TYPES, ValueOptionsAxes, visChartTypes } from '../../../../../../common/constants/shared';
+import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -112,8 +113,8 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
    // To check, If user empty any of the value options
    const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { Bar, Line, Histogram, Pie, TreeMap, Gauge, HeatMap } = visChartTypes;
-    const isValidValueOptionsXYAxes = [Bar, Line, Histogram, Pie].includes(curVisId) &&
+    const { TreeMap, Gauge, HeatMap } = visChartTypes;
+    const isValidValueOptionsXYAxes = VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
       valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0;
 
     const isValid_valueOptions: { [key: string]: boolean } = {
