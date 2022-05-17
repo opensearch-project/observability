@@ -168,7 +168,9 @@ export const PanelGrid = (props: PanelGridProps) => {
         _.omit(layout, ['static', 'moved'])
       );
       saveVisualizationLayouts(panelId, visualizationParams);
-      updateAvailabilityVizId(panelVisualizations);
+      if (!_.isEmpty(updateAvailabilityVizId)) {
+        updateAvailabilityVizId(panelVisualizations);
+      }
     }
   }, [editActionType]);
 
