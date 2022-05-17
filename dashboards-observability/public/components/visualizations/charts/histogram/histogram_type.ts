@@ -24,7 +24,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
     dataLoss: 'nothing',
   },
   valueSeries: 'yaxis',
-  icon: LensIconChartLine,
+  iconType: 'visArea',
   editorConfig: {
     panelTabs: [
       {
@@ -41,15 +41,9 @@ export const createHistogramVisDefinition = (params = {}) => ({
             schemas: [
               {
                 name: 'X-axis',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'xaxis',
-              },
-              {
-                name: 'Y-axis',
                 isSingleSelection: false,
                 component: null,
-                mapTo: 'yaxis',
+                mapTo: 'xaxis',
               },
             ],
           },

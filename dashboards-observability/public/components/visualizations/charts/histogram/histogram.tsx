@@ -4,24 +4,25 @@
  */
 
 import React from 'react';
-import { take, merge, isEmpty } from 'lodash';
+import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { vis } = visualizations;
   const {
     data = {},
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data.defaultAxes;
-  const { xaxis = null, yaxis = null } = visualizations.data.userConfigs;
+  const { defaultAxes } = visualizations?.data;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const lastIndex = fields.length - 1;
 
+  const xaxis =
+    dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
+
   let valueSeries;
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
+  if (!isEmpty(xaxis)) {
     valueSeries = [
-      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
+      ...xaxis.map((item) => ({
         ...item,
         name: item.label,
       })),
@@ -32,11 +33,23 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
 
   const hisValues = valueSeries.map((field: any) => {
     return {
-      x: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
+      x: data[field.name],
       type: 'histogram',
       name: field.name,
     };
   });
 
-  return <Plt data={hisValues} layout={layout} config={config} />;
+  const mergedLayout = {
+    ...layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    barmode: 'group',
+  };
+
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={hisValues} layout={mergedLayout} config={mergedConfigs} />;
 };
