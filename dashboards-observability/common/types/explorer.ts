@@ -110,6 +110,8 @@ export interface IExplorerProps {
   setStartTime?: any;
   setEndTime?: any;
   appBaseQuery?: string;
+  callback?: any;
+  callbackInApp?: any;
 }
 
 export interface SavedQuery {

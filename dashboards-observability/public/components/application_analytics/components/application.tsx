@@ -24,10 +24,10 @@ import PPLService from 'public/services/requests/ppl';
 import SavedObjects from 'public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from 'public/services/timestamp/timestamp';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { uniqueId } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { last } from 'lodash';
+import { VisualizationType } from 'common/types/custom_panels';
 import { TracesContent } from '../../../components/trace_analytics/components/traces/traces_content';
 import { DashboardContent } from '../../../components/trace_analytics/components/dashboard/dashboard_content';
 import { ServicesContent } from '../../trace_analytics/components/services/services_content';
@@ -75,14 +75,6 @@ const searchBarConfigs = {
   },
 };
 
-export interface DetailTab {
-  id: string;
-  label: string;
-  description: string;
-  onClick: () => void;
-  testId: string;
-}
-
 interface AppDetailProps extends AppAnalyticsComponentDeps {
   disabled?: boolean;
   appId: string;
@@ -93,6 +85,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   notifications: NotificationsStart;
   updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
+  callback: (childfunction: () => void) => void;
 }
 
 export function Application(props: AppDetailProps) {
@@ -113,6 +106,7 @@ export function Application(props: AppDetailProps) {
     setAppConfigs,
     setToasts,
     setFilters,
+    callback,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     name: '',
@@ -124,6 +118,7 @@ export function Application(props: AppDetailProps) {
     availabilityVisId: '',
   });
   const dispatch = useDispatch();
+  const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [selectedTabId, setSelectedTab] = useState<string>(TAB_OVERVIEW_ID);
   const [serviceFlyoutName, setServiceFlyoutName] = useState<string>('');
   const [traceFlyoutId, setTraceFlyoutId] = useState<string>('');
@@ -206,6 +201,7 @@ export function Application(props: AppDetailProps) {
     );
     const tabId = `application-analytics-tab-${appId}`;
     initializeTabData(dispatch, tabId, NEW_TAB);
+    callback(switchToEvent);
   }, [appId]);
 
   useEffect(() => {
@@ -373,6 +369,8 @@ export function Application(props: AppDetailProps) {
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
         appBaseQuery={application.baseQuery}
+        callback={callback}
+        callbackInApp={callbackInApp}
         curSelectedTabId={selectedTabId}
       />
     );
@@ -380,6 +378,12 @@ export function Application(props: AppDetailProps) {
 
   const onEditClick = (savedVisualizationId: string) => {
     switchToEditViz(savedVisualizationId);
+  };
+
+  const updateAvailabilityVizId = (vizs: VisualizationType[]) => {
+    if (!vizs.map((viz) => viz.savedVisualizationId).includes(application.availabilityVisId)) {
+      updateApp(appId, { availabilityVisId: '' }, 'editAvailability');
+    }
   };
 
   const getPanel = () => {
@@ -399,6 +403,7 @@ export function Application(props: AppDetailProps) {
         setToast={setToasts}
         page="app"
         appId={appId}
+        updateAvailabilityVizId={updateAvailabilityVizId}
         startTime={appStartTime}
         endTime={appEndTime}
         setStartTime={setStartTimeForApp}
@@ -422,13 +427,25 @@ export function Application(props: AppDetailProps) {
     }
   };
 
+  const switchToAvailability = () => {
+    switchToEvent();
+    setTriggerAvailability(true);
+  };
+
+  const callbackInApp = (childFunc: () => void) => {
+    if (childFunc && triggerAvailability) {
+      childFunc();
+      setTriggerAvailability(false);
+    }
+  };
+
   const getConfig = () => {
     return (
       <Configuration
         appId={appId}
         parentBreadcrumbs={parentBreadcrumbs}
         application={application}
-        switchToEditViz={switchToEditViz}
+        switchToAvailability={switchToAvailability}
         visWithAvailability={visWithAvailability}
         updateApp={updateApp}
       />

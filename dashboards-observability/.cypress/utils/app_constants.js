@@ -6,7 +6,7 @@
 import { supressResizeObserverIssue } from './constants';
 
 export const delay = 1000;
-
+export const timeoutDelay = 30000;
 export const TYPING_DELAY = 500;
 
 export const moveToHomePage = () => {
@@ -47,11 +47,11 @@ export const changeTimeTo24 = (timeUnit) => {
   cy.get('[aria-label="Time unit"]').select(timeUnit);
   cy.get('.euiButton').contains('Apply').click();
   cy.wait(delay);
-  cy.get('.euiButton').contains('Refresh').click();
+  cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').click();
 };
 
-export const expectMessageOnHover = (message) => {
-  cy.get('.euiToolTipAnchor').contains('Create').click({ force: true });
+export const expectMessageOnHover = (button, message) => {
+  cy.get(`[data-test-subj="${button}"]`).click({ force: true });
   cy.get('.euiToolTipPopover').contains(message).should('exist');
 };
 
@@ -70,22 +70,21 @@ export const deleteAllSavedApplications = () => {
   cy.get('.euiButton__text').contains('Delete').click();
 };
 
+export const uniqueId = Date.now();
 export const baseQuery = 'source = opensearch_dashboards_sample_data_flights';
-export const nameOne = 'Cypress';
-export const nameTwo = 'Pine';
+export const nameOne = `Cypress-${uniqueId}`;
+export const nameTwo = `Pine-${uniqueId}`;
+export const nameThree = `Cedar-${uniqueId}`;
 export const description = 'This is my application for cypress testing.';
 export const service_one = 'order';
 export const service_two = 'payment';
 export const trace_one = 'HTTP POST';
 export const trace_two = 'HTTP GET';
 export const trace_three = 'client_pay_order';
-export const spanQueryOnePartOne = 'where DestCityName ';
-export const spanQueryOnePartTwo = '= "Venice" | stats count() by span( timestamp ';
-export const spanQueryOnePartThree = ', 6h )';
-export const spanQueryTwoPartOne = 'where OriginCityName ';
-export const spanQueryTwoPartTwo = '= "Seoul" | stats count() by span( timestamp ';
-export const spanQueryTwoPartThree = ', 6h )';
+export const query_one = 'where DestCityName = "Venice" | stats count() by span( timestamp , 6h )';
+export const query_two = 'where OriginCityName = "Seoul" | stats count() by span( timestamp , 6h )';
+export const availability_default = 'stats count() by span( timestamp, 1h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
 export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
-export const newName = 'Monterey Cypress';
+export const newName = `Monterey Cypress-${uniqueId}`;

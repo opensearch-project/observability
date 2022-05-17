@@ -15,6 +15,7 @@ import { Field } from './field';
 import { IExplorerFields, IField } from '../../../../../common/types/explorer';
 
 interface ISidebarProps {
+  query: string;
   explorerFields: IExplorerFields;
   explorerData: any;
   selectedTimestamp: string;
