@@ -989,11 +989,11 @@ it('Renders Histogram chart and save visualization', () => {
     cy.get('.euiComboBoxOption__content').eq(0).click();
     cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
     cy.wait(delay);
-    saveVisulizationAndVerify();
+    saveVisualizationAndVerify();
   });
 
  it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
-  deleteVisulaization();
+  deleteVisualization();
  })
 
  it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
