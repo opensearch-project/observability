@@ -17,3 +17,6 @@ export { SingleColorPicker } from './config_single_color_picker';
 export { PanelItem } from './config_panel_item';
 export { ConfigTreemapParentFields } from './config_treemap_parents';
 export { InputFieldItem } from './config_number_input';
+export { SliderConfig } from './config_style_slider';
+export { ConfigColorTheme } from './config_color_theme';
+export { ConfigInputField } from './config_input_field';

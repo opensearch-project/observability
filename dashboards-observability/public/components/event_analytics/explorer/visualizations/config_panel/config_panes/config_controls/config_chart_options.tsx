@@ -92,6 +92,15 @@ export const ConfigChartOptions = ({
             vizState,
             ...schema.props,
           };
+        } else if (schema.eleType === 'slider') {
+          params = {
+            maxRange: schema.max,
+            title: schema.name,
+            currentRange: vizState[schema.mapTo] || schema?.defaultState,
+            handleSliderChange: handleConfigurationChange(schema.mapTo),
+            vizState,
+            ...schema.props,
+          };
         } else {
           params = {
             paddingTitle: schema.name,
