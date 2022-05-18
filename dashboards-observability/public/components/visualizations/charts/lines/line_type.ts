@@ -14,6 +14,7 @@ import {
   ConfigThresholds,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { ConfigGraphStyle } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_graph_style';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -79,6 +80,53 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                   ],
                   defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
                 },
+              },
+            ],
+          },
+          {
+            id: 'graph_style',
+            name: 'Graph Style',
+            editor: ConfigGraphStyle,
+            mapTo: 'graphStyle',
+            schemas: [
+              {
+                name: 'Style',
+                component: null,
+                mapTo: 'style',
+                props: {
+                  options: [
+                    { name: 'Lines', modeId: 'lines' },
+                    { name: 'Bars', modeId: 'bars' },
+                    { name: 'Points', modeId: 'points' },
+                  ],
+                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
+                },
+              },
+              {
+                name: 'Interpolation',
+                component: null,
+                mapTo: 'interpolation',
+                props: {
+                  options: [
+                    { name: 'Linear', modeId: 'linear' },
+                    { name: 'Smooth', modeId: 'smooth' },
+                    { name: 'Step before', modeId: 'step_before' },
+                    { name: 'Step after', modeId: 'step_after' },
+                  ],
+                  defaultSelections: [{ name: 'Smooth', modeId: 'smooth' }],
+                },
+              },
+              {
+                name: 'Line width',
+                component: null,
+                mapTo: 'lineWidth',
+                defaultState: 2,
+              },
+              {
+                name: 'Fill Opacity',
+                component: null,
+                mapTo: 'fillOpacity',
+                defaultState: 30,
               },
             ],
           },
