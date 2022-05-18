@@ -535,14 +535,68 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "editor": [Function],
-                            "id": "chart_options",
-                            "mapTo": "chartOptions",
-                            "name": "Chart options",
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
                             "schemas": Array [
                               Object {
                                 "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "mode",
+                                "mapTo": "showLegend",
+                                "name": "Show Legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "modeId": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "modeId": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "modeId": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "modeId": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "modeId": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "modeId": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "style",
                                 "name": "Mode",
                                 "props": Object {
                                   "defaultSelections": Array [
@@ -551,21 +605,81 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "name": "Lines",
                                     },
                                   ],
-                                  "dropdownList": Array [
-                                    Object {
-                                      "modeId": "markers",
-                                      "name": "Markers",
-                                    },
+                                  "options": Array [
                                     Object {
                                       "modeId": "lines",
                                       "name": "Lines",
                                     },
                                     Object {
+                                      "modeId": "bar",
+                                      "name": "Bars",
+                                    },
+                                    Object {
+                                      "modeId": "markers",
+                                      "name": "Points",
+                                    },
+                                    Object {
                                       "modeId": "lines+markers",
-                                      "name": "Lines + Markers",
+                                      "name": "Lines + Points",
                                     },
                                   ],
                                 },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "interpolation",
+                                "name": "Interpolation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "modeId": "spline",
+                                      "name": "Smooth",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "modeId": "linear",
+                                      "name": "Linear",
+                                    },
+                                    Object {
+                                      "modeId": "spline",
+                                      "name": "Smooth",
+                                    },
+                                    Object {
+                                      "modeId": "hv",
+                                      "name": "Step before",
+                                    },
+                                    Object {
+                                      "modeId": "vh",
+                                      "name": "Step after",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "max": 10,
+                                "name": "Line width",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "max": 100,
+                                "name": "Fill Opacity",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 5,
+                                "eleType": "slider",
+                                "mapTo": "pointSize",
+                                "max": 40,
+                                "name": "Point Size",
                               },
                             ],
                           },

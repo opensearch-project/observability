@@ -6,8 +6,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
+import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
-export const ConfigLegend = ({ schemas, vizState, handleConfigChange }) => {
+export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => {
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
@@ -20,10 +21,8 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }) => {
     [handleConfigChange, vizState]
   );
 
-  const [showLegendGroup, positionGroup] = schemas;
-
   const dimensions = useMemo(() => {
-    return [showLegendGroup, positionGroup].map((schema, index) => {
+    return schemas.map((schema: IConfigPanelOptionSection, index: number) => {
       const DimensionComponent = schema.component || ButtonGroupItem;
       const params = {
         title: schema.name,
@@ -45,7 +44,7 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }) => {
 
   return (
     <EuiAccordion initialIsOpen id="configPanel__legend" buttonContent="Legend" paddingSize="s">
-     {dimensions}
+      {dimensions}
     </EuiAccordion>
   );
 };
