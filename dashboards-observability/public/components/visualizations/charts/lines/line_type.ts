@@ -12,15 +12,14 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ConfigValueOptions,
   ConfigThresholds,
-  ConfigGraphStyle,
+  ConfigChartStyles,
   ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-
-import { DefaultGraphStyle } from '../../../../../common/constants/shared';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultGraphStyle;
+const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -119,24 +118,11 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             ],
           },
           {
-            id: 'graph_style',
-            name: 'Graph Style',
-            editor: ConfigGraphStyle,
-            mapTo: 'graphStyle',
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigChartStyles,
+            mapTo: 'chartStyles',
             schemas: [
-              {
-                name: 'Orientation',
-                component: null,
-                mapTo: 'orientation',
-                props: {
-                  options: [
-                    { name: 'Auto', modeId: 'v' },
-                    { name: 'Horizontal', modeId: 'h' },
-                    { name: 'Vertical', modeId: 'v' },
-                  ],
-                  defaultSelections: [{ name: 'Auto', modeId: 'v' }],
-                },
-              },
               {
                 name: 'Style',
                 component: null,
@@ -146,6 +132,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Lines', modeId: 'lines' },
                     { name: 'Bars', modeId: 'bar' },
                     { name: 'Points', modeId: 'markers' },
+                    { name: 'Lines + Points', modeId: 'lines+markers' }
                   ],
                   defaultSelections: [{ name: 'Lines', modeId: DefaultMode }],
                 },
@@ -165,6 +152,19 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
+                name: 'Bar alignment',
+                component: null,
+                mapTo: 'barAlignment',
+                props: {
+                  options: [
+                    { name: 'Before', modeId: 'before' },
+                    { name: 'Center', modeId: 'center' },
+                    { name: 'After', modeId: 'after' },
+                  ],
+                  defaultSelections: [{ name: 'Center', modeId: 'Center' }],
+                },
+              },
+              {
                 name: 'Line width',
                 component: null,
                 mapTo: 'lineWidth',
@@ -177,6 +177,13 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
                 max: 100,
+              },
+              {
+                name: 'Point Size',
+                component: null,
+                mapTo: 'pointSize',
+                defaultState: 5,
+                max: 40,
               },
             ],
           },
