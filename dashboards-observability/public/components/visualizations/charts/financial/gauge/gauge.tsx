@@ -32,6 +32,10 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const thresholds = dataConfig?.thresholds || [];
 
+  console.log(dataConfig, 'DataConfig in gauge');
+  const minValue = dataConfig?.standardOptions?.min ? dataConfig?.standardOptions?.min : 0;
+  const maxValue = dataConfig?.standardOptions?.max ? dataConfig?.standardOptions?.max : 100;
+
   if (isEmpty(series) || isEmpty(value)) {
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
   }
@@ -62,6 +66,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       }
 
       return calculatedGaugeData.map((gauge, index) => {
+        const row = Math.floor(index / PLOTLY_GAUGE_COLUMN_NUMBER);
+        const column = index % PLOTLY_GAUGE_COLUMN_NUMBER;
+
         return {
           type: 'indicator',
           mode: 'gauge+number+delta',
@@ -71,11 +78,12 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
             font: { size: 14 },
           },
           domain: {
-            row: Math.floor(index / PLOTLY_GAUGE_COLUMN_NUMBER),
-            column: index % PLOTLY_GAUGE_COLUMN_NUMBER,
+            row,
+            column,
           },
           gauge: {
             ...(thresholds && {
+              axis: { range: [minValue, maxValue] },
               threshold: {
                 line: { color: thresholds[0]?.color || 'red', width: 4 },
                 thickness: 0.75,
@@ -91,10 +99,12 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const mergedLayout = useMemo(() => {
     const isAtleastOneFullRow = Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER) > 0;
+    const rows = Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER) + 1;
+    const columns = isAtleastOneFullRow ? PLOTLY_GAUGE_COLUMN_NUMBER : gaugeData.length;
     return {
       grid: {
-        rows: Math.floor(gaugeData.length / PLOTLY_GAUGE_COLUMN_NUMBER) + 1,
-        columns: isAtleastOneFullRow ? PLOTLY_GAUGE_COLUMN_NUMBER : gaugeData.length,
+        rows,
+        columns,
         pattern: 'independent',
       },
       ...layout,

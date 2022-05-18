@@ -12,6 +12,7 @@ import {
   ConfigValueOptions,
   ConfigThresholds,
   ConfigGaugeValueOptions,
+  ConfigStandardOptions
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
@@ -59,6 +60,37 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 mapTo: 'value',
               },
             ],
+          },
+          {
+            id: 'standard_options',
+            name: 'StandardOptions',
+            editor: ConfigStandardOptions,
+            mapTo: 'standardOptions',
+            schemas: [ 
+            {
+              name: 'Min',
+              component: null,
+              mapTo: 'min',
+              defaultState: 0,
+            },
+            {
+              name: 'Max',
+              component: null,
+              mapTo: 'max',
+              defaultState: 100,
+            },
+            {
+              name: 'Orientation',
+              mapTo: 'orientation',
+              props: {
+                dropdownList: [
+                  { name: 'Auto', id: 'auto' },
+                  { name: 'Horizontal', id: 'horizontal' },
+                  { name: 'Vertical', id: 'vertical' },
+                ],
+                defaultSelections: [{ name: 'Auto', id: 'auto' }],
+            }},
+          ],
           },
           {
             id: 'thresholds',
