@@ -287,11 +287,11 @@ export const findAutoInterval = (start: string = '', end: string = '') => {
 };
 
 // to convert hex color code to rgba format
-export const hexToRgba = (hex: string = '#3CA1C7', opacity: number) => {
+export const hexToRgba = (hex: string = '#3CA1C7', opacity: number = 1) => {
   // default color PLOTLY_COLOR[0]: '#3CA1C7'
   const defaultColor = [hex, '60', '161', '199'];
-  let rgbElements = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || defaultColor;
-  let [, r, g, b] = rgbElements.map(color => parseInt(color, 16));
-  let rgbaFormat = `rgba(${r},${g},${b},${opacity})`;
+  const rgbElements = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || defaultColor;
+  const [, r, g, b] = rgbElements.map((color) => parseInt(color, 16));
+  const rgbaFormat = `rgba(${r},${g},${b},${opacity})`;
   return rgbaFormat;
 };
