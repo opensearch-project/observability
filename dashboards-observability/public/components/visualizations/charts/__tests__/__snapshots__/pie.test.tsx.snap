@@ -1,0 +1,490 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pie component Renders pie component 1`] = `
+<Pie
+  config={Object {}}
+  layout={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {},
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "count()": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "count()": 154,
+              "tags": "error",
+            },
+            Object {
+              "count()": 1753,
+              "tags": "info",
+            },
+            Object {
+              "count()": 116,
+              "tags": "login",
+            },
+            Object {
+              "count()": 468,
+              "tags": "security",
+            },
+            Object {
+              "count()": 1964,
+              "tags": "success",
+            },
+            Object {
+              "count()": 219,
+              "tags": "warning",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "count()",
+                "type": "integer",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+            "size": 6,
+            "status": 200,
+          },
+        },
+        "userConfigs": Object {},
+      },
+      "vis": Object {
+        "category": "Visualizations",
+        "categoryAxis": "xaxis",
+        "component": [Function],
+        "editorConfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Data",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "value_options",
+                  "mapTo": "valueOptions",
+                  "name": "Value options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "isSingleSelection": false,
+                      "mapTo": "xaxis",
+                      "name": "X-axis",
+                    },
+                    Object {
+                      "component": null,
+                      "isSingleSelection": false,
+                      "mapTo": "yaxis",
+                      "name": "Y-axis",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_options",
+                  "mapTo": "chartOptions",
+                  "name": "Chart options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "isSingleSelection": true,
+                      "mapTo": "orientation",
+                      "name": "Orientation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "name": "Vertical",
+                            "orientationId": "v",
+                          },
+                        ],
+                        "dropdownList": Array [
+                          Object {
+                            "name": "Vertical",
+                            "orientationId": "v",
+                          },
+                          Object {
+                            "name": "Horizontal",
+                            "orientationId": "h",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "isSingleSelection": true,
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "modeId": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "dropdownList": Array [
+                          Object {
+                            "modeId": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "modeId": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            Object {
+              "content": Array [],
+              "editor": [Function],
+              "id": "style-panel",
+              "mapTo": "layoutConfig",
+              "name": "Layout",
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fullLabel": "Bar",
+        "icon": [Function],
+        "iconType": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Bar",
+        "name": "bar",
+        "orientation": "v",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesAxis": "yaxis",
+        "type": "bar",
+        "visConfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 500,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+>
+  <Plt
+    config={Object {}}
+    data={
+      Array [
+        Object {
+          "automargin": true,
+          "domain": Object {
+            "column": 0,
+            "row": 0,
+          },
+          "hole": 0,
+          "labels": undefined,
+          "name": "count()",
+          "text": "count()",
+          "textinfo": "percent",
+          "textposition": "outside",
+          "type": "pie",
+          "values": Array [
+            154,
+            1753,
+            116,
+            468,
+            1964,
+            219,
+          ],
+        },
+      ]
+    }
+    layout={
+      Object {
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "grid": Object {
+          "columns": 1,
+          "rows": 1,
+        },
+        "height": 220,
+        "margin": Object {
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
+        },
+        "showlegend": true,
+        "title": "",
+      }
+    }
+  >
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "automargin": true,
+            "domain": Object {
+              "column": 0,
+              "row": 0,
+            },
+            "hole": 0,
+            "labels": undefined,
+            "name": "count()",
+            "text": "count()",
+            "textinfo": "percent",
+            "textposition": "outside",
+            "type": "pie",
+            "values": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
+          },
+        ]
+      }
+      debug={false}
+      divId="explorerPlotComponent"
+      layout={
+        Object {
+          "autosize": true,
+          "barmode": "stack",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "grid": Object {
+            "columns": 1,
+            "rows": 1,
+          },
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "h",
+            "traceorder": "normal",
+          },
+          "margin": Object {
+            "b": 15,
+            "l": 60,
+            "pad": 0,
+            "r": 10,
+            "t": 30,
+          },
+          "showlegend": true,
+          "title": "",
+          "xaxis": Object {
+            "automargin": true,
+            "rangemode": "normal",
+            "showgrid": true,
+            "zeroline": false,
+          },
+          "yaxis": Object {
+            "rangemode": "normal",
+            "showgrid": true,
+            "zeroline": false,
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
+    >
+      <div
+        id="explorerPlotComponent"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
+</Pie>
+`;

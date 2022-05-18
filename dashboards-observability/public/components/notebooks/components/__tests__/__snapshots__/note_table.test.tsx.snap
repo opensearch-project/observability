@@ -5,13 +5,13 @@ exports[`<NoteTable /> spec renders the component 1`] = `
   style="float: left; width: 100%; max-width: 1130px;"
 >
   <div
-    class="euiPage"
+    class="euiPage euiPage--paddingMedium euiPage--grow"
   >
     <div
-      class="euiPageBody"
+      class="euiPageBody euiPageBody--borderRadiusNone"
     >
-      <div
-        class="euiPageHeader euiPageHeader--responsive"
+      <header
+        class="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
       >
         <div
           class="euiPageHeaderSection"
@@ -22,10 +22,11 @@ exports[`<NoteTable /> spec renders the component 1`] = `
             Notebooks
           </h1>
         </div>
-      </div>
+      </header>
       <div
-        class="euiPanel euiPanel--paddingLarge euiPageContent"
+        class="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
         id="notebookArea"
+        role="main"
       >
         <div
           class="euiPageContentHeader euiPageContentHeader--responsive"
@@ -58,7 +59,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                  
                 <a
                   class="euiLink euiLink--primary"
-                  href="https://opensearch.org/docs/latest/observability/notebooks/"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
                   rel="noreferrer"
                   target="blank"
                 >
@@ -105,7 +106,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="euiIcon euiIcon--medium euiButtonContent__icon"
+                          class="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
                           focusable="false"
                           height="16"
                           role="img"
@@ -159,7 +160,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
             class="euiFormControlLayout__childrenWrapper"
           >
             <input
-              class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
+              class="euiFieldSearch euiFieldSearch--fullWidth"
               placeholder="Search notebook name"
               type="search"
               value=""
@@ -241,7 +242,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="euiIcon euiIcon--medium euiButtonContent__icon"
+                              class="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
                               focusable="false"
                               height="16"
                               role="img"
@@ -322,11 +323,6 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                         >
                           Name
                         </span>
-                        <span
-                          class="euiScreenReaderOnly"
-                        >
-                          Click to sort in ascending order
-                        </span>
                       </span>
                     </button>
                   </th>
@@ -348,13 +344,12 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                       >
                         <span
                           class="euiTableCellContent__text"
-                          title="Last updated; Sorted in descending order"
+                          title="Last updated"
                         >
                           Last updated
                         </span>
                         <svg
                           aria-hidden="true"
-                          aria-label="Sorted in descending order"
                           class="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
                           focusable="false"
                           height="16"
@@ -363,11 +358,6 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                           width="16"
                           xmlns="http://www.w3.org/2000/svg"
                         />
-                        <span
-                          class="euiScreenReaderOnly"
-                        >
-                          Click to sort in ascending order
-                        </span>
                       </span>
                     </button>
                   </th>
@@ -392,11 +382,6 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                           title="Created"
                         >
                           Created
-                        </span>
-                        <span
-                          class="euiScreenReaderOnly"
-                        >
-                          Click to sort in ascending order
                         </span>
                       </span>
                     </button>
@@ -793,7 +778,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                 class="euiFlexItem euiFlexItem--flexGrowZero"
               >
                 <div
-                  class="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
+                  class="euiPopover euiPopover--anchorUpRight"
                 >
                   <div
                     class="euiPopover__anchor"
@@ -808,7 +793,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="euiIcon euiIcon--medium euiButtonContent__icon"
+                          class="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
                           focusable="false"
                           height="16"
                           role="img"
@@ -841,14 +826,14 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                 >
                   <button
                     aria-label="Previous page"
-                    class="euiButtonIcon euiButtonIcon--text"
+                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                     data-test-subj="pagination-button-previous"
                     disabled=""
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                       focusable="false"
                       height="16"
                       role="img"
@@ -867,7 +852,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                         aria-controls="random_html_id"
                         aria-current="true"
                         aria-label="Page 1 of 1"
-                        class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                        class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
                         data-test-subj="pagination-button-0"
                         disabled=""
                         type="button"
@@ -886,14 +871,14 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                   </ul>
                   <button
                     aria-label="Next page"
-                    class="euiButtonIcon euiButtonIcon--text"
+                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                     data-test-subj="pagination-button-next"
                     disabled=""
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                       focusable="false"
                       height="16"
                       role="img"
@@ -918,13 +903,13 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
   style="float: left; width: 100%; max-width: 1130px;"
 >
   <div
-    class="euiPage"
+    class="euiPage euiPage--paddingMedium euiPage--grow"
   >
     <div
-      class="euiPageBody"
+      class="euiPageBody euiPageBody--borderRadiusNone"
     >
-      <div
-        class="euiPageHeader euiPageHeader--responsive"
+      <header
+        class="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
       >
         <div
           class="euiPageHeaderSection"
@@ -935,10 +920,11 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
             Notebooks
           </h1>
         </div>
-      </div>
+      </header>
       <div
-        class="euiPanel euiPanel--paddingLarge euiPageContent"
+        class="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
         id="notebookArea"
+        role="main"
       >
         <div
           class="euiPageContentHeader euiPageContentHeader--responsive"
@@ -971,7 +957,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
                  
                 <a
                   class="euiLink euiLink--primary"
-                  href="https://opensearch.org/docs/latest/observability/notebooks/"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
                   rel="noreferrer"
                   target="blank"
                 >
@@ -1015,7 +1001,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                           focusable="false"
                           height="16"
                           role="img"

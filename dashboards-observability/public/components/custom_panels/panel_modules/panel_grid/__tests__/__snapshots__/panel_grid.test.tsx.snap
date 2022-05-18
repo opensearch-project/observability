@@ -50,6 +50,7 @@ exports[`Panel Grid Component renders panel grid component with empty visualizat
   editMode={false}
   endTime="now"
   http={[MockFunction]}
+  onEditClick={[Function]}
   onRefresh={false}
   panelId=""
   panelVisualizations={Array []}

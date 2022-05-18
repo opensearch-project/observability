@@ -16,6 +16,7 @@ interface PltProps {
   onUnhoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   onClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   height?: string;
+  dispatch?: (props: any) => void;
 }
 
 export function Plt(props: PltProps) {
@@ -30,48 +31,53 @@ export function Plt(props: PltProps) {
       }
     : {};
 
+  const finalLayout = {
+    autosize: true,
+    margin: {
+      l: 30,
+      r: 5,
+      b: 30,
+      t: 5,
+      pad: 4,
+    },
+    barmode: 'stack',
+    legend: {
+      orientation: 'h',
+      traceorder: 'normal',
+    },
+    showlegend: false,
+    hovermode: 'closest',
+    xaxis: {
+      showgrid: true,
+      zeroline: false,
+      rangemode: 'normal',
+      automargin: true,
+    },
+    yaxis: {
+      showgrid: true,
+      zeroline: false,
+      rangemode: 'normal',
+    },
+    ...darkLayout,
+    ...props.layout,
+  };
+
+  const finalConfig = {
+    displayModeBar: false,
+    ...props.config,
+  };
+
   return (
     <PlotComponent
+      divId="explorerPlotComponent"
       data={props.data}
       style={{ width: '100%', height: props.height || '100%' }}
       onHover={props.onHoverHandler}
       onUnhover={props.onUnhoverHandler}
       onClick={props.onClickHandler}
       useResizeHandler
-      config={{
-        displayModeBar: false,
-        ...props.config,
-      }}
-      layout={{
-        autosize: true,
-        margin: {
-          l: 30,
-          r: 5,
-          b: 30,
-          t: 5,
-          pad: 4,
-        },
-        barmode: 'stack',
-        legend: {
-          orientation: 'h',
-          traceorder: 'normal',
-        },
-        showlegend: false,
-        hovermode: 'closest',
-        xaxis: {
-          showgrid: true,
-          zeroline: false,
-          rangemode: 'normal',
-          automargin: true,
-        },
-        yaxis: {
-          showgrid: true,
-          zeroline: false,
-          rangemode: 'normal',
-        },
-        ...props.layout,
-        ...darkLayout,
-      }}
+      config={finalConfig}
+      layout={finalLayout}
     />
   );
 }

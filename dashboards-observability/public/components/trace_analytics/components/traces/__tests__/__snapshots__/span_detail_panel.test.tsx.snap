@@ -60,10 +60,11 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
       ],
     }
   }
+  setData={[MockFunction]}
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <EuiFlexGroup>
         <div
@@ -75,7 +76,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
             >
               <PanelTitle
                 title="Spans"
-                totalItems={0}
+                totalItems={1}
               >
                 <EuiText
                   size="m"
@@ -91,7 +92,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                     <span
                       className="panel-title-count"
                     >
-                       (0)
+                       (1)
                     </span>
                   </div>
                 </EuiText>
@@ -122,7 +123,8 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                 }
               >
                 <fieldset
-                  className="euiButtonGroup__fieldset"
+                  className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
+                  disabled={false}
                 >
                   <EuiScreenReaderOnly>
                     <legend
@@ -132,178 +134,168 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                     </legend>
                   </EuiScreenReaderOnly>
                   <div
-                    className="euiButtonGroup euiButtonGroup--s"
+                    className="euiButtonGroup__buttons"
                   >
-                    <EuiButtonToggle
-                      className="euiButtonGroup__button euiButtonGroup__button--selected"
+                    <EuiButtonGroupButton
                       color="text"
-                      fill={true}
+                      element="label"
                       id="timeline"
+                      isDisabled={false}
+                      isIconOnly={false}
                       isSelected={true}
                       key="0"
                       label="Timeline"
+                      name="random_html_id"
                       onChange={[Function]}
                       size="s"
-                      toggleClassName="euiButtonGroup__toggle"
-                      type="single"
                     >
-                      <EuiToggle
-                        checked={true}
-                        className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                        inputClassName="euiButtonToggle__input"
-                        label="Timeline"
-                        onChange={[Function]}
-                        title="Timeline"
-                        type="single"
+                      <EuiButtonDisplay
+                        baseClassName="euiButtonGroupButton"
+                        className="euiButtonGroupButton-isSelected"
+                        color="text"
+                        element="label"
+                        fill={true}
+                        htmlFor="random_html_id"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="s"
+                        textProps={
+                          Object {
+                            "className": "euiButtonGroupButton__textShift",
+                            "data-text": "Timeline",
+                            "ref": [Function],
+                            "title": "Timeline",
+                          }
+                        }
                       >
-                        <div
-                          className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
+                        <label
+                          className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
+                          disabled={false}
+                          htmlFor="random_html_id"
+                          onClick={[Function]}
+                          style={
+                            Object {
+                              "minWidth": undefined,
+                            }
+                          }
                         >
-                          <input
-                            aria-label="Timeline"
-                            checked={true}
-                            className="euiToggle__input euiButtonToggle__input"
-                            onChange={[Function]}
-                            title="Timeline"
-                            type="radio"
-                          />
-                          <EuiButton
-                            className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                            color="text"
-                            fill={true}
-                            id="timeline"
-                            size="s"
-                            tabIndex={-1}
+                          <EuiButtonContent
+                            className="euiButton__content"
+                            iconSide="left"
+                            textProps={
+                              Object {
+                                "className": "euiButton__text euiButtonGroupButton__textShift",
+                                "data-text": "Timeline",
+                                "ref": [Function],
+                                "title": "Timeline",
+                              }
+                            }
                           >
-                            <EuiButtonDisplay
-                              className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                              color="text"
-                              disabled={false}
-                              element="button"
-                              fill={true}
-                              id="timeline"
-                              isDisabled={false}
-                              size="s"
-                              tabIndex={-1}
-                              type="button"
+                            <span
+                              className="euiButtonContent euiButton__content"
                             >
-                              <button
-                                className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
-                                disabled={false}
-                                id="timeline"
-                                tabIndex={-1}
-                                type="button"
+                              <span
+                                className="euiButton__text euiButtonGroupButton__textShift"
+                                data-text="Timeline"
+                                title="Timeline"
                               >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Timeline
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiToggle>
-                    </EuiButtonToggle>
-                    <EuiButtonToggle
-                      className="euiButtonGroup__button"
+                                <input
+                                  checked={true}
+                                  className="euiScreenReaderOnly"
+                                  data-test-subj="timeline"
+                                  disabled={false}
+                                  id="random_html_id"
+                                  name="random_html_id"
+                                  onChange={[Function]}
+                                  type="radio"
+                                />
+                                Timeline
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </label>
+                      </EuiButtonDisplay>
+                    </EuiButtonGroupButton>
+                    <EuiButtonGroupButton
                       color="text"
-                      fill={false}
+                      element="label"
                       id="span_list"
+                      isDisabled={false}
+                      isIconOnly={false}
                       isSelected={false}
                       key="1"
                       label="Span list"
+                      name="random_html_id"
                       onChange={[Function]}
                       size="s"
-                      toggleClassName="euiButtonGroup__toggle"
-                      type="single"
                     >
-                      <EuiToggle
-                        checked={false}
-                        className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                        inputClassName="euiButtonToggle__input"
-                        label="Span list"
-                        onChange={[Function]}
-                        title="Span list"
-                        type="single"
+                      <EuiButtonDisplay
+                        baseClassName="euiButtonGroupButton"
+                        className=""
+                        color="text"
+                        element="label"
+                        fill={false}
+                        htmlFor="random_html_id"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="s"
+                        textProps={
+                          Object {
+                            "className": "euiButtonGroupButton__textShift",
+                            "data-text": "Span list",
+                            "ref": [Function],
+                            "title": "Span list",
+                          }
+                        }
                       >
-                        <div
-                          className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                        <label
+                          className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                          disabled={false}
+                          htmlFor="random_html_id"
+                          onClick={[Function]}
+                          style={
+                            Object {
+                              "minWidth": undefined,
+                            }
+                          }
                         >
-                          <input
-                            aria-label="Span list"
-                            checked={false}
-                            className="euiToggle__input euiButtonToggle__input"
-                            onChange={[Function]}
-                            title="Span list"
-                            type="radio"
-                          />
-                          <EuiButton
-                            className="euiButtonToggle euiButtonGroup__button"
-                            color="text"
-                            fill={false}
-                            id="span_list"
-                            size="s"
-                            tabIndex={-1}
+                          <EuiButtonContent
+                            className="euiButton__content"
+                            iconSide="left"
+                            textProps={
+                              Object {
+                                "className": "euiButton__text euiButtonGroupButton__textShift",
+                                "data-text": "Span list",
+                                "ref": [Function],
+                                "title": "Span list",
+                              }
+                            }
                           >
-                            <EuiButtonDisplay
-                              className="euiButtonToggle euiButtonGroup__button"
-                              color="text"
-                              disabled={false}
-                              element="button"
-                              fill={false}
-                              id="span_list"
-                              isDisabled={false}
-                              size="s"
-                              tabIndex={-1}
-                              type="button"
+                            <span
+                              className="euiButtonContent euiButton__content"
                             >
-                              <button
-                                className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                disabled={false}
-                                id="span_list"
-                                tabIndex={-1}
-                                type="button"
+                              <span
+                                className="euiButton__text euiButtonGroupButton__textShift"
+                                data-text="Span list"
+                                title="Span list"
                               >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Span list
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiToggle>
-                    </EuiButtonToggle>
+                                <input
+                                  checked={false}
+                                  className="euiScreenReaderOnly"
+                                  data-test-subj="span_list"
+                                  disabled={false}
+                                  id="random_html_id"
+                                  name="random_html_id"
+                                  onChange={[Function]}
+                                  type="radio"
+                                />
+                                Span list
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </label>
+                      </EuiButtonDisplay>
+                    </EuiButtonGroupButton>
                   </div>
                 </fieldset>
               </EuiButtonGroup>
@@ -327,10 +319,53 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
         }
       >
         <Plt
-          data={Array []}
+          data={
+            Array [
+              Object {
+                "hoverinfo": "none",
+                "marker": Object {
+                  "color": "rgba(0, 0, 0, 0)",
+                },
+                "orientation": "h",
+                "showlegend": false,
+                "type": "bar",
+                "width": 0.4,
+                "x": Array [
+                  0,
+                ],
+                "y": Array [
+                  "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                ],
+              },
+              Object {
+                "hovertemplate": "%{x}<extra></extra>",
+                "marker": Object {
+                  "color": "#7492e7",
+                },
+                "orientation": "h",
+                "text": Array [
+                  "Error",
+                ],
+                "textfont": Object {
+                  "color": Array [
+                    "#c14125",
+                  ],
+                },
+                "textposition": "outside",
+                "type": "bar",
+                "width": 0.4,
+                "x": Array [
+                  19.91,
+                ],
+                "y": Array [
+                  "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                ],
+              },
+            ]
+          }
           layout={
             Object {
-              "height": 60,
+              "height": 110,
               "margin": Object {
                 "b": 30,
                 "l": 260,
@@ -342,7 +377,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                 "color": "#91989c",
                 "range": Array [
                   0,
-                  0,
+                  23.892,
                 ],
                 "showline": true,
                 "side": "top",
@@ -350,8 +385,12 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
               },
               "yaxis": Object {
                 "showgrid": false,
-                "ticktext": Array [],
-                "tickvals": Array [],
+                "ticktext": Array [
+                  "inventory <br>HTTP GET ",
+                ],
+                "tickvals": Array [
+                  "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                ],
               },
             }
           }
@@ -365,13 +404,57 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                 "displayModeBar": false,
               }
             }
-            data={Array []}
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "none",
+                  "marker": Object {
+                    "color": "rgba(0, 0, 0, 0)",
+                  },
+                  "orientation": "h",
+                  "showlegend": false,
+                  "type": "bar",
+                  "width": 0.4,
+                  "x": Array [
+                    0,
+                  ],
+                  "y": Array [
+                    "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                  ],
+                },
+                Object {
+                  "hovertemplate": "%{x}<extra></extra>",
+                  "marker": Object {
+                    "color": "#7492e7",
+                  },
+                  "orientation": "h",
+                  "text": Array [
+                    "Error",
+                  ],
+                  "textfont": Object {
+                    "color": Array [
+                      "#c14125",
+                    ],
+                  },
+                  "textposition": "outside",
+                  "type": "bar",
+                  "width": 0.4,
+                  "x": Array [
+                    19.91,
+                  ],
+                  "y": Array [
+                    "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                  ],
+                },
+              ]
+            }
             debug={false}
+            divId="explorerPlotComponent"
             layout={
               Object {
                 "autosize": true,
                 "barmode": "stack",
-                "height": 60,
+                "height": 110,
                 "hovermode": "closest",
                 "legend": Object {
                   "orientation": "h",
@@ -389,7 +472,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                   "color": "#91989c",
                   "range": Array [
                     0,
-                    0,
+                    23.892,
                   ],
                   "showline": true,
                   "side": "top",
@@ -397,8 +480,12 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                 },
                 "yaxis": Object {
                   "showgrid": false,
-                  "ticktext": Array [],
-                  "tickvals": Array [],
+                  "ticktext": Array [
+                    "inventory <br>HTTP GET ",
+                  ],
+                  "tickvals": Array [
+                    "inventory <br>HTTP GET 4dec6080-61af-11eb-aee3-ef2f84ffa4a2",
+                  ],
                 },
               }
             }
@@ -414,6 +501,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
             useResizeHandler={true}
           >
             <div
+              id="explorerPlotComponent"
               style={
                 Object {
                   "height": "100%",

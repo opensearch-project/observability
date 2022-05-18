@@ -11,9 +11,9 @@ import {
   EuiSpacer,
   EuiSuperDatePicker,
 } from '@elastic/eui';
-import { uiSettingsService } from '../../../../../common/utils';
 import _ from 'lodash';
 import React, { useState } from 'react';
+import { uiSettingsService } from '../../../../../common/utils';
 import { Filters, FiltersProps } from './filters/filters';
 
 export const renderDatePicker = (
@@ -47,7 +47,7 @@ export interface SearchBarProps extends FiltersProps {
 
 interface SearchBarOwnProps extends SearchBarProps {
   refresh: () => void;
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
   datepickerOnly?: boolean;
 }
 
@@ -75,13 +75,12 @@ export function SearchBar(props: SearchBarOwnProps) {
             />
           </EuiFlexItem>
         )}
-        <EuiFlexItem grow={false} style={{maxWidth: '40vw'}}>
+        <EuiFlexItem grow={false} style={{ maxWidth: '40vw' }}>
           {renderDatePicker(props.startTime, props.setStartTime, props.endTime, props.setEndTime)}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButton
-            data-test-subj="search-bar-refresh-button"
-            fill
+            data-test-subj="superDatePickerApplyTimeButton"
             iconType="refresh"
             onClick={props.refresh}
           >
@@ -93,7 +92,12 @@ export function SearchBar(props: SearchBarOwnProps) {
       {!props.datepickerOnly && (
         <>
           <EuiSpacer size="s" />
-          <Filters page={props.page} filters={props.filters} setFilters={props.setFilters} />
+          <Filters
+            page={props.page}
+            filters={props.filters}
+            setFilters={props.setFilters}
+            appConfigs={props.appConfigs}
+          />
         </>
       )}
     </>

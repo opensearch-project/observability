@@ -41,7 +41,9 @@ import org.opensearch.observability.util.logger
  *   },
  *   "type": "bar",
  *   "name": "Logs between dates",
- *   "description": "some descriptions related to this query"
+ *   "description": "some descriptions related to this query",
+ *   "application_id": "KE1Ie34BbsTr-CsB4G6Y",
+ *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}"
  * }
  * }</pre>
  */
@@ -53,7 +55,9 @@ internal data class SavedVisualization(
     val type: String?,
     val selectedDateRange: SavedQuery.SelectedDateRange?,
     val selectedTimestamp: SavedQuery.Token?,
-    val selectedFields: SavedQuery.SelectedFields?
+    val selectedFields: SavedQuery.SelectedFields?,
+    val applicationId: String? = null,
+    val userConfigs: String? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -65,6 +69,8 @@ internal data class SavedVisualization(
         private const val SELECTED_DATE_RANGE_TAG = "selected_date_range"
         private const val SELECTED_TIMESTAMP_TAG = "selected_timestamp"
         private const val SELECTED_FIELDS_TAG = "selected_fields"
+        private const val APPLICATION_ID_TAG = "application_id"
+        private const val USER_CONFIGS_TAG = "user_configs"
 
         /**
          * reader to create instance of class from writable.
@@ -89,6 +95,8 @@ internal data class SavedVisualization(
             var selectedDateRange: SavedQuery.SelectedDateRange? = null
             var selectedTimestamp: SavedQuery.Token? = null
             var selectedFields: SavedQuery.SelectedFields? = null
+            var applicationId: String? = null
+            var userConfigs: String? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -101,6 +109,8 @@ internal data class SavedVisualization(
                     SELECTED_DATE_RANGE_TAG -> selectedDateRange = SavedQuery.SelectedDateRange.parse(parser)
                     SELECTED_TIMESTAMP_TAG -> selectedTimestamp = SavedQuery.Token.parse(parser)
                     SELECTED_FIELDS_TAG -> selectedFields = SavedQuery.SelectedFields.parse(parser)
+                    APPLICATION_ID_TAG -> applicationId = parser.text()
+                    USER_CONFIGS_TAG -> userConfigs = parser.text()
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -114,7 +124,9 @@ internal data class SavedVisualization(
                 type,
                 selectedDateRange,
                 selectedTimestamp,
-                selectedFields
+                selectedFields,
+                applicationId,
+                userConfigs
             )
         }
     }
@@ -139,7 +151,9 @@ internal data class SavedVisualization(
         type = input.readString(),
         selectedDateRange = input.readOptionalWriteable(SavedQuery.SelectedDateRange.reader),
         selectedTimestamp = input.readOptionalWriteable(SavedQuery.Token.reader),
-        selectedFields = input.readOptionalWriteable(SavedQuery.SelectedFields.reader)
+        selectedFields = input.readOptionalWriteable(SavedQuery.SelectedFields.reader),
+        applicationId = input.readOptionalString(),
+        userConfigs = input.readOptionalString()
     )
 
     /**
@@ -153,6 +167,8 @@ internal data class SavedVisualization(
         output.writeOptionalWriteable(selectedDateRange)
         output.writeOptionalWriteable(selectedTimestamp)
         output.writeOptionalWriteable(selectedFields)
+        output.writeOptionalString(applicationId)
+        output.writeOptionalString(userConfigs)
     }
 
     /**
@@ -168,6 +184,8 @@ internal data class SavedVisualization(
             .fieldIfNotNull(SELECTED_DATE_RANGE_TAG, selectedDateRange)
             .fieldIfNotNull(SELECTED_TIMESTAMP_TAG, selectedTimestamp)
             .fieldIfNotNull(SELECTED_FIELDS_TAG, selectedFields)
+            .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
+            .fieldIfNotNull(USER_CONFIGS_TAG, userConfigs)
         return builder.endObject()
     }
 }

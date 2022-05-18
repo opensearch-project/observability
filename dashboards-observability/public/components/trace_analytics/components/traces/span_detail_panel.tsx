@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBadge,
@@ -25,13 +26,28 @@ export function SpanDetailPanel(props: {
   http: HttpSetup;
   traceId: string;
   colorMap: any;
+  page?: string;
+  openSpanFlyout?: any;
+  data?: { gantt: any[]; table: any[]; ganttMaxX: number };
+  setData?: (data: { gantt: any[]; table: any[]; ganttMaxX: number }) => void;
 }) {
-  const [data, setData] = useState({ gantt: [], table: [], ganttMaxX: 0 });
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
+  const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
     storedFilters ? JSON.parse(storedFilters) : []
   );
   const [DSL, setDSL] = useState<any>({});
+  let data: { gantt: any[]; table: any[]; ganttMaxX: number },
+    setData: (data: { gantt: any[]; table: any[]; ganttMaxX: number }) => void;
+  if (props.data && props.setData) {
+    [data, setData] = [props.data, props.setData];
+  } else {
+    [data, setData] = useState<{ gantt: any[]; table: any[]; ganttMaxX: number }>({
+      gantt: [],
+      table: [],
+      ganttMaxX: 0,
+    });
+  }
 
   const setSpanFiltersWithStorage = (newFilters: Array<{ field: string; value: any }>) => {
     setSpanFilters(newFilters);
@@ -58,8 +74,15 @@ export function SpanDetailPanel(props: {
     }
   };
 
+  const refresh = _.debounce(() => {
+    if (_.isEmpty(props.colorMap)) return;
+    const refreshDSL = spanFiltersToDSL();
+    setDSL(refreshDSL);
+    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
+  }, 150);
+
   const spanFiltersToDSL = () => {
-    const DSL: any = {
+    const spanDSL: any = {
       query: {
         bool: {
           must: [
@@ -77,26 +100,19 @@ export function SpanDetailPanel(props: {
     };
     spanFilters.map(({ field, value }) => {
       if (value != null) {
-        DSL.query.bool.must.push({
+        spanDSL.query.bool.must.push({
           term: {
             [field]: value,
           },
         });
       }
     });
-    return DSL;
+    return spanDSL;
   };
 
   useEffect(() => {
     refresh();
   }, [props.colorMap, spanFilters]);
-
-  const refresh = _.debounce(() => {
-    if (_.isEmpty(props.colorMap)) return;
-    const DSL = spanFiltersToDSL();
-    setDSL(DSL);
-    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, DSL);
-  }, 150);
 
   const getSpanDetailLayout = (plotTraces: Plotly.Data[], maxX: number): Partial<Plotly.Layout> => {
     // get unique labels from traces
@@ -130,17 +146,21 @@ export function SpanDetailPanel(props: {
     };
   };
 
-  const layout = useMemo(() => getSpanDetailLayout(data.gantt, data.ganttMaxX), [
-    data.gantt,
-    data.ganttMaxX,
-  ]);
+  const layout = useMemo(
+    () => getSpanDetailLayout(data.gantt, data.ganttMaxX),
+    [data.gantt, data.ganttMaxX]
+  );
 
   const [currentSpan, setCurrentSpan] = useState('');
 
-  const onClick = (event) => {
+  const onClick = (event: any) => {
     if (!event?.points) return;
     const point = event.points[0];
-    setCurrentSpan(point.data.spanId);
+    if (fromApp) {
+      props.openSpanFlyout(point.data.spanId);
+    } else {
+      setCurrentSpan(point.data.spanId);
+    }
   };
 
   const renderFilters = useMemo(() => {
@@ -163,7 +183,7 @@ export function SpanDetailPanel(props: {
     dragLayer.style.cursor = 'pointer';
   };
 
-  const onUnhover = (pr) => {
+  const onUnhover = () => {
     const dragLayer = document.getElementsByClassName('nsewdrag')?.[0];
     dragLayer.style.cursor = '';
   };
@@ -186,7 +206,13 @@ export function SpanDetailPanel(props: {
         http={props.http}
         hiddenColumns={['traceId', 'traceGroup']}
         DSL={DSL}
-        openFlyout={(spanId: string) => setCurrentSpan(spanId)}
+        openFlyout={(spanId: string) => {
+          if (fromApp) {
+            props.openSpanFlyout(spanId);
+          } else {
+            setCurrentSpan(spanId);
+          }
+        }}
       />
     ),
     [DSL, setCurrentSpan]

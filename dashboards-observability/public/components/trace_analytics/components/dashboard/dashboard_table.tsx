@@ -33,6 +33,7 @@ export function DashboardTable(props: {
   addPercentileFilter: (condition?: 'gte' | 'lte', additionalFilters?: FilterType[]) => void;
   setRedirect: (redirect: boolean) => void;
   loading: boolean;
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }) {
   const getVarianceProps = (items: any[]) => {
     if (items.length === 0) {
@@ -111,7 +112,11 @@ export function DashboardTable(props: {
                 })
               }
             >
-              {item.length < 48 ? item : <div title={item}>{_.truncate(item, { length: 48 })}</div>}
+              {item.length < 48 ? (
+                decodeURI(item)
+              ) : (
+                <div title={item}>{_.truncate(decodeURI(item), { length: 48 })}</div>
+              )}
             </EuiLink>
           ) : (
             '-'
@@ -321,7 +326,6 @@ export function DashboardTable(props: {
           <EuiLink
             data-test-subj="dashboard-table-traces-button"
             onClick={() => {
-              props.setRedirect(true);
               props.addFilter({
                 field: 'traceGroup',
                 operator: 'is',
@@ -329,7 +333,10 @@ export function DashboardTable(props: {
                 inverted: false,
                 disabled: false,
               });
-              location.assign('#/trace_analytics/traces');
+              if (props.page !== 'app') {
+                props.setRedirect(true);
+                location.assign('#/trace_analytics/traces');
+              }
             }}
           >
             <EuiI18nNumber value={item} />
@@ -371,7 +378,7 @@ export function DashboardTable(props: {
   };
 
   const varianceProps = useMemo(() => getVarianceProps(props.items), [props.items]);
-  const columns = useMemo(() => getColumns(), [props.items]);
+  const columns = useMemo(() => getColumns(), [props.items, props.filters]);
   const titleBar = useMemo(() => renderTitleBar(props.items?.length), [props.items]);
 
   const [sorting, setSorting] = useState<{ sort: PropertySort }>({
@@ -394,6 +401,7 @@ export function DashboardTable(props: {
         <EuiHorizontalRule margin="none" />
         {props.items?.length > 0 ? (
           <EuiInMemoryTable
+            data-test-subj="dashboardTable"
             tableLayout="auto"
             items={props.items}
             columns={columns}

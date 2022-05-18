@@ -2,22 +2,22 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
 import { Moment } from 'moment-timezone';
+import React from 'react';
+import { Layout } from 'react-grid-layout';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
-import React from 'react';
-import { Bar } from '../../visualizations/charts/bar';
-import { HorizontalBar } from '../../visualizations/charts/horizontal_bar';
-import { Line } from '../../visualizations/charts/line';
 import { CoreStart } from '../../../../../../src/core/public';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
-import { Layout } from 'react-grid-layout';
+import { Visualization } from '../../visualizations/visualization';
+import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -47,7 +47,7 @@ export const convertDateTime = (datetime: string, isStart = true, formatted = tr
     returnTime = dateMath.parse(datetime, { roundUp: true });
   }
 
-  if (formatted) return returnTime.format(PPL_DATE_FORMAT);
+  if (formatted) return returnTime!.utc().format(PPL_DATE_FORMAT);
   return returnTime;
 };
 
@@ -57,10 +57,10 @@ export const mergeLayoutAndVisualizations = (
   newVisualizationList: VisualizationType[],
   setPanelVisualizations: (value: React.SetStateAction<VisualizationType[]>) => void
 ) => {
-  let newPanelVisualizations: VisualizationType[] = [];
+  const newPanelVisualizations: VisualizationType[] = [];
 
-  for (var i = 0; i < newVisualizationList.length; i++) {
-    for (var j = 0; j < layout.length; j++) {
+  for (let i = 0; i < newVisualizationList.length; i++) {
+    for (let j = 0; j < layout.length; j++) {
       if (newVisualizationList[i].id == layout[j].i) {
         newPanelVisualizations.push({
           ...newVisualizationList[i],
@@ -103,7 +103,7 @@ const queryAccumulator = (
   return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
 };
 
-//PPL Service requestor
+// PPL Service requestor
 const pplServiceRequestor = async (
   pplService: PPLService,
   finalQuery: string,
@@ -119,7 +119,7 @@ const pplServiceRequestor = async (
       setVisualizationData(res);
     })
     .catch((error: Error) => {
-      setIsError(error.stack);
+      setIsError(error.stack || 'Issue in fetching visualization');
       console.error(error);
     })
     .finally(() => {
@@ -127,11 +127,11 @@ const pplServiceRequestor = async (
     });
 };
 
-//Fetched Saved Visualization By Id
-const fetchVisualizationById = async (
+// Fetched Saved Visualization By Id
+export const fetchVisualizationById = async (
   http: CoreStart['http'],
   savedVisualizationId: string,
-  setIsError: React.Dispatch<React.SetStateAction<string>>
+  setIsError: (value: string) => void
 ) => {
   let savedVisualization = {} as SavedVisualizationType;
   await http
@@ -188,6 +188,7 @@ export const renderSavedVisualization = async (
   setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
+  setVisualizationMetaData: React.Dispatch<React.SetStateAction<undefined>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>
 ) => {
@@ -209,6 +210,8 @@ export const renderSavedVisualization = async (
   if (visualization.type) {
     setVisualizationType(visualization.type);
   }
+
+  setVisualizationMetaData(visualization);
 
   getQueryResponse(
     pplService,
@@ -284,39 +287,20 @@ export const isPPLFilterValid = (
   return true;
 };
 
-// This function renders the visualzation based of its type
-export const displayVisualization = (data: any, type: string, editMode?: boolean) => {
-  if (data === undefined) return;
-
-  const layoutObject = {
-    xaxis: {
-      fixedrange: editMode ? true : false,
-      showgrid: false,
-    },
-    yaxis: {
-      fixedrange: editMode ? true : false,
-      showgrid: false,
-    },
-  };
-
-  let vizComponent!: JSX.Element;
-  switch (type) {
-    case 'bar': {
-      vizComponent = <Bar visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    case 'horizontal_bar': {
-      vizComponent = <HorizontalBar visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    case 'line': {
-      vizComponent = <Line visualizations={data} layoutConfig={layoutObject} />;
-      break;
-    }
-    default: {
-      vizComponent = <></>;
-      break;
-    }
+// Renders visualization in the vizualization container component
+export const displayVisualization = (metaData: any, data: any, type: string) => {
+  if (metaData === undefined || metaData === {}) {
+    return <></>;
   }
-  return vizComponent;
+  return (
+    <Visualization
+      visualizations={getVizContainerProps({
+        vizId: type,
+        rawVizData: data,
+        query: {},
+        indexFields: {},
+        userConfigs: metaData.user_configs,
+      })}
+    />
+  );
 };

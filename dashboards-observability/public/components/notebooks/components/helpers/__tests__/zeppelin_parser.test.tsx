@@ -16,7 +16,7 @@ import {
 
 // Perfect schema
 describe('Testing Zeppelin backend parser function with perfect schema', () => {
-  test('zeppelinParagraphParserTest1', async (done) => {
+  test('zeppelinParagraphParserTest1', (done) => {
     const parsedParagraphs1 = zeppelinParagraphParser(sampleNotebook1.paragraphs);
     const parsedParagraphs2 = zeppelinParagraphParser(sampleNotebook2.paragraphs);
     const parsedParagraphs3 = zeppelinParagraphParser([]);
@@ -29,7 +29,7 @@ describe('Testing Zeppelin backend parser function with perfect schema', () => {
 
 // Issue in schema
 describe('Testing default backend parser function with wrong schema', () => {
-  test('zeppelinParagraphParserTest2', async (done) => {
+  test('zeppelinParagraphParserTest2', (done) => {
     expect(() => {
       const parsedParagraphs1 = zeppelinParagraphParser(sampleNotebook3.paragraphs);
     }).toThrow(Error);

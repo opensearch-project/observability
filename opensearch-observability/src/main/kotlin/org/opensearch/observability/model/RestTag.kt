@@ -31,7 +31,12 @@ internal object RestTag {
     const val SAVED_QUERY_FIELD = "savedQuery"
     const val SAVED_VISUALIZATION_FIELD = "savedVisualization"
     const val OPERATIONAL_PANEL_FIELD = "operationalPanel"
+    const val APPLICATION_FIELD = "application"
     const val TIMESTAMP_FIELD = "timestamp"
+    const val SCHEDULE_INFO_TAG = "schedule"
+    const val SCHEDULED_JOB_TYPE_TAG = "jobType"
+    const val ID_FIELD = "id"
+    const val IS_ENABLED_TAG = "isEnabled"
     private val INCLUDE_ID = Pair(OBJECT_ID_FIELD, "true")
     private val EXCLUDE_ACCESS = Pair(ACCESS_LIST_FIELD, "false")
     val REST_OUTPUT_PARAMS: Params = ToXContent.MapParams(mapOf(INCLUDE_ID))

@@ -218,78 +218,95 @@ exports[`Search bar components renders date picker 1`] = `
                   closePopover={[Function]}
                   display="inlineBlock"
                   hasArrow={true}
-                  id="QuickSelectPopover"
                   isOpen={false}
                   ownFocus={true}
                   panelPaddingSize="m"
                 >
-                  <EuiOutsideClickDetector
-                    isDisabled={true}
-                    onOutsideClick={[Function]}
+                  <div
+                    className="euiPopover euiPopover--anchorDownLeft"
                   >
                     <div
-                      className="euiPopover euiPopover--anchorDownLeft"
-                      id="QuickSelectPopover"
-                      onKeyDown={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseUp={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchStart={[Function]}
+                      className="euiPopover__anchor euiQuickSelectPopover__anchor"
                     >
-                      <div
-                        className="euiPopover__anchor euiQuickSelectPopover__anchor"
-                      >
-                        <EuiButtonEmpty
-                          aria-label="Date quick select"
-                          className="euiFormControlLayout__prepend"
-                          data-test-subj="superDatePickerToggleQuickMenuButton"
-                          iconSide="right"
-                          iconType="arrowDown"
-                          isDisabled={false}
-                          onClick={[Function]}
-                          size="xs"
-                          textProps={
-                            Object {
-                              "className": "euiQuickSelectPopover__buttonText",
-                            }
+                      <EuiButtonEmpty
+                        aria-label="Date quick select"
+                        className="euiFormControlLayout__prepend"
+                        data-test-subj="superDatePickerToggleQuickMenuButton"
+                        iconSide="right"
+                        iconType="arrowDown"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="xs"
+                        textProps={
+                          Object {
+                            "className": "euiQuickSelectPopover__buttonText",
                           }
+                        }
+                      >
+                        <button
+                          aria-label="Date quick select"
+                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                          data-test-subj="superDatePickerToggleQuickMenuButton"
+                          disabled={false}
+                          onClick={[Function]}
+                          type="button"
                         >
-                          <button
-                            aria-label="Date quick select"
-                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
-                            data-test-subj="superDatePickerToggleQuickMenuButton"
-                            disabled={false}
-                            onClick={[Function]}
-                            type="button"
-                          >
-                            <EuiButtonContent
-                              className="euiButtonEmpty__content"
-                              iconSide="right"
-                              iconType="arrowDown"
-                              textProps={
-                                Object {
-                                  "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
-                                }
+                          <EuiButtonContent
+                            className="euiButtonEmpty__content"
+                            iconSide="right"
+                            iconSize="s"
+                            iconType="arrowDown"
+                            textProps={
+                              Object {
+                                "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
                               }
+                            }
+                          >
+                            <span
+                              className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                             >
+                              <EuiIcon
+                                className="euiButtonContent__icon"
+                                color="inherit"
+                                size="s"
+                                type="arrowDown"
+                              >
+                                <EuiIconEmpty
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                  focusable="false"
+                                  role="img"
+                                  style={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                    focusable="false"
+                                    height={16}
+                                    role="img"
+                                    style={null}
+                                    viewBox="0 0 16 16"
+                                    width={16}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                </EuiIconEmpty>
+                              </EuiIcon>
                               <span
-                                className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
                               >
                                 <EuiIcon
-                                  className="euiButtonContent__icon"
-                                  size="m"
-                                  type="arrowDown"
+                                  type="calendar"
                                 >
                                   <EuiIconEmpty
                                     aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                    className="euiIcon euiIcon--medium euiIcon-isLoading"
                                     focusable="false"
                                     role="img"
                                     style={null}
                                   >
                                     <svg
                                       aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
                                       focusable="false"
                                       height={16}
                                       role="img"
@@ -300,40 +317,13 @@ exports[`Search bar components renders date picker 1`] = `
                                     />
                                   </EuiIconEmpty>
                                 </EuiIcon>
-                                <span
-                                  className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
-                                >
-                                  <EuiIcon
-                                    type="calendar"
-                                  >
-                                    <EuiIconEmpty
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
-                                      focusable="false"
-                                      role="img"
-                                      style={null}
-                                    >
-                                      <svg
-                                        aria-hidden={true}
-                                        className="euiIcon euiIcon--medium euiIcon-isLoading"
-                                        focusable="false"
-                                        height={16}
-                                        role="img"
-                                        style={null}
-                                        viewBox="0 0 16 16"
-                                        width={16}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      />
-                                    </EuiIconEmpty>
-                                  </EuiIcon>
-                                </span>
                               </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonEmpty>
-                      </div>
+                            </span>
+                          </EuiButtonContent>
+                        </button>
+                      </EuiButtonEmpty>
                     </div>
-                  </EuiOutsideClickDetector>
+                  </div>
                 </EuiPopover>
               </EuiQuickSelectPopover>
               <div
@@ -382,6 +372,7 @@ exports[`Search bar components renders date picker 1`] = `
 
 exports[`Search bar components renders search bar 1`] = `
 <SearchBar
+  appConfigs={Array []}
   endTime="now"
   filters={Array []}
   page="dashboard"
@@ -439,6 +430,7 @@ exports[`Search bar components renders search bar 1`] = `
                     />
                   </EuiValidatableControl>
                   <EuiFormControlLayoutIcons
+                    compressed={false}
                     icon="search"
                     isLoading={false}
                   >
@@ -446,6 +438,7 @@ exports[`Search bar components renders search bar 1`] = `
                       className="euiFormControlLayoutIcons"
                     >
                       <EuiFormControlLayoutCustomIcon
+                        size="m"
                         type="search"
                       >
                         <span
@@ -454,6 +447,7 @@ exports[`Search bar components renders search bar 1`] = `
                           <EuiIcon
                             aria-hidden="true"
                             className="euiFormControlLayoutCustomIcon__icon"
+                            size="m"
                             type="search"
                           >
                             <EuiIconEmpty
@@ -719,78 +713,100 @@ exports[`Search bar components renders search bar 1`] = `
                             closePopover={[Function]}
                             display="inlineBlock"
                             hasArrow={true}
-                            id="QuickSelectPopover"
                             isOpen={false}
                             ownFocus={true}
                             panelPaddingSize="m"
                           >
-                            <EuiOutsideClickDetector
-                              isDisabled={true}
-                              onOutsideClick={[Function]}
+                            <div
+                              className="euiPopover euiPopover--anchorDownLeft"
                             >
                               <div
-                                className="euiPopover euiPopover--anchorDownLeft"
-                                id="QuickSelectPopover"
-                                onKeyDown={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchStart={[Function]}
+                                className="euiPopover__anchor euiQuickSelectPopover__anchor"
                               >
-                                <div
-                                  className="euiPopover__anchor euiQuickSelectPopover__anchor"
-                                >
-                                  <EuiButtonEmpty
-                                    aria-label="Date quick select"
-                                    className="euiFormControlLayout__prepend"
-                                    data-test-subj="superDatePickerToggleQuickMenuButton"
-                                    iconSide="right"
-                                    iconType="arrowDown"
-                                    isDisabled={false}
-                                    onClick={[Function]}
-                                    size="xs"
-                                    textProps={
-                                      Object {
-                                        "className": "euiQuickSelectPopover__buttonText",
-                                      }
+                                <EuiButtonEmpty
+                                  aria-label="Date quick select"
+                                  className="euiFormControlLayout__prepend"
+                                  data-test-subj="superDatePickerToggleQuickMenuButton"
+                                  iconSide="right"
+                                  iconType="arrowDown"
+                                  isDisabled={false}
+                                  onClick={[Function]}
+                                  size="xs"
+                                  textProps={
+                                    Object {
+                                      "className": "euiQuickSelectPopover__buttonText",
                                     }
+                                  }
+                                >
+                                  <button
+                                    aria-label="Date quick select"
+                                    className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                    data-test-subj="superDatePickerToggleQuickMenuButton"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
                                   >
-                                    <button
-                                      aria-label="Date quick select"
-                                      className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
-                                      data-test-subj="superDatePickerToggleQuickMenuButton"
-                                      disabled={false}
-                                      onClick={[Function]}
-                                      type="button"
-                                    >
-                                      <EuiButtonContent
-                                        className="euiButtonEmpty__content"
-                                        iconSide="right"
-                                        iconType="arrowDown"
-                                        textProps={
-                                          Object {
-                                            "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
-                                          }
+                                    <EuiButtonContent
+                                      className="euiButtonEmpty__content"
+                                      iconSide="right"
+                                      iconSize="s"
+                                      iconType="arrowDown"
+                                      textProps={
+                                        Object {
+                                          "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
                                         }
+                                      }
+                                    >
+                                      <span
+                                        className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                       >
+                                        <EuiIcon
+                                          className="euiButtonContent__icon"
+                                          color="inherit"
+                                          size="s"
+                                          type="arrowDown"
+                                        >
+                                          <EuiIconArrowDown
+                                            aria-hidden={true}
+                                            className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                fillRule="non-zero"
+                                              />
+                                            </svg>
+                                          </EuiIconArrowDown>
+                                        </EuiIcon>
                                         <span
-                                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                          className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
                                         >
                                           <EuiIcon
-                                            className="euiButtonContent__icon"
-                                            size="m"
-                                            type="arrowDown"
+                                            type="calendar"
                                           >
-                                            <EuiIconArrowDown
+                                            <EuiIconCalendar
                                               aria-hidden={true}
-                                              className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                              className="euiIcon euiIcon--medium"
                                               focusable="false"
                                               role="img"
                                               style={null}
                                             >
                                               <svg
                                                 aria-hidden={true}
-                                                className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                className="euiIcon euiIcon--medium"
                                                 focusable="false"
                                                 height={16}
                                                 role="img"
@@ -800,51 +816,19 @@ exports[`Search bar components renders search bar 1`] = `
                                                 xmlns="http://www.w3.org/2000/svg"
                                               >
                                                 <path
-                                                  d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                                  fillRule="non-zero"
+                                                  d="M14 4v-.994C14 2.45 13.55 2 12.994 2H11v1h-1V2H6v1H5V2H3.006C2.45 2 2 2.45 2 3.006v9.988C2 13.55 2.45 14 3.006 14h9.988C13.55 14 14 13.55 14 12.994V5H2V4h12zm-3-3h1.994C14.102 1 15 1.897 15 3.006v9.988A2.005 2.005 0 0112.994 15H3.006A2.005 2.005 0 011 12.994V3.006C1 1.898 1.897 1 3.006 1H5V0h1v1h4V0h1v1zM4 7h2v1H4V7zm3 0h2v1H7V7zm3 0h2v1h-2V7zM4 9h2v1H4V9zm3 0h2v1H7V9zm3 0h2v1h-2V9zm-6 2h2v1H4v-1zm3 0h2v1H7v-1zm3 0h2v1h-2v-1z"
+                                                  fillRule="evenodd"
                                                 />
                                               </svg>
-                                            </EuiIconArrowDown>
+                                            </EuiIconCalendar>
                                           </EuiIcon>
-                                          <span
-                                            className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
-                                          >
-                                            <EuiIcon
-                                              type="calendar"
-                                            >
-                                              <EuiIconCalendar
-                                                aria-hidden={true}
-                                                className="euiIcon euiIcon--medium"
-                                                focusable="false"
-                                                role="img"
-                                                style={null}
-                                              >
-                                                <svg
-                                                  aria-hidden={true}
-                                                  className="euiIcon euiIcon--medium"
-                                                  focusable="false"
-                                                  height={16}
-                                                  role="img"
-                                                  style={null}
-                                                  viewBox="0 0 16 16"
-                                                  width={16}
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                  <path
-                                                    d="M14 4v-.994C14 2.45 13.55 2 12.994 2H11v1h-1V2H6v1H5V2H3.006C2.45 2 2 2.45 2 3.006v9.988C2 13.55 2.45 14 3.006 14h9.988C13.55 14 14 13.55 14 12.994V5H2V4h12zm-3-3h1.994C14.102 1 15 1.897 15 3.006v9.988A2.005 2.005 0 0112.994 15H3.006A2.005 2.005 0 011 12.994V3.006C1 1.898 1.897 1 3.006 1H5V0h1v1h4V0h1v1zM4 7h2v1H4V7zm3 0h2v1H7V7zm3 0h2v1h-2V7zM4 9h2v1H4V9zm3 0h2v1H7V9zm3 0h2v1h-2V9zm-6 2h2v1H4v-1zm3 0h2v1H7v-1zm3 0h2v1h-2v-1z"
-                                                    fillRule="evenodd"
-                                                  />
-                                                </svg>
-                                              </EuiIconCalendar>
-                                            </EuiIcon>
-                                          </span>
                                         </span>
-                                      </EuiButtonContent>
-                                    </button>
-                                  </EuiButtonEmpty>
-                                </div>
+                                      </span>
+                                    </EuiButtonContent>
+                                  </button>
+                                </EuiButtonEmpty>
                               </div>
-                            </EuiOutsideClickDetector>
+                            </div>
                           </EuiPopover>
                         </EuiQuickSelectPopover>
                         <div
@@ -898,26 +882,30 @@ exports[`Search bar components renders search bar 1`] = `
           className="euiFlexItem euiFlexItem--flexGrowZero"
         >
           <EuiButton
-            data-test-subj="search-bar-refresh-button"
-            fill={true}
+            data-test-subj="superDatePickerApplyTimeButton"
             iconType="refresh"
             onClick={[MockFunction]}
           >
             <EuiButtonDisplay
-              data-test-subj="search-bar-refresh-button"
+              baseClassName="euiButton"
+              data-test-subj="superDatePickerApplyTimeButton"
               disabled={false}
               element="button"
-              fill={true}
               iconType="refresh"
               isDisabled={false}
               onClick={[MockFunction]}
               type="button"
             >
               <button
-                className="euiButton euiButton--primary euiButton--fill"
-                data-test-subj="search-bar-refresh-button"
+                className="euiButton euiButton--primary"
+                data-test-subj="superDatePickerApplyTimeButton"
                 disabled={false}
                 onClick={[MockFunction]}
+                style={
+                  Object {
+                    "minWidth": undefined,
+                  }
+                }
                 type="button"
               >
                 <EuiButtonContent
@@ -935,19 +923,20 @@ exports[`Search bar components renders search bar 1`] = `
                   >
                     <EuiIcon
                       className="euiButtonContent__icon"
+                      color="inherit"
                       size="m"
                       type="refresh"
                     >
                       <EuiIconEmpty
                         aria-hidden={true}
-                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                         focusable="false"
                         role="img"
                         style={null}
                       >
                         <svg
                           aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                           focusable="false"
                           height={16}
                           role="img"
@@ -980,6 +969,7 @@ exports[`Search bar components renders search bar 1`] = `
     />
   </EuiSpacer>
   <Filters
+    appConfigs={Array []}
     filters={Array []}
     page="dashboard"
     setFilters={[MockFunction]}
@@ -1023,70 +1013,62 @@ exports[`Search bar components renders search bar 1`] = `
                 display="inlineBlock"
                 hasArrow={true}
                 isOpen={false}
-                ownFocus={false}
+                ownFocus={true}
                 panelPaddingSize="none"
                 withTitle={true}
               >
-                <EuiOutsideClickDetector
-                  isDisabled={true}
-                  onOutsideClick={[Function]}
+                <div
+                  className="euiPopover euiPopover--anchorRightUp"
+                  withTitle={true}
                 >
                   <div
-                    className="euiPopover euiPopover--anchorRightUp euiPopover--withTitle"
-                    onKeyDown={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchStart={[Function]}
+                    className="euiPopover__anchor"
                   >
-                    <div
-                      className="euiPopover__anchor"
+                    <EuiButtonIcon
+                      aria-label="Change all filters"
+                      iconType="filter"
+                      onClick={[Function]}
+                      title="Change all filters"
                     >
-                      <EuiButtonIcon
+                      <button
                         aria-label="Change all filters"
-                        iconType="filter"
+                        className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall"
+                        disabled={false}
                         onClick={[Function]}
                         title="Change all filters"
+                        type="button"
                       >
-                        <button
-                          aria-label="Change all filters"
-                          className="euiButtonIcon euiButtonIcon--primary"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Change all filters"
-                          type="button"
+                        <EuiIcon
+                          aria-hidden="true"
+                          className="euiButtonIcon__icon"
+                          color="inherit"
+                          size="m"
+                          type="filter"
                         >
-                          <EuiIcon
-                            aria-hidden="true"
-                            className="euiButtonIcon__icon"
-                            size="m"
-                            type="filter"
+                          <EuiIconEmpty
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            role="img"
+                            style={null}
                           >
-                            <EuiIconEmpty
+                            <svg
                               aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                               focusable="false"
+                              height={16}
                               role="img"
                               style={null}
-                            >
-                              <svg
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                focusable="false"
-                                height={16}
-                                role="img"
-                                style={null}
-                                viewBox="0 0 16 16"
-                                width={16}
-                                xmlns="http://www.w3.org/2000/svg"
-                              />
-                            </EuiIconEmpty>
-                          </EuiIcon>
-                        </button>
-                      </EuiButtonIcon>
-                    </div>
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </button>
+                    </EuiButtonIcon>
                   </div>
-                </EuiOutsideClickDetector>
+                </div>
               </EuiPopover>
             </GlobalFilterButton>
           </div>
@@ -1112,59 +1094,51 @@ exports[`Search bar components renders search bar 1`] = `
                 display="inlineBlock"
                 hasArrow={true}
                 isOpen={false}
-                ownFocus={false}
+                ownFocus={true}
                 panelPaddingSize="m"
                 withTitle={true}
               >
-                <EuiOutsideClickDetector
-                  isDisabled={true}
-                  onOutsideClick={[Function]}
+                <div
+                  className="euiPopover euiPopover--anchorDownLeft"
+                  withTitle={true}
                 >
                   <div
-                    className="euiPopover euiPopover--anchorDownLeft euiPopover--withTitle"
-                    onKeyDown={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchStart={[Function]}
+                    className="euiPopover__anchor"
                   >
-                    <div
-                      className="euiPopover__anchor"
+                    <EuiButtonEmpty
+                      onClick={[Function]}
+                      size="xs"
                     >
-                      <EuiButtonEmpty
+                      <button
+                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+                        disabled={false}
                         onClick={[Function]}
-                        size="xs"
+                        type="button"
                       >
-                        <button
-                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
-                          disabled={false}
-                          onClick={[Function]}
-                          type="button"
-                        >
-                          <EuiButtonContent
-                            className="euiButtonEmpty__content"
-                            iconSide="left"
-                            textProps={
-                              Object {
-                                "className": "euiButtonEmpty__text",
-                              }
+                        <EuiButtonContent
+                          className="euiButtonEmpty__content"
+                          iconSide="left"
+                          iconSize="s"
+                          textProps={
+                            Object {
+                              "className": "euiButtonEmpty__text",
                             }
+                          }
+                        >
+                          <span
+                            className="euiButtonContent euiButtonEmpty__content"
                           >
                             <span
-                              className="euiButtonContent euiButtonEmpty__content"
+                              className="euiButtonEmpty__text"
                             >
-                              <span
-                                className="euiButtonEmpty__text"
-                              >
-                                + Add filter
-                              </span>
+                              + Add filter
                             </span>
-                          </EuiButtonContent>
-                        </button>
-                      </EuiButtonEmpty>
-                    </div>
+                          </span>
+                        </EuiButtonContent>
+                      </button>
+                    </EuiButtonEmpty>
                   </div>
-                </EuiOutsideClickDetector>
+                </div>
               </EuiPopover>
             </AddFilterButton>
           </div>

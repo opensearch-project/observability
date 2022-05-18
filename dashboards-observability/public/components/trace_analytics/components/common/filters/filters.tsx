@@ -16,7 +16,7 @@ import {
   EuiPopoverTitle,
   EuiTextColor,
 } from '@elastic/eui';
-import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FilterEditPopover } from './filter_edit_popover';
 import { getFilterFields, getValidFilterFields } from './filter_helpers';
 
@@ -32,11 +32,12 @@ export interface FilterType {
 
 export interface FiltersProps {
   filters: FilterType[];
+  appConfigs?: FilterType[];
   setFilters: (filters: FilterType[]) => void;
 }
 
 interface FiltersOwnProps extends FiltersProps {
-  page: 'dashboard' | 'traces' | 'services';
+  page: 'dashboard' | 'traces' | 'services' | 'app';
 }
 
 export function Filters(props: FiltersOwnProps) {
@@ -158,7 +159,7 @@ export function Filters(props: FiltersOwnProps) {
         },
         {
           name: 'Delete',
-          icon: <EuiIcon type="trash" size="m" />,
+          icon: <EuiIcon data-test-subj="deleteFilterIcon" type="trash" size="m" />,
           onClick: () => setFilter(null, index),
         },
       ],
@@ -271,6 +272,7 @@ export function Filters(props: FiltersOwnProps) {
             setFilter(null, index);
           }}
           iconOnClickAriaLabel="Remove filter"
+          data-test-subj="filterBadge"
         >
           {filterLabel}
         </EuiBadge>
@@ -278,6 +280,7 @@ export function Filters(props: FiltersOwnProps) {
       return (
         <EuiFlexItem grow={false} key={`filter-${index}`}>
           <EuiPopover
+            data-test-subj={`${filter.value}FilterBadge`}
             isOpen={isPopoverOpen}
             closePopover={() => setIsPopoverOpen(false)}
             panelPaddingSize="none"

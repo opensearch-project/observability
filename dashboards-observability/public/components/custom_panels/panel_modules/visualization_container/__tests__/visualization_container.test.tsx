@@ -39,6 +39,9 @@ describe('Visualization Container Component', () => {
     const showFlyout = jest.fn();
     const removeVisualization = jest.fn();
     const pplService = new PPLService(httpClientMock);
+    const onEditClick = (savedVisId: string) => {
+      window.location.assign(`#/event_analytics/explorer/${savedVisId}`);
+    };
 
     const wrapper = mount(
       <VisualizationContainer
@@ -54,6 +57,7 @@ describe('Visualization Container Component', () => {
         pplFilterValue={pplFilterValue}
         showFlyout={showFlyout}
         removeVisualization={removeVisualization}
+        onEditClick={onEditClick}
       />
     );
     wrapper.update();

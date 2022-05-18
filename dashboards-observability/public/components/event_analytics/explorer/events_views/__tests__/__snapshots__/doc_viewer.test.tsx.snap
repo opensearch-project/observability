@@ -1,0 +1,421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Datagrid Doc viewer component Renders Doc viewer component 1`] = `
+<DocViewer
+  hit={
+    Object {
+      "Carrier": "JetBeats",
+      "avg(FlightDelayMin)": "45.957544288332315",
+    }
+  }
+>
+  <div
+    className="osdDocViewer"
+  >
+    <EuiTabbedContent
+      autoFocus="initial"
+      onTabClick={[Function]}
+      selectedTab={
+        Object {
+          "content": <EuiPanel
+            paddingSize="s"
+          >
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                <component
+                  hit={
+                    Object {
+                      "Carrier": "JetBeats",
+                      "avg(FlightDelayMin)": "45.957544288332315",
+                    }
+                  }
+                  logTraceId=""
+                />
+                 
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiPanel>,
+          "id": "doc_viewer_tab_2",
+          "name": "Table",
+        }
+      }
+      tabs={
+        Array [
+          Object {
+            "content": <EuiPanel
+              paddingSize="s"
+            >
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <component
+                    hit={
+                      Object {
+                        "Carrier": "JetBeats",
+                        "avg(FlightDelayMin)": "45.957544288332315",
+                      }
+                    }
+                    logTraceId=""
+                  />
+                   
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPanel>,
+            "id": "doc_viewer_tab_2",
+            "name": "Table",
+          },
+          Object {
+            "content": <EuiPanel
+              paddingSize="s"
+            >
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <component
+                    hit={
+                      Object {
+                        "Carrier": "JetBeats",
+                        "avg(FlightDelayMin)": "45.957544288332315",
+                      }
+                    }
+                    logTraceId=""
+                  />
+                   
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPanel>,
+            "id": "doc_viewer_tab_3",
+            "name": "JSON",
+          },
+          Object {
+            "content": <EuiPanel
+              paddingSize="s"
+            >
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <component
+                    hit={
+                      Object {
+                        "Carrier": "JetBeats",
+                        "avg(FlightDelayMin)": "45.957544288332315",
+                      }
+                    }
+                    logTraceId=""
+                  />
+                   
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiPanel>,
+            "id": "doc_viewer_tab_4",
+            "name": <React.Fragment>
+              <span>
+                Traces
+              </span>
+              <React.Fragment />
+            </React.Fragment>,
+          },
+        ]
+      }
+    >
+      <div>
+        <EuiTabs
+          onFocus={[Function]}
+        >
+          <div
+            className="euiTabs"
+            onFocus={[Function]}
+            role="tablist"
+          >
+            <EuiTab
+              aria-controls="random_html_id"
+              id="doc_viewer_tab_2"
+              isSelected={true}
+              key="doc_viewer_tab_2"
+              onClick={[Function]}
+            >
+              <button
+                aria-controls="random_html_id"
+                aria-selected={true}
+                className="euiTab euiTab-isSelected"
+                disabled={false}
+                id="doc_viewer_tab_2"
+                onClick={[Function]}
+                role="tab"
+                type="button"
+              >
+                <span
+                  className="euiTab__content"
+                >
+                  Table
+                </span>
+              </button>
+            </EuiTab>
+            <EuiTab
+              aria-controls="random_html_id"
+              id="doc_viewer_tab_3"
+              isSelected={false}
+              key="doc_viewer_tab_3"
+              onClick={[Function]}
+            >
+              <button
+                aria-controls="random_html_id"
+                aria-selected={false}
+                className="euiTab"
+                disabled={false}
+                id="doc_viewer_tab_3"
+                onClick={[Function]}
+                role="tab"
+                type="button"
+              >
+                <span
+                  className="euiTab__content"
+                >
+                  JSON
+                </span>
+              </button>
+            </EuiTab>
+            <EuiTab
+              aria-controls="random_html_id"
+              id="doc_viewer_tab_4"
+              isSelected={false}
+              key="doc_viewer_tab_4"
+              onClick={[Function]}
+            >
+              <button
+                aria-controls="random_html_id"
+                aria-selected={false}
+                className="euiTab"
+                disabled={false}
+                id="doc_viewer_tab_4"
+                onClick={[Function]}
+                role="tab"
+                type="button"
+              >
+                <span
+                  className="euiTab__content"
+                >
+                  <span>
+                    Traces
+                  </span>
+                </span>
+              </button>
+            </EuiTab>
+          </div>
+        </EuiTabs>
+        <div
+          aria-labelledby="doc_viewer_tab_2"
+          id="random_html_id"
+          role="tabpanel"
+        >
+          <EuiPanel
+            paddingSize="s"
+          >
+            <div
+              className="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+            >
+              <EuiFlexGroup>
+                <div
+                  className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                >
+                  <EuiFlexItem>
+                    <div
+                      className="euiFlexItem"
+                    >
+                      <component
+                        hit={
+                          Object {
+                            "Carrier": "JetBeats",
+                            "avg(FlightDelayMin)": "45.957544288332315",
+                          }
+                        }
+                        logTraceId=""
+                      >
+                        <DocViewTable
+                          filter={[Function]}
+                          hit={
+                            Object {
+                              "Carrier": "JetBeats",
+                              "avg(FlightDelayMin)": "45.957544288332315",
+                            }
+                          }
+                          logTraceId=""
+                          onAddColumn={[Function]}
+                          onRemoveColumn={[Function]}
+                        >
+                          <table
+                            className="table table-condensed osdDocViewerTable"
+                          >
+                            <tbody>
+                              <DocViewTableRow
+                                displayNoMappingWarning={false}
+                                displayUnderscoreWarning={false}
+                                field="avg(FlightDelayMin)"
+                                fieldType="string"
+                                isCollapsed={false}
+                                isCollapsible={false}
+                                isColumnActive={false}
+                                key="avg(FlightDelayMin)"
+                                onFilter={[Function]}
+                                onToggleCollapse={[Function]}
+                                value="45.957544288332315"
+                                valueRaw="45.957544288332315"
+                              >
+                                <tr
+                                  data-test-subj="tableDocViewRow-avg(FlightDelayMin)"
+                                  key="avg(FlightDelayMin)"
+                                >
+                                  <td
+                                    className="osdDocViewer__field"
+                                  >
+                                    <FieldName
+                                      fieldName="avg(FlightDelayMin)"
+                                      fieldType="string"
+                                      scripted={false}
+                                    >
+                                      <EuiFlexGroup
+                                        alignItems="center"
+                                        gutterSize="s"
+                                        responsive={false}
+                                      >
+                                        <div
+                                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                        >
+                                          <EuiFlexItem
+                                            className="eui-textTruncate"
+                                          >
+                                            <div
+                                              className="euiFlexItem eui-textTruncate"
+                                            >
+                                              <EuiToolTip
+                                                anchorClassName="eui-textTruncate"
+                                                content="avg(FlightDelayMin)"
+                                                delay="long"
+                                                position="top"
+                                              >
+                                                <span
+                                                  className="euiToolTipAnchor eui-textTruncate"
+                                                  onKeyUp={[Function]}
+                                                  onMouseOut={[Function]}
+                                                  onMouseOver={[Function]}
+                                                >
+                                                  <span
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    avg(FlightDelayMin)
+                                                  </span>
+                                                </span>
+                                              </EuiToolTip>
+                                            </div>
+                                          </EuiFlexItem>
+                                        </div>
+                                      </EuiFlexGroup>
+                                    </FieldName>
+                                  </td>
+                                  <td>
+                                    <div
+                                      className="osdDocViewer__value"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "45.957544288332315",
+                                        }
+                                      }
+                                      data-test-subj="tableDocViewRow-avg(FlightDelayMin)-value"
+                                    />
+                                  </td>
+                                </tr>
+                              </DocViewTableRow>
+                              <DocViewTableRow
+                                displayNoMappingWarning={false}
+                                displayUnderscoreWarning={false}
+                                field="Carrier"
+                                fieldType="string"
+                                isCollapsed={false}
+                                isCollapsible={false}
+                                isColumnActive={false}
+                                key="Carrier"
+                                onFilter={[Function]}
+                                onToggleCollapse={[Function]}
+                                value="JetBeats"
+                                valueRaw="JetBeats"
+                              >
+                                <tr
+                                  data-test-subj="tableDocViewRow-Carrier"
+                                  key="Carrier"
+                                >
+                                  <td
+                                    className="osdDocViewer__field"
+                                  >
+                                    <FieldName
+                                      fieldName="Carrier"
+                                      fieldType="string"
+                                      scripted={false}
+                                    >
+                                      <EuiFlexGroup
+                                        alignItems="center"
+                                        gutterSize="s"
+                                        responsive={false}
+                                      >
+                                        <div
+                                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                        >
+                                          <EuiFlexItem
+                                            className="eui-textTruncate"
+                                          >
+                                            <div
+                                              className="euiFlexItem eui-textTruncate"
+                                            >
+                                              <EuiToolTip
+                                                anchorClassName="eui-textTruncate"
+                                                content="Carrier"
+                                                delay="long"
+                                                position="top"
+                                              >
+                                                <span
+                                                  className="euiToolTipAnchor eui-textTruncate"
+                                                  onKeyUp={[Function]}
+                                                  onMouseOut={[Function]}
+                                                  onMouseOver={[Function]}
+                                                >
+                                                  <span
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    Carrier
+                                                  </span>
+                                                </span>
+                                              </EuiToolTip>
+                                            </div>
+                                          </EuiFlexItem>
+                                        </div>
+                                      </EuiFlexGroup>
+                                    </FieldName>
+                                  </td>
+                                  <td>
+                                    <div
+                                      className="osdDocViewer__value"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "JetBeats",
+                                        }
+                                      }
+                                      data-test-subj="tableDocViewRow-Carrier-value"
+                                    />
+                                  </td>
+                                </tr>
+                              </DocViewTableRow>
+                            </tbody>
+                          </table>
+                        </DocViewTable>
+                      </component>
+                       
+                    </div>
+                  </EuiFlexItem>
+                </div>
+              </EuiFlexGroup>
+            </div>
+          </EuiPanel>
+        </div>
+      </div>
+    </EuiTabbedContent>
+  </div>
+</DocViewer>
+`;

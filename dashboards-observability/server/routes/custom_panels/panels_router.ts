@@ -37,7 +37,7 @@ export function PanelsRouter(router: IRouter) {
             panels: panelsList,
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -74,7 +74,7 @@ export function PanelsRouter(router: IRouter) {
         return response.ok({
           body: panelObject,
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in fetching panel:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -84,13 +84,14 @@ export function PanelsRouter(router: IRouter) {
     }
   );
 
-  //Create a new panel
+  // Create a new panel
   router.post(
     {
       path: `${API_PREFIX}/panels`,
       validate: {
         body: schema.object({
           panelName: schema.string(),
+          applicationId: schema.maybe(schema.string()),
         }),
       },
     },
@@ -105,15 +106,16 @@ export function PanelsRouter(router: IRouter) {
       try {
         const newPanelId = await customPanelBackend.createNewPanel(
           opensearchNotebooksClient,
-          request.body.panelName
+          request.body.panelName,
+          request.body.applicationId || ''
         );
         return response.ok({
           body: {
             message: 'Panel Created',
-            newPanelId: newPanelId,
+            newPanelId,
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in creating new panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -124,7 +126,7 @@ export function PanelsRouter(router: IRouter) {
   );
 
   // rename an existing panel
-  router.patch(
+  router.post(
     {
       path: `${API_PREFIX}/panels/rename`,
       validate: {
@@ -154,7 +156,7 @@ export function PanelsRouter(router: IRouter) {
             message: 'Panel Renamed',
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in renaming panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -199,7 +201,7 @@ export function PanelsRouter(router: IRouter) {
             dateModified: cloneResponse.dateModified,
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in cloning panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -233,12 +235,12 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelId
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in deleting panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -272,12 +274,12 @@ export function PanelsRouter(router: IRouter) {
           opensearchNotebooksClient,
           request.params.panelIdList
         );
-        return response.noContent({
+        return response.ok({
           body: {
             message: 'Panel Deleted',
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in deleting panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -288,7 +290,7 @@ export function PanelsRouter(router: IRouter) {
   );
 
   // replaces the ppl query filter in panel
-  router.patch(
+  router.post(
     {
       path: `${API_PREFIX}/panels/filter`,
       validate: {
@@ -324,7 +326,7 @@ export function PanelsRouter(router: IRouter) {
             message: 'Panel PPL Filter Changed',
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in adding query filter', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -363,7 +365,7 @@ export function PanelsRouter(router: IRouter) {
             demoPanelsData: panelsData,
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,

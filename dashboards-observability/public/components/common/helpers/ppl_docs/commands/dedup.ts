@@ -108,4 +108,7 @@ PPL query:
     | 13               | F        |
     | 18               | M        |
     +------------------+----------+
+
+#### Limitation
+The \`dedup\` command is not rewritten to OpenSearch DSL, it is only executed on the coordination node.
 `;

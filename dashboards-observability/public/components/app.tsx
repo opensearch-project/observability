@@ -11,14 +11,15 @@ import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
+import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
 import { Home as CustomPanelsHome } from './custom_panels/home';
-import { EventAnalytics } from './explorer/event_analytics';
+import { EventAnalytics } from './event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 import { Home as Synthetics } from './synthetics/home';
 
 interface ObservabilityAppDeps {
-  CoreStart: CoreStart;
+  CoreStartProp: CoreStart;
   DepsStart: AppPluginStartDependencies;
   pplService: any;
   dslService: any;
@@ -26,15 +27,20 @@ interface ObservabilityAppDeps {
   timestampUtils: any;
 }
 
+// for cypress to test redux store
+if (window.Cypress) {
+  window.store = store;
+}
+
 export const App = ({
-  CoreStart,
+  CoreStartProp,
   DepsStart,
   pplService,
   dslService,
   savedObjects,
   timestampUtils,
 }: ObservabilityAppDeps) => {
-  const { chrome, http, notifications } = CoreStart;
+  const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: `${observabilityID}#/`,
@@ -62,6 +68,24 @@ export const App = ({
                       parentBreadcrumb={parentBreadcrumb}
                       pplService={pplService}
                       renderProps={props}
+                      />
+                  );
+                }}
+              />
+              <Route
+                path={'/application_analytics'}
+                render={(props) => {
+                  return (
+                    <ApplicationAnalyticsHome
+                      {...props}
+                      chrome={chrome}
+                      http={http}
+                      notifications={notifications}
+                      parentBreadcrumbs={[parentBreadcrumb]}
+                      pplService={pplService}
+                      dslService={dslService}
+                      savedObjects={savedObjects}
+                      timestampUtils={timestampUtils}
                     />
                   );
                 }}
@@ -90,8 +114,9 @@ export const App = ({
                     <CustomPanelsHome
                       http={http}
                       chrome={chrome}
-                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      parentBreadcrumbs={[parentBreadcrumb, customPanelBreadcrumb]}
                       pplService={pplService}
+                      dslService={dslService}
                       renderProps={props}
                     />
                   );
@@ -104,7 +129,7 @@ export const App = ({
                     {...props}
                     chrome={chrome}
                     http={http}
-                    parentBreadcrumb={parentBreadcrumb}
+                    parentBreadcrumbs={[parentBreadcrumb]}
                   />
                 )}
               />
@@ -114,7 +139,7 @@ export const App = ({
                   return (
                     <EventAnalytics
                       chrome={chrome}
-                      parentBreadcrumb={parentBreadcrumb}
+                      parentBreadcrumbs={[parentBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       savedObjects={savedObjects}
@@ -133,3 +158,4 @@ export const App = ({
     </Provider>
   );
 };
+

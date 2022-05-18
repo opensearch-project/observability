@@ -9,6 +9,7 @@ export const delay = 1500;
 export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';
 export const SPAN_ID = 'a673bc074b438374';
 export const SERVICE_NAME = 'frontend-client';
+export const SERVICE_SPAN_ID = '7df5609a6d104736';
 
 export const testDataSet = [
   {
@@ -40,7 +41,7 @@ export const setTimeFilter = (setEndTime = false, refresh = true) => {
   cy.get('.euiTab__content').contains('Absolute').click();
   cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
     .focus()
-    .type('{selectall}' + startTime);
+    .type('{selectall}' + startTime, { force: true });
   if (setEndTime) {
     cy.wait(delay);
     cy.get(
@@ -50,7 +51,7 @@ export const setTimeFilter = (setEndTime = false, refresh = true) => {
     cy.get('.euiTab__content').contains('Absolute').click();
     cy.get('input[data-test-subj="superDatePickerAbsoluteDateInput"]')
       .focus()
-      .type('{selectall}' + endTime);
+      .type('{selectall}' + endTime, { force: true });
   }
   if (refresh) cy.get('.euiButton__text').contains('Refresh').click();
   cy.wait(delay);
@@ -93,21 +94,9 @@ export const PPL_QUERY_TEXT = `%ppl
 source=opensearch_dashboards_sample_data_flights
 `
 
-// event analytics
-export const TEST_QUERIES = [
-  {
-    query: 'source = opensearch_dashboards_sample_data_flights'
-  },
-  {
-    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier'
-  },
-  {
-    query: 'source = opensearch_dashboards_sample_data_logs'
-  },
-];
-
-export const TESTING_PANEL = 'Mock Testing Panels';
-export const SAVE_QUERY1 = 'Mock Flight Events Overview';
-export const SAVE_QUERY2 = 'Mock Flight count by destination';
-export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
-export const SAVE_QUERY4 = 'Mock Flight peek';
+export const supressResizeObserverIssue = () => {
+  // exception is thrown on loading EuiDataGrid in cypress only, ignore for now
+  cy.on('uncaught:exception', (err, runnable) => {
+    if (err.message.includes('ResizeObserver loop')) return false;
+  });
+};
