@@ -17,16 +17,18 @@ export const moveToHomePage = () => {
 
 export const moveToCreatePage = () => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
-  cy.get('.euiButton[href="#/application_analytics/create"]').eq(0).click();
   supressResizeObserverIssue();
-  cy.get('[data-test-subj="createPageTitle"]').should('contain', 'Create application');
+  cy.wait(delay * 7);
+  cy.get('.euiButton__text').contains('Create application').click();
+  cy.wait(delay * 2);
+  cy.get('.euiTitle').contains('Create application').should('exist');
 };
 
 export const moveToApplication = (name) => {
   cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/application_analytics/`);
   supressResizeObserverIssue();
-  cy.wait(delay * 6);
-  cy.get(`[data-test-subj="${name}ApplicationLink"]`).click();
+  cy.wait(delay * 7);
+  cy.get('.euiLink').contains(name).click();
   cy.wait(delay);
   cy.get('[data-test-subj="applicationTitle"]').should('contain', name);
   changeTimeTo24('years');
@@ -86,5 +88,5 @@ export const query_two = 'where OriginCityName = "Seoul" | stats count() by span
 export const availability_default = 'stats count() by span( timestamp, 1h )';
 export const visOneName = 'Flights to Venice';
 export const visTwoName = 'Flights from Seoul';
-export const composition = 'order, payment, HTTP POST, HTTP GET, client_pay_order'
-export const newName = `Monterey Cypress-${uniqueId}`;
+export const composition = 'order, payment, HTTP POST, HTTP GET';
+export const newName = 'Monterey Cypress';
