@@ -32,7 +32,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const mode = dataConfig?.chartStyles?.style || DefaultMode;
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = dataConfig.legend && dataConfig.legend?.showLegend !== ShowLegend ? false : true;
+  const showLegend = dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend ? false : true;
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : FillOpacity / 200;
