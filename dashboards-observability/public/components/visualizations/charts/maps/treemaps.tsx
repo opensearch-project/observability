@@ -9,6 +9,7 @@ import { indexOf, isEmpty, isEqual, isNull, uniq } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
+import { DEFAULT_PALETTE, SINGLE_COLOR_PALETTE } from '../../../../../common/constants/colors';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
   const {
@@ -38,11 +39,23 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.valueOptions.valueField[0]
       : fields[0];
 
+  const colorField =
+    dataConfig?.chartStyles && dataConfig?.chartStyles.colorTheme
+      ? dataConfig?.chartStyles.colorTheme
+      : { name: DEFAULT_PALETTE };
+
+  const tilingAlgorithm =
+    dataConfig?.treemapOptions &&
+    dataConfig?.treemapOptions.tilingAlgorithm &&
+    !isEmpty(dataConfig?.treemapOptions.tilingAlgorithm)
+      ? dataConfig?.treemapOptions.tilingAlgorithm[0]
+      : 'squarify';
+
   if (
     isEmpty(data[childField.name]) ||
     isEmpty(data[valueField.name]) ||
     (!isNull(parentField) && isEmpty(data[parentField.name])) ||
-    isEqual(childField, parentField) ||
+    isEqual(childField.name, parentField?.name) ||
     indexOf(NUMERICAL_FIELDS, valueField.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
@@ -61,6 +74,30 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       valuesArray = [...data[valueField.name], ...Array(uniqueParents.length).fill(0)];
     }
 
+    const marker =
+      colorField.name === SINGLE_COLOR_PALETTE
+        ? {
+            marker: {
+              colorscale: [
+                [0, colorField.color],
+                [1, colorField.color],
+              ],
+              colorbar: {
+                len: 1,
+              },
+            },
+          }
+        : colorField.name !== DEFAULT_PALETTE
+        ? {
+            marker: {
+              colorscale: colorField.name,
+              colorbar: {
+                len: 1,
+              },
+            },
+          }
+        : undefined;
+
     return [
       {
         type: 'treemap',
@@ -68,9 +105,13 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         parents: parentsArray,
         values: valuesArray,
         textinfo: 'label+value+percent parent+percent entry',
+        tiling: {
+          packing: tilingAlgorithm.value,
+        },
+        ...marker,
       },
     ];
-  }, [data, childField, valueField, parentField]);
+  }, [data, childField, valueField, parentField, colorField, tilingAlgorithm]);
 
   const mergedLayout = {
     ...layout,

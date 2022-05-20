@@ -298,6 +298,12 @@ exports[`Treemap component Renders treemap component 1`] = `
               "mapTo": "layoutConfig",
               "name": "Layout",
             },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
           ],
         },
         "fullLabel": "Bar",
@@ -360,6 +366,9 @@ exports[`Treemap component Renders treemap component 1`] = `
             "",
           ],
           "textinfo": "label+value+percent parent+percent entry",
+          "tiling": Object {
+            "packing": undefined,
+          },
           "type": "treemap",
           "values": Array [
             154,
@@ -416,6 +425,9 @@ exports[`Treemap component Renders treemap component 1`] = `
               "",
             ],
             "textinfo": "label+value+percent parent+percent entry",
+            "tiling": Object {
+              "packing": undefined,
+            },
             "type": "treemap",
             "values": Array [
               154,
@@ -429,6 +441,7 @@ exports[`Treemap component Renders treemap component 1`] = `
         ]
       }
       debug={false}
+      divId="explorerPlotComponent"
       layout={
         Object {
           "autosize": true,
@@ -473,6 +486,7 @@ exports[`Treemap component Renders treemap component 1`] = `
       useResizeHandler={true}
     >
       <div
+        id="explorerPlotComponent"
         style={
           Object {
             "height": "100%",
