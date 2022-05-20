@@ -44,13 +44,13 @@ export function AvailabilityInfoFlyout(props: AvailabilityInfoFlyoutProps) {
           By default, Application analytics shows results from the last 24 hours of your data. To
           see data from a different timeframe, use the date and time selector.
           <h3>Time series metric</h3>A time series metric is any visualization that has a query that
-          spans over a timestamp and is a bar/line chart. Users can use the power of the PPL
-          language to define arbitrary conditions on their logs to create a visualization over time.
+          spans over a timestamp and is a bar/line chart. You can use the PPL language to define
+          arbitrary conditions on your logs to create a visualization over time.
           <h4>Example</h4>
           <EuiCodeBlock>
             {'source = <index_name> | ... | ... | stats ... by span(<timestamp_field>, 1h)'}
           </EuiCodeBlock>
-          Users can then choose <strong>Bar</strong> or <strong>Line</strong> in visualization
+          You can then choose <strong>Bar</strong> or <strong>Line</strong> in visualization
           configurations to create a time series metric.
         </EuiText>
       </EuiFlyoutBody>
