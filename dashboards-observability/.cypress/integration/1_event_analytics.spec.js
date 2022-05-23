@@ -977,18 +977,18 @@ describe('Renders Histogram chart', () =>{
     landOnEventVisualizations();
 });
 
-it.only('Renders Histogram chart and save visualization', () => {
+it('Renders Histogram chart and save visualization', () => {
   renderHistogramChart();
     cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
     cy.wait(delay);
     saveVisualizationAndVerify();
   });
 
- it.only('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
+ it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
   deleteVisualization();
  })
 
- it.only('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
+ it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
   renderHistogramChart();
     cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
   });
