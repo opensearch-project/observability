@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBreadcrumb,
@@ -24,7 +23,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { ApplicationType } from 'common/types/app_analytics';
+import { ApplicationType } from 'common/types/application_analytics';
 import { last } from 'lodash';
 import React, { useState } from 'react';
 
@@ -46,11 +45,17 @@ export const Configuration = (props: ConfigProps) => {
     updateApp,
     switchToAvailability,
   } = props;
-  const [availabilityVisId, setAvailabilityVisId] = useState(application.availabilityVisId || '');
+  const [availabilityVisId, setAvailabilityVisId] = useState(
+    application.availability.availabilityVisId || ''
+  );
 
   const onAvailabilityVisChange = (event: any) => {
     setAvailabilityVisId(event.target.value);
-    updateApp(appId, { availabilityVisId: event.target.value }, 'editAvailability');
+    updateApp(
+      appId,
+      { availability: { name: '', color: '', availabilityVisId: event.target.value } },
+      'editAvailability'
+    );
   };
 
   return (

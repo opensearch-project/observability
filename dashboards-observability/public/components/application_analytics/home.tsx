@@ -24,7 +24,7 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
+import { ApplicationType } from '../../../common/types/application_analytics';
 import {
   calculateAvailability,
   fetchPanelsVizIdList,
@@ -69,7 +69,7 @@ export const Home = (props: HomeProps) => {
   } = props;
   const [triggerSwitchToEvent, setTriggerSwitchToEvent] = useState(0);
   const dispatch = useDispatch();
-  const [applicationList, setApplicationList] = useState<ApplicationListType[]>([]);
+  const [applicationList, setApplicationList] = useState<ApplicationType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [indicesExist, setIndicesExist] = useState(true);
   const [appConfigs, setAppConfigs] = useState<FilterType[]>([]);
@@ -208,10 +208,10 @@ export const Home = (props: HomeProps) => {
       .get(`${APP_ANALYTICS_API_PREFIX}/`)
       .then(async (res) => {
         // Want to calculate availability going down the table
-        const mainVisIdStore: Record<string, string> = {};
+        const availabilityVisIdStore: Record<string, string> = {};
         for (let i = 0; i < res.data.length; i++) {
-          mainVisIdStore[res.data[i].id] = res.data[i].availability.mainVisId;
-          res.data[i].availability = { name: '', color: 'loading', mainVisId: '' };
+          availabilityVisIdStore[res.data[i].id] = res.data[i].availability.availabilityVisId;
+          res.data[i].availability = { name: '', color: 'loading', availabilityVisId: '' };
         }
         setApplicationList(res.data);
         for (let i = res.data.length - 1; i > -1; i--) {
@@ -219,12 +219,12 @@ export const Home = (props: HomeProps) => {
             http,
             pplService,
             res.data[i],
-            mainVisIdStore[res.data[i].id],
+            availabilityVisIdStore[res.data[i].id],
             () => {}
           );
           // Need to set state with new object to trigger re-render
           setApplicationList([
-            ...res.data.filter((app: ApplicationListType) => app.id !== res.data[i].id),
+            ...res.data.filter((app: ApplicationType) => app.id !== res.data[i].id),
             res.data[i],
           ]);
         }

@@ -32,7 +32,7 @@ import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
 import { LogConfig } from './config_components/log_config';
 import { PPLReferenceFlyout } from '../../../components/common/helpers';
-import { ApplicationType, OptionType } from '../../../../common/types/app_analytics';
+import { ApplicationType, OptionType } from '../../../../common/types/application_analytics';
 import { fetchAppById } from '../helpers/utils';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {

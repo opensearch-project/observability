@@ -38,12 +38,11 @@ import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
 import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
-import { ApplicationListType } from '../../../../common/types/app_analytics';
-import { AvailabilityType } from '../helpers/types';
+import { ApplicationType, AvailabilityType } from '../../../../common/types/application_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
   loading: boolean;
-  applications: ApplicationListType[];
+  applications: ApplicationType[];
   fetchApplications: () => void;
   renameApplication: (newAppName: string, appId: string) => void;
   deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
@@ -66,7 +65,7 @@ export function AppTable(props: AppTableProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationType[]>([]);
   const createButtonText = 'Create application';
 
   useEffect(() => {
@@ -182,7 +181,7 @@ export function AppTable(props: AppTableProps) {
     // <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
   ];
 
-  const renderAvailability = (value: AvailabilityType, record: ApplicationListType) => {
+  const renderAvailability = (value: AvailabilityType, record: ApplicationType) => {
     if (value.color === 'loading') {
       return <EuiLoadingSpinner />;
     } else if (value.name) {
@@ -230,10 +229,10 @@ export function AppTable(props: AppTableProps) {
       name: 'Composition',
       sortable: false,
       truncateText: true,
-      render: (value) => (
-        <EuiToolTip content={value.join(', ')}>
+      render: (value, record) => (
+        <EuiToolTip content={record.servicesEntities.concat(record.traceGroups).join(', ')}>
           <EuiText id="compositionColumn" data-test-subj="appAnalytics__compositionColumn">
-            {value.join(', ')}
+            {record.servicesEntities.concat(record.traceGroups).join(', ')}
           </EuiText>
         </EuiToolTip>
       ),
@@ -250,7 +249,7 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       render: (value) => <EuiText>{moment(value).format(UI_DATE_FORMAT)}</EuiText>,
     },
-  ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
+  ] as Array<EuiTableFieldDataColumnType<ApplicationType>>;
 
   return (
     <div style={pageStyles}>

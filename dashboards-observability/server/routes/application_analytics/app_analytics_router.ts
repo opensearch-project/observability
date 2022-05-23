@@ -12,7 +12,7 @@ import {
   ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
 import { APP_ANALYTICS_API_PREFIX as API_PREFIX } from '../../../common/constants/application_analytics';
-import { ApplicationListType } from '../../../common/types/app_analytics';
+import { ApplicationType } from '../../../common/types/application_analytics';
 import { AppAnalyticsAdaptor } from '../../../server/adaptors/application_analytics/app_analytics_adaptor';
 
 export function registerAppAnalyticsRouter(router: IRouter) {
@@ -32,7 +32,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
-      let applicationsData: ApplicationListType[] = [];
+      let applicationsData: ApplicationType[] = [];
       try {
         applicationsData = await appAnalyticsBackend.fetchApps(opensearchClient);
         return response.ok({
@@ -190,7 +190,13 @@ export function registerAppAnalyticsRouter(router: IRouter) {
             servicesEntities: schema.maybe(schema.arrayOf(schema.string())),
             traceGroups: schema.maybe(schema.arrayOf(schema.string())),
             panelId: schema.maybe(schema.string()),
-            availabilityVisId: schema.maybe(schema.string()),
+            availability: schema.maybe(
+              schema.object({
+                name: schema.maybe(schema.string()),
+                color: schema.maybe(schema.string()),
+                availabilityVisId: schema.maybe(schema.string()),
+              })
+            ),
           }),
         }),
       },
