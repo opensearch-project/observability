@@ -35,11 +35,16 @@ export const ConfigLineChartStyles = ({
   const currentSchemas = useMemo(() => {
     if (!vizState?.style || vizState?.style === "lines") {
       return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
-    } else if (vizState?.style === "bar") {
+    }
+    if (vizState?.style === "bar") {
       return schemas.filter((schema: IConfigPanelOptionSection) => !["interpolation", "pointSize"].includes(schema.mapTo));
-    } else if (vizState?.style === "markers") {
+    }
+    if (vizState?.style === "markers") {
       return schemas.filter((schema: IConfigPanelOptionSection) => ["style", "pointSize"].includes(schema.mapTo));
-    } else return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation');
+    }
+    if (vizState?.style === 'lines+markers') {
+      return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation');
+    }
   }, [vizState]);
 
   const dimensions = useMemo(() =>
