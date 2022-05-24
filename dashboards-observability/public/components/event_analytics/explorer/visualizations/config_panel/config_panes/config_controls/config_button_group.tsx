@@ -25,16 +25,17 @@ export const ButtonGroupItem: React.FC<ToggleGroupProps> = ({
       <h3>{title}</h3>
     </EuiTitle>
     <EuiSpacer size="s" />
-
-    <EuiButtonGroup
-      id={uniqueId('button-select-')}
-      name={title}
-      legend={legend}
-      options={groupOptions}
-      idSelected={idSelected}
-      onChange={handleButtonChange}
-      buttonSize="compressed"
-      isFullWidth={false}
-    />
+    <div style={{ width: "fit-content" }}>
+      <EuiButtonGroup
+        id={uniqueId('button-select-')}
+        name={title}
+        legend={legend}
+        options={groupOptions}
+        idSelected={idSelected}
+        onChange={handleButtonChange}
+        buttonSize="compressed"
+        isFullWidth={false}
+      />
+    </div>
   </>
 );

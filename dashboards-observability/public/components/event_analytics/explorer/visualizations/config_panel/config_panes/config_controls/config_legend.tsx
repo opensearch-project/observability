@@ -27,8 +27,8 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
       const params = {
         title: schema.name,
         legend: schema.name,
-        groupOptions: schema?.props?.options.map((btn: { name: string, modeId: string }) => ({ id: btn.modeId, label: btn.name })),
-        idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.modeId,
+        groupOptions: schema?.props?.options.map((btn: { name: string }) => ({ ...btn, label: btn.name })),
+        idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
         handleButtonChange: handleConfigurationChange(schema.mapTo),
         vizState,
         ...schema.props,

@@ -191,7 +191,6 @@ export interface IConfigPanelOptionSection {
   props?: any;
   isSingleSelection?: boolean;
   defaultState?: number;
-  max?: number;
   eleType?: string;
 }
 
