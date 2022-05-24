@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ApplicationType } from '../../../common/types/application_analytics';
+import {
+  ApplicationRequestType,
+  ApplicationType,
+} from '../../../common/types/application_analytics';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 
 export class AppAnalyticsAdaptor {
@@ -72,22 +75,8 @@ export class AppAnalyticsAdaptor {
   // Create a new application
   createNewApp = async (
     client: ILegacyScopedClusterClient,
-    name: string,
-    description: string,
-    baseQuery: string,
-    servicesEntities: string[],
-    traceGroups: string[],
-    availabilityVisId: string
+    appBody: Partial<ApplicationRequestType>
   ) => {
-    const appBody = {
-      name,
-      description,
-      baseQuery,
-      servicesEntities,
-      traceGroups,
-      availabilityVisId,
-    };
-
     try {
       const response = await client.callAsCurrentUser('observability.createObject', {
         body: {
@@ -122,7 +111,7 @@ export class AppAnalyticsAdaptor {
   updateApp = async (
     client: ILegacyScopedClusterClient,
     appId: string,
-    updateAppBody: Partial<ApplicationType>
+    updateAppBody: Partial<ApplicationRequestType>
   ) => {
     try {
       const response = await client.callAsCurrentUser('observability.updateObjectById', {

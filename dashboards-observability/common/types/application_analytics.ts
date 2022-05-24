@@ -7,26 +7,6 @@ export interface OptionType {
   label: string;
 }
 
-// export interface ApplicationListType {
-//   name: string;
-//   id: string;
-//   panelId: string;
-//   composition: string[];
-//   dateCreated: string;
-//   dateModified: string;
-//   availability: { name: string; color: string; mainVisId: string };
-// }
-
-// export interface ApplicationType {
-//   name: string;
-//   description: string;
-//   baseQuery: string;
-//   servicesEntities: string[];
-//   traceGroups: string[];
-//   panelId: string;
-//   availabilityVisId: string;
-// }
-
 export interface ApplicationType {
   id: string;
   dateCreated: string;
@@ -38,6 +18,16 @@ export interface ApplicationType {
   traceGroups: string[];
   panelId: string;
   availability: { name: string; color: string; availabilityVisId: string };
+}
+
+export interface ApplicationRequestType {
+  name: string;
+  description: string;
+  baseQuery: string;
+  servicesEntities: string[];
+  traceGroups: string[];
+  panelId: string;
+  availabilityVisId: string;
 }
 
 export interface AvailabilityType {

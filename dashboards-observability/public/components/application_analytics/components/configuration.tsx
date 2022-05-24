@@ -23,7 +23,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { ApplicationType } from 'common/types/application_analytics';
+import { ApplicationRequestType, ApplicationType } from 'common/types/application_analytics';
 import { last } from 'lodash';
 import React, { useState } from 'react';
 
@@ -33,7 +33,7 @@ interface ConfigProps {
   parentBreadcrumbs: EuiBreadcrumb[];
   visWithAvailability: EuiSelectOption[];
   switchToAvailability: () => void;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
 }
 
 export const Configuration = (props: ConfigProps) => {
@@ -51,11 +51,7 @@ export const Configuration = (props: ConfigProps) => {
 
   const onAvailabilityVisChange = (event: any) => {
     setAvailabilityVisId(event.target.value);
-    updateApp(
-      appId,
-      { availability: { name: '', color: '', availabilityVisId: event.target.value } },
-      'editAvailability'
-    );
+    updateApp(appId, { availabilityVisId: event.target.value }, 'editAvailability');
   };
 
   return (

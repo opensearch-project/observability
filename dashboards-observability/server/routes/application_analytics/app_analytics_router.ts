@@ -111,15 +111,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       );
 
       try {
-        const newAppId = await appAnalyticsBackend.createNewApp(
-          opensearchClient,
-          request.body.name,
-          request.body.description || '',
-          request.body.baseQuery,
-          request.body.servicesEntities,
-          request.body.traceGroups,
-          request.body.availabilityVisId || ''
-        );
+        const newAppId = await appAnalyticsBackend.createNewApp(opensearchClient, request.body);
         return response.ok({
           body: {
             message: 'Application Created',
@@ -190,13 +182,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
             servicesEntities: schema.maybe(schema.arrayOf(schema.string())),
             traceGroups: schema.maybe(schema.arrayOf(schema.string())),
             panelId: schema.maybe(schema.string()),
-            availability: schema.maybe(
-              schema.object({
-                name: schema.maybe(schema.string()),
-                color: schema.maybe(schema.string()),
-                availabilityVisId: schema.maybe(schema.string()),
-              })
-            ),
+            availabilityVisId: schema.maybe(schema.string()),
           }),
         }),
       },

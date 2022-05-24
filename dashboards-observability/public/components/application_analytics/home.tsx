@@ -24,7 +24,10 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
-import { ApplicationType } from '../../../common/types/application_analytics';
+import {
+  ApplicationRequestType,
+  ApplicationType,
+} from '../../../common/types/application_analytics';
 import {
   calculateAvailability,
   fetchPanelsVizIdList,
@@ -236,7 +239,7 @@ export const Home = (props: HomeProps) => {
   };
 
   // Create a new application
-  const createApp = (application: ApplicationType, type: string) => {
+  const createApp = (application: ApplicationRequestType, type: string) => {
     const toast = isNameValid(
       application.name,
       applicationList.map((obj) => obj.name)
@@ -248,7 +251,7 @@ export const Home = (props: HomeProps) => {
 
     const requestBody = {
       name: application.name,
-      description: application.description,
+      description: application.description || '',
       baseQuery: application.baseQuery,
       servicesEntities: application.servicesEntities,
       traceGroups: application.traceGroups,
@@ -308,7 +311,11 @@ export const Home = (props: HomeProps) => {
   };
 
   // Update existing application
-  const updateApp = (appId: string, updateAppData: Partial<ApplicationType>, type: string) => {
+  const updateApp = (
+    appId: string,
+    updateAppData: Partial<ApplicationRequestType>,
+    type: string
+  ) => {
     const requestBody = {
       appId,
       updateBody: updateAppData,
