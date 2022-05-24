@@ -28,6 +28,10 @@ export const TEST_QUERIES = [
     query: 'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
+  {
+    query: 'source=opensearch_dashboards_sample_data_logs | where response="503" or response="404" | stats count() as ip_count, sum(bytes) as sum_bytes by host, response | rename response as resp_code | sort - ip_count, + sum_bytes | eval per_ip_bytes=sum_bytes/ip_count, double_per_ip_bytes = 2 * per_ip_bytes',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+  },
 ];
 
 export const TESTING_PANEL = 'Mock Testing Panels';

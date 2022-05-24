@@ -77,10 +77,10 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Show', modeId: "show" },
-                    { name: 'Hidden', modeId: "hidden" },
+                    { name: 'Show', id: "show" },
+                    { name: 'Hidden', id: "hidden" },
                   ],
-                  defaultSelections: [{ name: 'Show', modeId: ShowLegend }],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
                 },
               },
               {
@@ -89,10 +89,10 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Right', modeId: 'v' },
-                    { name: 'Bottom', modeId: 'h' },
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Right', modeId: LegendPosition }],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
               },
             ],
@@ -110,12 +110,12 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Lines', modeId: 'lines' },
-                    { name: 'Bars', modeId: 'bar' },
-                    { name: 'Points', modeId: 'markers' },
-                    { name: 'Lines + Points', modeId: 'lines+markers' }
+                    { name: 'Lines', id: 'lines' },
+                    { name: 'Bars', id: 'bar' },
+                    { name: 'Points', id: 'markers' },
+                    { name: 'Lines + Points', id: 'lines+markers' }
                   ],
-                  defaultSelections: [{ name: 'Lines', modeId: DefaultMode }],
+                  defaultSelections: [{ name: 'Lines', id: DefaultMode }],
                 },
               },
               {
@@ -125,12 +125,12 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Linear', modeId: 'linear' },
-                    { name: 'Smooth', modeId: 'spline' },
-                    { name: 'Step before', modeId: 'hv' },
-                    { name: 'Step after', modeId: 'vh' },
+                    { name: 'Linear', id: 'linear' },
+                    { name: 'Smooth', id: 'spline' },
+                    { name: 'Step before', id: 'hv' },
+                    { name: 'Step after', id: 'vh' },
                   ],
-                  defaultSelections: [{ name: 'Smooth', modeId: Interpolation }],
+                  defaultSelections: [{ name: 'Smooth', id: Interpolation }],
                 },
               },
               {
@@ -138,24 +138,30 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: SliderConfig,
                 mapTo: 'lineWidth',
                 defaultState: LineWidth,
-                max: 10,
                 eleType: 'slider',
+                props:{
+                  max: 10,
+                }
               },
               {
                 name: 'Fill Opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
-                max: 100,
                 eleType: 'slider',
+                props:{
+                  max: 100,
+                }
               },
               {
                 name: 'Point Size',
                 component: SliderConfig,
                 mapTo: 'pointSize',
                 defaultState: MarkerSize,
-                max: 40,
                 eleType: 'slider',
+                props:{
+                  max: 40,
+                }
               },
             ],
           },
