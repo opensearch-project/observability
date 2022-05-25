@@ -27,6 +27,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * http: http core service;
  * chrome: chrome core service;
  * panelId: OpenPanel Id
+ * updateAvailabilityVizId: function to update application if availabilityViz is removed from panel
  * panelVisualizations: list of panel visualizations
  * setPanelVisualizations: function to set panel visualizations
  * editMode: boolean to check if the panel is in edit mode
@@ -168,7 +169,7 @@ export const PanelGrid = (props: PanelGridProps) => {
         _.omit(layout, ['static', 'moved'])
       );
       saveVisualizationLayouts(panelId, visualizationParams);
-      if (updateAvailabilityVizId !== undefined) {
+      if (updateAvailabilityVizId) {
         updateAvailabilityVizId(panelVisualizations);
       }
     }
