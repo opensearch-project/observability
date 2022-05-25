@@ -187,3 +187,72 @@ describe('Testing plots', () => {
     cy.get('text.annotation-text[data-unformatted="Now: 108"]').should('exist');
   });
 });
+
+describe('Latency by trace group table', () =>{
+  beforeEach(() => {
+    cy.visit('app/observability-dashboards#/trace_analytics/home', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
+    setTimeFilter();
+  });
+
+  it('Verify columns in Latency by trace group table along with pagination functionality', () => {
+    cy.get('span.panel-title').eq(0).should('exist');
+    cy.wait(delay);
+    cy.get('span[title*="Trace group name"]').should('exist');
+    cy.get('span[title*="Latency variance (ms)"]').should('exist');
+    cy.get('span[title*="Average latency (ms)"]').should('exist');
+    cy.get('span[title*="24-hour latency trend"]').should('exist');
+    cy.get('span[title*="Error rate"] .euiToolTipAnchor').should('exist');
+    cy.get('span[title*="Traces"] .euiToolTipAnchor').should('exist');
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
+    cy.get('.euiIcon.euiIcon--medium.euiIcon--inherit.euiContextMenu__icon').eq(0).should('exist').click();
+    cy.get('[data-test-subj="pagination-button-next"]').should('exist').click();
+    cy.get('button[data-test-subj="dashboard-table-trace-group-name-button"]').contains('mysql').should('exist');
+  });
+
+  it('Sorts the Latency by trace group table', () => {
+    cy.get('span[title*="Trace group name"]').click();
+    cy.get('[data-test-subj="dashboard-table-trace-group-name-button"]').eq(0).contains('/**').should('exist');
+    cy.wait(delay);
+  });
+
+  it('Verify tooltips in Latency by trace group table', () => {
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(0).trigger('mouseover').blur({force:true});
+    cy.contains('Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.').should('be.visible');//.click().trigger('mouseout', {'force':true});
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(1).should('be.visible').trigger('mouseover');
+    cy.contains('Range of latencies for traces within a trace group in the selected time range.');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(2).should('be.visible').trigger('mouseover');
+    cy.contains('Average latency of traces within a trace group in the selected time range.');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(3).should('be.visible').trigger('mouseover');
+    cy.contains('24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(4).should('be.visible').trigger('mouseover');
+    cy.contains('Error rate based on count of trace errors within a trace group in the selected time range.');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(5).should('be.visible').trigger('mouseover');
+    cy.contains('Count of traces with unique trace identifiers in the selected time range.');
+  });
+
+  it('Verify Search engine on Trace dashboard', () => {
+    cy.get('.euiFieldSearch.euiFieldSearch--fullWidth').click().type('client_pay_order{enter}');
+    cy.wait(delay);
+    cy.get('.euiTableCellContent.euiTableCellContent--alignRight.euiTableCellContent--overflowingContent').contains('211.04').should('exist');
+    cy.get('button[data-test-subj="dashboard-table-trace-group-name-button"]').click();
+    cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
+    cy.get('.euiIcon.euiIcon--medium.euiContextMenu__arrow').click();
+    cy.get('.euiContextMenuPanelTitle').contains('Edit filter').should('exist');
+    cy.get('.euiButton.euiButton--primary.euiButton--fill').click();
+    cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
+    cy.get('.euiContextMenuItem__text').eq(1).contains('Exclude results').click();
+    cy.get('.euiTextColor.euiTextColor--danger').should('exist');
+    cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
+    cy.get('.euiContextMenuItem__text').eq(1).contains('Include results').click();
+    cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
+    cy.get('.euiContextMenuItem__text').eq(2).contains('Temporarily disable').click();
+    cy.get('.euiBadge.euiBadge--iconRight.globalFilterItem.globalFilterItem-isDisabled').should('exist').click();
+    cy.get('.euiContextMenuItem__text').eq(2).contains('Re-enable').click();
+    cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
+    cy.get('.euiContextMenuItem__text').eq(3).contains('Delete').click();
+  });
+});
