@@ -19,11 +19,12 @@ interface Props {
     maxRange: number;
     showTicks?: boolean;
     ticks?: EuiRangeTick[];
+    step: number;
     handleSliderChange: (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const SliderConfig: React.FC<Props> = ({
-    title, currentRange, handleSliderChange, minRange, maxRange, showTicks, ticks
+    title, currentRange, handleSliderChange, minRange, maxRange, showTicks, ticks, step
 }) => (
     <>
         <EuiTitle size="xxs">
@@ -38,9 +39,11 @@ export const SliderConfig: React.FC<Props> = ({
             name={title}
             value={currentRange}
             onChange={(e) => handleSliderChange(e.target.value)}
-            showInput
             showTicks={showTicks}
             ticks={ticks}
+            step={step}
+            compressed
+            showInput
         />
     </>
 );

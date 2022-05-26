@@ -36,6 +36,8 @@ export const createBarTypeDefinition = (params: any) => ({
   labelAngle: 0,
   lineWidth: 1,
   fillOpacity: 80,
+  barWidth: 0.7,
+  groupWidth: 0.97,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -96,6 +98,28 @@ export const createBarTypeDefinition = (params: any) => ({
                   ],
                   defaultSelections: [{ name: 'Group', modeId: 'group' }],
                 },
+              },
+              {
+                name: 'Group width',
+                component: SliderConfig,
+                mapTo: 'groupWidth',
+                defaultState: 0.7,
+                props:{
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Bar width',
+                component: SliderConfig,
+                mapTo: 'barWidth',
+                defaultState: 0.97,
+                props:{
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
               },
               {
                 name: 'Rotate bar labels',

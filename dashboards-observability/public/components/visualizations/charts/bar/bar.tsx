@@ -28,12 +28,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
-  const barOrientation = dataConfig?.chartStyles?.orientation || visualizations.vis.orientation;
+  const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const { defaultAxes } = visualizations.data;
-  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visualizations.vis.labelAngle
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || visualizations.vis.lineWidth;
+  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelAngle
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.lineWidth;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : visualizations.vis.fillOpacity / 200;
-
+  const barWidth = 1 - dataConfig?.chartStyles?.barWidth || vis.barWidth;
+  const groupWidth = 1 - dataConfig?.chartStyles?.groupWidth || vis.groupWidth;
   const isVertical = barOrientation === 'v';
 
   // Individual bars have different colors
@@ -104,8 +105,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
     xaxis: {
-      tickangle: tickAngle
+      tickangle: tickAngle,
+      automargin: true,
     },
+    bargap: groupWidth,
+    bargroupgap: barWidth,
   };
 
   if (dataConfig.thresholds || availabilityConfig.level) {

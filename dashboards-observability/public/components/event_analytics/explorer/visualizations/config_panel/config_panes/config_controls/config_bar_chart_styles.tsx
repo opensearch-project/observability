@@ -49,6 +49,7 @@ export const ConfigBarChartStyles = ({
                 params = {
                     minRange: schema?.props?.min,
                     maxRange: schema?.props?.max,
+                    step: schema?.props?.step || 1,
                     title: schema.name,
                     currentRange: vizState[schema.mapTo] || schema?.defaultState,
                     ticks: schema?.props?.ticks,
