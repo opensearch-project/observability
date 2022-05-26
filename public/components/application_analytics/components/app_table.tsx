@@ -34,9 +34,9 @@ import {
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import moment from 'moment';
+import { DeleteModal } from '../../common/helpers/delete_modal';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
-import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
 import { ApplicationListType } from '../../../../common/types/app_analytics';
 import { AvailabilityType } from '../helpers/types';
@@ -129,12 +129,12 @@ export function AppTable(props: AppTableProps) {
   const deleteApp = () => {
     const applicationString = `application${selectedApplications.length > 1 ? 's' : ''}`;
     setModalLayout(
-      getClearModal(
-        closeModal,
-        onDelete,
-        `Delete ${selectedApplications.length} ${applicationString}`,
-        `Are you sure you want to delete the selected ${selectedApplications.length} ${applicationString}?`
-      )
+      <DeleteModal
+        onConfirm={onDelete}
+        onCancel={closeModal}
+        title={`Delete ${selectedApplications.length} ${applicationString}`}
+        message={`Are you sure you want to delete the selected ${selectedApplications.length} ${applicationString}?`}
+      />
     );
     showModal();
   };
