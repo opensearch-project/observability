@@ -54,13 +54,14 @@ describe('Adding sample data and visualization', () => {
 describe('Has working breadcrumbs', () => {
   it('Redirect to correct page on breadcrumb click', () => {
     landOnEventExplorer();
-    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.wait(delay * 3);
+    cy.get('.euiBreadcrumb[href="#/event_analytics/explorer"]').contains('Explorer').click();
     cy.wait(delay);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
-    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.get('.euiBreadcrumb[href="#/event_analytics"]').contains('Event analytics').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.get('.euiBreadcrumb[href="observability-dashboards#/"]').contains('Observability').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
