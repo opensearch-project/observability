@@ -9,7 +9,7 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { ConfigValueOptions, ConfigLegend } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -21,6 +21,8 @@ export const createPieTypeDefinition = (params: any) => ({
   label: 'Pie',
   fullLabel: 'Pie',
   iconType: 'visPie',
+  showLegend: true,
+  legendPosition: 'v',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
@@ -75,6 +77,38 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Donut', modeId: 'donut' },
                   ],
                   defaultSelections: [{ name: 'Pie', modeId: 'pie' }],
+                },
+              },
+            ],
+          },
+          {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: "show" },
+                    { name: 'Hidden', id: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: "show" }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: 'v' }],
                 },
               },
             ],
