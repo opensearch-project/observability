@@ -22,7 +22,7 @@ import { ServiceObject } from '../../../trace_analytics/components/common/plots/
 import { ServiceMap } from '../../../trace_analytics/components/services';
 import { handleServiceMapRequest } from '../../../trace_analytics/requests/services_request_handler';
 import { AppAnalyticsComponentDeps } from '../../home';
-import { OptionType } from '../../../../../common/types/app_analytics';
+import { OptionType } from '../../../../../common/types/application_analytics';
 import { getClearModal } from '../../helpers/modal_containers';
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
