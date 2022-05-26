@@ -21,6 +21,8 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     dataConfig?.valueOptions && dataConfig.valueOptions.yaxis ? dataConfig.valueOptions.yaxis : [];
   const type = dataConfig?.chartOptions?.mode ? dataConfig?.chartOptions?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
+  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -57,6 +59,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    legend:{
+      ...layout.legend,
+      orientation: legendPosition,
+    },
+    showlegend: showLegend,
   };
 
   const mergedConfigs = {
