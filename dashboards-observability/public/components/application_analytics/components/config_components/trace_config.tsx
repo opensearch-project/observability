@@ -18,7 +18,7 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { useEffect, useState } from 'react';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
-import { OptionType } from '../../../../../common/types/app_analytics';
+import { OptionType } from '../../../../../common/types/application_analytics';
 import { filtersToDsl } from '../../../trace_analytics/components/common/helper_functions';
 import { handleDashboardRequest } from '../../../trace_analytics/requests/dashboard_request_handler';
 import { AppAnalyticsComponentDeps } from '../../home';
