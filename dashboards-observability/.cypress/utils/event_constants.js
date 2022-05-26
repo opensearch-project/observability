@@ -118,5 +118,5 @@ export const renderHistogramChart = () => {
     cy.get('.euiFormLabel.euiFormRow__label').eq(2).contains('Bucket Size');
     cy.get('.euiFieldNumber').eq(0).type('4');
     cy.get('.euiFormLabel.euiFormRow__label').eq(3).contains('Bucket Offset');
-    cy.get('.euiFieldNumber').eq(0).type('-6');
+    cy.get('.euiFieldNumber').eq(0).type('6');
 };
