@@ -560,6 +560,7 @@ describe('Application Analytics home page', () => {
     cy.get('.euiTableRow').first().within(($row) => {
       cy.get('.euiCheckbox').click();
     });
+    cy.wait(delay);
     cy.get('[data-test-subj="appAnalyticsActionsButton"]').click();
     cy.get('[data-test-subj="renameApplicationContextMenuItem"]').click();
     cy.get('[data-test-subj="customModalFieldText"]').clear().focus().type(newName);
