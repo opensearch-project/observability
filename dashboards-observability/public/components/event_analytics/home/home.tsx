@@ -30,6 +30,7 @@ import {
   EuiText,
   EuiHorizontalRule,
 } from '@elastic/eui';
+import { DeleteModal } from '../../common/helpers/delete_modal';
 import { Search } from '../../common/search/search';
 import {
   RAW_QUERY,
@@ -55,7 +56,6 @@ import { init as initQueryResult, selectQueryResult } from '../redux/slices/quer
 import { SavedQueryTable } from './saved_objects_table';
 import { selectQueries } from '../redux/slices/query_slice';
 import { setSelectedQueryTab } from '../redux/slices/query_tab_slice';
-import { DeletePanelModal } from '../../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../../common/helpers/add_sample_modal';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
@@ -299,7 +299,7 @@ export const Home = (props: IHomeProps) => {
   const deleteHistory = () => {
     const customPanelString = `${selectedHistories.length > 1 ? 'histories' : 'history'}`;
     setModalLayout(
-      <DeletePanelModal
+      <DeleteModal
         onConfirm={deleteHistoryList}
         onCancel={closeModal}
         title={`Delete ${selectedHistories.length} ${customPanelString}`}
