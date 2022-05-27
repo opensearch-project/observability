@@ -220,18 +220,18 @@ describe('Latency by trace group table', () =>{
   });
 
   it('Verify tooltips in Latency by trace group table', () => {
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(0).trigger('mouseover').blur({force:true});
-    cy.contains('Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.').should('be.visible');//.click().trigger('mouseout', {'force':true});
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(1).should('be.visible').trigger('mouseover');
-    cy.contains('Range of latencies for traces within a trace group in the selected time range.');
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(2).should('be.visible').trigger('mouseover');
-    cy.contains('Average latency of traces within a trace group in the selected time range.');
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(3).should('be.visible').trigger('mouseover');
-    cy.contains('24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.');
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(4).should('be.visible').trigger('mouseover');
-    cy.contains('Error rate based on count of trace errors within a trace group in the selected time range.');
-    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(5).should('be.visible').trigger('mouseover');
-    cy.contains('Count of traces with unique trace identifiers in the selected time range.');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(0).trigger('mouseover');
+    cy.contains('Traces of all requests that share a common API and operation at the start of distributed tracing instrumentation.').should('be.visible');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(1).trigger('mouseover');
+    cy.contains('Range of latencies for traces within a trace group in the selected time range.').should('be.visible');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(2).trigger('mouseover');
+    cy.contains('Average latency of traces within a trace group in the selected time range.').should('be.visible');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(3).trigger('mouseover');
+    cy.contains('24 hour time series view of hourly average, hourly percentile, and hourly range of latency for traces within a trace group.').should('be.visible');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(4).trigger('mouseover');
+    cy.contains('Error rate based on count of trace errors within a trace group in the selected time range.').should('be.visible');
+    cy.get('.euiIcon.euiIcon--small.euiIcon--subdued.euiIcon-isLoaded.eui-alignTop').eq(5).trigger('mouseover');
+    cy.contains('Count of traces with unique trace identifiers in the selected time range.').should('be.visible');
   });
 
   it('Verify Search engine on Trace dashboard', () => {
@@ -255,4 +255,40 @@ describe('Latency by trace group table', () =>{
     cy.get('.euiBadge.euiBadge--hollow.euiBadge--iconRight.globalFilterItem').click();
     cy.get('.euiContextMenuItem__text').eq(3).contains('Delete').click();
   });
+});
+
+describe('Testing filters on trace analytics page', () =>{
+  beforeEach(() => {
+    cy.visit('app/observability-dashboards#/trace_analytics/home', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
+    setTimeFilter();
+  });
+
+  it('Verify Change all filters', () =>{
+    cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--empty.euiButtonIcon--xSmall').click();
+    cy.get('.euiContextMenuPanelTitle').contains('Change all filters').should('exist');
+    cy.get('.euiContextMenuItem__text').eq(0).contains('Enable all');
+    cy.get('.euiContextMenuItem__text').eq(1).contains('Disable all');
+    cy.get('.euiContextMenuItem__text').eq(2).contains('Invert inclusion');
+    cy.get('.euiContextMenuItem__text').eq(3).contains('Invert enabled/disabled');
+    cy.get('.euiContextMenuItem__text').eq(4).contains('Remove all');
+  })
+
+  it('Verify Add filter section', () => {
+    cy.get('.euiPopover.euiPopover--anchorDownLeft').contains('+ Add filter').click();
+    cy.get('.euiPopoverTitle').contains('Add filter').should('exist');
+    cy.wait(delay);
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap').eq(0).trigger('mouseover').click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap').eq(1).trigger('mouseover').click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiButton.euiButton--primary.euiButton--fill').contains('Save').click();
+    cy.get('.euiBadge__content').should('exist').click();
+    cy.get('.euiIcon.euiIcon--medium.euiContextMenu__arrow').click();
+    cy.get('[data-test-subj="filter-popover-cancel-button"]').contains('Cancel').click();
+    cy.get('.euiIcon.euiIcon--small.euiIcon--inherit.euiBadge__icon').click();
+  })
 });
