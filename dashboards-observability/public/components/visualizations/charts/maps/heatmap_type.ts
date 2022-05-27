@@ -8,7 +8,14 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartPie } from '../../assets/chart_pie';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ConfigValueOptions,
+  HeatmapColorPalettePicker,
+  ConfigChartOptions,
+  PanelItem,
+  SingleColorPicker,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { REDS_PALETTE, TREEMAP_PALETTES } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -44,6 +51,41 @@ export const createMapsVisDefinition = () => ({
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'zaxis',
+              },
+            ],
+          },
+          {
+            id: 'chart_styles',
+            name: 'Chart Styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
+            schemas: [
+              {
+                name: 'Color Mode',
+                component: PanelItem,
+                mapTo: 'colorMode',
+                eleType: 'list',
+                isSingleSelection: true,
+                options: [
+                  { name: 'spectrum', label: 'Spectrum', value: 'spectrum' },
+                  { name: 'opacity', label: 'Opacity', value: 'opacity' },
+                ],
+                defaultState: [{ name: 'spectrum', label: 'Spectrum', value: 'spectrum' }],
+              },
+              {
+                name: 'Scheme',
+                component: HeatmapColorPalettePicker,
+                mapTo: 'scheme',
+                eleType: 'palettePicker',
+                options: TREEMAP_PALETTES,
+                defaultState: REDS_PALETTE.label,
+              },
+              {
+                name: 'Color',
+                component: SingleColorPicker,
+                mapTo: 'color',
+                eleType: 'singleColorPicker',
+                defaultState: { name: 'singleColor', color: '#000000' },
               },
             ],
           },

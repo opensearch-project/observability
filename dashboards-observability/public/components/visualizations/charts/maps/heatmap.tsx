@@ -4,11 +4,13 @@
  */
 
 import React, { useMemo } from 'react';
-import { uniq, has, isArray, isEmpty } from 'lodash';
+import { uniq, has, isEmpty } from 'lodash';
 import Plotly from 'plotly.js-dist';
+import { colorPalette } from '@elastic/eui';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { REDS_PALETTE } from '../../../../../common/constants/colors';
+import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
@@ -40,7 +42,25 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const colorScaleValues = [...PLOTLY_COLOR.map((clr, index) => [index, clr])];
+  const getColorField = () => {
+    return dataConfig?.chartStyles
+      ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === 'opacity'
+        ? dataConfig?.chartStyles.color ?? { name: 'singleColor', color: '#000000' }
+        : dataConfig?.chartStyles.scheme ?? { name: REDS_PALETTE.label, color: REDS_PALETTE.label }
+      : { name: REDS_PALETTE.label, color: REDS_PALETTE.label };
+  };
+
+  const colorField = getColorField();
+  const fillColor: any = [];
+  if (colorField.name === 'singleColor') {
+    const colorsArray = colorPalette([lightenColor(colorField.color, 50), colorField.color], 10);
+    colorsArray.map((hexCode, index) => {
+      fillColor.push([
+        (index !== colorsArray.length - 1 ? index : 10) / 10,
+        hexToRgb(hexCode, 1, false),
+      ]);
+    });
+  }
 
   const calculatedHeapMapZaxis: Plotly.Data[] = useMemo(() => {
     const heapMapZaxis = [];
@@ -86,7 +106,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
-      colorscale: colorScaleValues,
+      colorscale: colorField.name === 'singleColor' ? fillColor : colorField.name,
       type: 'heatmap',
     },
   ];
