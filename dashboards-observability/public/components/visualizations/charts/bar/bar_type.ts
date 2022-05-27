@@ -36,8 +36,8 @@ export const createBarTypeDefinition = (params: any) => ({
   labelAngle: 0,
   lineWidth: 1,
   fillOpacity: 80,
-  barWidth: 0.7,
-  groupWidth: 0.97,
+  groupWidth: 0.7,
+  barWidth: 0.97,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -80,10 +80,10 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Vertical', modeId: 'v' },
-                    { name: 'Horizontal', modeId: 'h' },
+                    { name: 'Vertical', id: 'v' },
+                    { name: 'Horizontal', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Vertical', modeId: 'v' }],
+                  defaultSelections: [{ name: 'Vertical', id: 'v' }],
                 },
               },
               {
@@ -93,33 +93,11 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Group', modeId: 'group' },
-                    { name: 'Stack', modeId: 'stack' },
+                    { name: 'Group', id: 'group' },
+                    { name: 'Stack', id: 'stack' },
                   ],
-                  defaultSelections: [{ name: 'Group', modeId: 'group' }],
+                  defaultSelections: [{ name: 'Group', id: 'group' }],
                 },
-              },
-              {
-                name: 'Group width',
-                component: SliderConfig,
-                mapTo: 'groupWidth',
-                defaultState: 0.7,
-                props:{
-                  max: 1,
-                  step: 0.01,
-                },
-                eleType: 'slider',
-              },
-              {
-                name: 'Bar width',
-                component: SliderConfig,
-                mapTo: 'barWidth',
-                defaultState: 0.97,
-                props:{
-                  max: 1,
-                  step: 0.01,
-                },
-                eleType: 'slider',
               },
               {
                 name: 'Rotate bar labels',
@@ -142,11 +120,33 @@ export const createBarTypeDefinition = (params: any) => ({
                 },
               },
               {
+                name: 'Group width',
+                component: SliderConfig,
+                mapTo: 'groupWidth',
+                defaultState: 0.7,
+                props: {
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Bar width',
+                component: SliderConfig,
+                mapTo: 'barWidth',
+                defaultState: 0.97,
+                props: {
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
+              },
+              {
                 name: 'Line width',
                 component: SliderConfig,
                 mapTo: 'lineWidth',
                 defaultState: 1,
-                props:{
+                props: {
                   max: 10,
                 },
                 eleType: 'slider',
@@ -156,7 +156,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: 80,
-                props:{
+                props: {
                   max: 100,
                 },
                 eleType: 'slider',

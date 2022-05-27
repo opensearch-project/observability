@@ -33,18 +33,19 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelAngle
   const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.lineWidth;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : visualizations.vis.fillOpacity / 200;
-  const barWidth = 1 - dataConfig?.chartStyles?.barWidth || vis.barWidth;
-  const groupWidth = 1 - dataConfig?.chartStyles?.groupWidth || vis.groupWidth;
+  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barWidth);
+  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupWidth);
   const isVertical = barOrientation === 'v';
 
   // Individual bars have different colors
-  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor
+  // when: stackLength = 1 and chart is not unicolor
   // Else each stacked bar has its own color using colorway
   let marker: { color: string[], line: { color: string[], width: number } } = {
     color: [],
     line: { color: [], width: lineWidth }
   };
-  if (lastIndex === 1 && data[fields[lastIndex].name].length < 16 && !isUniColor) {
+
+  if (lastIndex === 1 && !isUniColor) {
     marker = {
       color: data[fields[lastIndex].name].map((_: string, index: number) => {
         return hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
@@ -54,20 +55,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         color: data[fields[lastIndex].name].map((_: string, index: number) => PLOTLY_COLOR[index]),
       }
     };
-  }
-  // Individual bars have different colors
-  // when: stackLength = 1 and length of result buckets >= 16 and chart is not unicolor
-  // Else each stacked bar has its own color using colorway
-  if (lastIndex === 1 && data[fields[lastIndex].name].length >= 16 && !isUniColor) {
-    data[fields[lastIndex].name].forEach((_: string, index: number) => {
-      marker = {
-        color: [...marker.color, hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity)],
-        line: {
-          ...marker.line,
-          color: [...marker.line.color, PLOTLY_COLOR[index]],
-        }
-      }
-    })
   }
 
   let valueSeries;

@@ -31,16 +31,24 @@ export const ConfigBarChartStyles = ({
         [handleConfigChange, vizState]
     );
 
+    /* To update the schema options based on current style mode selection */
+    const currentSchemas = useMemo(() => {
+        if (vizState?.orientation === 'h') {
+            return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'rotateBarLabels');
+        }
+        return schemas;
+    }, [vizState]);
+
     const dimensions = useMemo(() =>
-       schemas.map((schema: IConfigPanelOptionSection, index: string) => {
+        currentSchemas.map((schema: IConfigPanelOptionSection, index: string) => {
             let params;
             const DimensionComponent = schema.component || ButtonGroupItem;
             if (schema.eleType === 'buttons') {
                 params = {
                     title: schema.name,
                     legend: schema.name,
-                    groupOptions: schema?.props?.options.map((btn: { name: string, modeId: string }) => ({ id: btn.modeId, label: btn.name })),
-                    idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.modeId,
+                    groupOptions: schema?.props?.options.map((btn: { name: string }) => ({ ...btn, label: btn.name })),
+                    idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
                     handleButtonChange: handleConfigurationChange(schema.mapTo),
                     vizState,
                     ...schema.props,
@@ -53,7 +61,7 @@ export const ConfigBarChartStyles = ({
                     title: schema.name,
                     currentRange: vizState[schema.mapTo] || schema?.defaultState,
                     ticks: schema?.props?.ticks,
-                    showTicks:schema?.props?.showTicks,
+                    showTicks: schema?.props?.showTicks,
                     handleSliderChange: handleConfigurationChange(schema.mapTo),
                     vizState,
                     ...schema.props,
