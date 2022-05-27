@@ -6,6 +6,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { EuiAccordion, EuiSpacer, EuiForm } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
+import { SPECTRUM, OPACITY } from '../../../../../../../../common/constants/colors';
 
 export const ConfigChartOptions = ({
   visualizations,
@@ -30,10 +31,10 @@ export const ConfigChartOptions = ({
   );
 
   const currentSchemas = useMemo(() => {
-    if (vizState.colorMode === undefined || vizState.colorMode[0].name === 'spectrum') {
+    if (vizState.colorMode === undefined || vizState.colorMode[0].name === SPECTRUM) {
       return schemas.filter((schema) => schema.mapTo !== 'color');
     }
-    if (vizState.colorMode && vizState.colorMode[0].name === 'opacity') {
+    if (vizState.colorMode && vizState.colorMode[0].name === OPACITY) {
       return schemas.filter((schema) => schema.mapTo !== 'scheme');
     }
     return schemas;

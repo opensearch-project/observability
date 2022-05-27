@@ -9,7 +9,12 @@ import Plotly from 'plotly.js-dist';
 import { colorPalette } from '@elastic/eui';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { REDS_PALETTE } from '../../../../../common/constants/colors';
+import {
+  HEATMAP_PALETTE_COLOR,
+  SINGLE_COLOR_PALETTE,
+  OPACITY,
+  HEATMAP_SINGLE_COLOR,
+} from '../../../../../common/constants/colors';
 import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
@@ -42,20 +47,18 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const getColorField = () => {
-    return dataConfig?.chartStyles
-      ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === 'opacity'
-        ? dataConfig?.chartStyles.color ?? { name: 'singleColor', color: '#000000' }
-        : dataConfig?.chartStyles.scheme ?? { name: REDS_PALETTE.label, color: REDS_PALETTE.label }
-      : { name: REDS_PALETTE.label, color: REDS_PALETTE.label };
-  };
+  const colorField =
+    dataConfig?.chartStyles && dataConfig?.chartStyles.colorMode
+      ? dataConfig?.chartStyles.colorMode[0].name === OPACITY
+        ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
+        : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
+      : HEATMAP_PALETTE_COLOR;
 
-  const colorField = getColorField();
-  const fillColor: any = [];
-  if (colorField.name === 'singleColor') {
+  const traceColor: any = [];
+  if (colorField.name === SINGLE_COLOR_PALETTE) {
     const colorsArray = colorPalette([lightenColor(colorField.color, 50), colorField.color], 10);
     colorsArray.map((hexCode, index) => {
-      fillColor.push([
+      traceColor.push([
         (index !== colorsArray.length - 1 ? index : 10) / 10,
         hexToRgb(hexCode, 1, false),
       ]);
@@ -106,7 +109,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
-      colorscale: colorField.name === 'singleColor' ? fillColor : colorField.name,
+      colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
     },
   ];

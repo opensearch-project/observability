@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   EuiTitle,
   EuiSpacer,
@@ -11,16 +11,14 @@ import {
   EuiFlexGroup,
   EuiColorPalettePicker,
 } from '@elastic/eui';
-import { REDS_PALETTE } from '../../../../../../../../common/constants/colors';
 
 export const HeatmapColorPalettePicker = ({
   title,
   colorPalettes,
   selectedColor,
   onSelectChange,
-  vizState,
 }: any) => {
-  const getColorObject = (name: string = REDS_PALETTE.label) => {
+  const getColorObject = (name: string) => {
     return {
       name,
       color: name,
@@ -28,16 +26,9 @@ export const HeatmapColorPalettePicker = ({
   };
 
   const heatmapOptions = colorPalettes.filter((color) => color.type !== 'text');
-  const [paletteColor, setPaletteColor] = useState(REDS_PALETTE.label);
-
-  useEffect(() => {
-    if (selectedColor) {
-      setPaletteColor(selectedColor?.color ?? REDS_PALETTE.label);
-    }
-  }, [selectedColor]);
+  console.log(selectedColor, 'selectedColor');
 
   const onPaletteChange = (value: string) => {
-    setPaletteColor(value);
     onSelectChange(getColorObject(value));
   };
 
@@ -52,7 +43,7 @@ export const HeatmapColorPalettePicker = ({
           <EuiColorPalettePicker
             palettes={heatmapOptions}
             onChange={onPaletteChange}
-            valueOfSelected={paletteColor}
+            valueOfSelected={selectedColor.name}
             selectionDisplay={'title'}
           />
         </EuiFlexItem>

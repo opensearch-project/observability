@@ -15,7 +15,11 @@ import {
   PanelItem,
   SingleColorPicker,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { REDS_PALETTE, TREEMAP_PALETTES } from '../../../../../common/constants/colors';
+import {
+  COLOR_PALETTES,
+  HEATMAP_SINGLE_COLOR,
+  HEATMAP_PALETTE_COLOR,
+} from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -77,15 +81,15 @@ export const createMapsVisDefinition = () => ({
                 component: HeatmapColorPalettePicker,
                 mapTo: 'scheme',
                 eleType: 'palettePicker',
-                options: TREEMAP_PALETTES,
-                defaultState: REDS_PALETTE.label,
+                options: COLOR_PALETTES,
+                defaultState: HEATMAP_PALETTE_COLOR,
               },
               {
                 name: 'Color',
                 component: SingleColorPicker,
                 mapTo: 'color',
                 eleType: 'singleColorPicker',
-                defaultState: { name: 'singleColor', color: '#000000' },
+                defaultState: HEATMAP_SINGLE_COLOR,
               },
             ],
           },
