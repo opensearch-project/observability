@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:5601",
+  "baseUrl": "http://localhost:5601/ryb",
   "video": true,
   "chromeWebSecurity": false,
   "fixturesFolder": ".cypress/fixtures",
@@ -16,7 +16,7 @@
   "experimentalNetworkStubbing": true,
   "env": {
     "opensearch": "localhost:9200",
-    "opensearchDashboards": "localhost:5601",
+    "opensearchDashboards": "localhost:5601/ryb",
     "security_enabled": true
   }
 }

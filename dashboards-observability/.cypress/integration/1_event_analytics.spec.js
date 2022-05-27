@@ -592,7 +592,7 @@ describe('Renders heatmap chart', () => {
     landOnEventVisualizations();
   });
 
-  it('Renders heatmap chart with different z-axes', () => {
+  it.only('Renders heatmap chart with different z-axes', () => {
     querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Heatmap').click();
