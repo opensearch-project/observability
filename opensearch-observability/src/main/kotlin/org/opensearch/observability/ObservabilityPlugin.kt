@@ -22,11 +22,14 @@ import org.opensearch.env.NodeEnvironment
 import org.opensearch.jobscheduler.spi.JobSchedulerExtension
 import org.opensearch.jobscheduler.spi.ScheduledJobParser
 import org.opensearch.jobscheduler.spi.ScheduledJobRunner
+import org.opensearch.observability.action.CreateCollaborationObjectAction
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
+import org.opensearch.observability.index.CollaborationIndex
 import org.opensearch.observability.index.ObservabilityIndex
+import org.opensearch.observability.resthandler.CollaborationsRestHandler
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.SchedulerRestHandler
 import org.opensearch.observability.scheduler.ObservabilityJobParser
@@ -53,6 +56,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         const val LOG_PREFIX = "observability"
         const val BASE_OBSERVABILITY_URI = "/_plugins/_observability"
         const val BASE_NOTEBOOKS_URI = "/_plugins/_notebooks"
+        const val BASE_COLLABORATION_URI = "/_plugins/_collaborations"
     }
 
     /**
@@ -80,6 +84,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
+        CollaborationIndex.initialize(client, clusterService)
         return emptyList()
     }
 
@@ -97,6 +102,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
     ): List<RestHandler> {
         return listOf(
             ObservabilityRestHandler(),
+            CollaborationsRestHandler(),
             SchedulerRestHandler() // TODO: tmp rest handler only for POC purpose
         )
     }
@@ -121,6 +127,10 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
             ActionPlugin.ActionHandler(
                 UpdateObservabilityObjectAction.ACTION_TYPE,
                 UpdateObservabilityObjectAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                CreateCollaborationObjectAction.ACTION_TYPE,
+                CreateCollaborationObjectAction::class.java
             )
         )
     }

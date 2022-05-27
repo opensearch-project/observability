@@ -1,0 +1,38 @@
+---
+##
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
+##
+
+# Schema file for the collaborations index
+# Since we only search based on "access", sort on lastUpdatedTimeMs & createdTimeMs,
+# other fields are not used in mapping to avoid index on those fields.
+# Also "dynamic" is set to "false" so that other fields can be added.
+dynamic: false
+properties:
+  lastUpdatedTimeMs:
+    type: date
+    format: epoch_millis
+  createdTimeMs:
+    type: date
+    format: epoch_millis
+  tenant:
+    type: keyword
+  access: # Array of access details like user,role,backend_role etc
+    type: keyword
+  collaboration:
+    type: object
+    properties:
+      type:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  comment:
+    type: object
+    properties:
+      collaborationId:
+        type: text
+        fields:
+          keyword:
+            type: keyword
