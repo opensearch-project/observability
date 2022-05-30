@@ -6,11 +6,15 @@
 import React from 'react';
 import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { DefaultChartStyles, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  DefaultChartStyles,
+  PLOTLY_COLOR,
+  FILLOPACITY_DIV_FACTOR,
+} from '../../../../../common/constants/shared';
 import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { LineWidth, FillOpacity } = DefaultChartStyles;
+  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -18,10 +22,12 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations?.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const lastIndex = fields.length - 1;
-  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
-  const legendPosition = dataConfig?.legend?.position || 'v';
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const fillOpacity = (dataConfig?.chartStyles?.fillOpacity || FillOpacity) / 100;
+  const showLegend =
+    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend ? false : true;
+  const legendPosition = dataConfig?.legend?.position || LegendPosition;
+  const fillOpacity =
+    (dataConfig?.chartStyles?.fillOpacity || FillOpacity) / FILLOPACITY_DIV_FACTOR;
 
   const xaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];

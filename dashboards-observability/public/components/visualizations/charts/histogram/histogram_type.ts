@@ -18,7 +18,7 @@ import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { LineWidth, FillOpacity } = DefaultChartStyles;
+const { LineWidth, FillOpacity, ShowLegend, LegendPosition } = DefaultChartStyles;
 
 export const createHistogramVisDefinition = (params = {}) => ({
   name: 'histogram',
@@ -63,16 +63,20 @@ export const createHistogramVisDefinition = (params = {}) => ({
                 component: SliderConfig,
                 mapTo: 'lineWidth',
                 defaultState: LineWidth,
-                max: 10,
                 eleType: 'slider',
+                props: {
+                  max: 10,
+                },
               },
               {
                 name: 'Fill Opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
-                max: 100,
                 eleType: 'slider',
+                props: {
+                  max: 100,
+                },
               },
             ],
           },
@@ -95,10 +99,10 @@ export const createHistogramVisDefinition = (params = {}) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Show', modeId: 'show' },
-                    { name: 'Hidden', modeId: 'hidden' },
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
                   ],
-                  defaultSelections: [{ name: 'Show', modeId: 'show' }],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
                 },
               },
               {
@@ -107,10 +111,10 @@ export const createHistogramVisDefinition = (params = {}) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Right', modeId: 'v' },
-                    { name: 'Bottom', modeId: 'h' },
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Right', modeId: 'v' }],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
               },
             ],
