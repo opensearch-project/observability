@@ -46,6 +46,28 @@ describe('Testing services table', () => {
     cy.contains(' (1)').should('exist');
     cy.contains('3.57%').should('exist');
   });
+
+  it('Verify columns in Services table', () => {
+    cy.get('.euiFlexItem.euiFlexItem--flexGrow10 .panel-title').contains('Services').should('exist');
+    cy.get('.euiTableCellContent__text[title="Name"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Average latency (ms)"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Error rate"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Throughput"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="No. of connected services"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Connected services"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Traces"]').should('exist');
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
+    cy.get('.euiIcon.euiIcon--medium.euiIcon--inherit.euiContextMenu__icon').eq(0).should('exist').click();
+    cy.get('[data-test-subj="pagination-button-next"]').should('exist').click();
+    cy.get('.euiLink.euiLink--primary').contains('order').should('exist');
+  })
+
+  it('Navigate from Services to Traces', () => {
+    cy.get('.euiTableCellContent__text[title="Traces"]').should('exist');
+    cy.contains('74').should('exist').click();
+    cy.get('.euiText.euiText--medium .panel-title').should('exist');
+    cy.get('.euiBadge__childButton[data-test-subj="filterBadge"]').should('exist');
+  })
 });
 
 describe('Testing service view empty state', () => {
@@ -115,9 +137,31 @@ describe('Testing service view', () => {
     cy.get('.euiTextColor').contains('Span ID').trigger('mouseover');
     cy.get('.euiButtonIcon[aria-label="span-flyout-filter-icon"').click({ force: true });
     cy.wait(delay);
-
     cy.get('.euiBadge__text').contains('spanId: ').should('exist');
     cy.get('[data-test-subj="euiFlyoutCloseButton"]').click({ force: true });
     cy.contains('Spans (1)').should('exist');
   });
+});
+
+describe('Testing Service map', () => {
+  beforeEach(() => {
+    cy.visit('app/observability-dashboards#/trace_analytics/services', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
+    setTimeFilter();
+  });
+
+  it.only('Render Service map', () => {
+    cy.get('.euiText.euiText--medium .panel-title').contains('Service map');
+    cy.get('[data-test-subj="latency"]').should('exist');
+    cy.get('.ytitle').contains('Latency (ms)');
+    cy.get('[data-text = "Error rate"]').click();
+    cy.contains('60%');
+    cy.get('[data-text = "Throughput"]').click();
+    cy.contains('100');
+    cy.get('.euiText.euiText--medium').contains('Focus on').should('exist');
+    cy.get('[placeholder="Service name"]').focus().type('database{enter}');
+  })
 });
