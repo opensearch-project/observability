@@ -1056,7 +1056,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": Object {
                                   "name": "default",
                                 },
-                                "eleType": "colorpicker",
+                                "eleType": "treemapColorPicker",
                                 "isSingleSelection": true,
                                 "mapTo": "colorTheme",
                                 "name": "Color Theme",
@@ -1067,9 +1067,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "value": "default",
                                   },
                                   Object {
-                                    "title": "Single Color",
+                                    "title": "Single color",
                                     "type": "text",
                                     "value": "singleColor",
+                                  },
+                                  Object {
+                                    "title": "Multicolored",
+                                    "type": "text",
+                                    "value": "multicolor",
                                   },
                                   Object {
                                     "palette": Array [

@@ -357,6 +357,7 @@ exports[`Treemap component Renders treemap component 1`] = `
             "success",
             "warning",
           ],
+          "marker": Object {},
           "parents": Array [
             "",
             "",
@@ -396,6 +397,7 @@ exports[`Treemap component Renders treemap component 1`] = `
         },
         "showlegend": true,
         "title": "",
+        "treemapcolorway": Object {},
       }
     }
   >
@@ -416,6 +418,7 @@ exports[`Treemap component Renders treemap component 1`] = `
               "success",
               "warning",
             ],
+            "marker": Object {},
             "parents": Array [
               "",
               "",
@@ -464,6 +467,7 @@ exports[`Treemap component Renders treemap component 1`] = `
           },
           "showlegend": true,
           "title": "",
+          "treemapcolorway": Object {},
           "xaxis": Object {
             "automargin": true,
             "rangemode": "normal",
