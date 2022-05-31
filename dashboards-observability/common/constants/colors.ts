@@ -166,3 +166,15 @@ export const COLOR_PALETTES = [
     type: 'gradient',
   },
 ];
+export const PIE_PALETTES = [
+  {
+    value: DEFAULT_PALETTE,
+    title: 'Default',
+    type: 'text',
+  },
+  {
+    value: SINGLE_COLOR_PALETTE,
+    title: 'Single Color',
+    type: 'text',
+  }
+];

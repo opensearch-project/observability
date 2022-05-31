@@ -18,7 +18,8 @@ import {
   landOnEventExplorer,
   landOnEventVisualizations,
   landOnPanels,
-  renderTreeMapchart
+  renderTreeMapchart,
+  renderPieChart
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
@@ -642,10 +643,6 @@ describe('Renders data view', () => {
 });
 
 describe('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-  });
-
   it('Renders chart, clear X-axis and Y-axis value and click on Apply button, Toast message should display with error message', () => {
     querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
@@ -811,5 +808,40 @@ describe('Renders Tree Map', () => {
     cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent field').should('not.exist');
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('.trace.treemap path[style*="rgb(211, 96, 134)"]').should('exist');
+  })
+});
+
+describe('Render Pie chart for Legend and single color contrast change', () => {
+    beforeEach(() => {
+      landOnEventVisualizations();
+    });
+  it('Render Pie chart and verify legends for Position Right and Bottom', () => {
+    renderPieChart();
+    cy.get('[data-text="Right"]').should('have.text', 'Right');
+    cy.get('[data-text="Right"] [data-test-subj="v"]').should('have.attr', 'checked');
+    cy.get('[data-text="Bottom"]').should('have.text', 'Bottom').click();
+    cy.get('[data-text="Bottom"] [data-test-subj="h"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render Pie chart and verify legends for Show and Hidden', () => {
+    renderPieChart();
+    cy.get('[data-text="Show"]').should('have.text', 'Show');
+    cy.get('[data-text="Show"] [data-test-subj="show"]').should('have.attr', 'checked');
+    cy.get('[data-text="Hidden"]').should('have.text', 'Hidden').click();
+    cy.get('[data-text="Hidden"] [data-test-subj="hidden"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Renders Pie chart with single color', () => {
+    renderPieChart();
+    cy.get('.euiIEFlexWrapFix').eq(3).contains('Chart Styles').should('exist');
+    cy.get('[data-test-subj="comboBoxInput"]').eq(3).click();
+    cy.get('[name="Pie"]').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem.euiSuperSelect__item.euiSuperSelect__item--hasDividers').eq(1).click();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.wait(delay);
   });
 });
+

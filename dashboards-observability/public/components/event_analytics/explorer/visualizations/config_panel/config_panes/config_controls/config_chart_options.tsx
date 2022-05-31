@@ -45,6 +45,15 @@ export const ConfigChartOptions = ({
           vizState,
           ...schema.props,
         };
+      } else if (schema.eleType === 'colorpicker') {
+        params = {
+          title: schema.name,
+          selectedColor: vizState[schema.mapTo] || schema?.defaultState,
+          colorPalettes: schema.options || [],
+          onSelectChange: handleConfigurationChange(schema.mapTo),
+          vizState,
+          ...schema.props,
+        };
       } else {
         params = {
           paddingTitle: schema.name,
