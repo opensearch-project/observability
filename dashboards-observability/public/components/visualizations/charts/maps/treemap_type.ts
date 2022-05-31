@@ -13,7 +13,7 @@ import {
   ColorPalettePicker,
   ConfigChartOptions,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DEFAULT_PALETTE, TREEMAP_PALETTES } from '../../../../../common/constants/colors';
+import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -104,8 +104,8 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                 isSingleSelection: true,
                 component: ColorPalettePicker,
                 mapTo: 'colorTheme',
-                eleType: 'colorpicker',
-                options: TREEMAP_PALETTES,
+                eleType: 'treemapColorPicker',
+                options: COLOR_PALETTES,
                 defaultState: { name: DEFAULT_PALETTE },
               },
             ],

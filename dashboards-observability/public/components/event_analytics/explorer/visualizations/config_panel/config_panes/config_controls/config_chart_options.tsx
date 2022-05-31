@@ -13,6 +13,10 @@ export const ConfigChartOptions = ({
   vizState,
   handleConfigChange,
 }: any) => {
+  const { data } = visualizations;
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
@@ -29,12 +33,28 @@ export const ConfigChartOptions = ({
     return schemas.map((schema, index) => {
       let params = {};
       const DimensionComponent = schema.component || PanelItem;
-      if (schema.eleType === 'colorpicker') {
+      if (schema.eleType === 'treemapColorPicker') {
         params = {
           title: schema.name,
           selectedColor: vizState[schema.mapTo] || schema?.defaultState,
           colorPalettes: schema.options || [],
+          showParentColorPicker:
+            dataConfig?.valueOptions?.parentField !== undefined &&
+            dataConfig?.valueOptions?.parentField.length > 0,
           onSelectChange: handleConfigurationChange(schema.mapTo),
+          vizState,
+          ...schema.props,
+        };
+      } else {
+        params = {
+          paddingTitle: schema.name,
+          advancedTitle: 'advancedTitle',
+          dropdownList:
+            schema?.options?.map((option) => ({ ...option })) ||
+            fields.map((item) => ({ ...item })),
+          onSelectChange: handleConfigurationChange(schema.mapTo),
+          isSingleSelection: schema.isSingleSelection,
+          selectedAxis: vizState[schema.mapTo] || schema.defaultState,
           vizState,
           ...schema.props,
         };

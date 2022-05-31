@@ -9,7 +9,11 @@ import { indexOf, isEmpty, isEqual, isNull, uniq } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
-import { DEFAULT_PALETTE, SINGLE_COLOR_PALETTE } from '../../../../../common/constants/colors';
+import {
+  DEFAULT_PALETTE,
+  MULTI_COLOR_PALETTE,
+  SINGLE_COLOR_PALETTE,
+} from '../../../../../common/constants/colors';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
   const {
@@ -60,45 +64,57 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const treemapData = useMemo(() => {
-    let labelsArray, parentsArray, valuesArray;
+  const [treemapData, mergedLayout] = useMemo(() => {
+    let labelsArray, parentsArray, valuesArray, colorsArray;
 
     if (parentField === null) {
       labelsArray = [...data[childField.name]];
       parentsArray = [...Array(labelsArray.length).fill('')];
       valuesArray = [...data[valueField.name]];
+      if (colorField.name === MULTI_COLOR_PALETTE) {
+        colorsArray = [...Array(data[childField.name].length).fill(colorField.childColor)];
+      }
     } else {
       const uniqueParents = uniq(data[parentField.name]);
       labelsArray = [...data[childField.name], ...uniqueParents];
       parentsArray = [...data[parentField.name], ...Array(uniqueParents.length).fill('')];
       valuesArray = [...data[valueField.name], ...Array(uniqueParents.length).fill(0)];
+      if (colorField.name === MULTI_COLOR_PALETTE) {
+        colorsArray = [
+          ...Array(data[childField.name].length).fill(colorField.childColor),
+          ...Array(uniqueParents.length).fill(colorField.parentColor),
+        ];
+      }
     }
 
-    const marker =
-      colorField.name === SINGLE_COLOR_PALETTE
-        ? {
-            marker: {
-              colorscale: [
-                [0, colorField.color],
-                [1, colorField.color],
-              ],
-              colorbar: {
-                len: 1,
-              },
-            },
-          }
-        : colorField.name !== DEFAULT_PALETTE
-        ? {
-            marker: {
-              colorscale: colorField.name,
-              colorbar: {
-                len: 1,
-              },
-            },
-          }
-        : undefined;
+    if (colorField.name === SINGLE_COLOR_PALETTE) {
+      colorsArray = [...Array(valuesArray.length).fill(colorField.childColor)];
+    }
 
-    return [
+    const markerColors =
+      colorField.name === MULTI_COLOR_PALETTE
+        ? {
+            colors: colorsArray,
+          }
+        : ![DEFAULT_PALETTE, SINGLE_COLOR_PALETTE].includes(colorField.name)
+        ? {
+            colorscale: colorField.name,
+            colorbar: {
+              len: 1,
+            },
+          }
+        : {};
+
+    const colorway = colorField.name === SINGLE_COLOR_PALETTE ? colorsArray : {};
+
+    const mapLayout = {
+      ...layout,
+      ...(layoutConfig.layout && layoutConfig.layout),
+      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      treemapcolorway: colorway,
+    };
+
+    const mapData = [
       {
         type: 'treemap',
         labels: labelsArray,
@@ -108,16 +124,21 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         tiling: {
           packing: tilingAlgorithm.value,
         },
-        ...marker,
+        marker: markerColors,
       },
     ];
-  }, [data, childField, valueField, parentField, colorField, tilingAlgorithm]);
 
-  const mergedLayout = {
-    ...layout,
-    ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-  };
+    return [mapData, mapLayout];
+  }, [
+    data,
+    childField,
+    valueField,
+    parentField,
+    colorField,
+    tilingAlgorithm,
+    dataConfig,
+    layoutConfig,
+  ]);
 
   const mergedConfigs = {
     ...config,
