@@ -6,7 +6,7 @@
 import React from 'react';
 import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { DEFAULT_PALETTE } from '../../../../../common/constants/colors';
+import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -36,7 +36,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   }
 
   const invertHex = (hex:string) => {
-    return (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase()
+    return (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase()
   }
   
   const pies = valueSeries.map((field: any, index) => {
