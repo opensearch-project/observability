@@ -719,13 +719,13 @@ describe('Renders Tree Map', () => {
     renderTreeMapchart();
     cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
     cy.get('.euiSuperSelectControl').contains('Default').click();
-    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single Color').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
     cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
     cy.get('[aria-label="Select #D36086 as the color"]').click();
     cy.get('.euiButton__text').contains('Preview').should('exist').click();
     cy.get('path[style*="rgb(29, 30, 36)"]').eq(0).should('exist');
     cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiColorPalettePicker__item').eq(7).contains('Red-Blue').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
     cy.get('.euiButton__text').contains('Preview').should('exist').click();
     cy.get('path[style*="rgb(68, 68, 68)"]').eq(0).should('exist');
   });
@@ -744,7 +744,7 @@ describe('Renders Tree Map', () => {
     cy.get('.euiComboBoxOption__content').eq(0).click();
     cy.wait(delay);
     cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiColorPalettePicker__item').eq(7).contains('Red-Blue').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
     cy.get('.euiButton__text').contains('Preview').should('exist').click();
     cy.get('.slicetext[data-unformatted="US"]').click({force:true});
     cy.wait(delay);
@@ -765,9 +765,51 @@ describe('Renders Tree Map', () => {
     cy.get('.euiComboBoxOption__content').eq(1).click();
     cy.wait(delay);
     cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiColorPalettePicker__item').eq(7).contains('Red-Blue').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
     cy.get('.euiButton__text').contains('Preview').should('exist').click();
     cy.get('.euiTextColor.euiTextColor--subdued').contains('No results found').should('exist');
   });
-});
 
+  it('Verify multicolored option under color theme',() =>{
+    renderTreeMapchart();
+    cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #54B399 as the color"]').should('exist').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(2).contains('Multicolored').click();
+    cy.wait(delay);
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(1).contains('Child field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(0).click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(2).contains('Parent field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(1).click();
+    cy.get('[aria-label="Select #CA8EAE as the color"]').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.trace.treemap path[style*="rgb(202, 142, 174)"]').should('exist');
+  });
+
+  it('Parent field not available under color theme', () => {
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Tree Map');
+    cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #54B399 as the color"]').should('exist').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(2).contains('Multicolored').click();
+    cy.wait(delay);
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(1).contains('Child field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(0).click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent field').should('not.exist');
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.trace.treemap path[style*="rgb(211, 96, 134)"]').should('exist');
+  });
+});
