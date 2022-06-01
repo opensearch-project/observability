@@ -71,17 +71,17 @@ export const createMapsVisDefinition = () => ({
                 eleType: 'list',
                 isSingleSelection: true,
                 options: [
-                  { name: 'spectrum', label: 'Spectrum', value: 'spectrum' },
-                  { name: 'opacity', label: 'Opacity', value: 'opacity' },
+                  { name: 'spectrum', label: 'spectrum', value: 'spectrum' },
+                  { name: 'opacity', label: 'opacity', value: 'opacity' },
                 ],
-                defaultState: [{ name: 'spectrum', label: 'Spectrum', value: 'spectrum' }],
+                defaultState: [{ name: 'spectrum', label: 'spectrum', value: 'spectrum' }],
               },
               {
                 name: 'Scheme',
                 component: HeatmapColorPalettePicker,
                 mapTo: 'scheme',
                 eleType: 'palettePicker',
-                options: COLOR_PALETTES,
+                options: COLOR_PALETTES.filter((color) => color.type !== 'text'),
                 defaultState: HEATMAP_PALETTE_COLOR,
               },
               {

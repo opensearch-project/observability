@@ -47,12 +47,11 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const colorField =
-    dataConfig?.chartStyles && dataConfig?.chartStyles.colorMode
-      ? dataConfig?.chartStyles.colorMode[0].name === OPACITY
-        ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
-        : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
-      : HEATMAP_PALETTE_COLOR;
+  const colorField = dataConfig?.chartStyles
+    ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
+      ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
+      : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
+    : HEATMAP_PALETTE_COLOR;
 
   const traceColor: any = [];
   if (colorField.name === SINGLE_COLOR_PALETTE) {

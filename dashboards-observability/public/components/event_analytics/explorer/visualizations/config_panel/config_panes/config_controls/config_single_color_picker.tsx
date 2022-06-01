@@ -16,16 +16,9 @@ import {
 import { lightenColor } from '../../../../../../event_analytics/utils/utils';
 import { SINGLE_COLOR_PALETTE } from '../../../../../../../../common/constants/colors';
 
-export const SingleColorPicker = ({ title, selectedColor, onSelectChange, vizState }: any) => {
-  const getColorObject = (name: string, color: string) => {
-    return {
-      name,
-      color: color ?? name,
-    };
-  };
-
+export const SingleColorPicker = ({ title, selectedColor, onSelectChange }: any) => {
   const onColorChange = (value: string) => {
-    onSelectChange(getColorObject(SINGLE_COLOR_PALETTE, value));
+    onSelectChange({ name: SINGLE_COLOR_PALETTE, color: value });
   };
 
   return (

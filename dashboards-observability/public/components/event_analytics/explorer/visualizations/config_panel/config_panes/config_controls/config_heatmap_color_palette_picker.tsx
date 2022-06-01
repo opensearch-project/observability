@@ -18,18 +18,8 @@ export const HeatmapColorPalettePicker = ({
   selectedColor,
   onSelectChange,
 }: any) => {
-  const getColorObject = (name: string) => {
-    return {
-      name,
-      color: name,
-    };
-  };
-
-  const heatmapOptions = colorPalettes.filter((color) => color.type !== 'text');
-  console.log(selectedColor, 'selectedColor');
-
   const onPaletteChange = (value: string) => {
-    onSelectChange(getColorObject(value));
+    onSelectChange({ name: value, color: value });
   };
 
   return (
@@ -41,7 +31,7 @@ export const HeatmapColorPalettePicker = ({
       <EuiFlexGroup gutterSize={'xs'}>
         <EuiFlexItem grow={3}>
           <EuiColorPalettePicker
-            palettes={heatmapOptions}
+            palettes={colorPalettes}
             onChange={onPaletteChange}
             valueOfSelected={selectedColor.name}
             selectionDisplay={'title'}
