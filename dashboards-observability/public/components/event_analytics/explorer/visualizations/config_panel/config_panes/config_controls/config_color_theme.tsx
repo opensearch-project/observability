@@ -46,34 +46,28 @@ export const ConfigColorTheme = ({
     ))
 
     const handleAddColorTheme = useCallback(() => {
-        let res = vizState;
-        if (isEmpty(vizState)) res = [];
+        const res = isEmpty(vizState) ? [] : vizState;
         handleConfigChange([getColorThemeRow(), ...res]);
     }, [vizState, handleConfigChange]);
 
     const handleColorThemeChange = useCallback(
-        (ctId, ctName) => {
-            return (event) => {
-                handleConfigChange([
-                    ...vizState.map((ct) => {
-                        if (ctId !== ct.ctid) return ct;
-                        return {
-                            ...ct,
-                            [ctName]: (ctName === 'color' ? event : event[0]) || '',
-                        };
-                    }),
-                ]);
-            };
+        (ctId, ctName) => (event) => {
+            handleConfigChange([
+                ...vizState.map((ct) => {
+                    if (ctId !== ct.ctid) return ct;
+                    return {
+                        ...ct,
+                        [ctName]: (ctName === 'color' ? event : event[0]) || '',
+                    };
+                }),
+            ]);
         },
         [vizState, handleConfigChange]
     );
 
     const handleColorThemeDelete = useCallback(
-        (ctId) => {
-            return (event) => {
-                handleConfigChange([...vizState.filter((ct) => ct.ctid !== ctId)]);
-            };
-        },
+        (ctId) => (event) =>
+            handleConfigChange([...vizState.filter((ct) => ct.ctid !== ctId)]),
         [vizState, handleConfigChange]
     );
     return (

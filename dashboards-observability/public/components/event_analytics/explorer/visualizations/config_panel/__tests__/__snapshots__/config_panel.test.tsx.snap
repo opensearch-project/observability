@@ -11929,6 +11929,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   key="viz-series-3"
                                                   max={1}
                                                   maxRange={1}
+                                                  minRange={0}
+                                                  showTicks={false}
                                                   step={0.01}
                                                   title="Group width"
                                                   vizState={Object {}}
@@ -12115,6 +12117,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   key="viz-series-4"
                                                   max={1}
                                                   maxRange={1}
+                                                  minRange={0}
+                                                  showTicks={false}
                                                   step={0.01}
                                                   title="Bar width"
                                                   vizState={Object {}}
@@ -12301,6 +12305,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   key="viz-series-5"
                                                   max={10}
                                                   maxRange={10}
+                                                  minRange={0}
+                                                  showTicks={false}
                                                   step={1}
                                                   title="Line width"
                                                   vizState={Object {}}
@@ -12487,6 +12493,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   key="viz-series-6"
                                                   max={100}
                                                   maxRange={100}
+                                                  minRange={0}
+                                                  showTicks={false}
                                                   step={1}
                                                   title="Fill Opacity"
                                                   vizState={Object {}}
