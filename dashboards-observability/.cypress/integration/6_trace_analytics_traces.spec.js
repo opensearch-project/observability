@@ -114,7 +114,7 @@ describe('Testing trace view', () => {
   });
 });
 
-describe('Testing traces table Pagination', () => {
+describe('Testing traces table', () => {
   beforeEach(() => {
     cy.visit('app/observability-dashboards#/trace_analytics/traces', {
       onBeforeLoad: (win) => {
@@ -124,7 +124,13 @@ describe('Testing traces table Pagination', () => {
     setTimeFilter();
   });
 
-  it.only('Renders the traces table pagination', () => {
+  it('Renders the traces table and verify Table Column, Pagination and Rows Data ', () => {
+    cy.get('.euiTableCellContent__text').contains('Trace ID').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Trace group').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Latency (ms)').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Percentile in trace group').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Errors').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Last updated').should('exist');
     cy.get('[data-test-subj="pagination-button-next"]').click();
     cy.contains('client_pay_order').should('exist');
     cy.get('[data-test-subj="pagination-button-previous"]').click();
