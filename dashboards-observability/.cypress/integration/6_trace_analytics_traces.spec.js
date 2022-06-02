@@ -113,3 +113,38 @@ describe('Testing trace view', () => {
     cy.contains('Spans (1)').should('exist');
   });
 });
+
+describe('Testing traces table Pagination', () => {
+  beforeEach(() => {
+    cy.visit('app/observability-dashboards#/trace_analytics/traces', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
+    setTimeFilter();
+  });
+
+  it.only('Renders the traces table pagination', () => {
+    cy.get('[data-test-subj="pagination-button-next"]').click();
+    cy.contains('client_pay_order').should('exist');
+    cy.get('[data-test-subj="pagination-button-previous"]').click();
+    cy.contains('224.99').should('exist');
+    cy.get('.euiButtonEmpty').contains('5').click();
+    cy.contains('690d3c7af1a78cf89c43e...').should('exist');
+    cy.contains('5be8370207cbb002a165d...').click();
+    cy.contains('client_create_order').should('exist');
+    cy.get('path[style*="rgb(116, 146, 231)"]').should('exist');
+    cy.go('back');
+    cy.wait(delay);
+    cy.get('.euiButtonEmpty__text').contains('Rows per page').click();
+    cy.get('.euiContextMenuItem__text').contains('15 rows').click();
+    cy.get('.euiTable--auto')
+    .find("tr")
+    .then((row) => {
+      //row.length will give you the row count
+      cy.log(row.length-1);
+      let total=row.length-1;
+    });
+    cy.log('Rows are counted');
+  });
+});
