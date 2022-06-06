@@ -95,6 +95,7 @@ exports[`Ploty base component Renders Ploty base component 1`] = `
       ]
     }
     debug={false}
+    divId="explorerPlotComponent"
     layout={
       Object {
         "autosize": true,
@@ -135,6 +136,7 @@ exports[`Ploty base component Renders Ploty base component 1`] = `
     useResizeHandler={true}
   >
     <div
+      id="explorerPlotComponent"
       style={
         Object {
           "height": "100%",
@@ -253,6 +255,7 @@ exports[`Ploty base component Renders Ploty base component 2`] = `
       ]
     }
     debug={false}
+    divId="explorerPlotComponent"
     layout={
       Object {
         "autosize": true,
@@ -305,6 +308,7 @@ exports[`Ploty base component Renders Ploty base component 2`] = `
     useResizeHandler={true}
   >
     <div
+      id="explorerPlotComponent"
       style={
         Object {
           "height": "100%",

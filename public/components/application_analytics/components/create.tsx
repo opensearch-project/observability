@@ -26,27 +26,32 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { ReactChild, useEffect, useState } from 'react';
 import PPLService from 'public/services/requests/ppl';
+import { last } from 'lodash';
 import { AppAnalyticsComponentDeps } from '../home';
 import { TraceConfig } from './config_components/trace_config';
 import { ServiceConfig } from './config_components/service_config';
 import { LogConfig } from './config_components/log_config';
 import { PPLReferenceFlyout } from '../../../components/common/helpers';
-import { ApplicationType, OptionType } from '../../../../common/types/app_analytics';
+import {
+  ApplicationRequestType,
+  ApplicationType,
+  OptionType,
+} from '../../../../common/types/application_analytics';
 import { fetchAppById } from '../helpers/utils';
 
 interface CreateAppProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
   pplService: PPLService;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
-  createApp: (app: ApplicationType) => void;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
+  createApp: (app: ApplicationRequestType, type: string) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
   clearStorage: () => void;
   existingAppId: string;
 }
 
 export const CreateApp = (props: CreateAppProps) => {
   const {
-    parentBreadcrumb,
+    parentBreadcrumbs,
     chrome,
     http,
     query,
@@ -69,18 +74,21 @@ export const CreateApp = (props: CreateAppProps) => {
 
   const editMode = existingAppId !== 'undefined';
   const [existingApp, setExistingApp] = useState<ApplicationType>({
+    id: existingAppId,
+    dateCreated: '',
+    dateModified: '',
     name: '',
     description: '',
     baseQuery: '',
     servicesEntities: [],
     traceGroups: [],
     panelId: '',
-    availabilityVisId: '',
+    availability: { name: '', color: '', availabilityVisId: '' },
   });
 
   useEffect(() => {
     chrome.setBreadcrumbs([
-      parentBreadcrumb,
+      ...parentBreadcrumbs,
       {
         text: 'Application analytics',
         href: '#/application_analytics',
@@ -125,19 +133,21 @@ export const CreateApp = (props: CreateAppProps) => {
 
   const isDisabled = !name || (!query && !selectedTraces.length && !selectedServices.length);
 
-  const missingField = () => {
-    if (isDisabled) {
-      let popoverContent = '';
+  const missingField = (needLog: boolean) => {
+    let popoverContent = '';
+    if (isDisabled || (needLog && !query)) {
       if (!name) {
         popoverContent = 'Name is required.';
       } else if (!query && !selectedServices.length && !selectedTraces.length) {
         popoverContent = 'Provide at least one log source, service, entity or trace group.';
+      } else if (needLog && !query) {
+        popoverContent = 'Log source is required to set availability.';
       }
       return <p>{popoverContent}</p>;
     }
   };
 
-  const onCreate = () => {
+  const onCreate = (type: string) => {
     const appData = {
       name,
       description,
@@ -147,7 +157,7 @@ export const CreateApp = (props: CreateAppProps) => {
       panelId: '',
       availabilityVisId: '',
     };
-    createApp(appData);
+    createApp(appData, type);
   };
 
   const onUpdate = () => {
@@ -162,7 +172,7 @@ export const CreateApp = (props: CreateAppProps) => {
 
   const onCancel = () => {
     clearStorage();
-    window.location.assign(`${parentBreadcrumb.href}application_analytics`);
+    window.location.assign(`${last(parentBreadcrumbs)!.href}application_analytics`);
   };
 
   return (
@@ -171,7 +181,7 @@ export const CreateApp = (props: CreateAppProps) => {
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
+              <EuiTitle data-test-subj="createPageTitle" size="l">
                 <h1>{editMode ? 'Edit' : 'Create'} application</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
@@ -229,15 +239,36 @@ export const CreateApp = (props: CreateAppProps) => {
           <EuiSpacer />
           <EuiFlexGroup>
             <EuiFlexItem grow={false}>
-              <EuiButton onClick={onCancel}>Cancel</EuiButton>
+              <EuiButton data-test-subj="cancelCreateButton" onClick={onCancel}>
+                Cancel
+              </EuiButton>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiToolTip position="top" content={missingField()}>
-                <EuiButton isDisabled={isDisabled} onClick={editMode ? onUpdate : onCreate} fill>
+              <EuiToolTip position="top" content={missingField(false)}>
+                <EuiButton
+                  data-test-subj="createButton"
+                  isDisabled={isDisabled}
+                  onClick={editMode ? onUpdate : () => onCreate('create')}
+                  fill={editMode ? true : false}
+                >
                   {editMode ? 'Save' : 'Create'}
                 </EuiButton>
               </EuiToolTip>
             </EuiFlexItem>
+            {editMode || (
+              <EuiFlexItem grow={false}>
+                <EuiToolTip position="top" content={missingField(true)}>
+                  <EuiButton
+                    data-test-subj="createAndSetButton"
+                    fill
+                    isDisabled={isDisabled || !query}
+                    onClick={() => onCreate('createSetAvailability')}
+                  >
+                    Create and Set Availability
+                  </EuiButton>
+                </EuiToolTip>
+              </EuiFlexItem>
+            )}
           </EuiFlexGroup>
         </EuiPageBody>
       </EuiPage>

@@ -34,10 +34,110 @@ exports[`Bar component Renders bar component 1`] = `
           "2021-07-01 00:00:00",
         ],
       },
-      "jsonData": Array [
-        Object {
-          "count()": 2549,
-          "span(timestamp,1M)": "2021-05-01 00:00:00",
+      "vis": Object {
+        "category": "Visualizations",
+        "categoryAxis": "xaxis",
+        "component": [Function],
+        "editorConfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Data",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "value_options",
+                  "mapTo": "valueOptions",
+                  "name": "Value options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "isSingleSelection": false,
+                      "mapTo": "xaxis",
+                      "name": "X-axis",
+                    },
+                    Object {
+                      "component": null,
+                      "isSingleSelection": false,
+                      "mapTo": "yaxis",
+                      "name": "Y-axis",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_options",
+                  "mapTo": "chartOptions",
+                  "name": "Chart options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "isSingleSelection": true,
+                      "mapTo": "orientation",
+                      "name": "Orientation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "name": "Vertical",
+                            "orientationId": "v",
+                          },
+                        ],
+                        "dropdownList": Array [
+                          Object {
+                            "name": "Vertical",
+                            "orientationId": "v",
+                          },
+                          Object {
+                            "name": "Horizontal",
+                            "orientationId": "h",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "isSingleSelection": true,
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "modeId": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "dropdownList": Array [
+                          Object {
+                            "modeId": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "modeId": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            Object {
+              "content": Array [],
+              "editor": [Function],
+              "id": "style-panel",
+              "mapTo": "layoutConfig",
+              "name": "Layout",
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
         },
         Object {
           "count()": 9337,
@@ -133,6 +233,7 @@ exports[`Bar component Renders bar component 1`] = `
         ]
       }
       debug={false}
+      divId="explorerPlotComponent"
       layout={
         Object {
           "autosize": true,
@@ -376,6 +477,7 @@ exports[`Bar component Renders bar component 2`] = `
       useResizeHandler={true}
     >
       <div
+        id="explorerPlotComponent"
         style={
           Object {
             "height": "100%",

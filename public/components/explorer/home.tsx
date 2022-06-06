@@ -31,6 +31,7 @@ import {
   EuiHorizontalRule,
 } from '@elastic/eui';
 import { Search } from '../common/search/search';
+import { DeleteModal } from '../common/helpers/delete_modal';
 import {
   RAW_QUERY,
   TAB_ID_TXT_PFX,
@@ -55,10 +56,9 @@ import { init as initQueryResult, selectQueryResult } from './slices/query_resul
 import { SavedQueryTable } from './home_table/saved_query_table';
 import { selectQueries } from './slices/query_slice';
 import { setSelectedQueryTab } from './slices/query_tab_slice';
-import { DeletePanelModal } from '../custom_panels/helpers/modal_containers';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../common/constants/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
-import { getFullSuggestions, onItemSelect } from '../common/search/autocomplete_logic';
+import { parseGetSuggestions, onItemSelect } from '../common/search/autocomplete_logic';
 
 interface IHomeProps {
   pplService: any;
@@ -299,7 +299,7 @@ export const Home = (props: IHomeProps) => {
   const deleteHistory = () => {
     const customPanelString = `${selectedHistories.length > 1 ? 'histories' : 'history'}`;
     setModalLayout(
-      <DeletePanelModal
+      <DeleteModal
         onConfirm={deleteHistoryList}
         onCancel={closeModal}
         title={`Delete ${selectedHistories.length} ${customPanelString}`}
@@ -349,8 +349,8 @@ export const Home = (props: IHomeProps) => {
         <EuiPageBody>
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
-                <h1>Event Analytics</h1>
+              <EuiTitle data-test-subj="eventHomePageTitle" size="l">
+                <h1>Event analytics</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -372,7 +372,7 @@ export const Home = (props: IHomeProps) => {
                   setEndTime={() => {}}
                   showSaveButton={false}
                   runButtonText="New Query"
-                  getSuggestions={getFullSuggestions}
+                  getSuggestions={parseGetSuggestions}
                   onItemSelect={onItemSelect}
                 />
               </EuiFlexItem>

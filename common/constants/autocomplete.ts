@@ -86,7 +86,7 @@ export const PIPE_AFTER_MATCH = /^\s*where\s+match\(\s*\S+\s*,\s*(("(\w|\s|')+")
 
 // Regex for dedup command
 export const FIELD_IN_FIELD_LOOP = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*,\s*([^\s,]*)$/;
-export const PIPE_COMMA_AFTER_FIELD = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s+$/;
+export const COMMA_PIPE_AFTER_FIELD = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s+$/;
 export const PIPE_AFTER_KEEP_EMPTY = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s*keepempty=true\s+$/;
 export const PIPE_AFTER_CONSECUTIVE = /^\s*dedup\s*\d*\s+\S+\s*(,\s*\S+\s*)*\s*consecutive=true\s+$/;
 
@@ -99,18 +99,18 @@ export const PIPE_MATH_AFTER_EXPRESSIONS = /^\s*eval\s+(\S+\s*=\s*\S+(\s*(\+|\-|
 // Regex for fields command
 export const PLUS_MINUS_FIELD_AFTER_FIELDS = /^\s*fields\s+\S*$/;
 export const FIELD_AFTER_PLUS_MINUS = /^\s*fields\s+(\+|\-)\s*\S*$/;
-export const PIPE_COMMA_AFTER_FIELDS = /^\s*fields\s+((\+|\-)\s+)?\S+\s*(,\s*\S+\s*)*\s+$/;
+export const COMMA_PIPE_AFTER_FIELDS = /^\s*fields\s+((\+|\-)\s+)?\S+\s*(,\s*\S+\s*)*\s+$/;
 export const FIELD_IN_FIELDS_LOOP = /^\s*fields\s+((\+|\-)\s+)?\S+\s*(,\s*\S+\s*)*,\s*\S*$/;
 
 // Regex for rare/top command
-export const PIPE_COMMA_BY_AFTER_FIELD = /^\s*(rare|top(\s+\d+)?)\s+\S+\s*(,\s*\S+\s*)*\s+\S*$/;
+export const COMMA_PIPE_BY_AFTER_FIELD = /^\s*(rare|top(\s+\d+)?)\s+\S+\s*(,\s*\S+\s*)*\s+\S*$/;
 export const RARE_TOP_FIELD_LOOP = /^\s*(rare|top(\s+\d+)?)\s+\S+\s*(,\s*\S+\s*)*,\s*\S*$/;
 export const FIELD_AFTER_BY = /^\s*(rare|top(\s+\d+)?)\s+\S+\s*(,\s*\S+\s*)*\s+by\s+\S*$/;
 export const PIPE_AFTER_GROUP_BY = /^\s*(rare|top(\s+\d+)?)\s+\S+\s*(,\s*\S+\s*)*\s+by\s+\S+\s+$/;
 
 // Regex for rename command
 export const AS_AFTER_FIELD = /^\s*rename\s+((,\s*)?\S+\s+as\s+\S+\s*)*\s*(,\s*)?\S+\s+\S*$/;
-export const PIPE_COMMA_AFTER_RENAME_FIELD = /^\s*rename\s+((,\s*)?\S+\s+as\s+\S+\s*)+$/;
+export const COMMA_PIPE_AFTER_RENAME_FIELD = /^\s*rename\s+((,\s*)?\S+\s+as\s+\S+\s*)+$/;
 export const FIELD_AFTER_COMMA = /^\s*rename\s+((,\s*)?\S+\s+as\s+\S+\s*)+\s*,\s+\S*$/;
 
 // Regex for head command
@@ -119,7 +119,7 @@ export const PIPE_AFTER_HEAD = /^\s*head\s+\d+\s+/;
 // Regex for sort command
 export const PLUS_MINUS_FIELD_AFTER_SORT = /^\s*sort(\s+\d+)?\s+\S*$/;
 export const FIELD_AFTER_PLUS_MINUS_SORT = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?\s*\S+\s*)*\s+(\+|\-)\s*\S*$/;
-export const PIPE_COMMA_AFTER_SORT_FIELD = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?\s*\S+\s*)*\s+\S+\s+$/;
+export const COMMA_PIPE_AFTER_SORT_FIELD = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?\s*\S+\s*)*\s+\S+\s+$/;
 export const PLUS_MINUS_FIELD_IN_FIELDS_LOOP = /^\s*sort(\s+\d+)?((,\s*)?\s+(\+|\-)?\s*\S+\s*)*,\s+\S*$/;
 
 // Regex for stats command
@@ -129,13 +129,19 @@ export const FIELD_AFTER_SPAN =  /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp
 export const CLOSE_AFTER_SPAN = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*(("(\w|\s|')+")|(\d+\.?\d*)|\w+)\s+$/;
 export const PIPE_AFTER_SPAN = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+span\(\s*[^\s,]+\s*,\s*(("(\w|\s|')*")|(\d*\.?\d*)|\w*)\s*\)\s*$/;
 export const CLOSE_AFTER_FIELD = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))*(,\s*)?(sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s+$/;
-export const PIPE_COMMA_BY_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+\S*$/;
+export const COMMA_PIPE_BY_AFTER_AGGREGATION = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+\S*$/;
 export const PIPE_AFTER_STATS_GROUP_BY = /^\s*stats\s+((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+by\s+\S+\s+$/;
 export const AGGREGATION_FOR_STATS= /^\s*stats\s+(((,\s*)?((sum|avg|max|min|var_samp|var_pop|stddev_samp|stddev_pop)\(\s*\S+\s*\)\s*)|((,\s*)?count\(\)\s*))+\s+,\s*)?\S*$/;
 
 // Regex for parse command
 export const STRING_FIELD_AFTER_PARSE = /^\s*parse\s+\S*$/;
 export const PIPE_AFTER_PARSE = /^\s*parse\s+\S+\s+$/;
+
+// Regex for source command
+export const EQUAL_AFTER_SOURCE = /^\s*source\s+$/;
+export const INDEX_AFTER_EQUAL = /^\s*source\s+=\s+[^\\\/\?\"\<\>\|\s\,\#]*$/;
+export const PIPE_COMMA_AFTER_INDEX = /^\s*source\s+=\s+[^\\\/\?\"\<\>\|\s\,\#]+(,[^\\\/\?\"\<\>\|\s\,\#]+)*\s+$/;
+export const MORE_INDEX_AFTER_COMMA = /^\s*source\s+=\s+[^\\\/\?\"\<\>\|\s\,\#]+(,[^\\\/\?\"\<\>\|\s\,\#]+)*,\s*[^\\\/\?\"\<\>\|\s\,\#]*\s*$/;
 
 export const regexForSuggestion = [
   EMPTY_REGEX,
@@ -149,7 +155,7 @@ export const regexForSuggestion = [
   CLOSE_AFTER_DATA,
   PIPE_AFTER_MATCH,
   FIELD_IN_FIELD_LOOP,
-  PIPE_COMMA_AFTER_FIELD,
+  COMMA_PIPE_AFTER_FIELD,
   PIPE_AFTER_KEEP_EMPTY,
   PIPE_AFTER_CONSECUTIVE,
   EQUAL_AFTER_EVAL_FIELD,
@@ -158,31 +164,35 @@ export const regexForSuggestion = [
   PIPE_MATH_AFTER_EXPRESSIONS,
   PLUS_MINUS_FIELD_AFTER_FIELDS,
   FIELD_AFTER_PLUS_MINUS,
-  PIPE_COMMA_AFTER_FIELDS,
+  COMMA_PIPE_AFTER_FIELDS,
   FIELD_IN_FIELDS_LOOP,
-  PIPE_COMMA_BY_AFTER_FIELD,
+  COMMA_PIPE_BY_AFTER_FIELD,
   RARE_TOP_FIELD_LOOP,
   FIELD_AFTER_BY,
   PIPE_AFTER_GROUP_BY,
-  PIPE_COMMA_AFTER_RENAME_FIELD,
+  COMMA_PIPE_AFTER_RENAME_FIELD,
   FIELD_AFTER_COMMA,
   AS_AFTER_FIELD,
   PIPE_AFTER_HEAD,
   PLUS_MINUS_FIELD_AFTER_SORT,
   FIELD_AFTER_PLUS_MINUS_SORT,
   PLUS_MINUS_FIELD_IN_FIELDS_LOOP,
-  PIPE_COMMA_AFTER_SORT_FIELD,
+  COMMA_PIPE_AFTER_SORT_FIELD,
   FIELD_SPAN_AFTER_GROUP_BY,
   NUM_FIELD_AFTER_AGGREGATION,
   FIELD_AFTER_SPAN,
   CLOSE_AFTER_SPAN,
   PIPE_AFTER_SPAN,
   CLOSE_AFTER_FIELD,
-  PIPE_COMMA_BY_AFTER_AGGREGATION,
+  COMMA_PIPE_BY_AFTER_AGGREGATION,
   PIPE_AFTER_STATS_GROUP_BY,
   AGGREGATION_FOR_STATS,
   STRING_FIELD_AFTER_PARSE,
   PIPE_AFTER_PARSE,
+  EQUAL_AFTER_SOURCE,
+  INDEX_AFTER_EQUAL,
+  PIPE_COMMA_AFTER_INDEX,
+  MORE_INDEX_AFTER_COMMA,
 ];
 
 export const regexForIndex = [

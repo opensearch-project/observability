@@ -15,6 +15,7 @@ import {
   EuiHorizontalRule,
   EuiInMemoryTable,
   EuiLink,
+  EuiLoadingSpinner,
   EuiOverlayMask,
   EuiPage,
   EuiPageBody,
@@ -33,44 +34,43 @@ import {
 import _ from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import moment from 'moment';
+import { DeleteModal } from '../../common/helpers/delete_modal';
 import { AppAnalyticsComponentDeps } from '../home';
 import { getCustomModal } from '../../custom_panels/helpers/modal_containers';
-import { getClearModal } from '../helpers/modal_containers';
 import { pageStyles, UI_DATE_FORMAT } from '../../../../common/constants/shared';
-import { ApplicationListType } from '../../../../common/types/app_analytics';
+import { ApplicationType, AvailabilityType } from '../../../../common/types/application_analytics';
 
 interface AppTableProps extends AppAnalyticsComponentDeps {
   loading: boolean;
-  applications: ApplicationListType[];
+  applications: ApplicationType[];
   fetchApplications: () => void;
   renameApplication: (newAppName: string, appId: string) => void;
   deleteApplication: (appList: string[], panelIdList: string[], toastMessage?: string) => void;
   clearStorage: () => void;
+  moveToApp: (id: string, type: string) => void;
 }
 
 export function AppTable(props: AppTableProps) {
   const {
-    http,
     chrome,
     applications,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     fetchApplications,
     renameApplication,
     deleteApplication,
     setFilters,
-    setStartTime,
-    setEndTime,
     clearStorage,
+    moveToApp,
   } = props;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isActionsPopoverOpen, setIsActionsPopoverOpen] = useState(false);
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const [selectedApplications, setSelectedApplications] = useState<ApplicationListType[]>([]);
+  const [selectedApplications, setSelectedApplications] = useState<ApplicationType[]>([]);
   const createButtonText = 'Create application';
 
   useEffect(() => {
     chrome.setBreadcrumbs([
-      parentBreadcrumb,
+      ...parentBreadcrumbs,
       {
         text: 'Application analytics',
         href: '#/application_analytics',
@@ -82,8 +82,6 @@ export function AppTable(props: AppTableProps) {
 
   const clear = () => {
     setFilters([]);
-    setStartTime('now-24h');
-    setEndTime('now');
     clearStorage();
   };
 
@@ -130,18 +128,19 @@ export function AppTable(props: AppTableProps) {
   const deleteApp = () => {
     const applicationString = `application${selectedApplications.length > 1 ? 's' : ''}`;
     setModalLayout(
-      getClearModal(
-        closeModal,
-        onDelete,
-        `Delete ${selectedApplications.length} ${applicationString}`,
-        `Are you sure you want to delete the selected ${selectedApplications.length} ${applicationString}?`
-      )
+      <DeleteModal
+        onConfirm={onDelete}
+        onCancel={closeModal}
+        title={`Delete ${selectedApplications.length} ${applicationString}`}
+        message={`Are you sure you want to delete the selected ${selectedApplications.length} ${applicationString}?`}
+      />
     );
     showModal();
   };
 
   const popoverButton = (
     <EuiButton
+      data-test-subj="appAnalyticsActionsButton"
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
@@ -153,6 +152,7 @@ export function AppTable(props: AppTableProps) {
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
       key="rename"
+      data-test-subj="renameApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length !== 1}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -169,6 +169,7 @@ export function AppTable(props: AppTableProps) {
     // </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
+      data-test-subj="deleteApplicationContextMenuItem"
       disabled={applications.length === 0 || selectedApplications.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -180,6 +181,34 @@ export function AppTable(props: AppTableProps) {
     // <EuiContextMenuItem key="addSample">Add sample application</EuiContextMenuItem>,
   ];
 
+  const renderAvailability = (value: AvailabilityType, record: ApplicationType) => {
+    if (value.color === 'loading') {
+      return <EuiLoadingSpinner />;
+    } else if (value.name) {
+      return (
+        <EuiBadge
+          data-test-subj={`${value.name}AvailabilityBadge`}
+          color={value.color || 'default'}
+        >
+          {value.name}
+        </EuiBadge>
+      );
+    } else if (value.color === 'undefined') {
+      return <EuiText>No match</EuiText>;
+    } else if (value.color === 'null') {
+      return <EuiText>-</EuiText>;
+    } else {
+      return (
+        <EuiLink
+          data-test-subj="setAvailabilityHomePageLink"
+          onClick={() => moveToApp(record.id, 'createSetAvailability')}
+        >
+          Set Availability
+        </EuiLink>
+      );
+    }
+  };
+
   const tableColumns = [
     {
       field: 'name',
@@ -187,7 +216,10 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`#/application_analytics/${record.id}`}>
+        <EuiLink
+          data-test-subj={`${record.name}ApplicationLink`}
+          href={`#/application_analytics/${record.id}`}
+        >
           {_.truncate(record.name, { length: 100 })}
         </EuiLink>
       ),
@@ -197,9 +229,11 @@ export function AppTable(props: AppTableProps) {
       name: 'Composition',
       sortable: false,
       truncateText: true,
-      render: (value) => (
-        <EuiToolTip content={value.join(', ')}>
-          <EuiText id="compositionColumn">{value.join(', ')}</EuiText>
+      render: (value, record) => (
+        <EuiToolTip content={record.servicesEntities.concat(record.traceGroups).join(', ')}>
+          <EuiText id="compositionColumn" data-test-subj="appAnalytics__compositionColumn">
+            {record.servicesEntities.concat(record.traceGroups).join(', ')}
+          </EuiText>
         </EuiToolTip>
       ),
     },
@@ -207,13 +241,7 @@ export function AppTable(props: AppTableProps) {
       field: 'availability',
       name: 'Current Availability',
       sortable: true,
-      render: (value, record) => {
-        if (value.name) {
-          return <EuiBadge color={value.color || 'default'}>{value.name}</EuiBadge>;
-        } else {
-          return <EuiText>Undefined</EuiText>;
-        }
-      },
+      render: renderAvailability,
     },
     {
       field: 'dateModified',
@@ -221,7 +249,7 @@ export function AppTable(props: AppTableProps) {
       sortable: true,
       render: (value) => <EuiText>{moment(value).format(UI_DATE_FORMAT)}</EuiText>,
     },
-  ] as Array<EuiTableFieldDataColumnType<ApplicationListType>>;
+  ] as Array<EuiTableFieldDataColumnType<ApplicationType>>;
 
   return (
     <div style={pageStyles}>
@@ -237,7 +265,7 @@ export function AppTable(props: AppTableProps) {
           <EuiPageContent id="applicationArea">
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
-                <EuiTitle size="s">
+                <EuiTitle data-test-subj="applicationHomePageTitle" size="s">
                   <h3>
                     Applications<span className="panel-header-count"> ({applications.length})</span>
                   </h3>
@@ -256,7 +284,7 @@ export function AppTable(props: AppTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill href={`#/application_analytics/create`}>
+                    <EuiButton fill href="#/application_analytics/create">
                       {createButtonText}
                     </EuiButton>
                   </EuiFlexItem>

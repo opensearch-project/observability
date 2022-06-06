@@ -64,8 +64,11 @@ exports[`Trace Config component renders empty trace config 1`] = `
             size="s"
           >
             <h3>
-              Trace groups 
-              <EuiBadge>
+              Trace groups
+               
+              <EuiBadge
+                data-test-subj="traceGroupsCountBadge"
+              >
                 0
               </EuiBadge>
             </h3>
@@ -81,8 +84,10 @@ exports[`Trace Config component renders empty trace config 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="traceGroupsAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearTraceGroupsButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -99,6 +104,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="traceGroupsAccordion"
         onToggle={[Function]}
       >
         <div
@@ -151,11 +157,15 @@ exports[`Trace Config component renders empty trace config 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace groups 
-                    <EuiBadge>
+                    Trace groups
+                     
+                    <EuiBadge
+                      data-test-subj="traceGroupsCountBadge"
+                    >
                       <EuiInnerText>
                         <span
                           className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="traceGroupsCountBadge"
                           style={
                             Object {
                               "backgroundColor": "#d3dae6",
@@ -207,11 +217,13 @@ exports[`Trace Config component renders empty trace config 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearTraceGroupsButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
+                data-test-subj="clearTraceGroupsButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -221,6 +233,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearTraceGroupsButton"
                   disabled={true}
                   onClick={[Function]}
                   type="button"
@@ -846,8 +859,11 @@ exports[`Trace Config component renders with one trace selected 1`] = `
             size="s"
           >
             <h3>
-              Trace groups 
-              <EuiBadge>
+              Trace groups
+               
+              <EuiBadge
+                data-test-subj="traceGroupsCountBadge"
+              >
                 0
               </EuiBadge>
             </h3>
@@ -863,8 +879,10 @@ exports[`Trace Config component renders with one trace selected 1`] = `
           </EuiText>
         </React.Fragment>
       }
+      data-test-subj="traceGroupsAccordion"
       extraAction={
         <EuiButton
+          data-test-subj="clearTraceGroupsButton"
           disabled={true}
           onClick={[Function]}
           size="s"
@@ -881,6 +899,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
     >
       <div
         className="euiAccordion"
+        data-test-subj="traceGroupsAccordion"
         onToggle={[Function]}
       >
         <div
@@ -938,11 +957,15 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                   className="euiText euiText--small"
                 >
                   <h3>
-                    Trace groups 
-                    <EuiBadge>
+                    Trace groups
+                     
+                    <EuiBadge
+                      data-test-subj="traceGroupsCountBadge"
+                    >
                       <EuiInnerText>
                         <span
                           className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="traceGroupsCountBadge"
                           style={
                             Object {
                               "backgroundColor": "#d3dae6",
@@ -994,11 +1017,13 @@ exports[`Trace Config component renders with one trace selected 1`] = `
             className="euiAccordion__optionalAction"
           >
             <EuiButton
+              data-test-subj="clearTraceGroupsButton"
               disabled={true}
               onClick={[Function]}
               size="s"
             >
               <EuiButtonDisplay
+                data-test-subj="clearTraceGroupsButton"
                 disabled={true}
                 element="button"
                 isDisabled={true}
@@ -1008,6 +1033,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
               >
                 <button
                   className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearTraceGroupsButton"
                   disabled={true}
                   onClick={[Function]}
                   type="button"

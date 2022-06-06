@@ -87,10 +87,25 @@ describe('Testing service view', () => {
   });
 
   it('Renders service view', () => {
-    cy.get('h2.euiTitle').contains('frontend-client').should('exist');
+    cy.get('h2.euiTitle').contains(SERVICE_NAME).should('exist');
     cy.contains('178.6').should('exist');
     cy.contains('3.57%').should('exist');
     cy.get('div.vis-network').should('exist');
+  });
+
+  it('Has working breadcrumbs', () => {
+    cy.get('.euiBreadcrumb').contains(SERVICE_NAME).click();
+    cy.wait(delay);
+    cy.get('h2.euiTitle').contains(SERVICE_NAME).should('exist');
+    cy.get('.euiBreadcrumb').contains('Services').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Services').should('exist');
+    cy.get('.euiBreadcrumb').contains('Trace analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Dashboard').should('exist');
+    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 
   it('Renders spans data grid, flyout, filters', () => {
@@ -103,6 +118,7 @@ describe('Testing service view', () => {
     cy.wait(delay);
 
     cy.get('.euiBadge__text').contains('spanId: ').should('exist');
+    cy.get('[data-test-subj="euiFlyoutCloseButton"]').click({ force: true });
     cy.contains('Spans (1)').should('exist');
   });
 });

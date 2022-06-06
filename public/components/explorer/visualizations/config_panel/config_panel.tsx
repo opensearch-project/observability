@@ -17,6 +17,7 @@ import {
   EuiComboBox,
   EuiPanel,
   EuiIcon,
+  EuiTabbedContentTab,
 } from '@elastic/eui';
 import { reset as resetVisualizationConfig } from '../../slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
@@ -49,7 +50,16 @@ const HJSON_STRINGIFY_OPTIONS = {
   bracesSameLine: true,
 };
 
-export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
+interface PanelTabType {
+  id: string;
+  name: string;
+  mapTo: string;
+  editor: any;
+  section?: any;
+  content?: any;
+}
+
+export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
@@ -61,6 +71,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     layoutConfig: userConfigs?.layoutConfig
       ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
       : getDefaultSpec(),
+    availabilityConfig: {},
   });
 
   useEffect(() => {
@@ -70,6 +81,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
     });
+    if (callback) {
+      callback(() => switchToAvailability());
+    }
   }, [userConfigs, curVisId]);
 
   const getParsedLayoutConfig = useCallback(
@@ -94,13 +108,13 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
           },
         })
       );
-    } catch (e) {
+    } catch (e: any) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
   }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId]);
 
-  const handleConfigChange = (configSchema) => {
-    return (configChanges) => {
+  const handleConfigChange = (configSchema: string) => {
+    return (configChanges: any) => {
       setVizConfigs((staleState) => {
         return {
           ...staleState,
@@ -110,22 +124,30 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
     };
   };
 
-  const params = {
-    dataConfig: {
-      visualizations,
-      curVisId,
-      onConfigChange: handleConfigChange('dataConfig'),
-      vizState: vizConfigs.dataConfig,
-    },
-    layoutConfig: {
-      onConfigEditorChange: handleConfigChange('layoutConfig'),
-      spec: vizConfigs.layoutConfig,
-      setToast,
-    },
-  };
+  const params = useMemo(() => {
+    return {
+      dataConfig: {
+        visualizations,
+        curVisId,
+        onConfigChange: handleConfigChange('dataConfig'),
+        vizState: vizConfigs.dataConfig,
+      },
+      layoutConfig: {
+        onConfigEditorChange: handleConfigChange('layoutConfig'),
+        spec: vizConfigs.layoutConfig,
+        setToast,
+      },
+      availabilityConfig: {
+        visualizations,
+        curVisId,
+        onConfigChange: handleConfigChange('availabilityConfig'),
+        vizState: vizConfigs.availabilityConfig,
+      },
+    };
+  }, [visualizations, vizConfigs, setToast, curVisId]);
 
-  const tabs = useMemo(() => {
-    return vis.editorConfig.panelTabs.map((tab) => {
+  const tabs: EuiTabbedContentTab[] = useMemo(() => {
+    return vis.editorConfig.panelTabs.map((tab: PanelTabType) => {
       const Editor = tab.editor;
       return {
         id: tab.id,
@@ -134,6 +156,16 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
       };
     });
   }, [vis.editorConfig.panelTabs, params]);
+
+  const [currTabId, setCurrTabId] = useState(tabs[0].id);
+
+  const switchToAvailability = () => {
+    setCurrTabId('availability-panel');
+  };
+
+  const onTabClick = (selectedTab: EuiTabbedContentTab) => {
+    setCurrTabId(selectedTab.id);
+  };
 
   const handleDiscardConfig = () => {
     dispatch(
@@ -186,7 +218,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         gutterSize="none"
         responsive={false}
       >
-        <EuiFlexItem>
+        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
           <EuiSpacer size="s" />
           <EuiComboBox
             aria-label="config chart selector"
@@ -205,10 +237,10 @@ export const ConfigPanel = ({ visualizations, setCurVisId }: any) => {
         <EuiFlexItem>
           <EuiPanel paddingSize="s">
             <EuiTabbedContent
-              id="vis-config-tabs"
+              className="vis-config-tabs"
               tabs={tabs}
-              initialSelectedTab={tabs[0]}
-              autoFocus="selected"
+              selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
+              onTabClick={onTabClick}
             />
           </EuiPanel>
         </EuiFlexItem>

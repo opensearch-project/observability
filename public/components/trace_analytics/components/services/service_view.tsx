@@ -47,13 +47,13 @@ export function ServiceView(props: ServiceViewProps) {
 
   const refresh = () => {
     const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServiceViewRequest(props.serviceName, props.http, DSL, fields, setFields);
-    handleServiceMapRequest(props.http, DSL, serviceMap, setServiceMap, props.serviceName);
+    handleServiceViewRequest(props.serviceName, props.http, DSL, setFields);
+    handleServiceMapRequest(props.http, DSL, setServiceMap, props.serviceName);
   };
 
   useEffect(() => {
     props.chrome.setBreadcrumbs([
-      props.parentBreadcrumb,
+      ...props.parentBreadcrumbs,
       {
         text: 'Trace analytics',
         href: '#/trace_analytics/home',

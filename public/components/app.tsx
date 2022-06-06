@@ -18,7 +18,7 @@ import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
 interface ObservabilityAppDeps {
-  CoreStart: CoreStart;
+  CoreStartProp: CoreStart;
   DepsStart: AppPluginStartDependencies;
   pplService: any;
   dslService: any;
@@ -27,14 +27,14 @@ interface ObservabilityAppDeps {
 }
 
 export const App = ({
-  CoreStart,
+  CoreStartProp,
   DepsStart,
   pplService,
   dslService,
   savedObjects,
   timestampUtils,
 }: ObservabilityAppDeps) => {
-  const { chrome, http, notifications } = CoreStart;
+  const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
     text: observabilityTitle,
     href: `${observabilityID}#/`,
@@ -60,7 +60,7 @@ export const App = ({
                       chrome={chrome}
                       http={http}
                       notifications={notifications}
-                      parentBreadcrumb={parentBreadcrumb}
+                      parentBreadcrumbs={[parentBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       savedObjects={savedObjects}
@@ -93,7 +93,7 @@ export const App = ({
                     <CustomPanelsHome
                       http={http}
                       chrome={chrome}
-                      parentBreadcrumb={[parentBreadcrumb, customPanelBreadcrumb]}
+                      parentBreadcrumbs={[parentBreadcrumb, customPanelBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       renderProps={props}
@@ -108,7 +108,7 @@ export const App = ({
                     {...props}
                     chrome={chrome}
                     http={http}
-                    parentBreadcrumb={parentBreadcrumb}
+                    parentBreadcrumbs={[parentBreadcrumb]}
                   />
                 )}
               />
@@ -118,7 +118,7 @@ export const App = ({
                   return (
                     <EventAnalytics
                       chrome={chrome}
-                      parentBreadcrumb={parentBreadcrumb}
+                      parentBreadcrumbs={[parentBreadcrumb]}
                       pplService={pplService}
                       dslService={dslService}
                       savedObjects={savedObjects}

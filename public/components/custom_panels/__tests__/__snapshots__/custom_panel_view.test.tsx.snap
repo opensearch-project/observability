@@ -261,23 +261,154 @@ exports[`Panels View Component renders panel view container with visualizations 
                                 onOutsideClick={[Function]}
                               >
                                 <div
+<<<<<<< HEAD
                                   className="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
                                   onKeyDown={[Function]}
                                   onMouseDown={[Function]}
                                   onMouseUp={[Function]}
                                   onTouchEnd={[Function]}
                                   onTouchStart={[Function]}
+=======
+                                  className="euiPopover__anchor"
+                                >
+                                  <EuiButton
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      baseClassName="euiButton"
+                                      disabled={false}
+                                      element="button"
+                                      iconSide="right"
+                                      iconType="arrowDown"
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "minWidth": undefined,
+                                          }
+                                        }
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                          >
+                                            <EuiIcon
+                                              className="euiButtonContent__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="arrowDown"
+                                            >
+                                              <EuiIconArrowDown
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                    fillRule="non-zero"
+                                                  />
+                                                </svg>
+                                              </EuiIconArrowDown>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Panel actions
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </div>
+                            </EuiPopover>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                          >
+                            <AddVisualizationPopover
+                              addVizDisabled={false}
+                              showFlyout={[Function]}
+                            >
+                              <EuiPopover
+                                anchorPosition="downLeft"
+                                button={
+                                  <EuiButton
+                                    data-test-subj="addVisualizationButton"
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    Add visualization
+                                  </EuiButton>
+                                }
+                                closePopover={[Function]}
+                                display="inlineBlock"
+                                hasArrow={true}
+                                id="addVisualizationContextMenu"
+                                isOpen={false}
+                                ownFocus={true}
+                                panelPaddingSize="none"
+                              >
+                                <div
+                                  className="euiPopover euiPopover--anchorDownLeft"
+                                  id="addVisualizationContextMenu"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                 >
                                   <div
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
                                       onClick={[Function]}
                                     >
                                       <EuiButtonDisplay
+<<<<<<< HEAD
+=======
+                                        baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -288,6 +419,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           type="button"
@@ -1131,10 +1263,12 @@ exports[`Panels View Component renders panel view container with visualizations 
                       />
                     </EuiSpacer>
                     <EuiText
+                      data-test-subj="addFirstVisualizationText"
                       textAlign="center"
                     >
                       <div
                         className="euiText euiText--medium"
+                        data-test-subj="addFirstVisualizationText"
                       >
                         <EuiTextAlign
                           textAlign="center"
@@ -1216,9 +1350,32 @@ exports[`Panels View Component renders panel view container with visualizations 
                               ownFocus={false}
                               panelPaddingSize="none"
                             >
+<<<<<<< HEAD
                               <EuiOutsideClickDetector
                                 isDisabled={true}
                                 onOutsideClick={[Function]}
+=======
+                              <EuiPopover
+                                anchorPosition="downLeft"
+                                button={
+                                  <EuiButton
+                                    data-test-subj="addVisualizationButton"
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    Add visualization
+                                  </EuiButton>
+                                }
+                                closePopover={[Function]}
+                                display="inlineBlock"
+                                hasArrow={true}
+                                id="addVisualizationContextMenu"
+                                isOpen={false}
+                                ownFocus={true}
+                                panelPaddingSize="none"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                               >
                                 <div
                                   className="euiPopover euiPopover--anchorDownLeft"
@@ -1233,12 +1390,18 @@ exports[`Panels View Component renders panel view container with visualizations 
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
                                       onClick={[Function]}
                                     >
                                       <EuiButtonDisplay
+<<<<<<< HEAD
+=======
+                                        baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -1249,6 +1412,7 @@ exports[`Panels View Component renders panel view container with visualizations 
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           type="button"
@@ -3491,23 +3655,149 @@ exports[`Panels View Component renders panel view container without visualizatio
                                 onOutsideClick={[Function]}
                               >
                                 <div
+<<<<<<< HEAD
                                   className="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
                                   onKeyDown={[Function]}
                                   onMouseDown={[Function]}
                                   onMouseUp={[Function]}
                                   onTouchEnd={[Function]}
                                   onTouchStart={[Function]}
+=======
+                                  className="euiPopover__anchor"
+                                >
+                                  <EuiButton
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      baseClassName="euiButton"
+                                      disabled={false}
+                                      element="button"
+                                      iconSide="right"
+                                      iconType="arrowDown"
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "minWidth": undefined,
+                                          }
+                                        }
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                          >
+                                            <EuiIcon
+                                              className="euiButtonContent__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="arrowDown"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Panel actions
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </div>
+                            </EuiPopover>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                          >
+                            <AddVisualizationPopover
+                              addVizDisabled={false}
+                              showFlyout={[Function]}
+                            >
+                              <EuiPopover
+                                anchorPosition="downLeft"
+                                button={
+                                  <EuiButton
+                                    data-test-subj="addVisualizationButton"
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    Add visualization
+                                  </EuiButton>
+                                }
+                                closePopover={[Function]}
+                                display="inlineBlock"
+                                hasArrow={true}
+                                id="addVisualizationContextMenu"
+                                isOpen={false}
+                                ownFocus={true}
+                                panelPaddingSize="none"
+                              >
+                                <div
+                                  className="euiPopover euiPopover--anchorDownLeft"
+                                  id="addVisualizationContextMenu"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                 >
                                   <div
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
                                       onClick={[Function]}
                                     >
                                       <EuiButtonDisplay
+<<<<<<< HEAD
+=======
+                                        baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -3518,6 +3808,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           type="button"
@@ -4337,10 +4628,12 @@ exports[`Panels View Component renders panel view container without visualizatio
                       />
                     </EuiSpacer>
                     <EuiText
+                      data-test-subj="addFirstVisualizationText"
                       textAlign="center"
                     >
                       <div
                         className="euiText euiText--medium"
+                        data-test-subj="addFirstVisualizationText"
                       >
                         <EuiTextAlign
                           textAlign="center"
@@ -4422,9 +4715,32 @@ exports[`Panels View Component renders panel view container without visualizatio
                               ownFocus={false}
                               panelPaddingSize="none"
                             >
+<<<<<<< HEAD
                               <EuiOutsideClickDetector
                                 isDisabled={true}
                                 onOutsideClick={[Function]}
+=======
+                              <EuiPopover
+                                anchorPosition="downLeft"
+                                button={
+                                  <EuiButton
+                                    data-test-subj="addVisualizationButton"
+                                    disabled={false}
+                                    iconSide="right"
+                                    iconType="arrowDown"
+                                    onClick={[Function]}
+                                  >
+                                    Add visualization
+                                  </EuiButton>
+                                }
+                                closePopover={[Function]}
+                                display="inlineBlock"
+                                hasArrow={true}
+                                id="addVisualizationContextMenu"
+                                isOpen={false}
+                                ownFocus={true}
+                                panelPaddingSize="none"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                               >
                                 <div
                                   className="euiPopover euiPopover--anchorDownLeft"
@@ -4439,12 +4755,18 @@ exports[`Panels View Component renders panel view container without visualizatio
                                     className="euiPopover__anchor"
                                   >
                                     <EuiButton
+                                      data-test-subj="addVisualizationButton"
                                       disabled={false}
                                       iconSide="right"
                                       iconType="arrowDown"
                                       onClick={[Function]}
                                     >
                                       <EuiButtonDisplay
+<<<<<<< HEAD
+=======
+                                        baseClassName="euiButton"
+                                        data-test-subj="addVisualizationButton"
+>>>>>>> 6b15239 (Add data test subj to app analytics (#704))
                                         disabled={false}
                                         element="button"
                                         iconSide="right"
@@ -4455,6 +4777,7 @@ exports[`Panels View Component renders panel view container without visualizatio
                                       >
                                         <button
                                           className="euiButton euiButton--primary"
+                                          data-test-subj="addVisualizationButton"
                                           disabled={false}
                                           onClick={[Function]}
                                           type="button"

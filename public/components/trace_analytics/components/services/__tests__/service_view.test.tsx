@@ -23,7 +23,8 @@ describe('Service view component', () => {
       <ServiceView
         serviceName="order"
         chrome={core.chrome}
-        parentBreadcrumb={{ text: 'test', href: 'test#/' }}
+        appConfigs={[]}
+        parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
         http={core.http}
         query=""
         setQuery={setQuery}

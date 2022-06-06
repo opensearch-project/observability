@@ -6,6 +6,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
   items={Array []}
   loading={false}
   refresh={[MockFunction]}
+  traceIdColumnAction={[Function]}
 >
   <EuiPanel>
     <div
@@ -226,6 +227,7 @@ exports[`Traces table component renders empty traces table message 2`] = `
   items={Array []}
   loading={false}
   refresh={[MockFunction]}
+  traceIdColumnAction={[Function]}
 >
   <EuiPanel>
     <div
@@ -380,6 +382,7 @@ exports[`Traces table component renders traces table 1`] = `
   }
   loading={false}
   refresh={[MockFunction]}
+  traceIdColumnAction={[Function]}
 >
   <EuiPanel>
     <div
@@ -1332,19 +1335,20 @@ exports[`Traces table component renders traces table 1`] = `
                                         className="euiFlexItem euiFlexItem--flexGrow10"
                                       >
                                         <EuiLink
-                                          href="#/trace_analytics/traces/00079a615e31e61766fcb20b557051c1"
+                                          onClick={[Function]}
                                         >
-                                          <a
+                                          <button
                                             className="euiLink euiLink--primary"
-                                            href="#/trace_analytics/traces/00079a615e31e61766fcb20b557051c1"
-                                            rel="noreferrer"
+                                            disabled={false}
+                                            onClick={[Function]}
+                                            type="button"
                                           >
                                             <div
                                               title="00079a615e31e61766fcb20b557051c1"
                                             >
                                               00079a615e31e61766fcb...
                                             </div>
-                                          </a>
+                                          </button>
                                         </EuiLink>
                                       </div>
                                     </EuiFlexItem>
