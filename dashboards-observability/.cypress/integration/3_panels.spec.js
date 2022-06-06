@@ -289,17 +289,7 @@ describe('Testing a panel', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]')
       .click()
       .wait(1500)
-      .type('where Carrier ')
-      .wait(1500)
-      .type('= ')
-      .wait(1500)
-      .type("'OpenSearch-Air'")
-      .wait(1500)
-      .type('| where Dest ')
-      .wait(1500)
-      .type('= ')
-      .wait(1500)
-      .type("'Munich Airport'");
+      .type("where Carrier = 'OpenSearch-Air'| where Dest = 'Munich Airport'", {delay: 500});
     cy.get('.euiButton__text').contains('Refresh').click();
     cy.wait(delay * 3);
     cy.get('.xtick').should('contain', 'OpenSearch-Air');

@@ -358,7 +358,7 @@ describe('Viewing application', () => {
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
     cy.get('[data-test-subj="addAvailabilityButton"]').click();
-    cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
+    cy.get('[data-test-subj="colorPickerAnchor"]').click();
     cy.get('[aria-label="Select #54B399 as the color"]').click();
     cy.get('[data-test-subj="nameFieldText"]').click().type('Available');
     cy.get('option').contains('≥').should('exist');
@@ -396,7 +396,7 @@ describe('Viewing application', () => {
     cy.focused().type('{enter}');
     cy.wait(delay);
     cy.get('[data-test-subj="addAvailabilityButton"]').click();
-    cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
+    cy.get('[data-test-subj="colorPickerAnchor"]').click();
     cy.get('[aria-label="Select #9170B8 as the color"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="nameFieldText"]').click().type('Super');
@@ -405,7 +405,7 @@ describe('Viewing application', () => {
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="addAvailabilityButton"]').click();
-    cy.get('[data-test-subj="euiColorPickerAnchor"]').first().click();
+    cy.get('[data-test-subj="colorPickerAnchor"]').first().click();
     cy.get('[aria-label="Select #CA8EAE as the color"]').click();
     cy.wait(delay);
     cy.get('[data-test-subj="nameFieldText"]').first().click().type('Cool');
