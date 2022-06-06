@@ -15,7 +15,7 @@ import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.index.IndexNotFoundException
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.observability.model.CollaborationObjectDoc
+import org.opensearch.observability.collaboration.model.CollaborationObjectDoc
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.collaboration.model
 
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
@@ -14,7 +14,9 @@ import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.observability.ObservabilityPlugin
-import org.opensearch.observability.model.CollaborationTypeDataProperties.getReaderForObjectType
+import org.opensearch.observability.collaboration.model.CollaborationTypeDataProperties.getReaderForObjectType
+import org.opensearch.observability.model.BaseObjectData
+import org.opensearch.observability.model.XParser
 import org.opensearch.observability.util.fieldIfNotNull
 import org.opensearch.observability.util.logger
 import org.opensearch.observability.util.stringList
@@ -42,20 +44,6 @@ internal data class Collaboration(
          */
         val xParser = XParser { parse(it) }
 
-//        /**
-//         * Parse the item list from parser
-//         * @param parser data referenced at parser
-//         * @return created list of items
-//         */
-//        private fun parseItemList(parser: XContentParser): List<String> {
-//            val retList: MutableList<String> = mutableListOf()
-//            XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_ARRAY, parser.currentToken(), parser)
-//            while (parser.nextToken() != XContentParser.Token.END_ARRAY) {
-//                retList.add(parser.text())
-//            }
-//            return retList
-//        }
-
         /**
          * Parse the data from parser and create Notebook object
          * @param parser data referenced at parser
@@ -68,8 +56,6 @@ internal data class Collaboration(
             var typeInfo: BaseObjectData? = null
 
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
-
-            log.info(Thread.dumpStack())
 
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -89,14 +75,7 @@ internal data class Collaboration(
                     }
                 }
             }
-            parser.close()
 
-            log.info("====== Collaboration : start==========")
-            log.info("$TYPE_TAG: $type") // TODO: remove debug comments
-            log.info("$TAGS_TAG: $tags")
-            log.info("$RESOLVED_TAG: $resolved")
-            log.info("typeInfo : $typeInfo")
-            log.info("====== Collaboration : end ==========")
             type ?: throw IllegalArgumentException("Collaboration type field absent")
             // TODO: check wording, can this be empty? remove if needed
             typeInfo ?: throw IllegalArgumentException("Collaboration type info field absent")
@@ -120,7 +99,7 @@ internal data class Collaboration(
      */
     constructor(input: StreamInput) : this(
         type = input.readEnum(CollaborationDataType::class.java),
-        tags = input.readStringList(), // TODO change to list
+        tags = input.readStringList(),
         resolved = input.readBoolean(),
         typeInfo = input.readOptionalWriteable(getReaderForObjectType(input.readEnum(CollaborationDataType::class.java)))
     )
@@ -132,8 +111,8 @@ internal data class Collaboration(
         output.writeEnum(type)
         output.writeStringCollection(tags)
         output.writeBoolean(resolved)
-        output.writeOptionalWriteable(typeInfo)
         output.writeEnum(type) // type is read twice in constructor
+        output.writeOptionalWriteable(typeInfo)
     }
 
     /**
@@ -152,7 +131,7 @@ internal data class Collaboration(
     }
 
     /**
-     * TextInfo source data class //TODO : better name for TextInfo
+     * TextInfo source data class
      */
     internal data class TextInfo(
         val pageId: String?,

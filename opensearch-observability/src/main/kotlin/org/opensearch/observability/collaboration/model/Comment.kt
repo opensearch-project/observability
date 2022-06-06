@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.collaboration.model
 
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
@@ -14,6 +14,8 @@ import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.observability.ObservabilityPlugin
+import org.opensearch.observability.model.BaseObjectData
+import org.opensearch.observability.model.XParser
 import org.opensearch.observability.util.fieldIfNotNull
 import org.opensearch.observability.util.logger
 
@@ -36,20 +38,6 @@ internal data class Comment(
          * Parser to parse xContent
          */
         val xParser = XParser { parse(it) }
-
-        /**
-         * Parse the item list from parser
-         * @param parser data referenced at parser
-         * @return created list of items
-         */
-        private fun parseItemList(parser: XContentParser): List<Notebook.Paragraph> {
-            val retList: MutableList<Notebook.Paragraph> = mutableListOf()
-            XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_ARRAY, parser.currentToken(), parser)
-            while (parser.nextToken() != XContentParser.Token.END_ARRAY) {
-                retList.add(Notebook.Paragraph.parse(parser))
-            }
-            return retList
-        }
 
         /**
          * Parse the data from parser and create Notebook object

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.collaboration.model
 
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
@@ -15,7 +15,10 @@ import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.logger
 import org.opensearch.commons.utils.stringList
-import org.opensearch.observability.model.CollaborationObjectDataProperties.getReaderForObjectType
+import org.opensearch.observability.collaboration.model.CollaborationObjectDataProperties.getReaderForObjectType
+import org.opensearch.observability.model.BaseModel
+import org.opensearch.observability.model.BaseObjectData
+import org.opensearch.observability.model.RestTag
 import org.opensearch.observability.security.UserAccessManager
 import java.io.IOException
 import java.time.Instant

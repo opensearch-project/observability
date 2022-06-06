@@ -7,9 +7,9 @@ package org.opensearch.observability.resthandler
 import org.opensearch.client.node.NodeClient
 import org.opensearch.commons.utils.logger
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_COLLABORATION_URI
-import org.opensearch.observability.action.CollaborationActions
-import org.opensearch.observability.action.CreateCollaborationObjectAction
-import org.opensearch.observability.action.CreateCollaborationObjectRequest
+import org.opensearch.observability.collaboration.action.CollaborationActions
+import org.opensearch.observability.collaboration.action.CreateCollaborationObjectAction
+import org.opensearch.observability.collaboration.action.CreateCollaborationObjectRequest
 import org.opensearch.observability.model.RestTag.COLLABORATION_ID_FIELD
 import org.opensearch.observability.util.contentParserNextToken
 import org.opensearch.rest.BaseRestHandler

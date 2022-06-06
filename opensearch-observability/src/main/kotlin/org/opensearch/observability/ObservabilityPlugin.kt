@@ -22,11 +22,11 @@ import org.opensearch.env.NodeEnvironment
 import org.opensearch.jobscheduler.spi.JobSchedulerExtension
 import org.opensearch.jobscheduler.spi.ScheduledJobParser
 import org.opensearch.jobscheduler.spi.ScheduledJobRunner
-import org.opensearch.observability.action.CreateCollaborationObjectAction
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
+import org.opensearch.observability.collaboration.action.CreateCollaborationObjectAction
 import org.opensearch.observability.index.CollaborationIndex
 import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.resthandler.CollaborationsRestHandler

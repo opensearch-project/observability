@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.action
+package org.opensearch.observability.collaboration.action
 
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.ActionRequestValidationException
@@ -16,11 +16,10 @@ import org.opensearch.common.xcontent.XContentBuilder
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.fieldIfNotNull
-import org.opensearch.commons.utils.logger
+import org.opensearch.observability.collaboration.model.CollaborationObjectDataProperties.createObjectData
+import org.opensearch.observability.collaboration.model.CollaborationObjectDataProperties.getReaderForObjectType
+import org.opensearch.observability.collaboration.model.CollaborationObjectType
 import org.opensearch.observability.model.BaseObjectData
-import org.opensearch.observability.model.CollaborationObjectDataProperties.createObjectData
-import org.opensearch.observability.model.CollaborationObjectDataProperties.getReaderForObjectType
-import org.opensearch.observability.model.CollaborationObjectType
 import org.opensearch.observability.model.RestTag.COLLABORATION_ID_FIELD
 import java.io.IOException
 
@@ -33,7 +32,6 @@ internal class CreateCollaborationObjectRequest : ActionRequest, ToXContentObjec
     val objectData: BaseObjectData?
 
     companion object {
-        private val log by logger(CreateCollaborationObjectRequest::class.java)
 
         /**
          * reader to create instance of class from writable.
@@ -48,9 +46,7 @@ internal class CreateCollaborationObjectRequest : ActionRequest, ToXContentObjec
         @JvmStatic
         @Throws(IOException::class)
         fun parse(parser: XContentParser, id: String? = null): CreateCollaborationObjectRequest {
-            var collaborationId: String? = id
             val objectTypeForTag = CollaborationObjectType.COLLABORATION
-            var type: CollaborationObjectType? = objectTypeForTag
 
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
@@ -59,12 +55,9 @@ internal class CreateCollaborationObjectRequest : ActionRequest, ToXContentObjec
             )
 
             var baseObjectData: BaseObjectData? = createObjectData(objectTypeForTag, parser)
-
             baseObjectData ?: throw IllegalArgumentException("Object data field absent")
-            log.info("collaborationId: $collaborationId")
-            log.info("collab object type: $type")
-            log.info("collab object data: $baseObjectData")
-            return CreateCollaborationObjectRequest(collaborationId, baseObjectData)
+
+            return CreateCollaborationObjectRequest(id, baseObjectData)
         }
     }
 

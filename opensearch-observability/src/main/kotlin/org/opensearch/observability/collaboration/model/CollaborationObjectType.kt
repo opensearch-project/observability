@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.opensearch.observability.model
+package org.opensearch.observability.collaboration.model
 
 import org.opensearch.commons.utils.EnumParser
 import org.opensearch.observability.model.RestTag.COLLABORATION_FIELD
