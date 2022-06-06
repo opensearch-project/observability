@@ -163,6 +163,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
           ]
         }
         debug={false}
+        divId="explorerPlotComponent"
         layout={
           Object {
             "autosize": true,
@@ -239,6 +240,7 @@ exports[`Service map scale component renders service map scale plot 1`] = `
         useResizeHandler={true}
       >
         <div
+          id="explorerPlotComponent"
           style={
             Object {
               "height": "270px",

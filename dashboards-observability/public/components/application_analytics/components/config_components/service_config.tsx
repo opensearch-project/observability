@@ -22,7 +22,7 @@ import { ServiceObject } from '../../../trace_analytics/components/common/plots/
 import { ServiceMap } from '../../../trace_analytics/components/services';
 import { handleServiceMapRequest } from '../../../trace_analytics/requests/services_request_handler';
 import { AppAnalyticsComponentDeps } from '../../home';
-import { OptionType } from '../../../../../common/types/app_analytics';
+import { OptionType } from '../../../../../common/types/application_analytics';
 import { getClearModal } from '../../helpers/modal_containers';
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
@@ -49,7 +49,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
 
   useEffect(() => {
-    handleServiceMapRequest(http, dslService, serviceMap, setServiceMap);
+    handleServiceMapRequest(http, dslService, setServiceMap);
   }, []);
 
   useEffect(() => {
@@ -135,11 +135,15 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     <div>
       <EuiAccordion
         id="servicesEntities"
+        data-test-subj="servicesEntitiesAccordion"
         buttonContent={
           <>
             <EuiText size="s">
               <h3>
-                Services & entities <EuiBadge>{selectedServices.length}</EuiBadge>
+                Services & entities{' '}
+                <EuiBadge data-test-subj="servicesEntitiesCountBadge">
+                  {selectedServices.length}
+                </EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />
@@ -151,6 +155,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearServicesEntitiesButton"
             disabled={!servicesOpen || !selectedServices.length}
             onClick={clearAllModal}
           >

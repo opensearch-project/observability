@@ -18,7 +18,7 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { useState } from 'react';
 import {
-  getFullSuggestions,
+  parseGetSuggestions,
   onItemSelect,
 } from '../../../../../public/components/common/search/autocomplete_logic';
 import { uiSettingsService } from '../../../../../common/utils';
@@ -93,6 +93,7 @@ export const LogConfig = (props: LogConfigProps) => {
     <div>
       <EuiAccordion
         id="logSource"
+        data-test-subj="logSourceAccordion"
         buttonContent={
           <>
             <EuiText size="s">
@@ -107,6 +108,7 @@ export const LogConfig = (props: LogConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearLogSourceButton"
             disabled={!logOpen || !query.length || editMode}
             onClick={clearAllModal}
           >
@@ -138,7 +140,7 @@ export const LogConfig = (props: LogConfigProps) => {
                   handleQueryChange={handleQueryChange}
                   handleQuerySearch={() => {}}
                   dslService={dslService}
-                  getSuggestions={getFullSuggestions}
+                  getSuggestions={parseGetSuggestions}
                   onItemSelect={onItemSelect}
                   isDisabled={editMode}
                   tabId={'application-analytics-tab'}
@@ -149,7 +151,7 @@ export const LogConfig = (props: LogConfigProps) => {
                     uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
                   }`}
                   color="hollow"
-                  onClick={() => showFlyout()}
+                  onClick={showFlyout}
                   onClickAriaLabel={'pplLinkShowFlyout'}
                 >
                   PPL

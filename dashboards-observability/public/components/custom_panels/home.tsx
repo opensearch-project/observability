@@ -8,6 +8,7 @@ import { EuiBreadcrumb, EuiGlobalToastList, EuiLink, ShortDate } from '@elastic/
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import _ from 'lodash';
 import React, { ReactChild, useState } from 'react';
+// eslint-disable-next-line @osd/eslint/module_migration
 import { StaticContext } from 'react-router';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import PPLService from '../../services/requests/ppl';
@@ -39,10 +40,10 @@ import { isNameValid } from './helpers/utils';
  * renderProps: Props from router
  */
 
-interface Props {
+interface PanelHomeProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
-  parentBreadcrumb: EuiBreadcrumb[];
+  parentBreadcrumbs: EuiBreadcrumb[];
   pplService: PPLService;
   dslService: DSLService;
   renderProps: RouteComponentProps<any, StaticContext, any>;
@@ -51,11 +52,11 @@ interface Props {
 export const Home = ({
   http,
   chrome,
-  parentBreadcrumb,
+  parentBreadcrumbs,
   pplService,
   dslService,
   renderProps,
-}: Props) => {
+}: PanelHomeProps) => {
   const [customPanelData, setcustomPanelData] = useState<CustomPanelListType[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [loading, setLoading] = useState(false);
@@ -67,6 +68,10 @@ export const Home = ({
     if (!text) text = '';
     setToastRightSide(!side ? true : false);
     setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
+  const onEditClick = (savedVisualizationId: string) => {
+    window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
   };
 
   // Fetches all saved Custom Panels
@@ -98,7 +103,7 @@ export const Home = ({
       })
       .then(async (res) => {
         setToast(`Operational Panel "${newCustomPanelName}" successfully created!`);
-        window.location.assign(`${_.last(parentBreadcrumb).href}${res.newPanelId}`);
+        window.location.assign(`${_.last(parentBreadcrumbs)!.href}${res.newPanelId}`);
       })
       .catch((err) => {
         setToast(
@@ -116,7 +121,7 @@ export const Home = ({
   const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelId: string) => {
     if (!isNameValid(editedCustomPanelName)) {
       setToast('Invalid Custom Panel name', 'danger');
-      return;
+      return Promise.reject();
     }
     const renamePanelObject = {
       panelId: editedCustomPanelId,
@@ -304,7 +309,7 @@ export const Home = ({
                 customPanels={customPanelData}
                 createCustomPanel={createCustomPanel}
                 setBreadcrumbs={chrome.setBreadcrumbs}
-                parentBreadcrumb={parentBreadcrumb}
+                parentBreadcrumbs={parentBreadcrumbs}
                 renameCustomPanel={renameCustomPanel}
                 cloneCustomPanel={cloneCustomPanel}
                 deleteCustomPanelList={deleteCustomPanelList}
@@ -324,11 +329,12 @@ export const Home = ({
               pplService={pplService}
               dslService={dslService}
               chrome={chrome}
-              parentBreadcrumb={parentBreadcrumb}
+              parentBreadcrumbs={parentBreadcrumbs}
               renameCustomPanel={renameCustomPanel}
               cloneCustomPanel={cloneCustomPanel}
               deleteCustomPanel={deleteCustomPanel}
               setToast={setToast}
+              onEditClick={onEditClick}
               startTime={start}
               endTime={end}
               setStartTime={setStart}

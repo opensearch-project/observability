@@ -155,7 +155,404 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 46.81318681318681,
               ],
             },
-          ]
+            "jsonData": Array [
+              Object {
+                "Carrier": "BeatsWest",
+                "avg(FlightDelayMin)": 53.65384615384615,
+              },
+              Object {
+                "Carrier": "Logstash Airways",
+                "avg(FlightDelayMin)": 45.36144578313253,
+              },
+              Object {
+                "Carrier": "OpenSearch Dashboards Airlines",
+                "avg(FlightDelayMin)": 63.1578947368421,
+              },
+              Object {
+                "Carrier": "OpenSearch-Air",
+                "avg(FlightDelayMin)": 46.81318681318681,
+              },
+            ],
+            "metadata": Object {
+              "fields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
+            },
+            "size": 4,
+            "status": 200,
+          },
+          "userConfigs": Object {},
+        },
+        "vis": Object {
+          "category": "Visualizations",
+          "categoryAxis": "xaxis",
+          "component": [Function],
+          "editorConfig": Object {
+            "panelTabs": Array [
+              Object {
+                "editor": [Function],
+                "id": "data-panel",
+                "mapTo": "dataConfig",
+                "name": "Data",
+                "sections": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "value_options",
+                    "mapTo": "valueOptions",
+                    "name": "Value options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": false,
+                        "mapTo": "xaxis",
+                        "name": "X-axis",
+                      },
+                      Object {
+                        "component": null,
+                        "isSingleSelection": false,
+                        "mapTo": "yaxis",
+                        "name": "Y-axis",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_options",
+                    "mapTo": "chartOptions",
+                    "name": "Chart options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "orientation",
+                        "name": "Orientation",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "name": "Vertical",
+                              "orientationId": "v",
+                            },
+                          ],
+                          "dropdownList": Array [
+                            Object {
+                              "name": "Vertical",
+                              "orientationId": "v",
+                            },
+                            Object {
+                              "name": "Horizontal",
+                              "orientationId": "h",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "mode",
+                        "name": "Mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "modeId": "group",
+                              "name": "Group",
+                            },
+                          ],
+                          "dropdownList": Array [
+                            Object {
+                              "modeId": "group",
+                              "name": "Group",
+                            },
+                            Object {
+                              "modeId": "stack",
+                              "name": "Stack",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "content": Array [],
+                "editor": [Function],
+                "id": "style-panel",
+                "mapTo": "layoutConfig",
+                "name": "Layout",
+              },
+              Object {
+                "editor": [Function],
+                "id": "availability-panel",
+                "mapTo": "availabilityConfig",
+                "name": "Availability",
+              },
+            ],
+          },
+          "fullLabel": "Bar",
+          "icon": [Function],
+          "iconType": "visBarVerticalStacked",
+          "id": "bar",
+          "label": "Bar",
+          "name": "bar",
+          "orientation": "v",
+          "selection": Object {
+            "dataLoss": "nothing",
+          },
+          "seriesAxis": "yaxis",
+          "type": "bar",
+          "visConfig": Object {
+            "config": Object {
+              "displaylogo": false,
+              "responsive": true,
+            },
+            "isUniColor": false,
+            "layout": Object {
+              "height": 500,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+            },
+          },
+        },
+      }
+    }
+  >
+    <VisualizationChart
+      visualizations={
+        Object {
+          "data": Object {
+            "appData": Object {},
+            "defaultAxes": Object {
+              "xaxis": Array [
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
+              "yaxis": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+              ],
+            },
+            "indexFields": Object {},
+            "query": Object {},
+            "rawVizData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+            "userConfigs": Object {},
+          },
+          "vis": Object {
+            "category": "Visualizations",
+            "categoryAxis": "xaxis",
+            "component": [Function],
+            "editorConfig": Object {
+              "panelTabs": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "data-panel",
+                  "mapTo": "dataConfig",
+                  "name": "Data",
+                  "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "value_options",
+                      "mapTo": "valueOptions",
+                      "name": "Value options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": false,
+                          "mapTo": "xaxis",
+                          "name": "X-axis",
+                        },
+                        Object {
+                          "component": null,
+                          "isSingleSelection": false,
+                          "mapTo": "yaxis",
+                          "name": "Y-axis",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_options",
+                      "mapTo": "chartOptions",
+                      "name": "Chart options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "orientation",
+                          "name": "Orientation",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "name": "Vertical",
+                                "orientationId": "v",
+                              },
+                            ],
+                            "dropdownList": Array [
+                              Object {
+                                "name": "Vertical",
+                                "orientationId": "v",
+                              },
+                              Object {
+                                "name": "Horizontal",
+                                "orientationId": "h",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "mode",
+                          "name": "Mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "modeId": "group",
+                                "name": "Group",
+                              },
+                            ],
+                            "dropdownList": Array [
+                              Object {
+                                "modeId": "group",
+                                "name": "Group",
+                              },
+                              Object {
+                                "modeId": "stack",
+                                "name": "Stack",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "content": Array [],
+                  "editor": [Function],
+                  "id": "style-panel",
+                  "mapTo": "layoutConfig",
+                  "name": "Layout",
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "availability-panel",
+                  "mapTo": "availabilityConfig",
+                  "name": "Availability",
+                },
+              ],
+            },
+            "fullLabel": "Bar",
+            "icon": [Function],
+            "iconType": "visBarVerticalStacked",
+            "id": "bar",
+            "label": "Bar",
+            "name": "bar",
+            "orientation": "v",
+            "selection": Object {
+              "dataLoss": "nothing",
+            },
+            "seriesAxis": "yaxis",
+            "type": "bar",
+            "visConfig": Object {
+              "config": Object {
+                "displaylogo": false,
+                "responsive": true,
+              },
+              "isUniColor": false,
+              "layout": Object {
+                "height": 500,
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+              },
+            },
+          },
+        }
+      }
+    >
+      <Bar
+        config={
+          Object {
+            "displaylogo": false,
+            "responsive": true,
+          }
         }
         debug={false}
         layout={
@@ -201,8 +598,214 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
         }
         style={
           Object {
-            "height": "100%",
-            "width": "100%",
+            "data": Object {
+              "appData": Object {},
+              "defaultAxes": Object {
+                "xaxis": Array [
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+                "yaxis": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                ],
+              },
+              "indexFields": Object {},
+              "query": Object {},
+              "rawVizData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "userConfigs": Object {},
+            },
+            "vis": Object {
+              "category": "Visualizations",
+              "categoryAxis": "xaxis",
+              "component": [Function],
+              "editorConfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Data",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "value_options",
+                        "mapTo": "valueOptions",
+                        "name": "Value options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": false,
+                            "mapTo": "xaxis",
+                            "name": "X-axis",
+                          },
+                          Object {
+                            "component": null,
+                            "isSingleSelection": false,
+                            "mapTo": "yaxis",
+                            "name": "Y-axis",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_options",
+                        "mapTo": "chartOptions",
+                        "name": "Chart options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "orientation",
+                            "name": "Orientation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "name": "Vertical",
+                                  "orientationId": "v",
+                                },
+                              ],
+                              "dropdownList": Array [
+                                Object {
+                                  "name": "Vertical",
+                                  "orientationId": "v",
+                                },
+                                Object {
+                                  "name": "Horizontal",
+                                  "orientationId": "h",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "mode",
+                            "name": "Mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "modeId": "group",
+                                  "name": "Group",
+                                },
+                              ],
+                              "dropdownList": Array [
+                                Object {
+                                  "modeId": "group",
+                                  "name": "Group",
+                                },
+                                Object {
+                                  "modeId": "stack",
+                                  "name": "Stack",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
+                ],
+              },
+              "fullLabel": "Bar",
+              "icon": [Function],
+              "iconType": "visBarVerticalStacked",
+              "id": "bar",
+              "label": "Bar",
+              "name": "bar",
+              "orientation": "v",
+              "selection": Object {
+                "dataLoss": "nothing",
+              },
+              "seriesAxis": "yaxis",
+              "type": "bar",
+              "visConfig": Object {
+                "config": Object {
+                  "displaylogo": false,
+                  "responsive": true,
+                },
+                "isUniColor": false,
+                "layout": Object {
+                  "height": 500,
+                  "legend": Object {
+                    "orientation": "v",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 60,
+                    "pad": 0,
+                    "r": 30,
+                    "t": 50,
+                  },
+                  "showlegend": true,
+                },
+              },
+            },
           }
         }
         useResizeHandler={true}
@@ -214,10 +817,172 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "width": "100%",
             }
           }
-        />
-      </PlotlyComponent>
-    </Plt>
-  </Bar>
+          data={
+            Array [
+              Object {
+                "marker": Object {
+                  "color": Array [
+                    "#3CA1C7",
+                    "#8C55A3",
+                    "#DB748A",
+                    "#F2BE4B",
+                  ],
+                },
+                "name": "avg(FlightDelayMin)",
+                "orientation": "v",
+                "type": "bar",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "barmode": "",
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "height": 500,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+              "title": "",
+            }
+          }
+        >
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "marker": Object {
+                    "color": Array [
+                      "#3CA1C7",
+                      "#8C55A3",
+                      "#DB748A",
+                      "#F2BE4B",
+                    ],
+                  },
+                  "name": "avg(FlightDelayMin)",
+                  "orientation": "v",
+                  "type": "bar",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "",
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "height": 500,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
+          >
+            <div
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
+      </Bar>
+    </VisualizationChart>
+  </Visualization>
 </div>
 `;
 
@@ -440,9 +1205,162 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "fixedrange": false,
           "showgrid": false,
         },
-        "yaxis": Object {
-          "fixedrange": false,
-          "showgrid": false,
+        "vis": Object {
+          "category": "Visualizations",
+          "categoryAxis": "xaxis",
+          "component": [Function],
+          "editorConfig": Object {
+            "panelTabs": Array [
+              Object {
+                "editor": [Function],
+                "id": "data-panel",
+                "mapTo": "dataConfig",
+                "name": "Data",
+                "sections": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "value_options",
+                    "mapTo": "valueOptions",
+                    "name": "Value options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "xaxis",
+                        "name": "X-axis",
+                      },
+                      Object {
+                        "component": null,
+                        "isSingleSelection": false,
+                        "mapTo": "yaxis",
+                        "name": "Y-axis",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_options",
+                    "mapTo": "chartOptions",
+                    "name": "Chart options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "mode",
+                        "name": "Mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "modeId": "lines",
+                              "name": "Lines",
+                            },
+                          ],
+                          "dropdownList": Array [
+                            Object {
+                              "modeId": "markers",
+                              "name": "Markers",
+                            },
+                            Object {
+                              "modeId": "lines",
+                              "name": "Lines",
+                            },
+                            Object {
+                              "modeId": "lines+markers",
+                              "name": "Lines + Markers",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  Object {
+                    "defaultState": Array [],
+                    "editor": [Function],
+                    "id": "thresholds",
+                    "mapTo": "thresholds",
+                    "name": "Thresholds",
+                    "schemas": Array [],
+                  },
+                ],
+              },
+              Object {
+                "content": Array [],
+                "editor": [Function],
+                "id": "style-panel",
+                "mapTo": "layoutConfig",
+                "name": "Layout",
+              },
+              Object {
+                "editor": [Function],
+                "id": "availability-panel",
+                "mapTo": "availabilityConfig",
+                "name": "Availability",
+              },
+            ],
+          },
+          "fullLabel": "Line",
+          "icon": [Function],
+          "iconType": "visLine",
+          "id": "line",
+          "label": "Line",
+          "name": "line",
+          "selection": Object {
+            "dataLoss": "nothing",
+          },
+          "seriesAxis": "yaxis",
+          "type": "line",
+          "visConfig": Object {
+            "config": Object {
+              "barmode": "line",
+              "displaylogo": false,
+              "responsive": true,
+              "xaxis": Object {
+                "automargin": true,
+              },
+              "yaxis": Object {
+                "automargin": true,
+              },
+            },
+            "layout": Object {
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "height": 500,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "paper_bgcolor": "rgba(0, 0, 0, 0)",
+              "plot_bgcolor": "rgba(0, 0, 0, 0)",
+              "showlegend": true,
+              "xaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
+              "yaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
+            },
+          },
         },
       }
     }
@@ -532,10 +1450,98 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               46.81318681318681,
             ],
           },
-          "jsonData": Array [
-            Object {
-              "Carrier": "BeatsWest",
-              "avg(FlightDelayMin)": 53.65384615384615,
+          "vis": Object {
+            "category": "Visualizations",
+            "categoryAxis": "xaxis",
+            "component": [Function],
+            "editorConfig": Object {
+              "panelTabs": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "data-panel",
+                  "mapTo": "dataConfig",
+                  "name": "Data",
+                  "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "value_options",
+                      "mapTo": "valueOptions",
+                      "name": "Value options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "xaxis",
+                          "name": "X-axis",
+                        },
+                        Object {
+                          "component": null,
+                          "isSingleSelection": false,
+                          "mapTo": "yaxis",
+                          "name": "Y-axis",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_options",
+                      "mapTo": "chartOptions",
+                      "name": "Chart options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "mode",
+                          "name": "Mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "modeId": "lines",
+                                "name": "Lines",
+                              },
+                            ],
+                            "dropdownList": Array [
+                              Object {
+                                "modeId": "markers",
+                                "name": "Markers",
+                              },
+                              Object {
+                                "modeId": "lines",
+                                "name": "Lines",
+                              },
+                              Object {
+                                "modeId": "lines+markers",
+                                "name": "Lines + Markers",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    Object {
+                      "defaultState": Array [],
+                      "editor": [Function],
+                      "id": "thresholds",
+                      "mapTo": "thresholds",
+                      "name": "Thresholds",
+                      "schemas": Array [],
+                    },
+                  ],
+                },
+                Object {
+                  "content": Array [],
+                  "editor": [Function],
+                  "id": "style-panel",
+                  "mapTo": "layoutConfig",
+                  "name": "Layout",
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "availability-panel",
+                  "mapTo": "availabilityConfig",
+                  "name": "Availability",
+                },
+              ],
             },
             Object {
               "Carrier": "Logstash Airways",
@@ -625,6 +1631,236 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "automargin": true,
               "fixedrange": false,
               "showgrid": false,
+              "visible": true,
+            },
+          }
+        }
+        visualizations={
+          Object {
+            "data": Object {
+              "appData": Object {},
+              "defaultAxes": Object {
+                "xaxis": Array [
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+                "yaxis": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                ],
+              },
+              "indexFields": Object {},
+              "query": Object {},
+              "rawVizData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "userConfigs": Object {},
+            },
+            "vis": Object {
+              "category": "Visualizations",
+              "categoryAxis": "xaxis",
+              "component": [Function],
+              "editorConfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Data",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "value_options",
+                        "mapTo": "valueOptions",
+                        "name": "Value options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "xaxis",
+                            "name": "X-axis",
+                          },
+                          Object {
+                            "component": null,
+                            "isSingleSelection": false,
+                            "mapTo": "yaxis",
+                            "name": "Y-axis",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_options",
+                        "mapTo": "chartOptions",
+                        "name": "Chart options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "mode",
+                            "name": "Mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "modeId": "lines",
+                                  "name": "Lines",
+                                },
+                              ],
+                              "dropdownList": Array [
+                                Object {
+                                  "modeId": "markers",
+                                  "name": "Markers",
+                                },
+                                Object {
+                                  "modeId": "lines",
+                                  "name": "Lines",
+                                },
+                                Object {
+                                  "modeId": "lines+markers",
+                                  "name": "Lines + Markers",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "defaultState": Array [],
+                        "editor": [Function],
+                        "id": "thresholds",
+                        "mapTo": "thresholds",
+                        "name": "Thresholds",
+                        "schemas": Array [],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
+                ],
+              },
+              "fullLabel": "Line",
+              "icon": [Function],
+              "iconType": "visLine",
+              "id": "line",
+              "label": "Line",
+              "name": "line",
+              "selection": Object {
+                "dataLoss": "nothing",
+              },
+              "seriesAxis": "yaxis",
+              "type": "line",
+              "visConfig": Object {
+                "config": Object {
+                  "barmode": "line",
+                  "displaylogo": false,
+                  "responsive": true,
+                  "xaxis": Object {
+                    "automargin": true,
+                  },
+                  "yaxis": Object {
+                    "automargin": true,
+                  },
+                },
+                "layout": Object {
+                  "colorway": Array [
+                    "#3CA1C7",
+                    "#8C55A3",
+                    "#DB748A",
+                    "#F2BE4B",
+                    "#68CCC2",
+                    "#2A7866",
+                    "#843769",
+                    "#374FB8",
+                    "#BD6F26",
+                    "#4C636F",
+                  ],
+                  "height": 500,
+                  "legend": Object {
+                    "orientation": "v",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 60,
+                    "pad": 0,
+                    "r": 30,
+                    "t": 50,
+                  },
+                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                  "showlegend": true,
+                  "xaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
+                  "yaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
+                },
+              },
             },
           }
         }
@@ -632,7 +1868,806 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         <PlotlyComponent
           config={
             Object {
-              "displayModeBar": false,
+              "barmode": "line",
+              "displaylogo": false,
+              "responsive": true,
+              "xaxis": Object {
+                "automargin": true,
+              },
+              "yaxis": Object {
+                "automargin": true,
+              },
+            }
+          }
+          data={
+            Array [
+              Object {
+                "mode": "line",
+                "name": "avg(FlightDelayMin)",
+                "type": "line",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "height": 500,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "paper_bgcolor": "rgba(0, 0, 0, 0)",
+              "plot_bgcolor": "rgba(0, 0, 0, 0)",
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
+              "yaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
+            }
+          }
+        >
+          <PlotlyComponent
+            config={
+              Object {
+                "barmode": "line",
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+                "xaxis": Object {
+                  "automargin": true,
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                },
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "mode": "line",
+                  "name": "avg(FlightDelayMin)",
+                  "type": "line",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "stack",
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "height": 500,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "fixedrange": true,
+                  "showgrid": false,
+                  "visible": true,
+                },
+                "yaxis": Object {
+                  "fixedrange": true,
+                  "showgrid": false,
+                  "visible": true,
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
+          >
+            <div
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
+      </Line>
+    </VisualizationChart>
+  </Visualization>
+</div>
+`;
+
+exports[`Utils helper functions renders displayVisualization function 3`] = `
+<div>
+  <Visualization
+    visualizations={
+      Object {
+        "data": Object {
+          "appData": Object {},
+          "defaultAxes": Object {
+            "xaxis": Array [
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
+            "yaxis": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+            ],
+          },
+          "indexFields": Object {},
+          "query": Object {},
+          "rawVizData": Object {
+            "data": Object {
+              "Carrier": Array [
+                "BeatsWest",
+                "Logstash Airways",
+                "OpenSearch Dashboards Airlines",
+                "OpenSearch-Air",
+              ],
+              "avg(FlightDelayMin)": Array [
+                53.65384615384615,
+                45.36144578313253,
+                63.1578947368421,
+                46.81318681318681,
+              ],
+            },
+            "jsonData": Array [
+              Object {
+                "Carrier": "BeatsWest",
+                "avg(FlightDelayMin)": 53.65384615384615,
+              },
+              Object {
+                "Carrier": "Logstash Airways",
+                "avg(FlightDelayMin)": 45.36144578313253,
+              },
+              Object {
+                "Carrier": "OpenSearch Dashboards Airlines",
+                "avg(FlightDelayMin)": 63.1578947368421,
+              },
+              Object {
+                "Carrier": "OpenSearch-Air",
+                "avg(FlightDelayMin)": 46.81318681318681,
+              },
+            ],
+            "metadata": Object {
+              "fields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
+            },
+            "size": 4,
+            "status": 200,
+          },
+          "userConfigs": Object {},
+        },
+        "vis": Object {
+          "category": "Visualizations",
+          "categoryAxis": "xaxis",
+          "component": [Function],
+          "editorConfig": Object {
+            "panelTabs": Array [
+              Object {
+                "editor": [Function],
+                "id": "data-panel",
+                "mapTo": "dataConfig",
+                "name": "Data",
+                "sections": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "value_options",
+                    "mapTo": "valueOptions",
+                    "name": "Value options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": false,
+                        "mapTo": "xaxis",
+                        "name": "X-axis",
+                      },
+                      Object {
+                        "component": null,
+                        "isSingleSelection": false,
+                        "mapTo": "yaxis",
+                        "name": "Y-axis",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_options",
+                    "mapTo": "chartOptions",
+                    "name": "Chart options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "orientation",
+                        "name": "Orientation",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "name": "Horizontal",
+                              "orientationId": "h",
+                            },
+                          ],
+                          "dropdownList": Array [
+                            Object {
+                              "name": "Vertical",
+                              "orientationId": "v",
+                            },
+                            Object {
+                              "name": "Horizontal",
+                              "orientationId": "h",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "isSingleSelection": true,
+                        "mapTo": "mode",
+                        "name": "Mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "modeId": "group",
+                              "name": "Group",
+                            },
+                          ],
+                          "dropdownList": Array [
+                            Object {
+                              "modeId": "group",
+                              "name": "Group",
+                            },
+                            Object {
+                              "modeId": "stack",
+                              "name": "Stack",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "content": Array [],
+                "editor": [Function],
+                "id": "style-panel",
+                "mapTo": "layoutConfig",
+                "name": "Layout",
+              },
+            ],
+          },
+          "fullLabel": "Bar",
+          "icon": [Function],
+          "iconType": "visBarVerticalStacked",
+          "id": "horizontal_bar",
+          "label": "Bar",
+          "name": "horizontal_bar",
+          "orientation": "h",
+          "selection": Object {
+            "dataLoss": "nothing",
+          },
+          "seriesAxis": "yaxis",
+          "type": "bar",
+          "visConfig": Object {
+            "config": Object {
+              "displaylogo": false,
+              "responsive": true,
+            },
+            "isUniColor": false,
+            "layout": Object {
+              "height": 500,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+            },
+          },
+        },
+      }
+    }
+  >
+    <VisualizationChart
+      visualizations={
+        Object {
+          "data": Object {
+            "appData": Object {},
+            "defaultAxes": Object {
+              "xaxis": Array [
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
+              "yaxis": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+              ],
+            },
+            "indexFields": Object {},
+            "query": Object {},
+            "rawVizData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+            "userConfigs": Object {},
+          },
+          "vis": Object {
+            "category": "Visualizations",
+            "categoryAxis": "xaxis",
+            "component": [Function],
+            "editorConfig": Object {
+              "panelTabs": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "data-panel",
+                  "mapTo": "dataConfig",
+                  "name": "Data",
+                  "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "value_options",
+                      "mapTo": "valueOptions",
+                      "name": "Value options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": false,
+                          "mapTo": "xaxis",
+                          "name": "X-axis",
+                        },
+                        Object {
+                          "component": null,
+                          "isSingleSelection": false,
+                          "mapTo": "yaxis",
+                          "name": "Y-axis",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_options",
+                      "mapTo": "chartOptions",
+                      "name": "Chart options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "orientation",
+                          "name": "Orientation",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "name": "Horizontal",
+                                "orientationId": "h",
+                              },
+                            ],
+                            "dropdownList": Array [
+                              Object {
+                                "name": "Vertical",
+                                "orientationId": "v",
+                              },
+                              Object {
+                                "name": "Horizontal",
+                                "orientationId": "h",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "isSingleSelection": true,
+                          "mapTo": "mode",
+                          "name": "Mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "modeId": "group",
+                                "name": "Group",
+                              },
+                            ],
+                            "dropdownList": Array [
+                              Object {
+                                "modeId": "group",
+                                "name": "Group",
+                              },
+                              Object {
+                                "modeId": "stack",
+                                "name": "Stack",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "content": Array [],
+                  "editor": [Function],
+                  "id": "style-panel",
+                  "mapTo": "layoutConfig",
+                  "name": "Layout",
+                },
+              ],
+            },
+            "fullLabel": "Bar",
+            "icon": [Function],
+            "iconType": "visBarVerticalStacked",
+            "id": "horizontal_bar",
+            "label": "Bar",
+            "name": "horizontal_bar",
+            "orientation": "h",
+            "selection": Object {
+              "dataLoss": "nothing",
+            },
+            "seriesAxis": "yaxis",
+            "type": "bar",
+            "visConfig": Object {
+              "config": Object {
+                "displaylogo": false,
+                "responsive": true,
+              },
+              "isUniColor": false,
+              "layout": Object {
+                "height": 500,
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+              },
+            },
+          },
+        }
+      }
+    >
+      <Bar
+        config={
+          Object {
+            "displaylogo": false,
+            "responsive": true,
+          }
+        }
+        layout={
+          Object {
+            "height": 500,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          }
+        }
+        visualizations={
+          Object {
+            "data": Object {
+              "appData": Object {},
+              "defaultAxes": Object {
+                "xaxis": Array [
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+                "yaxis": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                ],
+              },
+              "indexFields": Object {},
+              "query": Object {},
+              "rawVizData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "userConfigs": Object {},
+            },
+            "vis": Object {
+              "category": "Visualizations",
+              "categoryAxis": "xaxis",
+              "component": [Function],
+              "editorConfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Data",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "value_options",
+                        "mapTo": "valueOptions",
+                        "name": "Value options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": false,
+                            "mapTo": "xaxis",
+                            "name": "X-axis",
+                          },
+                          Object {
+                            "component": null,
+                            "isSingleSelection": false,
+                            "mapTo": "yaxis",
+                            "name": "Y-axis",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_options",
+                        "mapTo": "chartOptions",
+                        "name": "Chart options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "orientation",
+                            "name": "Orientation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "name": "Horizontal",
+                                  "orientationId": "h",
+                                },
+                              ],
+                              "dropdownList": Array [
+                                Object {
+                                  "name": "Vertical",
+                                  "orientationId": "v",
+                                },
+                                Object {
+                                  "name": "Horizontal",
+                                  "orientationId": "h",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "isSingleSelection": true,
+                            "mapTo": "mode",
+                            "name": "Mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "modeId": "group",
+                                  "name": "Group",
+                                },
+                              ],
+                              "dropdownList": Array [
+                                Object {
+                                  "modeId": "group",
+                                  "name": "Group",
+                                },
+                                Object {
+                                  "modeId": "stack",
+                                  "name": "Stack",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                ],
+              },
+              "fullLabel": "Bar",
+              "icon": [Function],
+              "iconType": "visBarVerticalStacked",
+              "id": "horizontal_bar",
+              "label": "Bar",
+              "name": "horizontal_bar",
               "orientation": "h",
             }
           }
@@ -715,18 +2750,111 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           }
           useResizeHandler={true}
         >
-          <div
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "marker": Object {
+                    "color": Array [
+                      "#3CA1C7",
+                      "#8C55A3",
+                      "#DB748A",
+                      "#F2BE4B",
+                    ],
+                  },
+                  "name": "avg(FlightDelayMin)",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                  "y": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "",
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "height": 500,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
             style={
               Object {
                 "height": "100%",
                 "width": "100%",
               }
             }
-          />
-        </PlotlyComponent>
-      </Plt>
-    </Bar>
-  </HorizontalBar>
+            useResizeHandler={true}
+          >
+            <div
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
+      </Bar>
+    </VisualizationChart>
+  </Visualization>
 </div>
 `;
 
@@ -930,17 +3058,95 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           }
           useResizeHandler={true}
         >
-          <div
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "marker": Object {
+                    "color": Array [],
+                  },
+                  "name": "count('ip')",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [],
+                  "y": Array [],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "",
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "height": 500,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
             style={
               Object {
                 "height": "100%",
                 "width": "100%",
               }
             }
-          />
-        </PlotlyComponent>
-      </Plt>
-    </Bar>
-  </HorizontalBar>
+            useResizeHandler={true}
+          >
+            <div
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
+      </Bar>
+    </VisualizationChart>
+  </Visualization>
 </div>
 `;

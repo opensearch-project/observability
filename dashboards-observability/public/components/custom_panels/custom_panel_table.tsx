@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBreadcrumb,
@@ -37,10 +38,11 @@ import {
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
-import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
+import { getCustomModal } from './helpers/modal_containers';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 import { pageStyles } from '../../../common/constants/shared';
+import { DeleteModal } from '../common/helpers/delete_modal';
 
 /*
  * "CustomPanelTable" module, used to view all the saved panels
@@ -63,7 +65,7 @@ interface Props {
   customPanels: CustomPanelListType[];
   createCustomPanel: (newCustomPanelName: string) => void;
   setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
-  parentBreadcrumb: EuiBreadcrumb[];
+  parentBreadcrumbs: EuiBreadcrumb[];
   renameCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   cloneCustomPanel: (newCustomPanelName: string, customPanelId: string) => void;
   deleteCustomPanelList: (customPanelIdList: string[], toastMessage: string) => any;
@@ -76,7 +78,7 @@ export const CustomPanelTable = ({
   customPanels,
   createCustomPanel,
   setBreadcrumbs,
-  parentBreadcrumb,
+  parentBreadcrumbs,
   renameCustomPanel,
   cloneCustomPanel,
   deleteCustomPanelList,
@@ -89,7 +91,7 @@ export const CustomPanelTable = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    setBreadcrumbs(parentBreadcrumb);
+    setBreadcrumbs(parentBreadcrumbs);
     fetchCustomPanels();
   }, []);
 
@@ -176,7 +178,7 @@ export const CustomPanelTable = ({
   const deletePanel = () => {
     const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
     setModalLayout(
-      <DeletePanelModal
+      <DeleteModal
         onConfirm={onDelete}
         onCancel={closeModal}
         title={`Delete ${selectedCustomPanels.length} ${customPanelString}`}
@@ -198,6 +200,7 @@ export const CustomPanelTable = ({
 
   const popoverButton = (
     <EuiButton
+      data-test-subj="operationalPanelsActionsButton"
       iconType="arrowDown"
       iconSide="right"
       onClick={() => setIsActionsPopoverOpen(!isActionsPopoverOpen)}
@@ -229,6 +232,7 @@ export const CustomPanelTable = ({
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="delete"
+      data-test-subj="deleteContextMenuItem"
       disabled={customPanels.length === 0 || selectedCustomPanels.length === 0}
       onClick={() => {
         setIsActionsPopoverOpen(false);
@@ -239,6 +243,7 @@ export const CustomPanelTable = ({
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="addSample"
+      data-test-subj="addSampleContextMenuItem"
       onClick={() => {
         setIsActionsPopoverOpen(false);
         addSampledata();
@@ -255,7 +260,7 @@ export const CustomPanelTable = ({
       sortable: true,
       truncateText: true,
       render: (value, record) => (
-        <EuiLink href={`${_.last(parentBreadcrumb).href}${record.id}`}>
+        <EuiLink href={`${_.last(parentBreadcrumbs)!.href}${record.id}`}>
           {_.truncate(value, { length: 100 })}
         </EuiLink>
       ),
@@ -332,6 +337,7 @@ export const CustomPanelTable = ({
               <>
                 <EuiFieldSearch
                   fullWidth
+                  data-test-subj="operationalPanelSearchBar"
                   placeholder="Search operational panel name"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -381,7 +387,11 @@ export const CustomPanelTable = ({
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false} onClick={() => createPanel()}>
+                    <EuiButton
+                      data-test-subj="customPanels__emptyCreateNewPanels"
+                      fullWidth={false}
+                      onClick={() => createPanel()}
+                    >
                       Create panel
                     </EuiButton>
                   </EuiFlexItem>

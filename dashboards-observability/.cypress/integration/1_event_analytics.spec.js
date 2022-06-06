@@ -24,7 +24,7 @@ const landOnEventExplorer = () => {
   cy.visit(
     `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
   );
-  cy.wait(delay);
+  cy.wait(delay * 2);
 };
 
 const landOnPanels = () => {
@@ -48,6 +48,22 @@ describe('Adding sample data and visualization', () => {
       .contains(/(Add|View) data/)
       .click();
     cy.wait(delay);
+  });
+});
+
+describe('Has working breadcrumbs', () => {
+  it('Redirect to correct page on breadcrumb click', () => {
+    landOnEventExplorer();
+    cy.wait(delay * 3);
+    cy.get('.euiBreadcrumb[href="#/event_analytics/explorer"]').contains('Explorer').click();
+    cy.wait(delay);
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
+    cy.get('.euiBreadcrumb[href="#/event_analytics"]').contains('Event analytics').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
+    cy.get('.euiBreadcrumb[href="observability-dashboards#/"]').contains('Observability').click();
+    cy.wait(delay);
+    cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 });
 
@@ -374,11 +390,10 @@ describe('Switch on and off livetail', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
 
     cy.get('[data-test-subj=eventLiveTail]').click();
-    cy.get('[data-test-subj=eventLiveTail__delay10]').click();
+    cy.get('[data-test-subj=eventLiveTail__delay10s]').click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('On').should('exist');
 
-    cy.get('[data-test-subj=eventLiveTail]').click();
     cy.get('[data-test-subj=eventLiveTail__off').click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('Off').should('exist');
@@ -393,7 +408,7 @@ describe('Live tail stop automatically', () => {
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
 
     cy.get('[data-test-subj=eventLiveTail]').click();
-    cy.get('[data-test-subj=eventLiveTail__delay10]').click();
+    cy.get('[data-test-subj=eventLiveTail__delay10s]').click();
     cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('On').should('exist');
   });

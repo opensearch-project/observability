@@ -117,8 +117,8 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
 
   useEffect(() => {
     const serviceDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
-    handleServiceViewRequest(serviceName, http, serviceDSL, fields, setFields);
-    handleServiceMapRequest(http, serviceDSL, serviceMap, setServiceMap, serviceName);
+    handleServiceViewRequest(serviceName, http, serviceDSL, setFields);
+    handleServiceMapRequest(http, serviceDSL, setServiceMap, serviceName);
     const spanDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
     spanDSL.query.bool.must.push({
       term: {
@@ -129,9 +129,9 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
   }, [serviceName, startTime, endTime]);
 
   return (
-    <EuiFlyout onClose={closeServiceFlyout} size="s">
+    <EuiFlyout data-test-subj="serviceDetailFlyout" onClose={closeServiceFlyout} size="s">
       <EuiFlyoutHeader hasBorder>
-        <EuiTitle>
+        <EuiTitle data-test-subj="serviceDetailFlyoutTitle">
           <h2>Service detail</h2>
         </EuiTitle>
       </EuiFlyoutHeader>

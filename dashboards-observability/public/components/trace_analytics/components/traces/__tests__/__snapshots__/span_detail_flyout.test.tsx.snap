@@ -18,6 +18,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
     >
       <div
         class="euiFlyout euiFlyout--small"
+        data-test-subj="spanDetailFlyout"
         role="dialog"
         tabindex="0"
       >
@@ -75,6 +76,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="Span IDDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -154,6 +156,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="Parent span IDDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -189,6 +192,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="ServiceDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -235,6 +239,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="OperationDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -281,6 +286,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="DurationDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -327,6 +333,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="Start timeDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -373,6 +380,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="End timeDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -419,6 +427,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="ErrorsDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -488,6 +497,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="droppedAttributesCountDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -534,6 +544,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="droppedEventsCountDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -580,6 +591,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="droppedLinksCountDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -626,6 +638,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="instrumentationLibrary.nameDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -672,6 +685,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="kindDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -718,6 +732,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="resource.attributes.host@hostnameDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -764,6 +779,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="resource.attributes.service@nameDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -810,6 +826,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="resource.attributes.telemetry@sdk@languageDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -856,6 +873,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="resource.attributes.telemetry@sdk@nameDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -902,6 +920,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="resource.attributes.telemetry@sdk@versionDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -948,6 +967,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="linksDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -983,6 +1003,7 @@ exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
               <div>
                 <dl
                   class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+                  data-test-subj="traceStateDescriptionList"
                 >
                   <dt
                     class="euiDescriptionList__title"
@@ -1038,6 +1059,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
   spanId="test"
 >
   <EuiFlyout
+    data-test-subj="spanDetailFlyout"
     onClose={[MockFunction]}
     size="s"
   >
@@ -1160,6 +1182,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                       >
                         <div
                           class="euiFlyout euiFlyout--small"
+                          data-test-subj="spanDetailFlyout"
                           role="dialog"
                           tabindex="0"
                         >
@@ -1234,6 +1257,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                         >
                           <div
                             class="euiFlyout euiFlyout--small"
+                            data-test-subj="spanDetailFlyout"
                             role="dialog"
                             tabindex="0"
                           >
@@ -1308,6 +1332,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           >
                             <div
                               class="euiFlyout euiFlyout--small"
+                              data-test-subj="spanDetailFlyout"
                               role="dialog"
                               tabindex="0"
                             >
@@ -1370,6 +1395,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                             >
                               <div
                                 class="euiFlyout euiFlyout--small"
+                                data-test-subj="spanDetailFlyout"
                                 role="dialog"
                                 tabindex="0"
                               >
@@ -1447,6 +1473,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                     >
                       <div
                         className="euiFlyout euiFlyout--small"
+                        data-test-subj="spanDetailFlyout"
                         role="dialog"
                         tabIndex={0}
                       >
@@ -1615,6 +1642,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
   spanId="test"
 >
   <EuiFlyout
+    data-test-subj="spanDetailFlyout"
     onClose={[MockFunction]}
     size="s"
   >
@@ -1737,6 +1765,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                       >
                         <div
                           class="euiFlyout euiFlyout--small"
+                          data-test-subj="spanDetailFlyout"
                           role="dialog"
                           tabindex="0"
                         >
@@ -1811,6 +1840,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                         >
                           <div
                             class="euiFlyout euiFlyout--small"
+                            data-test-subj="spanDetailFlyout"
                             role="dialog"
                             tabindex="0"
                           >
@@ -1885,6 +1915,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                           >
                             <div
                               class="euiFlyout euiFlyout--small"
+                              data-test-subj="spanDetailFlyout"
                               role="dialog"
                               tabindex="0"
                             >
@@ -1947,6 +1978,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                             >
                               <div
                                 class="euiFlyout euiFlyout--small"
+                                data-test-subj="spanDetailFlyout"
                                 role="dialog"
                                 tabindex="0"
                               >
@@ -2024,6 +2056,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                     >
                       <div
                         className="euiFlyout euiFlyout--small"
+                        data-test-subj="spanDetailFlyout"
                         role="dialog"
                         tabIndex={0}
                       >

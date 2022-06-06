@@ -16,7 +16,7 @@ import { LogExplorer } from './log_explorer';
 
 export const EventAnalytics = ({
   chrome,
-  parentBreadcrumb,
+  parentBreadcrumbs,
   pplService,
   dslService,
   savedObjects,
@@ -63,9 +63,9 @@ export const EventAnalytics = ({
         <Switch>
           <Route
             path={[`/event_analytics/explorer/:id`, `/event_analytics/explorer`]}
-            render={(props) => {
+            render={(prop) => {
               chrome.setBreadcrumbs([
-                parentBreadcrumb,
+                ...parentBreadcrumbs,
                 eventAnalyticsBreadcrumb,
                 {
                   text: 'Explorer',
@@ -74,7 +74,7 @@ export const EventAnalytics = ({
               ]);
               return (
                 <LogExplorer
-                  savedObjectId={props.match.params.id}
+                  savedObjectId={prop.match.params.id}
                   pplService={pplService}
                   dslService={dslService}
                   savedObjects={savedObjects}
@@ -91,9 +91,9 @@ export const EventAnalytics = ({
           <Route
             exact
             path={['/', '/event_analytics']}
-            render={(props) => {
+            render={() => {
               chrome.setBreadcrumbs([
-                parentBreadcrumb,
+                ...parentBreadcrumbs,
                 eventAnalyticsBreadcrumb,
                 {
                   text: 'Home',

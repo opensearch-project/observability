@@ -18,7 +18,7 @@ import {
 import DSLService from 'public/services/requests/dsl';
 import React, { useEffect, useState } from 'react';
 import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
-import { OptionType } from '../../../../../common/types/app_analytics';
+import { OptionType } from '../../../../../common/types/application_analytics';
 import { filtersToDsl } from '../../../trace_analytics/components/common/helper_functions';
 import { handleDashboardRequest } from '../../../trace_analytics/requests/dashboard_request_handler';
 import { AppAnalyticsComponentDeps } from '../../home';
@@ -211,11 +211,13 @@ export const TraceConfig = (props: TraceConfigProps) => {
     <div>
       <EuiAccordion
         id="traceGroups"
+        data-test-subj="traceGroupsAccordion"
         buttonContent={
           <>
             <EuiText size="s">
               <h3>
-                Trace groups <EuiBadge>{selectedTraces.length}</EuiBadge>
+                Trace groups{' '}
+                <EuiBadge data-test-subj="traceGroupsCountBadge">{selectedTraces.length}</EuiBadge>
               </h3>
             </EuiText>
             <EuiSpacer size="s" />
@@ -227,6 +229,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
         extraAction={
           <EuiButton
             size="s"
+            data-test-subj="clearTraceGroupsButton"
             disabled={!traceOpen || !selectedTraces.length}
             onClick={clearAllModal}
           >

@@ -104,7 +104,11 @@ export function SpanDetailFlyout(props: {
         'Duration',
         `${_.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2)} ms`
       ),
-      getListItem('startTime', 'Start time', moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT)),
+      getListItem(
+        'startTime',
+        'Start time',
+        moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT)
+      ),
       getListItem('endTime', 'End time', moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT)),
       getListItem(
         'status.code',
@@ -187,7 +191,7 @@ export function SpanDetailFlyout(props: {
 
   return (
     <>
-      <EuiFlyout onClose={props.closeFlyout} size="s">
+      <EuiFlyout data-test-subj="spanDetailFlyout" onClose={props.closeFlyout} size="s">
         <EuiFlyoutHeader hasBorder>
           <EuiTitle>
             <h2>Span detail</h2>

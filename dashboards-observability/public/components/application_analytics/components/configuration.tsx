@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   EuiBreadcrumb,
@@ -11,6 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
+  EuiLink,
   EuiPage,
   EuiPageBody,
   EuiPageContent,
@@ -23,31 +23,31 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { ApplicationType } from 'common/types/app_analytics';
-import React, { useEffect, useState } from 'react';
+import { ApplicationRequestType, ApplicationType } from 'common/types/application_analytics';
+import { last } from 'lodash';
+import React, { useState } from 'react';
 
 interface ConfigProps {
   appId: string;
   application: ApplicationType;
-  parentBreadcrumb: EuiBreadcrumb;
+  parentBreadcrumbs: EuiBreadcrumb[];
   visWithAvailability: EuiSelectOption[];
-  switchToEditViz: (savedVizId: string) => void;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
+  switchToAvailability: () => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
 }
 
 export const Configuration = (props: ConfigProps) => {
   const {
     appId,
     application,
-    parentBreadcrumb,
+    parentBreadcrumbs,
     visWithAvailability,
     updateApp,
-    switchToEditViz,
+    switchToAvailability,
   } = props;
-  const [availabilityVisId, setAvailabilityVisId] = useState(application.availabilityVisId || '');
-  useEffect(() => {
-    switchToEditViz('');
-  }, []);
+  const [availabilityVisId, setAvailabilityVisId] = useState(
+    application.availability.availabilityVisId || ''
+  );
 
   const onAvailabilityVisChange = (event: any) => {
     setAvailabilityVisId(event.target.value);
@@ -70,9 +70,10 @@ export const Configuration = (props: ConfigProps) => {
                   <EuiFlexItem>
                     <EuiButton
                       fill
+                      data-test-subj="editApplicationButton"
                       onClick={() => {
                         window.location.assign(
-                          `${parentBreadcrumb.href}application_analytics/edit/${appId}`
+                          `${last(parentBreadcrumbs)!.href}application_analytics/edit/${appId}`
                         );
                       }}
                     >
@@ -91,7 +92,7 @@ export const Configuration = (props: ConfigProps) => {
                   </EuiText>
                   <EuiSpacer size="m" />
                   <p>
-                    <EuiCode>{application.baseQuery}</EuiCode>
+                    <EuiCode data-test-subj="configBaseQueryCode">{application.baseQuery}</EuiCode>
                   </p>
                 </EuiFlexItem>
                 <EuiFlexItem>
@@ -125,11 +126,20 @@ export const Configuration = (props: ConfigProps) => {
                     <h4>Availability</h4>
                   </EuiText>
                   <EuiSpacer size="m" />
-                  <EuiSelect
-                    options={visWithAvailability}
-                    value={availabilityVisId}
-                    onChange={onAvailabilityVisChange}
-                  />
+                  {visWithAvailability.length > 0 ? (
+                    <EuiSelect
+                      options={visWithAvailability}
+                      value={availabilityVisId}
+                      onChange={onAvailabilityVisChange}
+                    />
+                  ) : (
+                    <EuiLink
+                      data-test-subj="setAvailabilityConfigLink"
+                      onClick={() => switchToAvailability()}
+                    >
+                      Set Availability
+                    </EuiLink>
+                  )}
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiPageContentBody>
