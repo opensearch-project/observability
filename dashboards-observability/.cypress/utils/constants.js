@@ -100,3 +100,22 @@ export const supressResizeObserverIssue = () => {
     if (err.message.includes('ResizeObserver loop')) return false;
   });
 };
+
+export const verify_traces_spans_data_grid_cols_exists = () => {
+  cy.get('.euiDataGridHeaderCell__content').contains('Span ID').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('Trace ID').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('Operation').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('Duration').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('Start time').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('End time').should('exist');
+  cy.get('.euiDataGridHeaderCell__content').contains('Errors').should('exist');
+}
+
+export const count_table_row = (expected_row_count) => {
+  cy.get('.euiDataGridHeader [role="columnheader"]').then($el => {
+    let colmun_header_count = Cypress.$($el).length;
+    let table_grid_cell_count = Cypress.$('[data-test-subj="dataGridRowCell"]').length;
+    const total_row_count = table_grid_cell_count / colmun_header_count;
+    expect(total_row_count).to.equal(expected_row_count)
+  });
+}
