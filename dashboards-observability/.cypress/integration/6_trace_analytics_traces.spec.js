@@ -144,13 +144,12 @@ describe('Testing traces table', () => {
     cy.wait(delay);
     cy.get('.euiButtonEmpty__text').contains('Rows per page').click();
     cy.get('.euiContextMenuItem__text').contains('15 rows').click();
+    let expected_row_count=15;
     cy.get('.euiTable--auto')
     .find("tr")
     .then((row) => {
-      //row.length will give you the row count
-      cy.log(row.length-1);
       let total=row.length-1;
+      expect(total).to.equal(expected_row_count);
     });
-    cy.log('Rows are counted');
   });
 });
