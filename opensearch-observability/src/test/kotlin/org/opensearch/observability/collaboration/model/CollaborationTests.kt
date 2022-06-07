@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
+import org.opensearch.observability.collaboration.model.Collaboration.TextInfo
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
-import org.opensearch.observability.collaboration.model.Collaboration.TextInfo
 
 internal class CollaborationTests {
-    private val sampleCollaboration= Collaboration(
-      CollaborationDataType.TEXT,
-      listOf("dev", "test"),
-      false,
-      TextInfo("bcdbhbk56dcd", "5c4cds6c6cd", "298d6eewcecwcdewcc",)
+    private val sampleCollaboration = Collaboration(
+        CollaborationDataType.TEXT,
+        listOf("dev", "test"),
+        false,
+        TextInfo("bcdbhbk56dcd", "5c4cds6c6cd", "298d6eewcecwcdewcc")
     )
 
     @Test
@@ -38,7 +38,7 @@ internal class CollaborationTests {
     @Test
     fun `Collaboration should deserialize json object using parser`() {
         val jsonString =
-                "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"scdsc5646c\",\"paragraphId\":\"hdjcknj656\",\"lineId\":\"cjdnjk5665cdcd\"},\"tags\":[\"dev\",\"latency\"],\"resolved\":false}"
+            "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"scdsc5646c\",\"paragraphId\":\"hdjcknj656\",\"lineId\":\"cjdnjk5665cdcd\"},\"tags\":[\"dev\",\"latency\"],\"resolved\":false}"
         val recreatedObject = createObjectFromJsonString(jsonString) { Collaboration.parse(it) }
         assertEquals(sampleCollaboration, recreatedObject)
     }
@@ -47,14 +47,14 @@ internal class CollaborationTests {
     fun `Collaboration should throw exception when invalid json object is passed`() {
         val jsonString = "sample message"
         assertThrows<JsonParseException> {
-          createObjectFromJsonString(jsonString) { Collaboration.parse(it) }
+            createObjectFromJsonString(jsonString) { Collaboration.parse(it) }
         }
     }
-    
+
     @Test
     fun `Collaboration should safely ignore extra field in json object`() {
         val jsonString =
-                "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"scdsc5646c\",\"paragraphId\":\"hdjcknj656\",\"lineId\":\"cjdnjk5665cdcd\"},\"name\":\"Abbas\",\"tags\":[\"dev\",\"latency\"],\"resolved\":false}"
+            "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"bcdbhbk56dcd\",\"paragraphId\":\"5c4cds6c6cd\",\"lineId\":\"298d6eewcecwcdewcc\"},\"name\":\"Abbas\",\"tags\":[\"dev\",\"test\"],\"resolved\":false}"
         val recreatedObject = createObjectFromJsonString(jsonString) { Collaboration.parse(it) }
         assertEquals(sampleCollaboration, recreatedObject)
     }
