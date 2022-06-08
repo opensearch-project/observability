@@ -643,6 +643,9 @@ describe('Renders data view', () => {
 });
 
 describe('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
   it('Renders chart, clear X-axis and Y-axis value and click on Apply button, Toast message should display with error message', () => {
     querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')

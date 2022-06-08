@@ -109,5 +109,4 @@ export const renderPieChart = () => {
     cy.get('[name="count()"]').eq(0).click();
     cy.get('[data-test-subj="comboBoxToggleListButton"]').eq(0).click();
     cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
-    cy.get('[name="count()"]').eq(1).click({ multiple: true });
 };
