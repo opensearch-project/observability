@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { uniq, has, isEmpty } from 'lodash';
+import { uniq, has, isEmpty, indexOf } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import { colorPalette } from '@elastic/eui';
 import { Plt } from '../../plotly/plot';
@@ -16,13 +16,16 @@ import {
   HEATMAP_SINGLE_COLOR,
 } from '../../../../../common/constants/colors';
 import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
+import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
+  const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+  const yaxis = defaultAxes.yaxis ?? [];
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
@@ -31,6 +34,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const zMetrics =
     dataConfig?.valueOptions && dataConfig?.valueOptions.zaxis
       ? dataConfig?.valueOptions.zaxis[0]
+      : yaxis.length > 0
+      ? yaxis[0]
       : fields[fields.length - 3];
   const uniqueYaxis = uniq(data[yaxisField.name]);
   const uniqueXaxis = uniq(data[xaxisField.name]);
@@ -43,7 +48,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(data[xaxisField.name]) ||
     isEmpty(data[yaxisField.name]) ||
-    isEmpty(data[zMetrics.name])
+    isEmpty(data[zMetrics.name]) ||
+    indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
@@ -116,7 +122,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const mergedLayout = {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || zMetrics.name || '',
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
   const mergedConfigs = {

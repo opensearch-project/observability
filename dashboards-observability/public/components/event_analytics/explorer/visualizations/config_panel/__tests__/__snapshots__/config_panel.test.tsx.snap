@@ -941,6 +941,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "value": "opacity",
                                   },
                                 ],
+                                "props": Object {
+                                  "isClearable": false,
+                                },
                               },
                               Object {
                                 "component": [Function],

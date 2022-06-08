@@ -75,6 +75,9 @@ export const createMapsVisDefinition = () => ({
                   { name: 'opacity', label: 'opacity', value: 'opacity' },
                 ],
                 defaultState: [{ name: 'spectrum', label: 'spectrum', value: 'spectrum' }],
+                props: {
+                  isClearable: false,
+                },
               },
               {
                 name: 'Scheme',
