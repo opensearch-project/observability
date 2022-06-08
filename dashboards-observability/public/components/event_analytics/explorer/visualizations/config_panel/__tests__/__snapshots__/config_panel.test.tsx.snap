@@ -702,6 +702,68 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "max": 40,
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "interpolation",
+                                "name": "Interpolation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "linear",
+                                      "name": "Linear",
+                                    },
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                    Object {
+                                      "id": "hv",
+                                      "name": "Step before",
+                                    },
+                                    Object {
+                                      "id": "vh",
+                                      "name": "Step after",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill Opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 5,
+                                "eleType": "slider",
+                                "mapTo": "pointSize",
+                                "name": "Point Size",
+                                "props": Object {
+                                  "max": 40,
+                                },
+                              },
                             ],
                           },
                           Object {
