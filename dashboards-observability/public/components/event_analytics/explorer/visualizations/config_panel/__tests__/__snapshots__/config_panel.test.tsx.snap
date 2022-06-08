@@ -989,6 +989,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "isSingleSelection": true,
                                 "mapTo": "parentField",
                                 "name": "Parent Field",
+                                "props": Object {
+                                  "isInvalid": false,
+                                },
                               },
                               Object {
                                 "component": null,
@@ -1042,6 +1045,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "value": "dice-slice",
                                   },
                                 ],
+                                "props": Object {
+                                  "isClearable": false,
+                                },
                               },
                             ],
                           },

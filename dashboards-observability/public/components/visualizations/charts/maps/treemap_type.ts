@@ -61,6 +61,9 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'parentField',
+                props: {
+                  isInvalid: false,
+                }
               },
               {
                 name: 'Value Field',
@@ -90,6 +93,9 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                   { name: 'Dice Slice', value: 'dice-slice' },
                 ],
                 defaultState: [{ name: 'Squarify', label: 'Squarify', value: 'squarify' }],
+                props: {
+                  isClearable: false,
+                }
               },
             ],
           },
