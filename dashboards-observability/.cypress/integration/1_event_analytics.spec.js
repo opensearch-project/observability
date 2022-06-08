@@ -616,3 +616,47 @@ describe('Renders data view', () => {
     cy.get('[data-test-subj="workspace__dataTable"]').should('not.exist');
   });
 });
+
+describe('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders chart, clear X-axis and Y-axis value and click on Apply button, Toast message should display with error message', () => {
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Bar')
+      .type('{enter}');
+    cy.wait(delay);
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').eq(0).click({force:true});
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.wait(delay)
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').click({multiple:true});
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(0).should('have.value', '');
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(1).should('have.value', '');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('[data-test-subj="euiToastHeader"]').contains('Invalid value options configuration selected.').should('exist');
+  });
+
+  it('Renders chart, clear X-axis and Y-axis value and try to save visulization, Toast message should display with error message', () => {
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Bar')
+      .type('{enter}');
+    cy.wait(delay);
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').eq(0).click({force:true});
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.wait(delay)
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').click({multiple:true});
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(0).should('have.value', '');
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(1).should('have.value', '');
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.get('.euiPopover__panel input').eq(1).type(`Test visulization_`);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="euiToastHeader"]').contains('Invalid value options configuration selected.').should('exist');
+  });
+});
