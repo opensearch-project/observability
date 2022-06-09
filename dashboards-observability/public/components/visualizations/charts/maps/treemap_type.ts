@@ -8,7 +8,12 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ConfigValueOptions,
+  ColorPalettePicker,
+  ConfigChartOptions,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -25,6 +30,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
+  iconType: 'heatmap',
   icon: LensIconChartBar,
   categoryAxis: 'xaxis',
   seriesAxis: 'yaxis',
@@ -45,16 +51,68 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'X-axis',
+                name: 'Child Field',
                 isSingleSelection: true,
                 component: null,
-                mapTo: 'xaxis',
+                mapTo: 'childField',
               },
               {
-                name: 'Y-axis',
-                isSingleSelection: false,
+                name: 'Parent Field',
+                isSingleSelection: true,
                 component: null,
-                mapTo: 'yaxis',
+                mapTo: 'parentField',
+                props: {
+                  isInvalid: false,
+                }
+              },
+              {
+                name: 'Value Field',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'valueField',
+              },
+            ],
+          },
+          {
+            id: 'treemap_options',
+            name: 'Treemap',
+            editor: ConfigValueOptions,
+            mapTo: 'treemapOptions',
+            schemas: [
+              {
+                name: 'Tiling Algorithm',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'tilingAlgorithm',
+                options: [
+                  { name: 'Squarify', value: 'squarify' },
+                  { name: 'Binary', value: 'binary' },
+                  { name: 'Dice', value: 'dice' },
+                  { name: 'Slice', value: 'slice' },
+                  { name: 'Slice Dice', value: 'slice-dice' },
+                  { name: 'Dice Slice', value: 'dice-slice' },
+                ],
+                defaultState: [{ name: 'Squarify', label: 'Squarify', value: 'squarify' }],
+                props: {
+                  isClearable: false,
+                }
+              },
+            ],
+          },
+          {
+            id: 'chart_styles',
+            name: 'Chart Styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
+            schemas: [
+              {
+                name: 'Color Theme',
+                isSingleSelection: true,
+                component: ColorPalettePicker,
+                mapTo: 'colorTheme',
+                eleType: 'treemapColorPicker',
+                options: COLOR_PALETTES,
+                defaultState: { name: DEFAULT_PALETTE },
               },
             ],
           },

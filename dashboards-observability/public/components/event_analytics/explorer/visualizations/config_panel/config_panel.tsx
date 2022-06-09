@@ -92,7 +92,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
   useEffect(() => {
     setVizConfigs({
       ...userConfigs,
-      dataConfig: { ...vizConfigs.dataConfig, ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()) },
+      dataConfig: { ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()) },
       layoutConfig: userConfigs?.layoutConfig
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
