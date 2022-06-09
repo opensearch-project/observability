@@ -36,11 +36,11 @@ export const ConfigValueOptions = ({
         paddingTitle: schema.name,
         advancedTitle: 'advancedTitle',
         dropdownList:
-          schema?.options?.map((option) => ({ name: option })) ||
+          schema?.options?.map((option) => ({ ...option })) ||
           fields.map((item) => ({ ...item })),
         onSelectChange: handleConfigurationChange(schema.mapTo),
         isSingleSelection: schema.isSingleSelection,
-        selectedAxis: vizState[schema.mapTo],
+        selectedAxis: vizState[schema.mapTo] || schema?.defaultState,
         vizState,
         ...schema.props,
       };
