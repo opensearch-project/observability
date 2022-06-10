@@ -35,9 +35,8 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
-  const invertHex = (hex:string) => {
-    return (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase()
-  }
+  const invertHex = (hex:string) => (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
+  
   
   const pies = valueSeries.map((field: any, index) => {
     const marker =
