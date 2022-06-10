@@ -73,9 +73,9 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
     const [valueField] = data.defaultAxes?.yaxis ?? [];
     if (curVisId === visChartTypes.TreeMap) {
       chartBasedAxes["childField"] = data.defaultAxes.xaxis ?? [];
-      chartBasedAxes["valueField"] = [valueField];
+      chartBasedAxes["valueField"] = valueField && [valueField];
     } else if(curVisId === visChartTypes.HeatMap){
-      chartBasedAxes["zaxis"] = [valueField];
+      chartBasedAxes["zaxis"] = valueField && [valueField];
     } else {
       chartBasedAxes = { ...data.defaultAxes };
     }
