@@ -38,7 +38,7 @@ internal class CollaborationTests {
     @Test
     fun `Collaboration should deserialize json object using parser`() {
         val jsonString =
-            "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"scdsc5646c\",\"paragraphId\":\"hdjcknj656\",\"lineId\":\"cjdnjk5665cdcd\"},\"tags\":[\"dev\",\"latency\"],\"resolved\":false}"
+            "{\"type\":\"TEXT\",\"text\":{\"pageId\":\"bcdbhbk56dcd\",\"paragraphId\":\"5c4cds6c6cd\",\"lineId\":\"298d6eewcecwcdewcc\"},\"tags\":[\"dev\",\"test\"],\"resolved\":false}"
         val recreatedObject = createObjectFromJsonString(jsonString) { Collaboration.parse(it) }
         assertEquals(sampleCollaboration, recreatedObject)
     }
