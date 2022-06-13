@@ -17,6 +17,7 @@ import {
     EuiComboBox,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
+import { ADD_BUTTON_TEXT } from '../../../../../../../../common/constants/explorer';
 
 
 export const ConfigColorTheme = ({
@@ -29,7 +30,7 @@ export const ConfigColorTheme = ({
     const { data } = visualizations;
     const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
-    const addButtonText = '+ Add color theme';
+    const addButtonText = ADD_BUTTON_TEXT;
     const getColorThemeRow = () => ({
         ctid: htmlIdGenerator('ct')(),
         name: '',

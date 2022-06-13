@@ -78,6 +78,7 @@ export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualizati
 export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
+export const ADD_BUTTON_TEXT = '+ Add color theme';
 
 export const VIZ_CONTAIN_XY_AXIS = [
   visChartTypes.Bar,
