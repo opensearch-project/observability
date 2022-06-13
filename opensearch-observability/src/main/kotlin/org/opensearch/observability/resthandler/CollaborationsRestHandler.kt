@@ -10,7 +10,10 @@ import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_COLLABORA
 import org.opensearch.observability.collaboration.action.CollaborationActions
 import org.opensearch.observability.collaboration.action.CreateCollaborationObjectAction
 import org.opensearch.observability.collaboration.action.CreateCollaborationObjectRequest
+import org.opensearch.observability.collaboration.action.DeleteCollaborationObjectAction
+import org.opensearch.observability.collaboration.action.DeleteCollaborationObjectRequest
 import org.opensearch.observability.model.RestTag.COLLABORATION_ID_FIELD
+import org.opensearch.observability.model.RestTag.COLLABORATION_ID_LIST_FIELD
 import org.opensearch.observability.util.contentParserNextToken
 import org.opensearch.rest.BaseRestHandler
 import org.opensearch.rest.BaseRestHandler.RestChannelConsumer
@@ -82,12 +85,37 @@ internal class CollaborationsRestHandler : BaseRestHandler() {
         }
     }
 
+    private fun executeDeleteRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+        val collaborationId: String? = request.param(COLLABORATION_ID_FIELD)
+        val collaborationIdSet: Set<String> =
+            request.paramAsStringArray(COLLABORATION_ID_FIELD, arrayOf(collaborationId))
+                .filter { s -> !s.isNullOrBlank() }
+                .toSet()
+        return RestChannelConsumer {
+            if (collaborationIdSet.isEmpty()) {
+                it.sendResponse(
+                    BytesRestResponse(
+                        RestStatus.BAD_REQUEST,
+                        "Either $COLLABORATION_ID_FIELD or $COLLABORATION_ID_LIST_FIELD is required"
+                    )
+                )
+            } else {
+                client.execute(
+                    DeleteCollaborationObjectAction.ACTION_TYPE,
+                    DeleteCollaborationObjectRequest(collaborationIdSet),
+                    RestResponseToXContentListener(it)
+                )
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         return when (request.method()) {
             POST -> executePostCollaborationRequest(request, client)
+            DELETE -> executeDeleteRequest(request, client)
             else -> RestChannelConsumer {
                 it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
             }
