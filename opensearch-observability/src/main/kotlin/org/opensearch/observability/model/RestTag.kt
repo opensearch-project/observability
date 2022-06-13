@@ -14,7 +14,9 @@ internal object RestTag {
     const val QUERY_FIELD = "query"
     const val OBJECT_LIST_FIELD = "observabilityObjectList"
     const val DELETE_RESPONSE_LIST_TAG = "deleteResponseList"
+    const val COLLABORATION_DELETE_RESPONSE_LIST_TAG = "deleteResponseList"
     const val COLLABORATION_ID_FIELD = "collaborationId"
+    const val COLLABORATION_ID_LIST_FIELD = "collaborationIdList"
     const val COLLABORATION_FIELD = "collaborations"
     const val COMMENT_FIELD = "comment"
     const val COLLAB_TEXT_FIELD = "TEXT" // TODO: better name, convert to enum

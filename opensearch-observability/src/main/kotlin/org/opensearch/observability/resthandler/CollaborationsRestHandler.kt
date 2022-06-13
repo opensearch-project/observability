@@ -17,6 +17,7 @@ import org.opensearch.rest.BaseRestHandler.RestChannelConsumer
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
 import org.opensearch.rest.RestRequest
+import org.opensearch.rest.RestRequest.Method.DELETE
 import org.opensearch.rest.RestRequest.Method.POST
 import org.opensearch.rest.RestStatus
 
@@ -51,6 +52,13 @@ internal class CollaborationsRestHandler : BaseRestHandler() {
              */
             Route(POST, "$COLLABORATION_URL/{$COLLABORATION_ID_FIELD}"),
             Route(POST, COLLABORATION_URL),
+            /**
+             * Delete a collaboration object
+             * Request URL: DELETE COLLABORATION_URL/{collaborationId}
+             * Request body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectRequest]
+             * Response body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectResponse]
+             */
+            Route(DELETE, "$COLLABORATION_URL/{$COLLABORATION_ID_FIELD}")
         )
     }
 
