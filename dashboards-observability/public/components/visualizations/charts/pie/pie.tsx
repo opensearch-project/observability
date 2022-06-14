@@ -28,7 +28,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
     const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
 
-  let valueSeries;
+    let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
@@ -43,7 +43,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       colorTheme.name !== DEFAULT_PALETTE
         ? {
             marker: {
-              colors: [...Array(data[field.name].length).fill(colorTheme.color)],
+              colors: [...Array(data[field.name].length).fill(colorTheme.childColor)],
               line: {
                 color: invertHex(colorTheme),
                 width: 1,
