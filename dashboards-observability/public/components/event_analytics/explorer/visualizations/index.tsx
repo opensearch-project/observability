@@ -14,6 +14,7 @@ import { IField, IQuery, IVisualizationContainerProps } from '../../../../../com
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
+import { DataConfigPanel } from '../sidebar/data_config_panel';
 
 interface IExplorerVisualizationsProps {
   query: IQuery;
@@ -62,6 +63,21 @@ export const ExplorerVisualizations = ({
               />
             </div>
           </EuiResizablePanel>
+          {/* <EuiResizablePanel initialSize={20} minSize="100px" style={{border:"1px solid #D3DAE6", padding:'0px'}}>
+            <div className="">
+              <DataConfigPanel
+                query={query}
+                explorerFields={explorerFields}
+                explorerData={explorerData}
+                selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
+                handleOverrideTimestamp={handleOverrideTimestamp}
+                handleAddField={(field: IField) => handleAddField(field)}
+                handleRemoveField={(field: IField) => handleRemoveField(field)}
+                isFieldToggleButtonDisabled={true}
+              />
+            </div>
+          </EuiResizablePanel> */}
+
           <EuiResizableButton />
           <EuiResizablePanel initialSize={65} minSize="30%">
             <WorkspacePanel

@@ -92,6 +92,26 @@ export const createBarTypeDefinition = (params: any) => ({
               },
             ],
           },
+          {
+            id: 'data_configurations',
+            name: 'Data Configurations',
+            editor: ConfigValueOptions,
+            mapTo: 'valueOptions',
+            schemas: [
+              {
+                name: 'Dimensions',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'xaxis',
+              },
+              {
+                name: 'Metrics',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'yaxis',
+              },
+            ],
+          },
         ],
       },
       {
