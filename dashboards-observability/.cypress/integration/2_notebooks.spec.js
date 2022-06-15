@@ -65,6 +65,13 @@ describe('Testing notebooks table', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
   });
 
+  it('Notebooks table empty state', () => {
+    cy.get('#notebookArea').contains('Notebooks (0)').should('exist');
+    cy.get('.euiTextAlign.euiTextAlign--center').contains('No notebooks');
+    cy.get('.euiButton__text').eq(2).contains('Create notebook');
+    cy.get('.euiButton__text').eq(3).contains('Add samples');
+  });
+
   it('Displays error toast for invalid notebook name', () => {
     cy.get('.euiButton__text').contains('Create notebook').click();
     cy.wait(delay);
