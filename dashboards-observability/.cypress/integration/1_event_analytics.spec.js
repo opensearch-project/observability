@@ -848,3 +848,66 @@ describe('Render Pie chart for Legend and single color contrast change', () => {
   });
 });
 
+describe('Renders heatmap chart for Chart Style', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Heatmap').click();
+  });
+
+  it('Renders heatmap chart with default Color Mode and Scheme', () => {
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="avg(bytes)"]').should('exist');
+  });
+
+  it('Renders heatmap chart with default Chart Style and Z-axis count()', () => {
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('count()').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="count()"]').should('exist');
+  });
+
+  it('Renders heatmap chart with default Chart Style and Z-axis avg(bytes)', () => {
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('avg(bytes)').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="avg(bytes)"]').should('exist');
+  });
+
+  it('Renders heatmap chart and Verify if Color Mode is Spectrum then by default Scheme is Reds', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).should('contain','Spectrum');
+    cy.get('[aria-haspopup="true"]').eq(1).should('contain','Reds');
+    cy.get('stop[stop-color="rgb(178, 10, 28)"]').should('exist');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+  });
+
+  it('Renders heatmap chart and Verify if Color Mode is opacity then by default Scheme is Color', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOption__content').contains('opacity').click();
+    cy.get('.euiTitle.euiTitle--xxsmall').eq(2).should('contain','Color');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(19, 19, 19)"]').should('exist');
+  });
+
+  it('Renders heatmap chart for Color Mode Spectrum and  Change color of Scheme', () => {
+    cy.get('[aria-haspopup="true"]').eq(1).click();
+    cy.get('.euiColorPalettePicker__itemTitle').contains('Red-Blue').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(5, 10, 172)"]').should('exist');
+    cy.get('stop[stop-color="rgb(178, 10, 28)"]').should('exist');
+  });
+
+  it('Renders heatmap chart for Color Mode opacity and Change color', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOption__content').contains('opacity').click();
+    cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
+    cy.get('.euiTitle.euiTitle--xxsmall').eq(2).should('contain','Color');
+    cy.get('[aria-label="Select #D6BF57 as the color"]').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(255, 255, 214)"]').should('exist');
+    cy.get('stop[stop-color="rgb(214, 191, 87)"]').should('exist');
+   });
+});
