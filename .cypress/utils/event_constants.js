@@ -28,10 +28,14 @@ export const TEST_QUERIES = [
     query: 'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
- {
-  query: 'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName',
-  dateRangeDOM: YEAR_TO_DATE_DOM_ID
-},
+  {
+    query: 'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+  },
+  {
+    query:"source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)", 
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+  },
 ];
 
 export const TESTING_PANEL = 'Mock Testing Panels';
@@ -91,4 +95,18 @@ export const renderTreeMapchart = () => {
     cy.get('#configPanel__treemap_options').contains('Tiling Algorithm').should('exist');
     cy.get('[data-test-subj = "comboBoxInput"]').eq(4).click();
     cy.get('button[name="Slice Dice"]').click();
+};
+
+export const renderPieChart = () => {
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+  cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
+  cy.wait(delay);
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Pie chart');
+    cy.get('.euiIEFlexWrapFix').eq(1).contains('Value options').should('exist');
+    cy.get('[data-test-subj="comboBoxInput"]').eq(1).click();
+    cy.get('[name="count()"]').eq(0).click();
+    cy.get('[data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
 };

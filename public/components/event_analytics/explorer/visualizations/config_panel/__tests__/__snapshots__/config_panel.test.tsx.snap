@@ -709,9 +709,63 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "editor": [Function],
-                            "id": "chart_options",
-                            "mapTo": "chartOptions",
-                            "name": "Chart options",
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart Styles",
                             "schemas": Array [
                               Object {
                                 "component": null,
@@ -737,6 +791,28 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "defaultState": Object {
+                                  "name": "default",
+                                },
+                                "eleType": "colorpicker",
+                                "isSingleSelection": true,
+                                "mapTo": "colorTheme",
+                                "name": "Color Theme",
+                                "options": Array [
+                                  Object {
+                                    "title": "Default",
+                                    "type": "text",
+                                    "value": "default",
+                                  },
+                                  Object {
+                                    "title": "Single Color",
+                                    "type": "text",
+                                    "value": "singleColor",
+                                  },
+                                ],
+                              },
                             ],
                           },
                         ],
@@ -755,11 +831,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "iconType": "visPie",
                   "id": "pie",
                   "label": "Pie",
+                  "legendPosition": "v",
                   "name": "pie",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
                   "seriesAxis": "yaxis",
+                  "showLegend": true,
                   "type": "pie",
                   "visConfig": Object {
                     "config": Object {
