@@ -65,6 +65,36 @@ export const TIME_INTERVAL_OPTIONS = [
   },
 ];
 
+export const AGGREGATION_OPTIONS = [
+  {
+    label: 'COUNT',
+  },
+  {
+    label: 'SUM',
+  },
+  {
+    label: 'AVERAGE',
+  },
+  {
+    label: 'MAX',
+  },
+  {
+    label: 'MIN',
+  },
+  {
+    label: 'VAR_SAMP',
+  },
+  {
+    label: 'VAR_POP',
+  },
+  {
+    label: 'STDDEV_SAMP',
+  },
+  {
+    label: 'STDDEV_POP',
+  },
+];
+
 // redux
 export const SELECTED_QUERY_TAB = 'selectedQueryTab';
 export const QUERY_TAB_IDS = 'queryTabIds';
