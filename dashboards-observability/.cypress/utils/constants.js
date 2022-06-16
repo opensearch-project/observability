@@ -60,6 +60,8 @@ export const setTimeFilter = (setEndTime = false, refresh = true) => {
 // notebooks
 export const TEST_NOTEBOOK = 'Test Notebook';
 export const SAMPLE_URL = 'https://github.com/opensearch-project/sql/tree/main/sql-jdbc';
+export const NOTEBOOK_TEXT = 'Use Notebooks to interactively and collaboratively develop rich reports backed by live data. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.';
+export const OPENSEARCH_URL = 'https://opensearch.org/docs/latest/observability-plugin/notebooks/';
 export const MARKDOWN_TEXT = `%md
 # Heading 1
 
