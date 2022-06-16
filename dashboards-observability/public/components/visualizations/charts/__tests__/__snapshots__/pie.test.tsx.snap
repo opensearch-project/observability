@@ -382,6 +382,9 @@ exports[`Pie component Renders pie component 1`] = `
           "rows": 1,
         },
         "height": 220,
+        "legend": Object {
+          "orientation": undefined,
+        },
         "margin": Object {
           "b": 15,
           "l": 60,
@@ -389,7 +392,7 @@ exports[`Pie component Renders pie component 1`] = `
           "r": 10,
           "t": 30,
         },
-        "showlegend": true,
+        "showlegend": undefined,
         "title": "",
       }
     }
@@ -442,8 +445,7 @@ exports[`Pie component Renders pie component 1`] = `
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
+            "orientation": undefined,
           },
           "margin": Object {
             "b": 15,
@@ -452,7 +454,7 @@ exports[`Pie component Renders pie component 1`] = `
             "r": 10,
             "t": 30,
           },
-          "showlegend": true,
+          "showlegend": undefined,
           "title": "",
           "xaxis": Object {
             "automargin": true,
