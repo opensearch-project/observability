@@ -9,6 +9,7 @@ import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { hexToRgba } from '../../../event_analytics/utils/utils';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -30,19 +31,42 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const barOrientation = dataConfig?.chartStyles?.orientation || visualizations.vis.orientation;
   const { defaultAxes } = visualizations.data;
   const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visualizations.vis.labelAngle
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || visualizations.vis.lineWidth;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : visualizations.vis.fillOpacity / 200;
 
   const isVertical = barOrientation === 'v';
 
   // Individual bars have different colors
   // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor
   // Else each stacked bar has its own color using colorway
-  let marker = {};
+  let marker: { color: string[], line: { color: string[], width: number } } = {
+    color: [],
+    line: { color: [], width: lineWidth }
+  };
   if (lastIndex === 1 && data[fields[lastIndex].name].length < 16 && !isUniColor) {
     marker = {
       color: data[fields[lastIndex].name].map((_: string, index: number) => {
-        return PLOTLY_COLOR[index % PLOTLY_COLOR.length];
+        return hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
       }),
+      line: {
+        ...marker.line,
+        color: data[fields[lastIndex].name].map((_: string, index: number) => PLOTLY_COLOR[index]),
+      }
     };
+  }
+  // Individual bars have different colors
+  // when: stackLength = 1 and length of result buckets >= 16 and chart is not unicolor
+  // Else each stacked bar has its own color using colorway
+  if (lastIndex === 1 && data[fields[lastIndex].name].length >= 16 && !isUniColor) {
+    data[fields[lastIndex].name].forEach((_: string, index: number) => {
+      marker = {
+        color: [...marker.color, hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity)],
+        line: {
+          ...marker.line,
+          color: [...marker.line.color, PLOTLY_COLOR[index]],
+        }
+      }
+    })
   }
 
   let valueSeries;

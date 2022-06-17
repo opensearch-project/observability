@@ -34,6 +34,8 @@ export const createBarTypeDefinition = (params: any) => ({
   orientation: 'v',
   mode: 'group',
   labelAngle: 0,
+  lineWidth: 1,
+  fillOpacity: 80,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -114,6 +116,26 @@ export const createBarTypeDefinition = (params: any) => ({
                   min: -90,
                   max: 90
                 },
+              },
+              {
+                name: 'Line width',
+                component: SliderConfig,
+                mapTo: 'lineWidth',
+                defaultState: 1,
+                props:{
+                  max: 10,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Fill Opacity',
+                component: SliderConfig,
+                mapTo: 'fillOpacity',
+                defaultState: 80,
+                props:{
+                  max: 100,
+                },
+                eleType: 'slider',
               },
             ],
           }
