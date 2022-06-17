@@ -27,13 +27,9 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
-  const barOrientation =
-    dataConfig?.chartOptions?.orientation &&
-    dataConfig.chartOptions.orientation[0] &&
-    dataConfig.chartOptions.orientation[0].orientationId
-      ? dataConfig.chartOptions.orientation[0].orientationId
-      : visualizations.vis.orientation;
+  const barOrientation = dataConfig?.chartStyles?.orientation || visualizations.vis.orientation;
   const { defaultAxes } = visualizations.data;
+  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visualizations.vis.labelAngle
 
   const isVertical = barOrientation === 'v';
 
@@ -82,12 +78,10 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    barmode:
-      dataConfig?.chartOptions?.mode &&
-      dataConfig.chartOptions.mode[0] &&
-      dataConfig.chartOptions.mode[0].modeId
-        ? dataConfig.chartOptions.mode[0].modeId
-        : '',
+    barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
+    xaxis: {
+      tickangle: tickAngle
+    },
   };
 
   if (dataConfig.thresholds || availabilityConfig.level) {

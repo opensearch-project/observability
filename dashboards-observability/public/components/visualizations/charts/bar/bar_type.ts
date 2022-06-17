@@ -10,6 +10,9 @@ import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/c
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
+import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
+import { SliderConfig } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -29,6 +32,8 @@ export const createBarTypeDefinition = (params: any) => ({
   categoryAxis: 'xaxis',
   seriesAxis: 'yaxis',
   orientation: 'v',
+  mode: 'group',
+  labelAngle: 0,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -59,39 +64,59 @@ export const createBarTypeDefinition = (params: any) => ({
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigBarChartStyles,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Orientation',
-                isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'orientation',
+                eleType: 'buttons',
                 props: {
-                  dropdownList: [
-                    { name: 'Vertical', orientationId: 'v' },
-                    { name: 'Horizontal', orientationId: 'h' },
+                  options: [
+                    { name: 'Vertical', modeId: 'v' },
+                    { name: 'Horizontal', modeId: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Vertical', orientationId: 'v' }],
+                  defaultSelections: [{ name: 'Vertical', modeId: 'v' }],
                 },
               },
               {
                 name: 'Mode',
-                isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'mode',
+                eleType: 'buttons',
                 props: {
-                  dropdownList: [
+                  options: [
                     { name: 'Group', modeId: 'group' },
                     { name: 'Stack', modeId: 'stack' },
                   ],
                   defaultSelections: [{ name: 'Group', modeId: 'group' }],
                 },
               },
+              {
+                name: 'Rotate bar labels',
+                component: SliderConfig,
+                mapTo: 'rotateBarLabels',
+                eleType: 'slider',
+                defaultState: 0,
+                props: {
+                  ticks:
+                    [
+                      { label: '-90°', value: -90 },
+                      { label: '-45°', value: -45 },
+                      { label: '0°', value: 0 },
+                      { label: '45°', value: 45 },
+                      { label: '90°', value: 90 },
+                    ],
+                  showTicks: true,
+                  min: -90,
+                  max: 90
+                },
+              },
             ],
-          },
+          }
         ],
       },
       {
