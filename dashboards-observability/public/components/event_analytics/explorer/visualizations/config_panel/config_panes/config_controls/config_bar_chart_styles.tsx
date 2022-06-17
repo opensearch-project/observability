@@ -43,6 +43,13 @@ export const ConfigBarChartStyles = ({
         currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
             let params;
             const DimensionComponent = schema.component || ButtonGroupItem;
+
+            const createDimensionComponent = (dimProps) => (
+                <>
+                    <DimensionComponent key={`viz-series-${index}`} {...dimProps} />
+                    <EuiSpacer size="s" />
+                </>
+            )
             if (schema.eleType === 'buttons') {
                 params = {
                     title: schema.name,
@@ -53,7 +60,10 @@ export const ConfigBarChartStyles = ({
                     vizState,
                     ...schema.props,
                 };
-            } else if (schema.eleType === 'slider') {
+                return createDimensionComponent(params);
+            }
+
+            if (schema.eleType === 'slider') {
                 params = {
                     minRange: schema?.props?.min || 0,
                     maxRange: schema.props.max,
@@ -66,14 +76,9 @@ export const ConfigBarChartStyles = ({
                     vizState,
                     ...schema.props,
                 };
+                return createDimensionComponent(params);
             }
-            return (
-                <>
-                    <DimensionComponent key={`viz-series-${index}`} {...params} />
-                    <EuiSpacer size="s" />
-                </>
-            )
-        })
+        }).filter(item => item)
         , [schemas, vizState, handleConfigurationChange]);
 
     return (

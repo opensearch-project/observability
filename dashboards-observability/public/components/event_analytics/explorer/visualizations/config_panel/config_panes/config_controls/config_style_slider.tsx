@@ -4,8 +4,7 @@
  */
 
 import React, { ReactNode } from 'react';
-import { uniqueId } from 'lodash';
-import { EuiTitle, EuiSpacer, EuiRange } from '@elastic/eui';
+import { EuiTitle, EuiSpacer, EuiRange, htmlIdGenerator, } from '@elastic/eui';
 
 export interface EuiRangeTick {
     value: number;
@@ -33,7 +32,7 @@ export const SliderConfig: React.FC<Props> = ({
         <EuiSpacer size="s" />
         <EuiRange
             aria-label="change lineWidth slider"
-            id={uniqueId('inputRangeSlider-')}
+            id={htmlIdGenerator('inputRangeSlider')()}
             min={minRange}
             max={maxRange}
             name={title}

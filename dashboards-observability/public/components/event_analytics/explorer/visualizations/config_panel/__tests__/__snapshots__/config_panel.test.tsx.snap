@@ -8104,7 +8104,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     async={false}
                                                     compressed={false}
                                                     fullWidth={false}
-                                                    id="axis-select-13"
+                                                    id="axis-select-4"
                                                     isClearable={true}
                                                     isInvalid={true}
                                                     onChange={[Function]}
@@ -8140,7 +8140,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         compressed={false}
                                                         fullWidth={false}
                                                         hasSelectedOptions={false}
-                                                        id="axis-select-13"
+                                                        id="axis-select-4"
                                                         inputRef={[Function]}
                                                         isListOpen={false}
                                                         noIcon={false}
@@ -8196,7 +8196,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                   aria-controls=""
                                                                   className="euiComboBox__input"
                                                                   data-test-subj="comboBoxSearchInput"
-                                                                  id="axis-select-13"
+                                                                  id="axis-select-4"
                                                                   injectStyles={true}
                                                                   inputRef={[Function]}
                                                                   minWidth={1}
@@ -8223,7 +8223,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-controls=""
                                                                       data-test-subj="comboBoxSearchInput"
-                                                                      id="axis-select-13"
+                                                                      id="axis-select-4"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -8369,7 +8369,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     async={false}
                                                     compressed={false}
                                                     fullWidth={false}
-                                                    id="axis-select-14"
+                                                    id="axis-select-5"
                                                     isClearable={true}
                                                     isInvalid={true}
                                                     onChange={[Function]}
@@ -8405,7 +8405,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         compressed={false}
                                                         fullWidth={false}
                                                         hasSelectedOptions={false}
-                                                        id="axis-select-14"
+                                                        id="axis-select-5"
                                                         inputRef={[Function]}
                                                         isListOpen={false}
                                                         noIcon={false}
@@ -8461,7 +8461,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                   aria-controls=""
                                                                   className="euiComboBox__input"
                                                                   data-test-subj="comboBoxSearchInput"
-                                                                  id="axis-select-14"
+                                                                  id="axis-select-5"
                                                                   injectStyles={true}
                                                                   inputRef={[Function]}
                                                                   minWidth={1}
@@ -8488,7 +8488,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-controls=""
                                                                       data-test-subj="comboBoxSearchInput"
-                                                                      id="axis-select-14"
+                                                                      id="axis-select-5"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -9279,7 +9279,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   </EuiSpacer>
                                                   <EuiButtonGroup
                                                     buttonSize="compressed"
-                                                    id="button-select-15"
+                                                    id="random_html_id"
                                                     idSelected="show"
                                                     isFullWidth={false}
                                                     legend="Show Legend"
@@ -9303,7 +9303,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <fieldset
                                                       className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
                                                       disabled={false}
-                                                      id="button-select-15"
+                                                      id="random_html_id"
                                                     >
                                                       <EuiScreenReaderOnly>
                                                         <legend
@@ -9546,7 +9546,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   </EuiSpacer>
                                                   <EuiButtonGroup
                                                     buttonSize="compressed"
-                                                    id="button-select-16"
+                                                    id="random_html_id"
                                                     idSelected="v"
                                                     isFullWidth={false}
                                                     legend="Position"
@@ -9570,7 +9570,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <fieldset
                                                       className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
                                                       disabled={false}
-                                                      id="button-select-16"
+                                                      id="random_html_id"
                                                     >
                                                       <EuiScreenReaderOnly>
                                                         <legend
@@ -10517,7 +10517,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   </EuiSpacer>
                                                   <EuiButtonGroup
                                                     buttonSize="compressed"
-                                                    id="button-select-17"
+                                                    id="random_html_id"
                                                     idSelected="v"
                                                     isFullWidth={false}
                                                     legend="Orientation"
@@ -10541,7 +10541,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <fieldset
                                                       className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
                                                       disabled={false}
-                                                      id="button-select-17"
+                                                      id="random_html_id"
                                                     >
                                                       <EuiScreenReaderOnly>
                                                         <legend
@@ -10784,7 +10784,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   </EuiSpacer>
                                                   <EuiButtonGroup
                                                     buttonSize="compressed"
-                                                    id="button-select-18"
+                                                    id="random_html_id"
                                                     idSelected="group"
                                                     isFullWidth={false}
                                                     legend="Mode"
@@ -10808,7 +10808,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <fieldset
                                                       className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
                                                       disabled={false}
-                                                      id="button-select-18"
+                                                      id="random_html_id"
                                                     >
                                                       <EuiScreenReaderOnly>
                                                         <legend
@@ -11048,7 +11048,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     aria-label="change lineWidth slider"
                                                     compressed={true}
                                                     fullWidth={false}
-                                                    id="inputRangeSlider-19"
+                                                    id="random_html_id"
                                                     isLoading={false}
                                                     levels={Array []}
                                                     max={90}
@@ -11844,7 +11844,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           compressed={true}
                                                           digitTolerance={3}
                                                           fullWidth={false}
-                                                          id="inputRangeSlider-8"
+                                                          id="random_html_id"
                                                           isLoading={false}
                                                           max={90}
                                                           min={-90}
@@ -11858,7 +11858,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             className="euiRangeInput euiRangeInput--max"
                                                             compressed={true}
                                                             fullWidth={false}
-                                                            id="inputRangeSlider-8"
+                                                            id="random_html_id"
                                                             isLoading={false}
                                                             max={90}
                                                             min={-90}
@@ -11875,7 +11875,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             <EuiFormControlLayout
                                                               compressed={true}
                                                               fullWidth={false}
-                                                              inputId="inputRangeSlider-8"
+                                                              inputId="random_html_id"
                                                               isLoading={false}
                                                             >
                                                               <div
@@ -11888,7 +11888,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-label="change lineWidth slider"
                                                                       className="euiFieldNumber euiRangeInput euiRangeInput--max euiFieldNumber--compressed"
-                                                                      id="inputRangeSlider-8"
+                                                                      id="random_html_id"
                                                                       max={90}
                                                                       min={-90}
                                                                       name="Rotate bar labels"
@@ -11955,7 +11955,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     aria-label="change lineWidth slider"
                                                     compressed={true}
                                                     fullWidth={false}
-                                                    id="inputRangeSlider-20"
+                                                    id="random_html_id"
                                                     isLoading={false}
                                                     levels={Array []}
                                                     max={1}
@@ -12032,7 +12032,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           compressed={true}
                                                           digitTolerance={1}
                                                           fullWidth={false}
-                                                          id="inputRangeSlider-9"
+                                                          id="random_html_id"
                                                           isLoading={false}
                                                           max={1}
                                                           min={0}
@@ -12046,7 +12046,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             className="euiRangeInput euiRangeInput--max"
                                                             compressed={true}
                                                             fullWidth={false}
-                                                            id="inputRangeSlider-9"
+                                                            id="random_html_id"
                                                             isLoading={false}
                                                             max={1}
                                                             min={0}
@@ -12063,7 +12063,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             <EuiFormControlLayout
                                                               compressed={true}
                                                               fullWidth={false}
-                                                              inputId="inputRangeSlider-9"
+                                                              inputId="random_html_id"
                                                               isLoading={false}
                                                             >
                                                               <div
@@ -12076,7 +12076,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-label="change lineWidth slider"
                                                                       className="euiFieldNumber euiRangeInput euiRangeInput--max euiFieldNumber--compressed"
-                                                                      id="inputRangeSlider-9"
+                                                                      id="random_html_id"
                                                                       max={1}
                                                                       min={0}
                                                                       name="Group width"
@@ -12143,7 +12143,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     aria-label="change lineWidth slider"
                                                     compressed={true}
                                                     fullWidth={false}
-                                                    id="inputRangeSlider-21"
+                                                    id="random_html_id"
                                                     isLoading={false}
                                                     levels={Array []}
                                                     max={1}
@@ -12220,7 +12220,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           compressed={true}
                                                           digitTolerance={1}
                                                           fullWidth={false}
-                                                          id="inputRangeSlider-10"
+                                                          id="random_html_id"
                                                           isLoading={false}
                                                           max={1}
                                                           min={0}
@@ -12234,7 +12234,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             className="euiRangeInput euiRangeInput--max"
                                                             compressed={true}
                                                             fullWidth={false}
-                                                            id="inputRangeSlider-10"
+                                                            id="random_html_id"
                                                             isLoading={false}
                                                             max={1}
                                                             min={0}
@@ -12251,7 +12251,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             <EuiFormControlLayout
                                                               compressed={true}
                                                               fullWidth={false}
-                                                              inputId="inputRangeSlider-10"
+                                                              inputId="random_html_id"
                                                               isLoading={false}
                                                             >
                                                               <div
@@ -12264,7 +12264,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-label="change lineWidth slider"
                                                                       className="euiFieldNumber euiRangeInput euiRangeInput--max euiFieldNumber--compressed"
-                                                                      id="inputRangeSlider-10"
+                                                                      id="random_html_id"
                                                                       max={1}
                                                                       min={0}
                                                                       name="Bar width"
@@ -12331,7 +12331,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     aria-label="change lineWidth slider"
                                                     compressed={true}
                                                     fullWidth={false}
-                                                    id="inputRangeSlider-22"
+                                                    id="random_html_id"
                                                     isLoading={false}
                                                     levels={Array []}
                                                     max={10}
@@ -12408,7 +12408,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           compressed={true}
                                                           digitTolerance={2}
                                                           fullWidth={false}
-                                                          id="inputRangeSlider-11"
+                                                          id="random_html_id"
                                                           isLoading={false}
                                                           max={10}
                                                           min={0}
@@ -12422,7 +12422,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             className="euiRangeInput euiRangeInput--max"
                                                             compressed={true}
                                                             fullWidth={false}
-                                                            id="inputRangeSlider-11"
+                                                            id="random_html_id"
                                                             isLoading={false}
                                                             max={10}
                                                             min={0}
@@ -12439,7 +12439,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             <EuiFormControlLayout
                                                               compressed={true}
                                                               fullWidth={false}
-                                                              inputId="inputRangeSlider-11"
+                                                              inputId="random_html_id"
                                                               isLoading={false}
                                                             >
                                                               <div
@@ -12452,7 +12452,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-label="change lineWidth slider"
                                                                       className="euiFieldNumber euiRangeInput euiRangeInput--max euiFieldNumber--compressed"
-                                                                      id="inputRangeSlider-11"
+                                                                      id="random_html_id"
                                                                       max={10}
                                                                       min={0}
                                                                       name="Line width"
@@ -12519,7 +12519,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     aria-label="change lineWidth slider"
                                                     compressed={true}
                                                     fullWidth={false}
-                                                    id="inputRangeSlider-23"
+                                                    id="random_html_id"
                                                     isLoading={false}
                                                     levels={Array []}
                                                     max={100}
@@ -12596,7 +12596,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           compressed={true}
                                                           digitTolerance={3}
                                                           fullWidth={false}
-                                                          id="inputRangeSlider-12"
+                                                          id="random_html_id"
                                                           isLoading={false}
                                                           max={100}
                                                           min={0}
@@ -12610,7 +12610,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             className="euiRangeInput euiRangeInput--max"
                                                             compressed={true}
                                                             fullWidth={false}
-                                                            id="inputRangeSlider-12"
+                                                            id="random_html_id"
                                                             isLoading={false}
                                                             max={100}
                                                             min={0}
@@ -12627,7 +12627,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             <EuiFormControlLayout
                                                               compressed={true}
                                                               fullWidth={false}
-                                                              inputId="inputRangeSlider-12"
+                                                              inputId="random_html_id"
                                                               isLoading={false}
                                                             >
                                                               <div
@@ -12640,7 +12640,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     <input
                                                                       aria-label="change lineWidth slider"
                                                                       className="euiFieldNumber euiRangeInput euiRangeInput--max euiFieldNumber--compressed"
-                                                                      id="inputRangeSlider-12"
+                                                                      id="random_html_id"
                                                                       max={100}
                                                                       min={0}
                                                                       name="Fill Opacity"
