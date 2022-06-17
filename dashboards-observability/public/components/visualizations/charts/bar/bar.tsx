@@ -37,7 +37,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barWidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupWidth);
   const isVertical = barOrientation === vis.orientation;
-  const showLegend = dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showLegend ? false : true;
+  const showLegend = !(dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showLegend);
   const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
 
   const getSelectedColorTheme = (field: any, index: number) => dataConfig?.colorTheme?.length > 0 && dataConfig.colorTheme.find(

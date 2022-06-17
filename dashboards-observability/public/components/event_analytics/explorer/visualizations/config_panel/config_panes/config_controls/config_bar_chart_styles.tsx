@@ -20,11 +20,11 @@ export const ConfigBarChartStyles = ({
     const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
     const handleConfigurationChange = useCallback(
-        (stateFiledName) => {
+        (stateFieldName) => {
             return (changes) => {
                 handleConfigChange({
                     ...vizState,
-                    [stateFiledName]: changes,
+                    [stateFieldName]: changes,
                 });
             };
         },
@@ -40,7 +40,7 @@ export const ConfigBarChartStyles = ({
     }, [vizState]);
 
     const dimensions = useMemo(() =>
-        currentSchemas.map((schema: IConfigPanelOptionSection, index: string) => {
+        currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
             let params;
             const DimensionComponent = schema.component || ButtonGroupItem;
             if (schema.eleType === 'buttons') {
@@ -55,13 +55,13 @@ export const ConfigBarChartStyles = ({
                 };
             } else if (schema.eleType === 'slider') {
                 params = {
-                    minRange: schema?.props?.min,
-                    maxRange: schema?.props?.max,
+                    minRange: schema?.props?.min || 0,
+                    maxRange: schema.props.max,
                     step: schema?.props?.step || 1,
                     title: schema.name,
                     currentRange: vizState[schema.mapTo] || schema?.defaultState,
                     ticks: schema?.props?.ticks,
-                    showTicks: schema?.props?.showTicks,
+                    showTicks: schema?.props?.showTicks || false,
                     handleSliderChange: handleConfigurationChange(schema.mapTo),
                     vizState,
                     ...schema.props,
