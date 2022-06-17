@@ -44,6 +44,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
+  let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
 
@@ -60,6 +61,22 @@ export const Line = ({ visualizations, layout, config }: any) => {
         fill: 'tozeroy',
         fillcolor: fillColor,
       };
+      const multiYaxis = { yaxis: `y${index + 1}` };
+      if (index >= 1) {
+        multiMetrics = {
+          ...multiMetrics,
+          [`yaxis${index + 1}`]: {
+            title: `yaxis${index + 1} title`,
+            titlefont: { color: PLOTLY_COLOR[index] },
+            tickfont: { color: PLOTLY_COLOR[index] },
+            overlaying: 'y',
+            side: 'right',
+            anchor: 'free',
+            position: 1 - 0.1 * (index - 1),
+          }
+        }
+      }
+
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
@@ -76,6 +93,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           size: markerSize,
           ...isBarMode && barMarker,
         },
+        ...(index >= 1 && multiYaxis)
       };
     });
 
@@ -92,6 +110,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       },
       showlegend: showLegend,
       ...isBarMode && layoutForBarMode,
+      ...multiMetrics && multiMetrics,
     };
 
     if (dataConfig.thresholds || availabilityConfig.level) {
