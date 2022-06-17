@@ -10,6 +10,7 @@ import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { hexToRgba } from '../../../event_analytics/utils/utils';
+import {  FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -32,30 +33,15 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const { defaultAxes } = visualizations.data;
   const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelAngle
   const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.lineWidth;
-  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : visualizations.vis.fillOpacity / 200;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
   const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barWidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupWidth);
-  const isVertical = barOrientation === 'v';
+  const isVertical = barOrientation === vis.orientation;
+  const showLegend = dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showLegend ? false : true;
+  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
 
-  // Individual bars have different colors
-  // when: stackLength = 1 and chart is not unicolor
-  // Else each stacked bar has its own color using colorway
-  let marker: { color: string[], line: { color: string[], width: number } } = {
-    color: [],
-    line: { color: [], width: lineWidth }
-  };
-
-  if (lastIndex === 1 && !isUniColor) {
-    marker = {
-      color: data[fields[lastIndex].name].map((_: string, index: number) => {
-        return hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
-      }),
-      line: {
-        ...marker.line,
-        color: data[fields[lastIndex].name].map((_: string, index: number) => PLOTLY_COLOR[index]),
-      }
-    };
-  }
+  const getSelectedColorTheme = (field: any, index: number) => dataConfig?.colorTheme?.length > 0 && dataConfig.colorTheme.find(
+    (colorSelected) => colorSelected.name.name === field.name)?.color || PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -65,7 +51,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }
 
   // determine category axis
-  let bars = valueSeries.map((field: any) => {
+  let bars = valueSeries.map((field: any, index: number) => {
+    const selectedColor = getSelectedColorTheme(field, index);
     return {
       x: isVertical
         ? data[!isEmpty(xaxis) ? xaxis[0].label : fields[lastIndex].name]
@@ -74,7 +61,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         ? data[field.name]
         : data[!isEmpty(yaxis) ? yaxis[0]?.label : fields[lastIndex].name],
       type: vis.type,
-      marker,
+      marker: {
+        color: hexToRgba(selectedColor, fillOpacity),
+        line: {
+          color: selectedColor,
+          width: lineWidth
+        }
+      },
       name: field.name,
       orientation: barOrientation,
     };
@@ -97,6 +90,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     },
     bargap: groupWidth,
     bargroupgap: barWidth,
+    legend: {
+      ...layout.legend,
+      orientation: legendPosition,
+    },
+    showlegend: showLegend,
   };
 
   if (dataConfig.thresholds || availabilityConfig.level) {

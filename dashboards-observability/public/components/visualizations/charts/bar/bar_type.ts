@@ -13,10 +13,13 @@ import { ConfigAvailability } from '../../../event_analytics/explorer/visualizat
 import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
 import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
 import { SliderConfig } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
-
+import { ConfigLegend } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_legend';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
+const { LegendPosition, ShowLegend } = DefaultChartStyles;
 export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
@@ -38,6 +41,8 @@ export const createBarTypeDefinition = (params: any) => ({
   fillOpacity: 80,
   groupWidth: 0.7,
   barWidth: 0.97,
+  showLegend: ShowLegend,
+  legendPosition: LegendPosition,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -64,6 +69,38 @@ export const createBarTypeDefinition = (params: any) => ({
                 isSingleSelection: false,
                 component: null,
                 mapTo: 'yaxis',
+              },
+            ],
+          },
+          {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: "show" },
+                    { name: 'Hidden', id: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
+                },
               },
             ],
           },
@@ -162,7 +199,14 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'slider',
               },
             ],
-          }
+          },
+          {
+            id: 'color-theme',
+            name: 'Color Theme',
+            editor: ConfigColorTheme,
+            mapTo: 'colorTheme',
+            schemas: [],
+          },
         ],
       },
       {
