@@ -11,7 +11,7 @@ import {
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
-import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
+import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
   const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
@@ -59,10 +59,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         (colorSelected) => colorSelected.name.name === field.name
       );
     }
-    return hexToRgba(
-      newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length],
-      opacity
-    );
+    return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
 
   const hisValues = valueSeries.map((field: any, index: number) => {
