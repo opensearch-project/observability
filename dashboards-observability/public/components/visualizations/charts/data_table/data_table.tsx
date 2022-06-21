@@ -43,6 +43,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
       headerName: field.name,
       field: field.name,
       id: field.name,
+      lockVisible: true,
       columnsMenuParams: {
         suppressColumnFilter: true,
         suppressColumnSelectAll: true,
@@ -53,8 +54,10 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
 
   // ag-grid-react bindings
   const gridRef = useRef<any | undefined>();
+  const gridRefFullScreen = useRef<any | undefined>();
   const [pageSize, setPageSize] = useState(10);
   const [columnVisibility, setColumnVisibility] = useState([]);
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [selectedRowDensity, setSelectedRowDensity] = useState({
     icon: 'tableDensityNormal',
     height: 40,
@@ -75,12 +78,19 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     };
   }, []);
 
-  const onPageSizeChanged = useCallback((val) => {
-    setPageSize(val);
-    gridRef.current.api.paginationSetPageSize(val);
-    setActivePage(0);
-    gridRef.current.api.paginationGoToPage(0);
-  }, []);
+  const onPageSizeChanged = useCallback(
+    (val) => {
+      setPageSize(val);
+      gridRef.current.api.paginationSetPageSize(val);
+      setActivePage(0);
+      gridRef.current.api.paginationGoToPage(0);
+      if (isFullScreen) {
+        gridRefFullScreen.current.api.paginationSetPageSize(val);
+        gridRefFullScreen.current.api.paginationGoToPage(0);
+      }
+    },
+    [isFullScreen]
+  );
 
   const paginationNumberFormatter = useCallback((params) => {
     return '[' + params.value.toLocaleString() + ']';
@@ -95,8 +105,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     });
     gridRef.current.api.onRowHeightChanged();
   }, []);
-
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   const columnVisiblityHandler = useCallback((visible: boolean, feild: any) => {
     const isExisting = columnVisibility.findIndex((i) => i === feild);
@@ -118,6 +126,9 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   const goToPage = ({ selected }: { selected: number }) => {
     setActivePage(selected);
     gridRef.current.api.paginationGoToPage(selected);
+    if (isFullScreen) {
+      gridRefFullScreen.current.api.paginationGoToPage(selected);
+    }
   };
 
   const setIsFullScreenHandler = (val: boolean) => {
@@ -131,16 +142,16 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     return () => {
       document.removeEventListener('keydown', hideGridFullScreenHandler);
     };
-  }, [isFullScreen]);
+  }, []);
 
   const hideGridFullScreenHandler = (e: any) => {
     if (e.key === 'Escape') {
-      if (isFullScreen) {
-        setIsFullScreen(false);
-      }
+      setIsFullScreen(false);
+      // if (isFullScreen) {
+      //   setIsFullScreen(false);
+      // }
     }
   };
-
   return (
     <>
       <GridHeader
@@ -182,7 +193,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
             <EuiFlexItem>
               <div style={{ height: '500px' }}>
                 <AgGridReact
-                  ref={gridRef}
+                  ref={gridRefFullScreen}
                   rowData={raw_data}
                   columnDefs={columns}
                   defaultColDef={defaultColDef}
