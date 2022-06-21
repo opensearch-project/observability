@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   EuiTitle,
   EuiSpacer,
@@ -83,7 +83,10 @@ export const ColorPalettePicker = ({
             .map((_, i) => (
               <EuiFlexItem grow={1}>
                 <EuiFormRow helpText={`Parent ${i + 1} field`}>
-                  <EuiColorPicker onChange={onParentColorChange(i)} color={parentColors[i]} />
+                  <EuiColorPicker
+                    onChange={onParentColorChange(i)}
+                    color={parentColors[i] ?? '#000000'}
+                  />
                 </EuiFormRow>
               </EuiFlexItem>
             ))}
