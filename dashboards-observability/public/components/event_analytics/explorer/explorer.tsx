@@ -746,6 +746,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
+        tabID={tabId}
       />
     );
   };

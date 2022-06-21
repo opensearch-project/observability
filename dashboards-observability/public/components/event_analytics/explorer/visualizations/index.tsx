@@ -14,7 +14,7 @@ import { IField, IQuery, IVisualizationContainerProps } from '../../../../../com
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
-import { DataConfigPanel } from '../sidebar/data_config_panel';
+import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
 
 interface IExplorerVisualizationsProps {
   query: IQuery;
@@ -29,6 +29,7 @@ interface IExplorerVisualizationsProps {
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
   changeIsValidConfigOptionState: (isValidConfigOptionSelected: Boolean) => void;
+  tabID?:string;
 }
 
 export const ExplorerVisualizations = ({
@@ -43,13 +44,22 @@ export const ExplorerVisualizations = ({
   visualizations,
   handleOverrideTimestamp,
   callback,
-  changeIsValidConfigOptionState
+  changeIsValidConfigOptionState,
+  tabID
 }: IExplorerVisualizationsProps) => {
+
+  const { data } = visualizations;
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+
+  const fieldOptionList = fields.map((name) => {
+    return { label: name.name };
+  })
+
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={15} minSize="100px">
+          <EuiResizablePanel initialSize={15} minSize="240px" mode="collapsible">
             <div className="dscFieldChooser">
               <Sidebar
                 query={query}
@@ -63,20 +73,16 @@ export const ExplorerVisualizations = ({
               />
             </div>
           </EuiResizablePanel>
-          {/* <EuiResizablePanel initialSize={20} minSize="100px" style={{border:"1px solid #D3DAE6", padding:'0px'}}>
+          <EuiResizableButton />
+          <EuiResizablePanel mode="main" initialSize={15} minSize="240px" style={{ border: "1px solid #D3DAE6", padding: '0px' }}>
             <div className="">
-              <DataConfigPanel
-                query={query}
-                explorerFields={explorerFields}
-                explorerData={explorerData}
-                selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
-                handleOverrideTimestamp={handleOverrideTimestamp}
-                handleAddField={(field: IField) => handleAddField(field)}
-                handleRemoveField={(field: IField) => handleRemoveField(field)}
-                isFieldToggleButtonDisabled={true}
+              <DataConfigPanelItem 
+                fieldOptionList={fieldOptionList} 
+                visualizations={visualizations} 
+                tabID={tabID}
               />
             </div>
-          </EuiResizablePanel> */}
+          </EuiResizablePanel>
 
           <EuiResizableButton />
           <EuiResizablePanel initialSize={65} minSize="30%">

@@ -27,6 +27,12 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
+// console.log('visualizations.data?.rawVizData?.dataConfig ',visualizations.data?.rawVizData?.dataConfig?.metrics[0].field_option)
+  //   const xaxis =
+  //   visualizations.data?.rawVizData?.dataConfig?.dimenstions && visualizations.data?.rawVizData?.dataConfig?.dimenstions[0] ? visualizations.data?.rawVizData?.dataConfig?.dimenstions[0] : [];
+  // const yaxis =
+  // visualizations.data?.rawVizData?.dataConfig?.metrics[0] ? visualizations.data?.rawVizData?.dataConfig?.metrics[0] : [];
+
   const barOrientation =
     dataConfig?.chartOptions?.orientation &&
     dataConfig.chartOptions.orientation[0] &&

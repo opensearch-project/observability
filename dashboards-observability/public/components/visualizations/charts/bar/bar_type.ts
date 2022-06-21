@@ -8,7 +8,7 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions, DataConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 
 const sharedConfigs = getPlotlySharedConfigs();
@@ -38,26 +38,6 @@ export const createBarTypeDefinition = (params: any) => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
-          // {
-          //   id: 'value_options',
-          //   name: 'Value options',
-          //   editor: ConfigValueOptions,
-          //   mapTo: 'valueOptions',
-          //   schemas: [
-          //     {
-          //       name: 'X-axis',
-          //       isSingleSelection: false,
-          //       component: null,
-          //       mapTo: 'xaxis',
-          //     },
-          //     {
-          //       name: 'Y-axis',
-          //       isSingleSelection: false,
-          //       component: null,
-          //       mapTo: 'yaxis',
-          //     },
-          //   ],
-          // },
           {
             id: 'chart_options',
             name: 'Chart options',
@@ -89,26 +69,6 @@ export const createBarTypeDefinition = (params: any) => ({
                   ],
                   defaultSelections: [{ name: 'Group', modeId: 'group' }],
                 },
-              },
-            ],
-          },
-          {
-            id: 'data_configurations',
-            name: 'Data Configurations',
-            editor: DataConfigValueOptions,
-            mapTo: 'valueOptions',
-            schemas: [
-              {
-                name: 'Dimensions',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'xaxis',
-              },
-              {
-                name: 'Metrics',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
               },
             ],
           },
