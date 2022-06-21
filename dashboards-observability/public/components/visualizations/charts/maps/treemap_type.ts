@@ -12,6 +12,7 @@ import {
   ConfigValueOptions,
   ColorPalettePicker,
   ConfigChartOptions,
+  ConfigTreemapParentFields,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 
@@ -57,19 +58,16 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                 mapTo: 'childField',
               },
               {
-                name: 'Parent Field',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'parentField',
-                props: {
-                  isInvalid: false,
-                }
-              },
-              {
                 name: 'Value Field',
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'valueField',
+              },
+              {
+                name: 'Parent Fields',
+                component: ConfigTreemapParentFields,
+                mapTo: 'parentFields',
+                defaultState: [],
               },
             ],
           },
@@ -95,7 +93,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                 defaultState: [{ name: 'Squarify', label: 'Squarify', value: 'squarify' }],
                 props: {
                   isClearable: false,
-                }
+                },
               },
             ],
           },
