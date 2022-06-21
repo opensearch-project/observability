@@ -52,16 +52,16 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'valueOptions',
             schemas: [
               {
-                name: 'Child Field',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'childField',
-              },
-              {
                 name: 'Value Field',
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'valueField',
+              },
+              {
+                name: 'Child Field',
+                isSingleSelection: true,
+                component: null,
+                mapTo: 'childField',
               },
               {
                 name: 'Parent Fields',

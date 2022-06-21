@@ -68,7 +68,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const [treemapData, mergedLayout] = useMemo(() => {
     let labelsArray: string[] = [],
       parentsArray: string[] = [],
-      valuesArray: string[] = [],
+      valuesArray: number[] = [],
       colorsArray: string[] = [];
 
     if (parentFields.length === 0) {
