@@ -11,7 +11,6 @@ import {
   EuiIcon,
   EuiFlexGroup,
   EuiFlexItem,
-  htmlIdGenerator,
   EuiTitle,
   EuiComboBox,
   EuiComboBoxOptionOption,
@@ -34,16 +33,15 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
     };
   });
 
-  const getParentUnit = () => {
-    return {
-      name: '',
-      label: '',
-      type: '',
-    };
-  };
-
   const handleAddParent = () => {
-    onSelectChange([...selectedAxis, getParentUnit()]);
+    onSelectChange([
+      ...selectedAxis,
+      {
+        name: '',
+        label: '',
+        type: '',
+      },
+    ]);
   };
 
   const handleParentChange = (options: EuiComboBoxOptionOption<unknown>[], index: number) => {

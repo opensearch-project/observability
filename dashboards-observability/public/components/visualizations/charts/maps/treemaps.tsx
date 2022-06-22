@@ -95,17 +95,17 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
                 ? [...Array(uniqueParents.length).fill(colorField.parentColors[currentLevel])]
                 : [];
           } else {
-            const parentIndices = uniqueParents.map((parent) =>
+            const currentParentIndices = uniqueParents.map((parent) =>
               data[field.name].findIndex((index) => index === parent)
             );
-            const grandparents = parentIndices.map((x) => data[lastParentField.name][x]);
-            parentsArray = [...parentsArray, ...grandparents];
-            valuesArray = [...valuesArray, ...Array(grandparents.length).fill(0)];
+            const lastParents = currentParentIndices.map((x) => data[lastParentField.name][x]);
+            parentsArray = [...parentsArray, ...lastParents];
+            valuesArray = [...valuesArray, ...Array(lastParents.length).fill(0)];
             colorsArray =
               colorField.name === MULTI_COLOR_PALETTE
                 ? [
                     ...colorsArray,
-                    ...Array(grandparents.length).fill(colorField.parentColors[currentLevel]),
+                    ...Array(lastParents.length).fill(colorField.parentColors[currentLevel]),
                   ]
                 : [];
           }
