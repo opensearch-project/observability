@@ -945,7 +945,7 @@ describe('Renders Tree Map for Parent Fields ', () => {
       cy.get('.euiButton__text').contains('Preview').click();
       });
 
-      it.only('Renders Tree Map and Check Add/Delete Parent', () => {
+      it('Renders Tree Map and Check Add/Delete Parent', () => {
         querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
         cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
         cy.get('.euiButton__text').contains('+ Add Parent').click();
@@ -964,7 +964,7 @@ describe('Renders Tree Map for Parent Fields Multicolor Option', () => {
     landOnEventVisualizations();
   });
 
-  it.only('Renders Tree Map For Multiple Parent and Check Color Theme', () => {
+  it('Renders Tree Map For Multiple Parent and Check Color Theme', () => {
     querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
     cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
     cy.get('.euiButton__text').contains('+ Add Parent').click();
