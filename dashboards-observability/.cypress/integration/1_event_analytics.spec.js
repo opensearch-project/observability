@@ -972,7 +972,7 @@ describe('Renders Tree Map for Parent Fields Multicolor Option', () => {
     cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
     cy.get('.euiComboBoxOption__content').eq(2).click();
     cy.get('.euiButton__text').contains('+ Add Parent').click();
-    cy.get('.euiComboBoxPlaceholder').eq(1).contains('Select a field').should('exist');
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
     cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(4).click();
     cy.get('.euiComboBoxOption__content').eq(1).click();
     cy.get('.euiSuperSelectControl').contains('Default').click();
