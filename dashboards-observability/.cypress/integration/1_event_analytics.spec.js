@@ -911,3 +911,74 @@ describe('Renders heatmap chart for Chart Style', () => {
     cy.get('stop[stop-color="rgb(214, 191, 87)"]').should('exist');
    });
 });
+
+describe('Renders Tree Map for Parent Fields ', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders Tree Map and Add Single Parent', () => {
+    querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    });
+
+    it('Renders Tree Map and Add Multiple Parent', () => {
+      querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+      cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+      cy.get('.euiButton__text').contains('+ Add Parent').click();
+      cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+      cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+      cy.get('.euiComboBoxOption__content').eq(2).click();
+      cy.get('.euiButton__text').contains('+ Add Parent').click();
+      cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+      cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(4).click();
+      cy.get('.euiComboBoxOption__content').eq(1).click();
+      cy.get('.euiButton__text').contains('+ Add Parent').click();
+      cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+      cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(5).click();
+      cy.get('.euiComboBoxOption__content').eq(3).click();
+      cy.get('.euiButton__text').contains('Preview').click();
+      });
+
+      it.only('Renders Tree Map and Check Add/Delete Parent', () => {
+        querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+        cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+        cy.get('.euiButton__text').contains('+ Add Parent').click();
+        cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+        cy.get('.euiButton__text').contains('+ Add Parent').click();
+        cy.get('.euiComboBoxPlaceholder').eq(1).contains('Select a field').should('exist');
+        cy.get('.euiFormRow__fieldWrapper .euiFlexItem').eq(1).click();
+        // cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('not.exist');
+        cy.get('.euiFormRow__fieldWrapper .euiFlexItem').eq(1).click();
+       // cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('not.exist');
+        });
+});
+
+describe('Renders Tree Map for Parent Fields Multicolor Option', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it.only('Renders Tree Map For Multiple Parent and Check Color Theme', () => {
+    querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').eq(1).contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(4).click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiColorPalettePicker__item').contains('Multicolored').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 1 field').should('exist');
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 2 field').should('exist');
+    });
+});
