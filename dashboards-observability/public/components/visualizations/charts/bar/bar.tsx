@@ -23,15 +23,15 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
-  const xaxis =
-    dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
-  const yaxis =
-    dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
-// console.log('visualizations.data?.rawVizData?.dataConfig ',visualizations.data?.rawVizData?.dataConfig?.metrics[0].field_option)
-  //   const xaxis =
-  //   visualizations.data?.rawVizData?.dataConfig?.dimenstions && visualizations.data?.rawVizData?.dataConfig?.dimenstions[0] ? visualizations.data?.rawVizData?.dataConfig?.dimenstions[0] : [];
+  // const xaxis =
+  //   dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   // const yaxis =
-  // visualizations.data?.rawVizData?.dataConfig?.metrics[0] ? visualizations.data?.rawVizData?.dataConfig?.metrics[0] : [];
+  //   dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
+// console.log('visualizations.data?.rawVizData?.dataConfig ',visualizations.data?.rawVizData?.dataConfig?.metrics[0].field_option)
+    const xaxis =
+    visualizations.data?.rawVizData?.dataConfig?.dimensions && visualizations.data?.rawVizData?.dataConfig?.dimensions ? visualizations.data?.rawVizData?.dataConfig?.dimensions : [];
+  const yaxis =
+  visualizations.data?.rawVizData?.dataConfig?.metrics ? visualizations.data?.rawVizData?.dataConfig?.metrics : [];
 
   const barOrientation =
     dataConfig?.chartOptions?.orientation &&
