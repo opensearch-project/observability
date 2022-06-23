@@ -17,8 +17,10 @@ import {
   EuiText,
 } from '@elastic/eui';
 import { useDispatch, useSelector } from 'react-redux';
-import { render as renderExplorerVis } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import { selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
+import {
+  render as renderExplorerVis,
+  selectExplorerVisualization,
+} from '../../../../../../event_analytics/redux/slices/visualization_slice';
 import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
