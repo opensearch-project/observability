@@ -39,6 +39,26 @@ export const createBarTypeDefinition = (params: any) => ({
         editor: VizDataPanel,
         sections: [
           {
+            id: 'value_options',
+            name: 'Value options',
+            editor: ConfigValueOptions,
+            mapTo: 'valueOptions',
+            schemas: [
+              {
+                name: 'X-axis',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'xaxis',
+              },
+              {
+                name: 'Y-axis',
+                isSingleSelection: false,
+                component: null,
+                mapTo: 'yaxis',
+              },
+            ],
+          },
+          {
             id: 'chart_options',
             name: 'Chart options',
             editor: ConfigValueOptions,

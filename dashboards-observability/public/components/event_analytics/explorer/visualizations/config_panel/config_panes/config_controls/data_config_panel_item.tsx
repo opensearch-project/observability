@@ -10,6 +10,7 @@ import { render as renderExplorerVis } from '../../../../../../event_analytics/r
 import { selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
 import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
+import { visChartTypes } from '../../../../../../../../common/constants/shared';
 
 export const DataConfigPanelItem = ({
   fieldOptionList,
@@ -22,9 +23,11 @@ export const DataConfigPanelItem = ({
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
+  const newEntry = { label: "", aggregation: "", custom_label: "", name: "", side: "right" };
+
   const [configList, setConfigList] = useState({
-    dimensions: [{ label: "", aggregation: "", custom_label: "", name: "" }],
-    metrics: [{ label: "", aggregation: "", custom_label: "", name: "" }],
+    dimensions: [{ ...newEntry }],
+    metrics: [{ ...newEntry }],
   });
 
   useEffect(() => {
@@ -43,10 +46,17 @@ export const DataConfigPanelItem = ({
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     let list = { ...configList };
-    let listItem = list[name][index];
+    let listItem = { ...list[name][index] };
     listItem = { ...listItem, [field]: value };
-    list[name][index] = listItem;
-    setConfigList(list);
+    const newList = {
+      ...list,
+      [name]: [
+        ...list[name].slice(0, index),
+        listItem,
+        ...list[name].slice(index + 1, list[name].length),
+      ],
+    };
+    setConfigList(newList);
   }
 
   const onfieldOptionChange = (e, index: number, name: string) => {
@@ -64,6 +74,9 @@ export const DataConfigPanelItem = ({
     updateList(e.target.value, index, name, 'custom_label');
   };
 
+  const handleSideChange = (id, value, index: number, name: string) => {
+    updateList(id, index, name, 'side');
+  }
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
@@ -71,8 +84,7 @@ export const DataConfigPanelItem = ({
     setConfigList(list);
   };
 
-  const handleServiceAdd = async (name: string) => {
-    let newEntry = { label: "", aggregation: "", custom_label: "", name: "" };
+  const handleServiceAdd = (name: string) => {
     let newList = { ...configList, [name]: [...configList[name], newEntry] }
     setConfigList(newList);
   };
@@ -140,13 +152,13 @@ export const DataConfigPanelItem = ({
                 aria-label="Use aria labels when no actual label is in use" />
             </EuiFormRow>
 
-            {sectionName === 'metrics' && (
+            {sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line && (
               <EuiFormRow label="Side">
                 <ButtonGroupItem
                   legend="Side"
                   groupOptions={[{ id: 'left', label: 'Left' }, { id: 'right', label: 'Right' }]}
                   idSelected="left"
-                  handleButtonChange={(id: string) => { console.log(id); }}
+                  handleButtonChange={(id: string) => handleSideChange(id, value, index, sectionName)}
                 />
               </EuiFormRow>
             )}
