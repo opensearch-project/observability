@@ -3,22 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { EuiTitle, EuiComboBox, EuiSpacer, EuiButton, EuiFieldText, EuiFlexItem, EuiFormRow, EuiIcon, EuiPanel, EuiText } from '@elastic/eui';
 import { useDispatch, useSelector } from 'react-redux';
-import { render as renderExplorerVis } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import { selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
+import { render as renderExplorerVis, selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
 import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
-
+import { TabContext } from '../../../../../hooks';
 export const DataConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  tabID
 }: any) => {
   const dispatch = useDispatch();
-  const explorerVisualizations = useSelector(selectExplorerVisualization)[tabID];
+  const { tabId } = useContext<any>(TabContext);
+  const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
 
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
@@ -62,7 +61,7 @@ export const DataConfigPanelItem = ({
   const onfieldOptionChange = (e, index: number, name: string) => {
     let label = e.length > 0 ? e[0].label : '';
     updateList(label, index, name, 'label');
-   };
+  };
 
   const onAggregationChange = (e, index: number, name: string) => {
     let label = e.length > 0 ? e[0].label : '';
@@ -70,17 +69,20 @@ export const DataConfigPanelItem = ({
   };
 
   const onCustomLabelChange = (e, index: number, name: string) => {
+    console.log('name ', name)
     updateList(e.target.value, index, name, 'custom_label');
   };
 
-  const handleSideChange = (id, value, index: number, name: string) => {
+  const handleSideChange = (id: string, index: number, name: string) => {
     updateList(id, index, name, 'side');
   }
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
-    list[name].splice(index, 1);
-    setConfigList(list);
+    const arr = [...list[name]];
+    arr.splice(index, 1);
+    const y = { ...list, [name]: arr }
+    setConfigList(y);
   };
 
   const handleServiceAdd = (name: string) => {
@@ -91,7 +93,7 @@ export const DataConfigPanelItem = ({
   const updateChart = () => {
     dispatch(
       renderExplorerVis({
-        tabId: tabID,
+        tabId: tabId,
         data: {
           ...explorerVisualizations,
           dataConfig: {
@@ -124,7 +126,8 @@ export const DataConfigPanelItem = ({
                 singleSelection={{ asPlainText: true }}
                 options={AGGREGATION_OPTIONS}
                 selectedOptions={singleField.aggregation ? [{ 'label': singleField.aggregation }] : []}
-                onChange={(e) => onAggregationChange(e, index, sectionName)}
+                onChange={(e) => updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')}
+
               />
 
             </EuiFormRow>
@@ -137,7 +140,7 @@ export const DataConfigPanelItem = ({
                 singleSelection={{ asPlainText: true }}
                 options={fieldOptionList}
                 selectedOptions={singleField.label ? [{ 'label': singleField.label }] : []}
-                onChange={(e) => onfieldOptionChange(e, index, sectionName)}
+                onChange={(e) => updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')}
               />
             </EuiFormRow>
 
@@ -147,17 +150,17 @@ export const DataConfigPanelItem = ({
               <EuiFieldText
                 placeholder="Custom label"
                 value={singleField.custom_label}
-                onChange={(e) => onCustomLabelChange(e, index, sectionName)}
+                onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
                 aria-label="Use aria labels when no actual label is in use" />
             </EuiFormRow>
 
-            {sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line && (
+            {sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line || visualizations.vis.name === visChartTypes.Bar && (
               <EuiFormRow label="Side">
                 <ButtonGroupItem
                   legend="Side"
                   groupOptions={[{ id: 'left', label: 'Left' }, { id: 'right', label: 'Right' }]}
-                  idSelected="left"
-                  handleButtonChange={(id: string) => handleSideChange(id, value, index, sectionName)}
+                  idSelected={singleField.side || 'right'}
+                  handleButtonChange={(id: string) => updateList(id, index, sectionName, 'side')}
                 />
               </EuiFormRow>
             )}
