@@ -1334,23 +1334,20 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "isSingleSelection": true,
+                                "mapTo": "valueField",
+                                "name": "Value Field",
+                              },
+                              Object {
+                                "component": null,
+                                "isSingleSelection": true,
                                 "mapTo": "childField",
                                 "name": "Child Field",
                               },
                               Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "parentField",
-                                "name": "Parent Field",
-                                "props": Object {
-                                  "isInvalid": false,
-                                },
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "valueField",
-                                "name": "Value Field",
+                                "component": [Function],
+                                "defaultState": Array [],
+                                "mapTo": "parentFields",
+                                "name": "Parent Fields",
                               },
                             ],
                           },
