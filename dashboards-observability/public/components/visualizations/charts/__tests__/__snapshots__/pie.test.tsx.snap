@@ -527,7 +527,7 @@ exports[`Pie component Renders pie component 1`] = `
           "font": Object {
             "size": undefined,
           },
-          "orientation": undefined,
+          "orientation": "v",
         },
         "margin": Object {
           "b": 15,
@@ -536,7 +536,7 @@ exports[`Pie component Renders pie component 1`] = `
           "r": 10,
           "t": 30,
         },
-        "showlegend": undefined,
+        "showlegend": "show",
         "title": "",
       }
     }
@@ -588,7 +588,7 @@ exports[`Pie component Renders pie component 1`] = `
             "font": Object {
               "size": undefined,
             },
-            "orientation": undefined,
+            "orientation": "v",
           },
           "margin": Object {
             "b": 15,
@@ -597,7 +597,7 @@ exports[`Pie component Renders pie component 1`] = `
             "r": 10,
             "t": 30,
           },
-          "showlegend": undefined,
+          "showlegend": "show",
           "title": "",
           "xaxis": Object {
             "automargin": true,
