@@ -39,6 +39,15 @@ export const ColorPalettePicker = ({
   const [childColor, setChildColor] = useState('#000000');
   const [parentColors, setParentColors] = useState<string[]>([]);
 
+  useEffect(() => {
+    if (numberOfParents > parentColors.length) {
+      setParentColors([
+        ...parentColors,
+        ...Array(numberOfParents - parentColors.length).fill('#000000'),
+      ]);
+    }
+  }, [numberOfParents]);
+
   const onPaletteChange = (value: string) => {
     if (value === SINGLE_COLOR_PALETTE)
       onSelectChange(getColorObject(SINGLE_COLOR_PALETTE, childColor));
