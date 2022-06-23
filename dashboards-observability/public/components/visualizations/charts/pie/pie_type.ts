@@ -12,8 +12,8 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ColorPalettePicker,
   ConfigChartOptions,
-  ConfigValueOptions,
   ConfigLegend,
+  InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
 
@@ -46,28 +46,6 @@ export const createPieTypeDefinition = (params: any) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
-            schemas: [
-              {
-                name: 'Label',
-                onChangeHandler: 'setXaxisSelections',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'xaxis',
-              },
-              {
-                name: 'Value',
-                onChangeHandler: 'setYaxisSelections',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
-              },
-            ],
-          },
-          {
             id: 'legend',
             name: 'Legend',
             editor: ConfigLegend,
@@ -79,10 +57,10 @@ export const createPieTypeDefinition = (params: any) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Show', id: "show" },
-                    { name: 'Hidden', id: "hidden" },
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
                   ],
-                  defaultSelections: [{ name: 'Show', id: "show" }],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
                 },
               },
               {
@@ -96,6 +74,12 @@ export const createPieTypeDefinition = (params: any) => ({
                   ],
                   defaultSelections: [{ name: 'Right', id: 'v' }],
                 },
+              },
+              {
+                name: 'Legend Size',
+                component: InputFieldItem,
+                mapTo: 'size',
+                eleType: 'input',
               },
             ],
           },
@@ -115,8 +99,14 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Pie', modeId: 'pie' },
                     { name: 'Donut', modeId: 'donut' },
                   ],
-                  defaultSelections: [{ name: 'Pie', modeId: 'pie' }],
                 },
+                defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
+              },
+              {
+                name: 'Label Size',
+                component: InputFieldItem,
+                mapTo: 'labelSize',
+                eleType: 'input',
               },
               {
                 name: 'Color Theme',
