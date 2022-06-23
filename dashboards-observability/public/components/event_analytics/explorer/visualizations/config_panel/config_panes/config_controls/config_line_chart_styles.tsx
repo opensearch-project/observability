@@ -6,7 +6,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
-import { IConfigPanelOptionSection } from 'common/types/explorer';
+import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
 export const ConfigLineChartStyles = ({
   visualizations,
@@ -73,7 +73,7 @@ export const ConfigLineChartStyles = ({
         </>
       )
     })
-    , [schemas, vizState, handleConfigurationChange, currentSchemas]);
+    , [currentSchemas, vizState, handleConfigurationChange]);
 
   return (
     <EuiAccordion
