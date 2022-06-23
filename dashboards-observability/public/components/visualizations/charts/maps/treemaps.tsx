@@ -92,7 +92,11 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
             valuesArray = [...Array(uniqueParents.length).fill(0)];
             colorsArray =
               colorField.name === MULTI_COLOR_PALETTE
-                ? [...Array(uniqueParents.length).fill(colorField.parentColors[currentLevel])]
+                ? [
+                    ...Array(uniqueParents.length).fill(
+                      colorField.parentColors[currentLevel] ?? '#000000'
+                    ),
+                  ]
                 : [];
           } else {
             const currentParentIndices = uniqueParents.map((parent) =>
@@ -105,7 +109,9 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
               colorField.name === MULTI_COLOR_PALETTE
                 ? [
                     ...colorsArray,
-                    ...Array(lastParents.length).fill(colorField.parentColors[currentLevel]),
+                    ...Array(lastParents.length).fill(
+                      colorField.parentColors[currentLevel] ?? '#000000'
+                    ),
                   ]
                 : [];
           }
