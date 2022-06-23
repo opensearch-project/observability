@@ -32,7 +32,7 @@ export const DataConfigPanelItem = ({
   useEffect(() => {
     if (data.rawVizData?.dataConfig) {
       setConfigList({
-        ...data.rawVizData?.dataConfig
+        ...data.rawVizData.dataConfig
       })
     } else if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
       const { xaxis, yaxis } = data.defaultAxes;
@@ -86,6 +86,8 @@ export const DataConfigPanelItem = ({
     );
   }
 
+  const isPositionButtonAllow = (sectionName: string) => sectionName === 'metrics' && (visualizations.vis.name === visChartTypes.Line || visualizations.vis.name === visChartTypes.Bar);
+
   const getCommonUI = (lists, sectionName: string) => lists.map((singleField, index: number) => (
     <>
       <div key={index} className="services">
@@ -96,7 +98,11 @@ export const DataConfigPanelItem = ({
               labelAppend={
                 lists.length !== 1 && (
                   <EuiText size="xs">
-                    <EuiIcon type="cross" color="danger" onClick={() => handleServiceRemove(index, sectionName)} />
+                    <EuiIcon
+                      type="cross"
+                      color="danger"
+                      onClick={() => handleServiceRemove(index, sectionName)}
+                    />
                   </EuiText>
                 )
               }
@@ -135,7 +141,7 @@ export const DataConfigPanelItem = ({
                 aria-label="Use aria labels when no actual label is in use" />
             </EuiFormRow>
 
-            {sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line || visualizations.vis.name === visChartTypes.Bar && (
+            {isPositionButtonAllow(sectionName) && (
               <EuiFormRow label="Side">
                 <ButtonGroupItem
                   legend="Side"
@@ -148,7 +154,7 @@ export const DataConfigPanelItem = ({
 
             <EuiSpacer size="s" />
             {lists.length - 1 === index &&
-              <EuiFlexItem grow={true}>
+              <EuiFlexItem grow>
                 <EuiButton fullWidth iconType="plusInCircleFilled" color='primary' onClick={() => handleServiceAdd(sectionName)}>
                   Add
                 </EuiButton>
