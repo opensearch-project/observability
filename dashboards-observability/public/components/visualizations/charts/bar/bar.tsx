@@ -9,6 +9,8 @@ import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { hexToRgb } from '../../../event_analytics/utils/utils';
+import {  FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -27,27 +29,19 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   const yaxis =
     dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
-  const barOrientation =
-    dataConfig?.chartOptions?.orientation &&
-    dataConfig.chartOptions.orientation[0] &&
-    dataConfig.chartOptions.orientation[0].orientationId
-      ? dataConfig.chartOptions.orientation[0].orientationId
-      : visualizations.vis.orientation;
+  const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const { defaultAxes } = visualizations.data;
+  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelAngle
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.lineWidth;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
+  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barWidth);
+  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupWidth);
+  const isVertical = barOrientation === vis.orientation;
+  const showLegend = !(dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showLegend);
+  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
 
-  const isVertical = barOrientation === 'v';
-
-  // Individual bars have different colors
-  // when: stackLength = 1 and length of result buckets < 16 and chart is not unicolor
-  // Else each stacked bar has its own color using colorway
-  let marker = {};
-  if (lastIndex === 1 && data[fields[lastIndex].name].length < 16 && !isUniColor) {
-    marker = {
-      color: data[fields[lastIndex].name].map((_: string, index: number) => {
-        return PLOTLY_COLOR[index % PLOTLY_COLOR.length];
-      }),
-    };
-  }
+  const getSelectedColorTheme = (field: any, index: number) => dataConfig?.colorTheme?.length > 0 && dataConfig.colorTheme.find(
+    (colorSelected) => colorSelected.name.name === field.name)?.color || PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -57,7 +51,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }
 
   // determine category axis
-  let bars = valueSeries.map((field: any) => {
+  let bars = valueSeries.map((field: any, index: number) => {
+    const selectedColor = getSelectedColorTheme(field, index);
     return {
       x: isVertical
         ? data[!isEmpty(xaxis) ? xaxis[0].label : fields[lastIndex].name]
@@ -66,7 +61,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         ? data[field.name]
         : data[!isEmpty(yaxis) ? yaxis[0]?.label : fields[lastIndex].name],
       type: vis.type,
-      marker,
+      marker: {
+        color: hexToRgb(selectedColor, fillOpacity),
+        line: {
+          color: selectedColor,
+          width: lineWidth
+        }
+      },
       name: field.name,
       orientation: barOrientation,
     };
@@ -82,12 +83,18 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    barmode:
-      dataConfig?.chartOptions?.mode &&
-      dataConfig.chartOptions.mode[0] &&
-      dataConfig.chartOptions.mode[0].modeId
-        ? dataConfig.chartOptions.mode[0].modeId
-        : '',
+    barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
+    xaxis: {
+      tickangle: tickAngle,
+      automargin: true,
+    },
+    bargap: groupWidth,
+    bargroupgap: barWidth,
+    legend: {
+      ...layout.legend,
+      orientation: legendPosition,
+    },
+    showlegend: showLegend,
   };
 
   if (dataConfig.thresholds || availabilityConfig.level) {
