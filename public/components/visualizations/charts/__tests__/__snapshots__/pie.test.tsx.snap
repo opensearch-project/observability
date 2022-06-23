@@ -357,18 +357,14 @@ exports[`Pie component Renders pie component 1`] = `
           "hole": 0,
           "labels": undefined,
           "name": "count()",
+          "outsidetextfont": Object {
+            "size": undefined,
+          },
           "text": "count()",
           "textinfo": "percent",
           "textposition": "outside",
           "type": "pie",
-          "values": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
+          "values": undefined,
         },
       ]
     }
@@ -383,6 +379,9 @@ exports[`Pie component Renders pie component 1`] = `
         },
         "height": 220,
         "legend": Object {
+          "font": Object {
+            "size": undefined,
+          },
           "orientation": undefined,
         },
         "margin": Object {
@@ -414,18 +413,14 @@ exports[`Pie component Renders pie component 1`] = `
             "hole": 0,
             "labels": undefined,
             "name": "count()",
+            "outsidetextfont": Object {
+              "size": undefined,
+            },
             "text": "count()",
             "textinfo": "percent",
             "textposition": "outside",
             "type": "pie",
-            "values": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
+            "values": undefined,
           },
         ]
       }
@@ -445,6 +440,9 @@ exports[`Pie component Renders pie component 1`] = `
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
+            "font": Object {
+              "size": undefined,
+            },
             "orientation": undefined,
           },
           "margin": Object {
