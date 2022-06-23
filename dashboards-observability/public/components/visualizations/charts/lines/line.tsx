@@ -8,10 +8,11 @@ import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DefaultChartStyles, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultChartStyles;
+  const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -34,6 +35,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
   const legendPosition = dataConfig?.legend?.position || 'v';
   const markerSize = dataConfig?.chartStyles?.pointSize || 5;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 100 : FillOpacity / 100;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -43,14 +45,22 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }
 
   const [calculatedLayout, lineValues] = useMemo(() => {
-    let calculatedLineValues = valueSeries.map((field: any) => {
+
+    let calculatedLineValues = valueSeries.map((field: any, index: number) => {
+      const fillColor = hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
         type: mode === 'bar' ? 'bar' : 'scatter',
         name: field.name,
         mode,
-        line: { shape: lineShape, width: lineWidth },
+        fill: 'tozeroy',
+        fillcolor: fillColor,
+        line: {
+          shape: lineShape,
+          width: lineWidth,
+          color: PLOTLY_COLOR[index],
+        },
         marker: {
           size: markerSize
         },
@@ -61,7 +71,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       ...layout,
       ...layoutConfig.layout,
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-      legend:{
+      legend: {
         ...layout.legend,
         orientation: legendPosition,
       },
@@ -115,6 +125,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-  
+
   return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
 };

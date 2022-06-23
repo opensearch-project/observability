@@ -46,7 +46,7 @@ export const ConfigChartStyles = ({
       dimensionItems.sliderOptions = [pointSize];
     } else if(vizState?.style === "lines+markers"){
       dimensionItems.buttonOptions = [styleGroup];
-      dimensionItems.sliderOptions = [lineWidth, pointSize];
+      dimensionItems.sliderOptions = [lineWidth, fillOpacity, pointSize];
     }
     return dimensionItems;
   }, [vizState]);
