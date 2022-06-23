@@ -9,7 +9,7 @@ import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { hexToRgba } from '../../../event_analytics/utils/utils';
+import { hexToRgb } from '../../../event_analytics/utils/utils';
 import {  FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -62,7 +62,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         : data[!isEmpty(yaxis) ? yaxis[0]?.label : fields[lastIndex].name],
       type: vis.type,
       marker: {
-        color: hexToRgba(selectedColor, fillOpacity),
+        color: hexToRgb(selectedColor, fillOpacity),
         line: {
           color: selectedColor,
           width: lineWidth
