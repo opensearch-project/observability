@@ -83,7 +83,6 @@ exports[`Data table component Renders data table component 1`] = `
       }
       defaultColDef={
         Object {
-          "editable": true,
           "filter": true,
           "flex": 1,
           "minWidth": 100,
@@ -92,9 +91,7 @@ exports[`Data table component Renders data table component 1`] = `
           "suppressMenu": true,
         }
       }
-      enableRangeSelection={true}
       pagination={true}
-      paginationNumberFormatter={[Function]}
       paginationPageSize={10}
       rowData={
         Array [
@@ -125,7 +122,6 @@ exports[`Data table component Renders data table component 1`] = `
         ]
       }
       rowHeight={40}
-      rowSelection="multiple"
       suppressPaginationPanel={true}
     />
   </div>
