@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   EuiTitle,
   EuiSpacer,
@@ -22,39 +22,53 @@ import {
 export const ColorPalettePicker = ({
   title,
   selectedColor,
-  showParentColorPicker,
+  numberOfParents,
   colorPalettes,
   onSelectChange,
 }: any) => {
   const getColorObject = (
     name: string = DEFAULT_PALETTE,
     childColor?: string,
-    parentColor?: string
+    parentColors?: string[]
   ) => ({
     name,
     childColor: childColor ?? name,
-    parentColor: parentColor ?? name,
+    parentColors: parentColors ?? [],
   });
 
   const [childColor, setChildColor] = useState('#000000');
-  const [parentColor, setParentColor] = useState('#000000');
+  const [parentColors, setParentColors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (numberOfParents > parentColors.length) {
+      setParentColors([
+        ...parentColors,
+        ...Array(numberOfParents - parentColors.length).fill('#000000'),
+      ]);
+    }
+  }, [numberOfParents]);
 
   const onPaletteChange = (value: string) => {
     if (value === SINGLE_COLOR_PALETTE)
       onSelectChange(getColorObject(SINGLE_COLOR_PALETTE, childColor));
     else if (value === MULTI_COLOR_PALETTE)
-      onSelectChange(getColorObject(MULTI_COLOR_PALETTE, childColor, parentColor));
+      onSelectChange(getColorObject(MULTI_COLOR_PALETTE, childColor, parentColors));
     else onSelectChange(getColorObject(value));
   };
 
   const onChildColorChange = (value: string) => {
     setChildColor(value);
-    onSelectChange(getColorObject(selectedColor.name, value, parentColor));
+    onSelectChange(getColorObject(selectedColor.name, value, parentColors));
   };
 
-  const onParentColorChange = (value: string) => {
-    setParentColor(value);
-    onSelectChange(getColorObject(selectedColor.name, childColor, value));
+  const onParentColorChange = (parentIndex: number) => (value: string) => {
+    const newColors = [
+      ...parentColors.slice(0, parentIndex),
+      value,
+      ...parentColors.slice(parentIndex + 1, parentColors.length),
+    ];
+    setParentColors(newColors);
+    onSelectChange(getColorObject(selectedColor.name, childColor, newColors));
   };
 
   return (
@@ -71,13 +85,20 @@ export const ColorPalettePicker = ({
             </EuiFormRow>
           </EuiFlexItem>
         )}
-        {selectedColor.name === MULTI_COLOR_PALETTE && showParentColorPicker && (
-          <EuiFlexItem grow={1}>
-            <EuiFormRow helpText="Parent field">
-              <EuiColorPicker onChange={onParentColorChange} color={parentColor} />
-            </EuiFormRow>
-          </EuiFlexItem>
-        )}
+        {selectedColor.name === MULTI_COLOR_PALETTE &&
+          numberOfParents > 0 &&
+          Array(numberOfParents)
+            .fill(0)
+            .map((_, i) => (
+              <EuiFlexItem grow={1}>
+                <EuiFormRow helpText={`Parent ${i + 1} field`}>
+                  <EuiColorPicker
+                    onChange={onParentColorChange(i)}
+                    color={parentColors[i] ?? '#000000'}
+                  />
+                </EuiFormRow>
+              </EuiFlexItem>
+            ))}
         <EuiFlexItem grow={3}>
           <EuiColorPalettePicker
             palettes={colorPalettes}

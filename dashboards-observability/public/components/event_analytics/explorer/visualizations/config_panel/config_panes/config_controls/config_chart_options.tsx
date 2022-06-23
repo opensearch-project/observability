@@ -77,9 +77,9 @@ export const ConfigChartOptions = ({
             title: schema.name,
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
-            showParentColorPicker:
-              dataConfig?.valueOptions?.parentField !== undefined &&
-              dataConfig?.valueOptions?.parentField.length > 0,
+            numberOfParents:
+              (dataConfig?.valueOptions?.parentFields !== undefined &&
+                dataConfig?.valueOptions?.parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
             vizState,
             ...schema.props,

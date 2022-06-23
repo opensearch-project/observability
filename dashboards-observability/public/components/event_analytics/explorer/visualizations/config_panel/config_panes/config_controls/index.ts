@@ -15,4 +15,5 @@ export { ConfigLegend } from './config_legend';
 export { HeatmapColorPalettePicker } from './config_heatmap_color_palette_picker';
 export { SingleColorPicker } from './config_single_color_picker';
 export { PanelItem } from './config_panel_item';
+export { ConfigTreemapParentFields } from './config_treemap_parents';
 export { InputFieldItem } from './config_number_input';
