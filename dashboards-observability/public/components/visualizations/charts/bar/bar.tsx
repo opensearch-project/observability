@@ -27,16 +27,16 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   //   dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
   // const yaxis =
   //   dataConfig.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig?.valueOptions.yaxis : [];
-// console.log('visualizations.data?.rawVizData?.dataConfig ',visualizations.data?.rawVizData?.dataConfig?.metrics[0].field_option)
-    const xaxis =
+  // console.log('visualizations.data?.rawVizData?.dataConfig ',visualizations.data?.rawVizData?.dataConfig?.metrics[0].field_option)
+  const xaxis =
     visualizations.data?.rawVizData?.dataConfig?.dimensions && visualizations.data?.rawVizData?.dataConfig?.dimensions ? visualizations.data?.rawVizData?.dataConfig?.dimensions : [];
   const yaxis =
-  visualizations.data?.rawVizData?.dataConfig?.metrics ? visualizations.data?.rawVizData?.dataConfig?.metrics : [];
+    visualizations.data?.rawVizData?.dataConfig?.metrics ? visualizations.data?.rawVizData?.dataConfig?.metrics : [];
 
   const barOrientation =
     dataConfig?.chartOptions?.orientation &&
-    dataConfig.chartOptions.orientation[0] &&
-    dataConfig.chartOptions.orientation[0].orientationId
+      dataConfig.chartOptions.orientation[0] &&
+      dataConfig.chartOptions.orientation[0].orientationId
       ? dataConfig.chartOptions.orientation[0].orientationId
       : visualizations.vis.orientation;
   const { defaultAxes } = visualizations.data;
@@ -62,8 +62,22 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
+  let multiMetrics = {};
   // determine category axis
-  let bars = valueSeries.map((field: any) => {
+  let bars = valueSeries.map((field: any, index: number) => {
+    const multiYaxis = { yaxis: `y${index + 1}` };
+    if (index >= 1) {
+      multiMetrics = {
+        ...multiMetrics,
+        [`yaxis${index + 1}`]: {
+          title: `yaxis${index + 1} title`,
+          titlefont: { color: PLOTLY_COLOR[index] },
+          tickfont: { color: PLOTLY_COLOR[index] },
+          overlaying: 'y',
+          side: 'right',
+        }
+      }
+    }
     return {
       x: isVertical
         ? data[!isEmpty(xaxis) ? xaxis[0].label : fields[lastIndex].name]
@@ -75,6 +89,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       marker,
       name: field.name,
       orientation: barOrientation,
+      ...(index >= 1 && multiYaxis)
     };
   });
 
@@ -90,10 +105,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode:
       dataConfig?.chartOptions?.mode &&
-      dataConfig.chartOptions.mode[0] &&
-      dataConfig.chartOptions.mode[0].modeId
+        dataConfig.chartOptions.mode[0] &&
+        dataConfig.chartOptions.mode[0].modeId
         ? dataConfig.chartOptions.mode[0].modeId
         : '',
+    ...multiMetrics && multiMetrics,
   };
 
   if (dataConfig.thresholds || availabilityConfig.level) {

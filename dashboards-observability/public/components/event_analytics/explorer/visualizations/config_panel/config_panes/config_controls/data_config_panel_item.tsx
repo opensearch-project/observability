@@ -4,41 +4,12 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { EuiTitle, EuiComboBox, EuiSpacer, EuiAccordion, EuiButton, EuiFieldText, EuiFlexItem, EuiFormRow, EuiIcon, EuiPanel, EuiText } from '@elastic/eui';
+import { EuiTitle, EuiComboBox, EuiSpacer, EuiButton, EuiFieldText, EuiFlexItem, EuiFormRow, EuiIcon, EuiPanel, EuiText } from '@elastic/eui';
 import { useDispatch, useSelector } from 'react-redux';
-// import { AGGREGATION_OPTIONS } from 'common/constants/explorer';
 import { render as renderExplorerVis } from '../../../../../../event_analytics/redux/slices/visualization_slice';
 import { selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-
-const AGGREGATION_OPTIONS = [
-  {
-    label: 'COUNT',
-  },
-  {
-    label: 'SUM',
-  },
-  {
-    label: 'AVERAGE',
-  },
-  {
-    label: 'MAX',
-  },
-  {
-    label: 'MIN',
-  },
-  {
-    label: 'VAR_SAMP',
-  },
-  {
-    label: 'VAR_POP',
-  },
-  {
-    label: 'STDDEV_SAMP',
-  },
-  {
-    label: 'STDDEV_POP',
-  },
-];
+import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
+import { ButtonGroupItem } from './config_button_group';
 
 export const DataConfigPanelItem = ({
   fieldOptionList,
@@ -47,38 +18,54 @@ export const DataConfigPanelItem = ({
 }: any) => {
   const dispatch = useDispatch();
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabID];
-  const [configList, setConfigList] = useState({
-    dimensions: [{ label: "", aggregation: "", custom_label: "", name: ""}],
-    metrics: [{ label: "", aggregation: "", custom_label: "", name:""}],
-  });
 
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
-  const updateList = (value, index, name, field) => {
-    let list = {...configList};
+
+  const [configList, setConfigList] = useState({
+    dimensions: [{ label: "", aggregation: "", custom_label: "", name: "" }],
+    metrics: [{ label: "", aggregation: "", custom_label: "", name: "" }],
+  });
+
+  useEffect(() => {
+    if (data.rawVizData?.dataConfig) {
+      setConfigList({
+        ...data.rawVizData?.dataConfig
+      })
+    } else if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
+      const { xaxis, yaxis } = data.defaultAxes;
+      setConfigList({
+        dimensions: [...xaxis && xaxis],
+        metrics: [...yaxis && yaxis],
+      })
+    }
+  }, [data.defaultAxes, data.rawVizData?.dataConfig]);
+
+  const updateList = (value: string, index: number, name: string, field: string) => {
+    let list = { ...configList };
     let listItem = list[name][index];
-    listItem = {...listItem, [field]: value};
+    listItem = { ...listItem, [field]: value };
     list[name][index] = listItem;
     setConfigList(list);
   }
 
-  const onfieldOptionChange = (e, index, name) => {
-    console.log("index", index, name); 
-    // const list = { ...configList, [name]: [ ...configList[name], [index]: { ...configList[name][index], ['label']: e[0].label }] };
-    updateList(e[0].label, index, name, 'label'); 
-    updateList(e[0].label, index, name, 'name'); 
+  const onfieldOptionChange = (e, index: number, name: string) => {
+    let label = e.length > 0 ? e[0].label : '';
+    updateList(label, index, name, 'label');
+    updateList(label, index, name, 'name');
   };
 
   const onAggregationChange = (e, index: number, name: string) => {
-    updateList(e[0].label, index, name, 'aggregation'); 
+    let label = e.length > 0 ? e[0].label : '';
+    updateList(label, index, name, 'aggregation');
   };
 
-  const onCustomLabelChange = (e, index, name) => {
+  const onCustomLabelChange = (e, index: number, name: string) => {
     updateList(e.target.value, index, name, 'custom_label');
   };
 
 
-  const handleServiceRemove = (index, name) => {
+  const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
     list[name].splice(index, 1);
     setConfigList(list);
@@ -105,8 +92,9 @@ export const DataConfigPanelItem = ({
     );
   }
 
-  const getCommonUI = (lists, sectionName: string) => lists.map((singleField, index) =>  (
-      <><div key={index} className="services">
+  const getCommonUI = (lists, sectionName: string) => lists.map((singleField, index: number) => (
+    <>
+      <div key={index} className="services">
         <div className="first-division">
           <EuiPanel color="subdued">
             <EuiFormRow
@@ -127,7 +115,7 @@ export const DataConfigPanelItem = ({
                 selectedOptions={singleField.aggregation ? [{ 'label': singleField.aggregation }] : []}
                 onChange={(e) => onAggregationChange(e, index, sectionName)}
               />
-  
+
             </EuiFormRow>
             <EuiFormRow
               label="Field"
@@ -141,7 +129,7 @@ export const DataConfigPanelItem = ({
                 onChange={(e) => onfieldOptionChange(e, index, sectionName)}
               />
             </EuiFormRow>
-  
+
             <EuiFormRow
               label="Custom label"
             >
@@ -151,20 +139,32 @@ export const DataConfigPanelItem = ({
                 onChange={(e) => onCustomLabelChange(e, index, sectionName)}
                 aria-label="Use aria labels when no actual label is in use" />
             </EuiFormRow>
+
+            {sectionName === 'metrics' && (
+              <EuiFormRow label="Side">
+                <ButtonGroupItem
+                  legend="Side"
+                  groupOptions={[{ id: 'left', label: 'Left' }, { id: 'right', label: 'Right' }]}
+                  idSelected="left"
+                  handleButtonChange={(id: string) => { console.log(id); }}
+                />
+              </EuiFormRow>
+            )}
+
             <EuiSpacer size="s" />
-            { lists.length - 1 === index &&
+            {lists.length - 1 === index &&
               <EuiFlexItem grow={true}>
                 <EuiButton fullWidth iconType="plusInCircleFilled" color='primary' onClick={() => handleServiceAdd(sectionName)}>
                   Add
                 </EuiButton>
               </EuiFlexItem>
-  }
+            }
           </EuiPanel>
         </div>
       </div>
-        <EuiSpacer size="s" />
-      </>
-    ))
+      <EuiSpacer size="s" />
+    </>
+  ))
 
   return (
     <>
@@ -176,22 +176,23 @@ export const DataConfigPanelItem = ({
         <h3>Dimensions</h3>
       </EuiTitle>
       {getCommonUI(configList.dimensions, 'dimensions')}
-      
+
       <EuiSpacer size="s" />
       <EuiTitle size="xxs">
         <h3>Metrics</h3>
       </EuiTitle>
       {getCommonUI(configList.metrics, 'metrics')}
+
       <EuiFlexItem grow={false}>
-            <EuiButton
-              data-test-subj="visualizeEditorRenderButton"
-              iconType="play"
-              onClick={updateChart}
-              size="s"
-            >
-              Update chart
-            </EuiButton>
-        </EuiFlexItem>
+        <EuiButton
+          data-test-subj="visualizeEditorRenderButton"
+          iconType="play"
+          onClick={updateChart}
+          size="s"
+        >
+          Update chart
+        </EuiButton>
+      </EuiFlexItem>
     </>
   );
 };
