@@ -687,28 +687,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "xaxis",
-                                "name": "Label",
-                                "onChangeHandler": "setXaxisSelections",
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "yaxis",
-                                "name": "Value",
-                                "onChangeHandler": "setYaxisSelections",
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "legend",
                             "mapTo": "legend",
                             "name": "Legend",
@@ -759,6 +737,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "size",
+                                "name": "Legend Size",
+                              },
                             ],
                           },
                           Object {
@@ -769,16 +753,17 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "schemas": Array [
                               Object {
                                 "component": null,
+                                "defaultState": Array [
+                                  Object {
+                                    "label": "Pie",
+                                    "modeId": "pie",
+                                    "name": "Pie",
+                                  },
+                                ],
                                 "isSingleSelection": true,
                                 "mapTo": "mode",
                                 "name": "Mode",
                                 "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "modeId": "pie",
-                                      "name": "Pie",
-                                    },
-                                  ],
                                   "dropdownList": Array [
                                     Object {
                                       "modeId": "pie",
@@ -790,6 +775,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   ],
                                 },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
                               },
                               Object {
                                 "component": [Function],

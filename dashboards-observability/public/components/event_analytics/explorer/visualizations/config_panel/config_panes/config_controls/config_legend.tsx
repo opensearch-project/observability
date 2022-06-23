@@ -22,17 +22,31 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
   );
 
   const dimensions = useMemo(() => {
-    return schemas.map((schema: IConfigPanelOptionSection, index: number) => {
+    return schemas.map((schema, index) => {
       const DimensionComponent = schema.component || ButtonGroupItem;
-      const params = {
-        title: schema.name,
-        legend: schema.name,
-        groupOptions: schema?.props?.options.map((btn: { name: string }) => ({ ...btn, label: btn.name })),
-        idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-        handleButtonChange: handleConfigurationChange(schema.mapTo),
-        vizState,
-        ...schema.props,
-      };
+      let params = {};
+      if (schema.eleType === 'input') {
+        params = {
+          title: schema.name,
+          currentValue: vizState[schema.mapTo] || '',
+          handleInputChange: handleConfigurationChange(schema.mapTo),
+          vizState,
+          ...schema.props,
+        };
+      } else {
+        params = {
+          title: schema.name,
+          legend: schema.name,
+          groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
+            ...btn,
+            label: btn.name,
+          })),
+          idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
+          handleButtonChange: handleConfigurationChange(schema.mapTo),
+          vizState,
+          ...schema.props,
+        };
+      }
       return (
         <>
           <DimensionComponent key={`viz-series-${index}`} {...params} />
@@ -40,7 +54,7 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
         </>
       );
     });
-  }, [schemas, vizState, handleConfigurationChange]);;
+  }, [schemas, vizState, handleConfigurationChange]);
 
   return (
     <EuiAccordion initialIsOpen id="configPanel__legend" buttonContent="Legend" paddingSize="s">

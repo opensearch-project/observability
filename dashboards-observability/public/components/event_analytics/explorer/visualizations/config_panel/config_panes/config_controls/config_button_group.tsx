@@ -11,7 +11,7 @@ interface ToggleButtonOptions {
   label: string;
 }
 interface ToggleGroupProps {
-  title: string;
+  title?: string;
   legend: string;
   groupOptions: ToggleButtonOptions[];
   idSelected: string;

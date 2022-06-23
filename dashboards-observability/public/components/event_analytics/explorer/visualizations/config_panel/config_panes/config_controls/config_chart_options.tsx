@@ -84,6 +84,14 @@ export const ConfigChartOptions = ({
             vizState,
             ...schema.props,
           };
+        } else if (schema.eleType === 'input') {
+          params = {
+            title: schema.name,
+            currentValue: vizState[schema.mapTo] || '',
+            handleInputChange: handleConfigurationChange(schema.mapTo),
+            vizState,
+            ...schema.props,
+          };
         } else {
           params = {
             paddingTitle: schema.name,
