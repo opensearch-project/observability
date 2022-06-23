@@ -3,7 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+  ReactChildren,
+  ReactChild,
+} from 'react';
 import {
   EuiButtonIcon,
   EuiFlexGroup,
@@ -19,7 +27,7 @@ import {
 // pagination
 import ReactPaginate from 'react-paginate';
 
-// af-data-grid
+// ag-data-grid
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -31,12 +39,38 @@ import './data_table.scss';
 // theme
 import { uiSettingsService } from '../../../../../common/utils';
 
+// constants
+import {
+  GRID_HEADER_COLUMN_MAX_WIDTH,
+  GRID_HEIGHT,
+  GRID_HEIGHT_FULLSCREEN,
+  GRID_PAGE_RANGE_DSIPLAY,
+  COLUMN_DEFAULT_MIN_WIDTH,
+  ROW_DENSITIES,
+  GRID_PAGE_SIZES,
+} from '../../../../../common/constants/data_table';
+
+interface RowConfig {
+  icon: string;
+  height: number;
+  selected: boolean;
+}
+
 export const DataTable = ({ visualizations, layout, config }: any) => {
   const {
     data: vizData,
     jsonData,
     metadata: { fields = [] },
   } = visualizations.data.rawVizData;
+
+  useEffect(() => {
+    document.addEventListener('keydown', hideGridFullScreenHandler);
+    return () => {
+      document.removeEventListener('keydown', hideGridFullScreenHandler);
+    };
+  }, []);
+
+  // rows and columns
   const raw_data = [...jsonData];
   const columns = fields.map((field: any) => {
     return {
@@ -56,28 +90,31 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   // ag-grid-react bindings
   const gridRef = useRef<any | undefined>();
   const gridRefFullScreen = useRef<any | undefined>();
-  const [pageSize, setPageSize] = useState(10);
-  const [columnVisibility, setColumnVisibility] = useState([]);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [columnVisibility, setColumnVisibility] = useState<string[]>([]);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
-  const [selectedRowDensity, setSelectedRowDensity] = useState({
+  const [selectedRowDensity, setSelectedRowDensity] = useState<RowConfig>({
     icon: 'tableDensityNormal',
     height: 40,
     selected: true,
   });
+  // pagination
+  const [activePage, setActivePage] = useState<number>(0);
+  const pageCount = Math.ceil(raw_data.length / pageSize);
+
   const defaultColDef = useMemo(() => {
     return {
-      editable: true,
       sortable: true,
       resizable: true,
       filter: true,
       flex: 1,
-      minWidth: 100,
+      minWidth: COLUMN_DEFAULT_MIN_WIDTH,
       suppressMenu: true,
     };
   }, []);
 
   const onPageSizeChanged = useCallback(
-    (val) => {
+    (val: number) => {
       setPageSize(val);
       gridRef.current.api.paginationSetPageSize(val);
       setActivePage(0);
@@ -90,11 +127,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     [isFullScreen]
   );
 
-  const paginationNumberFormatter = useCallback((params) => {
-    return '[' + params.value.toLocaleString() + ']';
-  }, []);
-
-  const selectDensityHandler = useCallback((value) => {
+  const selectDensityHandler = useCallback((value: RowConfig) => {
     setSelectedRowDensity({ ...value });
     gridRef.current.api.forEachNode((rowNode) => {
       if (rowNode.data) {
@@ -104,23 +137,20 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     gridRef.current.api.onRowHeightChanged();
   }, []);
 
-  const columnVisiblityHandler = useCallback((visible: boolean, feild: any) => {
-    const isExisting = columnVisibility.findIndex((i) => i === feild);
+  const columnVisiblityHandler = useCallback((visible: boolean, field: string) => {
+    const isExisting = columnVisibility.findIndex((column) => column === field);
     if (visible) {
       if (isExisting > -1) {
         columnVisibility.splice(isExisting, 1);
-        gridRef?.current?.columnApi?.setColumnsVisible([feild], true);
+        gridRef?.current?.columnApi?.setColumnsVisible([field], true);
       }
     } else {
-      columnVisibility.push(feild);
-      gridRef?.current?.columnApi?.setColumnsVisible([feild], false);
+      columnVisibility.push(field);
+      gridRef?.current?.columnApi?.setColumnsVisible([field], false);
     }
     setColumnVisibility([...columnVisibility]);
   }, []);
 
-  // pagination
-  const pageCount = Math.ceil(raw_data.length / pageSize);
-  const [activePage, setActivePage] = useState(0);
   const goToPage = ({ selected }: { selected: number }) => {
     setActivePage(selected);
     gridRef.current.api.paginationGoToPage(selected);
@@ -132,13 +162,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   const setIsFullScreenHandler = (val: boolean) => {
     setIsFullScreen(val);
   };
-
-  useEffect(() => {
-    document.addEventListener('keydown', hideGridFullScreenHandler);
-    return () => {
-      document.removeEventListener('keydown', hideGridFullScreenHandler);
-    };
-  }, []);
 
   const hideGridFullScreenHandler = (e: any) => {
     if (e.key === 'Escape') {
@@ -156,19 +179,16 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         columns={columns}
         columnVisibility={columnVisibility}
       />
-      <div style={{ height: '460px' }}>
+      <div style={{ height: GRID_HEIGHT }}>
         <AgGridReact
           ref={gridRef}
           rowData={raw_data}
           columnDefs={columns}
           defaultColDef={defaultColDef}
-          animateRows={true}
-          rowSelection="multiple"
-          enableRangeSelection={true}
-          pagination={true}
+          animateRows
+          pagination
           paginationPageSize={pageSize}
-          paginationNumberFormatter={paginationNumberFormatter}
-          suppressPaginationPanel={true}
+          suppressPaginationPanel
           rowHeight={selectedRowDensity.height}
         />
       </div>
@@ -183,20 +203,16 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         <CustomOverlay>
           <EuiFlexGroup direction="column">
             <EuiFlexItem>
-              <div style={{ height: '500px' }}>
+              <div style={{ height: GRID_HEIGHT_FULLSCREEN }}>
                 <AgGridReact
                   ref={gridRefFullScreen}
                   rowData={raw_data}
                   columnDefs={columns}
                   defaultColDef={defaultColDef}
-                  animateRows={true}
-                  rowSelection="multiple"
-                  enableRangeSelection={true}
-                  pagination={true}
-                  // domLayout={'autoHeight'}
+                  animateRows
+                  pagination
                   paginationPageSize={pageSize}
-                  paginationNumberFormatter={paginationNumberFormatter}
-                  suppressPaginationPanel={true}
+                  suppressPaginationPanel
                   rowHeight={selectedRowDensity.height}
                 />
               </div>
@@ -217,7 +233,11 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   );
 };
 
-const CustomOverlay = ({ children }: { children: any }) => {
+const CustomOverlay = ({
+  children,
+}: {
+  children: ReactChild | ReactChild[] | ReactChildren | ReactChildren[];
+}) => {
   return (
     <div
       className={
@@ -243,52 +263,50 @@ const GridHeader = ({
   isFullScreen: boolean;
   setIsFullScreenHandler: (v: boolean) => void;
   selectedRowDensity: any;
-  selectDensityHandler: (v: any) => void;
-  columnVisiblityHandler: (visible: boolean, feild: any) => void;
+  selectDensityHandler: (v: RowConfig) => void;
+  columnVisiblityHandler: (visible: boolean, field: string) => void;
   columns: any;
   columnVisibility: any;
 }) => {
   return (
-    <>
-      <EuiFlexGroup
-        responsive={true}
-        gutterSize="none"
-        justifyContent="flexStart"
-        style={{ position: 'relative' }}
-      >
-        <EuiFlexItem style={{ maxWidth: '150px' }}>
-          <DensityPopover
-            selectedDensity={selectedRowDensity}
-            selectDensityHandler={selectDensityHandler}
-          />
-        </EuiFlexItem>
-        <EuiFlexItem style={{ maxWidth: '150px' }}>
-          <ColumnVisiblityPopover
-            columnVisiblityHandler={columnVisiblityHandler}
-            columns={columns}
-            columnVisibility={columnVisibility}
-          />
-        </EuiFlexItem>
-        <EuiFlexItem style={{ maxWidth: '150px' }}>
-          <EuiButtonEmpty
-            iconSize="s"
-            color="text"
-            aria-label="Next"
-            iconType="fullScreen"
-            onClick={() => setIsFullScreenHandler(true)}
-          >
-            Full screen
-          </EuiButtonEmpty>
-        </EuiFlexItem>
-        {isFullScreen && (
-          <EuiIcon
-            type="cross"
-            onClick={() => setIsFullScreenHandler(false)}
-            style={{ position: 'absolute', right: 20, cursor: 'pointer', top: 20 }}
-          />
-        )}
-      </EuiFlexGroup>
-    </>
+    <EuiFlexGroup
+      responsive
+      gutterSize="none"
+      justifyContent="flexStart"
+      style={{ position: 'relative' }}
+    >
+      <EuiFlexItem style={{ maxWidth: GRID_HEADER_COLUMN_MAX_WIDTH }}>
+        <DensityPopover
+          selectedDensity={selectedRowDensity}
+          selectDensityHandler={selectDensityHandler}
+        />
+      </EuiFlexItem>
+      <EuiFlexItem style={{ maxWidth: GRID_HEADER_COLUMN_MAX_WIDTH }}>
+        <ColumnVisiblityPopover
+          columnVisiblityHandler={columnVisiblityHandler}
+          columns={columns}
+          columnVisibility={columnVisibility}
+        />
+      </EuiFlexItem>
+      <EuiFlexItem style={{ maxWidth: GRID_HEADER_COLUMN_MAX_WIDTH }}>
+        <EuiButtonEmpty
+          iconSize="s"
+          color="text"
+          aria-label="Next"
+          iconType="fullScreen"
+          onClick={() => setIsFullScreenHandler(true)}
+        >
+          Full screen
+        </EuiButtonEmpty>
+      </EuiFlexItem>
+      {isFullScreen && (
+        <EuiIcon
+          type="cross"
+          onClick={() => setIsFullScreenHandler(false)}
+          style={{ position: 'absolute', right: 20, cursor: 'pointer', top: 20 }}
+        />
+      )}
+    </EuiFlexGroup>
   );
 };
 
@@ -300,14 +318,14 @@ const GridFooter = ({
   pageCount,
 }: {
   onPageSizeChanged: (val: number) => void;
-  goToPage: (val: number) => void;
+  goToPage: ({ selected }: { selected: number }) => void;
   pageSize: number;
   activePage: number;
   pageCount: number;
 }) => {
   return (
     <EuiFlexGroup
-      responsive={true}
+      responsive
       gutterSize="none"
       justifyContent="spaceBetween"
       style={{ paddingTop: '10px', position: 'relative' }}
@@ -326,7 +344,7 @@ const GridFooter = ({
           nextLabel={<EuiIcon type="arrowRight" />}
           forcePage={activePage}
           onPageChange={goToPage}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={GRID_PAGE_RANGE_DSIPLAY}
           pageCount={pageCount}
           previousLabel={<EuiIcon type="arrowLeft" />}
           renderOnZeroPageCount={null}
@@ -341,10 +359,9 @@ const DensityPopover = ({
   selectedDensity,
 }: {
   selectedDensity: any;
-  selectDensityHandler: (data: any) => void;
+  selectDensityHandler: (data: RowConfig) => void;
 }) => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const onButtonClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
 
@@ -360,16 +377,10 @@ const DensityPopover = ({
     </EuiButtonEmpty>
   );
 
-  const rowDensities = [
-    { icon: 'tableDensityExpanded', height: 60, selected: false },
-    { icon: 'tableDensityNormal', height: 40, selected: true },
-    { icon: 'tableDensityCompact', height: 30, selected: false },
-  ];
-
   return (
     <EuiPopover button={button} isOpen={isPopoverOpen} closePopover={closePopover}>
       <EuiFlexGroup responsive={false} gutterSize="s" alignItems="center">
-        {rowDensities.map((i: any, index: number) => (
+        {ROW_DENSITIES.map((i: RowConfig, index: number) => (
           <EuiFlexItem key={index} grow={false}>
             <EuiButtonIcon
               onClick={() => selectDensityHandler(i)}
@@ -391,9 +402,9 @@ const ColumnVisiblityPopover = ({
 }: {
   columns: any;
   columnVisibility: any;
-  columnVisiblityHandler: (visible: boolean, feild: any) => void;
+  columnVisiblityHandler: (visible: boolean, field: string) => void;
 }) => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const onButtonClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
 
@@ -411,7 +422,11 @@ const ColumnVisiblityPopover = ({
 
   return (
     <EuiPopover button={button} isOpen={isPopoverOpen} closePopover={closePopover}>
-      <EuiFlexGroup responsive={false} gutterSize="s" direction="column">
+      <EuiFlexGroup
+        // responsive={false}
+        gutterSize="s"
+        direction="column"
+      >
         {columns.map((i: any, index: number) => {
           return (
             <EuiFlexItem key={index} grow={false}>
@@ -438,7 +453,7 @@ const PageSizePopover = ({
   onPageSizeChanged: (size: number) => void;
   pageSize: number;
 }) => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const onButtonClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
 
@@ -456,10 +471,8 @@ const PageSizePopover = ({
     </EuiButtonEmpty>
   );
 
-  const sizes = [10, 50, 100];
-
   const items = () => {
-    return sizes.map((i) => (
+    return GRID_PAGE_SIZES.map((i: number) => (
       <EuiContextMenuItem
         layoutAlign="bottom"
         key={`${i} rows`}
