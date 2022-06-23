@@ -29,16 +29,14 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.valueOptions.childField[0]
       : fields[fields.length - 1];
 
-  const parentField =
-    dataConfig?.valueOptions &&
-    dataConfig?.valueOptions.parentField &&
-    !isEmpty(dataConfig?.valueOptions.parentField)
-      ? dataConfig?.valueOptions.parentField[0]
-      : null;
+  const parentFields =
+    dataConfig?.valueOptions && dataConfig.valueOptions?.parentFields
+      ? dataConfig?.valueOptions.parentFields
+      : [];
 
   const valueField =
     dataConfig?.valueOptions &&
-    dataConfig?.valueOptions.valueField &&
+    dataConfig.valueOptions?.valueField &&
     !isEmpty(dataConfig?.valueOptions.valueField)
       ? dataConfig?.valueOptions.valueField[0]
       : fields[0];
@@ -55,19 +53,25 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
+  const areParentFieldsInvalid =
+    new Set([...parentFields.map((x) => x.name)]).size !== parentFields.length ||
+    parentFields.some((x) => isEmpty(data[x.name]) || isEqual(childField.name, x.name));
+
   if (
     isEmpty(data[childField.name]) ||
     isEmpty(data[valueField.name]) ||
-    (!isNull(parentField) && isEmpty(data[parentField.name])) ||
-    isEqual(childField.name, parentField?.name) ||
-    indexOf(NUMERICAL_FIELDS, valueField.type) < 0
+    indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
+    areParentFieldsInvalid
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
-    let labelsArray, parentsArray, valuesArray, colorsArray;
+    let labelsArray: string[] = [],
+      parentsArray: string[] = [],
+      valuesArray: number[] = [],
+      colorsArray: string[] = [];
 
-    if (parentField === null) {
+    if (parentFields.length === 0) {
       labelsArray = [...data[childField.name]];
       parentsArray = [...Array(labelsArray.length).fill('')];
       valuesArray = [...data[valueField.name]];
@@ -75,16 +79,53 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         colorsArray = [...Array(data[childField.name].length).fill(colorField.childColor)];
       }
     } else {
-      const uniqueParents = uniq(data[parentField.name]);
-      labelsArray = [...data[childField.name], ...uniqueParents];
-      parentsArray = [...data[parentField.name], ...Array(uniqueParents.length).fill('')];
-      valuesArray = [...data[valueField.name], ...Array(uniqueParents.length).fill(0)];
-      if (colorField.name === MULTI_COLOR_PALETTE) {
-        colorsArray = [
-          ...Array(data[childField.name].length).fill(colorField.childColor),
-          ...Array(uniqueParents.length).fill(colorField.parentColor),
-        ];
-      }
+      let currentLevel = parentFields.length - 1;
+      let lastParentField = {};
+      parentFields
+        .slice(0)
+        .reverse()
+        .map((field, i) => {
+          const uniqueParents = uniq(data[field.name]) as string[];
+          labelsArray = [...labelsArray, ...uniqueParents];
+          if (i === 0) {
+            parentsArray = [...Array(uniqueParents.length).fill('')];
+            valuesArray = [...Array(uniqueParents.length).fill(0)];
+            colorsArray =
+              colorField.name === MULTI_COLOR_PALETTE
+                ? [
+                    ...Array(uniqueParents.length).fill(
+                      colorField.parentColors[currentLevel] ?? '#000000'
+                    ),
+                  ]
+                : [];
+          } else {
+            const currentParentIndices = uniqueParents.map((parent) =>
+              data[field.name].findIndex((index) => index === parent)
+            );
+            const lastParents = currentParentIndices.map((x) => data[lastParentField.name][x]);
+            parentsArray = [...parentsArray, ...lastParents];
+            valuesArray = [...valuesArray, ...Array(lastParents.length).fill(0)];
+            colorsArray =
+              colorField.name === MULTI_COLOR_PALETTE
+                ? [
+                    ...colorsArray,
+                    ...Array(lastParents.length).fill(
+                      colorField.parentColors[currentLevel] ?? '#000000'
+                    ),
+                  ]
+                : [];
+          }
+          currentLevel = currentLevel - 1;
+          lastParentField = field;
+        });
+
+      labelsArray = [...labelsArray, ...data[childField.name]];
+      valuesArray = [...valuesArray, ...data[valueField.name]];
+      parentsArray = [...parentsArray, ...data[lastParentField.name]];
+      colorsArray =
+        colorField.name === MULTI_COLOR_PALETTE
+          ? [...colorsArray, ...Array(data[childField.name].length).fill(colorField.childColor)]
+          : [];
     }
 
     if (colorField.name === SINGLE_COLOR_PALETTE) {
@@ -93,9 +134,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
 
     const markerColors =
       colorField.name === MULTI_COLOR_PALETTE
-        ? {
-            colors: colorsArray,
-          }
+        ? { colors: colorsArray }
         : ![DEFAULT_PALETTE, SINGLE_COLOR_PALETTE].includes(colorField.name)
         ? {
             colorscale: colorField.name,
@@ -133,7 +172,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     data,
     childField,
     valueField,
-    parentField,
+    parentFields,
     colorField,
     tilingAlgorithm,
     dataConfig,
