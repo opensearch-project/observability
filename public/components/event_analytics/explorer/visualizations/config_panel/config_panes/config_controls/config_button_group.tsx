@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { uniqueId } from 'lodash';
-import { EuiTitle, EuiSpacer, EuiButtonGroup } from '@elastic/eui';
+import { EuiTitle, EuiSpacer, EuiButtonGroup, htmlIdGenerator } from '@elastic/eui';
 interface ToggleButtonOptions {
   id: string;
   label: string;
@@ -20,22 +19,21 @@ interface ToggleGroupProps {
 export const ButtonGroupItem: React.FC<ToggleGroupProps> = ({
   title, legend, groupOptions, idSelected, handleButtonChange
 }) => (
-  <>
-    <EuiTitle size="xxs">
-      <h3>{title}</h3>
-    </EuiTitle>
-    <EuiSpacer size="s" />
-    <div style={{ width: "fit-content" }}>
-      <EuiButtonGroup
-        id={uniqueId('button-select-')}
-        name={title}
-        legend={legend}
-        options={groupOptions}
-        idSelected={idSelected}
-        onChange={handleButtonChange}
-        buttonSize="compressed"
-        isFullWidth={false}
-      />
-    </div>
-  </>
+    <>
+        <EuiTitle size="xxs">
+            <h3>{title}</h3>
+        </EuiTitle>
+        <EuiSpacer size="s" />
+
+        <EuiButtonGroup
+            id={htmlIdGenerator('button-select')()}
+            name={title}
+            legend={legend}
+            options={groupOptions}
+            idSelected={idSelected}
+            onChange={handleButtonChange}
+            buttonSize="compressed"
+            isFullWidth={false}
+        />
+    </>
 );

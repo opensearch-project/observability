@@ -149,3 +149,24 @@ export const LIVE_OPTIONS = [
 ];
 
 export const LIVE_END_TIME ='now';
+export interface DefaultChartStylesProps {
+  DefaultMode: string,
+  Interpolation: string,
+  LineWidth: number,
+  FillOpacity: number,
+  MarkerSize: number,
+  ShowLegend: string,
+  LegendPosition: string
+};
+
+export const DefaultChartStyles: DefaultChartStylesProps = {
+  DefaultMode: 'lines',
+  Interpolation: 'spline',
+  LineWidth: 2,
+  FillOpacity: 40,
+  MarkerSize: 5,
+  ShowLegend: 'show',
+  LegendPosition: 'v'
+}
+
+export const FILLOPACITY_DIV_FACTOR = 200; 
