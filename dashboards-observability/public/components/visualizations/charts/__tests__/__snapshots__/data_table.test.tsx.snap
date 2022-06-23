@@ -44,87 +44,80 @@ exports[`Data table component Renders data table component 1`] = `
     }
     setIsFullScreenHandler={[Function]}
   />
-  <div
-    style={
+  <AgGridReact
+    animateRows={true}
+    columnDefs={
+      Array [
+        Object {
+          "colId": "count()",
+          "columnsMenuParams": Object {
+            "suppressColumnExpandAll": true,
+            "suppressColumnFilter": true,
+            "suppressColumnSelectAll": true,
+          },
+          "field": "count()",
+          "headerName": "count()",
+          "id": "count()",
+          "lockVisible": true,
+        },
+        Object {
+          "colId": "tags",
+          "columnsMenuParams": Object {
+            "suppressColumnExpandAll": true,
+            "suppressColumnFilter": true,
+            "suppressColumnSelectAll": true,
+          },
+          "field": "tags",
+          "headerName": "tags",
+          "id": "tags",
+          "lockVisible": true,
+        },
+      ]
+    }
+    defaultColDef={
       Object {
-        "height": "460px",
+        "filter": true,
+        "flex": 1,
+        "minWidth": 100,
+        "resizable": true,
+        "sortable": true,
+        "suppressMenu": true,
       }
     }
-  >
-    <AgGridReact
-      animateRows={true}
-      columnDefs={
-        Array [
-          Object {
-            "colId": "count()",
-            "columnsMenuParams": Object {
-              "suppressColumnExpandAll": true,
-              "suppressColumnFilter": true,
-              "suppressColumnSelectAll": true,
-            },
-            "field": "count()",
-            "headerName": "count()",
-            "id": "count()",
-            "lockVisible": true,
-          },
-          Object {
-            "colId": "tags",
-            "columnsMenuParams": Object {
-              "suppressColumnExpandAll": true,
-              "suppressColumnFilter": true,
-              "suppressColumnSelectAll": true,
-            },
-            "field": "tags",
-            "headerName": "tags",
-            "id": "tags",
-            "lockVisible": true,
-          },
-        ]
-      }
-      defaultColDef={
+    domLayout="autoHeight"
+    pagination={true}
+    paginationPageSize={10}
+    rowData={
+      Array [
         Object {
-          "filter": true,
-          "flex": 1,
-          "minWidth": 100,
-          "resizable": true,
-          "sortable": true,
-          "suppressMenu": true,
-        }
-      }
-      pagination={true}
-      paginationPageSize={10}
-      rowData={
-        Array [
-          Object {
-            "count()": 154,
-            "tags": "error",
-          },
-          Object {
-            "count()": 1753,
-            "tags": "info",
-          },
-          Object {
-            "count()": 116,
-            "tags": "login",
-          },
-          Object {
-            "count()": 468,
-            "tags": "security",
-          },
-          Object {
-            "count()": 1964,
-            "tags": "success",
-          },
-          Object {
-            "count()": 219,
-            "tags": "warning",
-          },
-        ]
-      }
-      rowHeight={40}
-      suppressPaginationPanel={true}
-    />
-  </div>
+          "count()": 154,
+          "tags": "error",
+        },
+        Object {
+          "count()": 1753,
+          "tags": "info",
+        },
+        Object {
+          "count()": 116,
+          "tags": "login",
+        },
+        Object {
+          "count()": 468,
+          "tags": "security",
+        },
+        Object {
+          "count()": 1964,
+          "tags": "success",
+        },
+        Object {
+          "count()": 219,
+          "tags": "warning",
+        },
+      ]
+    }
+    rowHeight={40}
+    suppressPaginationPanel={true}
+  />
   <GridFooter
     activePage={0}
     goToPage={[Function]}

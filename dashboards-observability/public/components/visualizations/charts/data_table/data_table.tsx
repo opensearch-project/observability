@@ -42,8 +42,6 @@ import { uiSettingsService } from '../../../../../common/utils';
 // constants
 import {
   GRID_HEADER_COLUMN_MAX_WIDTH,
-  GRID_HEIGHT,
-  GRID_HEIGHT_FULLSCREEN,
   GRID_PAGE_RANGE_DSIPLAY,
   COLUMN_DEFAULT_MIN_WIDTH,
   ROW_DENSITIES,
@@ -179,19 +177,18 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         columns={columns}
         columnVisibility={columnVisibility}
       />
-      <div style={{ height: GRID_HEIGHT }}>
-        <AgGridReact
-          ref={gridRef}
-          rowData={raw_data}
-          columnDefs={columns}
-          defaultColDef={defaultColDef}
-          animateRows
-          pagination
-          paginationPageSize={pageSize}
-          suppressPaginationPanel
-          rowHeight={selectedRowDensity.height}
-        />
-      </div>
+      <AgGridReact
+        ref={gridRef}
+        rowData={raw_data}
+        columnDefs={columns}
+        defaultColDef={defaultColDef}
+        domLayout="autoHeight"
+        animateRows
+        pagination
+        paginationPageSize={pageSize}
+        suppressPaginationPanel
+        rowHeight={selectedRowDensity.height}
+      />
       <GridFooter
         onPageSizeChanged={onPageSizeChanged}
         pageSize={pageSize}
@@ -203,19 +200,18 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         <CustomOverlay>
           <EuiFlexGroup direction="column">
             <EuiFlexItem>
-              <div style={{ height: GRID_HEIGHT_FULLSCREEN }}>
-                <AgGridReact
-                  ref={gridRefFullScreen}
-                  rowData={raw_data}
-                  columnDefs={columns}
-                  defaultColDef={defaultColDef}
-                  animateRows
-                  pagination
-                  paginationPageSize={pageSize}
-                  suppressPaginationPanel
-                  rowHeight={selectedRowDensity.height}
-                />
-              </div>
+              <AgGridReact
+                ref={gridRefFullScreen}
+                rowData={raw_data}
+                columnDefs={columns}
+                defaultColDef={defaultColDef}
+                domLayout="autoHeight"
+                animateRows
+                pagination
+                paginationPageSize={pageSize}
+                suppressPaginationPanel
+                rowHeight={selectedRowDensity.height}
+              />
             </EuiFlexItem>
             <EuiFlexItem>
               <GridFooter
