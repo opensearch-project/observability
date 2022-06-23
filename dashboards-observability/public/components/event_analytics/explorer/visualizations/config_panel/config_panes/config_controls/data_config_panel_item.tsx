@@ -62,8 +62,7 @@ export const DataConfigPanelItem = ({
   const onfieldOptionChange = (e, index: number, name: string) => {
     let label = e.length > 0 ? e[0].label : '';
     updateList(label, index, name, 'label');
-    updateList(label, index, name, 'name');
-  };
+   };
 
   const onAggregationChange = (e, index: number, name: string) => {
     let label = e.length > 0 ? e[0].label : '';
@@ -89,7 +88,7 @@ export const DataConfigPanelItem = ({
     setConfigList(newList);
   };
 
-  const updateChart = () => { 
+  const updateChart = () => {
     dispatch(
       renderExplorerVis({
         tabId: tabID,
