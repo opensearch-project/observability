@@ -43,6 +43,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
       headerName: field.name,
       field: field.name,
       id: field.name,
+      colId: field.name,
       lockVisible: true,
       columnsMenuParams: {
         suppressColumnFilter: true,
@@ -66,9 +67,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   const defaultColDef = useMemo(() => {
     return {
       editable: true,
-      enableRowGroup: true,
-      enablePivot: true,
-      enableValue: true,
       sortable: true,
       resizable: true,
       filter: true,
@@ -133,8 +131,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
 
   const setIsFullScreenHandler = (val: boolean) => {
     setIsFullScreen(val);
-    // const myGrid = document.getElementById('myGrid');
-    // myGrid?.webkitRequestFullscreen();
   };
 
   useEffect(() => {
@@ -147,9 +143,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   const hideGridFullScreenHandler = (e: any) => {
     if (e.key === 'Escape') {
       setIsFullScreen(false);
-      // if (isFullScreen) {
-      //   setIsFullScreen(false);
-      // }
     }
   };
   return (
@@ -173,7 +166,6 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
           rowSelection="multiple"
           enableRangeSelection={true}
           pagination={true}
-          // domLayout={'autoHeight'}
           paginationPageSize={pageSize}
           paginationNumberFormatter={paginationNumberFormatter}
           suppressPaginationPanel={true}
@@ -392,50 +384,6 @@ const DensityPopover = ({
   );
 };
 
-// export const AlignPopover = ({
-//   columnAlignment,
-//   setColumnAlignment,
-// }: {
-//   columnAlignment: string;
-//   setColumnAlignment: (data: any) => void;
-// }) => {
-//   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-//   const onButtonClick = () => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
-//   const closePopover = () => setIsPopoverOpen(false);
-
-//   const button = (
-//     <EuiButtonEmpty
-//       iconSize="s"
-//       color="text"
-//       aria-label="Next"
-//       iconType={`editorAlign${columnAlignment}`}
-//       onClick={onButtonClick}
-//     >
-//       Align
-//     </EuiButtonEmpty>
-//   );
-
-//   const align = ['Left', 'Center', 'Right'];
-
-//   return (
-//     <EuiPopover button={button} isOpen={isPopoverOpen} closePopover={closePopover}>
-//       <EuiFlexGroup responsive={false} gutterSize="s" alignItems="center">
-//         {align.map((i: any, index: number) => (
-//           <EuiFlexItem key={index} grow={false}>
-//             <EuiButtonIcon
-//               onClick={() => setColumnAlignment(i)}
-//               display={columnAlignment === i ? 'fill' : 'base'}
-//               iconType={`editorAlign${i}`}
-//               aria-label="Next"
-//             />
-//           </EuiFlexItem>
-//         ))}
-//       </EuiFlexGroup>
-//     </EuiPopover>
-//   );
-// };
-
 const ColumnVisiblityPopover = ({
   columnVisibility,
   columns,
@@ -456,7 +404,6 @@ const ColumnVisiblityPopover = ({
       aria-label="Next"
       iconType="listAdd"
       onClick={onButtonClick}
-      //style={{width: "30px"}}
     >
       Columns
     </EuiButtonEmpty>
