@@ -16,28 +16,32 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
-  const yaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.yaxis ? dataConfig.valueOptions.yaxis : [];
+  const xaxis = visualizations.data?.rawVizData?.dataConfig?.dimensions
+    ? visualizations.data?.rawVizData?.dataConfig?.dimensions
+    : [];
+  const yaxis = visualizations.data?.rawVizData?.dataConfig?.metrics
+    ? visualizations.data?.rawVizData?.dataConfig?.metrics
+    : [];
   const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
   const colorTheme = dataConfig?.chartStyles?.colorTheme
     ? dataConfig?.chartStyles?.colorTheme
     : { name: DEFAULT_PALETTE };
-    const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
-    const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
+  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
+  const legendSize = dataConfig?.legend?.size || vis.legendSize;
+  const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
 
-    let valueSeries;
+  let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
-  const invertHex = (hex:string) => (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
-  
-  
+  const invertHex = (hex: string) =>
+    (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
+
   const pies = valueSeries.map((field: any, index) => {
     const marker =
       colorTheme.name !== DEFAULT_PALETTE
@@ -53,7 +57,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         : undefined;
     return {
       labels: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
-      values: data[field.name],
+      values: data[field.label],
       type: 'pie',
       name: field.name,
       hole: type === 'pie' ? 0 : 0.5,
@@ -66,6 +70,9 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         column: index % 3,
       },
       ...marker,
+      outsidetextfont: {
+        size: labelSize,
+      },
     };
   });
 
@@ -79,9 +86,10 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    legend:{
+    legend: {
       ...layout.legend,
       orientation: legendPosition,
+      font: { size: legendSize },
     },
     showlegend: showLegend,
   };
