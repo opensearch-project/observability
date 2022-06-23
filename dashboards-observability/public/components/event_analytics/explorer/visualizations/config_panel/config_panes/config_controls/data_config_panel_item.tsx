@@ -58,25 +58,6 @@ export const DataConfigPanelItem = ({
     setConfigList(newList);
   }
 
-  const onfieldOptionChange = (e, index: number, name: string) => {
-    let label = e.length > 0 ? e[0].label : '';
-    updateList(label, index, name, 'label');
-  };
-
-  const onAggregationChange = (e, index: number, name: string) => {
-    let label = e.length > 0 ? e[0].label : '';
-    updateList(label, index, name, 'aggregation');
-  };
-
-  const onCustomLabelChange = (e, index: number, name: string) => {
-    console.log('name ', name)
-    updateList(e.target.value, index, name, 'custom_label');
-  };
-
-  const handleSideChange = (id: string, index: number, name: string) => {
-    updateList(id, index, name, 'side');
-  }
-
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
     const arr = [...list[name]];
