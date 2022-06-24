@@ -81,7 +81,6 @@ export const ExplorerVisualizations = ({
               <DataConfigPanelItem
                 fieldOptionList={fieldOptionList}
                 visualizations={visualizations}
-                tabID={tabId}
               />
             </div>
           </EuiResizablePanel>
