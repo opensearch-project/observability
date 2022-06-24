@@ -814,40 +814,86 @@ describe('Renders Tree Map', () => {
   })
 });
 
-describe('Render Pie chart for Legend and single color contrast change', () => {
+
+describe('Render line chart for value options ', () => {
   beforeEach(() => {
     landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}')
   });
-  it('Render Pie chart and verify legends for Position Right and Bottom', () => {
-    renderPieChart();
+
+  it('Render line chart and add value Options ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with value adding Parameter');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(1).click();
+    cy.get('.euiComboBoxOption__content').eq(0).click();
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(2).click();
+    cy.get('.euiComboBoxOption__content').eq(0).click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+    cy.get('.nsewdrag.drag.cursor-pointer').should('be.visible')
+  });
+});
+
+describe('Render line chart for Legend ', () => {
+  beforeEach(() => {
+    cy.wait(2000);
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Line').click();
+  });
+
+  it('Render line chart and verify legends for Show and Hidden', () => {
+    cy.get('[data-text="Show"]').should('have.text', 'Show');
+    cy.get('[data-text="Show"] [data-test-subj="show"]').should('have.attr', 'checked');
+    cy.get('[data-text="Hidden"]').should('have.text', 'Hidden').click();
+    cy.get('[data-text="Hidden"] [data-test-subj="hidden"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+    cy.wait(delay);
+    cy.get('.nsewdrag.drag.cursor-pointer').should('be.visible')
+      .and(chart => {
+        expect(chart.height()).to.be.greaterThan(200)
+      })
+  });
+
+  it('Render line chart and verify legends for Position Right and Bottom', () => {
     cy.get('[data-text="Right"]').should('have.text', 'Right');
     cy.get('[data-text="Right"] [data-test-subj="v"]').should('have.attr', 'checked');
     cy.get('[data-text="Bottom"]').should('have.text', 'Bottom').click();
     cy.get('[data-text="Bottom"] [data-test-subj="h"]').should('not.have.attr', 'checked');
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
   });
-
-  it('Render Pie chart and verify legends for Show and Hidden', () => {
-    renderPieChart();
-    cy.get('[data-text="Show"]').should('have.text', 'Show');
-    cy.get('[data-text="Show"] [data-test-subj="show"]').should('have.attr', 'checked');
-    cy.get('[data-text="Hidden"]').should('have.text', 'Hidden').click();
-    cy.get('[data-text="Hidden"] [data-test-subj="hidden"]').should('not.have.attr', 'checked');
-    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
-  });
-
-  it('Renders Pie chart with single color', () => {
-    renderPieChart();
-    cy.get('.euiIEFlexWrapFix').eq(3).contains('Chart Styles').should('exist');
-    cy.get('[data-test-subj="comboBoxInput"]').eq(3).click();
-    cy.get('[name="Pie"]').click();
-    cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiContextMenuItem.euiSuperSelect__item.euiSuperSelect__item--hasDividers').eq(1).click();
-    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
-    cy.wait(delay);
-  });
 });
 
+describe('Render Pie chart for Legend and single color contrast change', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+  it('Render Pie chart and verify legends for Position Right and Bottom', () => {
+    renderPieChart();
+
+    it('Render Pie chart and verify legends for Show and Hidden', () => {
+      renderPieChart();
+      cy.get('[data-text="Show"]').should('have.text', 'Show');
+      cy.get('[data-text="Show"] [data-test-subj="show"]').should('have.attr', 'checked');
+      cy.get('[data-text="Hidden"]').should('have.text', 'Hidden').click();
+      cy.get('[data-text="Hidden"] [data-test-subj="hidden"]').should('not.have.attr', 'checked');
+      cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+    });
+
+    it('Renders Pie chart with single color', () => {
+      renderPieChart();
+      cy.get('.euiIEFlexWrapFix').eq(3).contains('Chart Styles').should('exist');
+      cy.get('[data-test-subj="comboBoxInput"]').eq(3).click();
+      cy.get('[name="Pie"]').click();
+      cy.get('.euiSuperSelectControl').click();
+      cy.get('.euiContextMenuItem.euiSuperSelect__item.euiSuperSelect__item--hasDividers').eq(1).click();
+      cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+      cy.wait(delay);
+    });
+  });
+})
 describe('Renders heatmap chart for Chart Style', () => {
   beforeEach(() => {
     landOnEventVisualizations();
@@ -910,6 +956,83 @@ describe('Renders heatmap chart for Chart Style', () => {
     cy.get('stop[stop-color="rgb(255, 255, 214)"]').should('exist');
     cy.get('stop[stop-color="rgb(214, 191, 87)"]').should('exist');
   });
+})
+
+
+describe('Render line chart for Chart Styles ', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}')
+  });
+
+  it('Render line chart and Verify Chart Style of Lines Mode with Smooth Interpolation  ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with Line Mode and Smooth Interpolation');
+    cy.get('[data-text="Lines"]').should('have.text', 'Lines');
+    cy.get('[data-text="Lines"] [data-test-subj="lines"]').should('have.attr', 'checked');
+    cy.get('[data-text="Smooth"]').should('have.text', 'Smooth');
+    cy.get('[data-text="Smooth"] [data-test-subj="spline"]').should('have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines Mode with Smooth Interpolation with higher Line width and Fill Opacity ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with Line Mode and Smooth Interpolation');
+    cy.get('[data-text="Lines"]').should('have.text', 'Lines');
+    cy.get('[data-text="Lines"] [data-test-subj="lines"]').should('have.attr', 'checked');
+    cy.get('[data-text="Smooth"]').should('have.text', 'Smooth');
+    cy.get('[data-text="Smooth"] [data-test-subj="spline"]').should('have.attr', 'checked');
+    cy.get('input[type="range"]').eq(0)
+      .then($el => $el[0].stepUp(4))
+      .trigger('change')
+    cy.get('.euiRangeSlider').eq(0).should('have.value', 6)
+    cy.get('input[type="range"]').eq(1)
+      .then($el => $el[0].stepUp(40))
+      .trigger('change')
+    cy.get('.euiRangeSlider').eq(1).should('have.value', 80)
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines Mode with Linear Interpolation  ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with Line Mode and Linear Interpolation');
+    cy.get('[data-text="Lines"]').should('have.text', 'Lines');
+    cy.get('[data-text="Lines"] [data-test-subj="lines"]').should('have.attr', 'checked');
+    cy.get('[data-text="Linear"]').should('have.text', 'Linear').click();
+    cy.get('[data-text="Linear"]').should('have.text', 'Linear');
+    cy.get('[data-text="Linear"] [data-test-subj="linear"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines Mode with Step before Interpolation  ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with Line Mode and Step before Interpolation');
+    cy.get('[data-text="Lines"]').should('have.text', 'Lines');
+    cy.get('[data-text="Lines"] [data-test-subj="lines"]').should('have.attr', 'checked');
+    cy.get('[data-text="Step before"]').should('have.text', 'Step before').click();
+    cy.get('[data-text="Step before"] [data-test-subj="Step before"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines Mode with Step after Interpolation  ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with Line Mode and Step after Interpolation');
+    cy.get('[data-text="Lines"]').should('have.text', 'Lines');
+    cy.get('[data-text="Lines"] [data-test-subj="lines"]').should('have.attr', 'checked');
+    cy.get('[data-text="Step after"]').should('have.text', 'Step after').click();
+    cy.get('[data-text="Step after"] [data-test-subj="Step after"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Bars Mode with Center bar alignment ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Bars');
+    cy.get('[data-text="Bars"]').should('have.text', 'Bars').click();
+    cy.get('[data-text="Center"] [data-test-subj="center"]').should('have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
 });
 
 describe('Renders Tree Map for Parent Fields ', () => {
@@ -968,5 +1091,69 @@ describe('Renders Tree Map for Parent Fields Multicolor Option', () => {
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 1 field').should('exist');
     cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 2 field').should('exist');
+  });
+
+  it('Render line chart and Verify Chart Style of Bars Mode with Before bar alignment ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Bars');
+    cy.get('[data-text="Bars"]').should('have.text', 'Bars').click();
+    cy.get('[data-text="Before"] [data-test-subj="before"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Bars Mode with After bar alignment ', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Bars');
+    cy.get('[data-text="Bars"]').should('have.text', 'Bars').click();
+    cy.get('[data-text="After"] [data-test-subj="after"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Points Mode', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Points');
+    cy.get('[data-text="Points"]').should('have.text', 'Points').click();
+    cy.get('[data-text="Points"] [data-test-subj="markers"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Points Mode with larger Point size', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Points');
+    cy.get('[data-text="Points"]').should('have.text', 'Points').click();
+    cy.get('[data-text="Points"] [data-test-subj="markers"]').should('not.have.attr', 'checked');
+    cy.get('input[type="range"]')
+      .then($el => $el[0].stepUp(30))
+      .trigger('change')
+    cy.get('.euiRangeSlider').should('have.value', 35)
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines+Points Mode', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Lines and Points');
+    cy.get('[data-text="Lines + Points"]').should('have.text', 'Lines + Points').click();
+    cy.get('[data-text="Lines + Points"] [data-test-subj="lines+markers"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render line chart and Verify Chart Style of Lines+Points Mode with Line Width, Fill Opacity and Point Size', () => {
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Line Chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Line chart with chart style of Lines and Points');
+    cy.get('[data-text="Lines + Points"]').should('have.text', 'Lines + Points').click();
+    cy.get('[data-text="Lines + Points"] [data-test-subj="lines+markers"]').should('not.have.attr', 'checked');
+    cy.get('input[type="range"]').eq(0)
+      .then($el => $el[0].stepUp(4))
+      .trigger('change')
+    cy.get('.euiRangeSlider').eq(0).should('have.value', 6)
+    cy.get('input[type="range"]').eq(1)
+      .then($el => $el[0].stepUp(40))
+      .trigger('change')
+    cy.get('.euiRangeSlider').eq(1).should('have.value', 80)
+    cy.get('input[type="range"]').eq(2)
+      .then($el => $el[0].stepUp(15))
+      .trigger('change')
+    cy.get('.euiRangeSlider').eq(2).should('have.value', 20)
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
   });
 });

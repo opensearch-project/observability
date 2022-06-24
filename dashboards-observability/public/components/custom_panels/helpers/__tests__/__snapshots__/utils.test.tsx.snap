@@ -1408,17 +1408,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "show",
+                              "id": "show",
                               "name": "Show",
                             },
                           ],
                           "options": Array [
                             Object {
-                              "modeId": "show",
+                              "id": "show",
                               "name": "Show",
                             },
                             Object {
-                              "modeId": "hidden",
+                              "id": "hidden",
                               "name": "Hidden",
                             },
                           ],
@@ -1431,17 +1431,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "v",
+                              "id": "v",
                               "name": "Right",
                             },
                           ],
                           "options": Array [
                             Object {
-                              "modeId": "v",
+                              "id": "v",
                               "name": "Right",
                             },
                             Object {
-                              "modeId": "h",
+                              "id": "h",
                               "name": "Bottom",
                             },
                           ],
@@ -1463,25 +1463,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "lines",
+                              "id": "lines",
                               "name": "Lines",
                             },
                           ],
                           "options": Array [
                             Object {
-                              "modeId": "lines",
+                              "id": "lines",
                               "name": "Lines",
                             },
                             Object {
-                              "modeId": "bar",
+                              "id": "bar",
                               "name": "Bars",
                             },
                             Object {
-                              "modeId": "markers",
+                              "id": "markers",
                               "name": "Points",
                             },
                             Object {
-                              "modeId": "lines+markers",
+                              "id": "lines+markers",
                               "name": "Lines + Points",
                             },
                           ],
@@ -1495,25 +1495,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "spline",
+                              "id": "spline",
                               "name": "Smooth",
                             },
                           ],
                           "options": Array [
                             Object {
-                              "modeId": "linear",
+                              "id": "linear",
                               "name": "Linear",
                             },
                             Object {
-                              "modeId": "spline",
+                              "id": "spline",
                               "name": "Smooth",
                             },
                             Object {
-                              "modeId": "hv",
+                              "id": "hv",
                               "name": "Step before",
                             },
                             Object {
-                              "modeId": "vh",
+                              "id": "vh",
                               "name": "Step after",
                             },
                           ],
@@ -1524,24 +1524,30 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "defaultState": 2,
                         "eleType": "slider",
                         "mapTo": "lineWidth",
-                        "max": 10,
                         "name": "Line width",
+                        "props": Object {
+                          "max": 10,
+                        },
                       },
                       Object {
                         "component": [Function],
                         "defaultState": 40,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
-                        "max": 100,
                         "name": "Fill Opacity",
+                        "props": Object {
+                          "max": 100,
+                        },
                       },
                       Object {
                         "component": [Function],
                         "defaultState": 5,
                         "eleType": "slider",
                         "mapTo": "pointSize",
-                        "max": 40,
                         "name": "Point Size",
+                        "props": Object {
+                          "max": 40,
+                        },
                       },
                     ],
                   },
@@ -1755,17 +1761,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "show",
+                                "id": "show",
                                 "name": "Show",
                               },
                             ],
                             "options": Array [
                               Object {
-                                "modeId": "show",
+                                "id": "show",
                                 "name": "Show",
                               },
                               Object {
-                                "modeId": "hidden",
+                                "id": "hidden",
                                 "name": "Hidden",
                               },
                             ],
@@ -1778,17 +1784,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "v",
+                                "id": "v",
                                 "name": "Right",
                               },
                             ],
                             "options": Array [
                               Object {
-                                "modeId": "v",
+                                "id": "v",
                                 "name": "Right",
                               },
                               Object {
-                                "modeId": "h",
+                                "id": "h",
                                 "name": "Bottom",
                               },
                             ],
@@ -1810,25 +1816,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "lines",
+                                "id": "lines",
                                 "name": "Lines",
                               },
                             ],
                             "options": Array [
                               Object {
-                                "modeId": "lines",
+                                "id": "lines",
                                 "name": "Lines",
                               },
                               Object {
-                                "modeId": "bar",
+                                "id": "bar",
                                 "name": "Bars",
                               },
                               Object {
-                                "modeId": "markers",
+                                "id": "markers",
                                 "name": "Points",
                               },
                               Object {
-                                "modeId": "lines+markers",
+                                "id": "lines+markers",
                                 "name": "Lines + Points",
                               },
                             ],
@@ -1842,25 +1848,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "spline",
+                                "id": "spline",
                                 "name": "Smooth",
                               },
                             ],
                             "options": Array [
                               Object {
-                                "modeId": "linear",
+                                "id": "linear",
                                 "name": "Linear",
                               },
                               Object {
-                                "modeId": "spline",
+                                "id": "spline",
                                 "name": "Smooth",
                               },
                               Object {
-                                "modeId": "hv",
+                                "id": "hv",
                                 "name": "Step before",
                               },
                               Object {
-                                "modeId": "vh",
+                                "id": "vh",
                                 "name": "Step after",
                               },
                             ],
@@ -1871,24 +1877,30 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
-                          "max": 10,
                           "name": "Line width",
+                          "props": Object {
+                            "max": 10,
+                          },
                         },
                         Object {
                           "component": [Function],
                           "defaultState": 40,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
-                          "max": 100,
                           "name": "Fill Opacity",
+                          "props": Object {
+                            "max": 100,
+                          },
                         },
                         Object {
                           "component": [Function],
                           "defaultState": 5,
                           "eleType": "slider",
                           "mapTo": "pointSize",
-                          "max": 40,
                           "name": "Point Size",
+                          "props": Object {
+                            "max": 40,
+                          },
                         },
                       ],
                     },
@@ -2156,17 +2168,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "show",
+                                  "id": "show",
                                   "name": "Show",
                                 },
                               ],
                               "options": Array [
                                 Object {
-                                  "modeId": "show",
+                                  "id": "show",
                                   "name": "Show",
                                 },
                                 Object {
-                                  "modeId": "hidden",
+                                  "id": "hidden",
                                   "name": "Hidden",
                                 },
                               ],
@@ -2179,17 +2191,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "v",
+                                  "id": "v",
                                   "name": "Right",
                                 },
                               ],
                               "options": Array [
                                 Object {
-                                  "modeId": "v",
+                                  "id": "v",
                                   "name": "Right",
                                 },
                                 Object {
-                                  "modeId": "h",
+                                  "id": "h",
                                   "name": "Bottom",
                                 },
                               ],
@@ -2211,25 +2223,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "lines",
+                                  "id": "lines",
                                   "name": "Lines",
                                 },
                               ],
                               "options": Array [
                                 Object {
-                                  "modeId": "lines",
+                                  "id": "lines",
                                   "name": "Lines",
                                 },
                                 Object {
-                                  "modeId": "bar",
+                                  "id": "bar",
                                   "name": "Bars",
                                 },
                                 Object {
-                                  "modeId": "markers",
+                                  "id": "markers",
                                   "name": "Points",
                                 },
                                 Object {
-                                  "modeId": "lines+markers",
+                                  "id": "lines+markers",
                                   "name": "Lines + Points",
                                 },
                               ],
@@ -2243,25 +2255,25 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "spline",
+                                  "id": "spline",
                                   "name": "Smooth",
                                 },
                               ],
                               "options": Array [
                                 Object {
-                                  "modeId": "linear",
+                                  "id": "linear",
                                   "name": "Linear",
                                 },
                                 Object {
-                                  "modeId": "spline",
+                                  "id": "spline",
                                   "name": "Smooth",
                                 },
                                 Object {
-                                  "modeId": "hv",
+                                  "id": "hv",
                                   "name": "Step before",
                                 },
                                 Object {
-                                  "modeId": "vh",
+                                  "id": "vh",
                                   "name": "Step after",
                                 },
                               ],
@@ -2272,24 +2284,30 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
-                            "max": 10,
                             "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
                           },
                           Object {
                             "component": [Function],
                             "defaultState": 40,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
-                            "max": 100,
                             "name": "Fill Opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
                           },
                           Object {
                             "component": [Function],
                             "defaultState": 5,
                             "eleType": "slider",
                             "mapTo": "pointSize",
-                            "max": 40,
                             "name": "Point Size",
+                            "props": Object {
+                              "max": 40,
+                            },
                           },
                         ],
                       },
