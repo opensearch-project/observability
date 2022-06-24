@@ -25,10 +25,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const yaxis =
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
   const lastIndex = fields.length - 1;
-  const mode =
-    dataConfig?.chartOptions && dataConfig.chartOptions.mode && dataConfig.chartOptions.mode[0]
-      ? dataConfig.chartOptions.mode[0].modeId
-      : 'line';
+
+  const mode = dataConfig?.graphStyle?.style
+    ? dataConfig.graphStyle.style
+    : 'lines';
+  const lineShape = dataConfig?.graphStyle?.interpolation
+    ? dataConfig.graphStyle.interpolation : 'spline';
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -42,9 +44,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
-        type: 'line',
+        type: mode === 'bar' ? 'bar' : 'scatter',
         name: field.name,
         mode,
+        line: {shape: lineShape},
       };
     });
 
