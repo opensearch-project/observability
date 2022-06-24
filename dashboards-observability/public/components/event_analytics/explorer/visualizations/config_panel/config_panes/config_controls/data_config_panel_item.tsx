@@ -170,7 +170,7 @@ export const DataConfigPanelItem = ({
   return (
     <>
       <EuiTitle size="xxs">
-        <h3>Data Cofigurations</h3>
+        <h3>Data Configurations</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
       <EuiTitle size="xxs">
