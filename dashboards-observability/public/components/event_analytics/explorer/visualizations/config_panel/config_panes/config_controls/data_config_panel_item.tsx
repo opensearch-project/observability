@@ -159,13 +159,13 @@ export const DataConfigPanelItem = ({
                   Add
                 </EuiButton>
               </EuiFlexItem>
-            }
-          </EuiPanel>
-        </div>
+         	   }
+     </EuiPanel>
+          </div>
       </div>
-      <EuiSpacer size="s" />
-    </>
-  ))
+        <EuiSpacer size="s" />
+      </>
+    ))
 
   return (
     <>
