@@ -66,7 +66,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       multiMetrics = {
         ...multiMetrics,
         [`yaxis${index + 1}`]: {
-          // title: `yaxis${index + 1} title`,
+          // title: `yaxis${index + 1} title`, TODO: need to add title
           titlefont: { color: PLOTLY_COLOR[index] },
           tickfont: { color: PLOTLY_COLOR[index] },
           overlaying: 'y',
