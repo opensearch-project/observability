@@ -51,7 +51,7 @@ export const ExplorerVisualizations = ({
 
   const fieldOptionList = fields.map((name) => {
     return { label: name.name };
-  });
+  })
 
   return (
     <EuiResizableContainer>
