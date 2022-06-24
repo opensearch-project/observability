@@ -3,33 +3,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ApplicationListType, ApplicationType } from '../../../common/types/app_analytics';
+import {
+  ApplicationRequestType,
+  ApplicationType,
+} from '../../../common/types/application_analytics';
 import { ILegacyScopedClusterClient } from '../../../../../src/core/server';
 
 export class AppAnalyticsAdaptor {
   // Fetch all existing applications
-  fetchApps = async (client: ILegacyScopedClusterClient): Promise<ApplicationListType[]> => {
+  fetchApps = async (client: ILegacyScopedClusterClient): Promise<ApplicationType[]> => {
     try {
       const response = await client.callAsCurrentUser('observability.getObject', {
         objectType: 'application',
       });
-      return response.observabilityObjectList.map((application: any) => {
-        const composition: string[] = application.application.servicesEntities.concat(
-          application.application.traceGroups
-        );
-        const decodedComposition = composition.map((rec) => decodeURI(rec));
+      return response.observabilityObjectList.map((object: any) => {
         return {
-          name: application.application.name,
-          id: application.objectId,
-          panelId: application.application.panelId,
-          composition: decodedComposition,
+          id: object.objectId,
+          dateCreated: object.createdTimeMs,
+          dateModified: object.lastUpdatedTimeMs,
+          name: object.application.name,
+          description: object.application.description,
+          baseQuery: object.application.baseQuery,
+          servicesEntities: object.application.servicesEntities.map((rec: string) =>
+            decodeURI(rec)
+          ),
+          traceGroups: object.application.traceGroups.map((rec: string) => decodeURI(rec)),
+          panelId: object.application.panelId,
           availability: {
             name: '',
             color: '',
-            mainVisId: application.application.availabilityVisId || '',
+            availabilityVisId: object.application.availabilityVisId || '',
           },
-          dateModified: application.lastUpdatedTimeMs,
-          dateCreated: application.createdTimeMs,
         };
       });
     } catch (err: any) {
@@ -38,12 +42,31 @@ export class AppAnalyticsAdaptor {
   };
 
   // Fetch application by id
-  fetchAppById = async (client: ILegacyScopedClusterClient, appId: string): Promise<ApplicationType> => {
+  fetchAppById = async (
+    client: ILegacyScopedClusterClient,
+    appId: string
+  ): Promise<ApplicationType> => {
     try {
       const response = await client.callAsCurrentUser('observability.getObjectById', {
         objectId: appId,
       });
-      return response.observabilityObjectList[0];
+      const app = response.observabilityObjectList[0];
+      return {
+        id: appId,
+        dateCreated: app.createdTimeMs,
+        dateModified: app.lastUpdatedTimeMs,
+        name: app.application.name,
+        description: app.application.description,
+        baseQuery: app.application.baseQuery,
+        servicesEntities: app.application.servicesEntities.map((rec: string) => decodeURI(rec)),
+        traceGroups: app.application.traceGroups.map((rec: string) => decodeURI(rec)),
+        panelId: app.application.panelId,
+        availability: {
+          name: '',
+          color: '',
+          availabilityVisId: app.application.availabilityVisId || '',
+        },
+      };
     } catch (err: any) {
       throw new Error('Fetch Application By Id Error: ' + err);
     }
@@ -52,22 +75,8 @@ export class AppAnalyticsAdaptor {
   // Create a new application
   createNewApp = async (
     client: ILegacyScopedClusterClient,
-    name: string,
-    description: string,
-    baseQuery: string,
-    servicesEntities: string[],
-    traceGroups: string[],
-    availabilityVisId: string
+    appBody: Partial<ApplicationRequestType>
   ) => {
-    const appBody = {
-      name,
-      description,
-      baseQuery,
-      servicesEntities,
-      traceGroups,
-      availabilityVisId,
-    };
-
     try {
       const response = await client.callAsCurrentUser('observability.createObject', {
         body: {
@@ -102,7 +111,7 @@ export class AppAnalyticsAdaptor {
   updateApp = async (
     client: ILegacyScopedClusterClient,
     appId: string,
-    updateAppBody: Partial<ApplicationType>
+    updateAppBody: Partial<ApplicationRequestType>
   ) => {
     try {
       const response = await client.callAsCurrentUser('observability.updateObjectById', {

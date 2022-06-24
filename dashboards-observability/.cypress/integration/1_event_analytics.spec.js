@@ -17,10 +17,35 @@ import {
   landOnEventHome,
   landOnEventExplorer,
   landOnEventVisualizations,
-  landOnPanels
+  landOnPanels,
+  renderTreeMapchart,
+  renderPieChart
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
+const vis_name_sub_string = Math.floor(Math.random() * 100);
+const saveVisualizationAndVerify = () => {
+  cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+  cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click()
+  cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+  cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+  cy.get('.euiPopover__panel input').eq(1).type(`Test visualization` + vis_name_sub_string);
+  cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+  cy.wait(delay);
+  cy.get('.euiHeaderBreadcrumbs a').eq(1).click();
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visualization` + vis_name_sub_string).type('{enter}');
+  cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
+}
+const deleteVisualization = () => {
+  cy.get('a[href = "#/event_analytics"]').click();
+  cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input').eq(0).type(`Test visualization`).type('{enter}');
+  cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
+  cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
+  cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();
+  cy.get('input[placeholder = "delete"]').clear().type('delete');
+  cy.get('button[data-test-subj = "popoverModal__deleteButton"]').click();
+  cy.get('.euiToastHeader').should('exist');
+}
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -35,13 +60,13 @@ describe('Has working breadcrumbs', () => {
   it('Redirect to correct page on breadcrumb click', () => {
     landOnEventExplorer();
     cy.wait(delay * 3);
-    cy.get('.euiBreadcrumb').contains('Explorer').click();
+    cy.get('.euiBreadcrumb[href="#/event_analytics/explorer"]').contains('Explorer').click();
     cy.wait(delay);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
-    cy.get('.euiBreadcrumb').contains('Event analytics').click();
+    cy.get('.euiBreadcrumb[href="#/event_analytics"]').contains('Event analytics').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
-    cy.get('.euiBreadcrumb').contains('Observability').click();
+    cy.get('.euiBreadcrumb[href="observability-dashboards#/"]').contains('Observability').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
@@ -305,7 +330,7 @@ describe('Override timestamp for an index', () => {
     cy.wait(delay);
 
     cy.get('[data-attr-field="utc_time"] [data-test-subj="eventFields__default-timestamp-mark"')
-    .contains('Default Timestamp').should('exist');
+      .contains('Default Timestamp').should('exist');
     cy.get('[data-attr-field="timestamp"] [data-test-subj="eventFields__default-timestamp-mark"').should('not.exist');
   });
 });
@@ -426,8 +451,8 @@ describe('Live tail stop automatically', () => {
         cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
           .find('button.euiTab')
           .should('have.length', initialLength + 1);
+      });
   });
-});
 
   it('Click to switch to another tab', () => {
     cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
@@ -614,5 +639,334 @@ describe('Renders data view', () => {
     cy.get('[data-test-subj="workspace__dataTable"]').should('exist');
     cy.get('[data-test-subj="workspace__dataTableViewSwitch"]').click();
     cy.get('[data-test-subj="workspace__dataTable"]').should('not.exist');
+  });
+});
+
+describe('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+  it('Renders chart, clear X-axis and Y-axis value and click on Apply button, Toast message should display with error message', () => {
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Bar')
+      .type('{enter}');
+    cy.wait(delay);
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').eq(0).click({ force: true });
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.wait(delay)
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').click({ multiple: true });
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(0).should('have.value', '');
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(1).should('have.value', '');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('[data-test-subj="euiToastHeader"]').contains('Invalid value options configuration selected.').should('exist');
+  });
+
+  it('Renders chart, clear X-axis and Y-axis value and try to save visulization, Toast message should display with error message', () => {
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+      .type('Bar')
+      .type('{enter}');
+    cy.wait(delay);
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').eq(0).click({ force: true });
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.wait(delay)
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxClearButton"]').click({ multiple: true });
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(0).should('have.value', '');
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').eq(1).should('have.value', '');
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
+    cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
+    cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]').eq(0).click();
+    cy.get('.euiPopover__panel input').eq(1).type(`Test visulization_`);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="euiToastHeader"]').contains('Invalid value options configuration selected.').should('exist');
+  });
+});
+
+describe('Renders Tree Map', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders Tree Map', () => {
+    renderTreeMapchart();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.get('path.surface').should('have.length', 176);
+  });
+
+  it('Renders Tree Map, add value parameters and verify Reset button click is working', () => {
+    renderTreeMapchart();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
+    cy.get('#configPanel__panelOptions .euiFieldText').should('have.value', '');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').should('have.value', '');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(1).should('have.value', '');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(2).should('have.value', '');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(3).should('have.value', '');
+  });
+
+  it('Renders Tree Map, Save and Delete Visualization', () => {
+    renderTreeMapchart();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    saveVisualizationAndVerify();
+    cy.wait(delay * 4);
+    deleteVisualization();
+  });
+
+  it('Render Tree Map chart and verify color theme under Chart styles options', () => {
+    renderTreeMapchart();
+    cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.euiButton__text').contains('Preview').should('exist').click();
+    cy.get('path[style*="rgb(29, 30, 36)"]').eq(0).should('exist');
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
+    cy.get('.euiButton__text').contains('Preview').should('exist').click();
+    cy.get('path[style*="rgb(68, 68, 68)"]').eq(0).should('exist');
+  });
+
+  it('Traverse between root and parent node in Tree Map chart', () => {
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Tree Map');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(1).click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(2).click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(0).click();
+    cy.wait(delay);
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
+    cy.get('.euiButton__text').contains('Preview').should('exist').click();
+    cy.get('.slicetext[data-unformatted="US"]').click({ force: true });
+    cy.wait(delay);
+    cy.get('.slicetext[data-unformatted*="Cleveland"]').click({ force: true });
+    cy.get('text.slicetext').contains('100% of entry').should('exist');
+    cy.get('.pathbar.cursor-pointer .slicetext[data-unformatted="US"]').click({ force: true });
+    cy.wait(delay);
+    cy.get('.pathbar.cursor-pointer .slicetext[data-unformatted=" "]').click({ force: true });
+  });
+
+  it('"No results found" message when user fails to select proper fields', () => {
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Tree Map');
+    cy.get('.euiComboBox__inputWrap.euiComboBox__inputWrap-isClearable').eq(0).click();
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.wait(delay);
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiColorPalettePicker__itemTitle').eq(1).contains('Reds').click();
+    cy.get('.euiButton__text').contains('Preview').should('exist').click();
+    cy.get('.euiTextColor.euiTextColor--subdued').contains('No results found').should('exist');
+  });
+
+  it('Verify multicolored option under color theme', () => {
+    renderTreeMapchart();
+    cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #54B399 as the color"]').should('exist').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(2).contains('Multicolored').click();
+    cy.wait(delay);
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(1).contains('Child field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(0).click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(2).contains('Parent field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(1).click();
+    cy.get('[aria-label="Select #CA8EAE as the color"]').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.trace.treemap path[style*="rgb(202, 142, 174)"]').should('exist');
+  });
+
+  it('Parent field not available under color theme', () => {
+    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Tree Map');
+    cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(1).contains('Single color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #54B399 as the color"]').should('exist').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item').eq(2).contains('Multicolored').click();
+    cy.wait(delay);
+    cy.get('.euiFormHelpText.euiFormRow__text').eq(1).contains('Child field').should('exist');
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').eq(0).click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent field').should('not.exist');
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.trace.treemap path[style*="rgb(211, 96, 134)"]').should('exist');
+  })
+});
+
+describe('Render Pie chart for Legend and single color contrast change', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+  it('Render Pie chart and verify legends for Position Right and Bottom', () => {
+    renderPieChart();
+    cy.get('[data-text="Right"]').should('have.text', 'Right');
+    cy.get('[data-text="Right"] [data-test-subj="v"]').should('have.attr', 'checked');
+    cy.get('[data-text="Bottom"]').should('have.text', 'Bottom').click();
+    cy.get('[data-text="Bottom"] [data-test-subj="h"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Render Pie chart and verify legends for Show and Hidden', () => {
+    renderPieChart();
+    cy.get('[data-text="Show"]').should('have.text', 'Show');
+    cy.get('[data-text="Show"] [data-test-subj="show"]').should('have.attr', 'checked');
+    cy.get('[data-text="Hidden"]').should('have.text', 'Hidden').click();
+    cy.get('[data-text="Hidden"] [data-test-subj="hidden"]').should('not.have.attr', 'checked');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click({ force: true });
+  });
+
+  it('Renders Pie chart with single color', () => {
+    renderPieChart();
+    cy.get('.euiIEFlexWrapFix').eq(3).contains('Chart Styles').should('exist');
+    cy.get('[data-test-subj="comboBoxInput"]').eq(3).click();
+    cy.get('[name="Pie"]').click();
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiContextMenuItem.euiSuperSelect__item.euiSuperSelect__item--hasDividers').eq(1).click();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.wait(delay);
+  });
+});
+
+describe('Renders heatmap chart for Chart Style', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+    querySearch(TEST_QUERIES[4].query, TEST_QUERIES[4].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Heatmap').click();
+  });
+
+  it('Renders heatmap chart with default Color Mode and Scheme', () => {
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="avg(bytes)"]').should('exist');
+  });
+
+  it('Renders heatmap chart with default Chart Style and Z-axis count()', () => {
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('count()').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="count()"]').should('exist');
+  });
+
+  it('Renders heatmap chart with default Chart Style and Z-axis avg(bytes)', () => {
+    cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
+    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('avg(bytes)').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
+    cy.get('g.g-gtitle text[data-unformatted|="avg(bytes)"]').should('exist');
+  });
+
+  it('Renders heatmap chart and Verify if Color Mode is Spectrum then by default Scheme is Reds', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).should('contain', 'Spectrum');
+    cy.get('[aria-haspopup="true"]').eq(1).should('contain', 'Reds');
+    cy.get('stop[stop-color="rgb(178, 10, 28)"]').should('exist');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+  });
+
+  it('Renders heatmap chart and Verify if Color Mode is opacity then by default Scheme is Color', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOption__content').contains('opacity').click();
+    cy.get('.euiTitle.euiTitle--xxsmall').eq(2).should('contain', 'Color');
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(19, 19, 19)"]').should('exist');
+  });
+
+  it('Renders heatmap chart for Color Mode Spectrum and  Change color of Scheme', () => {
+    cy.get('[aria-haspopup="true"]').eq(1).click();
+    cy.get('.euiColorPalettePicker__itemTitle').contains('Red-Blue').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(5, 10, 172)"]').should('exist');
+    cy.get('stop[stop-color="rgb(178, 10, 28)"]').should('exist');
+  });
+
+  it('Renders heatmap chart for Color Mode opacity and Change color', () => {
+    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('.euiComboBoxOption__content').contains('opacity').click();
+    cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
+    cy.get('.euiTitle.euiTitle--xxsmall').eq(2).should('contain', 'Color');
+    cy.get('[aria-label="Select #D6BF57 as the color"]').click();
+    cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
+    cy.get('stop[stop-color="rgb(255, 255, 214)"]').should('exist');
+    cy.get('stop[stop-color="rgb(214, 191, 87)"]').should('exist');
+  });
+});
+
+describe('Renders Tree Map for Parent Fields ', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders Tree Map and Add Multiple Parent', () => {
+    querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(4).click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(5).click();
+    cy.get('.euiComboBoxOption__content').eq(3).click();
+    cy.get('.euiButton__text').contains('Preview').click();
+  });
+
+  it('Renders Tree Map and Check Add/Delete Parent', () => {
+    querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').eq(1).contains('Select a field').should('exist');
+    cy.get('.euiFormRow__fieldWrapper .euiFlexItem').eq(1).click();
+    cy.get('.euiFormRow__fieldWrapper .euiFlexItem').eq(1).click();
+  });
+});
+
+describe('Renders Tree Map for Parent Fields Multicolor Option', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders Tree Map For Multiple Parent and Check Color Theme', () => {
+    querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
+    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
+    cy.get('.euiComboBoxOption__content').eq(2).click();
+    cy.get('.euiButton__text').contains('+ Add Parent').click();
+    cy.get('.euiComboBoxPlaceholder').contains('Select a field').should('exist');
+    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(4).click();
+    cy.get('.euiComboBoxOption__content').eq(1).click();
+    cy.get('.euiSuperSelectControl').contains('Default').click();
+    cy.get('.euiColorPalettePicker__item').contains('Multicolored').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 1 field').should('exist');
+    cy.get('.euiFormHelpText.euiFormRow__text').contains('Parent 2 field').should('exist');
   });
 });

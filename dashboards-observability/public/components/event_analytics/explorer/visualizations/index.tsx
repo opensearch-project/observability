@@ -7,14 +7,15 @@ import './app.scss';
 
 import _ from 'lodash';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { EuiResizableContainer } from '@elastic/eui';
 import { SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
-
+import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
+import { TabContext } from '../../hooks';
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -27,6 +28,7 @@ interface IExplorerVisualizationsProps {
   visualizations: IVisualizationContainerProps;
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
+  changeIsValidConfigOptionState: (isValidConfigOptionSelected: Boolean) => void;
 }
 
 export const ExplorerVisualizations = ({
@@ -41,12 +43,21 @@ export const ExplorerVisualizations = ({
   visualizations,
   handleOverrideTimestamp,
   callback,
+  changeIsValidConfigOptionState,
 }: IExplorerVisualizationsProps) => {
+  const { tabId } = useContext<any>(TabContext);
+  const { data } = visualizations;
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+
+  const fieldOptionList = fields.map((name) => {
+    return { label: name.name };
+  });
+
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={15} minSize="100px">
+          <EuiResizablePanel initialSize={15} minSize="240px" mode="collapsible">
             <div className="dscFieldChooser">
               <Sidebar
                 query={query}
@@ -61,7 +72,23 @@ export const ExplorerVisualizations = ({
             </div>
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={65} minSize="30%">
+          <EuiResizablePanel
+            mode="collapsible"
+            initialSize={15}
+            minSize="240px"
+            style={{ border: '1px solid #D3DAE6', padding: '0px' }}
+          >
+            <div className="">
+              <DataConfigPanelItem
+                fieldOptionList={fieldOptionList}
+                visualizations={visualizations}
+                tabID={tabId}
+              />
+            </div>
+          </EuiResizablePanel>
+
+          <EuiResizableButton />
+          <EuiResizablePanel initialSize={65} minSize="30%" mode="main">
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}
@@ -76,6 +103,7 @@ export const ExplorerVisualizations = ({
               curVisId={curVisId}
               setCurVisId={setCurVisId}
               callback={callback}
+              changeIsValidConfigOptionState={changeIsValidConfigOptionState}
             />
           </EuiResizablePanel>
         </>

@@ -31,6 +31,7 @@ export interface IQueryTab {
 export interface IField {
   name: string;
   type: string;
+  label?: string;
 }
 
 export interface ITabQueryResults {
@@ -186,9 +187,11 @@ export interface IConfigPanelOptions {
 export interface IConfigPanelOptionSection {
   name: string;
   component: null;
-  mapTo: 'mode';
+  mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
+  defaultState?: number;
+  eleType?: string;
 }
 
 export interface IVisualizationTypeDefination {

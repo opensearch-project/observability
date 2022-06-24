@@ -9,7 +9,14 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ColorPalettePicker,
+  ConfigChartOptions,
+  ConfigLegend,
+  InputFieldItem,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
+
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -22,6 +29,8 @@ export const createPieTypeDefinition = (params: any) => ({
   fullLabel: 'Pie',
   iconType: 'visPie',
   category: VIS_CATEGORY.BASICS,
+  showLegend: true,
+  legendPosition: 'v',
   selection: {
     dataLoss: 'nothing',
   },
@@ -37,32 +46,48 @@ export const createPieTypeDefinition = (params: any) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
             schemas: [
               {
-                name: 'Label',
-                onChangeHandler: 'setXaxisSelections',
-                isSingleSelection: false,
+                name: 'Show Legend',
+                mapTo: 'showLegend',
                 component: null,
-                mapTo: 'xaxis',
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                },
               },
               {
-                name: 'Value',
-                onChangeHandler: 'setYaxisSelections',
-                isSingleSelection: false,
+                name: 'Position',
+                mapTo: 'position',
                 component: null,
-                mapTo: 'yaxis',
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: 'v' }],
+                },
+              },
+              {
+                name: 'Legend Size',
+                component: InputFieldItem,
+                mapTo: 'size',
+                eleType: 'input',
               },
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'chart_styles',
+            name: 'Chart Styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Mode',
@@ -74,8 +99,23 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Pie', modeId: 'pie' },
                     { name: 'Donut', modeId: 'donut' },
                   ],
-                  defaultSelections: [{ name: 'Pie', modeId: 'pie' }],
                 },
+                defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
+              },
+              {
+                name: 'Label Size',
+                component: InputFieldItem,
+                mapTo: 'labelSize',
+                eleType: 'input',
+              },
+              {
+                name: 'Color Theme',
+                isSingleSelection: true,
+                component: ColorPalettePicker,
+                mapTo: 'colorTheme',
+                eleType: 'colorpicker',
+                options: PIE_PALETTES,
+                defaultState: { name: DEFAULT_PALETTE },
               },
             ],
           },

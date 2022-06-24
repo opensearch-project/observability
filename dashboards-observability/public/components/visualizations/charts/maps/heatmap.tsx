@@ -4,18 +4,28 @@
  */
 
 import React, { useMemo } from 'react';
-import { uniq, has, isArray, isEmpty } from 'lodash';
+import { uniq, has, isEmpty, indexOf } from 'lodash';
 import Plotly from 'plotly.js-dist';
+import { colorPalette } from '@elastic/eui';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import {
+  HEATMAP_PALETTE_COLOR,
+  SINGLE_COLOR_PALETTE,
+  OPACITY,
+  HEATMAP_SINGLE_COLOR,
+} from '../../../../../common/constants/colors';
+import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
+import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
+  const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+  const yaxis = defaultAxes.yaxis ?? [];
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
@@ -24,6 +34,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const zMetrics =
     dataConfig?.valueOptions && dataConfig?.valueOptions.zaxis
       ? dataConfig?.valueOptions.zaxis[0]
+      : yaxis.length > 0
+      ? yaxis[0]
       : fields[fields.length - 3];
   const uniqueYaxis = uniq(data[yaxisField.name]);
   const uniqueXaxis = uniq(data[xaxisField.name]);
@@ -36,11 +48,27 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(data[xaxisField.name]) ||
     isEmpty(data[yaxisField.name]) ||
-    isEmpty(data[zMetrics.name])
+    isEmpty(data[zMetrics.name]) ||
+    indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const colorScaleValues = [...PLOTLY_COLOR.map((clr, index) => [index, clr])];
+  const colorField = dataConfig?.chartStyles
+    ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
+      ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
+      : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
+    : HEATMAP_PALETTE_COLOR;
+
+  const traceColor: any = [];
+  if (colorField.name === SINGLE_COLOR_PALETTE) {
+    const colorsArray = colorPalette([lightenColor(colorField.color, 50), colorField.color], 10);
+    colorsArray.map((hexCode, index) => {
+      traceColor.push([
+        (index !== colorsArray.length - 1 ? index : 10) / 10,
+        hexToRgb(hexCode, 1, false),
+      ]);
+    });
+  }
 
   const calculatedHeapMapZaxis: Plotly.Data[] = useMemo(() => {
     const heapMapZaxis = [];
@@ -86,7 +114,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
-      colorscale: colorScaleValues,
+      colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
     },
   ];
@@ -94,7 +122,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const mergedLayout = {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || zMetrics.name || '',
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
   const mergedConfigs = {

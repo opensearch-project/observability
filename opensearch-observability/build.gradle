@@ -10,7 +10,7 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "2.0.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "2.1.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -51,6 +51,7 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'idea'
 apply plugin: 'opensearch.opensearchplugin'
+apply plugin: 'opensearch.pluginzip'
 apply plugin: 'opensearch.testclusters'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'org.jetbrains.kotlin.jvm'
@@ -66,6 +67,29 @@ opensearchplugin {
     description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
     classname "org.opensearch.observability.ObservabilityPlugin"
     extendedPlugins = ['opensearch-job-scheduler']
+}
+
+publishing {
+    publications {
+        pluginZip(MavenPublication) { publication ->
+            pom {
+                name = 'opensearch-observability'
+                description = 'OpenSearch Observability plugin'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'OpenSearch'
+                        url = 'https://github.com/opensearch-project/observability'
+                    }
+                }
+            }
+        }
+    }
 }
 
 allOpen {

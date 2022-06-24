@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Modal Container component renders DeletePanelModal component 1`] = `
+exports[`Modal Container component renders DeleteModal component 1`] = `
 <EuiOverlayMask>
   <EuiModal
     initialFocus="[name=input]"

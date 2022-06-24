@@ -5,8 +5,9 @@
 
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import { DeleteModal } from '../../../common/helpers/delete_modal';
 import React from 'react';
-import { getCloneModal, getDeleteModal, DeletePanelModal } from '../modal_containers';
+import { getCloneModal, getDeleteModal } from '../modal_containers';
 
 describe('Modal Container component', () => {
   configure({ adapter: new Adapter() });
@@ -28,13 +29,13 @@ describe('Modal Container component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders DeletePanelModal component', () => {
+  it('renders DeleteModal component', () => {
     const onCancel = jest.fn();
     const onConfirm = jest.fn();
     const title = 'Test Title';
     const message = 'Test Message';
     const wrapper = shallow(
-      <DeletePanelModal onCancel={onCancel} onConfirm={onConfirm} title={title} message={message} />
+      <DeleteModal onCancel={onCancel} onConfirm={onConfirm} title={title} message={message} />
     );
     expect(wrapper).toMatchSnapshot();
   });

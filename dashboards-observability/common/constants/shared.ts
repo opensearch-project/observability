@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { IField } from '../../common/types/explorer';
 import CSS from 'csstype';
 
 // Client route
@@ -71,9 +72,32 @@ export const pageStyles: CSS.Properties = {
   maxWidth: '1130px',
 };
 
+
+export enum visChartTypes {
+  Bar = 'bar',
+  HorizontalBar = 'horizontal_bar',
+  Line = 'line',
+  Pie = 'pie',
+  HeatMap = 'heatmap',
+  Text = 'text',
+  Gauge = 'gauge',
+  Histogram = 'histogram',
+  TreeMap = 'tree_map'
+}
+
+export interface ValueOptionsAxes {
+  xaxis ?: IField[];
+  yaxis ?: IField[];
+  zaxis ?: IField[];
+  childField?: IField[];
+  valueField?: IField[];
+  series?: IField[];
+  value?: IField[];
+}
+
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = ['bar', 'horizontal_bar', 'line', 'pie', 'heatmap', 'text'];
+export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
@@ -125,3 +149,24 @@ export const LIVE_OPTIONS = [
 ];
 
 export const LIVE_END_TIME ='now';
+export interface DefaultChartStylesProps {
+  DefaultMode: string,
+  Interpolation: string,
+  LineWidth: number,
+  FillOpacity: number,
+  MarkerSize: number,
+  ShowLegend: string,
+  LegendPosition: string
+};
+
+export const DefaultChartStyles: DefaultChartStylesProps = {
+  DefaultMode: 'lines',
+  Interpolation: 'spline',
+  LineWidth: 2,
+  FillOpacity: 40,
+  MarkerSize: 5,
+  ShowLegend: 'show',
+  LegendPosition: 'v'
+}
+
+export const FILLOPACITY_DIV_FACTOR = 200; 
