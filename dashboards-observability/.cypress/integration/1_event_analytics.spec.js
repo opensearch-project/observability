@@ -18,6 +18,10 @@ import {
   landOnEventExplorer,
   landOnEventVisualizations,
   landOnPanels,
+  renderTreeMapchart,
+  renderPieChart,
+  renderLineChartForDataConfig,
+  DataConfigLineChart
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
@@ -844,5 +848,12 @@ describe('Render Table View', () => {
   it('Switch visualization for table view and rows per page data', () => {
     cy.get('.euiButtonEmpty__text').eq('6').click();
     cy.get('.euiContextMenuItem__text').eq(1).click();
+  });
+});
+
+describe('Render Time series chart/Line chart and verify Data configurations UI ', () => {
+  it('Render line chart and verify Data Configuration Panel', () => {
+    renderLineChartForDataConfig();
+    DataConfigLineChart();
   });
 });
