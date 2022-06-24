@@ -25,10 +25,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const xaxis =
-    visualizations.data?.rawVizData?.dataConfig?.dimensions && visualizations.data?.rawVizData?.dataConfig?.dimensions ? visualizations.data?.rawVizData?.dataConfig?.dimensions : [];
-  const yaxis =
-    visualizations.data?.rawVizData?.dataConfig?.metrics ? visualizations.data?.rawVizData?.dataConfig?.metrics : [];
+  const dataConfigTab = visualizations.data?.rawVizData?.dataConfig && visualizations.data.rawVizData.dataConfig;
+  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
+  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
 
   const lastIndex = fields.length - 1;
 
@@ -65,18 +64,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
         fillcolor: fillColor,
       };
       const multiYaxis = { yaxis: `y${index + 1}` };
-      if (index >= 1) {
-        multiMetrics = {
-          ...multiMetrics,
-          [`yaxis${index + 1}`]: {
-            title: `yaxis${index + 1} title`,
-            titlefont: { color: PLOTLY_COLOR[index] },
-            tickfont: { color: PLOTLY_COLOR[index] },
-            overlaying: 'y',
-            side: 'right',
-            anchor: 'free',
-            position: 1 - 0.1 * (index - 1),
-          }
+      multiMetrics = {
+        ...multiMetrics,
+        [`yaxis${index + 1}`]: {
+          // title: `yaxis${index + 1} title`,
+          titlefont: { color: PLOTLY_COLOR[index] },
+          tickfont: { color: PLOTLY_COLOR[index] },
+          overlaying: 'y',
+          side: index === 0 ? 'left' : field.side || "right"
         }
       }
 

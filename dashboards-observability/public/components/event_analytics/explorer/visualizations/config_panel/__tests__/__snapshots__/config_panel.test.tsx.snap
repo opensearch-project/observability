@@ -820,26 +820,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "xaxis",
-                                "name": "X-axis",
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "yaxis",
-                                "name": "Y-axis",
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "legend",
                             "mapTo": "legend",
                             "name": "Legend",
