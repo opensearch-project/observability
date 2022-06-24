@@ -16,6 +16,8 @@ import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
 import { TabContext } from '../../hooks';
+import { visChartTypes } from '../../../../../common/constants/shared';
+import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -78,10 +80,19 @@ export const ExplorerVisualizations = ({
             position: 'top',
           }]} initialSize={14} minSize="300" style={{ border: "1px solid #D3DAE6", padding: '0px' }}>
             <div className="">
-              <DataConfigPanelItem
-                fieldOptionList={fieldOptionList}
-                visualizations={visualizations}
-              />
+              {curVisId === visChartTypes.TreeMap ? (
+                <TreemapConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              ) : (
+                <DataConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              )}
             </div>
           </EuiResizablePanel>
 
