@@ -76,9 +76,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
-        y: data[field.name],
+        y: data[field.label],
         type: isBarMode ? 'bar' : 'scatter',
-        name: field.name,
+        name: field.label,
         mode,
         ...!['bar', 'markers'].includes(mode) && fillProperty,
         line: {

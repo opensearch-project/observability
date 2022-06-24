@@ -505,7 +505,7 @@ exports[`Line component Renders line component 1`] = `
             "size": 5,
           },
           "mode": "lines",
-          "name": "count()",
+          "name": undefined,
           "type": "scatter",
           "x": Array [
             "error",
@@ -515,14 +515,7 @@ exports[`Line component Renders line component 1`] = `
             "success",
             "warning",
           ],
-          "y": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
+          "y": undefined,
         },
       ]
     }
@@ -577,7 +570,7 @@ exports[`Line component Renders line component 1`] = `
               "size": 5,
             },
             "mode": "lines",
-            "name": "count()",
+            "name": undefined,
             "type": "scatter",
             "x": Array [
               "error",
@@ -587,14 +580,7 @@ exports[`Line component Renders line component 1`] = `
               "success",
               "warning",
             ],
-            "y": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
+            "y": undefined,
           },
         ]
       }
