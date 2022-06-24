@@ -33,9 +33,6 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const yaxisField = visualizations.data?.rawVizData?.dataConfig?.dimensions[1];
   const zMetrics = visualizations.data?.rawVizData?.dataConfig?.metrics[0];
 
-  console.log("xaxisField", xaxisField);
-  console.log("yaxisField", yaxisField);
-  console.log("zMetrics", zMetrics);
   if (
     isEmpty(xaxisField) ||
     isEmpty(yaxisField) ||
