@@ -107,7 +107,11 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: 
                 labelAppend={
                   lists.length !== 1 && (
                     <EuiText size="xs">
-                      <EuiIcon type="cross" color="danger" onClick={() => handleServiceRemove(index, sectionName)} />
+                      <EuiIcon
+                        type="cross"
+                        color="danger"
+                        onClick={() => handleServiceRemove(index, sectionName)}
+                      />
                     </EuiText>
                   )
                 }
