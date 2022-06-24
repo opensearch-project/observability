@@ -5,7 +5,7 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
-import { StyleItem } from './config_style_item';
+import { ButtonGroupItem } from './config_button_group';
 import { SliderConfig } from './config_style_slider';
 
 export const ConfigGraphStyle = ({
@@ -30,11 +30,11 @@ export const ConfigGraphStyle = ({
     [handleConfigChange, vizState]
   );
 
-  const [styleGroup, interpolationGroup, lineWidth, fillOpacity] = schemas;
+  const [orientationMode, styleGroup, interpolationGroup, lineWidth, fillOpacity] = schemas;
 
   const dimensions = useMemo(() => {
-    return [styleGroup, interpolationGroup].map((schema, index) => {
-      const DimensionComponent = schema.component || StyleItem;
+    return [orientationMode, styleGroup, interpolationGroup].map((schema, index) => {
+      const DimensionComponent = schema.component || ButtonGroupItem;
       const params = {
         title: schema.name,
         legend: schema.name,
