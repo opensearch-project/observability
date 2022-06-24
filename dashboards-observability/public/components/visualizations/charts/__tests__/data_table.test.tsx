@@ -17,7 +17,7 @@ describe('Data table component', () => {
   it('Renders data table component', async () => {
     const gridWrapper = shallow(<DataTable visualizations={TEST_VISUALIZATIONS_DATA} />);
     const agGridReactObj = gridWrapper.find(AgGridReact);
-    agGridReactObj.simulate('gridReady')
+    agGridReactObj.simulate('gridReady');
     expect(agGridReactObj).toBeTruthy();
     await waitFor(() => {
       expect(gridWrapper).toMatchSnapshot();
