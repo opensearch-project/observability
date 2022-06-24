@@ -46,6 +46,7 @@ import {
   COLUMN_DEFAULT_MIN_WIDTH,
   ROW_DENSITIES,
   GRID_PAGE_SIZES,
+  HEADER_HEIGHT,
 } from '../../../../../common/constants/data_table';
 
 interface RowConfig {
@@ -53,6 +54,10 @@ interface RowConfig {
   height: number;
   selected: boolean;
 }
+
+const doubleValueGetter = (params) => {
+  return params.data[params.column.colId];
+};
 
 export const DataTable = ({ visualizations, layout, config }: any) => {
   const {
@@ -70,18 +75,21 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
 
   // rows and columns
   const raw_data = [...jsonData];
+
   const columns = fields.map((field: any) => {
     return {
-      headerName: field.name,
-      field: field.name,
-      id: field.name,
-      colId: field.name,
       lockVisible: true,
       columnsMenuParams: {
         suppressColumnFilter: true,
         suppressColumnSelectAll: true,
         suppressColumnExpandAll: true,
       },
+      headerName: field.name,
+      field: field.name,
+      colId: field.name,
+      ...(field.type === 'double' && {
+        valueGetter: doubleValueGetter,
+      }),
     };
   });
 
@@ -92,8 +100,8 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   const [columnVisibility, setColumnVisibility] = useState<string[]>([]);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [selectedRowDensity, setSelectedRowDensity] = useState<RowConfig>({
-    icon: 'tableDensityNormal',
-    height: 40,
+    icon: 'tableDensityCompact',
+    height: 35,
     selected: true,
   });
   // pagination
@@ -106,8 +114,9 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
       resizable: true,
       filter: true,
       flex: 1,
-      minWidth: COLUMN_DEFAULT_MIN_WIDTH,
       suppressMenu: true,
+      minWidth: COLUMN_DEFAULT_MIN_WIDTH,
+      headerHeight: 400,
     };
   }, []);
 
@@ -182,12 +191,15 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         rowData={raw_data}
         columnDefs={columns}
         defaultColDef={defaultColDef}
-        domLayout="autoHeight"
+        domLayout={'autoHeight'}
         animateRows
         pagination
         paginationPageSize={pageSize}
         suppressPaginationPanel
         rowHeight={selectedRowDensity.height}
+        onGridReady={() => {
+          gridRef?.current?.api.setHeaderHeight(HEADER_HEIGHT);
+        }}
       />
       <GridFooter
         onPageSizeChanged={onPageSizeChanged}
@@ -211,6 +223,9 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
                 paginationPageSize={pageSize}
                 suppressPaginationPanel
                 rowHeight={selectedRowDensity.height}
+                onGridReady={() => {
+                  gridRefFullScreen?.current?.api.setHeaderHeight(HEADER_HEIGHT);
+                }}
               />
             </EuiFlexItem>
             <EuiFlexItem>
