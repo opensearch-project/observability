@@ -35,7 +35,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
   const legendPosition = dataConfig?.legend?.position || 'v';
   const markerSize = dataConfig?.chartStyles?.pointSize || 5;
-  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 100 : FillOpacity / 100;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : FillOpacity / 200;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -45,28 +45,44 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }
 
   const [calculatedLayout, lineValues] = useMemo(() => {
+    const isBarMode = mode === 'bar';
 
     let calculatedLineValues = valueSeries.map((field: any, index: number) => {
       const fillColor = hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
+      const barMarker = {
+        color: PLOTLY_COLOR[index],
+        opacity: fillOpacity,
+        line: {
+          color: PLOTLY_COLOR[index],
+          width: lineWidth
+        }
+      };
+      const fillProperty = {
+        fill: 'tozeroy',
+        fillcolor: fillColor,
+      };
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
         y: data[field.name],
-        type: mode === 'bar' ? 'bar' : 'scatter',
+        type: isBarMode ? 'bar' : 'scatter',
         name: field.name,
         mode,
-        fill: 'tozeroy',
-        fillcolor: fillColor,
+       ...!['bar', 'markers'].includes(mode) && fillProperty,
         line: {
           shape: lineShape,
           width: lineWidth,
           color: PLOTLY_COLOR[index],
         },
         marker: {
-          size: markerSize
+          size: markerSize,
+          ...isBarMode && barMarker,
         },
       };
     });
 
+    var layoutForBarMode = {
+      barmode: 'group',
+    };
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
@@ -76,6 +92,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         orientation: legendPosition,
       },
       showlegend: showLegend,
+      ...isBarMode && layoutForBarMode,
     };
 
     if (dataConfig.thresholds || availabilityConfig.level) {
