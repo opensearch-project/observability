@@ -8,8 +8,10 @@ import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { DefaultGraphStyle } from '../../../../../common/constants/shared';
 
 export const Line = ({ visualizations, layout, config }: any) => {
+  const {  DefaultMode,Interpolation,LineWidth,FillOpacity } = DefaultGraphStyle;
   const {
     data = {},
     metadata: { fields },
@@ -26,11 +28,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
     dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
   const lastIndex = fields.length - 1;
 
-  const mode = dataConfig?.graphStyle?.style
-    ? dataConfig.graphStyle.style
-    : 'lines';
-  const lineShape = dataConfig?.graphStyle?.interpolation
-    ? dataConfig.graphStyle.interpolation : 'spline';
+  const mode = dataConfig?.graphStyle?.style || DefaultMode;
+  const lineShape = dataConfig?.graphStyle?.interpolation || Interpolation;
+  const lineWidth = dataConfig?.graphStyle?.lineWidth || LineWidth;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -47,7 +47,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         type: mode === 'bar' ? 'bar' : 'scatter',
         name: field.name,
         mode,
-        line: {shape: lineShape},
+        line: { shape: lineShape, width: lineWidth },
       };
     });
 

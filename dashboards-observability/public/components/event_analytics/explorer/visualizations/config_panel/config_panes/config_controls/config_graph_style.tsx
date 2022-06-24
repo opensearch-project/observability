@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback, useState, Fragment } from 'react';
-import { EuiAccordion, EuiButtonGroup, EuiRange, EuiSpacer, EuiTitle } from '@elastic/eui';
+import React, { useMemo, useCallback } from 'react';
+import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { StyleItem } from './config_style_item';
+import { SliderConfig } from './config_style_slider';
 
 export const ConfigGraphStyle = ({
   visualizations,
@@ -31,15 +32,6 @@ export const ConfigGraphStyle = ({
 
   const [styleGroup, interpolationGroup, lineWidth, fillOpacity] = schemas;
 
-  const [sliderRange, setValue] = useState({
-    lineWidth: lineWidth.defaultState,
-    opacity: fillOpacity.defaultState
-  });
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setValue(state => ({ ...state, [name]: value }));
-  };
-
   const dimensions = useMemo(() => {
     return [styleGroup, interpolationGroup].map((schema, index) => {
       const DimensionComponent = schema.component || StyleItem;
@@ -59,10 +51,30 @@ export const ConfigGraphStyle = ({
         </>
       );
     });
-  }, [schemas, vizState, handleConfigurationChange])
+  }, [schemas, vizState, handleConfigurationChange]);
+
+  const sliderItem = useMemo(() => {
+    return [lineWidth, fillOpacity].map((schema, index) => {
+      const DimensionComponent = schema.component || SliderConfig;
+      const params = {
+        maxRange: schema.max,
+        title: schema.name,
+        currentRange: vizState[schema.mapTo] || schema?.defaultState,
+        handleSliderChange: handleConfigurationChange(schema.mapTo),
+        vizState,
+        ...schema.props,
+      };
+      return (
+        <>
+          <DimensionComponent key={`viz-series-${index}`} {...params} />
+          <EuiSpacer size="s" />
+        </>
+      );
+    });
+  }, [schemas, vizState, handleConfigurationChange]);
 
   console.log("visualization:: ", visualizations)
-  console.log("vizState::", vizState)
+  console.log("vizStateeeeeeccccccc::", vizState)
   return (
     <EuiAccordion
       initialIsOpen
@@ -72,36 +84,7 @@ export const ConfigGraphStyle = ({
     >
       {dimensions}
 
-      <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
-        <h3>{lineWidth.name}</h3>
-      </EuiTitle>
-      <EuiSpacer size="s" />
-      <EuiRange
-        id="inputRangeSlider"
-        max={lineWidth.max}
-        name="lineWidth"
-        value={sliderRange.lineWidth}
-        onChange={onChange}
-        showInput
-        aria-label="change lineWidth slider"
-      />
-
-      <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
-        <h3>{fillOpacity.name}</h3>
-      </EuiTitle>
-      <EuiSpacer size="s" />
-      <EuiRange
-        id="inputRangeSlider"
-        max={fillOpacity.max}
-        name="opacity"
-        value={sliderRange.opacity}
-        onChange={onChange}
-        showInput
-        aria-label="fillOpacity Slider"
-      />
-
+      {sliderItem}
     </EuiAccordion>
   );
 };
