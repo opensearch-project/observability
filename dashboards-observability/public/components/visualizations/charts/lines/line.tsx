@@ -9,10 +9,9 @@ import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
-import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
+import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  console.log("visualizations:################:", visualizations);
   const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
   const {
     data = {},
@@ -34,7 +33,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const mode = dataConfig?.chartStyles?.style || DefaultMode;
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend ? false : true;
+  const showLegend = !(dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend);
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : FillOpacity / FILLOPACITY_DIV_FACTOR;
@@ -51,7 +50,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     const isBarMode = mode === 'bar';
 
     let calculatedLineValues = valueSeries.map((field: any, index: number) => {
-      const fillColor = hexToRgba(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
+      const fillColor = hexToRgb(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
       const barMarker = {
         color: fillColor,
         line: {

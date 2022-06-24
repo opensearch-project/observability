@@ -870,6 +870,7 @@ describe('Render Pie chart for Legend and single color contrast change', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
+
   it('Render Pie chart and verify legends for Position Right and Bottom', () => {
     renderPieChart();
 
