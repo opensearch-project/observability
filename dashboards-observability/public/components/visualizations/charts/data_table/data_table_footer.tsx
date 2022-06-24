@@ -26,7 +26,6 @@ import {
   GRID_PAGE_SIZES,
 } from '../../../../../common/constants/data_table';
 
-
 export const GridFooter = ({
   onPageSizeChanged,
   pageSize,
