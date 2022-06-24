@@ -3,50 +3,76 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useContext, useEffect, useState } from 'react';
-import { EuiTitle, EuiComboBox, EuiSpacer, EuiButton, EuiFieldText, EuiFlexItem, EuiFormRow, EuiIcon, EuiPanel, EuiText } from '@elastic/eui';
+import React, { useEffect, useState, useContext } from 'react';
+import {
+  EuiTitle,
+  EuiComboBox,
+  EuiSpacer,
+  EuiButton,
+  EuiFieldText,
+  EuiFlexItem,
+  EuiFormRow,
+  EuiIcon,
+  EuiPanel,
+  EuiText,
+} from '@elastic/eui';
 import { useDispatch, useSelector } from 'react-redux';
 import { render as renderExplorerVis, selectExplorerVisualization } from '../../../../../../event_analytics/redux/slices/visualization_slice';
 import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { ConfigList } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
-export const DataConfigPanelItem = ({
-  fieldOptionList,
-  visualizations,
-}: any) => {
+
+export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId } = useContext<any>(TabContext);
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
-
   const { data } = visualizations;
+
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
-  const newEntry = { label: "", aggregation: "", custom_label: "", name: "", side: "right" };
+  const initialConfigEntry = {
+    label: '',
+    aggregation: '',
+    custom_label: '',
+    name: '',
+    side: 'right',
+    type: '',
+  };
 
-  const [configList, setConfigList] = useState({
-    dimensions: [{ ...newEntry }],
-    metrics: [{ ...newEntry }],
-  });
+  const [configList, setConfigList] = useState<ConfigList>({});
 
   useEffect(() => {
     if (data.rawVizData?.dataConfig) {
       setConfigList({
-        ...data.rawVizData.dataConfig
-      })
-    } else if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
+        ...data.rawVizData.dataConfig,
+      });
+    } else if (
+      visualizations.vis.name !== visChartTypes.HeatMap &&
+      (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
+    ) {
       const { xaxis, yaxis } = data.defaultAxes;
       setConfigList({
-        dimensions: [...xaxis && xaxis],
-        metrics: [...yaxis && yaxis],
-      })
+        dimensions: [...(xaxis && xaxis)],
+        metrics: [...(yaxis && yaxis)],
+      });
+    } else {
+      setConfigList({
+        dimensions: [initialConfigEntry, initialConfigEntry],
+        metrics: [initialConfigEntry],
+      });
     }
-  }, [data.defaultAxes, data.rawVizData?.dataConfig]);
+  }, [data.defaultAxes, data.rawVizData?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     let list = { ...configList };
     let listItem = { ...list[name][index] };
-    listItem = { ...listItem, [field]: value };
+    listItem = {
+      ...listItem,
+      [field]: value,
+      type: value !== '' ? fields.find((x) => x.name === value).type : '',
+    };
     const newList = {
       ...list,
       [name]: [
@@ -56,7 +82,7 @@ export const DataConfigPanelItem = ({
       ],
     };
     setConfigList(newList);
-  }
+  };
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
@@ -74,7 +100,7 @@ export const DataConfigPanelItem = ({
   const updateChart = () => {
     dispatch(
       renderExplorerVis({
-        tabId: tabId,
+        tabId,
         data: {
           ...explorerVisualizations,
           dataConfig: {
@@ -86,81 +112,101 @@ export const DataConfigPanelItem = ({
     );
   }
 
-  const isPositionButtonAllow = (sectionName: string) => sectionName === 'metrics' && (visualizations.vis.name === visChartTypes.Line || visualizations.vis.name === visChartTypes.Bar);
+  const isPositionButtonVisible = (sectionName: string) =>
+    sectionName === 'metrics' &&
+    (visualizations.vis.name === visChartTypes.Line ||
+      visualizations.vis.name === visChartTypes.Bar);
 
-  const getCommonUI = (lists, sectionName: string) => lists.map((singleField, index: number) => (
-    <>
-      <div key={index} className="services">
-        <div className="first-division">
-          <EuiPanel color="subdued" style={{ padding: '0px' }}>
-            <EuiFormRow
-              label="Aggregation"
-              labelAppend={
-                lists.length !== 1 && (
-                  <EuiText size="xs">
-                    <EuiIcon
-                      type="cross"
-                      color="danger"
-                      onClick={() => handleServiceRemove(index, sectionName)}
-                    />
-                  </EuiText>
-                )
-              }
-            >
-              <EuiComboBox
-                aria-label="Accessible screen reader label"
-                placeholder="Select a aggregation"
-                singleSelection={{ asPlainText: true }}
-                options={AGGREGATION_OPTIONS}
-                selectedOptions={singleField.aggregation ? [{ 'label': singleField.aggregation }] : []}
-                onChange={(e) => updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')}
-
-              />
-
-            </EuiFormRow>
-            <EuiFormRow
-              label="Field"
-            >
-              <EuiComboBox
-                aria-label="Accessible screen reader label"
-                placeholder="Select a field"
-                singleSelection={{ asPlainText: true }}
-                options={fieldOptionList}
-                selectedOptions={singleField.label ? [{ 'label': singleField.label }] : []}
-                onChange={(e) => updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')}
-              />
-            </EuiFormRow>
-
-            <EuiFormRow
-              label="Custom label"
-            >
-              <EuiFieldText
-                placeholder="Custom label"
-                value={singleField.custom_label}
-                onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
-                aria-label="Use aria labels when no actual label is in use" />
-            </EuiFormRow>
-
-            {isPositionButtonAllow(sectionName) && (
-              <EuiFormRow label="Side">
-                <ButtonGroupItem
-                  legend="Side"
-                  groupOptions={[{ id: 'left', label: 'Left' }, { id: 'right', label: 'Right' }]}
-                  idSelected={singleField.side || 'right'}
-                  handleButtonChange={(id: string) => updateList(id, index, sectionName, 'side')}
+  const getCommonUI = (lists, sectionName: string) =>
+    lists &&
+    lists.map((singleField, index: number) => (
+      <>
+        <div key={index} className="services">
+          <div className="first-division">
+            {sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.HeatMap && (
+              <EuiTitle size="xxs">
+                <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
+              </EuiTitle>
+            )}
+            <EuiPanel color="subdued">
+              <EuiFormRow
+                label="Aggregation"
+                labelAppend={
+                  visualizations.vis.name !== visChartTypes.HeatMap &&
+                  lists.length !== 1 && (
+                    <EuiText size="xs">
+                      <EuiIcon
+                        type="cross"
+                        color="danger"
+                        onClick={() => handleServiceRemove(index, sectionName)}
+                      />
+                    </EuiText>
+                  )
+                }
+              >
+                <EuiComboBox
+                  aria-label="Accessible screen reader label"
+                  placeholder="Select a aggregation"
+                  singleSelection={{ asPlainText: true }}
+                  options={AGGREGATION_OPTIONS}
+                  selectedOptions={
+                    singleField.aggregation ? [{ label: singleField.aggregation }] : []
+                  }
+                  onChange={(e) =>
+                    updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')
+                  }
                 />
               </EuiFormRow>
-            )}
+              <EuiFormRow label="Field">
+                <EuiComboBox
+                  aria-label="Accessible screen reader label"
+                  placeholder="Select a field"
+                  singleSelection={{ asPlainText: true }}
+                  options={fieldOptionList}
+                  selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
+                  onChange={(e) =>
+                    updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
+                  }
+                />
+              </EuiFormRow>
 
-            <EuiSpacer size="s" />
-            {lists.length - 1 === index &&
-              <EuiFlexItem grow>
-                <EuiButton fullWidth iconType="plusInCircleFilled" color='primary' onClick={() => handleServiceAdd(sectionName)}>
-                  Add
-                </EuiButton>
-              </EuiFlexItem>
-         	   }
-     </EuiPanel>
+              <EuiFormRow label="Custom label">
+                <EuiFieldText
+                  placeholder="Custom label"
+                  value={singleField.custom_label}
+                  onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
+                  aria-label="Use aria labels when no actual label is in use"
+                />
+              </EuiFormRow>
+
+              {isPositionButtonVisible(sectionName) && (
+                <EuiFormRow label="Side">
+                  <ButtonGroupItem
+                    legend="Side"
+                    groupOptions={[
+                      { id: 'left', label: 'Left' },
+                      { id: 'right', label: 'Right' },
+                    ]}
+                    idSelected={singleField.side || 'right'}
+                    handleButtonChange={(id: string) => updateList(id, index, sectionName, 'side')}
+                  />
+                </EuiFormRow>
+              )}
+
+              <EuiSpacer size="s" />
+              {visualizations.vis.name !== visChartTypes.HeatMap && lists.length - 1 === index && (
+                <EuiFlexItem grow>
+                  <EuiButton
+                    fullWidth
+                    iconType="plusInCircleFilled"
+                    color="primary"
+                    onClick={() => handleServiceAdd(sectionName)}
+                  >
+                    Add
+                  </EuiButton>
+                </EuiFlexItem>
+              )}
+            </EuiPanel>
           </div>
       </div>
         <EuiSpacer size="s" />

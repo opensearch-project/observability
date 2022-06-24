@@ -1279,20 +1279,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "zaxis",
-                                "name": "Z-axis",
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
                             "name": "Chart Styles",
