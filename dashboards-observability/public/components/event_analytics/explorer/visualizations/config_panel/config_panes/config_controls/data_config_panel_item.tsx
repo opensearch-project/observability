@@ -57,7 +57,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: 
     let list = { ...configList };
     let listItem = { ...list[name][index] };
     listItem = { ...listItem, [field]: value };
-    const newList = {
+    const x = {
       ...list,
       [name]: [
         ...list[name].slice(0, index),
@@ -65,22 +65,24 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: 
         ...list[name].slice(index + 1, list[name].length),
       ],
     };
-    setConfigList(newList);
-  };
+    setConfigList(x);
+  }
 
-  const onFieldOptionChange = (e, index: number, name: string) => {
-    updateList(e[0]?.label, index, name, 'label');
+  const onfieldOptionChange = (e, index: number, name: string) => {
+    let label = e.length > 0 ? e[0].label : '';
+    updateList(label, index, name, 'label');
   };
 
   const onAggregationChange = (e, index: number, name: string) => {
-    updateList(e[0]?.label, index, name, 'aggregation');
+    let label = e.length > 0 ? e[0].label : '';
+    updateList(label, index, name, 'aggregation');
   };
 
   const onCustomLabelChange = (e, index: number, name: string) => {
     updateList(e.target.value, index, name, 'custom_label');
   };
 
-  const handleSideChange = (id, value, index: number, name: string) => {
+  const handleSideChange = (id: string, index: number, name: string) => {
     updateList(id, index, name, 'side');
   };
 
@@ -150,7 +152,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: 
                   singleSelection={{ asPlainText: true }}
                   options={fieldOptionList}
                   selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
-                  onChange={(e) => onFieldOptionChange(e, index, sectionName)}
+                  onChange={(e) => onfieldOptionChange(e, index, sectionName)}
                 />
               </EuiFormRow>
 

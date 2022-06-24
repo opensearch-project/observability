@@ -544,6 +544,16 @@ exports[`Line component Renders line component 1`] = `
         },
         "showlegend": true,
         "title": "",
+        "yaxis1": Object {
+          "overlaying": "y",
+          "side": "left",
+          "tickfont": Object {
+            "color": "#3CA1C7",
+          },
+          "titlefont": Object {
+            "color": "#3CA1C7",
+          },
+        },
       }
     }
   >
@@ -621,6 +631,16 @@ exports[`Line component Renders line component 1`] = `
             "rangemode": "normal",
             "showgrid": true,
             "zeroline": false,
+          },
+          "yaxis1": Object {
+            "overlaying": "y",
+            "side": "left",
+            "tickfont": Object {
+              "color": "#3CA1C7",
+            },
+            "titlefont": Object {
+              "color": "#3CA1C7",
+            },
           },
         }
       }
