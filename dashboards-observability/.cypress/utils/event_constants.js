@@ -79,34 +79,3 @@ export const landOnPanels = () => {
   );
   cy.wait(delay);
 };
-
-export const renderTreeMapchart = () => {
-  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Tree Map').type('{enter}');
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Tree Map');
-    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(1).click();
-    cy.get('.euiComboBoxOption__content').eq(2).click();
-    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(2).click();
-    cy.get('.euiComboBoxOption__content').eq(1).click();
-    cy.get('.euiFormControlLayoutIcons [data-test-subj ="comboBoxToggleListButton"]').eq(3).click();
-    cy.get('.euiComboBoxOption__content').eq(0).click();
-    cy.get('.euiIEFlexWrapFix').eq(2).contains('Treemap').should('exist');
-    cy.get('#configPanel__treemap_options').contains('Tiling Algorithm').should('exist');
-    cy.get('[data-test-subj = "comboBoxInput"]').eq(4).click();
-    cy.get('button[name="Slice Dice"]').click();
-};
-
-export const renderPieChart = () => {
-  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
-  cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
-  cy.wait(delay);
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Pie chart');
-    cy.get('.euiIEFlexWrapFix').eq(1).contains('Value options').should('exist');
-    cy.get('[data-test-subj="comboBoxInput"]').eq(1).click();
-    cy.get('[name="count()"]').eq(0).click();
-    cy.get('[data-test-subj="comboBoxToggleListButton"]').eq(0).click();
-    cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
-};
