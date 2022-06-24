@@ -64,28 +64,6 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
-            schemas: [
-              {
-                name: 'Mode',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'mode',
-                props: {
-                  dropdownList: [
-                    { name: 'Markers', modeId: 'markers' },
-                    { name: 'Lines', modeId: 'lines' },
-                    { name: 'Lines + Markers', modeId: 'lines+markers' },
-                  ],
-                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
-                },
-              },
-            ],
-          },
-          {
             id: 'legend',
             name: 'Legend',
             editor: ConfigLegend,
@@ -124,7 +102,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Style',
+                name: 'Mode',
                 component: null,
                 mapTo: 'style',
                 props: {
@@ -161,7 +139,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Center', modeId: 'center' },
                     { name: 'After', modeId: 'after' },
                   ],
-                  defaultSelections: [{ name: 'Center', modeId: 'Center' }],
+                  defaultSelections: [{ name: 'Center', modeId: 'center' }],
                 },
               },
               {
