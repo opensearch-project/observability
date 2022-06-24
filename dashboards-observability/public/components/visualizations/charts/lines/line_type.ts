@@ -12,14 +12,16 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ConfigValueOptions,
   ConfigThresholds,
-  ConfigChartStyles,
+  ConfigLineChartStyles,
   ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
+import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
+const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -78,7 +80,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Show', modeId: "show" },
                     { name: 'Hidden', modeId: "hidden" },
                   ],
-                  defaultSelections: [{ name: 'Show', modeId: "show" }],
+                  defaultSelections: [{ name: 'Show', modeId: ShowLegend }],
                 },
               },
               {
@@ -90,7 +92,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Right', modeId: 'v' },
                     { name: 'Bottom', modeId: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Right', modeId: 'v' }],
+                  defaultSelections: [{ name: 'Right', modeId: LegendPosition }],
                 },
               },
             ],
@@ -98,13 +100,14 @@ export const createLineTypeDefinition = (params: any = {}) => ({
           {
             id: 'chart_styles',
             name: 'Chart styles',
-            editor: ConfigChartStyles,
+            editor: ConfigLineChartStyles,
             mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Mode',
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'style',
+                eleType: 'buttons',
                 props: {
                   options: [
                     { name: 'Lines', modeId: 'lines' },
@@ -117,8 +120,9 @@ export const createLineTypeDefinition = (params: any = {}) => ({
               },
               {
                 name: 'Interpolation',
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'interpolation',
+                eleType: 'buttons',
                 props: {
                   options: [
                     { name: 'Linear', modeId: 'linear' },
@@ -130,38 +134,28 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Bar alignment',
-                component: null,
-                mapTo: 'barAlignment',
-                props: {
-                  options: [
-                    { name: 'Before', modeId: 'before' },
-                    { name: 'Center', modeId: 'center' },
-                    { name: 'After', modeId: 'after' },
-                  ],
-                  defaultSelections: [{ name: 'Center', modeId: 'center' }],
-                },
-              },
-              {
                 name: 'Line width',
-                component: null,
+                component: SliderConfig,
                 mapTo: 'lineWidth',
                 defaultState: LineWidth,
                 max: 10,
+                eleType: 'slider',
               },
               {
                 name: 'Fill Opacity',
-                component: null,
+                component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
                 max: 100,
+                eleType: 'slider',
               },
               {
                 name: 'Point Size',
-                component: null,
+                component: SliderConfig,
                 mapTo: 'pointSize',
-                defaultState: 5,
+                defaultState: MarkerSize,
                 max: 40,
+                eleType: 'slider',
               },
             ],
           },

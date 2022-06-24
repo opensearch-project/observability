@@ -12,7 +12,7 @@ import { DefaultChartStyles, PLOTLY_COLOR } from '../../../../../common/constant
 import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  const { DefaultMode, Interpolation, LineWidth, FillOpacity } = DefaultChartStyles;
+  const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -32,9 +32,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const mode = dataConfig?.chartStyles?.style || DefaultMode;
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : true;
-  const legendPosition = dataConfig?.legend?.position || 'v';
-  const markerSize = dataConfig?.chartStyles?.pointSize || 5;
+  const showLegend = dataConfig.legend && dataConfig.legend?.showLegend !== ShowLegend ? false : true;
+  const legendPosition = dataConfig?.legend?.position || LegendPosition;
+  const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : FillOpacity / 200;
 
   let valueSeries;
