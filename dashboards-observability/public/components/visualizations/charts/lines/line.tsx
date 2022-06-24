@@ -8,7 +8,7 @@ import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { DefaultChartStyles, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
@@ -35,7 +35,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const showLegend = dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend ? false : true;
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
-  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / 200 : FillOpacity / 200;
+  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : FillOpacity / FILLOPACITY_DIV_FACTOR;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -66,7 +66,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         type: isBarMode ? 'bar' : 'scatter',
         name: field.name,
         mode,
-       ...!['bar', 'markers'].includes(mode) && fillProperty,
+        ...!['bar', 'markers'].includes(mode) && fillProperty,
         line: {
           shape: lineShape,
           width: lineWidth,
