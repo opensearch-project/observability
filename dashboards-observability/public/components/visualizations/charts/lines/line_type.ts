@@ -46,26 +46,6 @@ export const createLineTypeDefinition = (params: any = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
-            schemas: [
-              {
-                name: 'X-axis',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'xaxis',
-              },
-              {
-                name: 'Y-axis',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
-              },
-            ],
-          },
-          {
             id: 'legend',
             name: 'Legend',
             editor: ConfigLegend,

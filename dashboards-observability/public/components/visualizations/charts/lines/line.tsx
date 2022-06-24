@@ -12,6 +12,7 @@ import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR } from '../../
 import { hexToRgba } from '../../../../components/event_analytics/utils/utils';
 
 export const Line = ({ visualizations, layout, config }: any) => {
+  console.log("visualizations:################:", visualizations);
   const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
   const {
     data = {},
@@ -23,10 +24,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
+
   const xaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
+    visualizations.data?.rawVizData?.dataConfig?.dimensions && visualizations.data?.rawVizData?.dataConfig?.dimensions ? visualizations.data?.rawVizData?.dataConfig?.dimensions : [];
   const yaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.yaxis : [];
+    visualizations.data?.rawVizData?.dataConfig?.metrics ? visualizations.data?.rawVizData?.dataConfig?.metrics : [];
+
   const lastIndex = fields.length - 1;
 
   const mode = dataConfig?.chartStyles?.style || DefaultMode;
