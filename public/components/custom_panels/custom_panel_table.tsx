@@ -38,10 +38,11 @@ import {
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
-import { getCustomModal, DeletePanelModal } from './helpers/modal_containers';
+import { getCustomModal } from './helpers/modal_containers';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { getSampleDataModal } from '../common/helpers/add_sample_modal';
 import { pageStyles } from '../../../common/constants/shared';
+import { DeleteModal } from '../common/helpers/delete_modal';
 
 /*
  * "CustomPanelTable" module, used to view all the saved panels
@@ -177,7 +178,7 @@ export const CustomPanelTable = ({
   const deletePanel = () => {
     const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
     setModalLayout(
-      <DeletePanelModal
+      <DeleteModal
         onConfirm={onDelete}
         onCancel={closeModal}
         title={`Delete ${selectedCustomPanels.length} ${customPanelString}`}
