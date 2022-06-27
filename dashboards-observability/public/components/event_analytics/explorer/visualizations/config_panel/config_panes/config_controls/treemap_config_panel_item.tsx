@@ -56,7 +56,6 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
       ...list,
       [configName]: [listItem],
     };
-    console.log('newList', newList);
     setConfigList(newList);
   };
 
