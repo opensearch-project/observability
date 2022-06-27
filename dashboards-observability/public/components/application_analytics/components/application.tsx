@@ -57,7 +57,10 @@ import { IQueryTab } from '../../../../common/types/explorer';
 import { NotificationsStart } from '../../../../../../src/core/public';
 import { AppAnalyticsComponentDeps } from '../home';
 import { CustomPanelView } from '../../../../public/components/custom_panels/custom_panel_view';
-import { ApplicationType } from '../../../../common/types/app_analytics';
+import {
+  ApplicationRequestType,
+  ApplicationType,
+} from '../../../../common/types/application_analytics';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
@@ -83,7 +86,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
-  updateApp: (appId: string, updateAppData: Partial<ApplicationType>, type: string) => void;
+  updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
   callback: (childfunction: () => void) => void;
 }
@@ -109,13 +112,16 @@ export function Application(props: AppDetailProps) {
     callback,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
+    id: '',
+    dateCreated: '',
+    dateModified: '',
     name: '',
     description: '',
     baseQuery: '',
     servicesEntities: [],
     traceGroups: [],
     panelId: '',
-    availabilityVisId: '',
+    availability: { name: '', color: '', availabilityVisId: '' },
   });
   const dispatch = useDispatch();
   const [triggerAvailability, setTriggerAvailability] = useState(false);
@@ -381,7 +387,11 @@ export function Application(props: AppDetailProps) {
   };
 
   const updateAvailabilityVizId = (vizs: VisualizationType[]) => {
-    if (!vizs.map((viz) => viz.savedVisualizationId).includes(application.availabilityVisId)) {
+    if (
+      !vizs
+        .map((viz) => viz.savedVisualizationId)
+        .includes(application.availability.availabilityVisId)
+    ) {
       updateApp(appId, { availabilityVisId: '' }, 'editAvailability');
     }
   };
