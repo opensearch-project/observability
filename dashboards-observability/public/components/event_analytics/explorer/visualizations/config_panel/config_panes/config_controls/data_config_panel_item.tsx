@@ -206,15 +206,15 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: 
       </EuiTitle>
       <EuiSpacer size="s" />
       <EuiTitle size="xxs">
-        <h3>Dimensions</h3>
-      </EuiTitle>
-      {getCommonUI(configList.dimensions, 'dimensions')}
-
-      <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
         <h3>Metrics</h3>
       </EuiTitle>
       {getCommonUI(configList.metrics, 'metrics')}
+
+      <EuiSpacer size="s" />
+      <EuiTitle size="xxs">
+        <h3>Dimensions</h3>
+      </EuiTitle>
+      {getCommonUI(configList.dimensions, 'dimensions')}
 
       <EuiFlexItem grow={false}>
         <EuiButton
