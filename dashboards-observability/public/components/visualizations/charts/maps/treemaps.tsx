@@ -23,21 +23,21 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const childField =
-    visualizations.data?.rawVizData?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.dataConfig?.dimensions[0].childField
-      ? visualizations.data?.rawVizData?.dataConfig?.dimensions[0].childField
+    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
+    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
+      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    visualizations.data?.rawVizData?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.dataConfig.dimensions[0].parentFields
-      ? visualizations.data?.rawVizData?.dataConfig?.dimensions[0].parentFields
+    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
+    visualizations.data?.rawVizData?.tree_map?.dataConfig.dimensions[0].parentFields
+      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].parentFields
       : [];
 
   const valueField =
-    visualizations.data?.rawVizData?.dataConfig?.metrics &&
-    visualizations.data?.rawVizData?.dataConfig.metrics[0].valueField
-      ? visualizations.data?.rawVizData?.dataConfig?.metrics[0].valueField
+    visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics &&
+    visualizations.data?.rawVizData?.tree_map?.dataConfig.metrics[0].valueField
+      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics[0].valueField
       : fields[0];
 
   const colorField =
