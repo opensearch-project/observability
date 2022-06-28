@@ -110,3 +110,31 @@ export const renderPieChart = () => {
     cy.get('[data-test-subj="comboBoxToggleListButton"]').eq(0).click();
     cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
 };
+
+export const renderDataConfig = () => {
+  cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Cofigurations');
+  cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions').should('exist');
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Aggregation');
+  cy.get('[data-test-subj="comboBoxSearchInput"]').eq(0).click();
+  cy.get('.euiComboBoxOption__content').eq(2).click();
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(1).contains('Field');
+  cy.get('[data-test-subj="comboBoxSearchInput"]').eq(1).click();
+  cy.get('.euiComboBoxOption__content').eq(1).click();
+  cy.get('.euiFieldText[placeholder="Custom label"]').eq(0).type('Average field');
+  cy.get('.euiTitle.euiTitle--xxsmall').eq(2).contains('Metrics').should('exist');
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Aggregation');
+  cy.get('.euiFormRow__fieldWrapper .euiComboBox').eq(2).click();
+  cy.get('.euiComboBoxOption__content').eq(4).click();
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(4).click();
+  cy.get('.euiComboBoxOption__content').eq(0).click();
+  cy.get('.euiFieldText[placeholder="Custom label"]').eq(1).type('Min field');
+  cy.get('.euiButton__text').contains('Right').click();
+  cy.get('[data-test-subj="visualizeEditorRenderButton"]').contains('Update chart').click();
+  cy.get('.js-plotly-plot').should('exist');
+};
+
+export const renderLineChart = () => {
+  landOnEventVisualizations();
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}');
+};

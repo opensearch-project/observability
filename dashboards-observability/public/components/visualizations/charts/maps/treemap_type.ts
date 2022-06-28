@@ -12,7 +12,6 @@ import {
   ConfigValueOptions,
   ColorPalettePicker,
   ConfigChartOptions,
-  ConfigTreemapParentFields,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 
@@ -45,32 +44,6 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
-          {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
-            schemas: [
-              {
-                name: 'Value Field',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'valueField',
-              },
-              {
-                name: 'Child Field',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'childField',
-              },
-              {
-                name: 'Parent Fields',
-                component: ConfigTreemapParentFields,
-                mapTo: 'parentFields',
-                defaultState: [],
-              },
-            ],
-          },
           {
             id: 'treemap_options',
             name: 'Treemap',

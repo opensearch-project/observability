@@ -820,56 +820,156 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
                             "schemas": Array [
                               Object {
                                 "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "xaxis",
-                                "name": "X-axis",
+                                "mapTo": "showLegend",
+                                "name": "Show Legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
                               },
                               Object {
                                 "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "yaxis",
-                                "name": "Y-axis",
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
                               },
                             ],
                           },
                           Object {
                             "editor": [Function],
-                            "id": "chart_options",
-                            "mapTo": "chartOptions",
-                            "name": "Chart options",
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
                             "schemas": Array [
                               Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "mode",
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "style",
                                 "name": "Mode",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
-                                      "modeId": "lines",
+                                      "id": "lines",
                                       "name": "Lines",
                                     },
                                   ],
-                                  "dropdownList": Array [
+                                  "options": Array [
                                     Object {
-                                      "modeId": "markers",
-                                      "name": "Markers",
-                                    },
-                                    Object {
-                                      "modeId": "lines",
+                                      "id": "lines",
                                       "name": "Lines",
                                     },
                                     Object {
-                                      "modeId": "lines+markers",
-                                      "name": "Lines + Markers",
+                                      "id": "bar",
+                                      "name": "Bars",
+                                    },
+                                    Object {
+                                      "id": "markers",
+                                      "name": "Points",
+                                    },
+                                    Object {
+                                      "id": "lines+markers",
+                                      "name": "Lines + Points",
                                     },
                                   ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "interpolation",
+                                "name": "Interpolation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "linear",
+                                      "name": "Linear",
+                                    },
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                    Object {
+                                      "id": "hv",
+                                      "name": "Step before",
+                                    },
+                                    Object {
+                                      "id": "vh",
+                                      "name": "Step after",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill Opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 5,
+                                "eleType": "slider",
+                                "mapTo": "pointSize",
+                                "name": "Point Size",
+                                "props": Object {
+                                  "max": 40,
                                 },
                               },
                             ],
@@ -1177,20 +1277,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "dataConfig",
                         "name": "Data",
                         "sections": Array [
-                          Object {
-                            "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "zaxis",
-                                "name": "Z-axis",
-                              },
-                            ],
-                          },
                           Object {
                             "editor": [Function],
                             "id": "chart_styles",
@@ -1606,32 +1692,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "dataConfig",
                         "name": "Data",
                         "sections": Array [
-                          Object {
-                            "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "valueField",
-                                "name": "Value Field",
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": true,
-                                "mapTo": "childField",
-                                "name": "Child Field",
-                              },
-                              Object {
-                                "component": [Function],
-                                "defaultState": Array [],
-                                "mapTo": "parentFields",
-                                "name": "Parent Fields",
-                              },
-                            ],
-                          },
                           Object {
                             "editor": [Function],
                             "id": "treemap_options",
@@ -9274,207 +9334,215 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       className="euiSpacer euiSpacer--s"
                                                     />
                                                   </EuiSpacer>
-                                                  <EuiButtonGroup
-                                                    buttonSize="compressed"
-                                                    id="random_html_id"
-                                                    idSelected="show"
-                                                    isFullWidth={false}
-                                                    legend="Show Legend"
-                                                    name="Show Legend"
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "id": "show",
-                                                          "label": "Show",
-                                                          "name": "Show",
-                                                        },
-                                                        Object {
-                                                          "id": "hidden",
-                                                          "label": "Hidden",
-                                                          "name": "Hidden",
-                                                        },
-                                                      ]
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "width": "fit-content",
+                                                      }
                                                     }
                                                   >
-                                                    <fieldset
-                                                      className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
-                                                      disabled={false}
+                                                    <EuiButtonGroup
+                                                      buttonSize="compressed"
                                                       id="random_html_id"
+                                                      idSelected="show"
+                                                      isFullWidth={false}
+                                                      legend="Show Legend"
+                                                      name="Show Legend"
+                                                      onChange={[Function]}
+                                                      options={
+                                                        Array [
+                                                          Object {
+                                                            "id": "show",
+                                                            "label": "Show",
+                                                            "name": "Show",
+                                                          },
+                                                          Object {
+                                                            "id": "hidden",
+                                                            "label": "Hidden",
+                                                            "name": "Hidden",
+                                                          },
+                                                        ]
+                                                      }
                                                     >
-                                                      <EuiScreenReaderOnly>
-                                                        <legend
-                                                          className="euiScreenReaderOnly"
-                                                        >
-                                                          Show Legend
-                                                        </legend>
-                                                      </EuiScreenReaderOnly>
-                                                      <div
-                                                        className="euiButtonGroup__buttons"
+                                                      <fieldset
+                                                        className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
+                                                        disabled={false}
+                                                        id="random_html_id"
                                                       >
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="show"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={true}
-                                                          key="0"
-                                                          label="Show"
-                                                          name="Show"
-                                                          onChange={[Function]}
-                                                          size="compressed"
+                                                        <EuiScreenReaderOnly>
+                                                          <legend
+                                                            className="euiScreenReaderOnly"
+                                                          >
+                                                            Show Legend
+                                                          </legend>
+                                                        </EuiScreenReaderOnly>
+                                                        <div
+                                                          className="euiButtonGroup__buttons"
                                                         >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className="euiButtonGroupButton-isSelected"
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="show"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Show",
-                                                                "ref": [Function],
-                                                                "title": "Show",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={true}
+                                                            key="0"
+                                                            label="Show"
+                                                            name="Show"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className="euiButtonGroupButton-isSelected"
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Show",
+                                                                  "ref": [Function],
+                                                                  "title": "Show",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Show",
-                                                                    "ref": [Function],
-                                                                    "title": "Show",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Show",
+                                                                      "ref": [Function],
+                                                                      "title": "Show",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Show"
-                                                                    title="Show"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={true}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="show"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Show"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Show
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Show"
+                                                                      title="Show"
+                                                                    >
+                                                                      <input
+                                                                        checked={true}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="show"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Show"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Show
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="hidden"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={false}
-                                                          key="1"
-                                                          label="Hidden"
-                                                          name="Hidden"
-                                                          onChange={[Function]}
-                                                          size="compressed"
-                                                        >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className=""
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="hidden"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Hidden",
-                                                                "ref": [Function],
-                                                                "title": "Hidden",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={false}
+                                                            key="1"
+                                                            label="Hidden"
+                                                            name="Hidden"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className=""
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Hidden",
+                                                                  "ref": [Function],
+                                                                  "title": "Hidden",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Hidden",
-                                                                    "ref": [Function],
-                                                                    "title": "Hidden",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Hidden",
+                                                                      "ref": [Function],
+                                                                      "title": "Hidden",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Hidden"
-                                                                    title="Hidden"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={false}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="hidden"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Hidden"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Hidden
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Hidden"
+                                                                      title="Hidden"
+                                                                    >
+                                                                      <input
+                                                                        checked={false}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="hidden"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Hidden"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Hidden
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                      </div>
-                                                    </fieldset>
-                                                  </EuiButtonGroup>
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                        </div>
+                                                      </fieldset>
+                                                    </EuiButtonGroup>
+                                                  </div>
                                                 </ButtonGroupItem>
                                                 <EuiSpacer
                                                   size="s"
@@ -9541,207 +9609,215 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       className="euiSpacer euiSpacer--s"
                                                     />
                                                   </EuiSpacer>
-                                                  <EuiButtonGroup
-                                                    buttonSize="compressed"
-                                                    id="random_html_id"
-                                                    idSelected="v"
-                                                    isFullWidth={false}
-                                                    legend="Position"
-                                                    name="Position"
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "id": "v",
-                                                          "label": "Right",
-                                                          "name": "Right",
-                                                        },
-                                                        Object {
-                                                          "id": "h",
-                                                          "label": "Bottom",
-                                                          "name": "Bottom",
-                                                        },
-                                                      ]
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "width": "fit-content",
+                                                      }
                                                     }
                                                   >
-                                                    <fieldset
-                                                      className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
-                                                      disabled={false}
+                                                    <EuiButtonGroup
+                                                      buttonSize="compressed"
                                                       id="random_html_id"
+                                                      idSelected="v"
+                                                      isFullWidth={false}
+                                                      legend="Position"
+                                                      name="Position"
+                                                      onChange={[Function]}
+                                                      options={
+                                                        Array [
+                                                          Object {
+                                                            "id": "v",
+                                                            "label": "Right",
+                                                            "name": "Right",
+                                                          },
+                                                          Object {
+                                                            "id": "h",
+                                                            "label": "Bottom",
+                                                            "name": "Bottom",
+                                                          },
+                                                        ]
+                                                      }
                                                     >
-                                                      <EuiScreenReaderOnly>
-                                                        <legend
-                                                          className="euiScreenReaderOnly"
-                                                        >
-                                                          Position
-                                                        </legend>
-                                                      </EuiScreenReaderOnly>
-                                                      <div
-                                                        className="euiButtonGroup__buttons"
+                                                      <fieldset
+                                                        className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
+                                                        disabled={false}
+                                                        id="random_html_id"
                                                       >
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="v"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={true}
-                                                          key="0"
-                                                          label="Right"
-                                                          name="Right"
-                                                          onChange={[Function]}
-                                                          size="compressed"
+                                                        <EuiScreenReaderOnly>
+                                                          <legend
+                                                            className="euiScreenReaderOnly"
+                                                          >
+                                                            Position
+                                                          </legend>
+                                                        </EuiScreenReaderOnly>
+                                                        <div
+                                                          className="euiButtonGroup__buttons"
                                                         >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className="euiButtonGroupButton-isSelected"
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="v"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Right",
-                                                                "ref": [Function],
-                                                                "title": "Right",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={true}
+                                                            key="0"
+                                                            label="Right"
+                                                            name="Right"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className="euiButtonGroupButton-isSelected"
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Right",
+                                                                  "ref": [Function],
+                                                                  "title": "Right",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Right",
-                                                                    "ref": [Function],
-                                                                    "title": "Right",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Right",
+                                                                      "ref": [Function],
+                                                                      "title": "Right",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Right"
-                                                                    title="Right"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={true}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="v"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Right"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Right
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Right"
+                                                                      title="Right"
+                                                                    >
+                                                                      <input
+                                                                        checked={true}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="v"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Right"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Right
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="h"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={false}
-                                                          key="1"
-                                                          label="Bottom"
-                                                          name="Bottom"
-                                                          onChange={[Function]}
-                                                          size="compressed"
-                                                        >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className=""
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="h"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Bottom",
-                                                                "ref": [Function],
-                                                                "title": "Bottom",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={false}
+                                                            key="1"
+                                                            label="Bottom"
+                                                            name="Bottom"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className=""
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Bottom",
+                                                                  "ref": [Function],
+                                                                  "title": "Bottom",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Bottom",
-                                                                    "ref": [Function],
-                                                                    "title": "Bottom",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Bottom",
+                                                                      "ref": [Function],
+                                                                      "title": "Bottom",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Bottom"
-                                                                    title="Bottom"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={false}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="h"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Bottom"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Bottom
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Bottom"
+                                                                      title="Bottom"
+                                                                    >
+                                                                      <input
+                                                                        checked={false}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="h"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Bottom"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Bottom
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                      </div>
-                                                    </fieldset>
-                                                  </EuiButtonGroup>
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                        </div>
+                                                      </fieldset>
+                                                    </EuiButtonGroup>
+                                                  </div>
                                                 </ButtonGroupItem>
                                                 <EuiSpacer
                                                   size="s"
@@ -10512,207 +10588,215 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       className="euiSpacer euiSpacer--s"
                                                     />
                                                   </EuiSpacer>
-                                                  <EuiButtonGroup
-                                                    buttonSize="compressed"
-                                                    id="random_html_id"
-                                                    idSelected="v"
-                                                    isFullWidth={false}
-                                                    legend="Orientation"
-                                                    name="Orientation"
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "id": "v",
-                                                          "label": "Vertical",
-                                                          "name": "Vertical",
-                                                        },
-                                                        Object {
-                                                          "id": "h",
-                                                          "label": "Horizontal",
-                                                          "name": "Horizontal",
-                                                        },
-                                                      ]
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "width": "fit-content",
+                                                      }
                                                     }
                                                   >
-                                                    <fieldset
-                                                      className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
-                                                      disabled={false}
+                                                    <EuiButtonGroup
+                                                      buttonSize="compressed"
                                                       id="random_html_id"
+                                                      idSelected="v"
+                                                      isFullWidth={false}
+                                                      legend="Orientation"
+                                                      name="Orientation"
+                                                      onChange={[Function]}
+                                                      options={
+                                                        Array [
+                                                          Object {
+                                                            "id": "v",
+                                                            "label": "Vertical",
+                                                            "name": "Vertical",
+                                                          },
+                                                          Object {
+                                                            "id": "h",
+                                                            "label": "Horizontal",
+                                                            "name": "Horizontal",
+                                                          },
+                                                        ]
+                                                      }
                                                     >
-                                                      <EuiScreenReaderOnly>
-                                                        <legend
-                                                          className="euiScreenReaderOnly"
-                                                        >
-                                                          Orientation
-                                                        </legend>
-                                                      </EuiScreenReaderOnly>
-                                                      <div
-                                                        className="euiButtonGroup__buttons"
+                                                      <fieldset
+                                                        className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
+                                                        disabled={false}
+                                                        id="random_html_id"
                                                       >
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="v"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={true}
-                                                          key="0"
-                                                          label="Vertical"
-                                                          name="Vertical"
-                                                          onChange={[Function]}
-                                                          size="compressed"
+                                                        <EuiScreenReaderOnly>
+                                                          <legend
+                                                            className="euiScreenReaderOnly"
+                                                          >
+                                                            Orientation
+                                                          </legend>
+                                                        </EuiScreenReaderOnly>
+                                                        <div
+                                                          className="euiButtonGroup__buttons"
                                                         >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className="euiButtonGroupButton-isSelected"
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="v"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Vertical",
-                                                                "ref": [Function],
-                                                                "title": "Vertical",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={true}
+                                                            key="0"
+                                                            label="Vertical"
+                                                            name="Vertical"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className="euiButtonGroupButton-isSelected"
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Vertical",
+                                                                  "ref": [Function],
+                                                                  "title": "Vertical",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Vertical",
-                                                                    "ref": [Function],
-                                                                    "title": "Vertical",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Vertical",
+                                                                      "ref": [Function],
+                                                                      "title": "Vertical",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Vertical"
-                                                                    title="Vertical"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={true}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="v"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Vertical"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Vertical
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Vertical"
+                                                                      title="Vertical"
+                                                                    >
+                                                                      <input
+                                                                        checked={true}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="v"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Vertical"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Vertical
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="h"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={false}
-                                                          key="1"
-                                                          label="Horizontal"
-                                                          name="Horizontal"
-                                                          onChange={[Function]}
-                                                          size="compressed"
-                                                        >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className=""
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="h"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Horizontal",
-                                                                "ref": [Function],
-                                                                "title": "Horizontal",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={false}
+                                                            key="1"
+                                                            label="Horizontal"
+                                                            name="Horizontal"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className=""
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Horizontal",
+                                                                  "ref": [Function],
+                                                                  "title": "Horizontal",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Horizontal",
-                                                                    "ref": [Function],
-                                                                    "title": "Horizontal",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Horizontal",
+                                                                      "ref": [Function],
+                                                                      "title": "Horizontal",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Horizontal"
-                                                                    title="Horizontal"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={false}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="h"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Horizontal"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Horizontal
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Horizontal"
+                                                                      title="Horizontal"
+                                                                    >
+                                                                      <input
+                                                                        checked={false}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="h"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Horizontal"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Horizontal
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                      </div>
-                                                    </fieldset>
-                                                  </EuiButtonGroup>
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                        </div>
+                                                      </fieldset>
+                                                    </EuiButtonGroup>
+                                                  </div>
                                                 </ButtonGroupItem>
                                                 <EuiSpacer
                                                   size="s"
@@ -10779,207 +10863,215 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       className="euiSpacer euiSpacer--s"
                                                     />
                                                   </EuiSpacer>
-                                                  <EuiButtonGroup
-                                                    buttonSize="compressed"
-                                                    id="random_html_id"
-                                                    idSelected="group"
-                                                    isFullWidth={false}
-                                                    legend="Mode"
-                                                    name="Mode"
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "id": "group",
-                                                          "label": "Group",
-                                                          "name": "Group",
-                                                        },
-                                                        Object {
-                                                          "id": "stack",
-                                                          "label": "Stack",
-                                                          "name": "Stack",
-                                                        },
-                                                      ]
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "width": "fit-content",
+                                                      }
                                                     }
                                                   >
-                                                    <fieldset
-                                                      className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
-                                                      disabled={false}
+                                                    <EuiButtonGroup
+                                                      buttonSize="compressed"
                                                       id="random_html_id"
+                                                      idSelected="group"
+                                                      isFullWidth={false}
+                                                      legend="Mode"
+                                                      name="Mode"
+                                                      onChange={[Function]}
+                                                      options={
+                                                        Array [
+                                                          Object {
+                                                            "id": "group",
+                                                            "label": "Group",
+                                                            "name": "Group",
+                                                          },
+                                                          Object {
+                                                            "id": "stack",
+                                                            "label": "Stack",
+                                                            "name": "Stack",
+                                                          },
+                                                        ]
+                                                      }
                                                     >
-                                                      <EuiScreenReaderOnly>
-                                                        <legend
-                                                          className="euiScreenReaderOnly"
-                                                        >
-                                                          Mode
-                                                        </legend>
-                                                      </EuiScreenReaderOnly>
-                                                      <div
-                                                        className="euiButtonGroup__buttons"
+                                                      <fieldset
+                                                        className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
+                                                        disabled={false}
+                                                        id="random_html_id"
                                                       >
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="group"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={true}
-                                                          key="0"
-                                                          label="Group"
-                                                          name="Group"
-                                                          onChange={[Function]}
-                                                          size="compressed"
+                                                        <EuiScreenReaderOnly>
+                                                          <legend
+                                                            className="euiScreenReaderOnly"
+                                                          >
+                                                            Mode
+                                                          </legend>
+                                                        </EuiScreenReaderOnly>
+                                                        <div
+                                                          className="euiButtonGroup__buttons"
                                                         >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className="euiButtonGroupButton-isSelected"
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="group"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Group",
-                                                                "ref": [Function],
-                                                                "title": "Group",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={true}
+                                                            key="0"
+                                                            label="Group"
+                                                            name="Group"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className="euiButtonGroupButton-isSelected"
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Group",
+                                                                  "ref": [Function],
+                                                                  "title": "Group",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Group",
-                                                                    "ref": [Function],
-                                                                    "title": "Group",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Group",
+                                                                      "ref": [Function],
+                                                                      "title": "Group",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Group"
-                                                                    title="Group"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={true}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="group"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Group"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Group
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Group"
+                                                                      title="Group"
+                                                                    >
+                                                                      <input
+                                                                        checked={true}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="group"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Group"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Group
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                        <EuiButtonGroupButton
-                                                          color="text"
-                                                          element="label"
-                                                          id="stack"
-                                                          isDisabled={false}
-                                                          isIconOnly={false}
-                                                          isSelected={false}
-                                                          key="1"
-                                                          label="Stack"
-                                                          name="Stack"
-                                                          onChange={[Function]}
-                                                          size="compressed"
-                                                        >
-                                                          <EuiButtonDisplay
-                                                            baseClassName="euiButtonGroupButton"
-                                                            className=""
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                          <EuiButtonGroupButton
                                                             color="text"
                                                             element="label"
-                                                            fill={false}
-                                                            htmlFor="random_html_id"
+                                                            id="stack"
                                                             isDisabled={false}
-                                                            onClick={[Function]}
-                                                            size="s"
-                                                            textProps={
-                                                              Object {
-                                                                "className": "euiButtonGroupButton__textShift",
-                                                                "data-text": "Stack",
-                                                                "ref": [Function],
-                                                                "title": "Stack",
-                                                              }
-                                                            }
+                                                            isIconOnly={false}
+                                                            isSelected={false}
+                                                            key="1"
+                                                            label="Stack"
+                                                            name="Stack"
+                                                            onChange={[Function]}
+                                                            size="compressed"
                                                           >
-                                                            <label
-                                                              className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                                                              disabled={false}
+                                                            <EuiButtonDisplay
+                                                              baseClassName="euiButtonGroupButton"
+                                                              className=""
+                                                              color="text"
+                                                              element="label"
+                                                              fill={false}
                                                               htmlFor="random_html_id"
+                                                              isDisabled={false}
                                                               onClick={[Function]}
-                                                              style={
+                                                              size="s"
+                                                              textProps={
                                                                 Object {
-                                                                  "minWidth": undefined,
+                                                                  "className": "euiButtonGroupButton__textShift",
+                                                                  "data-text": "Stack",
+                                                                  "ref": [Function],
+                                                                  "title": "Stack",
                                                                 }
                                                               }
                                                             >
-                                                              <EuiButtonContent
-                                                                className="euiButton__content"
-                                                                iconSide="left"
-                                                                textProps={
+                                                              <label
+                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                                                                disabled={false}
+                                                                htmlFor="random_html_id"
+                                                                onClick={[Function]}
+                                                                style={
                                                                   Object {
-                                                                    "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                    "data-text": "Stack",
-                                                                    "ref": [Function],
-                                                                    "title": "Stack",
+                                                                    "minWidth": undefined,
                                                                   }
                                                                 }
                                                               >
-                                                                <span
-                                                                  className="euiButtonContent euiButton__content"
+                                                                <EuiButtonContent
+                                                                  className="euiButton__content"
+                                                                  iconSide="left"
+                                                                  textProps={
+                                                                    Object {
+                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
+                                                                      "data-text": "Stack",
+                                                                      "ref": [Function],
+                                                                      "title": "Stack",
+                                                                    }
+                                                                  }
                                                                 >
                                                                   <span
-                                                                    className="euiButton__text euiButtonGroupButton__textShift"
-                                                                    data-text="Stack"
-                                                                    title="Stack"
+                                                                    className="euiButtonContent euiButton__content"
                                                                   >
-                                                                    <input
-                                                                      checked={false}
-                                                                      className="euiScreenReaderOnly"
-                                                                      data-test-subj="stack"
-                                                                      disabled={false}
-                                                                      id="random_html_id"
-                                                                      name="Stack"
-                                                                      onChange={[Function]}
-                                                                      type="radio"
-                                                                    />
-                                                                    Stack
+                                                                    <span
+                                                                      className="euiButton__text euiButtonGroupButton__textShift"
+                                                                      data-text="Stack"
+                                                                      title="Stack"
+                                                                    >
+                                                                      <input
+                                                                        checked={false}
+                                                                        className="euiScreenReaderOnly"
+                                                                        data-test-subj="stack"
+                                                                        disabled={false}
+                                                                        id="random_html_id"
+                                                                        name="Stack"
+                                                                        onChange={[Function]}
+                                                                        type="radio"
+                                                                      />
+                                                                      Stack
+                                                                    </span>
                                                                   </span>
-                                                                </span>
-                                                              </EuiButtonContent>
-                                                            </label>
-                                                          </EuiButtonDisplay>
-                                                        </EuiButtonGroupButton>
-                                                      </div>
-                                                    </fieldset>
-                                                  </EuiButtonGroup>
+                                                                </EuiButtonContent>
+                                                              </label>
+                                                            </EuiButtonDisplay>
+                                                          </EuiButtonGroupButton>
+                                                        </div>
+                                                      </fieldset>
+                                                    </EuiButtonGroup>
+                                                  </div>
                                                 </ButtonGroupItem>
                                                 <EuiSpacer
                                                   size="s"
