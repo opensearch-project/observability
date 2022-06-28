@@ -35,9 +35,12 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   });
 
   useEffect(() => {
-    if (data.rawVizData?.dataConfig) {
+    if (
+      data.rawVizData?.[visualizations.vis.name] &&
+      data.rawVizData?.[visualizations.vis.name].dataConfig
+    ) {
       setConfigList({
-        ...data.rawVizData?.dataConfig,
+        ...data.rawVizData[visualizations.vis.name].dataConfig,
       });
     } else if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
       const { xaxis, yaxis } = data.defaultAxes;
@@ -46,12 +49,22 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         metrics: [{ valueField: { ...yaxis[0] } }],
       });
     }
-  }, [data.defaultAxes, data.rawVizData?.dataConfig]);
+  }, [
+    data.defaultAxes,
+    data.rawVizData?.[visualizations.vis.name]?.dataConfig,
+    visualizations.vis.name,
+  ]);
 
-  const updateList = (configName: string, fieldName: string, field) => {
+  const updateList = (configName: string, fieldName: string, value: string | any[]) => {
     let list = { ...configList };
     let listItem = { ...list[configName][0] };
-    listItem = { ...listItem, [fieldName]: field };
+
+    const newField = {
+      label: value,
+      name: value,
+      type: value !== '' ? fields.find((x) => x.name === value)?.type : '',
+    };
+    listItem = { ...listItem, [fieldName]: typeof value === 'string' ? newField : value };
     const newList = {
       ...list,
       [configName]: [listItem],
@@ -65,9 +78,11 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         tabId: tabID,
         data: {
           ...explorerVisualizations,
-          dataConfig: {
-            metrics: configList.metrics,
-            dimensions: configList.dimensions,
+          [visualizations.vis.name]: {
+            dataConfig: {
+              metrics: configList.metrics,
+              dimensions: configList.dimensions,
+            },
           },
         },
       })
@@ -89,9 +104,13 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
             <EuiComboBox
               placeholder="Select a field"
               options={fieldOptionList}
-              selectedOptions={[configList.dimensions[0].childField]}
+              selectedOptions={
+                configList.dimensions[0].childField ? [configList.dimensions[0].childField] : []
+              }
               singleSelection={{ asPlainText: true }}
-              onChange={(val) => updateList('dimensions', 'childField', val[0])}
+              onChange={(val) =>
+                updateList('dimensions', 'childField', val.length > 0 ? val[0].label : '')
+              }
             />
           </EuiFormRow>
 
@@ -113,9 +132,13 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
             <EuiComboBox
               placeholder="Select a field"
               options={fieldOptionList}
-              selectedOptions={[configList.metrics[0].valueField]}
+              selectedOptions={
+                configList.metrics[0].valueField ? [configList.metrics[0].valueField] : []
+              }
               singleSelection={{ asPlainText: true }}
-              onChange={(val) => updateList('metrics', 'valueField', val[0])}
+              onChange={(val) =>
+                updateList('metrics', 'valueField', val.length > 0 ? val[0].label : '')
+              }
             />
           </EuiFormRow>
         </EuiPanel>
