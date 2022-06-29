@@ -52,6 +52,8 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
+  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
+
   const areParentFieldsInvalid =
     new Set([...parentFields.map((x) => x.name)]).size !== parentFields.length ||
     parentFields.some((x) => isEmpty(data[x.name]) || isEqual(childField.name, x.name));
@@ -140,6 +142,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
             colorbar: {
               len: 1,
             },
+            showscale: showColorscale === 'show',
           }
         : {};
 
