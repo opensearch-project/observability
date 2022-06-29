@@ -169,4 +169,5 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   LegendPosition: 'v'
 }
 
-export const FILLOPACITY_DIV_FACTOR = 200; 
+export const FILLOPACITY_DIV_FACTOR = 200;
+export const HISTOGRAM_CHART_MODE = 'group';

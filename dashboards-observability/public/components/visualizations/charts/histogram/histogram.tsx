@@ -10,6 +10,7 @@ import {
   DefaultChartStyles,
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
+  HISTOGRAM_CHART_MODE,
 } from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 
@@ -82,7 +83,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    barmode: 'group',
+    barmode: HISTOGRAM_CHART_MODE,
     legend: {
       ...layout.legend,
       orientation: legendPosition,
