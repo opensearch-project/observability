@@ -16,6 +16,8 @@ import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
 import { TabContext } from '../../hooks';
+import { visChartTypes } from '../../../../../common/constants/shared';
+import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -51,13 +53,13 @@ export const ExplorerVisualizations = ({
 
   const fieldOptionList = fields.map((name) => {
     return { label: name.name };
-  });
+  })
 
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={15} minSize="240px" mode="collapsible">
+          <EuiResizablePanel initialSize={17} minSize="300" mode="collapsible">
             <div className="dscFieldChooser">
               <Sidebar
                 query={query}
@@ -72,22 +74,25 @@ export const ExplorerVisualizations = ({
             </div>
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel
-            mode={['collapsible', {
-              'data-test-subj': 'panel-1-toggle',
-              className: 'panel-toggle',
-              position: 'top',
-            }]}
-            initialSize={15}
-            minSize="240px"
-            style={{ border: '1px solid #D3DAE6', padding: '0px' }}
-          >
+          <EuiResizablePanel mode={['collapsible', {
+            'data-test-subj': 'panel-1-toggle',
+            className: 'panel-toggle',
+            position: 'top',
+          }]} initialSize={14} minSize="300" style={{ border: "1px solid #D3DAE6", padding: '0px' }}>
             <div className="">
-              <DataConfigPanelItem
-                fieldOptionList={fieldOptionList}
-                visualizations={visualizations}
-                tabID={tabId}
-              />
+              {curVisId === visChartTypes.TreeMap ? (
+                <TreemapConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              ) : (
+                <DataConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              )}
             </div>
           </EuiResizablePanel>
 

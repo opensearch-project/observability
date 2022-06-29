@@ -16,11 +16,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = visualizations.data?.rawVizData?.dataConfig?.dimensions
-    ? visualizations.data?.rawVizData?.dataConfig?.dimensions
+  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
     : [];
-  const yaxis = visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.dataConfig?.metrics
+  const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
     : [];
   const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
