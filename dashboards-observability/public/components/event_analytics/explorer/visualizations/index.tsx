@@ -73,7 +73,11 @@ export const ExplorerVisualizations = ({
           </EuiResizablePanel>
           <EuiResizableButton />
           <EuiResizablePanel
-            mode="collapsible"
+            mode={['collapsible', {
+              'data-test-subj': 'panel-1-toggle',
+              className: 'panel-toggle',
+              position: 'top',
+            }]}
             initialSize={15}
             minSize="240px"
             style={{ border: '1px solid #D3DAE6', padding: '0px' }}
