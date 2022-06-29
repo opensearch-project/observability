@@ -24,7 +24,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const dataConfigTab = visualizations.data?.rawVizData?.line?.dataConfig && visualizations.data.rawVizData.line.dataConfig;
+  const dataConfigTab = visualizations.data?.rawVizData?.dataConfig && visualizations.data.rawVizData.dataConfig;
   const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
   const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
 
