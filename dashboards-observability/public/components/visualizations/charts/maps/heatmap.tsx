@@ -29,9 +29,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const xaxisField = visualizations.data?.rawVizData?.dataConfig?.dimensions[0];
-  const yaxisField = visualizations.data?.rawVizData?.dataConfig?.dimensions[1];
-  const zMetrics = visualizations.data?.rawVizData?.dataConfig?.metrics[0];
+  const xaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[0];
+  const yaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[1];
+  const zMetrics = visualizations.data?.rawVizData?.heatmap?.dataConfig?.metrics[0];
 
   if (
     isEmpty(xaxisField) ||
