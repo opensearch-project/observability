@@ -156,7 +156,8 @@ export interface DefaultChartStylesProps {
   FillOpacity: number,
   MarkerSize: number,
   ShowLegend: string,
-  LegendPosition: string
+  LegendPosition: string,
+  SortSectors: string,
 };
 
 export const DefaultChartStyles: DefaultChartStylesProps = {
@@ -166,7 +167,8 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   FillOpacity: 40,
   MarkerSize: 5,
   ShowLegend: 'show',
-  LegendPosition: 'v'
+  LegendPosition: 'v',
+  SortSectors: 'largest_to_smallest',
 }
 
 export const FILLOPACITY_DIV_FACTOR = 200; 

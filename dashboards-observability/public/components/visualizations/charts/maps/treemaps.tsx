@@ -14,8 +14,11 @@ import {
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
+  const { SortSectors } = DefaultChartStyles;
+
   const {
     data,
     metadata: { fields },
@@ -51,6 +54,8 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     !isEmpty(dataConfig?.treemapOptions.tilingAlgorithm)
       ? dataConfig?.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
+
+  const sortSectors = dataConfig?.treemapOptions?.sort_sectors || SortSectors;
 
   const areParentFieldsInvalid =
     new Set([...parentFields.map((x) => x.name)]).size !== parentFields.length ||
@@ -163,6 +168,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
           packing: tilingAlgorithm.value,
         },
         marker: markerColors,
+        sort: sortSectors === SortSectors,
       },
     ];
 
