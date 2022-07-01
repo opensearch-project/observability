@@ -865,7 +865,7 @@ describe('Renders chart and verify Toast message if X-axis and Y-axis values are
   });
 });
 
-describe.only('Renders Tree Map', () => {
+describe('Renders Tree Map', () => {
   beforeEach(() => {
     landOnEventVisualizations();
     renderTreeMapchart();
@@ -1011,7 +1011,7 @@ describe.only('Renders Tree Map', () => {
   
 });
 
-describe.only('Render Pie chart for Legend and single color contrast change', () => {
+describe('Render Pie chart for Legend and single color contrast change', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
@@ -1164,4 +1164,3 @@ describe('Render Table View', () => {
     cy.get('.euiContextMenuItem__text').eq(1).click();
   });
 });
-
