@@ -17,9 +17,19 @@ import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } fr
 import { convertLegacyNotebooksUrl } from './components/notebooks/components/helpers/legacy_route_helpers';
 import { convertLegacyTraceAnalyticsUrl } from './components/trace_analytics/components/common/legacy_route_helpers';
 import { uiSettingsService } from '../common/utils';
-
+import { DashboardSetup } from '../../../src/plugins/dashboard/public';
+import { CUSTOM_PANELS_API_PREFIX } from '../common/constants/custom_panels';
+import { PluginInitializerContext } from '../../../src/core/server';
+import { DashboardListItem, DashboardListProviderFn } from '../../../src/plugins/dashboard/public/application/legacy_app';
+import {from} from 'rxjs'
+import {map, toArray, catchError, mergeMap} from 'rxjs/operators'
+import { DashboardListing } from '../../../src/plugins/dashboard/public/application/listing/dashboard_listing';
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
-  public setup(core: CoreSetup): ObservabilitySetup {
+  constructor(private initializerContext: PluginInitializerContext) { }
+
+  public setup(core: CoreSetup,
+    { dashboard }: { dashboard?: DashboardSetup }): ObservabilitySetup {
+
     uiSettingsService.init(core.uiSettings, core.notifications);
 
     // redirect legacy notebooks URL to current URL under observability
@@ -31,6 +41,38 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
     if (window.location.pathname.includes('trace-analytics-dashboards')) {
       window.location.assign(convertLegacyTraceAnalyticsUrl(window.location));
     }
+
+    // Fetches all saved Custom Panels
+    const fetchPanelsList: DashboardListProviderFn = () => {
+      return from(core.http
+          .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
+        )
+        .pipe(
+
+          catchError(err => {
+            console.error('Issue in fetching the operational panels', err.body.message);
+            return from([])
+          }),
+
+          mergeMap(res => res.panels),
+          map(convertListItemToDashboardListItem),
+          toArray()
+
+        ).toPromise()
+    };
+
+    const convertListItemToDashboardListItem = (item: any): DashboardListItem => {
+      return {
+        id: item.id, title: item.name, description: "...", url: "/observability",
+        listType: "observabiliity-panel"
+      }
+    }
+
+    const id: string = this.initializerContext.opaqueId.description!;
+
+    dashboard?.registerDashboardListSource(id, fetchPanelsList);
+
+    console.log("Observability setup", { dashboard });
 
     core.application.register({
       id: observabilityID,
@@ -61,10 +103,15 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
     });
 
     // Return methods that should be available to other plugins
-    return {};
+    return {
+      someOtherValue: () => "Hello",
+      register: () => {
+        console.log("Registering Observability Plugin to parent plugin context")
+      }
+    };
   }
   public start(core: CoreStart): ObservabilityStart {
     return {};
   }
-  public stop() {}
+  public stop() { }
 }
