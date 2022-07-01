@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import {
   EuiTitle,
   EuiComboBox,
@@ -28,6 +28,7 @@ import { ConfigList } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
+
   const dispatch = useDispatch();
   const { tabId } = useContext<any>(TabContext);
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
@@ -132,6 +133,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     (visualizations.vis.name === visChartTypes.Line ||
       visualizations.vis.name === visChartTypes.Bar);
 
+  const optionsAvailable = useMemo(() => {
+    let selectedFields = {};
+    for (const key in configList) {
+      configList[key] && configList[key].forEach((field) => selectedFields[field.label] = true)
+    }
+    return fieldOptionList.filter((field) => !selectedFields[field.label]);
+  }, [configList, fieldOptionList]);
+
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
     lists.map((singleField, index: number) => (
@@ -177,7 +186,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   aria-label="Accessible screen reader label"
                   placeholder="Select a field"
                   singleSelection={{ asPlainText: true }}
-                  options={fieldOptionList}
+                  options={optionsAvailable}
                   selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
                   onChange={(e) =>
                     updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
