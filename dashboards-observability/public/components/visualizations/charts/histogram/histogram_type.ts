@@ -5,13 +5,20 @@
 
 import { Histogram } from './histogram';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
-import { LensIconChartLine } from '../../assets/chart_line';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ConfigChartOptions,
+  ConfigLegend,
+  SliderConfig,
+  ConfigColorTheme,
+  ConfigThresholds,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { LineWidth, FillOpacity, ShowLegend, LegendPosition } = DefaultChartStyles;
 
 export const createHistogramVisDefinition = (params = {}) => ({
   name: 'histogram',
@@ -24,7 +31,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
     dataLoss: 'nothing',
   },
   valueSeries: 'yaxis',
-  icon: LensIconChartLine,
+  iconType: 'visArea',
   editorConfig: {
     panelTabs: [
       {
@@ -34,24 +41,79 @@ export const createHistogramVisDefinition = (params = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
+            id: 'chart-styles',
+            name: 'Chart styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'X-axis',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'xaxis',
+                name: 'Line width',
+                component: SliderConfig,
+                mapTo: 'lineWidth',
+                defaultState: LineWidth,
+                eleType: 'slider',
+                props: {
+                  max: 10,
+                },
               },
               {
-                name: 'Y-axis',
-                isSingleSelection: false,
-                component: null,
-                mapTo: 'yaxis',
+                name: 'Fill Opacity',
+                component: SliderConfig,
+                mapTo: 'fillOpacity',
+                defaultState: FillOpacity,
+                eleType: 'slider',
+                props: {
+                  max: 100,
+                },
               },
             ],
+          },
+          {
+            id: 'color-theme',
+            name: 'Color Theme',
+            editor: ConfigColorTheme,
+            mapTo: 'colorTheme',
+            schemas: [],
+          },
+          {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
+                },
+              },
+            ],
+          },
+          {
+            id: 'thresholds',
+            name: 'Thresholds',
+            editor: ConfigThresholds,
+            mapTo: 'thresholds',
+            defaultState: [],
+            schemas: [],
           },
         ],
       },

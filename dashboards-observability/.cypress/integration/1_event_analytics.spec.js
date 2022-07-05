@@ -21,7 +21,8 @@ import {
   renderTreeMapchart,
   renderPieChart,
   renderLineChartForDataConfig,
-  DataConfigLineChart
+  DataConfigLineChart,
+  renderHistogramChart
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
@@ -855,5 +856,27 @@ describe('Render Time series chart/Line chart and verify Data configurations UI 
   it('Render line chart and verify Data Configuration Panel', () => {
     renderLineChartForDataConfig();
     DataConfigLineChart();
+  });
+});
+
+describe('Renders Histogram chart', () =>{
+  beforeEach(() => {
+    landOnEventVisualizations();
+});
+
+it('Renders Histogram chart and save visualization', () => {
+  renderHistogramChart();
+    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
+    cy.wait(delay);
+    saveVisualizationAndVerify();
+  });
+
+ it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
+  deleteVisualization();
+ })
+
+ it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
+  renderHistogramChart();
+    cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
   });
 });

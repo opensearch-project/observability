@@ -15,6 +15,8 @@ import {
   EuiIcon,
   EuiPanel,
   EuiText,
+  EuiFieldNumber,
+  htmlIdGenerator,
 } from '@elastic/eui';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -56,6 +58,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       });
     } else if (
       visualizations.vis.name !== visChartTypes.HeatMap &&
+      visualizations.vis.name !== visChartTypes.Histogram &&
       (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
     ) {
       const { xaxis, yaxis } = data.defaultAxes;
@@ -63,10 +66,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         dimensions: [...(xaxis && xaxis)],
         metrics: [...(yaxis && yaxis)],
       });
-    } else {
+    } else if (visualizations.vis.name === visChartTypes.HeatMap) {
       setConfigList({
         dimensions: [initialConfigEntry, initialConfigEntry],
         metrics: [initialConfigEntry],
+      });
+    } else {
+      setConfigList({
+        dimensions: [{ bucketSize: '', bucketOffset: '' }],
       });
     }
   }, [
@@ -94,6 +101,20 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         ...list[name].slice(index + 1, list[name].length),
       ],
     };
+    setConfigList(newList);
+  };
+
+  const updateHistogramConfig = (configName: string, fieldName: string, value: string) => {
+    const list = { ...configList };
+    console.log(value, 'Valueee');
+    let listItem = { ...list[configName][0] };
+    console.log(listItem, 'Listitem');
+    listItem[fieldName] = value;
+    const newList = {
+      ...list,
+      [configName]: [listItem],
+    };
+    console.log(newList, 'New List');
     setConfigList(newList);
   };
 
@@ -228,22 +249,53 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       </>
     ));
 
+  const getNumberField = (type: string) => (
+    <>
+      <EuiFieldNumber
+        id={htmlIdGenerator('input-number')()}
+        fullWidth
+        placeholder="auto"
+        value={configList.dimensions[0][type] ? configList.dimensions[0][type] : ''}
+        onChange={(e) => updateHistogramConfig('dimensions', type, e.target.value)}
+        data-test-subj="valueFieldNumber"
+      />
+      <EuiSpacer size="s" />
+    </>
+  );
+
   return (
     <>
       <EuiTitle size="xxs">
         <h3>Data Configurations</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
-        <h3>Dimensions</h3>
-      </EuiTitle>
-      {getCommonUI(configList.dimensions, 'dimensions')}
+      {visualizations.vis.name !== visChartTypes.Histogram ? (
+        <>
+          <EuiTitle size="xxs">
+            <h3>Dimensions</h3>
+          </EuiTitle>
+          {getCommonUI(configList.dimensions, 'dimensions')}
 
-      <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
-        <h3>Metrics</h3>
-      </EuiTitle>
-      {getCommonUI(configList.metrics, 'metrics')}
+          <EuiSpacer size="s" />
+          <EuiTitle size="xxs">
+            <h3>Metrics</h3>
+          </EuiTitle>
+          {getCommonUI(configList.metrics, 'metrics')}
+        </>
+      ) : (
+        <>
+          <EuiTitle size="xxs">
+            <h3>Bucket Size</h3>
+          </EuiTitle>
+          {getNumberField('bucketSize')}
+
+          <EuiSpacer size="s" />
+          <EuiTitle size="xxs">
+            <h3>Bucket Offset</h3>
+          </EuiTitle>
+          {getNumberField('bucketOffset')}
+        </>
+      )}
 
       <EuiFlexItem grow={false}>
         <EuiButton

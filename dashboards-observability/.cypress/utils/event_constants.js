@@ -138,3 +138,17 @@ export const renderLineChart = () => {
   querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}');
 };
+
+export const renderHistogramChart = () => {
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Histogram').type('{enter}');
+  cy.wait(delay);
+    cy.get('g.draglayer.cursor-crosshair').should('exist');
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Histogram chart');
+    cy.get('.euiIEFlexWrapFix').eq(1).contains('Chart Styles').should('exist');
+    cy.get('.euiFormLabel.euiFormRow__label').eq(2).contains('Bucket Size');
+    cy.get('.euiFieldNumber').eq(0).type('4');
+    cy.get('.euiFormLabel.euiFormRow__label').eq(3).contains('Bucket Offset');
+    cy.get('.euiFieldNumber').eq(0).type('6');
+};

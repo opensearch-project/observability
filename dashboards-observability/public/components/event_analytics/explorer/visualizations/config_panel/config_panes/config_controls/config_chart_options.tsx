@@ -17,6 +17,7 @@ export const ConfigChartOptions = ({
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+  console.log(vizState, 'VizState');
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -89,6 +90,15 @@ export const ConfigChartOptions = ({
             title: schema.name,
             currentValue: vizState[schema.mapTo] || '',
             handleInputChange: handleConfigurationChange(schema.mapTo),
+            vizState,
+            ...schema.props,
+          };
+        } else if (schema.eleType === 'slider') {
+          params = {
+            maxRange: schema.props.max,
+            title: schema.name,
+            currentRange: vizState[schema.mapTo] || schema?.defaultState,
+            handleSliderChange: handleConfigurationChange(schema.mapTo),
             vizState,
             ...schema.props,
           };
