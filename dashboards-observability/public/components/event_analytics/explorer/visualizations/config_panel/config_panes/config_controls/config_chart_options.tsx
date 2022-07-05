@@ -92,6 +92,27 @@ export const ConfigChartOptions = ({
             vizState,
             ...schema.props,
           };
+        } else if (schema.eleType === 'switchButton') {
+          params = {
+            title: schema.name,
+            currentValue: vizState[schema.mapTo],
+            onToggle: handleConfigurationChange(schema.mapTo),
+            vizState,
+            ...schema.props,
+          };
+        } else if (schema.eleType === 'buttons') {
+          params = {
+            title: schema.name,
+            legend: schema.name,
+            groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
+              ...btn,
+              label: btn.name,
+            })),
+            idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
+            handleButtonChange: handleConfigurationChange(schema.mapTo),
+            vizState,
+            ...schema.props,
+          };
         } else {
           params = {
             paddingTitle: schema.name,
