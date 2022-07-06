@@ -90,7 +90,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   };
 
   return (
-    <>
+    <div style={{ height: 'auto' }}>
       <EuiTitle size="xxs">
         <h3>Data Configurations</h3>
       </EuiTitle>
@@ -155,6 +155,6 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
           Update chart
         </EuiButton>
       </EuiFlexItem>
-    </>
+    </div>
   );
 };

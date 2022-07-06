@@ -32,6 +32,14 @@
   flex-grow: 1;
 }
 
+.containerPanel {
+  padding: 16px 16px 0 16px;
+}
+
+.dataConfigContainer {
+  min-height: 1250px;
+}
+
 .lensChartIcon__subdued {
   fill: $euiTextSubduedColor;
 

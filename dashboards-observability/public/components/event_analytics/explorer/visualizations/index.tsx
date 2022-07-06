@@ -8,7 +8,7 @@ import './app.scss';
 import _ from 'lodash';
 
 import React, { useContext } from 'react';
-import { EuiResizableContainer } from '@elastic/eui';
+import { EuiPanel, EuiResizableContainer } from '@elastic/eui';
 import { SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
@@ -78,8 +78,8 @@ export const ExplorerVisualizations = ({
             'data-test-subj': 'panel-1-toggle',
             className: 'panel-toggle',
             position: 'top',
-          }]} initialSize={14} minSize="300" style={{ border: "1px solid #D3DAE6", padding: '0px' }}>
-            <div className="">
+          }]} className='containerPanel' initialSize={14} minSize="300">
+            <EuiPanel paddingSize="s" className="dataConfigContainer">
               {curVisId === visChartTypes.TreeMap ? (
                 <TreemapConfigPanelItem
                   fieldOptionList={fieldOptionList}
@@ -93,11 +93,11 @@ export const ExplorerVisualizations = ({
                   tabID={tabId}
                 />
               )}
-            </div>
+            </EuiPanel>
           </EuiResizablePanel>
 
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={65} minSize="30%" mode="main">
+          <EuiResizablePanel className='containerPanel' initialSize={65} minSize="30%" mode="main">
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}
@@ -105,7 +105,7 @@ export const ExplorerVisualizations = ({
             />
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={20} minSize="200px">
+          <EuiResizablePanel className='containerPanel' initialSize={20} minSize="200px">
             <ConfigPanel
               vizVectors={explorerVis}
               visualizations={visualizations}

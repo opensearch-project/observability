@@ -279,7 +279,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
           <EuiSpacer size="xs" />
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiPanel paddingSize="s">
+          <EuiPanel paddingSize="s" className="configPane_options">
             <EuiTabbedContent
               className="vis-config-tabs"
               tabs={tabs}
