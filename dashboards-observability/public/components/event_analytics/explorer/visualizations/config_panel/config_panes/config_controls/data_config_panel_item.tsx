@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, useContext, useMemo } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   EuiTitle,
   EuiComboBox,
@@ -21,7 +21,7 @@ import {
   render as renderExplorerVis,
   selectExplorerVisualization,
 } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
+import { AGGREGATION_OPTIONS, numericalTypes } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
 import { ConfigList } from '../../../../../../../../common/types/explorer';
@@ -133,13 +133,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     (visualizations.vis.name === visChartTypes.Line ||
       visualizations.vis.name === visChartTypes.Bar);
 
-  const optionsAvailable = useMemo(() => {
+  const getOptionsAvailable = ((sectionName: string) => {
     let selectedFields = {};
     for (const key in configList) {
       configList[key] && configList[key].forEach((field) => selectedFields[field.label] = true)
     }
-    return fieldOptionList.filter((field) => !selectedFields[field.label]);
-  }, [configList, fieldOptionList]);
+    const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label])
+    return sectionName === 'metrics' ? unselectedFields.filter((field) => numericalTypes.includes(field.type)) : unselectedFields;
+  });
 
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
@@ -186,7 +187,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   aria-label="Accessible screen reader label"
                   placeholder="Select a field"
                   singleSelection={{ asPlainText: true }}
-                  options={optionsAvailable}
+                  options={getOptionsAvailable(sectionName)}
                   selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
                   onChange={(e) =>
                     updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')

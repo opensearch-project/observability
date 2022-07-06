@@ -117,3 +117,6 @@ export const AGGREGATION_OPTIONS = [
     label: 'STDDEV_POP',
   },
 ];
+
+// numeric fields type for metrics
+export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte'];
