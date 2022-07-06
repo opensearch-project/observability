@@ -42,8 +42,8 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const invertHex = (hex: string) =>
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
 
-  const createLegendLabels = (dimLabels: any[], xaxisLables: { [x: string]: any; }) => {
-    return dimLabels.map((label, index) => {
+  const createLegendLabels = (dimLabels: string[], xaxisLables:string[] ) => {
+    return dimLabels.map((label:string, index:number) => {
       return [xaxisLables[index], label].join(',');
     });
   };
