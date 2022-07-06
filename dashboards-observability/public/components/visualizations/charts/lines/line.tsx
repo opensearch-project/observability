@@ -96,8 +96,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       const multiYaxis = { yaxis: `y${index + 1}` };
       multiMetrics = {
         ...multiMetrics,
-        [`yaxis${index + 1}`]: {
-          // title: `yaxis${index + 1} title`, TODO: need to add title
+          [`yaxis${index > 0 ? index + 1 : ``}`]: {
           titlefont: { color: PLOTLY_COLOR[index] },
           tickfont: {
             color: PLOTLY_COLOR[index],
@@ -106,7 +105,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
             }),
           },
           overlaying: 'y',
-          side: index === 0 ? 'left' : field.side || 'right',
+          side: field.side
         },
       };
 
@@ -154,14 +153,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
             size: labelSize,
           }),
         },
-      },
-      yaxis: {
-        tickfont: {
-          ...(labelSize && {
-            size: labelSize,
-          }),
-        },
-        side: valueSeries[0].side,
       },
       showlegend: showLegend,
       ...(isBarMode && layoutForBarMode),

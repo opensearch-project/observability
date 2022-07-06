@@ -870,6 +870,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend Size",
+                                "title": "Legend Size",
+                              },
                             ],
                           },
                           Object {
@@ -970,6 +977,47 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "name": "Point Size",
                                 "props": Object {
                                   "max": 40,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
+                                "title": "Label Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateLabels",
+                                "name": "Rotate labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
                                 },
                               },
                             ],
