@@ -59,10 +59,23 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
     ) {
       const { xaxis, yaxis } = data.defaultAxes;
-      setConfigList({
-        dimensions: [...(xaxis && xaxis)],
-        metrics: [...(yaxis && yaxis)],
-      });
+      if (visualizations.vis.name === visChartTypes.Line) {
+        // timestamp is only dimension in case of line visualization
+        const timestampXaxisIndex = xaxis ? xaxis.findIndex((i) => i.type === 'timestamp') : -1;
+        setConfigList({
+          dimensions: [timestampXaxisIndex > -1 ? xaxis[timestampXaxisIndex] : initialConfigEntry],
+          metrics: yaxis
+            ? yaxis.map((i: any) => {
+                return { ...i, side: 'right' };
+              })
+            : [],
+        });
+      } else {
+        setConfigList({
+          dimensions: [...(xaxis && xaxis)],
+          metrics: [...(yaxis && yaxis)],
+        });
+      }
     } else {
       setConfigList({
         dimensions: [initialConfigEntry, initialConfigEntry],
@@ -177,7 +190,13 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   aria-label="Accessible screen reader label"
                   placeholder="Select a field"
                   singleSelection={{ asPlainText: true }}
-                  options={fieldOptionList}
+                  options={
+                    visualizations.vis.name === visChartTypes.Line
+                      ? sectionName === 'dimensions'
+                        ? fieldOptionList.filter((i) => i.type === 'timestamp')
+                        : fieldOptionList
+                      : fieldOptionList
+                  }
                   selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
                   onChange={(e) =>
                     updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')

@@ -8,11 +8,25 @@ import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  DefaultChartStyles,
+  FILLOPACITY_DIV_FACTOR,
+  PLOTLY_COLOR,
+} from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
+  const {
+    DefaultMode,
+    Interpolation,
+    LineWidth,
+    FillOpacity,
+    MarkerSize,
+    LegendPosition,
+    ShowLegend,
+    LabelAngle,
+  } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -24,7 +38,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const dataConfigTab = visualizations.data?.rawVizData?.line?.dataConfig && visualizations.data.rawVizData.line.dataConfig;
+  const dataConfigTab =
+    visualizations.data?.rawVizData?.line?.dataConfig &&
+    visualizations.data.rawVizData.line.dataConfig;
   const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
   const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
 
@@ -33,17 +49,32 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const mode = dataConfig?.chartStyles?.style || DefaultMode;
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = !(dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend);
+  const showLegend = !(
+    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend
+  );
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
-  const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : FillOpacity / FILLOPACITY_DIV_FACTOR;
+  const fillOpacity =
+    dataConfig?.chartStyles?.fillOpacity !== undefined
+      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
+      : FillOpacity / FILLOPACITY_DIV_FACTOR;
+  const tickAngle = dataConfig?.chartStyles?.rotateLabels || LabelAngle;
+  const labelSize = dataConfig?.chartStyles?.labelSize;
+  const legendSize = dataConfig?.legend?.legendSize;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+    valueSeries = valueSeries.map((i) => {
+      return { ...i, side: 'right' };
+    });
   }
+
+  const isDimensionTimestamp = isEmpty(xaxis)
+    ? defaultAxes?.xaxis?.length && defaultAxes.xaxis[0].type === 'timestamp'
+    : xaxis.length === 1 && xaxis[0].type === 'timestamp';
 
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
@@ -55,8 +86,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
         color: fillColor,
         line: {
           color: PLOTLY_COLOR[index],
-          width: lineWidth
-        }
+          width: lineWidth,
+        },
       };
       const fillProperty = {
         fill: 'tozeroy',
@@ -68,11 +99,16 @@ export const Line = ({ visualizations, layout, config }: any) => {
         [`yaxis${index + 1}`]: {
           // title: `yaxis${index + 1} title`, TODO: need to add title
           titlefont: { color: PLOTLY_COLOR[index] },
-          tickfont: { color: PLOTLY_COLOR[index] },
+          tickfont: {
+            color: PLOTLY_COLOR[index],
+            ...(labelSize && {
+              size: labelSize,
+            }),
+          },
           overlaying: 'y',
-          side: index === 0 ? 'left' : field.side || "right"
-        }
-      }
+          side: index === 0 ? 'left' : field.side || 'right',
+        },
+      };
 
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
@@ -80,7 +116,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         type: isBarMode ? 'bar' : 'scatter',
         name: field.label,
         mode,
-        ...!['bar', 'markers'].includes(mode) && fillProperty,
+        ...(!['bar', 'markers'].includes(mode) && fillProperty),
         line: {
           shape: lineShape,
           width: lineWidth,
@@ -88,9 +124,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
         },
         marker: {
           size: markerSize,
-          ...isBarMode && barMarker,
+          ...(isBarMode && barMarker),
         },
-        ...(index >= 1 && multiYaxis)
+        ...(index >= 1 && multiYaxis),
       };
     });
 
@@ -104,10 +140,32 @@ export const Line = ({ visualizations, layout, config }: any) => {
       legend: {
         ...layout.legend,
         orientation: legendPosition,
+        ...(legendSize && {
+          font: {
+            size: legendSize,
+          },
+        }),
+      },
+      xaxis: {
+        tickangle: tickAngle,
+        automargin: true,
+        tickfont: {
+          ...(labelSize && {
+            size: labelSize,
+          }),
+        },
+      },
+      yaxis: {
+        tickfont: {
+          ...(labelSize && {
+            size: labelSize,
+          }),
+        },
+        side: valueSeries[0].side,
       },
       showlegend: showLegend,
-      ...isBarMode && layoutForBarMode,
-      ...multiMetrics && multiMetrics,
+      ...(isBarMode && layoutForBarMode),
+      ...(multiMetrics && multiMetrics),
     };
 
     if (dataConfig.thresholds || availabilityConfig.level) {
@@ -158,5 +216,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.config && layoutConfig.config),
   };
 
-  return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
+  return isDimensionTimestamp ? (
+    <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
+  ) : (
+    <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
+  );
 };

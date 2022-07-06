@@ -52,7 +52,7 @@ export const ExplorerVisualizations = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const fieldOptionList = fields.map((name) => {
-    return { label: name.name };
+    return { label: name.name, type: name.type };
   })
 
   return (

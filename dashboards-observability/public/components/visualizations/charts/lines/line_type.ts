@@ -10,10 +10,10 @@ import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
-  ConfigValueOptions,
   ConfigThresholds,
   ConfigLineChartStyles,
   ConfigLegend,
+  InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultChartStyles } from '../../../../../common/constants/shared';
@@ -21,7 +21,16 @@ import { ButtonGroupItem } from '../../../../../public/components/event_analytic
 import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
+const {
+  DefaultMode,
+  Interpolation,
+  LineWidth,
+  FillOpacity,
+  MarkerSize,
+  LegendPosition,
+  ShowLegend,
+  LabelAngle
+} = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -57,8 +66,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Show', id: "show" },
-                    { name: 'Hidden', id: "hidden" },
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
                   ],
                   defaultSelections: [{ name: 'Show', id: ShowLegend }],
                 },
@@ -74,6 +83,13 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                   ],
                   defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
+              },
+              {
+                title: 'Legend Size',
+                name: 'Legend Size',
+                component: InputFieldItem,
+                mapTo: 'legendSize',
+                eleType: 'input',
               },
             ],
           },
@@ -93,7 +109,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Lines', id: 'lines' },
                     { name: 'Bars', id: 'bar' },
                     { name: 'Points', id: 'markers' },
-                    { name: 'Lines + Points', id: 'lines+markers' }
+                    { name: 'Lines + Points', id: 'lines+markers' },
                   ],
                   defaultSelections: [{ name: 'Lines', id: DefaultMode }],
                 },
@@ -119,9 +135,9 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 mapTo: 'lineWidth',
                 defaultState: LineWidth,
                 eleType: 'slider',
-                props:{
+                props: {
                   max: 10,
-                }
+                },
               },
               {
                 name: 'Fill Opacity',
@@ -129,9 +145,9 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
                 eleType: 'slider',
-                props:{
+                props: {
                   max: 100,
-                }
+                },
               },
               {
                 name: 'Point Size',
@@ -139,9 +155,35 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 mapTo: 'pointSize',
                 defaultState: MarkerSize,
                 eleType: 'slider',
-                props:{
+                props: {
                   max: 40,
-                }
+                },
+              },
+              {
+                title: 'Label Size',
+                name: 'Label Size',
+                component: InputFieldItem,
+                mapTo: 'labelSize',
+                eleType: 'input',
+              },
+              {
+                name: 'Rotate labels',
+                component: SliderConfig,
+                mapTo: 'rotateLabels',
+                eleType: 'slider',
+                defaultState: LabelAngle,
+                props: {
+                  ticks: [
+                    { label: '-90°', value: -90 },
+                    { label: '-45°', value: -45 },
+                    { label: '0°', value: 0 },
+                    { label: '45°', value: 45 },
+                    { label: '90°', value: 90 },
+                  ],
+                  showTicks: true,
+                  min: -90,
+                  max: 90,
+                },
               },
             ],
           },
