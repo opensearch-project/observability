@@ -4,10 +4,8 @@
  */
 
 import React, { useMemo } from 'react';
-import { indexOf } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
-import { NUMERICAL_FIELDS } from '../../../../../../common/constants/shared';
 import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
 import { DefaultGaugeChartParameters } from '../../../../../../common/constants/shared';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
