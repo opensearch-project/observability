@@ -9,7 +9,7 @@ import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement 
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
-import { EuiLoadingSpinner, EuiSpacer } from '@elastic/eui';
+import { EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
 import {
   EuiText,
   EuiButtonIcon,
@@ -34,6 +34,7 @@ import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/ty
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
+  TAB_PATTERN_TITLE,
   RAW_QUERY,
   SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
@@ -49,6 +50,7 @@ import {
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_EVENT_ID,
   TAB_CHART_ID,
+  TAB_PATTERN_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
 } from '../../../../common/constants/explorer';
@@ -750,6 +752,14 @@ export const Explorer = ({
     );
   };
 
+  const getPatterns = () => {
+    return (
+      <EuiTitle>
+        <h2>Hi</h2>
+      </EuiTitle>
+    );
+  };
+
   const getMainContentTabs = () => {
     return [
       getMainContentTab({
@@ -761,6 +771,11 @@ export const Explorer = ({
         tabID: TAB_CHART_ID,
         tabTitle: TAB_CHART_TITLE,
         getContent: () => getExplorerVis(),
+      }),
+      getMainContentTab({
+        tabID: TAB_PATTERN_ID,
+        tabTitle: TAB_PATTERN_TITLE,
+        getContent: () => getPatterns(),
       }),
     ];
   };
