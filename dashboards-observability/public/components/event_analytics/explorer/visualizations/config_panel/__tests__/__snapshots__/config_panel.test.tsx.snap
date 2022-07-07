@@ -903,16 +903,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "name": "Lines",
                                     },
                                     Object {
-                                      "id": "bar",
-                                      "name": "Bars",
-                                    },
-                                    Object {
                                       "id": "markers",
-                                      "name": "Points",
+                                      "name": "Marker",
                                     },
                                     Object {
                                       "id": "lines+markers",
-                                      "name": "Lines + Points",
+                                      "name": "Lines + Markers",
                                     },
                                   ],
                                 },
@@ -1051,7 +1047,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "icon": [Function],
                   "iconType": "visLine",
                   "id": "line",
-                  "label": "Line",
+                  "label": "Time series",
                   "name": "line",
                   "selection": Object {
                     "dataLoss": "nothing",
