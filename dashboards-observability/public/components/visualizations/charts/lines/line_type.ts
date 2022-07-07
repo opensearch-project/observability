@@ -36,7 +36,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
   type: 'line',
   id: 'line',
-  label: 'Line',
+  label: 'Time series',
   fullLabel: 'Line',
   iconType: 'visLine',
   category: VIS_CATEGORY.BASICS,
@@ -107,9 +107,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 props: {
                   options: [
                     { name: 'Lines', id: 'lines' },
-                    { name: 'Bars', id: 'bar' },
-                    { name: 'Points', id: 'markers' },
-                    { name: 'Lines + Points', id: 'lines+markers' },
+                    { name: 'Marker', id: 'markers' },
+                    { name: 'Lines + Markers', id: 'lines+markers' },
                   ],
                   defaultSelections: [{ name: 'Lines', id: DefaultMode }],
                 },
