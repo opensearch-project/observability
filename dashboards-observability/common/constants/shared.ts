@@ -174,11 +174,15 @@ export const FILLOPACITY_DIV_FACTOR = 200;
 export interface DefaultGaugeChartParametersProps {
   GaugeTitleSize: number,
   DisplayDefaultGauges: number,
-  OrientationDefault: string
+  OrientationDefault: string,
+  TickLength: number,
+  GaugeThresholdWidth: number
 };
 
 export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   GaugeTitleSize: 14,
   DisplayDefaultGauges: 10,
-  OrientationDefault: 'h'
+  OrientationDefault: 'h',
+  TickLength: 5,
+  GaugeThresholdWidth: 0.25
 } 

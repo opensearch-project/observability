@@ -10,7 +10,13 @@ import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/e
 import { DefaultGaugeChartParameters } from '../../../../../../common/constants/shared';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 
-const { GaugeTitleSize, DisplayDefaultGauges, OrientationDefault } = DefaultGaugeChartParameters;
+const {
+  GaugeTitleSize,
+  DisplayDefaultGauges,
+  OrientationDefault,
+  TickLength,
+  GaugeThresholdWidth,
+} = DefaultGaugeChartParameters;
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
   const {
@@ -104,23 +110,13 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                 }),
           },
           gauge: {
-            // ...(showThresholdMarkers &&
-            //   thresholds &&
-            //   thresholds.length && {
-            //     threshold: {
-            //       line: { color: thresholds[0]?.color || 'red', width: 4 },
-            //       thickness: 0.75,
-            //       value: thresholds[0]?.value || 0,
-            //     },
-            //   }),
-
             //threshold labels
             ...(showThresholdLabels && thresholds && thresholds.length
               ? {
                   axis: {
                     ticktext: [gauge.value, ...thresholds.map((t: ThresholdUnitType) => t.name)],
                     tickvals: [gauge.value, ...thresholds.map((t: ThresholdUnitType) => t.value)],
-                    ticklen: 5,
+                    ticklen: TickLength,
                   },
                 }
               : {}),
@@ -131,7 +127,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                 steps: thresholds.map((threshold: ThresholdUnitType) => {
                   const value = Number(threshold.value);
                   return {
-                    range: [value, value + 0.25] /*width needs improvement*/,
+                    range: [value, value + GaugeThresholdWidth] /*width needs improvement*/,
                     color: threshold.color || 'red',
                     name: threshold.name || '',
                     visible: true,
@@ -188,6 +184,6 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-  
+
   return <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />;
 };

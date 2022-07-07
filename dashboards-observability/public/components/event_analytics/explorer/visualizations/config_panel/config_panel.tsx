@@ -122,8 +122,6 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
     const isValid_valueOptions: { [key: string]: boolean } = {
       tree_map: curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
         valueOptions?.valueField?.length !== 0,
-      // gauge: Boolean(curVisId === Gauge && valueOptions?.series && valueOptions.series?.length !== 0 &&
-      //   valueOptions?.value && valueOptions.value?.length !== 0),
       gauge: true,
       heatmap: Boolean(curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0),
       bar: isValidValueOptionsXYAxes,
