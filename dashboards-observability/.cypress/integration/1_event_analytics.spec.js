@@ -433,9 +433,7 @@ describe('Switch on and off livetail', () => {
   it('Switch on and off in live tail', () => {
     landOnEventExplorer();
     cy.wait(delay);
-
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
-
     cy.get('[data-test-subj=eventLiveTail]').click();
     cy.get('[data-test-subj=eventLiveTail__delay10s]').click();
     cy.wait(delay * 2);
@@ -1007,8 +1005,7 @@ describe('Renders Tree Map', () => {
     .contains('Update chart')
     .click();
     cy.get('.euiTextColor.euiTextColor--subdued').contains('No results found').should('exist');
-  });
-  
+  });  
 });
 
 describe('Render Pie chart for Legend and single color contrast change', () => {
