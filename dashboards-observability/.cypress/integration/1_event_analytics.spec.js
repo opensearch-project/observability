@@ -22,9 +22,33 @@ import {
   deleteVisualization,
   renderTreeMapchart,
   renderPieChart,
-  renderDataConfigTreeMap
+  renderAddParent
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
+ 
+const lineWidth = 4;
+const lineWidhthUpdated = 6;
+const fillOpacity = 40;
+const fillOpacityUpdate = 80;
+
+const renderDataConfigTreeMap = () => {
+  cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
+  cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions');
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Child Field');
+  cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(0).click();
+  cy.get('.euiComboBoxOption__content').eq(2).click();
+  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 1').should('exist');
+  cy.get('p.euiComboBoxPlaceholder').click({ force: true });
+  cy.get('.euiComboBoxOption__content').eq(1).click();
+  cy.get('.euiTitle.euiTitle--xxsmall').eq(2).contains('Metrics');
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Value Field');
+  cy.get('.euiComboBoxPill.euiComboBoxPill--plainText[type="double"]').click();
+  cy.get('.euiComboBoxOption__content').eq(0).click();
+  cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle .euiButton__text')
+  .contains('Update chart')
+  .click();
+};
 
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
@@ -651,13 +675,13 @@ describe('Render line chart for Chart Styles ', () => {
     cy.get('[data-text="Smooth"]').should('have.text', 'Smooth');
     cy.get('[data-text="Smooth"] [data-test-subj="spline"]').should('have.attr', 'checked');
     cy.get('input[type="range"]').eq(0)
-      .then($el => $el[0].stepUp(4))
+      .then($el => $el[0].stepUp(lineWidth))
       .trigger('change')
-    cy.get('.euiRangeSlider').eq(0).should('have.value', 6)
+    cy.get('.euiRangeSlider').eq(0).should('have.value', lineWidthUpdate)
     cy.get('input[type="range"]').eq(1)
-      .then($el => $el[0].stepUp(40))
+      .then($el => $el[0].stepUp(fillOpacity))
       .trigger('change')
-    cy.get('.euiRangeSlider').eq(1).should('have.value', 80)
+    cy.get('.euiRangeSlider').eq(1).should('have.value', fillOpacityUpdate)
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').contains('Preview').click();
   });
 
@@ -969,22 +993,11 @@ describe('Renders Tree Map', () => {
     cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Child Field');
     cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(0).click({force: true});
     cy.get('.euiComboBoxOption__content').eq(3).click();
-    cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 1').should('exist');
-    cy.get('p.euiComboBoxPlaceholder').eq(0).click({ force: true });
-    cy.get('.euiComboBoxOption__content').eq(0).click();
-    cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 2').should('exist');
-    cy.get('p.euiComboBoxPlaceholder').click({ force: true });
-    cy.get('.euiComboBoxOption__content').eq(1).click();
-    cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 3').should('exist');
-    cy.get('p.euiComboBoxPlaceholder').click({ force: true });
-    cy.get('.euiComboBoxOption__content').eq(2).click();
+    renderAddParent();
     cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle .euiButton__text')
     .contains('Update chart')
     .click();
-    cy.get('.trace.treemap').should('exist');
+    cy.get('.trace.treemap').should('exist'); 
   });
 
   it('Verify "No results found" message when user selects duplicate fields in Data Config panel', () => {
@@ -993,14 +1006,7 @@ describe('Renders Tree Map', () => {
     cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Child Field');
     cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(0).click({force: true});
     cy.get('.euiComboBoxOption__content').eq(3).click();
-    cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 1').should('exist');
-    cy.get('p.euiComboBoxPlaceholder').eq(0).click({ force: true });
-    cy.get('.euiComboBoxOption__content').eq(0).click();
-    cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 2').should('exist');
-    cy.get('p.euiComboBoxPlaceholder').click({ force: true });
-    cy.get('.euiComboBoxOption__content').eq(0).click();
+    renderAddParent();
     cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle .euiButton__text')
     .contains('Update chart')
     .click();
@@ -1055,15 +1061,12 @@ describe('Renders heatmap chart for Chart Style', () => {
     cy.get('g.g-gtitle text[data-unformatted|="avg(bytes)"]').should('exist');
   });
 
-  it('Renders heatmap chart with default Chart Style and Z-axis count()', () => {
+  it('Renders heatmap chart with default Chart Style and z-axis', () => {
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('count()').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();
     cy.get('.ewdrag.drag.cursor-ew-resize').should('be.visible');
     cy.get('g.g-gtitle text[data-unformatted|="count()"]').should('exist');
-  });
-
-  it('Renders heatmap chart with default Chart Style and Z-axis avg(bytes)', () => {
     cy.get('#configPanel__value_options [data-test-subj="comboBoxInput"]').click();
     cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('avg(bytes)').click();
     cy.get('[data-test-subj="visualizeEditorRenderButton"]').click();

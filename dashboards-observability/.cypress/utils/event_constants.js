@@ -180,21 +180,17 @@ export const renderLineChart = () => {
   .type('{enter}');
 };
 
-export const renderDataConfigTreeMap = () => {
-  cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
-  cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions');
-  cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Child Field');
-  cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(0).click();
-  cy.get('.euiComboBoxOption__content').eq(2).click();
+export const renderAddParent = () => {
   cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
   cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 1').should('exist');
+  cy.get('p.euiComboBoxPlaceholder').eq(0).click({ force: true });
+  cy.get('.euiComboBoxOption__content').eq(0).click();
+  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 2').should('exist');
   cy.get('p.euiComboBoxPlaceholder').click({ force: true });
   cy.get('.euiComboBoxOption__content').eq(1).click();
-  cy.get('.euiTitle.euiTitle--xxsmall').eq(2).contains('Metrics');
-  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Value Field');
-  cy.get('.euiComboBoxPill.euiComboBoxPill--plainText[type="double"]').click();
-  cy.get('.euiComboBoxOption__content').eq(0).click();
-  cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle .euiButton__text')
-  .contains('Update chart')
-  .click();
+  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
+  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 3').should('exist');
+  cy.get('p.euiComboBoxPlaceholder').click({ force: true });
+  cy.get('.euiComboBoxOption__content').eq(2).click();
 };
