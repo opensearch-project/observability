@@ -9,11 +9,9 @@ import {
   EuiFormRow,
   EuiSpacer,
   EuiIcon,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiTitle,
   EuiComboBox,
   EuiComboBoxOptionOption,
+  EuiText,
 } from '@elastic/eui';
 import { isEmpty, uniqueId } from 'lodash';
 
@@ -61,37 +59,33 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
 
   return (
     <>
-      <EuiTitle size="xxs">
-        <h3>{`Parent Fields`}</h3>
-      </EuiTitle>
-
       {!isEmpty(selectedAxis) &&
         selectedAxis.map((_, index: number) => {
           return (
             <>
               <EuiSpacer size="s" />
-              <EuiTitle size="xxs">
-                <h3>{`Parent ${index + 1}`}</h3>
-              </EuiTitle>
-              <EuiFormRow fullWidth label="">
-                <EuiFlexGroup alignItems="center" gutterSize="xs">
-                  <EuiFlexItem grow={10}>
-                    <EuiComboBox
-                      id={uniqueId('axis-select-')}
-                      placeholder="Select a field"
-                      options={options}
-                      selectedOptions={selectedAxis[index].name !== '' ? [selectedAxis[index]] : []}
-                      isInvalid={true}
-                      isClearable={true}
-                      singleSelection={true}
-                      onChange={(options) => handleParentChange(options, index)}
-                      aria-label="Use aria labels when no actual label is in use"
+              <EuiFormRow
+                label={`Parent ${index + 1}`}
+                labelAppend={
+                  <EuiText size="xs">
+                    <EuiIcon
+                      type="cross"
+                      color="danger"
+                      onClick={() => handleParentDelete(index)}
                     />
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    <EuiIcon type="trash" size="m" onClick={() => handleParentDelete(index)} />
-                  </EuiFlexItem>
-                </EuiFlexGroup>
+                  </EuiText>
+                }
+              >
+                <EuiComboBox
+                  id={uniqueId('axis-select-')}
+                  placeholder="Select a field"
+                  options={options}
+                  selectedOptions={selectedAxis[index].label !== '' ? [selectedAxis[index]] : []}
+                  isClearable={true}
+                  singleSelection={{ asPlainText: true }}
+                  onChange={(options) => handleParentChange(options, index)}
+                  aria-label="Use aria labels when no actual label is in use"
+                />
               </EuiFormRow>
             </>
           );

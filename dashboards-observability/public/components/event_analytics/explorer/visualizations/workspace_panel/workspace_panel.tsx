@@ -21,7 +21,9 @@ interface IWorkSpacePanel {
 export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
   const [isTableViewOn, setIsTableViewOn] = useState(false);
   const VisualizationPanel = useMemo(() => {
-    return <Visualization visualizations={visualizations} data-test-subj="workspace__visualizations"  />;
+    return (
+      <Visualization visualizations={visualizations} data-test-subj="workspace__visualizations" />
+    );
   }, [visualizations]);
 
   return (
@@ -64,11 +66,13 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
           <EuiSpacer size="s" />
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiPanel paddingSize="s">
-            {isTableViewOn ? 
-            <DataTable 
-              visualizations={visualizations}
-            /> : VisualizationPanel}
+          <EuiPanel
+            paddingSize="s"
+            className={
+              uiSettingsService.get('theme:darkMode') ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
+            }
+          >
+            {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
           </EuiPanel>
         </EuiFlexItem>
       </EuiFlexGroup>
