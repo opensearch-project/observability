@@ -110,7 +110,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
-    const newList = {
+    const updatedList = {
       ...list,
       [name]: [
         ...list[name].slice(0, index),
@@ -118,17 +118,17 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         ...list[name].slice(index + 1, list[name].length),
       ],
     };
-    setConfigList(newList);
-    updateChart(newList);
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
     const arr = [...list[name]];
     arr.splice(index, 1);
-    const y = { ...list, [name]: arr };
-    setConfigList(y);
-    updateChart(y);
+    const updatedList = { ...list, [name]: arr };
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceAdd = (name: string) => {

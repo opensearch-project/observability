@@ -135,7 +135,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
 
   useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [isValidValueOptionConfigSelected]);
 
-  const handleConfigUpdate = useCallback((newConfigs) => {
+  const handleConfigUpdate = useCallback((updatedConfigs) => {
     try {
       if (!isValidValueOptionConfigSelected) {
         setToast(`Invalid value options configuration selected.`, 'danger');
@@ -146,8 +146,8 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
           vizId: curVisId,
           data: {
             ...{
-              ...newConfigs,
-              layoutConfig: hjson.parse(newConfigs.layoutConfig),
+              ...updatedConfigs,
+              layoutConfig: hjson.parse(updatedConfigs.layoutConfig),
             },
           },
         })
