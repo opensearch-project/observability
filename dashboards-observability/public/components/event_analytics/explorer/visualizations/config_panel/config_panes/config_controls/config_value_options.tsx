@@ -32,10 +32,14 @@ export const ConfigValueOptions = ({
   const dimensions = useMemo(() => {
     return schemas.map((schema, index) => {
       const DimensionComponent = schema.component || PanelItem;
-      let params = {};
+      let params = {
+        title: schema.name,
+        vizState,
+        ...schema.props,
+      };
+
       if (schema.eleType === 'buttons') {
         params = {
-          title: schema.name,
           legend: schema.name,
           groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
             ...btn,
