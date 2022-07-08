@@ -494,9 +494,19 @@ exports[`Line component Renders line component 1`] = `
     data={
       Array [
         Object {
-          "mode": "line",
-          "name": "count()",
-          "type": "line",
+          "fill": "tozeroy",
+          "fillcolor": "rgba(60,161,199,0.2)",
+          "line": Object {
+            "color": "#3CA1C7",
+            "shape": "spline",
+            "width": 2,
+          },
+          "marker": Object {
+            "size": 5,
+          },
+          "mode": "lines",
+          "name": undefined,
+          "type": "scatter",
           "x": Array [
             "error",
             "info",
@@ -505,14 +515,7 @@ exports[`Line component Renders line component 1`] = `
             "success",
             "warning",
           ],
-          "y": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
+          "y": undefined,
         },
       ]
     }
@@ -522,6 +525,9 @@ exports[`Line component Renders line component 1`] = `
           "#8C55A3",
         ],
         "height": 220,
+        "legend": Object {
+          "orientation": "v",
+        },
         "margin": Object {
           "b": 15,
           "l": 60,
@@ -531,6 +537,16 @@ exports[`Line component Renders line component 1`] = `
         },
         "showlegend": true,
         "title": "",
+        "yaxis1": Object {
+          "overlaying": "y",
+          "side": "left",
+          "tickfont": Object {
+            "color": "#3CA1C7",
+          },
+          "titlefont": Object {
+            "color": "#3CA1C7",
+          },
+        },
       }
     }
   >
@@ -543,9 +559,19 @@ exports[`Line component Renders line component 1`] = `
       data={
         Array [
           Object {
-            "mode": "line",
-            "name": "count()",
-            "type": "line",
+            "fill": "tozeroy",
+            "fillcolor": "rgba(60,161,199,0.2)",
+            "line": Object {
+              "color": "#3CA1C7",
+              "shape": "spline",
+              "width": 2,
+            },
+            "marker": Object {
+              "size": 5,
+            },
+            "mode": "lines",
+            "name": undefined,
+            "type": "scatter",
             "x": Array [
               "error",
               "info",
@@ -554,14 +580,7 @@ exports[`Line component Renders line component 1`] = `
               "success",
               "warning",
             ],
-            "y": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
+            "y": undefined,
           },
         ]
       }
@@ -577,8 +596,7 @@ exports[`Line component Renders line component 1`] = `
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
+            "orientation": "v",
           },
           "margin": Object {
             "b": 15,
@@ -599,6 +617,16 @@ exports[`Line component Renders line component 1`] = `
             "rangemode": "normal",
             "showgrid": true,
             "zeroline": false,
+          },
+          "yaxis1": Object {
+            "overlaying": "y",
+            "side": "left",
+            "tickfont": Object {
+              "color": "#3CA1C7",
+            },
+            "titlefont": Object {
+              "color": "#3CA1C7",
+            },
           },
         }
       }

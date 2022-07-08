@@ -120,8 +120,8 @@ export const populateDataGrid = (
           </table>
         )}
         {explorerFields?.queriedFields &&
-        explorerFields?.queriedFields?.length > 0 &&
-        explorerFields.selectedFields?.length === 0 ? null : (
+          explorerFields?.queriedFields?.length > 0 &&
+          explorerFields.selectedFields?.length === 0 ? null : (
           <table className="osd-table table" data-test-subj="docTable">
             <thead>{header2}</thead>
             <tbody>{body2}</tbody>

@@ -45,20 +45,6 @@ export const createMapsVisDefinition = () => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
-            schemas: [
-              {
-                name: 'Z-axis',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'zaxis',
-              },
-            ],
-          },
-          {
             id: 'chart_styles',
             name: 'Chart Styles',
             editor: ConfigChartOptions,

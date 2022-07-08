@@ -12,11 +12,16 @@ import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/c
 import {
   ConfigValueOptions,
   ConfigThresholds,
+  ConfigLineChartStyles,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
+import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: 'line',
@@ -41,44 +46,102 @@ export const createLineTypeDefinition = (params: any = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
             schemas: [
               {
-                name: 'X-axis',
-                isSingleSelection: true,
+                name: 'Show Legend',
+                mapTo: 'showLegend',
                 component: null,
-                mapTo: 'xaxis',
+                props: {
+                  options: [
+                    { name: 'Show', id: "show" },
+                    { name: 'Hidden', id: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
+                },
               },
               {
-                name: 'Y-axis',
-                isSingleSelection: false,
+                name: 'Position',
+                mapTo: 'position',
                 component: null,
-                mapTo: 'yaxis',
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
+                },
               },
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigLineChartStyles,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Mode',
-                isSingleSelection: true,
-                component: null,
-                mapTo: 'mode',
+                component: ButtonGroupItem,
+                mapTo: 'style',
+                eleType: 'buttons',
                 props: {
-                  dropdownList: [
-                    { name: 'Markers', modeId: 'markers' },
-                    { name: 'Lines', modeId: 'lines' },
-                    { name: 'Lines + Markers', modeId: 'lines+markers' },
+                  options: [
+                    { name: 'Lines', id: 'lines' },
+                    { name: 'Bars', id: 'bar' },
+                    { name: 'Points', id: 'markers' },
+                    { name: 'Lines + Points', id: 'lines+markers' }
                   ],
-                  defaultSelections: [{ name: 'Lines', modeId: 'lines' }],
+                  defaultSelections: [{ name: 'Lines', id: DefaultMode }],
                 },
+              },
+              {
+                name: 'Interpolation',
+                component: ButtonGroupItem,
+                mapTo: 'interpolation',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Linear', id: 'linear' },
+                    { name: 'Smooth', id: 'spline' },
+                    { name: 'Step before', id: 'hv' },
+                    { name: 'Step after', id: 'vh' },
+                  ],
+                  defaultSelections: [{ name: 'Smooth', id: Interpolation }],
+                },
+              },
+              {
+                name: 'Line width',
+                component: SliderConfig,
+                mapTo: 'lineWidth',
+                defaultState: LineWidth,
+                eleType: 'slider',
+                props:{
+                  max: 10,
+                }
+              },
+              {
+                name: 'Fill Opacity',
+                component: SliderConfig,
+                mapTo: 'fillOpacity',
+                defaultState: FillOpacity,
+                eleType: 'slider',
+                props:{
+                  max: 100,
+                }
+              },
+              {
+                name: 'Point Size',
+                component: SliderConfig,
+                mapTo: 'pointSize',
+                defaultState: MarkerSize,
+                eleType: 'slider',
+                props:{
+                  max: 40,
+                }
               },
             ],
           },
