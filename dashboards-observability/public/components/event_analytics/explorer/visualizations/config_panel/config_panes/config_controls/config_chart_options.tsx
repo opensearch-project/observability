@@ -15,7 +15,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const handleConfigurationChange = useCallback(
@@ -78,8 +78,8 @@ export const ConfigChartOptions = ({
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
-              (dataConfig?.valueOptions?.parentFields !== undefined &&
-                dataConfig?.valueOptions?.parentFields.length) | 0,
+              (tree_map?.dataConfig?.dimensions !== undefined &&
+                tree_map?.dataConfig.dimensions[0].parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
             vizState,
             ...schema.props,

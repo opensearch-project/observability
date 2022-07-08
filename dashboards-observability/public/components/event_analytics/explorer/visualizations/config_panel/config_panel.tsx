@@ -135,7 +135,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
 
   useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [isValidValueOptionConfigSelected]);
 
-  const handleConfigUpdate = useCallback(() => {
+  const handleConfigUpdate = useCallback((newConfigs) => {
     try {
       if (!isValidValueOptionConfigSelected) {
         setToast(`Invalid value options configuration selected.`, 'danger');
@@ -146,8 +146,8 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
           vizId: curVisId,
           data: {
             ...{
-              ...vizConfigs,
-              layoutConfig: hjson.parse(vizConfigs.layoutConfig),
+              ...newConfigs,
+              layoutConfig: hjson.parse(newConfigs.layoutConfig),
             },
           },
         })
@@ -155,16 +155,18 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
     } catch (e: any) {
       setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
     }
-  }, [tabId, vizConfigs, changeVisualizationConfig, dispatch, setToast, curVisId]);
+  }, [tabId, changeVisualizationConfig, dispatch, setToast, curVisId]);
 
   const handleConfigChange = (configSchema: string) => {
     return (configChanges: any) => {
+      const newVizConfigs = { ...vizConfigs, [configSchema]: configChanges };
       setVizConfigs((staleState) => {
         return {
           ...staleState,
           [configSchema]: configChanges,
         };
       });
+      handleConfigUpdate(newVizConfigs);
     };
   };
 

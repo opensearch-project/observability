@@ -48,6 +48,30 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   useEffect(() => {
     if (
+      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.dimensions?.length ===
+        0 ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.metrics?.length === 0
+    ) {
+      dispatch(
+        renderExplorerVis({
+          tabId,
+          data: {
+            ...explorerVisualizations,
+            [visualizations.vis.name]: {
+              dataConfig: {
+                metrics: configList.metrics,
+                dimensions: configList.dimensions,
+              },
+            },
+          },
+        })
+      );
+    }
+  }, [configList]);
+
+  useEffect(() => {
+    if (
       data.rawVizData?.[visualizations.vis.name] &&
       data.rawVizData?.[visualizations.vis.name].dataConfig
     ) {
@@ -95,6 +119,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       ],
     };
     setConfigList(newList);
+    updateChart(newList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
@@ -103,6 +128,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     arr.splice(index, 1);
     const y = { ...list, [name]: arr };
     setConfigList(y);
+    updateChart(y);
   };
 
   const handleServiceAdd = (name: string) => {
@@ -110,7 +136,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     setConfigList(newList);
   };
 
-  const updateChart = () => {
+  const updateChart = (configList) => {
     dispatch(
       renderExplorerVis({
         tabId,
@@ -244,17 +270,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         <h3>Metrics</h3>
       </EuiTitle>
       {getCommonUI(configList.metrics, 'metrics')}
-
-      <EuiFlexItem grow={false}>
-        <EuiButton
-          data-test-subj="visualizeEditorRenderButton"
-          iconType="play"
-          onClick={updateChart}
-          size="s"
-        >
-          Update chart
-        </EuiButton>
-      </EuiFlexItem>
     </>
   );
 };

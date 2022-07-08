@@ -7,6 +7,7 @@ import React from 'react';
 import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -16,11 +17,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
+  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions 
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions.filter((item)  => item.label)
     : [];
   const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics.filter((item)  => item.label)
     : [];
   const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
@@ -31,6 +32,9 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
   const legendSize = dataConfig?.legend?.size || vis.legendSize;
   const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
+
+  if (isEmpty(xaxis) || isEmpty(yaxis))
+    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
