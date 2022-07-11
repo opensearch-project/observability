@@ -14,8 +14,11 @@ import {
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
+  const { DefaultSortSectors } = DefaultChartStyles;
+
   const {
     data,
     metadata: { fields },
@@ -52,11 +55,12 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
+  const sortSectorsField = dataConfig?.treemapOptions?.sort_sectors || DefaultSortSectors;
   const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
 
   const areParentFieldsInvalid =
-    new Set([...parentFields.map((x) => x.name)]).size !== parentFields.length ||
-    parentFields.some((x) => isEmpty(data[x.name]) || isEqual(childField.name, x.name));
+    new Set([...parentFields.map((field) => field.name)]).size !== parentFields.length ||
+    parentFields.some((field) => isEmpty(data[field.name]) || isEqual(childField.name, field.name));
 
   if (
     isEmpty(data[childField.name]) ||
@@ -103,7 +107,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
             const currentParentIndices = uniqueParents.map((parent) =>
               data[field.name].findIndex((index) => index === parent)
             );
-            const lastParents = currentParentIndices.map((x) => data[lastParentField.name][x]);
+            const lastParents = currentParentIndices.map((index) => data[lastParentField.name][index]);
             parentsArray = [...parentsArray, ...lastParents];
             valuesArray = [...valuesArray, ...Array(lastParents.length).fill(0)];
             colorsArray =
@@ -166,6 +170,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
           packing: tilingAlgorithm.value,
         },
         marker: markerColors,
+        sort: sortSectorsField === DefaultSortSectors,
       },
     ];
 
