@@ -56,6 +56,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : 'squarify';
 
   const sortSectorsField = dataConfig?.treemapOptions?.sort_sectors || DefaultSortSectors;
+  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
 
   const areParentFieldsInvalid =
     new Set([...parentFields.map((field) => field.name)]).size !== parentFields.length ||
@@ -145,6 +146,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
             colorbar: {
               len: 1,
             },
+            showscale: showColorscale === 'show',
           }
         : {};
 
