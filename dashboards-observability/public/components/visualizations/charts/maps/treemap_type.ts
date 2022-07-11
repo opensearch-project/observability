@@ -12,6 +12,7 @@ import {
   ConfigValueOptions,
   ColorPalettePicker,
   ConfigChartOptions,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 
@@ -44,6 +45,26 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Colorscale',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                },
+              },
+            ],
+          },
           {
             id: 'treemap_options',
             name: 'Treemap',
