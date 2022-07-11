@@ -500,7 +500,14 @@ exports[`Pie component Renders pie component 1`] = `
             "row": 0,
           },
           "hole": 0,
-          "labels": undefined,
+          "labels": Array [
+            "error",
+            "info",
+            "login",
+            "security",
+            "success",
+            "warning",
+          ],
           "name": "count()",
           "outsidetextfont": Object {
             "size": undefined,
@@ -556,7 +563,14 @@ exports[`Pie component Renders pie component 1`] = `
               "row": 0,
             },
             "hole": 0,
-            "labels": undefined,
+            "labels": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+            ],
             "name": "count()",
             "outsidetextfont": Object {
               "size": undefined,
