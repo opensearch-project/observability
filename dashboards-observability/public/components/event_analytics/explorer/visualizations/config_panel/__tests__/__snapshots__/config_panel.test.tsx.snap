@@ -1694,6 +1694,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Colorscale",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
                             "id": "treemap_options",
                             "mapTo": "treemapOptions",
                             "name": "Treemap",
@@ -1738,6 +1769,30 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                                 "props": Object {
                                   "isClearable": false,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "sort_sectors",
+                                "name": "Sort Sectors",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": undefined,
+                                      "name": "Largest to Smallest",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "largest_to_smallest",
+                                      "name": "Largest to Smallest",
+                                    },
+                                    Object {
+                                      "id": "random",
+                                      "name": "Random",
+                                    },
+                                  ],
                                 },
                               },
                             ],
