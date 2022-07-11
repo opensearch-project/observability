@@ -25,7 +25,8 @@ import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { TabContext } from '../../../hooks';
 import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
-import { ENABLED_VIS_TYPES } from '../../../../../../common/constants/shared';
+import { ENABLED_VIS_TYPES, ValueOptionsAxes, visChartTypes } from '../../../../../../common/constants/shared';
+import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -60,13 +61,28 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsValidConfigOptionState  }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
   const { data, vis } = visualizations;
   const { userConfigs } = data;
 
+  const getDefaultAxisSelected = () => {
+    let chartBasedAxes: ValueOptionsAxes = {};
+    const [valueField] = data.defaultAxes?.yaxis ?? [];
+    if (curVisId === visChartTypes.TreeMap) {
+      chartBasedAxes["childField"] = data.defaultAxes.xaxis ?? [];
+      chartBasedAxes["valueField"] = valueField && [valueField];
+    } else if(curVisId === visChartTypes.HeatMap){
+      chartBasedAxes["zaxis"] = valueField && [valueField];
+    } else {
+      chartBasedAxes = { ...data.defaultAxes };
+    }
+    return {
+      valueOptions: { ...(chartBasedAxes && chartBasedAxes) }
+    }
+  }
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
     layoutConfig: userConfigs?.layoutConfig
@@ -78,6 +94,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
   useEffect(() => {
     setVizConfigs({
       ...userConfigs,
+      dataConfig: { ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()) },
       layoutConfig: userConfigs?.layoutConfig
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
@@ -95,8 +112,34 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
     []
   );
 
+   // To check, If user empty any of the value options
+   const isValidValueOptionConfigSelected = useMemo(() => {
+    const valueOptions = vizConfigs.dataConfig?.valueOptions;
+    const { TreeMap, Gauge, HeatMap } = visChartTypes;
+    const isValidValueOptionsXYAxes = VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
+      valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0;
+
+    const isValid_valueOptions: { [key: string]: boolean } = {
+      tree_map: curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
+        valueOptions?.valueField?.length !== 0,
+      gauge: Boolean(curVisId === Gauge && valueOptions?.series && valueOptions.series?.length !== 0 &&
+        valueOptions?.value && valueOptions.value?.length !== 0),
+      heatmap: Boolean(curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0),
+      bar: isValidValueOptionsXYAxes,
+      line: isValidValueOptionsXYAxes,
+      histogram: isValidValueOptionsXYAxes,
+      pie: isValidValueOptionsXYAxes
+    }
+    return isValid_valueOptions[curVisId];
+  }, [vizConfigs.dataConfig]);
+
+  useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [isValidValueOptionConfigSelected]);
+
   const handleConfigUpdate = useCallback(() => {
     try {
+      if (!isValidValueOptionConfigSelected) {
+        setToast(`Invalid value options configuration selected.`, 'danger');
+      }
       dispatch(
         changeVisualizationConfig({
           tabId,

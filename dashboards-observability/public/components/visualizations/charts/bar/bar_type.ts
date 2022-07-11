@@ -10,10 +10,16 @@ import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/c
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-
+import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
+import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
+import { SliderConfig } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
+import { ConfigLegend } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_legend';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
+const { LegendPosition, ShowLegend } = DefaultChartStyles;
 export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
@@ -29,6 +35,14 @@ export const createBarTypeDefinition = (params: any) => ({
   categoryAxis: 'xaxis',
   seriesAxis: 'yaxis',
   orientation: 'v',
+  mode: 'group',
+  labelAngle: 0,
+  lineWidth: 1,
+  fillOpacity: 80,
+  groupWidth: 0.7,
+  barWidth: 0.97,
+  showLegend: ShowLegend,
+  legendPosition: LegendPosition,
   component: Bar,
   editorConfig: {
     panelTabs: [
@@ -59,38 +73,139 @@ export const createBarTypeDefinition = (params: any) => ({
             ],
           },
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Legend',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: "show" },
+                    { name: 'Hidden', id: "hidden" },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
+                },
+              },
+              {
+                name: 'Position',
+                mapTo: 'position',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
+                },
+              },
+            ],
+          },
+          {
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigBarChartStyles,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Orientation',
-                isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'orientation',
+                eleType: 'buttons',
                 props: {
-                  dropdownList: [
-                    { name: 'Vertical', orientationId: 'v' },
-                    { name: 'Horizontal', orientationId: 'h' },
+                  options: [
+                    { name: 'Vertical', id: 'v' },
+                    { name: 'Horizontal', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Vertical', orientationId: 'v' }],
+                  defaultSelections: [{ name: 'Vertical', id: 'v' }],
                 },
               },
               {
                 name: 'Mode',
-                isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
                 mapTo: 'mode',
+                eleType: 'buttons',
                 props: {
-                  dropdownList: [
-                    { name: 'Group', modeId: 'group' },
-                    { name: 'Stack', modeId: 'stack' },
+                  options: [
+                    { name: 'Group', id: 'group' },
+                    { name: 'Stack', id: 'stack' },
                   ],
-                  defaultSelections: [{ name: 'Group', modeId: 'group' }],
+                  defaultSelections: [{ name: 'Group', id: 'group' }],
                 },
               },
+              {
+                name: 'Rotate bar labels',
+                component: SliderConfig,
+                mapTo: 'rotateBarLabels',
+                eleType: 'slider',
+                defaultState: 0,
+                props: {
+                  ticks:
+                    [
+                      { label: '-90°', value: -90 },
+                      { label: '-45°', value: -45 },
+                      { label: '0°', value: 0 },
+                      { label: '45°', value: 45 },
+                      { label: '90°', value: 90 },
+                    ],
+                  showTicks: true,
+                  min: -90,
+                  max: 90
+                },
+              },
+              {
+                name: 'Group width',
+                component: SliderConfig,
+                mapTo: 'groupWidth',
+                defaultState: 0.7,
+                props: {
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Bar width',
+                component: SliderConfig,
+                mapTo: 'barWidth',
+                defaultState: 0.97,
+                props: {
+                  max: 1,
+                  step: 0.01,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Line width',
+                component: SliderConfig,
+                mapTo: 'lineWidth',
+                defaultState: 1,
+                props: {
+                  max: 10,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Fill Opacity',
+                component: SliderConfig,
+                mapTo: 'fillOpacity',
+                defaultState: 80,
+                props: {
+                  max: 100,
+                },
+                eleType: 'slider',
+              },
             ],
+          },
+          {
+            id: 'color-theme',
+            name: 'Color Theme',
+            editor: ConfigColorTheme,
+            mapTo: 'colorTheme',
+            schemas: [],
           },
         ],
       },

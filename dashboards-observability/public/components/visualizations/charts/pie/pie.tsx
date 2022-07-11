@@ -6,6 +6,7 @@
 import React from 'react';
 import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
+import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -15,12 +16,21 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.xaxis ? dataConfig.valueOptions.xaxis : [];
-  const yaxis =
-    dataConfig?.valueOptions && dataConfig.valueOptions.yaxis ? dataConfig.valueOptions.yaxis : [];
-  const type = dataConfig?.chartOptions?.mode ? dataConfig?.chartOptions?.mode[0]?.modeId : 'pie';
+  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
+    : [];
+  const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
+    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
+    : [];
+  const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
+  const colorTheme = dataConfig?.chartStyles?.colorTheme
+    ? dataConfig?.chartStyles?.colorTheme
+    : { name: DEFAULT_PALETTE };
+  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
+  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
+  const legendSize = dataConfig?.legend?.size || vis.legendSize;
+  const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -29,10 +39,25 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
+  const invertHex = (hex: string) =>
+    (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
+
   const pies = valueSeries.map((field: any, index) => {
+    const marker =
+      colorTheme.name !== DEFAULT_PALETTE
+        ? {
+            marker: {
+              colors: [...Array(data[field.name].length).fill(colorTheme.childColor)],
+              line: {
+                color: invertHex(colorTheme),
+                width: 1,
+              },
+            },
+          }
+        : undefined;
     return {
       labels: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
-      values: data[field.name],
+      values: data[field.label],
       type: 'pie',
       name: field.name,
       hole: type === 'pie' ? 0 : 0.5,
@@ -43,6 +68,10 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       domain: {
         row: Math.floor(index / 3),
         column: index % 3,
+      },
+      ...marker,
+      outsidetextfont: {
+        size: labelSize,
       },
     };
   });
@@ -57,6 +86,12 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    legend: {
+      ...layout.legend,
+      orientation: legendPosition,
+      font: { size: legendSize },
+    },
+    showlegend: showLegend,
   };
 
   const mergedConfigs = {
