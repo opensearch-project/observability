@@ -17,7 +17,6 @@ export const ConfigChartOptions = ({
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  console.log(vizState, 'VizState');
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {

@@ -106,15 +106,12 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   const updateHistogramConfig = (configName: string, fieldName: string, value: string) => {
     const list = { ...configList };
-    console.log(value, 'Valueee');
     let listItem = { ...list[configName][0] };
-    console.log(listItem, 'Listitem');
     listItem[fieldName] = value;
     const newList = {
       ...list,
       [configName]: [listItem],
     };
-    console.log(newList, 'New List');
     setConfigList(newList);
   };
 
