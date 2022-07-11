@@ -161,7 +161,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
               </EuiTitle>
             )}
-            <EuiPanel color="subdued">
+            <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow
                 label="Aggregation"
                 labelAppend={
@@ -293,7 +293,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           {getNumberField('bucketOffset')}
         </>
       )}
-
       <EuiFlexItem grow={false}>
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
