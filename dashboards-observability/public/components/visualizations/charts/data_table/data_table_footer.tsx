@@ -24,7 +24,7 @@ import { uiSettingsService } from '../../../../../common/utils';
 import {
   GRID_PAGE_RANGE_DISPLAY,
   GRID_PAGE_SIZES,
-} from '../../../../../common/constants/data_table';
+} from '../../../../../common/constants/explorer';
 
 export const GridFooter = ({
   onPageSizeChanged,

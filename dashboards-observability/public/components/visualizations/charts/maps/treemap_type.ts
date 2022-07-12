@@ -12,11 +12,16 @@ import {
   ConfigValueOptions,
   ColorPalettePicker,
   ConfigChartOptions,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
+import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+
+const { SortSectors } = DefaultChartStyles;
 
 export interface BarTypeParams {}
 
@@ -45,6 +50,26 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Colorscale',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                },
+              },
+            ],
+          },
+          {
             id: 'treemap_options',
             name: 'Treemap',
             editor: ConfigValueOptions,
@@ -66,6 +91,19 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
                 defaultState: [{ name: 'Squarify', label: 'Squarify', value: 'squarify' }],
                 props: {
                   isClearable: false,
+                },
+              },
+              {
+                name: 'Sort Sectors',
+                component: ButtonGroupItem,
+                mapTo: 'sort_sectors',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Largest to Smallest', id: 'largest_to_smallest' },
+                    { name: 'Random', id: 'random' },
+                  ],
+                  defaultSelections: [{ name: 'Largest to Smallest', id: SortSectors }],
                 },
               },
             ],
