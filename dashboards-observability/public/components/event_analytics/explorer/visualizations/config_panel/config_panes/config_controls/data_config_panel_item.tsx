@@ -169,7 +169,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
               </EuiTitle>
             )}
-            <EuiPanel color="subdued">
+            <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow
                 label="Aggregation"
                 labelAppend={
@@ -261,15 +261,26 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       </EuiTitle>
       <EuiSpacer size="s" />
       <EuiTitle size="xxs">
+        <h3>Metrics</h3>
+      </EuiTitle>
+      {getCommonUI(configList.metrics, 'metrics')}
+
+      <EuiSpacer size="s" />
+      <EuiTitle size="xxs">
         <h3>Dimensions</h3>
       </EuiTitle>
       {getCommonUI(configList.dimensions, 'dimensions')}
 
-      <EuiSpacer size="s" />
-      <EuiTitle size="xxs">
-        <h3>Metrics</h3>
-      </EuiTitle>
-      {getCommonUI(configList.metrics, 'metrics')}
+      <EuiFlexItem grow={false}>
+        <EuiButton
+          data-test-subj="visualizeEditorRenderButton"
+          iconType="play"
+          onClick={updateChart}
+          size="s"
+        >
+          Update chart
+        </EuiButton>
+      </EuiFlexItem>
     </>
   );
 };

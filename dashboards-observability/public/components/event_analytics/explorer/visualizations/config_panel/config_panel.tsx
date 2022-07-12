@@ -159,14 +159,14 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
 
   const handleConfigChange = (configSchema: string) => {
     return (configChanges: any) => {
-      const newVizConfigs = { ...vizConfigs, [configSchema]: configChanges };
+      const updatedVizConfigs = { ...vizConfigs, [configSchema]: configChanges };
       setVizConfigs((staleState) => {
         return {
           ...staleState,
           [configSchema]: configChanges,
         };
       });
-      handleConfigUpdate(newVizConfigs);
+      handleConfigUpdate(updatedVizConfigs);
     };
   };
 

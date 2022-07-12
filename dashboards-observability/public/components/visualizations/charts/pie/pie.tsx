@@ -46,6 +46,26 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const invertHex = (hex: string) =>
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
 
+  const createLegendLabels = (dimLabels: string[], xaxisLables:string[] ) => {
+    return dimLabels.map((label:string, index:number) => {
+      return [xaxisLables[index], label].join(',');
+    });
+  };
+  
+  const labelsOfXAxis = () => {
+    let legendLabels = [];
+    if (xaxis.length > 0) {
+      let dimLabelsArray = data[xaxis[0].label];
+      for (let i = 0; i < xaxis.length - 1; i++) {
+        dimLabelsArray = createLegendLabels(dimLabelsArray, data[xaxis[i + 1].label]);
+      }
+      legendLabels = dimLabelsArray;
+    } else {
+      legendLabels = data[fields[lastIndex].name];
+    }
+    return legendLabels;
+  };
+
   const pies = valueSeries.map((field: any, index) => {
     const marker =
       colorTheme.name !== DEFAULT_PALETTE
@@ -60,7 +80,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           }
         : undefined;
     return {
-      labels: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
+      labels: labelsOfXAxis(),
       values: data[field.label],
       type: 'pie',
       name: field.name,
