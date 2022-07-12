@@ -517,7 +517,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             async={false}
             compressed={false}
             fullWidth={true}
-            isClearable={true}
+            isClearable={false}
             onChange={[Function]}
             options={
               Array [
@@ -2274,6 +2274,149 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "chart-styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill Opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color Theme",
+                            "schemas": Array [],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Histogram",
+                  "iconType": "visArea",
+                  "id": "histogram",
+                  "label": "Histogram",
+                  "name": "histogram",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "type": "histogram",
+                  "valueSeries": "yaxis",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "layout": Object {
+                      "height": 500,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"
@@ -2587,7 +2730,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 isListOpen={false}
                 noIcon={false}
                 onChange={[Function]}
-                onClear={[Function]}
                 onClick={[Function]}
                 onCloseListClick={[Function]}
                 onFocus={[Function]}
@@ -2891,12 +3033,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 value="Bar"
               >
                 <EuiFormControlLayout
-                  clear={
-                    Object {
-                      "data-test-subj": "comboBoxClearButton",
-                      "onClick": [Function],
-                    }
-                  }
                   compressed={false}
                   fullWidth={true}
                   icon={
@@ -2918,7 +3054,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       className="euiFormControlLayout__childrenWrapper"
                     >
                       <div
-                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap"
                         data-test-subj="comboBoxInput"
                         onClick={[Function]}
                         tabIndex={-1}
@@ -4186,12 +4322,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         </AutosizeInput>
                       </div>
                       <EuiFormControlLayoutIcons
-                        clear={
-                          Object {
-                            "data-test-subj": "comboBoxClearButton",
-                            "onClick": [Function],
-                          }
-                        }
                         compressed={false}
                         icon={
                           Object {
@@ -4208,49 +4338,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         <div
                           className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
                         >
-                          <EuiFormControlLayoutClearButton
-                            data-test-subj="comboBoxClearButton"
-                            onClick={[Function]}
-                            size="m"
-                          >
-                            <EuiI18n
-                              default="Clear input"
-                              token="euiFormControlLayoutClearButton.label"
-                            >
-                              <button
-                                aria-label="Clear input"
-                                className="euiFormControlLayoutClearButton"
-                                data-test-subj="comboBoxClearButton"
-                                onClick={[Function]}
-                                type="button"
-                              >
-                                <EuiIcon
-                                  className="euiFormControlLayoutClearButton__icon"
-                                  type="cross"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                              </button>
-                            </EuiI18n>
-                          </EuiFormControlLayoutClearButton>
                           <EuiFormControlLayoutCustomIcon
                             aria-label="Open list of options"
                             data-test-subj="comboBoxToggleListButton"

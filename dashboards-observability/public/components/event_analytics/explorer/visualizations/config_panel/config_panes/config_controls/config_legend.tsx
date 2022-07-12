@@ -24,19 +24,21 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
   const dimensions = useMemo(() => {
     return schemas.map((schema, index) => {
       const DimensionComponent = schema.component || ButtonGroupItem;
-      let params = {};
+      let params = {
+        title: schema.name,
+        vizState,
+        ...schema.props,
+      };
       if (schema.eleType === 'input') {
         params = {
-          title: schema.name,
+          ...params,
           currentValue: vizState[schema.mapTo] || '',
           numValue: vizState[schema.mapTo] || '',
           handleInputChange: handleConfigurationChange(schema.mapTo),
-          vizState,
-          ...schema.props,
         };
       } else {
         params = {
-          title: schema.name,
+          ...params,
           legend: schema.name,
           groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
             ...btn,
@@ -44,8 +46,6 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
           })),
           idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
           handleButtonChange: handleConfigurationChange(schema.mapTo),
-          vizState,
-          ...schema.props,
         };
       }
       return (
