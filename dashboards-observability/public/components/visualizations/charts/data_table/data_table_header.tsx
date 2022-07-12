@@ -21,7 +21,7 @@ import { uiSettingsService } from '../../../../../common/utils';
 import {
   GRID_HEADER_COLUMN_MAX_WIDTH,
   ROW_DENSITIES,
-} from '../../../../../common/constants/data_table';
+} from '../../../../../common/constants/explorer';
 
 export interface RowConfigType {
   icon: string;

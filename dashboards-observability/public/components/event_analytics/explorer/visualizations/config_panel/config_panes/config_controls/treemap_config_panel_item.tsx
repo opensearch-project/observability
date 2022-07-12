@@ -50,6 +50,20 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
         metrics: [{ valueField: { ...yaxis[0] } }],
       });
+      dispatch(
+        renderExplorerVis({
+          tabId: tabID,
+          data: {
+            ...explorerVisualizations,
+            [visualizations.vis.name]: {
+              dataConfig: {
+                metrics: [{ valueField: { ...yaxis[0] } }],
+                dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
+              },
+            },
+          },
+        })
+      );
     }
   }, [
     data.defaultAxes,
@@ -72,9 +86,10 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
       [configName]: [listItem],
     };
     setConfigList(newList);
+    updateChart(newList);
   };
 
-  const updateChart = () => {
+  const updateChart = (configList) => {
     dispatch(
       renderExplorerVis({
         tabId: tabID,
@@ -130,7 +145,9 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
               placeholder="Select a field"
               options={getOptionsAvailable("dimensions")}
               selectedOptions={
-                configList.dimensions[0].childField ? [configList.dimensions[0].childField] : []
+                configList.dimensions[0].childField?.label !== ''
+                  ? [{ label: configList.dimensions[0].childField?.label }]
+                  : []
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
@@ -158,7 +175,9 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
               placeholder="Select a field"
               options={getOptionsAvailable("metrics")}
               selectedOptions={
-                configList.metrics[0].valueField ? [configList.metrics[0].valueField] : []
+                configList.metrics[0].valueField?.label !== ''
+                  ? [{ label: configList.metrics[0].valueField?.label }]
+                  : []
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
@@ -170,16 +189,6 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
       </div>
       <EuiSpacer size="s" />
       <EuiSpacer size="s" />
-      <EuiFlexItem grow={false}>
-        <EuiButton
-          data-test-subj="visualizeEditorRenderButton"
-          iconType="play"
-          onClick={updateChart}
-          size="s"
-        >
-          Update chart
-        </EuiButton>
-      </EuiFlexItem>
     </>
   );
 };
