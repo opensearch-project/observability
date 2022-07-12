@@ -44,65 +44,58 @@ export const ConfigChartOptions = ({
     return (
       currentSchemas &&
       currentSchemas.map((schema, index) => {
-        let params = {};
+        let params = {
+          title: schema.name,
+          vizState,
+          ...schema.props,
+        };
         const DimensionComponent = schema.component || PanelItem;
         if (schema.eleType === 'palettePicker') {
           params = {
-            title: schema.name,
+            ...params,
             colorPalettes: schema.options || [],
             selectedColor: vizState[schema.mapTo] || schema.defaultState,
             onSelectChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else if (schema.eleType === 'singleColorPicker') {
           params = {
-            title: schema.name,
+            ...params,
             selectedColor: vizState[schema.mapTo] || schema.defaultState,
             onSelectChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else if (schema.eleType === 'colorpicker') {
           params = {
-            title: schema.name,
+            ...params,
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             onSelectChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else if (schema.eleType === 'treemapColorPicker') {
           params = {
-            title: schema.name,
+            ...params,
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
               (dataConfig?.valueOptions?.parentFields !== undefined &&
                 dataConfig?.valueOptions?.parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else if (schema.eleType === 'input') {
           params = {
-            title: schema.name,
+            ...params,
             currentValue: vizState[schema.mapTo] || '',
             handleInputChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else if (schema.eleType === 'slider') {
           params = {
+            ...params,
             maxRange: schema.props.max,
-            title: schema.name,
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             handleSliderChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
           };
         } else {
           params = {
+            ...params,
             paddingTitle: schema.name,
             advancedTitle: 'advancedTitle',
             dropdownList:
@@ -111,8 +104,6 @@ export const ConfigChartOptions = ({
             onSelectChange: handleConfigurationChange(schema.mapTo),
             isSingleSelection: schema.isSingleSelection,
             selectedAxis: vizState[schema.mapTo] || schema.defaultState,
-            vizState,
-            ...schema.props,
           };
         }
         return (

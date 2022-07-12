@@ -107,14 +107,6 @@ export const createHistogramVisDefinition = (params = {}) => ({
               },
             ],
           },
-          {
-            id: 'thresholds',
-            name: 'Thresholds',
-            editor: ConfigThresholds,
-            mapTo: 'thresholds',
-            defaultState: [],
-            schemas: [],
-          },
         ],
       },
       {

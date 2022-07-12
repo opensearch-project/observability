@@ -2194,14 +2194,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                             ],
                           },
-                          Object {
-                            "defaultState": Array [],
-                            "editor": [Function],
-                            "id": "thresholds",
-                            "mapTo": "thresholds",
-                            "name": "Thresholds",
-                            "schemas": Array [],
-                          },
                         ],
                       },
                       Object {
