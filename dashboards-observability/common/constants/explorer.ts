@@ -118,6 +118,8 @@ export const AGGREGATION_OPTIONS = [
   },
 ];
 
+// numeric fields type for metrics
+export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte'];
 // Data table constants
 export const GRID_HEADER_COLUMN_MAX_WIDTH = '150px';
 export const GRID_PAGE_RANGE_DISPLAY = 5;
