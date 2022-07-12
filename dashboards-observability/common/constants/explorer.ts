@@ -75,7 +75,7 @@ export const REDUX_EXPL_SLICE_FIELDS = 'fields';
 export const REDUX_EXPL_SLICE_QUERY_TABS = 'queryTabs';
 export const REDUX_EXPL_SLICE_VISUALIZATION = 'explorerVisualization';
 export const REDUX_EXPL_SLICE_COUNT_DISTRIBUTION = 'countDistributionVisualization';
-export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
+export const PLOTLY_GAUGE_COLUMN_NUMBER = 4;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
 export const ADD_BUTTON_TEXT = '+ Add color theme';
@@ -118,6 +118,8 @@ export const AGGREGATION_OPTIONS = [
   },
 ];
 
+// numeric fields type for metrics
+export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte'];
 // Data table constants
 export const GRID_HEADER_COLUMN_MAX_WIDTH = '150px';
 export const GRID_PAGE_RANGE_DISPLAY = 5;

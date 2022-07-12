@@ -10,6 +10,7 @@ import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualiz
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const { DefaultMode, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend } = DefaultChartStyles;
@@ -25,8 +26,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } = visualizations?.data?.userConfigs;
 
   const dataConfigTab = visualizations.data?.rawVizData?.line?.dataConfig && visualizations.data.rawVizData.line.dataConfig;
-  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
+  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions.filter((item)  => item.label) : [];
+  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics.filter((item)  => item.label) : [];
 
   const lastIndex = fields.length - 1;
 
@@ -37,6 +38,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
   const fillOpacity = dataConfig?.chartStyles?.fillOpacity !== undefined ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR : FillOpacity / FILLOPACITY_DIV_FACTOR;
+
+  if (isEmpty(xaxis) || isEmpty(yaxis))
+    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {

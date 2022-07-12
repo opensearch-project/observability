@@ -33,7 +33,7 @@ export const ConfigThresholds = ({
   handleConfigChange,
   sectionName = 'Thresholds',
 }: any) => {
-  const addButtonText = '+ Add threadshold';
+  const addButtonText = '+ Add threshold';
   const getThresholdUnit = () => {
     return {
       thid: htmlIdGenerator('thr')(),

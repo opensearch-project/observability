@@ -23,7 +23,9 @@ import {
   renderLineChartForDataConfig,
   DataConfigLineChart, 
   renderDataConfig,
-  aggregationValues
+  aggregationValues,
+  renderGaugeChart,
+  renderAddParent
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
 
@@ -900,5 +902,103 @@ describe('Renders Data Configurations section for Pie chart', () => {
     cy.get('.euiResizableButton.euiResizableButton--horizontal').eq(1).click();
     cy.get('[data-test-subj="panel-1-toggle"]').click();
     cy.get('[class*="euiResizableToggleButton-isCollapsed"]').eq(1).should('exist');
+  });
+});
+describe('Render Gauge Chart and verify if data gets render', () => {
+  it('Render gauge chart and verify by default no data gets render', () => {
+    renderGaugeChart();
+    cy.get('.main-svg').contains('BeatsWest').should('not.exist');
+  });
+
+  it('Render gauge chart and verify data gets render after click on update chart', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('.main-svg').contains('BeatsWest').should('exist');
+  });
+});
+
+describe('Render Gauge Chart and work with chart styles', () => {
+  it('Render gauge chart and change orientation to vertical', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('.euiButton__text').contains('Vertical').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+  });
+
+  it('Render gauge chart and change title size then verify the update on chart', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type('30');
+    cy.get('.euiButton__text').contains('Preview').click();
+  });
+  
+  it('Render gauge chart and change value size then verify the update on chart', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).type('20');
+    cy.get('.euiButton__text').contains('Preview').click();
+  });
+});
+
+describe('Render Gauge Chart and work with threshold', () => {
+  it('Render gauge chart and add threshold then verify by default the threshold is not seen', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('.euiButton__text').contains('+ Add threshold').click();
+    cy.get('[data-test-subj="nameFieldText"]').type('Gauge Threshold');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(2).type('50');
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('[data-unformatted="Gauge Threshold"]').should('not.be.visible');
+  });
+
+  it('Render gauge chart and add threshold then verify the threshold label are seen after show threshold button enabled ', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('.euiButton__text').contains('+ Add threshold').click();
+    cy.get('[data-test-subj="nameFieldText"]').type('Gauge Threshold');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(2).type('50');
+    cy.get('.euiSwitch__label').contains('Show threshold labels').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('[data-unformatted="Gauge Threshold"]').should('be.visible');
+  });
+
+  it('Render gauge chart and add threshold then verify the threshold marker are seen after show threshold button enabled ', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('.euiButton__text').contains('+ Add threshold').click();
+    cy.get('[data-test-subj="nameFieldText"]').type('Gauge Threshold');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(2).type('50');
+    cy.get('.euiSwitch__label').contains('Show threshold markers').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('path[style*="rgb(252, 5, 5)"]').eq(1).should('exist');
+    cy.get('.bg-arc').find('path[style*="rgb(252, 5, 5)"]').should('have.length',4);
+  });
+});
+
+describe('Render gauge chart and verify if reset works properly', () => {
+  it('Render gauge chart with all feild data then click on reset and verify reset works properly', () => {
+    renderGaugeChart();
+    cy.get('.euiButton__text').contains('Update chart').click();
+    cy.get('input[placeholder="Title"]').type('Gauge Chart');
+    cy.get('textarea[placeholder="Description"]').type('Description For Gauge Chart');
+    cy.get('.euiButton__text').contains('Vertical').click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type('30');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).click();
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).type('20');
+    cy.get('.euiButton__text').contains('+ Add threshold').click();
+    cy.get('[data-test-subj="nameFieldText"]').type('Gauge Threshold');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(2).type('50');
+    cy.get('.euiSwitch__label').contains('Show threshold labels').click();
+    cy.get('.euiSwitch__label').contains('Show threshold markers').click();
+    cy.get('.euiButton__text').contains('Preview').click();
+    cy.get('.euiButtonEmpty__text').contains('Reset').click();
+    cy.get('input[placeholder="Title"]').should('not.have.value','Gauge Chart');
+    cy.get('textarea[placeholder="Description"]').should('not.have.value','Description For Gauge Chart')
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).should('have.value','');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).should('have.value','');
+    cy.get('button.euiSwitch__button[aria-checked="false"]').should('exist').should('have.length',3);
   });
 });

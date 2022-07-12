@@ -21,13 +21,14 @@ import {
   render as renderExplorerVis,
   selectExplorerVisualization,
 } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
+import { AGGREGATION_OPTIONS, numericalTypes } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
 import { ConfigList } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
+
   const dispatch = useDispatch();
   const { tabId } = useContext<any>(TabContext);
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
@@ -45,6 +46,30 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const [configList, setConfigList] = useState<ConfigList>({});
+
+  useEffect(() => {
+    if (
+      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.dimensions?.length ===
+        0 ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.metrics?.length === 0
+    ) {
+      dispatch(
+        renderExplorerVis({
+          tabId,
+          data: {
+            ...explorerVisualizations,
+            [visualizations.vis.name]: {
+              dataConfig: {
+                metrics: configList.metrics,
+                dimensions: configList.dimensions,
+              },
+            },
+          },
+        })
+      );
+    }
+  }, [configList]);
 
   useEffect(() => {
     if (
@@ -86,7 +111,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
-    const newList = {
+    const updatedList = {
       ...list,
       [name]: [
         ...list[name].slice(0, index),
@@ -94,15 +119,17 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         ...list[name].slice(index + 1, list[name].length),
       ],
     };
-    setConfigList(newList);
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
     const arr = [...list[name]];
     arr.splice(index, 1);
-    const y = { ...list, [name]: arr };
-    setConfigList(y);
+    const updatedList = { ...list, [name]: arr };
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceAdd = (name: string) => {
@@ -110,7 +137,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     setConfigList(newList);
   };
 
-  const updateChart = () => {
+  const updateChart = (configList) => {
     dispatch(
       renderExplorerVis({
         tabId,
@@ -132,6 +159,15 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     (visualizations.vis.name === visChartTypes.Line ||
       visualizations.vis.name === visChartTypes.Bar);
 
+  const getOptionsAvailable = ((sectionName: string) => {
+    let selectedFields = {};
+    for (const key in configList) {
+      configList[key] && configList[key].forEach((field) => selectedFields[field.label] = true)
+    }
+    const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label])
+    return sectionName === 'metrics' ? unselectedFields.filter((field) => numericalTypes.includes(field.type)) : unselectedFields;
+  });
+
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
     lists.map((singleField, index: number) => (
@@ -143,7 +179,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
               </EuiTitle>
             )}
-            <EuiPanel color="subdued" style={{padding:'0px'}}>
+            <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow
                 label="Aggregation"
                 labelAppend={
@@ -177,7 +213,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   aria-label="Accessible screen reader label"
                   placeholder="Select a field"
                   singleSelection={{ asPlainText: true }}
-                  options={fieldOptionList}
+                  options={getOptionsAvailable(sectionName)}
                   selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
                   onChange={(e) =>
                     updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
