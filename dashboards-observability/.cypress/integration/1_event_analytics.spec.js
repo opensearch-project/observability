@@ -1123,7 +1123,7 @@ describe('Render Table View', () => {
     cy.get('.ag-header-cell-text').contains('Carrier').should('exist');
   });
 
-  it('Switch visualization for table view and chnotange data table density', () => {
+  it('Switch visualization for table view and change data table density', () => {
     cy.get('.euiButtonEmpty__text').contains('Density').click();
     cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--xSmall').eq(1).click();
     cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--xSmall').eq(2).click();
