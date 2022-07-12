@@ -68,6 +68,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
+  if (isEmpty(xaxis) || isEmpty(yaxis))
+    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
@@ -103,8 +106,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
       multiMetrics = {
         ...multiMetrics,
         [`yaxis${index > 0 ? index + 1 : ``}`]: {
-          titlefont: { 
-            color: selectedColor
+          titlefont: {
+            color: selectedColor,
           },
           tickfont: {
             color: selectedColor,
@@ -127,7 +130,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         line: {
           shape: lineShape,
           width: lineWidth,
-          color: selectedColor
+          color: selectedColor,
         },
         marker: {
           size: markerSize,
