@@ -195,3 +195,9 @@ export const renderAddParent = () => {
   cy.get('.euiComboBoxOption__content').eq(2).click();
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}');
 };
+
+export const renderGaugeChart = () => {
+  landOnEventVisualizations();
+  querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Gauge').type('{enter}');
+};
