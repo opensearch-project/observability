@@ -129,7 +129,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
     });
 
-    var layoutForBarMode = {
+    let layoutForBarMode = {
       barmode: 'group',
     };
     const mergedLayout = {
