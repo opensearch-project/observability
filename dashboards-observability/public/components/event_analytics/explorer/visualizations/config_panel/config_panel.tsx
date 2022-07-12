@@ -276,6 +276,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
             }}
             fullWidth
             renderOption={vizSelectableItemRenderer}
+            isClearable={false}
           />
           <EuiSpacer size="xs" />
         </EuiFlexItem>

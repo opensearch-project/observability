@@ -239,8 +239,12 @@ export interface ConfigListEntry {
   side: string;
   type: string;
 }
+export interface HistogramConfigList {
+  bucketSize: string;
+  bucketOffset: string;
+}
 
 export interface ConfigList {
-  dimensions?: ConfigListEntry[];
+  dimensions?: ConfigListEntry[] | HistogramConfigList[];
   metrics?: ConfigListEntry[];
 }
