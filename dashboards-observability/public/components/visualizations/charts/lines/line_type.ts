@@ -14,6 +14,7 @@ import {
   ConfigLineChartStyles,
   ConfigLegend,
   InputFieldItem,
+  ConfigColorTheme
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultChartStyles } from '../../../../../common/constants/shared';
@@ -185,6 +186,13 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
             ],
+          },
+          {
+            id: 'color-theme',
+            name: 'Color theme',
+            editor: ConfigColorTheme,
+            mapTo: 'colorTheme',
+            schemas: [],
           },
           {
             id: 'thresholds',

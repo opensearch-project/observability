@@ -62,6 +62,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const labelSize = dataConfig?.chartStyles?.labelSize;
   const legendSize = dataConfig?.legend?.legendSize;
 
+  const getSelectedColorTheme = (field: any, index: number) =>
+    (dataConfig?.colorTheme?.length > 0 &&
+      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
+        ?.color) ||
+    PLOTLY_COLOR[index % PLOTLY_COLOR.length];
+
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
@@ -79,13 +85,13 @@ export const Line = ({ visualizations, layout, config }: any) => {
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
-
     let calculatedLineValues = valueSeries.map((field: any, index: number) => {
-      const fillColor = hexToRgb(PLOTLY_COLOR[index % PLOTLY_COLOR.length], fillOpacity);
+      const selectedColor = getSelectedColorTheme(field, index);
+      const fillColor = hexToRgb(selectedColor, fillOpacity);
       const barMarker = {
         color: fillColor,
         line: {
-          color: PLOTLY_COLOR[index],
+          color: selectedColor,
           width: lineWidth,
         },
       };
@@ -96,16 +102,18 @@ export const Line = ({ visualizations, layout, config }: any) => {
       const multiYaxis = { yaxis: `y${index + 1}` };
       multiMetrics = {
         ...multiMetrics,
-          [`yaxis${index > 0 ? index + 1 : ``}`]: {
-          titlefont: { color: PLOTLY_COLOR[index] },
+        [`yaxis${index > 0 ? index + 1 : ``}`]: {
+          titlefont: { 
+            color: selectedColor
+          },
           tickfont: {
-            color: PLOTLY_COLOR[index],
+            color: selectedColor,
             ...(labelSize && {
               size: labelSize,
             }),
           },
           overlaying: 'y',
-          side: field.side
+          side: field.side,
         },
       };
 
@@ -119,7 +127,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         line: {
           shape: lineShape,
           width: lineWidth,
-          color: PLOTLY_COLOR[index],
+          color: selectedColor
         },
         marker: {
           size: markerSize,
