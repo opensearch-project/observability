@@ -517,7 +517,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             async={false}
             compressed={false}
             fullWidth={true}
-            isClearable={true}
+            isClearable={false}
             onChange={[Function]}
             options={
               Array [
@@ -2679,7 +2679,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 isListOpen={false}
                 noIcon={false}
                 onChange={[Function]}
-                onClear={[Function]}
                 onClick={[Function]}
                 onCloseListClick={[Function]}
                 onFocus={[Function]}
@@ -2983,12 +2982,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 value="Bar"
               >
                 <EuiFormControlLayout
-                  clear={
-                    Object {
-                      "data-test-subj": "comboBoxClearButton",
-                      "onClick": [Function],
-                    }
-                  }
                   compressed={false}
                   fullWidth={true}
                   icon={
@@ -3010,7 +3003,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       className="euiFormControlLayout__childrenWrapper"
                     >
                       <div
-                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap"
                         data-test-subj="comboBoxInput"
                         onClick={[Function]}
                         tabIndex={-1}
@@ -4278,12 +4271,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         </AutosizeInput>
                       </div>
                       <EuiFormControlLayoutIcons
-                        clear={
-                          Object {
-                            "data-test-subj": "comboBoxClearButton",
-                            "onClick": [Function],
-                          }
-                        }
                         compressed={false}
                         icon={
                           Object {
@@ -4300,49 +4287,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         <div
                           className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
                         >
-                          <EuiFormControlLayoutClearButton
-                            data-test-subj="comboBoxClearButton"
-                            onClick={[Function]}
-                            size="m"
-                          >
-                            <EuiI18n
-                              default="Clear input"
-                              token="euiFormControlLayoutClearButton.label"
-                            >
-                              <button
-                                aria-label="Clear input"
-                                className="euiFormControlLayoutClearButton"
-                                data-test-subj="comboBoxClearButton"
-                                onClick={[Function]}
-                                type="button"
-                              >
-                                <EuiIcon
-                                  className="euiFormControlLayoutClearButton__icon"
-                                  type="cross"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                              </button>
-                            </EuiI18n>
-                          </EuiFormControlLayoutClearButton>
                           <EuiFormControlLayoutCustomIcon
                             aria-label="Open list of options"
                             data-test-subj="comboBoxToggleListButton"
