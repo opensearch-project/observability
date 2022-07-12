@@ -50,6 +50,30 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   useEffect(() => {
     if (
+      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.dimensions?.length ===
+        0 ||
+      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.metrics?.length === 0
+    ) {
+      dispatch(
+        renderExplorerVis({
+          tabId,
+          data: {
+            ...explorerVisualizations,
+            [visualizations.vis.name]: {
+              dataConfig: {
+                metrics: configList.metrics,
+                dimensions: configList.dimensions,
+              },
+            },
+          },
+        })
+      );
+    }
+  }, [configList]);
+
+  useEffect(() => {
+    if (
       data.rawVizData?.[visualizations.vis.name] &&
       data.rawVizData?.[visualizations.vis.name].dataConfig
     ) {
@@ -93,7 +117,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
-    const newList = {
+    const updatedList = {
       ...list,
       [name]: [
         ...list[name].slice(0, index),
@@ -101,34 +125,37 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         ...list[name].slice(index + 1, list[name].length),
       ],
     };
-    setConfigList(newList);
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const updateHistogramConfig = (configName: string, fieldName: string, value: string) => {
     const list = { ...configList };
     let listItem = { ...list[configName][0] };
     listItem[fieldName] = value;
-    const newList = {
+    const updatedList = {
       ...list,
       [configName]: [listItem],
     };
-    setConfigList(newList);
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
     const list = { ...configList };
     const arr = [...list[name]];
     arr.splice(index, 1);
-    const y = { ...list, [name]: arr };
-    setConfigList(y);
+    const updatedList = { ...list, [name]: arr };
+    setConfigList(updatedList);
+    updateChart(updatedList);
   };
 
   const handleServiceAdd = (name: string) => {
-    let newList = { ...configList, [name]: [...configList[name], initialConfigEntry] };
-    setConfigList(newList);
+    const updatedList = { ...configList, [name]: [...configList[name], initialConfigEntry] };
+    setConfigList(updatedList);
   };
 
-  const updateChart = () => {
+  const updateChart = (configList) => {
     dispatch(
       renderExplorerVis({
         tabId,

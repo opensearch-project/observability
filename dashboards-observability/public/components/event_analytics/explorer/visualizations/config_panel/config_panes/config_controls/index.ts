@@ -20,3 +20,5 @@ export { ConfigTreemapParentFields } from './config_treemap_parents';
 export { InputFieldItem } from './config_number_input';
 export { SliderConfig } from './config_style_slider';
 export { ConfigColorTheme } from './config_color_theme';
+export { SwitchButton } from './config_switch_button';
+export { ButtonGroupItem } from './config_button_group';

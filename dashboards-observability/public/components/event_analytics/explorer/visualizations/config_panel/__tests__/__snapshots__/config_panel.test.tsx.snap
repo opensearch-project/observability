@@ -2113,6 +2113,135 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "schemas": Array [
                               Object {
                                 "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "orientation",
+                                "name": "Orientation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "auto",
+                                      "name": "Auto",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "auto",
+                                      "name": "Auto",
+                                    },
+                                    Object {
+                                      "id": "v",
+                                      "name": "Vertical",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Horizontal",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "titleSize",
+                                "name": "Title Size",
+                                "title": "Title Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "valueSize",
+                                "name": "Value Size",
+                                "title": "Value Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "currentValue": false,
+                                "eleType": "switchButton",
+                                "mapTo": "showThresholdLabels",
+                                "name": "Show threshold labels",
+                                "title": "Show threshold labels",
+                              },
+                              Object {
+                                "component": [Function],
+                                "currentValue": true,
+                                "eleType": "switchButton",
+                                "mapTo": "showThresholdMarkers",
+                                "name": "Show threshold markers",
+                                "title": "Show threshold markers",
+                              },
+                            ],
+                          },
+                          Object {
+                            "defaultState": Array [],
+                            "editor": [Function],
+                            "id": "thresholds",
+                            "mapTo": "thresholds",
+                            "name": "Thresholds",
+                            "schemas": Array [],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Gauge",
+                  "icon": [Function],
+                  "iconType": "visGauge",
+                  "id": "gauge",
+                  "label": "Gauge",
+                  "name": "Gauge",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "type": "indicator",
+                  "valueSeries": "yaxis",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "layout": Object {
+                      "height": 500,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "chart-styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
                                 "defaultState": 2,
                                 "eleType": "slider",
                                 "mapTo": "lineWidth",
@@ -13707,93 +13836,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           </EuiButtonContent>
                         </button>
                       </EuiButtonEmpty>
-                    </div>
-                  </EuiFlexItem>
-                  <EuiFlexItem
-                    grow={false}
-                  >
-                    <div
-                      className="euiFlexItem euiFlexItem--flexGrowZero"
-                    >
-                      <EuiButton
-                        data-test-subj="visualizeEditorRenderButton"
-                        disabled={false}
-                        iconType="play"
-                        onClick={[Function]}
-                        size="s"
-                      >
-                        <EuiButtonDisplay
-                          baseClassName="euiButton"
-                          data-test-subj="visualizeEditorRenderButton"
-                          disabled={false}
-                          element="button"
-                          iconType="play"
-                          isDisabled={false}
-                          onClick={[Function]}
-                          size="s"
-                          type="button"
-                        >
-                          <button
-                            className="euiButton euiButton--primary euiButton--small"
-                            data-test-subj="visualizeEditorRenderButton"
-                            disabled={false}
-                            onClick={[Function]}
-                            style={
-                              Object {
-                                "minWidth": undefined,
-                              }
-                            }
-                            type="button"
-                          >
-                            <EuiButtonContent
-                              className="euiButton__content"
-                              iconSide="left"
-                              iconType="play"
-                              textProps={
-                                Object {
-                                  "className": "euiButton__text",
-                                }
-                              }
-                            >
-                              <span
-                                className="euiButtonContent euiButton__content"
-                              >
-                                <EuiIcon
-                                  className="euiButtonContent__icon"
-                                  color="inherit"
-                                  size="m"
-                                  type="play"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                                <span
-                                  className="euiButton__text"
-                                >
-                                  Preview
-                                </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonDisplay>
-                      </EuiButton>
                     </div>
                   </EuiFlexItem>
                 </div>

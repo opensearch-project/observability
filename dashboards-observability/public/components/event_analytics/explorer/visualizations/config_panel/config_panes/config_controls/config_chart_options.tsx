@@ -15,7 +15,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const handleConfigurationChange = useCallback(
@@ -76,14 +76,15 @@ export const ConfigChartOptions = ({
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
-              (dataConfig?.valueOptions?.parentFields !== undefined &&
-                dataConfig?.valueOptions?.parentFields.length) | 0,
+              (tree_map?.dataConfig?.dimensions !== undefined &&
+                tree_map?.dataConfig.dimensions[0].parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'input') {
           params = {
             ...params,
             currentValue: vizState[schema.mapTo] || '',
+            numValue: vizState[schema.mapTo] || '',
             handleInputChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'slider') {
@@ -92,6 +93,25 @@ export const ConfigChartOptions = ({
             maxRange: schema.props.max,
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             handleSliderChange: handleConfigurationChange(schema.mapTo),
+          };
+        } else if (schema.eleType === 'switchButton') {
+          params = {
+            ...params,
+            title: schema.name,
+            currentValue: vizState[schema.mapTo],
+            onToggle: handleConfigurationChange(schema.mapTo),
+          };
+        } else if (schema.eleType === 'buttons') {
+          params = {
+            ...params,
+            title: schema.name,
+            legend: schema.name,
+            groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
+              ...btn,
+              label: btn.name,
+            })),
+            idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
+            handleButtonChange: handleConfigurationChange(schema.mapTo),
           };
         } else {
           params = {

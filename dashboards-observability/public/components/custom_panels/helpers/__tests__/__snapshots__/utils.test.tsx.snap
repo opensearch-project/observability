@@ -2343,226 +2343,83 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "barmode": "line",
-              "displaylogo": false,
-              "responsive": true,
-              "xaxis": Object {
-                "automargin": true,
-              },
-              "yaxis": Object {
-                "automargin": true,
-              },
-            }
-          }
-          data={
-            Array [
-              Object {
-                "fill": "tozeroy",
-                "fillcolor": "rgba(60,161,199,0.2)",
-                "line": Object {
-                  "color": "#3CA1C7",
-                  "shape": "spline",
-                  "width": 2,
-                },
-                "marker": Object {
-                  "size": 5,
-                },
-                "mode": "lines",
-                "name": "avg(FlightDelayMin)",
-                "type": "scatter",
-                "x": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "y": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-            ]
-          }
-          layout={
-            Object {
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "height": 500,
-              "legend": Object {
-                "orientation": "v",
-                "traceorder": "normal",
-              },
-              "margin": Object {
-                "b": 30,
-                "l": 60,
-                "pad": 0,
-                "r": 30,
-                "t": 50,
-              },
-              "paper_bgcolor": "rgba(0, 0, 0, 0)",
-              "plot_bgcolor": "rgba(0, 0, 0, 0)",
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "fixedrange": true,
-                "showgrid": false,
-                "visible": true,
-              },
-              "yaxis": Object {
-                "fixedrange": true,
-                "showgrid": false,
-                "visible": true,
-              },
-              "yaxis1": Object {
-                "overlaying": "y",
-                "side": "left",
-                "tickfont": Object {
-                  "color": "#3CA1C7",
-                },
-                "titlefont": Object {
-                  "color": "#3CA1C7",
-                },
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visLine"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "barmode": "line",
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-                "xaxis": Object {
-                  "automargin": true,
-                },
-                "yaxis": Object {
-                  "automargin": true,
-                },
-              }
-            }
-            data={
-              Array [
-                Object {
-                  "fill": "tozeroy",
-                  "fillcolor": "rgba(60,161,199,0.2)",
-                  "line": Object {
-                    "color": "#3CA1C7",
-                    "shape": "spline",
-                    "width": 2,
-                  },
-                  "marker": Object {
-                    "size": 5,
-                  },
-                  "mode": "lines",
-                  "name": "avg(FlightDelayMin)",
-                  "type": "scatter",
-                  "x": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "y": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-              ]
-            }
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "barmode": "stack",
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "height": 500,
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": "v",
-                  "traceorder": "normal",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 60,
-                  "pad": 0,
-                  "r": 30,
-                  "t": 50,
-                },
-                "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                "plot_bgcolor": "rgba(0, 0, 0, 0)",
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "fixedrange": true,
-                  "showgrid": false,
-                  "visible": true,
-                },
-                "yaxis": Object {
-                  "fixedrange": true,
-                  "showgrid": false,
-                  "visible": true,
-                },
-                "yaxis1": Object {
-                  "overlaying": "y",
-                  "side": "left",
-                  "tickfont": Object {
-                    "color": "#3CA1C7",
-                  },
-                  "titlefont": Object {
-                    "color": "#3CA1C7",
-                  },
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="l"
+                        type="visLine"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="s"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--s"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Line>
     </VisualizationChart>
   </Visualization>
