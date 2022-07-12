@@ -8,7 +8,7 @@ import './app.scss';
 import _ from 'lodash';
 
 import React, { useContext } from 'react';
-import { EuiPanel, EuiResizableContainer } from '@elastic/eui';
+import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
 import { SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
@@ -53,13 +53,17 @@ export const ExplorerVisualizations = ({
 
   const fieldOptionList = fields.map((name) => {
     return { label: name.name };
-  })
+  });
 
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={17} minSize="300" mode="collapsible">
+          <EuiResizablePanel
+            initialSize={17}
+            minSize="300"
+            mode={['collapsible', { position: 'top' }]}
+          >
             <div className="dscFieldChooser">
               <Sidebar
                 query={query}
@@ -74,11 +78,20 @@ export const ExplorerVisualizations = ({
             </div>
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel mode={['collapsible', {
-            'data-test-subj': 'panel-1-toggle',
-            className: 'panel-toggle',
-            position: 'top',
-          }]} className='containerPanel' initialSize={14} minSize="300">
+          <EuiResizablePanel
+            mode={[
+              'collapsible',
+              {
+                'data-test-subj': 'panel-1-toggle',
+                className: 'panel-toggle',
+                position: 'top',
+              },
+            ]}
+            className="containerPanel"
+            initialSize={14}
+            minSize="300"
+          >
+            <EuiSpacer size="s" />
             <EuiPanel paddingSize="s" className="dataConfigContainer">
               {curVisId === visChartTypes.TreeMap ? (
                 <TreemapConfigPanelItem
@@ -97,7 +110,7 @@ export const ExplorerVisualizations = ({
           </EuiResizablePanel>
 
           <EuiResizableButton />
-          <EuiResizablePanel className='containerPanel' initialSize={65} minSize="30%" mode="main">
+          <EuiResizablePanel className="containerPanel" initialSize={65} minSize="30%" mode="main">
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}
@@ -105,7 +118,12 @@ export const ExplorerVisualizations = ({
             />
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel className='containerPanel' initialSize={20} minSize="200px">
+          <EuiResizablePanel
+            className="containerPanel"
+            initialSize={20}
+            minSize="200px"
+            mode={['collapsible', { position: 'top' }]}
+          >
             <ConfigPanel
               vizVectors={explorerVis}
               visualizations={visualizations}

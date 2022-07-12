@@ -33,11 +33,24 @@
 }
 
 .containerPanel {
-  padding: 16px 16px 0 16px;
+  padding: 0 16px;
 }
 
 .dataConfigContainer {
-  min-height: 1250px;
+  height: 1242px;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c2c2c2;
 }
 
 .lensChartIcon__subdued {
