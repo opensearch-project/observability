@@ -91,9 +91,7 @@ export const saveVisualizationAndVerify = () => {
   cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
   cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
   cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-  cy.get(
-    '.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]'
-  )
+  cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]')
     .eq(0)
     .click();
   cy.get('.euiPopover__panel input')
@@ -112,9 +110,9 @@ export const saveVisualizationAndVerify = () => {
 export const deleteVisualization = () => {
   cy.get('a[href = "#/event_analytics"]').click();
   cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input')
-    .eq(0)
-    .type(`Test visualization`)
-    .type('{enter}');
+  .eq(0)
+  .type(`Test visualization` + vis_name_sub_string)
+  .type('{enter}');
   cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
   cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
   cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();

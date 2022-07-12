@@ -45,6 +45,7 @@ export const ConfigChartOptions = ({
       currentSchemas &&
       currentSchemas.map((schema, index) => {
         let params = {
+          title: schema.name,
           vizState,
           ...schema.props,
         };
@@ -52,7 +53,6 @@ export const ConfigChartOptions = ({
         if (schema.eleType === 'palettePicker') {
           params = {
             ...params,
-            title: schema.name,
             colorPalettes: schema.options || [],
             selectedColor: vizState[schema.mapTo] || schema.defaultState,
             onSelectChange: handleConfigurationChange(schema.mapTo),
@@ -60,14 +60,12 @@ export const ConfigChartOptions = ({
         } else if (schema.eleType === 'singleColorPicker') {
           params = {
             ...params,
-            title: schema.name,
             selectedColor: vizState[schema.mapTo] || schema.defaultState,
             onSelectChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'colorpicker') {
           params = {
             ...params,
-            title: schema.name,
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             onSelectChange: handleConfigurationChange(schema.mapTo),
@@ -75,7 +73,6 @@ export const ConfigChartOptions = ({
         } else if (schema.eleType === 'treemapColorPicker') {
           params = {
             ...params,
-            title: schema.name,
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
@@ -86,10 +83,16 @@ export const ConfigChartOptions = ({
         } else if (schema.eleType === 'input') {
           params = {
             ...params,
-            title: schema.name,
             currentValue: vizState[schema.mapTo] || '',
             numValue: vizState[schema.mapTo] || '',
             handleInputChange: handleConfigurationChange(schema.mapTo),
+          };
+        } else if (schema.eleType === 'slider') {
+          params = {
+            ...params,
+            maxRange: schema.props.max,
+            currentRange: vizState[schema.mapTo] || schema?.defaultState,
+            handleSliderChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'switchButton') {
           params = {
