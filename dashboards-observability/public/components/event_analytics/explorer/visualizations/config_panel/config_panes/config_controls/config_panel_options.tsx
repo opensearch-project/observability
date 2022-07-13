@@ -4,8 +4,19 @@
  */
 
 import React, { useCallback } from 'react';
-import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
-
+import {
+  EuiFieldText,
+  EuiForm,
+  EuiFormRow,
+  EuiTextArea,
+  EuiAccordion,
+  EuiFieldNumber,
+} from '@elastic/eui';
+import {
+  visChartTypes,
+  DefaultGaugeChartParameters,
+} from '../../../../../../../../common/constants/shared';
+import { ConfigPanelOptionGauge } from './config_panel_option_gauge';
 const helpText = 'Name your visualization.';
 
 export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizState }: any) => {
@@ -47,6 +58,13 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
             onChange={(e) => handleConfigurationChange('description')(e.target.value)}
           />
         </EuiFormRow>
+        {visualizations?.vis?.name?.toLowerCase() === visChartTypes.Gauge && (
+          <ConfigPanelOptionGauge
+            handleConfigurationChange={handleConfigurationChange}
+            visualizations={visualizations}
+            vizState={vizState}
+          />
+        )}
       </EuiForm>
     </EuiAccordion>
   );

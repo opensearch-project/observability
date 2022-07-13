@@ -9,13 +9,13 @@ import { Plt } from '../../../plotly/plot';
 import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
 import { DefaultGaugeChartParameters } from '../../../../../../common/constants/shared';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 const {
   GaugeTitleSize,
   DisplayDefaultGauges,
   OrientationDefault,
   TickLength,
-  GaugeThresholdWidth,
 } = DefaultGaugeChartParameters;
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
@@ -31,6 +31,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const metrics = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
   const dimensionsLength = dimensions.length && dimensions[0]?.name != '' ? dimensions.length : 0;
   const metricsLength = metrics.length && metrics[0]?.name != '' ? metrics.length : 0;
+  const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
 
   // data panel parameters
   const thresholds = dataConfig?.thresholds || [];
@@ -39,6 +40,8 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const showThresholdMarkers = dataConfig?.chartStyles?.showThresholdMarkers || false;
   const showThresholdLabels = dataConfig?.chartStyles?.showThresholdLabels || false;
   const orientation = dataConfig?.chartStyles?.orientation || OrientationDefault;
+
+  const isEmptyPlot = !metricsLength;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
@@ -56,9 +59,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       // case 3: multiple dimensions and multiple metrics
       if (dimensionsLength && metricsLength) {
         const selectedDimensionsData = [
-          ...dimensions.map((dimension: any) =>
-            data[dimension.name].slice(0, DisplayDefaultGauges)
-          ),
+          ...dimensions.map((dimension: any) => data[dimension.name].slice(0, numberOfGauges)),
         ].reduce(function (prev, cur) {
           return prev.map(function (i, j) {
             return `${i}, ${cur[j]}`;
@@ -66,7 +67,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
         });
 
         const selectedMetricsData = [
-          ...metrics.map((metric: any) => data[metric.name].slice(0, DisplayDefaultGauges)),
+          ...metrics.map((metric: any) => data[metric.name].slice(0, numberOfGauges)),
         ];
 
         selectedMetricsData.map((metricSlice: any, metricSliceIndex) => {
@@ -110,6 +111,15 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                 }),
           },
           gauge: {
+            ...(showThresholdMarkers &&
+              thresholds &&
+              thresholds.length && {
+                threshold: {
+                  line: { color: thresholds[0]?.color || 'red', width: 4 },
+                  thickness: 0.75,
+                  value: thresholds[0]?.value || 0,
+                },
+              }),
             //threshold labels
             ...(showThresholdLabels && thresholds && thresholds.length
               ? {
@@ -121,19 +131,19 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                 }
               : {}),
             // multiple threshold markers!!!!
-            ...(showThresholdMarkers &&
-              thresholds &&
-              thresholds.length && {
-                steps: thresholds.map((threshold: ThresholdUnitType) => {
-                  const value = Number(threshold.value);
-                  return {
-                    range: [value, value + GaugeThresholdWidth] /*width needs improvement*/,
-                    color: threshold.color || 'red',
-                    name: threshold.name || '',
-                    visible: true,
-                  };
-                }),
-              }),
+            // ...(showThresholdMarkers &&
+            //   thresholds &&
+            //   thresholds.length && {
+            //     steps: thresholds.map((threshold: ThresholdUnitType) => {
+            //       const value = Number(threshold.value);
+            //       return {
+            //         range: [value, value + GaugeThresholdWidth] /*width needs improvement*/,
+            //         color: threshold.color || 'red',
+            //         name: threshold.name || '',
+            //         visible: true,
+            //       };
+            //     }),
+            //   }),
           },
         };
       });
@@ -185,5 +195,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.config && layoutConfig.config),
   };
 
-  return <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />;
+  return isEmptyPlot ? (
+    <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
+  ) : (
+    <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />
+  );
 };
