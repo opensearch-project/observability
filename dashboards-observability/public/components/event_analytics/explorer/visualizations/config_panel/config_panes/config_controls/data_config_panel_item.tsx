@@ -89,23 +89,10 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
     ) {
       const { xaxis, yaxis } = data.defaultAxes;
-      if (visualizations.vis.name === visChartTypes.Line) {
-        // timestamp is only dimension in case of line visualization
-        const timestampXaxisIndex = xaxis ? xaxis.findIndex((i) => i.type === 'timestamp') : -1;
-        setConfigList({
-          dimensions: [timestampXaxisIndex > -1 ? xaxis[timestampXaxisIndex] : initialConfigEntry],
-          metrics: yaxis
-            ? yaxis.map((i: any) => {
-                return { ...i, side: 'right' };
-              })
-            : [],
-        });
-      } else {
-        setConfigList({
-          dimensions: [...(xaxis && xaxis)],
-          metrics: [...(yaxis && yaxis)],
-        });
-      }
+      setConfigList({
+        dimensions: [...(xaxis && xaxis)],
+        metrics: [...(yaxis && yaxis)],
+      });
     } else if (visualizations.vis.name === visChartTypes.HeatMap) {
       setConfigList({
         dimensions: [initialConfigEntry, initialConfigEntry],
@@ -201,8 +188,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === 'metrics'
       ? unselectedFields.filter((field) => numericalTypes.includes(field.type))
-      : visualizations.vis.name === visChartTypes.Line
-      ? unselectedFields.filter((i) => i.type === 'timestamp')
       : unselectedFields;
   };
 
