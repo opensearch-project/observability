@@ -128,9 +128,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const isPositionButtonVisible = (sectionName: string) =>
-    sectionName === 'metrics' &&
-    (visualizations.vis.name === visChartTypes.Line ||
-      visualizations.vis.name === visChartTypes.Bar);
+    sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line;
 
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
@@ -143,7 +141,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
               </EuiTitle>
             )}
-            <EuiPanel color="subdued" style={{padding:'0px'}}>
+            <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow
                 label="Aggregation"
                 labelAppend={
