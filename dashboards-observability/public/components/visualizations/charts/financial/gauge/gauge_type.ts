@@ -15,9 +15,11 @@ import {
   ConfigChartOptions,
   ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DefaultChartStyles } from '../../../../../../common/constants/shared';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { ThresholdsMaxLimit } = DefaultChartStyles;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',
@@ -99,6 +101,9 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
             mapTo: 'thresholds',
             defaultState: [],
             schemas: [],
+            props: {
+              maxLimit: ThresholdsMaxLimit,
+            },
           },
         ],
       },

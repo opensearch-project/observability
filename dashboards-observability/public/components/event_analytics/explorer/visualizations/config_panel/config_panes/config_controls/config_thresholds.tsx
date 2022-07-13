@@ -32,6 +32,7 @@ export const ConfigThresholds = ({
   vizState = [],
   handleConfigChange,
   sectionName = 'Thresholds',
+  props,
 }: any) => {
   const addButtonText = '+ Add threshold';
   const getThresholdUnit = () => {
@@ -87,6 +88,9 @@ export const ConfigThresholds = ({
         fullWidth
         size="s"
         onClick={handleAddThreshold}
+        {...(props?.maxLimit && {
+          isDisabled: !isEmpty(vizState) && vizState.length === props?.maxLimit,
+        })}
       >
         {addButtonText}
       </EuiButton>

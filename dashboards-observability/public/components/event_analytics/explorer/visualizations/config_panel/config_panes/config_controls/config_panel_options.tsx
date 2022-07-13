@@ -10,12 +10,8 @@ import {
   EuiFormRow,
   EuiTextArea,
   EuiAccordion,
-  EuiFieldNumber,
 } from '@elastic/eui';
-import {
-  visChartTypes,
-  DefaultGaugeChartParameters,
-} from '../../../../../../../../common/constants/shared';
+import { visChartTypes } from '../../../../../../../../common/constants/shared';
 import { ConfigPanelOptionGauge } from './config_panel_option_gauge';
 const helpText = 'Name your visualization.';
 

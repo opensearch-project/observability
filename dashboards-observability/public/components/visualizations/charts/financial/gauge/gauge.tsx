@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
 import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
-import { DefaultGaugeChartParameters } from '../../../../../../common/constants/shared';
+import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
@@ -130,20 +130,6 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                   },
                 }
               : {}),
-            // multiple threshold markers!!!!
-            // ...(showThresholdMarkers &&
-            //   thresholds &&
-            //   thresholds.length && {
-            //     steps: thresholds.map((threshold: ThresholdUnitType) => {
-            //       const value = Number(threshold.value);
-            //       return {
-            //         range: [value, value + GaugeThresholdWidth] /*width needs improvement*/,
-            //         color: threshold.color || 'red',
-            //         name: threshold.name || '',
-            //         visible: true,
-            //       };
-            //     }),
-            //   }),
           },
         };
       });

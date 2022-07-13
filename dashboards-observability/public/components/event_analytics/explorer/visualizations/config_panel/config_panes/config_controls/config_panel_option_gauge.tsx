@@ -5,10 +5,8 @@
 
 import React from 'react';
 import { EuiFormRow, EuiFieldNumber } from '@elastic/eui';
-import {
-  visChartTypes,
-  DefaultGaugeChartParameters,
-} from '../../../../../../../../common/constants/shared';
+import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { DefaultGaugeChartParameters } from '../../../../../../../../common/constants/explorer';
 
 export const ConfigPanelOptionGauge = ({
   visualizations,

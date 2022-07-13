@@ -158,6 +158,7 @@ export interface DefaultChartStylesProps {
   ShowLegend: string,
   LegendPosition: string,
   DefaultSortSectors: string,
+  ThresholdsMaxLimit: number
 };
 
 export const DefaultChartStyles: DefaultChartStylesProps = {
@@ -169,19 +170,8 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   ShowLegend: 'show',
   LegendPosition: 'v',
   DefaultSortSectors: 'largest_to_smallest',
+  ThresholdsMaxLimit: 1
 }
 
 export const FILLOPACITY_DIV_FACTOR = 200; 
-export interface DefaultGaugeChartParametersProps {
-  GaugeTitleSize: number,
-  DisplayDefaultGauges: number,
-  OrientationDefault: string,
-  TickLength: number,
-};
 
-export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
-  GaugeTitleSize: 14,
-  DisplayDefaultGauges: 1,
-  OrientationDefault: 'h',
-  TickLength: 5,
-} 
