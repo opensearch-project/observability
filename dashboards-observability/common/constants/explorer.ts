@@ -148,4 +148,4 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   OrientationDefault: 'h',
   TickLength: 5,
   LegendPlacement: 'center'
-} 
+}

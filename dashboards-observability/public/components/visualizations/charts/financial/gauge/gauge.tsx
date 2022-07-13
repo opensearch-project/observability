@@ -16,7 +16,7 @@ const {
   DisplayDefaultGauges,
   OrientationDefault,
   TickLength,
-  LegendPlacement
+  LegendPlacement,
 } = DefaultGaugeChartParameters;
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
@@ -41,7 +41,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const showThresholdMarkers = dataConfig?.chartStyles?.showThresholdMarkers || false;
   const showThresholdLabels = dataConfig?.chartStyles?.showThresholdLabels || false;
   const orientation = dataConfig?.chartStyles?.orientation || OrientationDefault;
-  const legendPlacement = dataConfig?.chartStyles?.legendPlacement || LegendPlacement
+  const legendPlacement = dataConfig?.chartStyles?.legendPlacement || LegendPlacement;
 
   const isEmptyPlot = !metricsLength;
 
@@ -93,7 +93,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           title: {
             text: gauge.field_name,
             font: { size: titleSize },
-            align: legendPlacement
+            align: legendPlacement,
           },
           ...(valueSize && {
             number: {
