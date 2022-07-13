@@ -139,6 +139,7 @@ export interface DefaultGaugeChartParametersProps {
   DisplayDefaultGauges: number,
   OrientationDefault: string,
   TickLength: number, 
+  LegendPlacement: string
 };
 
 export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
@@ -146,4 +147,5 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   DisplayDefaultGauges: 1,
   OrientationDefault: 'h',
   TickLength: 5,
+  LegendPlacement: 'center'
 } 

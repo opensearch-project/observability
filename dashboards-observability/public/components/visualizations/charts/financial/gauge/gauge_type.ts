@@ -63,6 +63,20 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
+                name: 'Legend Placement',
+                component: ButtonGroupItem,
+                mapTo: 'legendPlacement',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Center', id: 'center' },
+                    { name: 'Right', id: 'right' },
+                    { name: 'Left', id: 'left' },
+                  ],
+                  defaultSelections: [{ name: 'Center', id: 'center' }],
+                },
+              },
+              {
                 title: 'Title Size',
                 name: 'Title Size',
                 component: InputFieldItem,
