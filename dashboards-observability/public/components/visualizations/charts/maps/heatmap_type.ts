@@ -14,6 +14,7 @@ import {
   ConfigChartOptions,
   PanelItem,
   SingleColorPicker,
+  ConfigLegend,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import {
   COLOR_PALETTES,
@@ -44,6 +45,26 @@ export const createMapsVisDefinition = () => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          {
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
+            schemas: [
+              {
+                name: 'Show Colorscale',
+                mapTo: 'showLegend',
+                component: null,
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                },
+              },
+            ],
+          },
           {
             id: 'chart_styles',
             name: 'Chart Styles',

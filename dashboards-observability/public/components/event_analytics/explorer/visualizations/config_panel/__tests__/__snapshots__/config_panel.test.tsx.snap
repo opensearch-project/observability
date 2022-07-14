@@ -1330,6 +1330,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Colorscale",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
                             "name": "Chart Styles",
@@ -7738,7 +7769,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiFieldText
                                                             aria-describedby="random_html_id-help-0"
                                                             id="random_html_id"
-                                                            name="first"
+                                                            name="title"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7760,7 +7791,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                       aria-describedby="random_html_id-help-0"
                                                                       className="euiFieldText"
                                                                       id="random_html_id"
-                                                                      name="first"
+                                                                      name="title"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -7825,6 +7856,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiTextArea
                                                             aria-label="Use aria labels when no actual label is in use"
                                                             id="random_html_id"
+                                                            name="description"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7836,6 +7868,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 aria-label="Use aria labels when no actual label is in use"
                                                                 className="euiTextArea euiTextArea--resizeVertical"
                                                                 id="random_html_id"
+                                                                name="description"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
                                                                 onFocus={[Function]}

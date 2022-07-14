@@ -53,10 +53,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   useEffect(() => {
     if (
-      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined ||
-      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.dimensions?.length ===
-      0 ||
-      visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.metrics?.length === 0
+      configList.dimensions &&
+      configList.metrics &&
+      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined
     ) {
       dispatch(
         renderExplorerVis({
@@ -98,7 +97,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         dimensions: [initialConfigEntry, initialConfigEntry],
         metrics: [initialConfigEntry],
       });
-    } else {
+    } else if (visualizations.vis.name === visChartTypes.Histogram) {
       setConfigList({
         dimensions: [{ bucketSize: '', bucketOffset: '' }],
       });
@@ -141,7 +140,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       [configName]: [listItem],
     };
     setConfigList(updatedList);
-    updateChart(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
@@ -158,7 +156,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     setConfigList(updatedList);
   };
 
-  const updateChart = (configList) => {
+  const updateChart = (updatedConfigList = configList) => {
     dispatch(
       renderExplorerVis({
         tabId,
@@ -166,8 +164,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           ...explorerVisualizations,
           [visualizations.vis.name]: {
             dataConfig: {
-              metrics: configList.metrics,
-              dimensions: configList.dimensions,
+              metrics: updatedConfigList.metrics,
+              dimensions: updatedConfigList.dimensions,
             },
           },
         },
@@ -296,8 +294,13 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         id={htmlIdGenerator('input-number')()}
         fullWidth
         placeholder="auto"
-        value={configList.dimensions[0][type] ? configList.dimensions[0][type] : ''}
+        value={
+          configList?.dimensions && configList.dimensions[0][type]
+            ? configList.dimensions[0][type]
+            : ''
+        }
         onChange={(e) => updateHistogramConfig('dimensions', type, e.target.value)}
+        onBlur={() => updateChart()}
         data-test-subj="valueFieldNumber"
       />
       <EuiSpacer size="s" />
@@ -341,8 +344,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={updateChart}
+          onClick={() => updateChart()}
           size="s"
+          disabled
         >
           Update chart
         </EuiButton>
