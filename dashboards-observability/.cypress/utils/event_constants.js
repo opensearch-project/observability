@@ -48,6 +48,8 @@ export const SAVE_QUERY2 = 'Mock Flight count by destination';
 export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
 export const SAVE_QUERY4 = 'Mock Flight peek';
 
+export const aggregationValues = ["COUNT", "SUM", "AVERAGE", "MAX", "MIN", "VAR_SAMP", "VAR_POP", "STDDEV_SAMP", "STDDEV_POP"];
+
 export const querySearch = (query, rangeSelected) => {
   cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
   cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
@@ -139,13 +141,27 @@ export const renderPieChart = () => {
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
   cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
   cy.wait(delay);
-  cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
-  cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
-    .click()
-    .type('This is the description for Pie chart');
-  cy.get('[data-test-subj="comboBoxInput"]').eq(1).click();
-  cy.get('[data-test-subj="comboBoxToggleListButton"]').eq(0).click();
-  cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
+    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Pie chart');
+    cy.get('[aria-controls="configPanel__legend"]').contains('Legend').should('exist');
+    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(0).contains('Show Legend');
+    cy.get('span[data-text="Show"]').contains('Show').should('exist');
+    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(1).contains('Position');
+    cy.get('span[data-text="Right"]').contains('Right').should('exist');
+    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(2).contains('Legend Size');
+    cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles').should('exist');
+    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(0).contains('Mode').click();
+    cy.get('#configPanel__chartStyles .euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap.euiComboBox__inputWrap-isClearable').click();
+    cy.get('.euiComboBoxOption__content').contains('Donut').click();
+    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(1).contains('Label Size');
+    cy.get('#configPanel__chartStyles input[type="number"]').click().type('10');
+    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(2).contains('Color Theme');
+    cy.get('.euiSuperSelectControl').click();
+    cy.get('.euiColorPalettePicker__item').eq(1).contains('Single Color').click();
+    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+    cy.get('[aria-label="Select #D36086 as the color"]').click();
+    cy.get('.visEditorSidebar__controls [data-test-subj="visualizeEditorRenderButton"]').contains('Preview').click();
+    cy.get('.plot-container.plotly').should('exist');
 };
 
 export const renderDataConfig = () => {
