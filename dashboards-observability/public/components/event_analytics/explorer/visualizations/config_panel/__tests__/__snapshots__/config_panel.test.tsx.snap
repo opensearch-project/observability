@@ -7687,7 +7687,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiFieldText
                                                             aria-describedby="random_html_id-help-0"
                                                             id="random_html_id"
-                                                            name="first"
+                                                            name="title"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7709,7 +7709,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                       aria-describedby="random_html_id-help-0"
                                                                       className="euiFieldText"
                                                                       id="random_html_id"
-                                                                      name="first"
+                                                                      name="title"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -7774,6 +7774,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiTextArea
                                                             aria-label="Use aria labels when no actual label is in use"
                                                             id="random_html_id"
+                                                            name="description"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7785,6 +7786,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 aria-label="Use aria labels when no actual label is in use"
                                                                 className="euiTextArea euiTextArea--resizeVertical"
                                                                 id="random_html_id"
+                                                                name="description"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
                                                                 onFocus={[Function]}
