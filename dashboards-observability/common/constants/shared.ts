@@ -157,6 +157,7 @@ export interface DefaultChartStylesProps {
   MarkerSize: number,
   ShowLegend: string,
   LegendPosition: string,
+  LabelAngle: number,
   DefaultSortSectors: string,
 };
 
@@ -168,6 +169,7 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   MarkerSize: 5,
   ShowLegend: 'show',
   LegendPosition: 'v',
+  LabelAngle: 0,
   DefaultSortSectors: 'largest_to_smallest',
 }
 
