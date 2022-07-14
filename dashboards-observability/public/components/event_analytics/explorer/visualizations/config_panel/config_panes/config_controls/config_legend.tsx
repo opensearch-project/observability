@@ -33,6 +33,7 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
         params = {
           ...params,
           currentValue: vizState[schema.mapTo] || '',
+          numValue: vizState[schema.mapTo] || '',
           handleInputChange: handleConfigurationChange(schema.mapTo),
         };
       } else {
