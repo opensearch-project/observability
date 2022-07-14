@@ -6,6 +6,7 @@
 import { isEmpty, take } from 'lodash';
 import { getVisType } from '../vis_types';
 import { IVisualizationContainerProps, IField, IQuery } from '../../../../../common/types/explorer';
+import { visChartTypes } from '../../../../../common/constants/shared';
 
 interface IVizContainerProps {
   vizId: string;
@@ -20,13 +21,29 @@ interface IVizContainerProps {
   };
 }
 
-const getDefaultXYAxisLabels = (vizFields: IField[]) => {
+const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   if (isEmpty(vizFields)) return {};
   const vizFieldsWithLabel = vizFields.map(vizField => ({ ...vizField, label: vizField.name }));
-  return {
-    xaxis: [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]] || [],
-    yaxis: take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [],
-  };
+  let xAxis = [];
+  let yAxis = [];
+  const mapXaxis = () => {
+    if (visName === visChartTypes.Line) {
+      xAxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp')
+    } else {
+      xAxis = [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]]
+    }
+    return xAxis;
+  }
+
+  const mapYaxis = () => {
+    if (visName === visChartTypes.Line) {
+      yAxis = vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
+    } else {
+      yAxis = take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [];
+    }
+    return yAxis;
+  }
+  return { xaxis: mapXaxis(), yaxis: mapYaxis() };
 };
 
 export const getVizContainerProps = ({
@@ -37,6 +54,9 @@ export const getVizContainerProps = ({
   userConfigs = {},
   appData = {},
 }: IVizContainerProps): IVisualizationContainerProps => {
+  const visType = {
+    ...getVisType(vizId),
+  }
   return {
     data: {
       appData: { ...appData },
@@ -45,11 +65,9 @@ export const getVizContainerProps = ({
       indexFields: { ...indexFields },
       userConfigs: { ...userConfigs },
       defaultAxes: {
-        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields),
+        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, visType.name),
       },
     },
-    vis: {
-      ...getVisType(vizId),
-    },
+    vis: visType,
   };
 };

@@ -55,7 +55,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     if (
       visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined ||
       visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.dimensions?.length ===
-        0 ||
+      0 ||
       visualizations.data?.rawVizData?.[visualizations.vis.name]?.dataConfig?.metrics?.length === 0
     ) {
       dispatch(
@@ -91,7 +91,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       const { xaxis, yaxis } = data.defaultAxes;
       setConfigList({
         dimensions: [...(xaxis && xaxis)],
-        metrics: [...(yaxis && yaxis)],
+        metrics: [...(yaxis && yaxis.map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' })))],
       });
     } else if (visualizations.vis.name === visChartTypes.HeatMap) {
       setConfigList({
@@ -188,7 +188,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === 'metrics'
       ? unselectedFields.filter((field) => numericalTypes.includes(field.type))
-      : unselectedFields;
+      : visualizations.vis.name === visChartTypes.Line
+        ? unselectedFields.filter((i) => i.type === 'timestamp')
+        : unselectedFields;
   };
 
   const getCommonUI = (lists, sectionName: string) =>
@@ -275,6 +277,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                     iconType="plusInCircleFilled"
                     color="primary"
                     onClick={() => handleServiceAdd(sectionName)}
+                    disabled={sectionName === "dimensions" && visualizations.vis.name === visChartTypes.Line}
                   >
                     Add
                   </EuiButton>

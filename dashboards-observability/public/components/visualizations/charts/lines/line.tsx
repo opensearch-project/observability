@@ -41,8 +41,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const dataConfigTab =
     visualizations.data?.rawVizData?.line?.dataConfig &&
     visualizations.data.rawVizData.line.dataConfig;
-  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
+  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions.filter((item) => item.label) : [];
+  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics.filter((item) => item.label) : [];
 
   const lastIndex = fields.length - 1;
 
@@ -75,10 +75,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
-    valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
-    valueSeries = valueSeries.map((i) => {
-      return { ...i, side: 'right' };
-    });
+    valueSeries = (defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1))
+      .map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
   }
 
   const isDimensionTimestamp = isEmpty(xaxis)

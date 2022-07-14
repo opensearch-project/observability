@@ -1296,18 +1296,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
         "data": Object {
           "appData": Object {},
           "defaultAxes": Object {
-            "xaxis": Array [
-              Object {
-                "label": "Carrier",
-                "name": "Carrier",
-                "type": "keyword",
-              },
-            ],
+            "xaxis": Array [],
             "yaxis": Array [
               Object {
                 "label": "avg(FlightDelayMin)",
                 "name": "avg(FlightDelayMin)",
                 "type": "double",
+              },
+              Object {
+                "label": "Carrier",
+                "name": "Carrier",
+                "type": "keyword",
               },
             ],
           },
@@ -1680,18 +1679,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           "data": Object {
             "appData": Object {},
             "defaultAxes": Object {
-              "xaxis": Array [
-                Object {
-                  "label": "Carrier",
-                  "name": "Carrier",
-                  "type": "keyword",
-                },
-              ],
+              "xaxis": Array [],
               "yaxis": Array [
                 Object {
                   "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
+                },
+                Object {
+                  "label": "Carrier",
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
             },
@@ -2118,18 +2116,17 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "data": Object {
               "appData": Object {},
               "defaultAxes": Object {
-                "xaxis": Array [
-                  Object {
-                    "label": "Carrier",
-                    "name": "Carrier",
-                    "type": "keyword",
-                  },
-                ],
+                "xaxis": Array [],
                 "yaxis": Array [
                   Object {
                     "label": "avg(FlightDelayMin)",
                     "name": "avg(FlightDelayMin)",
                     "type": "double",
+                  },
+                  Object {
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
                   },
                 ],
               },
