@@ -54,6 +54,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
       : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
     : HEATMAP_PALETTE_COLOR;
+  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
 
   const traceColor: any = [];
   if (colorField.name === SINGLE_COLOR_PALETTE) {
@@ -72,7 +73,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
     // maps bukcets to metrics
     for (let i = 0; i < data[xaxisField.label].length; i++) {
-      buckets[`${data[xaxisField.label][i]},${data[yaxisField.label][i]}`] = data[zMetrics.label][i];
+      buckets[`${data[xaxisField.label][i]},${data[yaxisField.label][i]}`] =
+        data[zMetrics.label][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
@@ -112,6 +114,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       y: uniqueYaxis,
       colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
+      showscale: showColorscale === 'show',
     },
   ];
 
