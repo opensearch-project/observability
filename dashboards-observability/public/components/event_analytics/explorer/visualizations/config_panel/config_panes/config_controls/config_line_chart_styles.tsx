@@ -57,7 +57,7 @@ export const ConfigLineChartStyles = ({
   const dimensions = useMemo(
     () =>
       currentSchemas &&
-      currentSchemas.map((schema: IConfigPanelOptionSection, index: string) => {
+      currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
         const DimensionComponent = schema.component || ButtonGroupItem;
         let params = {
           title: schema.name,
@@ -79,7 +79,7 @@ export const ConfigLineChartStyles = ({
           params = {
             ...params,
             minRange: schema?.props?.min || 0,
-            maxRange: schema.props.max,
+            maxRange: schema?.props?.max || 100,
             step: schema?.props?.step || 1,
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             ticks: schema?.props?.ticks,

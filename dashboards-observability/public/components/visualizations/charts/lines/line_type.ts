@@ -38,7 +38,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   type: 'line',
   id: 'line',
   label: 'Time series',
-  fullLabel: 'Line',
+  fullLabel: 'Time series',
   iconType: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {

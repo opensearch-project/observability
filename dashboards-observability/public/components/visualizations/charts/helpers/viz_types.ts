@@ -23,26 +23,16 @@ interface IVizContainerProps {
 
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   if (isEmpty(vizFields)) return {};
-  const vizFieldsWithLabel = vizFields.map(vizField => ({ ...vizField, label: vizField.name }));
-  let xAxis = [];
-  let yAxis = [];
-  const mapXaxis = () => {
-    if (visName === visChartTypes.Line) {
-      xAxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp')
-    } else {
-      xAxis = [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]]
-    }
-    return xAxis;
-  }
+  const vizFieldsWithLabel: ({ [key: string]: string })[] = vizFields.map(vizField => ({ ...vizField, label: vizField.name }));
 
-  const mapYaxis = () => {
-    if (visName === visChartTypes.Line) {
-      yAxis = vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
-    } else {
-      yAxis = take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [];
-    }
-    return yAxis;
-  }
+  const mapXaxis = (): ({ [key: string]: string })[] => visName === visChartTypes.Line ?
+    vizFieldsWithLabel.filter((field) => field.type === 'timestamp') :
+    [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
+
+  const mapYaxis = (): ({ [key: string]: string })[] => visName === visChartTypes.Line ?
+    vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
+    : take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [];
+
   return { xaxis: mapXaxis(), yaxis: mapYaxis() };
 };
 

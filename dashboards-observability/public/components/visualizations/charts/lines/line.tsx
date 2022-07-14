@@ -103,7 +103,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       const multiYaxis = { yaxis: `y${index + 1}` };
       multiMetrics = {
         ...multiMetrics,
-        [`yaxis${index > 0 ? index + 1 : ``}`]: {
+        [`yaxis${index > 0 ? index + 1 : ''}`]: {
           titlefont: {
             color: selectedColor,
           },

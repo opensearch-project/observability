@@ -1050,7 +1050,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Line",
+                  "fullLabel": "Time series",
                   "icon": [Function],
                   "iconType": "visLine",
                   "id": "line",
