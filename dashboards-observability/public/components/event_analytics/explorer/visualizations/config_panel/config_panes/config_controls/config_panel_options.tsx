@@ -6,8 +6,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
-import { ConfigPanelOptionGauge } from './config_panel_option_gauge';
 import { DefaultGaugeChartParameters } from '../../../../../../../../common/constants/explorer';
+import { ConfigPanelOptionGauge } from './config_panel_option_gauge';
 
 const helpText = 'Name your visualization.';
 

@@ -5,12 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { EuiFormRow, EuiFieldNumber } from '@elastic/eui';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
 import { DefaultGaugeChartParameters } from '../../../../../../../../common/constants/explorer';
+
+const helpText = `Limit number of gauges.`;
 
 export const ConfigPanelOptionGauge = ({
   visualizations,
-  onChange,
   vizState,
   panelOptionsValues,
   handleConfigChange,
@@ -30,7 +30,7 @@ export const ConfigPanelOptionGauge = ({
   }, [vizState?.numberOfGauges]);
 
   return (
-    <EuiFormRow fullWidth label="Number of gauges" helpText={`Limit number of gauges`}>
+    <EuiFormRow fullWidth label="Number of gauges" helpText={helpText}>
       <EuiFieldNumber
         name="numberOfGauges"
         onChange={(e) => {

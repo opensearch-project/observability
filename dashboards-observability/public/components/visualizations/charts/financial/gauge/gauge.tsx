@@ -45,6 +45,8 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const isEmptyPlot = !metricsLength;
 
+  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
     if (dimensionsLength || metricsLength) {
@@ -184,9 +186,5 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.config && layoutConfig.config),
   };
 
-  return isEmptyPlot ? (
-    <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
-  ) : (
-    <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />
-  );
+  return <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />;
 };
