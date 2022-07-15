@@ -3,25 +3,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
 
 const helpText = 'Name your visualization.';
 
 export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizState }: any) => {
   const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { name } = visualizations?.vis;
 
-  const handleConfigurationChange = useCallback(
-    (stateFiledName) => {
-      return (changes) => {
-        handleConfigChange({
-          ...vizState,
-          [stateFiledName]: changes,
-        });
-      };
-    },
-    [handleConfigChange, vizState]
-  );
+  const [panelOptionsValues, setPanelOptionsValues] = useState({
+    title: '',
+    description: '',
+  });
+
+  useEffect(() => {
+    setPanelOptionsValues({
+      title: vizState?.title || '',
+      description: vizState?.description || '',
+    });
+  }, [name, vizState?.title, vizState?.description]);
+
+  const handleTextChange = ({ target }) => {
+    setPanelOptionsValues({ ...panelOptionsValues, [target.name]: target.value });
+  };
 
   return (
     <EuiAccordion
@@ -33,18 +38,21 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
       <EuiForm component="form">
         <EuiFormRow fullWidth label="Title" helpText={`${helpText}`}>
           <EuiFieldText
-            name="first"
-            onChange={(e) => handleConfigurationChange('title')(e.target.value)}
-            value={vizState?.title || ''}
+            name="title"
+            onChange={handleTextChange}
+            onBlur={() => handleConfigChange(panelOptionsValues)}
+            value={panelOptionsValues.title}
             placeholder={'Title'}
           />
         </EuiFormRow>
         <EuiFormRow label="Description">
           <EuiTextArea
+            name="description"
             aria-label="Use aria labels when no actual label is in use"
             placeholder={'Description'}
-            value={vizState?.description || ''}
-            onChange={(e) => handleConfigurationChange('description')(e.target.value)}
+            value={panelOptionsValues.description}
+            onChange={handleTextChange}
+            onBlur={() => handleConfigChange(panelOptionsValues)}
           />
         </EuiFormRow>
       </EuiForm>

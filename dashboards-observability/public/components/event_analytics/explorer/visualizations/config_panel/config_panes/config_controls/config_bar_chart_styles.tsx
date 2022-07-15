@@ -31,73 +31,56 @@ export const ConfigBarChartStyles = ({
     [handleConfigChange, vizState]
   );
 
-  /* To update the schema options based on current style mode selection */
-  const currentSchemas = useMemo(() => {
-    if (vizState?.orientation === 'h') {
-      return schemas.filter(
-        (schema: IConfigPanelOptionSection) => schema.mapTo !== 'rotateBarLabels'
-      );
-    }
-    return schemas;
-  }, [vizState]);
+    const dimensions = useMemo(() =>
+        currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
+            let params = {
+                title: schema.name,
+                vizState,
+                ...schema.props,
+            }
+            const DimensionComponent = schema.component || ButtonGroupItem;
 
-  const dimensions = useMemo(
-    () =>
-      currentSchemas
-        .map((schema: IConfigPanelOptionSection, index: number) => {
-          let params;
-          const DimensionComponent = schema.component || ButtonGroupItem;
-
-          const createDimensionComponent = (dimProps) => (
-            <>
-              <DimensionComponent key={`viz-series-${index}`} {...dimProps} />
-              <EuiSpacer size="s" />
-            </>
-          );
-          if (schema.eleType === 'buttons') {
-            params = {
-              title: schema.name,
-              legend: schema.name,
-              groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
-                ...btn,
-                label: btn.name,
-              })),
-              idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-              handleButtonChange: handleConfigurationChange(schema.mapTo),
-              vizState,
-              ...schema.props,
-            };
-            return createDimensionComponent(params);
-          }
-          if (schema.eleType === 'input') {
-            params = {
-              title: schema.name,
-              currentValue: vizState[schema.mapTo] || '',
-              handleInputChange: handleConfigurationChange(schema.mapTo),
-              vizState,
-              ...schema.props,
-            };
-            return createDimensionComponent(params);
-          }
-          if (schema.eleType === 'slider') {
-            params = {
-              minRange: schema?.props?.min || 0,
-              maxRange: schema.props.max,
-              step: schema?.props?.step || 1,
-              title: schema.name,
-              currentRange: vizState[schema.mapTo] || schema?.defaultState,
-              ticks: schema?.props?.ticks,
-              showTicks: schema?.props?.showTicks || false,
-              handleSliderChange: handleConfigurationChange(schema.mapTo),
-              vizState,
-              ...schema.props,
-            };
-            return createDimensionComponent(params);
-          }
-        })
-        .filter((item) => item),
-    [schemas, vizState, handleConfigurationChange]
-  );
+            const createDimensionComponent = (dimProps) => (
+                <>
+                    <DimensionComponent key={`viz-series-${index}`} {...dimProps} />
+                    <EuiSpacer size="s" />
+                </>
+            )
+            if (schema.eleType === 'buttons') {
+                params = {
+                    ...params,
+                    legend: schema.name,
+                    groupOptions: schema?.props?.options.map((btn: { name: string }) => ({ ...btn, label: btn.name })),
+                    idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
+                    handleButtonChange: handleConfigurationChange(schema.mapTo),
+                };
+                return createDimensionComponent(params);
+            }
+            if (schema.eleType === 'input') {
+              params = {
+                title: schema.name,
+                currentValue: vizState[schema.mapTo] || '',
+                handleInputChange: handleConfigurationChange(schema.mapTo),
+                vizState,
+                ...schema.props,
+              };
+              return createDimensionComponent(params);
+            }
+            if (schema.eleType === 'slider') {
+                params = {
+                    ...params,
+                    minRange: schema?.props?.min || 0,
+                    maxRange: schema?.props?.max || 100,
+                    step: schema?.props?.step || 1,
+                    currentRange: vizState[schema.mapTo] || schema?.defaultState,
+                    ticks: schema?.props?.ticks,
+                    showTicks: schema?.props?.showTicks || false,
+                    handleSliderChange: handleConfigurationChange(schema.mapTo),
+                };
+                return createDimensionComponent(params);
+            }
+        }).filter(item => item)
+        , [schemas, vizState, handleConfigurationChange]);
 
   return (
     <EuiAccordion
