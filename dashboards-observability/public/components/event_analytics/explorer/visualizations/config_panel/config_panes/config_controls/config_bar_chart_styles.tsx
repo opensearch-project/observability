@@ -64,7 +64,16 @@ export const ConfigBarChartStyles = ({
                 };
                 return createDimensionComponent(params);
             }
-
+            if (schema.eleType === 'input') {
+              params = {
+                title: schema.name,
+                currentValue: vizState[schema.mapTo] || '',
+                handleInputChange: handleConfigurationChange(schema.mapTo),
+                vizState,
+                ...schema.props,
+              };
+              return createDimensionComponent(params);
+            }
             if (schema.eleType === 'slider') {
                 params = {
                     ...params,

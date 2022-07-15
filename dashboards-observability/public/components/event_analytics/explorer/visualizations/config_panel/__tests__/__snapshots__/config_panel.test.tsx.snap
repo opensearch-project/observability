@@ -215,26 +215,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               "sections": Array [
                 Object {
                   "editor": [Function],
-                  "id": "value_options",
-                  "mapTo": "valueOptions",
-                  "name": "Value options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "xaxis",
-                      "name": "X-axis",
-                    },
-                    Object {
-                      "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "yaxis",
-                      "name": "Y-axis",
-                    },
-                  ],
-                },
-                Object {
-                  "editor": [Function],
                   "id": "legend",
                   "mapTo": "legend",
                   "name": "Legend",
@@ -340,6 +320,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label Size",
                     },
                     Object {
                       "component": [Function],
@@ -536,26 +522,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "xaxis",
-                                "name": "X-axis",
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "yaxis",
-                                "name": "Y-axis",
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "legend",
                             "mapTo": "legend",
                             "name": "Legend",
@@ -661,6 +627,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   ],
                                 },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
                               },
                               Object {
                                 "component": [Function],
@@ -2469,26 +2441,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "value_options",
-                            "mapTo": "valueOptions",
-                            "name": "Value options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "xaxis",
-                                "name": "X-axis",
-                              },
-                              Object {
-                                "component": null,
-                                "isSingleSelection": false,
-                                "mapTo": "yaxis",
-                                "name": "Y-axis",
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "legend",
                             "mapTo": "legend",
                             "name": "Legend",
@@ -2594,6 +2546,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   ],
                                 },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
                               },
                               Object {
                                 "component": [Function],
@@ -2786,26 +2744,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "sections": Array [
                               Object {
                                 "editor": [Function],
-                                "id": "value_options",
-                                "mapTo": "valueOptions",
-                                "name": "Value options",
-                                "schemas": Array [
-                                  Object {
-                                    "component": null,
-                                    "isSingleSelection": false,
-                                    "mapTo": "xaxis",
-                                    "name": "X-axis",
-                                  },
-                                  Object {
-                                    "component": null,
-                                    "isSingleSelection": false,
-                                    "mapTo": "yaxis",
-                                    "name": "Y-axis",
-                                  },
-                                ],
-                              },
-                              Object {
-                                "editor": [Function],
                                 "id": "legend",
                                 "mapTo": "legend",
                                 "name": "Legend",
@@ -2911,6 +2849,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                       ],
                                     },
+                                  },
+                                  Object {
+                                    "component": [Function],
+                                    "eleType": "input",
+                                    "mapTo": "labelSize",
+                                    "name": "Label Size",
                                   },
                                   Object {
                                     "component": [Function],
@@ -3108,26 +3052,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "sections": Array [
                                     Object {
                                       "editor": [Function],
-                                      "id": "value_options",
-                                      "mapTo": "valueOptions",
-                                      "name": "Value options",
-                                      "schemas": Array [
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "xaxis",
-                                          "name": "X-axis",
-                                        },
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "yaxis",
-                                          "name": "Y-axis",
-                                        },
-                                      ],
-                                    },
-                                    Object {
-                                      "editor": [Function],
                                       "id": "legend",
                                       "mapTo": "legend",
                                       "name": "Legend",
@@ -3233,6 +3157,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
+                                        },
+                                        Object {
+                                          "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "labelSize",
+                                          "name": "Label Size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -3365,26 +3295,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "sections": Array [
                                       Object {
                                         "editor": [Function],
-                                        "id": "value_options",
-                                        "mapTo": "valueOptions",
-                                        "name": "Value options",
-                                        "schemas": Array [
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "xaxis",
-                                            "name": "X-axis",
-                                          },
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "yaxis",
-                                            "name": "Y-axis",
-                                          },
-                                        ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
                                         "id": "legend",
                                         "mapTo": "legend",
                                         "name": "Legend",
@@ -3490,6 +3400,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               ],
                                             },
+                                          },
+                                          Object {
+                                            "component": [Function],
+                                            "eleType": "input",
+                                            "mapTo": "labelSize",
+                                            "name": "Label Size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -3688,26 +3604,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "sections": Array [
                                       Object {
                                         "editor": [Function],
-                                        "id": "value_options",
-                                        "mapTo": "valueOptions",
-                                        "name": "Value options",
-                                        "schemas": Array [
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "xaxis",
-                                            "name": "X-axis",
-                                          },
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "yaxis",
-                                            "name": "Y-axis",
-                                          },
-                                        ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
                                         "id": "legend",
                                         "mapTo": "legend",
                                         "name": "Legend",
@@ -3813,6 +3709,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               ],
                                             },
+                                          },
+                                          Object {
+                                            "component": [Function],
+                                            "eleType": "input",
+                                            "mapTo": "labelSize",
+                                            "name": "Label Size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -3981,26 +3883,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "sections": Array [
                                           Object {
                                             "editor": [Function],
-                                            "id": "value_options",
-                                            "mapTo": "valueOptions",
-                                            "name": "Value options",
-                                            "schemas": Array [
-                                              Object {
-                                                "component": null,
-                                                "isSingleSelection": false,
-                                                "mapTo": "xaxis",
-                                                "name": "X-axis",
-                                              },
-                                              Object {
-                                                "component": null,
-                                                "isSingleSelection": false,
-                                                "mapTo": "yaxis",
-                                                "name": "Y-axis",
-                                              },
-                                            ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
                                             "id": "legend",
                                             "mapTo": "legend",
                                             "name": "Legend",
@@ -4106,6 +3988,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                   ],
                                                 },
+                                              },
+                                              Object {
+                                                "component": [Function],
+                                                "eleType": "input",
+                                                "mapTo": "labelSize",
+                                                "name": "Label Size",
                                               },
                                               Object {
                                                 "component": [Function],
@@ -4457,26 +4345,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           "sections": Array [
                             Object {
                               "editor": [Function],
-                              "id": "value_options",
-                              "mapTo": "valueOptions",
-                              "name": "Value options",
-                              "schemas": Array [
-                                Object {
-                                  "component": null,
-                                  "isSingleSelection": false,
-                                  "mapTo": "xaxis",
-                                  "name": "X-axis",
-                                },
-                                Object {
-                                  "component": null,
-                                  "isSingleSelection": false,
-                                  "mapTo": "yaxis",
-                                  "name": "Y-axis",
-                                },
-                              ],
-                            },
-                            Object {
-                              "editor": [Function],
                               "id": "legend",
                               "mapTo": "legend",
                               "name": "Legend",
@@ -4582,6 +4450,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
+                                },
+                                Object {
+                                  "component": [Function],
+                                  "eleType": "input",
+                                  "mapTo": "labelSize",
+                                  "name": "Label Size",
                                 },
                                 Object {
                                   "component": [Function],
@@ -4868,26 +4742,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "sections": Array [
                                     Object {
                                       "editor": [Function],
-                                      "id": "value_options",
-                                      "mapTo": "valueOptions",
-                                      "name": "Value options",
-                                      "schemas": Array [
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "xaxis",
-                                          "name": "X-axis",
-                                        },
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "yaxis",
-                                          "name": "Y-axis",
-                                        },
-                                      ],
-                                    },
-                                    Object {
-                                      "editor": [Function],
                                       "id": "legend",
                                       "mapTo": "legend",
                                       "name": "Legend",
@@ -4993,6 +4847,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
+                                        },
+                                        Object {
+                                          "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "labelSize",
+                                          "name": "Label Size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -5165,26 +5025,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "sections": Array [
                               Object {
                                 "editor": [Function],
-                                "id": "value_options",
-                                "mapTo": "valueOptions",
-                                "name": "Value options",
-                                "schemas": Array [
-                                  Object {
-                                    "component": null,
-                                    "isSingleSelection": false,
-                                    "mapTo": "xaxis",
-                                    "name": "X-axis",
-                                  },
-                                  Object {
-                                    "component": null,
-                                    "isSingleSelection": false,
-                                    "mapTo": "yaxis",
-                                    "name": "Y-axis",
-                                  },
-                                ],
-                              },
-                              Object {
-                                "editor": [Function],
                                 "id": "legend",
                                 "mapTo": "legend",
                                 "name": "Legend",
@@ -5290,6 +5130,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                       ],
                                     },
+                                  },
+                                  Object {
+                                    "component": [Function],
+                                    "eleType": "input",
+                                    "mapTo": "labelSize",
+                                    "name": "Label Size",
                                   },
                                   Object {
                                     "component": [Function],
@@ -5576,26 +5422,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "sections": Array [
                                       Object {
                                         "editor": [Function],
-                                        "id": "value_options",
-                                        "mapTo": "valueOptions",
-                                        "name": "Value options",
-                                        "schemas": Array [
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "xaxis",
-                                            "name": "X-axis",
-                                          },
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "yaxis",
-                                            "name": "Y-axis",
-                                          },
-                                        ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
                                         "id": "legend",
                                         "mapTo": "legend",
                                         "name": "Legend",
@@ -5701,6 +5527,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               ],
                                             },
+                                          },
+                                          Object {
+                                            "component": [Function],
+                                            "eleType": "input",
+                                            "mapTo": "labelSize",
+                                            "name": "Label Size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -6084,26 +5916,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "sections": Array [
                                       Object {
                                         "editor": [Function],
-                                        "id": "value_options",
-                                        "mapTo": "valueOptions",
-                                        "name": "Value options",
-                                        "schemas": Array [
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "xaxis",
-                                            "name": "X-axis",
-                                          },
-                                          Object {
-                                            "component": null,
-                                            "isSingleSelection": false,
-                                            "mapTo": "yaxis",
-                                            "name": "Y-axis",
-                                          },
-                                        ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
                                         "id": "legend",
                                         "mapTo": "legend",
                                         "name": "Legend",
@@ -6209,6 +6021,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               ],
                                             },
+                                          },
+                                          Object {
+                                            "component": [Function],
+                                            "eleType": "input",
+                                            "mapTo": "labelSize",
+                                            "name": "Label Size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -6465,26 +6283,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           "sections": Array [
                             Object {
                               "editor": [Function],
-                              "id": "value_options",
-                              "mapTo": "valueOptions",
-                              "name": "Value options",
-                              "schemas": Array [
-                                Object {
-                                  "component": null,
-                                  "isSingleSelection": false,
-                                  "mapTo": "xaxis",
-                                  "name": "X-axis",
-                                },
-                                Object {
-                                  "component": null,
-                                  "isSingleSelection": false,
-                                  "mapTo": "yaxis",
-                                  "name": "Y-axis",
-                                },
-                              ],
-                            },
-                            Object {
-                              "editor": [Function],
                               "id": "legend",
                               "mapTo": "legend",
                               "name": "Legend",
@@ -6590,6 +6388,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
+                                },
+                                Object {
+                                  "component": [Function],
+                                  "eleType": "input",
+                                  "mapTo": "labelSize",
+                                  "name": "Label Size",
                                 },
                                 Object {
                                   "component": [Function],
@@ -6876,26 +6680,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "sections": Array [
                                     Object {
                                       "editor": [Function],
-                                      "id": "value_options",
-                                      "mapTo": "valueOptions",
-                                      "name": "Value options",
-                                      "schemas": Array [
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "xaxis",
-                                          "name": "X-axis",
-                                        },
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "yaxis",
-                                          "name": "Y-axis",
-                                        },
-                                      ],
-                                    },
-                                    Object {
-                                      "editor": [Function],
                                       "id": "legend",
                                       "mapTo": "legend",
                                       "name": "Legend",
@@ -7001,6 +6785,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
+                                        },
+                                        Object {
+                                          "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "labelSize",
+                                          "name": "Label Size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -7380,26 +7170,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
-                                                    "id": "value_options",
-                                                    "mapTo": "valueOptions",
-                                                    "name": "Value options",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "xaxis",
-                                                        "name": "X-axis",
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "yaxis",
-                                                        "name": "Y-axis",
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
                                                     "id": "legend",
                                                     "mapTo": "legend",
                                                     "name": "Legend",
@@ -7505,6 +7275,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             },
                                                           ],
                                                         },
+                                                      },
+                                                      Object {
+                                                        "component": [Function],
+                                                        "eleType": "input",
+                                                        "mapTo": "labelSize",
+                                                        "name": "Label Size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -7908,1128 +7684,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 <div
                                   className="euiFormRow__fieldWrapper"
                                 >
-                                  <ConfigValueOptions
-                                    handleConfigChange={[Function]}
-                                    id="random_html_id"
-                                    onBlur={[Function]}
-                                    onFocus={[Function]}
-                                    schemas={
-                                      Array [
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "xaxis",
-                                          "name": "X-axis",
-                                        },
-                                        Object {
-                                          "component": null,
-                                          "isSingleSelection": false,
-                                          "mapTo": "yaxis",
-                                          "name": "Y-axis",
-                                        },
-                                      ]
-                                    }
-                                    sectionId="value_options"
-                                    sectionName="Value options"
-                                    visualizations={
-                                      Object {
-                                        "data": Object {
-                                          "appData": Object {
-                                            "fromApp": false,
-                                          },
-                                          "defaultAxes": Object {},
-                                          "indexFields": Object {
-                                            "availableFields": Array [
-                                              Object {
-                                                "name": "agent",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "bytes",
-                                                "type": "long",
-                                              },
-                                              Object {
-                                                "name": "clientip",
-                                                "type": "ip",
-                                              },
-                                              Object {
-                                                "name": "event",
-                                                "type": "struct",
-                                              },
-                                              Object {
-                                                "name": "extension",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "geo",
-                                                "type": "struct",
-                                              },
-                                              Object {
-                                                "name": "host",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "index",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "ip",
-                                                "type": "ip",
-                                              },
-                                              Object {
-                                                "name": "machine",
-                                                "type": "struct",
-                                              },
-                                              Object {
-                                                "name": "memory",
-                                                "type": "double",
-                                              },
-                                              Object {
-                                                "name": "message",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "phpmemory",
-                                                "type": "long",
-                                              },
-                                              Object {
-                                                "name": "referer",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "request",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "response",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "tags",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "timestamp",
-                                                "type": "timestamp",
-                                              },
-                                              Object {
-                                                "name": "url",
-                                                "type": "string",
-                                              },
-                                              Object {
-                                                "name": "utc_time",
-                                                "type": "timestamp",
-                                              },
-                                            ],
-                                            "queriedFields": Array [
-                                              Object {
-                                                "name": "double_per_ip_bytes",
-                                                "type": "long",
-                                              },
-                                              Object {
-                                                "name": "host",
-                                                "type": "text",
-                                              },
-                                              Object {
-                                                "name": "ip_count",
-                                                "type": "integer",
-                                              },
-                                              Object {
-                                                "name": "per_ip_bytes",
-                                                "type": "long",
-                                              },
-                                              Object {
-                                                "name": "resp_code",
-                                                "type": "text",
-                                              },
-                                              Object {
-                                                "name": "sum_bytes",
-                                                "type": "long",
-                                              },
-                                            ],
-                                            "selectedFields": Array [],
-                                            "unselectedFields": Array [],
-                                          },
-                                          "query": Object {},
-                                          "rawVizData": Object {
-                                            "data": Object {
-                                              "count()": Array [
-                                                154,
-                                                1753,
-                                                116,
-                                                468,
-                                                1964,
-                                                219,
-                                              ],
-                                              "tags": Array [
-                                                "error",
-                                                "info",
-                                                "login",
-                                                "security",
-                                                "success",
-                                                "warning",
-                                              ],
-                                            },
-                                            "jsonData": Array [
-                                              Object {
-                                                "count()": 154,
-                                                "tags": "error",
-                                              },
-                                              Object {
-                                                "count()": 1753,
-                                                "tags": "info",
-                                              },
-                                              Object {
-                                                "count()": 116,
-                                                "tags": "login",
-                                              },
-                                              Object {
-                                                "count()": 468,
-                                                "tags": "security",
-                                              },
-                                              Object {
-                                                "count()": 1964,
-                                                "tags": "success",
-                                              },
-                                              Object {
-                                                "count()": 219,
-                                                "tags": "warning",
-                                              },
-                                            ],
-                                            "metadata": Object {
-                                              "fields": Array [
-                                                Object {
-                                                  "name": "count()",
-                                                  "type": "integer",
-                                                },
-                                                Object {
-                                                  "name": "tags",
-                                                  "type": "text",
-                                                },
-                                              ],
-                                              "size": 6,
-                                              "status": 200,
-                                            },
-                                          },
-                                          "userConfigs": Object {},
-                                        },
-                                        "vis": Object {
-                                          "barWidth": 0.97,
-                                          "category": "Visualizations",
-                                          "categoryAxis": "xaxis",
-                                          "component": [Function],
-                                          "editorConfig": Object {
-                                            "panelTabs": Array [
-                                              Object {
-                                                "editor": [Function],
-                                                "id": "data-panel",
-                                                "mapTo": "dataConfig",
-                                                "name": "Data",
-                                                "sections": Array [
-                                                  Object {
-                                                    "editor": [Function],
-                                                    "id": "value_options",
-                                                    "mapTo": "valueOptions",
-                                                    "name": "Value options",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "xaxis",
-                                                        "name": "X-axis",
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "yaxis",
-                                                        "name": "Y-axis",
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
-                                                    "id": "legend",
-                                                    "mapTo": "legend",
-                                                    "name": "Legend",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "mapTo": "showLegend",
-                                                        "name": "Show Legend",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "show",
-                                                              "name": "Show",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "show",
-                                                              "name": "Show",
-                                                            },
-                                                            Object {
-                                                              "id": "hidden",
-                                                              "name": "Hidden",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "mapTo": "position",
-                                                        "name": "Position",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Right",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Right",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Bottom",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
-                                                    "id": "chart_styles",
-                                                    "mapTo": "chartStyles",
-                                                    "name": "Chart styles",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "mode",
-                                                        "name": "Mode",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "group",
-                                                              "name": "Group",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "group",
-                                                              "name": "Group",
-                                                            },
-                                                            Object {
-                                                              "id": "stack",
-                                                              "name": "Stack",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "defaultState": 0,
-                                                        "eleType": "slider",
-                                                        "mapTo": "rotateBarLabels",
-                                                        "name": "Rotate bar labels",
-                                                        "props": Object {
-                                                          "max": 90,
-                                                          "min": -90,
-                                                          "showTicks": true,
-                                                          "ticks": Array [
-                                                            Object {
-                                                              "label": "-90°",
-                                                              "value": -90,
-                                                            },
-                                                            Object {
-                                                              "label": "-45°",
-                                                              "value": -45,
-                                                            },
-                                                            Object {
-                                                              "label": "0°",
-                                                              "value": 0,
-                                                            },
-                                                            Object {
-                                                              "label": "45°",
-                                                              "value": 45,
-                                                            },
-                                                            Object {
-                                                              "label": "90°",
-                                                              "value": 90,
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "defaultState": 0.7,
-                                                        "eleType": "slider",
-                                                        "mapTo": "groupWidth",
-                                                        "name": "Group width",
-                                                        "props": Object {
-                                                          "max": 1,
-                                                          "step": 0.01,
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "defaultState": 0.97,
-                                                        "eleType": "slider",
-                                                        "mapTo": "barWidth",
-                                                        "name": "Bar width",
-                                                        "props": Object {
-                                                          "max": 1,
-                                                          "step": 0.01,
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "defaultState": 1,
-                                                        "eleType": "slider",
-                                                        "mapTo": "lineWidth",
-                                                        "name": "Line width",
-                                                        "props": Object {
-                                                          "max": 10,
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "defaultState": 80,
-                                                        "eleType": "slider",
-                                                        "mapTo": "fillOpacity",
-                                                        "name": "Fill Opacity",
-                                                        "props": Object {
-                                                          "max": 100,
-                                                        },
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
-                                                    "id": "color-theme",
-                                                    "mapTo": "colorTheme",
-                                                    "name": "Color Theme",
-                                                    "schemas": Array [],
-                                                  },
-                                                ],
-                                              },
-                                              Object {
-                                                "content": Array [],
-                                                "editor": [Function],
-                                                "id": "style-panel",
-                                                "mapTo": "layoutConfig",
-                                                "name": "Layout",
-                                              },
-                                              Object {
-                                                "editor": [Function],
-                                                "id": "availability-panel",
-                                                "mapTo": "availabilityConfig",
-                                                "name": "Availability",
-                                              },
-                                            ],
-                                          },
-                                          "fillOpacity": 80,
-                                          "fullLabel": "Bar",
-                                          "groupWidth": 0.7,
-                                          "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
-                                          "id": "bar",
-                                          "label": "Bar",
-                                          "labelAngle": 0,
-                                          "legendPosition": "v",
-                                          "lineWidth": 1,
-                                          "mode": "group",
-                                          "name": "bar",
-                                          "orientation": "v",
-                                          "selection": Object {
-                                            "dataLoss": "nothing",
-                                          },
-                                          "seriesAxis": "yaxis",
-                                          "showLegend": "show",
-                                          "type": "bar",
-                                          "visConfig": Object {
-                                            "config": Object {
-                                              "displaylogo": false,
-                                              "responsive": true,
-                                            },
-                                            "isUniColor": false,
-                                            "layout": Object {
-                                              "height": 500,
-                                              "legend": Object {
-                                                "orientation": "v",
-                                                "traceorder": "normal",
-                                              },
-                                              "margin": Object {
-                                                "b": 30,
-                                                "l": 60,
-                                                "pad": 0,
-                                                "r": 30,
-                                                "t": 50,
-                                              },
-                                              "showlegend": true,
-                                            },
-                                          },
-                                        },
-                                      }
-                                    }
-                                    vizState={Object {}}
-                                  >
-                                    <EuiAccordion
-                                      arrowDisplay="left"
-                                      buttonContent="Value options"
-                                      id="configPanel__value_options"
-                                      initialIsOpen={true}
-                                      isLoading={false}
-                                      isLoadingMessage={false}
-                                      paddingSize="s"
-                                    >
-                                      <div
-                                        className="euiAccordion euiAccordion-isOpen"
-                                      >
-                                        <div
-                                          className="euiAccordion__triggerWrapper"
-                                        >
-                                          <button
-                                            aria-controls="configPanel__value_options"
-                                            aria-expanded={true}
-                                            className="euiAccordion__button"
-                                            id="random_html_id"
-                                            onClick={[Function]}
-                                            type="button"
-                                          >
-                                            <span
-                                              className="euiAccordion__iconWrapper"
-                                            >
-                                              <EuiIcon
-                                                className="euiAccordion__icon euiAccordion__icon-isOpen"
-                                                size="m"
-                                                type="arrowRight"
-                                              >
-                                                <EuiIconEmpty
-                                                  aria-hidden={true}
-                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                                                  focusable="false"
-                                                  role="img"
-                                                  style={null}
-                                                >
-                                                  <svg
-                                                    aria-hidden={true}
-                                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                                                    focusable="false"
-                                                    height={16}
-                                                    role="img"
-                                                    style={null}
-                                                    viewBox="0 0 16 16"
-                                                    width={16}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  />
-                                                </EuiIconEmpty>
-                                              </EuiIcon>
-                                            </span>
-                                            <span
-                                              className="euiIEFlexWrapFix"
-                                            >
-                                              Value options
-                                            </span>
-                                          </button>
-                                        </div>
-                                        <div
-                                          aria-labelledby="random_html_id"
-                                          className="euiAccordion__childWrapper"
-                                          id="configPanel__value_options"
-                                          role="region"
-                                          tabIndex={-1}
-                                        >
-                                          <EuiResizeObserver
-                                            onResize={[Function]}
-                                          >
-                                            <div>
-                                              <div
-                                                className="euiAccordion__padding--s"
-                                              >
-                                                <PanelItem
-                                                  advancedTitle="advancedTitle"
-                                                  dropdownList={
-                                                    Array [
-                                                      Object {
-                                                        "name": "count()",
-                                                        "type": "integer",
-                                                      },
-                                                      Object {
-                                                        "name": "tags",
-                                                        "type": "text",
-                                                      },
-                                                    ]
-                                                  }
-                                                  isSingleSelection={false}
-                                                  key="viz-series-0"
-                                                  onSelectChange={[Function]}
-                                                  paddingTitle="X-axis"
-                                                  vizState={Object {}}
-                                                >
-                                                  <EuiTitle
-                                                    size="xxs"
-                                                  >
-                                                    <h3
-                                                      className="euiTitle euiTitle--xxsmall"
-                                                    >
-                                                      X-axis
-                                                    </h3>
-                                                  </EuiTitle>
-                                                  <EuiSpacer
-                                                    size="s"
-                                                  >
-                                                    <div
-                                                      className="euiSpacer euiSpacer--s"
-                                                    />
-                                                  </EuiSpacer>
-                                                  <EuiComboBox
-                                                    aria-label="Use aria labels when no actual label is in use"
-                                                    async={false}
-                                                    compressed={false}
-                                                    fullWidth={false}
-                                                    id="axis-select-4"
-                                                    isClearable={true}
-                                                    isInvalid={true}
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "label": "count()",
-                                                          "name": "count()",
-                                                          "type": "integer",
-                                                        },
-                                                        Object {
-                                                          "label": "tags",
-                                                          "name": "tags",
-                                                          "type": "text",
-                                                        },
-                                                      ]
-                                                    }
-                                                    placeholder="Select a field"
-                                                    selectedOptions={Array []}
-                                                    singleSelection={false}
-                                                    sortMatchesBy="none"
-                                                  >
-                                                    <div
-                                                      aria-expanded={false}
-                                                      aria-haspopup="listbox"
-                                                      aria-label="Use aria labels when no actual label is in use"
-                                                      className="euiComboBox euiComboBox-isInvalid"
-                                                      onKeyDown={[Function]}
-                                                      role="combobox"
-                                                    >
-                                                      <EuiComboBoxInput
-                                                        autoSizeInputRef={[Function]}
-                                                        compressed={false}
-                                                        fullWidth={false}
-                                                        hasSelectedOptions={false}
-                                                        id="axis-select-4"
-                                                        inputRef={[Function]}
-                                                        isListOpen={false}
-                                                        noIcon={false}
-                                                        onChange={[Function]}
-                                                        onClear={[Function]}
-                                                        onClick={[Function]}
-                                                        onCloseListClick={[Function]}
-                                                        onFocus={[Function]}
-                                                        onOpenListClick={[Function]}
-                                                        onRemoveOption={[Function]}
-                                                        placeholder="Select a field"
-                                                        rootId={[Function]}
-                                                        searchValue=""
-                                                        selectedOptions={Array []}
-                                                        singleSelection={false}
-                                                        toggleButtonRef={[Function]}
-                                                        updatePosition={[Function]}
-                                                        value=""
-                                                      >
-                                                        <EuiFormControlLayout
-                                                          compressed={false}
-                                                          fullWidth={false}
-                                                          icon={
-                                                            Object {
-                                                              "aria-label": "Open list of options",
-                                                              "data-test-subj": "comboBoxToggleListButton",
-                                                              "disabled": undefined,
-                                                              "onClick": [Function],
-                                                              "ref": [Function],
-                                                              "side": "right",
-                                                              "type": "arrowDown",
-                                                            }
-                                                          }
-                                                        >
-                                                          <div
-                                                            className="euiFormControlLayout"
-                                                          >
-                                                            <div
-                                                              className="euiFormControlLayout__childrenWrapper"
-                                                            >
-                                                              <div
-                                                                className="euiComboBox__inputWrap euiComboBox__inputWrap-isClearable"
-                                                                data-test-subj="comboBoxInput"
-                                                                onClick={[Function]}
-                                                                tabIndex={-1}
-                                                              >
-                                                                <p
-                                                                  className="euiComboBoxPlaceholder"
-                                                                >
-                                                                  Select a field
-                                                                </p>
-                                                                <AutosizeInput
-                                                                  aria-controls=""
-                                                                  className="euiComboBox__input"
-                                                                  data-test-subj="comboBoxSearchInput"
-                                                                  id="axis-select-4"
-                                                                  injectStyles={true}
-                                                                  inputRef={[Function]}
-                                                                  minWidth={1}
-                                                                  onBlur={[Function]}
-                                                                  onChange={[Function]}
-                                                                  onFocus={[Function]}
-                                                                  role="textbox"
-                                                                  style={
-                                                                    Object {
-                                                                      "fontSize": 14,
-                                                                    }
-                                                                  }
-                                                                  value=""
-                                                                >
-                                                                  <div
-                                                                    className="euiComboBox__input"
-                                                                    style={
-                                                                      Object {
-                                                                        "display": "inline-block",
-                                                                        "fontSize": 14,
-                                                                      }
-                                                                    }
-                                                                  >
-                                                                    <input
-                                                                      aria-controls=""
-                                                                      data-test-subj="comboBoxSearchInput"
-                                                                      id="axis-select-4"
-                                                                      onBlur={[Function]}
-                                                                      onChange={[Function]}
-                                                                      onFocus={[Function]}
-                                                                      role="textbox"
-                                                                      style={
-                                                                        Object {
-                                                                          "boxSizing": "content-box",
-                                                                          "width": "2px",
-                                                                        }
-                                                                      }
-                                                                      value=""
-                                                                    />
-                                                                    <div
-                                                                      style={
-                                                                        Object {
-                                                                          "height": 0,
-                                                                          "left": 0,
-                                                                          "overflow": "scroll",
-                                                                          "position": "absolute",
-                                                                          "top": 0,
-                                                                          "visibility": "hidden",
-                                                                          "whiteSpace": "pre",
-                                                                        }
-                                                                      }
-                                                                    />
-                                                                  </div>
-                                                                </AutosizeInput>
-                                                              </div>
-                                                              <EuiFormControlLayoutIcons
-                                                                compressed={false}
-                                                                icon={
-                                                                  Object {
-                                                                    "aria-label": "Open list of options",
-                                                                    "data-test-subj": "comboBoxToggleListButton",
-                                                                    "disabled": undefined,
-                                                                    "onClick": [Function],
-                                                                    "ref": [Function],
-                                                                    "side": "right",
-                                                                    "type": "arrowDown",
-                                                                  }
-                                                                }
-                                                              >
-                                                                <div
-                                                                  className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-                                                                >
-                                                                  <EuiFormControlLayoutCustomIcon
-                                                                    aria-label="Open list of options"
-                                                                    data-test-subj="comboBoxToggleListButton"
-                                                                    iconRef={[Function]}
-                                                                    onClick={[Function]}
-                                                                    size="m"
-                                                                    type="arrowDown"
-                                                                  >
-                                                                    <button
-                                                                      aria-label="Open list of options"
-                                                                      className="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
-                                                                      data-test-subj="comboBoxToggleListButton"
-                                                                      onClick={[Function]}
-                                                                      type="button"
-                                                                    >
-                                                                      <EuiIcon
-                                                                        aria-hidden="true"
-                                                                        className="euiFormControlLayoutCustomIcon__icon"
-                                                                        size="m"
-                                                                        type="arrowDown"
-                                                                      >
-                                                                        <EuiIconEmpty
-                                                                          aria-hidden={true}
-                                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                                                                          focusable="false"
-                                                                          role="img"
-                                                                          style={null}
-                                                                        >
-                                                                          <svg
-                                                                            aria-hidden={true}
-                                                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                                                                            focusable="false"
-                                                                            height={16}
-                                                                            role="img"
-                                                                            style={null}
-                                                                            viewBox="0 0 16 16"
-                                                                            width={16}
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                          />
-                                                                        </EuiIconEmpty>
-                                                                      </EuiIcon>
-                                                                    </button>
-                                                                  </EuiFormControlLayoutCustomIcon>
-                                                                </div>
-                                                              </EuiFormControlLayoutIcons>
-                                                            </div>
-                                                          </div>
-                                                        </EuiFormControlLayout>
-                                                      </EuiComboBoxInput>
-                                                    </div>
-                                                  </EuiComboBox>
-                                                </PanelItem>
-                                                <EuiSpacer
-                                                  size="s"
-                                                >
-                                                  <div
-                                                    className="euiSpacer euiSpacer--s"
-                                                  />
-                                                </EuiSpacer>
-                                                <PanelItem
-                                                  advancedTitle="advancedTitle"
-                                                  dropdownList={
-                                                    Array [
-                                                      Object {
-                                                        "name": "count()",
-                                                        "type": "integer",
-                                                      },
-                                                      Object {
-                                                        "name": "tags",
-                                                        "type": "text",
-                                                      },
-                                                    ]
-                                                  }
-                                                  isSingleSelection={false}
-                                                  key="viz-series-1"
-                                                  onSelectChange={[Function]}
-                                                  paddingTitle="Y-axis"
-                                                  vizState={Object {}}
-                                                >
-                                                  <EuiTitle
-                                                    size="xxs"
-                                                  >
-                                                    <h3
-                                                      className="euiTitle euiTitle--xxsmall"
-                                                    >
-                                                      Y-axis
-                                                    </h3>
-                                                  </EuiTitle>
-                                                  <EuiSpacer
-                                                    size="s"
-                                                  >
-                                                    <div
-                                                      className="euiSpacer euiSpacer--s"
-                                                    />
-                                                  </EuiSpacer>
-                                                  <EuiComboBox
-                                                    aria-label="Use aria labels when no actual label is in use"
-                                                    async={false}
-                                                    compressed={false}
-                                                    fullWidth={false}
-                                                    id="axis-select-5"
-                                                    isClearable={true}
-                                                    isInvalid={true}
-                                                    onChange={[Function]}
-                                                    options={
-                                                      Array [
-                                                        Object {
-                                                          "label": "count()",
-                                                          "name": "count()",
-                                                          "type": "integer",
-                                                        },
-                                                        Object {
-                                                          "label": "tags",
-                                                          "name": "tags",
-                                                          "type": "text",
-                                                        },
-                                                      ]
-                                                    }
-                                                    placeholder="Select a field"
-                                                    selectedOptions={Array []}
-                                                    singleSelection={false}
-                                                    sortMatchesBy="none"
-                                                  >
-                                                    <div
-                                                      aria-expanded={false}
-                                                      aria-haspopup="listbox"
-                                                      aria-label="Use aria labels when no actual label is in use"
-                                                      className="euiComboBox euiComboBox-isInvalid"
-                                                      onKeyDown={[Function]}
-                                                      role="combobox"
-                                                    >
-                                                      <EuiComboBoxInput
-                                                        autoSizeInputRef={[Function]}
-                                                        compressed={false}
-                                                        fullWidth={false}
-                                                        hasSelectedOptions={false}
-                                                        id="axis-select-5"
-                                                        inputRef={[Function]}
-                                                        isListOpen={false}
-                                                        noIcon={false}
-                                                        onChange={[Function]}
-                                                        onClear={[Function]}
-                                                        onClick={[Function]}
-                                                        onCloseListClick={[Function]}
-                                                        onFocus={[Function]}
-                                                        onOpenListClick={[Function]}
-                                                        onRemoveOption={[Function]}
-                                                        placeholder="Select a field"
-                                                        rootId={[Function]}
-                                                        searchValue=""
-                                                        selectedOptions={Array []}
-                                                        singleSelection={false}
-                                                        toggleButtonRef={[Function]}
-                                                        updatePosition={[Function]}
-                                                        value=""
-                                                      >
-                                                        <EuiFormControlLayout
-                                                          compressed={false}
-                                                          fullWidth={false}
-                                                          icon={
-                                                            Object {
-                                                              "aria-label": "Open list of options",
-                                                              "data-test-subj": "comboBoxToggleListButton",
-                                                              "disabled": undefined,
-                                                              "onClick": [Function],
-                                                              "ref": [Function],
-                                                              "side": "right",
-                                                              "type": "arrowDown",
-                                                            }
-                                                          }
-                                                        >
-                                                          <div
-                                                            className="euiFormControlLayout"
-                                                          >
-                                                            <div
-                                                              className="euiFormControlLayout__childrenWrapper"
-                                                            >
-                                                              <div
-                                                                className="euiComboBox__inputWrap euiComboBox__inputWrap-isClearable"
-                                                                data-test-subj="comboBoxInput"
-                                                                onClick={[Function]}
-                                                                tabIndex={-1}
-                                                              >
-                                                                <p
-                                                                  className="euiComboBoxPlaceholder"
-                                                                >
-                                                                  Select a field
-                                                                </p>
-                                                                <AutosizeInput
-                                                                  aria-controls=""
-                                                                  className="euiComboBox__input"
-                                                                  data-test-subj="comboBoxSearchInput"
-                                                                  id="axis-select-5"
-                                                                  injectStyles={true}
-                                                                  inputRef={[Function]}
-                                                                  minWidth={1}
-                                                                  onBlur={[Function]}
-                                                                  onChange={[Function]}
-                                                                  onFocus={[Function]}
-                                                                  role="textbox"
-                                                                  style={
-                                                                    Object {
-                                                                      "fontSize": 14,
-                                                                    }
-                                                                  }
-                                                                  value=""
-                                                                >
-                                                                  <div
-                                                                    className="euiComboBox__input"
-                                                                    style={
-                                                                      Object {
-                                                                        "display": "inline-block",
-                                                                        "fontSize": 14,
-                                                                      }
-                                                                    }
-                                                                  >
-                                                                    <input
-                                                                      aria-controls=""
-                                                                      data-test-subj="comboBoxSearchInput"
-                                                                      id="axis-select-5"
-                                                                      onBlur={[Function]}
-                                                                      onChange={[Function]}
-                                                                      onFocus={[Function]}
-                                                                      role="textbox"
-                                                                      style={
-                                                                        Object {
-                                                                          "boxSizing": "content-box",
-                                                                          "width": "2px",
-                                                                        }
-                                                                      }
-                                                                      value=""
-                                                                    />
-                                                                    <div
-                                                                      style={
-                                                                        Object {
-                                                                          "height": 0,
-                                                                          "left": 0,
-                                                                          "overflow": "scroll",
-                                                                          "position": "absolute",
-                                                                          "top": 0,
-                                                                          "visibility": "hidden",
-                                                                          "whiteSpace": "pre",
-                                                                        }
-                                                                      }
-                                                                    />
-                                                                  </div>
-                                                                </AutosizeInput>
-                                                              </div>
-                                                              <EuiFormControlLayoutIcons
-                                                                compressed={false}
-                                                                icon={
-                                                                  Object {
-                                                                    "aria-label": "Open list of options",
-                                                                    "data-test-subj": "comboBoxToggleListButton",
-                                                                    "disabled": undefined,
-                                                                    "onClick": [Function],
-                                                                    "ref": [Function],
-                                                                    "side": "right",
-                                                                    "type": "arrowDown",
-                                                                  }
-                                                                }
-                                                              >
-                                                                <div
-                                                                  className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-                                                                >
-                                                                  <EuiFormControlLayoutCustomIcon
-                                                                    aria-label="Open list of options"
-                                                                    data-test-subj="comboBoxToggleListButton"
-                                                                    iconRef={[Function]}
-                                                                    onClick={[Function]}
-                                                                    size="m"
-                                                                    type="arrowDown"
-                                                                  >
-                                                                    <button
-                                                                      aria-label="Open list of options"
-                                                                      className="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
-                                                                      data-test-subj="comboBoxToggleListButton"
-                                                                      onClick={[Function]}
-                                                                      type="button"
-                                                                    >
-                                                                      <EuiIcon
-                                                                        aria-hidden="true"
-                                                                        className="euiFormControlLayoutCustomIcon__icon"
-                                                                        size="m"
-                                                                        type="arrowDown"
-                                                                      >
-                                                                        <EuiIconEmpty
-                                                                          aria-hidden={true}
-                                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                                                                          focusable="false"
-                                                                          role="img"
-                                                                          style={null}
-                                                                        >
-                                                                          <svg
-                                                                            aria-hidden={true}
-                                                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
-                                                                            focusable="false"
-                                                                            height={16}
-                                                                            role="img"
-                                                                            style={null}
-                                                                            viewBox="0 0 16 16"
-                                                                            width={16}
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                          />
-                                                                        </EuiIconEmpty>
-                                                                      </EuiIcon>
-                                                                    </button>
-                                                                  </EuiFormControlLayoutCustomIcon>
-                                                                </div>
-                                                              </EuiFormControlLayoutIcons>
-                                                            </div>
-                                                          </div>
-                                                        </EuiFormControlLayout>
-                                                      </EuiComboBoxInput>
-                                                    </div>
-                                                  </EuiComboBox>
-                                                </PanelItem>
-                                                <EuiSpacer
-                                                  size="s"
-                                                >
-                                                  <div
-                                                    className="euiSpacer euiSpacer--s"
-                                                  />
-                                                </EuiSpacer>
-                                              </div>
-                                            </div>
-                                          </EuiResizeObserver>
-                                        </div>
-                                      </div>
-                                    </EuiAccordion>
-                                  </ConfigValueOptions>
-                                </div>
-                              </div>
-                            </EuiFormRow>
-                            <EuiFormRow
-                              describedByIds={Array []}
-                              display="row"
-                              fullWidth={true}
-                              hasChildLabel={true}
-                              hasEmptyLabelSpace={false}
-                              labelType="label"
-                            >
-                              <div
-                                className="euiFormRow euiFormRow--fullWidth"
-                                id="random_html_id-row"
-                              >
-                                <div
-                                  className="euiFormRow__fieldWrapper"
-                                >
                                   <ConfigLegend
                                     handleConfigChange={[Function]}
                                     id="random_html_id"
@@ -9284,26 +7938,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
-                                                    "id": "value_options",
-                                                    "mapTo": "valueOptions",
-                                                    "name": "Value options",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "xaxis",
-                                                        "name": "X-axis",
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "yaxis",
-                                                        "name": "Y-axis",
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
                                                     "id": "legend",
                                                     "mapTo": "legend",
                                                     "name": "Legend",
@@ -9409,6 +8043,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             },
                                                           ],
                                                         },
+                                                      },
+                                                      Object {
+                                                        "component": [Function],
+                                                        "eleType": "input",
+                                                        "mapTo": "labelSize",
+                                                        "name": "Label Size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -10263,6 +8903,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                         Object {
                                           "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "labelSize",
+                                          "name": "Label Size",
+                                        },
+                                        Object {
+                                          "component": [Function],
                                           "defaultState": 0,
                                           "eleType": "slider",
                                           "mapTo": "rotateBarLabels",
@@ -10538,26 +9184,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
-                                                    "id": "value_options",
-                                                    "mapTo": "valueOptions",
-                                                    "name": "Value options",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "xaxis",
-                                                        "name": "X-axis",
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "yaxis",
-                                                        "name": "Y-axis",
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
                                                     "id": "legend",
                                                     "mapTo": "legend",
                                                     "name": "Legend",
@@ -10663,6 +9289,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             },
                                                           ],
                                                         },
+                                                      },
+                                                      Object {
+                                                        "component": [Function],
+                                                        "eleType": "input",
+                                                        "mapTo": "labelSize",
+                                                        "name": "Label Size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -11435,10 +10067,80 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     className="euiSpacer euiSpacer--s"
                                                   />
                                                 </EuiSpacer>
+                                                <InputFieldItem
+                                                  currentValue=""
+                                                  handleInputChange={[Function]}
+                                                  key="viz-series-2"
+                                                  title="Label Size"
+                                                  vizState={Object {}}
+                                                >
+                                                  <EuiTitle
+                                                    size="xxs"
+                                                  >
+                                                    <h3
+                                                      className="euiTitle euiTitle--xxsmall"
+                                                    >
+                                                      Label Size
+                                                    </h3>
+                                                  </EuiTitle>
+                                                  <EuiSpacer
+                                                    size="s"
+                                                  >
+                                                    <div
+                                                      className="euiSpacer euiSpacer--s"
+                                                    />
+                                                  </EuiSpacer>
+                                                  <EuiFieldNumber
+                                                    data-test-subj="valueFieldNumber"
+                                                    fullWidth={true}
+                                                    id="random_html_id"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    placeholder="auto"
+                                                  >
+                                                    <EuiFormControlLayout
+                                                      compressed={false}
+                                                      fullWidth={true}
+                                                      inputId="random_html_id"
+                                                      isLoading={false}
+                                                    >
+                                                      <div
+                                                        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                                      >
+                                                        <div
+                                                          className="euiFormControlLayout__childrenWrapper"
+                                                        >
+                                                          <EuiValidatableControl>
+                                                            <input
+                                                              className="euiFieldNumber euiFieldNumber--fullWidth"
+                                                              data-test-subj="valueFieldNumber"
+                                                              id="random_html_id"
+                                                              onBlur={[Function]}
+                                                              onChange={[Function]}
+                                                              placeholder="auto"
+                                                              type="number"
+                                                            />
+                                                          </EuiValidatableControl>
+                                                          <EuiFormControlLayoutIcons
+                                                            compressed={false}
+                                                            isLoading={false}
+                                                          />
+                                                        </div>
+                                                      </div>
+                                                    </EuiFormControlLayout>
+                                                  </EuiFieldNumber>
+                                                </InputFieldItem>
+                                                <EuiSpacer
+                                                  size="s"
+                                                >
+                                                  <div
+                                                    className="euiSpacer euiSpacer--s"
+                                                  />
+                                                </EuiSpacer>
                                                 <SliderConfig
                                                   currentRange={0}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-2"
+                                                  key="viz-series-3"
                                                   max={90}
                                                   maxRange={90}
                                                   min={-90}
@@ -12370,7 +11072,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.7}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-3"
+                                                  key="viz-series-4"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -12558,7 +11260,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.97}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-4"
+                                                  key="viz-series-5"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -12746,7 +11448,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={1}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-5"
+                                                  key="viz-series-6"
                                                   max={10}
                                                   maxRange={10}
                                                   minRange={0}
@@ -12934,7 +11636,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={80}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-6"
+                                                  key="viz-series-7"
                                                   max={100}
                                                   maxRange={100}
                                                   minRange={0}
@@ -13349,26 +12051,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
-                                                    "id": "value_options",
-                                                    "mapTo": "valueOptions",
-                                                    "name": "Value options",
-                                                    "schemas": Array [
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "xaxis",
-                                                        "name": "X-axis",
-                                                      },
-                                                      Object {
-                                                        "component": null,
-                                                        "isSingleSelection": false,
-                                                        "mapTo": "yaxis",
-                                                        "name": "Y-axis",
-                                                      },
-                                                    ],
-                                                  },
-                                                  Object {
-                                                    "editor": [Function],
                                                     "id": "legend",
                                                     "mapTo": "legend",
                                                     "name": "Legend",
@@ -13474,6 +12156,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             },
                                                           ],
                                                         },
+                                                      },
+                                                      Object {
+                                                        "component": [Function],
+                                                        "eleType": "input",
+                                                        "mapTo": "labelSize",
+                                                        "name": "Label Size",
                                                       },
                                                       Object {
                                                         "component": [Function],
