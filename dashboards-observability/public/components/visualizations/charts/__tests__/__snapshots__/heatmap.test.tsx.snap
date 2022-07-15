@@ -456,7 +456,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
           },
           "isUniColor": false,
           "layout": Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -504,19 +504,19 @@ exports[`Heatmap component Renders heatmap component 1`] = `
               >
                 <EuiIcon
                   color="subdued"
-                  size="l"
+                  size="xxl"
                   type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
-                    className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                     focusable="false"
                     role="img"
                     style={null}
                   >
                     <svg
                       aria-hidden={true}
-                      className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                       focusable="false"
                       height={16}
                       role="img"
@@ -528,10 +528,10 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                   </EuiIconEmpty>
                 </EuiIcon>
                 <EuiSpacer
-                  size="s"
+                  size="l"
                 >
                   <div
-                    className="euiSpacer euiSpacer--s"
+                    className="euiSpacer euiSpacer--l"
                   />
                 </EuiSpacer>
                 <p>

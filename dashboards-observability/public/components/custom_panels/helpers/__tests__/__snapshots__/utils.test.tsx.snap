@@ -330,7 +330,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -677,7 +677,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -705,7 +705,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -1047,7 +1047,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -1095,19 +1095,19 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     >
                       <EuiIcon
                         color="subdued"
-                        size="l"
+                        size="xxl"
                         type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -1119,10 +1119,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         </EuiIconEmpty>
                       </EuiIcon>
                       <EuiSpacer
-                        size="s"
+                        size="l"
                       >
                         <div
-                          className="euiSpacer euiSpacer--s"
+                          className="euiSpacer euiSpacer--l"
                         />
                       </EuiSpacer>
                       <p>
@@ -1503,7 +1503,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "#BD6F26",
                 "#4C636F",
               ],
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -1886,7 +1886,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "#BD6F26",
                   "#4C636F",
                 ],
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -1945,7 +1945,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "#BD6F26",
               "#4C636F",
             ],
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -2323,7 +2323,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     "#BD6F26",
                     "#4C636F",
                   ],
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -2383,19 +2383,19 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     >
                       <EuiIcon
                         color="subdued"
-                        size="l"
+                        size="xxl"
                         type="visLine"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -2407,10 +2407,10 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         </EuiIconEmpty>
                       </EuiIcon>
                       <EuiSpacer
-                        size="s"
+                        size="l"
                       >
                         <div
-                          className="euiSpacer euiSpacer--s"
+                          className="euiSpacer euiSpacer--l"
                         />
                       </EuiSpacer>
                       <p>
@@ -2630,7 +2630,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -2840,7 +2840,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -2868,7 +2868,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -3073,7 +3073,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -3121,19 +3121,19 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     >
                       <EuiIcon
                         color="subdued"
-                        size="l"
+                        size="xxl"
                         type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -3145,10 +3145,10 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                         </EuiIconEmpty>
                       </EuiIcon>
                       <EuiSpacer
-                        size="s"
+                        size="l"
                       >
                         <div
-                          className="euiSpacer euiSpacer--s"
+                          className="euiSpacer euiSpacer--l"
                         />
                       </EuiSpacer>
                       <p>
@@ -3341,7 +3341,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -3524,7 +3524,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -3552,7 +3552,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -3730,7 +3730,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -3778,19 +3778,19 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     >
                       <EuiIcon
                         color="subdued"
-                        size="l"
+                        size="xxl"
                         type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -3802,10 +3802,10 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                         </EuiIconEmpty>
                       </EuiIcon>
                       <EuiSpacer
-                        size="s"
+                        size="l"
                       >
                         <div
-                          className="euiSpacer euiSpacer--s"
+                          className="euiSpacer euiSpacer--l"
                         />
                       </EuiSpacer>
                       <p>

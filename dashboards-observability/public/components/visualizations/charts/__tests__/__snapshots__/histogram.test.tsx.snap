@@ -456,7 +456,7 @@ exports[`Histogram component Renders histogram component 1`] = `
           },
           "isUniColor": false,
           "layout": Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
