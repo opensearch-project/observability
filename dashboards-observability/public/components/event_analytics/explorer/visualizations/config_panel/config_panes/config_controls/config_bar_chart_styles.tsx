@@ -9,27 +9,35 @@ import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
 export const ConfigBarChartStyles = ({
-  visualizations,
-  schemas,
-  vizState,
-  handleConfigChange,
-  sectionName,
-  sectionId = 'chartStyles',
+    visualizations,
+    schemas,
+    vizState,
+    handleConfigChange,
+    sectionName,
+    sectionId = 'chartStyles'
 }: any) => {
-  const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+    const { data } = visualizations;
+    const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
-  const handleConfigurationChange = useCallback(
-    (stateFieldName) => {
-      return (changes) => {
-        handleConfigChange({
-          ...vizState,
-          [stateFieldName]: changes,
-        });
-      };
-    },
-    [handleConfigChange, vizState]
-  );
+    const handleConfigurationChange = useCallback(
+        (stateFieldName) => {
+            return (changes) => {
+                handleConfigChange({
+                    ...vizState,
+                    [stateFieldName]: changes,
+                });
+            };
+        },
+        [handleConfigChange, vizState]
+    );
+
+    /* To update the schema options based on current style mode selection */
+    const currentSchemas = useMemo(() => {
+        if (vizState?.orientation === 'h') {
+            return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'rotateBarLabels');
+        }
+        return schemas;
+    }, [vizState]);
 
     const dimensions = useMemo(() =>
         currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
@@ -82,14 +90,14 @@ export const ConfigBarChartStyles = ({
         }).filter(item => item)
         , [schemas, vizState, handleConfigurationChange]);
 
-  return (
-    <EuiAccordion
-      initialIsOpen
-      id={`configPanel__${sectionId}`}
-      buttonContent={sectionName}
-      paddingSize="s"
-    >
-      {dimensions}
-    </EuiAccordion>
-  );
+    return (
+        <EuiAccordion
+            initialIsOpen
+            id={`configPanel__${sectionId}`}
+            buttonContent={sectionName}
+            paddingSize="s"
+        >
+            {dimensions}
+        </EuiAccordion>
+    );
 };
