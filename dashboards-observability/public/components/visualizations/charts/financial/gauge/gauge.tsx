@@ -29,11 +29,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
   const dataConfigTab = visualizations?.data?.rawVizData?.Gauge?.dataConfig;
   const dimensions = dataConfigTab?.dimensions
-    ? dataConfigTab?.dimensions?.filter((i) => i.name !== '')
+    ? dataConfigTab.dimensions.filter((i) => i.name !== '')
     : [];
-  const metrics = dataConfigTab?.metrics
-    ? dataConfigTab?.metrics?.filter((i) => i.name !== '')
-    : [];
+  const metrics = dataConfigTab?.metrics ? dataConfigTab.metrics.filter((i) => i.name !== '') : [];
   const dimensionsLength = dimensions.length;
   const metricsLength = metrics.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
@@ -66,19 +64,17 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
       // case 3: multiple dimensions and multiple metrics
       if (dimensionsLength && metricsLength) {
-        const selectedDimensionsData = [
-          ...dimensions.map((dimension: any) => data[dimension.name].slice(0, numberOfGauges)),
-        ].reduce(function (prev, cur) {
-          return prev.map(function (i, j) {
-            return `${i}, ${cur[j]}`;
+        const selectedDimensionsData = dimensions
+          .map((dimension: any) => data[dimension.name].slice(0, numberOfGauges))
+          .reduce((prev, cur) => {
+            return prev.map((i, j) => `${i}, ${cur[j]}`);
           });
-        });
 
-        const selectedMetricsData = [
-          ...metrics.map((metric: any) => data[metric.name].slice(0, numberOfGauges)),
-        ];
+        const selectedMetricsData = metrics.map((metric: any) =>
+          data[metric.name].slice(0, numberOfGauges)
+        );
 
-        selectedMetricsData.map((metricSlice: any, metricSliceIndex) => {
+        selectedMetricsData.map((metricSlice: any, metricSliceIndex: number) => {
           calculatedGaugeData = [
             ...calculatedGaugeData,
             ...metricSlice.map((metricSliceData: any, metricSliceDataIndex: number) => {

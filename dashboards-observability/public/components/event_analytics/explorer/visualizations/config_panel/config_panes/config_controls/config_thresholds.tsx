@@ -89,7 +89,7 @@ export const ConfigThresholds = ({
         size="s"
         onClick={handleAddThreshold}
         {...(props?.maxLimit && {
-          isDisabled: !isEmpty(vizState) && vizState.length === props?.maxLimit,
+          isDisabled: !isEmpty(vizState) && vizState.length === props.maxLimit,
         })}
       >
         {addButtonText}
