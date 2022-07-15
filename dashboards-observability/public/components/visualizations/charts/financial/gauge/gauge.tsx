@@ -28,10 +28,14 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
   const dataConfigTab = visualizations?.data?.rawVizData?.Gauge?.dataConfig;
-  const dimensions = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
-  const metrics = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
-  const dimensionsLength = dimensions.length && dimensions[0]?.name != '' ? dimensions.length : 0;
-  const metricsLength = metrics.length && metrics[0]?.name != '' ? metrics.length : 0;
+  const dimensions = dataConfigTab?.dimensions
+    ? dataConfigTab?.dimensions?.filter((i) => i.name !== '')
+    : [];
+  const metrics = dataConfigTab?.metrics
+    ? dataConfigTab?.metrics?.filter((i) => i.name !== '')
+    : [];
+  const dimensionsLength = dimensions.length;
+  const metricsLength = metrics.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
 
   // style parameters
