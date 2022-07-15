@@ -7,15 +7,16 @@ import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
 import { PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
-import { DefaultGaugeChartParameters } from '../../../../../../common/constants/shared';
+import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 const {
   GaugeTitleSize,
   DisplayDefaultGauges,
   OrientationDefault,
   TickLength,
-  GaugeThresholdWidth,
+  LegendPlacement,
 } = DefaultGaugeChartParameters;
 
 export const Gauge = ({ visualizations, layout, config }: any) => {
@@ -27,18 +28,26 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
   const dataConfigTab = visualizations?.data?.rawVizData?.Gauge?.dataConfig;
-  const dimensions = dataConfigTab?.dimensions ? dataConfigTab?.dimensions : [];
-  const metrics = dataConfigTab?.metrics ? dataConfigTab?.metrics : [];
-  const dimensionsLength = dimensions.length && dimensions[0]?.name != '' ? dimensions.length : 0;
-  const metricsLength = metrics.length && metrics[0]?.name != '' ? metrics.length : 0;
+  const dimensions = dataConfigTab?.dimensions
+    ? dataConfigTab.dimensions.filter((i) => i.name !== '')
+    : [];
+  const metrics = dataConfigTab?.metrics ? dataConfigTab.metrics.filter((i) => i.name !== '') : [];
+  const dimensionsLength = dimensions.length;
+  const metricsLength = metrics.length;
+  const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
 
-  // data panel parameters
+  // style parameters
   const thresholds = dataConfig?.thresholds || [];
   const titleSize = dataConfig?.chartStyles?.titleSize || GaugeTitleSize;
   const valueSize = dataConfig?.chartStyles?.valueSize;
   const showThresholdMarkers = dataConfig?.chartStyles?.showThresholdMarkers || false;
   const showThresholdLabels = dataConfig?.chartStyles?.showThresholdLabels || false;
   const orientation = dataConfig?.chartStyles?.orientation || OrientationDefault;
+  const legendPlacement = dataConfig?.chartStyles?.legendPlacement || LegendPlacement;
+
+  const isEmptyPlot = !metricsLength;
+
+  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
@@ -55,21 +64,17 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
       // case 3: multiple dimensions and multiple metrics
       if (dimensionsLength && metricsLength) {
-        const selectedDimensionsData = [
-          ...dimensions.map((dimension: any) =>
-            data[dimension.name].slice(0, DisplayDefaultGauges)
-          ),
-        ].reduce(function (prev, cur) {
-          return prev.map(function (i, j) {
-            return `${i}, ${cur[j]}`;
+        const selectedDimensionsData = dimensions
+          .map((dimension: any) => data[dimension.name].slice(0, numberOfGauges))
+          .reduce((prev, cur) => {
+            return prev.map((i, j) => `${i}, ${cur[j]}`);
           });
-        });
 
-        const selectedMetricsData = [
-          ...metrics.map((metric: any) => data[metric.name].slice(0, DisplayDefaultGauges)),
-        ];
+        const selectedMetricsData = metrics.map((metric: any) =>
+          data[metric.name].slice(0, numberOfGauges)
+        );
 
-        selectedMetricsData.map((metricSlice: any, metricSliceIndex) => {
+        selectedMetricsData.map((metricSlice: any, metricSliceIndex: number) => {
           calculatedGaugeData = [
             ...calculatedGaugeData,
             ...metricSlice.map((metricSliceData: any, metricSliceDataIndex: number) => {
@@ -90,6 +95,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           title: {
             text: gauge.field_name,
             font: { size: titleSize },
+            align: legendPlacement,
           },
           ...(valueSize && {
             number: {
@@ -110,6 +116,15 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                 }),
           },
           gauge: {
+            ...(showThresholdMarkers &&
+              thresholds &&
+              thresholds.length && {
+                threshold: {
+                  line: { color: thresholds[0]?.color || 'red', width: 4 },
+                  thickness: 0.75,
+                  value: thresholds[0]?.value || 0,
+                },
+              }),
             //threshold labels
             ...(showThresholdLabels && thresholds && thresholds.length
               ? {
@@ -120,20 +135,6 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                   },
                 }
               : {}),
-            // multiple threshold markers!!!!
-            ...(showThresholdMarkers &&
-              thresholds &&
-              thresholds.length && {
-                steps: thresholds.map((threshold: ThresholdUnitType) => {
-                  const value = Number(threshold.value);
-                  return {
-                    range: [value, value + GaugeThresholdWidth] /*width needs improvement*/,
-                    color: threshold.color || 'red',
-                    name: threshold.name || '',
-                    visible: true,
-                  };
-                }),
-              }),
           },
         };
       });

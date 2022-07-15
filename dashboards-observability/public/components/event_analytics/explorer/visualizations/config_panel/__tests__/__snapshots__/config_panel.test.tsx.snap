@@ -2195,6 +2195,34 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "legendPlacement",
+                                "name": "Legend Placement",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "center",
+                                      "name": "Center",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "center",
+                                      "name": "Center",
+                                    },
+                                    Object {
+                                      "id": "right",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "left",
+                                      "name": "Left",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "titleSize",
                                 "name": "Title Size",
@@ -2231,6 +2259,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "id": "thresholds",
                             "mapTo": "thresholds",
                             "name": "Thresholds",
+                            "props": Object {
+                              "maxLimit": 1,
+                            },
                             "schemas": Array [],
                           },
                         ],
@@ -7690,6 +7721,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     id="random_html_id"
                                     onBlur={[Function]}
                                     onFocus={[Function]}
+                                    props={Object {}}
                                     schemas={
                                       Array [
                                         Object {
@@ -8852,6 +8884,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     id="random_html_id"
                                     onBlur={[Function]}
                                     onFocus={[Function]}
+                                    props={Object {}}
                                     schemas={
                                       Array [
                                         Object {
@@ -11852,6 +11885,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     id="random_html_id"
                                     onBlur={[Function]}
                                     onFocus={[Function]}
+                                    props={Object {}}
                                     schemas={Array []}
                                     sectionId="color-theme"
                                     sectionName="Color Theme"

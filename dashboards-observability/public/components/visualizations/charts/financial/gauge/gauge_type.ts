@@ -15,9 +15,11 @@ import {
   ConfigChartOptions,
   ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { ThresholdsMaxLimit } = DefaultGaugeChartParameters;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',
@@ -61,6 +63,20 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
+                name: 'Legend Placement',
+                component: ButtonGroupItem,
+                mapTo: 'legendPlacement',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Center', id: 'center' },
+                    { name: 'Right', id: 'right' },
+                    { name: 'Left', id: 'left' },
+                  ],
+                  defaultSelections: [{ name: 'Center', id: 'center' }],
+                },
+              },
+              {
                 title: 'Title Size',
                 name: 'Title Size',
                 component: InputFieldItem,
@@ -99,6 +115,9 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
             mapTo: 'thresholds',
             defaultState: [],
             schemas: [],
+            props: {
+              maxLimit: ThresholdsMaxLimit,
+            },
           },
         ],
       },
