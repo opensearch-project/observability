@@ -10094,6 +10094,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     data-test-subj="valueFieldNumber"
                                                     fullWidth={true}
                                                     id="random_html_id"
+                                                    onBlur={[Function]}
                                                     onChange={[Function]}
                                                     placeholder="auto"
                                                   >
@@ -10114,6 +10115,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                               className="euiFieldNumber euiFieldNumber--fullWidth"
                                                               data-test-subj="valueFieldNumber"
                                                               id="random_html_id"
+                                                              onBlur={[Function]}
                                                               onChange={[Function]}
                                                               placeholder="auto"
                                                               type="number"

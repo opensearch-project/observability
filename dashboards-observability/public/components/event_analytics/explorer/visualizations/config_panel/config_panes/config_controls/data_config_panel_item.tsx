@@ -183,7 +183,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     }
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === 'metrics'
-      ? unselectedFields.filter((field) => numericalTypes.includes(field.type))
+      ? unselectedFields
       : visualizations.vis.name === visChartTypes.Line
         ? unselectedFields.filter((i) => i.type === 'timestamp')
         : unselectedFields;
@@ -293,7 +293,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         fullWidth
         placeholder="auto"
         value={
-          configList?.dimensions && configList.dimensions[0][type]
+          configList?.dimensions &&
+            configList?.dimensions.length > 0 &&
+            configList.dimensions[0][type]
             ? configList.dimensions[0][type]
             : ''
         }
