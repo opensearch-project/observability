@@ -123,3 +123,16 @@ $vis-editor-sidebar-min-width: 350px;
     margin-left: $euiSizeM;
   }
 }
+
+.euiComboBoxOptionsList__rowWrap {
+  max-height: 250px;
+}
+
+.euiComboBoxOptionsList__rowWrap > div {
+  height: 250px !important;
+}
+
+.configPane_options {
+  height: 1198px;
+  overflow: auto;
+}

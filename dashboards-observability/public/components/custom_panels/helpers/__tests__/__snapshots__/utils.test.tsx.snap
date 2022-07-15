@@ -90,26 +90,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "sections": Array [
                   Object {
                     "editor": [Function],
-                    "id": "value_options",
-                    "mapTo": "valueOptions",
-                    "name": "Value options",
-                    "schemas": Array [
-                      Object {
-                        "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "xaxis",
-                        "name": "X-axis",
-                      },
-                      Object {
-                        "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "yaxis",
-                        "name": "Y-axis",
-                      },
-                    ],
-                  },
-                  Object {
-                    "editor": [Function],
                     "id": "legend",
                     "mapTo": "legend",
                     "name": "Legend",
@@ -215,6 +195,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             },
                           ],
                         },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "labelSize",
+                        "name": "Label Size",
                       },
                       Object {
                         "component": [Function],
@@ -344,7 +330,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -449,26 +435,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "mapTo": "dataConfig",
                   "name": "Data",
                   "sections": Array [
-                    Object {
-                      "editor": [Function],
-                      "id": "value_options",
-                      "mapTo": "valueOptions",
-                      "name": "Value options",
-                      "schemas": Array [
-                        Object {
-                          "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "xaxis",
-                          "name": "X-axis",
-                        },
-                        Object {
-                          "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "yaxis",
-                          "name": "Y-axis",
-                        },
-                      ],
-                    },
                     Object {
                       "editor": [Function],
                       "id": "legend",
@@ -576,6 +542,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                               },
                             ],
                           },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "labelSize",
+                          "name": "Label Size",
                         },
                         Object {
                           "component": [Function],
@@ -705,7 +677,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -733,7 +705,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -833,26 +805,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "mapTo": "dataConfig",
                     "name": "Data",
                     "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "value_options",
-                        "mapTo": "valueOptions",
-                        "name": "Value options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "xaxis",
-                            "name": "X-axis",
-                          },
-                          Object {
-                            "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "yaxis",
-                            "name": "Y-axis",
-                          },
-                        ],
-                      },
                       Object {
                         "editor": [Function],
                         "id": "legend",
@@ -960,6 +912,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                                 },
                               ],
                             },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label Size",
                           },
                           Object {
                             "component": [Function],
@@ -1089,7 +1047,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -1108,180 +1066,83 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={
-            Array [
-              Object {
-                "marker": Object {
-                  "color": "rgba(60,161,199,0.4)",
-                  "line": Object {
-                    "color": "#3CA1C7",
-                    "width": 1,
-                  },
-                },
-                "name": "avg(FlightDelayMin)",
-                "orientation": "v",
-                "type": "bar",
-                "x": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "y": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-            ]
-          }
-          layout={
-            Object {
-              "bargap": 0.30000000000000004,
-              "bargroupgap": 0.030000000000000027,
-              "barmode": "group",
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "height": 500,
-              "legend": Object {
-                "orientation": "v",
-                "traceorder": "normal",
-              },
-              "margin": Object {
-                "b": 30,
-                "l": 60,
-                "pad": 0,
-                "r": 30,
-                "t": 50,
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickangle": 0,
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={
-              Array [
-                Object {
-                  "marker": Object {
-                    "color": "rgba(60,161,199,0.4)",
-                    "line": Object {
-                      "color": "#3CA1C7",
-                      "width": 1,
-                    },
-                  },
-                  "name": "avg(FlightDelayMin)",
-                  "orientation": "v",
-                  "type": "bar",
-                  "x": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "y": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-              ]
-            }
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": 0.30000000000000004,
-                "bargroupgap": 0.030000000000000027,
-                "barmode": "group",
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "height": 500,
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": "v",
-                  "traceorder": "normal",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 60,
-                  "pad": 0,
-                  "r": 30,
-                  "t": 50,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickangle": 0,
-                },
-                "yaxis": Object {
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarVerticalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -1642,7 +1503,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "#BD6F26",
                 "#4C636F",
               ],
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -2025,7 +1886,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "#BD6F26",
                   "#4C636F",
                 ],
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -2084,7 +1945,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "#BD6F26",
               "#4C636F",
             ],
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -2462,7 +2323,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     "#BD6F26",
                     "#4C636F",
                   ],
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -2522,19 +2383,19 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     >
                       <EuiIcon
                         color="subdued"
-                        size="l"
+                        size="xxl"
                         type="visLine"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -2546,10 +2407,10 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         </EuiIconEmpty>
                       </EuiIcon>
                       <EuiSpacer
-                        size="s"
+                        size="l"
                       >
                         <div
-                          className="euiSpacer euiSpacer--s"
+                          className="euiSpacer euiSpacer--l"
                         />
                       </EuiSpacer>
                       <p>
@@ -2769,7 +2630,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -2979,7 +2840,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -3007,7 +2868,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -3212,7 +3073,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -3231,180 +3092,83 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={
-            Array [
-              Object {
-                "marker": Object {
-                  "color": "rgba(60,161,199,NaN)",
-                  "line": Object {
-                    "color": "#3CA1C7",
-                    "width": undefined,
-                  },
-                },
-                "name": "avg(FlightDelayMin)",
-                "orientation": "h",
-                "type": "bar",
-                "x": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "y": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-            ]
-          }
-          layout={
-            Object {
-              "bargap": NaN,
-              "bargroupgap": NaN,
-              "barmode": undefined,
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "height": 500,
-              "legend": Object {
-                "orientation": undefined,
-                "traceorder": "normal",
-              },
-              "margin": Object {
-                "b": 30,
-                "l": 60,
-                "pad": 0,
-                "r": 30,
-                "t": 50,
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickangle": undefined,
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={
-              Array [
-                Object {
-                  "marker": Object {
-                    "color": "rgba(60,161,199,NaN)",
-                    "line": Object {
-                      "color": "#3CA1C7",
-                      "width": undefined,
-                    },
-                  },
-                  "name": "avg(FlightDelayMin)",
-                  "orientation": "h",
-                  "type": "bar",
-                  "x": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "y": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-              ]
-            }
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": NaN,
-                "bargroupgap": NaN,
-                "barmode": undefined,
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "height": 500,
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": undefined,
-                  "traceorder": "normal",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 60,
-                  "pad": 0,
-                  "r": 30,
-                  "t": 50,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickangle": undefined,
-                },
-                "yaxis": Object {
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarVerticalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -3577,7 +3341,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             },
             "isUniColor": false,
             "layout": Object {
-              "height": 500,
+              "height": 1180,
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -3760,7 +3524,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
               "isUniColor": false,
               "layout": Object {
-                "height": 500,
+                "height": 1180,
                 "legend": Object {
                   "orientation": "v",
                   "traceorder": "normal",
@@ -3788,7 +3552,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         }
         layout={
           Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -3966,7 +3730,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 },
                 "isUniColor": false,
                 "layout": Object {
-                  "height": 500,
+                  "height": 1180,
                   "legend": Object {
                     "orientation": "v",
                     "traceorder": "normal",
@@ -3985,160 +3749,83 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={
-            Array [
-              Object {
-                "marker": Object {
-                  "color": "rgba(60,161,199,NaN)",
-                  "line": Object {
-                    "color": "#3CA1C7",
-                    "width": undefined,
-                  },
-                },
-                "name": "count('ip')",
-                "orientation": "h",
-                "type": "bar",
-                "x": Array [],
-                "y": Array [],
-              },
-            ]
-          }
-          layout={
-            Object {
-              "bargap": NaN,
-              "bargroupgap": NaN,
-              "barmode": undefined,
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "height": 500,
-              "legend": Object {
-                "orientation": undefined,
-                "traceorder": "normal",
-              },
-              "margin": Object {
-                "b": 30,
-                "l": 60,
-                "pad": 0,
-                "r": 30,
-                "t": 50,
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickangle": undefined,
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={
-              Array [
-                Object {
-                  "marker": Object {
-                    "color": "rgba(60,161,199,NaN)",
-                    "line": Object {
-                      "color": "#3CA1C7",
-                      "width": undefined,
-                    },
-                  },
-                  "name": "count('ip')",
-                  "orientation": "h",
-                  "type": "bar",
-                  "x": Array [],
-                  "y": Array [],
-                },
-              ]
-            }
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": NaN,
-                "bargroupgap": NaN,
-                "barmode": undefined,
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "height": 500,
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": undefined,
-                  "traceorder": "normal",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 60,
-                  "pad": 0,
-                  "r": 30,
-                  "t": 50,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickangle": undefined,
-                },
-                "yaxis": Object {
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarVerticalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>

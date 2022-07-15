@@ -216,26 +216,6 @@ exports[`Treemap component Renders treemap component 1`] = `
               "sections": Array [
                 Object {
                   "editor": [Function],
-                  "id": "value_options",
-                  "mapTo": "valueOptions",
-                  "name": "Value options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "xaxis",
-                      "name": "X-axis",
-                    },
-                    Object {
-                      "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "yaxis",
-                      "name": "Y-axis",
-                    },
-                  ],
-                },
-                Object {
-                  "editor": [Function],
                   "id": "legend",
                   "mapTo": "legend",
                   "name": "Legend",
@@ -341,6 +321,12 @@ exports[`Treemap component Renders treemap component 1`] = `
                           },
                         ],
                       },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label Size",
                     },
                     Object {
                       "component": [Function],
@@ -470,7 +456,7 @@ exports[`Treemap component Renders treemap component 1`] = `
           },
           "isUniColor": false,
           "layout": Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
