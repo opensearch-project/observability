@@ -842,6 +842,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend Size",
+                                "title": "Legend Size",
+                              },
                             ],
                           },
                           Object {
@@ -868,16 +875,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "name": "Lines",
                                     },
                                     Object {
-                                      "id": "bar",
-                                      "name": "Bars",
-                                    },
-                                    Object {
                                       "id": "markers",
-                                      "name": "Points",
+                                      "name": "Marker",
                                     },
                                     Object {
                                       "id": "lines+markers",
-                                      "name": "Lines + Points",
+                                      "name": "Lines + Markers",
                                     },
                                   ],
                                 },
@@ -944,7 +947,55 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "max": 40,
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
+                                "title": "Label Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateLabels",
+                                "name": "Rotate labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
+                                },
+                              },
                             ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
                           },
                           Object {
                             "defaultState": Array [],
@@ -971,11 +1022,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Line",
+                  "fullLabel": "Time series",
                   "icon": [Function],
                   "iconType": "visLine",
                   "id": "line",
-                  "label": "Line",
+                  "label": "Time series",
                   "name": "line",
                   "selection": Object {
                     "dataLoss": "nothing",
@@ -1249,6 +1300,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "dataConfig",
                         "name": "Data",
                         "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Colorscale",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
                           Object {
                             "editor": [Function],
                             "id": "chart_styles",
@@ -7463,7 +7545,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiFieldText
                                                             aria-describedby="random_html_id-help-0"
                                                             id="random_html_id"
-                                                            name="first"
+                                                            name="title"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7485,7 +7567,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                       aria-describedby="random_html_id-help-0"
                                                                       className="euiFieldText"
                                                                       id="random_html_id"
-                                                                      name="first"
+                                                                      name="title"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -7550,6 +7632,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiTextArea
                                                             aria-label="Use aria labels when no actual label is in use"
                                                             id="random_html_id"
+                                                            name="description"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7561,6 +7644,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 aria-label="Use aria labels when no actual label is in use"
                                                                 className="euiTextArea euiTextArea--resizeVertical"
                                                                 id="random_html_id"
+                                                                name="description"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
                                                                 onFocus={[Function]}
