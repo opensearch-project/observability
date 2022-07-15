@@ -97,7 +97,7 @@ export interface ValueOptionsAxes {
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap];
+export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
@@ -156,7 +156,9 @@ export interface DefaultChartStylesProps {
   FillOpacity: number,
   MarkerSize: number,
   ShowLegend: string,
-  LegendPosition: string
+  LegendPosition: string,
+  LabelAngle: number,
+  DefaultSortSectors: string,
 };
 
 export const DefaultChartStyles: DefaultChartStylesProps = {
@@ -166,7 +168,25 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   FillOpacity: 40,
   MarkerSize: 5,
   ShowLegend: 'show',
-  LegendPosition: 'v'
+  LegendPosition: 'v',
+  LabelAngle: 0,
+  DefaultSortSectors: 'largest_to_smallest',
 }
 
 export const FILLOPACITY_DIV_FACTOR = 200; 
+
+export interface DefaultGaugeChartParametersProps {
+  GaugeTitleSize: number,
+  DisplayDefaultGauges: number,
+  OrientationDefault: string,
+  TickLength: number,
+  GaugeThresholdWidth: number
+};
+
+export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
+  GaugeTitleSize: 14,
+  DisplayDefaultGauges: 10,
+  OrientationDefault: 'h',
+  TickLength: 5,
+  GaugeThresholdWidth: 0.25
+} 

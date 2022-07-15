@@ -51,8 +51,8 @@ export const ExplorerVisualizations = ({
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
-  const fieldOptionList = fields.map((name) => {
-    return { label: name.name };
+  const fieldOptionList = fields.map((field) => {
+    return { ...field, label: field.name };
   });
 
   return (

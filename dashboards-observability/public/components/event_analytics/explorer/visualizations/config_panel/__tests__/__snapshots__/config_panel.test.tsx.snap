@@ -517,7 +517,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             async={false}
             compressed={false}
             fullWidth={true}
-            isClearable={true}
+            isClearable={false}
             onChange={[Function]}
             options={
               Array [
@@ -870,6 +870,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend Size",
+                                "title": "Legend Size",
+                              },
                             ],
                           },
                           Object {
@@ -896,16 +903,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "name": "Lines",
                                     },
                                     Object {
-                                      "id": "bar",
-                                      "name": "Bars",
-                                    },
-                                    Object {
                                       "id": "markers",
-                                      "name": "Points",
+                                      "name": "Marker",
                                     },
                                     Object {
                                       "id": "lines+markers",
-                                      "name": "Lines + Points",
+                                      "name": "Lines + Markers",
                                     },
                                   ],
                                 },
@@ -972,7 +975,55 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "max": 40,
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
+                                "title": "Label Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateLabels",
+                                "name": "Rotate labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
+                                },
+                              },
                             ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
                           },
                           Object {
                             "defaultState": Array [],
@@ -999,11 +1050,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Line",
+                  "fullLabel": "Time series",
                   "icon": [Function],
                   "iconType": "visLine",
                   "id": "line",
-                  "label": "Line",
+                  "label": "Time series",
                   "name": "line",
                   "selection": Object {
                     "dataLoss": "nothing",
@@ -1277,6 +1328,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "dataConfig",
                         "name": "Data",
                         "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Colorscale",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
                           Object {
                             "editor": [Function],
                             "id": "chart_styles",
@@ -1694,6 +1776,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Colorscale",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
                             "id": "treemap_options",
                             "mapTo": "treemapOptions",
                             "name": "Treemap",
@@ -1738,6 +1851,30 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                                 "props": Object {
                                   "isClearable": false,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "sort_sectors",
+                                "name": "Sort Sectors",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": undefined,
+                                      "name": "Largest to Smallest",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "largest_to_smallest",
+                                      "name": "Largest to Smallest",
+                                    },
+                                    Object {
+                                      "id": "random",
+                                      "name": "Random",
+                                    },
+                                  ],
                                 },
                               },
                             ],
@@ -2022,6 +2159,278 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "responsive": true,
                     },
                     "isUniColor": false,
+                    "layout": Object {
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "chart-styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "orientation",
+                                "name": "Orientation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "auto",
+                                      "name": "Auto",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "auto",
+                                      "name": "Auto",
+                                    },
+                                    Object {
+                                      "id": "v",
+                                      "name": "Vertical",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Horizontal",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "titleSize",
+                                "name": "Title Size",
+                                "title": "Title Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "valueSize",
+                                "name": "Value Size",
+                                "title": "Value Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "currentValue": false,
+                                "eleType": "switchButton",
+                                "mapTo": "showThresholdLabels",
+                                "name": "Show threshold labels",
+                                "title": "Show threshold labels",
+                              },
+                              Object {
+                                "component": [Function],
+                                "currentValue": true,
+                                "eleType": "switchButton",
+                                "mapTo": "showThresholdMarkers",
+                                "name": "Show threshold markers",
+                                "title": "Show threshold markers",
+                              },
+                            ],
+                          },
+                          Object {
+                            "defaultState": Array [],
+                            "editor": [Function],
+                            "id": "thresholds",
+                            "mapTo": "thresholds",
+                            "name": "Thresholds",
+                            "schemas": Array [],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Gauge",
+                  "icon": [Function],
+                  "iconType": "visGauge",
+                  "id": "gauge",
+                  "label": "Gauge",
+                  "name": "Gauge",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "type": "indicator",
+                  "valueSeries": "yaxis",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "layout": Object {
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "chart-styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill Opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color Theme",
+                            "schemas": Array [],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show Legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fullLabel": "Histogram",
+                  "iconType": "visArea",
+                  "id": "histogram",
+                  "label": "Histogram",
+                  "name": "histogram",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "type": "histogram",
+                  "valueSeries": "yaxis",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
                     "layout": Object {
                       "height": 1180,
                       "legend": Object {
@@ -2352,7 +2761,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 isListOpen={false}
                 noIcon={false}
                 onChange={[Function]}
-                onClear={[Function]}
                 onClick={[Function]}
                 onCloseListClick={[Function]}
                 onFocus={[Function]}
@@ -2656,12 +3064,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 value="Bar"
               >
                 <EuiFormControlLayout
-                  clear={
-                    Object {
-                      "data-test-subj": "comboBoxClearButton",
-                      "onClick": [Function],
-                    }
-                  }
                   compressed={false}
                   fullWidth={true}
                   icon={
@@ -2683,7 +3085,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       className="euiFormControlLayout__childrenWrapper"
                     >
                       <div
-                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                        className="euiComboBox__inputWrap euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap"
                         data-test-subj="comboBoxInput"
                         onClick={[Function]}
                         tabIndex={-1}
@@ -3951,12 +4353,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         </AutosizeInput>
                       </div>
                       <EuiFormControlLayoutIcons
-                        clear={
-                          Object {
-                            "data-test-subj": "comboBoxClearButton",
-                            "onClick": [Function],
-                          }
-                        }
                         compressed={false}
                         icon={
                           Object {
@@ -3973,49 +4369,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         <div
                           className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
                         >
-                          <EuiFormControlLayoutClearButton
-                            data-test-subj="comboBoxClearButton"
-                            onClick={[Function]}
-                            size="m"
-                          >
-                            <EuiI18n
-                              default="Clear input"
-                              token="euiFormControlLayoutClearButton.label"
-                            >
-                              <button
-                                aria-label="Clear input"
-                                className="euiFormControlLayoutClearButton"
-                                data-test-subj="comboBoxClearButton"
-                                onClick={[Function]}
-                                type="button"
-                              >
-                                <EuiIcon
-                                  className="euiFormControlLayoutClearButton__icon"
-                                  type="cross"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutClearButton__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                              </button>
-                            </EuiI18n>
-                          </EuiFormControlLayoutClearButton>
                           <EuiFormControlLayoutCustomIcon
                             aria-label="Open list of options"
                             data-test-subj="comboBoxToggleListButton"
@@ -7417,7 +7770,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiFieldText
                                                             aria-describedby="random_html_id-help-0"
                                                             id="random_html_id"
-                                                            name="first"
+                                                            name="title"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7439,7 +7792,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                       aria-describedby="random_html_id-help-0"
                                                                       className="euiFieldText"
                                                                       id="random_html_id"
-                                                                      name="first"
+                                                                      name="title"
                                                                       onBlur={[Function]}
                                                                       onChange={[Function]}
                                                                       onFocus={[Function]}
@@ -7504,6 +7857,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <EuiTextArea
                                                             aria-label="Use aria labels when no actual label is in use"
                                                             id="random_html_id"
+                                                            name="description"
                                                             onBlur={[Function]}
                                                             onChange={[Function]}
                                                             onFocus={[Function]}
@@ -7515,6 +7869,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 aria-label="Use aria labels when no actual label is in use"
                                                                 className="euiTextArea euiTextArea--resizeVertical"
                                                                 id="random_html_id"
+                                                                name="description"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
                                                                 onFocus={[Function]}
@@ -13510,93 +13865,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           </EuiButtonContent>
                         </button>
                       </EuiButtonEmpty>
-                    </div>
-                  </EuiFlexItem>
-                  <EuiFlexItem
-                    grow={false}
-                  >
-                    <div
-                      className="euiFlexItem euiFlexItem--flexGrowZero"
-                    >
-                      <EuiButton
-                        data-test-subj="visualizeEditorRenderButton"
-                        disabled={false}
-                        iconType="play"
-                        onClick={[Function]}
-                        size="s"
-                      >
-                        <EuiButtonDisplay
-                          baseClassName="euiButton"
-                          data-test-subj="visualizeEditorRenderButton"
-                          disabled={false}
-                          element="button"
-                          iconType="play"
-                          isDisabled={false}
-                          onClick={[Function]}
-                          size="s"
-                          type="button"
-                        >
-                          <button
-                            className="euiButton euiButton--primary euiButton--small"
-                            data-test-subj="visualizeEditorRenderButton"
-                            disabled={false}
-                            onClick={[Function]}
-                            style={
-                              Object {
-                                "minWidth": undefined,
-                              }
-                            }
-                            type="button"
-                          >
-                            <EuiButtonContent
-                              className="euiButton__content"
-                              iconSide="left"
-                              iconType="play"
-                              textProps={
-                                Object {
-                                  "className": "euiButton__text",
-                                }
-                              }
-                            >
-                              <span
-                                className="euiButtonContent euiButton__content"
-                              >
-                                <EuiIcon
-                                  className="euiButtonContent__icon"
-                                  color="inherit"
-                                  size="m"
-                                  type="play"
-                                >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
-                                  >
-                                    <svg
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                      focusable="false"
-                                      height={16}
-                                      role="img"
-                                      style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                                <span
-                                  className="euiButton__text"
-                                >
-                                  Preview
-                                </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonDisplay>
-                      </EuiButton>
                     </div>
                   </EuiFlexItem>
                 </div>

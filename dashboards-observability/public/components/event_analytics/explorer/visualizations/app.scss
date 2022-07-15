@@ -53,6 +53,14 @@
   background: #c2c2c2;
 }
 
+.euiResizableToggleButton:not(:focus):not(:active):not(.euiResizableToggleButton-isVisible):not(.euiResizableToggleButton-isCollapsed) {
+  height: 24px;
+  width: 24px;
+  top: 0;
+  left: inherit;
+  box-shadow: none;
+}
+
 .lensChartIcon__subdued {
   fill: $euiTextSubduedColor;
 
