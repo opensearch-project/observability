@@ -44,12 +44,7 @@ export function PatternsTable(props: PatternsTableProps) {
       name: 'Pattern Name',
       sortable: true,
       render: (item: string, row: TableDataType) => {
-        return (
-          <>
-            <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>
-            <EuiButtonIcon iconType="pencil" color="text" onClick={() => renamePattern(item)} />
-          </>
-        );
+        return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
       },
     },
     {
@@ -86,13 +81,26 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'firstTimestamp',
       name: 'Earliest Time',
       sortable: true,
-      render: (value: any) => moment(new Date(value)).format(UI_DATE_FORMAT),
+      render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
     },
     {
       field: 'lastTimestamp',
       name: 'Recent Time',
       sortable: true,
-      render: (value: any) => moment(new Date(value)).format(UI_DATE_FORMAT),
+      render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
+    },
+    {
+      field: 'edit',
+      name: '',
+      width: '20px',
+      sortable: false,
+      render: (item: any, row: TableDataType) => (
+        <EuiButtonIcon
+          iconType="pencil"
+          color="text"
+          onClick={() => renamePattern(row.patternName)}
+        />
+      ),
     },
   ];
 
