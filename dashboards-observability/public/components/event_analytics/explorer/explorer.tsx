@@ -79,6 +79,7 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { PatternsTab } from './log_patterns/patterns_tab';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -753,11 +754,7 @@ export const Explorer = ({
   };
 
   const getPatterns = () => {
-    return (
-      <EuiTitle>
-        <h2>Hi</h2>
-      </EuiTitle>
-    );
+    return <PatternsTab http={http} />;
   };
 
   const getMainContentTabs = () => {
