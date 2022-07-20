@@ -53,6 +53,7 @@ import (
 	"github.com/parca-dev/parca-agent/pkg/debuginfo"
 	"github.com/parca-dev/parca-agent/pkg/discovery"
 	"github.com/parca-dev/parca-agent/pkg/logger"
+	"github.com/parca-dev/parca-agent/pkg/profiler"
 	"github.com/parca-dev/parca-agent/pkg/target"
 	"github.com/parca-dev/parca-agent/pkg/template"
 )
@@ -89,6 +90,7 @@ type flags struct {
 	// SystemdCgroupPath is deprecated and will be eventually removed, please use the CgroupPath flag instead.
 	SystemdCgroupPath string `kong:"help='[deprecated, use --cgroup-path] The cgroupfs path to a systemd slice.'"`
 	DebugInfoDisable  bool   `kong:"help='Disable debuginfo collection.',default='false'"`
+	UseOpenSearch     bool   `kong:"help='Using OpenSearch as the storage.',default='false'"`
 }
 
 func externalLabels(flagExternalLabels map[string]string, flagNode string) model.LabelSet {
@@ -157,7 +159,6 @@ func main() {
 			level.Error(logger).Log("err", err)
 			os.Exit(1)
 		}
-
 		// Initialize actual clients with the connection.
 		profileStoreClient = profilestorepb.NewProfileStoreServiceClient(conn)
 		if !flags.DebugInfoDisable {
@@ -378,14 +379,16 @@ func main() {
 		})
 	}
 
-	{
-		ctx, cancel := context.WithCancel(ctx)
-		g.Add(func() error {
-			level.Debug(logger).Log("msg", "starting batch write client")
-			return batchWriteClient.Run(ctx)
-		}, func(error) {
-			cancel()
-		})
+	if !flags.UseOpenSearch {
+		{
+			ctx, cancel := context.WithCancel(ctx)
+			g.Add(func() error {
+				level.Debug(logger).Log("msg", "starting batch write client")
+				return batchWriteClient.Run(ctx)
+			}, func(error) {
+				cancel()
+			})
+		}
 	}
 
 	var m *discovery.Manager
@@ -467,6 +470,7 @@ func grpcConn(reg prometheus.Registerer, flags flags) (*grpc.ClientConn, error) 
 	}
 	if flags.Insecure {
 		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		agent.IsInsecure = true
 	} else {
 		config := &tls.Config{
 			//nolint:gosec
@@ -491,6 +495,12 @@ func grpcConn(reg prometheus.Registerer, flags flags) (*grpc.ClientConn, error) 
 			token:    strings.TrimSpace(string(b)),
 			insecure: flags.Insecure,
 		}))
+	}
+
+	if flags.UseOpenSearch {
+		//opensearch-Create the goClient Index in OpenSearch
+		agent.GoCreateClient(flags.StoreAddress)
+		profiler.UseOpenSearch = true
 	}
 
 	return grpc.Dial(flags.StoreAddress, opts...)

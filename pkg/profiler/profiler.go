@@ -14,8 +14,7 @@
 
 package profiler
 
-import "C" // nolint
-
+import "C"
 import (
 	"bytes"
 	"context"
@@ -53,8 +52,8 @@ import (
 
 //go:embed cpu-profiler.bpf.o
 var bpfObj []byte
-
 var errUnrecoverable = errors.New("unrecoverable error")
+var UseOpenSearch = false
 
 const (
 	stackDepth       = 127 // Always needs to be sync with MAX_STACK_DEPTH in BPF program.
@@ -798,26 +797,34 @@ func (p *CgroupProfiler) writeProfile(ctx context.Context, prof *profile.Profile
 		labelOldFormat = make([]*profilestorepb.Label, 0, len(p.Labels()))
 		i              = 0
 	)
+	var err error
 	for key, value := range p.Labels() {
 		labelOldFormat = append(labelOldFormat, &profilestorepb.Label{
 			Name:  string(key),
 			Value: string(value),
 		})
 		i++
+		//opensearch send the pprof data
+		if UseOpenSearch {
+			err = agent.GoClientWrite(string(key), string(value), prof)
+			if err != nil {
+				return err
+			}
+		}
 	}
-
-	// NOTICE: This is a batch client, so nothing will be sent immediately.
-	// Make sure that the batch write client has the correct behavior if you change any parameters.
-	_, err := p.writeClient.WriteRaw(ctx, &profilestorepb.WriteRawRequest{
-		Normalized: true,
-		Series: []*profilestorepb.RawProfileSeries{{
-			Labels: &profilestorepb.LabelSet{Labels: labelOldFormat},
-			Samples: []*profilestorepb.RawSample{{
-				RawProfile: buf.Bytes(),
+	if !UseOpenSearch {
+		// NOTICE: This is a batch client, so nothing will be sent immediately.
+		// Make sure that the batch write client has the correct behavior if you change any parameters.
+		_, err = p.writeClient.WriteRaw(ctx, &profilestorepb.WriteRawRequest{
+			Normalized: true,
+			Series: []*profilestorepb.RawProfileSeries{{
+				Labels: &profilestorepb.LabelSet{Labels: labelOldFormat},
+				Samples: []*profilestorepb.RawSample{{
+					RawProfile: buf.Bytes(),
+				}},
 			}},
-		}},
-	})
-
+		})
+	}
 	return err
 }
 

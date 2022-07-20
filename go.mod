@@ -17,9 +17,11 @@ require (
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/ianlancetaylor/demangle v0.0.0-20220517205856-0058ec4f073c
+	github.com/joho/godotenv v1.3.0
 	github.com/minio/highwayhash v1.0.2
 	github.com/oklog/run v1.1.0
 	github.com/opencontainers/runtime-spec v1.0.3-0.20210326190908-1c3f411f0417
+	github.com/opensearch-project/opensearch-go v1.1.0
 	github.com/parca-dev/parca v0.11.1-0.20220708060951-5ed78cb7b1dd
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.35.0
