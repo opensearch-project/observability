@@ -224,6 +224,11 @@ export function PatternsTab(props: PatternsTabProps) {
     setEditFlyoutOpen('');
   };
 
+  const onRename = (newName: string) => {
+    console.log(newName);
+    closeEditFlyout();
+  };
+
   const renamePattern = (existingName: string) => {
     openEditFlyout(existingName);
   };
@@ -294,7 +299,11 @@ export function PatternsTab(props: PatternsTabProps) {
           />
         )}
         {editFlyoutOpen && (
-          <EditPatternFlyout closeFlyout={closeEditFlyout} patternName={editFlyoutOpen} />
+          <EditPatternFlyout
+            closeFlyout={closeEditFlyout}
+            patternName={editFlyoutOpen}
+            onRename={onRename}
+          />
         )}
       </EuiPanel>
     </>

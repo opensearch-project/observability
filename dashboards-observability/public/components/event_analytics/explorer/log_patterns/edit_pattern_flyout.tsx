@@ -4,52 +4,62 @@
  */
 
 import {
-  EuiAccordion,
+  EuiButton,
   EuiFieldText,
+  EuiFlexGroup,
+  EuiFlexItem,
   EuiFlyout,
   EuiFlyoutBody,
+  EuiFlyoutFooter,
   EuiFlyoutHeader,
   EuiForm,
   EuiFormRow,
-  EuiPanel,
   EuiTitle,
 } from '@elastic/eui';
-import React from 'react';
-import { PatternType } from './patterns_tab';
+import React, { useState } from 'react';
 
 interface EditPatternFlyoutProps {
   patternName: string;
+  onRename: (newName: string) => void;
   closeFlyout: () => void;
 }
 
 export function EditPatternFlyout(props: EditPatternFlyoutProps) {
-  const { patternName, closeFlyout } = props;
+  const { patternName, onRename, closeFlyout } = props;
+  const [tempName, setTempName] = useState(patternName);
 
   const flyoutHeader = (
-    <EuiTitle size="s">
-      <h5>{patternName}</h5>
+    <EuiTitle size="xs">
+      <h5>Edit name</h5>
     </EuiTitle>
   );
 
   const flyoutBody = (
-    <EuiPanel>
-      <EuiTitle size="xs">
-        <h4>Patterns</h4>
-      </EuiTitle>
-      <EuiAccordion id="renameAccordion" buttonContent="Punctuation Signature">
-        <EuiForm>
-          <EuiFormRow label="Pattern Name">
-            <EuiFieldText />
-          </EuiFormRow>
-        </EuiForm>
-      </EuiAccordion>
-    </EuiPanel>
+    <EuiForm>
+      <EuiFormRow label="Pattern name">
+        <EuiFieldText name="name" value={tempName} onChange={(e) => setTempName(e.target.value)} />
+      </EuiFormRow>
+    </EuiForm>
+  );
+
+  const flyoutFooter = (
+    <EuiFlexGroup justifyContent="spaceBetween">
+      <EuiFlexItem grow={false}>
+        <EuiButton onClick={closeFlyout}>Cancel</EuiButton>
+      </EuiFlexItem>
+      <EuiFlexItem grow={false}>
+        <EuiButton onClick={() => onRename(tempName)} fill>
+          Update
+        </EuiButton>
+      </EuiFlexItem>
+    </EuiFlexGroup>
   );
 
   return (
     <EuiFlyout onClose={closeFlyout} size="s">
       <EuiFlyoutHeader hasBorder>{flyoutHeader}</EuiFlyoutHeader>
       <EuiFlyoutBody>{flyoutBody}</EuiFlyoutBody>
+      <EuiFlyoutFooter>{flyoutFooter}</EuiFlyoutFooter>
     </EuiFlyout>
   );
 }
