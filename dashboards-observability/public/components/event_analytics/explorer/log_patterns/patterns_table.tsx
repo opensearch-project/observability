@@ -3,16 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiLink, EuiButtonIcon, EuiText, EuiInMemoryTable, Direction } from '@elastic/eui';
+import {
+  EuiLink,
+  EuiButtonIcon,
+  EuiText,
+  EuiInMemoryTable,
+  Direction,
+  EuiEmptyPrompt,
+  EuiIcon,
+} from '@elastic/eui';
 import moment from 'moment';
 import React from 'react';
-import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
-import { TableDataType } from './patterns_tab';
+import { PPL_DOCUMENTATION_URL, UI_DATE_FORMAT } from '../../../../../common/constants/shared';
+import { PatternType } from './patterns_tab';
 
 interface PatternsTableProps {
-  tableData: TableDataType[];
+  tableData: PatternType[];
   renamePattern: (newName: string) => void;
-  openPatternFlyout: (pattern: TableDataType) => void;
+  openPatternFlyout: (pattern: PatternType) => void;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
@@ -43,7 +51,7 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'patternName',
       name: 'Pattern Name',
       sortable: true,
-      render: (item: string, row: TableDataType) => {
+      render: (item: string, row: PatternType) => {
         return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
       },
     },
@@ -51,7 +59,7 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'puncSignature',
       name: 'Pattern',
       sortable: true,
-      render: (item: string, row: TableDataType) => {
+      render: (item: string, row: PatternType) => {
         return (
           <EuiText grow={false} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {item}
@@ -72,8 +80,8 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'length',
       name: 'Pattern Length',
-      sortable: (pattern: TableDataType) => pattern.puncSignature.length,
-      render: (item: any, row: TableDataType) => {
+      sortable: (pattern: PatternType) => pattern.puncSignature.length,
+      render: (item: any, row: PatternType) => {
         return row.puncSignature.length;
       },
     },
@@ -92,9 +100,9 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'edit',
       name: '',
-      width: '20px',
+      width: '30px',
       sortable: false,
-      render: (item: any, row: TableDataType) => (
+      render: (item: any, row: PatternType) => (
         <EuiButtonIcon
           iconType="pencil"
           color="text"
@@ -113,6 +121,24 @@ export function PatternsTable(props: PatternsTableProps) {
     enableAllColumns: true,
   };
 
+  const message = (
+    <EuiEmptyPrompt
+      title={<h3>No patterns found.</h3>}
+      titleSize="s"
+      iconType="minusInCircle"
+      iconColor="#DDDDDD"
+      body={
+        <p>
+          Try expanding your time range or modifying your query. Learn more from our{' '}
+          <EuiLink href={PPL_DOCUMENTATION_URL}>
+            PPL documentation
+            <EuiIcon type="popout" />
+          </EuiLink>
+        </p>
+      }
+    />
+  );
+
   return (
     <EuiInMemoryTable
       // items={filteredItems}
@@ -121,6 +147,7 @@ export function PatternsTable(props: PatternsTableProps) {
       columns={tableColumns}
       pagination={true}
       sorting={sorting}
+      message={message}
       // search={search}
     />
   );
