@@ -21,10 +21,10 @@ import {
 import moment from 'moment';
 import React, { useState } from 'react';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
-import { TableDataType } from './patterns_tab';
+import { PatternType } from './patterns_tab';
 
 interface PatternDetailFlyoutProps {
-  pattern: TableDataType;
+  pattern: PatternType;
   closeFlyout: () => void;
   renamePattern: (newName: string) => void;
   openEventFlyout: () => void;
@@ -178,21 +178,12 @@ export function PatternDetailFlyout(props: PatternDetailFlyoutProps) {
   );
 
   const flyoutHeader = (
-    <EuiFlexGroup>
-      <EuiFlexGroup alignItems="center" gutterSize="xs">
-        <EuiFlexItem grow={false}>
-          <EuiTitle>
-            <h5>&nbsp;&nbsp;{pattern.patternName}</h5>
-          </EuiTitle>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiButtonIcon
-            iconType="pencil"
-            color="text"
-            onClick={() => renamePattern(pattern.patternName)}
-          />
-        </EuiFlexItem>
-      </EuiFlexGroup>
+    <EuiFlexGroup justifyContent="spaceBetween">
+      <EuiFlexItem grow={false}>
+        <EuiTitle>
+          <h5>&nbsp;&nbsp;{pattern.patternName}</h5>
+        </EuiTitle>
+      </EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiButtonIcon
           className="patterns-flyout-resize"
