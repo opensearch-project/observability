@@ -1,0 +1,9 @@
+.idea
+/dist
+/tmp
+/out
+/bin
+*.bpf.o
+TODO.md
+minikube-*
+.env
