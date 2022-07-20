@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiPanel, EuiTitle, EuiSpacer, EuiHorizontalRule, EuiOverlayMask } from '@elastic/eui';
+import { EuiPanel, EuiTitle, EuiSpacer, EuiHorizontalRule, EuiButton } from '@elastic/eui';
 import React, { useState } from 'react';
-import { getCustomModal } from '../../../../components/custom_panels/helpers/modal_containers';
 import { PatternDetailFlyout } from './pattern_detail_flyout';
 import { DocFlyout } from '../events_views/doc_flyout';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { PatternsTable } from './patterns_table';
+import { EditPatternFlyout } from './edit_pattern_flyout';
 
 interface PatternsTabProps {
   http: HttpSetup;
 }
 
-export interface TableDataType {
+export interface PatternType {
   firstTimestamp: number;
   lastTimestamp: number;
   puncSignature: string;
@@ -70,7 +70,8 @@ export function PatternsTab(props: PatternsTabProps) {
   // Uncomment to enable Filters
   // const [filters, setFilters] = useState<FilterType[]>([]);
 
-  const dummyTableData = [
+  const emptyData = [] as PatternType[];
+  const fullData = [
     {
       firstTimestamp: Date.now(),
       lastTimestamp: Date.now(),
@@ -105,6 +106,7 @@ export function PatternsTab(props: PatternsTabProps) {
       count: '761',
     },
   ];
+  const [dummyTableData, setDummyTableData] = useState(fullData);
 
   const dummyDoc = {
     agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1',
@@ -194,23 +196,14 @@ export function PatternsTab(props: PatternsTabProps) {
     count: '',
   };
 
-  const [patternFlyoutOpen, setPatternFlyoutOpen] = useState<TableDataType>(emptyPattern);
+  const [patternFlyoutOpen, setPatternFlyoutOpen] = useState<PatternType>(emptyPattern);
   const [eventFlyoutOpen, setEventFlyoutOpen] = useState<boolean>(false);
+  const [editFlyoutOpen, setEditFlyoutOpen] = useState('');
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(false);
-  const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const openPatternFlyout = (pattern: TableDataType) => {
+  const openPatternFlyout = (pattern: PatternType) => {
     setPatternFlyoutOpen(pattern);
   };
 
@@ -223,23 +216,16 @@ export function PatternsTab(props: PatternsTabProps) {
     setEventFlyoutOpen(true);
   };
 
-  const onRename = async (newPatternName: string) => {
-    closeModal();
+  const openEditFlyout = (existingName: string) => {
+    setEditFlyoutOpen(existingName);
+  };
+
+  const closeEditFlyout = () => {
+    setEditFlyoutOpen('');
   };
 
   const renamePattern = (existingName: string) => {
-    setModalLayout(
-      getCustomModal(
-        onRename,
-        closeModal,
-        'Name',
-        'Rename pattern',
-        'Cancel',
-        'Rename',
-        existingName
-      )
-    );
-    showModal();
+    openEditFlyout(existingName);
   };
 
   return (
@@ -251,6 +237,17 @@ export function PatternsTab(props: PatternsTabProps) {
             <span className="panel-header-count"> ({dummyTableData.length})</span>
           </h3>
         </EuiTitle>
+        <EuiButton
+          onClick={() => {
+            if (dummyTableData.length) {
+              setDummyTableData(emptyData);
+            } else {
+              setDummyTableData(fullData);
+            }
+          }}
+        >
+          Change table data
+        </EuiButton>
         <EuiSpacer size="xs" />
         {/* <Filters page="patterns" filters={filters} setFilters={setFilters} appConfigs={[]} /> */}
         {/* <EuiComboBox
@@ -296,8 +293,10 @@ export function PatternsTab(props: PatternsTabProps) {
             setSurroundingEventsOpen={setSurroundingEventsOpen}
           />
         )}
+        {editFlyoutOpen && (
+          <EditPatternFlyout closeFlyout={closeEditFlyout} patternName={editFlyoutOpen} />
+        )}
       </EuiPanel>
-      {isModalVisible && modalLayout}
     </>
   );
 }
