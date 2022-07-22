@@ -64,7 +64,7 @@ Signed tag with a GPG key is appreciated, but in case you can't add a GPG key to
 
 ## Final steps
 
-Our CI pipeline will automatically push the container images to [ghcr.io](ghcr.io/parca-dev/parca-agent).
+Our CI pipeline will automatically push the container images to [ghcr.io](https://ghcr.io/parca-dev/parca-agent).
 
 Go to https://github.com/parca-dev/parca-dev/releases and check the created release.
 
