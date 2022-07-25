@@ -12,6 +12,7 @@ import {
   EuiFlexItem,
   EuiFlyoutBody,
   EuiFlyoutHeader,
+  EuiText,
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
@@ -76,7 +77,9 @@ export const DocFlyout = ({
       <EuiFlexGroup alignItems="center" gutterSize="xs">
         {backButtonExists && (
           <EuiFlexItem grow={false}>
+            {/* <EuiToolTip content={<EuiText>Back</EuiText>} position="top"> */}
             <EuiButtonIcon iconType="sortLeft" onClick={onBackButtonClick} />
+            {/* </EuiToolTip> */}
           </EuiFlexItem>
         )}
 

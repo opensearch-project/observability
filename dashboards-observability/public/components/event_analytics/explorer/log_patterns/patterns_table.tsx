@@ -11,6 +11,7 @@ import {
   Direction,
   EuiEmptyPrompt,
   EuiIcon,
+  EuiToolTip,
 } from '@elastic/eui';
 import moment from 'moment';
 import React from 'react';
@@ -49,7 +50,7 @@ export function PatternsTable(props: PatternsTableProps) {
   const tableColumns = [
     {
       field: 'patternName',
-      name: 'Pattern Name',
+      name: 'Pattern name',
       sortable: true,
       render: (item: string, row: PatternType) => {
         return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
@@ -79,7 +80,7 @@ export function PatternsTable(props: PatternsTableProps) {
     },
     {
       field: 'length',
-      name: 'Pattern Length',
+      name: 'Pattern length',
       sortable: (pattern: PatternType) => pattern.puncSignature.length,
       render: (item: any, row: PatternType) => {
         return row.puncSignature.length;
@@ -87,13 +88,13 @@ export function PatternsTable(props: PatternsTableProps) {
     },
     {
       field: 'firstTimestamp',
-      name: 'Earliest Time',
+      name: 'Earliest time',
       sortable: true,
       render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
     },
     {
       field: 'lastTimestamp',
-      name: 'Recent Time',
+      name: 'Recent time',
       sortable: true,
       render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
     },
@@ -103,11 +104,14 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '30px',
       sortable: false,
       render: (item: any, row: PatternType) => (
+        // <EuiToolTip content={<EuiText>Edit name</EuiText>} position="top">
         <EuiButtonIcon
+          title="Edit name"
           iconType="pencil"
           color="text"
           onClick={() => renamePattern(row.patternName)}
         />
+        // </EuiToolTip>
       ),
     },
   ];
