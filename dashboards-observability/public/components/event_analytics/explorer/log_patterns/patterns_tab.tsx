@@ -197,7 +197,7 @@ export function PatternsTab(props: PatternsTabProps) {
   };
 
   const [patternFlyoutOpen, setPatternFlyoutOpen] = useState<PatternType>(emptyPattern);
-  const [eventFlyoutOpen, setEventFlyoutOpen] = useState<boolean>(false);
+  const [eventFlyoutOpen, setEventFlyoutOpen] = useState<PatternType>(emptyPattern);
   const [editFlyoutOpen, setEditFlyoutOpen] = useState('');
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
@@ -212,8 +212,15 @@ export function PatternsTab(props: PatternsTabProps) {
   };
 
   const openEventFlyout = () => {
+    const patternSave = patternFlyoutOpen;
     closePatternFlyout();
-    setEventFlyoutOpen(true);
+    setEventFlyoutOpen(patternSave);
+  };
+
+  const closeEventFlyout = () => {
+    const patternSave = eventFlyoutOpen;
+    setEventFlyoutOpen(emptyPattern);
+    openPatternFlyout(patternSave);
   };
 
   const openEditFlyout = (existingName: string) => {
@@ -277,11 +284,11 @@ export function PatternsTab(props: PatternsTabProps) {
             openEventFlyout={openEventFlyout}
           />
         )}
-        {eventFlyoutOpen && (
+        {eventFlyoutOpen.puncSignature !== '' && (
           <DocFlyout
             http={http}
-            detailsOpen={eventFlyoutOpen}
-            setDetailsOpen={setEventFlyoutOpen}
+            detailsOpen={eventFlyoutOpen !== emptyPattern}
+            setDetailsOpen={() => setEventFlyoutOpen(emptyPattern)}
             doc={dummyDoc}
             timeStampField={dummyTimeStampField}
             memorizedTds={[
@@ -293,6 +300,8 @@ export function PatternsTab(props: PatternsTabProps) {
             openTraces={openTraces}
             rawQuery={dummyRawQuery}
             toggleSize={flyoutToggleSize}
+            backButtonExists={true}
+            onBackButtonClick={() => closeEventFlyout()}
             setToggleSize={setFlyoutToggleSize}
             setOpenTraces={setOpenTraces}
             setSurroundingEventsOpen={setSurroundingEventsOpen}

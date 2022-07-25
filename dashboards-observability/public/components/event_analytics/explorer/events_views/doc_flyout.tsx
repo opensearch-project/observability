@@ -37,6 +37,8 @@ interface Props {
   openTraces: boolean;
   rawQuery: string;
   toggleSize: boolean;
+  backButtonExists: boolean;
+  onBackButtonClick: () => any;
   setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenTraces: React.Dispatch<React.SetStateAction<boolean>>;
   setSurroundingEventsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,6 +55,8 @@ export const DocFlyout = ({
   openTraces,
   rawQuery,
   toggleSize,
+  backButtonExists,
+  onBackButtonClick,
   setToggleSize,
   setOpenTraces,
   setSurroundingEventsOpen,
@@ -69,7 +73,13 @@ export const DocFlyout = ({
 
   const flyoutHeader = (
     <EuiFlyoutHeader hasBorder>
-      <EuiFlexGroup>
+      <EuiFlexGroup alignItems="center" gutterSize="xs">
+        {backButtonExists && (
+          <EuiFlexItem grow={false}>
+            <EuiButtonIcon iconType="sortLeft" onClick={onBackButtonClick} />
+          </EuiFlexItem>
+        )}
+
         <EuiFlexItem>
           <EuiTitle size="s">
             <h2 id="eventsDocFyout" className="vertical-center">
@@ -80,20 +90,6 @@ export const DocFlyout = ({
                 : `Event Details`}
             </h2>
           </EuiTitle>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiButtonIcon
-            className="events-flyout-resize"
-            color="text"
-            size="m"
-            aria-label="Resize"
-            title="Resize"
-            iconType={toggleSize ? 'menuLeft' : 'menuRight'}
-            aria-pressed={toggleSize}
-            onClick={() => {
-              setToggleSize((isOn) => !isOn);
-            }}
-          />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiToolTip
@@ -116,6 +112,20 @@ export const DocFlyout = ({
               View surrounding events
             </EuiButton>
           </EuiToolTip>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButtonIcon
+            className="events-flyout-resize"
+            color="text"
+            size="m"
+            aria-label="Resize"
+            title="Resize"
+            iconType={toggleSize ? 'menuLeft' : 'menuRight'}
+            aria-pressed={toggleSize}
+            onClick={() => {
+              setToggleSize((isOn) => !isOn);
+            }}
+          />
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlyoutHeader>

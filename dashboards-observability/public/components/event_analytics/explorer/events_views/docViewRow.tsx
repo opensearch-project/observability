@@ -195,6 +195,8 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
         openTraces={openTraces}
         rawQuery={rawQuery}
         toggleSize={flyoutToggleSize}
+        backButtonExists={false}
+        onBackButtonClick={() => {}}
         setToggleSize={setFlyoutToggleSize}
         setOpenTraces={setOpenTraces}
         setSurroundingEventsOpen={setSurroundingEventsOpen}
