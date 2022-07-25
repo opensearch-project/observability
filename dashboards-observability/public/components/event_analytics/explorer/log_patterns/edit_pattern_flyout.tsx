@@ -8,7 +8,6 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFlyout,
   EuiFlyoutBody,
   EuiFlyoutFooter,
   EuiFlyoutHeader,
@@ -17,6 +16,7 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 import React, { useState } from 'react';
+import { FlyoutContainers } from '../../../../components/common/flyout_containers/flyout_containers';
 
 interface EditPatternFlyoutProps {
   patternName: string;
@@ -29,37 +29,50 @@ export function EditPatternFlyout(props: EditPatternFlyoutProps) {
   const [tempName, setTempName] = useState(patternName);
 
   const flyoutHeader = (
-    <EuiTitle size="xs">
-      <h5>Edit name</h5>
-    </EuiTitle>
+    <EuiFlyoutHeader>
+      <EuiTitle size="xs">
+        <h5>Edit name</h5>
+      </EuiTitle>
+    </EuiFlyoutHeader>
   );
 
   const flyoutBody = (
-    <EuiForm>
-      <EuiFormRow label="Pattern name">
-        <EuiFieldText name="name" value={tempName} onChange={(e) => setTempName(e.target.value)} />
-      </EuiFormRow>
-    </EuiForm>
+    <EuiFlyoutBody>
+      <EuiForm>
+        <EuiFormRow label="Pattern name">
+          <EuiFieldText
+            name="name"
+            value={tempName}
+            onChange={(e) => setTempName(e.target.value)}
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiFlyoutBody>
   );
 
   const flyoutFooter = (
-    <EuiFlexGroup justifyContent="spaceBetween">
-      <EuiFlexItem grow={false}>
-        <EuiButton onClick={closeFlyout}>Cancel</EuiButton>
-      </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiButton onClick={() => onRename(tempName)} fill>
-          Update
-        </EuiButton>
-      </EuiFlexItem>
-    </EuiFlexGroup>
+    <EuiFlyoutFooter>
+      <EuiFlexGroup justifyContent="spaceBetween">
+        <EuiFlexItem grow={false}>
+          <EuiButton onClick={closeFlyout}>Cancel</EuiButton>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButton onClick={() => onRename(tempName)} fill>
+            Update
+          </EuiButton>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </EuiFlyoutFooter>
   );
 
   return (
-    <EuiFlyout onClose={closeFlyout} size="s">
-      <EuiFlyoutHeader hasBorder>{flyoutHeader}</EuiFlyoutHeader>
-      <EuiFlyoutBody>{flyoutBody}</EuiFlyoutBody>
-      <EuiFlyoutFooter>{flyoutFooter}</EuiFlyoutFooter>
-    </EuiFlyout>
+    <FlyoutContainers
+      closeFlyout={closeFlyout}
+      flyoutHeader={flyoutHeader}
+      flyoutBody={flyoutBody}
+      flyoutFooter={flyoutFooter}
+      ariaLabel={'eventsDocFyout'}
+      size={'s'}
+    />
   );
 }

@@ -8,7 +8,6 @@ import {
   EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFlyout,
   EuiFlyoutBody,
   EuiFlyoutHeader,
   EuiInMemoryTable,
@@ -20,6 +19,7 @@ import {
 } from '@elastic/eui';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { FlyoutContainers } from '../../../../components/common/flyout_containers/flyout_containers';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
 import { PatternType } from './patterns_tab';
 
@@ -170,41 +170,49 @@ export function PatternDetailFlyout(props: PatternDetailFlyoutProps) {
   );
 
   const flyoutBody = (
-    <>
+    <EuiFlyoutBody>
       {patternDetailsList}
       <EuiSpacer size="m" />
       {patternEventsTable}
-    </>
+    </EuiFlyoutBody>
   );
 
   const flyoutHeader = (
-    <EuiFlexGroup justifyContent="spaceBetween">
-      <EuiFlexItem grow={false}>
-        <EuiTitle>
-          <h5>&nbsp;&nbsp;{pattern.patternName}</h5>
-        </EuiTitle>
-      </EuiFlexItem>
-      <EuiFlexItem grow={false}>
-        <EuiButtonIcon
-          className="patterns-flyout-resize"
-          color="text"
-          size="m"
-          aria-label="Resize"
-          title="Resize"
-          iconType={toggleSize ? 'menuRight' : 'menuLeft'}
-          aria-pressed={toggleSize}
-          onClick={() => {
-            setToggleSize((isOn) => !isOn);
-          }}
-        />
-      </EuiFlexItem>
-    </EuiFlexGroup>
+    <EuiFlyoutHeader>
+      <EuiFlexGroup justifyContent="spaceBetween">
+        <EuiFlexItem grow={false}>
+          <EuiTitle>
+            <h5>&nbsp;&nbsp;{pattern.patternName}</h5>
+          </EuiTitle>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButtonIcon
+            className="patterns-flyout-resize"
+            color="text"
+            size="m"
+            aria-label="Resize"
+            title="Resize"
+            iconType={toggleSize ? 'menuRight' : 'menuLeft'}
+            aria-pressed={toggleSize}
+            onClick={() => {
+              setToggleSize((isOn) => !isOn);
+            }}
+          />
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </EuiFlyoutHeader>
   );
 
+  const flyoutFooter = <></>;
+
   return (
-    <EuiFlyout onClose={closeFlyout} size={toggleSize ? 'l' : 'm'}>
-      <EuiFlyoutHeader hasBorder>{flyoutHeader}</EuiFlyoutHeader>
-      <EuiFlyoutBody>{flyoutBody}</EuiFlyoutBody>
-    </EuiFlyout>
+    <FlyoutContainers
+      closeFlyout={closeFlyout}
+      flyoutHeader={flyoutHeader}
+      flyoutBody={flyoutBody}
+      flyoutFooter={flyoutFooter}
+      ariaLabel={'eventsDocFyout'}
+      size={toggleSize ? 'l' : 'm'}
+    />
   );
 }
