@@ -230,3 +230,21 @@ export interface LiveTailProps {
   isLiveTailPopoverOpen: boolean;
   dataTestSubj: string;
 }
+
+export interface ConfigListEntry {
+  label: string;
+  aggregation: string;
+  custom_label: string;
+  name: string;
+  side: string;
+  type: string;
+}
+export interface HistogramConfigList {
+  bucketSize: string;
+  bucketOffset: string;
+}
+
+export interface ConfigList {
+  dimensions?: ConfigListEntry[] | HistogramConfigList[];
+  metrics?: ConfigListEntry[];
+}

@@ -4,39 +4,84 @@
  */
 
 import React from 'react';
-import { take, merge, isEmpty } from 'lodash';
+import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  DefaultChartStyles,
+  PLOTLY_COLOR,
+  FILLOPACITY_DIV_FACTOR,
+} from '../../../../../common/constants/shared';
+import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { vis } = visualizations;
+  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data.defaultAxes;
-  const { xaxis = null, yaxis = null } = visualizations.data.userConfigs;
+  const { defaultAxes } = visualizations?.data;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const lastIndex = fields.length - 1;
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
+  const showLegend =
+    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend ? false : true;
+  const legendPosition = dataConfig?.legend?.position || LegendPosition;
+  const fillOpacity =
+    (dataConfig?.chartStyles?.fillOpacity || FillOpacity) / FILLOPACITY_DIV_FACTOR;
 
-  let valueSeries;
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [
-      ...visualizations?.data?.userConfigs[vis.seriesAxis].map((item) => ({
-        ...item,
-        name: item.label,
-      })),
-    ];
-  } else {
-    valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+  const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+
+  const xbins: any = {};
+  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize) {
+    xbins.size = visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize;
+  }
+  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset) {
+    xbins.start =
+      visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset;
   }
 
-  const hisValues = valueSeries.map((field: any) => {
+  const selectedColorTheme = (field: any, index: number, opacity?: number) => {
+    let newColor;
+    if (dataConfig?.colorTheme && dataConfig?.colorTheme.length !== 0) {
+      newColor = dataConfig.colorTheme.find(
+        (colorSelected) => colorSelected.name.name === field.name
+      );
+    }
+    return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
+  };
+
+  const hisValues = valueSeries.map((field: any, index: number) => {
     return {
-      x: data[xaxis ? xaxis[0]?.label : fields[lastIndex].name],
+      x: data[field.name],
       type: 'histogram',
       name: field.name,
+      marker: {
+        color: selectedColorTheme(field, index, fillOpacity),
+        line: {
+          color: selectedColorTheme(field, index),
+          width: lineWidth,
+        },
+      },
+      xbins: !isEmpty(xbins) ? xbins : undefined,
     };
   });
 
-  return <Plt data={hisValues} layout={layout} config={config} />;
+  const mergedLayout = {
+    ...layout,
+    ...(layoutConfig.layout && layoutConfig.layout),
+    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    barmode: 'group',
+    legend: {
+      ...layout.legend,
+      orientation: legendPosition,
+    },
+    showlegend: showLegend,
+  };
+
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
+
+  return <Plt data={hisValues} layout={mergedLayout} config={mergedConfigs} />;
 };

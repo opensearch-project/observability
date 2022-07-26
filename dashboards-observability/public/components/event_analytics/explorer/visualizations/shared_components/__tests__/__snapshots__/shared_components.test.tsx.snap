@@ -30,19 +30,19 @@ exports[`Shared components Renders empty placeholder component 1`] = `
             >
               <EuiIcon
                 color="subdued"
-                size="l"
+                size="xxl"
                 type={[Function]}
               >
                 <LensIconChartBar
                   aria-hidden={true}
-                  className="euiIcon euiIcon--large euiIcon--subdued"
+                  className="euiIcon euiIcon--xxLarge euiIcon--subdued"
                   focusable="false"
                   role="img"
                   style={null}
                 >
                   <svg
                     aria-hidden={true}
-                    className="euiIcon euiIcon--large euiIcon--subdued"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued"
                     fill="none"
                     focusable="false"
                     height={22}
@@ -64,10 +64,10 @@ exports[`Shared components Renders empty placeholder component 1`] = `
                 </LensIconChartBar>
               </EuiIcon>
               <EuiSpacer
-                size="s"
+                size="l"
               >
                 <div
-                  className="euiSpacer euiSpacer--s"
+                  className="euiSpacer euiSpacer--l"
                 />
               </EuiSpacer>
               <p>

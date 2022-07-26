@@ -8,7 +8,7 @@ import './app.scss';
 import _ from 'lodash';
 
 import React, { useContext } from 'react';
-import { EuiResizableContainer } from '@elastic/eui';
+import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
 import { SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
@@ -16,6 +16,8 @@ import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
 import { TabContext } from '../../hooks';
+import { visChartTypes } from '../../../../../common/constants/shared';
+import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -49,15 +51,19 @@ export const ExplorerVisualizations = ({
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
-  const fieldOptionList = fields.map((name) => {
-    return { label: name.name };
+  const fieldOptionList = fields.map((field) => {
+    return { ...field, label: field.name };
   });
 
   return (
     <EuiResizableContainer>
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
-          <EuiResizablePanel initialSize={15} minSize="240px" mode="collapsible">
+          <EuiResizablePanel
+            initialSize={17}
+            minSize="300"
+            mode={['collapsible', { position: 'top' }]}
+          >
             <div className="dscFieldChooser">
               <Sidebar
                 query={query}
@@ -73,22 +79,38 @@ export const ExplorerVisualizations = ({
           </EuiResizablePanel>
           <EuiResizableButton />
           <EuiResizablePanel
-            mode="collapsible"
-            initialSize={15}
-            minSize="240px"
-            style={{ border: '1px solid #D3DAE6', padding: '0px' }}
+            mode={[
+              'collapsible',
+              {
+                'data-test-subj': 'panel-1-toggle',
+                className: 'panel-toggle',
+                position: 'top',
+              },
+            ]}
+            className="containerPanel"
+            initialSize={14}
+            minSize="300"
           >
-            <div className="">
-              <DataConfigPanelItem
-                fieldOptionList={fieldOptionList}
-                visualizations={visualizations}
-                tabID={tabId}
-              />
-            </div>
+            <EuiSpacer size="s" />
+            <EuiPanel paddingSize="s" className="dataConfigContainer">
+              {curVisId === visChartTypes.TreeMap ? (
+                <TreemapConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              ) : (
+                <DataConfigPanelItem
+                  fieldOptionList={fieldOptionList}
+                  visualizations={visualizations}
+                  tabID={tabId}
+                />
+              )}
+            </EuiPanel>
           </EuiResizablePanel>
 
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={65} minSize="30%" mode="main">
+          <EuiResizablePanel className="containerPanel" initialSize={65} minSize="30%" mode="main">
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}
@@ -96,7 +118,12 @@ export const ExplorerVisualizations = ({
             />
           </EuiResizablePanel>
           <EuiResizableButton />
-          <EuiResizablePanel initialSize={20} minSize="200px">
+          <EuiResizablePanel
+            className="containerPanel"
+            initialSize={20}
+            minSize="200px"
+            mode={['collapsible', { position: 'top' }]}
+          >
             <ConfigPanel
               vizVectors={explorerVis}
               visualizations={visualizations}
