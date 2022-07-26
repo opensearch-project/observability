@@ -63,7 +63,10 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
 
     const convertListItemToDashboardListItem = (item: any): DashboardListItem => {
       return {
-        id: item.id, title: item.name, description: "...", url: "/observability",
+        id: item.id, 
+        title: item.name, 
+        description: "...", 
+        url: `/app/${observabilityID}#/operational_panels/${item.id}`,
         listType: "observabiliity-panel"
       }
     }
