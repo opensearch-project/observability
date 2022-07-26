@@ -104,14 +104,14 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '30px',
       sortable: false,
       render: (item: any, row: PatternType) => (
-        // <EuiToolTip content={<EuiText>Edit name</EuiText>} position="top">
-        <EuiButtonIcon
-          title="Edit name"
-          iconType="pencil"
-          color="text"
-          onClick={() => renamePattern(row.patternName)}
-        />
-        // </EuiToolTip>
+        <EuiToolTip content={<EuiText>Edit name</EuiText>} position="top">
+          <EuiButtonIcon
+            title="Edit name"
+            iconType="pencil"
+            color="text"
+            onClick={() => renamePattern(row.patternName)}
+          />
+        </EuiToolTip>
       ),
     },
   ];
