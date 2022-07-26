@@ -51,6 +51,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'patternName',
       name: 'Pattern name',
+      width: '11%',
       sortable: true,
       render: (item: string, row: PatternType) => {
         return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
@@ -61,26 +62,25 @@ export function PatternsTable(props: PatternsTableProps) {
       name: 'Pattern',
       sortable: true,
       render: (item: string, row: PatternType) => {
-        return (
-          <EuiText grow={false} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {item}
-          </EuiText>
-        );
+        return <EuiText>{item}</EuiText>;
       },
-    },
-    {
-      field: 'count',
-      name: 'Count',
-      sortable: true,
     },
     {
       field: 'ratio',
       name: 'Ratio',
+      width: '5%',
+      sortable: true,
+    },
+    {
+      field: 'count',
+      name: 'Count',
+      width: '5%',
       sortable: true,
     },
     {
       field: 'length',
       name: 'Pattern length',
+      width: '6%',
       sortable: (pattern: PatternType) => pattern.puncSignature.length,
       render: (item: any, row: PatternType) => {
         return row.puncSignature.length;
@@ -89,12 +89,14 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'firstTimestamp',
       name: 'Earliest time',
+      width: '10%',
       sortable: true,
       render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
     },
     {
       field: 'lastTimestamp',
       name: 'Recent time',
+      width: '10%',
       sortable: true,
       render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
     },
