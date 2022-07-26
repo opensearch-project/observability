@@ -31,21 +31,20 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
     };
   });
 
+  const initialParentState = {
+    name: '',
+    label: '',
+    type: '',
+  };
+
   const handleAddParent = () => {
-    onSelectChange([
-      ...selectedAxis,
-      {
-        name: '',
-        label: '',
-        type: '',
-      },
-    ]);
+    onSelectChange([...selectedAxis, initialParentState]);
   };
 
   const handleParentChange = (options: EuiComboBoxOptionOption<unknown>[], index: number) => {
     onSelectChange([
       ...selectedAxis.slice(0, index),
-      options[0] as ParentUnitType,
+      (options[0] as ParentUnitType) ?? initialParentState,
       ...selectedAxis.slice(index + 1, selectedAxis.length),
     ]);
   };
