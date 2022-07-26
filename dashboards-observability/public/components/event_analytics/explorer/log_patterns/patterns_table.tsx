@@ -40,12 +40,11 @@ export function PatternsTable(props: PatternsTableProps) {
   //     filters.length === 0 || filters.map((op) => op.value).includes(option.puncSignature)
   // );
 
-  // Uncomment below to enable Search Bar
-  // const search = {
-  //   box: {
-  //     incremental: true,
-  //   },
-  // };
+  const search = {
+    box: {
+      incremental: true,
+    },
+  };
 
   const tableColumns = [
     {
@@ -154,7 +153,7 @@ export function PatternsTable(props: PatternsTableProps) {
       pagination={true}
       sorting={sorting}
       message={message}
-      // search={search}
+      search={search}
     />
   );
 }

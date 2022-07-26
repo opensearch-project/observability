@@ -3,7 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiPanel, EuiTitle, EuiSpacer, EuiHorizontalRule, EuiButton } from '@elastic/eui';
+import {
+  EuiPanel,
+  EuiTitle,
+  EuiSpacer,
+  EuiHorizontalRule,
+  EuiButton,
+  EuiFlexItem,
+  EuiFlexGroup,
+} from '@elastic/eui';
 import React, { useState } from 'react';
 import { PatternDetailFlyout } from './pattern_detail_flyout';
 import { DocFlyout } from '../events_views/doc_flyout';
@@ -243,23 +251,29 @@ export function PatternsTab(props: PatternsTabProps) {
   return (
     <>
       <EuiPanel>
-        <EuiTitle size="s">
-          <h3>
-            Punctuation Signatures
-            <span className="panel-header-count"> ({dummyTableData.length})</span>
-          </h3>
-        </EuiTitle>
-        <EuiButton
-          onClick={() => {
-            if (dummyTableData.length) {
-              setDummyTableData(emptyData);
-            } else {
-              setDummyTableData(fullData);
-            }
-          }}
-        >
-          Change table data
-        </EuiButton>
+        <EuiFlexGroup direction="row">
+          <EuiFlexItem>
+            <EuiTitle size="s">
+              <h3>
+                Punctuation Signatures
+                <span className="panel-header-count"> ({dummyTableData.length})</span>
+              </h3>
+            </EuiTitle>
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiButton
+              onClick={() => {
+                if (dummyTableData.length) {
+                  setDummyTableData(emptyData);
+                } else {
+                  setDummyTableData(fullData);
+                }
+              }}
+            >
+              Change table data
+            </EuiButton>
+          </EuiFlexItem>
+        </EuiFlexGroup>
         <EuiSpacer size="xs" />
         {/* <Filters page="patterns" filters={filters} setFilters={setFilters} appConfigs={[]} /> */}
         {/* <EuiComboBox
@@ -270,7 +284,6 @@ export function PatternsTab(props: PatternsTabProps) {
         selectedOptions={selectedOptions}
       /> */}
         <EuiSpacer size="m" />
-        <EuiHorizontalRule margin="none" />
         <PatternsTable
           tableData={dummyTableData}
           renamePattern={renamePattern}
