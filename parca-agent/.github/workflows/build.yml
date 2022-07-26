@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, opensearch ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  # renovate: datasource=go depName=mvdan.cc/gofumpt
+  GOFUMPT_VERSION: v0.3.1
+  # renovate: datasource=go depName=github.com/golangci/golangci-lint
+  GOLANGCI_LINT_VERSION: v1.46.2
+
+jobs:
+  skip-check:
+    name: Skip check
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip-check.outputs.should_skip }}
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - id: skip-check
+        uses: fkirc/skip-duplicate-actions@9d116fa7e55f295019cfab7e3ab72b478bcf7fdd # tag=v4.0.0
+        with:
+          do_not_skip: '["schedule", "workflow_dispatch"]'
+          paths: |-
+            [
+              "**.go",
+              ".github/workflows/build.yml",
+              ".go-version",
+              "3rdparty",
+              "bpf/**/.cargo",
+              "bpf/**/Cargo.*",
+              "bpf/.cargo",
+              "bpf/Cargo.*",
+              "go.mod",
+              "go.sum",
+              "rust-toolchain.toml"
+            ]
+          skip_after_successful_duplicate: false
+
+  go-build-test:
+    name: Go Build
+    runs-on: ubuntu-latest
+    needs: skip-check
+    if: ${{ needs.skip-check.outputs.should_skip != 'true' }}
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3.0.2
+
+      - name: Set up Go
+        uses: actions/setup-go@b22fbbc2921299758641fab08929b4ac52b32923 # tag=v3.2.0
+        with:
+          go-version-file: .go-version
+          cache: true
+
+      - name: Set up Rust
+        # Yes, oddly `rustup show` installs the toolchain (:
+        # https://github.com/rust-lang/rustup/issues/2686
+        run: rustup show
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@cb2cf0cc7c5198d3364b9630e2c3d457f160790c # tag=v1.4.0
+        with:
+          working-directory: ./bpf
+
+      - name: Install LLVM (Aya, BPF dependency)
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          echo -e "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-14 main\n" | sudo tee /etc/apt/sources.list.d/llvm.list
+          sudo apt-get update -y
+          sudo apt-get install -yq llvm-14-dev libclang-14-dev
+
+      - name: Run eBPF toolchain setup
+        run: |
+          make -C bpf setup
+          cd bpf && cargo check
+
+      - name: Build BPF
+        run: make bpf
+
+      - name: Install libbpf dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -yq libelf-dev zlib1g-dev
+
+      - name: Initialize and update libbpf submodule
+        run: git submodule init && git submodule update
+
+      - name: Build libbpf
+        run: make libbpf
+
+      - name: Build
+        run: make build
+
+      - name: Test
+        run: make test ENABLE_RACE=yes
+
+      - name: Format
+        run: |
+          make format
+          git diff --exit-code
+
+      - name: Vet
+        run: make vet
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@537aa1903e5d359d0b27dbc19ddd22c5087f3fbc # tag=v3.2.0
+        with:
+          version: ${{ env.GOLANGCI_LINT_VERSION }}

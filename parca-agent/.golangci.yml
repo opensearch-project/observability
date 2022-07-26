@@ -1,0 +1,76 @@
+run:
+  deadline: 5m
+  skip-dirs:
+    - internal/pprof
+    - internal/go
+
+linters:
+  presets:
+    - bugs
+    - comment
+    - error
+    - format
+    - import
+    - metalinter
+    - performance
+    - style
+    - unused
+  disable:
+    - exhaustivestruct
+    - exhaustruct
+    - funlen
+    - gci
+    - gochecknoglobals
+    - godox
+    - goerr113
+    - golint
+    - gomnd
+    - gomoddirectives
+    - interfacer
+    - ireturn
+    - lll
+    - maligned
+    - nlreturn
+    - paralleltest
+    - scopelint
+    - testpackage
+    - varnamelen
+    - wrapcheck
+    - wsl
+
+issues:
+  exclude-rules:
+    - path: _test.go
+      linters:
+        - errcheck
+    - path: pkg/elfwriter
+      linters:
+        - dupl
+
+
+linters-settings:
+  depguard:
+    list-type: blacklist
+    include-go-root: true
+    packages-with-error-message:
+      - sync/atomic: "Use go.uber.org/atomic instead of sync/atomic"
+      - github.com/stretchr/testify/assert: "Use github.com/stretchr/testify/require instead of github.com/stretchr/testify/assert"
+      - github.com/go-kit/kit/log: "Use github.com/go-kit/log instead of github.com/go-kit/kit/log"
+      - github.com/pkg/errors: "Use fmt.Errorf instead"
+  errcheck:
+    exclude: ./.errcheck_excludes.txt
+  goimports:
+    local-prefixes: github.com/parca-dev/parca-agent
+  gofumpt:
+    extra-rules: true
+  misspell:
+    locale: US
+  revive:
+    rules:
+      # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#unexported-return
+      - name: unexported-return
+        severity: warning
+        disabled: true
+  cyclop:
+    # The maximal code complexity to report.
+    max-complexity: 15
