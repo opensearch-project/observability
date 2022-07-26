@@ -50,7 +50,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'patternName',
       name: 'Pattern name',
-      width: '11%',
+      width: '12%',
       sortable: true,
       render: (item: string, row: PatternType) => {
         return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
