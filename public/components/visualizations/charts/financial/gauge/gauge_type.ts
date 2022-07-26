@@ -9,13 +9,17 @@ import { LensIconChartLine } from '../../../assets/chart_line';
 import { VizDataPanel } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
-  ConfigValueOptions,
   ConfigThresholds,
-  ConfigGaugeValueOptions,
+  InputFieldItem,
+  SwitchButton,
+  ConfigChartOptions,
+  ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { ThresholdsMaxLimit } = DefaultGaugeChartParameters;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',
@@ -39,24 +43,68 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigGaugeValueOptions,
-            mapTo: 'valueOptions',
+            id: 'chart-styles',
+            name: 'Chart styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Series',
-                isSingleSelection: true,
-                onChangeHandler: 'setXaxisSelections',
-                component: null,
-                mapTo: 'series',
+                name: 'Orientation',
+                component: ButtonGroupItem,
+                mapTo: 'orientation',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Auto', id: 'auto' },
+                    { name: 'Vertical', id: 'v' },
+                    { name: 'Horizontal', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Auto', id: 'auto' }],
+                },
               },
               {
-                name: 'Value',
-                isSingleSelection: false,
-                onChangeHandler: 'setYaxisSelections',
-                component: null,
-                mapTo: 'value',
+                name: 'Legend Placement',
+                component: ButtonGroupItem,
+                mapTo: 'legendPlacement',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Center', id: 'center' },
+                    { name: 'Right', id: 'right' },
+                    { name: 'Left', id: 'left' },
+                  ],
+                  defaultSelections: [{ name: 'Center', id: 'center' }],
+                },
+              },
+              {
+                title: 'Title Size',
+                name: 'Title Size',
+                component: InputFieldItem,
+                mapTo: 'titleSize',
+                eleType: 'input',
+              },
+              {
+                title: 'Value Size',
+                name: 'Value Size',
+                component: InputFieldItem,
+                mapTo: 'valueSize',
+                eleType: 'input',
+              },
+              {
+                title: 'Show threshold labels',
+                name: 'Show threshold labels',
+                component: SwitchButton,
+                mapTo: 'showThresholdLabels',
+                eleType: 'switchButton',
+                currentValue: false,
+              },
+              {
+                title: 'Show threshold markers',
+                name: 'Show threshold markers',
+                component: SwitchButton,
+                mapTo: 'showThresholdMarkers',
+                eleType: 'switchButton',
+                currentValue: true,
               },
             ],
           },
@@ -67,6 +115,9 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
             mapTo: 'thresholds',
             defaultState: [],
             schemas: [],
+            props: {
+              maxLimit: ThresholdsMaxLimit,
+            },
           },
         ],
       },
