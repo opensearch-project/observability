@@ -49,15 +49,15 @@ export function PatternDetailFlyout(props: PatternDetailFlyoutProps) {
       description: pattern.ratio,
     },
     {
-      title: 'Length:',
+      title: 'Pattern length:',
       description: pattern.puncSignature.length,
     },
     {
-      title: 'Earliest Time:',
+      title: 'Earliest time:',
       description: moment(new Date(pattern.firstTimestamp)).format(UI_DATE_FORMAT),
     },
     {
-      title: 'Recent Time:',
+      title: 'Recent time:',
       description: moment(new Date(pattern.lastTimestamp)).format(UI_DATE_FORMAT),
     },
   ];
